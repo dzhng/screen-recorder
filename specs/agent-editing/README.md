@@ -15,11 +15,12 @@ slice's acceptance gates remain the scope. Read [contracts](contracts.md),
 available public operations only; the installed app has not switched engines.
 
 Continue [10c occurrence queries](slices/10c-occurrence-queries.md): core and
-public project transcript paging now share pinned manifests/checkpoints and exact
-occurrence mapping. Track-local phrase search and event/cursor reads remain open.
-The [public paging journey](assets/10c-public-paging/README.md) is integrated and
-passes against the current audio/transcript runtime. Its original reports and
-subsequent exact-hash integration evidence remain separate.
+public transcript paging/track-local phrase search are verified through the
+[combined journey](assets/10c-public-phrases/README.md). Event/cursor source and
+project domains are the current core pickup; public acquired-gap phrases, forced
+empty continuations and late-read instrumentation remain acceptance work.
+The [product skill check](assets/10c-project-skill/README.md) passes with a fresh
+agent using only the skill and advertised CLI.
 
 [10b source acquisition](slices/10b-source-acquisition.md) is verified, including
 actual native transcription, selected-stream parity, cancellation/retry and
@@ -29,8 +30,10 @@ not a second native-inference run.
 
 [11a source WAV](slices/11a-audio-delivery.md) has native extraction and core cached
 admission, shared capacity preflight and [public routing](assets/11a-public-routing/README.md)
-integrated. Its actual native source journey is in progress; project processing
-taps remain open.
+integrated. Small native source journeys and lossless extraction/CLI delivery above
+1 GiB have passed in isolation, with evidence integration pending. Long AAC extraction
+has a reproduced native short-coverage failure; diagnose it without changing support
+or padding away missing samples. Project processing taps proceed independently.
 
 Alongside 10c, complete the actual source WAV journey and then shared project
 tap binding for 11a. Then follow [10d direct frames](slices/10d-frame-inspection.md),

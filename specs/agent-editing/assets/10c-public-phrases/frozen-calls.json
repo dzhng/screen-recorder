@@ -1,0 +1,39 @@
+{
+  "boundary": "Frozen native ASR output; actual shared ingestion and public queries",
+  "calls": [
+    {
+      "sourceSha256": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 6000000
+        },
+        {
+          "startUs": 6500000,
+          "endUs": 12500000
+        }
+      ],
+      "rawSha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5",
+      "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-JPxfwr/library/transcripts/assets/4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c/3d1613af-b85e-4e99-8819-0da7b6a8740a/raw.jsonl"
+    },
+    {
+      "sourceSha256": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 6000000
+        },
+        {
+          "startUs": 6500000,
+          "endUs": 12500000
+        }
+      ],
+      "rawSha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac",
+      "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-JPxfwr/library/transcripts/assets/fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c/bf849abd-9f2e-4813-b641-dbca37889438/raw.jsonl"
+    }
+  ]
+}

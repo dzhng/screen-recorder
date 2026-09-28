@@ -1,6 +1,6 @@
 # 10c — Bounded occurrence evidence and phrase search
 
-Status: in progress. Pure selection, core transcript paging and public routing are verified; phrase search and event/cursor evidence remain open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Pure selection, core transcript paging and public routing are verified; public phrase search is verified; event/cursor domains and remaining live coverage are open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -97,11 +97,22 @@ CLI/MCP schema, project job dispatch and service integration. Project retry
 rebuilds only the query manifest; source preparation failures retain explicit
 source retries. Retry accepts query selectors, not paging cursors or limits.
 The [public paging journey](../assets/10c-public-paging/README.md) and independent
-full-result oracle are integrated, including exact current-runtime hash agreement. Phrase search and event/cursor reads remain open.
+full-result oracle are integrated, including exact runtime hash agreement.
+Phrase acceptance is recorded below; event/cursor reads remain open.
 ## Core phrase checkpoint
 
 [Track-local phrase evidence](../assets/10c-project-phrases/README.md) extends the
 same manifest/checkpoint owner with bounded per-track suffixes and exact first-word
 match ordering. Clean cuts preserve adjacency; gaps and partial words interrupt it.
 Raw search text pins continuation and optional retry text selects that manifest.
-Public search journeys and project event/cursor inspection remain open.
+Public phrase acceptance is recorded below; project event/cursor inspection remains open.
+
+
+## Public phrase checkpoint
+
+[Combined paging/search evidence](../assets/10c-public-phrases/README.md) verifies
+actual public routing, independent phrase oracles and historical continuation.
+The [fresh-agent skill check](../assets/10c-project-skill/README.md) validates use
+without implementation instructions. Core capture events/cursor domains are next;
+public acquired-gap phrase coverage, forced empty pages and late-read telemetry
+remain required before this slice closes.

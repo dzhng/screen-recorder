@@ -20,7 +20,7 @@ const report = {
     "Actual CLI/MCP/service/media admission and transcript ingestion; native ASR output is frozen, not newly inferred",
   trace: [],
   checks: {},
-  pending: ["phrase search", "capture events/cursor", "generation invalidation owner gate"],
+  pending: ["capture events/cursor", "generation invalidation owner gate"],
 };
 const configFile = join(out, "frozen-config.json");
 const service = new JourneyService(
@@ -279,6 +279,101 @@ try {
     }
     assert.deepEqual(rows, full.page.rows);
   }
+  const match = (words) => ({
+    trackId: words[0].trackId,
+    trackRank: words[0].trackRank,
+    words,
+    projectRange: {
+      startUs: words[0].fragments[0].project.startUs,
+      endUs: words.at(-1).fragments.at(-1).project.endUs,
+    },
+  });
+  const expectedMatches = [
+    match([expectedRows[0], expectedRows[2]]),
+    match(expectedRows.slice(7, 9)),
+  ];
+  async function search(params, limit = 500, expectedRevisionId = params.revisionId) {
+    let page = await poll(
+      () => call("transcript.search", { projectId, ...params, limit }),
+      (value) => value.state === "ready",
+      "project phrase search",
+    );
+    const entries = [],
+      seen = new Set();
+    for (let number = 0; ; number++) {
+      assert.ok(number < 200, "Search checkpoints must terminate");
+      assert.equal(page.revisionId, expectedRevisionId);
+      assert.ok(page.page.entries.length <= limit);
+      entries.push(...page.page.entries);
+      const cursor = page.page.nextCursor;
+      if (!cursor) return entries;
+      const key = JSON.stringify(cursor);
+      assert.ok(!seen.has(key), "Search checkpoint must advance");
+      seen.add(key);
+      page = await call(
+        "transcript.search",
+        { projectId, ...params, cursor, limit },
+        { transport: number % 2 ? "cli" : "mcp" },
+      );
+      assert.equal(page.state, "ready");
+      assert.ok(page.page.entries.length <= limit);
+    }
+  }
+  for (const limit of [1, 2, 500])
+    assert.deepEqual(await search({ revisionId, text: "Okay so" }, limit), expectedMatches);
+  assert.deepEqual(await search({ revisionId, text: "is this" }), [
+    match([expectedRows[5], expectedRows[6]]),
+  ]);
+  assert.deepEqual(await search({ revisionId, text: "Okay let's" }), []);
+  assert.deepEqual(await search({ revisionId, text: "so" }), [
+    match([expectedRows[1]]),
+    match([expectedRows[2]]),
+    match([expectedRows[8]]),
+  ]);
+  assert.deepEqual(await search({ revisionId, text: "so", trackIds: [edited.edit.labels.b] }), [
+    match([expectedRows[1]]),
+  ]);
+  assert.deepEqual(
+    await search({ revisionId, text: "Okay so", trackIds: [edited.edit.labels.b] }),
+    [],
+  );
+  const firstSearch = await call("transcript.search", {
+    projectId,
+    revisionId,
+    text: "Okay so",
+    limit: 1,
+  });
+  const savedSearchCursor = firstSearch.page.nextCursor;
+  assert.ok(savedSearchCursor);
+  assert.equal(
+    (
+      await call(
+        "transcript.search",
+        {
+          projectId,
+          revisionId,
+          text: "Okay SO",
+          cursor: savedSearchCursor,
+        },
+        { error: true },
+      )
+    ).code,
+    "ARTIFACT_CHANGED",
+  );
+  assert.equal(
+    (
+      await call(
+        "transcript.get",
+        {
+          projectId,
+          revisionId,
+          cursor: savedSearchCursor,
+        },
+        { error: true },
+      )
+    ).code,
+    "ARTIFACT_CHANGED",
+  );
   const firstPage = await call("transcript.get", { projectId, revisionId, limit: 1 });
   const savedCursor = firstPage.page.nextCursor;
   assert.ok(savedCursor);
@@ -289,10 +384,38 @@ try {
     operations: [
       { operation: "track.add", label: "more", track: { kind: "audio", order: 2 } },
       place("partial", 0, "more", 1120000, 1300000, 6000000),
+      place("partial-so", 0, "more", 1600000, 1920000, 6180000),
+      { operation: "track.add", label: "gapped", track: { kind: "audio", order: 3 } },
+      place("gap-okay", 0, "gapped", 1120000, 1440000, 9000000),
+      place("gap-so", 0, "gapped", 1600000, 1920000, 9500000),
+      place("words-across-hole", 0, "gapped", 4320000, 7380000, 11000000),
+      { operation: "track.add", label: "blocked", track: { kind: "audio", order: 4 } },
+      place("before-partial", 0, "blocked", 1120000, 1440000, 15000000),
+      place("middle-partial", 0, "blocked", 1920000, 2080000, 15320000),
+      place("after-partial", 0, "blocked", 1600000, 1920000, 15480000),
       place("physical-gap", 0, "more", 5360000, 7380000, 7000000),
     ],
   });
   assert.notEqual(advanced.revision.id, revisionId);
+  for (const [text, trackIds] of [
+    ["Okay so", [advanced.edit.labels.more]],
+    ["Okay so", [advanced.edit.labels.gapped]],
+    ["Okay so", [advanced.edit.labels.blocked]],
+    ["workbench First", [advanced.edit.labels.gapped]],
+  ])
+    assert.deepEqual(await search({ revisionId: advanced.revision.id, text, trackIds }), []);
+  report.checks.phrases = {
+    publicBothTransports: true,
+    exactIndependentMatches: true,
+    crossClip: true,
+    reorderedSpeech: true,
+    separateSpeakers: true,
+    partialWordBarrier: true,
+    authoredGapBarrier: true,
+    physicalGapBarrier: true,
+    limits: [1, 2, 500],
+    changedTextAndDomainRefused: true,
+  };
   const partial = await poll(
     () =>
       call("transcript.get", {
@@ -335,13 +458,31 @@ try {
   await service.stop();
   await service.start();
   assert.equal((await call("project.get", { projectId })).currentRevisionId, advanced.revision.id);
-  const continued = await call(
-    "transcript.get",
-    { projectId, cursor: savedCursor, limit: 1000 },
-    { transport: "mcp" },
+  const continuedRows = [...firstPage.page.rows],
+    seenHistory = new Set();
+  let historyCursor = savedCursor;
+  for (let number = 0; historyCursor; number++) {
+    assert.ok(number < 200, "Historical paging must terminate");
+    const key = JSON.stringify(historyCursor);
+    assert.ok(!seenHistory.has(key), "Historical checkpoint must advance");
+    seenHistory.add(key);
+    const continued = await call(
+      "transcript.get",
+      { projectId, cursor: historyCursor, limit: 1000 },
+      { transport: "mcp" },
+    );
+    assert.equal(continued.revisionId, revisionId);
+    continuedRows.push(...continued.page.rows);
+    historyCursor = continued.page.nextCursor;
+  }
+  assert.deepEqual(continuedRows, expectedRows);
+  const continuedSearch = await search(
+    { text: "Okay so", cursor: savedSearchCursor },
+    500,
+    revisionId,
   );
-  assert.equal(continued.revisionId, revisionId);
-  assert.deepEqual(continued.page.rows, full.page.rows.slice(1));
+  assert.deepEqual([...firstSearch.page.entries, ...continuedSearch], expectedMatches);
+  report.checks.phrases.historicalSearchAfterRestart = true;
   const oldRevision = await call("revision.get", { projectId, revisionId });
   assert.equal(oldRevision.revision.id, revisionId);
   assert.deepEqual(oldRevision.revision.document, edited.revision.document);
@@ -374,7 +515,7 @@ try {
     clipped,
     partial,
     gap,
-    continued,
+    continuedRows,
   });
   report.checks.paging = {
     publicBothTransports: true,

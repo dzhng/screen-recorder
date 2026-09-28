@@ -509,6 +509,9 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("transcript.search"),
       params: z.union([
+        projectTranscriptParams
+          .extend({ text: z.string().min(1).max(200), limit: z.int().min(1).max(500).optional() })
+          .strict(),
         ...transcriptPage(
           {
             revisionId: id.optional(),
@@ -531,19 +534,22 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Search a selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Source entries carry word IDs and source range; phrases cannot cross transcript segments. Recording/package entries also carry retained fragments; words cut from the revision never match. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
+      "Search a project, selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Project matches follow consecutive whole words on each selected audio track, may cross contiguous clips, and stop at gaps or partial words. Each match carries all contributing word/clip identities and exact projectRange; simultaneous speakers never form a shared phrase. Source entries carry word IDs and source range; phrases cannot cross transcript segments. Recording/package entries also carry retained fragments; words cut from the revision never match. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
     ),
   z
     .object({
       operation: z.literal("transcript.retry"),
       params: z.union([
         sourceSelection,
-        projectTranscriptParams.omit({ cursor: true, limit: true }),
+        projectTranscriptParams
+          .omit({ cursor: true, limit: true })
+          .extend({ text: z.string().min(1).max(200).optional() })
+          .strict(),
       ]),
     })
     .strict()
     .describe(
-      "Explicitly prepare or retry the selected asset-stream transcript without downloading models. A project selector retries only its evidence manifest; source preparation failures must be retried with their returned asset-stream selection. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
+      "Explicitly prepare or retry the selected asset-stream transcript without downloading models. A project selector retries only its evidence manifest (include the same text to retry phrase search); source preparation failures must be retried with their returned asset-stream selection. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
     ),
   z
     .object({ operation: z.literal("model.status"), params: z.object({}).strict() })

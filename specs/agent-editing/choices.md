@@ -1051,3 +1051,30 @@ trim and stretch replacements keep their single-interval behavior.
   left this scheduling parameter open. This matches the existing movie execution
   policy; slice 24 still owns empirical long-work and no-progress acceptance.
   Landed in the public source audio pass.
+
+
+## Edited phrase query decisions
+
+- **Sound; high confidence — Sort a phrase by its first word, even if another speaker finishes sooner.**
+  Two tracks may speak at different speeds. Search finds each track's next match
+  independently, then merges matches by the first contributing word's exact project
+  time. The plan fixed project ordering but not this mechanism; emitting a phrase
+  as soon as its last word arrives would put a later, faster speaker first. Bounded
+  checkpoints may therefore return an empty page while an earlier track is scanned.
+  Landed in the core/public phrase pass.
+
+- **Sound; medium confidence — Preserve literal search text in continuation identity.**
+  Matching ignores case and outer punctuation, but a continuation still names the
+  exact submitted query. Changing “Okay so” to “Okay SO” requires a new read even
+  though their matches agree. The plan left normalized-versus-literal query identity
+  open. This matches source search and avoids implicit query changes across pages;
+  optional retry text selects that same phrase manifest. Landed in the phrase pass.
+
+- **Sound; high confidence — Inspection windows retain recoverable word boundaries.**
+  Looking at a narrow interval inside a whole word returns that word's full retained
+  editorial fragments, rather than shortening it to the inspection window. A word
+  actually trimmed by the edit remains partial. The plan specified editorial
+  partiality but left fragment clipping ambiguous; keeping full word boundaries
+  makes transcript evidence useful for subsequent edits. Synthetic missing-support
+  gaps still describe the selected window because they have no original word row.
+  Landed in public paging and clarified in contracts during phrase integration.

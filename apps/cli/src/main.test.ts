@@ -115,6 +115,7 @@ function expectCallableContract(tools: AdvertisedTool[]) {
     ["assetId", "streamId"],
   ]);
   expect(required("transcript.search")).toEqual([
+    ["projectId", "text"],
     ["recordingId", "text"],
     ["packageHandle", "text"],
     ["assetId", "streamId", "text"],

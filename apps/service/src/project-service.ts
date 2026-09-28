@@ -280,7 +280,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
           case "transcript.get":
           case "transcript.search": {
             const params = operation.params;
-            if ("projectId" in params) return { ok: true, data: await projectEvidence.get(params) };
+            if ("projectId" in params)
+              return {
+                ok: true,
+                data:
+                  "text" in params
+                    ? await projectEvidence.search(params)
+                    : await projectEvidence.get(params),
+              };
             if (!("assetId" in params))
               return operationError("NOT_READY", "This service reads selected asset transcripts");
             const selection = {

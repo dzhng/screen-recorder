@@ -1,0 +1,3093 @@
+{
+  "projectId": "a57e912e-c7d0-4504-a767-ce1fa5ce934c",
+  "revisionId": "2b370afb-3af6-4901-87d9-c7887c030fe2",
+  "edit": {
+    "revision": {
+      "id": "2b370afb-3af6-4901-87d9-c7887c030fe2",
+      "projectId": "a57e912e-c7d0-4504-a767-ce1fa5ce934c",
+      "ordinal": 1,
+      "createdAt": "2026-09-28T07:19:17.375Z",
+      "operation": "apply",
+      "document": {
+        "canvas": {
+          "width": 32,
+          "height": 32,
+          "fps": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "kind": "audio",
+            "order": 0
+          },
+          {
+            "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+            "kind": "audio",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 320000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 320000,
+                "endUs": 640000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 640000,
+                "endUs": 960000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 960000,
+                "endUs": 1280000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 1280000,
+                "endUs": 1600000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 3000000,
+                "endUs": 5000000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": 6000000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 640000
+              }
+            },
+            "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 560000,
+                "endUs": 1200000
+              }
+            }
+          }
+        ],
+        "syncGroups": [],
+        "processing": [],
+        "captions": []
+      }
+    },
+    "edit": {
+      "document": {
+        "canvas": {
+          "width": 32,
+          "height": 32,
+          "fps": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "kind": "audio",
+            "order": 0
+          },
+          {
+            "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+            "kind": "audio",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 320000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 320000,
+                "endUs": 640000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 640000,
+                "endUs": 960000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 960000,
+                "endUs": 1280000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 1280000,
+                "endUs": 1600000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 3000000,
+                "endUs": 5000000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": 6000000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 640000
+              }
+            },
+            "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 560000,
+                "endUs": 1200000
+              }
+            }
+          }
+        ],
+        "syncGroups": [],
+        "processing": [],
+        "captions": []
+      },
+      "changed": true,
+      "createdIds": [
+        {
+          "kind": "track",
+          "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0"
+        },
+        {
+          "kind": "track",
+          "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8"
+        }
+      ],
+      "labels": {
+        "a": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+        "b": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+        "okay": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+        "so": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+        "repeat": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+        "is": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+        "this": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+        "retimed": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+        "simultaneous": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8"
+      },
+      "normalized": [
+        {
+          "operationIndex": 0,
+          "changes": [
+            {
+              "kind": "track",
+              "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+              "value": {
+                "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+                "kind": "audio",
+                "order": 0
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 1,
+          "changes": [
+            {
+              "kind": "track",
+              "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+              "value": {
+                "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+                "kind": "audio",
+                "order": 1
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 2,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+              "value": {
+                "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+                "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 320000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 3,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+              "value": {
+                "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+                "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 320000,
+                    "endUs": 640000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 4,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+              "value": {
+                "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+                "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 640000,
+                    "endUs": 960000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 5,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+              "value": {
+                "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+                "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 960000,
+                    "endUs": 1280000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 2240000,
+                    "endUs": 2560000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 6,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+              "value": {
+                "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+                "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 1280000,
+                    "endUs": 1600000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1920000,
+                    "endUs": 2240000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 7,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+              "value": {
+                "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+                "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 3000000,
+                    "endUs": 5000000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 6000000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 8,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+              "value": {
+                "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+                "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 640000
+                  }
+                },
+                "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 560000,
+                    "endUs": 1200000
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "clipLineage": [],
+      "removedAttachments": [],
+      "processingLineage": [],
+      "touchedFixedAnchors": [],
+      "linkChanges": []
+    }
+  },
+  "transcript": {
+    "projectId": "a57e912e-c7d0-4504-a767-ce1fa5ce934c",
+    "revisionId": "2b370afb-3af6-4901-87d9-c7887c030fe2",
+    "state": "ready",
+    "dependencies": [
+      {
+        "selection": {
+          "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+          "streamId": "track:1"
+        },
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c"
+          },
+          "sourceId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+          "generation": "3d1613af-b85e-4e99-8819-0da7b6a8740a",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-JPxfwr/library/assets/4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 28,
+          "gapCount": 1,
+          "maxWordUs": 1440000,
+          "raw": {
+            "bytes": 10805,
+            "sha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "99b08e6f-6b02-43f5-ba7d-3befdf2a376d"
+      },
+      {
+        "selection": {
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1"
+        },
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c"
+          },
+          "sourceId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-JPxfwr/library/assets/fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 25,
+          "gapCount": 1,
+          "maxWordUs": 1120000,
+          "raw": {
+            "bytes": 9366,
+            "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "33c7259b-2978-4c5c-a0eb-d0066ffc5e77"
+      }
+    ],
+    "page": {
+      "rows": [
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "Okay,",
+          "kind": "speech",
+          "confidence": 0.8691406,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "project": {
+                "startUs": 0,
+                "endUs": 320000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "So",
+          "kind": "speech",
+          "confidence": 0.99609375,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 560000,
+            "endUs": 800000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+          "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+          "trackRank": 1,
+          "generation": "3d1613af-b85e-4e99-8819-0da7b6a8740a",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 560000,
+                "endUs": 800000
+              },
+              "project": {
+                "startUs": 0,
+                "endUs": 240000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w1",
+          "ordinal": 1,
+          "text": "so",
+          "kind": "speech",
+          "confidence": 0.99902344,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1600000,
+            "endUs": 1920000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              },
+              "project": {
+                "startUs": 320000,
+                "endUs": 640000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w1",
+          "ordinal": 1,
+          "text": "let's",
+          "kind": "speech",
+          "confidence": 0.99869794,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 880000,
+            "endUs": 1200000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+          "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+          "trackRank": 1,
+          "generation": "3d1613af-b85e-4e99-8819-0da7b6a8740a",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 880000,
+                "endUs": 1200000
+              },
+              "project": {
+                "startUs": 320000,
+                "endUs": 640000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "Okay,",
+          "kind": "speech",
+          "confidence": 0.8691406,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "project": {
+                "startUs": 640000,
+                "endUs": 960000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w3",
+          "ordinal": 3,
+          "text": "is",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 2240000,
+            "endUs": 2560000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              },
+              "project": {
+                "startUs": 960000,
+                "endUs": 1280000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w2",
+          "ordinal": 2,
+          "text": "this",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1920000,
+            "endUs": 2240000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              },
+              "project": {
+                "startUs": 1280000,
+                "endUs": 1600000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "Okay,",
+          "kind": "speech",
+          "confidence": 0.8691406,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 10120000,
+                  "denominator": 3
+                },
+                "endUs": 3480000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w1",
+          "ordinal": 1,
+          "text": "so",
+          "kind": "speech",
+          "confidence": 0.99902344,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1600000,
+            "endUs": 1920000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 10600000,
+                  "denominator": 3
+                },
+                "endUs": 3640000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w2",
+          "ordinal": 2,
+          "text": "this",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1920000,
+            "endUs": 2240000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              },
+              "project": {
+                "startUs": 3640000,
+                "endUs": {
+                  "numerator": 11240000,
+                  "denominator": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w3",
+          "ordinal": 3,
+          "text": "is",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 2240000,
+            "endUs": 2560000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 11240000,
+                  "denominator": 3
+                },
+                "endUs": {
+                  "numerator": 11560000,
+                  "denominator": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w4",
+          "ordinal": 4,
+          "text": "the",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 2560000,
+            "endUs": 2880000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 2560000,
+                "endUs": 2880000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 11560000,
+                  "denominator": 3
+                },
+                "endUs": 3960000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w5",
+          "ordinal": 5,
+          "text": "recorder",
+          "kind": "speech",
+          "confidence": 0.9873047,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 3200000,
+            "endUs": 4320000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 3200000,
+                "endUs": 4320000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 12200000,
+                  "denominator": 3
+                },
+                "endUs": 4440000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w6",
+          "ordinal": 6,
+          "text": "workbench.",
+          "kind": "speech",
+          "confidence": 0.9607422,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 4320000,
+            "endUs": 5360000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 4320000,
+                "endUs": 5360000
+              },
+              "project": {
+                "startUs": 4440000,
+                "endUs": {
+                  "numerator": 14360000,
+                  "denominator": 3
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  "advanced": {
+    "revision": {
+      "id": "ca9bc336-daa6-4e62-b221-1971b37759f2",
+      "projectId": "a57e912e-c7d0-4504-a767-ce1fa5ce934c",
+      "ordinal": 2,
+      "createdAt": "2026-09-28T07:19:23.054Z",
+      "operation": "apply",
+      "document": {
+        "canvas": {
+          "width": 32,
+          "height": 32,
+          "fps": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "kind": "audio",
+            "order": 0
+          },
+          {
+            "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+            "kind": "audio",
+            "order": 1
+          },
+          {
+            "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+            "kind": "audio",
+            "order": 2
+          },
+          {
+            "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+            "kind": "audio",
+            "order": 3
+          },
+          {
+            "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+            "kind": "audio",
+            "order": 4
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 320000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 320000,
+                "endUs": 640000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 640000,
+                "endUs": 960000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 960000,
+                "endUs": 1280000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 1280000,
+                "endUs": 1600000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 3000000,
+                "endUs": 5000000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": 6000000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 640000
+              }
+            },
+            "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 560000,
+                "endUs": 1200000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:1",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 6000000,
+                "endUs": 6180000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1300000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:2",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 6180000,
+                "endUs": 6500000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:4",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 9000000,
+                "endUs": 9320000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:5",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 9500000,
+                "endUs": 9820000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:6",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 11000000,
+                "endUs": 14060000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 4320000,
+                "endUs": 7380000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:8",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 15000000,
+                "endUs": 15320000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:9",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 15320000,
+                "endUs": 15480000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1920000,
+                "endUs": 2080000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:10",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 15480000,
+                "endUs": 15800000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:11",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 7000000,
+                "endUs": 9020000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 5360000,
+                "endUs": 7380000
+              }
+            }
+          }
+        ],
+        "syncGroups": [],
+        "processing": [],
+        "captions": []
+      }
+    },
+    "edit": {
+      "document": {
+        "canvas": {
+          "width": 32,
+          "height": 32,
+          "fps": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "kind": "audio",
+            "order": 0
+          },
+          {
+            "id": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+            "kind": "audio",
+            "order": 1
+          },
+          {
+            "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+            "kind": "audio",
+            "order": 2
+          },
+          {
+            "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+            "kind": "audio",
+            "order": 3
+          },
+          {
+            "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+            "kind": "audio",
+            "order": 4
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 320000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 320000,
+                "endUs": 640000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 640000,
+                "endUs": 960000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 960000,
+                "endUs": 1280000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 1280000,
+                "endUs": 1600000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 3000000,
+                "endUs": 5000000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": 6000000
+              }
+            }
+          },
+          {
+            "id": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+            "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 640000
+              }
+            },
+            "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 560000,
+                "endUs": 1200000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:1",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 6000000,
+                "endUs": 6180000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1300000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:2",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 6180000,
+                "endUs": 6500000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:4",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 9000000,
+                "endUs": 9320000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:5",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 9500000,
+                "endUs": 9820000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:6",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 11000000,
+                "endUs": 14060000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 4320000,
+                "endUs": 7380000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:8",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 15000000,
+                "endUs": 15320000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:9",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 15320000,
+                "endUs": 15480000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1920000,
+                "endUs": 2080000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:10",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 15480000,
+                "endUs": 15800000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              }
+            }
+          },
+          {
+            "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:11",
+            "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 7000000,
+                "endUs": 9020000
+              }
+            },
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+            "streamId": "track:1",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 5360000,
+                "endUs": 7380000
+              }
+            }
+          }
+        ],
+        "syncGroups": [],
+        "processing": [],
+        "captions": []
+      },
+      "changed": true,
+      "createdIds": [
+        {
+          "kind": "track",
+          "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:1"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:2"
+        },
+        {
+          "kind": "track",
+          "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:4"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:5"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:6"
+        },
+        {
+          "kind": "track",
+          "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:8"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:9"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:10"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:11"
+        }
+      ],
+      "labels": {
+        "more": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+        "partial": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:1",
+        "partial-so": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:2",
+        "gapped": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+        "gap-okay": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:4",
+        "gap-so": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:5",
+        "words-across-hole": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:6",
+        "blocked": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+        "before-partial": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:8",
+        "middle-partial": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:9",
+        "after-partial": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:10",
+        "physical-gap": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:11"
+      },
+      "normalized": [
+        {
+          "operationIndex": 0,
+          "changes": [
+            {
+              "kind": "track",
+              "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+              "value": {
+                "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+                "kind": "audio",
+                "order": 2
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 1,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:1",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:1",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 6000000,
+                    "endUs": 6180000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1120000,
+                    "endUs": 1300000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 2,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:2",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:2",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 6180000,
+                    "endUs": 6500000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 3,
+          "changes": [
+            {
+              "kind": "track",
+              "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+              "value": {
+                "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+                "kind": "audio",
+                "order": 3
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 4,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:4",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:4",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 9000000,
+                    "endUs": 9320000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 5,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:5",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:5",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 9500000,
+                    "endUs": 9820000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 6,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:6",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:6",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:3",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 11000000,
+                    "endUs": 14060000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 4320000,
+                    "endUs": 7380000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 7,
+          "changes": [
+            {
+              "kind": "track",
+              "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+              "value": {
+                "id": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+                "kind": "audio",
+                "order": 4
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 8,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:8",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:8",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 15000000,
+                    "endUs": 15320000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 9,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:9",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:9",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 15320000,
+                    "endUs": 15480000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1920000,
+                    "endUs": 2080000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 10,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:10",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:10",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:7",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 15480000,
+                    "endUs": 15800000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 11,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:11",
+              "value": {
+                "id": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:11",
+                "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 7000000,
+                    "endUs": 9020000
+                  }
+                },
+                "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 5360000,
+                    "endUs": 7380000
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "clipLineage": [],
+      "removedAttachments": [],
+      "processingLineage": [],
+      "touchedFixedAnchors": [],
+      "linkChanges": []
+    }
+  },
+  "clipped": {
+    "projectId": "a57e912e-c7d0-4504-a767-ce1fa5ce934c",
+    "revisionId": "2b370afb-3af6-4901-87d9-c7887c030fe2",
+    "state": "ready",
+    "dependencies": [
+      {
+        "selection": {
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1"
+        },
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c"
+          },
+          "sourceId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-JPxfwr/library/assets/fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 25,
+          "gapCount": 1,
+          "maxWordUs": 1120000,
+          "raw": {
+            "bytes": 9366,
+            "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "33c7259b-2978-4c5c-a0eb-d0066ffc5e77"
+      }
+    ],
+    "page": {
+      "rows": [
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "Okay,",
+          "kind": "speech",
+          "confidence": 0.8691406,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "partial": false,
+          "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+          "trackRank": 0,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 10120000,
+                  "denominator": 3
+                },
+                "endUs": 3480000
+              }
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  "partial": {
+    "projectId": "a57e912e-c7d0-4504-a767-ce1fa5ce934c",
+    "revisionId": "ca9bc336-daa6-4e62-b221-1971b37759f2",
+    "state": "ready",
+    "dependencies": [
+      {
+        "selection": {
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1"
+        },
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c"
+          },
+          "sourceId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-JPxfwr/library/assets/fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 25,
+          "gapCount": 1,
+          "maxWordUs": 1120000,
+          "raw": {
+            "bytes": 9366,
+            "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "33c7259b-2978-4c5c-a0eb-d0066ffc5e77"
+      }
+    ],
+    "page": {
+      "rows": [
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "Okay,",
+          "kind": "speech",
+          "confidence": 0.8691406,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "partial": true,
+          "clipId": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:1",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+          "trackRank": 2,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1120000,
+                "endUs": 1300000
+              },
+              "project": {
+                "startUs": 6000000,
+                "endUs": 6180000
+              }
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  "gap": {
+    "projectId": "a57e912e-c7d0-4504-a767-ce1fa5ce934c",
+    "revisionId": "ca9bc336-daa6-4e62-b221-1971b37759f2",
+    "state": "ready",
+    "dependencies": [
+      {
+        "selection": {
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1"
+        },
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c"
+          },
+          "sourceId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-JPxfwr/library/assets/fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 25,
+          "gapCount": 1,
+          "maxWordUs": 1120000,
+          "raw": {
+            "bytes": 9366,
+            "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "33c7259b-2978-4c5c-a0eb-d0066ffc5e77"
+      }
+    ],
+    "page": {
+      "rows": [
+        {
+          "clipId": "clip:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:11",
+          "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+          "streamId": "track:1",
+          "trackId": "track:fa2871745d3a5156877855601a8ef836ba8add7ada50656a2ef47dd31f809bbd:0",
+          "trackRank": 2,
+          "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+          "type": "gap",
+          "reason": "not_acquired",
+          "sourceRange": {
+            "startUs": 6060000,
+            "endUs": 6360000
+          },
+          "partial": false,
+          "fragments": [
+            {
+              "source": {
+                "startUs": 6060000,
+                "endUs": 6360000
+              },
+              "project": {
+                "startUs": 7700000,
+                "endUs": 8000000
+              }
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  "continuedRows": [
+    {
+      "type": "word",
+      "id": "w0",
+      "ordinal": 0,
+      "text": "Okay,",
+      "kind": "speech",
+      "confidence": 0.8691406,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1120000,
+        "endUs": 1440000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:2",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "project": {
+            "startUs": 0,
+            "endUs": 320000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w0",
+      "ordinal": 0,
+      "text": "So",
+      "kind": "speech",
+      "confidence": 0.99609375,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 560000,
+        "endUs": 800000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+      "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+      "trackRank": 1,
+      "generation": "3d1613af-b85e-4e99-8819-0da7b6a8740a",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 560000,
+            "endUs": 800000
+          },
+          "project": {
+            "startUs": 0,
+            "endUs": 240000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w1",
+      "ordinal": 1,
+      "text": "so",
+      "kind": "speech",
+      "confidence": 0.99902344,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1600000,
+        "endUs": 1920000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:3",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 1600000,
+            "endUs": 1920000
+          },
+          "project": {
+            "startUs": 320000,
+            "endUs": 640000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w1",
+      "ordinal": 1,
+      "text": "let's",
+      "kind": "speech",
+      "confidence": 0.99869794,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 880000,
+        "endUs": 1200000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:8",
+      "assetId": "4f15ea34de334bbbd1fd423ae8d81d4847743eb0c27704c588ba070eeb54457c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:1",
+      "trackRank": 1,
+      "generation": "3d1613af-b85e-4e99-8819-0da7b6a8740a",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 880000,
+            "endUs": 1200000
+          },
+          "project": {
+            "startUs": 320000,
+            "endUs": 640000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w0",
+      "ordinal": 0,
+      "text": "Okay,",
+      "kind": "speech",
+      "confidence": 0.8691406,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1120000,
+        "endUs": 1440000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:4",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "project": {
+            "startUs": 640000,
+            "endUs": 960000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w3",
+      "ordinal": 3,
+      "text": "is",
+      "kind": "speech",
+      "confidence": 0.9995117,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 2240000,
+        "endUs": 2560000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:5",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 2240000,
+            "endUs": 2560000
+          },
+          "project": {
+            "startUs": 960000,
+            "endUs": 1280000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w2",
+      "ordinal": 2,
+      "text": "this",
+      "kind": "speech",
+      "confidence": 0.9995117,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1920000,
+        "endUs": 2240000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:6",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 1920000,
+            "endUs": 2240000
+          },
+          "project": {
+            "startUs": 1280000,
+            "endUs": 1600000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w0",
+      "ordinal": 0,
+      "text": "Okay,",
+      "kind": "speech",
+      "confidence": 0.8691406,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1120000,
+        "endUs": 1440000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "project": {
+            "startUs": {
+              "numerator": 10120000,
+              "denominator": 3
+            },
+            "endUs": 3480000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w1",
+      "ordinal": 1,
+      "text": "so",
+      "kind": "speech",
+      "confidence": 0.99902344,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1600000,
+        "endUs": 1920000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 1600000,
+            "endUs": 1920000
+          },
+          "project": {
+            "startUs": {
+              "numerator": 10600000,
+              "denominator": 3
+            },
+            "endUs": 3640000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w2",
+      "ordinal": 2,
+      "text": "this",
+      "kind": "speech",
+      "confidence": 0.9995117,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 1920000,
+        "endUs": 2240000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 1920000,
+            "endUs": 2240000
+          },
+          "project": {
+            "startUs": 3640000,
+            "endUs": {
+              "numerator": 11240000,
+              "denominator": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w3",
+      "ordinal": 3,
+      "text": "is",
+      "kind": "speech",
+      "confidence": 0.9995117,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 2240000,
+        "endUs": 2560000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 2240000,
+            "endUs": 2560000
+          },
+          "project": {
+            "startUs": {
+              "numerator": 11240000,
+              "denominator": 3
+            },
+            "endUs": {
+              "numerator": 11560000,
+              "denominator": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w4",
+      "ordinal": 4,
+      "text": "the",
+      "kind": "speech",
+      "confidence": 0.9995117,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 2560000,
+        "endUs": 2880000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 2560000,
+            "endUs": 2880000
+          },
+          "project": {
+            "startUs": {
+              "numerator": 11560000,
+              "denominator": 3
+            },
+            "endUs": 3960000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w5",
+      "ordinal": 5,
+      "text": "recorder",
+      "kind": "speech",
+      "confidence": 0.9873047,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 3200000,
+        "endUs": 4320000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 3200000,
+            "endUs": 4320000
+          },
+          "project": {
+            "startUs": {
+              "numerator": 12200000,
+              "denominator": 3
+            },
+            "endUs": 4440000
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w6",
+      "ordinal": 6,
+      "text": "workbench.",
+      "kind": "speech",
+      "confidence": 0.9607422,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 4320000,
+        "endUs": 5360000
+      },
+      "partial": false,
+      "clipId": "clip:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:7",
+      "assetId": "fa33cb342750f49731353747303080ac05c6cd98421ad01e829fdc998117aa7c",
+      "streamId": "track:1",
+      "trackId": "track:e794d923b51494e643b84e2042206c25c434e5e6d7823327ae864875d8578cd0:0",
+      "trackRank": 0,
+      "generation": "bf849abd-9f2e-4813-b641-dbca37889438",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 4320000,
+            "endUs": 5360000
+          },
+          "project": {
+            "startUs": 4440000,
+            "endUs": {
+              "numerator": 14360000,
+              "denominator": 3
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

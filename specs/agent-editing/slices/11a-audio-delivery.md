@@ -91,3 +91,13 @@ selected-source admission through audio.get/retry, shared artifact leases and
 bounded CLI file streaming. Large MCP audio remains an explicit renewable
 artifact; small audio can be inline. Actual native source/large-WAV acceptance
 belongs to the audio-extraction journey, and project tap binding remains open.
+
+
+## Active native coverage defect
+
+The long AAC source journey reproduces a 1024-frame decoded shortfall in a direct
+native extraction; a plain AVAssetReader diagnostic can retrieve the complete
+source. No support shortening or compensating silence is accepted as a fix.
+Lossless extraction and full CLI delivery above 1 GiB pass separately; their
+retained evidence is pending integration. Resolve the AAC native owner and
+preserve the existing recording/composition audio gates before closing this slice.

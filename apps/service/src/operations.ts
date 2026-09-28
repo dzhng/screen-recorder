@@ -398,10 +398,10 @@ export async function operate(
               : transcripts.get(operation.params),
         };
       case "transcript.search":
-        if ("assetId" in operation.params)
+        if ("assetId" in operation.params || "projectId" in operation.params)
           return operationError(
             "NOT_READY",
-            "Asset transcripts require the project service until cutover",
+            "Asset and project transcripts require the project service until cutover",
           );
         return {
           ok: true,

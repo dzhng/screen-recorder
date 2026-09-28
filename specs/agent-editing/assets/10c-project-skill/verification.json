@@ -1,0 +1,11 @@
+{
+  "model": "gpt-6-luna",
+  "wordRows": 13,
+  "pages": 7,
+  "matches": 2,
+  "exactOracleRows": true,
+  "fullEditorialWindow": true,
+  "partialTrim": true,
+  "firstAttempt": "fixture process absent; no product claims",
+  "nativeBoundary": "frozen ASR through actual service ingestion"
+}

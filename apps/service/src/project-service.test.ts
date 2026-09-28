@@ -513,6 +513,18 @@ test("project transcript paging uses shared jobs and returns an empty historical
       page: { rows: [], nextCursor: null },
     },
   });
+  const searching = await f.call("transcript.search", { ...params, text: "missing words" });
+  if (!searching.ok) throw new Error(JSON.stringify(searching));
+  await f.job((searching.data as { jobId: string }).jobId, "ready");
+  expect(await f.call("transcript.search", { ...params, text: "missing words" })).toMatchObject({
+    ok: true,
+    data: {
+      projectId: project.projectId,
+      revisionId: revision.id,
+      state: "ready",
+      page: { entries: [], nextCursor: null },
+    },
+  });
   expect(await f.call("transcript.get", { projectId: "missing" })).toMatchObject({
     ok: false,
     error: { code: "NOT_FOUND" },

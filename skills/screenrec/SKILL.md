@@ -68,9 +68,18 @@ Keep the complete returned cursor when paging or searching; changing selection o
 generation requires a fresh read. Reads can prepare transcription with ready local
 models but never download models. Inspect model readiness and use explicit model
 preparation when needed; diagnose failed/canceled work before explicit transcript
-retry. A source phrase cannot cross an inference segment. Source words do not yet
-identify every repeated or retimed occurrence in a managed project; use the
-advertised project evidence operations only when the connected service supports them.
+retry. A source phrase cannot cross an inference segment.
+
+For speech as it appears in an edited project, request the project transcript at
+the intended revision. Rows identify each repeated/retimed clip occurrence and
+retain exact source/project fragments. A query window selects words; it does not
+trim their editorial fragments or change whether the edit cut a word. Preserve
+fractional timestamps instead of rounding them into edit boundaries. Keep the
+complete continuation, including across empty pages; it pins the original revision
+even when the head changes. If evidence expires or changes, start a fresh query.
+Project retry rebuilds the query manifest only; diagnose and explicitly retry any
+failed source dependency using its returned selection. Use project phrase search
+only when advertised; source search cannot stand in for edited speech order.
 
 Read the target stack, then set its entire ordered list through `edit.apply`.
 Keep step IDs when changing order, settings or bypass; omit them when copying to
