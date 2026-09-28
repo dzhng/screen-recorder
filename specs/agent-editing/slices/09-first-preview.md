@@ -1,6 +1,6 @@
 # 09 — First public preview and export
 
-Status: native assembly, core admission and [public preview](../assets/09-public-preview/README.md) are integrated through the existing owners. [Live rendered CLI/MCP journeys](../assets/09-first-preview/README.md) pass. [Shared export ownership](../assets/09-export-owner/README.md) is verified at the owner/native-publication boundary; public project export acceptance remains open. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
+Status: verified at the first-edit checkpoint. [Live preview](../assets/09-first-preview/README.md), [public export](../assets/09-first-export/README.md), [service integration](../assets/09-export-integration/README.md) and [blind skill export](../assets/09-export-skill/README.md) pass. This establishes video preview/publication through the development project service; direct frame/audio inspection, broader fidelity and production cutover remain their own slices. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
 
 ## Contract
 
@@ -8,7 +8,7 @@ The first public checkpoint creates a two-clip project, replaces audio or video 
 
 ## Seam and ownership
 
-Existing job/publication owners admit project-targeted preview.get/retry, frame/audio inspection and export.create/status/list/retry/recover/cancel/abandon. One compiler and executor combine slices 07/08. Exports retain existing revision-pinned intent, exportId replay and atomic publication guarantees.
+Existing job/publication owners admit project-targeted preview.get/retry and export.create/status/list/retry/recover/cancel/abandon. Direct frame and audio inspection reuse these owners in slices 10 and 11. One compiler and executor combine slices 07/08. Exports retain existing revision-pinned intent, exportId replay and atomic publication guarantees.
 
 ## Work and review surface
 

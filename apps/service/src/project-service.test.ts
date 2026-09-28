@@ -341,3 +341,92 @@ test("startup resumes a committed project deletion marker before serving request
     check.close();
   }
 });
+
+test("shutdown aborts an in-flight export destination admission before draining requests", async () => {
+  let entered!: () => void;
+  const started = new Promise<void>((resolve) => (entered = resolve));
+  let release!: () => void;
+  const released = new Promise<void>((resolve) => (release = resolve));
+  let aborted!: () => void;
+  const canceled = new Promise<boolean>((resolve) => (aborted = () => resolve(true)));
+  const f = await setup(async (operation, _params, options) => {
+    if (operation === "media.probe") return { ok: true, data: metadata };
+    if (operation !== "storage.externalDirectory") throw new Error(`Unexpected ${operation}`);
+    entered();
+    const onAbort = () => {
+      aborted();
+      release();
+    };
+    if (options?.signal?.aborted) onAbort();
+    else options?.signal?.addEventListener("abort", onAbort, { once: true });
+    await released;
+    return {
+      ok: false,
+      error: { code: "CANCELED", message: "admission canceled", retryable: true, details: {} },
+    };
+  });
+  const imported = await f.call("asset.import", { requestId: "source", path: f.path });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const ready = await f.job((imported.data as { jobId: string }).jobId, "ready");
+  const created = await f.call("project.create", {
+    requestId: "project",
+    canvas: {
+      width: 160,
+      height: 96,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const { project, revision } = created.data as {
+    project: { projectId: string };
+    revision: { id: string };
+  };
+  expect(
+    await f.call("edit.apply", {
+      projectId: project.projectId,
+      requestId: "place",
+      expectedRevisionId: revision.id,
+      operations: [
+        { operation: "track.add", track: { kind: "video", order: 0 }, label: "picture" },
+        {
+          operation: "place",
+          clip: {
+            trackId: { label: "picture" },
+            assetId: ready.result!.assetId,
+            streamId: "image:0",
+            source: { kind: "hold", atUs: 0 },
+            placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+          },
+        },
+      ],
+    }),
+  ).toMatchObject({ ok: true });
+  const pending = f
+    .call("export.create", {
+      projectId: project.projectId,
+      exportId: "67a0c032-a3ee-44b9-81f8-7269f0f3195e",
+      kind: "video",
+      directory: f.home,
+      leaf: "output.mp4",
+    })
+    .catch(() => null); // Shutdown may close the transport before replying.
+  await started;
+  const closing = f.service.close();
+  try {
+    expect(await Promise.race([canceled, delay(1000).then(() => false)])).toBe(true);
+  } finally {
+    release();
+    await pending;
+    await closing;
+  }
+  const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
+  try {
+    expect(catalog.catalog.prepare("SELECT COUNT(*) AS count FROM export_intents").get()).toEqual({
+      count: 0,
+    });
+    expect(await readdir(f.home)).not.toContain("output.mp4");
+  } finally {
+    catalog.close();
+  }
+});

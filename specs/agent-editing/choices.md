@@ -763,3 +763,35 @@ trim and stretch replacements keep their single-interval behavior.
   probe rounds AAC duration to sample boundaries; no selected PCM sample is dropped
   merely to make those two reports look identical. This resolves the assembly
   boundary without inventing sound or changing the requested timeline.
+
+
+## Shared project export lifecycle — 2026-09-27
+
+- **Sound; medium confidence — Pin rendered bytes independently of renderer availability.**
+  An export that already selected a completed preview can still publish those exact
+  bytes after the rendering implementation is unavailable. If cache eviction removes
+  those bytes, regenerating requires the originally pinned implementation; another
+  build may produce a different movie. The plan required repeatable outputs but did
+  not specify this deployment boundary. Missing implementation is recoverable when
+  it returns. Explicit export retry repairs only that matching current preview
+  failure; an unrelated newer decode failure still requires its own diagnosis.
+- **Sound; high confidence — One export owner accepts explicit recording or project domains.**
+  Exporting either kind writes a typed owner identity in the same intent table and
+  uses the same job, cache and publication lifecycle. A project-only service supplies
+  its real project owners, not fabricated recording stores. The changed unshipped
+  table uses catalog format 4 and refuses previous formats; it never migrates or
+  resets them. This resolves the unspecified reuse seam while preserving the fresh
+  library decision and enables removing recording bindings at cutover.
+- **Sound; high confidence — Discovery cursors name both possible owner filters.**
+  When an agent carries a page cursor between CLI and MCP, it carries explicit
+  recording and project fields, with the unused one null. Reusing it with different
+  filters fails instead of silently traversing another set. The plan did not fix
+  cursor shape; one neutral shape avoids separate export discovery implementations
+  and leaves no fallback for obsolete unshipped cursor forms.
+- **Sound; high confidence — Stop export admission before waiting for service requests.**
+  A destination check may still be running when the service shuts down. The export
+  owner first closes admission and sends cancellation, then the service waits for
+  pending requests and owners before closing storage. Waiting first would delay the
+  very signal needed to end the request and could admit new work during shutdown.
+  The existing export lifetime supplies this signal; no additional shutdown owner
+  or timeout is introduced.

@@ -1,3 +1,4 @@
+import { MediaExports } from "./exports.js";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
 import { projectMovieRenderer } from "./project-render.js";
 import { clearRenderWorkspace } from "./render.js";
@@ -37,6 +38,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
   let jobs: JobQueue | undefined;
   let listener: LocalListener | undefined;
   let deletion: ProjectDeletion | undefined;
+  let exports: MediaExports | undefined;
   const delivery = new DerivativeDelivery();
   try {
     catalog = new Catalog(join(library, "catalog.sqlite"));
@@ -78,7 +80,12 @@ export async function startProjectService(options: { home: string; worker?: Medi
       store: catalog,
       targets,
       providers: { newId: randomUUID },
+      onCapacity: () => {
+        for (const error of exports?.resumeRecovery() ?? []) console.error(error);
+      },
       execute: async ({ job, signal }) => {
+        if (job.artifact === "export-media" || job.artifact === "export-recovery")
+          return exports!.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "preview")
           return preview.execute({ job, signal });
         if (job.target.kind !== "import" || job.artifact !== "asset.import")
@@ -101,9 +108,27 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       projectMovieRenderer(worker, workspace),
     );
-    const projectDeletion = new ProjectDeletion(projects, queue, cache, files, delivery);
+    const mediaExports = new MediaExports({
+      catalog,
+      jobs: queue,
+      cache,
+      worker,
+      files,
+      project: { store: projects, preview },
+    });
+    exports = mediaExports;
+    queue.startAdmission((job) => mediaExports.admit(job));
+    const projectDeletion = new ProjectDeletion(
+      projects,
+      queue,
+      cache,
+      files,
+      delivery,
+      mediaExports,
+    );
     deletion = projectDeletion;
     await projectDeletion.resume((error) => console.error(error));
+    for (const error of mediaExports.resumeRecovery()) console.error(error);
     const status = (jobId: string) => {
       const job = queue.job(jobId);
       const publication = queue.status(job).published;
@@ -246,6 +271,22 @@ export async function startProjectService(options: { home: string; worker?: Medi
               },
             };
           }
+          case "export.create":
+            return { ok: true, data: await mediaExports.create(operation.params) };
+          case "export.list":
+            return { ok: true, data: mediaExports.list(operation.params) };
+          case "export.status":
+            return { ok: true, data: mediaExports.status(operation.params.exportId) };
+          case "export.retry":
+            return { ok: true, data: await mediaExports.retry(operation.params.exportId) };
+          case "export.recover":
+            return { ok: true, data: await mediaExports.recover(operation.params.exportId) };
+          case "export.cancel":
+            mediaExports.cancel(operation.params.exportId);
+            return { ok: true, data: mediaExports.status(operation.params.exportId) };
+          case "export.abandon":
+            await mediaExports.abandon(operation.params.exportId);
+            return { ok: true, data: { exportId: operation.params.exportId, abandoned: true } };
           case "artifact.read":
             return {
               ok: true,
@@ -295,10 +336,13 @@ export async function startProjectService(options: { home: string; worker?: Medi
         if (!closed)
           closed = (async () => {
             closing = true;
+            // Destination admission uses the export lifetime, not the socket's interest signal.
+            const exportsClosed = mediaExports.close();
             await listener!.close();
             await Promise.allSettled(pending);
             delivery.dispose();
             await projectDeletion.close();
+            await exportsClosed;
             await queue.close();
             catalog!.close();
             ownership.release();
@@ -310,6 +354,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     await listener?.close();
     delivery.dispose();
     await deletion?.close();
+    await exports?.close();
     await jobs?.close();
     catalog?.close();
     ownership.release();

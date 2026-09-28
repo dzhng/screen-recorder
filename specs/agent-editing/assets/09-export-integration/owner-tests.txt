@@ -1,0 +1,20 @@
+(node:93368) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ project export pins an omitted revision, replays it after edits and atomically publishes exact cached bytes (1221.457875ms)
+✔ canceled export publishes retained ready bytes despite implementation replacement (646.922125ms)
+✔ canceled export refuses missing old implementation after eviction (825.00925ms)
+✔ an evicted admitted preview regenerates through the same dependency job before publishing (818.6105ms)
+✔ publication holds its cached read lease until the native copy finishes (687.1165ms)
+✔ restart recovery observes an unacknowledged project commit without republishing (602.704625ms)
+✔ project retirement drains a late publication, removes only private state and preserves source bytes (734.5575ms)
+✔ explicit export retry recovers a queued preview after its pinned renderer returns (914.765708ms)
+✔ polling and export retry leave unrelated failed preview dependencies alone (651.095375ms)
+✔ stale export implementation absence does not retry a newer decode failure (172.737208ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8102.4635

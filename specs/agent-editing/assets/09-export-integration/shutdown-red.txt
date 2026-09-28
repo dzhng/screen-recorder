@@ -1,0 +1,35 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:1177) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/project-service.test.ts (7 tests | 1 failed | 6 skipped) 1124ms
+   × shutdown aborts an in-flight export destination admission before draining requests 1123ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/project-service.test.ts > shutdown aborts an in-flight export destination admission before draining requests
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ apps/service/src/project-service.test.ts:417:75
+    415|   const closing = f.service.close();
+    416|   try {
+    417|     expect(await Promise.race([canceled, delay(1000).then(() => false)…
+       |                                                                           ^
+    418|   } finally {
+    419|     release();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  20:38:10
+   Duration  2.32s (tests 51%, transform 41%, import 8%)
+

@@ -3,6 +3,7 @@ import { CatalogError } from "@screenrec/core/catalog";
 import type { ProjectStore } from "@screenrec/core/projects";
 import type { DerivedCache } from "@screenrec/core/cache";
 import type { DerivativeDelivery } from "./delivery.js";
+import type { MediaExports } from "./exports.js";
 import type { ManagedFiles } from "./managed-files.js";
 import type { JobQueue } from "@screenrec/core/jobs";
 
@@ -18,6 +19,7 @@ export class ProjectDeletion {
     private readonly cache: DerivedCache,
     private readonly files: Pick<ManagedFiles, "removeCacheFiles">,
     private readonly delivery: DerivativeDelivery,
+    private readonly exports: Pick<MediaExports, "retireOwner">,
   ) {}
 
   delete(projectId: string): Promise<Deleted> {
@@ -36,6 +38,8 @@ export class ProjectDeletion {
     try {
       const owner = { kind: "project" as const, projectId };
       await this.jobs.drainOwner(owner);
+      this.lifetime.signal.throwIfAborted();
+      await this.exports.retireOwner(owner, this.lifetime.signal);
       this.lifetime.signal.throwIfAborted();
       await this.cache.purgeOwner(owner, ({ ids, root }) =>
         this.files.removeCacheFiles(ids, root, this.lifetime.signal),

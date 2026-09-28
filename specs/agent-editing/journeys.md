@@ -27,8 +27,9 @@ undo/restore and restart replay. Native fixture import also passes. This is
 **state verification only**. The [public preview journey](assets/09-first-preview/README.md)
 now verifies delivered pictures and both audio channels for independent replacement,
 A–B–A insertion, music levels, all gain-stack scopes, insertion into a processed
-track, history, ranges and cancellation/crash recovery. Exports and processors
-beyond constant gain remain pending, as does subjective listening. Rows below
+track, history, ranges and cancellation/crash recovery. [Public video exports](assets/09-first-export/README.md) also pass pinned replay,
+preview-byte parity, cancellation/recovery, abandonment and external-file preservation.
+Processors beyond constant gain and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |

@@ -67,7 +67,8 @@ test("deletion drains canceled executors before releasing shared media; interrup
     },
   };
   const delivery = new DerivativeDelivery();
-  const deletion = new ProjectDeletion(projects, queue, cache, files, delivery);
+  const exports = { retireOwner: async () => {} };
+  const deletion = new ProjectDeletion(projects, queue, cache, files, delivery, exports);
   let releaseRead: (() => void) | undefined;
   try {
     await assets.recover();
@@ -166,7 +167,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
     await failed;
     await closing;
     expect(projects.deletionsPage().projectIds).toEqual([target.projectId]);
-    const resumed = new ProjectDeletion(projects, queue, cache, files, delivery);
+    const resumed = new ProjectDeletion(projects, queue, cache, files, delivery, exports);
     try {
       const failures: unknown[] = [];
       await resumed.resume((error) => failures.push(error));

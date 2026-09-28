@@ -1,7 +1,7 @@
 import { CompositionError } from "@screenrec/composition";
 import type { LibraryTimelineInspection } from "./timeline-inspection.js";
 import type { PackageFrameInspection } from "./package-frames.js";
-import type { RecordingExports } from "./exports.js";
+import type { MediaExports } from "./exports.js";
 import type { PackageInspection } from "./packages.js";
 import type { RecordingStorage } from "@screenrec/core/storage";
 import type { RecordingDeletion } from "./deletion.js";
@@ -29,7 +29,7 @@ import {
 import type { CaptureService } from "./capture.js";
 
 export type OperationContext = {
-  exports: RecordingExports;
+  exports: MediaExports;
   packages: PackageInspection;
   deletion: RecordingDeletion;
   index: IndexProcessing;

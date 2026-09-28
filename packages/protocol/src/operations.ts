@@ -23,6 +23,12 @@ const inspection = <T extends z.ZodRawShape>(shape: T) =>
 const edit = recording.extend({ requestId: id, expectedRevisionId: id });
 const project = z.object({ projectId: id }).strict();
 const projectEdit = project.extend({ requestId: id, expectedRevisionId: id });
+const exportDestination = {
+  exportId: z.uuid(),
+  revisionId: id.optional(),
+  directory: z.string().min(1),
+  leaf: z.string().min(1),
+};
 const previewParams = z.union([
   inspection({ revisionId: id.optional() }),
   project
@@ -223,19 +229,16 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("export.create"),
-      params: recording
-        .extend({
-          exportId: z.uuid(),
-          kind: z.enum(["video", "processed-package"]),
-          revisionId: id.optional(),
-          directory: z.string().min(1),
-          leaf: z.string().min(1),
-        })
-        .strict(),
+      params: z.union([
+        recording
+          .extend({ ...exportDestination, kind: z.enum(["video", "processed-package"]) })
+          .strict(),
+        project.extend({ ...exportDestination, kind: z.literal("video") }).strict(),
+      ]),
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Choose video or a complete processed-package ZIP. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video; recordings export video or a complete processed-package ZIP. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
     ),
   z
     .object({
@@ -243,11 +246,13 @@ export const operationSchema = z.discriminatedUnion("operation", [
       params: z
         .object({
           recordingId: id.optional(),
+          projectId: id.optional(),
           unfinishedOnly: z.boolean().optional(),
           limit: z.int().min(1).max(500).optional(),
           cursor: z
             .object({
               recordingId: id.nullable(),
+              projectId: id.nullable(),
               unfinishedOnly: z.boolean(),
               afterExportId: z.uuid(),
             })
@@ -258,7 +263,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Discover persisted export summaries after restart without starting work. Defaults to 100, maximum 500. unfinishedOnly includes uncommitted exports, abandonment and private cleanup. Cursor binds recordingId and unfinishedOnly. Pages follow live lexical export IDs; start a fresh traversal for new arrivals before your cursor. Use export.status for details.",
+      "Discover persisted export summaries after restart without starting work. Defaults to 100, maximum 500. unfinishedOnly includes uncommitted exports, abandonment and private cleanup. Filter by recordingId or projectId. Cursor binds both owner filters and unfinishedOnly. Pages follow live lexical export IDs; start a fresh traversal for new arrivals before your cursor. Use export.status for details.",
     ),
   z
     .object({

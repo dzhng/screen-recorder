@@ -1,0 +1,11 @@
+{
+  "sha256": "c503d69d8ef4c655987b33ee0bacb94fec273b74dbf72e4c7a7f9d25f458e6ed",
+  "previewBytesEqual": true,
+  "receiptBytes": 11676,
+  "fileBytes": 11676,
+  "fullDecode": {
+    "command": "ffmpeg -v error -i export.mp4 -f null -",
+    "exitCode": 0
+  },
+  "listening": false
+}

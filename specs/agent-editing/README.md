@@ -24,17 +24,18 @@ with fractional-phase PCM, selected-source isolation and split/window gates pass
 broader media conformance, scale and listening remain open. [08a cache ownership](slices/08a-derived-cache.md)
 is verified at its owner seam; broader deadline failures remain under 24.
 
-Continue [09 public preview/export](slices/09-first-preview.md). Its
-[cache retirement](assets/09-cache-retirement/README.md) and
-[shared render lifetime](assets/09-render-lifetime/README.md) are integrated.
-Native composition movie assembly, core admission and public preview are integrated
-through the existing jobs/cache/delivery owners. The [live preview journey](assets/09-first-preview/README.md) passes. Integrate project exports through the same durable
-export-intent/publication owner. Do not translate compositions
-into recording spans or count state journeys as rendered-media acceptance.
-In parallel, [10a](slices/10a-source-range-projection.md) isolates exact source-range
-projection. Public inspection in 10 still requires asset-stream acquisition and
-bounded occurrence pagination; current recording transcript owners cannot be reused
-by inventing recording rows or narration roles for imports.
+[09 public preview/export](slices/09-first-preview.md) is verified through actual
+CLI/MCP and native execution: independent edits, processing, pinned preview/export,
+cancel/crash/recovery, abandonment and deletion. Fresh agents completed both
+preview and export using only the product skill and advertised schemas.
+
+Integrate the reviewed [10a exact range projection](slices/10a-source-range-projection.md)
+pass, then split [10 inspection](slices/10-project-evidence.md) at asset-stream
+acquisition and bounded occurrence reads. Current transcript owners assume
+recording roles; imports must not be represented by fake recording rows or invented
+narration roles. Preserve capture acquisition provenance separately from physical
+file occupancy. Source/model generation identity, partial words and all repeated
+occurrences are required; do not claim speech-timing quality from plumbing tests.
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
 are integrated in the isolated service. Import identity and job admission commit
@@ -100,7 +101,9 @@ Current evidence:
   checks, independent review and baseline controls pass; broad core deadlines remain explicitly red.
 - [09 public preview](assets/09-public-preview/README.md): service/protocol, CLI,
   native preservation, blind skill and [live rendered journey](assets/09-first-preview/README.md)
-  checks pass; project exports remain open.
+  checks pass. [Export integration](assets/09-export-integration/README.md) and
+  [live publication](assets/09-first-export/README.md) pass; [public abandonment](assets/09-first-export/README.md) and the
+  [blind export skill journey](assets/09-export-skill/README.md) pass.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
   independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
   verifies profile conversion on the tested frames; encoding loss remains explicit.
@@ -208,7 +211,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [07 — Execute video plans](slices/07-video-execution.md)
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
-- [ ] [09 — First public preview and export](slices/09-first-preview.md)
+- [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [ ] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)

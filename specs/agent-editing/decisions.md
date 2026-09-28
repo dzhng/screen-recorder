@@ -121,3 +121,14 @@ framework. Its claim that copying clip fields alone preserves split processing
 was not adopted: identities, curve restriction and DSP state need explicit gates.
 Universal finite-context assumptions and clip-only fallback denoising were also
 rejected; research must prove context at the required scopes before readiness.
+
+
+## First-edit and inspection delivery ownership
+
+The first-edit checkpoint owns playable movie previews and durable video exports.
+Its original seam paragraph also mentioned direct frame/audio inspection while
+later slices owned source/project inspection and acoustic delivery. Direct project
+frame requests are now explicitly owned by 10 and direct audio/tap delivery by 11,
+using the compiler/executors, queue/cache and artifact transport established by 09.
+This removes conflicting slice ownership without removing either public capability
+from the release contract or treating movie decoding as public inspection acceptance.

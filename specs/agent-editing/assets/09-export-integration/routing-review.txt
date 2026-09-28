@@ -1,0 +1,12 @@
+Static inspection identified a shutdown-ordering defect in the newly integrated export admission path. No other actionable regressions were found in the reviewed routing, recovery, deletion ordering, or protocol changes. Tests and native execution were not run.
+
+Review comment:
+
+- [P2] Abort export admission before draining pending requests — /Users/david/dev/screen-recorder/apps/service/src/project-service.ts:340-344
+  If shutdown starts while `export.create` awaits `storage.externalDirectory`, `close()` waits for that request in `pending` before reaching `mediaExports.close()`, which owns the abort signal needed to cancel it. Closing the listener does not help because the handler ignores its signal. Consequently shutdown waits for destination validation or its native timeout, and successful validation can still admit new export work during shutdown. Start export closure before awaiting pending handlers, then drain all owners before closing the catalog.
+Static inspection identified a shutdown-ordering defect in the newly integrated export admission path. No other actionable regressions were found in the reviewed routing, recovery, deletion ordering, or protocol changes. Tests and native execution were not run.
+
+Review comment:
+
+- [P2] Abort export admission before draining pending requests — /Users/david/dev/screen-recorder/apps/service/src/project-service.ts:340-344
+  If shutdown starts while `export.create` awaits `storage.externalDirectory`, `close()` waits for that request in `pending` before reaching `mediaExports.close()`, which owns the abort signal needed to cancel it. Closing the listener does not help because the handler ignores its signal. Consequently shutdown waits for destination validation or its native timeout, and successful validation can still admit new export work during shutdown. Start export closure before awaiting pending handlers, then drain all owners before closing the catalog.
