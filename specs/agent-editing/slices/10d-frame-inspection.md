@@ -90,7 +90,7 @@ verified; [public routing](../assets/10d-source-routing/README.md) and actual
 source delivery also pass. Raw still-image source
 requests remain explicitly unsupported under 10d/06, without inventing timed media.
 Scene/interruption events and retained source indexes are verified below; project
-cut events and project-index projection remain required follow-up.
+cut events are verified in 10c; project-index projection remains required follow-up.
 
 ## Retained scene-store prerequisite
 
@@ -123,8 +123,8 @@ use the shared queue and retain their selected dependencies. [Core scene event r
 merge exact boundaries into repeated project occurrences and preserve source
 stillness/gap context. [Public scene journeys](../assets/10d-public-scenes/README.md)
 now verify actual preparation, source/project event reads and capture preservation.
-Retained source indexes are verified below; project-index projection and project
-cut implementation remain next.
+Retained source indexes are verified below; project-index projection remains next.
+Project cuts are verified by [10c](10c-occurrence-queries.md).
 
 
 [Retained screenshot ownership](../assets/10d-index-ownership/README.md) now admits

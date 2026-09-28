@@ -71,3 +71,7 @@ these gates complete bounded occurrence/event/phrase acceptance. Public checkpoi
 file loss and real-store core cache-owner eviction retain their separate labels;
 this pass adds no LRU eviction claim. Umbrella 10, project screenshot-index work,
 release-scale budgets and speech/media quality gates remain open.
+
+[Integrated confirmation](integrated.json) reruns both complete public journeys on
+the combined root runtime. All recorded runtime hashes match the files executed;
+the acceptance boundaries above remain unchanged.
