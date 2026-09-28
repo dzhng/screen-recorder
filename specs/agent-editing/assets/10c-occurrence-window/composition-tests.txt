@@ -1,0 +1,10 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /private/tmp/screenrec-occurrence-window-selection/packages/composition
+
+
+ Test Files  7 passed (7)
+      Tests  118 passed (118)
+   Start at  23:02:57
+   Duration  711ms (tests 45%, transform 33%, import 22%, worker 1%)
+

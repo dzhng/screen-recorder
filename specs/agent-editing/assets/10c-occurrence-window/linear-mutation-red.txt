@@ -1,0 +1,28 @@
+$ vitest run --maxWorkers=4 src/source-projection.test.ts -t "late project windows"
+
+ RUN  v5.0.0 /private/tmp/screenrec-occurrence-window-selection/packages/composition
+
+ ❯ src/source-projection.test.ts (10 tests | 1 failed | 9 skipped) 193ms
+   × late project windows and named inverse seeks skip unrelated occurrence envelopes 192ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-projection.test.ts > late project windows and named inverse seeks skip unrelated occurrence envelopes
+AssertionError: expected 8100 to be less than 64
+ ❯ src/source-projection.test.ts:401:17
+    399|       .map((row) => row.clipId),
+    400|   ).toEqual(["c4000"]);
+    401|   expect(reads).toBeLessThan(64);
+       |                 ^
+    402|   reads = 0;
+    403|   expect(projection.inverse("c4000", range(40001, 40004))?.fragments).…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  23:02:46
+   Duration  877ms (transform 45%, tests 28%, import 25%, worker 1%)
+
+error: script "test" exited with code 1

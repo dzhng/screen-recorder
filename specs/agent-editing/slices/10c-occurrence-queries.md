@@ -13,6 +13,13 @@ simultaneous speakers.
 
 Core owns one revision/query execution context over immutable source readers.
 Composition owns exact mapping, availability, track ranks and clip selection.
+Project-window selection indexes editorial occurrence envelopes, including those
+whose selected window has no acquired samples. It returns the clipped project
+envelope separately from available inverse source fragments, so missing support
+can interrupt phrases instead of erasing the gap. Named inverse windows and
+forward source points share composition’s exact clock and availability owners.
+Holds, stills and authored silence do not advance source evidence.
+
 Use named 10a projection and indexed relevant clips; do not call all-occurrence
 projection for each source word or materialize the clips-times-words product.
 
@@ -65,3 +72,9 @@ adding more endpoints. Do not weaken generation consistency to fit a small curso
 Delegated: iterator/index representation, bounded scan budgets and manifest storage
 within existing owners. Exact ordering, identities, partiality and phrase rules are
 fixed. Record any budget limits for 24 and update the slice/handoff after each pass.
+
+## Pure selection checkpoint
+
+Exact window, inverse-range and forward-point selection is implemented and verified
+in the composition owner. [Evidence](../assets/10c-occurrence-window/README.md)
+records the bounded-read and preservation gates; public occurrence queries remain open.

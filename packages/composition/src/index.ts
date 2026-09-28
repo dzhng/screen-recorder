@@ -68,4 +68,8 @@ export {
 export type { ExecutionWindowManifest, ProcessingTap } from "./execution-window.js";
 
 export { createSourceRangeProjection } from "./source-projection.js";
-export type { SourceRangeOccurrence } from "./source-projection.js";
+export type {
+  SourceRangeOccurrence,
+  SourceWindowOccurrence,
+  SourcePointOccurrence,
+} from "./source-projection.js";

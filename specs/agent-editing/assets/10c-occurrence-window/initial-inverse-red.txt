@@ -1,0 +1,28 @@
+$ vitest run --maxWorkers=4 src/source-projection.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-occurrence-window-selection/packages/composition
+
+ ❯ src/source-projection.test.ts (7 tests | 1 failed) 49ms
+   × named inverse windows seek exact source fragments without changing editorial completeness 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-projection.test.ts > named inverse windows seek exact source fragments without changing editorial completeness
+TypeError: projection.inverse is not a function
+ ❯ src/source-projection.test.ts:274:21
+    272|   input.streams[0] = { id: "video", kind: "video", bounds: range(0, 20…
+    273|   const projection = createSourceRangeProjection(validateComposition(d…
+    274|   expect(projection.inverse("a", range(2, 5))).toMatchObject({
+       |                     ^
+    275|     clipId: "a", fragments: [
+    276|       { source: { start: r(20n, 7n), end: r(4n) }, project: { start: r…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  23:00:11
+   Duration  446ms (transform 58%, import 27%, tests 15%, worker 1%)
+
+error: script "test" exited with code 1

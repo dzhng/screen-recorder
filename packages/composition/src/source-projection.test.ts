@@ -266,3 +266,142 @@ test("source range selection bounds work to overlapping intervals", async () => 
   expect(query(r(40001n), r(40004n))).toEqual([rows[4000]]);
   expect(reads).toBeLessThan(64);
 });
+
+test("named inverse windows seek exact source fragments without changing editorial completeness", () => {
+  const input = asset();
+  input.streams[0] = {
+    id: "video",
+    kind: "video",
+    bounds: range(0, 20),
+    available: [range(0, 4), range(6, 20)],
+  };
+  const projection = createSourceRangeProjection(
+    validateComposition(document([clip("a", 0, 7)]), [input]),
+  );
+  expect(projection.inverse("a", range(2, 5))).toMatchObject({
+    clipId: "a",
+    fragments: [
+      { source: { start: r(20n, 7n), end: r(4n) }, project: { start: r(2n), end: r(14n, 5n) } },
+      { source: { start: r(6n), end: r(50n, 7n) }, project: { start: r(21n, 5n), end: r(5n) } },
+    ],
+  });
+  expect(projection.clip("a", range(1, 3))?.completeness).toBe("whole");
+  expect(projection.inverse("a", range(7, 8))).toBeNull();
+});
+
+test("project windows retain gap-only occurrences and sort tied envelopes by track rank", () => {
+  const a = clip("z", 5, 15),
+    b = clip("a", 5, 15),
+    later = clip("later", 20, 30);
+  b.trackId = "overlay";
+  a.acquisitionId = "masked";
+  const projection = createSourceRangeProjection(
+    validateComposition(
+      document([later, b, a]),
+      [asset()],
+      [
+        {
+          id: "masked",
+          bindings: [
+            { assetId: "source", streamId: "video", available: [range(0, 2), range(8, 10)] },
+          ],
+        },
+      ],
+    ),
+  );
+  const rows = projection.window({ range: range(8, 10) });
+  expect(
+    rows.map(({ clipId, trackRank, project, fragments }) => ({
+      clipId,
+      trackRank,
+      project,
+      fragments,
+    })),
+  ).toEqual([
+    { clipId: "z", trackRank: 0, project: { start: r(8n), end: r(10n) }, fragments: [] },
+    {
+      clipId: "a",
+      trackRank: 2,
+      project: { start: r(8n), end: r(10n) },
+      fragments: [{ source: { start: r(3n), end: r(5n) }, project: { start: r(8n), end: r(10n) } }],
+    },
+  ]);
+  expect(rows[0]!.acquisitionId).toBe("masked");
+  expect(projection.inverse("z", range(8, 10))).toEqual(rows[0]);
+  expect(projection.window({ range: range(8, 10), trackIds: ["overlay", "overlay"] })).toEqual([
+    rows[1],
+  ]);
+  expect(projection.window({ range: range(8, 10), trackIds: [] })).toEqual([]);
+  expect(projection.window({ range: range(15, 20) })).toEqual([]);
+  expect(() => projection.window({ range: range(8, 10), trackIds: ["absent"] })).toThrow(
+    "Unknown track",
+  );
+});
+
+test("named point projection preserves rational time and rejects excluded half-open support", () => {
+  const parent = clip("parent", 0, 7),
+    child = clip("child");
+  parent.acquisitionId = "masked";
+  child.streamId = "audio";
+  child.trackId = "sound";
+  child.source = { kind: "range", range: range(2, 12) };
+  child.placement = { kind: "content", clipId: "parent", sourceRange: range(0, 10) };
+  const held = clip("held", 20, 30);
+  held.source = { kind: "hold", atUs: 3 };
+  const projection = createSourceRangeProjection(
+    validateComposition(
+      document([parent, child, held]),
+      [asset()],
+      [
+        {
+          id: "masked",
+          bindings: [
+            { assetId: "source", streamId: "video", available: [range(0, 4), range(6, 10)] },
+          ],
+        },
+      ],
+    ),
+  );
+  expect(projection.point("parent", { numerator: 10, denominator: 7 })).toMatchObject({
+    source: r(10n, 7n),
+    project: r(1n),
+    acquisitionId: "masked",
+  });
+  expect(projection.point("parent", 4)).toBeNull();
+  expect(projection.point("parent", 6)?.project).toEqual(r(21n, 5n));
+  expect(projection.point("parent", 10)).toBeNull();
+  expect(projection.point("child", 6)).toBeNull();
+  expect(projection.point("child", 8)?.project).toEqual(r(21n, 5n));
+  expect(projection.point("held", 3)).toBeNull();
+  expect(projection.inverse("held", range(20, 21))).toBeNull();
+  expect(() => projection.point("absent", 1)).toThrow("Unknown clip");
+  expect(() => projection.point("parent", -1)).toThrow(CompositionError);
+});
+
+test("late project windows and named inverse seeks skip unrelated occurrence envelopes", () => {
+  const model = validateComposition(
+    document(Array.from({ length: 4096 }, (_, n) => clip(`c${n}`, n * 10, n * 10 + 10))),
+    [asset()],
+  );
+  let reads = 0;
+  const observed = model.clips.map((value) => ({
+    ...value,
+    get range() {
+      reads++;
+      return value.range;
+    },
+  }));
+  const projection = createSourceRangeProjection({ ...model, clips: observed });
+  reads = 0;
+  expect(
+    projection
+      .window({ range: range(40001, 40004), trackIds: ["picture"] })
+      .map((row) => row.clipId),
+  ).toEqual(["c4000"]);
+  expect(reads).toBeLessThan(64);
+  reads = 0;
+  expect(projection.inverse("c4000", range(40001, 40004))?.fragments).toEqual([
+    { source: { start: r(1n), end: r(4n) }, project: { start: r(40001n), end: r(40004n) } },
+  ]);
+  expect(reads).toBeLessThan(4);
+});

@@ -1,0 +1,1 @@
+No actionable defects were found in the current changes. The composition package’s 118 tests and TypeScript checks pass.

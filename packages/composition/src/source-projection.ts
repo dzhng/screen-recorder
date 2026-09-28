@@ -8,8 +8,14 @@ import {
   type ExactRange,
   type ValidatedComposition,
 } from "./model.js";
-import { compare, fromTime } from "./rational.js";
-import { isMediaClip, selectionRangeSchema, type SelectionRange } from "./schema.js";
+import { compare, fromTime, type Rational } from "./rational.js";
+import {
+  isMediaClip,
+  selectionRangeSchema,
+  timeValueSchema,
+  type SelectionRange,
+  type TimeValue,
+} from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
 export type SourceRangeOccurrence = {
@@ -22,6 +28,35 @@ export type SourceRangeOccurrence = {
   completeness: "whole" | "partial";
   fragments: { source: ExactRange; project: ExactRange }[];
 };
+type OccurrenceIdentity = {
+  clipId: string;
+  assetId: string;
+  streamId: string;
+  acquisitionId?: string;
+  trackId: string;
+  trackRank: number;
+};
+export type SourceWindowOccurrence = OccurrenceIdentity & {
+  /** The selected editorial envelope, including times where source evidence is unavailable. */
+  project: ExactRange;
+  fragments: { source: ExactRange; project: ExactRange }[];
+};
+export type SourcePointOccurrence = OccurrenceIdentity & { source: Rational; project: Rational };
+function occurrenceIdentity(value: Resolved): OccurrenceIdentity {
+  const clip = value.clip;
+  if (!isMediaClip(clip)) throw new CompositionError("UNKNOWN_SOURCE", "Clip has no media source");
+  return {
+    clipId: clip.id,
+    assetId: clip.assetId,
+    streamId: clip.streamId,
+    ...(clip.acquisitionId === undefined ? {} : { acquisitionId: clip.acquisitionId }),
+    trackId: clip.trackId,
+    trackRank: value.trackRank,
+  };
+}
+function advancing(value: Resolved) {
+  return isMediaClip(value.clip) && value.clip.source.kind === "range";
+}
 const exact = (range: SelectionRange): ExactRange => ({
   start: fromTime(range.startUs),
   end: fromTime(range.endUs),
@@ -93,11 +128,72 @@ export function createSourceRangeProjection(model: ValidatedComposition) {
       ),
     ]),
   );
+  const timed = model.clips.filter(advancing);
+  const projectIndex = intervalIndex(timed, (value) => value.range);
+  const tracks = new Map(model.document.tracks.map((track) => [track.id, [] as Resolved[]]));
+  for (const value of timed) tracks.get(value.clip.trackId)!.push(value);
+  const trackIndexes = new Map(
+    [...tracks].map(([id, values]) => [id, intervalIndex(values, (value) => value.range)]),
+  );
+  const support = new Map(
+    timed.map((value) => [value.clip.id, intervalIndex(value.available, (range) => range)]),
+  );
+  function named(clipId: string) {
+    const value = clips.get(clipId);
+    if (!value) throw new CompositionError("UNKNOWN_CLIP", `Unknown clip: ${clipId}`);
+    return value;
+  }
+  function inverse(value: Resolved, window: ExactRange): SourceWindowOccurrence | null {
+    if (!advancing(value)) return null;
+    const project = intersection(value.range, window);
+    if (!project) return null;
+    const fragments = support.get(value.clip.id)!(project.start, project.end)
+      .map((available) => intersection(available, project)!)
+      .sort((a, b) => compare(a.start, b.start))
+      .map((project) => ({
+        project,
+        source: { start: sourceTime(value, project.start), end: sourceTime(value, project.end) },
+      }));
+    return { ...occurrenceIdentity(value), project, fragments };
+  }
   return {
+    window(input: {
+      range: SelectionRange;
+      trackIds?: readonly string[];
+    }): SourceWindowOccurrence[] {
+      const window = checked(input.range);
+      const candidates =
+        input.trackIds === undefined
+          ? projectIndex(window.start, window.end)
+          : [...new Set(input.trackIds)].flatMap((id) => {
+              const query = trackIndexes.get(id);
+              if (!query) throw new CompositionError("INVALID_COMPOSITION", `Unknown track: ${id}`);
+              return query(window.start, window.end);
+            });
+      return candidates
+        .map((value) => inverse(value, window)!)
+        .sort(
+          (a, b) =>
+            compare(a.project.start, b.project.start) ||
+            a.trackRank - b.trackRank ||
+            (a.clipId < b.clipId ? -1 : a.clipId > b.clipId ? 1 : 0),
+        );
+    },
+    inverse(clipId: string, range: SelectionRange): SourceWindowOccurrence | null {
+      return inverse(named(clipId), checked(range));
+    },
+    point(clipId: string, atUs: TimeValue): SourcePointOccurrence | null {
+      const value = named(clipId);
+      const parsed = timeValueSchema.safeParse(atUs);
+      if (!parsed.success) throw new CompositionError("INVALID_TIME", parsed.error.message);
+      if (!advancing(value)) return null;
+      const source = fromTime(parsed.data),
+        project = projectTime(value, source);
+      if (!support.get(clipId)!(project).length) return null;
+      return { ...occurrenceIdentity(value), source, project };
+    },
     clip(clipId: string, range: SelectionRange): SourceRangeOccurrence | null {
-      const value = clips.get(clipId);
-      if (!value) throw new CompositionError("UNKNOWN_CLIP", `Unknown clip: ${clipId}`);
-      return project(value, checked(range));
+      return project(named(clipId), checked(range));
     },
     all(input: {
       assetId: string;
