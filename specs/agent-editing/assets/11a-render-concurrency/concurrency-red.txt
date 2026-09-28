@@ -1,0 +1,35 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey
+
+(node:37298) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/render.test.ts (17 tests | 1 failed | 16 skipped) 360ms
+   × reproduction: independent render attempts may overlap in the shared root 359ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/render.test.ts > reproduction: independent render attempts may overlap in the shared root
+AssertionError: promise rejected "Error: Another render still owns this wor… { …(3) }" instead of resolving
+ ❯ apps/service/src/render.test.ts:521:112
+    519|     await ready(parent);
+    520|     await expect(withRenderedAudio(run, {attemptParent:parent,output:j…
+    521|       async(output,worker)=>nativeResult(await worker("media.mixCompos…
+       |                                                                                                                ^
+    522|       .resolves.toMatchObject({file:join(home,"second.cache")});
+    523|   } finally {controller.abort();await canceled;}
+
+Caused by: Error: Another render still owns this workspace
+ ❯ apps/service/src/render.ts:59:13
+ ❯ withLockedRenderWorkspace apps/service/src/render.ts:57:21
+ ❯ apps/service/src/render.test.ts:520:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'RENDER_WORKSPACE_BUSY', details: {}, retryable: true }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 skipped (17)
+   Start at  01:20:37
+   Duration  847ms (tests 49%, transform 32%, import 19%, worker 1%)
+

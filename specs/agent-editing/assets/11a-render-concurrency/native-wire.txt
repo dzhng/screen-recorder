@@ -1,0 +1,10 @@
+✔ the native process answers every shared conformance line in order (18.215625ms)
+✔ a changed directory identity reports the same final failure through every operation family (40.809875ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62.896792

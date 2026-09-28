@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { execFile, spawn } from "node:child_process";
 import {
   mkdtemp,
   mkdir,
   readdir,
   readFile,
+  realpath,
   rm,
   rename,
   symlink,
@@ -18,9 +20,10 @@ import { test } from "node:test";
 import { mediaWorker } from "../../apps/service/dist/worker.js";
 import { clearRenderWorkspace, withRenderedMedia } from "../../apps/service/dist/render.js";
 const execute = promisify(execFile);
-const native =
+const native = await realpath(
   process.env.SCREENREC_NATIVE ??
-  new URL("../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname;
+    new URL("../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname,
+);
 const lifetime = new URL("../../helpers/mac/.build/debug/ScreenRecorderMovieTests", import.meta.url)
   .pathname;
 async function command(file, args) {
@@ -38,14 +41,30 @@ async function until(check) {
 async function assemblyFile(parent) {
   for (const attempt of await readdir(parent))
     for (const stage of await readdir(join(parent, attempt)).catch(() => [])) {
-      if (stage.startsWith(".movie-render-")) {
-        const file = join(parent, attempt, stage, "movie.mp4");
-        try {
-          await readFile(file);
-          return file;
-        } catch {}
-      }
+      const file = join(parent, attempt, stage, "movie.mp4");
+      try {
+        await readFile(file);
+        return file;
+      } catch {}
     }
+}
+async function stagingSnapshot(parent) {
+  const entries = {};
+  async function visit(path, relative = "") {
+    for (const entry of await readdir(path, { withFileTypes: true })) {
+      const name = join(relative, entry.name),
+        file = join(path, entry.name);
+      if (entry.isDirectory()) {
+        entries[name] = "directory";
+        await visit(file, name);
+      } else
+        entries[name] = createHash("sha256")
+          .update(await readFile(file))
+          .digest("hex");
+    }
+  }
+  await visit(parent);
+  return entries;
 }
 async function nativePid(parent = process.pid) {
   const rows = (await command("ps", ["-axo", "pid=,ppid=,comm="])).split("\n");
@@ -102,12 +121,10 @@ async function orphanedWorker(request, preparation, nativeWorker) {
     await until(async () => {
       assert.equal(owner.exitCode, null, errors);
       for (const entry of await readdir(request.attemptParent)) {
-        const names = await readdir(join(request.attemptParent, entry)).catch(() => []);
-        if (
-          names.some((x) =>
-            x.startsWith(preparation ? ".presentation-evidence-" : ".movie-render-"),
-          )
-        ) {
+        const entries = await readdir(join(request.attemptParent, entry), {
+          withFileTypes: true,
+        }).catch(() => []);
+        if (entries.some((value) => value.isDirectory())) {
           pid = await nativePid(owner.pid);
           if (pid) {
             process.kill(pid, "SIGSTOP");
@@ -120,36 +137,43 @@ async function orphanedWorker(request, preparation, nativeWorker) {
     await closed;
     const abandoned = await readdir(request.attemptParent);
     assert.ok(abandoned.length > 0);
+    const held = await stagingSnapshot(request.attemptParent);
     const began = Date.now();
-    await assert.rejects(
-      withRenderedMedia(nativeWorker, request, new AbortController().signal, async () =>
-        assert.fail("Busy workspace consumed"),
-      ),
-      { code: "RENDER_WORKSPACE_BUSY", retryable: true },
-    );
-    assert.deepEqual(await readdir(request.attemptParent), abandoned);
     await assert.rejects(
       clearRenderWorkspace(nativeWorker, request.attemptParent, new AbortController().signal),
       { code: "RENDER_WORKSPACE_BUSY", retryable: true },
     );
     const busyMs = Date.now() - began;
+    const short = {
+      ...request,
+      plan: [{ source: { startUs: 0, endUs: 1000000 }, playback: { startUs: 0, endUs: 1000000 } }],
+    };
+    const concurrentBytes = await withRenderedMedia(
+      nativeWorker,
+      short,
+      new AbortController().signal,
+      async (media) => (await readFile(media.file)).length,
+    );
+    assert.ok(concurrentBytes > 0);
+    assert.deepEqual(await readdir(request.attemptParent), abandoned);
+    assert.deepEqual(await stagingSnapshot(request.attemptParent), held);
+    await assert.rejects(
+      clearRenderWorkspace(nativeWorker, request.attemptParent, new AbortController().signal),
+      { code: "RENDER_WORKSPACE_BUSY", retryable: true },
+    );
     process.kill(pid, "SIGKILL");
     await until(() => {
       try {
         process.kill(pid, 0);
         return false;
-      } catch (e) {
-        if (e.code === "ESRCH") return true;
-        throw e;
+      } catch (error) {
+        if (error.code === "ESRCH") return true;
+        throw error;
       }
     });
     pid = undefined;
     await clearRenderWorkspace(nativeWorker, request.attemptParent, new AbortController().signal);
     assert.deepEqual(await readdir(request.attemptParent), []);
-    const short = {
-      ...request,
-      plan: [{ source: { startUs: 0, endUs: 1000000 }, playback: { startUs: 0, endUs: 1000000 } }],
-    };
     const bytes = await withRenderedMedia(
       nativeWorker,
       short,
@@ -161,7 +185,8 @@ async function orphanedWorker(request, preparation, nativeWorker) {
     return {
       preparation,
       parentKilled: true,
-      liveWorkerBlockedReuse: true,
+      independentAttemptSucceeded: true,
+      orphanStagingUnchanged: true,
       startupBarrierBlocked: true,
       busyMs,
       reusedAfterWorkerExit: true,
@@ -291,6 +316,8 @@ test(
       await mkdir(external);
       await writeFile(join(external, "sentinel"), "outside");
       await symlink(external, join(attempts, "abandoned-link"));
+      // Only startup admission clears stale siblings; live attempts clean their own child.
+      await clearRenderWorkspace(run, attempts, new AbortController().signal);
       await withRenderedMedia(
         run,
         {

@@ -1,0 +1,33 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey
+
+(node:75826) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/render.test.ts (20 tests | 1 failed | 19 skipped) 40ms
+   × native cleanup uses each attempt authority while the shared root excludes startup 39ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/render.test.ts > native cleanup uses each attempt authority while the shared root excludes startup
+Error: Managed directory identity changed.
+ ❯ nativeResult apps/service/src/worker.ts:49:11
+     47| export function nativeResult(result: OperationResult): unknown {
+     48|   if (!result.ok)
+     49|     throw new CatalogError(
+       |           ^
+     50|       result.error.code,
+     51|       result.error.message,
+ ❯ nativeConfirmed apps/service/src/worker.ts:64:16
+ ❯ clear apps/service/src/render.ts:87:5
+ ❯ apps/service/src/render.ts:342:13
+ ❯ withLockedRenderWorkspace apps/service/src/render.ts:104:20
+ ❯ withLockedRenderWorkspace apps/service/src/render.ts:104:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 19 skipped (20)
+   Start at  01:39:34
+   Duration  393ms (transform 58%, import 28%, tests 13%, worker 1%)
+

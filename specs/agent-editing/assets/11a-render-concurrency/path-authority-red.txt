@@ -1,0 +1,37 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey
+
+(node:55075) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/render.test.ts (20 tests | 1 failed | 19 skipped) 95ms
+   × attempt cleanup survives renamed parent without touching a replacement directory 94ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/render.test.ts > attempt cleanup survives renamed parent without touching a replacement directory
+AssertionError: expected [] to deeply equal [ 'render-O1N6cd' ]
+
+- Expected
++ Received
+
+- [
+-   "render-O1N6cd",
+- ]
++ []
+
+ ❯ apps/service/src/render.test.ts:638:35
+    636|     },
+    637|   );
+    638|   expect(await readdir(external)).toEqual([attemptName]);
+       |                                   ^
+    639|   expect(await readdir(moved)).toEqual([]);
+    640| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 19 skipped (20)
+   Start at  01:29:04
+   Duration  590ms (transform 52%, import 28%, tests 20%, worker 1%)
+

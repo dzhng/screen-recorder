@@ -3,15 +3,26 @@ import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { stripTypeScriptTypes } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { chmod, mkdtemp, mkdir, readdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import {
+  chmod,
+  mkdtemp,
+  mkdir,
+  readdir,
+  readFile,
+  rename,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
+import { basename, join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { MAX_MEDIA_TIMEOUT_MS, mediaWorker, nativeResult, type MediaWorker } from "./worker.js";
 import { CatalogError } from "@screenrec/core/catalog";
 import {
   clearRenderWorkspace,
   renderDeadlineMs,
-  withRenderedAudio,
+  withRenderedFile,
+  withRenderAttempt,
   withRenderedMedia,
 } from "./render.js";
 
@@ -34,13 +45,24 @@ async function fixture() {
   await writeFile(
     executable,
     `#!${process.execPath}
-import {mkdirSync,writeFileSync,readdirSync,rmSync} from 'node:fs';
+import {mkdirSync,writeFileSync,readdirSync,rmSync,fstatSync,statSync,rmdirSync} from 'node:fs';
 import {dirname,join} from 'node:path';
 let text=''; process.stdin.on('data',x=>text+=x); process.stdin.on('end',()=>{
  const {operation,params}=JSON.parse(text);
  if(operation==='storage.clearRenderWorkspace') {
   const parent=${JSON.stringify(parent)};
-  for(const name of readdirSync(parent)) rmSync(join(parent,name),{recursive:true,force:true});
+  const opened=fstatSync(3,{bigint:true});
+  if(String(opened.dev)!==params.expectedDirectory.dev || String(opened.ino)!==params.expectedDirectory.ino) throw Error('Wrong cleanup descriptor');
+  const directory=[parent,...readdirSync(parent).map(name=>join(parent,name))].find(path=>{
+   const stat=statSync(path,{bigint:true});return stat.dev===opened.dev && stat.ino===opened.ino;
+  });
+  if(!directory) throw Error('Unknown cleanup directory');
+  for(const name of readdirSync(directory)) rmSync(join(directory,name),{recursive:true,force:true});
+  if(params.parent) {
+   const root=fstatSync(4,{bigint:true});
+   if(String(root.dev)!==params.parent.expectedDirectory.dev || String(root.ino)!==params.parent.expectedDirectory.ino || join(parent,params.parent.name)!==directory) throw Error('Wrong cleanup parent');
+   rmdirSync(directory);
+  }
   process.stdout.write(JSON.stringify({ok:true,data:{removed:true}})+'\\n'); return;
  }
  const dir=dirname(params.output);
@@ -213,7 +235,7 @@ it("abort during consumption preserves consumer-owned effects while reclaiming t
   expect(await readdir(parent)).toEqual([]);
 });
 
-it("refuses busy workspace immediately without touching live staging", async () => {
+it("refuses exclusive startup cleanup without touching a live attempt", async () => {
   const { parent, run } = await fixture();
   const controller = new AbortController();
   const first = withRenderedMedia(
@@ -224,28 +246,15 @@ it("refuses busy workspace immediately without touching live staging", async () 
   );
   const stopped = expect(first).rejects.toMatchObject({ code: "CANCELED" });
   const active = await ready(parent);
-  let called = false;
-  await expect(
-    withRenderedMedia(
-      async () => {
-        called = true;
-        throw new Error("must not spawn");
-      },
-      { source: "hold", plan, tracks: [], attemptParent: parent },
-      new AbortController().signal,
-      async () => null,
-    ),
-  ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY", retryable: true });
   await expect(
     clearRenderWorkspace(run, parent, new AbortController().signal),
   ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY", retryable: true });
-  expect(called).toBe(false);
   expect(await readFile(join(active.dir, ".movie-render-held", "partial"), "utf8")).toBe("partial");
   controller.abort();
   await stopped;
 });
 
-it("does not retry a failed cleanup or admit rendering behind it", async () => {
+it("does not retry failed startup cleanup", async () => {
   const { parent } = await fixture();
   await writeFile(join(parent, "abandoned"), "retain");
   let calls = 0;
@@ -262,12 +271,7 @@ it("does not retry a failed cleanup or admit rendering behind it", async () => {
     };
   };
   await expect(
-    withRenderedMedia(
-      failed,
-      { source: "success", plan, tracks: [], attemptParent: parent },
-      new AbortController().signal,
-      async () => null,
-    ),
+    clearRenderWorkspace(failed, parent, new AbortController().signal),
   ).rejects.toMatchObject({ code: "DELETE_FAILED" });
   expect(calls).toBe(1);
   expect(await readFile(join(parent, "abandoned"), "utf8")).toBe("retain");
@@ -371,45 +375,53 @@ it("startup cancellation during cleanup settles after cleanup and releases autho
   await clearRenderWorkspace(run, parent, new AbortController().signal);
 });
 
-it("audio attempts retain only their completed output and reject a substituted receipt path", async () => {
-  const { home, parent, run } = await fixture();
-  const output = join(home, "audio.cache");
-  const produce = async (file: string, worker: MediaWorker) =>
-    nativeResult(await worker("media.mixCompositionAudio", { source: "success", output: file }));
-  const signal = new AbortController().signal;
-  const receipt = await withRenderedAudio(run, { attemptParent: parent, output }, signal, produce);
-  expect(receipt).toMatchObject({ file: output, bytes: 8 });
-  expect(await readFile(output, "utf8")).toBe("finished");
-  expect(await readdir(parent)).toEqual([]);
-  // The cache reservation is exclusive even when an older file already occupies its path.
-  await expect(
-    withRenderedAudio(run, { attemptParent: parent, output }, signal, produce),
-  ).rejects.toMatchObject({ code: "EEXIST" });
-  expect(await readFile(output, "utf8")).toBe("finished");
-  expect(await readdir(parent)).toEqual([]);
-  const substituted = join(home, "unrelated.cache");
-  await expect(
-    withRenderedAudio(
+it.each(["audio.wav", "frame.png"] as const)(
+  "%s attempts retain only their completed output and reject a substituted receipt path",
+  async (filename) => {
+    const { home, parent, run } = await fixture();
+    const output = join(home, "audio.cache");
+    const produce = async (file: string, worker: MediaWorker) =>
+      nativeResult(await worker("media.mixCompositionAudio", { source: "success", output: file }));
+    const signal = new AbortController().signal;
+    const receipt = await withRenderedFile(
       run,
-      { attemptParent: parent, output: substituted },
+      { attemptParent: parent, output, filename },
       signal,
-      async (file, worker) => {
-        await produce(file, worker);
-        return { file: output };
-      },
-    ),
-  ).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
-  await expect(readFile(substituted)).rejects.toMatchObject({ code: "ENOENT" });
-  expect(await readdir(parent)).toEqual([]);
-});
+      produce,
+    );
+    expect(receipt).toMatchObject({ file: output, bytes: 8 });
+    expect(await readFile(output, "utf8")).toBe("finished");
+    expect(await readdir(parent)).toEqual([]);
+    // The cache reservation is exclusive even when an older file already occupies its path.
+    await expect(
+      withRenderedFile(run, { attemptParent: parent, output, filename }, signal, produce),
+    ).rejects.toMatchObject({ code: "EEXIST" });
+    expect(await readFile(output, "utf8")).toBe("finished");
+    expect(await readdir(parent)).toEqual([]);
+    const substituted = join(home, "unrelated.cache");
+    await expect(
+      withRenderedFile(
+        run,
+        { attemptParent: parent, output: substituted, filename },
+        signal,
+        async (file, worker) => {
+          await produce(file, worker);
+          return { file: output };
+        },
+      ),
+    ).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
+    await expect(readFile(substituted)).rejects.toMatchObject({ code: "ENOENT" });
+    expect(await readdir(parent)).toEqual([]);
+  },
+);
 
 it("audio abort reclaims native side staging after child close without publishing cache bytes", async () => {
   const { home, parent, run } = await fixture();
   const output = join(home, "audio.cache");
   const controller = new AbortController();
-  const pending = withRenderedAudio(
+  const pending = withRenderedFile(
     run,
-    { attemptParent: parent, output },
+    { attemptParent: parent, output, filename: "audio.wav" },
     controller.signal,
     async (file, worker) =>
       nativeResult(await worker("media.mixCompositionAudio", { source: "hold", output: file })),
@@ -441,10 +453,10 @@ it("audio owner SIGKILL preserves the orphan child's lock until restart can recl
   );
   const output = join(home, "audio.cache");
   const code = `
-    import {withRenderedAudio} from ${JSON.stringify(pathToFileURL(join(home, "render.mjs")).href)};
+    import {withRenderedFile} from ${JSON.stringify(pathToFileURL(join(home, "render.mjs")).href)};
     import {mediaWorker,nativeResult} from ${JSON.stringify(pathToFileURL(join(home, "worker.mjs")).href)};
-    await withRenderedAudio(mediaWorker({SCREENREC_NATIVE:${JSON.stringify(executable)}}),
-      {attemptParent:${JSON.stringify(parent)},output:${JSON.stringify(output)}},
+    await withRenderedFile(mediaWorker({SCREENREC_NATIVE:${JSON.stringify(executable)}}),
+      {attemptParent:${JSON.stringify(parent)},output:${JSON.stringify(output)},filename:"audio.wav"},
       new AbortController().signal,async(output,worker)=>nativeResult(await worker('media.mixCompositionAudio',{source:'hold',output})));
   `;
   const owner = spawn(process.execPath, ["--input-type=module", "-e", code], {
@@ -508,3 +520,153 @@ it("audio owner SIGKILL preserves the orphan child's lock until restart can recl
     await killNative();
   }
 }, 15000);
+
+it("parallel attempt cancellation leaves the other worker and its staging intact", async () => {
+  const { home, parent, run } = await fixture();
+  const controllers = [new AbortController(), new AbortController()];
+  const start = (index: number) =>
+    withRenderedFile(
+      run,
+      {
+        attemptParent: parent,
+        output: join(home, `concurrent-${index}.cache`),
+        filename: index === 0 ? "audio.wav" : "frame.png",
+      },
+      controllers[index]!.signal,
+      async (output, worker) =>
+        nativeResult(await worker("media.mixCompositionAudio", { source: "hold", output })),
+    ).then(
+      (value) => ({ value }),
+      (error) => ({ error }),
+    );
+  const first = start(0);
+  const settled = [first];
+  try {
+    const active = await ready(parent);
+    const second = start(1);
+    settled.push(second);
+    await expect.poll(async () => (await readdir(parent)).length).toBe(2);
+    const secondDirectory = join(
+      parent,
+      (await readdir(parent)).find((name) => join(parent, name) !== active.dir)!,
+    );
+    await expect
+      .poll(async () => readFile(join(secondDirectory, "pid"), "utf8").catch(() => ""))
+      .not.toBe("");
+    const secondPid = Number(await readFile(join(secondDirectory, "pid"), "utf8"));
+    await expect(
+      clearRenderWorkspace(run, parent, new AbortController().signal),
+    ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY" });
+    controllers[0]!.abort();
+    expect(await first).toMatchObject({ error: { code: "CANCELED" } });
+    expect(await readdir(parent)).toEqual([secondDirectory.slice(parent.length + 1)]);
+    expect(() => process.kill(secondPid, 0)).not.toThrow();
+    expect(await readFile(join(secondDirectory, ".movie-render-held", "partial"), "utf8")).toBe(
+      "partial",
+    );
+    await expect(
+      clearRenderWorkspace(run, parent, new AbortController().signal),
+    ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY" });
+    controllers[1]!.abort();
+    expect(await second).toMatchObject({ error: { code: "CANCELED" } });
+    expect(await readdir(parent)).toEqual([]);
+    await clearRenderWorkspace(run, parent, new AbortController().signal);
+  } finally {
+    controllers.forEach((controller) => controller.abort());
+    await Promise.all(settled);
+  }
+});
+
+it.runIf(Boolean(process.env.SCREENREC_NATIVE))(
+  "native cleanup uses each attempt authority while the shared root excludes startup",
+  async () => {
+    const { home, parent } = await fixture();
+    const native = mediaWorker({ SCREENREC_NATIVE: process.env.SCREENREC_NATIVE });
+    const gate = <T>() => {
+      let resolve!: (value: T) => void;
+      const promise = new Promise<T>((done) => {
+        resolve = done;
+      });
+      return { promise, resolve };
+    };
+    const release = [gate<void>(), gate<void>()];
+    const entered = [gate<string>(), gate<string>()];
+    const requests = release.map((gate, index) =>
+      withRenderedFile(
+        native,
+        {
+          attemptParent: parent,
+          output: join(home, `native-${index}.cache`),
+          filename: index === 0 ? "audio.wav" : "frame.png",
+        },
+        new AbortController().signal,
+        async (file) => {
+          await writeFile(file, `retained-${index}`);
+          entered[index]!.resolve(file);
+          await gate.promise;
+          return { file, bytes: 10 };
+        },
+      ),
+    );
+    // Retain rejection handlers while both requests are intentionally held.
+    const all = Promise.allSettled(requests);
+    try {
+      const files = await Promise.race([
+        Promise.all(entered.map((value) => value.promise)),
+        Promise.all(requests).then(() => {
+          throw new Error("Attempt completed before release");
+        }),
+      ]);
+      expect(await readdir(parent)).toHaveLength(2);
+      await expect(
+        clearRenderWorkspace(native, parent, new AbortController().signal),
+      ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY" });
+      release[0]!.resolve();
+      expect(await requests[0]).toMatchObject({ file: join(home, "native-0.cache") });
+      expect(await readFile(join(home, "native-0.cache"), "utf8")).toBe("retained-0");
+      expect(await readFile(files[1]!, "utf8")).toBe("retained-1");
+      expect(await readdir(parent)).toHaveLength(1);
+      await expect(
+        clearRenderWorkspace(native, parent, new AbortController().signal),
+      ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY" });
+      release[1]!.resolve();
+      expect(await requests[1]).toMatchObject({ file: join(home, "native-1.cache") });
+      expect(await readdir(parent)).toEqual([]);
+      await clearRenderWorkspace(native, parent, new AbortController().signal);
+    } finally {
+      release.forEach((value) => value.resolve());
+      await all;
+    }
+  },
+  10000,
+);
+
+it.runIf(Boolean(process.env.SCREENREC_NATIVE))(
+  "attempt cleanup survives renamed parent without touching a replacement directory",
+  async () => {
+    const { home, parent } = await fixture();
+    const native = mediaWorker({ SCREENREC_NATIVE: process.env.SCREENREC_NATIVE });
+    const moved = join(home, "moved"),
+      external = join(home, "outside");
+    await mkdir(external, { mode: 0o700 });
+    let attemptName = "";
+    await withRenderAttempt(
+      native,
+      parent,
+      new AbortController().signal,
+      async (directory) => {
+        attemptName = basename(directory);
+        await writeFile(join(directory, "owned"), "rendered");
+        return directory;
+      },
+      async (directory) => {
+        expect(await readFile(join(directory, "owned"), "utf8")).toBe("rendered");
+        await rename(parent, moved);
+        await symlink(external, parent);
+        await mkdir(join(external, attemptName));
+      },
+    );
+    expect(await readdir(external)).toEqual([attemptName]);
+    expect(await readdir(moved)).toEqual([]);
+  },
+);

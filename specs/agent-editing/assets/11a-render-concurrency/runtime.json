@@ -1,0 +1,10 @@
+{
+  "helpers/mac/.build/debug/screenrec-native": "ae2f778741aeb723816276e505b0bfddd40559675c3c6d34ceeb51d277605bc3",
+  "helpers/mac/.build/debug/ScreenRecorderMovieTests": "2e8bc0a8371028f155bf9bdb0e87ab6f6b47fd5178294d3209c165f410f944e7",
+  "apps/service/dist/render.js": "c7e3a5881f095046fa0267f7da962939995373a8d07dcfa92650095d22baaeb9",
+  "packages/core/dist/files.js": "f42776401ca01dcbbe33999de81ded7f7623ed42bd5b3e74d7c8a7eae43e54d3",
+  "nativeBuild": "Isolated debug build using copied existing dependency checkouts/artifacts; --skip-update --disable-automatic-resolution. No native source copies from root.",
+  "auxiliaryFinalizer": "Existing root ScreenRecorderMovieTests executable copied unchanged; its target is absent from current manifest. This frozen auxiliary checks existing injected native finalization behavior.",
+  "typecheck": "Focused render.ts/render.test.ts TypeScript check exits0; caller rename is coordinated with parent integration.",
+  "darwinFlag": "O_SHLOCK 0x00000010 verified in current macOS SDK usr/include/sys/fcntl.h."
+}

@@ -1,6 +1,7 @@
 import { constants } from "node:fs";
 import { copyFile, lstat, mkdir, mkdtemp, open, realpath } from "node:fs/promises";
-import { join } from "node:path";
+import { basename, join } from "node:path";
+import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { AudioTrackPlan } from "@screenrec/core/audio";
 import type { PreviewRenderer, RenderedMovie } from "@screenrec/core/preview";
@@ -10,7 +11,7 @@ import {
 } from "@screenrec/core/presentation-evidence";
 import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
 import type { RenderSpan } from "@screenrec/core/timeline";
-import { O_EXLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { O_EXLOCK, O_SHLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 /** The sequential reader may decode discarded prefixes, so budget the last source
@@ -28,6 +29,8 @@ export function renderDeadlineMs(plan: readonly RenderSpan[], withAudio = false)
 
 type LockedWorkspace = {
   directory: string;
+  descriptors: readonly number[];
+  identity: DirectoryIdentity;
   worker: MediaWorker;
   clear: () => Promise<void>;
 };
@@ -36,9 +39,13 @@ async function withLockedRenderWorkspace<T>(
   worker: MediaWorker,
   directory: string,
   signal: AbortSignal,
+  authority: {
+    lock: "shared" | "exclusive";
+    inherited: readonly number[];
+    parent?: { expectedDirectory: DirectoryIdentity; name: string };
+  },
   action: (workspace: LockedWorkspace) => Promise<T>,
 ): Promise<T> {
-  if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
   // This dedicated 0700 directory is exclusively owned by the service. The lock
   // follows the inherited open-file description if the service dies first.
   const before = await lstat(directory, { bigint: true });
@@ -53,7 +60,11 @@ async function withLockedRenderWorkspace<T>(
     );
   const parent = await realpath(directory);
   const flags =
-    constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_EXLOCK | O_NOFOLLOW_ANY;
+    constants.O_RDONLY |
+    constants.O_DIRECTORY |
+    constants.O_NONBLOCK |
+    (authority.lock === "shared" ? O_SHLOCK : O_EXLOCK) |
+    O_NOFOLLOW_ANY;
   const workspace = await open(parent, flags).catch((error: NodeJS.ErrnoException) => {
     if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
       throw new CatalogError(
@@ -64,7 +75,8 @@ async function withLockedRenderWorkspace<T>(
       );
     throw error;
   });
-  const descriptors = [workspace.fd];
+  const identity = { dev: before.dev.toString(), ino: before.ino.toString() };
+  const descriptors = [workspace.fd, ...authority.inherited];
   const boundWorker: MediaWorker = (operation, params, options) =>
     worker(operation, params, {
       ...options,
@@ -76,7 +88,8 @@ async function withLockedRenderWorkspace<T>(
       await worker(
         "storage.clearRenderWorkspace",
         {
-          expectedDirectory: { dev: before.dev.toString(), ino: before.ino.toString() },
+          expectedDirectory: identity,
+          ...(authority.parent ? { parent: authority.parent } : {}),
         },
         { descriptors },
       ),
@@ -88,7 +101,13 @@ async function withLockedRenderWorkspace<T>(
     const opened = await workspace.stat({ bigint: true });
     if (opened.dev !== before.dev || opened.ino !== before.ino)
       throw new CatalogError("INVALID_STORAGE", "Render workspace changed while opening");
-    const result = await action({ directory: parent, worker: boundWorker, clear });
+    const result = await action({
+      directory: parent,
+      descriptors,
+      identity,
+      worker: boundWorker,
+      clear,
+    });
     if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
     return result;
   } finally {
@@ -110,7 +129,13 @@ export async function clearRenderWorkspace(
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return;
     throw error;
   }
-  await withLockedRenderWorkspace(worker, parent, signal, async ({ clear }) => clear());
+  await withLockedRenderWorkspace(
+    worker,
+    parent,
+    signal,
+    { lock: "exclusive", inherited: [] },
+    async ({ clear }) => clear(),
+  );
 }
 
 /**
@@ -244,9 +269,9 @@ export async function withRenderedMedia<T>(
 
 /** Native encoders may stage beside their output. Keep that entire lifetime under
  * the render workspace lock; only completed bytes enter the disposable cache. */
-export async function withRenderedAudio(
+export async function withRenderedFile(
   worker: MediaWorker,
-  request: { attemptParent: string; output: string },
+  request: { attemptParent: string; output: string; filename: "audio.wav" | "frame.png" },
   signal: AbortSignal,
   produce: (output: string, worker: MediaWorker) => Promise<unknown>,
 ): Promise<unknown> {
@@ -256,26 +281,27 @@ export async function withRenderedAudio(
     request.attemptParent,
     signal,
     async (directory, boundWorker) => {
-      const file = join(directory, "audio.wav");
+      const file = join(directory, request.filename);
       const receipt = await produce(file, boundWorker);
       if (!receipt || typeof receipt !== "object" || !("file" in receipt) || receipt.file !== file)
-        throw new CatalogError("INVALID_RESPONSE", "Audio receipt changed the render attempt path");
+        throw new CatalogError("INVALID_RESPONSE", "Media receipt changed the render attempt path");
       return { ...receipt, file };
     },
-    async (audio) => {
+    async (artifact) => {
       await copyFile(
-        audio.file,
+        artifact.file,
         request.output,
         constants.COPYFILE_EXCL | constants.COPYFILE_FICLONE,
       );
-      return { ...audio, file: request.output };
+      return { ...artifact, file: request.output };
     },
   );
 }
 
 /** The render action owns media semantics; this owner fences late results and
  * retains the workspace lock until the consumer and native children finish.
- * Actions must await all preparation/render calls before returning. */
+ * Independent attempts share the root but own their child cleanup. Startup must
+ * clear stale attempts before admitting jobs. Actions must await every native call. */
 export async function withRenderAttempt<Artifact, Result>(
   worker: MediaWorker,
   parent: string,
@@ -291,19 +317,32 @@ export async function withRenderAttempt<Artifact, Result>(
     worker,
     parent,
     signal,
-    async ({ directory, worker: boundWorker, clear }) => {
-      await clear();
-      try {
-        const attempt = await mkdtemp(join(directory, "render-"));
-        checkCanceled();
-        const artifact = await render(attempt, boundWorker);
-        checkCanceled();
-        const result = await consume(artifact);
-        checkCanceled();
-        return result;
-      } finally {
-        await clear();
-      }
+    { lock: "shared", inherited: [] },
+    async ({ directory, descriptors, identity }) => {
+      checkCanceled();
+      const attempt = await mkdtemp(join(directory, "render-"));
+      return withLockedRenderWorkspace(
+        worker,
+        attempt,
+        signal,
+        {
+          lock: "exclusive",
+          inherited: descriptors,
+          parent: { expectedDirectory: identity, name: basename(attempt) },
+        },
+        async ({ worker: boundWorker, clear }) => {
+          try {
+            checkCanceled();
+            const artifact = await render(attempt, boundWorker);
+            checkCanceled();
+            const result = await consume(artifact);
+            checkCanceled();
+            return result;
+          } finally {
+            await clear();
+          }
+        },
+      );
     },
   );
 }

@@ -66,25 +66,8 @@ enum PackageWorkspace {
         }
         // Independent open-file description: surviving inherited workers still hold the old lock.
         try ManagedFiles.lockPrivateDirectory(child)
-        try removeChild(name, child, expected)
+        try ManagedFiles.removeOwnedDirectory(3, name, child, expected, failing: failure)
         return ["removed": true]
-    }
-
-    private static func checkEntry(_ name: String, _ expected: InodeIdentity) throws {
-        var entry = stat()
-        guard fstatat(3, name, &entry, AT_SYMLINK_NOFOLLOW) == 0,
-            InodeIdentity(entry) == expected,
-            entry.st_mode & S_IFMT == S_IFDIR
-        else { throw failure("Workspace entry ownership lost") }
-    }
-
-    private static func removeChild(_ name: String, _ fd: Int32, _ expected: InodeIdentity)
-        throws
-    {
-        try checkEntry(name, expected)
-        try ManagedFiles.removeContents(fd)
-        try checkEntry(name, expected)
-        guard unlinkat(3, name, AT_REMOVEDIR) == 0 else { throw failure("Remove workspace") }
     }
 
     private static func namesInDirectory(_ fd: Int32, maximum: Int) throws -> [String] {
@@ -115,7 +98,7 @@ enum PackageWorkspace {
                 var info = stat()
                 guard fstat(fd, &info) == 0 else { throw failure("Inspect orphan workspace") }
                 let identity = InodeIdentity(info)
-                try checkEntry(name, identity)
+                try ManagedFiles.checkDirectoryEntry(3, name, identity, failing: failure)
                 try ManagedFiles.lockPrivateDirectory(fd, busyCode: "RECOVERY_BUSY")
                 // No payload writer may run before a creation receipt: unknown identity admits only empty children.
                 if unconfirmed != nil { _ = try namesInDirectory(fd, maximum: 0) }
@@ -125,8 +108,8 @@ enum PackageWorkspace {
                 throw error
             }
         }
-        for child in children { try checkEntry(child.name, child.identity) }
-        for child in children { try removeChild(child.name, child.fd, child.identity) }
+        for child in children { try ManagedFiles.checkDirectoryEntry(3, child.name, child.identity, failing: failure) }
+        for child in children { try ManagedFiles.removeOwnedDirectory(3, child.name, child.fd, child.identity, failing: failure) }
         return ["recovered": children.count]
     }
 

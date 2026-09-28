@@ -1,0 +1,11 @@
+warning: '--skip-update' option is deprecated and will be removed in a future release
+[0/1] Planning build
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write sources
+[3/6] Compiling ScreenRecorderWire ManagedFiles.swift
+[4/6] Emitting module ScreenRecorderWire
+[4/7] Write Objects.LinkFileList
+[5/7] Linking screenrec-native
+[6/7] Applying screenrec-native
+Build of product 'screenrec-native' complete! (4.99s)

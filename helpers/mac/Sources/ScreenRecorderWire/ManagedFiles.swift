@@ -171,22 +171,43 @@ enum ManagedFiles {
         }
     }
 
+    /// The caller owns this entry and retains its locked descriptor throughout removal.
+    static func checkDirectoryEntry(
+        _ parent: Int32, _ name: String, _ expected: InodeIdentity,
+        failing: (String) -> NativeFailure = Descriptors.failure
+    ) throws {
+        var entry = stat()
+        guard fstatat(parent, name, &entry, AT_SYMLINK_NOFOLLOW) == 0,
+            InodeIdentity(entry) == expected, entry.st_mode & S_IFMT == S_IFDIR
+        else { throw failing("Workspace entry ownership lost") }
+    }
+
+    static func removeOwnedDirectory(
+        _ parent: Int32, _ name: String, _ fd: Int32, _ expected: InodeIdentity,
+        failing: (String) -> NativeFailure = Descriptors.failure
+    ) throws {
+        try checkDirectoryEntry(parent, name, expected, failing: failing)
+        try removeContents(fd)
+        try checkDirectoryEntry(parent, name, expected, failing: failing)
+        guard unlinkat(parent, name, AT_REMOVEDIR) == 0 else { throw failing("Remove workspace") }
+    }
+
     /// The lock follows the shared open-file description while the parent retains its FD.
-    static func lockPrivateDirectory(_ fd: Int32, busyCode: String? = nil) throws {
+    static func lockPrivateDirectory(_ fd: Int32, busyCode: String? = nil, shared: Bool = false) throws {
         var info = stat()
         guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
             info.st_uid == getuid(), info.st_mode & 0o777 == 0o700 else {
             throw NativeFailure("INVALID_STORAGE",
-                "Workspace must be a private directory owned exclusively by this attempt.",
+                "Workspace must be a private directory owned by this user.",
                 retryable: false)
         }
-        guard flock(fd, LOCK_EX | LOCK_NB) == 0 else {
+        guard flock(fd, (shared ? LOCK_SH : LOCK_EX) | LOCK_NB) == 0 else {
             let number = errno
             if let busyCode, number == EWOULDBLOCK || number == EAGAIN {
                 throw NativeFailure(busyCode, "Workspace is still held by a live owner.", retryable: true)
             }
             throw NativeFailure("INVALID_STORAGE",
-                "Workspace must be a private directory owned exclusively by this attempt.",
+                "Required workspace lock could not be acquired.",
                 retryable: false)
         }
     }

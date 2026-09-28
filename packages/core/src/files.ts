@@ -10,6 +10,8 @@ import { CatalogError } from "./catalog.js";
 export const O_NOFOLLOW_ANY = 0x20000000;
 /** Takes an exclusive flock as part of open; with O_NONBLOCK a held lock fails with EAGAIN. */
 export const O_EXLOCK = 0x20;
+/** Shared flock at open: live render attempts coexist but exclude whole-workspace cleanup. */
+export const O_SHLOCK = 0x10;
 export type OpenedFile = { readonly fd: number; close(): void };
 export type FileAccess = {
   path(file: string): string;
