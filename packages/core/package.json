@@ -255,6 +255,10 @@
     "./project-package": {
       "types": "./dist/project-package.d.ts",
       "default": "./dist/project-package.js"
+    },
+    "./references": {
+      "types": "./dist/references.d.ts",
+      "default": "./dist/references.js"
     }
   },
   "scripts": {

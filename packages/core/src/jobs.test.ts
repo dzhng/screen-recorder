@@ -1459,6 +1459,7 @@ test("deferred cancellation and restart preserve identity until explicit retry",
   const original = first.queue.submitDeferred(request);
   first.queue.startAdmission(() => ({ state: "waiting", dependency: "source-job" }));
   await first.queue.close();
+  queues.splice(queues.indexOf(first.queue), 1);
   first.store.close();
   stores.splice(stores.indexOf(first.store), 1);
   queues.splice(queues.indexOf(first.queue), 1);
@@ -2365,3 +2366,68 @@ test.each(["UNAVAILABLE", "LIMIT_EXCEEDED"] as const)(
     expect(visits).toBe(settledVisits);
   },
 );
+
+test("retained publications survive restart without invented jobs and precede later real generations", async () => {
+  const first = fixture("portable");
+  const identity = {
+    target: { kind: "asset" as const, assetId: "asset" },
+    artifact: "source-scenes",
+    input: "selection",
+  };
+  const receipt = {
+    ...identity,
+    generation: 7,
+    attemptId: "donor-attempt",
+    result: "retained-evidence",
+  };
+  expect(() =>
+    first.store.transaction(() => {
+      first.queue.adoptArtifact(receipt);
+      throw new Error("owner publication failed");
+    }),
+  ).toThrow("owner publication failed");
+  expect(first.queue.status(identity).state).toBe("not_requested");
+  first.store.transaction(() => first.queue.adoptArtifact(receipt));
+  expect(first.queue.status(identity)).toMatchObject({
+    state: "ready",
+    jobId: null,
+    published: { generation: 7, result: "retained-evidence" },
+  });
+  expect(
+    first.queue.retainedArtifact(identity.target, identity.artifact, receipt.attemptId),
+  ).toEqual(receipt);
+  expect(first.attempts.size).toBe(0);
+  first.store.transaction(() => first.queue.adoptArtifact(receipt));
+  expect(() =>
+    first.store.transaction(() => first.queue.adoptArtifact({ ...receipt, result: "changed" })),
+  ).toThrow(/conflicts/);
+  await first.queue.close();
+  queues.splice(queues.indexOf(first.queue), 1);
+  first.store.close();
+  const reopened = open(first.path, "recipient");
+  expect(reopened.queue.status(identity)).toMatchObject({
+    state: "ready",
+    jobId: null,
+    published: { generation: 7 },
+  });
+  expect(reopened.queue.retainsAttempt(identity.target, identity.artifact, "donor-attempt")).toBe(
+    true,
+  );
+  const job = reopened.queue.submit({ ...identity, lane: "heavy" });
+  expect(job.generation).toBe(8);
+  expect(reopened.queue.status(identity)).toMatchObject({
+    state: "processing",
+    jobId: job.jobId,
+    published: { generation: 7 },
+  });
+  (await reopened.started(job.attemptId)).finish("new-evidence");
+  await reopened.queue.idle();
+  expect(reopened.queue.status(identity)).toMatchObject({
+    state: "ready",
+    jobId: job.jobId,
+    published: { generation: 8, result: "new-evidence" },
+  });
+  expect(reopened.queue.retainsAttempt(identity.target, identity.artifact, "donor-attempt")).toBe(
+    false,
+  );
+});

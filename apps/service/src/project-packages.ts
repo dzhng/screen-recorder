@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { fstatSync, constants } from "node:fs";
+import { fstatSync, readFileSync, constants } from "node:fs";
 import { mkdir, open, writeFile, type FileHandle } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
@@ -9,6 +9,9 @@ import {
   collectPortableResources,
   projectResourceRoots,
   resourceMembers,
+  resourceIdentity,
+  sceneMemberPath,
+  type PortableDependency,
   type PortableResource,
   projectPackageManifest,
   validateProjectPackage,
@@ -17,6 +20,11 @@ import {
 import type { ProjectStore, ProjectSnapshot } from "@screenrec/core/projects";
 import type { AssetStore } from "@screenrec/core/assets";
 import type { AcquisitionImporter, PortableAcquisitionFiles } from "@screenrec/core/acquisitions";
+import {
+  type PortableSceneMetadata,
+  type SceneEvidenceStore,
+} from "@screenrec/core/scene-evidence";
+import type { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { JobQueue } from "@screenrec/core/jobs";
 import { PackageRegistry } from "./package-registry.js";
 import { openPackageParent } from "./package-workspace.js";
@@ -27,7 +35,7 @@ import type { DerivativeDelivery } from "./delivery.js";
 export type PinnedProjectPackage = {
   revisionId: string;
   snapshot: ProjectSnapshot;
-  resources: PortableResource[];
+  resources: PortableDependency[];
   acquisitionFiles: Record<string, Record<"journal" | "normalized", IdentifiedFile>>;
 };
 type Workspace = { directory: string; handle: FileHandle };
@@ -36,6 +44,8 @@ type Owners = {
   projects: ProjectStore;
   assets: AssetStore;
   acquisitions: AcquisitionImporter;
+  sceneRecords: SceneEvidenceStore;
+  scenes: SceneProcessing;
   jobs: JobQueue;
   worker: MediaWorker;
   delivery: DerivativeDelivery;
@@ -110,6 +120,19 @@ export class ProjectPackages {
   exportDirectory() {
     return openPackageParent(join(this.owners.directory, "package-exports"));
   }
+  private *sceneChunks(metadata: PortableSceneMetadata): Generator<string> {
+    let afterStartUs: number | undefined;
+    do {
+      const page = this.owners.sceneRecords.sourcePage({
+        identity: metadata,
+        ...(afterStartUs === undefined ? {} : { afterStartUs }),
+        limit: 1,
+      });
+      for (const chunk of page.chunks) yield JSON.stringify(chunk);
+      if (page.nextStartUs === null) return;
+      afterStartUs = page.nextStartUs;
+    } while (true);
+  }
   pin(projectId: string, revisionId?: string): PinnedProjectPackage {
     const snapshot = this.owners.projects.snapshot(projectId);
     if (revisionId && revisionId !== snapshot.project.currentRevisionId)
@@ -117,23 +140,89 @@ export class ProjectPackages {
         "UNSUPPORTED_PACKAGE_REVISION",
         "Project package currently requires the current revision",
       );
-    let metadataBytes = 0;
+    let metadataBytes = 0,
+      members = snapshot.revisions.length;
     const acquisitionFiles: PinnedProjectPackage["acquisitionFiles"] = {};
+    const sceneInventory = new Map<
+      string,
+      Extract<PortableDependency, { kind: "scene-generation" }>
+    >();
+    const scenesForAsset = (assetId: string) => {
+      return this.owners.sceneRecords.portableGenerations(assetId).map((metadata) => {
+        if (metadata.chunkCount > archiveLimits.entries - 1)
+          throw new CatalogError("LIMIT_EXCEEDED", "Scene chunks exceed archive inventory budget");
+        const scene: Extract<PortableDependency, { kind: "scene-generation" }> = {
+          kind: "scene-generation",
+          metadata,
+          publication: this.owners.scenes.portablePublication(metadata),
+        };
+        if (!sceneInventory.has(resourceIdentity(scene).id)) {
+          members += metadata.chunkCount;
+          metadataBytes +=
+            Buffer.byteLength(JSON.stringify(scene)) +
+            metadata.chunkCount *
+              (Buffer.byteLength(
+                JSON.stringify({ bytes: 8 * 1024 * 1024, sha256: "f".repeat(64) }),
+              ) +
+                1);
+          if (members >= archiveLimits.entries || metadataBytes > archiveLimits.manifestBytes)
+            throw new CatalogError(
+              "LIMIT_EXCEEDED",
+              "Scene inventory exceeds archive metadata budget",
+            );
+        }
+        const identity = resourceIdentity(scene);
+        sceneInventory.set(identity.id, scene);
+        return identity;
+      });
+    };
     const resources = collectPortableResources(projectResourceRoots(snapshot), (identity) => {
-      let resource: PortableResource;
-      if (identity.kind === "asset")
-        resource = { kind: "asset", ...this.owners.assets.portable(identity.id) };
-      else if (identity.kind === "acquisition") {
+      let resource: PortableDependency;
+      if (identity.kind === "asset") {
+        const asset = this.owners.assets.portable(identity.id);
+        const dependencies = [...asset.dependencies, ...scenesForAsset(identity.id)];
+        resource = {
+          kind: "asset",
+          ...asset,
+          dependencies: [
+            ...new Map(dependencies.map((entry) => [`${entry.kind}:${entry.id}`, entry])).values(),
+          ],
+        };
+      } else if (identity.kind === "acquisition") {
         const pinned = this.owners.acquisitions.portable(identity.id);
         acquisitionFiles[identity.id] = pinned.files;
         resource = { kind: "acquisition", acquisition: pinned.acquisition };
-      } else
-        throw new CatalogError(
-          "UNSUPPORTED_PACKAGE_DEPENDENCY",
-          "Portable scene-generation adoption is not yet implemented",
-        );
-      metadataBytes += Buffer.byteLength(JSON.stringify(resource));
-      if (metadataBytes > archiveLimits.manifestBytes)
+      } else {
+        if (!sceneInventory.has(identity.id)) {
+          let tuple: unknown;
+          try {
+            tuple = JSON.parse(identity.id);
+          } catch {
+            throw new CatalogError("INVALID_STORAGE", "Invalid scene resource identity");
+          }
+          if (
+            !Array.isArray(tuple) ||
+            tuple.length !== 3 ||
+            tuple[0] !== "asset" ||
+            typeof tuple[1] !== "string" ||
+            typeof tuple[2] !== "string"
+          )
+            throw new CatalogError("INVALID_STORAGE", "Invalid scene resource identity");
+          scenesForAsset(tuple[1]);
+        }
+        const scene = sceneInventory.get(identity.id);
+        if (!scene)
+          throw new CatalogError(
+            "INVALID_STORAGE",
+            "Retained scene reference has no owned generation",
+          );
+        resource = scene;
+      }
+      if (resource.kind !== "scene-generation") {
+        metadataBytes += Buffer.byteLength(JSON.stringify(resource));
+        members += resourceMembers(resource).length;
+      }
+      if (metadataBytes > archiveLimits.manifestBytes || members >= archiveLimits.entries)
         throw new CatalogError(
           "LIMIT_EXCEEDED",
           "Project resource metadata exceeds package manifest budget",
@@ -151,6 +240,12 @@ export class ProjectPackages {
       acquisitionFiles,
     };
   }
+  checkPinned(pinned: PinnedProjectPackage): void {
+    for (const resource of pinned.resources) {
+      if (resource.kind === "scene-generation")
+        this.owners.sceneRecords.sourcePage({ identity: resource.metadata, limit: 1 });
+    }
+  }
   adopt(packageHandle: string, requestId: string) {
     if (!this.registry) throw new CatalogError("CONTEXT_CLOSED", "Project package is not open");
     const job = this.registry.submit(
@@ -160,6 +255,10 @@ export class ProjectPackages {
         const manifest = context.manifest;
         const staged: Awaited<ReturnType<AssetStore["stagePortable"]>>[] = [];
         const acquisitions: Awaited<ReturnType<AcquisitionImporter["stagePortable"]>>[] = [];
+        const scenes: {
+          stage: Awaited<ReturnType<SceneEvidenceStore["stagePortable"]>>;
+          resource: Extract<PortableResource, { kind: "scene-generation" }>;
+        }[] = [];
         try {
           for (const entry of manifest.resources.filter((entry) => entry.kind === "asset")) {
             signal.throwIfAborted();
@@ -211,6 +310,30 @@ export class ProjectPackages {
               for (const lease of leases) lease.close();
             }
           }
+          for (const resource of manifest.resources) {
+            if (resource.kind !== "scene-generation") continue;
+            async function* chunks() {
+              for (const member of resourceMembers(resource)) {
+                signal.throwIfAborted();
+                const source = context.files.open(member.path);
+                try {
+                  yield JSON.parse(
+                    new TextDecoder("utf-8", { fatal: true }).decode(readFileSync(source.fd)),
+                  );
+                } finally {
+                  source.close();
+                }
+              }
+            }
+            scenes.push({
+              resource,
+              stage: await this.owners.sceneRecords.stagePortable(
+                resource.metadata,
+                chunks(),
+                signal,
+              ),
+            });
+          }
           signal.throwIfAborted();
           const result = this.owners.projects.adopt(
             {
@@ -221,6 +344,11 @@ export class ProjectPackages {
             () => {
               for (const asset of staged) asset.publish();
               for (const acquisition of acquisitions) acquisition.publish();
+              for (const { resource, stage } of scenes) {
+                stage.publish();
+                if (resource.publication)
+                  this.owners.scenes.adoptPublication(resource.metadata, resource.publication);
+              }
             },
           );
           return JSON.stringify({
@@ -228,6 +356,7 @@ export class ProjectPackages {
             revisionId: result.revision.id,
           });
         } finally {
+          await Promise.all(scenes.map(({ stage }) => stage.close()));
           await Promise.all(acquisitions.map((acquisition) => acquisition.close()));
           await Promise.all(staged.map((asset) => asset.close()));
         }
@@ -284,7 +413,10 @@ export class ProjectPackages {
       revisions.set(path, body);
       await text(path, body);
     }
-    const declared = pinned.resources.flatMap(resourceMembers);
+    const declared = pinned.resources.flatMap((resource) =>
+      resource.kind === "scene-generation" ? [] : resourceMembers(resource),
+    );
+    const resources: PortableResource[] = [];
     if (
       declared.length + plan.length >= archiveLimits.entries ||
       declared.some((entry) => entry.bytes > archiveLimits.memberBytes) ||
@@ -292,8 +424,25 @@ export class ProjectPackages {
     )
       throw new CatalogError("LIMIT_EXCEEDED", "Project resources exceed archive budget");
     for (const entry of pinned.resources) {
-      const members = resourceMembers(entry);
-      for (const [index, member] of members.entries()) {
+      if (entry.kind === "scene-generation") {
+        const chunks: Extract<PortableResource, { kind: "scene-generation" }>["chunks"] = [];
+        for (const body of this.sceneChunks(entry.metadata)) {
+          signal.throwIfAborted();
+          const path = sceneMemberPath(entry, chunks.length);
+          const bytes = Buffer.byteLength(body);
+          if (bytes > 8 * 1024 * 1024)
+            throw new CatalogError("LIMIT_EXCEEDED", "Scene chunk exceeds package read budget");
+          await mkdir(dirname(join(input.directory, path)), { recursive: true, mode: 0o700 });
+          await text(path, body);
+          chunks.push({ bytes, sha256: createHash("sha256").update(body).digest("hex") });
+        }
+        if (chunks.length !== entry.metadata.chunkCount)
+          throw new CatalogError("INVALID_STORAGE", "Scene chunk inventory changed");
+        resources.push({ ...entry, chunks });
+        continue;
+      }
+      resources.push(entry);
+      for (const [index, member] of resourceMembers(entry).entries()) {
         signal.throwIfAborted();
         const source =
           entry.kind === "asset"
@@ -319,7 +468,7 @@ export class ProjectPackages {
     }
     const manifest = projectPackageManifest(
       pinned.snapshot,
-      pinned.resources,
+      resources,
       plan.map(({ identity: _identity, ...entry }) => entry),
     );
     const body = JSON.stringify(manifest);

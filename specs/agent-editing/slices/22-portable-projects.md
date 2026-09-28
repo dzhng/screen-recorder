@@ -1,6 +1,7 @@
 # 22 — Relocatable editable projects
 
-Status: implementation in progress. [22a snapshot/dependency boundary](22a-portable-snapshots.md) and the [public archive journey](../assets/22-portable-projects/README.md) are verified. Current and historical rendered results, undo, source/reference bytes, acquisition bindings and exact journal/normalized evidence, cancellation, replay, corrupt/missing members and aggregate history rejection pass through CLI/MCP/native paths. Retained scene/transcript/index generations, non-current package export, fonts and prepared model-dependent output closure remain open; actual 15a output remains a final gate. Dependencies: [22a](./22a-portable-snapshots.md), [09](./09-first-preview.md), [10](./10-project-evidence.md), [11](./11-audio-inspection.md), [17](./17-text-captions.md), [15a](./15a-noise-processing.md).
+Status: implementation in progress. [22a snapshot/dependency boundary](22a-portable-snapshots.md) and the [public archive journey](../assets/22-portable-projects/README.md) are verified. Current and historical rendered results, undo, source/reference bytes, acquisition bindings and exact journal/normalized evidence, retained source-scene generations, cancellation, replay, corrupt/missing members and aggregate history rejection pass through CLI/MCP/native paths. Retained transcript/index generations, non-current package export, fonts and prepared model-dependent output closure remain open; actual 15a output remains a final gate. Dependencies: [22a](./22a-portable-snapshots.md), [09](./09-first-preview.md), [10](./10-project-evidence.md), [11](./11-audio-inspection.md), [17](./17-text-captions.md), [15a](./15a-noise-processing.md).
+
 
 ## Contract
 

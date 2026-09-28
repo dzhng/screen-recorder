@@ -2177,3 +2177,22 @@ existing lifetime owner.
   applying it again changes the finished artwork. Preserve the source decoding path
   and advance the picture cache identity so prior altered borders are not reused.
   This adds no processor, model, profile, or new public API.
+
+## Slice 22 — Retained source-scene checkpoint
+
+- **Sound, high confidence:** Imported readiness belongs in the existing artifact
+  publication table, with the original attempt identity and no fabricated local
+  job. The queue reports a ready imported result with a null job ID and reserves
+  later real generations beyond it. Exact publication conflicts refuse adoption;
+  active local work is retryable, terminal identity conflicts are explicit failures.
+- **Sound, high confidence:** Pin immutable scene metadata and retain it through
+  existing export references. Read and hash chunk payloads only in the heavy archive
+  job. Indexed owner/artifact/attempt lookup avoids scanning unrelated publications
+  for each retained generation.
+- **Sound, high confidence:** Stage scene chunks through their existing normalizer
+  as unpublished rows. Validate actual source ownership and publish them in the
+  adoption transaction. Startup recovery scans pending generations independently
+  of asset publication, and bounded event-loop yields permit real cancellation.
+- **Sound, high confidence:** Preserve the original sampler implementation identity
+  in retained publication inputs. Validate its source selection and policy without
+  relabeling historical analysis as the recipient's current implementation.

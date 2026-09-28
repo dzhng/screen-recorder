@@ -213,7 +213,7 @@ adoption request; its ready result supplies durable project/revision IDs. Use th
 IDs for history, rendering and edits. Opening alone owns a temporary package
 handle; closing it cancels unfinished adoption but preserves a committed project.
 Current project packaging requires the current revision and refuses retained
-scene/transcript/index generations whose adoption is not implemented. Report that limitation rather than substituting
+transcript/index generations whose adoption is not implemented. Report that limitation rather than substituting
 a flattened movie or dropping dependencies. Verify the adopted project's playback
 and undo before presenting a transfer as complete.
 

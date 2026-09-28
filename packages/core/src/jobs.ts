@@ -109,6 +109,9 @@ export type Artifact = Readonly<{
   result: string;
 }>;
 
+/** Publication provenance survives relocation without claiming a local execution. */
+export type RetainedArtifact = Artifact & Readonly<{ attemptId: string }>;
+
 export type ArtifactStatus = Readonly<{
   state: ArtifactState;
   jobId: string | null;
@@ -344,6 +347,7 @@ export class JobQueue {
     revisionId TEXT NOT NULL,input TEXT NOT NULL,attemptId TEXT NOT NULL,result TEXT NOT NULL,
     PRIMARY KEY(targetKind,targetId,revisionId,artifact,input)
    ) STRICT;
+   CREATE INDEX IF NOT EXISTS artifacts_attempt ON artifacts(targetKind,targetId,artifact,attemptId);
   `);
     // Only a process that died holding an attempt can leave a running row behind, so reopening the
     // catalog resolves the ambiguity instead of leaving work that nobody is doing look busy.
@@ -548,7 +552,7 @@ export class JobQueue {
       this.store.catalog
         .prepare(
           `INSERT INTO jobs(${jobColumns},queuedSequence,deferred)
-           VALUES (?,?,?,?,?,?,?,?,?,NULL,0,1,NULL,NULL,?,?)`,
+           VALUES (?,?,?,?,?,?,?,?,?,NULL,0,?,NULL,NULL,?,?)`,
         )
         .run(
           admittedId,
@@ -558,6 +562,7 @@ export class JobQueue {
           request.lane,
           request.input,
           deferred ? "waiting" : "queued",
+          this.nextGeneration({ target, artifact: request.artifact, input: request.input }),
           ++this.sequence,
           Number(deferred),
         );
@@ -702,6 +707,78 @@ export class JobQueue {
     ).readmitted;
   }
 
+  private nextGeneration(identity: Pick<Artifact, "target" | "artifact" | "input">): number {
+    const row = this.store.catalog
+      .prepare(
+        "SELECT generation FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?",
+      )
+      .get(...targetValues(identity.target), identity.artifact, identity.input);
+    const generation = Number(row?.generation ?? 0) + 1;
+    if (!Number.isSafeInteger(generation))
+      throw new CatalogError("LIMIT_EXCEEDED", "Artifact generation limit exceeded");
+    return generation;
+  }
+
+  retainedArtifact(owner: JobOwner, artifact: string, attemptId: string): RetainedArtifact | null {
+    const row = this.store.catalog
+      .prepare(
+        "SELECT targetKind,targetId,revisionId,artifact,generation,input,result FROM artifacts WHERE targetKind=? AND targetId=? AND artifact=? AND attemptId=? LIMIT 1",
+      )
+      .get(...ownerIdentity(owner), artifact, attemptId) as ArtifactRow | undefined;
+    return row ? { ...toArtifact(row), attemptId } : null;
+  }
+
+  /** The dependency owner validates the result; its publication joins the caller's catalog transaction. */
+  adoptArtifact(receipt: RetainedArtifact): void {
+    this.requireOpen();
+    this.targets.pin(receipt.target);
+    const existing = this.store.catalog
+      .prepare(
+        "SELECT generation,attemptId,result FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?",
+      )
+      .get(...targetValues(receipt.target), receipt.artifact, receipt.input);
+    if (existing) {
+      if (
+        existing.generation !== receipt.generation ||
+        existing.attemptId !== receipt.attemptId ||
+        existing.result !== receipt.result
+      )
+        throw new CatalogError(
+          "INVALID_PACKAGE",
+          "Retained publication conflicts with local artifact",
+        );
+      return;
+    }
+    const local = this.existing(receipt);
+    if (local) {
+      if (["waiting", "queued", "running"].includes(local.state))
+        throw new CatalogError(
+          "PROCESSING_BUSY",
+          "Local work already owns this publication identity",
+          {},
+          true,
+        );
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Local terminal work conflicts with retained publication identity",
+      );
+    }
+    if (!Number.isSafeInteger(receipt.generation) || receipt.generation < 1 || !receipt.attemptId)
+      throw new CatalogError("INVALID_PACKAGE", "Invalid retained publication identity");
+    this.store.catalog
+      .prepare(
+        "INSERT INTO artifacts(targetKind,targetId,revisionId,artifact,generation,input,attemptId,result) VALUES(?,?,?,?,?,?,?,?)",
+      )
+      .run(
+        ...targetValues(receipt.target),
+        receipt.artifact,
+        receipt.generation,
+        receipt.input,
+        receipt.attemptId,
+        receipt.result,
+      );
+  }
+
   /** Readiness is for the exact pinned revision and inputs, never whichever job finished last. */
   status(identity: Pick<Job, "target" | "artifact" | "input">): ArtifactStatus {
     const job = this.existing(identity);
@@ -717,13 +794,17 @@ export class JobQueue {
       : null;
     return {
       state:
-        !job || job.state === "canceled" || !present
+        !present || job?.state === "canceled"
           ? "not_requested"
-          : job.state === "waiting"
-            ? "queued"
-            : job.state === "running"
-              ? "processing"
-              : job.state,
+          : !job
+            ? published
+              ? "ready"
+              : "not_requested"
+            : job.state === "waiting"
+              ? "queued"
+              : job.state === "running"
+                ? "processing"
+                : job.state,
       jobId: job?.jobId ?? null,
       reason: job?.reason ?? null,
       retryable: job?.retryable ?? false,

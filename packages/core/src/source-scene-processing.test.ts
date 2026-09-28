@@ -5,9 +5,10 @@ import { afterEach, expect, test, vi } from "vitest";
 import { Catalog } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
+import { ResourceReferences } from "./references.js";
 import { JobQueue } from "./jobs.js";
 import { SceneProcessing } from "./scene-processing.js";
-import { SceneEvidenceStore, assetSceneOwner } from "./scene-evidence.js";
+import { SceneEvidenceStore, assetSceneOwner, sceneGenerationResource } from "./scene-evidence.js";
 import type { SourceVisualSampler } from "./source-scenes.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -311,4 +312,144 @@ test("sampler execution identity separates work and cleanup preserves all publis
   expect(f.evidence.sourcePage({ identity: first.published!.evidence }).chunks).toHaveLength(1);
   expect(f.evidence.sourcePage({ identity: second.published!.evidence }).chunks).toHaveLength(1);
   expect(f.requests).toHaveLength(3);
+});
+
+test("portable scene publication restores real selectors and survives restart without sampling", async () => {
+  const donor = await fixture(),
+    receiver = await fixture();
+  donor.processing.prepareSource(donor.selection);
+  await expect.poll(() => donor.processing.sourceStatus(donor.selection).state).toBe("ready");
+  const original = donor.processing.sourceStatus(donor.selection).published!.evidence;
+  const page = donor.evidence.sourcePage({ identity: original });
+  expect(page.nextStartUs).toBeNull();
+  async function* chunks() {
+    yield* page.chunks;
+  }
+  const stage = await receiver.evidence.stagePortable(
+    original,
+    chunks(),
+    new AbortController().signal,
+  );
+  expect(() => receiver.evidence.sourcePage({ identity: original })).toThrow(/not complete/);
+  expect(receiver.processing.sourceStatus(receiver.selection).state).toBe("not_requested");
+  const publication = donor.processing.portablePublication(original)!;
+  receiver.catalog.transaction(() => {
+    stage.publish();
+    receiver.processing.adoptPublication(original, publication);
+  });
+  await stage.close();
+  expect(receiver.processing.publishedSource(receiver.selection)).toMatchObject({
+    state: "ready",
+    jobId: null,
+    published: { evidence: original },
+  });
+  expect(receiver.evidence.sourcePage({ identity: original })).toEqual(page);
+  expect(receiver.requests).toEqual([]);
+  donor.control.implementationId = "historical-producer-v2";
+  donor.processing.prepareSource(donor.selection);
+  await expect.poll(() => donor.processing.sourceStatus(donor.selection).state).toBe("ready");
+  const historical = donor.processing.sourceStatus(donor.selection).published!.evidence;
+  const historicalPage = donor.evidence.sourcePage({ identity: historical });
+  async function* historicalChunks() {
+    yield* historicalPage.chunks;
+  }
+  const historicalStage = await receiver.evidence.stagePortable(
+    historical,
+    historicalChunks(),
+    new AbortController().signal,
+  );
+  receiver.catalog.transaction(() => {
+    historicalStage.publish();
+    receiver.processing.adoptPublication(
+      historical,
+      donor.processing.portablePublication(historical)!,
+    );
+  });
+  await historicalStage.close();
+  await receiver.reopen();
+  await receiver.processing.cleanup(new AbortController().signal);
+  expect(receiver.processing.publishedSource(receiver.selection)).toMatchObject({
+    state: "ready",
+    jobId: null,
+    published: { evidence: original },
+  });
+  expect(receiver.evidence.sourcePage({ identity: original })).toEqual(page);
+  expect(receiver.evidence.sourcePage({ identity: historical })).toEqual(historicalPage);
+  receiver.control.implementationId = "historical-producer-v2";
+  expect(receiver.processing.publishedSource(receiver.selection).published!.evidence).toEqual(
+    historical,
+  );
+  expect(receiver.requests).toEqual([]);
+});
+
+test("portable scene cancellation and rollback clean pending rows while retained references protect completed rows", async () => {
+  const donor = await fixture(),
+    receiver = await fixture();
+  donor.processing.prepareSource(donor.selection);
+  await expect.poll(() => donor.processing.sourceStatus(donor.selection).state).toBe("ready");
+  const original = donor.processing.sourceStatus(donor.selection).published!.evidence;
+  const page = donor.evidence.sourcePage({ identity: original });
+  const orphanHome = await mkdtemp("/tmp/portable-orphan-scenes-");
+  const orphanCatalog = new Catalog(join(orphanHome, "catalog.sqlite"));
+  cleanup.push(async () => {
+    orphanCatalog.close();
+    await rm(orphanHome, { recursive: true, force: true });
+  });
+  const orphan = new SceneEvidenceStore(orphanCatalog, () => {
+    throw new Error("Asset is unpublished");
+  });
+  async function* orphanChunks() {
+    yield* page.chunks;
+  }
+  await orphan.stagePortable(original, orphanChunks(), new AbortController().signal);
+  await orphan.recoverPending("asset", new AbortController().signal);
+  expect(orphan.portableGenerations(donor.asset.id)).toEqual([]);
+  const recovered = await orphan.stagePortable(
+    original,
+    orphanChunks(),
+    new AbortController().signal,
+  );
+  await recovered.close();
+  const controller = new AbortController();
+  async function* interrupted() {
+    yield* page.chunks;
+  }
+  setImmediate(() => controller.abort(new Error("canceled scene adoption")));
+  await expect(
+    receiver.evidence.stagePortable(original, interrupted(), controller.signal),
+  ).rejects.toMatchObject({ name: "AbortError" });
+  expect(receiver.evidence.portableGenerations(receiver.asset.id)).toEqual([]);
+  async function* chunks() {
+    yield* page.chunks;
+  }
+  const stage = await receiver.evidence.stagePortable(
+    original,
+    chunks(),
+    new AbortController().signal,
+  );
+  expect(() =>
+    receiver.catalog.transaction(() => {
+      stage.publish();
+      throw new Error("project rollback");
+    }),
+  ).toThrow("project rollback");
+  await stage.close();
+  expect(receiver.evidence.portableGenerations(receiver.asset.id)).toEqual([]);
+  const retry = await receiver.evidence.stagePortable(
+    original,
+    chunks(),
+    new AbortController().signal,
+  );
+  const references = new ResourceReferences(receiver.catalog),
+    owner = { kind: "export" as const, id: "pinned-export" };
+  receiver.catalog.transaction(() => {
+    retry.publish();
+    references.retain("scene-generation", owner, [sceneGenerationResource(original)]);
+  });
+  await retry.close();
+  await receiver.processing.cleanup(new AbortController().signal);
+  expect(receiver.evidence.sourcePage({ identity: original })).toEqual(page);
+  references.release("scene-generation", owner);
+  await receiver.processing.cleanup(new AbortController().signal);
+  expect(receiver.evidence.portableGenerations(receiver.asset.id)).toEqual([]);
 });

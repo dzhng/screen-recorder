@@ -52,6 +52,13 @@ export class ResourceReferences {
       throw new RangeError("Resource dependency inventory exceeds its limit");
     return rows;
   }
+  has(kind: ResourceKind, id: string): boolean {
+    return Boolean(
+      this.store.catalog
+        .prepare("SELECT 1 FROM resource_references WHERE resourceKind=? AND resourceId=? LIMIT 1")
+        .get(kind, id),
+    );
+  }
   owners(kind: ResourceKind, id: string): ResourceOwner[] {
     return this.store.catalog
       .prepare(`SELECT ownerKind AS kind,ownerId AS id FROM resource_references

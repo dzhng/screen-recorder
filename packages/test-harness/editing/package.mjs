@@ -40,7 +40,7 @@ const report = {
   checks: {},
   trace: [],
   remaining: [
-    "scene/transcript/index generations",
+    "transcript/index generations",
     "prepared 15a outputs and fonts",
     "fresh autonomous skill journey",
   ],
@@ -213,6 +213,10 @@ try {
   const originalCursor = await call("cursor.raw", cursorParams, { transport: "mcp" });
   assert.equal(originalCursor.state, "ready");
   assert.equal(originalCursor.page.rows.length, 1);
+  const originalEvents = await poll(
+    () => call("timeline.events", cursorParams, { transport: "mcp" }),
+    (value) => value.state === "ready",
+  );
 
   // The generation producer is not ready. This explicit fixture only tests owned reference closure.
   service.assets.retain({ kind: "asset", id: b.id }, [reference.id]);
@@ -386,6 +390,8 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     "closed",
   );
   await rm(packagePath);
+  await close();
+  await start(receiver);
   const adoptedAcquisition = await call(
     "acquisition.get",
     { acquisitionId: acquisition.id },
@@ -399,6 +405,9 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   const adoptedCursor = await call("cursor.raw", cursorParams);
   assert.equal(adoptedCursor.state, "ready");
   assert.deepEqual(adoptedCursor.page.rows, originalCursor.page.rows);
+  const adoptedEvents = await call("timeline.events", cursorParams, { transport: "mcp" });
+  assert.equal(adoptedEvents.state, "ready");
+  assert.deepEqual(adoptedEvents.page.rows, originalEvents.page.rows);
 
   const actualAssets = (await call("asset.list", {}, { transport: "mcp" })).assets;
   assert.deepEqual(actualAssets.map((item) => item.id).sort(), [a.id, b.id, reference.id].sort());
@@ -486,6 +495,8 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     sourceBytesUnchanged: true,
     acquisitionIdentityAndBindingsRetained: true,
     exactNormalizedEvidenceRetained: true,
+    retainedSceneEventsReadyWithoutPreparation: true,
+    adoptedLibraryRestartedBeforeInspection: true,
     exactJournalRetained: true,
     historicalOnlyMediaRetained: true,
     generatedReferenceFixtureRetained: true,

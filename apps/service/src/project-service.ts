@@ -143,6 +143,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       isCapturing: () => false,
     };
     await acquisitionImports.recover(new AbortController().signal);
+    await sceneRecords.recoverPending("asset", new AbortController().signal);
     let pointers: PointerPreparation;
     let preview: ProjectPreviewInspection;
     let mediaFrames: MediaFrameInspection;
@@ -428,6 +429,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
     });
     const projectPackages = new ProjectPackages({
       acquisitions: acquisitionImports,
+      sceneRecords,
+      scenes,
       directory: library,
       projects,
       assets,
@@ -441,7 +444,6 @@ export async function startProjectService(options: { home: string; worker?: Medi
           assetIds.some((assetId) => {
             const asset = { kind: "asset" as const, assetId };
             return (
-              sceneRecords.hasGenerations(asset) ||
               transcriptStore.hasGenerations(asset) ||
               projectIndex.hasGenerations(asset)
             );

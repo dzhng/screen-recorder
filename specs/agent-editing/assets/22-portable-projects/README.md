@@ -51,7 +51,25 @@ core run encountered timing failures and is not counted as passing. The public
 run also caught persisted-pin serialization, strict descriptor and zero-origin
 clock issues; all are corrected and the final relocation run passes.
 
-This checkpoint requires the current revision. Retained scene/transcript/index
+Retained source-scene generations carry their original sampler publication identity.
+Adoption restores ordinary scene selectors without inventing a local execution;
+an imported ready publication has no local job ID. The public journey restarts the
+adopted library before its first timeline inspection, then verifies ready scene
+rows and unchanged current/historical decoded media. A focused historical-sampler
+case preserves two implementations through restart without sampling. Export intents
+retain immutable generations until publication or abandonment; archive payload work
+runs in the heavy queue, with aggregate metadata and entry limits checked at pinning.
+
+The scene pass has 84 focused queue/scene tests and 16 focused service tests green.
+Static review found orphan pending generations, cancellation starvation, premature
+payload inventory, and historical sampler/publication lookup defects; recovery,
+event-loop cancellation and historical identity regressions cover the fixes. The
+final review found no actionable defects. An earlier concurrent large-history test
+timeout is retained in the scratch log; the unchanged test passes after native work
+ends. The final public fixture uses the reviewed code and passes after relocation
+and receiver restart.
+
+This checkpoint requires the current revision. Retained transcript/index
 generations are explicitly refused until their stores and queue publication owner
 support atomic portable adoption. Prepared model-dependent outputs, fonts and
 actual 15a output remain [slice 22](../../slices/22-portable-projects.md) acceptance.

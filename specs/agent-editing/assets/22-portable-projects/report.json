@@ -15,6 +15,8 @@
     "sourceBytesUnchanged": true,
     "acquisitionIdentityAndBindingsRetained": true,
     "exactNormalizedEvidenceRetained": true,
+    "retainedSceneEventsReadyWithoutPreparation": true,
+    "adoptedLibraryRestartedBeforeInspection": true,
     "exactJournalRetained": true,
     "historicalOnlyMediaRetained": true,
     "generatedReferenceFixtureRetained": true,
@@ -101,6 +103,54 @@
       "state": "ready"
     },
     {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
       "operation": "project.create",
       "transport": "cli",
       "ok": true
@@ -133,12 +183,6 @@
       "transport": "cli",
       "ok": true,
       "state": "ready"
-    },
-    {
-      "operation": "audio.get",
-      "transport": "cli",
-      "ok": true,
-      "state": "processing"
     },
     {
       "operation": "audio.get",
@@ -262,78 +306,6 @@
       "operation": "export.status",
       "transport": "mcp",
       "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "running"
-    },
-    {
-      "operation": "export.status",
-      "transport": "mcp",
-      "ok": true,
       "state": "committed"
     },
     {
@@ -359,72 +331,6 @@
       "transport": "mcp",
       "ok": true,
       "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "closing"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "closing"
     },
     {
       "operation": "package.status",
@@ -461,48 +367,6 @@
       "transport": "mcp",
       "ok": true,
       "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "opening"
-    },
-    {
-      "operation": "package.status",
-      "transport": "mcp",
-      "ok": true,
-      "state": "closing"
     },
     {
       "operation": "package.status",
@@ -645,6 +509,12 @@
       "state": "ready"
     },
     {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
       "operation": "asset.list",
       "transport": "mcp",
       "ok": true
@@ -676,19 +546,7 @@
       "operation": "preview.get",
       "transport": "cli",
       "ok": true,
-      "state": "processing"
-    },
-    {
-      "operation": "preview.get",
-      "transport": "cli",
-      "ok": true,
       "state": "ready"
-    },
-    {
-      "operation": "audio.get",
-      "transport": "cli",
-      "ok": true,
-      "state": "processing"
     },
     {
       "operation": "audio.get",
@@ -729,19 +587,7 @@
       "operation": "preview.get",
       "transport": "cli",
       "ok": true,
-      "state": "processing"
-    },
-    {
-      "operation": "preview.get",
-      "transport": "cli",
-      "ok": true,
       "state": "ready"
-    },
-    {
-      "operation": "audio.get",
-      "transport": "cli",
-      "ok": true,
-      "state": "processing"
     },
     {
       "operation": "audio.get",
@@ -872,7 +718,7 @@
     }
   ],
   "remaining": [
-    "scene/transcript/index generations",
+    "transcript/index generations",
     "prepared 15a outputs and fonts",
     "fresh autonomous skill journey"
   ]

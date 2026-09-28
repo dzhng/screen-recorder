@@ -4,6 +4,8 @@ import { isMediaClip, validateComposition } from "@screenrec/composition";
 import { CatalogError } from "./catalog.js";
 import { compositionAsset, portableAssetSchema } from "./assets.js";
 import { validateProjectSnapshot, type ProjectSnapshot } from "./projects.js";
+import { portableSceneMetadataSchema, sceneGenerationResource } from "./scene-evidence.js";
+import { portableScenePublicationSchema } from "./scene-processing.js";
 import { portableAcquisitionSchema } from "./acquisitions.js";
 import type { ResourceReference } from "./references.js";
 import type { ArchiveLimits } from "./package-archive.js";
@@ -17,15 +19,60 @@ const member = z.strictObject({
 const resourceSchema = z.discriminatedUnion("kind", [
   portableAssetSchema.extend({ kind: z.literal("asset") }),
   z.strictObject({ kind: z.literal("acquisition"), acquisition: portableAcquisitionSchema }),
+  z.strictObject({
+    kind: z.literal("scene-generation"),
+    metadata: portableSceneMetadataSchema,
+    publication: portableScenePublicationSchema.nullable(),
+    chunks: z
+      .array(
+        z.strictObject({
+          bytes: z
+            .int()
+            .nonnegative()
+            .max(8 * 1024 * 1024),
+          sha256: digest,
+        }),
+      )
+      .min(1)
+      .max(25000),
+  }),
 ]);
 export type PortableResource = z.infer<typeof resourceSchema>;
-export function resourceIdentity(resource: PortableResource): ResourceReference {
-  return resource.kind === "asset"
-    ? { kind: "asset", id: resource.asset.id }
-    : { kind: "acquisition", id: resource.acquisition.id };
+export type PortableDependency =
+  | Exclude<PortableResource, { kind: "scene-generation" }>
+  | Omit<Extract<PortableResource, { kind: "scene-generation" }>, "chunks">;
+export function resourceIdentity(resource: PortableDependency): ResourceReference {
+  switch (resource.kind) {
+    case "asset":
+      return { kind: "asset", id: resource.asset.id };
+    case "acquisition":
+      return { kind: "acquisition", id: resource.acquisition.id };
+    case "scene-generation":
+      return { kind: "scene-generation", id: sceneGenerationResource(resource.metadata) };
+  }
 }
 const key = (identity: ResourceReference) => `${identity.kind}:${identity.id}`;
-export function resourceMembers(resource: PortableResource) {
+export function resourceDependencies(resource: PortableDependency): ResourceReference[] {
+  switch (resource.kind) {
+    case "asset":
+      return resource.dependencies;
+    case "acquisition":
+      return resource.acquisition.bindings.map((binding) => ({
+        kind: "asset",
+        id: binding.assetId,
+      }));
+    case "scene-generation":
+      return [
+        { kind: "asset", id: resource.metadata.owner.assetId },
+        ...(resource.metadata.source.acquisitionId
+          ? [{ kind: "acquisition" as const, id: resource.metadata.source.acquisitionId }]
+          : []),
+      ];
+  }
+}
+export function resourceMembers(
+  resource: PortableResource,
+): { path: string; bytes: number; sha256: string | null }[] {
   if (resource.kind === "asset")
     return [
       {
@@ -34,6 +81,11 @@ export function resourceMembers(resource: PortableResource) {
         sha256: resource.asset.id,
       },
     ];
+  if (resource.kind === "scene-generation")
+    return resource.chunks.map((chunk, index) => ({
+      path: sceneMemberPath(resource, index),
+      ...chunk,
+    }));
   const acquisition = resource.acquisition;
   return [
     {
@@ -47,6 +99,15 @@ export function resourceMembers(resource: PortableResource) {
       sha256: null,
     },
   ];
+}
+export function sceneMemberPath(
+  resource: Extract<PortableDependency, { kind: "scene-generation" }>,
+  ordinal: number,
+): string {
+  const id = createHash("sha256")
+    .update(key(resourceIdentity(resource)))
+    .digest("hex");
+  return `scenes/${id}/${ordinal}.json`;
 }
 const manifestSchema = z.strictObject({
   format: z.literal("screenrec-project"),
@@ -64,12 +125,12 @@ function invalid(message: string): never {
 }
 
 /** The same graph walk selects an export closure and checks an imported closure; cycles terminate by identity. */
-export function collectPortableResources(
+export function collectPortableResources<T extends PortableDependency>(
   roots: readonly ResourceReference[],
-  read: (identity: ResourceReference) => PortableResource,
+  read: (identity: ResourceReference) => T,
   limit = 25_000,
-): PortableResource[] {
-  const found = new Map<string, PortableResource>(),
+): T[] {
+  const found = new Map<string, T>(),
     queued = new Set<string>(),
     pending: ResourceReference[] = [];
   const enqueue = (identity: ResourceReference) => {
@@ -86,11 +147,7 @@ export function collectPortableResources(
     if (key(resourceIdentity(value)) !== key(identity))
       invalid("Dependency identity differs from inventory key");
     found.set(key(identity), value);
-    const dependencies: ResourceReference[] =
-      value.kind === "asset"
-        ? value.dependencies
-        : value.acquisition.bindings.map((binding) => ({ kind: "asset", id: binding.assetId }));
-    dependencies.forEach(enqueue);
+    resourceDependencies(value).forEach(enqueue);
   }
   return [...found.values()].sort((a, b) =>
     key(resourceIdentity(a)).localeCompare(key(resourceIdentity(b))),

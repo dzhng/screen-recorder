@@ -1,3 +1,5 @@
+import { ResourceReferences, resourceKinds } from "@screenrec/core/references";
+import { resourceIdentity } from "@screenrec/core/project-package";
 import type { ProjectPackages, PinnedProjectPackage } from "./project-packages.js";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
@@ -145,6 +147,7 @@ function summarize(row: Lifecycle, job: Job["state"] | null) {
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
  * Prerequisites wait in that queue while this owner pins their source generation. */
 export class MediaExports {
+  private readonly references: ResourceReferences;
   private readonly creating = new Map<Promise<unknown>, string>();
   private readonly lifetime = new AbortController();
   private readonly retiring = new Map<string, Promise<void>>();
@@ -167,6 +170,7 @@ export class MediaExports {
       project?: { store: ProjectStore; preview: ProjectPreviewInspection; package?: ProjectPackages };
     },
   ) {
+    this.references = new ResourceReferences(owners.catalog);
     owners.catalog.catalog.exec(`CREATE TABLE IF NOT EXISTS export_intents (
       exportId TEXT PRIMARY KEY, targetKind TEXT NOT NULL CHECK(targetKind IN ('recording','project')), targetId TEXT NOT NULL,
       kind TEXT NOT NULL CHECK(kind IN ('video','processed-package')),
@@ -770,6 +774,14 @@ export class MediaExports {
           JSON.stringify(snapshot),
           JSON.stringify(destination),
         );
+      if (targetKind === "project" && request.kind === "processed-package") {
+        const pinned = snapshot as PinnedProjectPackage;
+        this.projectPackage().checkPinned(pinned);
+        for (const resource of pinned.resources) {
+          const identity = resourceIdentity(resource);
+          this.references.retain(identity.kind, { kind: "export", id: request.exportId }, [identity.id]);
+        }
+      }
       const admitted = this.require(request.exportId);
       if (admitted.request !== key)
         throw new CatalogError(
@@ -1091,11 +1103,10 @@ export class MediaExports {
   }
   private recordCommit(intent: Intent, receipt: PublicationReceipt) {
     // This write is allowed during deletion/cancellation: the file already exists outside the library.
-    this.owners.catalog.transaction(() =>
-      this.owners.catalog.catalog
-        .prepare("UPDATE export_intents SET receipt=? WHERE exportId=?")
-        .run(JSON.stringify(receipt), intent.exportId),
-    );
+    this.owners.catalog.transaction(() => {
+      this.owners.catalog.catalog.prepare("UPDATE export_intents SET receipt=? WHERE exportId=?").run(JSON.stringify(receipt), intent.exportId);
+      for (const kind of resourceKinds) this.references.release(kind, { kind: "export", id: intent.exportId });
+    });
     intent.receipt = receipt;
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
@@ -1363,8 +1374,9 @@ export class MediaExports {
     await this.cleanupAssembly(intent);
     if (jobId) this.owners.jobs.forgetJob(jobId);
     // A crash after job retirement is harmless: the still-fenced intent resumes private absence checking.
-    this.owners.catalog.catalog
-      .prepare("DELETE FROM export_intents WHERE exportId=?")
-      .run(exportId);
+    this.owners.catalog.transaction(() => {
+      this.owners.catalog.catalog.prepare("DELETE FROM export_intents WHERE exportId=?").run(exportId);
+      for (const kind of resourceKinds) this.references.release(kind, { kind: "export", id: exportId });
+    });
   }
 }

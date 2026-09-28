@@ -1,3 +1,5 @@
+import { z } from "zod";
+import { isDeepStrictEqual } from "node:util";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { isSettled, type RevisionStore } from "./library.js";
@@ -24,6 +26,14 @@ import {
 } from "./source-scenes.js";
 
 const artifact = "source-scenes";
+export const portableScenePublicationSchema = z.strictObject({
+  generation: z.int().positive().max(Number.MAX_SAFE_INTEGER),
+  attemptId: z.string().min(1).max(256),
+  input: z.string().max(65536),
+  result: z.string().max(65536),
+});
+export type PortableScenePublication = z.infer<typeof portableScenePublicationSchema>;
+
 export type SceneProcessingOptions = {
   jobs: JobQueue;
   evidence: SceneEvidenceStore;
@@ -124,12 +134,13 @@ export class SceneProcessing {
   retry(recordingId: string) {
     this.prepare(recordingId);
     const status = this.status(recordingId);
+    if (!status.jobId && status.state === "ready") return status;
     if (!status.jobId)
       throw new CatalogError("UNAVAILABLE", status.reason ?? "Scene evidence unavailable");
     this.jobs.retry(status.jobId);
     return this.status(recordingId);
   }
-  private sourceIdentity(selected: ReturnType<typeof selectSource>) {
+  private sourceIdentity(selected: ReturnType<typeof selectSource>, implementationId: string) {
     return {
       target: { kind: "asset" as const, assetId: selected.selection.assetId },
       artifact,
@@ -137,13 +148,56 @@ export class SceneProcessing {
         selection: selected.selection,
         source: sourceSceneDescriptor(selected),
         policy: sourceScenePolicy,
-        implementationId: this.asset.implementationId,
+        implementationId,
       }),
     };
   }
+  portablePublication(metadata: SceneEvidenceMetadata): PortableScenePublication | null {
+    const receipt = this.jobs.retainedArtifact(metadata.owner, artifact, metadata.generation);
+    return receipt
+      ? portableScenePublicationSchema.parse({
+          generation: receipt.generation,
+          attemptId: receipt.attemptId,
+          input: receipt.input,
+          result: receipt.result,
+        })
+      : null;
+  }
+  adoptPublication(metadata: SceneEvidenceMetadata, publication: PortableScenePublication): void {
+    if (metadata.owner.kind !== "asset" || metadata.source.kind !== "asset")
+      throw new CatalogError("INVALID_PACKAGE", "Portable scenes require an asset owner");
+    const selection = {
+      assetId: metadata.owner.assetId,
+      streamId: metadata.source.streamId,
+      ...(metadata.source.acquisitionId === undefined
+        ? {}
+        : { acquisitionId: metadata.source.acquisitionId }),
+    };
+    let input: unknown, result: unknown;
+    try {
+      input = JSON.parse(publication.input);
+      result = JSON.parse(publication.result);
+    } catch {
+      throw new CatalogError("INVALID_PACKAGE", "Invalid scene publication JSON");
+    }
+    const execution = z.object({ implementationId: z.string().min(1).max(256) }).safeParse(input);
+    if (!execution.success)
+      throw new CatalogError("INVALID_PACKAGE", "Scene publication has no sampler identity");
+    const identity = this.sourceIdentity(this.selected(selection), execution.data.implementationId);
+    if (
+      identity.input !== publication.input ||
+      publication.attemptId !== metadata.generation ||
+      !isDeepStrictEqual(result, metadata)
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Scene publication differs from its source and generation",
+      );
+    this.jobs.adoptArtifact({ ...identity, ...publication });
+  }
   sourceStatus(selection: SourceSelection) {
     const selected = this.selected(selection);
-    const status = this.jobs.status(this.sourceIdentity(selected));
+    const status = this.jobs.status(this.sourceIdentity(selected, this.asset.implementationId));
     const unavailable = !selected.track.available.length;
     return {
       ...selected.selection,
@@ -165,7 +219,10 @@ export class SceneProcessing {
     const status = this.sourceStatus(selection);
     if (status.state !== "not_requested") return;
     this.jobs.submit(
-      () => ({ ...this.sourceIdentity(this.selected(selection)), lane: "heavy" }),
+      () => ({
+        ...this.sourceIdentity(this.selected(selection), this.asset.implementationId),
+        lane: "heavy",
+      }),
       (job) => {
         const owner = { kind: "job" as const, id: job.jobId };
         this.asset.assets.retain(owner, [selection.assetId]);
@@ -181,6 +238,7 @@ export class SceneProcessing {
   retrySource(selection: SourceSelection) {
     this.prepareSource(selection);
     const status = this.sourceStatus(selection);
+    if (!status.jobId && status.state === "ready") return status;
     if (!status.jobId)
       throw new CatalogError("UNAVAILABLE", status.reason ?? "Scene evidence unavailable");
     this.jobs.retry(status.jobId);
@@ -229,7 +287,7 @@ export class SceneProcessing {
     const selected = this.selected(selection);
     if (
       job.target.assetId !== selection.assetId ||
-      job.input !== this.sourceIdentity(selected).input
+      job.input !== this.sourceIdentity(selected, this.asset.implementationId).input
     )
       throw new CatalogError("ARTIFACT_CHANGED", "Scene source inputs changed");
     if (!selected.track.available.length) throw new CatalogError("UNAVAILABLE", "no_video");
