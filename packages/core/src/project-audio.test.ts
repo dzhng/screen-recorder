@@ -1,3 +1,4 @@
+import { WaveformInspection } from "./waveform.js";
 import { waveformBuckets } from "./audio-wave.js";
 import { spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
@@ -79,6 +80,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
   );
   await cache.reconcile();
   let inspection!: MediaAudioInspection;
+  let waveform!: WaveformInspection;
   const jobs = new JobQueue({
     store: catalog,
     providers: { newId: randomUUID },
@@ -91,7 +93,10 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
       isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
       isCapturing: () => false,
     },
-    execute: (execution) => inspection.execute(execution),
+    execute: (execution) =>
+      execution.job.artifact === "waveform"
+        ? waveform.execute(execution)
+        : inspection.execute(execution),
   });
   inspection = new MediaAudioInspection({
     assets,
@@ -106,6 +111,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
     },
     project: { projects, renderer: { implementationId: "fixture-audio", render: renderer } },
   });
+  waveform = new WaveformInspection({ audio: inspection, jobs, cache });
   cleanups.push(async () => {
     await jobs.close();
     catalog.close();
@@ -200,6 +206,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
     cache,
     jobs,
     inspection,
+    waveform,
     asset,
     source,
     placed,
@@ -417,6 +424,26 @@ test.runIf(Boolean(process.env.SCREENREC_NATIVE))(
           expectedPCM.writeFloatLE(-0.125 * gain, frame * 8 + 4);
         }
         expect(data.equals(expectedPCM), `${target.kind}/${mode} complete stereo PCM`).toBe(true);
+        f.waveform.request({ ...input, bucketFrames: 480 });
+        await f.jobs.idle();
+        const acoustic = f.waveform.request({ ...input, bucketFrames: 480 });
+        expect(acoustic.state).toBe("ready");
+        const document = JSON.parse(await readFile(acoustic.published!.waveform.file, "utf8"));
+        expect(document).toMatchObject({
+          domain: "project",
+          projectId: f.projectId,
+          revisionId: ready.revisionId,
+          tap: input.tap,
+          sampleRange: receipt.sampleRange,
+          range: input.range,
+          bucketFrames: 480,
+          audio: { jobId: ready.jobId, generation: ready.published!.generation },
+        });
+        for (const bucket of document.buckets)
+          expect(bucket.channels).toEqual([
+            { min: 0.25 * gain, max: 0.25 * gain, rms: 0.25 * gain },
+            { min: -0.125 * gain, max: -0.125 * gain, rms: 0.125 * gain },
+          ]);
         const lease = f.cache.acquire(receipt.cacheId)!;
         try {
           const waveform = await waveformBuckets(

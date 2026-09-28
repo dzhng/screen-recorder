@@ -1,0 +1,42 @@
+$ vitest run --maxWorkers=4 src/audio-inspection.test.ts -t "audio generation changes"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey/packages/core
+
+(node:4549) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-inspection.test.ts (13 tests | 1 failed | 12 skipped) 58ms
+   × audio generation changes cannot publish stale waveform work and cancellation requires retry 57ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-inspection.test.ts > audio generation changes cannot publish stale waveform work and cancellation requires retry
+AssertionError: expected { …(12) } to match object { state: 'failed', …(1) }
+(12 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "errorCode": "ARTIFACT_CHANGED",
+-   "state": "failed",
++   "errorCode": null,
++   "state": "ready",
+  }
+
+ ❯ src/audio-inspection.test.ts:490:38
+    488|   const pending = f.waveform.request(f.selection);
+    489|   await f.jobs.idle();
+    490|   expect(f.jobs.job(pending.jobId!)).toMatchObject({
+       |                                      ^
+    491|     state: "failed",
+    492|     errorCode: "ARTIFACT_CHANGED",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  02:30:32
+   Duration  337ms (transform 55%, import 23%, tests 21%, worker 1%)
+
+error: script "test" exited with code 1

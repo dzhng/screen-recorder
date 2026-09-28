@@ -1,0 +1,33 @@
+$ vitest run --maxWorkers=4 src/audio-inspection.test.ts -t "nonintegral admitted"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey/packages/core
+
+(node:7308) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-inspection.test.ts (14 tests | 1 failed | 13 skipped) 63ms
+   × nonintegral admitted sample rates remain renderer admission, not an unstructured recipe exception 63ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-inspection.test.ts > nonintegral admitted sample rates remain renderer admission, not an unstructured recipe exception
+RangeError: The number 44099.5 cannot be converted to a BigInt because it is not an integer
+ ❯ sample src/audio-inspection.ts:116:67
+    114|   throw new CatalogError("INVALID_RESPONSE", message);
+    115| }
+    116| const sample = (us: number, rate: number) => Number((BigInt(us) * BigI…
+       |                                                                   ^
+    117| function unavailable(range: TimeRange, support: readonly TimeRange[]) {
+    118|   const gaps: TimeRange[] = [];
+ ❯ MediaAudioInspection.sourceRecipe src/audio-inspection.ts:197:24
+ ❯ MediaAudioInspection.recipe src/audio-inspection.ts:212:68
+ ❯ src/audio-inspection.test.ts:571:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 skipped (14)
+   Start at  02:33:42
+   Duration  312ms (transform 52%, tests 25%, import 22%, worker 1%)
+
+error: script "test" exited with code 1

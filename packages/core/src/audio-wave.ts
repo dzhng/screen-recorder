@@ -69,14 +69,11 @@ export type WaveformBucket = {
   partial: boolean;
   channels: { min: number; max: number; rms: number }[];
 };
-/** The caller retains the published PCM lease until completion, including cancellation. */
-export async function waveformBuckets(
-  file: RetainedRead,
-  audio: AudioSamples,
+/** Plan the absolute grid and refuse oversized detail before preparing or reading PCM. */
+export function waveformLayout(
+  audio: Pick<AudioSamples, "frames" | "sampleRange">,
   options: { bucketFrames: number; sampleRange?: { start: number; end: number } },
-  signal: AbortSignal,
 ) {
-  signal.throwIfAborted();
   const range = options.sampleRange ?? audio.sampleRange,
     width = options.bucketFrames;
   const integer = (value: number) => Number.isSafeInteger(value) && value >= 0;
@@ -102,6 +99,17 @@ export async function waveformBuckets(
       "Waveform request exceeds 4096 buckets; increase bucketFrames or narrow the sample window",
       { maximumBuckets: 4096 },
     );
+  return { range, width, firstGrid };
+}
+/** The caller retains the published PCM lease until completion, including cancellation. */
+export async function waveformBuckets(
+  file: RetainedRead,
+  audio: AudioSamples,
+  options: { bucketFrames: number; sampleRange?: { start: number; end: number } },
+  signal: AbortSignal,
+) {
+  signal.throwIfAborted();
+  const { range, width, firstGrid } = waveformLayout(audio, options);
   const { dataOffset } = validateAudioWave(file, audio),
     buckets: WaveformBucket[] = [];
   const block = Buffer.alloc(8192 * audio.channels * 4);

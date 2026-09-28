@@ -207,6 +207,10 @@
     "./audio-wave": {
       "types": "./dist/audio-wave.d.ts",
       "default": "./dist/audio-wave.js"
+    },
+    "./waveform": {
+      "types": "./dist/waveform.d.ts",
+      "default": "./dist/waveform.js"
     }
   },
   "scripts": {

@@ -1,0 +1,11 @@
+Independent Codex CLI review of uncommitted scope.
+
+Accepted findings:
+- Explicit waveform retry did not recover failed/canceled PCM. It now calls the existing audio retry owner once; ordinary reads preserve terminal failure. Both recovery cases have red/green regressions.
+- Fractional sample-rate metadata could raise an unstructured recipe exception. The optional sample clock now uses the original safe-integer admission guard; renderer format admission is preserved.
+
+Final review:
+No actionable regressions were found in the staged, unstaged, or untracked changes. Focused audio and waveform tests passed: 24 passed, with one native-dependent test skipped.
+No actionable regressions were found in the staged, unstaged, or untracked changes. Focused audio and waveform tests passed: 24 passed, with one native-dependent test skipped.
+
+The reviewer skipped the optional native test; the retained explicit native run passed all94 tests.

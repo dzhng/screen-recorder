@@ -1,8 +1,9 @@
+import { WaveformInspection } from "./waveform.js";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
-import { Catalog } from "./catalog.js";
+import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { JobQueue } from "./jobs.js";
@@ -64,7 +65,12 @@ const renderer: SourceAudioRenderer = {
     };
   },
 };
-async function fixture(render = renderer, budget?: number, durationUs = 1000000) {
+async function fixture(
+  render = renderer,
+  budget?: number,
+  durationUs = 1000000,
+  sampleRate = 48000,
+) {
   const home = await mkdtemp("/tmp/source-audio-inspection-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
@@ -82,7 +88,7 @@ async function fixture(render = renderer, budget?: number, durationUs = 1000000)
       startUs: 100000,
       endUs: durationUs,
       segments: [{ startUs: 100000, endUs: durationUs, empty: false }],
-      sampleRate: 48000,
+      sampleRate,
       channels: 2,
     })),
   }));
@@ -110,30 +116,39 @@ async function fixture(render = renderer, budget?: number, durationUs = 1000000)
   );
   await cache.reconcile();
   let inspection!: MediaAudioInspection;
+  let waveform!: WaveformInspection;
   let pinHook = () => {};
-  const jobs = new JobQueue({
-    store: catalog,
-    providers: { newId: randomUUID },
-    targets: {
-      pin(target) {
-        if (target.kind !== "asset") throw new Error("Expected asset");
-        assets.get(target.assetId);
-        pinHook();
-        return target;
+  const makeJobs = () =>
+    new JobQueue({
+      store: catalog,
+      providers: { newId: randomUUID },
+      targets: {
+        pin(target) {
+          if (target.kind !== "asset") throw new Error("Expected asset");
+          assets.get(target.assetId);
+          pinHook();
+          return target;
+        },
+        isAvailable: () => true,
+        isDeleting: () => false,
+        isCapturing: () => false,
       },
-      isAvailable: () => true,
-      isDeleting: () => false,
-      isCapturing: () => false,
-    },
-    execute: (execution) => inspection.execute(execution),
-  });
-  inspection = new MediaAudioInspection({
-    assets,
-    acquisitions,
-    jobs,
-    cache,
-    sourceRenderer: render,
-  });
+      execute: (execution) =>
+        execution.job.artifact === "waveform"
+          ? waveform.execute(execution)
+          : inspection.execute(execution),
+    });
+  let jobs = makeJobs();
+  const makeInspection = () =>
+    new MediaAudioInspection({
+      assets,
+      acquisitions,
+      jobs,
+      cache,
+      sourceRenderer: render,
+    });
+  inspection = makeInspection();
+  waveform = new WaveformInspection({ audio: inspection, jobs, cache });
   cleanup.push(async () => {
     await jobs.close();
     catalog.close();
@@ -147,9 +162,17 @@ async function fixture(render = renderer, budget?: number, durationUs = 1000000)
     cache,
     jobs,
     inspection,
+    waveform,
     asset,
     original,
     selection: { assetId: asset.id, streamId: "a" },
+    async restart() {
+      await jobs.close();
+      jobs = makeJobs();
+      inspection = makeInspection();
+      waveform = new WaveformInspection({ audio: inspection, jobs, cache });
+      return { jobs, inspection, waveform };
+    },
     onPin(hook: () => void) {
       pinHook = hook;
     },
@@ -361,4 +384,213 @@ test("long source capacity arithmetic rejects before rendering without losing hi
     range: { startUs: 9007199254740959, endUs: 9007199254740960 },
   });
   expect(small.jobId).toBeTruthy();
+});
+
+test("waveform jobs reuse bounded audio recipes, publish source axes and survive eviction of PCM", async () => {
+  let renders = 0;
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      renders++;
+      return renderer.render(request, signal);
+    },
+  });
+  const input = {
+    ...f.selection,
+    acquisitionId: "mask",
+    range: { startUs: 333333, endUs: 533337 },
+  };
+  const first = f.waveform.request(input);
+  expect(first.published).toBeNull();
+  await f.jobs.idle();
+  f.waveform.request(input);
+  await f.jobs.idle();
+  const ready = f.waveform.request(input),
+    artifact = ready.published!.waveform;
+  expect(ready.state).toBe("ready");
+  expect(renders).toBe(1);
+  const document = JSON.parse(await readFile(artifact.file, "utf8"));
+  expect(document).toMatchObject({
+    domain: "source",
+    assetId: f.asset.id,
+    acquisitionId: "mask",
+    range: input.range,
+    sampleRange: { start: 15999, end: 25600 },
+    sampleRate: 48000,
+    channels: 2,
+    units: {
+      range: "microsecond",
+      sampleRange: "sample-frame",
+      amplitude: "linear",
+      rms: "linear",
+    },
+    audio: { jobId: first.jobId, generation: 1 },
+    generation: 1,
+  });
+  expect(document.buckets.length).toBeGreaterThan(900);
+  expect(document.buckets.length).toBeLessThanOrEqual(1025);
+  expect(document.buckets[0]).toMatchObject({
+    gridStart: 15990,
+    sampleRange: { start: 15999, end: 16000 },
+    partial: true,
+    channels: [
+      { min: 0, max: 0, rms: 0 },
+      { min: 0, max: 0, rms: 0 },
+    ],
+  });
+  const audio = f.inspection.request(input).published!.audio;
+  f.cache.remove(audio.cacheId);
+  expect(f.waveform.request(input).published).toEqual(ready.published);
+  await f.jobs.idle();
+  expect(renders).toBe(1);
+  f.cache.remove(artifact.cacheId);
+  f.waveform.request(input);
+  await f.jobs.idle();
+  const failed = f.waveform.request(input);
+  expect(failed.state).toBe("failed");
+  expect(f.jobs.job(failed.jobId!).errorCode).toBe("ARTIFACT_EXPIRED");
+  f.waveform.retry(input);
+  await f.jobs.idle();
+  f.waveform.request(input);
+  await f.jobs.idle();
+  const rebuilt = f.waveform.request(input);
+  expect(rebuilt.state).toBe("ready");
+  expect(rebuilt.published!.waveform.audio.generation).toBe(2);
+  expect(renders).toBe(2);
+});
+
+test("explicit waveform detail refuses before preparing PCM instead of silently coarsening", async () => {
+  let renders = 0;
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      renders++;
+      return renderer.render(request, signal);
+    },
+  });
+  expect(() => f.waveform.request({ ...f.selection, bucketFrames: 1 })).toThrow(
+    expect.objectContaining({ code: "LIMIT_EXCEEDED", details: { maximumBuckets: 4096 } }),
+  );
+  await f.jobs.idle();
+  expect(renders).toBe(0);
+});
+
+test("audio generation changes cannot publish stale waveform work and cancellation requires retry", async () => {
+  const f = await fixture();
+  f.inspection.request(f.selection);
+  await f.jobs.idle();
+  const original = f.inspection.request(f.selection);
+  const acquire = f.cache.acquire.bind(f.cache);
+  let changed = false;
+  f.cache.acquire = (id) => {
+    const lease = acquire(id);
+    if (id === original.published!.audio.cacheId && lease && !changed) {
+      changed = true;
+      f.jobs.regenerate(original.jobId!, original.published!.generation);
+    }
+    return lease;
+  };
+  const pending = f.waveform.request(f.selection);
+  await f.jobs.idle();
+  expect(f.jobs.job(pending.jobId!)).toMatchObject({
+    state: "failed",
+    errorCode: "ARTIFACT_CHANGED",
+  });
+  const next = f.waveform.request(f.selection);
+  f.jobs.cancel(next.jobId!);
+  await f.jobs.idle();
+  expect(f.waveform.request(f.selection).published).toBeNull();
+  f.waveform.retry(f.selection);
+  await f.jobs.idle();
+  const ready = f.waveform.request(f.selection);
+  expect(ready.state).toBe("ready");
+  expect(ready.published!.waveform.audio.generation).toBe(2);
+});
+
+test("default full-source overview handles longer tracks and persisted waveform survives owner restart", async () => {
+  const f = await fixture(renderer, undefined, 120000000);
+  f.waveform.request(f.selection);
+  await f.jobs.idle();
+  f.waveform.request(f.selection);
+  await f.jobs.idle();
+  const ready = f.waveform.request(f.selection);
+  expect(ready.state).toBe("ready");
+  expect(ready.published!.waveform.bucketCount).toBeLessThanOrEqual(1025);
+  expect(ready.published!.waveform.range.endUs).toBe(120000000);
+  const { waveform } = await f.restart();
+  expect(waveform.request(f.selection).published).toEqual(ready.published);
+  const artifact = ready.published!.waveform;
+  const before = await readFile(artifact.file);
+  const held = f.cache.acquire(artifact.cacheId)!;
+  expect(() => f.cache.remove(artifact.cacheId)).toThrow(
+    expect.objectContaining({ code: "CACHE_BUSY" }),
+  );
+  held.release();
+  expect(await readFile(artifact.file)).toEqual(before);
+});
+
+test.each(["failed", "canceled"] as const)(
+  "explicit waveform retry resumes its %s PCM dependency across owner restart",
+  async (state) => {
+    let calls = 0;
+    const blocked = gate(),
+      entered = gate();
+    const f = await fixture({
+      ...renderer,
+      async render(request, signal) {
+        calls++;
+        entered.resolve();
+        if (calls === 1) {
+          if (state === "failed") throw new Error("deterministic first decode failure");
+          await blocked.promise;
+        }
+        return renderer.render(request, signal);
+      },
+    });
+    const pending = f.waveform.request(f.selection);
+    if (state === "canceled") {
+      await entered.promise;
+      f.jobs.cancel(pending.jobId!);
+      blocked.resolve();
+    }
+    await f.jobs.idle();
+    expect(f.jobs.job(pending.jobId!).state).toBe(state);
+    const next = await f.restart();
+    next.waveform.request(f.selection);
+    await next.jobs.idle();
+    expect(calls).toBe(1);
+    next.waveform.retry(f.selection);
+    await next.jobs.idle();
+    next.waveform.request(f.selection);
+    await next.jobs.idle();
+    const ready = next.waveform.request(f.selection);
+    expect(ready.state).toBe("ready");
+    expect(ready.published!.waveform.audio).toEqual({ jobId: pending.jobId, generation: 2 });
+    expect(calls).toBe(2);
+  },
+);
+
+test("nonintegral admitted sample rates remain renderer admission, not an unstructured recipe exception", async () => {
+  let renders = 0;
+  const f = await fixture(
+    {
+      ...renderer,
+      async render() {
+        renders++;
+        throw new CatalogError("UNSUPPORTED_MEDIA", "Fractional fixture sample rate");
+      },
+    },
+    undefined,
+    1000000,
+    44099.5,
+  );
+  expect(f.inspection.recipe(f.selection).sampleClock).toBeUndefined();
+  const pending = f.inspection.request(f.selection);
+  await f.jobs.idle();
+  expect(f.jobs.job(pending.jobId!)).toMatchObject({
+    state: "failed",
+    errorCode: "UNSUPPORTED_MEDIA",
+  });
+  expect(f.waveform.request({ ...f.selection, bucketFrames: 1 }).state).toBe("failed");
+  expect(renders).toBe(1);
 });

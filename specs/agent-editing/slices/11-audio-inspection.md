@@ -1,6 +1,6 @@
 # 11 — Audio, waveforms and spectrograms
 
-Status: bounded waveform reduction and shared WAV validation implemented in core; cached acoustic jobs, public delivery, images, spectrograms and agent/visual acceptance remain. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
+Status: bounded waveform reduction, shared WAV validation and cached waveform jobs implemented in core; public delivery, images, spectrograms and agent/visual acceptance remain. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
 
 ## Contract
 
@@ -14,9 +14,11 @@ The [core waveform reducer](../../../packages/core/src/audio-wave.ts) owns sampl
 
 ## Remaining implementation passes
 
-1. Integrate the reducer with cached acoustic jobs pinned to the exact source/project audio generation and processing tap. Acquire and release the existing cache lease across the entire reduction; propagate missing/expired/deleted dependencies through existing readiness/retry semantics. Choose a simple public resolution representation without exposing file headers or cache paths.
-2. Deliver bounded waveform JSON and timestamped images through existing media delivery. Verify absolute axes, partial edge bins, range/full agreement, cache/restart/cancellation and useful agent navigation through actual CLI/MCP.
+1. Deliver bounded waveform JSON through the existing artifact transport, with source/project audio selectors and optional sample-count resolution. The default is an automatic overview; explicit detail fails with an actionable limit instead of being silently coarsened. Verify actual CLI/MCP delivery, dependency retry, restart/history and agent navigation.
+2. Add timestamped waveform images derived from the same pinned waveform evidence. Verify absolute axes, partial edge bins and range/full agreement through the visual acceptance below.
 3. Add bounded windowed spectral reduction and labeled time/frequency images through the same acoustic artifact lifecycle. Judge impulse/tone alignment, then complete the unprimed image and fresh-agent acceptance below. Energy suggestions remain optional heuristics.
+
+The [cached waveform owner](../../../packages/core/src/waveform.ts) uses the audio owner's canonical recipe and existing jobs/cache. A surviving waveform needs retained audio provenance, not resident PCM bytes. Rebuilding missing waveform data holds a PCM lease during reduction, then permits PCM eviction before waveform publication. Audio-generation changes fence publication; an explicit waveform retry retries its single audio prerequisite, while ordinary reads preserve terminal failures. JSON has an independent byte ceiling and preserves unavailable-support metadata rather than pretending missing capture context is silence. [Lifecycle evidence](../assets/11-waveform-jobs/README.md) covers the core boundary; it does not replace public delivery acceptance.
 
 The [first core pass evidence](../assets/11-waveform-core/README.md) verifies an independent mechanism, not public waveform acceptance. The larger retained-file test uses a sparse WAV to prove positioned I/O; actual native project-tap WAVs separately prove reducer integration. No listening claim follows from either.
 

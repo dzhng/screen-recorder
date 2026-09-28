@@ -176,6 +176,7 @@ export class MediaAudioInspection {
     }
     return {
       source,
+      sampleRate: stream.sampleRate,
       options: {
         selection: source.selection,
         range: parsed.data,
@@ -184,17 +185,39 @@ export class MediaAudioInspection {
       },
     };
   }
+  private sourceRecipe(input: SourceAudioInput) {
+    const { options, sampleRate: rate } = this.plan(input);
+    return {
+      sampleClock:
+        rate === undefined || !Number.isSafeInteger(rate) || rate <= 0
+          ? undefined
+          : {
+              sampleRate: rate,
+              sampleRange: {
+                start: sample(options.range.startUs, rate),
+                end: sample(options.range.endUs, rate),
+              },
+            },
+      options,
+      selection: { ...options.selection, range: options.range },
+      identity: {
+        target: { kind: "asset" as const, assetId: options.selection.assetId },
+        artifact,
+        input: JSON.stringify(options),
+      },
+    };
+  }
+  /** Canonical immutable audio identity without submitting work or regenerating evicted PCM. */
+  recipe(input: MediaAudioInput) {
+    return "projectId" in input ? this.projectRecipe(input) : this.sourceRecipe(input);
+  }
   private requestSource(input: SourceAudioInput) {
-    const { options } = this.plan(input);
+    const { options, identity } = this.sourceRecipe(input);
     const { assets, acquisitions, jobs, cache } = this.owners;
     const status = submitCachedDerivative<SourceAudioArtifact>(
       jobs,
       cache,
-      {
-        target: { kind: "asset", assetId: options.selection.assetId },
-        artifact,
-        input: JSON.stringify(options),
-      },
+      identity,
       "heavy",
       (job) => {
         const owner = { kind: "job" as const, id: job.jobId };
@@ -269,7 +292,7 @@ export class MediaAudioInspection {
     this.owners.cache.checkCapacity(Number(bytes));
     return plan;
   }
-  private requestProject(input: ProjectAudioInput) {
+  private projectRecipe(input: ProjectAudioInput) {
     const { window } = this.projectPlan(input);
     const { range, tap, revisionId } = window.manifest;
     const options = {
@@ -277,21 +300,27 @@ export class MediaAudioInspection {
       tap,
       implementationId: this.owners.project!.renderer.implementationId,
     };
-    const status = submitCachedDerivative<ProjectAudioArtifact>(
-      this.owners.jobs,
-      this.owners.cache,
-      {
-        target: { kind: "project", projectId: input.projectId, revisionId },
+    return {
+      options,
+      sampleClock: { sampleRate: 48000, sampleRange: window.manifest.sampleRange },
+      selection: { projectId: input.projectId, revisionId, range, tap },
+      identity: {
+        target: { kind: "project" as const, projectId: input.projectId, revisionId },
         artifact,
         input: JSON.stringify(options),
       },
+    };
+  }
+  private requestProject(input: ProjectAudioInput) {
+    const { selection, identity } = this.projectRecipe(input);
+    const status = submitCachedDerivative<ProjectAudioArtifact>(
+      this.owners.jobs,
+      this.owners.cache,
+      identity,
       "heavy",
     );
     return {
-      projectId: input.projectId,
-      revisionId,
-      range,
-      tap,
+      ...selection,
       state: status.state,
       reason: status.reason,
       retryable: status.retryable,

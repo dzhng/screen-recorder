@@ -1,0 +1,51 @@
+$ vitest run --maxWorkers=4 src/audio-inspection.test.ts -t "explicit waveform retry resumes"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey/packages/core
+
+(node:4537) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-inspection.test.ts (13 tests | 2 failed | 11 skipped) 66ms
+   × explicit waveform retry resumes its failed PCM dependency across owner restart 39ms
+   × explicit waveform retry resumes its canceled PCM dependency across owner restart 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-inspection.test.ts > explicit waveform retry resumes its failed PCM dependency across owner restart
+AssertionError: expected 'failed' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "failed"
+
+ ❯ src/audio-inspection.test.ts:562:25
+    560|     await next.jobs.idle();
+    561|     const ready = next.waveform.request(f.selection);
+    562|     expect(ready.state).toBe("ready");
+       |                         ^
+    563|     expect(ready.published!.waveform.audio).toEqual({ jobId: pending.j…
+    564|     expect(calls).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/audio-inspection.test.ts > explicit waveform retry resumes its canceled PCM dependency across owner restart
+AssertionError: expected 'not_requested' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "not_requested"
+
+ ❯ src/audio-inspection.test.ts:562:25
+    560|     await next.jobs.idle();
+    561|     const ready = next.waveform.request(f.selection);
+    562|     expect(ready.state).toBe("ready");
+       |                         ^
+    563|     expect(ready.published!.waveform.audio).toEqual({ jobId: pending.j…
+    564|     expect(calls).toBe(2);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 11 skipped (13)
+   Start at  02:30:31
+   Duration  347ms (transform 56%, tests 23%, import 20%, worker 1%)
+
+error: script "test" exited with code 1
