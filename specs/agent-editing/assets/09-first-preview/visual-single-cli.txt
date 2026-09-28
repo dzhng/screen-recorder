@@ -1,0 +1,26 @@
+**Two clear inconsistencies (high confidence):**
+
+- `video-replaced-contact.png` is entirely black, but `video-replaced-frame-0-zoom.png` shows **B 00** with both colored markers.
+- `range-frame-0-zoom.png` shows only black and the red marker; its label, background and green marker are missing. The first cell of `range-contact.png` instead shows **A 00** intact. The cause of these sheet/zoom disagreements is uncertain.
+
+Visible sequences, read left-to-right then top-to-bottom; repeated counters condensed:
+
+| Contact sheet | Sequence |
+|---|---|
+| baseline, music | A 00–03 → B 00–04 → A 04–07 |
+| audio-replaced, historical-video, undo | B 00–04 → B 00–04 → A 04–07 |
+| cancel-retry | A 00–03 → B 00–04 → A 04 |
+| crash-retry | A 01–03 → B 00–04 → A 04–05 |
+| range | A 00–03 → B 00–03 |
+| video-replaced | Entirely black |
+
+**Framing:** Intact A images have balanced top/bottom letterboxing; B images have balanced side pillarboxing. These look intentional and consistent across states, with no evident stretching or actual cropping. Both corner markers remain visible in intact images. Trailing black cells in the shorter sheets look like unused grid padding.
+
+**Image quality:** Labels are readable but visibly pixelated. Zooms show mild halos/color bleed around text and marker edges, consistent with compression or enlargement; no severe corruption in intact frames. Confidence is moderate about the artifact cause.
+
+Inspected all **17 files**, individually with `view_image`, sheets first:
+
+- Sheets: `audio-replaced-contact.png`, `baseline-contact.png`, `cancel-retry-contact.png`, `crash-retry-contact.png`, `historical-video-contact.png`, `music-contact.png`, `range-contact.png`, `undo-contact.png`, `video-replaced-contact.png`.
+- Zooms: `audio-replaced-frame-0-zoom.png`, `baseline-frame-0-zoom.png`, `baseline-frame-10-zoom.png`, `baseline-frame-20-zoom.png`, `music-frame-0-zoom.png`, `range-frame-0-zoom.png`, `range-frame-17-zoom.png`, `video-replaced-frame-0-zoom.png`.
+
+Stills alone cannot establish intended sequence changes, audio correctness, or public-route behavior.

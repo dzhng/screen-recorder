@@ -1,0 +1,28 @@
+**High confidence:** Visible content differs across states; framing remains consistent.
+
+| Contact sheet(s) | Sequence, read left-to-right then top-to-bottom |
+|---|---|
+| `baseline-contact.png`, `music-contact.png` | A00–A03 → B00–B04 → A04–A07 |
+| `audio-replaced-contact.png`, `historical-video-contact.png`, `undo-contact.png` | B00–B04 → B00–B04 → A04–A07 |
+| `video-replaced-contact.png` | B00–B04 → B00–B04; remaining row black |
+| `range-contact.png` | A00–A03 → B00–B03 |
+| `cancel-retry-contact.png` | A00–A03 → B00–B04 → A04 |
+| `crash-retry-contact.png` | A01–A03 → B00–B04 → A04–A05 |
+
+Counters repeat within these runs. Relative to baseline, the opening A section is absent in audio-replaced, historical-video, and undo; video-replaced also has no visible closing A section. Whether these differences are intended is unknown. Trailing black cells look consistent with unused grid padding, not demonstrated missing frames.
+
+**High confidence:** A frames have centered landscape content with black bars above/below; B frames have centered portrait content with black bars beside them. These look like intentional aspect fitting. No definite cropping, stretching, clipped labels, or missing corner markers is visible. Red upper-left and green lower-right markers remain recognizable across states.
+
+**Moderate confidence:** Zooms show mild edge halos/color bleed and blockiness around lettering and colored markers. Labels remain readable; no severe compression corruption is evident. Pixelated glyph design and enlargement may contribute to the roughness.
+
+Inspected **all 17 files using `view_image`**, contact sheets first: the nine sheets named above, followed by:
+- `audio-replaced-frame-0-zoom.png`
+- `baseline-frame-0-zoom.png`
+- `baseline-frame-10-zoom.png`
+- `baseline-frame-20-zoom.png`
+- `music-frame-0-zoom.png`
+- `range-frame-0-zoom.png`
+- `range-frame-17-zoom.png`
+- `video-replaced-frame-0-zoom.png`
+
+Stills alone cannot establish continuity between samples, audio correctness, or public-route behavior.

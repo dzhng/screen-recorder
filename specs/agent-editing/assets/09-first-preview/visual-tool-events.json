@@ -1,0 +1,97 @@
+[
+  {
+    "session": "01a0e5f5-aa00-7b81-a682-aee3533b54aa",
+    "tool": "exec",
+    "input": "const names = [\"audio-replaced-contact.png\",\"baseline-contact.png\",\"cancel-retry-contact.png\",\"crash-retry-contact.png\",\"historical-video-contact.png\",\"music-contact.png\",\"range-contact.png\",\"undo-contact.png\",\"video-replaced-contact.png\"];\nfor (const name of names) { text(name); image((await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/\"+name})).image_url); }\n"
+  },
+  {
+    "session": "01a0e5f5-aa00-7b81-a682-aee3533b54aa",
+    "tool": "exec",
+    "input": "const names = [\"audio-replaced-frame-0-zoom.png\",\"baseline-frame-0-zoom.png\",\"baseline-frame-10-zoom.png\",\"baseline-frame-20-zoom.png\",\"music-frame-0-zoom.png\",\"range-frame-0-zoom.png\",\"range-frame-17-zoom.png\",\"video-replaced-frame-0-zoom.png\"];\nfor (const name of names) { text(name); image((await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/\"+name})).image_url); }\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/audio-replaced-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/baseline-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/cancel-retry-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/crash-retry-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/historical-video-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/music-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/range-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/undo-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/video-replaced-contact.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/audio-replaced-frame-0-zoom.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/baseline-frame-0-zoom.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/baseline-frame-10-zoom.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/baseline-frame-20-zoom.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/music-frame-0-zoom.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/range-frame-0-zoom.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/range-frame-17-zoom.png\"});image(r.image_url);\n"
+  },
+  {
+    "session": "01a0e5f7-6cd1-71a2-84db-bf016f8832fa",
+    "tool": "exec",
+    "input": "const r=await tools.view_image({path:\"/tmp/screenrec-first-preview-live2/video-replaced-frame-0-zoom.png\"});image(r.image_url);\n"
+  }
+]

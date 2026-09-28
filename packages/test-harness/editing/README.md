@@ -30,3 +30,8 @@ preservation results and visual review belong to the slice's evidence report.
 The manifest records the source commit at generation and encoder versions;
 regenerating with another encoder version may change bytes without changing
 decoded content. The tests prove repeatability with the installed toolchain.
+
+The [first-preview journey](first-preview.mjs) imports the retained corpus and
+exercises actual CLI/MCP delivery, independent replacements, processing routes,
+range phase and render lifecycle recovery. Its [evidence](../../../specs/agent-editing/assets/09-first-preview/README.md)
+separates decoded-media checks from visual review and pending export work.

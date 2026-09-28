@@ -1,0 +1,13 @@
+✔ AAC gain oracle rejects hidden mix attenuation, wrong source and silence (27.836125ms)
+✔ impulse oracle rejects shifted or missing retained transients (0.356459ms)
+✔ replacement oracle refuses old-source audio mixed under the new source (13.767417ms)
+✔ stereo oracle rejects silent, attenuated and shifted right channels (35.351458ms)
+✔ CLI transport refuses success envelopes from failed or signaled real children (151.646791ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 290.137791
