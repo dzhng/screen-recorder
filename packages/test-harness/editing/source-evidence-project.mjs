@@ -157,6 +157,7 @@ export async function projectMasks(service, contexts, physicalTranscript, out) {
   return {
     projectId,
     revisionId: edited.revision.id,
+    document: edited.revision.document,
     word,
     projections,
     compiled,

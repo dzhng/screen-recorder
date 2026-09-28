@@ -1,0 +1,520 @@
+{
+  "projectId": "256eda2a-6560-4b2e-b3af-44094f683c7b",
+  "revisionId": "e6ab55f0-9dc1-481c-b719-a4ee7ae5105a",
+  "document": {
+    "canvas": {
+      "width": 32,
+      "height": 32,
+      "fps": {
+        "numerator": 1,
+        "denominator": 1
+      },
+      "background": "#000000ff"
+    },
+    "tracks": [
+      {
+        "id": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+        "kind": "audio",
+        "order": 0
+      }
+    ],
+    "groups": [],
+    "clips": [
+      {
+        "id": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:1",
+        "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+        "placement": {
+          "kind": "project",
+          "range": {
+            "startUs": 0,
+            "endUs": 12500000
+          }
+        },
+        "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+        "streamId": "track:1",
+        "acquisitionId": "1653be0f-f60e-4121-b0d5-4b505ab1d685",
+        "source": {
+          "kind": "range",
+          "range": {
+            "startUs": 0,
+            "endUs": 12500000
+          }
+        }
+      },
+      {
+        "id": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:2",
+        "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+        "placement": {
+          "kind": "project",
+          "range": {
+            "startUs": 13000000,
+            "endUs": 25500000
+          }
+        },
+        "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+        "streamId": "track:1",
+        "acquisitionId": "1e2decc2-0300-497c-88b7-71c10a424892",
+        "source": {
+          "kind": "range",
+          "range": {
+            "startUs": 0,
+            "endUs": 12500000
+          }
+        }
+      },
+      {
+        "id": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:3",
+        "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+        "placement": {
+          "kind": "project",
+          "range": {
+            "startUs": 26000000,
+            "endUs": 38500000
+          }
+        },
+        "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+        "streamId": "track:1",
+        "source": {
+          "kind": "range",
+          "range": {
+            "startUs": 0,
+            "endUs": 12500000
+          }
+        }
+      }
+    ],
+    "syncGroups": [],
+    "processing": [],
+    "captions": []
+  },
+  "word": {
+    "type": "word",
+    "id": "w2",
+    "ordinal": 2,
+    "text": "this",
+    "kind": "speech",
+    "confidence": 0.9995117,
+    "segment": 0,
+    "sourceRange": {
+      "startUs": 1920000,
+      "endUs": 2240000
+    },
+    "partial": false
+  },
+  "projections": [
+    {
+      "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:1",
+      "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+      "streamId": "track:1",
+      "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+      "trackOrder": 0,
+      "source": {
+        "start": {
+          "numerator": "1920000",
+          "denominator": "1"
+        },
+        "end": {
+          "numerator": "2240000",
+          "denominator": "1"
+        }
+      },
+      "completeness": "partial",
+      "fragments": [
+        {
+          "source": {
+            "start": {
+              "numerator": "1920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "2000000",
+              "denominator": "1"
+            }
+          },
+          "project": {
+            "start": {
+              "numerator": "1920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "2000000",
+              "denominator": "1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:2",
+      "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+      "streamId": "track:1",
+      "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+      "trackOrder": 0,
+      "source": {
+        "start": {
+          "numerator": "1920000",
+          "denominator": "1"
+        },
+        "end": {
+          "numerator": "2240000",
+          "denominator": "1"
+        }
+      },
+      "completeness": "whole",
+      "fragments": [
+        {
+          "source": {
+            "start": {
+              "numerator": "1920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "2240000",
+              "denominator": "1"
+            }
+          },
+          "project": {
+            "start": {
+              "numerator": "14920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "15240000",
+              "denominator": "1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:3",
+      "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+      "streamId": "track:1",
+      "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+      "trackOrder": 0,
+      "source": {
+        "start": {
+          "numerator": "1920000",
+          "denominator": "1"
+        },
+        "end": {
+          "numerator": "2240000",
+          "denominator": "1"
+        }
+      },
+      "completeness": "whole",
+      "fragments": [
+        {
+          "source": {
+            "start": {
+              "numerator": "1920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "2240000",
+              "denominator": "1"
+            }
+          },
+          "project": {
+            "start": {
+              "numerator": "27920000",
+              "denominator": "1"
+            },
+            "end": {
+              "numerator": "28240000",
+              "denominator": "1"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "compiled": [
+    {
+      "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:1",
+      "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+      "sampleRange": {
+        "start": 0,
+        "end": 600000
+      },
+      "placement": {
+        "startUs": 0,
+        "endUs": 12500000
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 12500000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 96000
+          }
+        },
+        {
+          "source": {
+            "startUs": 3000000,
+            "endUs": 6000000
+          },
+          "sampleRange": {
+            "start": 144000,
+            "end": 288000
+          }
+        },
+        {
+          "source": {
+            "startUs": 6500000,
+            "endUs": 12000000
+          },
+          "sampleRange": {
+            "start": 312000,
+            "end": 576000
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 0,
+          "end": 96000
+        },
+        {
+          "start": 144000,
+          "end": 288000
+        },
+        {
+          "start": 312000,
+          "end": 576000
+        }
+      ]
+    },
+    {
+      "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:2",
+      "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+      "sampleRange": {
+        "start": 624000,
+        "end": 1224000
+      },
+      "placement": {
+        "startUs": 13000000,
+        "endUs": 25500000
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 12500000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "sampleRange": {
+            "start": 624000,
+            "end": 912000
+          }
+        },
+        {
+          "source": {
+            "startUs": 6500000,
+            "endUs": 12500000
+          },
+          "sampleRange": {
+            "start": 936000,
+            "end": 1224000
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 624000,
+          "end": 912000
+        },
+        {
+          "start": 936000,
+          "end": 1224000
+        }
+      ]
+    },
+    {
+      "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:3",
+      "trackId": "track:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:0",
+      "sampleRange": {
+        "start": 1248000,
+        "end": 1848000
+      },
+      "placement": {
+        "startUs": 26000000,
+        "endUs": 38500000
+      },
+      "source": {
+        "kind": "range",
+        "assetId": "2cfd03b0b9faa9e8608b365f17ebbeef64d64bbf28a360768605f2d9dfd150df",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 12500000
+        }
+      },
+      "context": [
+        {
+          "source": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "sampleRange": {
+            "start": 1248000,
+            "end": 1536000
+          }
+        },
+        {
+          "source": {
+            "startUs": 6500000,
+            "endUs": 12500000
+          },
+          "sampleRange": {
+            "start": 1560000,
+            "end": 1848000
+          }
+        }
+      ],
+      "pitch": "preserve",
+      "available": [
+        {
+          "start": 1248000,
+          "end": 1536000
+        },
+        {
+          "start": 1560000,
+          "end": 1848000
+        }
+      ]
+    }
+  ],
+  "preview": {
+    "projectId": "256eda2a-6560-4b2e-b3af-44094f683c7b",
+    "revisionId": "e6ab55f0-9dc1-481c-b719-a4ee7ae5105a",
+    "range": {
+      "startUs": 0,
+      "endUs": 38500000
+    },
+    "state": "ready",
+    "reason": null,
+    "retryable": false,
+    "jobId": "e1b0557c-72b9-46a5-bfdc-5e127b5593c9",
+    "published": {
+      "generation": 1,
+      "preview": {
+        "audio": {
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "frames": 1848000,
+          "maximumBlockFrames": 8192,
+          "peak": 0.2365003377199173,
+          "peakResidentBytes": 48431104,
+          "sampleRate": 48000,
+          "unavailable": [
+            {
+              "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:1",
+              "ranges": [
+                {
+                  "end": 144000,
+                  "start": 96000
+                },
+                {
+                  "end": 312000,
+                  "start": 288000
+                },
+                {
+                  "end": 600000,
+                  "start": 576000
+                }
+              ]
+            },
+            {
+              "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:2",
+              "ranges": [
+                {
+                  "end": 936000,
+                  "start": 912000
+                }
+              ]
+            },
+            {
+              "clipId": "clip:446caaf23573d8b8599e51c812bbd2eb08b01a1ee8721ca9a319180019165b5b:3",
+              "ranges": [
+                {
+                  "end": 1560000,
+                  "start": 1536000
+                }
+              ]
+            }
+          ]
+        },
+        "bytes": 646822,
+        "codec": "h264",
+        "durationUs": 38500000,
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-source-aSTC3K/library/cache/derived/d5a97c09-443b-41d3-b1c9-9bc489dca667.cache",
+        "frameCount": 39,
+        "height": 32,
+        "mediaType": "video/mp4",
+        "width": 32,
+        "range": {
+          "startUs": 0,
+          "endUs": 38500000
+        },
+        "profile": "h264-rec709",
+        "implementationId": "native-composition-movie-v1",
+        "projectId": "256eda2a-6560-4b2e-b3af-44094f683c7b",
+        "revisionId": "e6ab55f0-9dc1-481c-b719-a4ee7ae5105a",
+        "cacheId": "d5a97c09-443b-41d3-b1c9-9bc489dca667"
+      }
+    },
+    "delivery": {
+      "token": "bcf99039-64bb-45a5-88f2-b55c88f4c886",
+      "bytes": 646822,
+      "expiresAt": 1790576551003
+    },
+    "output": "/tmp/source-transcript-history-2/different-contexts.mp4"
+  },
+  "movieSha256": "c7f85b53f78bb327078ba1dd7bb2a534330dae461f5870823b367b21f759a901",
+  "retainedRms": [
+    0.017187441949022633,
+    0.01719858129774636,
+    0.01719381889256128
+  ],
+  "holeRms": [
+    0,
+    0.01659505026536947,
+    0.016587203577259523
+  ],
+  "physicalHoleRms": [
+    0,
+    0,
+    0
+  ],
+  "evidenceBoundary": "Live CLI/MCP project authoring and native delivered movie PCM; projection/compiler inspected through existing pure engine, not a public occurrence-query endpoint",
+  "newHeadRevisionId": "8d9a55be-c5a2-4713-b70d-65d98709de16"
+}

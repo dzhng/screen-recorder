@@ -67,6 +67,22 @@ compares every recorded production module with the integrated main worktree.
 [Complete native requests, receipts and raw lines](native/) retain matched-input
 inference evidence, including the canceled successful call. The [project report](project.json)
 and [delivered movie](different-contexts.mp4) retain exact masks, projection and PCM
-measurements. Historical preview bytes remain identical after service restart.
+measurements. The original run verifies pinned preview bytes after restart while that revision is still head.
+The [history correction](history/report.json) advances head before testing historical reads.
 The independent review fixes, exact schedule count and existing native poison
 checks are all verified; no ASR or media-quality threshold was relaxed.
+
+
+## Historical revision correction
+
+The earlier report is retained with its original scope: it did not advance the
+project head before restarting. The corrected journey performs a public output-gain
+edit, verifies that both the revision ID and document changed, and confirms the new
+head survives restart. It then requests the old revision and requires its exact ID,
+complete original document and original preview bytes. This distinguishes actual
+history from restarting a project at its current revision.
+
+[Focused review](history/review.txt) caught that unchanged clip acquisition IDs
+alone could accept a new-head response from `revision.get`; comparing the complete
+original public edit receipt closes that gap. The delivered historical preview is
+verified independently. No media threshold or native implementation changed.

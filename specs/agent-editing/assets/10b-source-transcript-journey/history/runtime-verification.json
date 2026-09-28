@@ -1,0 +1,81 @@
+{
+  "rootCommitAtVerification": "892265c18c8159d3e6f429921469a2e3ad785238",
+  "runtime": {
+    "apps/service/dist/project-service.js": {
+      "recordedSha256": "e2e19e9e939e397b874bd814f34ac8feb6fa6e8979f640fcc5cde74e86724f33",
+      "currentSha256": "e2e19e9e939e397b874bd814f34ac8feb6fa6e8979f640fcc5cde74e86724f33",
+      "matches": true
+    },
+    "apps/service/dist/worker.js": {
+      "recordedSha256": "d34e4caa92a828ab4abdd0d97182b67be5155bdc2ce45dcffe1717a7655f4568",
+      "currentSha256": "d34e4caa92a828ab4abdd0d97182b67be5155bdc2ce45dcffe1717a7655f4568",
+      "matches": true
+    },
+    "apps/cli/dist/main.js": {
+      "recordedSha256": "b5eea3cc28a4540af9b5d3429e5e7dd29f27addd29d12e04582ec465bca875e1",
+      "currentSha256": "b5eea3cc28a4540af9b5d3429e5e7dd29f27addd29d12e04582ec465bca875e1",
+      "matches": true
+    },
+    "packages/protocol/dist/operations.js": {
+      "recordedSha256": "140a00da73d25d1a8ac449849a267a0490194343674616b62ea690461cb6c4e3",
+      "currentSha256": "140a00da73d25d1a8ac449849a267a0490194343674616b62ea690461cb6c4e3",
+      "matches": true
+    },
+    "packages/core/dist/transcript-processing.js": {
+      "recordedSha256": "5ac8e7c70d6b7693b8bbf27c823ec5ca979bda780061ca53a1a588858aa68b59",
+      "currentSha256": "5ac8e7c70d6b7693b8bbf27c823ec5ca979bda780061ca53a1a588858aa68b59",
+      "matches": true
+    },
+    "packages/core/dist/transcript-read.js": {
+      "recordedSha256": "b31648bb7e8a9c05c8b44e02122b8c52b7b25ee583ac3429e5ebd7135dd0a108",
+      "currentSha256": "b31648bb7e8a9c05c8b44e02122b8c52b7b25ee583ac3429e5ebd7135dd0a108",
+      "matches": true
+    },
+    "packages/core/dist/transcript.js": {
+      "recordedSha256": "b2b5b78afb300c5f68844b60164a5c806099f8ac06599812262d8d89b1802974",
+      "currentSha256": "b2b5b78afb300c5f68844b60164a5c806099f8ac06599812262d8d89b1802974",
+      "matches": true
+    },
+    "packages/core/dist/source-selection.js": {
+      "recordedSha256": "b4ae7b7e24cb4019a7a4a949a7ad9da7debbaffb5e49bf2e1f023ddcc6925e2d",
+      "currentSha256": "b4ae7b7e24cb4019a7a4a949a7ad9da7debbaffb5e49bf2e1f023ddcc6925e2d",
+      "matches": true
+    },
+    "packages/core/dist/speech-models.js": {
+      "recordedSha256": "dba41344252e1edca74cedd9a78f6ee21eb75ee2b70f45878d7e77b08413693d",
+      "currentSha256": "dba41344252e1edca74cedd9a78f6ee21eb75ee2b70f45878d7e77b08413693d",
+      "matches": true
+    },
+    "packages/core/dist/acquisitions.js": {
+      "recordedSha256": "b43820608f648df0989f64c37a133bf0a27cefa617327fce5e91d06daaf6d723",
+      "currentSha256": "b43820608f648df0989f64c37a133bf0a27cefa617327fce5e91d06daaf6d723",
+      "matches": true
+    },
+    "packages/composition/dist/source-projection.js": {
+      "recordedSha256": "2d4d026f8f0e82273693314c064e7aa81a213bd3bf938f72c2a9e8819edc3163",
+      "currentSha256": "2d4d026f8f0e82273693314c064e7aa81a213bd3bf938f72c2a9e8819edc3163",
+      "matches": true
+    },
+    "packages/test-harness/editing/source-evidence.mjs": {
+      "recordedSha256": "3892bf0305f306c8b9b22d9a1b93683732a0e31e35de04f0bc46071d6926a1e3",
+      "currentSha256": "3892bf0305f306c8b9b22d9a1b93683732a0e31e35de04f0bc46071d6926a1e3",
+      "matches": true
+    },
+    "packages/test-harness/editing/source-evidence-fixture.mjs": {
+      "recordedSha256": "7dcacd05160668f1a04c9990d452039e79bfe259cec95bda79c478f771d7a830",
+      "currentSha256": "7dcacd05160668f1a04c9990d452039e79bfe259cec95bda79c478f771d7a830",
+      "matches": true
+    },
+    "packages/test-harness/editing/source-evidence-project.mjs": {
+      "recordedSha256": "ad6448ac69e55632cca8aa7d24eb5ad327633179461f1c9b853434360bafaa7a",
+      "currentSha256": "ad6448ac69e55632cca8aa7d24eb5ad327633179461f1c9b853434360bafaa7a",
+      "matches": true
+    },
+    "packages/test-harness/editing/source-acquisition-service.mjs": {
+      "recordedSha256": "3b4bae13079ce6dde2501966784bfa6434000f44b4d6a7d05da8968b115def6d",
+      "currentSha256": "3b4bae13079ce6dde2501966784bfa6434000f44b4d6a7d05da8968b115def6d",
+      "matches": true
+    }
+  },
+  "nativeSha256": "611ee1097c95fa2eae4ef7c6a0cb11facc39d236c642b953e9ccf072f8f05137"
+}

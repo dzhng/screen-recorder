@@ -357,6 +357,29 @@ try {
   await save("contexts.json", contexts);
   await save("source-pass.json", { passed: true, checks: report.checks });
   report.project = await projectMasks(service, contexts, unmasked, out);
+  const advanced = await call(
+    "edit.apply",
+    {
+      projectId: report.project.projectId,
+      expectedRevisionId: report.project.revisionId,
+      requestId: "advance-head-before-history-read",
+      operations: [
+        {
+          operation: "processing.set",
+          target: { kind: "output" },
+          steps: [{ processor: { type: "gain", gain: 0 } }],
+        },
+      ],
+    },
+    { transport: "mcp" },
+  );
+  assert.notEqual(advanced.revision.id, report.project.revisionId);
+  assert.notDeepEqual(advanced.revision.document, report.project.document);
+  assert.equal(
+    (await call("project.get", { projectId: report.project.projectId })).currentRevisionId,
+    advanced.revision.id,
+  );
+  report.project.newHeadRevisionId = advanced.revision.id;
   await save("project.json", report.project);
   await service.stop();
   await service.start();
@@ -365,11 +388,18 @@ try {
       await call("transcript.get", { ...selection, limit: 1000 }),
       transcripts[index],
     );
+  assert.equal(
+    (await call("project.get", { projectId: report.project.projectId }, { transport: "mcp" }))
+      .currentRevisionId,
+    report.project.newHeadRevisionId,
+  );
   const historical = await call(
     "revision.get",
     { projectId: report.project.projectId, revisionId: report.project.revisionId },
     { transport: "mcp" },
   );
+  assert.equal(historical.revision.id, report.project.revisionId);
+  assert.deepEqual(historical.revision.document, report.project.document);
   assert.deepEqual(
     historical.revision.document.clips.map((c) => c.acquisitionId ?? null),
     [contexts[0].context.id, contexts[1].context.id, null],
