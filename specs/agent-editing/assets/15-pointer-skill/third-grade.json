@@ -1,0 +1,24 @@
+{
+  "translationPngExact": true,
+  "dimTranslatedRgbaExact": true,
+  "exports": [
+    {
+      "receipt": "receipts/export.status.v2.json",
+      "state": "committed",
+      "bytesMatch": true,
+      "sha256Match": true,
+      "revisionId": "14414536-5f19-42b0-a3ad-2c3272121988"
+    },
+    {
+      "receipt": "receipts/export.status.v1.json",
+      "state": "committed",
+      "bytesMatch": true,
+      "sha256Match": true,
+      "revisionId": "81342a68-e948-43db-bf0e-9e68979d9ba8"
+    }
+  ],
+  "resumedAfterInterruption": true,
+  "retainedInitialFailure": "INVALID_EDIT: invented new processing step IDs",
+  "preservedExistingStepIds": true,
+  "scope": "Same task after first skill clarification; recovered continuation by fresh Luna; latest new-step wording not included. Split picture at1s matches independent unsplit dim translation oracle."
+}

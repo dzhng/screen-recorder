@@ -1,0 +1,29 @@
+{
+  "scope": "Product skill usability only; no new renderer acceptance",
+  "skillSha256": "dfd1c1d0b87cb41f210cc228ac07e80760f64d4ebfebff547809778ac72ed569",
+  "nativeWorkerSha256": "2b40350219d91abdb79d0872d2fa34aff64be0d60a711cacf3724d06749c0db2",
+  "metadata": "Frontmatter name/description manually validated; stock quick_validate.py unavailable because both system and bundled Python lack PyYAML. No dependency installed.",
+  "artifacts": {
+    "README.md": "a511b491dce5ec3fb09859ca914b35345f161c08d5ac604afbd4d983c13bcfb7",
+    "first-grade.json": "ee5cca3ec5b7102b5b6022e403916f7dbf36c7ca27696a8d36c567193a23a531",
+    "fourth-grade.json": "2b2707bf044c8f8f0d2173ab8179e3d48e460c67e98cb29f87b64cac2b910409",
+    "fourth-v1-1s.json": "9f44c74b7f8de538c6d58896c787484f3bf0ea0587cf5c71f369586210e02b31",
+    "fourth-v1-1s.png": "27d76a296f2014160dec80d2b5a1f1bde1819971ccc09264538b80805fab4371",
+    "oracle.json": "3204785e5b6126ea59166ba42f20230697c71903cc98400bda72e8f493a952e2",
+    "pre-fix-visual-review.md": "05c43503df9ee8201addd7a304871fee12b38a7d420089a3185519b52b48467a",
+    "replayed-scope-refusal.json": "82af9bfa420ba7de1a36d7fdcacb672d0e793778e895e18cc7f7ad4e12ecf3ea",
+    "review.md": "195505e1ee3a1c9a27c0002e5d63b6f2c28a94112e111f2569beb3fab69dab23",
+    "run-1.tar.gz": "fa3049b2fb278b0bf3951c36e9647fe4473995b073abae6da0862ead1b2d8318",
+    "run-2.tar.gz": "717e5f21454eb2ff271aa469e6471ebc8611684c793d4fe34b5bdfa23496e460",
+    "run-3.tar.gz": "44a499ed20a697fb8b26d8c87416da5418cfdeee2c0c79b651a5bf465dd47a4e",
+    "run-4.tar.gz": "f6c0891af2fb04a2857f7f66e0df0cc5dbe1026b485a7e00f8678194ca578e48",
+    "second-grade.json": "4092dc72921d472c1bf583f9378836916edb61cec77b5a5f08c05b9a22b73106",
+    "third-grade.json": "5bd732df6bbb265b9178ead609f6bee7b0f27da1cda5b71f2955aa23422e24ee",
+    "third-v1-1s.json": "48ebc9cce5e5f554a78c5a88c16fe4dd0f163e3ed56273f476dd1874ab27a23d",
+    "third-v1-1s.png": "27d76a296f2014160dec80d2b5a1f1bde1819971ccc09264538b80805fab4371"
+  },
+  "inputHashes": {
+    "video.mov": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+    "capture.journal.jsonl": "c65da347e9ef560c4d58f320eb9f50fc045dd7c69090f0c242231c2e10712f05"
+  }
+}

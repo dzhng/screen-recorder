@@ -1,0 +1,112 @@
+{
+  "freshFinalSkill": true,
+  "translationPngExact": true,
+  "dimTranslatedRgbaExact": true,
+  "exports": [
+    {
+      "receipt": "export_v2_status_poll.receipt.json",
+      "state": "committed",
+      "bytesMatch": true,
+      "sha256Match": true,
+      "revisionId": "2224b4b3-7290-4aed-81f1-89ae21fba970"
+    },
+    {
+      "receipt": "export_v1_status.receipt.json",
+      "state": "committed",
+      "bytesMatch": true,
+      "sha256Match": true,
+      "revisionId": "ebcc09cd-f9d1-4c99-b7bf-f2dc09bac08f"
+    }
+  ],
+  "recordedErrors": [
+    {
+      "receipt": "edit_v1_processing.receipt.json",
+      "error": {
+        "code": "INVALID_EDIT",
+        "message": "Operation label does not name the requested entity kind",
+        "retryable": false,
+        "details": {
+          "label": "clip-footage",
+          "kind": "clip",
+          "operationIndex": 0,
+          "cause": "INVALID_EDIT"
+        }
+      }
+    },
+    {
+      "receipt": "edit_initial_v2.receipt.json",
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "ba2cf79a-c4ad-421b-8f9a-6f58a666c0ad"
+        }
+      }
+    },
+    {
+      "receipt": "edit_initial_v3.receipt.json",
+      "error": {
+        "code": "INVALID_EDIT",
+        "message": "Operation label was already bound",
+        "retryable": false,
+        "details": {
+          "label": "footage",
+          "operationIndex": 1,
+          "cause": "INVALID_EDIT"
+        }
+      }
+    },
+    {
+      "receipt": "project_get.receipt.json",
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "ba2cf79a-c4ad-421b-8f9a-6f58a666c0ad"
+        }
+      }
+    },
+    {
+      "receipt": "timeline_v2.receipt.json",
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Parameters do not match the operation schema.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "receipt": "project_get_retry.receipt.json",
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "ba2cf79a-c4ad-421b-8f9a-6f58a666c0ad"
+        }
+      }
+    },
+    {
+      "receipt": "edit_initial.receipt.json",
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Parameters do not match the operation schema.",
+        "retryable": false,
+        "details": {}
+      }
+    }
+  ],
+  "scope": "Scoped delivered outcome succeeds with retained recoveries; not an error-free workflow or full movie geometry acceptance.",
+  "examinerCorrections": {
+    "notFound": "Agent transcribed original project ID incorrectly: submitted ba2cf79a-c4ad-421b-8f9a-6f58a666c0ad; returned ba2cf79a-c4ad-421b-8f9a-9f658666c0ad. No lost-state evidence.",
+    "blackBoundaryPicture": {
+      "false": true,
+      "900000And950001PngByteEqual": true,
+      "sha256": "ea9f7d512f69b339769c74e877a7d4891bada54627afa4cf976bbd6496fc9db8",
+      "decodedNonzeroRgbChannels": 96747,
+      "visuallyInspected": "Image shows translated dim gray footage, bright cursor and pink trail; not black."
+    }
+  }
+}

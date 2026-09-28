@@ -2008,3 +2008,16 @@ existing lifetime owner.
   or runtime dependency.
 - **Verdict:** Sound, medium confidence. Preserve the measured short-tone gain and
   endpoint regression together without converting either into product policy.
+## Pointer product skill clarification
+
+- **Sound, high confidence — discover processor scope instead of prescribing a pointer recipe.**
+  An agent tried a captured pointer on a track even though the service advertised
+  clip-only support. The skill now asks for target and acquisition capabilities
+  before selecting scope, so future processors still use their own advertised
+  contract rather than inheriting a hard-coded pointer exception.
+- **Sound, high confidence — distinguish retained identities from new effects.**
+  When adding dimming beside an existing pointer, keep the pointer's returned ID;
+  when adding a new effect, omit its ID and let the service assign one. Otherwise
+  the agent can accidentally recreate an existing effect or invent an ID the
+  service rejects. Requests and receipts from failed attempts remain separate
+  from successful recovery, preserving what actually happened for inspection.

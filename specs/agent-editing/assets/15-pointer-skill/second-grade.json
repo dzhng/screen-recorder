@@ -1,0 +1,29 @@
+{
+  "translationPngExact": true,
+  "translationSource": "examiner public frame of agent preserved first revision at1s",
+  "translationSha256": "27d76a296f2014160dec80d2b5a1f1bde1819971ccc09264538b80805fab4371",
+  "dimTranslatedRgbaExact": true,
+  "dimMaximumChannelError": 0,
+  "dimChangedChannels": 0,
+  "pureSplitPngEquality": {
+    "1000000": true,
+    "1100000": true
+  },
+  "exports": [
+    {
+      "receipt": "v1-export-status.receipt.json",
+      "state": "committed",
+      "bytesMatch": true,
+      "sha256Match": true,
+      "revisionId": "65f64bb5-2468-4c82-9136-7e3396df188c"
+    },
+    {
+      "receipt": "v2-export-status.receipt.json",
+      "state": "committed",
+      "bytesMatch": true,
+      "sha256Match": true,
+      "revisionId": "fc3247a3-9ba3-413c-9930-d54cf24da869"
+    }
+  ],
+  "recordedErrors": []
+}

@@ -1,0 +1,96 @@
+{
+  "ok": true,
+  "data": {
+    "projectId": "b5c35d94-7691-4878-a8ac-e83251672723",
+    "revisionId": "81342a68-e948-43db-bf0e-9e68979d9ba8",
+    "atUs": 1000000,
+    "maxLongEdge": 1600,
+    "tap": {
+      "target": {
+        "kind": "output"
+      },
+      "point": {
+        "kind": "processed"
+      }
+    },
+    "implementationId": "native-composition-picture-v6",
+    "state": "ready",
+    "reason": null,
+    "retryable": false,
+    "jobId": "57d43315-0258-4e7f-983a-295270abc6c6",
+    "published": {
+      "generation": 1,
+      "frame": {
+        "file": "/private/tmp/screenrec-pointer-skill-service-3/library/cache/derived/bb6f12e6-f198-4b07-9987-fcfc617b39ab.cache",
+        "mediaType": "image/png",
+        "width": 256,
+        "height": 160,
+        "sourceWidth": 256,
+        "sourceHeight": 160,
+        "bytes": 2285,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 10,
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "startUs": 1000000,
+            "endUs": 1100000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "sourceUs": 1000000,
+              "clipId": "clip:c5e9d28354ffefb0f28d9214d99752b12c0cda1941bd1861a61a584eb8280016:1",
+              "trackId": "track:c5e9d28354ffefb0f28d9214d99752b12c0cda1941bd1861a61a584eb8280016:0",
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "streamId": "track:1",
+              "availability": "available",
+              "width": 256,
+              "height": 160
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:c5e9d28354ffefb0f28d9214d99752b12c0cda1941bd1861a61a584eb8280016:1",
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "streamId": "track:1",
+            "requestedSourceUs": 1000000,
+            "actualSourceUs": 1000000,
+            "sample": {
+              "value": "10240",
+              "timescale": 10240,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 1000000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v6",
+        "projectId": "b5c35d94-7691-4878-a8ac-e83251672723",
+        "revisionId": "81342a68-e948-43db-bf0e-9e68979d9ba8",
+        "cacheId": "bb6f12e6-f198-4b07-9987-fcfc617b39ab"
+      }
+    },
+    "delivery": {
+      "token": "047ab620-3aeb-45ce-bb5f-e011c05fe902",
+      "bytes": 2285,
+      "expiresAt": 1790620623037
+    },
+    "output": "/tmp/screenrec-pointer-skill-oracles/third-v1-1s.png"
+  },
+  "id": "ccbcfa5a-86ba-4ced-a309-7ea25f6a1988"
+}

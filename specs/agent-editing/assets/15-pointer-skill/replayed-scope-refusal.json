@@ -1,0 +1,98 @@
+{
+  "scope": "Examiner replay after agent completion; not the missing original rejection receipt",
+  "changedFields": [
+    "expectedRevisionId",
+    "requestId"
+  ],
+  "params": {
+    "projectId": "434c69c8-72ae-4037-bc83-dfb27f939de7",
+    "requestId": "c2ad6eba-d142-47d1-b678-d96545035975",
+    "expectedRevisionId": "fc3247a3-9ba3-413c-9930-d54cf24da869",
+    "operations": [
+      {
+        "operation": "processing.set",
+        "target": {
+          "kind": "clip",
+          "id": "clip:7a0901ec6c19fdd0dfe8f69fa14f633548090caa268e5ac0332a342ea7812991:1"
+        },
+        "steps": [
+          {
+            "id": "processingStep:7a0901ec6c19fdd0dfe8f69fa14f633548090caa268e5ac0332a342ea7812991:2",
+            "processor": {
+              "type": "geometry",
+              "rect": {
+                "x": 32,
+                "y": 16,
+                "width": 256,
+                "height": 160
+              },
+              "fit": "contain"
+            },
+            "label": "offset"
+          },
+          {
+            "processor": {
+              "type": "opacity",
+              "opacity": 0.2
+            },
+            "label": "footage dim"
+          }
+        ]
+      },
+      {
+        "operation": "processing.set",
+        "target": {
+          "kind": "track",
+          "id": "track:7a0901ec6c19fdd0dfe8f69fa14f633548090caa268e5ac0332a342ea7812991:0"
+        },
+        "steps": [
+          {
+            "processor": {
+              "type": "pointer",
+              "trailUs": 600000
+            },
+            "label": "bright pointer trail"
+          }
+        ]
+      }
+    ]
+  },
+  "result": {
+    "ok": false,
+    "error": {
+      "code": "INVALID_EDIT",
+      "message": "Processor is incompatible with target scope",
+      "retryable": false,
+      "details": {
+        "target": {
+          "kind": "track",
+          "id": "track:7a0901ec6c19fdd0dfe8f69fa14f633548090caa268e5ac0332a342ea7812991:0"
+        },
+        "stepId": "processingStep:1a3ef2494e7a8b4ad198ffe9026b0c5433f09c0cae527aba5ca7d6b97023c36c:1",
+        "operationIndex": 1,
+        "cause": "INVALID_COMPOSITION"
+      }
+    },
+    "id": "f6042915-1c5d-4610-9981-2b0f80513c10"
+  },
+  "before": {
+    "ok": true,
+    "data": {
+      "projectId": "434c69c8-72ae-4037-bc83-dfb27f939de7",
+      "title": "Pointer demo first and dimmed versions",
+      "createdAt": "2026-09-28T18:16:11.675Z",
+      "currentRevisionId": "fc3247a3-9ba3-413c-9930-d54cf24da869"
+    },
+    "id": "1c23e0ad-4a2b-4705-93be-b01e4e6d3943"
+  },
+  "after": {
+    "ok": true,
+    "data": {
+      "projectId": "434c69c8-72ae-4037-bc83-dfb27f939de7",
+      "title": "Pointer demo first and dimmed versions",
+      "createdAt": "2026-09-28T18:16:11.675Z",
+      "currentRevisionId": "fc3247a3-9ba3-413c-9930-d54cf24da869"
+    },
+    "id": "5bf9eb4a-b30a-4c36-a2b5-616df0fc4a3b"
+  }
+}

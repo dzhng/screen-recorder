@@ -269,3 +269,10 @@ codec is required. Final geometry review remains open.
 [Opaque output-stage geometry](../assets/15-output-geometry/README.md) now passes
 direct pictures, full/range movies, export and unchanged narration on both
 canvases. Whole-chain pointer and processed lifecycle gaps remain open.
+### Public pointer skill evidence
+
+[Product skill trials](../assets/15-pointer-skill/README.md) retain real CLI
+requests, delivered pictures and durable exports, with independent pixel checks
+and a fresh artifact critique. Scope/identity mistakes informed narrow procedural
+clarification; these trials do not close the outstanding whole-chain, replacement,
+output-profile or final visual acceptance gates.

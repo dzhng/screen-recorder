@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, inspect source or edited-project screenshot indexes and pictures, or inspect source scene changes, captured cursor and editorial project-cut evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, inspect source or edited-project screenshot indexes and pictures, render captured pointers and trails, or inspect source scene changes, captured cursor and editorial project-cut evidence.
 ---
 
 # Screenrec
@@ -83,11 +83,13 @@ failed source dependency using its returned selection. Use project phrase search
 only when advertised; source search cannot stand in for edited speech order.
 
 Read the target stack, then set its entire ordered list through `edit.apply`.
-Keep step IDs when changing order, settings or bypass; omit them when copying to
-another target so the copy gets independent IDs. Parent stacks process combined
-results; an exception needs clip treatment or a separate track, not an inherited
-override. Check `processing.capabilities`: authored settings with execution unavailable
-are not processed audio/video. Verify returned settings separately from rendered
+Keep existing step IDs when changing order, settings or bypass, or adding neighboring
+effects; omit IDs for new steps or copies to another target so they get independent
+IDs. Read `processing.capabilities` for each processor's supported targets, acquisition
+requirements and execution readiness before choosing its scope. Parent stacks process
+combined results; an exception needs a compatible clip treatment or separate track,
+not an inherited override. Authored settings with execution unavailable are not
+processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
 
 For visual layout, change the canvas for the output aspect ratio and place overlapping
@@ -207,9 +209,10 @@ artifact; it does not establish that a durable export intent has published.
 - Pass structured parameters through stdin to avoid shell quoting problems:
   `screenrec edit.cut --params - < cut.json`. Build that file from the discovered
   schema and inspected identifiers, not guessed IDs.
-- Save raw JSON receipts and programmatically reuse their opaque IDs; do not retype
-  them from memory. On `NOT_FOUND`, compare the submitted ID against the saved
-  receipt before diagnosing lost service state.
+- Save each attempt's request and raw JSON receipt together, including rejected
+  attempts; do not overwrite them with a corrected request. Programmatically reuse
+  their opaque IDs; do not retype them from memory. On `NOT_FOUND`, compare the
+  submitted ID against the saved receipt before diagnosing lost service state.
 - Parse the JSON envelope even on a nonzero exit. `--output` writes delivered
   media or JSON evidence to a file or directory according to the operation.
 - Edit ranges are half-open integer microseconds in the expected revision's

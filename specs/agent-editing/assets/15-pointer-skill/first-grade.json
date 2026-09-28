@@ -1,0 +1,24 @@
+{
+  "translationPngExact": true,
+  "translationSha256": "27d76a296f2014160dec80d2b5a1f1bde1819971ccc09264538b80805fab4371",
+  "dimTranslatedRgbaExact": true,
+  "dimMaximumChannelError": 0,
+  "dimChangedChannels": 0,
+  "exports": [
+    {
+      "receipt": "version1-export-status.json",
+      "state": "committed",
+      "bytesMatch": true,
+      "sha256Match": true,
+      "revisionId": "8ca4c885-8494-4eac-8f6c-b8db5cf6ce47"
+    },
+    {
+      "receipt": "version2-export-status.json",
+      "state": "committed",
+      "bytesMatch": true,
+      "sha256Match": true,
+      "revisionId": "3a7e220f-2014-4f97-859d-f41311fadae3"
+    }
+  ],
+  "recordedErrors": []
+}
