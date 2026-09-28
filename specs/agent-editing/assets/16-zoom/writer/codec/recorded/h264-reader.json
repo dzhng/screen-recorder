@@ -1,0 +1,30 @@
+[
+  {
+    "frame": 0,
+    "maxRGB": 123,
+    "meanRGB": 1.9246465084876543,
+    "generatorDifferenceMax": 0,
+    "generatorDifferenceMean": 0.0
+  },
+  {
+    "frame": 10,
+    "maxRGB": 116,
+    "meanRGB": 1.789778967335391,
+    "generatorDifferenceMax": 0,
+    "generatorDifferenceMean": 0.0
+  },
+  {
+    "frame": 20,
+    "maxRGB": 116,
+    "meanRGB": 1.7901109182098764,
+    "generatorDifferenceMax": 0,
+    "generatorDifferenceMean": 0.0
+  },
+  {
+    "frame": 29,
+    "maxRGB": 116,
+    "meanRGB": 1.7895344650205762,
+    "generatorDifferenceMax": 0,
+    "generatorDifferenceMean": 0.0
+  }
+]

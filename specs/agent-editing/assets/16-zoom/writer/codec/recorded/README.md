@@ -23,6 +23,11 @@ removing the isolated errors. ProRes 4444 reduces mean error but still differs b
 105–108 through AVAssetImageGenerator. The crops show a saturated icon edge
 blurred by that path; these are location evidence, not full-motion acceptance.
 
+The [H.264 reader control](h264-reader.json) compares the first recorded window
+through both Apple paths: all four pictures have exactly identical decoded RGBA.
+The large H.264 discrepancies therefore remain encoding loss in that cohort,
+not the ProRes-specific image-generator discrepancy.
+
 The same ProRes files decoded through AVAssetReader requesting BGRA instead
 stay within two RGB levels for all eight pictures, after the identical source-ICC
 to-sRGB conversion. The reader’s propagated ICC hash matches the writer/reference
