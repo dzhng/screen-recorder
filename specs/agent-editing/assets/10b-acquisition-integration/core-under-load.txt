@@ -1,0 +1,231 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:2730) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2728) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2729) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2727) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2741) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2869) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/processing.test.ts (9 tests | 1 failed) 15814ms
+   × background backfill leaves admission capacity for a foreground inspection 5481ms
+ ❯ src/projects.test.ts (6 tests | 1 failed) 13100ms
+   × large deleted histories retire in restartable pages without losing the tombstone 12694ms
+(node:3022) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3037) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3032) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/screenshot-index.test.ts (17 tests | 1 failed) 9356ms
+   × a substituted FIFO is rejected without blocking file validation 1135ms
+(node:3156) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3228) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/trails.test.ts (24 tests | 1 failed) 10311ms
+   × schedule budgets, cancellation and publication races never publish partial output 5077ms
+ ❯ src/portable-index.test.ts (5 tests | 1 failed) 10962ms
+   × scene chunks, retained images and coverage remain readable after library removal and relocation 9364ms
+(node:3248) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3249) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3395) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3416) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/storage.test.ts (13 tests | 1 failed) 15979ms
+   × large file and reservation inventories yield while unrelated catalog reads keep working 5407ms
+(node:3505) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3508) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/selection-evidence.test.ts (11 tests | 1 failed) 13799ms
+   × thirty-minute static evidence uses bounded pages before its first event without preloading cursor history 6679ms
+(node:3528) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3585) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3586) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3593) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3597) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3600) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3604) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3605) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3602) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3610) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3656) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3659) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3667) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3681) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3679) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3686) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3746) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3747) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3758) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/portable-index.test.ts > scene chunks, retained images and coverage remain readable after library removal and relocation
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/portable-index.test.ts:147:1
+    145|   });
+    146| }
+    147| test("scene chunks, retained images and coverage remain readable after…
+       | ^
+    148|   const f = await fixture();
+    149|   const sceneFirst = f.scenes.page({ identity: f.sceneIdentity, limit:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/processing.test.ts > background backfill leaves admission capacity for a foreground inspection
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/processing.test.ts:335:1
+    333| });
+    334|
+    335| test("background backfill leaves admission capacity for a foreground i…
+       | ^
+    336|   let release!: () => void;
+    337|   const held = new Promise<void>((resolve) => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/projects.test.ts > large deleted histories retire in restartable pages without losing the tombstone
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/projects.test.ts:240:1
+    238| });
+    239|
+    240| test("large deleted histories retire in restartable pages without losi…
+       | ^
+    241|   const { store, catalog } = await setup();
+    242|   const created = store.create({ requestId: "paged", canvas });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  src/screenshot-index.test.ts > a substituted FIFO is rejected without blocking file validation
+AssertionError: expected Error: spawnSync /Users/david/.nvm/versio… { …(5) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+Error {
+  "message": "spawnSync /Users/david/.nvm/versions/node/v24.14.0/bin/node ETIMEDOUT",
+  "errno": -60,
+  "code": "ETIMEDOUT",
+  "syscall": "spawnSync /Users/david/.nvm/versions/node/v24.14.0/bin/node",
+  "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+  "spawnargs": [
+    "--experimental-transform-types",
+    "--disable-warning=ExperimentalWarning",
+    "--input-type=module",
+    "-e",
+    "
+ import { registerHooks } from 'node:module';
+ const sourceDirectory=\"file:///Users/david/dev/screen-recorder/packages/core/src/\";
+ // This Node subprocess must exercise the current source, including its .js TS imports.
+ registerHooks({resolve(specifier,context,next){
+   if(context.parentURL?.startsWith(sourceDirectory) && specifier.startsWith('.') && specifier.endsWith('.js'))
+     specifier=new URL(specifier.slice(0,-3)+'.ts',context.parentURL).href;
+   return next(specifier,context);
+ }});
+ const { RevisionStore } = await import(\"file:///Users/david/dev/screen-recorder/packages/core/src/library.ts\");
+ const { ScreenshotIndexStore } = await import(\"file:///Users/david/dev/screen-recorder/packages/core/src/screenshot-index.ts\");
+ const catalog=new RevisionStore(\"/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/selected-index-YhA85y/catalog.sqlite\");
+ try {
+   new ScreenshotIndexStore(catalog,\"/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/selected-index-YhA85y\").openRead({\"recordingId\":\"1\",\"sourceId\":\"2\",\"generation\":\"index-1\",\"revisionId\":\"r0\",\"sourceIdentity\":{\"owner\":{\"kind\":\"recording\",\"recordingId\":\"1\"},\"sourceId\":\"2\",\"generation\":\"source-1\"},\"sceneIdentity\":{\"recordingId\":\"1\",\"sourceId\":\"2\",\"generation\":\"scene-1\",\"policy\":\"scene-v1\"},\"selectionPolicy\":\"selection-v1\",\"framePolicy\":\"frame-v2\",\"trailPolicy\":\"trail-v1\"},0);
+   process.exitCode=1;
+ } catch(error) {
+   console.log(JSON.stringify({code:error.code,message:error.message}));
+ } finally {catalog.close();}
+ ",
+  ],
+}
+
+ ❯ src/screenshot-index.test.ts:406:23
+    404|   );
+    405|   expect(child.stderr).toBe("");
+    406|   expect(child.error).toBeUndefined();
+       |                       ^
+    407|   expect({ status: child.status, signal: child.signal }).toEqual({ sta…
+    408|   expect(JSON.parse(child.stdout)).toEqual({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  src/selection-evidence.test.ts > thirty-minute static evidence uses bounded pages before its first event without preloading cursor history
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/selection-evidence.test.ts:273:1
+    271| });
+    272|
+    273| test("thirty-minute static evidence uses bounded pages before its firs…
+       | ^
+    274|   const f = await fixture({
+    275|     durationUs: 1_800_000_000,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  src/storage.test.ts > large file and reservation inventories yield while unrelated catalog reads keep working
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/storage.test.ts:144:1
+    142| });
+    143|
+    144| test("large file and reservation inventories yield while unrelated cat…
+       | ^
+    145|   const { home, store, cache, storage, take, file } = await fixture();
+    146|   const other = store.allocate().recording;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  src/trails.test.ts > schedule budgets, cancellation and publication races never publish partial output
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/trails.test.ts:741:1
+    739| });
+    740|
+    741| test("schedule budgets, cancellation and publication races never publi…
+       | ^
+    742|   for (const mode of ["events", "bytes", "cancel", "existing"] as cons…
+    743|     const f = await fixture([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  7 failed | 29 passed (36)
+      Tests  7 failed | 398 passed (405)
+   Start at  21:39:16
+   Duration  68.99s (tests 87%, import 8%, transform 4%)
+
+    Isolate  36 workers spawned · ~735ms startup each (spawn + environment, per file)
+             at least ~5.88s faster with isolate: false — reuses workers across files instead of one per file
+
+error: script "test" exited with code 1

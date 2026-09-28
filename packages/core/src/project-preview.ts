@@ -155,6 +155,7 @@ export class ProjectPreviewInspection {
     const model = validateComposition(
       revision.document,
       [...metadata.values()].map(compositionAsset),
+      this.projects.contexts(revision.document),
     );
     const parsed = rangeSchema.safeParse(input.range ?? { startUs: 0, endUs: model.durationUs });
     if (!parsed.success || parsed.data.endUs > model.durationUs)

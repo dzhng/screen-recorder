@@ -1,0 +1,339 @@
+{
+  "transport": "actual CLI child and MCP stdio",
+  "rendering": "production native worker",
+  "scope": "public project preview and video export; visual acceptance remains separate",
+  "passed": false,
+  "pending": [
+    "fresh visual critique"
+  ],
+  "checks": {
+    "baseline": {
+      "frames": [
+        {
+          "atUs": 0,
+          "projectUs": 0,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 100000,
+          "projectUs": 100000,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 200000,
+          "projectUs": 200000,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 300000,
+          "projectUs": 300000,
+          "id": "A1",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 400000,
+          "projectUs": 400000,
+          "id": "A1",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 500000,
+          "projectUs": 500000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 600000,
+          "projectUs": 600000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 700000,
+          "projectUs": 700000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 800000,
+          "projectUs": 800000,
+          "id": "A3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 900000,
+          "projectUs": 900000,
+          "id": "A3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1000000,
+          "projectUs": 1000000,
+          "id": "B0",
+          "differingPixels": 2
+        },
+        {
+          "atUs": 1100000,
+          "projectUs": 1100000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1200000,
+          "projectUs": 1200000,
+          "id": "B1",
+          "differingPixels": 6
+        },
+        {
+          "atUs": 1300000,
+          "projectUs": 1300000,
+          "id": "B1",
+          "differingPixels": 5
+        },
+        {
+          "atUs": 1400000,
+          "projectUs": 1400000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1500000,
+          "projectUs": 1500000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1600000,
+          "projectUs": 1600000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1700000,
+          "projectUs": 1700000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1800000,
+          "projectUs": 1800000,
+          "id": "B4",
+          "differingPixels": 3
+        },
+        {
+          "atUs": 1900000,
+          "projectUs": 1900000,
+          "id": "B4",
+          "differingPixels": 3
+        },
+        {
+          "atUs": 2000000,
+          "projectUs": 2000000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2100000,
+          "projectUs": 2100000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2200000,
+          "projectUs": 2200000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2300000,
+          "projectUs": 2300000,
+          "id": "A5",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2400000,
+          "projectUs": 2400000,
+          "id": "A5",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2500000,
+          "projectUs": 2500000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2600000,
+          "projectUs": 2600000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2700000,
+          "projectUs": 2700000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2800000,
+          "projectUs": 2800000,
+          "id": "A7",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2900000,
+          "projectUs": 2900000,
+          "id": "A7",
+          "differingPixels": 0
+        }
+      ],
+      "tones": [
+        0.12207986834704396,
+        0.12204094379497808,
+        0.12208690372460083
+      ],
+      "impulses": [
+        {
+          "expectedFrame": 24000,
+          "frame": 24000,
+          "peak": 0.7046040296554565
+        },
+        {
+          "expectedFrame": 72000,
+          "frame": 72000,
+          "peak": 0.7100393772125244
+        },
+        {
+          "expectedFrame": 120000,
+          "frame": 120000,
+          "peak": 0.7097007036209106
+        }
+      ]
+    }
+  },
+  "trace": [
+    {
+      "transport": "cli",
+      "operation": "asset.import",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "transport": "mcp",
+      "operation": "asset.get",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "asset.import",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "transport": "mcp",
+      "operation": "asset.get",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "project.create",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "43744acf-9040-4e5a-bd56-9c87d986c5b6"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "43744acf-9040-4e5a-bd56-9c87d986c5b6"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "43744acf-9040-4e5a-bd56-9c87d986c5b6"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "43744acf-9040-4e5a-bd56-9c87d986c5b6"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "43744acf-9040-4e5a-bd56-9c87d986c5b6"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "43744acf-9040-4e5a-bd56-9c87d986c5b6"
+    },
+    {
+      "transport": "mcp",
+      "operation": "artifact.read",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_EXPIRED",
+        "message": "Derivative delivery has expired or closed",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": false,
+      "error": {
+        "code": "INTERNAL_ERROR",
+        "message": "Handler returned an invalid result",
+        "retryable": false,
+        "details": {}
+      }
+    }
+  ],
+  "channelParity": {
+    "baseline.mp4": 0
+  },
+  "error": {
+    "name": "AssertionError",
+    "message": "edit.apply: {\"ok\":false,\"error\":{\"code\":\"INTERNAL_ERROR\",\"message\":\"Handler returned an invalid result\",\"retryable\":false,\"details\":{}},\"id\":\"34432c6d-1d4a-4214-b11b-b6958169031d\"}\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: edit.apply: {\"ok\":false,\"error\":{\"code\":\"INTERNAL_ERROR\",\"message\":\"Handler returned an invalid result\",\"retryable\":false,\"details\":{}},\"id\":\"34432c6d-1d4a-4214-b11b-b6958169031d\"}\n\nfalse !== true\n\n    at call (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/first-preview.mjs:150:10)\n    at async edit (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/first-preview.mjs:176:18)\n    at async file:///Users/david/dev/screen-recorder/packages/test-harness/editing/first-preview.mjs:579:3"
+  },
+  "serviceExit": {
+    "code": 0,
+    "signal": null
+  }
+}

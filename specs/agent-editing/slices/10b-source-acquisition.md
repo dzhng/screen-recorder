@@ -1,6 +1,6 @@
 # 10b — Source acquisition and selected-stream transcripts
 
-Status: in progress. Pure acquisition bindings integrated and verified; durable admission, native execution and public acceptance remain open. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
+Status: in progress. Capture adoption, durable project bindings and native prerequisites are integrated and verified. Asset transcript reads and the differing-mask speech journey remain open. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
 
 ## Contract
 
@@ -125,3 +125,18 @@ retains complete frozen PCM/raw-transcript parity on real speech;
 passes the occurrence, hold, boundary, refusal and resource gates. The combined
 main-worktree native worker builds. These isolated/native gates do not close
 public acquisition, project context retention or transcript reads.
+
+[Durable adoption integration](../assets/10b-acquisition-integration/README.md) and
+[actual CLI/MCP adoption](../assets/10b-source-acquisition/README.md) verify copied
+journal/media survival, cancel/crash/retry cleanup, context replacement/undo,
+historical preview and pinned export. The existing full preview/export journey
+also passes after fixing non-JSON replacement receipts. All 18 adoption runtime
+hashes match the main worktree. Broad timing failures and controlled reruns remain
+explicit in integration evidence; no performance gate was relaxed.
+
+Next: generalize the existing TranscriptStore to actual recording/asset ownership,
+then add selected asset planning, bounded source reads/search/retry and the full
+public differing-mask/transcript fixture. Do not close this slice on adoption alone.
+The importer currently caps acquired intervals at 100,000 per bound stream; raw
+journal/evidence retains the existing native 256 MiB cap. Slice 24 must validate
+these limits and preparation/storage costs before release.

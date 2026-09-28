@@ -1,3 +1,5 @@
+import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisitions";
+import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { MediaExports } from "./exports.js";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
 import { projectMovieRenderer } from "./project-render.js";
@@ -44,7 +46,20 @@ export async function startProjectService(options: { home: string; worker?: Medi
     catalog = new Catalog(join(library, "catalog.sqlite"));
     const assets = new AssetStore(catalog, library);
     await assets.recover();
-    const projects = new ProjectStore(catalog, assets);
+    const acquisitions = new AcquisitionStore(catalog);
+    const evidence = new SourceEvidenceStore(catalog, (identity) => {
+      if (identity.owner.kind !== "acquisition")
+        throw new CatalogError("NOT_FOUND", "Unsupported source evidence owner");
+      acquisitions.intent(identity.owner.acquisitionId);
+    });
+    const acquisitionImports = new AcquisitionImporter(
+      catalog,
+      acquisitions,
+      assets,
+      evidence,
+      library,
+    );
+    const projects = new ProjectStore(catalog, assets, acquisitions);
     const worker = options.worker ?? mediaWorker();
     const files = new ManagedFiles(library, worker);
     const cache = new DerivedCache(catalog, library, (owner) => {
@@ -58,12 +73,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
     const targets: JobTargets = {
       pin(target) {
         if (target.kind === "import") assets.intent(target.importId);
+        else if (target.kind === "acquisition") acquisitions.intent(target.acquisitionId);
         else if (target.kind === "project") projects.revision(target.projectId, target.revisionId);
         else throw new CatalogError("NOT_READY", "Unsupported project service job target");
         return target;
       },
       isAvailable(target) {
-        if (target.kind !== "import" && target.kind !== "project") return false;
+        if (target.kind !== "import" && target.kind !== "project" && target.kind !== "acquisition")
+          return false;
         try {
           targets.pin(target);
           return true;
@@ -75,6 +92,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
       isCapturing: () => false,
     };
+    await acquisitionImports.recover(new AbortController().signal);
     let preview: ProjectPreviewInspection;
     const queue = new JobQueue({
       store: catalog,
@@ -88,6 +106,22 @@ export async function startProjectService(options: { home: string; worker?: Medi
           return exports!.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "preview")
           return preview.execute({ job, signal });
+        if (job.target.kind === "acquisition" && job.artifact === "acquisition.import") {
+          const acquisition = await acquisitionImports.executeImport(
+            job.target.acquisitionId,
+            job.attemptId,
+            {
+              probe: async (path, signal) =>
+                nativeResult(await worker("media.probe", { path }, { signal })),
+              exportSource: async (directory, output, signal) =>
+                nativeResult(
+                  await worker("media.sourceEvidence", { directory, output }, { signal }),
+                ) as SourceEvidenceReceipt,
+            },
+            signal,
+          );
+          return JSON.stringify({ acquisitionId: acquisition.id });
+        }
         if (job.target.kind !== "import" || job.artifact !== "asset.import")
           throw new CatalogError("NOT_READY", "Unsupported preparation job");
         const asset = await assets.executeImport(
@@ -217,6 +251,25 @@ export async function startProjectService(options: { home: string; worker?: Medi
               ok: true,
               data: projects.restore(operation.params.projectId, operation.params),
             };
+          case "acquisition.import": {
+            const prepared = await acquisitionImports.prepareImport(
+              operation.params.requestId,
+              operation.params.path,
+            );
+            if (closing) throw new CatalogError("SERVICE_STOPPED", "Service is closing", {}, true);
+            const job = queue.submit(() => {
+              const intent = acquisitions.admitImport(prepared);
+              return {
+                target: { kind: "acquisition", acquisitionId: intent.acquisitionId },
+                artifact: "acquisition.import",
+                lane: "heavy",
+                input: JSON.stringify(intent.files),
+              };
+            });
+            return { ok: true, data: status(job.jobId) };
+          }
+          case "acquisition.get":
+            return { ok: true, data: acquisitions.get(operation.params.acquisitionId) };
           case "asset.import": {
             const prepared = await assets.prepareImport(
               operation.params.requestId,

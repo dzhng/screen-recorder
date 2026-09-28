@@ -171,6 +171,25 @@ export const operationSchema = z.discriminatedUnion("operation", [
 
   z
     .object({
+      operation: z.literal("acquisition.import"),
+      params: z.object({ requestId: id, path: z.string().min(1) }).strict(),
+    })
+    .strict()
+    .describe(
+      "Adopt an explicitly named captured-source directory and its journal through a durable job. Own copied media and evidence independently of the donor; inspect job.get and use job.retry/job.cancel for preparation.",
+    ),
+  z
+    .object({
+      operation: z.literal("acquisition.get"),
+      params: z.object({ acquisitionId: id }).strict(),
+    })
+    .strict()
+    .describe(
+      "Read immutable capture context and asset/stream bindings. Select acquisitionId explicitly on a media clip; omission always uses physical file support.",
+    ),
+
+  z
+    .object({
       operation: z.literal("asset.import"),
       params: z.object({ requestId: id, path: z.string().min(1) }).strict(),
     })

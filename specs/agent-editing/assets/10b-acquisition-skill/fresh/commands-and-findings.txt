@@ -1,0 +1,40 @@
+Blind skill-use task evidence
+Date context: 2026-09-27
+Socket: /tmp/sr-acq-skill-viqL0n/library/run/service.sock
+Source: /Users/david/dev/screen-recorder/fixtures/narrated-workbench (read-only)
+
+Public CLI discovery:
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js --help
+Full JSON captured in cli-help.json.
+
+Commands issued (raw JSON responses are saved beside this file):
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js acquisition.import --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {requestId:acq-skill-fresh-import-20260927,path:/Users/david/dev/screen-recorder/fixtures/narrated-workbench}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js job.get --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {jobId:baeaa510-3127-499e-9967-ecf26d69b460}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js acquisition.get --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {acquisitionId:fa35a541-dd5f-4c2b-9c92-17d1013b2644}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js asset.get --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {assetId:ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js asset.get --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {assetId:2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js project.create --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {requestId:acq-skill-fresh-project-20260927,title:Narrated workbench first three seconds,canvas:{width:3120,height:1970,fps:{numerator:30,denominator:1},background:#000000ff}}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js edit.apply --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {projectId:10b21eb4-fb1a-4f22-a1b6-9622978290c9,requestId:acq-skill-fresh-place-20260927,expectedRevisionId:726ab2a5-0f95-4c26-8bc7-9e0ca73390eb,operations:track.add video, track.add audio, place video, place narration}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js preview.get --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {projectId:10b21eb4-fb1a-4f22-a1b6-9622978290c9,revisionId:5f640464-1f48-4c68-99be-24f4eb67ebd7,range:{startUs:0,endUs:3000000}} --output /tmp/acquisition-skill-fresh-evidence/preview.mp4 (called twice with same pinned params while processing)
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js export.create --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {projectId:10b21eb4-fb1a-4f22-a1b6-9622978290c9,exportId:279c629a-a6c4-4c63-9687-8d811a66c28a,revisionId:5f640464-1f48-4c68-99be-24f4eb67ebd7,directory:/tmp/acquisition-skill-fresh-export,leaf:narrated-workbench-first-3s.mp4,kind:video}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js export.status --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {exportId:279c629a-a6c4-4c63-9687-8d811a66c28a}
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js project.get --socket /tmp/sr-acq-skill-viqL0n/library/run/service.sock --params {projectId:10b21eb4-fb1a-4f22-a1b6-9622978290c9}
+
+Source/placement ranges and synchronization:
+- Video binding asset ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a, stream track:1, source [0,3000000) us, project [0,3000000) us.
+- Narration binding asset 2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c, stream track:1, source [0,2951325) us, project [48675,3000000) us.
+- acquisition.get reports narration sourceToAssetOffsetUs=-48675; converting asset timestamp to capture timestamp by subtracting the offset yields 0 - (-48675) = 48675 us. This is why the audio starts at project 48675 us and ends at 3,000,000 us, preserving the capture offset while covering the same three-second screen window.
+- Both clips explicitly bind acquisition fa35a541-dd5f-4c2b-9c92-17d1013b2644, preserving acquisition context. Journal receipt: 12,842 last sequence; finished true; no incomplete tail; audio interval count 1; pause events 0; video 3120x1970; microphone true; system audio false.
+
+Verification:
+- Import job ready. Project revision 5f640464-1f48-4c68-99be-24f4eb67ebd7 is current.
+- Preview ready for exact pinned 0..3,000,000 us range: 90 frames, 3120x1970, duration 3,000,000 us, 48 kHz stereo audio, 144,000 samples, peak 0.082764849, zero clipped samples. Preview delivered to /tmp/acquisition-skill-fresh-evidence/preview.mp4.
+- Export 279c629a-a6c4-4c63-9687-8d811a66c28a committed to /private/tmp/acquisition-skill-fresh-export/narrated-workbench-first-3s.mp4, 724,875 bytes. Export receipt SHA-256 is 9cf51b3d0243dc19fe48c28e42f885231dd27a0cc4790b858b9ef1673f9cc133. Local hashes for preview and export match exactly (see media-hashes.txt).
+- Source hashes captured after import in source-hashes.txt; acquisition.import input receipt retains source paths, byte counts and file identities. No source write operation was used.
+- Audio received signal-level verification only; I did not listen. Screen verified through the successful pinned render's video dimensions/frame count, not by opening a frame. Project uses a 30 fps canvas while source is variable frame rate (~23.98 to 52.69 fps by sample duration), so the composition render is normalized to the declared canvas cadence.
+
+Skill guidance notes:
+- Useful and directly actionable: preserve journal, explicitly bind acquisition on each clip, convert source/asset timeline through sourceToAssetOffsetUs, pin revision/range for preview, poll the same request, use export.status to distinguish committed output.
+- Small ambiguity: “first three seconds of screen and narration” could mean three seconds from project/capture origin (used here) or three seconds beginning at narration's first sample. The explicit captured offset and requirement to preserve synchronization support the chosen project range [0,3s), with narration beginning at +48.675 ms.
+- Inspecting both planes was possible at metadata/signal level through preview; listening and direct visual inspection of decoded frames were outside this CLI-only check, so those limits are disclosed.
+Exact write-operation parameter JSON is in requests/ (acquisition import, project create, edit apply, preview, export create, export status); corresponding unmodified CLI response envelopes are the top-level *.json receipts.

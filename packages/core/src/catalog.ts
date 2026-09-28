@@ -4,7 +4,7 @@ import { DatabaseSync } from "node:sqlite";
  * needs no bump: every owner creates its tables idempotently. Changing an existing table's shape
  * does, because an older catalog would keep the old shape; such a catalog is refused, never migrated.
  */
-const catalogFormat = 5;
+const catalogFormat = 6;
 export class CatalogError extends Error {
   constructor(
     readonly code: string,

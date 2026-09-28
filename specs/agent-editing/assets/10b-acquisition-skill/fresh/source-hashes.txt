@@ -1,0 +1,3 @@
+ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a  /Users/david/dev/screen-recorder/fixtures/narrated-workbench/video.mov
+2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c  /Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov
+d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698  /Users/david/dev/screen-recorder/fixtures/narrated-workbench/capture.journal.jsonl

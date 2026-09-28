@@ -1,0 +1,97 @@
+[
+  {
+    "file": "video-replaced-contact.png",
+    "sha256": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "baseline-frame-0-zoom.png",
+    "sha256": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "audio-replaced-contact.png",
+    "sha256": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "all-scopes-contact.png",
+    "sha256": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "music-contact.png",
+    "sha256": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "cancel-retry-contact.png",
+    "sha256": "9d778fb75ef34a1e20429341e324daa8b4f3a43ac42d24fb74ee5f2476bdf031",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "audio-replaced-frame-0-zoom.png",
+    "sha256": "8bb3a8285511958fb5c219d8fbbc8bdbbbaaa87f20be28b82661425087aaa140",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "baseline-frame-10-zoom.png",
+    "sha256": "ad193029f7a077f2b669b6844a17defd77e378edd5bf36afc1bad71e015236f2",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "range-frame-0-zoom.png",
+    "sha256": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "range-frame-17-zoom.png",
+    "sha256": "4fddc1b3e4d414835f8a325c186c39cd2964e8f9b62f5ce7299bec5d0bd41c90",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "undo-contact.png",
+    "sha256": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "range-contact.png",
+    "sha256": "eae51443781572ddd57bcbbda5c0d08d8947567a26c195f00e2a69aaa3884684",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "music-frame-0-zoom.png",
+    "sha256": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "historical-video-contact.png",
+    "sha256": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "processed-track-insertion-contact.png",
+    "sha256": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "video-replaced-frame-0-zoom.png",
+    "sha256": "8bb3a8285511958fb5c219d8fbbc8bdbbbaaa87f20be28b82661425087aaa140",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "baseline-contact.png",
+    "sha256": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "crash-retry-contact.png",
+    "sha256": "91a87361743f6deb97347568ac4947198a8b8cc2b9fc0c754131259bf7e18069",
+    "matchesReviewedPreview": true
+  },
+  {
+    "file": "baseline-frame-20-zoom.png",
+    "sha256": "8e05fe47c659cdba68c39b353e657a4128d03571bb11f06444125e4070f73ea2",
+    "matchesReviewedPreview": true
+  }
+]

@@ -1,0 +1,42 @@
+$ vitest run --maxWorkers=4 src/acquisitions.test.ts -t "changed frozen members"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:860) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/acquisitions.test.ts (5 tests | 1 failed | 4 skipped) 132ms
+   × changed frozen members refuse publication and canceled adoption releases partial dependencies 130ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/acquisitions.test.ts > changed frozen members refuse publication and canceled adoption releases partial dependencies
+AssertionError: expected [ { kind: 'acquisition', …(1) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "id": "537e2707-112d-4754-b809-8041dc6e5e2a",
++     "kind": "acquisition",
++   },
++ ]
+
+ ❯ src/acquisitions.test.ts:287:85
+    285|     expect.objectContaining({ code: "NOT_READY" }),
+    286|   );
+    287|   for (const asset of f.assets.list().assets) expect(f.assets.referenc…
+       |                                                                                     ^
+    288|   expect(() =>
+    289|     f.evidence.audio(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  21:37:09
+   Duration  1.47s (transform 60%, import 27%, tests 12%, worker 1%)
+
+error: script "test" exited with code 1

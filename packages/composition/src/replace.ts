@@ -73,12 +73,12 @@ export function replaceClip(
   const replacement = {
     ...target.clip,
     ...media,
-    acquisitionId: media.acquisitionId,
     source,
     ...(kind === "audio" && (pitch !== undefined || fit === "stretch")
       ? { pitch: pitch ?? "preserve" }
       : {}),
   };
+  if (media.acquisitionId === undefined) delete replacement.acquisitionId;
   const changedSource =
     !isMediaClip(target.clip) ||
     target.clip.assetId !== media.assetId ||

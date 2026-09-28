@@ -1,0 +1,12 @@
+$ vitest run --maxWorkers=4 src/portable-index.test.ts
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:11369) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  21:47:27
+   Duration  6.33s (tests 76%, transform 18%, import 6%)
+

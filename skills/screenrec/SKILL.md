@@ -52,7 +52,17 @@ can return `NOT_READY` even when checkout help lists their schemas. Do not reint
 a project request as a recording edit or claim an unavailable operation succeeded.
 
 Prepare imported media through the advertised asset/job operations before the edit
-batch. Read the target stack, then set its entire ordered list through `edit.apply`.
+batch. For an existing captured-source directory, use the advertised acquisition
+import/get operations to retain its journal and capture gaps. Wait for the import
+job, then use its returned asset/stream bindings and explicitly set `acquisitionId`
+on those clips. Omitting it uses physical file support. For synchronized placement,
+convert each asset timestamp back to capture time by subtracting that binding's
+`sourceToAssetOffsetUs`; do not independently zero every stream. Replacing media
+selects a new complete binding: omitted acquisition means physical support even
+when processing is kept. Source transcript reads for arbitrary assets remain
+unavailable until the connected service advertises and implements them.
+
+Read the target stack, then set its entire ordered list through `edit.apply`.
 Keep step IDs when changing order, settings or bypass; omit them when copying to
 another target so the copy gets independent IDs. Parent stacks process combined
 results; an exception needs clip treatment or a separate track, not an inherited
@@ -71,6 +81,9 @@ artifact; it does not establish that a durable export intent has published.
 - Pass structured parameters through stdin to avoid shell quoting problems:
   `screenrec edit.cut --params - < cut.json`. Build that file from the discovered
   schema and inspected identifiers, not guessed IDs.
+- Save raw JSON receipts and programmatically reuse their opaque IDs; do not retype
+  them from memory. On `NOT_FOUND`, compare the submitted ID against the saved
+  receipt before diagnosing lost service state.
 - Parse the JSON envelope even on a nonzero exit. `--output` writes delivered
   media to a file or directory according to the operation.
 - Edit ranges are half-open integer microseconds in the expected revision's

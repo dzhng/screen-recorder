@@ -1,0 +1,57 @@
+$ vitest run --maxWorkers=4 src/acquisition.test.ts -t "replacement selects"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/acquisition.test.ts (10 tests | 1 failed | 9 skipped) 61ms
+   × replacement selects a complete source binding independently of processing keep or reset 59ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/acquisition.test.ts > replacement selects a complete source binding independently of processing keep or reset
+AssertionError: expected { document: { …(7) }, …(9) } to strictly equal { document: { …(7) }, …(9) }
+
+- Expected
++ Received
+
+@@ -13,10 +13,11 @@
+        "width": 160,
+      },
+      "captions": [],
+      "clips": [
+        {
++         "acquisitionId": undefined,
+          "assetId": "bytes",
+          "id": "original",
+          "placement": {
+            "kind": "project",
+            "range": {
+@@ -75,10 +76,11 @@
+        "changes": [
+          {
+            "id": "original",
+            "kind": "clip",
+            "value": {
++             "acquisitionId": undefined,
+              "assetId": "bytes",
+              "id": "original",
+              "placement": {
+                "kind": "project",
+                "range": {
+
+ ❯ src/acquisition.test.ts:263:22
+    261|         { assets, acquisitions, namespace: "replace" },
+    262|       );
+    263|       expect(result).toStrictEqual(JSON.parse(JSON.stringify(result)));
+       |                      ^
+    264|       expect(result.document.clips[0]).toMatchObject({
+    265|         assetId: "bytes",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  21:41:52
+   Duration  1.26s (transform 63%, import 29%, tests 7%, worker 1%)
+
+error: script "test" exited with code 1

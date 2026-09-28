@@ -1,0 +1,367 @@
+{
+  "task": "Adopt narrated-workbench and create/export first three seconds preserving synchronization and capture context",
+  "socket": "/tmp/sr-acq-skill-viqL0n/library/run/service.sock",
+  "source": {
+    "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench",
+    "files": {
+      "video.mov": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "narration.mov": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+      "recording.json": "3b997886cd4fe0e77f06be0f5d6a11755185892a783535b9df1066381f4dc97e",
+      "README.md": "06ad7337d185a62c3e9cc8e354d3427866611875cb4da4e8c5bd8d8a2ca5c77a",
+      "capture.journal.jsonl": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698"
+    }
+  },
+  "helpDiscovery": {
+    "command": "node /Users/david/dev/screen-recorder/apps/cli/dist/main.js --help",
+    "savedOutput": "/tmp/acquisition-skill-cli-help.json",
+    "sha256": "9258e59e891a078782e26122c454f277e4b11530dd58bcceeb0e4cf3260965dc",
+    "operationsUsed": [
+      "acquisition.import",
+      "job.get",
+      "acquisition.get",
+      "project.create",
+      "project.get",
+      "edit.apply",
+      "preview.get",
+      "export.create",
+      "export.status"
+    ]
+  },
+  "chosenRanges": {
+    "requestedCaptureIntervalUs": {
+      "startUs": 0,
+      "endUs": 3000000
+    },
+    "video": {
+      "assetRangeUs": {
+        "startUs": 0,
+        "endUs": 3000000
+      },
+      "projectRangeUs": {
+        "startUs": 0,
+        "endUs": 3000000
+      },
+      "sourceToAssetOffsetUs": 0
+    },
+    "narration": {
+      "sourceToAssetOffsetUs": -48675,
+      "conversion": "captureUs = assetUs - sourceToAssetOffsetUs",
+      "assetRangeUs": {
+        "startUs": 0,
+        "endUs": 2951325
+      },
+      "projectRangeUs": {
+        "startUs": 48675,
+        "endUs": 3000000
+      },
+      "reason": "preserves the imported binding's 48,675us synchronization offset; the clip begins at its captured time instead of independently zeroing narration"
+    },
+    "captureContext": {
+      "acquisitionId": "b6e7721b-b6a9-445d-977f-f40c36e31c25",
+      "headerCanvas": {
+        "width": 3120,
+        "height": 1970
+      },
+      "pauseEvents": 0,
+      "journalSha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698"
+    },
+    "note": "The placement ranges above were chosen for a proposed edit, but edit.apply rejected the request before creating clips. They are not present in a successful revision."
+  },
+  "operations": [
+    {
+      "operation": "acquisition.import",
+      "params": {
+        "requestId": "acq-skill-import-narrated-workbench",
+        "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench"
+      },
+      "result": {
+        "ok": true,
+        "jobId": "1e5b01c6-0b09-4289-8e16-a544922c5984",
+        "attemptId": "97404499-c1b7-4b83-a90c-716415e8a9fc",
+        "state": "running",
+        "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25",
+        "cliId": "914eaf55-1ea2-44c1-8f4b-441650330afe"
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "1e5b01c6-0b09-4289-8e16-a544922c5984"
+      },
+      "result": {
+        "ok": true,
+        "state": "ready",
+        "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25",
+        "cliId": "ae20a396-a9e8-46af-a989-09acf212849d"
+      }
+    },
+    {
+      "operation": "acquisition.get",
+      "params": {
+        "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25"
+      },
+      "result": {
+        "ok": true,
+        "receipt": {
+          "audioIntervals": 1,
+          "bytes": 1488048,
+          "cursorSamples": 8039,
+          "displaySpaces": 1,
+          "file": "/tmp/sr-acq-skill-viqL0n/library/acquisitions/b6e7721b-a6b9-445d-977f-f40c36e31c25/97404499-c1b7-4b83-a90c-716415e8a9fc/source.jsonl",
+          "finished": true,
+          "firstCursorSourceUs": 49814,
+          "geometryRecords": 5,
+          "header": {
+            "height": 1970,
+            "microphone": true,
+            "schemaVersion": 1,
+            "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "source": {
+              "kind": "window",
+              "windowID": 188
+            },
+            "systemAudio": false,
+            "width": 3120
+          },
+          "incompleteTail": false,
+          "journal": "capture.journal.jsonl",
+          "lastCursorSourceUs": 134019623,
+          "lastSequence": 12842,
+          "originHostUs": 92388474388,
+          "pauseEvents": 0
+        },
+        "journal": {
+          "fileName": "97404499-c1b7-4b83-a90c-716415e8a9fc/source/capture.journal.jsonl",
+          "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+          "bytes": 2574002
+        },
+        "bindings": [
+          {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 134025574
+              }
+            ],
+            "sourceRoles": [
+              "video"
+            ],
+            "sourceToAssetOffsetUs": 0,
+            "supportBasis": "physical"
+          },
+          {
+            "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+            "streamId": "track:1",
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 133973333
+              }
+            ],
+            "sourceRoles": [
+              "narration"
+            ],
+            "sourceToAssetOffsetUs": -48675,
+            "supportBasis": "captured-audio"
+          }
+        ],
+        "cliId": "38144b08-471e-4507-b299-f6ba82028ee5"
+      }
+    },
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "acq-skill-create-narrated-workbench-3s",
+        "title": "Narrated Workbench \u2014 First 3 Seconds",
+        "canvas": {
+          "width": 3120,
+          "height": 1970,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "result": {
+        "ok": true,
+        "projectId": "d517965c-b3fb-4cb7-849c-a8462f725b54",
+        "revisionId": "ec7a5860-69b3-4b0c-8310-81c1c80c5bfd",
+        "ordinal": 0,
+        "cliId": "9a0b7001-452d-43e3-9d53-80eb25c5eed2"
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "d517965c-b3fb-4cb7-849c-a8462f725b54",
+        "requestId": "acq-skill-place-first-three-seconds",
+        "expectedRevisionId": "ec7a5860-69b3-4b0c-8310-81c1c80c5bfd",
+        "operations": [
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "video",
+              "order": 0
+            },
+            "label": "screen"
+          },
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "audio",
+              "order": 0
+            },
+            "label": "narration"
+          },
+          {
+            "operation": "place",
+            "label": "screen-first-three-seconds",
+            "clip": {
+              "trackId": {
+                "label": "screen"
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 3000000
+                }
+              },
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 3000000
+                }
+              }
+            }
+          },
+          {
+            "operation": "place",
+            "label": "narration-first-three-seconds-synchronized",
+            "clip": {
+              "trackId": {
+                "label": "narration"
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 48675,
+                  "endUs": 3000000
+                }
+              },
+              "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+              "streamId": "track:1",
+              "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 2951325
+                }
+              }
+            }
+          }
+        ]
+      },
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "Acquisition does not exist",
+          "retryable": false,
+          "details": {
+            "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25"
+          }
+        },
+        "cliId": "0ecd1d05-f8d0-41c0-a33b-2fd379260293"
+      }
+    },
+    {
+      "operation": "acquisition.get",
+      "params": {
+        "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25"
+      },
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "Acquisition does not exist",
+          "retryable": false,
+          "details": {
+            "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25"
+          }
+        },
+        "cliId": "423d366d-da9d-4356-8ce1-8ae68f3dea0e"
+      }
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "d517965c-b3fb-4cb7-849c-a8462f725b54"
+      },
+      "result": {
+        "ok": true,
+        "projectId": "d517965c-b3fb-4cb7-849c-a8462f725b54",
+        "title": "Narrated Workbench \u2014 First 3 Seconds",
+        "createdAt": "2026-09-28T04:48:18.911Z",
+        "currentRevisionId": "ec7a5860-69b3-4b0c-8310-81c1c80c5bfd",
+        "cliId": "55df019a-b5d2-4b9c-a214-26b5c0373668"
+      }
+    },
+    {
+      "operation": "acquisition.import",
+      "params": {
+        "requestId": "acq-skill-import-narrated-workbench",
+        "path": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench"
+      },
+      "result": {
+        "ok": true,
+        "jobId": "1e5b01c6-0b09-4289-8e16-a544922c5984",
+        "attemptId": "97404499-c1b7-4b83-a90c-716415e8a9fc",
+        "state": "ready",
+        "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25",
+        "cliId": "6bf2f053-4e06-4b65-b817-b0ad3dd02abe"
+      }
+    },
+    {
+      "operation": "acquisition.get",
+      "params": {
+        "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25"
+      },
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "Acquisition does not exist",
+          "retryable": false,
+          "details": {
+            "acquisitionId": "b6e7721b-a6b9-445d-977f-f40c36e31c25"
+          }
+        },
+        "cliId": "aaeef4b6-17ea-40a1-9d6a-79a232bf9100"
+      }
+    }
+  ],
+  "status": "blocked by inconsistent public service state; no media clips/revision or preview/export were produced",
+  "verificationLimits": [
+    "No audio was played or listened to.",
+    "The successful initial acquisition.get supplied both video and narration binding metadata, but it could not be fetched again; edit.apply failed before either plane was placed, so project preview and two-plane comparison were unavailable.",
+    "No preview or export directory/artifact was produced; no export revision exists.",
+    "No database, direct core import, native capture, app launch, or source mutation was used."
+  ],
+  "skillGuidance": {
+    "clear": [
+      "Skill prescribes acquisition.import/get, explicit acquisitionId on clips, offset correction for synchronization, and pinned preview/export."
+    ],
+    "missingOrConfusing": [
+      "The imported job reported ready and acquisition.get once returned a complete receipt and bindings, but repeated acquisition.get returned NOT_FOUND immediately afterward. Replaying acquisition.import with the same requestId returned the same ready job/acquisition and did not restore acquisition.get; edit.apply failed NOT_FOUND. The skill does not describe this state transition or a supported recovery."
+    ]
+  }
+}

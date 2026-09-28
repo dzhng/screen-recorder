@@ -856,3 +856,36 @@ trim and stretch replacements keep their single-interval behavior.
   compiler's unavailable verdict. It does not alter the shared decoder, so another
   occurrence can retain that same picture. This resolves the negative-support
   trust boundary; unknown states or unsupported source timestamps still refuse.
+
+
+## Capture adoption admission — 2026-09-27
+
+- **Sound; medium confidence — Identical role files share a binding only when support agrees.**
+  A capture may contain identical microphone and system files. Byte deduplication
+  then gives them the same asset and stream IDs. If both histories acquired the
+  same intervals, one binding retains both authentic role labels. If they acquired
+  different intervals, adoption refuses: selecting that context/asset/stream could
+  not identify which history the agent intended. The plan fixed selector identity
+  but left this collision unspecified; silently taking the first or unioning masks
+  would erase the requested distinction.
+- **Sound; medium confidence — A failed capture adoption does not delete valid media assets.**
+  The video may finish importing before an ambiguous audio stream makes adoption
+  fail. The incomplete capture context stays unavailable and its references are
+  released, but independently valid immutable assets remain in the library. Deleting
+  those assets as rollback could delete bytes another project already uses. The
+  plan did not specify visibility of successful member imports after a later failure;
+  the existing asset owner continues to govern those bytes and future storage policy.
+- **Sound; high confidence — Capture metadata can be read without constructing an importer.**
+  Reopening a project needs its selected capture support and lifetime references;
+  it does not need a native worker or journal-copy machinery. The metadata store
+  and import executor have separate responsibilities in one acquisition module.
+  They share the catalog and existing evidence/asset/job owners, rather than adding
+  another parser or queue. This resolves the constructor boundary while keeping
+  ordinary revision reads independent of media preparation.
+- **Sound; high confidence — Recover abandoned imports before constructing the queue.**
+  The shared queue resumes durable queued jobs as soon as it is constructed. Under
+  the exclusive service lock, startup therefore removes abandoned acquisition files,
+  indexed generations and references first. Reversing that order could erase the
+  files a resumed import just created. The plan required recovery but did not fix
+  this initialization order; the actual crash journey checks all three kinds of
+  abandoned state before permitting retry.

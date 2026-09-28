@@ -37,10 +37,11 @@ export type JobAdmission = (
 export type JobOwner =
   | Readonly<{ kind: "import"; importId: string }>
   | Readonly<{ kind: "asset"; assetId: string }>
+  | Readonly<{ kind: "acquisition"; acquisitionId: string }>
   | Readonly<{ kind: "project"; projectId: string }>
   | Readonly<{ kind: "recording"; recordingId: string }>;
 export type JobTarget =
-  | Extract<JobOwner, { kind: "import" | "asset" }>
+  | Extract<JobOwner, { kind: "import" | "asset" | "acquisition" }>
   | (Extract<JobOwner, { kind: "project" | "recording" }> & Readonly<{ revisionId: string }>);
 export type JobRequestTarget =
   | Exclude<JobTarget, { kind: "recording" }>
@@ -170,6 +171,8 @@ export function ownerIdentity(owner: JobOwner): [JobOwner["kind"], string] {
       return [owner.kind, owner.importId];
     case "asset":
       return [owner.kind, owner.assetId];
+    case "acquisition":
+      return [owner.kind, owner.acquisitionId];
     case "project":
       return [owner.kind, owner.projectId];
     case "recording":
@@ -185,6 +188,8 @@ export function ownerFromIdentity(kind: JobOwner["kind"], id: string): JobOwner 
       return { kind, importId: id };
     case "asset":
       return { kind, assetId: id };
+    case "acquisition":
+      return { kind, acquisitionId: id };
     case "project":
       return { kind, projectId: id };
     case "recording":

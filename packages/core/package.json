@@ -183,6 +183,10 @@
     "./project-preview": {
       "types": "./dist/project-preview.d.ts",
       "default": "./dist/project-preview.js"
+    },
+    "./acquisitions": {
+      "types": "./dist/acquisitions.d.ts",
+      "default": "./dist/acquisitions.js"
     }
   },
   "scripts": {

@@ -260,10 +260,11 @@ test("replacement selects a complete source binding independently of processing 
         ],
         { assets, acquisitions, namespace: "replace" },
       );
+      expect(result).toStrictEqual(JSON.parse(JSON.stringify(result)));
       expect(result.document.clips[0]).toMatchObject({
         assetId: "bytes",
         streamId: "audio",
-        acquisitionId,
+        ...(acquisitionId ? { acquisitionId } : {}),
       });
       expect(result.document.processing).toEqual(processing === "keep" ? original.processing : []);
       expect(

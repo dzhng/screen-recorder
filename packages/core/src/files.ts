@@ -1,3 +1,6 @@
+import { createHash } from "node:crypto";
+import { open } from "node:fs/promises";
+import { isDeepStrictEqual } from "node:util";
 import { readSync, closeSync, constants, fstatSync, openSync, type BigIntStats } from "node:fs";
 import { join } from "node:path";
 import { CatalogError } from "./catalog.js";
@@ -197,4 +200,81 @@ export function retainedFileRead(file: OpenedFile, bytes: number): RetainedRead 
       }
     },
   };
+}
+
+/** Copy a frozen local file with bounded memory; the caller owns staged-file cleanup/publication. */
+export async function copyImportedFile(
+  path: string,
+  destination: string,
+  signal: AbortSignal,
+  expected?: IdentifiedFile,
+  maximumBytes = Number.MAX_SAFE_INTEGER,
+): Promise<{ sha256: string; bytes: number }> {
+  signal.throwIfAborted();
+  let input;
+  try {
+    input = await open(path, constants.O_RDONLY | constants.O_NONBLOCK);
+  } catch (error) {
+    throw new CatalogError(
+      (error as NodeJS.ErrnoException).code === "ENOENT" ? "NOT_FOUND" : "INVALID_PATH",
+      "Cannot open import source",
+    );
+  }
+  try {
+    const before = await input.stat({ bigint: true });
+    if (
+      expected &&
+      (BigInt(expected.bytes) !== before.size ||
+        !isDeepStrictEqual(expected.identity, fileIdentity(before)))
+    )
+      throw new CatalogError(
+        "SOURCE_CHANGED",
+        "Import source no longer matches the frozen request; create a new import",
+        {},
+        false,
+      );
+    if (!before.isFile() || before.size > BigInt(maximumBytes))
+      throw new CatalogError(
+        "UNSUPPORTED_MEDIA",
+        "Import source must be a regular file of supported size",
+      );
+    const output = await open(destination, "wx", 0o600);
+    const hash = createHash("sha256");
+    let bytes = 0;
+    try {
+      const buffer = Buffer.allocUnsafe(1024 * 1024);
+      for (;;) {
+        signal.throwIfAborted();
+        const read = await input.read(buffer, 0, buffer.length, null);
+        if (!read.bytesRead) break;
+        bytes += read.bytesRead;
+        if (BigInt(bytes) > before.size)
+          throw new CatalogError("SOURCE_CHANGED", "Import source grew during copying", {}, false);
+        hash.update(buffer.subarray(0, read.bytesRead));
+        let written = 0;
+        while (written < read.bytesRead) {
+          signal.throwIfAborted();
+          const result = await output.write(buffer, written, read.bytesRead - written);
+          if (!result.bytesWritten)
+            throw new CatalogError("STORAGE_ERROR", "Import copy made no progress");
+          written += result.bytesWritten;
+        }
+      }
+      const after = await input.stat({ bigint: true });
+      if (
+        BigInt(bytes) !== before.size ||
+        after.size !== before.size ||
+        after.mtimeNs !== before.mtimeNs ||
+        after.ctimeNs !== before.ctimeNs
+      )
+        throw new CatalogError("SOURCE_CHANGED", "Import source changed during copying", {}, false);
+      await output.chmod(0o400);
+      await output.sync();
+    } finally {
+      await output.close();
+    }
+    return { sha256: hash.digest("hex"), bytes };
+  } finally {
+    await input.close();
+  }
 }

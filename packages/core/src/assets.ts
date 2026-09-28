@@ -1,12 +1,12 @@
+import { ResourceReferences, type ResourceOwner } from "./references.js";
 import type { Asset as CompositionAsset } from "@screenrec/composition";
-import { createHash, randomUUID } from "node:crypto";
+import { randomUUID } from "node:crypto";
 import { constants } from "node:fs";
 import { mkdir, open, link, unlink, opendir, rm, lstat } from "node:fs/promises";
 import { extname, isAbsolute, join } from "node:path";
 import { z } from "zod";
 import { Catalog, CatalogError } from "./catalog.js";
-import { fileIdentity, type IdentifiedFile } from "./files.js";
-import { isDeepStrictEqual } from "node:util";
+import { copyImportedFile, fileIdentity, type IdentifiedFile } from "./files.js";
 
 const integer = z.number().int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
 const positive = integer.positive();
@@ -67,7 +67,6 @@ export type ImportIntent = {
   source: IdentifiedFile;
 };
 export type PreparedImport = Pick<ImportIntent, "requestId" | "path" | "source">;
-export type AssetOwner = { kind: "asset" | "project" | "revision" | "job" | "export"; id: string };
 export type AssetProbe = (path: string, signal: AbortSignal) => Promise<unknown>;
 const absent = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
 
@@ -75,10 +74,12 @@ const absent = (error: unknown) => (error as NodeJS.ErrnoException).code === "EN
 export class AssetStore {
   private readonly directory: string;
   private readonly staging: string;
+  private readonly dependencies: ResourceReferences;
   constructor(
     private readonly store: Catalog,
     private readonly libraryDirectory: string,
   ) {
+    this.dependencies = new ResourceReferences(store);
     this.directory = join(libraryDirectory, "assets");
     this.staging = join(libraryDirectory, "staging", "assets");
     store.catalog.exec(`
@@ -92,11 +93,6 @@ export class AssetStore {
       CREATE TABLE IF NOT EXISTS asset_origins (
         assetId TEXT NOT NULL, provenance TEXT NOT NULL, PRIMARY KEY(assetId,provenance)
       ) STRICT;
-      CREATE TABLE IF NOT EXISTS asset_references (
-        assetId TEXT NOT NULL, ownerKind TEXT NOT NULL, ownerId TEXT NOT NULL,
-        PRIMARY KEY(assetId,ownerKind,ownerId)
-      ) STRICT;
-      CREATE INDEX IF NOT EXISTS asset_reference_owner ON asset_references(ownerKind,ownerId);
     `);
   }
 
@@ -193,7 +189,7 @@ export class AssetStore {
     importId: string,
     probe: AssetProbe,
     signal: AbortSignal,
-    owner?: AssetOwner,
+    owner?: ResourceOwner,
   ): Promise<Asset> {
     const intent = this.intent(importId);
     if (intent.assetId) {
@@ -292,25 +288,16 @@ export class AssetStore {
     };
   }
   /** Call inside the revision/job transaction when references must commit with that owner. */
-  retain(owner: AssetOwner, ids: readonly string[]): void {
+  retain(owner: ResourceOwner, ids: readonly string[]): void {
     for (const id of ids) this.get(id);
-    for (const id of ids)
-      this.store.catalog
-        .prepare("INSERT OR IGNORE INTO asset_references VALUES(?,?,?)")
-        .run(id, owner.kind, owner.id);
+    this.dependencies.retain("asset", owner, ids);
   }
-  release(owner: AssetOwner): void {
-    this.store.catalog
-      .prepare("DELETE FROM asset_references WHERE ownerKind=? AND ownerId=?")
-      .run(owner.kind, owner.id);
+  release(owner: ResourceOwner): void {
+    this.dependencies.release("asset", owner);
   }
-  references(id: string): AssetOwner[] {
+  references(id: string): ResourceOwner[] {
     this.get(id);
-    return this.store.catalog
-      .prepare(
-        "SELECT ownerKind AS kind,ownerId AS id FROM asset_references WHERE assetId=? ORDER BY ownerKind,ownerId",
-      )
-      .all(id) as AssetOwner[];
+    return this.dependencies.owners("asset", id);
   }
 
   async import(
@@ -327,79 +314,8 @@ export class AssetStore {
     const extension = extname(path).toLowerCase();
     const suffix = /^\.[a-z0-9]{1,12}$/.test(extension) ? extension : "";
     const staging = join(this.staging, randomUUID() + suffix);
-    let input;
     try {
-      input = await open(path, constants.O_RDONLY | constants.O_NONBLOCK);
-    } catch (error) {
-      throw new CatalogError(
-        absent(error) ? "NOT_FOUND" : "INVALID_PATH",
-        "Cannot open import source",
-      );
-    }
-    try {
-      const before = await input.stat({ bigint: true });
-      if (
-        expected &&
-        (BigInt(expected.bytes) !== before.size ||
-          !isDeepStrictEqual(expected.identity, fileIdentity(before)))
-      )
-        throw new CatalogError(
-          "SOURCE_CHANGED",
-          "Import source no longer matches the frozen request; create a new import",
-          {},
-          false,
-        );
-      if (!before.isFile() || before.size > BigInt(Number.MAX_SAFE_INTEGER))
-        throw new CatalogError(
-          "UNSUPPORTED_MEDIA",
-          "Import source must be a regular file of supported size",
-        );
-      const output = await open(staging, "wx", 0o600);
-      const hash = createHash("sha256");
-      let bytes = 0;
-      try {
-        const buffer = Buffer.allocUnsafe(1024 * 1024);
-        for (;;) {
-          signal.throwIfAborted();
-          const read = await input.read(buffer, 0, buffer.length, null);
-          if (!read.bytesRead) break;
-          bytes += read.bytesRead;
-          if (BigInt(bytes) > before.size)
-            throw new CatalogError(
-              "SOURCE_CHANGED",
-              "Import source grew during copying",
-              {},
-              false,
-            );
-          hash.update(buffer.subarray(0, read.bytesRead));
-          let written = 0;
-          while (written < read.bytesRead) {
-            signal.throwIfAborted();
-            const result = await output.write(buffer, written, read.bytesRead - written);
-            if (!result.bytesWritten)
-              throw new CatalogError("STORAGE_ERROR", "Import copy made no progress");
-            written += result.bytesWritten;
-          }
-        }
-        const after = await input.stat({ bigint: true });
-        if (
-          BigInt(bytes) !== before.size ||
-          after.size !== before.size ||
-          after.mtimeNs !== before.mtimeNs ||
-          after.ctimeNs !== before.ctimeNs
-        )
-          throw new CatalogError(
-            "SOURCE_CHANGED",
-            "Import source changed during copying",
-            {},
-            false,
-          );
-        await output.chmod(0o400);
-        await output.sync();
-      } finally {
-        await output.close();
-      }
-      const id = hash.digest("hex");
+      const { sha256: id, bytes } = await copyImportedFile(path, staging, signal, expected);
       const existing = this.store.catalog.prepare("SELECT metadata FROM assets WHERE id=?").get(id);
       if (existing) {
         signal.throwIfAborted();
@@ -491,7 +407,6 @@ export class AssetStore {
         });
       return result;
     } finally {
-      await input.close();
       await unlink(staging).catch((error) => {
         if (!absent(error)) throw error;
       });

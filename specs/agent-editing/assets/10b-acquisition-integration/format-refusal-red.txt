@@ -1,0 +1,30 @@
+$ vitest run --maxWorkers=4 src/library.test.ts -t "catalog in another format"
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:425) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/library.test.ts (23 tests | 1 failed | 22 skipped) 600ms
+   × a catalog in another format, or unstamped with tables, is refused without migrating its data 598ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/library.test.ts > a catalog in another format, or unstamped with tables, is refused without migrating its data
+AssertionError: expected function to throw an error, but it didn't
+ ❯ src/library.test.ts:638:54
+    636|     other.close();
+    637|     const before = readFileSync(path);
+    638|     expect(() => new RevisionStore(path, providers)).toThrow(
+       |                                                      ^
+    639|       expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
+    640|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 22 skipped (23)
+   Start at  21:36:43
+   Duration  964ms (tests 74%, transform 14%, import 10%, worker 1%)
+
+error: script "test" exited with code 1

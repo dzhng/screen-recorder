@@ -2002,3 +2002,32 @@ test("admission rolls back domain writes when capacity is exhausted", async () =
   );
   worker.finish("ready");
 });
+
+test("acquisition jobs retain their domain across restart and retirement without affecting same-named assets", async () => {
+  const f = fixture();
+  const input = { artifact: "source-evidence", lane: "heavy" as const, input: "frozen-capture" };
+  const acquisition = f.queue.submit({
+    ...input,
+    target: { kind: "acquisition", acquisitionId: "shared" },
+  });
+  (await f.started(acquisition.attemptId)).finish("capture records");
+  await f.queue.idle();
+  const asset = f.queue.submit({ ...input, target: { kind: "asset", assetId: "shared" } });
+  (await f.started(asset.attemptId)).finish("physical records");
+  await f.queue.idle();
+  await f.queue.close();
+  queues.splice(queues.indexOf(f.queue), 1);
+  f.store.close();
+  const next = open(f.path, "reopened");
+  expect(next.queue.status(acquisition).published).toMatchObject({
+    target: { kind: "acquisition", acquisitionId: "shared" },
+    result: "capture records",
+  });
+  expect(next.queue.status(asset).published?.result).toBe("physical records");
+  next.targets.isDeleting = (owner) => owner.kind === "acquisition";
+  await next.queue.forgetOwner({ kind: "acquisition", acquisitionId: "shared" });
+  expect(() => next.queue.job(acquisition.jobId)).toThrow(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
+  expect(next.queue.status(asset).published?.result).toBe("physical records");
+});

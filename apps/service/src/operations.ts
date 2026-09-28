@@ -146,6 +146,8 @@ export async function operate(
       case "edit.apply":
       case "processing.get":
       case "processing.capabilities":
+      case "acquisition.import":
+      case "acquisition.get":
       case "asset.import":
       case "asset.get":
       case "asset.origins":

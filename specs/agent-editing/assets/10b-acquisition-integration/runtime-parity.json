@@ -1,0 +1,96 @@
+{
+  "modules": [
+    {
+      "file": "apps/service/dist/project-service.js",
+      "sha256": "da3e8e59ed5ce9390bc089d3018218f86df361c8bafa042d4ee1474a532d70cf",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/acquisitions.js",
+      "sha256": "b43820608f648df0989f64c37a133bf0a27cefa617327fce5e91d06daaf6d723",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/catalog.js",
+      "sha256": "c5240cb1a16b15c089bea7de2d920c11e8fb9a9b5883515e4a26501bc5ce56ae",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/assets.js",
+      "sha256": "a2f0a4476da6263d96d1ac58b5d3c31c01ba3a8fa0c07319a4b4b4a137bd5462",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/files.js",
+      "sha256": "7674dfdd5de16e160d03daba2ab0670af98ac54873bec6d0a47856518e783b43",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/references.js",
+      "sha256": "f6c2965ecbfe26df516fd619dc4994c6a15da403f87df1bce7f131de4af6fcce",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/jobs.js",
+      "sha256": "debca5c7903de8c3332b4739562917626e29eb0066f17cea4fadf8b41a319f3e",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/protocol/dist/operations.js",
+      "sha256": "fc4df4dba062960442d97f160585c4a4b780192d5660c78592b4ba621477f80e",
+      "matchesMain": true
+    },
+    {
+      "file": "apps/cli/dist/main.js",
+      "sha256": "b5eea3cc28a4540af9b5d3429e5e7dd29f27addd29d12e04582ec465bca875e1",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/test-harness/editing/source-acquisition.mjs",
+      "sha256": "90f95558896f56e9835604e210d0206155163f6c479d1551532bae3b3b9f8b62",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/test-harness/editing/source-acquisition-service.mjs",
+      "sha256": "0ef65f70a6e4da3c77f57f4df5a6c0f86331565b82ecd0de3ddebcc9edc609db",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/evidence.js",
+      "sha256": "e4802779b1ad2bc047ffe3d91db6eaa5cb54c77a45f712da0b7b6d6d71be9b6f",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/projects.js",
+      "sha256": "d89099943a155bf6b65721060053adaf8ec0dd1e7085bbd12f01011ea267863c",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/core/dist/project-preview.js",
+      "sha256": "8a521afe29c3ed6b65e7802e90c8b36080bb6d4f403a08e54f728df239b4a72b",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/composition/dist/model.js",
+      "sha256": "25801451018686356c4b57a588c111255c830cee08c6d1034dca075620783b96",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/composition/dist/replace.js",
+      "sha256": "708580191407f63b5701632815c9d894cefe48838504447690d5d3974e4e6bc1",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/composition/dist/compiler.js",
+      "sha256": "a02b7f62e775406b8111259fe65a68d91a9c792149c36ca5a5b78011d5b4f68c",
+      "matchesMain": true
+    },
+    {
+      "file": "packages/composition/dist/audio-context.js",
+      "sha256": "7881bc4dd061f64216b72e4510f9a6fe6d694167c896997bb71e6abcfa31205e",
+      "matchesMain": true
+    }
+  ],
+  "nativeSha256": "611ee1097c95fa2eae4ef7c6a0cb11facc39d236c642b953e9ccf072f8f05137",
+  "nativeMatches": true
+}

@@ -1,3 +1,4 @@
+import { AcquisitionStore } from "./acquisitions.js";
 import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
 import {
@@ -33,6 +34,15 @@ export type ProjectHistoryCursor = {
   afterOrdinal: number;
   throughOrdinal: number;
 };
+function acquisitionIds(document: ProjectRevision["document"]): string[] {
+  return [
+    ...new Set(
+      document.clips
+        .filter(isMediaClip)
+        .flatMap((clip) => (clip.acquisitionId ? [clip.acquisitionId] : [])),
+    ),
+  ];
+}
 const projectColumns = "projectId,title,createdAt,currentRevisionId";
 function canonical(value: unknown): string {
   return JSON.stringify(value, (_key, item) =>
@@ -60,6 +70,7 @@ export class ProjectStore {
   constructor(
     private readonly store: Catalog,
     private readonly assets: AssetStore,
+    private readonly acquisitions = new AcquisitionStore(store),
   ) {
     store.catalog.exec(`
       CREATE TABLE IF NOT EXISTS projects (
@@ -214,6 +225,7 @@ export class ProjectStore {
         .all(projectId);
       for (const row of rows) {
         this.assets.release({ kind: "revision", id: row.id as string });
+        this.acquisitions.release({ kind: "revision", id: row.id as string });
         this.store.catalog.prepare("DELETE FROM project_revisions WHERE id=?").run(row.id!);
       }
       const complete = !this.store.catalog
@@ -245,16 +257,26 @@ export class ProjectStore {
       const assetIds = new Set(
         current.document.clips.filter(isMediaClip).map((clip) => clip.assetId),
       );
+      const contextIds = new Set(acquisitionIds(current.document));
       for (const operation of operations) {
-        if (operation.operation === "replace") assetIds.add(operation.media.assetId);
-        if (operation.operation === "place" && "assetId" in operation.clip)
+        if (operation.operation === "replace") {
+          assetIds.add(operation.media.assetId);
+          if (operation.media.acquisitionId) contextIds.add(operation.media.acquisitionId);
+        }
+        if (operation.operation === "place" && "assetId" in operation.clip) {
           assetIds.add(operation.clip.assetId);
+          if (operation.clip.acquisitionId) contextIds.add(operation.clip.acquisitionId);
+        }
       }
       const metadata = [...assetIds].map((id) => compositionAsset(this.assets.get(id)));
       const namespace = createHash("sha256")
         .update(canonical([projectId, request.requestId]))
         .digest("hex");
-      const edit = applyBatch(current.document, operations, { assets: metadata, namespace });
+      const edit = applyBatch(current.document, operations, {
+        assets: metadata,
+        namespace,
+        acquisitions: [...contextIds].map((id) => this.acquisitions.context(id)),
+      });
       if (!edit.changed) return { revision: current, edit };
       this.pushUndo(projectId, current.id);
       const revision: ProjectRevision = {
@@ -289,6 +311,7 @@ export class ProjectStore {
     const model = validateComposition(
       revision.document,
       ids.map((id) => compositionAsset(this.assets.get(id))),
+      this.contexts(revision.document),
     );
     return { projectId, revisionId: revision.id, target, steps: getProcessing(model, target) };
   }
@@ -404,11 +427,18 @@ export class ProjectStore {
       },
     );
   }
+  contexts(document: ProjectRevision["document"]) {
+    return acquisitionIds(document).map((id) => this.acquisitions.context(id));
+  }
   private insertRevision(revision: ProjectRevision) {
     const ids = [
       ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
     ];
     this.assets.retain({ kind: "revision", id: revision.id }, ids);
+    this.acquisitions.retain(
+      { kind: "revision", id: revision.id },
+      acquisitionIds(revision.document),
+    );
     this.store.catalog
       .prepare("INSERT INTO project_revisions VALUES(?,?,?,?)")
       .run(revision.id, revision.projectId, revision.ordinal, JSON.stringify(revision));
