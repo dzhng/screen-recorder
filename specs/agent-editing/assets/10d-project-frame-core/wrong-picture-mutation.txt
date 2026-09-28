@@ -1,0 +1,100 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+ ❯ packages/core/src/project-frames.test.ts (3 tests | 1 failed | 2 skipped) 86ms
+   × a renderer cannot publish the wrong globally phased picture 85ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  01:15:41
+   Duration  631ms (transform 58%, import 24%, tests 17%, worker 1%)
+
+(node:17260) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/project-frames.test.ts > a renderer cannot publish the wrong globally phased picture
+AssertionError: expected { …(11) } to match object { state: 'failed', published: null }
+(11 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "published": null,
+-   "state": "failed",
++   "published": {
++     "frame": {
++       "atUs": 75001,
++       "bytes": 18,
++       "cacheId": "e64d7814-3bfb-4b3a-8aab-5d35a3b5c05e",
++       "decodedSamples": 1,
++       "file": "/private/tmp/screenrec-project-frames-n84Q0C/cache/derived/e64d7814-3bfb-4b3a-8aab-5d35a3b5c05e.cache",
++       "frame": {
++         "index": 1,
++         "layers": [
++           {
++             "assetId": "6e6da6f784cacafb0a39118cbd62d7c022e6fe27b958087f3c5c90b668cd0922",
++             "availability": "available",
++             "clipId": "clip:b4a46e24bc7483137e3a189f4fc4c242b44ad700c684fe274e68a6241a67bbbb:1",
++             "placement": "contain",
++             "sourceUs": 50000,
++             "streamId": "track:7",
++             "trackId": "track:b4a46e24bc7483137e3a189f4fc4c242b44ad700c684fe274e68a6241a67bbbb:0",
++           },
++         ],
++         "sampleAtUs": 50001,
++         "visibleRange": {
++           "endUs": 75002,
++           "startUs": 75001,
++         },
++       },
++       "height": 96,
++       "implementationId": "fixture-movie-v1",
++       "maxLongEdge": 1600,
++       "mediaType": "image/png",
++       "picture": {
++         "actualSourceUs": 50000,
++         "assetId": "6e6da6f784cacafb0a39118cbd62d7c022e6fe27b958087f3c5c90b668cd0922",
++         "clipId": "clip:b4a46e24bc7483137e3a189f4fc4c242b44ad700c684fe274e68a6241a67bbbb:1",
++         "requestedSourceUs": 50000,
++         "sample": {
++           "originUs": 9000,
++           "timescale": 1000000,
++           "value": "59000",
++         },
++         "status": "available",
++         "streamId": "track:7",
++       },
++       "profile": "h264-rec709",
++       "projectId": "d5afc47a-4adf-4e6e-b80b-d1723de443d8",
++       "readerOpens": 1,
++       "revisionId": "20ff5ffc-dfa9-4dc4-91c6-6f77ecc35823",
++       "sourceHeight": 96,
++       "sourceWidth": 160,
++       "tap": {
++         "point": {
++           "kind": "processed",
++         },
++         "target": {
++           "kind": "output",
++         },
++       },
++       "width": 160,
++     },
++     "generation": 1,
++   },
++   "state": "ready",
+  }
+
+ ❯ packages/core/src/project-frames.test.ts:187:37
+    185|   f.frames.request(request);
+    186|   await f.jobs.idle();
+    187|   expect(f.frames.request(request)).toMatchObject({ state: "failed", p…
+       |                                     ^
+    188|   expect(f.cache.bytes).toBe(0);
+    189| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

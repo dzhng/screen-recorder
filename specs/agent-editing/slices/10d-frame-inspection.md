@@ -64,3 +64,9 @@ and execution-window owners used by movies and audio inspection. A narrow reques
 inside a frame retains that frame's global sample timestamp; unrelated audio
 retiming and audio processing do not block the picture. [Focused evidence](../assets/10d-picture-window/README.md)
 covers this pure planning prerequisite, not delivered-image acceptance.
+
+The [core demanded-picture lifecycle](../assets/10d-project-frame-core/README.md)
+now pins requests and checks native receipt identity under the shared job/cache
+owners. Its controlled-renderer tests do not establish native or public acceptance.
+Concurrent frame and movie staging must share safe workspace lifetime before
+the service route is integrated.

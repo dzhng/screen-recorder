@@ -1108,3 +1108,10 @@ trim and stretch replacements keep their single-interval behavior.
   required shared capability binding; extending its existing media-plane selection
   keeps picture and audio inspection independent without duplicating timing.
   Landed in the direct-picture planning prerequisite.
+
+- **Sound; medium confidence — A demanded frame is a one-microsecond query on the global picture schedule.**
+  Asking at 75,001 microseconds in a 20-fps project selects the picture sampled at
+  50,000 microseconds. The receipt distinguishes that earlier sample from the
+  requested visible interval, 75,001–75,002. The plan required global timing but
+  left point-query representation open. This lets stills reuse exact movie
+  scheduling without creating a second nearest-frame rule.
