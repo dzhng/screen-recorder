@@ -22,8 +22,9 @@ Root subsequently moved native output validation before audio preparation and
 frame reads. Shared Canvas.validate retains the existing geometry bounds.
 The new output-preflight.mjs test fails against the old worker and passes against
 /tmp/screenrec-output-preflight-native. This worker's final release build passes.
-An expanded public confirmation is running under exec session49056; inspect
-/tmp/screenrec-output-preflight-public.log and its report directory before rerunning.
+The expanded public confirmation passes on that final worker; all root processes
+are terminal. Its13encoded variants and replay/cancellation/history checks are
+retained in that worktree’s09b-output-settings/preflight-public.json.gz.
 The profile/keyframe assertions were strengthened; all13 previous retained variants
 also satisfy them. Source changes and evidence remain uncommitted in that worktree.
 
