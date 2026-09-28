@@ -1,0 +1,12 @@
+{
+  "task": "Compare frozen afftdn and RNNoise recipes on matched mono48k float inputs with exactly known added stationary hum/hiss",
+  "reference": "existing retained real narration context.wav; contains original recording ambience, not asserted studio-clean",
+  "input": "reference, synthetic hum+hiss only, and reference+noise at10dB aggregate input SNR; exact same float inputs to both candidates",
+  "fixed": "afftdn frozen recipe and measured2hop compensation; RNNoise pinned model/driver and measured960sample compensation; output gains unchanged",
+  "metrics": "exact count/finiteness/clipping; error relative to reference; dry-reference distortion; noise-only attenuation; output mixture-minus-processed-reference sensitivity (not a separable residual-noise estimate)",
+  "hypothesis": "learned candidate may attenuate noise more but alter reference speech more; conventional candidate may trade attenuation for lower reference distortion",
+  "rule": "mechanism comparison only, never speech-quality pass or backend promotion; no invented quality threshold",
+  "deadline": "five minutes batch;30seconds subprocess;one infrastructure repair",
+  "confirmation": "repeat selected outputs only if comparison changes next action; retain all input/output hashes and exact raw audio",
+  "next": "then independent clean speech and protected-phoneme/listening evidence; do not infer those from added-noise arithmetic"
+}

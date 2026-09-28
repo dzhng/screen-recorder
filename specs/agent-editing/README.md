@@ -106,6 +106,8 @@ Compact evidence ledger:
   [learned denoise](assets/12c-rnnoise-timing/README.md) have measured compensation
   and state sensitivity. Both reject independent resets for a pure split;
   neither establishes protected speech quality or a production state policy.
+  [Matched noise controls](assets/12c-matched-noise/README.md) expose a strong
+  attenuation/reference-distortion tradeoff; clean speech and listening remain open.
 
 Use isolated homes and frozen workers. Imported assets never fabricate recording
 rows or narration roles; preserve physical support and acquisition provenance.

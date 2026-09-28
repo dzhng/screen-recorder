@@ -1,0 +1,22 @@
+{
+  "files": {
+    "README.md": "9fc75ca4d361b7a7ea47c31ec2fb4a69fbc8c4b8a4835eba492ed60b55784607",
+    "audio/afftdn-mixture.f32.gz": "2af0922b13cf0e50f5d7b8543332cdafe8cc3464a1b04d8907f29102019adde5",
+    "audio/afftdn-noise.f32.gz": "8fec15d90b3b476a5a9565e9484a847abf424cbbfb82ad2253ea2f34a07f2e88",
+    "audio/afftdn-reference.f32.gz": "0095ed3a1e3f36320969e663483d584f7cced2c474048f0f133f451754cc9e85",
+    "audio/mixture.f32.gz": "3793d6748bd70df7852f9eb9fb7baa3b1afa7c8356f06b447abc4e6154e48380",
+    "audio/noise.f32.gz": "7e929da971a9cd25992820ca08619327961c3af0180eb949f02430ff0b10e2b1",
+    "audio/reference.f32.gz": "660089399b4cd163525f27ee58edb65784ec0538fbd4c073684d3e7bdd1d4976",
+    "audio/rnnoise-mixture-raw.f32.gz": "b0b2ce433ed6628ef8d21dbf390b3020ab5083c0042044ce2321b22189ba89aa",
+    "audio/rnnoise-mixture.f32.gz": "32fb2d0ddc1dd01b7c3281fe4ac32957b413327b06f689fb89492a063ce8edd6",
+    "audio/rnnoise-noise-raw.f32.gz": "3e5b3bdfa715e4f4fb923dc0207085ca27dd9c054bcd3061aae7233671a90248",
+    "audio/rnnoise-noise.f32.gz": "81c8d95d8d0aa0be1ab0798d2dc2e85f3650783a5f400ff49df922975e06aa8c",
+    "audio/rnnoise-reference-raw.f32.gz": "ea14cdc383cdbd416dda4929280235b988cdfa9aadb3ebcc728f31f696591577",
+    "audio/rnnoise-reference.f32.gz": "4c21a3fe283e19a0351bcc2ccbf1151f55d388f14cc7ad0a987591e5c26e73db",
+    "confirmation.json": "ca4939a502e2a9f953fe9a24e0667106b730818edb176b52068d3504b685f6b4",
+    "plan.json": "73bd5ec58b26892309e791be869869f291d8ea56ce5a698575e2286dea504a4b",
+    "report.json.gz": "f8fcfc064e0151f22a5c64275b6d41abdab1cd6787dae90f8711285e2a5d1ad0",
+    "review.md": "1540342320a2e4570bf03f943772c1538ff7329f7077e8ce6297d2765750904a",
+    "run.py": "1ac96df7900ac6433a7e70c612e87496c5545c3b3bcb4ca0e07d4ade54b9198e"
+  }
+}

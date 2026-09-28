@@ -1,0 +1,57 @@
+{
+  "all12AudioHashesExact": true,
+  "files": {
+    "afftdn-mixture.f32": {
+      "bytes": 960000,
+      "sha256": "6e4f3df0893e43cacdefe8c09dc68c29db6a9bc8a0a2c9a3c57327be93be329f"
+    },
+    "afftdn-noise.f32": {
+      "bytes": 960000,
+      "sha256": "179b4f98b08c8a42df5931f38a9f34b21b95b7755e348d89223b55d950ca92ad"
+    },
+    "afftdn-reference.f32": {
+      "bytes": 960000,
+      "sha256": "429508f9714d62b2dfdedab6a3255849179aa1eb52cdd53b3031e5fd546f9c4e"
+    },
+    "mixture.f32": {
+      "bytes": 960000,
+      "sha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855"
+    },
+    "noise.f32": {
+      "bytes": 960000,
+      "sha256": "1ae7ae4c5e1d1088d15e54da6fbf14b38d74fa9e45e3d4ee1db73a6e45182f1c"
+    },
+    "reference.f32": {
+      "bytes": 960000,
+      "sha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769"
+    },
+    "rnnoise-mixture-raw.f32": {
+      "bytes": 963840,
+      "sha256": "c7037d86a0af9cb73534ead5297c17d9f995b8e2fe55d9669a1d004a12f8539b"
+    },
+    "rnnoise-mixture.f32": {
+      "bytes": 960000,
+      "sha256": "64323229c2b4d4b8412cff23972920e216c029a777c59e567ebf5e24a222d4c2"
+    },
+    "rnnoise-noise-raw.f32": {
+      "bytes": 963840,
+      "sha256": "c2c43907cd5103b9c06c0299b3757c7d96094bdd1fd85221645eaa7349be5eea"
+    },
+    "rnnoise-noise.f32": {
+      "bytes": 960000,
+      "sha256": "f3636c7bb2174f73eb8912810ac38610e6396017731bec64e8223e5957205494"
+    },
+    "rnnoise-reference-raw.f32": {
+      "bytes": 963840,
+      "sha256": "6a1b4e8b2963b8a34d65bfa0b7443b1e6dc837dbee5156f9b65c3f4f45a3cb9b"
+    },
+    "rnnoise-reference.f32": {
+      "bytes": 960000,
+      "sha256": "59fb92e6c1359fc905e6f9f1b144c3d9eb807337e1f7f97404a9b6af40bbff94"
+    }
+  },
+  "all10msWindowEnergiesExact": true,
+  "initialReportSha256": "a1d8b72559ead46fd4e68c1950fc102c8e867ffb1297cda3515609d591dbe99e",
+  "confirmationReportSha256": "4269ba4a9c960edd65dcf51c848698812da93cb3ee17a5717f4717dc17667074",
+  "runnerSha256": "1ac96df7900ac6433a7e70c612e87496c5545c3b3bcb4ca0e07d4ade54b9198e"
+}

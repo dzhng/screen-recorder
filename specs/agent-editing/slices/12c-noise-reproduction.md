@@ -67,7 +67,9 @@ restores tested counts/positions without establishing protected speech quality.
 The same learned candidate also requires input exclusion before processing and
 fails independent reset-per-clip state, including exact repeated-run evidence.
 
-Next compare matched known-noise inputs and independent speech controls, then
+[Matched stationary-noise inputs](../assets/12c-matched-noise/README.md) now expose
+the candidates’ attenuation/reference-distortion tradeoff with exact repeatability.
+Next add independent clean-speech/protected-phoneme and listening controls, then
 freeze a state policy that preserves pure splits while excluding removed input.
 Neither measured noise attenuation nor surviving impulse peaks closes listening,
 protected-phoneme, retimed/combined-input or production integration acceptance.
