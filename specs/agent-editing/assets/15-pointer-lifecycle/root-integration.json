@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "rootCommit": "7fe9d7cb",
+  "workerSha256": "2946c6e499e717b040e5bd05875a3f56b01852c2f9f0e2ed7c61e6c6335a17b7",
+  "exactNativePngs": 54,
+  "checkGroups": [
+    "acquisitionReplacement",
+    "atomicIncompatibility",
+    "reset",
+    "padding",
+    "trimHistory",
+    "processingHistory"
+  ],
+  "scope": "Pointer edit lifecycle, not encoded color or motion"
+}

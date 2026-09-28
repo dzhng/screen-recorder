@@ -304,6 +304,5 @@ settings, explicit reset, incompatible-batch rollback, padded holds and trimmed
 source history. Clip, track, both nested groups and output also pass delivered
 undo/restore, immutable historical reads and request replay without head changes.
 Fresh visual review found no definite rendering defect in the named PNG pairs;
-its presentation concern and counterevidence are retained. The coordinator's
-current-build integration remains pending; encoded movie/profile acceptance is
-separate and unchanged.
+its presentation concern and counterevidence are retained. Root's combined-build integration reproduces all 54 PNGs exactly; encoded
+movie/profile acceptance remains separate and unchanged.

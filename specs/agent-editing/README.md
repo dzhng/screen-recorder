@@ -19,8 +19,9 @@ Current pickup and priority:
 1. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
    [remaining delivered-media gaps](assets/15-acceptance-audit/README.md).
    [Whole-chain pointer alpha geometry](assets/15-pointer-alpha/README.md) passes
-   with fresh visual review and exact combined-worker reproduction. Replacement/undo
-   coverage is next.
+   with fresh visual review and exact combined-worker reproduction.
+   [Pointer replacement and history](assets/15-pointer-lifecycle/README.md) also
+   pass all six public groups with 54 exact combined-worker PNGs.
    [Reference/encoding diagnosis](assets/15-pointer-chain/README.md) rejects the
    flattened-source oracle; [root controls](assets/15-pointer-chain/root-integration.json)
    reproduce its encoding/transfer findings. Original encoded-color gates stay open.

@@ -43,6 +43,7 @@ harness correction from a product defect. No production code changed.
 
 Native binary used: `/tmp/screenrec-project-image-integrated-native`, SHA-256
 `2b40350219d91abdb79d0872d2fa34aff64be0d60a711cacf3724d06749c0db2`.
-The coordinator's newer service/native combination still needs its integration
-run. The earlier [geometry reference](../15-pointer-alpha/README.md) and
+Root's combined service/native run passes all six groups and reproduces all 54
+PNGs byte for byte; `root-integration.json` pins the worker and `root-report.json.gz`
+retains the complete public receipts. The earlier [geometry reference](../15-pointer-alpha/README.md) and
 [encoded color investigation](../15-pointer-chain/README.md) keep their own gates.
