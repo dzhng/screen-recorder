@@ -1578,3 +1578,18 @@ The per-revision boundary index, a single additional bounded merge lane and the
 20,000-selected-cut ceiling are delegated index/budget choices, using the existing
 128-step page budget and cache lifetime. They introduce no new table, endpoint,
 preparation job or persistent reader lifetime. Slice 24 owns release-scale budgets.
+## Project index frame-boundary checkpoint
+
+- **Sound, high confidence — keep frame timing in the compiler.** An edit at
+  33,366.5 microseconds occurs after the existing picture sampled at 33,366.
+  The helper selects that picture as its predecessor and 66,733 as its following
+  sample, using the existing clock and shared visibility builder. The spec needed
+  project index timing without defining a public selection primitive. This keeps
+  later screenshot selection consistent with preview without changing exact edit
+  times or adding another clock interpreter.
+- **Sound, high confidence — return neighbors, not a screenshot policy.** At the
+  project end only the preceding picture exists; an empty project has neither.
+  Requests outside the project refuse. The primitive accepts one boundary and
+  leaves repeated-candidate removal, sampling density and tap scope to their
+  future owner. This parent-approved scope avoids silently choosing how many
+  pictures an agent receives while making boundary selection independently testable.

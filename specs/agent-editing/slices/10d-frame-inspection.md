@@ -167,3 +167,8 @@ actual CLI/MCP/native preparation, dependency retry, paging, image/batch deliver
 physical short-island selection and retained independence across history/restart.
 Controlled empty-support/ready-empty admission cases are labeled separately.
 Project retained-index frame-phase projection remains open.
+
+[Project frame-boundary timing](../assets/10d-project-index-clock/README.md) now
+selects neighbors through the compiler's existing integer-floor sample clock and
+shared visibility builder. This pure seam preserves movie/picture plans; project
+candidate policy, materialization and public retained-index delivery remain open.

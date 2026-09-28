@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging
+
+
+ Test Files  8 passed (8)
+      Tests  126 passed (126)
+   Start at  06:53:58
+   Duration  658ms (tests 53%, import 24%, transform 22%, worker 1%)
+

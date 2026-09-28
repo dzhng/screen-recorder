@@ -1111,3 +1111,104 @@ test("picture inspection retains the globally visible frame without requiring un
     }),
   ).toThrow("Video inspection requires a video target");
 });
+
+test("frame boundaries compare exact edits with actual floor-timestamp pictures", () => {
+  const compiler = createCompiler(validateComposition(document, assets), "revision");
+  expect(compiler.frameBoundary({ numerator: 66733, denominator: 2 })).toEqual({
+    before: { index: 1, sampleAtUs: 33366, visibleRange: { startUs: 33366, endUs: 66733 } },
+    after: { index: 2, sampleAtUs: 66733, visibleRange: { startUs: 66733, endUs: 100100 } },
+  });
+  expect(compiler.frameBoundary(33366)).toEqual({
+    before: { index: 0, sampleAtUs: 0, visibleRange: { startUs: 0, endUs: 33366 } },
+    after: { index: 1, sampleAtUs: 33366, visibleRange: { startUs: 33366, endUs: 66733 } },
+  });
+  expect(compiler.frameBoundary(0).before).toBeNull();
+  expect(compiler.frameBoundary(1000000)).toEqual({
+    before: { index: 29, sampleAtUs: 967633, visibleRange: { startUs: 967633, endUs: 1000000 } },
+    after: null,
+  });
+  for (const boundary of [-1, 1000001, { numerator: 2000001, denominator: 2 }, Number.NaN])
+    expect(() => compiler.frameBoundary(boundary)).toThrow(/within the project/);
+});
+
+test("boundary descriptors preserve full movie and demanded-window frame plans", () => {
+  const compiler = createCompiler(validateComposition(document, assets), "revision");
+  const full = [...compiler.frames({ startUs: 0, endUs: 1000000 })];
+  const descriptor = ({ index, sampleAtUs, visibleRange }: (typeof full)[number]) => ({
+    index,
+    sampleAtUs,
+    visibleRange,
+  });
+  for (let i = 0; i < full.length; i++) {
+    const frame = full[i]!;
+    expect(compiler.frameBoundary(frame.sampleAtUs)).toEqual({
+      before: i ? descriptor(full[i - 1]!) : null,
+      after: descriptor(frame),
+    });
+    const request = {
+      range: frame.visibleRange,
+      rendition: { sampleRate: 48000, channels: 2 },
+      tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    };
+    expect([...compiler.window(request).frames()]).toEqual([frame]);
+    expect([...compiler.videoWindow(request).frames()]).toEqual([frame]);
+  }
+});
+
+test("boundary selection does not invent pictures for a clip between global samples", () => {
+  const input = structuredClone(document);
+  input.clips.push({
+    assetId: "asset",
+    streamId: "video",
+    id: "brief",
+    trackId: "overlay",
+    placement: { kind: "project", range: { startUs: 40000, endUs: 50000 } },
+    source: { kind: "range", range: { startUs: 0, endUs: 10000 } },
+  });
+  input.tracks.push({ id: "overlay", kind: "video", order: 1 });
+  const compiler = createCompiler(validateComposition(input, assets), "revision");
+  expect(compiler.frameBoundary(40000)).toEqual(compiler.frameBoundary(50000));
+  expect(compiler.frameBoundary(40000).after?.sampleAtUs).toBe(66733);
+  expect(
+    [...compiler.frames({ startUs: 0, endUs: 100000 })]
+      .flatMap((f) => f.layers)
+      .some((l) => l.clipId === "brief"),
+  ).toBe(false);
+});
+
+test("empty projects and submicrosecond frame periods preserve compiler sampling", () => {
+  const empty = createCompiler(validateComposition({ ...document, clips: [] }, assets), "empty");
+  expect(empty.frameBoundary(0)).toEqual({ before: null, after: null });
+  expect(() => empty.frameBoundary(1)).toThrow(/within the project/);
+  const input = structuredClone(document);
+  input.canvas.fps = { numerator: 2000000, denominator: 1 };
+  const compiler = createCompiler(validateComposition(input, assets), "fast");
+  const frames = [...compiler.frames({ startUs: 0, endUs: 2 })];
+  expect(frames.map((f) => [f.index, f.sampleAtUs])).toEqual([
+    [1, 0],
+    [3, 1],
+  ]);
+  expect(compiler.frameBoundary(1)).toEqual({
+    before: { index: 1, sampleAtUs: 0, visibleRange: { startUs: 0, endUs: 1 } },
+    after: { index: 3, sampleAtUs: 1, visibleRange: { startUs: 1, endUs: 2 } },
+  });
+});
+
+test("terminal neighbors clip to the existing integer render duration", () => {
+  const input = structuredClone(document);
+  input.clips[0]!.placement = { kind: "project", range: { startUs: 0, endUs: 100100 } };
+  const aligned = createCompiler(validateComposition(input, assets), "aligned");
+  expect(aligned.frameBoundary(100100)).toEqual({
+    before: { index: 2, sampleAtUs: 66733, visibleRange: { startUs: 66733, endUs: 100100 } },
+    after: null,
+  });
+  input.clips[0]!.placement = {
+    kind: "project",
+    range: { startUs: 0, endUs: { numerator: 200201, denominator: 2 } },
+  };
+  const fractional = createCompiler(validateComposition(input, assets), "fractional");
+  expect(fractional.frameBoundary({ numerator: 200201, denominator: 2 })).toEqual({
+    before: { index: 3, sampleAtUs: 100100, visibleRange: { startUs: 100100, endUs: 100101 } },
+    after: null,
+  });
+});

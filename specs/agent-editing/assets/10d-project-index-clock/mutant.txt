@@ -1,0 +1,57 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging
+
+ ❯ packages/composition/src/compiler.test.ts (25 tests | 1 failed) 118ms
+   × frame boundaries compare exact edits with actual floor-timestamp pictures 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/composition/src/compiler.test.ts > frame boundaries compare exact edits with actual floor-timestamp pictures
+AssertionError: expected { before: { index: +0, …(2) }, …(1) } to deeply equal { before: { index: 1, …(2) }, …(1) }
+
+- Expected
++ Received
+
+  {
+    "after": {
+-     "index": 2,
+-     "sampleAtUs": 66733,
+-     "visibleRange": {
+-       "endUs": 100100,
+-       "startUs": 66733,
+-     },
+-   },
+-   "before": {
+      "index": 1,
+      "sampleAtUs": 33366,
+      "visibleRange": {
+        "endUs": 66733,
+        "startUs": 33366,
++     },
++   },
++   "before": {
++     "index": 0,
++     "sampleAtUs": 0,
++     "visibleRange": {
++       "endUs": 33366,
++       "startUs": 0,
+      },
+    },
+  }
+
+ ❯ packages/composition/src/compiler.test.ts:1117:72
+    1115| test("frame boundaries compare exact edits with actual floor-timestamp…
+    1116|   const compiler = createCompiler(validateComposition(document, assets…
+    1117|   expect(compiler.frameBoundary({ numerator: 66733, denominator: 2 }))…
+       |                                                                        ^
+    1118|     before: { index: 1, sampleAtUs: 33366, visibleRange: { startUs: 33…
+    1119|     after: { index: 2, sampleAtUs: 66733, visibleRange: { startUs: 667…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 24 passed (25)
+   Start at  06:53:18
+   Duration  307ms (tests 47%, transform 38%, import 15%, worker 1%)
+

@@ -7,7 +7,14 @@ import { processingPlanner } from "./processing-plan.js";
 import { CompositionError } from "./errors.js";
 import { sourceTime, type ValidatedComposition } from "./model.js";
 import { compare, floor, ceil, fromTime, toTime, type Rational } from "./rational.js";
-import { isMediaClip, rangeSchema, type Range, type Fraction } from "./schema.js";
+import {
+  isMediaClip,
+  rangeSchema,
+  timeValueSchema,
+  type TimeValue,
+  type Range,
+  type Fraction,
+} from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
 const renderOrder = (a: Resolved, b: Resolved) =>
@@ -42,6 +49,23 @@ function frameClock(fps: Fraction) {
     // Floor timestamps make an exact integer boundary slightly earlier than k * period.
     indexAt: (time: bigint) => ((time + 1n) * numerator + denominator - 1n) / denominator - 1n,
     firstAtOrAfter: (time: number) => (BigInt(time) * numerator + denominator - 1n) / denominator,
+  };
+}
+
+function frameTiming(
+  clock: ReturnType<typeof frameClock>,
+  index: bigint,
+  range: Range,
+): Pick<CompiledFrame, "index" | "sampleAtUs" | "visibleRange"> {
+  const sampleAtUs = safeInteger(clock.timeAt(index));
+  const next = clock.timeAt(index + 1n);
+  return {
+    index: safeInteger(index),
+    sampleAtUs,
+    visibleRange: {
+      startUs: Math.max(range.startUs, sampleAtUs),
+      endUs: safeInteger(next < BigInt(range.endUs) ? next : BigInt(range.endUs)),
+    },
   };
 }
 
@@ -130,15 +154,8 @@ function compileSchedules(
           });
         }
         const nextTimestamp = clock.timeAt(index + 1n);
-        const visibleEnd =
-          nextTimestamp < BigInt(range.endUs) ? nextTimestamp : BigInt(range.endUs);
         yield {
-          index: safeInteger(index),
-          sampleAtUs: atUs,
-          visibleRange: {
-            startUs: Math.max(range.startUs, atUs),
-            endUs: safeInteger(visibleEnd),
-          },
+          ...frameTiming(clock, index, range),
           layers,
         };
         index = clock.indexAt(nextTimestamp);
@@ -223,6 +240,24 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
   }
   return {
     ...compileSchedules(clock, query, contexts),
+    /** Neighbors of an exact boundary in the existing integer-microsecond picture clock. */
+    frameBoundary(at: TimeValue) {
+      const parsed = timeValueSchema.safeParse(at);
+      if (!parsed.success || compare(fromTime(parsed.data), fromTime(model.durationUs)) > 0)
+        throw new CompositionError("INVALID_TIME", "Frame boundary must be within the project");
+      const threshold = ceil(fromTime(parsed.data));
+      const picture = (
+        index: bigint,
+      ): Pick<CompiledFrame, "index" | "sampleAtUs" | "visibleRange"> | null => {
+        const sample = clock.timeAt(index);
+        if (sample >= BigInt(model.durationUs)) return null;
+        return frameTiming(clock, index, { startUs: 0, endUs: model.durationUs });
+      };
+      return {
+        before: threshold === 0 ? null : picture(clock.indexAt(BigInt(threshold - 1))),
+        after: picture(clock.indexAt(clock.timeAt(clock.firstAtOrAfter(threshold)))),
+      };
+    },
     processing(input: Range) {
       const range = checkedRange(input);
       return processing(contributors(range));
