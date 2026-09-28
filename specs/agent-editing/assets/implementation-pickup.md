@@ -18,6 +18,15 @@ variable AAC, then formatted touched TypeScript. Both public runs and12focused
 tests pass. Runtime worker is /tmp/screenrec-output-native. Retained evidence and
 remaining gates are in that worktree's specs/agent-editing/assets/09b-output-settings.
 The3/8/20Mbps defaults remain provisional; no accepted quality study exists.
+Root subsequently moved native output validation before audio preparation and
+frame reads. Shared Canvas.validate retains the existing geometry bounds.
+The new output-preflight.mjs test fails against the old worker and passes against
+/tmp/screenrec-output-preflight-native. This worker's final release build passes.
+An expanded public confirmation is running under exec session49056; inspect
+/tmp/screenrec-output-preflight-public.log and its report directory before rerunning.
+The profile/keyframe assertions were strengthened; all13 previous retained variants
+also satisfy them. Source changes and evidence remain uncommitted in that worktree.
+
 Do not cherry-pick the sync merges or overwrite the worktree. Finish validation,
 review and focused commit there, then integrate against root's package changes.
 
