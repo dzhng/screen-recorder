@@ -1,0 +1,100 @@
+[
+  {
+    "name": "punctuation-newline",
+    "dimensions": [
+      420,
+      100
+    ],
+    "inkBounds": [
+      1,
+      5,
+      175,
+      73
+    ],
+    "nontransparentPixels": 3919
+  },
+  {
+    "name": "repeat",
+    "dimensions": [
+      420,
+      100
+    ],
+    "inkBounds": [
+      1,
+      5,
+      175,
+      73
+    ],
+    "nontransparentPixels": 3919
+  },
+  {
+    "name": "center",
+    "dimensions": [
+      420,
+      100
+    ],
+    "inkBounds": [
+      122,
+      5,
+      297,
+      73
+    ],
+    "nontransparentPixels": 3942
+  },
+  {
+    "name": "right",
+    "dimensions": [
+      420,
+      100
+    ],
+    "inkBounds": [
+      243,
+      5,
+      418,
+      73
+    ],
+    "nontransparentPixels": 3957
+  },
+  {
+    "name": "long-word",
+    "dimensions": [
+      180,
+      360
+    ],
+    "inkBounds": [
+      0,
+      5,
+      176,
+      141
+    ],
+    "nontransparentPixels": 7485
+  },
+  {
+    "name": "height-clipped",
+    "dimensions": [
+      420,
+      40
+    ],
+    "inkBounds": [
+      2,
+      5,
+      174,
+      34
+    ],
+    "nontransparentPixels": 1957
+  },
+  {
+    "name": "width-clipped",
+    "dimensions": [
+      180,
+      100
+    ],
+    "inkBounds": [
+      1,
+      5,
+      180,
+      36
+    ],
+    "nontransparentPixels": 2335
+  }
+]

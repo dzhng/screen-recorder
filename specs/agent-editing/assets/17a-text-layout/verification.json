@@ -1,0 +1,25 @@
+{
+  "scope": "Standalone Core Text reproduction only; public captions unimplemented",
+  "sources": {
+    "packages/test-harness/editing/text-layout.swift": "f8f27120d6cd21e05f6f01a4345b01cfeefb24289eb33939bced9c9aa6269355",
+    "packages/test-harness/editing/text-layout.mjs": "d2eb63615cd0a7a1a273a59088c216167dba7f9f1adba4e9e916037b764a06d2"
+  },
+  "codeReview": "No actionable defects within documented Arial fixture scope; reviewer independently reran harness after redirecting Swift cache",
+  "visualReview": "Limited-context existing agent; seven original and seven enlarged captures plus contact; no unexpected layout defect",
+  "checks": [
+    "literal strings and newlines",
+    "identical rerender hash",
+    "alignment positions",
+    "long-word wrap",
+    "explicit clipping",
+    "missing/changed font refusal",
+    "ambient fallback refusal",
+    "scratch mutation removing fallback guard fails refusal test"
+  ],
+  "limitations": [
+    "No live CLI/MCP caption API",
+    "No moving-footage or movie typography claim",
+    "No fresh skill consumer; agent spawn limit",
+    "No cross-host font portability claim"
+  ]
+}

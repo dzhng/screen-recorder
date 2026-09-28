@@ -27,9 +27,11 @@ Current pickup and priority:
    separates encoding loss from image-generator artifacts. ProRes is a diagnostic
    control, not an added release requirement. Preserve all existing measured failures
    and use the [remaining media audit](assets/15-acceptance-audit/README.md).
-2. Continue animated gain/transition delivery and portable screenshot-index closure
-   in parallel. The shared [scalar prerequisite](slices/16b-scalar-program.md) and
-   retained source transcripts pass combined-build confirmation. Caption work follows animation/evidence contracts. No segmentation
+2. Continue transition/convenience delivery and portable screenshot-index closure
+   in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json).
+   The shared [scalar prerequisite](slices/16b-scalar-program.md) and
+   retained source transcripts pass combined-build confirmation. The [font/layout reproduction](slices/17a-text-layout.md) is verified within its
+   documented scope; caption integration still follows animation/evidence contracts. No segmentation
    scope is active.
 3. Complete portable closure and public consumers for the shared
    [prepared-audio prerequisite](slices/14a-prepared-audio.md). Its first core
@@ -230,6 +232,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)
 - [ ] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
+- [x] [17a — Explicit font and text layout reproduction](slices/17a-text-layout.md)
 - [ ] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)

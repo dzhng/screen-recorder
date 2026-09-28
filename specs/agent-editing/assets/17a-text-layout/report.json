@@ -1,0 +1,501 @@
+{
+  "sourceSHA256": "f8f27120d6cd21e05f6f01a4345b01cfeefb24289eb33939bced9c9aa6269355",
+  "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+  "publicCaptionsReady": false,
+  "cases": [
+    {
+      "name": "punctuation-newline",
+      "request": {
+        "text": "Hello, world!\nCaption two.",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 420,
+        "height": 100,
+        "alignment": "left",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "receipt": {
+        "font": "ArialMT",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "lines": [
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              29
+            ],
+            "range": [
+              0,
+              14
+            ],
+            "text": "Hello, world!\n",
+            "width": 176.0625
+          },
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              66
+            ],
+            "range": [
+              14,
+              12
+            ],
+            "text": "Caption two.",
+            "width": 177.875
+          }
+        ],
+        "pngSHA256": "4f6245e7f1353aedb9cad249b8434c5397c8896ed949386642b2a706c9d20a5a",
+        "utf16Length": 26,
+        "visibleRange": [
+          0,
+          26
+        ]
+      }
+    },
+    {
+      "name": "repeat",
+      "request": {
+        "text": "Hello, world!\nCaption two.",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 420,
+        "height": 100,
+        "alignment": "left",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "receipt": {
+        "font": "ArialMT",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "lines": [
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              29
+            ],
+            "range": [
+              0,
+              14
+            ],
+            "text": "Hello, world!\n",
+            "width": 176.0625
+          },
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              66
+            ],
+            "range": [
+              14,
+              12
+            ],
+            "text": "Caption two.",
+            "width": 177.875
+          }
+        ],
+        "pngSHA256": "4f6245e7f1353aedb9cad249b8434c5397c8896ed949386642b2a706c9d20a5a",
+        "utf16Length": 26,
+        "visibleRange": [
+          0,
+          26
+        ]
+      }
+    },
+    {
+      "name": "center",
+      "request": {
+        "text": "Hello, world!\nCaption two.",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 420,
+        "height": 100,
+        "alignment": "center",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "receipt": {
+        "font": "ArialMT",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "lines": [
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              121.96875,
+              29
+            ],
+            "range": [
+              0,
+              14
+            ],
+            "text": "Hello, world!\n",
+            "width": 176.0625
+          },
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              121.0625,
+              66
+            ],
+            "range": [
+              14,
+              12
+            ],
+            "text": "Caption two.",
+            "width": 177.875
+          }
+        ],
+        "pngSHA256": "3431dfa85b4408f4d63527784f6f1aa330a387c04254a91cfa38002d6edaf86b",
+        "utf16Length": 26,
+        "visibleRange": [
+          0,
+          26
+        ]
+      }
+    },
+    {
+      "name": "right",
+      "request": {
+        "text": "Hello, world!\nCaption two.",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 420,
+        "height": 100,
+        "alignment": "right",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "receipt": {
+        "font": "ArialMT",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "lines": [
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              243.9375,
+              29
+            ],
+            "range": [
+              0,
+              14
+            ],
+            "text": "Hello, world!\n",
+            "width": 176.0625
+          },
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              242.125,
+              66
+            ],
+            "range": [
+              14,
+              12
+            ],
+            "text": "Caption two.",
+            "width": 177.875
+          }
+        ],
+        "pngSHA256": "58c50a778449f0cb0e2e8e2144900ed7e6ee30bd893a86132c269505f10d7d14",
+        "utf16Length": 26,
+        "visibleRange": [
+          0,
+          26
+        ]
+      }
+    },
+    {
+      "name": "long-word",
+      "request": {
+        "text": "Supercalifragilisticexpialidocious ends here.",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 180,
+        "height": 360,
+        "alignment": "left",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "receipt": {
+        "font": "ArialMT",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "lines": [
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              29
+            ],
+            "range": [
+              0,
+              12
+            ],
+            "text": "Supercalifra",
+            "width": 170.75
+          },
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              66
+            ],
+            "range": [
+              12,
+              15
+            ],
+            "text": "gilisticexpiali",
+            "width": 177.84375
+          },
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              103
+            ],
+            "range": [
+              27,
+              8
+            ],
+            "text": "docious ",
+            "width": 119.1875
+          },
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              140
+            ],
+            "range": [
+              35,
+              10
+            ],
+            "text": "ends here.",
+            "width": 151.21875
+          }
+        ],
+        "pngSHA256": "cbfdfd4e956c8c0e351f4ad2ff437b74bf1139c27a79f0a8f8d9896b365c85c3",
+        "utf16Length": 45,
+        "visibleRange": [
+          0,
+          45
+        ]
+      }
+    },
+    {
+      "name": "height-clipped",
+      "request": {
+        "text": "Hello, world!\nCaption two.",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 420,
+        "height": 40,
+        "alignment": "left",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "receipt": {
+        "font": "ArialMT",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "lines": [
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              29
+            ],
+            "range": [
+              0,
+              14
+            ],
+            "text": "Hello, world!\n",
+            "width": 176.0625
+          }
+        ],
+        "pngSHA256": "83adcad2a7ca950cb407398a3c92f48a2966157eb6f9bdb66e5c1e5b8f070a1b",
+        "utf16Length": 26,
+        "visibleRange": [
+          0,
+          14
+        ]
+      }
+    },
+    {
+      "name": "width-clipped",
+      "request": {
+        "text": "Supercalifragilisticexpialidocious ends here.",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 180,
+        "height": 100,
+        "alignment": "left",
+        "wrap": false,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "receipt": {
+        "font": "ArialMT",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "lines": [
+          {
+            "fonts": [
+              "ArialMT"
+            ],
+            "origin": [
+              0,
+              29
+            ],
+            "range": [
+              0,
+              45
+            ],
+            "text": "Supercalifragilisticexpialidocious ends here.",
+            "width": 619
+          }
+        ],
+        "pngSHA256": "60055d4a8eb5527eb381e19cad86a666472ca326e754c57920c036934ff8c25f",
+        "utf16Length": 45,
+        "visibleRange": [
+          0,
+          45
+        ]
+      }
+    },
+    {
+      "name": "font-changed",
+      "request": {
+        "text": "Hello, world!\nCaption two.",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "size": 32,
+        "width": 420,
+        "height": 100,
+        "alignment": "left",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "error": "Failure(reason: \"FONT_CHANGED\")"
+    },
+    {
+      "name": "font-missing",
+      "request": {
+        "text": "Hello, world!\nCaption two.",
+        "fontPath": "/tmp/screenrec-text-layout-proof/absent.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 420,
+        "height": 100,
+        "alignment": "left",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "error": "Error Domain=NSCocoaErrorDomain Code=260 \"The file “absent.ttf” couldn’t be opened because there is no such file.\" UserInfo={NSFilePath=/tmp/screenrec-text-layout-proof/absent.ttf, NSURL=file:///tmp/screenrec-text-layout-proof/absent.ttf, NSUnderlyingError=0x105909c90 {Error Domain=NSPOSIXErrorDomain Code=2 \"No such file or directory\"}}"
+    },
+    {
+      "name": "fallback-refused",
+      "request": {
+        "text": "Caption 中文",
+        "fontPath": "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "fontSHA256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "size": 32,
+        "width": 420,
+        "height": 100,
+        "alignment": "left",
+        "wrap": true,
+        "rgba": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "error": "Failure(reason: \"FONT_SUBSTITUTED: PingFangSC-Regular\")"
+    }
+  ],
+  "checks": [
+    "literal punctuation/newline preserved; identical request has identical PNG",
+    "center/right placement matches requested alignment",
+    "long word wraps without losing literal text",
+    "requested horizontal clipping and vertical overflow remain measurable",
+    "changed/missing font and ambient fallback refused before image publication"
+  ]
+}
