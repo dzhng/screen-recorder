@@ -11,7 +11,7 @@ import { RevisionStore } from "@screenrec/core/library";
 import { PresentationEvidence } from "@screenrec/core/presentation-evidence";
 import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
 import { PreviewInspection } from "@screenrec/core/preview";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { constants } from "node:fs";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
@@ -252,7 +252,7 @@ test(
       );
       const run = mediaWorker({ SCREENREC_NATIVE: native });
       const sourceEvidence = new SourceEvidenceStore(store);
-      const cache = new DerivedCache(store, home);
+      const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
       await cache.reconcile();
       let processing, preview;
       jobs = new JobQueue({

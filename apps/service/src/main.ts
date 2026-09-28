@@ -11,7 +11,7 @@ import { RevisionStore } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import type { VisualObservations } from "@screenrec/core/scenes";
 import { VisualObservationCache } from "@screenrec/core/visual-cache";
 import { LibraryAudioInspection, type NativeAudio } from "@screenrec/core/audio";
@@ -115,7 +115,7 @@ async function main(): Promise<void> {
       newId: randomUUID,
     });
     evidence = new SourceEvidenceStore(store);
-    cache = new DerivedCache(store, home);
+    cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
     storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
       exports!.usage(recordingId, signal),
     );

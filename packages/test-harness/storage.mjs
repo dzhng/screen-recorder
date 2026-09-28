@@ -19,7 +19,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { callLocal } from "@screenrec/client";
 import { RevisionStore } from "@screenrec/core/library";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { CONTROL_FRAME_BYTES, JsonLineStream } from "@screenrec/protocol";
 
 const execute = promisify(execFile);
@@ -50,7 +50,7 @@ test("storage usage through the real service, CLI and MCP", { timeout: 30_000 },
     now: () => "fixture",
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, home);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();
   const owned = store.allocate().recording;
   const sibling = store.allocate().recording;
@@ -70,7 +70,7 @@ test("storage usage through the real service, CLI and MCP", { timeout: 30_000 },
   await mkdir(evidence, { recursive: true });
   for (let i = 0; i < 2500; i++) await writeFile(join(evidence, `${i}.json`), "1234567890");
   await writeFile(join(home, "recordings", owned.recordingId, "other.bin"), Buffer.alloc(7));
-  const reservation = cache.reserve(owned.recordingId);
+  const reservation = cache.reserve({ kind: "recording", recordingId: owned.recordingId });
   await writeFile(reservation.path, Buffer.alloc(23));
   await cache.publish(reservation.id);
   await mkdir(join(home, "recordings", deleting.recordingId, "source"), { recursive: true });

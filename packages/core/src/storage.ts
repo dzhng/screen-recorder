@@ -204,7 +204,7 @@ export class RecordingStorage {
               const category =
                 location.area === "files" &&
                 location.category === "sharedBytes" &&
-                this.cache.recordingForFile(child)
+                this.cache.ownerForFile(child)
                   ? "cacheBytes"
                   : next.category;
               await count(child, category, directories);
@@ -236,7 +236,10 @@ export class RecordingStorage {
         } catch (error) {
           if (!missing(error)) throw error;
         }
-        for (const path of this.cache.usageFiles(recording.recordingId))
+        for (const path of this.cache.usageFiles({
+          kind: "recording",
+          recordingId: recording.recordingId,
+        }))
           await count(path, "cacheBytes", [this.homeIdentity]);
       } else {
         await walk(this.home, { area: "home", category: "sharedBytes" }, [this.homeIdentity]);

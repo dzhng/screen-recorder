@@ -1,6 +1,6 @@
 # 08a — Shared derived-file ownership
 
-Status: planned after inspecting the recording-only cache boundary. Dependencies: [02a](./02a-preparation-jobs.md), [04](./04-projects.md). Independent of native execution.
+Status: owner generalization implemented; [focused checks and independent review](../assets/08a-derived-cache/README.md) pass. Broad core runs retain deadline failures; revalidation remains open before this prerequisite closes. Dependencies: [02a](./02a-preparation-jobs.md), [04](./04-projects.md). Independent of native execution.
 
 ## Contract
 

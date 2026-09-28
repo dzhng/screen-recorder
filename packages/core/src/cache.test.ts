@@ -13,7 +13,7 @@ import {
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { DerivedCache, type RemoveCacheFiles } from "./cache.js";
+import { DerivedCache, recordingCacheOwnerCheck, type RemoveCacheFiles } from "./cache.js";
 const cleanups: (() => void)[] = [];
 afterEach(() =>
   cleanups
@@ -35,7 +35,7 @@ async function fixture(budget = 8) {
     () => store.close(),
   );
   store.allocate();
-  const cache = new DerivedCache(store, home, budget);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), budget);
   await cache.reconcile();
   const removeFiles: RemoveCacheFiles = async ({ ids, root }) => {
     const directory = join(home, "cache", "derived");
@@ -49,7 +49,7 @@ async function fixture(budget = 8) {
   return { home, store, cache, removeFiles };
 }
 async function add(cache: DerivedCache, data: string) {
-  const pending = cache.reserve("recording-1");
+  const pending = cache.reserve({ kind: "recording", recordingId: "recording-1" });
   writeFileSync(pending.path, data, { flag: "wx" });
   return cache.publish(pending.id);
 }
@@ -100,15 +100,15 @@ test("restart preserves LRU and reconciles missing, interrupted and orphan files
   const a = await add(cache, "aaaa"),
     b = await add(cache, "bbbb");
   expect(read(cache, a.id)).toBe("aaaa");
-  const pending = cache.reserve("recording-1");
+  const pending = cache.reserve({ kind: "recording", recordingId: "recording-1" });
   writeFileSync(pending.path, "partial");
-  const reopened = new DerivedCache(store, home, 8);
+  const reopened = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 8);
   await reopened.reconcile();
   const c = await add(reopened, "cccc");
   expect(read(reopened, b.id)).toBeNull();
   expect(read(reopened, a.id)).toBe("aaaa");
   rmSync(c.path);
-  const again = new DerivedCache(store, home, 8);
+  const again = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 8);
   await again.reconcile();
   expect(again.bytes).toBe(4);
   expect(read(again, c.id)).toBeNull();
@@ -120,15 +120,15 @@ test("oversized output and aliased files cannot consume cache or alter source", 
   const source = join(home, "source.mov");
   writeFileSync(source, "original");
   const kept = await add(cache, "keep");
-  const big = cache.reserve("recording-1");
+  const big = cache.reserve({ kind: "recording", recordingId: "recording-1" });
   writeFileSync(big.path, "too large");
   await expect(cache.publish(big.id)).rejects.toThrow("exceeds cache budget");
   expect(existsSync(big.path)).toBe(false);
   expect(read(cache, kept.id)).toBe("keep");
-  const hard = cache.reserve("recording-1");
+  const hard = cache.reserve({ kind: "recording", recordingId: "recording-1" });
   linkSync(source, hard.path);
   await expect(cache.publish(hard.id)).rejects.toThrow("independent regular file");
-  const symbolic = cache.reserve("recording-1");
+  const symbolic = cache.reserve({ kind: "recording", recordingId: "recording-1" });
   symlinkSync(source, symbolic.path);
   await expect(cache.publish(symbolic.id)).rejects.toThrow();
   cache.remove(symbolic.id);
@@ -140,8 +140,10 @@ test("oversized output and aliased files cannot consume cache or alter source", 
 test("startup interruption is retryable, yields, and never reconciles an active producer", async () => {
   const { cache, home, store } = await fixture(200);
   for (let i = 0; i < 140; i++) await add(cache, "a");
-  const reopened = new DerivedCache(store, home, 200);
-  expect(() => reopened.reserve("recording-1")).toThrow("reconciliation");
+  const reopened = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 200);
+  expect(() => reopened.reserve({ kind: "recording", recordingId: "recording-1" })).toThrow(
+    "reconciliation",
+  );
   const controller = new AbortController();
   const scanning = reopened.reconcile(controller.signal);
   setImmediate(() => controller.abort());
@@ -159,7 +161,9 @@ test("cache ancestors cannot redirect deletion or publication into source direct
   writeFileSync(sourceFile, "source");
   rmSync(join(home, "cache"), { recursive: true });
   symlinkSync(source, join(home, "cache"));
-  expect(() => new DerivedCache(store, home)).toThrow("must not be a link");
+  expect(() => new DerivedCache(store, home, recordingCacheOwnerCheck(store))).toThrow(
+    "must not be a link",
+  );
   expect(readFileSync(sourceFile, "utf8")).toBe("source");
 });
 
@@ -213,7 +217,7 @@ test("reopening the catalog retains cache content and LRU, removing only owned o
     () => store.close(),
   );
   store.allocate();
-  let cache = new DerivedCache(store, home, 8);
+  let cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 8);
   await cache.reconcile();
   const a = await add(cache, "aaaa"),
     b = await add(cache, "bbbb");
@@ -224,7 +228,7 @@ test("reopening the catalog retains cache content and LRU, removing only owned o
   writeFileSync(unrelated, "keep");
   store.close();
   store = connect();
-  cache = new DerivedCache(store, home, 8);
+  cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 8);
   await cache.reconcile();
   expect(read(cache, a.id)).toBe("aaaa");
   await add(cache, "cccc");
@@ -237,13 +241,13 @@ test("recording purge removes published and pending files, preserving sibling re
   const { cache, store, removeFiles } = await fixture(100);
   const sibling = store.allocate().recording.recordingId;
   const a = await add(cache, "deleted");
-  const pending = cache.reserve("recording-1");
+  const pending = cache.reserve({ kind: "recording", recordingId: "recording-1" });
   writeFileSync(pending.path, "unfinished");
-  const b = cache.reserve(sibling);
+  const b = cache.reserve({ kind: "recording", recordingId: sibling });
   writeFileSync(b.path, "sibling");
   await cache.publish(b.id);
   const reader = cache.acquire(b.id)!;
-  await cache.purgeRecording("recording-1", removeFiles);
+  await cache.purgeOwner({ kind: "recording", recordingId: "recording-1" }, removeFiles);
   expect(existsSync(a.path)).toBe(false);
   expect(existsSync(pending.path)).toBe(false);
   await expect(cache.publish(pending.id)).rejects.toThrow("No cache reservation");
@@ -252,8 +256,8 @@ test("recording purge removes published and pending files, preserving sibling re
   expect(bytes.toString()).toBe("sibling");
   reader.release();
   expect(read(cache, b.id)).toBe("sibling");
-  await cache.purgeRecording("recording-1", removeFiles);
-  await cache.purgeRecording("unknown", removeFiles);
+  await cache.purgeOwner({ kind: "recording", recordingId: "recording-1" }, removeFiles);
+  await cache.purgeOwner({ kind: "recording", recordingId: "unknown" }, removeFiles);
   expect(cache.bytes).toBe(7);
 });
 
@@ -261,19 +265,21 @@ test("purge refuses pinned recording bytes and retries without releasing unrelat
   const { cache, store, removeFiles } = await fixture(100);
   const sibling = store.allocate().recording.recordingId;
   const a = await add(cache, "target");
-  const b = cache.reserve(sibling);
+  const b = cache.reserve({ kind: "recording", recordingId: sibling });
   writeFileSync(b.path, "sibling");
   await cache.publish(b.id);
   const targetRead = cache.acquire(a.id)!,
     siblingRead = cache.acquire(b.id)!;
-  await expect(cache.purgeRecording("recording-1", removeFiles)).rejects.toMatchObject({
+  await expect(
+    cache.purgeOwner({ kind: "recording", recordingId: "recording-1" }, removeFiles),
+  ).rejects.toMatchObject({
     code: "CACHE_BUSY",
     retryable: true,
   });
   expect(readFileSync(a.path, "utf8")).toBe("target");
   expect(read(cache, a.id)).toBe("target");
   targetRead.release();
-  await cache.purgeRecording("recording-1", removeFiles);
+  await cache.purgeOwner({ kind: "recording", recordingId: "recording-1" }, removeFiles);
   expect(existsSync(a.path)).toBe(false);
   const bytes = Buffer.alloc(7);
   siblingRead.read(bytes, 0);
@@ -285,7 +291,7 @@ test("purge yields across reservations and serializes already queued and late pu
   const { cache, removeFiles } = await fixture(200);
   const pending = [];
   for (let i = 0; i < 130; i++) {
-    const output = cache.reserve("recording-1");
+    const output = cache.reserve({ kind: "recording", recordingId: "recording-1" });
     writeFileSync(output.path, `partial-${i}`);
     pending.push(output);
   }
@@ -294,7 +300,7 @@ test("purge yields across reservations and serializes already queued and late pu
   setImmediate(() => {
     heartbeat = true;
   });
-  await cache.purgeRecording("recording-1", removeFiles);
+  await cache.purgeOwner({ kind: "recording", recordingId: "recording-1" }, removeFiles);
   await publication;
   expect(heartbeat).toBe(true);
   for (const output of pending) expect(existsSync(output.path)).toBe(false);
@@ -304,17 +310,17 @@ test("purge yields across reservations and serializes already queued and late pu
 
 test("reservations reject missing owners and retain their owner after reopening", async () => {
   const { cache, home, store, removeFiles } = await fixture(100);
-  expect(() => cache.reserve("missing")).toThrowError(
+  expect(() => cache.reserve({ kind: "recording", recordingId: "missing" })).toThrowError(
     expect.objectContaining({ code: "NOT_FOUND" }),
   );
   const owner = store.allocate().recording.recordingId;
   const first = await add(cache, "first");
-  const second = cache.reserve(owner);
+  const second = cache.reserve({ kind: "recording", recordingId: owner });
   writeFileSync(second.path, "second");
   await cache.publish(second.id);
-  const reopened = new DerivedCache(store, home, 100);
+  const reopened = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 100);
   await reopened.reconcile();
-  await reopened.purgeRecording(owner, removeFiles);
+  await reopened.purgeOwner({ kind: "recording", recordingId: owner }, removeFiles);
   expect(read(reopened, second.id)).toBeNull();
   expect(read(reopened, first.id)).toBe("first");
 });
@@ -324,15 +330,17 @@ test("failed file removal retains cache ownership for retry", async () => {
   const output = await add(cache, "retry-me");
   store.markDeleting("recording-1");
   await expect(
-    cache.purgeRecording("recording-1", async () => {
+    cache.purgeOwner({ kind: "recording", recordingId: "recording-1" }, async () => {
       throw new Error("removal failed");
     }),
   ).rejects.toThrow("removal failed");
   expect(readFileSync(output.path, "utf8")).toBe("retry-me");
   expect(
-    store.catalog.prepare("SELECT id, recordingId FROM derived_cache WHERE id=?").get(output.id),
-  ).toEqual({ id: output.id, recordingId: "recording-1" });
-  await cache.purgeRecording("recording-1", removeFiles);
+    store.catalog
+      .prepare("SELECT id, ownerKind, ownerId FROM derived_cache WHERE id=?")
+      .get(output.id),
+  ).toEqual({ id: output.id, ownerKind: "recording", ownerId: "recording-1" });
+  await cache.purgeOwner({ kind: "recording", recordingId: "recording-1" }, removeFiles);
   expect(existsSync(output.path)).toBe(false);
   expect(
     store.catalog.prepare("SELECT id FROM derived_cache WHERE id=?").get(output.id),

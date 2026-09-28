@@ -6,7 +6,7 @@ import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { RevisionStore } from "@screenrec/core/library";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
@@ -33,7 +33,7 @@ test(
       now: () => "seeded deletion restart",
       newId: randomUUID,
     });
-    const cache = new DerivedCache(store, home);
+    const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
     await cache.reconcile();
     const index = new ScreenshotIndexStore(store, home);
     async function seed(label) {
@@ -50,7 +50,7 @@ test(
         join(directory, "source", "video.mov"),
         `${label}: generated source leftover`,
       );
-      const cached = cache.reserve(take.recordingId);
+      const cached = cache.reserve({ kind: "recording", recordingId: take.recordingId });
       writeFileSync(cached.path, `${label}: derivative`);
       await cache.publish(cached.id);
       if (label === "sibling") return { ...take, directory, source, cached };

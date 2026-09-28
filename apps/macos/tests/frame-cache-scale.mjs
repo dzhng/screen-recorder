@@ -7,7 +7,7 @@ import { isAbsolute, join } from "node:path";
 import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { RevisionStore } from "@screenrec/core/library";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
@@ -185,7 +185,7 @@ test(
         { artifact: "source-evidence", state: "canceled" },
         { artifact: "source-scenes", state: "canceled" },
       ]);
-      const cache = new DerivedCache(catalog, home, 1);
+      const cache = new DerivedCache(catalog, home, recordingCacheOwnerCheck(catalog), 1);
       await cache.reconcile();
       const stale = cache.acquire(firstFrame.cacheId);
       stale?.release();

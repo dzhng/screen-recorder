@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
-import { DerivedCache } from "./cache.js";
+import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import {
   LibraryFrameInspection,
   FrameInspection,
@@ -39,7 +39,7 @@ async function fixture(held?: () => Promise<void>, decodedOffset = 0) {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, home, 100);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 100);
   await cache.reconcile();
   let frames!: LibraryFrameInspection;
   let processing!: SourceProcessing;

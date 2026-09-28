@@ -19,8 +19,9 @@ nested targets [03b](slices/03b-processing-targets.md), constant-gain stacks
 pictures, strict streamed records and source/ancestor availability provenance.
 Next integrate [07 video](slices/07-video-execution.md) and
 [08 audio](slices/08-audio-mixing.md) from their isolated implementation worktrees
-after review and decoded-media verification. Generalize [08a derived-file ownership](slices/08a-derived-cache.md)
-in parallel so project previews reuse the existing cache guarantees. Audio resampling still needs its
+after review and decoded-media verification. [08a derived-file ownership](slices/08a-derived-cache.md)
+is implemented at its owner seam; revalidate its retained broad-test deadline failures
+while native work proceeds. Project previews must reuse this cache. Audio resampling still needs its
 bounded-context and fractional-phase gates settled; video is checking production
 parity, cancellation and resource bounds. Then wire the first public rendered
 editing checkpoint [09](slices/09-first-preview.md). State journeys do not close it.
@@ -79,6 +80,8 @@ Current evidence:
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.
 - [05 compiler](assets/05-compiler/README.md): 92 tests, integrated composition/core
   builds, core typecheck and strict-record probe pass; no native readiness claim.
+- [08a derived cache](assets/08a-derived-cache/README.md): owner isolation/lifecycle
+  checks and independent review pass; broad core deadlines remain explicitly red.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
   independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
   verifies profile conversion on the tested frames; encoding loss remains explicit.

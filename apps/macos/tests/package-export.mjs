@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { join, dirname } from "node:path";
 import { rename, readFile } from "node:fs/promises";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
@@ -24,7 +24,7 @@ async function exportFromLibrary({ store, home, recordingId, revisionId }) {
   const source = new SourceEvidenceStore(store),
     sceneEvidence = new SceneEvidenceStore(store),
     indexEvidence = new ScreenshotIndexStore(store, home);
-  const cache = new DerivedCache(store, home);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();
   let exports, processing, scenes, index, preview;
   const jobs = new JobQueue({

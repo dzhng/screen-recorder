@@ -1,0 +1,22 @@
+$ vitest run src/deletion.test.ts src/delivery.test.ts src/project-deletion.test.ts src/project-service.test.ts
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/service
+
+(node:44920) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44919) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44917) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44918) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  4 passed (4)
+      Tests  30 passed (30)
+   Start at  18:55:41
+   Duration  10.69s (tests 51%, transform 41%, import 8%)
+
+  Transform  transforming modules took 11.37s · 41% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

@@ -12,7 +12,7 @@ import {
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { tmpdir } from "node:os";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { RevisionStore } from "@screenrec/core/library";
 import { DerivativeDelivery } from "./delivery.js";
 const cleanups: (() => void)[] = [];
@@ -29,11 +29,11 @@ async function fixture(data = Buffer.from("screen evidence")) {
     now: () => "",
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, home);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();
   const recordingId = store.allocate().recording.recordingId;
   const otherRecordingId = store.allocate().recording.recordingId;
-  const reservation = cache.reserve(recordingId);
+  const reservation = cache.reserve({ kind: "recording", recordingId: recordingId });
   writeFileSync(reservation.path, data);
   const file = await cache.publish(reservation.id);
   const delivery = new DerivativeDelivery();
@@ -252,7 +252,7 @@ test("a read exception closes its lease and releases the real backing pin", asyn
 
 test("revoking one recording releases all its leases and preserves another recording", async () => {
   const f = await fixture();
-  const other = f.cache.reserve(f.otherRecordingId);
+  const other = f.cache.reserve({ kind: "recording", recordingId: f.otherRecordingId });
   writeFileSync(other.path, "other recording");
   await f.cache.publish(other.id);
   const a = f.delivery.open({ kind: "recording", id: f.recordingId }, () =>

@@ -14,7 +14,7 @@ import {
 import { execFileSync, spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { DerivedCache } from "./cache.js";
+import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import { RevisionStore } from "./library.js";
 import { ScreenshotIndexStore } from "./screenshot-index.js";
 import type { SelectedCandidate } from "./selection.js";
@@ -286,12 +286,17 @@ test("retained evidence survives derived cache eviction and owner-directed recla
   const image = add(f);
   cover(f);
   await f.index.finish(f.identity);
-  const cache = new DerivedCache(f.catalog, f.home, png.length);
+  const cache = new DerivedCache(
+    f.catalog,
+    f.home,
+    recordingCacheOwnerCheck(f.catalog),
+    png.length,
+  );
   await cache.reconcile();
-  const reserved = cache.reserve(f.identity.recordingId);
+  const reserved = cache.reserve({ kind: "recording", recordingId: f.identity.recordingId });
   writeFileSync(reserved.path, png);
   await cache.publish(reserved.id);
-  const later = cache.reserve(f.identity.recordingId);
+  const later = cache.reserve({ kind: "recording", recordingId: f.identity.recordingId });
   writeFileSync(later.path, png);
   await cache.publish(later.id);
   expect(cache.acquire(reserved.id)).toBeNull();

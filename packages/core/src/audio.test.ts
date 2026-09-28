@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
-import { DerivedCache } from "./cache.js";
+import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import {
@@ -36,7 +36,7 @@ async function fixture(
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, home, 100);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 100);
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store);
   let processing!: SourceProcessing, audio!: LibraryAudioInspection;

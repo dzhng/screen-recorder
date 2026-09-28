@@ -1,0 +1,35 @@
+$ vitest run --maxWorkers=4 src/cache-owners.test.ts
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:33634) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/cache-owners.test.ts (1 test | 1 failed) 653ms
+   × project retirement fences derived files and cannot purge another owner kind 642ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/cache-owners.test.ts > project retirement fences derived files and cannot purge another owner kind
+RangeError: Invalid cache budget
+ ❯ new DerivedCache src/cache.ts:47:60
+     45|     private readonly budget = 1024 ** 3,
+     46|   ) {
+     47|     if (!Number.isSafeInteger(budget) || budget < 1) throw new RangeEr…
+       |                                                            ^
+     48|     const base = realpathSync(home);
+     49|     let path = base;
+ ❯ src/cache-owners.test.ts:41:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  18:48:02
+   Duration  6.86s (transform 68%, import 21%, tests 11%, worker 1%)
+
+  Transform  transforming modules took 4.01s · 68% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
+error: script "test" exited with code 1

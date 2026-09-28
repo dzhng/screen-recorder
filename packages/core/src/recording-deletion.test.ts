@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "./library.js";
-import { DerivedCache, type RemoveCacheFiles } from "./cache.js";
+import { DerivedCache, recordingCacheOwnerCheck, type RemoveCacheFiles } from "./cache.js";
 
 test("deletion intent fences derivative access before selective cleanup", async () => {
   const home = mkdtempSync(join(tmpdir(), "recording-deletion-"));
@@ -12,7 +12,7 @@ test("deletion intent fences derivative access before selective cleanup", async 
     now: () => "",
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, home);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();
   const removeFiles: RemoveCacheFiles = async ({ ids }) => {
     for (const id of ids) {
@@ -22,9 +22,9 @@ test("deletion intent fences derivative access before selective cleanup", async 
   };
   const target = store.allocate().recording.recordingId;
   const sibling = store.allocate().recording.recordingId;
-  const ready = cache.reserve(target);
-  const pending = cache.reserve(target);
-  const other = cache.reserve(sibling);
+  const ready = cache.reserve({ kind: "recording", recordingId: target });
+  const pending = cache.reserve({ kind: "recording", recordingId: target });
+  const other = cache.reserve({ kind: "recording", recordingId: sibling });
   writeFileSync(ready.path, "target");
   writeFileSync(pending.path, "unfinished");
   writeFileSync(other.path, "sibling");
@@ -33,16 +33,20 @@ test("deletion intent fences derivative access before selective cleanup", async 
   const held = cache.acquire(ready.id)!;
   try {
     store.markDeleting(target);
-    expect(() => cache.reserve(target)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
+    expect(() => cache.reserve({ kind: "recording", recordingId: target })).toThrow(
+      expect.objectContaining({ code: "NOT_FOUND" }),
+    );
     expect(() => cache.acquire(ready.id)).toThrow(expect.objectContaining({ code: "NOT_FOUND" }));
     await expect(cache.publish(pending.id)).rejects.toMatchObject({ code: "NOT_FOUND" });
     expect(existsSync(pending.path)).toBe(false);
-    await expect(cache.purgeRecording(target, removeFiles)).rejects.toMatchObject({
+    await expect(
+      cache.purgeOwner({ kind: "recording", recordingId: target }, removeFiles),
+    ).rejects.toMatchObject({
       code: "CACHE_BUSY",
     });
     expect(existsSync(ready.path)).toBe(true);
     held.release();
-    await cache.purgeRecording(target, removeFiles);
+    await cache.purgeOwner({ kind: "recording", recordingId: target }, removeFiles);
     expect(existsSync(ready.path)).toBe(false);
     expect(store.deleting(target)?.recordingId).toBe(target);
     const read = cache.acquire(other.id)!;

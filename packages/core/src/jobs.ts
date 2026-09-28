@@ -164,7 +164,7 @@ type TargetRow = { targetKind: JobOwner["kind"]; targetId: string; revisionId: s
 type JobRow = Omit<Job, "target" | "retryable" | "errorDetails"> &
   TargetRow & { retryable: number; errorDetails: string | null };
 type ArtifactRow = Omit<Artifact, "target"> & TargetRow;
-function ownerValues(owner: JobOwner): [JobOwner["kind"], string] {
+export function ownerIdentity(owner: JobOwner): [JobOwner["kind"], string] {
   switch (owner.kind) {
     case "import":
       return [owner.kind, owner.importId];
@@ -177,19 +177,23 @@ function ownerValues(owner: JobOwner): [JobOwner["kind"], string] {
   }
 }
 function targetValues(target: JobTarget): [JobOwner["kind"], string, string] {
-  return [...ownerValues(target), "revisionId" in target ? target.revisionId : ""];
+  return [...ownerIdentity(target), "revisionId" in target ? target.revisionId : ""];
+}
+export function ownerFromIdentity(kind: JobOwner["kind"], id: string): JobOwner {
+  switch (kind) {
+    case "import":
+      return { kind, importId: id };
+    case "asset":
+      return { kind, assetId: id };
+    case "project":
+      return { kind, projectId: id };
+    case "recording":
+      return { kind, recordingId: id };
+  }
 }
 function targetFrom({ targetKind, targetId, revisionId }: TargetRow): JobTarget {
-  switch (targetKind) {
-    case "import":
-      return { kind: targetKind, importId: targetId };
-    case "asset":
-      return { kind: targetKind, assetId: targetId };
-    case "project":
-      return { kind: targetKind, projectId: targetId, revisionId };
-    case "recording":
-      return { kind: targetKind, recordingId: targetId, revisionId };
-  }
+  const owner = ownerFromIdentity(targetKind, targetId);
+  return owner.kind === "project" || owner.kind === "recording" ? { ...owner, revisionId } : owner;
 }
 function toArtifact({ targetKind, targetId, revisionId, ...row }: ArtifactRow): Artifact {
   return { ...row, target: targetFrom({ targetKind, targetId, revisionId }) };
@@ -205,7 +209,7 @@ function toJob({ targetKind, targetId, revisionId, ...row }: JobRow): Job {
 function sameOwner(first: JobOwner | undefined, second: JobOwner): boolean {
   return (
     first !== undefined &&
-    ownerValues(first).every((value, index) => value === ownerValues(second)[index])
+    ownerIdentity(first).every((value, index) => value === ownerIdentity(second)[index])
   );
 }
 
@@ -754,7 +758,7 @@ export class JobQueue {
     this.store.catalog
       .prepare(`UPDATE jobs SET state='canceled',reason=?,errorCode=NULL,errorDetails=NULL,retryable=0
       WHERE targetKind=? AND targetId=? AND state IN ('waiting','queued','running')`)
-      .run(`${owner.kind}_unavailable`, ...ownerValues(owner));
+      .run(`${owner.kind}_unavailable`, ...ownerIdentity(owner));
     const active = [...this.attempts.values()].filter((attempt) =>
       sameOwner(attempt.target, owner),
     );
@@ -773,7 +777,7 @@ export class JobQueue {
         .prepare(
           "SELECT 1 FROM jobs WHERE targetKind=? AND targetId=? AND state IN ('waiting','queued','running') LIMIT 1",
         )
-        .get(...ownerValues(owner))
+        .get(...ownerIdentity(owner))
     )
       throw new CatalogError("PROCESSING_BUSY", "Target jobs have not finished closing", {}, true);
     for (const table of ["artifacts", "jobs"]) {
@@ -781,7 +785,7 @@ export class JobQueue {
         const removed = this.store.catalog
           .prepare(`DELETE FROM ${table} WHERE rowid IN
           (SELECT rowid FROM ${table} WHERE targetKind=? AND targetId=? LIMIT 256)`)
-          .run(...ownerValues(owner));
+          .run(...ownerIdentity(owner));
         if (Number(removed.changes) === 0) break;
         await setImmediate();
       }
@@ -851,7 +855,7 @@ export class JobQueue {
           .prepare(
             "SELECT 1 FROM artifacts WHERE targetKind=? AND targetId=? AND artifact=? AND attemptId=?",
           )
-          .get(...ownerValues(owner), artifact, attemptId),
+          .get(...ownerIdentity(owner), artifact, attemptId),
       )
     );
   }

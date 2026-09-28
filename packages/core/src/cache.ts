@@ -14,11 +14,13 @@ import {
 import { basename, dirname, join } from "node:path";
 import { openedFile, retainedFileRead, type OpenedFile, type RetainedRead } from "./files.js";
 import { type RevisionStore } from "./library.js";
-import { CatalogError } from "./catalog.js";
+import { CatalogError, type Catalog } from "./catalog.js";
+import { ownerIdentity, ownerFromIdentity, type JobOwner } from "./jobs.js";
 
 type Row = {
   id: string;
-  recordingId: string;
+  ownerKind: JobOwner["kind"];
+  ownerId: string;
   bytes: number | null;
   touched: number;
   device: number | null;
@@ -40,8 +42,9 @@ export class DerivedCache {
   private readonly held = new Map<string, number>();
   private readonly directories: { path: string; dev: bigint; ino: bigint }[] = [];
   constructor(
-    private readonly store: RevisionStore,
+    private readonly store: Catalog,
     home: string,
+    private readonly assertAvailable: (owner: JobOwner) => void,
     private readonly budget = 1024 ** 3,
   ) {
     if (!Number.isSafeInteger(budget) || budget < 1) throw new RangeError("Invalid cache budget");
@@ -61,9 +64,9 @@ export class DerivedCache {
     }
     this.root = path;
     store.catalog.exec(`CREATE TABLE IF NOT EXISTS derived_cache (
-      id TEXT PRIMARY KEY, recordingId TEXT NOT NULL REFERENCES recordings(recordingId), bytes INTEGER, touched INTEGER NOT NULL, device INTEGER, inode INTEGER
+      id TEXT PRIMARY KEY, ownerKind TEXT NOT NULL, ownerId TEXT NOT NULL, bytes INTEGER, touched INTEGER NOT NULL, device INTEGER, inode INTEGER
     ); CREATE INDEX IF NOT EXISTS derived_cache_lru ON derived_cache(touched,id);
-    CREATE INDEX IF NOT EXISTS derived_cache_recording ON derived_cache(recordingId,id);`);
+    CREATE INDEX IF NOT EXISTS derived_cache_owner ON derived_cache(ownerKind,ownerId,id);`);
   }
   get bytes(): number {
     return (
@@ -86,13 +89,15 @@ export class DerivedCache {
     return join(this.root, `${id}.cache`);
   }
   /** Files remain attributable while reserved, failed, or marked for deletion. */
-  *usageFiles(recordingId: string): Generator<string> {
+  *usageFiles(owner: JobOwner): Generator<string> {
     this.checkRoot();
     let after = "";
     for (;;) {
       const rows = this.store.catalog
-        .prepare("SELECT id FROM derived_cache WHERE recordingId=? AND id>? ORDER BY id LIMIT 100")
-        .all(recordingId, after) as { id: string }[];
+        .prepare(
+          "SELECT id FROM derived_cache WHERE ownerKind=? AND ownerId=? AND id>? ORDER BY id LIMIT 100",
+        )
+        .all(...ownerIdentity(owner), after) as { id: string }[];
       if (!rows.length) return;
       for (const row of rows) {
         this.checkRoot();
@@ -101,11 +106,12 @@ export class DerivedCache {
       after = rows.at(-1)!.id;
     }
   }
-  /** Only this owner interprets its filenames. Unreserved files have no recording attribution. */
-  recordingForFile(path: string): string | null {
+  /** Only this owner interprets its filenames. Unreserved files have no owner attribution. */
+  ownerForFile(path: string): JobOwner | null {
     if (dirname(path) !== this.root || !filename.test(basename(path))) return null;
     this.checkRoot();
-    return this.row(basename(path).slice(0, -".cache".length))?.recordingId ?? null;
+    const row = this.row(basename(path).slice(0, -".cache".length));
+    return row ? ownerFromIdentity(row.ownerKind, row.ownerId) : null;
   }
   private row(id: string): Row | undefined {
     return this.store.catalog.prepare("SELECT * FROM derived_cache WHERE id=?").get(id) as
@@ -123,14 +129,14 @@ export class DerivedCache {
     if (!this.ready)
       throw new CatalogError("NOT_READY", "Cache reconciliation is pending", {}, true);
   }
-  reserve(recordingId: string): Readonly<{ id: string; path: string }> {
+  reserve(owner: JobOwner): Readonly<{ id: string; path: string }> {
     this.requireReady();
     this.checkRoot();
-    this.store.get(recordingId);
+    this.assertAvailable(owner);
     const id = randomUUID();
     this.store.catalog
-      .prepare("INSERT INTO derived_cache(id,recordingId,touched) VALUES (?,?,?)")
-      .run(id, recordingId, this.tick());
+      .prepare("INSERT INTO derived_cache(id,ownerKind,ownerId,touched) VALUES (?,?,?,?)")
+      .run(id, ...ownerIdentity(owner), this.tick());
     return { id, path: this.path(id) };
   }
   publish(id: string): Promise<CacheFile> {
@@ -146,7 +152,7 @@ export class DerivedCache {
     const path = this.path(id);
     let fd: number | undefined;
     try {
-      this.store.get(row.recordingId);
+      this.assertAvailable(ownerFromIdentity(row.ownerKind, row.ownerId));
       if (row.bytes !== null) return { id, path, bytes: row.bytes };
       fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
       const stat = fstatSync(fd);
@@ -156,7 +162,7 @@ export class DerivedCache {
         throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds cache budget");
       await this.makeRoom(stat.size);
       if (!this.row(id)) throw new CatalogError("INVALID_CACHE", "Cache reservation was removed");
-      this.store.get(row.recordingId);
+      this.assertAvailable(ownerFromIdentity(row.ownerKind, row.ownerId));
       this.store.catalog
         .prepare("UPDATE derived_cache SET bytes=?,device=?,inode=?,touched=? WHERE id=?")
         .run(stat.size, stat.dev, stat.ino, this.tick(), id);
@@ -191,7 +197,7 @@ export class DerivedCache {
     this.checkRoot();
     const row = this.row(id);
     if (!row || row.bytes === null) return null;
-    if (touch) this.store.get(row.recordingId);
+    if (touch) this.assertAvailable(ownerFromIdentity(row.ownerKind, row.ownerId));
     let fd: number;
     try {
       fd = openSync(
@@ -233,15 +239,17 @@ export class DerivedCache {
     this.requireReady();
     this.removeFile(id);
   }
-  /** Call after recording admission is fenced and producers/readers have settled. Publication and
+  /** Call after owner admission is fenced and producers/readers have settled. Publication and
    * purge share one order, so an already-queued admission cannot recreate a removed reservation. */
-  purgeRecording(recordingId: string, removeFiles: RemoveCacheFiles): Promise<void> {
+  purgeOwner(owner: JobOwner, removeFiles: RemoveCacheFiles): Promise<void> {
     const result = this.publication.then(async () => {
       this.requireReady();
       for (;;) {
         const rows = this.store.catalog
-          .prepare("SELECT id FROM derived_cache WHERE recordingId=? ORDER BY id LIMIT 64")
-          .all(recordingId) as { id: string }[];
+          .prepare(
+            "SELECT id FROM derived_cache WHERE ownerKind=? AND ownerId=? ORDER BY id LIMIT 64",
+          )
+          .all(...ownerIdentity(owner)) as { id: string }[];
         if (!rows.length) return;
         this.checkRoot();
         for (const row of rows)
@@ -255,8 +263,8 @@ export class DerivedCache {
         this.store.transaction(() => {
           for (const row of rows)
             this.store.catalog
-              .prepare("DELETE FROM derived_cache WHERE id=? AND recordingId=?")
-              .run(row.id, recordingId);
+              .prepare("DELETE FROM derived_cache WHERE id=? AND ownerKind=? AND ownerId=?")
+              .run(row.id, ...ownerIdentity(owner));
         });
         await setImmediate();
       }
@@ -353,4 +361,13 @@ export class DerivedCache {
     signal?.throwIfAborted();
     this.ready = true;
   }
+}
+
+/** Recording integration policy; project/asset services supply their own domain checks. */
+export function recordingCacheOwnerCheck(store: RevisionStore): (owner: JobOwner) => void {
+  return (owner) => {
+    if (owner.kind !== "recording")
+      throw new CatalogError("INVALID_REQUEST", "Expected a recording cache owner");
+    store.get(owner.recordingId);
+  };
 }

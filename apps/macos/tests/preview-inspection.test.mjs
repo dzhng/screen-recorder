@@ -8,7 +8,7 @@ import { callLocal } from "@screenrec/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { RevisionStore } from "@screenrec/core/library";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 import { journalRows } from "./fixtures/generated-capture.mjs";
 const cli = new URL("../../cli/dist/main.js", import.meta.url).pathname;
@@ -250,7 +250,7 @@ test("public preview pins its revision and delivers a current-pointer movie thro
       newId: randomUUID,
     });
     try {
-      const cache = new DerivedCache(catalog, home, 1);
+      const cache = new DerivedCache(catalog, home, recordingCacheOwnerCheck(catalog), 1);
       await cache.reconcile();
       assert.equal(cache.acquire(edited.published.preview.cacheId), null);
     } finally {

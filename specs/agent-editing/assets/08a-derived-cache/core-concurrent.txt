@@ -1,0 +1,234 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:44992) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44996) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44994) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44995) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45147) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45357) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/projects.test.ts (6 tests | 1 failed) 12368ms
+   × large deleted histories retire in restartable pages without losing the tombstone 11592ms
+(node:45486) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45540) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/processing.test.ts (9 tests | 1 failed) 19585ms
+   × cleanup reclaims every crash phase while preserving published evidence and immutable source 6123ms
+(node:45986) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:46484) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:46506) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:46537) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45540) PromiseRejectionHandledWarning: Promise rejection was handled asynchronously (rejection id: 7)
+ ❯ src/storage.test.ts (13 tests | 1 failed) 12056ms
+   × large file and reservation inventories yield while unrelated catalog reads keep working 5324ms
+(node:47211) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/screenshot-index.test.ts (17 tests | 2 failed) 8897ms
+   × a substituted FIFO is rejected without blocking file validation 1311ms
+   × candidate and coverage pages cap work independently at 50 by default and 200 maximum 5798ms
+ ❯ src/transcript.test.ts (13 tests | 1 failed) 10647ms
+   × ingest refuses inconsistent native output and leaves no generation behind 6628ms
+(node:47528) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47508) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47523) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47698) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47697) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47868) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47883) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47884) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47985) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48080) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48162) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48179) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48189) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48199) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48217) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48224) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48261) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48272) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48294) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48310) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/processing.test.ts > cleanup reclaims every crash phase while preserving published evidence and immutable source
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/processing.test.ts:197:1
+    195| }
+    196|
+    197| test("cleanup reclaims every crash phase while preserving published ev…
+       | ^
+    198|   const f = await fixture();
+    199|   const recording = f.finish();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/projects.test.ts > large deleted histories retire in restartable pages without losing the tombstone
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/projects.test.ts:240:1
+    238| });
+    239|
+    240| test("large deleted histories retire in restartable pages without losi…
+       | ^
+    241|   const { store, catalog } = await setup();
+    242|   const created = store.create({ requestId: "paged", canvas });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/screenshot-index.test.ts > a substituted FIFO is rejected without blocking file validation
+AssertionError: expected Error: spawnSync /Users/david/.nvm/versio… { …(5) } to be undefined
+
+- Expected:
+undefined
+
++ Received:
+Error {
+  "message": "spawnSync /Users/david/.nvm/versions/node/v24.14.0/bin/node ETIMEDOUT",
+  "errno": -60,
+  "code": "ETIMEDOUT",
+  "syscall": "spawnSync /Users/david/.nvm/versions/node/v24.14.0/bin/node",
+  "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+  "spawnargs": [
+    "--experimental-transform-types",
+    "--disable-warning=ExperimentalWarning",
+    "--input-type=module",
+    "-e",
+    "
+ import { registerHooks } from 'node:module';
+ const sourceDirectory=\"file:///Users/david/dev/screen-recorder/packages/core/src/\";
+ // This Node subprocess must exercise the current source, including its .js TS imports.
+ registerHooks({resolve(specifier,context,next){
+   if(context.parentURL?.startsWith(sourceDirectory) && specifier.startsWith('.') && specifier.endsWith('.js'))
+     specifier=new URL(specifier.slice(0,-3)+'.ts',context.parentURL).href;
+   return next(specifier,context);
+ }});
+ const { RevisionStore } = await import(\"file:///Users/david/dev/screen-recorder/packages/core/src/library.ts\");
+ const { ScreenshotIndexStore } = await import(\"file:///Users/david/dev/screen-recorder/packages/core/src/screenshot-index.ts\");
+ const catalog=new RevisionStore(\"/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/selected-index-v3NJCO/catalog.sqlite\");
+ try {
+   new ScreenshotIndexStore(catalog,\"/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/selected-index-v3NJCO\").openRead({\"recordingId\":\"1\",\"sourceId\":\"2\",\"generation\":\"index-1\",\"revisionId\":\"r0\",\"sourceIdentity\":{\"recordingId\":\"1\",\"sourceId\":\"2\",\"generation\":\"source-1\"},\"sceneIdentity\":{\"recordingId\":\"1\",\"sourceId\":\"2\",\"generation\":\"scene-1\",\"policy\":\"scene-v1\"},\"selectionPolicy\":\"selection-v1\",\"framePolicy\":\"frame-v2\",\"trailPolicy\":\"trail-v1\"},0);
+   process.exitCode=1;
+ } catch(error) {
+   console.log(JSON.stringify({code:error.code,message:error.message}));
+ } finally {catalog.close();}
+ ",
+  ],
+}
+
+ ❯ src/screenshot-index.test.ts:400:23
+    398|   );
+    399|   expect(child.stderr).toBe("");
+    400|   expect(child.error).toBeUndefined();
+       |                       ^
+    401|   expect({ status: child.status, signal: child.signal }).toEqual({ sta…
+    402|   expect(JSON.parse(child.stdout)).toEqual({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/screenshot-index.test.ts > candidate and coverage pages cap work independently at 50 by default and 200 maximum
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/screenshot-index.test.ts:423:1
+    421|   expect(() => f.index.page({ identity: f.identity })).toThrow("comple…
+    422| });
+    423| test("candidate and coverage pages cap work independently at 50 by def…
+       | ^
+    424|   const f = fixture();
+    425|   f.index.begin(f.identity);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/storage.test.ts > large file and reservation inventories yield while unrelated catalog reads keep working
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/storage.test.ts:144:1
+    142| });
+    143|
+    144| test("large file and reservation inventories yield while unrelated cat…
+       | ^
+    145|   const { home, store, cache, storage, take, file } = await fixture();
+    146|   const other = store.allocate().recording;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/transcript.test.ts > ingest refuses inconsistent native output and leaves no generation behind
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/transcript.test.ts:704:1
+    702| });
+    703|
+    704| test("ingest refuses inconsistent native output and leaves no generati…
+       | ^
+    705|   const cases: [Options, string][] = [
+    706|     [
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: Storage inspection was canceled
+ ❯ RecordingStorage.inspect src/storage.ts:264:15
+    262|     } catch (error) {
+    263|       if (this.lifetime.signal.aborted)
+    264|         throw new CatalogError("CANCELED", "Storage inspection was can…
+       |               ^
+    265|       if (error instanceof CatalogError) throw error;
+    266|       throw new CatalogError(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'CANCELED', details: {}, retryable: false }
+This error originated in "src/storage.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "large file and reservation inventories yield while unrelated catalog reads keep working". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  5 failed | 28 passed (33)
+      Tests  6 failed | 383 passed (389)
+     Errors  1 error
+   Start at  18:55:43
+   Duration  46.12s (tests 89%, transform 6%, import 4%)
+
+    Isolate  33 workers spawned · ~415ms startup each (spawn + environment, per file)
+             at least ~3.01s faster with isolate: false — reuses workers across files instead of one per file
+
+error: script "test" exited with code 1

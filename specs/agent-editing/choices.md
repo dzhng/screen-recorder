@@ -621,3 +621,18 @@ trim and stretch replacements keep their single-interval behavior.
   This fills a boundary-information gap: a native decoder may prove that a source
   gap is an explicit empty edit, but that proof cannot repair missing parent support.
   Only source-unavailable can enter that media proof; unknown gaps still fail.
+
+## Derived-file ownership — 2026-09-27
+
+- **Sound; high confidence — One cache, explicit domain ownership.**
+  A cached preview belongs to a typed project/asset/recording owner, independently
+  of its file identity. The cache validates availability through its caller's domain
+  policy at reservation, publication and read, using the shared job-owner identity
+  encoding. This replaces recording-only lookup without duplicating leases,
+  publication or eviction. A project and asset with the same ID cannot purge each
+  other's files. The recording policy remains only while that real consumer exists.
+- **Sound; high confidence — Refuse the previous unshipped catalog format.**
+  The derived-cache row now stores owner kind/ID rather than a recording foreign
+  key. The existing format gate advances and refuses older databases without
+  changing their bytes; it does not migrate or reset the user's installed library.
+  This follows the agreed fresh-library cutover and keeps one writable catalog.

@@ -5,7 +5,7 @@ import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { test } from "node:test";
 import { RevisionStore } from "@screenrec/core/library";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { callLocal } from "@screenrec/client";
@@ -203,7 +203,7 @@ test("bundled index retains selected images across edits, cache eviction and res
   assert.ok(
     reopened.catalog.prepare("SELECT COUNT(*) AS count FROM derived_cache").get().count > 0,
   );
-  await new DerivedCache(reopened, home, 1).reconcile();
+  await new DerivedCache(reopened, home, recordingCacheOwnerCheck(reopened), 1).reconcile();
   assert.equal(
     reopened.catalog.prepare("SELECT COUNT(*) AS count FROM derived_cache").get().count,
     0,

@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { RevisionStore } from "./library.js";
-import { DerivedCache } from "./cache.js";
+import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import { VisualObservationCache } from "./visual-cache.js";
 import type { VisualSampler } from "./scenes.js";
 
@@ -27,7 +27,7 @@ async function fixture(budget = 1024 ** 3) {
     })(),
   });
   store.allocate();
-  const cache = new DerivedCache(store, home, budget);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), budget);
   await cache.reconcile();
   cleanup.push(async () => {
     store.close();
@@ -154,7 +154,7 @@ test("a new database connection reuses persisted observations after cache reconc
     })(),
   });
   try {
-    const cache = new DerivedCache(reopened, f.home);
+    const cache = new DerivedCache(reopened, f.home, recordingCacheOwnerCheck(reopened));
     await cache.reconcile();
     const observations = new VisualObservationCache(reopened, cache, async () => {
       throw new Error("Unexpected decode after restart");
@@ -319,12 +319,15 @@ test("same-path visual requests retain independent recording ownership and purge
     expected,
   );
   expect(f.calls()).toBe(2);
-  await f.cache.purgeRecording(request.recordingId, async ({ ids }) => {
-    for (const id of ids) {
-      if (basename(id) !== id) throw new Error("Fixture refuses a nonlocal cache name");
-      await rm(join(f.home, "cache", "derived", `${id}.cache`), { force: true });
-    }
-  });
+  await f.cache.purgeOwner(
+    { kind: "recording", recordingId: request.recordingId },
+    async ({ ids }) => {
+      for (const id of ids) {
+        if (basename(id) !== id) throw new Error("Fixture refuses a nonlocal cache name");
+        await rm(join(f.home, "cache", "derived", `${id}.cache`), { force: true });
+      }
+    },
+  );
   expect(await observations.sample({ ...request, recordingId: sibling }, signal())).toEqual(
     expected,
   );

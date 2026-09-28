@@ -223,7 +223,7 @@ export class PreviewInspection extends PreviewInspectionBase<
       (role) => join(directory, `${role}.mov`),
     );
     signal.throwIfAborted();
-    const output = this.cache.reserve(job.target.recordingId);
+    const output = this.cache.reserve({ kind: "recording", recordingId: job.target.recordingId });
     try {
       const movie = await this.render(
         {

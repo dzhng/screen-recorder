@@ -28,7 +28,7 @@ import { fileURLToPath } from "node:url";
 import { RecordingStorage } from "@screenrec/core/storage";
 import { RevisionStore } from "@screenrec/core/library";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SourceProcessing } from "@screenrec/core/processing";
 import { PreviewInspection } from "@screenrec/core/preview";
@@ -134,7 +134,7 @@ async function fixture(
       rows.map((row, i) => JSON.stringify({ sequence: i + 1, ...row }) + "\n").join(""),
     );
   }
-  const cache = new DerivedCache(store, home);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store);
   let processing, preview, exports, sceneOwner, indexOwner, transcriptOwner;

@@ -1,0 +1,39 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+ ❯ src/cache-owners.test.ts (2 tests | 1 failed) 132ms
+   × project retirement fences derived files and cannot purge another owner kind 42ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  18:55:18
+   Duration  1.78s (transform 65%, import 23%, tests 12%, worker 1%)
+
+$ vitest run --maxWorkers=4 src/cache-owners.test.ts
+(node:43824) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/cache-owners.test.ts > project retirement fences derived files and cannot purge another owner kind
+AssertionError: expected [] to deeply equal [ Array(1) ]
+
+- Expected
++ Received
+
+- [
+-   "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-cache-owners-wN6quk/cache/derived/ed4e16f5-f02d-47b9-81f0-adbe6df7a9a8.cache",
+- ]
++ []
+
+ ❯ src/cache-owners.test.ts:119:40
+    117|   await cache.purgeOwner(owner, removeFiles);
+    118|   expect([...cache.usageFiles(owner)]).toEqual([]);
+    119|   expect([...cache.usageFiles(other)]).toEqual([second.path]);
+       |                                        ^
+    120|   const remaining = cache.acquire(second.id);
+    121|   expect(remaining?.bytes).toBe(5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+error: script "test" exited with code 1

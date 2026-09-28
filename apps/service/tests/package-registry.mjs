@@ -264,7 +264,7 @@ test("failed validation cleans up, while an unconfirmed nonempty creation keeps 
 
 test("same-provenance library deletion and package close revoke only their own delivery namespaces", async (t) => {
   const [
-    { DerivedCache },
+    { DerivedCache, recordingCacheOwnerCheck },
     { SourceEvidenceStore },
     { SceneEvidenceStore },
     { ScreenshotIndexStore },
@@ -299,7 +299,7 @@ test("same-provenance library deletion and package close revoke only their own d
   const recordingDirectory = join(f.home, "recordings", recording.recordingId);
   await mkdir(recordingDirectory, { recursive: true });
   await writeFile(join(recordingDirectory, "owned"), "library source");
-  const cache = new DerivedCache(f.store, f.home);
+  const cache = new DerivedCache(f.store, f.home, recordingCacheOwnerCheck(f.store));
   await cache.reconcile();
   const capture = new CaptureService(
     f.store,

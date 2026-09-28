@@ -4,7 +4,7 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
-import { DerivedCache } from "./cache.js";
+import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import { PreviewInspection, previewPolicy, type PreviewRenderer } from "./preview.js";
@@ -19,7 +19,7 @@ async function fixture(render: PreviewRenderer, prepare = true) {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, home, 10000);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), 10000);
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store);
   let preview!: PreviewInspection, processing!: SourceProcessing;
@@ -215,7 +215,7 @@ test("canceling during output creation drains the renderer and removes its reser
   jobs.cancel(status.jobId!);
   await jobs.idle();
   expect(preview.request(input).published).toBeNull();
-  expect([...cache.usageFiles(take.recordingId)]).toEqual([]);
+  expect([...cache.usageFiles({ kind: "recording", recordingId: take.recordingId })]).toEqual([]);
 });
 
 test("a reopened catalog retains a ready movie and discards an interrupted reservation", async () => {
@@ -236,7 +236,7 @@ test("a reopened catalog retains a ready movie and discards an interrupted reser
   f.preview.request(input);
   await f.jobs.idle();
   const prior = f.preview.request(input).published!;
-  const interrupted = f.cache.reserve(f.take.recordingId);
+  const interrupted = f.cache.reserve({ kind: "recording", recordingId: f.take.recordingId });
   await writeFile(interrupted.path, "partial");
   await f.jobs.close();
   f.store.close();
@@ -244,7 +244,7 @@ test("a reopened catalog retains a ready movie and discards an interrupted reser
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, f.home, 10000);
+  const cache = new DerivedCache(store, f.home, recordingCacheOwnerCheck(store), 10000);
   await cache.reconcile();
   const evidence = new SourceEvidenceStore(store);
   const jobs = new JobQueue({
@@ -271,7 +271,9 @@ test("a reopened catalog retains a ready movie and discards an interrupted reser
       },
     );
     expect(preview.request(input).published).toEqual(prior);
-    expect([...cache.usageFiles(f.take.recordingId)]).toEqual([prior.preview.file]);
+    expect([...cache.usageFiles({ kind: "recording", recordingId: f.take.recordingId })]).toEqual([
+      prior.preview.file,
+    ]);
     const held = cache.acquire(prior.preview.cacheId)!;
     const bytes = Buffer.alloc(held.bytes);
     held.read(bytes, 0);

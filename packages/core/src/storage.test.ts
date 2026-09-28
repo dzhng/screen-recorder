@@ -15,7 +15,7 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { setImmediate } from "node:timers/promises";
 import { RevisionStore } from "./library.js";
-import { DerivedCache } from "./cache.js";
+import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import { RecordingStorage } from "./storage.js";
 
 vi.mock("node:fs/promises", async (importOriginal) => {
@@ -36,7 +36,7 @@ async function fixture(cacheBudget?: number) {
     newId: randomUUID,
   });
   cleanups.push(() => store.close());
-  const cache = new DerivedCache(store, home, cacheBudget);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), cacheBudget);
   await cache.reconcile();
   const storage = new RecordingStorage(store, cache, home);
   cleanups.push(() => storage.close());
@@ -55,9 +55,9 @@ test("actual usage includes partial, canceled and deleting bytes and separates s
   await file(join(root, "source", "unfinished.mov"), 17);
   await file(join(root, "evidence", "staging", "unpublished.jsonl"), 19);
   await file(join(root, "unclassified.bin"), 7);
-  const pending = cache.reserve(take.recordingId);
+  const pending = cache.reserve({ kind: "recording", recordingId: take.recordingId });
   await file(pending.path, 13);
-  const ready = cache.reserve(take.recordingId);
+  const ready = cache.reserve({ kind: "recording", recordingId: take.recordingId });
   await file(ready.path, 11);
   await cache.publish(ready.id);
   // Actual bytes can differ from metadata while a producer is still writing.
@@ -146,7 +146,7 @@ test("large file and reservation inventories yield while unrelated catalog reads
   const other = store.allocate().recording;
   for (let i = 0; i < 350; i++) {
     await file(join(home, "recordings", take.recordingId, "evidence", `${i}.json`), 2);
-    await file(cache.reserve(take.recordingId).path, 3);
+    await file(cache.reserve({ kind: "recording", recordingId: take.recordingId }).path, 3);
   }
   let done = false,
     reads = 0;
@@ -416,7 +416,7 @@ test("completed deletion refuses a new per-record waiter even while an older obs
 
 test("live inspection tolerates actual LRU eviction while preserving another recording's new file", async () => {
   const { store, cache, storage, take, file } = await fixture(5);
-  const old = cache.reserve(take.recordingId);
+  const old = cache.reserve({ kind: "recording", recordingId: take.recordingId });
   await file(old.path, 3);
   await cache.publish(old.id);
   const sibling = store.allocate().recording;
@@ -439,7 +439,7 @@ test("live inspection tolerates actual LRU eviction while preserving another rec
   void inspection.catch(() => {});
   try {
     await opening;
-    const next = cache.reserve(sibling.recordingId);
+    const next = cache.reserve({ kind: "recording", recordingId: sibling.recordingId });
     await file(next.path, 4);
     // Publishing through the real owner exceeds its budget and evicts the oldest unpinned file.
     await cache.publish(next.id);

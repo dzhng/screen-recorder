@@ -59,7 +59,7 @@ export class RecordingDeletion {
       await this.owners.exports?.retireRecording(recordingId, signal);
       await cleanupReady();
       signal.throwIfAborted();
-      await cache.purgeRecording(recordingId, ({ ids, root }) =>
+      await cache.purgeOwner({ kind: "recording", recordingId: recordingId }, ({ ids, root }) =>
         files.removeCacheFiles(ids, root, signal),
       );
       await source.purgeRecording(recordingId, signal);

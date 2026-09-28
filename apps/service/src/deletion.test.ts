@@ -6,7 +6,7 @@ import { setImmediate } from "node:timers/promises";
 import { RevisionStore } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
 import { JobQueue, type JobExecutor, recordingJobTargets } from "@screenrec/core/jobs";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
@@ -36,7 +36,7 @@ async function fixture(
     now: () => "fixture",
     newId: randomUUID,
   });
-  const cache = new DerivedCache(store, home);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();
   const jobs = new JobQueue({
     store,
@@ -128,7 +128,7 @@ test("delete coalesces callers, revokes delivery immediately, and waits for a cl
   });
   const target = await f.take(),
     sibling = await f.take();
-  const file = f.cache.reserve(target.recordingId);
+  const file = f.cache.reserve({ kind: "recording", recordingId: target.recordingId });
   await writeFile(file.path, "private derivative");
   await f.cache.publish(file.id);
   const lease = f.delivery.open({ kind: "recording", id: target.recordingId }, () =>

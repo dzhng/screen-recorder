@@ -255,7 +255,7 @@ export class LibraryFrameInspection extends FrameInspection<
     const revision = this.store.revision(job.target.recordingId, job.target.revisionId);
     signal.throwIfAborted();
     const sourceId = this.store.get(job.target.recordingId).sourceId;
-    const output = this.cache.reserve(job.target.recordingId);
+    const output = this.cache.reserve({ kind: "recording", recordingId: job.target.recordingId });
     return JSON.stringify(
       await renderFrame(
         options,

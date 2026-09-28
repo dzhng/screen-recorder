@@ -7,7 +7,7 @@ import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { DerivedCache } from "@screenrec/core/cache";
+import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import { RevisionStore } from "@screenrec/core/library";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
@@ -316,7 +316,7 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
     newId: randomUUID,
   });
   try {
-    const cache = new DerivedCache(catalog, home);
+    const cache = new DerivedCache(catalog, home, recordingCacheOwnerCheck(catalog));
     await cache.reconcile();
     // Other producers may retain observations too. Make the target frame the oldest item
     // explicitly so this test controls eviction independently of background admission timing.
@@ -330,6 +330,7 @@ test("sparse numbered frames preserve public timing, full resolution, cuts and r
     const constrained = new DerivedCache(
       catalog,
       home,
+      recordingCacheOwnerCheck(catalog),
       cache.bytes - boundary.published.frame.bytes,
     );
     await constrained.reconcile();
