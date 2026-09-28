@@ -142,6 +142,9 @@ for (const sampleRate of [44100, 48000]) {
 }
 assert.deepEqual(compiler.processing({ startUs: 1, endUs: 2 }).at(-1).inputs, [
   { kind: "track", id: "video" },
+]);
+assert.deepEqual(compiler.processing({ startUs: 1, endUs: 30 }).at(-1).inputs, [
+  { kind: "track", id: "video" },
   { kind: "group", id: "voice" },
 ]);
 const request = {

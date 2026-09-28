@@ -181,7 +181,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
   const processing = processingPlanner(model);
   const clock = frameClock(model.document.canvas.fps);
   const contexts = audioContexts(model);
-  function contributors(range: Range) {
+  function contributors(range: Range, sampleRate = 48000) {
     const leading = clock.indexAt(BigInt(range.startUs));
     const candidates = new Map(
       query(fromTime(range.startUs), fromTime(range.endUs)).map((value) => [value.clip.id, value]),
@@ -190,7 +190,17 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       if (value.track.kind === "video") candidates.set(value.clip.id, value);
     return [...candidates.values()]
       .filter((value) => {
-        if (value.track.kind === "audio") return true;
+        if (value.track.kind === "audio")
+          return (
+            Math.max(
+              sampleAt(fromTime(range.startUs), sampleRate),
+              sampleAt(value.range.start, sampleRate),
+            ) <
+            Math.min(
+              sampleAt(fromTime(range.endUs), sampleRate),
+              sampleAt(value.range.end, sampleRate),
+            )
+          );
         const first = clock.firstAtOrAfter(ceil(value.range.start));
         const sample = clock.timeAt(first > leading ? first : leading);
         return (
@@ -210,7 +220,17 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       const parsed = executionWindowRequestSchema.safeParse(input);
       if (!parsed.success) throw new CompositionError("INVALID_COMPOSITION", parsed.error.message);
       const request = parsed.data;
-      const clips = contributors(request.range);
+      const clips = contributors(request.range, request.rendition.sampleRate);
+      const target = request.tap.target;
+      if (
+        target.kind === "clip" &&
+        !clips.some((value) => value.clip.id === target.id) &&
+        model.clips.some((value) => value.clip.id === target.id && value.track.kind === "audio")
+      )
+        throw new CompositionError(
+          "NOT_READY",
+          "Audio clip tap has no output samples in the requested window",
+        );
       const plan = processing(clips, request.tap);
       const selected = new Set(
         plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),

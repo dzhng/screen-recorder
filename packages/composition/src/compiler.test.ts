@@ -966,3 +966,45 @@ test("fractional sample offsets keep a full retained-run origin across splits an
     window.manifest,
   );
 });
+
+test("processing includes only audio occurrences with requested output samples", () => {
+  const input = structuredClone(document);
+  input.tracks.push(
+    { id: "short", kind: "audio", order: 0 },
+    { id: "long", kind: "audio", order: 1 },
+  );
+  for (const [id, endUs] of [
+    ["short", 10],
+    ["long", 100],
+  ] as const)
+    input.clips.push({
+      id,
+      trackId: id,
+      source: { kind: "silence" },
+      placement: { kind: "project", range: { startUs: 0, endUs } },
+    });
+  const compiler = createCompiler(validateComposition(input, assets), "subsample");
+  const request = {
+    range: { startUs: 0, endUs: 40 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  };
+  const window = compiler.window(request);
+  expect(
+    window.manifest.processing
+      .filter((node) => node.mediaKind === "audio" && node.target.kind === "clip")
+      .map((node) => node.target),
+  ).toEqual([...window.audio()].map((part) => ({ kind: "clip", id: part.clipId })));
+  expect([...window.audio()].map((part) => part.clipId)).toEqual(["long"]);
+  expect([...window.frames()][0]!.layers.map((layer) => layer.clipId)).toEqual(["c"]);
+  const zero = compiler.window({ ...request, range: { startUs: 0, endUs: 10 } });
+  expect(zero.manifest.processing.filter((node) => node.mediaKind === "audio")).toEqual([]);
+  expect([...zero.audio()]).toEqual([]);
+  expect([...zero.frames()][0]!.layers.map((layer) => layer.clipId)).toEqual(["c"]);
+  expect(() =>
+    compiler.window({
+      ...request,
+      tap: { target: { kind: "clip", id: "short" }, point: { kind: "processed" } },
+    }),
+  ).toThrowError(expect.objectContaining({ code: "NOT_READY" }));
+});

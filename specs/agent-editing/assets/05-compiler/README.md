@@ -82,3 +82,10 @@ remain slice 08 evidence.
 Independent phase review found no actionable regressions and reran the suite and
 TypeScript check. Substituting each split clip’s origin for the retained-run origin
 fails the fractional-offset regression.
+
+
+Sub-sample audio occurrences do not become dangling processing leaves: membership
+uses the same intersected floor sample bounds as streamed records, preserving
+independent video contributors. A direct audio clip tap with no output samples is
+explicitly NOT_READY. This does not invent a whole-request zero-output media policy.
+The regression fails before filtering and passes with the shared clock predicate.
