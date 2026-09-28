@@ -224,6 +224,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
+- [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [ ] [22 — Relocatable editable projects](slices/22-portable-projects.md)
 - [ ] [23 — Cut over all consumers and remove old owners](slices/23-cutover.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)

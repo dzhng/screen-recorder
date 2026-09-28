@@ -1,6 +1,6 @@
 # 22 — Relocatable editable projects
 
-Status: implementation in progress. [22a snapshot/dependency boundary](22a-portable-snapshots.md) is the first core checkpoint; archive/public relocation and complete retained-owner closure remain open. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [11](./11-audio-inspection.md), [17](./17-text-captions.md), [15a](./15a-noise-processing.md).
+Status: implementation in progress. [22a snapshot/dependency boundary](22a-portable-snapshots.md) is the first core checkpoint; archive/public relocation and complete retained-owner closure remain open. Dependencies: [22a](./22a-portable-snapshots.md), [09](./09-first-preview.md), [10](./10-project-evidence.md), [11](./11-audio-inspection.md), [17](./17-text-captions.md), [15a](./15a-noise-processing.md).
 
 ## Contract
 
