@@ -235,6 +235,10 @@
     "./source-index": {
       "types": "./dist/source-index.d.ts",
       "default": "./dist/source-index.js"
+    },
+    "./project-index": {
+      "types": "./dist/project-index.d.ts",
+      "default": "./dist/project-index.js"
     }
   },
   "scripts": {

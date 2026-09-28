@@ -66,6 +66,7 @@ export type IndexDomain<D extends IndexRecords> = {
     candidate: D["candidate"],
     frame: D["frame"],
     path: string,
+    previous: D["candidate"] | null,
   ): void;
   coverage(
     identity: D["identity"],
@@ -73,6 +74,7 @@ export type IndexDomain<D extends IndexRecords> = {
     coverage: D["coverage"],
   ): { startUs: number; endUs: number };
   merge(before: D["coverage"], next: D["coverage"]): D["coverage"] | null;
+  finishEntry?(identity: D["identity"], candidate: D["candidate"], coverageCount: number): void;
   finish(identity: D["identity"], candidateCount: number): void;
   isDeleting(owner: IndexOwner): boolean;
 };
@@ -141,9 +143,17 @@ function metadata<D extends IndexRecords>(row: Generation): ScreenshotIndexMetad
     bytes: row.bytes,
   };
 }
-function boundedJson(value: unknown): string {
-  const text = JSON.stringify(value);
-  if (Buffer.byteLength(text) > 262144) invalid("Index row exceeds storage budget");
+/** Producers can refuse oversized records before scheduling pictures; writes use the same budget. */
+export function encodeIndexRecord(value: unknown): string {
+  const text = JSON.stringify(value),
+    observed = Buffer.byteLength(text),
+    maximum = 262144;
+  if (observed > maximum)
+    throw new CatalogError("LIMIT_EXCEEDED", "Index row exceeds storage budget", {
+      limitKind: "index-record-bytes",
+      maximum,
+      observed,
+    });
   return text;
 }
 function missing(error: unknown) {
@@ -358,12 +368,13 @@ export class ScreenshotIndexStore<
     });
   }
   begin(identity: D["identity"]): void {
+    const encoded = encodeIndexRecord(this.domain.pin(identity));
     const durationUs = this.domain.begin(identity);
     this.store.catalog
       .prepare(
         "INSERT INTO screenshot_index_generations(ownerKind,ownerId,generation,identity,state,durationUs) VALUES(?,?,?,?,'building',?)",
       )
-      .run(...this.key(identity), boundedJson(this.domain.pin(identity)), durationUs);
+      .run(...this.key(identity), encoded, durationUs);
     const path = this.directory(identity, true),
       stat = lstatSync(path);
     this.store.catalog
@@ -385,8 +396,13 @@ export class ScreenshotIndexStore<
     return entry;
   }
   appendCandidate(identity: D["identity"], candidate: D["candidate"], frame: D["frame"]): void {
+    const encodedCandidate = encodeIndexRecord(candidate),
+      encodedFrame = encodeIndexRecord(frame);
     const path = this.outputPath(identity, candidate.ordinal);
-    this.domain.candidate(identity, candidate, frame, path);
+    const previous = candidate.ordinal
+      ? (JSON.parse(this.entry(identity, candidate.ordinal - 1).candidate) as D["candidate"])
+      : null;
+    this.domain.candidate(identity, candidate, frame, path, previous);
     const { file, stat } = openRetainedImage(path, frame);
     file.close();
     this.store.transaction(() => {
@@ -397,8 +413,8 @@ export class ScreenshotIndexStore<
         .run(
           ...this.key(identity),
           candidate.ordinal,
-          boundedJson(candidate),
-          boundedJson(frame),
+          encodedCandidate,
+          encodedFrame,
           stat.size,
           stat.dev,
           stat.ino,
@@ -437,11 +453,16 @@ export class ScreenshotIndexStore<
       if (previous && merged) {
         this.store.catalog
           .prepare(`UPDATE screenshot_index_coverage SET content=? WHERE ${where} AND sequence=?`)
-          .run(boundedJson(merged), ...this.key(identity), previous.sequence);
+          .run(encodeIndexRecord(merged), ...this.key(identity), previous.sequence);
       } else {
         this.store.catalog
           .prepare("INSERT INTO screenshot_index_coverage VALUES(?,?,?,?,?,?)")
-          .run(...this.key(identity), row.coverageCount, coverage.ordinal, boundedJson(coverage));
+          .run(
+            ...this.key(identity),
+            row.coverageCount,
+            coverage.ordinal,
+            encodeIndexRecord(coverage),
+          );
         this.store.catalog
           .prepare(
             `UPDATE screenshot_index_generations SET coverageCount=coverageCount+1 WHERE ${where}`,
@@ -475,6 +496,11 @@ export class ScreenshotIndexStore<
         )
         .all(...this.key(identity), ordinal) as Entry[];
       for (const entry of entries) {
+        this.domain.finishEntry?.(
+          identity,
+          JSON.parse(entry.candidate) as D["candidate"],
+          entry.coverageCount,
+        );
         const file = this.openImage(directory, row, entry);
         file.file.close();
       }
@@ -489,9 +515,12 @@ export class ScreenshotIndexStore<
     return metadata<D>(this.row(identity, "complete"));
   }
   protected readMetadata(identity: D["identity"]): ScreenshotIndexMetadata<D> {
+    if (this.domain.isDeleting(this.domain.owner(identity)))
+      throw new CatalogError("NOT_FOUND", "Screenshot index owner is being deleted");
     return metadata<D>(this.row(identity, "complete"));
   }
   protected entryRows(identity: D["identity"], query: EntryQuery): ScreenshotIndexEntry<D>[] {
+    this.readMetadata(identity);
     const rows = this.store.catalog
       .prepare(
         `SELECT candidate,frame,coverageCount FROM screenshot_index_entries WHERE ${where} AND ordinal>? ${query.through === undefined ? "" : "AND ordinal<=?"} ORDER BY ordinal LIMIT ?`,

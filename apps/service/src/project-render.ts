@@ -105,7 +105,7 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
 
 export function projectFrameRenderer(worker: MediaWorker, workspace: string): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v2",
+    implementationId: "native-composition-picture-v3",
     render: async ({ window, assets, output, maxLongEdge }, signal) =>
       withRenderedFile(
         worker,

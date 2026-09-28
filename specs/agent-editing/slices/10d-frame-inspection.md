@@ -203,18 +203,35 @@ An empty project has no candidates or coverage; an audio-only nonempty project c
 have background pictures. No fabricated one-microsecond request admits an empty
 project.
 
-[Pure candidate selection](../assets/10d-project-index-selection/README.md) now
-implements this policy with bounded work and cancellation. Candidate visibility
-is a timing plan, not proof that a PNG was delivered. Next reuse the retained
-index domain, preparation queue and frame materializer for publication; retain multi-source scene dependencies through indexed job references
-and reclaim retained project indexes through the existing deletion owner after
-work drains and delivery leases are revoked. Public routing and real CLI/MCP/native
-journeys follow those owners. Selection/reason budgets refuse explicitly rather
-than truncate; slice 24 owns release-scale measurements. Before rendering, the
-materializer must preflight candidate serialization through the retained store's
-existing row-budget owner, including a heavily overlapping frame regression.
+[Pure candidate selection](../assets/10d-project-index-selection/README.md) implements
+this policy with bounded work and cancellation. Candidate visibility is a timing
+plan, not proof that a PNG was delivered. [Retained project ownership](../assets/10d-project-index-domain/README.md)
+validates identity, PNG receipts, exact sampled coverage and store lifetime.
+Next connect preparation and frame materialization, retaining multi-source scene
+dependencies through indexed job references. Reclaim retained project indexes
+through the existing deletion owner after work drains and delivery leases are
+revoked. Public routing and real CLI/MCP/native journeys follow those owners.
+Selection/reason budgets refuse explicitly rather than truncate; slice 24 owns
+release-scale measurements. Before rendering, the producer must call the shared
+record preflight, including a heavily overlapping frame regression.
 
 Processing is currently constant. When [16](16-keyframes.md) adds windows/curves,
 its composition temporal owner must supply their boundaries to this selector;
 inspection must not invent another anchor/curve interpreter. A short activation
 between periodic samples must get candidates before temporal processing is accepted.
+
+
+## Retained project ownership checkpoint
+
+[Real-store ownership checks](../assets/10d-project-index-domain/README.md) now cover
+empty/audio-only projects, selected scene pins, frame identity, full sampled
+visibility, restart, reader fencing and reclamation. Their frozen PNGs and synthetic
+native receipts prove ownership, not visual/native or public index acceptance.
+The shared record encoder exposes the existing byte preflight for the future
+producer; invoking it before actual frame work remains a materialization gate.
+
+Public picture receipts omit renderer-private visual instructions. Native
+publication still compares the complete compiled graph before projecting timing,
+layers and physical-source observations; retained admission checks that same public
+projection. The project-picture recipe advances for this artifact-shape change.
+Actual CLI/MCP delivery and a fresh agent repeat remain integration gates.

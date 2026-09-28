@@ -1,0 +1,58 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+ ❯ src/project-index.test.ts (9 tests | 1 failed | 8 skipped) 25ms
+   × publication rejects a delivered picture whose visibility was left entirely unproven 25ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  07:56:31
+   Duration  267ms (transform 65%, import 23%, tests 11%, worker 1%)
+
+$ vitest run --maxWorkers=4 project-index.test.ts -t "publication rejects a delivered picture"
+(node:15434) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-index.test.ts > publication rejects a delivered picture whose visibility was left entirely unproven
+AssertionError: promise resolved "{ …(12) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "bytes": 68,
++   "candidateCount": 1,
++   "coverageCount": 1,
++   "durationUs": 1000000,
++   "generation": "index",
++   "implementationId": "picture-test",
++   "maxLongEdge": 1600,
++   "projectId": "74d99c54-164c-42c4-83b8-a08f51dd5a0b",
++   "revisionId": "80c106cb-65c8-4373-8c86-a5bfeb87a8ac",
++   "scenes": [],
++   "selectionPolicy": "project-picture-selection-v1",
++   "tap": {
++     "point": {
++       "kind": "processed",
++     },
++     "target": {
++       "kind": "output",
++     },
++   },
+  }
+
+ ❯ src/project-index.test.ts:545:41
+    543|   const identity = f.identity(); f.index.begin(identity); await append…
+    544|   f.index.appendCoverage(identity, { project: { startUs: 0, endUs: 100…
+    545|   await expect(f.index.finish(identity)).rejects.toThrow("sampled cove…
+       |                                         ^
+    546| });
+    547|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+error: script "test" exited with code 1

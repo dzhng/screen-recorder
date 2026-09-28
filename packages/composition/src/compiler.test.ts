@@ -1218,3 +1218,44 @@ test("terminal neighbors clip to the existing integer render duration", () => {
     after: null,
   });
 });
+
+test("empty tap planning validates target, media kind and named step without a render range", () => {
+  const input = structuredClone(document);
+  input.clips = [];
+  input.tracks.push({ id: "a", kind: "audio", order: 1 });
+  input.processing = [
+    {
+      target: { kind: "output" },
+      steps: [
+        { id: "fade", enabled: true, processor: { type: "opacity", opacity: 0.5 } },
+        { id: "hidden", enabled: true, processor: { type: "opacity", opacity: 0 } },
+      ],
+    },
+  ];
+  const compiler = createCompiler(validateComposition(input, assets), "empty-taps");
+  expect(
+    compiler.tapPlan(
+      { target: { kind: "output" }, point: { kind: "after-step", stepId: "fade" } },
+      "video",
+    ),
+  ).toEqual([
+    {
+      target: { kind: "output" },
+      mediaKind: "output",
+      inputs: [],
+      steps: [{ id: "fade", enabled: true, processor: { type: "opacity", opacity: 0.5 } }],
+    },
+  ]);
+  expect(
+    compiler.tapPlan({ target: { kind: "track", id: "v" }, point: { kind: "dry" } }, "video"),
+  ).toEqual([{ target: { kind: "track", id: "v" }, mediaKind: "video", inputs: [], steps: [] }]);
+  expect(() =>
+    compiler.tapPlan({ target: { kind: "track", id: "a" }, point: { kind: "processed" } }, "video"),
+  ).toThrow("video target");
+  expect(() =>
+    compiler.tapPlan(
+      { target: { kind: "output" }, point: { kind: "after-step", stepId: "missing" } },
+      "video",
+    ),
+  ).toThrow("Unknown step");
+});

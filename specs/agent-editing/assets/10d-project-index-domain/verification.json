@@ -1,0 +1,63 @@
+{
+  "date": "2026-09-28",
+  "base": "2dc24e4",
+  "scope": "real store/domain checks with synthetic native receipts; no public project index or native pixel acceptance",
+  "checks": {
+    "core": {
+      "passed": 595,
+      "skipped": 1,
+      "files": 58,
+      "command": "bun run --cwd packages/core test"
+    },
+    "composition": {
+      "passed": 136,
+      "files": 11,
+      "command": "bun run --cwd packages/composition test"
+    },
+    "types": {
+      "passed": true,
+      "coreDirect": true,
+      "dependentTasks": 7,
+      "command": "bunx turbo run check-types --filter=@screenrec/service --filter=@screenrec/cli"
+    },
+    "lint": {
+      "passed": true,
+      "scope": "changed production/test TypeScript files"
+    },
+    "negativeControls": {
+      "identity": "removing direct-entry identity read check fails altered-tap test",
+      "coverage": "omitting complete sampled interval check fails publication test",
+      "nativeGraph": "projecting native graph before comparison fails malformed-publication test"
+    }
+  },
+  "buildBoundary": "Initial full suite used stale emitted core Catalog10 in a library child process and failed against source Catalog11. Rebuilt core; unchanged library check and final full suite pass. No timeout or catalog policy relaxed.",
+  "publicReceipt": {
+    "retainedFields": [
+      "frame timing",
+      "layers",
+      "physical source pictures"
+    ],
+    "omitted": [
+      "frame.visual"
+    ],
+    "nativeGraphValidatedBeforeProjection": true,
+    "implementationId": "native-composition-picture-v3",
+    "sourceMovieScenePinsUnchanged": true,
+    "catalogFormat": 11
+  },
+  "remaining": [
+    "actual producer admission and row preflight before native frames",
+    "queued scene generation reference retention",
+    "service deletion/delivery integration",
+    "actual CLI/MCP/native project index journey",
+    "actual public frame and fresh agent repeat for receipt projection",
+    "release-scale memory/latency acceptance"
+  ],
+  "review": {
+    "outcome": "No actionable correctness or bounded-work defects found",
+    "focusedTestsPassed": 61,
+    "scope": "staged project index, frame inspection, screenshot storage and compiler planning",
+    "boundary": "Native pixels and public delivery not verified; queue/service integration deferred",
+    "artifact": "review.txt"
+  }
+}

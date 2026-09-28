@@ -4,6 +4,7 @@ import {
   compiledFrameSchema,
   processingTapSchema,
   type ProcessingTap,
+  type CompiledFrame,
 } from "@screenrec/composition";
 import type { ProjectStore } from "./projects.js";
 import type { AcquisitionStore } from "./acquisitions.js";
@@ -26,7 +27,7 @@ const selectedPicture = {
   streamId: z.string().min(1),
   requestedSourceUs: time,
 };
-const projectReceiptSchema = z.object({
+const nativeProjectReceiptSchema = z.object({
   file: z.string(),
   mediaType: z.literal("image/png"),
   profile: z.literal("h264-rec709"),
@@ -57,12 +58,15 @@ const projectReceiptSchema = z.object({
     ]),
   ),
 });
-const optionsSchema = z.strictObject({
-  atUs: time,
+const projectReceiptSchema = nativeProjectReceiptSchema.extend({
+  frame: z.strictObject(compiledFrameSchema.shape).omit({ visual: true }),
+});
+export const projectPictureOptionsSchema = z.strictObject({
   maxLongEdge: z.int().min(1).max(8192),
   tap: processingTapSchema,
   implementationId: z.string().min(1),
 });
+const optionsSchema = z.strictObject({ atUs: time, ...projectPictureOptionsSchema.shape });
 export type ProjectFrameInput = {
   projectId: string;
   revisionId?: string | undefined;
@@ -471,58 +475,12 @@ export class MediaFrameInspection {
     });
     const projectId = job.target.projectId;
     return this.publish({ kind: "project", projectId }, signal, async (output) => {
-      const parsedReceipt = projectReceiptSchema.safeParse(
-        await this.project.renderer.render(
-          {
-            window: plan.window,
-            assets: plan.assets,
-            output,
-            maxLongEdge: plan.options.maxLongEdge,
-          },
-          signal,
-        ),
+      const receipt = await this.project.renderer.render(
+        { window: plan.window, assets: plan.assets, output, maxLongEdge: plan.options.maxLongEdge },
+        signal,
       );
       signal.throwIfAborted();
-      if (!parsedReceipt.success)
-        throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
-      const value = parsedReceipt.data;
-      const expected = plan.window.frames().next().value!;
-      const { pictures } = value;
-      if (
-        value.file !== output ||
-        !isDeepStrictEqual(value.frame, expected) ||
-        value.sourceWidth !== plan.window.manifest.canvas.width ||
-        value.sourceHeight !== plan.window.manifest.canvas.height ||
-        value.width > value.sourceWidth ||
-        value.height > value.sourceHeight ||
-        Math.max(value.width, value.height) > plan.options.maxLongEdge ||
-        pictures.length !== expected.layers.length ||
-        pictures.some((picture, index) => {
-          const layer = expected.layers[index]!;
-          return (
-            picture.clipId !== layer.clipId ||
-            picture.assetId !== layer.assetId ||
-            picture.streamId !== layer.streamId ||
-            picture.requestedSourceUs !== layer.sourceUs ||
-            (layer.availability !== "available" && picture.status === "available")
-          );
-        })
-      )
-        throw new CatalogError("INVALID_RESPONSE", "Picture receipt differs from its pinned frame");
-      if (
-        pictures.some(
-          (picture) =>
-            picture.status === "available" &&
-            (roundedSampleUs(picture.sample) - BigInt(picture.sample.originUs) !==
-              BigInt(picture.actualSourceUs) ||
-              picture.sample.originUs !==
-                plan.assets.find(
-                  (asset) =>
-                    asset.assetId === picture.assetId && asset.streamId === picture.streamId,
-                )?.originUs),
-        )
-      )
-        throw new CatalogError("INVALID_RESPONSE", "Picture receipt changed its source clock");
+      const value = validateProjectFrameReceipt(receipt, plan, output, plan.options.maxLongEdge);
       return { ...value, ...plan.options, projectId, revisionId: plan.window.manifest.revisionId };
     });
   }
@@ -535,4 +493,86 @@ function roundedSampleUs(sample: { value: string; timescale: number }): bigint {
   return (
     (absolute / scale + ((absolute % scale) * 2n >= scale ? 1n : 0n)) * (numerator < 0n ? -1n : 1n)
   );
+}
+
+type PicturePlan = { window: CompositionWindow; assets: readonly CompositionAssetBinding[] };
+type PictureReceipt = z.infer<typeof projectReceiptSchema>;
+function inspectedFrame(frame: CompiledFrame): PictureReceipt["frame"] {
+  const { visual: _visual, ...evidence } = frame;
+  return evidence;
+}
+
+/** Native instructions stay private, but must match before any public evidence is projected. */
+export function validateProjectFrameReceipt(
+  receipt: unknown,
+  plan: PicturePlan,
+  output: string,
+  maxLongEdge: number,
+): PictureReceipt {
+  const parsed = nativeProjectReceiptSchema.safeParse(receipt);
+  if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+  checkPictureReceipt(parsed.data, plan.window.frames().next().value!, plan, output, maxLongEdge);
+  return { ...parsed.data, frame: inspectedFrame(parsed.data.frame) };
+}
+
+/** Retained records contain the same public evidence; renderer-private instructions are never stored. */
+export function validateRetainedProjectFrameReceipt(
+  receipt: unknown,
+  plan: PicturePlan,
+  output: string,
+  maxLongEdge: number,
+): PictureReceipt {
+  const parsed = projectReceiptSchema.safeParse(receipt);
+  if (!parsed.success) throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+  checkPictureReceipt(
+    parsed.data,
+    inspectedFrame(plan.window.frames().next().value!),
+    plan,
+    output,
+    maxLongEdge,
+  );
+  return parsed.data;
+}
+function checkPictureReceipt(
+  value: PictureReceipt,
+  expected: PictureReceipt["frame"],
+  plan: PicturePlan,
+  output: string,
+  maxLongEdge: number,
+) {
+  const { pictures } = value;
+  if (
+    value.file !== output ||
+    !isDeepStrictEqual(value.frame, expected) ||
+    value.sourceWidth !== plan.window.manifest.canvas.width ||
+    value.sourceHeight !== plan.window.manifest.canvas.height ||
+    value.width > value.sourceWidth ||
+    value.height > value.sourceHeight ||
+    Math.max(value.width, value.height) > maxLongEdge ||
+    pictures.length !== expected.layers.length ||
+    pictures.some((picture, index) => {
+      const layer = expected.layers[index]!;
+      return (
+        picture.clipId !== layer.clipId ||
+        picture.assetId !== layer.assetId ||
+        picture.streamId !== layer.streamId ||
+        picture.requestedSourceUs !== layer.sourceUs ||
+        (layer.availability !== "available" && picture.status === "available")
+      );
+    })
+  )
+    throw new CatalogError("INVALID_RESPONSE", "Picture receipt differs from its pinned frame");
+  if (
+    pictures.some(
+      (picture) =>
+        picture.status === "available" &&
+        (roundedSampleUs(picture.sample) - BigInt(picture.sample.originUs) !==
+          BigInt(picture.actualSourceUs) ||
+          picture.sample.originUs !==
+            plan.assets.find(
+              (asset) => asset.assetId === picture.assetId && asset.streamId === picture.streamId,
+            )?.originUs),
+    )
+  )
+    throw new CatalogError("INVALID_RESPONSE", "Picture receipt changed its source clock");
 }

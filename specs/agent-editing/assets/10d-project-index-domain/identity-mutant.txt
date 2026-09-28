@@ -1,0 +1,37 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+ ❯ src/project-index.test.ts (9 tests | 1 failed | 8 skipped) 29ms
+   × retained entry reads reject another tap and deletion fences readers without blocking reclaim 29ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  07:56:30
+   Duration  263ms (transform 63%, import 23%, tests 14%, worker 1%)
+
+$ vitest run --maxWorkers=4 project-index.test.ts -t "retained entry reads reject"
+(node:15402) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-index.test.ts > retained entry reads reject another tap and deletion fences readers without blocking reclaim
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/project-index.test.ts:267:49
+    265|     tap: { target: { kind: "output" as const }, point: { kind: "dry" a…
+    266|   };
+    267|   expect(() => f.index.readEntry(different, 0)).toThrow("identity");
+       |                                                 ^
+    268|   f.projects.markDeleting(f.projectId);
+    269|   expect(() => f.index.readEntry(identity, 0)).toThrow("delet");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+error: script "test" exited with code 1

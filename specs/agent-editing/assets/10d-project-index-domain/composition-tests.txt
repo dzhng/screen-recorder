@@ -1,0 +1,4 @@
+ Test Files  11 passed (11)
+      Tests  136 passed (136)
+   Start at  07:49:54
+   Duration  632ms (tests 39%, transform 37%, import 24%, worker 1%)

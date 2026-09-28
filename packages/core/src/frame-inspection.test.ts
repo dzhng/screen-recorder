@@ -162,6 +162,7 @@ test("demanded still pins global picture timing across head changes and cache re
   const ready = f.frames.request(request);
   expect(ready.state).toBe("ready");
   const image = ready.published!.frame;
+  expect(image.frame).not.toHaveProperty("visual");
   expect(image).toMatchObject({
     revisionId: first.revisionId,
     atUs: 75001,
@@ -279,3 +280,19 @@ test.each(["complete", "missing", "reordered", "wrong-source"] as const)(
     }
   },
 );
+
+test("native visual instructions are verified before the public frame receipt omits them", async () => {
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      const receipt = (await renderer.render(request, signal)) as { frame: { visual: unknown[] } };
+      receipt.frame.visual = [];
+      return receipt;
+    },
+  });
+  const request = { projectId: f.projectId, atUs: 75001 };
+  f.frames.request(request);
+  await f.jobs.idle();
+  expect(f.frames.request(request)).toMatchObject({ state: "failed", published: null });
+  expect(f.cache.bytes).toBe(0);
+});

@@ -423,6 +423,12 @@ Processed target/tap inspection uses the same stack executor as preview/export;
 raw source evidence remains unchanged. Artifacts identify which target and step
 they represent, including whether later parent processing is excluded.
 
+Public picture receipts report sample/visibility timing, selected source layers and
+physical picture provenance. Renderer-private affine/mask instructions are not
+authoring coordinates and do not belong in agent-facing receipts. Native
+publication verifies the complete compiled picture before returning its public
+evidence; agents inspect authored placement through the processing API.
+
 Project `cut` events describe exact, track-local editorial source-mapping
 transitions, not measured scene changes or proof that the final composite changes
 visibly. A row names `projectAtUs`, track/rank, audio/video plane and nullable

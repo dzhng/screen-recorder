@@ -3,7 +3,11 @@ import { intervalIndex } from "./interval-index.js";
 import { sampleAt } from "./sample-clock.js";
 import { audioContexts } from "./audio-context.js";
 import type { CompiledFrame, CompiledAudio } from "./compiled-records.js";
-import { executionWindow, executionWindowRequestSchema } from "./execution-window.js";
+import {
+  executionWindow,
+  executionWindowRequestSchema,
+  processingTapSchema,
+} from "./execution-window.js";
 import { processingPlanner } from "./processing-plan.js";
 import { CompositionError } from "./errors.js";
 import { sourceTime, type ValidatedComposition } from "./model.js";
@@ -274,6 +278,16 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         before: threshold === 0 ? null : picture(clock.indexAt(BigInt(threshold - 1))),
         after: picture(clock.indexAt(clock.timeAt(clock.firstAtOrAfter(threshold)))),
       };
+    },
+    /** Validate target and step scope without inventing a render range for an empty project. */
+    tapPlan(input: unknown, component?: "audio" | "video") {
+      const tap = processingTapSchema.safeParse(input);
+      if (!tap.success) throw new CompositionError("INVALID_COMPOSITION", tap.error.message);
+      return processing(
+        model.clips.filter((value) => !component || value.track.kind === component),
+        tap.data,
+        component,
+      );
     },
     processing(input: Range) {
       const range = checkedRange(input);

@@ -1717,3 +1717,34 @@ existing lifetime owner.
   represent both. The new processor requires source-time duration; legacy callers
   retain their policies. Matched-time preservation checks respect the project's
   established frame clock rather than adding hidden pointer-event frames.
+
+## Retained project pictures and receipt boundary — 2026-09-28
+
+- **Sound, medium confidence — keep one immutable composition while writing an index.**
+  Appending many pictures from the same revision should not validate and index its
+  entire composition again for every image. Reuse one revision/tap planning context
+  during the write; another context replaces it, and successful completion clears
+  it. The plan did not choose this working-memory lifetime. Residency is at most
+  one full composition, its asset metadata and compiler indexes, not one entry per
+  project or historical revision. That composition's size still follows the revision
+  owner's limits; slice 24 retains measured memory/latency acceptance. Interleaved
+  writes may rebuild their context but cannot silently reuse a different revision.
+- **Sound, high confidence — each delivered picture gets one complete sampled interval.**
+  A picture sampled at zero in a ten-frame-per-second project proves the output
+  visible through 100 milliseconds. The direct request's one-microsecond window
+  must not shrink that proof, and a completed storyboard must not leave the entire
+  delivered frame marked unknown. Project coverage therefore records exactly one
+  complete compiler-visible interval for each retained picture; intervening ranges
+  have no image ordinal and remain unproven. The plan left coverage serialization
+  open. Keeping source availability in picture provenance avoids calling a valid
+  background or surviving layer unavailable merely because one source is missing.
+- **Sound, high confidence — expose picture evidence, not native rendering instructions.**
+  A fresh agent run mistook a renderer's lower-left coordinate for an authored
+  top-left placement and made an unnecessary edit before undoing it. Public picture
+  receipts now retain timing, layer identity and physical-source observations, while
+  the authored processing API remains the place to inspect placement. The native
+  worker's complete visual graph is still compared against the compiler before
+  publication; only then is it omitted from public/retained receipts. The spec did
+  not explicitly separate these representations. Advancing the project-picture
+  recipe prevents an old cached receipt from reintroducing the confusing field;
+  source pictures, movie pixels and the catalog format are unaffected.

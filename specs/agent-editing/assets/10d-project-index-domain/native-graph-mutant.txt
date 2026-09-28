@@ -1,0 +1,107 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+ ❯ src/frame-inspection.test.ts (8 tests | 1 failed | 7 skipped) 40ms
+   × native visual instructions are verified before the public frame receipt omits them 39ms
+
+ Test Files  1 failed | 1 skipped (2)
+      Tests  1 failed | 21 skipped (22)
+   Start at  07:56:31
+   Duration  229ms (transform 59%, import 28%, tests 12%, worker 1%)
+
+$ vitest run --maxWorkers=4 frame-inspection.test.ts -t "native visual instructions"
+(node:15467) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:15470) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/frame-inspection.test.ts > native visual instructions are verified before the public frame receipt omits them
+AssertionError: expected { …(11) } to match object { state: 'failed', published: null }
+(11 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "published": null,
+-   "state": "failed",
++   "published": {
++     "frame": {
++       "atUs": 75001,
++       "bytes": 18,
++       "cacheId": "4f85ddaf-4683-4b7f-bde0-1bde3c2d9d66",
++       "decodedSamples": 1,
++       "file": "/private/tmp/screenrec-project-frames-cfOq54/cache/derived/4f85ddaf-4683-4b7f-bde0-1bde3c2d9d66.cache",
++       "frame": {
++         "index": 1,
++         "layers": [
++           {
++             "assetId": "6e6da6f784cacafb0a39118cbd62d7c022e6fe27b958087f3c5c90b668cd0922",
++             "availability": "available",
++             "clipId": "clip:c65c500ea06fd35422bcdd0ed0f51a8cad984940d7b2d717d2ce89e5e26fb287:1",
++             "height": 96,
++             "sourceUs": 50000,
++             "streamId": "track:7",
++             "trackId": "track:c65c500ea06fd35422bcdd0ed0f51a8cad984940d7b2d717d2ce89e5e26fb287:0",
++             "width": 160,
++           },
++         ],
++         "sampleAtUs": 50000,
++         "visibleRange": {
++           "endUs": 75002,
++           "startUs": 75001,
++         },
++       },
++       "height": 96,
++       "implementationId": "fixture-picture",
++       "maxLongEdge": 1600,
++       "mediaType": "image/png",
++       "pictures": [
++         {
++           "actualSourceUs": 50000,
++           "assetId": "6e6da6f784cacafb0a39118cbd62d7c022e6fe27b958087f3c5c90b668cd0922",
++           "clipId": "clip:c65c500ea06fd35422bcdd0ed0f51a8cad984940d7b2d717d2ce89e5e26fb287:1",
++           "requestedSourceUs": 50000,
++           "sample": {
++             "originUs": 9000,
++             "timescale": 1000000,
++             "value": "59000",
++           },
++           "status": "available",
++           "streamId": "track:7",
++         },
++       ],
++       "profile": "h264-rec709",
++       "projectId": "8b21dae0-e46e-4ad5-ab64-d97b8652f30f",
++       "readerOpens": 1,
++       "revisionId": "c5f23b8e-c1b5-4e50-a598-0e387739413c",
++       "sourceHeight": 96,
++       "sourceWidth": 160,
++       "tap": {
++         "point": {
++           "kind": "processed",
++         },
++         "target": {
++           "kind": "output",
++         },
++       },
++       "width": 160,
++     },
++     "generation": 1,
++   },
++   "state": "ready",
+  }
+
+ ❯ src/frame-inspection.test.ts:296:37
+    294|   const request = { projectId: f.projectId, atUs: 75001 };
+    295|   f.frames.request(request); await f.jobs.idle();
+    296|   expect(f.frames.request(request)).toMatchObject({ state: "failed", p…
+       |                                     ^
+    297|   expect(f.cache.bytes).toBe(0);
+    298| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+error: script "test" exited with code 1
