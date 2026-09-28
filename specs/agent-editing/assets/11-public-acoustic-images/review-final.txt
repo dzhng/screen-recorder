@@ -1,0 +1,2 @@
+No actionable defects found in the scoped file’s independent oracles, nested-tap checks, lifecycle assertions, or cleanup. Syntax validation passed; end-to-end execution could not complete because the service exited during startup.
+No actionable defects found in the scoped file’s independent oracles, nested-tap checks, lifecycle assertions, or cleanup. Syntax validation passed; end-to-end execution could not complete because the service exited during startup.

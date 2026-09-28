@@ -1,0 +1,12 @@
+The spectral pixel checks cannot distinguish several processing targets or detect stale spectral output after the head change because their probes saturate. Syntax validation passed; the native journey was not run.
+
+Review comment:
+
+- [P2] Keep spectral probes below saturation across processing taps — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:251-255
+  These cumulative gains saturate both spectral probe pixels at 255 for outer-group after-step/processed and every output tap, so rendering the wrong processing target can still pass. The head-change check also expects approximately [255, 254], allowing the old output's [255, 255] through its ±3 tolerance. Use lower fixture amplitudes or gains that keep the probes unsaturated and distinguish the tested taps and revisions. This follows the repository's requirement that assertions verify observable behavior ([write-tests](.agents/skills/write-tests/SKILL.md#L30-L36)).
+The spectral pixel checks cannot distinguish several processing targets or detect stale spectral output after the head change because their probes saturate. Syntax validation passed; the native journey was not run.
+
+Review comment:
+
+- [P2] Keep spectral probes below saturation across processing taps — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:251-255
+  These cumulative gains saturate both spectral probe pixels at 255 for outer-group after-step/processed and every output tap, so rendering the wrong processing target can still pass. The head-change check also expects approximately [255, 254], allowing the old output's [255, 255] through its ±3 tolerance. Use lower fixture amplitudes or gains that keep the probes unsaturated and distinguish the tested taps and revisions. This follows the repository's requirement that assertions verify observable behavior ([write-tests](.agents/skills/write-tests/SKILL.md#L30-L36)).

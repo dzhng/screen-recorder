@@ -1,0 +1,30 @@
+The harness exercises public transports, but several assertions can pass despite broken range selection, target routing or project image rendering. Failure-path cleanup is also incomplete. Syntax checking passed; the native journey was not executed.
+
+Full review comments:
+
+- [P2] Assert requested sample coverage independently — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:125-132
+  If range selection regresses to returning the full source, this journey still passes: `verifyBuckets` derives its expected samples from returned bucket ranges, full/detail agreement compares those same buckets, and image coordinates use returned metadata. Assert the independently calculated full and requested sample bounds, complete bucket coverage, absolute grid positions and partial edges before validating measurements. Otherwise `fullRangeBucketAgreement` certifies an implementation that ignores `range`.
+
+- [P2] Give each processing scope a distinguishable acoustic result — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:221-227
+  Every scope has the same unity-net stack, so all dry/processed taps produce the original samples and every after-step tap produces twice those samples. Selecting the wrong target, skipping upstream group processing, or substituting dry audio for processed audio can therefore pass the entire tap loop. Use distinct non-unity gains across scopes and calculate each expected cumulative result independently so nested routing and target selection affect the assertions.
+
+- [P2] Validate project image pixels rather than only their receipts — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:253-259
+  The project waveform and spectrogram checks inspect only metadata; `pixels()` is used exclusively for source artifacts. A project renderer that delivers a blank image or reuses raw-source pixels while attaching the requested tap/revision metadata passes these checks, including historical and restart byte equality. Decode project images and assert independently expected signal positions and amplitude-sensitive differences, particularly for after-step taps and the changed output gain.
+
+- [P2] Make scratch cleanup unconditional on teardown failures — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:312-316
+  If `service.stop()` rejects (its helper explicitly throws on shutdown timeout or nonzero exit), neither diagnostics nor scratch-home removal runs. Likewise, either evidence write failing skips `rm(home)`. Use nested `try/finally` cleanup so scratch removal is attempted regardless of shutdown/reporting errors, while preserving those errors. This violates the repository's explicit [failure-path cleanup requirement](.agents/skills/write-tests/SKILL.md#L115-L116).
+The harness exercises public transports, but several assertions can pass despite broken range selection, target routing or project image rendering. Failure-path cleanup is also incomplete. Syntax checking passed; the native journey was not executed.
+
+Full review comments:
+
+- [P2] Assert requested sample coverage independently — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:125-132
+  If range selection regresses to returning the full source, this journey still passes: `verifyBuckets` derives its expected samples from returned bucket ranges, full/detail agreement compares those same buckets, and image coordinates use returned metadata. Assert the independently calculated full and requested sample bounds, complete bucket coverage, absolute grid positions and partial edges before validating measurements. Otherwise `fullRangeBucketAgreement` certifies an implementation that ignores `range`.
+
+- [P2] Give each processing scope a distinguishable acoustic result — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:221-227
+  Every scope has the same unity-net stack, so all dry/processed taps produce the original samples and every after-step tap produces twice those samples. Selecting the wrong target, skipping upstream group processing, or substituting dry audio for processed audio can therefore pass the entire tap loop. Use distinct non-unity gains across scopes and calculate each expected cumulative result independently so nested routing and target selection affect the assertions.
+
+- [P2] Validate project image pixels rather than only their receipts — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:253-259
+  The project waveform and spectrogram checks inspect only metadata; `pixels()` is used exclusively for source artifacts. A project renderer that delivers a blank image or reuses raw-source pixels while attaching the requested tap/revision metadata passes these checks, including historical and restart byte equality. Decode project images and assert independently expected signal positions and amplitude-sensitive differences, particularly for after-step taps and the changed output gain.
+
+- [P2] Make scratch cleanup unconditional on teardown failures — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:312-316
+  If `service.stop()` rejects (its helper explicitly throws on shutdown timeout or nonzero exit), neither diagnostics nor scratch-home removal runs. Likewise, either evidence write failing skips `rm(home)`. Use nested `try/finally` cleanup so scratch removal is attempted regardless of shutdown/reporting errors, while preserving those errors. This violates the repository's explicit [failure-path cleanup requirement](.agents/skills/write-tests/SKILL.md#L115-L116).

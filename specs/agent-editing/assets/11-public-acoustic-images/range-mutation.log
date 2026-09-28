@@ -1,0 +1,26 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
++   end: 48000,
++   start: 0
+-   end: 38399,
+-   start: 15999
+  }
+
+    at verifyBuckets (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:83:10)
+    at file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:190:3
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: { start: 0, end: 48000 },
+  expected: { start: 15999, end: 38399 },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

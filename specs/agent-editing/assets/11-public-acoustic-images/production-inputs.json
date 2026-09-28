@@ -1,0 +1,15 @@
+{
+  "apps/cli/src/artifact-delivery.ts": "3bb15fc92f4d88009252a1f317591ee8628522c3bd699d2d8d7ab4415f3b8eb1",
+  "apps/cli/src/main.ts": "6adbf2d3f80fdd90c08389ce3f6c8ba15aedb505f6cb5c950c5649f286a69be6",
+  "apps/service/src/operations.ts": "3cc4d4efe6b16cdbf08f2af7aabfed7b17c522ae2cbeed9f1ff6bbfc74f7a104",
+  "apps/service/src/project-service.ts": "0a91e243c41365b3d8837366e472fc2d928f3b9c4b090d068319947d2b4ef4a4",
+  "helpers/mac/Sources/ScreenRecorderFrames/AcousticImage.swift": "b39890d08f4a70f7cfe3793ed1bc224cf9e329fcd1698ef28b88aedbc5360af6",
+  "helpers/mac/Sources/ScreenRecorderWire/Wire.swift": "52bb2b2f6f42a9089efb3df4085b456cdffaefd50ef95aaf35d4299da4e297be",
+  "packages/core/package.json": "a4ed24710ee1d3d7e3c7b0077608561bf787b138dfaebe395d89cfff407afc6b",
+  "packages/core/src/acoustic-image.ts": "a0f53abf409ad2ffcc5ca648d5d0a77665d70d918f366f819ecebdb489cb617b",
+  "packages/core/src/audio-inspection.ts": "5f96940ee0da20a8f08da29c3d55392f8202db9487986a8ce0eaf5891b3fe0b4",
+  "packages/core/src/project-window.ts": "6ab2f64ebc5fe00ce7c17f5e61662b84f542c85f3b1870b871bceb7642a3ea14",
+  "packages/protocol/src/operations.ts": "6f49154c3ae4ff05581e5f5db0fd9c7ffd76b857af770a582fe7d9aea398aaa4",
+  "packages/core/src/acoustic-inspection.ts": "4445e83b5de5afbccac601ea9edd2f41b7681cbebad3a3b1110b3ed14b521f49",
+  "helpers/mac/Sources/ScreenRecorderWire/AcousticImageOperation.swift": "378bbca7e4c3afe1b04ee15e7211d35645eb65cfd9a54ec72bbd8381d46b12ca"
+}

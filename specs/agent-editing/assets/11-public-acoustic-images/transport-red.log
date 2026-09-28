@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: spectrogram.get: {"assetId":"7069a22725e70b8110c509ff80e35e01951d60a432f36307238d40e57defe5ce","streamId":"track:1","range":{"startUs":0,"endUs":1000000},"state":"failed","reason":"Cannot encode media.acousticImage for the native worker","retryable":false,"jobId":"53c1457f-991b-4554-a013-0f717a836a35","dependency":{"jobId":"6f5d22e1-ee54-4fc7-baad-6ffc3973164f","state":"ready","reason":null,"retryable":false,"generation":1},"published":null,"delivery":null}
+    at poll (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/source-evidence-fixture.mjs:22:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async delivered (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:27:17)
+    at async file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-evidence.mjs:79:20 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

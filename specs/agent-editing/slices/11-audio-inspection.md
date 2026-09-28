@@ -34,7 +34,7 @@ Expose bucket origin/duration, min/max/RMS, channel handling and returned bounds
 Create this planned probe in this slice:
 
 ```sh
-node packages/test-harness/editing/audio-evidence.mjs --fixture speech-and-clicks
+node packages/test-harness/editing/audio-evidence.mjs --fixture tones-and-clicks
 ```
 
 ## Acceptance
@@ -67,3 +67,7 @@ spectrogram use and listening remain separate open gates.
 ## Acoustic raster checkpoint
 
 The [headless raster evidence](../assets/11-acoustic-raster/README.md) covers images from retained measurements, channel/time/frequency axes, subpixel peak preservation, bounded labels and shared picture PNG preservation. The core request adapter and native operation are ready for the existing acoustic lifecycle; public image delivery and fresh-agent use remain open.
+
+## Public image journey checkpoint
+
+[Actual public acoustic evidence](../assets/11-public-acoustic-images/README.md) verifies CLI/MCP waveform and spectrogram PNG delivery, independent source/project measurements and pixels, all nested processing taps, outside-view missing FFT context, cancellation/retry, history, restart and temporary sidecar cleanup. Speech/listening and fresh-agent product-use acceptance remain separate.

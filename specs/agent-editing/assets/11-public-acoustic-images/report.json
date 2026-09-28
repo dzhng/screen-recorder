@@ -1,0 +1,6375 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_requested"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_requested"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "waveform.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "spectrogram.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "00-waveform.json",
+      "sha256": "3f4d2e598a16f55ec2c2724c55604e8c67c40b01367fd4ff46b5761db8c0a001",
+      "metadata": {
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 0,
+          "end": 48000
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/020de9ce-899a-4abd-8139-2b7be75c71bf.cache",
+        "bytes": 248406,
+        "mediaType": "application/json",
+        "cacheId": "020de9ce-899a-4abd-8139-2b7be75c71bf",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 1000
+        },
+        "bucketFrames": 48,
+        "bucketCount": 1000,
+        "audio": {
+          "jobId": "737256aa-6070-41c0-8439-53098cac05f1",
+          "generation": 1
+        }
+      },
+      "jobId": "885ac44d-703b-46c3-a243-8cee3e3c42f0"
+    },
+    {
+      "name": "01-waveform.json",
+      "sha256": "0b59b084b01f737e10a1824852d1201606b1530791c1131c8acad81c4527294a",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/912b2db6-da90-40b4-8799-a14cbe7b67ba.cache",
+        "bytes": 116664,
+        "mediaType": "application/json",
+        "cacheId": "912b2db6-da90-40b4-8799-a14cbe7b67ba",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "66e152da-50c8-4f0f-8b3b-7bff7b85b336",
+          "generation": 1
+        }
+      },
+      "jobId": "351f3d73-c9b2-468a-8f38-114ed5cd1ead"
+    },
+    {
+      "name": "02-waveform.png",
+      "sha256": "eb6222cf26fd7dac8f68f2084ebee9dba1d54e72579d97f6921e83f5b30eb9ae",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/e26694d1-19af-4f6c-b7ce-bc54ac0d9a5d.cache",
+        "bytes": 80590,
+        "mediaType": "image/png",
+        "cacheId": "e26694d1-19af-4f6c-b7ce-bc54ac0d9a5d",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "66e152da-50c8-4f0f-8b3b-7bff7b85b336",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "asset d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab | stream track:1",
+          "audio 66e152da-50c8-4f0f-8b3b-7bff7b85b336 | generation 1",
+          "support c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 1,
+        "measurements": {
+          "jobId": "351f3d73-c9b2-468a-8f38-114ed5cd1ead",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "95e71cae-51a0-4f2c-a64e-8e706b85899f"
+    },
+    {
+      "name": "03-spectrogram.png",
+      "sha256": "b6ac7cbf84922c8884075b65751dc7b30fdf4225900ece0040cf1f479e9a4adc",
+      "metadata": {
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 0,
+          "end": 48000
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "context": {
+          "range": {
+            "startUs": 0,
+            "endUs": 1000000
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 48000
+          },
+          "unavailable": []
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/25c59cbf-5383-443c-9bb3-5a18f45e7a3d.cache",
+        "bytes": 92383,
+        "mediaType": "image/png",
+        "cacheId": "25c59cbf-5383-443c-9bb3-5a18f45e7a3d",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 94
+        },
+        "audio": {
+          "jobId": "737256aa-6070-41c0-8439-53098cac05f1",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "asset d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab | stream track:1",
+          "audio 737256aa-6070-41c0-8439-53098cac05f1 | generation 1",
+          "support c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "5bf39c21-afbb-4a55-892f-506415a73b04",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "55af4d4e-cf1e-4ec8-affb-28b053d1a045"
+    },
+    {
+      "name": "04-spectrogram.png",
+      "sha256": "e444425bbfe3d98e01086ba81fe49097af3f21d979e3cf2f99e8ee1894e0ff83",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": []
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/f27be4b9-3dca-45cf-95ce-a076b3124072.cache",
+        "bytes": 95824,
+        "mediaType": "image/png",
+        "cacheId": "f27be4b9-3dca-45cf-95ce-a076b3124072",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "8a776550-33ee-4b63-a296-186d57030465",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "asset d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab | stream track:1",
+          "audio 8a776550-33ee-4b63-a296-186d57030465 | generation 1",
+          "support c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "a34d69ed-0a75-4004-bc7b-a854f459b906",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "295f112a-338f-4b55-9532-9fee71bc793b"
+    },
+    {
+      "name": "05-spectrogram.png",
+      "sha256": "8b3ae7001b98cccc2e684419066e97707a72151a8580d85702409e916fd85799",
+      "metadata": {
+        "range": {
+          "startUs": 500000,
+          "endUs": 600000
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 24000,
+          "end": 28800
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "context": {
+          "range": {
+            "startUs": 485334,
+            "endUs": 613334
+          },
+          "sampleRange": {
+            "start": 23296,
+            "end": 29440
+          },
+          "unavailable": []
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/fd049ad6-a286-4a35-80e5-4c845eb70555.cache",
+        "bytes": 92562,
+        "mediaType": "image/png",
+        "cacheId": "fd049ad6-a286-4a35-80e5-4c845eb70555",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 1024,
+          "hopFrames": 512,
+          "columnCount": 11
+        },
+        "audio": {
+          "jobId": "17324ad1-8f88-4414-a94e-9c06a6635e46",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "asset d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab | stream track:1",
+          "audio 17324ad1-8f88-4414-a94e-9c06a6635e46 | generation 1",
+          "support c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "FFT 1024 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "4691583b-3b95-42cc-82ec-919dc3d8c9f3",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "cd6708e1-7c41-4864-b1ea-59ecff311653"
+    },
+    {
+      "name": "06-spectrogram.png",
+      "sha256": "be472529b2996901774e4bc5d9c3fc4d000b1e2498ce8d1449af5d5bce595660",
+      "metadata": {
+        "range": {
+          "startUs": 500000,
+          "endUs": 600000
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 24000,
+          "end": 28800
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "acquisitionId": "39ee484d-1dcb-461d-aad4-6a1846bd611f",
+        "supportDigest": "ec05e71455c61918e2ab68e28e8b15b6915f448463a96a0f197817ba566e673a",
+        "context": {
+          "range": {
+            "startUs": 485334,
+            "endUs": 613334
+          },
+          "sampleRange": {
+            "start": 23296,
+            "end": 29440
+          },
+          "unavailable": [
+            {
+              "startUs": 496000,
+              "endUs": 500000
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/2d747ac2-1509-4a86-90ce-75b57d81334c.cache",
+        "bytes": 91925,
+        "mediaType": "image/png",
+        "cacheId": "2d747ac2-1509-4a86-90ce-75b57d81334c",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 1024,
+          "hopFrames": 512,
+          "columnCount": 11
+        },
+        "audio": {
+          "jobId": "df714ab4-c291-4064-9464-d42e4d252e7e",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "asset d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab | stream track:1",
+          "audio df714ab4-c291-4064-9464-d42e4d252e7e | generation 1",
+          "support ec05e71455c61918e2ab68e28e8b15b6915f448463a96a0f197817ba566e673a",
+          "FFT 1024 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "ef781a8a-445d-4c26-b3a6-c37d5f8d2643",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "718cde6d-e50a-4213-935a-dffe4ccf9749"
+    },
+    {
+      "name": "07-waveform.json",
+      "sha256": "8c3957d7a6371ffe8217231e029745a4dc8b35d5d7a5360c9bfe2f18c18afd60",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/cee38cef-7394-43c1-b0a8-cf47c9316d8d.cache",
+        "bytes": 116823,
+        "mediaType": "application/json",
+        "cacheId": "cee38cef-7394-43c1-b0a8-cf47c9316d8d",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "ae182e9a-0de4-47aa-a57b-4e58ef15f988",
+          "generation": 1
+        }
+      },
+      "jobId": "015385b1-6977-4cd0-ada7-1b32afd9c0a3"
+    },
+    {
+      "name": "08-waveform.png",
+      "sha256": "80bb0941a71755bba653f48a1f23d3be7137bdf0e14f15d091d22528a4020ec1",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/7d4b8869-7fea-47fa-9451-83c7a61e66b7.cache",
+        "bytes": 83596,
+        "mediaType": "image/png",
+        "cacheId": "7d4b8869-7fea-47fa-9451-83c7a61e66b7",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "ae182e9a-0de4-47aa-a57b-4e58ef15f988",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio ae182e9a-0de4-47aa-a57b-4e58ef15f988 | generation 1",
+          "tap {\"target\":{\"kind\":\"clip\",\"id\":\"clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3\"},\"point\":{\"kind\":\"dry\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 1,
+        "measurements": {
+          "jobId": "015385b1-6977-4cd0-ada7-1b32afd9c0a3",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "5e1e94d2-8490-49ca-8535-a5b27fc0ed49"
+    },
+    {
+      "name": "09-spectrogram.png",
+      "sha256": "c45efdf1d007f96bd6f91bcab6dde0cd8f1a553c1c840f8ffaecda5daa8ee95e",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/c31742b7-4e0e-4fdc-b805-284528a5d34f.cache",
+        "bytes": 98557,
+        "mediaType": "image/png",
+        "cacheId": "c31742b7-4e0e-4fdc-b805-284528a5d34f",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "867ea0c5-c2a6-41c0-94f6-ad4ea60a3215",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 867ea0c5-c2a6-41c0-94f6-ad4ea60a3215 | generation 1",
+          "tap {\"target\":{\"kind\":\"clip\",\"id\":\"clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3\"},\"point\":{\"kind\":\"dry\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "d4f94c4c-3819-45be-ab2c-7bbb67332107",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "2036aa39-e9c0-4ce9-ab5a-9dcd1b4baea1"
+    },
+    {
+      "name": "10-waveform.json",
+      "sha256": "70b039003a7bd38944fa870294d807e146eb66664f45323b4e1da24084531309",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:4"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/d91a90fb-9de3-4b10-918d-a1149d88f8d9.cache",
+        "bytes": 113649,
+        "mediaType": "application/json",
+        "cacheId": "d91a90fb-9de3-4b10-918d-a1149d88f8d9",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "a63824d6-31be-43af-8054-3c77938c195d",
+          "generation": 1
+        }
+      },
+      "jobId": "06259102-f86d-45ee-b5d1-3659da8f860d"
+    },
+    {
+      "name": "11-waveform.png",
+      "sha256": "1859b6ec644841b30115fc8e01298722a07b7f64ea30bd5b0084d712f703927a",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:4"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/f2df8498-6227-4c15-9c44-2e7cc099ca45.cache",
+        "bytes": 89707,
+        "mediaType": "image/png",
+        "cacheId": "f2df8498-6227-4c15-9c44-2e7cc099ca45",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "a63824d6-31be-43af-8054-3c77938c195d",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio a63824d6-31be-43af-8054-3c77938c195d | generation 1",
+          "tap {\"target\":{\"kind\":\"clip\",\"id\":\"clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:4\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 3.1500000000000004,
+        "measurements": {
+          "jobId": "06259102-f86d-45ee-b5d1-3659da8f860d",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "7dd5f545-2035-4bab-b909-1248e3e591d1"
+    },
+    {
+      "name": "12-spectrogram.png",
+      "sha256": "4826987294f0138c87ea566b473d1282df91e32f9612e77a55d5c9267ddc5d24",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:4"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/7ae4a165-748d-43cd-a9c6-b51dce1795cc.cache",
+        "bytes": 100310,
+        "mediaType": "image/png",
+        "cacheId": "7ae4a165-748d-43cd-a9c6-b51dce1795cc",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "6dc06004-0745-4f41-b274-6f4b2896bd2b",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 6dc06004-0745-4f41-b274-6f4b2896bd2b | generation 1",
+          "tap {\"target\":{\"kind\":\"clip\",\"id\":\"clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:4\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "716a6c8f-931c-4f9a-81fd-f75287352c7f",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "f861f4e1-a7b2-46a6-8df2-9a3f760139b4"
+    },
+    {
+      "name": "13-waveform.json",
+      "sha256": "fbca86e91311916c9279eaf2020240959b820204d3ee681445bcd7ae66bfd508",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/743cf6e1-8628-4e91-8b3a-5459dd8ebcdc.cache",
+        "bytes": 115192,
+        "mediaType": "application/json",
+        "cacheId": "743cf6e1-8628-4e91-8b3a-5459dd8ebcdc",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "750f75fa-3598-4321-9288-ed93ee779a89",
+          "generation": 1
+        }
+      },
+      "jobId": "b37f23d4-419d-49dd-a50b-a9a546450030"
+    },
+    {
+      "name": "14-waveform.png",
+      "sha256": "4cb8cc302d812e7a9b852b6a679a10c0772168b520dc818dd8336a8fb443d253",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/268ebe32-b573-4f8d-ae57-782868cde3e2.cache",
+        "bytes": 88880,
+        "mediaType": "image/png",
+        "cacheId": "268ebe32-b573-4f8d-ae57-782868cde3e2",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "750f75fa-3598-4321-9288-ed93ee779a89",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 750f75fa-3598-4321-9288-ed93ee779a89 | generation 1",
+          "tap {\"target\":{\"kind\":\"clip\",\"id\":\"clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3\"},\"point\":{\"kind\":\"processed\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 1.5750000000000002,
+        "measurements": {
+          "jobId": "b37f23d4-419d-49dd-a50b-a9a546450030",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "a8f8949b-9316-47b1-9b23-8e0834956b3e"
+    },
+    {
+      "name": "15-spectrogram.png",
+      "sha256": "fc60d5d2d67ba2c6dd66346b6df6b8da8f1bd1dccc004a91c6e2f13ce5d63f65",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/4cf69711-46c0-4f4b-b749-dc2c241896fa.cache",
+        "bytes": 98891,
+        "mediaType": "image/png",
+        "cacheId": "4cf69711-46c0-4f4b-b749-dc2c241896fa",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "64beaf15-1126-42e6-9873-4704e7c27d51",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 64beaf15-1126-42e6-9873-4704e7c27d51 | generation 1",
+          "tap {\"target\":{\"kind\":\"clip\",\"id\":\"clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "3a23d369-328b-4ce1-aefa-b7e0f4185b9e",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "e92dd37f-c932-4468-8489-3baf1d8e12c0"
+    },
+    {
+      "name": "16-waveform.json",
+      "sha256": "8aac10962c9e5d09910ae03a60cfa6ebadf2d99369af0a690b9c77714a53c826",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/608678d5-ed6d-4823-8732-555d2acd7291.cache",
+        "bytes": 115188,
+        "mediaType": "application/json",
+        "cacheId": "608678d5-ed6d-4823-8732-555d2acd7291",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "26999ac5-29be-48d8-99b6-4995be9ef8b1",
+          "generation": 1
+        }
+      },
+      "jobId": "3e147046-3e91-4e13-8e47-09ced496b121"
+    },
+    {
+      "name": "17-waveform.png",
+      "sha256": "48c6c2798169d4e7c422c604ea8fd7e2815e553a41e90be711e29e14959a3606",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/85910d5f-d5ec-4ee9-abe3-ccd65d12ad40.cache",
+        "bytes": 88323,
+        "mediaType": "image/png",
+        "cacheId": "85910d5f-d5ec-4ee9-abe3-ccd65d12ad40",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "26999ac5-29be-48d8-99b6-4995be9ef8b1",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 26999ac5-29be-48d8-99b6-4995be9ef8b1 | generation 1",
+          "tap {\"target\":{\"kind\":\"track\",\"id\":\"track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2\"},\"point\":{\"kind\":\"dry\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 1.5750000000000002,
+        "measurements": {
+          "jobId": "3e147046-3e91-4e13-8e47-09ced496b121",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "5c9e43bd-5dab-4251-8b06-8865266a052e"
+    },
+    {
+      "name": "18-spectrogram.png",
+      "sha256": "b56fdf7316b53c62125fd1a82b8634f6a7dd62ed7c08abe54daf51b733b525c9",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/de390ee6-fe0b-4cdc-bd34-2bbd936d53ce.cache",
+        "bytes": 98683,
+        "mediaType": "image/png",
+        "cacheId": "de390ee6-fe0b-4cdc-bd34-2bbd936d53ce",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "eb13ef76-0698-4a08-a071-5577a90e9999",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio eb13ef76-0698-4a08-a071-5577a90e9999 | generation 1",
+          "tap {\"target\":{\"kind\":\"track\",\"id\":\"track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2\"},\"point\":{\"kind\":\"dry\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "e2f87086-199c-4b80-b5c5-112f14e1a483",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "075d824e-70f3-449e-8ea1-96fb4a81e34b"
+    },
+    {
+      "name": "19-waveform.json",
+      "sha256": "0aac90e31375c51c15f56018c04daa7b8b0f5e8252de8ebf60d48f120fbd5cf3",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:7"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/685b0ffc-9221-472e-874f-ac4c42255e99.cache",
+        "bytes": 109218,
+        "mediaType": "application/json",
+        "cacheId": "685b0ffc-9221-472e-874f-ac4c42255e99",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "28d97a56-2188-42e3-8d8e-abff723f8c88",
+          "generation": 1
+        }
+      },
+      "jobId": "4609b673-c7fa-4856-b312-f36d7b3175fa"
+    },
+    {
+      "name": "20-waveform.png",
+      "sha256": "c3168c96191965b25dbf0e3445b2762188028abf6553f0447b4eb2cd6336a5bf",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:7"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/53d3b221-9793-45ba-b838-f2fbc35c4284.cache",
+        "bytes": 88645,
+        "mediaType": "image/png",
+        "cacheId": "53d3b221-9793-45ba-b838-f2fbc35c4284",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "28d97a56-2188-42e3-8d8e-abff723f8c88",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 28d97a56-2188-42e3-8d8e-abff723f8c88 | generation 1",
+          "tap {\"target\":{\"kind\":\"track\",\"id\":\"track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:7\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 12.600000000000001,
+        "measurements": {
+          "jobId": "4609b673-c7fa-4856-b312-f36d7b3175fa",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "eee183a8-14fe-44af-977e-1700666291cd"
+    },
+    {
+      "name": "21-spectrogram.png",
+      "sha256": "899d6649effc8edefdd0d1cf29a72fa2bc7c34ebf693e4e4232d4ec47b600183",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:7"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/d1a37c3f-82f0-4ba0-9f05-9bd9321189c4.cache",
+        "bytes": 100525,
+        "mediaType": "image/png",
+        "cacheId": "d1a37c3f-82f0-4ba0-9f05-9bd9321189c4",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "f300e397-6242-4b2e-8f5f-c4906535a915",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio f300e397-6242-4b2e-8f5f-c4906535a915 | generation 1",
+          "tap {\"target\":{\"kind\":\"track\",\"id\":\"track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:7\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "588887a3-15db-4cfa-8a7b-d31e88c9baa3",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "fb46db70-22fb-4138-ba38-e21d7314c37d"
+    },
+    {
+      "name": "22-waveform.json",
+      "sha256": "7f3d55058da5d11509133c2d9051df677d555a679d08e20abb4d4ebd7823ab91",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/83ac468c-b8bf-4192-b5a0-c180f4985b73.cache",
+        "bytes": 111223,
+        "mediaType": "application/json",
+        "cacheId": "83ac468c-b8bf-4192-b5a0-c180f4985b73",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "7e2e794a-35cd-4cf3-8a64-a7a8a3928bb8",
+          "generation": 1
+        }
+      },
+      "jobId": "3fb5ea30-a951-4ff5-a1c1-d637eddb946c"
+    },
+    {
+      "name": "23-waveform.png",
+      "sha256": "d43c44b839e22ed07a0653dbabfbf315caf55e365610643effc2198bdc7e40e7",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/c6b65836-59f6-49f8-8722-a25006c4c3b6.cache",
+        "bytes": 87177,
+        "mediaType": "image/png",
+        "cacheId": "c6b65836-59f6-49f8-8722-a25006c4c3b6",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "7e2e794a-35cd-4cf3-8a64-a7a8a3928bb8",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 7e2e794a-35cd-4cf3-8a64-a7a8a3928bb8 | generation 1",
+          "tap {\"target\":{\"kind\":\"track\",\"id\":\"track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2\"},\"point\":{\"kind\":\"processed\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 6.300000000000001,
+        "measurements": {
+          "jobId": "3fb5ea30-a951-4ff5-a1c1-d637eddb946c",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "7a4a6aa8-be63-4977-b9a7-4b6b0040a712"
+    },
+    {
+      "name": "24-spectrogram.png",
+      "sha256": "8756467049c3c30fd48b93ac158c4e2226a2232ab42a1eb0c89c0a335871c959",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "track",
+            "id": "track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/70f84cc6-fa1b-45ac-8449-bf456e2b1dbf.cache",
+        "bytes": 99297,
+        "mediaType": "image/png",
+        "cacheId": "70f84cc6-fa1b-45ac-8449-bf456e2b1dbf",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "fca110bf-ee0d-4620-9261-0a3c868ef6f8",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio fca110bf-ee0d-4620-9261-0a3c868ef6f8 | generation 1",
+          "tap {\"target\":{\"kind\":\"track\",\"id\":\"track:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:2\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "c32a11c9-9ee5-4520-8d50-f93b30d73767",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "b516cd37-96e4-432a-bf4a-cdff8c66628e"
+    },
+    {
+      "name": "25-waveform.json",
+      "sha256": "07c8671b4f1f3b536051e69f0119f8b4c016507934afd21c2e68e60904c51cd7",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/c6e7e774-b7cb-47b4-9bf6-50dea50d48d1.cache",
+        "bytes": 111217,
+        "mediaType": "application/json",
+        "cacheId": "c6e7e774-b7cb-47b4-9bf6-50dea50d48d1",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "489a3cb3-e726-4045-8485-be7236d6d3fb",
+          "generation": 1
+        }
+      },
+      "jobId": "fe0de464-a8c9-4e28-b056-d44a750c5b25"
+    },
+    {
+      "name": "26-waveform.png",
+      "sha256": "22ff2400c7f819748cc6008cd05d43318bafe1953a4e5999bfeaa3dfb80020b3",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/4755632f-07a4-458e-9a3e-d306f14b749e.cache",
+        "bytes": 87294,
+        "mediaType": "image/png",
+        "cacheId": "4755632f-07a4-458e-9a3e-d306f14b749e",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "489a3cb3-e726-4045-8485-be7236d6d3fb",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 489a3cb3-e726-4045-8485-be7236d6d3fb | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1\"},\"point\":{\"kind\":\"dry\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 6.300000000000001,
+        "measurements": {
+          "jobId": "fe0de464-a8c9-4e28-b056-d44a750c5b25",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "d0f1442f-76ae-49c1-9f79-35cdf3ae43bd"
+    },
+    {
+      "name": "27-spectrogram.png",
+      "sha256": "b8cbc8f2ec0349f6b46fb4a51a164288fa98e8a51b1c15a0c8f74f4be76ccda4",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/96607a06-6cef-4383-931b-d0d517509730.cache",
+        "bytes": 98891,
+        "mediaType": "image/png",
+        "cacheId": "96607a06-6cef-4383-931b-d0d517509730",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "ade03edd-23e2-49c9-9624-5ca567ba6752",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio ade03edd-23e2-49c9-9624-5ca567ba6752 | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1\"},\"point\":{\"kind\":\"dry\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "56907e08-1585-48c0-9ece-400edcc26fa1",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "85b64bb6-7b5b-4620-8b3c-6628bd2bea18"
+    },
+    {
+      "name": "28-waveform.json",
+      "sha256": "1f1fc8bf7c15670e7da781d3cbb64a94bde5a4726585e98c5b17dc1758cfb911",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:10"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/31d150fe-5202-46c8-b9b9-bfa0683ff268.cache",
+        "bytes": 102921,
+        "mediaType": "application/json",
+        "cacheId": "31d150fe-5202-46c8-b9b9-bfa0683ff268",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "8a4f63e7-76de-498a-b650-380b6eee51d3",
+          "generation": 1
+        }
+      },
+      "jobId": "0b54fbef-c923-4fda-b777-7ee0079512e2"
+    },
+    {
+      "name": "29-waveform.png",
+      "sha256": "6a9f89ff1fe4b9ee7fe262e3489fe1fe1dbea21dafe5e0bb69880556cbb1db0f",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:10"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/3eb36617-772e-46d7-96f0-195d1fe5f4a3.cache",
+        "bytes": 88741,
+        "mediaType": "image/png",
+        "cacheId": "3eb36617-772e-46d7-96f0-195d1fe5f4a3",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "8a4f63e7-76de-498a-b650-380b6eee51d3",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 8a4f63e7-76de-498a-b650-380b6eee51d3 | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:10\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 100.80000000000001,
+        "measurements": {
+          "jobId": "0b54fbef-c923-4fda-b777-7ee0079512e2",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "732e4cf1-8de8-4697-b645-0aa1db5c1345"
+    },
+    {
+      "name": "30-spectrogram.png",
+      "sha256": "36ec31e0f6ccb178ef5354ab500f2589fc54d600cbc77ed59a4d7067446f56ec",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:10"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/c51b1599-614e-47d4-a825-e1d05490dfd4.cache",
+        "bytes": 100553,
+        "mediaType": "image/png",
+        "cacheId": "c51b1599-614e-47d4-a825-e1d05490dfd4",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "d9b74934-9467-44c7-b958-e41db7e9827f",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio d9b74934-9467-44c7-b958-e41db7e9827f | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:10\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "7e3e3070-2705-40e4-8b9f-3246db419d2b",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "32de302c-7d8e-475c-a08a-686f4a843746"
+    },
+    {
+      "name": "31-waveform.json",
+      "sha256": "dfcd28cef1df8f556f92d2e4d2a6354d04988bd46c98c985fcf73e0a0807c3a6",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/5437cf72-b940-46e4-b3a5-8b82883a6477.cache",
+        "bytes": 104924,
+        "mediaType": "application/json",
+        "cacheId": "5437cf72-b940-46e4-b3a5-8b82883a6477",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "1e9b4332-0074-4965-9ae1-5c52f3db381a",
+          "generation": 1
+        }
+      },
+      "jobId": "8208f15c-52f5-49b9-bccc-37ffa8bcb637"
+    },
+    {
+      "name": "32-waveform.png",
+      "sha256": "70003f08074e480a34f0fdd4275439b1e985028d1108f86ee86dca2698e01d26",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/0a50052f-7687-45b0-a7ee-50ab7c476715.cache",
+        "bytes": 88671,
+        "mediaType": "image/png",
+        "cacheId": "0a50052f-7687-45b0-a7ee-50ab7c476715",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "1e9b4332-0074-4965-9ae1-5c52f3db381a",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 1e9b4332-0074-4965-9ae1-5c52f3db381a | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1\"},\"point\":{\"kind\":\"processed\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 50.400000000000006,
+        "measurements": {
+          "jobId": "8208f15c-52f5-49b9-bccc-37ffa8bcb637",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "b02f6570-13b1-4a24-9ede-2f954b985450"
+    },
+    {
+      "name": "33-spectrogram.png",
+      "sha256": "b8dfb70daffeffeb8c6f7bc7e13d80c994b576c74c600e8630b7502fc4b93aad",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/71affa15-89f7-4ad4-8014-9f4a0a861c5a.cache",
+        "bytes": 99363,
+        "mediaType": "image/png",
+        "cacheId": "71affa15-89f7-4ad4-8014-9f4a0a861c5a",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "b5852ad3-7bff-49ab-8432-2b83d2c7ffa6",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio b5852ad3-7bff-49ab-8432-2b83d2c7ffa6 | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:1\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "6cf8e36f-c10b-41ec-ab87-c57033de97f4",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "183b1f7b-0569-45ea-b6d6-2cd09bbb4018"
+    },
+    {
+      "name": "34-waveform.json",
+      "sha256": "b1cd9ec55c1dbbe3af825fe6ca0d20d0bf4ecea2fbb40d54be5ee694954e7f4a",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/6a91b44c-5b73-45a7-b528-6e1e5d6f9c8a.cache",
+        "bytes": 104918,
+        "mediaType": "application/json",
+        "cacheId": "6a91b44c-5b73-45a7-b528-6e1e5d6f9c8a",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "65d23f51-fb5e-424d-a3e4-37858fd4b33c",
+          "generation": 1
+        }
+      },
+      "jobId": "331de3c6-c8b6-487a-883b-801e415c2580"
+    },
+    {
+      "name": "35-waveform.png",
+      "sha256": "fe93ca080f152aacb34a45d94b96579674db4c112168b8a12121c195bb9e6b4f",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/1659256e-7045-4b4b-9f00-4e3439e7f757.cache",
+        "bytes": 87970,
+        "mediaType": "image/png",
+        "cacheId": "1659256e-7045-4b4b-9f00-4e3439e7f757",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "65d23f51-fb5e-424d-a3e4-37858fd4b33c",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 65d23f51-fb5e-424d-a3e4-37858fd4b33c | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0\"},\"point\":{\"kind\":\"dry\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 50.400000000000006,
+        "measurements": {
+          "jobId": "331de3c6-c8b6-487a-883b-801e415c2580",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "27f8b87b-a347-44ef-9d6d-b679173c2dc5"
+    },
+    {
+      "name": "36-spectrogram.png",
+      "sha256": "a0e98fab2910be850ff8a28d10b8691d9f58eba9e9ca46f37a07c7076be14d4a",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/aaca8cd6-fa22-44ec-bc95-a13bcc8c23eb.cache",
+        "bytes": 98900,
+        "mediaType": "image/png",
+        "cacheId": "aaca8cd6-fa22-44ec-bc95-a13bcc8c23eb",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "15f9b96e-c0e0-493c-8042-ea75d1567d7b",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 15f9b96e-c0e0-493c-8042-ea75d1567d7b | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0\"},\"point\":{\"kind\":\"dry\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "efcc6f14-8c0b-4e61-983e-20795cf09dfd",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "771e4e14-6aa9-4dd0-8ce8-3cbf4d71b87d"
+    },
+    {
+      "name": "37-waveform.json",
+      "sha256": "7dd3b4d6bcd38554a5b8918eda53df3cb3edeae55b6de70ef123b5776d357855",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:13"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/4583edb0-06ad-42da-b894-afd145de5363.cache",
+        "bytes": 95457,
+        "mediaType": "application/json",
+        "cacheId": "4583edb0-06ad-42da-b894-afd145de5363",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "111aa99a-b125-4be0-b0a5-33b3b54c7015",
+          "generation": 1
+        }
+      },
+      "jobId": "04c1e1f2-aeba-4902-bb31-a9ea4c3170e0"
+    },
+    {
+      "name": "38-waveform.png",
+      "sha256": "afdd0ef8ba8a6805adc21fd7ec191c50869a5b278489a27e3433e8cba6a9df3f",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:13"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/50f26102-cb1e-4e83-8f20-f60b7d1a28bb.cache",
+        "bytes": 92705,
+        "mediaType": "image/png",
+        "cacheId": "50f26102-cb1e-4e83-8f20-f60b7d1a28bb",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "111aa99a-b125-4be0-b0a5-33b3b54c7015",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 111aa99a-b125-4be0-b0a5-33b3b54c7015 | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:13\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 1612.8000000000002,
+        "measurements": {
+          "jobId": "04c1e1f2-aeba-4902-bb31-a9ea4c3170e0",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "52cd45db-2a56-4dff-bdf5-9d04d23a0dba"
+    },
+    {
+      "name": "39-spectrogram.png",
+      "sha256": "48f0527ca1a0c63653af63aaa56ca260a26ae0a0f429b67206f6316d2e6f081e",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:13"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/e64d1ba6-bde7-415f-bcd0-045970db2235.cache",
+        "bytes": 100762,
+        "mediaType": "image/png",
+        "cacheId": "e64d1ba6-bde7-415f-bcd0-045970db2235",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "786d944b-0cc5-49e4-8223-f0e1a0937e26",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 786d944b-0cc5-49e4-8223-f0e1a0937e26 | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:13\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "1489ec91-bab4-4b5c-bd96-a2a126e19087",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "703c160e-9623-4451-a88f-e02956511bab"
+    },
+    {
+      "name": "40-waveform.json",
+      "sha256": "12a14cc35c08d8347d1683a48e42affc447403797be47acef1d34250fe75273d",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/78349059-41ae-44d5-a34b-ad011aae369a.cache",
+        "bytes": 96994,
+        "mediaType": "application/json",
+        "cacheId": "78349059-41ae-44d5-a34b-ad011aae369a",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "4aedbe0a-624a-4f81-8e03-60976e2c383e",
+          "generation": 1
+        }
+      },
+      "jobId": "aeac8252-2cea-4ca7-bd8a-e6dcbff2c634"
+    },
+    {
+      "name": "41-waveform.png",
+      "sha256": "cfd2f0306aa281b3c831fbe4d031dd9ef7d934092302b5cc025ee9899054167d",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/a918c96e-4db7-42f4-90c7-dba0638b77da.cache",
+        "bytes": 88429,
+        "mediaType": "image/png",
+        "cacheId": "a918c96e-4db7-42f4-90c7-dba0638b77da",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "4aedbe0a-624a-4f81-8e03-60976e2c383e",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 4aedbe0a-624a-4f81-8e03-60976e2c383e | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0\"},\"point\":{\"kind\":\"processed\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 806.4000000000001,
+        "measurements": {
+          "jobId": "aeac8252-2cea-4ca7-bd8a-e6dcbff2c634",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "5e1184e6-37b6-4d3d-a221-074720e589b0"
+    },
+    {
+      "name": "42-spectrogram.png",
+      "sha256": "63db6578fe45c39abead22d3ea75b7e9764d255678ee5f750552d86193f406c0",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "group",
+            "id": "group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/271947f7-7afb-43b5-a4cf-a0c4a6ea70dd.cache",
+        "bytes": 99301,
+        "mediaType": "image/png",
+        "cacheId": "271947f7-7afb-43b5-a4cf-a0c4a6ea70dd",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "10a958a5-9e5c-4c24-a9d2-c8fb29badded",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 10a958a5-9e5c-4c24-a9d2-c8fb29badded | generation 1",
+          "tap {\"target\":{\"kind\":\"group\",\"id\":\"group:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:0\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "24708a9f-1c20-45aa-8975-26003d12490a",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "3ae27cae-a5dd-4484-9628-f710f4866f9c"
+    },
+    {
+      "name": "43-waveform.json",
+      "sha256": "5a9ab6d2d1349ba3b0eb2b5ff5a71d0a0a3d4541229a2fe54d2c72650e3df07c",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/15eab808-2cd3-4bef-a956-8187fba74304.cache",
+        "bytes": 96909,
+        "mediaType": "application/json",
+        "cacheId": "15eab808-2cd3-4bef-a956-8187fba74304",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "f4eaa884-99fb-48a4-b059-8070c32ca494",
+          "generation": 1
+        }
+      },
+      "jobId": "6031e66c-5ee2-44a2-a68a-cddd9e401c0a"
+    },
+    {
+      "name": "44-waveform.png",
+      "sha256": "e5460034339e497276c77bd0771dfecd7faf5ffd0bbcfc4664d9b6f7b2589c02",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/55847a2d-4284-475d-a3f8-41bcd87f2ae7.cache",
+        "bytes": 82095,
+        "mediaType": "image/png",
+        "cacheId": "55847a2d-4284-475d-a3f8-41bcd87f2ae7",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "f4eaa884-99fb-48a4-b059-8070c32ca494",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio f4eaa884-99fb-48a4-b059-8070c32ca494 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"dry\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 806.4000000000001,
+        "measurements": {
+          "jobId": "6031e66c-5ee2-44a2-a68a-cddd9e401c0a",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "1e188125-3071-4ebf-b33e-ba1981d0e3d9"
+    },
+    {
+      "name": "45-spectrogram.png",
+      "sha256": "c4d5989978f66bd40340ad97031cf9e7a69edd4147cb1b36ca4a94452d6c7d36",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/204b4245-f56c-4cde-8613-f39c60aa35db.cache",
+        "bytes": 93196,
+        "mediaType": "image/png",
+        "cacheId": "204b4245-f56c-4cde-8613-f39c60aa35db",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "848352c5-dcae-4373-b310-310ce6998a04",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 848352c5-dcae-4373-b310-310ce6998a04 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"dry\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "cdb7c725-a03a-4ca5-b25f-4516e6a3e394",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "36b7c39f-4b35-4876-83f9-5ab3cdfba5ff"
+    },
+    {
+      "name": "46-waveform.json",
+      "sha256": "c0a8c9acfd6e8d76f99e8aed36f665b557d1a231ed4b3ce5bf87bca67e50fe1c",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:16"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/837bdba1-2bf0-4a85-8c9a-ae4af8a018d2.cache",
+        "bytes": 87681,
+        "mediaType": "application/json",
+        "cacheId": "837bdba1-2bf0-4a85-8c9a-ae4af8a018d2",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "f52f745c-0450-41c0-9760-c15687af35f3",
+          "generation": 1
+        }
+      },
+      "jobId": "88a8c7b5-9730-4fa1-bb73-d42edb8c9c3a"
+    },
+    {
+      "name": "47-waveform.png",
+      "sha256": "fe03ad615823443c47f552f594a5dbe2c15ea68f8ec52dc9e900da9a42d4c919",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:16"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/f32fe196-5158-4d12-b7fa-45a3a22272f8.cache",
+        "bytes": 94589,
+        "mediaType": "image/png",
+        "cacheId": "f32fe196-5158-4d12-b7fa-45a3a22272f8",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "f52f745c-0450-41c0-9760-c15687af35f3",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio f52f745c-0450-41c0-9760-c15687af35f3 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:16\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 51609.600000000006,
+        "measurements": {
+          "jobId": "88a8c7b5-9730-4fa1-bb73-d42edb8c9c3a",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "9f51c49b-704f-412c-a256-7ee1b04b5d04"
+    },
+    {
+      "name": "48-spectrogram.png",
+      "sha256": "c0f604fe0cb6b1b05c20e661ac3012939025685ee1797f694111243761e79d8c",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:16"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/4ebe699e-18fe-4db8-822f-0d4670748248.cache",
+        "bytes": 100447,
+        "mediaType": "image/png",
+        "cacheId": "4ebe699e-18fe-4db8-822f-0d4670748248",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "3cea3495-db2e-4865-b4bd-5c5d96d36fdc",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 3cea3495-db2e-4865-b4bd-5c5d96d36fdc | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:16\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "068104e3-7221-48b5-bd7e-fdd9dacd6eba",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "b1b338a6-3b2f-422f-9fa2-858a5505e2c7"
+    },
+    {
+      "name": "49-waveform.json",
+      "sha256": "626720dd10dea7728fbad9ffbeebbf901a684e8b9cdbc0abb0a5099da0c36c8b",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/8888762d-9b05-491a-9539-096be6271368.cache",
+        "bytes": 88054,
+        "mediaType": "application/json",
+        "cacheId": "8888762d-9b05-491a-9539-096be6271368",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "d3dda395-c592-4f13-9e85-87d4abafa041",
+          "generation": 1
+        }
+      },
+      "jobId": "1f2f286b-6870-4028-8654-626ddf801bb8"
+    },
+    {
+      "name": "50-waveform.png",
+      "sha256": "0a219eedbe13e570768e872cd9de47caf30a2ad6c2f27ed79c2344bd597bc920",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/90848ebe-853d-4d2c-9267-738622008b25.cache",
+        "bytes": 87609,
+        "mediaType": "image/png",
+        "cacheId": "90848ebe-853d-4d2c-9267-738622008b25",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "d3dda395-c592-4f13-9e85-87d4abafa041",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio d3dda395-c592-4f13-9e85-87d4abafa041 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 25804.800000000003,
+        "measurements": {
+          "jobId": "1f2f286b-6870-4028-8654-626ddf801bb8",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "9ec737a8-3287-4e9c-89e1-28404300b2f3"
+    },
+    {
+      "name": "51-spectrogram.png",
+      "sha256": "c5968a6e9cbca0119e19014ad6b42331b187b2630039592300bf2a0b134864ac",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/59d92400-ceef-48ed-84ea-7756f2c4a69f.cache",
+        "bytes": 93396,
+        "mediaType": "image/png",
+        "cacheId": "59d92400-ceef-48ed-84ea-7756f2c4a69f",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "8dd8151f-0aba-4859-8e7c-a11f5f977c32",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 8dd8151f-0aba-4859-8e7c-a11f5f977c32 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "e329414a-5d0b-463c-8667-70b4b7bd5b54",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "69ea6fc8-0533-4980-aada-ff69092f9d19"
+    },
+    {
+      "name": "52-waveform.json",
+      "sha256": "10086aa2ea72f74bfeb33378f41f21b1ac5b1e3885429577be198e073b50e67c",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/7c386b4e-7482-42c7-bb4e-5435d6e7f4ea.cache",
+        "bytes": 114489,
+        "mediaType": "application/json",
+        "cacheId": "7c386b4e-7482-42c7-bb4e-5435d6e7f4ea",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 49,
+          "bucketCount": 458
+        },
+        "bucketFrames": 49,
+        "bucketCount": 458,
+        "audio": {
+          "jobId": "66e152da-50c8-4f0f-8b3b-7bff7b85b336",
+          "generation": 1
+        }
+      },
+      "jobId": "2ae89595-ba4f-495e-8538-9b391bc72229"
+    },
+    {
+      "name": "53-waveform.png",
+      "sha256": "31a43fadbb18c2f04b1c0333c673e773bd810ede041e0823b79dd9f76d989375",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/8844bf92-1c33-434e-9b50-8028a08366f6.cache",
+        "bytes": 81561,
+        "mediaType": "image/png",
+        "cacheId": "8844bf92-1c33-434e-9b50-8028a08366f6",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 49,
+          "bucketCount": 458
+        },
+        "bucketFrames": 49,
+        "bucketCount": 458,
+        "audio": {
+          "jobId": "66e152da-50c8-4f0f-8b3b-7bff7b85b336",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "asset d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab | stream track:1",
+          "audio 66e152da-50c8-4f0f-8b3b-7bff7b85b336 | generation 1",
+          "support c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 1,
+        "measurements": {
+          "jobId": "2ae89595-ba4f-495e-8538-9b391bc72229",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "e5188a1f-d444-42af-b725-99078d53edc9"
+    },
+    {
+      "name": "54-spectrogram.png",
+      "sha256": "c5968a6e9cbca0119e19014ad6b42331b187b2630039592300bf2a0b134864ac",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/59d92400-ceef-48ed-84ea-7756f2c4a69f.cache",
+        "bytes": 93396,
+        "mediaType": "image/png",
+        "cacheId": "59d92400-ceef-48ed-84ea-7756f2c4a69f",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "8dd8151f-0aba-4859-8e7c-a11f5f977c32",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 8dd8151f-0aba-4859-8e7c-a11f5f977c32 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "e329414a-5d0b-463c-8667-70b4b7bd5b54",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "69ea6fc8-0533-4980-aada-ff69092f9d19"
+    },
+    {
+      "name": "55-waveform.json",
+      "sha256": "c0d41e74f38847d2583ee288ff971c69ccdcccd88d25d44e3259320660e8bf5f",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "a3f4e5fd-b3ce-442d-bf21-c2ef037a46a7",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/5956808d-27f9-4342-91bf-a4c9b95ca229.cache",
+        "bytes": 101114,
+        "mediaType": "application/json",
+        "cacheId": "5956808d-27f9-4342-91bf-a4c9b95ca229",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "15ff500b-7e39-445d-a8a3-a9e98f7dd5df",
+          "generation": 1
+        }
+      },
+      "jobId": "5f39e590-596c-474c-a92a-246fe19f28d5"
+    },
+    {
+      "name": "56-waveform.png",
+      "sha256": "6a9c2b7f80f2bba79b7d5644d82ed07baf04b595a796f172c109832d764f6673",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "a3f4e5fd-b3ce-442d-bf21-c2ef037a46a7",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/1e917e00-0373-4b3b-95ba-874dc8819987.cache",
+        "bytes": 81247,
+        "mediaType": "image/png",
+        "cacheId": "1e917e00-0373-4b3b-95ba-874dc8819987",
+        "analysis": {
+          "kind": "waveform",
+          "bucketFrames": 48,
+          "bucketCount": 467
+        },
+        "bucketFrames": 48,
+        "bucketCount": 467,
+        "audio": {
+          "jobId": "15ff500b-7e39-445d-a8a3-a9e98f7dd5df",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision a3f4e5fd-b3ce-442d-bf21-c2ef037a46a7",
+          "audio 15ff500b-7e39-445d-a8a3-a9e98f7dd5df | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}}"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "amplitudeLimit": 201.60000000000002,
+        "measurements": {
+          "jobId": "5f39e590-596c-474c-a92a-246fe19f28d5",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "2e6154dd-91a9-4609-ba8d-dae60cb1be58"
+    },
+    {
+      "name": "57-spectrogram.png",
+      "sha256": "f1b31f60677618a2cdbe118c0d4744ce3b23c30a946d889dce754606cfa9a764",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "a3f4e5fd-b3ce-442d-bf21-c2ef037a46a7",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/67f94deb-c038-4643-9a67-2898adab5619.cache",
+        "bytes": 93581,
+        "mediaType": "image/png",
+        "cacheId": "67f94deb-c038-4643-9a67-2898adab5619",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "0a8b7600-c291-4a08-a4e9-fd33d9d11d87",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision a3f4e5fd-b3ce-442d-bf21-c2ef037a46a7",
+          "audio 0a8b7600-c291-4a08-a4e9-fd33d9d11d87 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "ae4b3ed9-66cd-46fe-8929-93f23540b13c",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "dad80276-e584-4f4b-b486-1da55303d701"
+    },
+    {
+      "name": "58-spectrogram.png",
+      "sha256": "c5968a6e9cbca0119e19014ad6b42331b187b2630039592300bf2a0b134864ac",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/59d92400-ceef-48ed-84ea-7756f2c4a69f.cache",
+        "bytes": 93396,
+        "mediaType": "image/png",
+        "cacheId": "59d92400-ceef-48ed-84ea-7756f2c4a69f",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "8dd8151f-0aba-4859-8e7c-a11f5f977c32",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 8dd8151f-0aba-4859-8e7c-a11f5f977c32 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "e329414a-5d0b-463c-8667-70b4b7bd5b54",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "69ea6fc8-0533-4980-aada-ff69092f9d19"
+    },
+    {
+      "name": "59-spectrogram.png",
+      "sha256": "e444425bbfe3d98e01086ba81fe49097af3f21d979e3cf2f99e8ee1894e0ff83",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-source-audio-v2",
+        "unavailable": [],
+        "domain": "source",
+        "assetId": "d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab",
+        "streamId": "track:1",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": []
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/f27be4b9-3dca-45cf-95ce-a076b3124072.cache",
+        "bytes": 95824,
+        "mediaType": "image/png",
+        "cacheId": "f27be4b9-3dca-45cf-95ce-a076b3124072",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "8a776550-33ee-4b63-a296-186d57030465",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "asset d65ead65ad2982966132b21f95c4b9d6ec1e0e9c6b0ad1d232565853807deeab | stream track:1",
+          "audio 8a776550-33ee-4b63-a296-186d57030465 | generation 1",
+          "support c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "a34d69ed-0a75-4004-bc7b-a854f459b906",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "295f112a-338f-4b55-9532-9fee71bc793b"
+    },
+    {
+      "name": "60-spectrogram.png",
+      "sha256": "c5968a6e9cbca0119e19014ad6b42331b187b2630039592300bf2a0b134864ac",
+      "metadata": {
+        "range": {
+          "startUs": 333333,
+          "endUs": 799999
+        },
+        "timeOriginUs": 0,
+        "sampleRange": {
+          "start": 15999,
+          "end": 38399
+        },
+        "sampleRate": 48000,
+        "channels": 2,
+        "layout": "stereo",
+        "implementationId": "native-composition-audio-v2",
+        "unavailable": [
+          {
+            "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+            "ranges": []
+          }
+        ],
+        "domain": "project",
+        "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+        "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "context": {
+          "range": {
+            "startUs": 330667,
+            "endUs": 800000
+          },
+          "sampleRange": {
+            "start": 15872,
+            "end": 38400
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:305ff2db37463297c3211210ce94b7b232988a9e04570b20a94d23ad22968f5a:3",
+              "ranges": []
+            }
+          ]
+        },
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acoustic-VTQDgG/library/cache/derived/59d92400-ceef-48ed-84ea-7756f2c4a69f.cache",
+        "bytes": 93396,
+        "mediaType": "image/png",
+        "cacheId": "59d92400-ceef-48ed-84ea-7756f2c4a69f",
+        "analysis": {
+          "kind": "spectrum",
+          "fftFrames": 512,
+          "hopFrames": 512,
+          "columnCount": 44
+        },
+        "audio": {
+          "jobId": "8dd8151f-0aba-4859-8e7c-a11f5f977c32",
+          "generation": 1
+        },
+        "width": 1240,
+        "height": 710,
+        "provenance": [
+          "project f2d28fb2-2f22-4bb5-886f-ea1c013df12f | revision bf0b41dd-fd0f-40b4-820a-7262b5b2aa57",
+          "audio 8dd8151f-0aba-4859-8e7c-a11f5f977c32 | generation 1",
+          "tap {\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}}",
+          "FFT 512 frames | hop 512 frames | hann window | clipped PCM support is zero-padded"
+        ],
+        "plotLeft": 92,
+        "plotWidth": 1080,
+        "plotTop": 164,
+        "panelHeight": 180,
+        "panelStride": 244,
+        "densityFloorDb": -120,
+        "densityCeilingDb": 0,
+        "measurements": {
+          "jobId": "e329414a-5d0b-463c-8667-70b4b7bd5b54",
+          "generation": 1
+        },
+        "imageImplementationId": "native-acoustic-image-v1"
+      },
+      "jobId": "69ea6fc8-0533-4980-aada-ff69092f9d19"
+    }
+  ],
+  "checks": {
+    "source": {
+      "absoluteImpulseSample": 30000,
+      "absoluteImpulseSeconds": 0.625,
+      "fullRangeBucketAgreement": true,
+      "independentTonePixels": true,
+      "imageAndJsonClockAgreement": true
+    },
+    "maskedFftContext": {
+      "displayUnavailable": [],
+      "contextUnavailable": [
+        {
+          "startUs": 496000,
+          "endUs": 500000
+        }
+      ],
+      "maskedImage": "06-spectrogram.png",
+      "cleanImage": "05-spectrogram.png"
+    },
+    "taps": [
+      {
+        "label": "voice-clip",
+        "mode": "dry",
+        "waveform": "08-waveform.png",
+        "spectrum": "09-spectrogram.png"
+      },
+      {
+        "label": "voice-clip",
+        "mode": "after-step",
+        "waveform": "11-waveform.png",
+        "spectrum": "12-spectrogram.png"
+      },
+      {
+        "label": "voice-clip",
+        "mode": "processed",
+        "waveform": "14-waveform.png",
+        "spectrum": "15-spectrogram.png"
+      },
+      {
+        "label": "voice",
+        "mode": "dry",
+        "waveform": "17-waveform.png",
+        "spectrum": "18-spectrogram.png"
+      },
+      {
+        "label": "voice",
+        "mode": "after-step",
+        "waveform": "20-waveform.png",
+        "spectrum": "21-spectrogram.png"
+      },
+      {
+        "label": "voice",
+        "mode": "processed",
+        "waveform": "23-waveform.png",
+        "spectrum": "24-spectrogram.png"
+      },
+      {
+        "label": "inner",
+        "mode": "dry",
+        "waveform": "26-waveform.png",
+        "spectrum": "27-spectrogram.png"
+      },
+      {
+        "label": "inner",
+        "mode": "after-step",
+        "waveform": "29-waveform.png",
+        "spectrum": "30-spectrogram.png"
+      },
+      {
+        "label": "inner",
+        "mode": "processed",
+        "waveform": "32-waveform.png",
+        "spectrum": "33-spectrogram.png"
+      },
+      {
+        "label": "outer",
+        "mode": "dry",
+        "waveform": "35-waveform.png",
+        "spectrum": "36-spectrogram.png"
+      },
+      {
+        "label": "outer",
+        "mode": "after-step",
+        "waveform": "38-waveform.png",
+        "spectrum": "39-spectrogram.png"
+      },
+      {
+        "label": "outer",
+        "mode": "processed",
+        "waveform": "41-waveform.png",
+        "spectrum": "42-spectrogram.png"
+      },
+      {
+        "label": "output",
+        "mode": "dry",
+        "waveform": "44-waveform.png",
+        "spectrum": "45-spectrogram.png"
+      },
+      {
+        "label": "output",
+        "mode": "after-step",
+        "waveform": "47-waveform.png",
+        "spectrum": "48-spectrogram.png"
+      },
+      {
+        "label": "output",
+        "mode": "processed",
+        "waveform": "50-waveform.png",
+        "spectrum": "51-spectrogram.png"
+      }
+    ],
+    "realImageCancelRetry": true,
+    "historyAfterHeadChange": true,
+    "restartPinnedBytes": true,
+    "renderWorkspaceClean": true
+  },
+  "nativeSha256": "228bd87918e5423d7e84df4da4a7bca65687a56f79b94aec891f9dc5969f74f8",
+  "project": {
+    "projectId": "f2d28fb2-2f22-4bb5-886f-ea1c013df12f",
+    "revisionId": "bf0b41dd-fd0f-40b4-820a-7262b5b2aa57"
+  }
+}
