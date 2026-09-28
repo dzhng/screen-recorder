@@ -33,7 +33,10 @@ Current pickup and priority:
    journeys, preserving cache-ready reads and explicit retries.
    [Combined worker checks](assets/15-pointer-integration/README.md) retain scoped
    geometry and non-pointer preservation; full color/profile acceptance stays open.
-2. Advance the unresolved media risks before adopting processors: speech
+2. Continue08 long-project A/V drift and remaining codec/rate conformance;
+   [physical-segment composition](assets/08-physical-segments/README.md) now passes
+   exact full/range/split checks after the converter buffer-state fix.
+   Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue
    other dependency-ready slices; these priorities do not remove later scope.

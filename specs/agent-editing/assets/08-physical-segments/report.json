@@ -1,0 +1,114 @@
+{
+  "workerSha256": "6cec4b732d3bf33405d1703927d9e786ad31d4ff180eab33e2e280095857602d",
+  "cases": [
+    {
+      "rate": 44100,
+      "sourceSha256": "a878fc75ac7096790b60334295976e83d0f6f2f619fa2c699c9667f8f4a7a8be",
+      "originUs": 1250000,
+      "fullPcmSha256": "e74c46fee7bb495e68163d1616837d790770dce7a8157562de7850b9e5cca6f6",
+      "frames": 48000,
+      "unavailable": [
+        {
+          "clipId": "clip",
+          "ranges": [
+            {
+              "end": 14400,
+              "start": 9600
+            },
+            {
+              "end": 28800,
+              "start": 19200
+            },
+            {
+              "end": 48000,
+              "start": 47999
+            }
+          ]
+        }
+      ],
+      "windows": [
+        {
+          "range": {
+            "startUs": 71,
+            "endUs": 199991
+          },
+          "sha256": "0743706bc1bd3b30941fb0aebb6a73b5c9d1717429a74410aebe0ecfdfae9f55",
+          "frames": 9596
+        },
+        {
+          "range": {
+            "startUs": 199997,
+            "endUs": 600013
+          },
+          "sha256": "dd351ef1186dbcacddcad2f8849bda55a1207f3d65a89ccb8a885c7025734499",
+          "frames": 19201
+        },
+        {
+          "range": {
+            "startUs": 610013,
+            "endUs": 999981
+          },
+          "sha256": "5f8a96e4eb450aca109dc84571af325b1dfbd5a74916d0cc5a6bf266ee452d1e",
+          "frames": 18719
+        }
+      ],
+      "splitExact": true,
+      "poisonExact": true
+    },
+    {
+      "rate": 48000,
+      "sourceSha256": "7c6d67738464393acb0b46afcc6377fc06a117c08457bbc20e9ef695ae50a2b1",
+      "originUs": 1250000,
+      "fullPcmSha256": "6e47ab519aa99cbd4b9518ec2c4cbad67c1154f0cf12f542cffeb453d2958d51",
+      "frames": 48000,
+      "unavailable": [
+        {
+          "clipId": "clip",
+          "ranges": [
+            {
+              "end": 14400,
+              "start": 9600
+            },
+            {
+              "end": 28800,
+              "start": 19200
+            },
+            {
+              "end": 48000,
+              "start": 47999
+            }
+          ]
+        }
+      ],
+      "windows": [
+        {
+          "range": {
+            "startUs": 71,
+            "endUs": 199991
+          },
+          "sha256": "587a9ba7ca94ec2189e5d6c5585d9d0a84286c50e419e3bd6bc1ea739893097b",
+          "frames": 9596
+        },
+        {
+          "range": {
+            "startUs": 199997,
+            "endUs": 600013
+          },
+          "sha256": "a841ee7a0b6f9aa36c415e6bbc1c730907601fa80217ac337ad803b77efe5306",
+          "frames": 19201
+        },
+        {
+          "range": {
+            "startUs": 610013,
+            "endUs": 999981
+          },
+          "sha256": "b3de50d6e869f69bfd779c4ee57522f22def9008de5746604b6a6e0ba7899031",
+          "frames": 18719
+        }
+      ],
+      "splitExact": true,
+      "poisonExact": true
+    }
+  ],
+  "passed": true
+}

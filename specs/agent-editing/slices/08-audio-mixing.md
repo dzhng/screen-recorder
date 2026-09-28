@@ -1,6 +1,6 @@
 # 08 — Independent audio mixing
 
-Status: native constant-gain execution and tested fractional unit-rate mapping pass; later09/11a public jobs, taps and large PCM delivery supply their scoped integration gates. [Current reconciliation](../assets/08-current-acceptance/README.md) records the combined-worker rerun. Broader composition codec/rate/segment-origin conformance, long-project drift and real-narration listening remain open. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
+Status: native constant-gain execution and tested fractional unit-rate mapping pass; later09/11a public jobs, taps and large PCM delivery supply their scoped integration gates. [Current reconciliation](../assets/08-current-acceptance/README.md) records the combined-worker rerun. [Physical-segment composition](../assets/08-physical-segments/README.md) passes at44.1/48kHz after a converter buffer-state fix. Broader codec/rate conformance, long-project drift and real-narration listening remain open. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
 
 ## Contract
 
@@ -45,19 +45,12 @@ affect retained output, while pure splits and late windows preserve samples.
 The tested unit-rate fractional mappings are verified; unknown rate-changing
 phase still requires prepared retiming and must not be inferred from those checks.
 
-[Mixed lossless-container evidence](../assets/08-lossless-containers/README.md)
-verifies AIFF mono and ALAC stereo overlap against every original WAV sample,
-including fractional windows and pure splits. This does not close broader codec,
-mixed-rate, segment-origin or listening acceptance.
-
-[Simultaneous44.1/48kHz evidence](../assets/08-mixed-rates/README.md) now proves
-actual overlapping resampling/mixing, exact fractional windows and pure splits.
-Other codec/segment combinations and listening remain open.
-
-[AAC/MP3 overlap](../assets/08-compressed-mix/README.md) matches selected-source
-decode and the tested fractional full/range slice. Encoded endpoints, other rate
-combinations, physical segments and real-narration listening remain open.
-
-[Compressed endpoint evidence](../assets/08-compressed-endpoints/README.md) verifies
-exact full/tail counts and final samples for the tested48kHz AAC/MP3 files.
-Physical segment-origin composition and listening are still open.
+[Lossless-container](../assets/08-lossless-containers/README.md),
+[simultaneous44.1/48kHz](../assets/08-mixed-rates/README.md),
+[AAC/MP3 overlap](../assets/08-compressed-mix/README.md),
+[compressed endpoints](../assets/08-compressed-endpoints/README.md) and
+[physical segment-origin composition](../assets/08-physical-segments/README.md)
+retain the measured format/rate coverage. The segment probe fixes a converter
+buffer-state defect while preserving full/range/split samples and excluded-input
+isolation; source and mixer regression suites pass. Broader rate/codec coverage,
+long-project A/V drift and real-narration listening remain open.

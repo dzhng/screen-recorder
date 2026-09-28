@@ -224,6 +224,9 @@ final class ConvertedAudioInterval {
                 let outcome = converter.convert(to: converted, error: &failure) { _, status in
                     input.next(status)
                 }
+                // convert replaces the buffer, including an empty end-of-stream result.
+                // A later mix call must not reuse the previous buffer's consumed offset.
+                offset = 0
                 if let error = input.failure { throw error }
                 if outcome == .endOfStream, converted.frameLength == 0,
                     frames - written <= paddingFrames, input.reachedSelectionEnd
@@ -243,7 +246,6 @@ final class ConvertedAudioInterval {
                     )
                 }
                 exhausted = outcome == .endOfStream
-                offset = 0
             }
             let count = min(frames - written, Int(converted.frameLength) - offset)
             let decoded = converted.floatChannelData![0]
