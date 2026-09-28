@@ -21,6 +21,11 @@ Its whole-utterance control has transcript provenance but no word times.
 Listening, independently protected whole-word joins and short-speech acceptance
 remain open; original reports/media remain historical evidence.
 
+The [short-input alternative experiment](../assets/13a-short-capability/README.md)
+finds a tone improvement with Rubber Band R3 short windows, but worse isolated
+endpoint peak displacement. This research-only candidate is not promoted; selected
+whole-word quality, licensing/adoption and the existing listening gate remain open.
+
 ## Contract and seam
 
 Prepare a selected PCM range into its exact declared output sample count without

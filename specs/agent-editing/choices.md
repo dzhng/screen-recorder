@@ -1992,3 +1992,19 @@ existing lifetime owner.
   permits independent clean controls without prescribing this clip. Future
   endpoint acceptance must retain this distinction; file boundaries are not
   automatically word boundaries.
+
+## Short stretch alternative research — 2026-09-28
+
+- **Choice:** Test Rubber Band as an explicit research candidate, without choosing
+  it automatically for short clips. A 10 ms selected sound may be accepted by this
+  engine even when the incumbent cannot process it, but exact duration and pitch
+  alone do not prove that a word beginning or ending survives. The existing engine
+  therefore stays the numerical candidate while endpoint and listening gates stay
+  open; no clip silently receives a different processing recipe.
+- **Gap:** The plan requires useful short edits but did not choose an alternative
+  engine or authorize a duration-based switch.
+- **Reach:** Future integration must resolve speech quality and distribution terms
+  before adopting this engine; scratch compilation does not add a product license
+  or runtime dependency.
+- **Verdict:** Sound, medium confidence. Preserve the measured short-tone gain and
+  endpoint regression together without converting either into product policy.
