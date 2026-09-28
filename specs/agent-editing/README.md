@@ -28,8 +28,7 @@ Continue [09 public preview/export](slices/09-first-preview.md). Its
 [cache retirement](assets/09-cache-retirement/README.md) and
 [shared render lifetime](assets/09-render-lifetime/README.md) are integrated.
 Native composition movie assembly, core admission and public preview are integrated
-through the existing jobs/cache/delivery owners. Finish retaining the live preview
-journey evidence, then integrate project exports through the same durable
+through the existing jobs/cache/delivery owners. The [live preview journey](assets/09-first-preview/README.md) passes. Integrate project exports through the same durable
 export-intent/publication owner. Do not translate compositions
 into recording spans or count state journeys as rendered-media acceptance.
 
@@ -96,7 +95,8 @@ Current evidence:
 - [08a derived cache](assets/08a-derived-cache/README.md): owner isolation/lifecycle
   checks, independent review and baseline controls pass; broad core deadlines remain explicitly red.
 - [09 public preview](assets/09-public-preview/README.md): service/protocol, CLI,
-  native preservation and blind skill checks pass; project exports remain open.
+  native preservation, blind skill and [live rendered journey](assets/09-first-preview/README.md)
+  checks pass; project exports remain open.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
   independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
   verifies profile conversion on the tested frames; encoding loss remains explicit.

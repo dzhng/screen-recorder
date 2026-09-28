@@ -28,5 +28,4 @@ review retains one owner per job, cache, render lifetime, assembly and delivery;
 this pass adds the compiler-to-native execution boundary and public routing.
 
 These checks do not establish voice naturalness, broader color/codec quality,
-long-project scale or durable project export. The live rendered journey is retained
-separately when its harness pass lands; slice 09 stays open until export acceptance.
+long-project scale or durable project export. The [live rendered journey](../09-first-preview/README.md) is retained separately; slice 09 stays open until export acceptance.
