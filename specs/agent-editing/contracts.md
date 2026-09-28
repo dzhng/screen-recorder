@@ -150,6 +150,16 @@ interval is clipped. The same applies at the preview end. Its leading picture ma
 therefore depend on a clip whose authored interval ended before the preview began. Rendering a short range must not restart keyframes, shift
 caption timing, or evaluate a different source sample from a full export.
 
+A media occurrence may bind an immutable `acquisitionId` separately from its byte
+asset/stream identity. Omission means physical file support only; it never selects
+an origin implicitly. Explicit capture support intersects physical support before
+the existing source/project and ancestor mapping, so rendering and evidence see the
+same unavailable intervals. Contexts retain raw provenance independently of donor
+projects. Split/trim/copy retain the binding; media replacement supplies a new
+binding, with omitted acquisition selecting physical support. Mismatched explicit
+bindings reject atomically. [10b](slices/10b-source-acquisition.md) owns adoption and
+this schema change; it is not claimed implemented by the current physical-only model.
+
 `projectToSource` identifies all active visual/audio occurrences; `sourceToProject`
 returns all occurrences, with clip IDs. Source evidence remains source-scoped.
 Projected evidence includes `(clipId, assetId, generation, source range, project

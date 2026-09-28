@@ -1,6 +1,6 @@
 # 10 — Occurrence-aware inspection
 
-Status: source acquisition still assumes recording roles; refactor that owner before public project reads. Exact range mapping is isolated in 10a. Dependencies: [04](./04-projects.md), [05](./05-compiler.md), [10a](./10a-source-range-projection.md), [09](./09-first-preview.md).
+Status: exact range projection is verified in 10a. Acquisition, occurrence queries and direct frames are split into 10b–10d; this umbrella remains open until all pass. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md), [10d](./10d-frame-inspection.md).
 
 ## Contract
 

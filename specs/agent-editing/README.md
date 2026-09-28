@@ -31,8 +31,11 @@ preview and export using only the product skill and advertised schemas.
 
 [10a exact range projection](slices/10a-source-range-projection.md) is integrated;
 its engine checks and the complete public preview/export preservation journey pass.
-Split [10 inspection](slices/10-project-evidence.md) at asset-stream acquisition and
-bounded occurrence reads; three independent drafts are in progress. Current transcript owners assume
+Start [10b source acquisition](slices/10b-source-acquisition.md): role-free native
+selected-stream transcription, immutable acquisition bindings shared by playback
+and evidence, then actual source reads. [The inspection plan](assets/10-inspection-plan/README.md)
+records the three-draft synthesis. Follow with bounded occurrence queries (10c),
+direct frames/index (10d), shared PCM delivery (11a) and acoustic artifacts (11). Current transcript owners assume
 recording roles; imports must not be represented by fake recording rows or invented
 narration roles. Preserve capture acquisition provenance separately from physical
 file occupancy. Source/model generation identity, partial words and all repeated
@@ -214,7 +217,11 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
+- [ ] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
+- [ ] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
+- [ ] [10d — Direct frames and retained screenshot inspection](slices/10d-frame-inspection.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
+- [ ] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)

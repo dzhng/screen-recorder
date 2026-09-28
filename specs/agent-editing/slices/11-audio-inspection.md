@@ -1,6 +1,6 @@
 # 11 — Audio, waveforms and spectrograms
 
-Status: not started. Dependencies: [08](./08-audio-mixing.md), [10](./10-project-evidence.md).
+Status: acoustic artifact integration not started; actual PCM/WAV delivery is isolated in 11a. Dependencies: [10](./10-project-evidence.md), [11a](./11a-audio-delivery.md).
 
 ## Contract
 
@@ -8,7 +8,7 @@ An agent can inspect actual audio, exported tracks and time-labeled acoustic evi
 
 ## Seam and ownership
 
-Shared evidence jobs provide WAV excerpts, full selected-stream/project-mix WAV delivery, waveform buckets/images and bounded spectrogram images. Source reads use asset/stream IDs; project reads reuse the exact audio compiler/mixer.
+The shared PCM/WAV owner from 11a feeds waveform buckets/images and bounded spectrogram images through existing evidence jobs. Source reads use asset/stream IDs; project reads reuse the exact audio compiler/mixer.
 
 ## Work and review surface
 
