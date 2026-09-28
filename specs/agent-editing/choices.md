@@ -2169,3 +2169,11 @@ existing lifetime owner.
   The plan required strict positivity without choosing a numerical expression.
   Sampled matrix precision remains the existing compiler's responsibility, so this
   does not promise that tiny dimensions produce safe output matrices.
+
+## Composed PNG delivery boundary
+
+- **Sound — high confidence:** Deliver a completed composition through the existing
+  oriented-image sizing/PNG path. Source-edge sampling belongs before composition;
+  applying it again changes the finished artwork. Preserve the source decoding path
+  and advance the picture cache identity so prior altered borders are not reused.
+  This adds no processor, model, profile, or new public API.

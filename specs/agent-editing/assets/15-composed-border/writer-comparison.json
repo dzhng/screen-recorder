@@ -1,0 +1,179 @@
+{
+  "preEncodeTolerance": 4,
+  "preEncodeToleranceSource": "Existing native color reproduction four-level gate, fixed before full-size measurement",
+  "scope": "Two1second recorded-screen windows at1920x1080/30fps, four display samples each; not sustained resource or general footage acceptance",
+  "cases": [
+    {
+      "sourceStartUs": 0,
+      "writer": [
+        {
+          "atUs": 0,
+          "index": 0,
+          "error": {
+            "max": 1,
+            "mean": 0.0005217978395061729,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "height": 1080,
+            "width": 1920,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "atUs": 333333,
+          "index": 10,
+          "error": {
+            "max": 1,
+            "mean": 0.000524048353909465,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "height": 1080,
+            "opaque": true,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 1920,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "atUs": 666667,
+          "index": 20,
+          "error": {
+            "max": 1,
+            "mean": 0.0005234053497942387,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "height": 1080,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 1920,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "atUs": 966667,
+          "index": 29,
+          "error": {
+            "max": 1,
+            "mean": 0.0005224408436213992,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "height": 1080,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 1920,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true
+          }
+        }
+      ],
+      "variants": []
+    },
+    {
+      "sourceStartUs": 60000000,
+      "writer": [
+        {
+          "atUs": 0,
+          "index": 0,
+          "error": {
+            "max": 1,
+            "mean": 0.0002293917181069959,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 1080,
+            "width": 1920,
+            "opaque": true
+          }
+        },
+        {
+          "atUs": 333333,
+          "index": 10,
+          "error": {
+            "max": 1,
+            "mean": 0.0002300347222222222,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "opaque": true,
+            "height": 1080,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 1920
+          }
+        },
+        {
+          "atUs": 666667,
+          "index": 20,
+          "error": {
+            "max": 1,
+            "mean": 0.00022971322016460905,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "height": 1080,
+            "width": 1920,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          }
+        },
+        {
+          "atUs": 966667,
+          "index": 29,
+          "error": {
+            "max": 1,
+            "mean": 0.0002290702160493827,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 1920,
+            "height": 1080
+          }
+        }
+      ],
+      "variants": []
+    }
+  ]
+}

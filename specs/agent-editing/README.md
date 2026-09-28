@@ -22,7 +22,8 @@ Current pickup and priority:
 1. Resolve encoded color/edge quality for [15](slices/15-layer-geometry.md) and
    [16](slices/16-keyframes.md). The [zoom writer probe](assets/16-zoom/writer/README.md)
    proves matching pre-append pixels and full/range inputs; profile-aware movie
-   decoding still differs. Do not treat the membership tolerance as color acceptance.
+   decoding still differs. The [composed PNG boundary correction](assets/15-composed-border/README.md)
+   preserves finished-canvas pixels on the full-size probe, with fresh visual and code review. Do not treat the membership tolerance as color acceptance.
    Use the [remaining media audit](assets/15-acceptance-audit/README.md) to reconcile
    completed pointer lifecycle checks with the still-open delivery gates.
 2. Continue dependency-ready [keyframes](slices/16-keyframes.md) and

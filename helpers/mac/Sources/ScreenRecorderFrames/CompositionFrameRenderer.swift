@@ -62,9 +62,7 @@ public enum CompositionFrameRenderer {
         }
         try pictures.finishPointers()
         // Orientation and composition are complete. Only the established delivery bound remains.
-        let image = try FrameImage(
-            buffer: buffer, transform: .identity, overlay: nil, agedFromUs: 0,
-            crop: nil, maxLongEdge: edge)
+        let image = FrameImage(oriented: CIImage(cvPixelBuffer: buffer), maxLongEdge: edge)
         let bytes = try image.publishPNG(
             to: output, context: pictures.context, maxEncodedBytes: limit)
         return Result(

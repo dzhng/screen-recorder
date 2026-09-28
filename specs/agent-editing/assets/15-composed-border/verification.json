@@ -1,0 +1,11 @@
+{
+  "nativeTests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "build": "native and service passed",
+  "review": "No actionable findings; reviewer did not run native harness",
+  "visual": "40 images inspected; synthetic B exact, no apparent recording regression, no perceptible improvement or motion claim",
+  "workerSha256": "97f87d51b1b85ad80e66d440999a14c243ba747f854c699cc89043eecef2ccfc",
+  "scope": "Finished composition PNG delivery only; movie encoding remains open"
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "sourceStartUs": 0,
+    "atUs": 0,
+    "maximum": 12,
+    "changed": 5098,
+    "interiorMaximum": 0
+  },
+  {
+    "sourceStartUs": 0,
+    "atUs": 333333,
+    "maximum": 14,
+    "changed": 5026,
+    "interiorMaximum": 0
+  },
+  {
+    "sourceStartUs": 0,
+    "atUs": 666667,
+    "maximum": 14,
+    "changed": 5026,
+    "interiorMaximum": 0
+  },
+  {
+    "sourceStartUs": 0,
+    "atUs": 966667,
+    "maximum": 13,
+    "changed": 5027,
+    "interiorMaximum": 0
+  },
+  {
+    "sourceStartUs": 60000000,
+    "atUs": 0,
+    "maximum": 81,
+    "changed": 3838,
+    "interiorMaximum": 0
+  },
+  {
+    "sourceStartUs": 60000000,
+    "atUs": 333333,
+    "maximum": 81,
+    "changed": 3834,
+    "interiorMaximum": 0
+  },
+  {
+    "sourceStartUs": 60000000,
+    "atUs": 666667,
+    "maximum": 81,
+    "changed": 3836,
+    "interiorMaximum": 0
+  },
+  {
+    "sourceStartUs": 60000000,
+    "atUs": 966667,
+    "maximum": 81,
+    "changed": 3836,
+    "interiorMaximum": 0
+  }
+]
