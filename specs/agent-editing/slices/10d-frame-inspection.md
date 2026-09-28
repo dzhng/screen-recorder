@@ -60,8 +60,8 @@ Update slice Status and the README handoff after verified passes.
 
 ## Current pickup
 
-Complete raw-image public frame delivery, then project still composition and its
-retained indexes. Reuse the native still owner below, retain truthful timeless
+Complete project still composition and its retained indexes. Raw-image public
+frame delivery and fresh skill use already pass. Reuse the native still owner below, retain truthful timeless
 image provenance, and verify actual CLI/MCP media and lifecycle. The public timed
 picture/index and acquired-gap checkpoints already pass; do not restart them as
 unimplemented features. Preserve their existing journeys when changing shared
@@ -82,7 +82,8 @@ visual review; this does not establish broad codec/color quality.
 stream selection, physical gaps, provenance, retry and retained acquisition
 lifetime. [Physical no-picture observations](../assets/10d-source-empty-observation/README.md)
 distinguish a demanded empty sample from decoder failure. [Fresh frame skill use](../assets/10d-frame-skill/README.md)
-checks an external consumer. Raw images remain the distinct next public path.
+checks an external consumer. [Raw-image delivery](../assets/10d-source-image-public/README.md)
+has its own timeless selector, native lifecycle and fresh skill evidence.
 
 [Scene ownership](../assets/10d-scene-ownership/README.md),
 [selected-source sampling](../assets/10d-source-scene-sampling/README.md), and

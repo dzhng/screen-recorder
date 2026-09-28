@@ -186,15 +186,15 @@ provisional until slice 24 measures release-scale behavior.
 
 Checkpoint 1 now has [authoring/compiler evidence](../assets/15-pointer-contract/README.md):
 registry-owned scope/acquisition compatibility, atomic replacement rules, complete
-backward geometry references and pure-edit identity retention. Execution remains
-unbound; exact source-history preparation and native replay are the next checkpoint.
+backward geometry references and pure-edit identity retention. Exact source
+preparation and native replay are verified below; public execution remains unbound.
 
 The exact-history prerequisite for checkpoint 2 has
 [focused evidence](../assets/15-pointer-history/README.md): selected-track history
 uses the existing physical presentation owner, explicit acquisition clock mapping,
-and exact empty-end floors across skipped records. Queue/cache lifetime ownership,
-actual observation/trail preparation and native replay remain open; pointer is
-still unavailable for execution.
+and exact empty-end floors across skipped records. The prepared-execution
+checkpoint below adds queue/cache lifetime ownership, observation/trail preparation
+and native replay. Public admission and readiness remain the current pickup.
 
 ## Moving-source edit checkpoint
 
