@@ -1,0 +1,228 @@
+{
+  "commit": "7451a3d0",
+  "passed": true,
+  "workerSha256": "2946c6e499e717b040e5bd05875a3f56b01852c2f9f0e2ed7c61e6c6335a17b7",
+  "exactNativePngs": [
+    {
+      "file": "zoom-0.png",
+      "sha256": "4934e8c900fdb4e226624b736112b6b25666c3f67636ae3a96ea17bcc9a1a71b"
+    },
+    {
+      "file": "zoom-1.png",
+      "sha256": "20c1d9fdbd4e6eaaad1032b43e96c1f80790aab4d9f9c6351cfd67f8d52df146"
+    },
+    {
+      "file": "zoom-2.png",
+      "sha256": "b68bc9e7eece65e3423320d4d9692b182cea9bf208365a37c327b9384264300e"
+    },
+    {
+      "file": "zoom-3.png",
+      "sha256": "1643dea5124da2dbf250c7d2039c54fdbdb360b6d1e1cc0e1ce0cbfd39b6a0ba"
+    },
+    {
+      "file": "zoom-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "file": "zoom-5.png",
+      "sha256": "0f5ed0021c09581f43b4575b816df8783fea294f55d6b40aca7c48b7a80fd5c9"
+    },
+    {
+      "file": "zoom-6.png",
+      "sha256": "988d8c3b1b5eb21abd17bbb301c2c152b38d42aec9c6c53a3d564101c2550280"
+    },
+    {
+      "file": "zoom-7.png",
+      "sha256": "9c4da478e9887db3d5df6fcc5da7814e2c69635fa35e1d1407f14d7a45fafbf5"
+    },
+    {
+      "file": "constant-0.png",
+      "sha256": "4934e8c900fdb4e226624b736112b6b25666c3f67636ae3a96ea17bcc9a1a71b"
+    },
+    {
+      "file": "constant-1.png",
+      "sha256": "20c1d9fdbd4e6eaaad1032b43e96c1f80790aab4d9f9c6351cfd67f8d52df146"
+    },
+    {
+      "file": "constant-2.png",
+      "sha256": "b68bc9e7eece65e3423320d4d9692b182cea9bf208365a37c327b9384264300e"
+    },
+    {
+      "file": "constant-3.png",
+      "sha256": "1643dea5124da2dbf250c7d2039c54fdbdb360b6d1e1cc0e1ce0cbfd39b6a0ba"
+    },
+    {
+      "file": "constant-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "file": "constant-5.png",
+      "sha256": "0f5ed0021c09581f43b4575b816df8783fea294f55d6b40aca7c48b7a80fd5c9"
+    },
+    {
+      "file": "constant-6.png",
+      "sha256": "988d8c3b1b5eb21abd17bbb301c2c152b38d42aec9c6c53a3d564101c2550280"
+    },
+    {
+      "file": "constant-7.png",
+      "sha256": "9c4da478e9887db3d5df6fcc5da7814e2c69635fa35e1d1407f14d7a45fafbf5"
+    },
+    {
+      "file": "moved-0.png",
+      "sha256": "4934e8c900fdb4e226624b736112b6b25666c3f67636ae3a96ea17bcc9a1a71b"
+    },
+    {
+      "file": "moved-1.png",
+      "sha256": "20c1d9fdbd4e6eaaad1032b43e96c1f80790aab4d9f9c6351cfd67f8d52df146"
+    },
+    {
+      "file": "moved-2.png",
+      "sha256": "b68bc9e7eece65e3423320d4d9692b182cea9bf208365a37c327b9384264300e"
+    },
+    {
+      "file": "moved-3.png",
+      "sha256": "1643dea5124da2dbf250c7d2039c54fdbdb360b6d1e1cc0e1ce0cbfd39b6a0ba"
+    },
+    {
+      "file": "moved-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "file": "moved-5.png",
+      "sha256": "0f5ed0021c09581f43b4575b816df8783fea294f55d6b40aca7c48b7a80fd5c9"
+    },
+    {
+      "file": "moved-6.png",
+      "sha256": "988d8c3b1b5eb21abd17bbb301c2c152b38d42aec9c6c53a3d564101c2550280"
+    },
+    {
+      "file": "moved-7.png",
+      "sha256": "9c4da478e9887db3d5df6fcc5da7814e2c69635fa35e1d1407f14d7a45fafbf5"
+    },
+    {
+      "file": "split-0.png",
+      "sha256": "4934e8c900fdb4e226624b736112b6b25666c3f67636ae3a96ea17bcc9a1a71b"
+    },
+    {
+      "file": "split-1.png",
+      "sha256": "20c1d9fdbd4e6eaaad1032b43e96c1f80790aab4d9f9c6351cfd67f8d52df146"
+    },
+    {
+      "file": "split-2.png",
+      "sha256": "b68bc9e7eece65e3423320d4d9692b182cea9bf208365a37c327b9384264300e"
+    },
+    {
+      "file": "split-3.png",
+      "sha256": "1643dea5124da2dbf250c7d2039c54fdbdb360b6d1e1cc0e1ce0cbfd39b6a0ba"
+    },
+    {
+      "file": "split-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "file": "split-5.png",
+      "sha256": "0f5ed0021c09581f43b4575b816df8783fea294f55d6b40aca7c48b7a80fd5c9"
+    },
+    {
+      "file": "split-6.png",
+      "sha256": "988d8c3b1b5eb21abd17bbb301c2c152b38d42aec9c6c53a3d564101c2550280"
+    },
+    {
+      "file": "split-7.png",
+      "sha256": "9c4da478e9887db3d5df6fcc5da7814e2c69635fa35e1d1407f14d7a45fafbf5"
+    },
+    {
+      "file": "trim-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "file": "trim-5.png",
+      "sha256": "0f5ed0021c09581f43b4575b816df8783fea294f55d6b40aca7c48b7a80fd5c9"
+    },
+    {
+      "file": "trim-6.png",
+      "sha256": "988d8c3b1b5eb21abd17bbb301c2c152b38d42aec9c6c53a3d564101c2550280"
+    },
+    {
+      "file": "trim-7.png",
+      "sha256": "9c4da478e9887db3d5df6fcc5da7814e2c69635fa35e1d1407f14d7a45fafbf5"
+    },
+    {
+      "file": "window-0.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "file": "window-1.png",
+      "sha256": "20c1d9fdbd4e6eaaad1032b43e96c1f80790aab4d9f9c6351cfd67f8d52df146"
+    },
+    {
+      "file": "window-2.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    }
+  ],
+  "checks": {
+    "analyticStaticControls": 8,
+    "movedPictures": 8,
+    "splitPictures": 8,
+    "trimmedPictures": 4,
+    "activationPictures": 3,
+    "previewExportExact": true,
+    "movieErrors": [
+      {
+        "mean": 2.437630208333333,
+        "max": 253
+      },
+      {
+        "mean": 2.78671875,
+        "max": 238
+      },
+      {
+        "mean": 3.043229166666667,
+        "max": 238
+      },
+      {
+        "mean": 4.084765625,
+        "max": 237
+      },
+      {
+        "mean": 1.5869791666666666,
+        "max": 25
+      },
+      {
+        "mean": 3.8505208333333334,
+        "max": 212
+      },
+      {
+        "mean": 3.5735677083333335,
+        "max": 208
+      },
+      {
+        "mean": 4.0390625,
+        "max": 222
+      }
+    ],
+    "rangeErrors": [
+      {
+        "mean": 1.515625,
+        "max": 45
+      },
+      {
+        "mean": 1.1483072916666666,
+        "max": 24
+      },
+      {
+        "mean": 0.421484375,
+        "max": 49
+      },
+      {
+        "mean": 0.414453125,
+        "max": 13
+      },
+      {
+        "mean": 0.4158854166666667,
+        "max": 19
+      }
+    ],
+    "encodedGate": "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance"
+  }
+}

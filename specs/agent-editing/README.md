@@ -44,7 +44,8 @@ Compact evidence ledger:
   delivery gates. The [pointer reference diagnosis](assets/15-pointer-chain/README.md)
   rejects a flattened-source oracle and keeps encoded color acceptance open.
 - [Opacity/indexing](assets/16-opacity-index/README.md) and
-  [zoom frame/edit controls](assets/16-zoom/README.md) pass on the combined build;
+  [zoom](assets/16-zoom/README.md) and [position/rotation](assets/16-pose/README.md)
+  frame/edit controls pass on the combined build;
   neither closes full keyframes or encoded quality. [Portable archive relocation](assets/22-portable-projects/README.md)
   and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
   their asset-only checkpoints, retaining workflow failures and handoff-ID errors.
