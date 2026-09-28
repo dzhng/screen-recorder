@@ -37,6 +37,7 @@ public enum NativeWire {
             "media.presentationEvidence": media {
                 try json(await PresentationEvidenceOperation.execute($0))
             },
+            "media.renderCompositionVideo": media { try json(await CompositionVideoOperation.execute($0)) },
             "media.renderMovie": media { try json(await MovieOperation.execute($0)) },
             "media.audio": media { try json(await AudioOperation.execute($0)) },
             "media.recover": media { params in

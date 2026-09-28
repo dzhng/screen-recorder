@@ -1,0 +1,97 @@
+{
+  "revisionId": "fixture",
+  "range": {
+    "startUs": 0,
+    "endUs": 2000000
+  },
+  "rendition": {
+    "sampleRate": 48000,
+    "channels": 2
+  },
+  "tap": {
+    "target": {
+      "kind": "output"
+    },
+    "point": {
+      "kind": "processed"
+    }
+  },
+  "canvas": {
+    "width": 160,
+    "height": 128,
+    "fps": {
+      "numerator": 20,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "mediaKind": "output",
+  "sources": [
+    {
+      "clipId": "vfr",
+      "assetId": "timestamp-gap.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 2000000
+        }
+      },
+      "placement": {
+        "startUs": 0,
+        "endUs": 2000000
+      }
+    }
+  ],
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "vfr"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "vfr"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "requirements": [
+    {
+      "kind": "executor",
+      "mediaKind": "audio",
+      "implementationId": null
+    },
+    {
+      "kind": "executor",
+      "mediaKind": "video",
+      "implementationId": null
+    }
+  ]
+}

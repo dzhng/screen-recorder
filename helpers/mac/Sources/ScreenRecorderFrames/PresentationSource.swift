@@ -5,20 +5,21 @@ import ScreenRecorderMedia
 
 /// One owner for sequential movie presentation membership. Unlike still selection,
 /// the retained moment belongs to a sample's support, not its nearest timestamp.
-final class PresentationSource {
-    struct Selection {
-        let buffer: CVPixelBuffer?
-        let sampleTime: CMTime?
-        let end: CMTime
+public final class PresentationSource {
+    public struct Selection {
+        public let buffer: CVPixelBuffer?
+        public let sampleTime: CMTime?
+        public let end: CMTime
     }
     let width: Int
     let height: Int
-    let transform: CGAffineTransform
+    public let transform: CGAffineTransform
     private let reader: AVAssetReader
     private let decoded: AVAssetReaderTrackOutput
-    private let track: AVAssetTrack
+    let track: AVAssetTrack
     private let segments: [AVAssetTrackSegment]
     private let occupied: [SourceSegment]
+    public private(set) var decodedCount = 0
     private var held: CMSampleBuffer?
     private var heldStart = CMTime.invalid
     private var heldEnd = CMTime.invalid
@@ -31,7 +32,8 @@ final class PresentationSource {
         var through: Int64 = 0
         for span in plan {
             guard span.playback.startUs == through,
-                span.playback.endUs - span.playback.startUs == span.source.endUs - span.source.startUs
+                span.playback.endUs - span.playback.startUs == span.source.endUs
+                    - span.source.startUs
             else {
                 throw NativeFailure(
                     "INVALID_REQUEST", "Render plan playback must follow its source spans.")
@@ -44,15 +46,28 @@ final class PresentationSource {
         return through
     }
 
-    init(source: URL, plan: [VideoRenderSpan]) async throws {
+    convenience init(source: URL, plan: [VideoRenderSpan]) async throws {
         _ = try Self.duration(of: plan)
+        try await self.init(
+            source: source, streamId: nil, startUs: nil,
+            endUs: plan.last!.source.endUs, evenDimensions: true)
+    }
+
+    /// Compiled source timestamps are already resolved; this only seeks physical sample support.
+    public init(
+        source: URL, streamId: String?, startUs: Int64?, endUs: Int64? = nil,
+        evenDimensions: Bool = false
+    ) async throws {
         let asset = AVURLAsset(
             url: source,
             options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
         let sourceDuration = try await asset.load(.duration)
-        guard let track = try await asset.loadTracks(withMediaType: .video).first,
+        let tracks = try await asset.loadTracks(withMediaType: .video)
+        guard
+            let track = streamId.flatMap({ id in tracks.first { "track:\($0.trackID)" == id } })
+                ?? (streamId == nil ? tracks.first : nil),
             try await track.load(.canProvideSampleCursors),
-            time(microseconds: plan.last!.source.endUs) <= sourceDuration
+            endUs.map({ time(microseconds: $0) <= sourceDuration }) ?? true
         else { throw NativeFailure("UNAVAILABLE", "Render plan exceeds a usable video source.") }
         let segments = try await track.load(.segments)
         let occupied = SourceSegment.occupied(of: segments)
@@ -61,7 +76,7 @@ final class PresentationSource {
         let width = Int(abs(natural.width).rounded())
         let height = Int(abs(natural.height).rounded())
         guard width > 0, height > 0, width <= 8192, height <= 8192,
-            width.isMultiple(of: 2), height.isMultiple(of: 2)
+            !evenDimensions || (width.isMultiple(of: 2) && height.isMultiple(of: 2))
         else {
             throw NativeFailure(
                 "UNAVAILABLE", "Video renderer requires even dimensions up to 8192 pixels.")
@@ -80,6 +95,19 @@ final class PresentationSource {
         self.height = height
         self.reader = reader
         self.decoded = decoded
+        if let startUs {
+            let start = time(microseconds: startUs)
+            var decodeStart = start
+            if let segment = occupied.first(where: { $0.asset.containsTime(start) }),
+                let cursor = track.makeSampleCursor(
+                    presentationTimeStamp: segment.mediaTime(ofAsset: start))
+            {
+                decodeStart = segment.assetTime(ofMedia: cursor.presentationTimeStamp)
+            }
+            reader.timeRange = CMTimeRange(
+                start: decodeStart,
+                end: endUs.map { time(microseconds: $0) } ?? sourceDuration)
+        }
         guard reader.startReading() else {
             throw NativeFailure.decodeFailed("Cannot start sequential presentation read.")
         }
@@ -129,7 +157,7 @@ final class PresentationSource {
 
     deinit { reader.cancelReading() }
 
-    func selection(at: CMTime, end: CMTime) throws -> Selection {
+    public func selection(at: CMTime, end: CMTime) throws -> Selection {
         while segmentIndex < segments.count
             && CMTimeRangeGetEnd(segments[segmentIndex].timeMapping.target) <= at
         { segmentIndex += 1 }
@@ -149,6 +177,8 @@ final class PresentationSource {
             guard let sample = autoreleasepool(invoking: { decoded.copyNextSampleBuffer() }) else {
                 throw NativeFailure("UNAVAILABLE", "Decoder ended before retained sample support.")
             }
+            try Task.checkCancellation()
+            decodedCount += 1
             let pts = CMSampleBufferGetPresentationTimeStamp(sample)
             // Duplicate pictures in empty edits do not prove nonempty support.
             guard let supportEnd = assetEnd(ofSamplePresentedAt: pts, in: occupied, of: track)

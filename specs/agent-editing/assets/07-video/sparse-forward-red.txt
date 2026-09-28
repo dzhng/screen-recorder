@@ -1,0 +1,17 @@
+(node:52104) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: sparse-forward-cuts: decoded discarded middle footage (2397 samples)
+    at file:///private/tmp/screenrec-video-execution/packages/test-harness/editing/video.mjs:263:49 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

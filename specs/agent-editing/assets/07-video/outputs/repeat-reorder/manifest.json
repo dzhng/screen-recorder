@@ -1,0 +1,155 @@
+{
+  "revisionId": "fixture",
+  "range": {
+    "startUs": 0,
+    "endUs": 1750000
+  },
+  "rendition": {
+    "sampleRate": 48000,
+    "channels": 2
+  },
+  "tap": {
+    "target": {
+      "kind": "output"
+    },
+    "point": {
+      "kind": "processed"
+    }
+  },
+  "canvas": {
+    "width": 160,
+    "height": 128,
+    "fps": {
+      "numerator": 20,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "mediaKind": "output",
+  "sources": [
+    {
+      "clipId": "late",
+      "assetId": "tagged-a.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 1000000,
+          "endUs": 1500000
+        }
+      },
+      "placement": {
+        "startUs": 0,
+        "endUs": 500000
+      }
+    },
+    {
+      "clipId": "again",
+      "assetId": "tagged-a.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 500000
+        }
+      },
+      "placement": {
+        "startUs": 500000,
+        "endUs": 1000000
+      }
+    },
+    {
+      "clipId": "b",
+      "assetId": "tagged-b.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 500000
+        }
+      },
+      "placement": {
+        "startUs": 1250000,
+        "endUs": 1750000
+      }
+    }
+  ],
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "late"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "again"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "b"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "late"
+        },
+        {
+          "kind": "clip",
+          "id": "again"
+        },
+        {
+          "kind": "clip",
+          "id": "b"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "requirements": [
+    {
+      "kind": "executor",
+      "mediaKind": "audio",
+      "implementationId": null
+    },
+    {
+      "kind": "executor",
+      "mediaKind": "video",
+      "implementationId": null
+    }
+  ]
+}

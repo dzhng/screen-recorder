@@ -1,0 +1,64 @@
+{
+  "output": "/tmp/screenrec-video-color-green/empty-edit/video.mp4",
+  "frames": "/tmp/screenrec-video-color-green/empty-edit/frames.jsonl",
+  "range": {
+    "startUs": 0,
+    "endUs": 1250000
+  },
+  "canvas": {
+    "width": 160,
+    "height": 128,
+    "fps": {
+      "numerator": 20,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "profile": "h264-rec709",
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "gapped"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "gapped"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "empty-edit.mov",
+      "streamId": "track:1",
+      "path": "/private/tmp/screenrec-video-execution/specs/agent-editing/assets/06-platform-temporal/empty-edit.mov",
+      "originUs": 0
+    }
+  ]
+}

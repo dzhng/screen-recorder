@@ -1,0 +1,86 @@
+[
+  {
+    "label": "01",
+    "scenario": "audio-replacement",
+    "frames": 32,
+    "all_frames_included": true
+  },
+  {
+    "label": "02",
+    "scenario": "av-replacement",
+    "frames": 32,
+    "all_frames_included": true
+  },
+  {
+    "label": "03",
+    "scenario": "empty-edit",
+    "frames": 25,
+    "all_frames_included": true
+  },
+  {
+    "label": "04",
+    "scenario": "empty-edit-preview",
+    "frames": 14,
+    "all_frames_included": true
+  },
+  {
+    "label": "05",
+    "scenario": "held-frame",
+    "frames": 10,
+    "all_frames_included": true
+  },
+  {
+    "label": "06",
+    "scenario": "leading-partial-picture",
+    "frames": 2,
+    "all_frames_included": true
+  },
+  {
+    "label": "07",
+    "scenario": "nonzero-preview",
+    "frames": 21,
+    "all_frames_included": true
+  },
+  {
+    "label": "08",
+    "scenario": "repeat-reorder",
+    "frames": 35,
+    "all_frames_included": true
+  },
+  {
+    "label": "09",
+    "scenario": "retimed-picture",
+    "frames": 20,
+    "all_frames_included": true
+  },
+  {
+    "label": "10",
+    "scenario": "selected-second-stream",
+    "frames": 10,
+    "all_frames_included": true
+  },
+  {
+    "label": "11",
+    "scenario": "sparse-forward-cuts",
+    "frames": 10,
+    "all_frames_included": true
+  },
+  {
+    "label": "12",
+    "scenario": "sparse-forward-retime",
+    "frames": 10,
+    "all_frames_included": true
+  },
+  {
+    "label": "13",
+    "scenario": "subframe-source",
+    "frames": 10,
+    "all_frames_included": true
+  },
+  {
+    "label": "14",
+    "scenario": "vfr-held-tail",
+    "frames": 40,
+    "all_frames_included": true
+  }
+]

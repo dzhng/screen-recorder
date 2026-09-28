@@ -1,0 +1,32 @@
+(node:28053) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: ifError got unwanted exception: spawnSync /usr/bin/time ETIMEDOUT
+    at file:///private/tmp/screenrec-video-execution/packages/test-harness/editing/video.mjs:152:10
+    at Object.spawnSync (node:internal/child_process:1119:20)
+    at spawnSync (node:child_process:911:24)
+    at file:///private/tmp/screenrec-video-execution/packages/test-harness/editing/video.mjs:151:20 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: Error: spawnSync /usr/bin/time ETIMEDOUT
+      at Object.spawnSync (node:internal/child_process:1119:20)
+      at spawnSync (node:child_process:911:24)
+      at file:///private/tmp/screenrec-video-execution/packages/test-harness/editing/video.mjs:151:20 {
+    errno: -60,
+    code: 'ETIMEDOUT',
+    syscall: 'spawnSync /usr/bin/time',
+    path: '/usr/bin/time',
+    spawnargs: [
+      '-l',
+      '/private/tmp/screenrec-video-execution/helpers/mac/.build/debug/screenrec-native'
+    ]
+  },
+  expected: null,
+  operator: 'ifError',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

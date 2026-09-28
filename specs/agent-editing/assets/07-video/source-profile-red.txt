@@ -1,0 +1,17 @@
+(node:60857) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: [{"name":"hdr-pq","colorPrimaries":"bt2020","transfer":"smpte2084","response":{"data":{"bytes":1389,"decodedSamples":1,"durationUs":50000,"file":"/tmp/screenrec-video-color-valid-red/hdr-pq/video.mp4","frames":1,"height":128,"maximumSequentialAdvanceUs":1000000,"mediaType":"video/mp4","pixelPoolAllocationThreshold":4,"profile":"h264-rec709","readerOpens":1,"retainedSourceBuffersBound":1,"width":160},"id":"video","ok":true}},{"name":"hdr-hlg","colorPrimaries":"bt2020","transfer":"arib-std-b67","response":{"data":{"bytes":1306,"decodedSamples":1,"durationUs":50000,"file":"/tmp/screenrec-video-color-valid-red/hdr-hlg/video.mp4","frames":1,"height":128,"maximumSequentialAdvanceUs":1000000,"mediaType":"video/mp4","pixelPoolAllocationThreshold":4,"profile":"h264-rec709","readerOpens":1,"retainedSourceBuffersBound":1,"width":160},"id":"video","ok":true}},{"name":"wide-p3","colorPrimaries":"smpte432","transfer":"iec61966-2-1","response":{"data":{"bytes":1306,"decodedSamples":1,"durationUs":50000,"file":"/tmp/screenrec-video-color-valid-red/wide-p3/video.mp4","frames":1,"height":128,"maximumSequentialAdvanceUs":1000000,"mediaType":"video/mp4","pixelPoolAllocationThreshold":4,"profile":"h264-rec709","readerOpens":1,"retainedSourceBuffersBound":1,"width":160},"id":"video","ok":true}}]
+    at file:///private/tmp/screenrec-video-execution/packages/test-harness/editing/video.mjs:198:8 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

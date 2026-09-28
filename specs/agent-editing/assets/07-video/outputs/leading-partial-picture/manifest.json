@@ -1,0 +1,97 @@
+{
+  "revisionId": "fixture",
+  "range": {
+    "startUs": 50001,
+    "endUs": 70000
+  },
+  "rendition": {
+    "sampleRate": 48000,
+    "channels": 2
+  },
+  "tap": {
+    "target": {
+      "kind": "output"
+    },
+    "point": {
+      "kind": "processed"
+    }
+  },
+  "canvas": {
+    "width": 160,
+    "height": 128,
+    "fps": {
+      "numerator": 30000,
+      "denominator": 1001
+    },
+    "background": "#000000ff"
+  },
+  "mediaKind": "output",
+  "sources": [
+    {
+      "clipId": "ended",
+      "assetId": "tagged-a.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 50000
+        }
+      },
+      "placement": {
+        "startUs": 0,
+        "endUs": 50000
+      }
+    }
+  ],
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "ended"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "ended"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "requirements": [
+    {
+      "kind": "executor",
+      "mediaKind": "audio",
+      "implementationId": null
+    },
+    {
+      "kind": "executor",
+      "mediaKind": "video",
+      "implementationId": null
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "reproductionSourceSHA256": "2260066d7cd38bfcd2881d7558e9316e3beadf94ce74a62c520b944ce94a8c6b",
+  "sampleTimingSHA256": "d1c7d052093dfbee3f262b066beae7c234a1c5af17f671e580679276ba2dd3d4",
+  "results": [
+    {
+      "name": "av-replacement",
+      "decodedPixelSHA256": "bf341e7c56c1f595f93dd63d7b82cee384be351b336a638b639a0256272e6e5b",
+      "decodedBytes": 1966080
+    },
+    {
+      "name": "audio-replacement",
+      "decodedPixelSHA256": "6566e7fd21d9a14a288928ac028907373c03ce1b09d85da2bfb622025e42df82",
+      "decodedBytes": 1966080
+    },
+    {
+      "name": "nonzero-preview",
+      "decodedPixelSHA256": "de48b34abfe78d44e7127005e1454786c973eb0c325dea43af3545ab09d0ddc7",
+      "decodedBytes": 1290240
+    },
+    {
+      "name": "held-frame",
+      "decodedPixelSHA256": "694d7cf8b548604f4e9f7fa0d5db5e5d345163249586f1b5b139d1cfce2fc870",
+      "decodedBytes": 614400
+    },
+    {
+      "name": "subframe-source",
+      "decodedPixelSHA256": "b5c3c2af19a1364f8a3e9ee50eade40109f189fc59aae1c58b22124da9d2b1a2",
+      "decodedBytes": 614400
+    },
+    {
+      "name": "vfr-held-tail",
+      "decodedPixelSHA256": "14e8fd3e4e67b6d01e82a22b5c905def2502c46c65b1407e7148ce17af204442",
+      "decodedBytes": 2457600
+    },
+    {
+      "name": "empty-edit",
+      "decodedPixelSHA256": "9c698c238d6ba0147980350296e62d6deff18a6b57a8af71b302aa2045b306d9",
+      "decodedBytes": 1536000
+    },
+    {
+      "name": "empty-edit-preview",
+      "decodedPixelSHA256": "d9508c46cd961ca0189aeabbf3d79f2353c27bf5cc67ec6c5cfe863152e5a7d1",
+      "decodedBytes": 860160
+    }
+  ]
+}

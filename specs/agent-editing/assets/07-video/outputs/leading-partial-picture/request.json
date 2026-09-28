@@ -1,0 +1,64 @@
+{
+  "output": "/tmp/screenrec-video-color-green/leading-partial-picture/video.mp4",
+  "frames": "/tmp/screenrec-video-color-green/leading-partial-picture/frames.jsonl",
+  "range": {
+    "startUs": 50001,
+    "endUs": 70000
+  },
+  "canvas": {
+    "width": 160,
+    "height": 128,
+    "fps": {
+      "numerator": 30000,
+      "denominator": 1001
+    },
+    "background": "#000000ff"
+  },
+  "profile": "h264-rec709",
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "ended"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "ended"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "tagged-a.mov",
+      "streamId": "track:1",
+      "path": "/private/tmp/screenrec-video-execution/specs/agent-editing/assets/06-platform-temporal/tagged-a.mov",
+      "originUs": 0
+    }
+  ]
+}

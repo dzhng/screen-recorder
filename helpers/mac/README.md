@@ -17,6 +17,18 @@ belongs where is:
   operations that exist only in the worker (recovery, evidence export, archives, storage).
 - **ScreenRecorderNative** is the `screenrec-native` executable around that boundary.
 
+## Compiled video
+
+Composition rendering consumes the compiler's frame stream, including the original
+sample time and clipped visible interval. Native code only resolves physical
+sample support and executes pixels; it never reconstructs cuts or frame phase.
+The [video renderer](Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift)
+shares source support and orientation with existing delivery. Its wire reader
+consumes bounded JSONL records, and publication uses the existing new-file owner.
+A container-proven empty edit can explain missing source support, but cannot repair
+an unavailable attached ancestor. Profile adoption evidence belongs to the
+[editing spec](../../specs/agent-editing/assets/07-video/README.md).
+
 ## Capture timing
 
 All delivered tracks use the ScreenCaptureKit host timestamp domain. The first complete video

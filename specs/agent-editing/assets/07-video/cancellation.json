@@ -1,0 +1,24 @@
+{
+  "cancellation": "PASS production NativeWire task cancellation drains writer and removes staging",
+  "samePathRestart": {
+    "data": {
+      "bytes": 1246,
+      "decodedSamples": 1,
+      "durationUs": 50000,
+      "file": "/tmp/screenrec-video-current-cancel/video.mp4",
+      "frames": 1,
+      "height": 128,
+      "maximumSequentialAdvanceUs": 1000000,
+      "mediaType": "video/mp4",
+      "pixelPoolAllocationThreshold": 4,
+      "profile": "h264-rec709",
+      "readerOpens": 1,
+      "retainedSourceBuffersBound": 1,
+      "width": 160
+    },
+    "id": "retry",
+    "ok": true
+  },
+  "decodedFirstFrameSHA256": "c5f94de38f9b9cf328de7954308d68742578cf2e8912f741466779adcdb406d8",
+  "matchesVerifiedHeldA1": true
+}

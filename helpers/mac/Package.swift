@@ -46,6 +46,7 @@ let package = Package(
             name: "ScreenRecorderSpeechTests",
             dependencies: ["ScreenRecorderSpeech", .product(name: "FluidAudio", package: "FluidAudio")],
             path: "Tests/ScreenRecorderSpeechTests"),
+        .executableTarget(name: "ScreenRecorderCompositionVideoTests", dependencies: ["ScreenRecorderWire"], path: "Tests/CompositionVideo"),
         .executableTarget(name: "ScreenRecorderNative", dependencies: ["ScreenRecorderWire"]),
     ]
 )

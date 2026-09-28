@@ -1,6 +1,6 @@
 # 07 — Execute video plans
 
-Status: not started. Dependencies: [02](./02-assets.md), [05](./05-compiler.md), [06](./06-render-reproduction.md).
+Status: native functional checkpoint verified: 14 decoded temporal cases, source-color and boundary refusals, exact matched-profile parity, existing-renderer preservation, cancellation and fresh visual review pass. Independent code reviews are resolved. Earlier 12,000-frame bounded-memory evidence is retained, but the current full resource rerun exceeded its existing 180-second observation budget; slice remains open for that rerun. [Evidence](../assets/07-video/README.md). Dependencies: [02](./02-assets.md), [05](./05-compiler.md), [06](./06-render-reproduction.md).
 
 ## Contract
 

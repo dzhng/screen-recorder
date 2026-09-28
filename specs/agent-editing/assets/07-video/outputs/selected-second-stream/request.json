@@ -1,0 +1,64 @@
+{
+  "output": "/tmp/screenrec-video-color-green/selected-second-stream/video.mp4",
+  "frames": "/tmp/screenrec-video-color-green/selected-second-stream/frames.jsonl",
+  "range": {
+    "startUs": 0,
+    "endUs": 500000
+  },
+  "canvas": {
+    "width": 160,
+    "height": 128,
+    "fps": {
+      "numerator": 20,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "profile": "h264-rec709",
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "second"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "second"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "two-streams.mov",
+      "streamId": "track:2",
+      "path": "/tmp/screenrec-video-color-green/two-streams.mov",
+      "originUs": 0
+    }
+  ]
+}
