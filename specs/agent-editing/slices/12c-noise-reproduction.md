@@ -1,6 +1,6 @@
 # 12c — Reproduce local noise reduction
 
-Status: initial conventional baseline runs; [mechanism evidence](../assets/12c-denoise-baseline/README.md) preserves counts but does not establish quality/state/timing acceptance. [State/endpoint probes](../assets/12c-denoise-state/README.md) fail naive reset and reveal uncompensated 25 ms impulse delay. [Explicit flushing/compensation](../assets/12c-denoise-timing/README.md) now restores tested impulse timing/counts across three rates; poisoned-neighbor checks prove selection-before-filter isolation, while independent split resets still fail. [Pinned RNNoise](../assets/12c-rnnoise/README.md) provides an offline learned baseline with strong room-tone attenuation but lost output samples; [frame API compensation](../assets/12c-rnnoise-timing/README.md) restores tested timing/counts without establishing preserved speech. No model is adopted. Speech quality and production state policy remain open. Dependencies: [00](./00-corpus.md).
+Status: research in progress; conventional and learned candidates have measured timing mechanisms, but speech quality and production state policy remain unverified. No processor is adopted. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -53,3 +53,19 @@ continues. Candidate configuration and internal harness structure are delegated;
 quality acceptance, context isolation, offline behavior and preparation visibility
 are fixed by [processing](../processing.md) and [verification](../verification.md).
 Update status, frozen evidence, limitations and the README handoff before ending.
+
+
+## Measured checkpoints and next pickup
+
+The [conventional baseline](../assets/12c-denoise-baseline/README.md) and
+[state probe](../assets/12c-denoise-state/README.md) exposed hidden delay and
+per-window reset changes. [Flushing/compensation](../assets/12c-denoise-timing/README.md)
+restores tested timing/counts and proves selected-input isolation; independent
+split resets still fail. The [learned baseline](../assets/12c-rnnoise/README.md)
+reduces room tone but truncates output. Its [frame API probe](../assets/12c-rnnoise-timing/README.md)
+restores tested counts/positions without establishing protected speech quality.
+
+Next compare matched known-noise inputs and independent speech controls, then
+freeze a state policy that preserves pure splits while excluding removed input.
+Neither measured noise attenuation nor surviving impulse peaks closes listening,
+protected-phoneme, retimed/combined-input or production integration acceptance.

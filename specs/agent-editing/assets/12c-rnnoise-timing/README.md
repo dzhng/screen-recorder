@@ -1,7 +1,7 @@
 # RNNoise frame timing and flushing
 
 This follows the [unchanged example baseline](../12c-rnnoise/README.md) with the
-same pinned library/model and build flags. The [public API probe](../../../../../packages/test-harness/editing/rnnoise-frame-probe.c)
+same pinned library/model and build flags. The [public API probe](../../../../packages/test-harness/editing/rnnoise-frame-probe.c)
 uses normalized float input converted to RNNoise's sample units, handles a partial
 block with explicit zeros, and writes float output without loudness adjustment. It changes neither
 the model nor its gains. This adapter is research, not the production denoiser.
@@ -9,7 +9,7 @@ the model nor its gains. This adapter is research, not the production denoiser.
 The pinned source assembles a previous/current analysis window and explicitly
 keeps another delayed spectrum. Before measuring, the hypothesis was two frames
 (960 samples at 48 kHz), distinct from the demonstration program's one-frame skip.
-The [timing harness](../../../../../packages/test-harness/editing/rnnoise-timing.py)
+The [timing harness](../../../../packages/test-harness/editing/rnnoise-timing.py)
 appends two zero frames and retains exactly the requested count after that declared
 offset. It never aligns peaks to choose an offset or reads excluded neighbors.
 Each process has a 30-second deadline and the batch a two-minute deadline.

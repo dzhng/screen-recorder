@@ -62,7 +62,7 @@ The first prepared attempt completed; no runtime repair or repeat was used.
 retain the quantitative record. Raw generated words remain at the path in the
 attempt record. No user capture or speaker playback occurred.
 
-The [scorer test](../../../../../packages/test-harness/editing/speech/score-candidate.test.mjs)
+The [scorer test](../../../../packages/test-harness/editing/speech/score-candidate.test.mjs)
 checks source-clock translation, unchanged unmarked edges, missing/ambiguous
 failures and deliberately shifted timing. Removing the source-origin translation
 produced the retained [red control](origin-red.txt); restoring it passed all four

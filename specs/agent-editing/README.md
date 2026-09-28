@@ -27,7 +27,9 @@ actual preparation, physical clocks, repeated/retimed occurrences and recovery.
 [Fresh scene skill use](assets/10d-scene-skill/README.md) verifies complete project
 coverage and explicit prerequisite retry. [Screenshot ownership](assets/10d-index-ownership/README.md)
 now preserves source indexes and recording packages under Catalog 10.
-Finish retained screenshot selection/index delivery; project-cut semantics still
+[Raw source selection](assets/10d-source-index-selection/README.md) preserves
+observed scene sides and short support islands; typed no-picture observations
+stay distinct from failures. Finish queued index materialization and public delivery; project-cut semantics still
 need a concrete definition. [Public interruption](assets/10c-public-interruption/README.md)
 now passes actual CLI/MCP continuation and the combined-runtime journey.
 Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
@@ -35,7 +37,8 @@ Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
 In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md):
 compiler-owned crop/fit/transforms and native layered execution, with independent
 public presenter/stack-order journeys. The opaque-output profile and pointer
-presentation gates remain explicit; no new geometry capability is verified yet.
+presentation gates remain explicit. [Authored fixtures and oracle controls](assets/15-layer-fixtures/README.md)
+are integrated; no new geometry capability is verified yet.
 
 Retain [11 acoustic artifacts](slices/11-audio-inspection.md).
 [Public waveform JSON](assets/11-waveform-public/README.md) verifies raw/processed
@@ -101,7 +104,8 @@ Evidence boundaries to preserve:
   and p95 timing. [Separate forced alignment](assets/12-alignment/README.md) also
   fails p95 and memory; independent audible labels and joins remain open.
   [Denoise compensation](assets/12c-denoise-timing/README.md) passes limited
-  numerical timing gates; edited-input state and speech quality remain open.
+  numerical timing gates, as does the [RNNoise frame probe](assets/12c-rnnoise-timing/README.md).
+  Matched speech quality and production state remain open.
 
 Keep sources intact, use isolated homes and frozen native binaries, and never
 change test thresholds to hide failures. No history migration, editing GUI,
