@@ -32,7 +32,9 @@ quality and broader color coverage remain open;
 needs protected-word/listening and short-duration policy acceptance; and
 [18](slices/18-voice-reproduction.md) runs offline with a passing independent ASR word check, but still needs identity,
 delivery and join acceptance. Do not adopt numerical success as speech-quality proof. Noise reduction [12c](slices/12c-noise-reproduction.md) has a conventional
-[mechanism baseline](assets/12c-denoise-baseline/README.md), with quality/state gates open; it does not block the first preview. Camera
+[mechanism baseline](assets/12c-denoise-baseline/README.md);
+[state/endpoint probes](assets/12c-denoise-state/README.md) reject naive resets and
+show uncompensated latency. Quality/state gates remain open; it does not block the first preview. Camera
 [20](slices/20-camera-reproduction.md) is still unstarted.
 
 Current evidence:
