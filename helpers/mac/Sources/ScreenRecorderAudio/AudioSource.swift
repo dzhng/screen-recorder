@@ -15,12 +15,15 @@ struct SourceTrack {
     let available: [TimeSpan]
 
     static func open(plan: AudioTrackPlan) async throws -> SourceTrack {
-        try await open(source: plan.source, streamId: nil,
+        try await open(
+            source: plan.source, streamId: nil,
             sourceOffsetUs: plan.sourceOffsetUs, available: plan.available)
     }
 
-    static func open(source path: String, streamId: String?, sourceOffsetUs: Int64,
-        available: [TimeSpan]) async throws -> SourceTrack {
+    static func open(
+        source path: String, streamId: String?, sourceOffsetUs: Int64,
+        available: [TimeSpan]
+    ) async throws -> SourceTrack {
         let source = URL(fileURLWithPath: path)
         guard FileManager.default.fileExists(atPath: source.path) else {
             throw NativeFailure.decodeFailed("No source media at \(source.path).")
@@ -32,8 +35,13 @@ struct SourceTrack {
         let segments: [SourceSegment]
         do {
             let tracks = try await asset.loadTracks(withMediaType: .audio)
-            guard let track = tracks.first(where: { streamId == nil || streamId == "track:\($0.trackID)" }) else {
-                throw NativeFailure.decodeFailed("Source has no matching audio track: \(source.path).")
+            guard
+                let track = tracks.first(where: {
+                    streamId == nil || streamId == "track:\($0.trackID)"
+                })
+            else {
+                throw NativeFailure.decodeFailed(
+                    "Source has no matching audio track: \(source.path).")
             }
             guard let description = try await track.load(.formatDescriptions).first,
                 let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
@@ -88,18 +96,23 @@ final class ConvertedAudioInterval {
     private let channels: Int
     private var offset = 0
     private var exhausted = false
+    private var paddingFrames: Int
 
     convenience init(
         source: SourceTrack, decoder: AudioSourceReader, interval: TimeSpan,
         outputRate: Int, owed: Int64
     ) throws {
-        try self.init(source: source, decoder: decoder,
+        try self.init(
+            source: source, decoder: decoder,
             start: time(microseconds: interval.startUs - source.sourceOffsetUs),
             outputRate: outputRate, owed: owed)
     }
 
-    init(source: SourceTrack, decoder: AudioSourceReader, start: CMTime,
-        outputRate: Int, owed: Int64, end limit: CMTime? = nil) throws {
+    init(
+        source: SourceTrack, decoder: AudioSourceReader, start: CMTime,
+        outputRate: Int, owed: Int64, end limit: CMTime? = nil, paddingFrames: Int = 0
+    ) throws {
+        self.paddingFrames = paddingFrames
         sourceInput = source.input
         guard
             let sourceFormat = AVAudioFormat(
@@ -113,7 +126,8 @@ final class ConvertedAudioInterval {
             let converter = AVAudioConverter(from: sourceFormat, to: excerptFormat)
         else {
             throw NativeFailure.decodeFailed(
-                "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz.")
+                "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz."
+            )
         }
         // Cumulative layout rounding owns the duration, including a last frame rounded up.
         let requestedEnd = CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate)))
@@ -135,6 +149,10 @@ final class ConvertedAudioInterval {
         var written = 0
         while written < frames {
             if offset == Int(converted.frameLength) {
+                if exhausted, frames - written <= paddingFrames, input.reachedSelectionEnd {
+                    paddingFrames -= frames - written
+                    return
+                }
                 guard !exhausted else {
                     if let detail = sourceInput.failure {
                         throw detail
@@ -148,6 +166,13 @@ final class ConvertedAudioInterval {
                     input.next(status)
                 }
                 if let error = input.failure { throw error }
+                if outcome == .endOfStream, converted.frameLength == 0,
+                    frames - written <= paddingFrames, input.reachedSelectionEnd
+                {
+                    paddingFrames -= frames - written
+                    exhausted = true
+                    return
+                }
                 guard outcome != .error, !input.readerFailed,
                     converted.frameLength > 0
                 else {
@@ -155,7 +180,8 @@ final class ConvertedAudioInterval {
                         throw detail
                     }
                     throw NativeFailure.decodeFailed(
-                        "Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")")
+                        "Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")"
+                    )
                 }
                 exhausted = outcome == .endOfStream
                 offset = 0
@@ -190,6 +216,7 @@ final class AudioSourceReader {
     private var position = CMTime.zero
     private var end = CMTime.zero
     var failed: Bool { reader?.status == .failed }
+    var reachedSelectionEnd: Bool { position >= end }
 
     init(source: SourceTrack) {
         self.source = source
@@ -213,12 +240,14 @@ final class AudioSourceReader {
                     "Cannot read \(source.url.path): \(error.localizedDescription)")
             }
             opened.timeRange = CMTimeRange(start: start, duration: .positiveInfinity)
-            let output = AVAssetReaderTrackOutput(track: source.track, outputSettings: [
-                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
-                AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
-                AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
-                AVLinearPCMIsNonInterleaved: false,
-            ])
+            let output = AVAssetReaderTrackOutput(
+                track: source.track,
+                outputSettings: [
+                    AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
+                    AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
+                    AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
+                    AVLinearPCMIsNonInterleaved: false,
+                ])
             output.alwaysCopiesSampleData = false
             guard opened.canAdd(output) else {
                 throw NativeFailure.decodeFailed("Cannot decode audio track.")
@@ -248,9 +277,11 @@ final class AudioSourceReader {
             let frames = CMSampleBufferGetNumSamples(sample)
             let stamp = CMSampleBufferGetPresentationTimeStamp(sample)
             func frame(_ time: CMTime, rounding: CMTimeRoundingMethod) -> Int {
-                Int(CMTimeConvertScale(
-                    CMTimeSubtract(time, stamp), timescale: CMTimeScale(source.sampleRate),
-                    method: rounding).value)
+                Int(
+                    CMTimeConvertScale(
+                        CMTimeSubtract(time, stamp), timescale: CMTimeScale(source.sampleRate),
+                        method: rounding
+                    ).value)
             }
             let first = max(0, frame(position, rounding: .roundHalfAwayFromZero))
             // Keep the source frame intersecting the quantized end, as AVAssetReader's
@@ -292,6 +323,7 @@ private final class ConversionInput: @unchecked Sendable {
     private var supplied: AVAudioPCMBuffer?
     private(set) var failure: Error?
     var readerFailed: Bool { reader.failed }
+    var reachedSelectionEnd: Bool { reader.reachedSelectionEnd }
 
     init(reader: AudioSourceReader) { self.reader = reader }
 

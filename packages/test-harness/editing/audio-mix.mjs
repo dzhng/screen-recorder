@@ -12,7 +12,11 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { applyBatch, createCompiler, validateComposition } from "../../composition/dist/index.js";
+import {
+  applyBatch,
+  createCompiler,
+  validateComposition,
+} from "../../composition/dist/index.js";
 
 assert.equal(process.argv.slice(2).join(" "), "--case music-and-replacement");
 const worker = process.env.SCREENREC_NATIVE;
@@ -35,7 +39,7 @@ function call(operation, params, expectedError) {
   assert.equal(response.ok, true, JSON.stringify(response));
   return response.data;
 }
-function wave(path, decode = true) {
+function wave(path, decode = true, channels = 2) {
   const bytes = readFileSync(path);
   assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
   let format, pcm;
@@ -53,10 +57,12 @@ function wave(path, decode = true) {
     if (name === "data") pcm = chunk;
     position += 8 + length + (length % 2);
   }
-  assert.deepEqual(format, { tag: 3, channels: 2, rate: 48000, bits: 32 });
+  assert.deepEqual(format, { tag: 3, channels, rate: 48000, bits: 32 });
   assert(pcm);
   if (!decode) return pcm.length / 8;
-  return Array.from({ length: pcm.length / 4 }, (_, i) => pcm.readFloatLE(i * 4));
+  return Array.from({ length: pcm.length / 4 }, (_, i) =>
+    pcm.readFloatLE(i * 4),
+  );
 }
 function fixture(name, rate, channels, signal) {
   const frames = rate * 2,
@@ -78,7 +84,9 @@ function fixture(name, rate, channels, signal) {
     for (let channel = 0; channel < channels; channel++) {
       const value = Math.round(signal(i, channel) * 32768);
       bytes.writeInt16LE(value, 44 + (i * channels + channel) * 2);
-      samples.push(bytes.readInt16LE(44 + (i * channels + channel) * 2) / 32768);
+      samples.push(
+        bytes.readInt16LE(44 + (i * channels + channel) * 2) / 32768,
+      );
     }
   const path = join(scratch, `${name}.wav`);
   writeFileSync(path, bytes);
@@ -86,7 +94,12 @@ function fixture(name, rate, channels, signal) {
   const stream = probe.streams.find((value) => value.kind === "audio");
   return {
     samples,
-    binding: { assetId: name, streamId: stream.id, path, originUs: probe.originUs },
+    binding: {
+      assetId: name,
+      streamId: stream.id,
+      path,
+      originUs: probe.originUs,
+    },
     asset: {
       id: name,
       streams: [
@@ -146,7 +159,12 @@ const evidence = {
 };
 try {
   const sources = [];
-  function render(document, range = { startUs: 0, endUs: 1000000 }, expectedError, decode = true) {
+  function render(
+    document,
+    range = { startUs: 0, endUs: 1000000 },
+    expectedError,
+    decode = true,
+  ) {
     const model = validateComposition(
       document,
       sources.map((source) => source.asset),
@@ -167,20 +185,27 @@ try {
       assets: sources.map((source) => source.binding),
     };
     const result = call("media.mixCompositionAudio", params, expectedError);
-    return expectedError ? result : { result, samples: wave(result.file, decode), params };
+    return expectedError
+      ? result
+      : { result, samples: wave(result.file, decode), params };
   }
   const silence = render(empty);
   assert.equal(silence.result.frames, 48000);
   assert(silence.samples.every((value) => value === 0));
-  evidence.checks.push("empty project produces exactly 48000 stereo silent frames");
+  evidence.checks.push(
+    "empty project produces exactly 48000 stereo silent frames",
+  );
   const a = fixture("voice", 48000, 1, (i) =>
-    i === 0 || i === 47999 ? 0.75 : 0.125 * Math.sin((2 * Math.PI * 400 * i) / 48000),
+    i === 0 || i === 47999
+      ? 0.75
+      : 0.125 * Math.sin((2 * Math.PI * 400 * i) / 48000),
   );
   const b = fixture(
     "music",
     48000,
     2,
-    (i, channel) => 0.125 * Math.sin((2 * Math.PI * (channel ? 1200 : 800) * i) / 48000),
+    (i, channel) =>
+      0.125 * Math.sin((2 * Math.PI * (channel ? 1200 : 800) * i) / 48000),
   );
   sources.push(a, b);
   const document = {
@@ -206,7 +231,9 @@ try {
     for (let channel = 0; channel < 2; channel++) {
       const voice = a.samples[frame];
       const music =
-        frame >= 12000 && frame < 36000 ? b.samples[(frame - 12000) * 2 + channel] * 2 : 0;
+        frame >= 12000 && frame < 36000
+          ? b.samples[(frame - 12000) * 2 + channel] * 2
+          : 0;
       assert.equal(
         mixed.samples[frame * 2 + channel],
         Math.fround(voice + music),
@@ -231,7 +258,14 @@ try {
   evidence.checks.push("adding authored silence preserves all levels exactly");
   const split = applyBatch(
     document,
-    [{ operation: "split", clipIds: ["voice-clip"], atUs: 123457, scope: "selected" }],
+    [
+      {
+        operation: "split",
+        clipIds: ["voice-clip"],
+        atUs: 123457,
+        scope: "selected",
+      },
+    ],
     { assets: sources.map((s) => s.asset), namespace: "mix-split" },
   );
   assert.deepEqual(render(split.document).samples, mixed.samples);
@@ -241,7 +275,10 @@ try {
     "48k pure split and non-sample-aligned late window preserve full mix samples",
   );
   const videoPath = fileURLToPath(
-    new URL("../../../specs/agent-editing/assets/00-corpus/a.mov", import.meta.url),
+    new URL(
+      "../../../specs/agent-editing/assets/00-corpus/a.mov",
+      import.meta.url,
+    ),
   );
   const videoProbe = call("media.probe", { path: videoPath });
   const videoStream = videoProbe.streams.find((s) => s.kind === "video");
@@ -259,7 +296,9 @@ try {
           id: videoStream.id,
           kind: "video",
           bounds: { startUs: videoStream.startUs, endUs: videoStream.endUs },
-          available: [{ startUs: videoStream.startUs, endUs: videoStream.endUs }],
+          available: [
+            { startUs: videoStream.startUs, endUs: videoStream.endUs },
+          ],
         },
       ],
     },
@@ -320,7 +359,9 @@ try {
     { clipId: "voice-clip", ranges: [{ start: 12000, end: 24000 }] },
   ]);
   gapAsset.available = oldAvailable;
-  evidence.checks.push("acquisition gaps remain silent and explicitly unavailable");
+  evidence.checks.push(
+    "acquisition gaps remain silent and explicitly unavailable",
+  );
   const resampledSource = fixture(
     "44100",
     44100,
@@ -338,11 +379,17 @@ try {
   for (let i = 100; i < 47900; i++)
     interiorError = Math.max(
       interiorError,
-      Math.abs(resampled.samples[i * 2] - 0.125 * Math.sin((2 * Math.PI * 400 * i) / 48000)),
+      Math.abs(
+        resampled.samples[i * 2] -
+          0.125 * Math.sin((2 * Math.PI * 400 * i) / 48000),
+      ),
     );
   assert.equal(resampled.samples.length, 96000);
   assert(interiorError < 0.002, `44.1k tone error ${interiorError}`);
-  const resampledWindow = render(resampledDoc, { startUs: 123457, endUs: 812349 });
+  const resampledWindow = render(resampledDoc, {
+    startUs: 123457,
+    endUs: 812349,
+  });
   let windowError = 0;
   for (let i = 0; i < resampledWindow.samples.length; i++)
     windowError = Math.max(
@@ -358,12 +405,21 @@ try {
   }
   const split441 = applyBatch(
     resampledDoc,
-    [{ operation: "split", clipIds: ["resampled"], atUs: 123457, scope: "selected" }],
+    [
+      {
+        operation: "split",
+        clipIds: ["resampled"],
+        atUs: 123457,
+        scope: "selected",
+      },
+    ],
     { assets: sources.map((s) => s.asset), namespace: "split441" },
   );
   assert.deepEqual(render(split441.document).samples, resampled.samples);
   assert.equal(windowError, 0);
-  const excludedImpulse = fixture("excluded-impulse", 44100, 1, (i) => (i === 22049 ? 0.75 : 0));
+  const excludedImpulse = fixture("excluded-impulse", 44100, 1, (i) =>
+    i === 22049 ? 0.75 : 0,
+  );
   sources.push(excludedImpulse);
   const impulseDoc = {
     ...empty,
@@ -371,7 +427,9 @@ try {
     clips: [clip("i", excludedImpulse, "i", 0, 1000000, 500000)],
   };
   const leakage = render(impulseDoc);
-  const excludedImpulsePeak = Math.max(...leakage.samples.slice(0, 2048).map(Math.abs));
+  const excludedImpulsePeak = Math.max(
+    ...leakage.samples.slice(0, 2048).map(Math.abs),
+  );
   let lastInfluencedFrame = -1;
   for (let i = 0; i < leakage.samples.length; i += 2)
     if (Math.abs(leakage.samples[i]) > 1e-9) lastInfluencedFrame = i / 2;
@@ -392,7 +450,9 @@ try {
   evidence.checks.push(
     "44.1k mono resamples to exact 48k stereo duration with expected interior tone",
   );
-  const gapImpulse = fixture("gap-impulse", 44100, 1, (i) => (i === 33074 ? 0.75 : 0));
+  const gapImpulse = fixture("gap-impulse", 44100, 1, (i) =>
+    i === 33074 ? 0.75 : 0,
+  );
   sources.push(gapImpulse);
   gapImpulse.asset.streams[0].available = [
     { startUs: 0, endUs: 500000 },
@@ -455,12 +515,20 @@ try {
     ...clip("cut-right", a, "t", 0, 750000, 250000),
     placement: {
       kind: "project",
-      range: { startUs: cutTime, endUs: { numerator: 2620375, denominator: 3 } },
+      range: {
+        startUs: cutTime,
+        endUs: { numerator: 2620375, denominator: 3 },
+      },
     },
   });
   const cut = render(cutDoc, { startUs: 0, endUs: 873459 });
-  const reference48 = a.samples.slice(0, 48000).flatMap((value) => [value, value]);
-  const expectedCut = [...reference48.slice(0, 5926 * 2), ...reference48.slice(12000 * 2)];
+  const reference48 = a.samples
+    .slice(0, 48000)
+    .flatMap((value) => [value, value]);
+  const expectedCut = [
+    ...reference48.slice(0, 5926 * 2),
+    ...reference48.slice(12000 * 2),
+  ];
   assert.deepEqual(cut.samples, expectedCut);
   evidence.checks.push(
     "rational-time abrupt true cut preserves selected source samples with no extra sample or hidden ramp",
@@ -470,9 +538,136 @@ try {
     tracks: [{ id: "origin", kind: "audio", order: 0 }],
     clips: [clip("origin", a, "origin", 1, 1000000, 1)],
   };
-  render(fractionalOrigin, undefined, "NOT_READY");
+  const fractional = render(fractionalOrigin);
+  assert.deepEqual(fractional.samples, reference48);
   evidence.checks.push(
-    "unsupported retained-run origin rejects before decoding instead of shifting or exhausting PCM",
+    "fractional retained-run origin follows nearest native source selection",
+  );
+  const phaseCases = [];
+  for (const sourceStartUs of [
+    500000, 500001, 500010, 500011, 500020, 500021,
+  ]) {
+    const frozen = call("media.audio", {
+      output: join(scratch, `frozen-${sourceStartUs}.wav`),
+      spans: [{ startUs: sourceStartUs, endUs: sourceStartUs + 500000 }],
+      tracks: [
+        {
+          role: "narration",
+          source: a.binding.path,
+          sourceOffsetUs: 0,
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    });
+    const expected = wave(frozen.file, true, 1).flatMap((value) => [
+      value,
+      value,
+    ]);
+    for (const projectStartUs of [0, 10001]) {
+      const phaseDoc = {
+        ...empty,
+        tracks: [{ id: "phase", kind: "audio", order: 0 }],
+        clips: [
+          clip(
+            "phase",
+            a,
+            "phase",
+            projectStartUs,
+            projectStartUs + 500000,
+            sourceStartUs,
+          ),
+        ],
+      };
+      const range = { startUs: projectStartUs, endUs: projectStartUs + 500000 };
+      const whole = render(phaseDoc, range);
+      assert.deepEqual(whole.samples, expected);
+      const split = applyBatch(
+        phaseDoc,
+        [
+          {
+            operation: "split",
+            clipIds: ["phase"],
+            atUs: projectStartUs + 123457,
+            scope: "selected",
+          },
+        ],
+        { assets: sources.map((s) => s.asset), namespace: "phase-split" },
+      );
+      assert.deepEqual(render(split.document, range).samples, expected);
+      const late = render(phaseDoc, {
+        startUs: projectStartUs + 123457,
+        endUs: range.endUs,
+      });
+      assert.deepEqual(
+        late.samples,
+        expected.slice(
+          (Math.floor((projectStartUs + 123457) * 0.048) -
+            Math.floor(projectStartUs * 0.048)) *
+            2,
+        ),
+      );
+      phaseCases.push({
+        sourceStartUs,
+        projectStartUs,
+        frames: whole.result.frames,
+      });
+    }
+  }
+  const shortage = {
+    ...fractionalOrigin,
+    clips: [clip("origin", a, "origin", 11, 1000000, 11)],
+  };
+  assert.deepEqual(render(shortage).samples, [...reference48.slice(2), 0, 0]);
+  for (const sourceStartUs of [1, 11, 12, 500001, 500012, 500023]) {
+    const phaseDoc = {
+      ...empty,
+      tracks: [{ id: "rphase", kind: "audio", order: 0 }],
+      clips: [
+        clip("rphase", resampledSource, "rphase", 10001, 510001, sourceStartUs),
+      ],
+    };
+    const range = { startUs: 10001, endUs: 510001 };
+    const whole = render(phaseDoc, range);
+    const split = applyBatch(
+      phaseDoc,
+      [
+        {
+          operation: "split",
+          clipIds: ["rphase"],
+          atUs: 133458,
+          scope: "selected",
+        },
+      ],
+      { assets: sources.map((s) => s.asset), namespace: "rphase-split" },
+    );
+    assert.deepEqual(render(split.document, range).samples, whole.samples);
+    assert.deepEqual(
+      render(phaseDoc, { startUs: 133458, endUs: 510001 }).samples,
+      whole.samples.slice((Math.floor(133458 * 0.048) - 480) * 2),
+    );
+  }
+  for (const sampleRate of [44100, 48000]) {
+    const poison = fixture(
+      `discrete-poison-${sampleRate}`,
+      sampleRate,
+      1,
+      (i) => (i === 0 ? 0.75 : 0),
+    );
+    sources.push(poison);
+    const poisoned = {
+      ...empty,
+      tracks: [{ id: "poison", kind: "audio", order: 0 }],
+      clips: [clip("poison", poison, "poison", 0, 500000, 20)],
+    };
+    assert(
+      render(poisoned, { startUs: 0, endUs: 500000 }).samples.every(
+        (value) => value === 0,
+      ),
+    );
+  }
+  evidence.phaseCases = phaseCases;
+  evidence.checks.push(
+    "fractional trims match frozen nearest source selection; whole/split/window PCM equality and bounded zero endpoint extension",
   );
   const longDoc = {
     ...empty,
@@ -481,8 +676,8 @@ try {
       clip(`long-${i}`, a, "long", i * 1000001, (i + 1) * 1000001),
     ),
   };
-  // One microsecond offsets are explicitly unsupported until fractional phase execution lands.
-  render(longDoc, { startUs: 0, endUs: 128000128 }, "NOT_READY", false);
+  // Absolute output origins survive fractional microsecond edits.
+  render(longDoc, { startUs: 0, endUs: 128000128 }, undefined, false);
   function frameTime(frame) {
     let numerator = frame * 125,
       denominator = 6,
@@ -501,7 +696,12 @@ try {
     };
   }
   const started = performance.now();
-  const long = render(longDoc, { startUs: 0, endUs: 128002667 }, undefined, false);
+  const long = render(
+    longDoc,
+    { startUs: 0, endUs: 128002667 },
+    undefined,
+    false,
+  );
   assert.equal(long.samples, 6144128);
   assert.equal(long.result.frames, 6144128);
   evidence.longExecution = {
@@ -513,7 +713,7 @@ try {
   };
   assert(long.result.maximumBlockFrames <= 8192);
   evidence.checks.push(
-    "128 fractional-microsecond edits produce exactly6144128 frames with bounded block delivery; fractional phase rejects explicitly",
+    "128 fractional-microsecond edits produce exactly6144128 frames with bounded block delivery; fractional phase executes with compiler-owned origins",
   );
   const loud = structuredClone(document);
   loud.processing = [gain("output", null, [4])];
@@ -521,7 +721,9 @@ try {
   assert.equal(over.result.peak, 3);
   assert.equal(over.samples[0], 3);
   assert(over.result.clippedSamples > 0);
-  evidence.checks.push("out-of-range float samples preserved with explicit peak/clipping report");
+  evidence.checks.push(
+    "out-of-range float samples preserved with explicit peak/clipping report",
+  );
   const retimed = structuredClone(document);
   retimed.clips[0].placement.range.endUs = 900000;
   render(retimed, undefined, "NOT_READY");
@@ -532,12 +734,16 @@ try {
   );
   const wrongStream = structuredClone(mixed.params);
   wrongStream.output = join(scratch, "missing-stream.wav");
-  wrongStream.clips.find((clip) => clip.clipId === "voice-clip").source.streamId =
-    "track:2147483647";
-  wrongStream.assets.find((asset) => asset.assetId === a.binding.assetId).streamId =
-    "track:2147483647";
+  wrongStream.clips.find(
+    (clip) => clip.clipId === "voice-clip",
+  ).source.streamId = "track:2147483647";
+  wrongStream.assets.find(
+    (asset) => asset.assetId === a.binding.assetId,
+  ).streamId = "track:2147483647";
   call("media.mixCompositionAudio", wrongStream, "NATIVE_DECODE_FAILED");
-  evidence.checks.push("retiming and unknown request fields rejected explicitly");
+  evidence.checks.push(
+    "retiming and unknown request fields rejected explicitly",
+  );
   const cancelledOutput = join(scratch, "cancelled.wav");
   const child = spawn(worker, [], { stdio: ["pipe", "pipe", "pipe"] });
   let terminal = false;

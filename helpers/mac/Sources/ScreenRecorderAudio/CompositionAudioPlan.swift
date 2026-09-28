@@ -27,7 +27,11 @@ public struct CompositionAudioPlan: Codable, Sendable {
         let source: Source
         let pitch: String
         let available: [Samples]
-        let context: [Selection]
+        let context: [Context]
+    }
+    public struct Context: Codable, Sendable {
+        let source: Selection
+        let sampleRange: Samples
     }
     public struct Source: Codable, Sendable {
         let kind: String
@@ -95,7 +99,7 @@ struct ExactTime: Codable, Sendable {
         }
         return ExactTime(top.partialValue, bottom.partialValue)
     }
-    func sample(_ rate: Int, ceil: Bool = false) throws -> Int64 {
+    func sample(_ rate: Int, ceil: Bool = false, nearest: Bool = false) throws -> Int64 {
         let top = numerator.multipliedReportingOverflow(by: Int128(rate))
         let bottom = denominator.multipliedReportingOverflow(by: 1_000_000)
         guard !top.overflow, !bottom.overflow else {
@@ -105,7 +109,12 @@ struct ExactTime: Codable, Sendable {
         let quotient = top.partialValue / bottom.partialValue
         let floor =
             quotient - (top.partialValue < 0 && top.partialValue % bottom.partialValue != 0 ? 1 : 0)
-        let rounded = floor + (ceil && top.partialValue % bottom.partialValue != 0 ? 1 : 0)
+        let residue = top.partialValue - floor * bottom.partialValue
+        let half = bottom.partialValue / 2
+        let roundsUp =
+            top.partialValue < 0
+            ? residue > half : residue >= half + bottom.partialValue % 2
+        let rounded = floor + ((nearest ? roundsUp : ceil && residue != 0) ? 1 : 0)
         guard let value = Int64(exactly: rounded) else {
             throw NativeFailure("INVALID_REQUEST", "Audio sample exceeds native bounds.")
         }

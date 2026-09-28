@@ -12,8 +12,9 @@
     "44.1k mono resamples to exact 48k stereo duration with expected interior tone",
     "excluded selection, acquisition-gap and anchor-gap impulses cannot influence selected PCM",
     "rational-time abrupt true cut preserves selected source samples with no extra sample or hidden ramp",
-    "unsupported retained-run origin rejects before decoding instead of shifting or exhausting PCM",
-    "128 fractional-microsecond edits produce exactly6144128 frames with bounded block delivery; fractional phase rejects explicitly",
+    "fractional retained-run origin follows nearest native source selection",
+    "fractional trims match frozen nearest source selection; whole/split/window PCM equality and bounded zero endpoint extension",
+    "128 fractional-microsecond edits produce exactly6144128 frames with bounded block delivery; fractional phase executes with compiler-owned origins",
     "out-of-range float samples preserved with explicit peak/clipping report",
     "retiming and unknown request fields rejected explicitly",
     "cancelled native process publishes no partial output; fresh worker can restart"
@@ -32,11 +33,73 @@
     "excludedImpulsePeak": 0,
     "exclusionAcceptance": true
   },
+  "phaseCases": [
+    {
+      "sourceStartUs": 500000,
+      "projectStartUs": 0,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500000,
+      "projectStartUs": 10001,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500001,
+      "projectStartUs": 0,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500001,
+      "projectStartUs": 10001,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500010,
+      "projectStartUs": 0,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500010,
+      "projectStartUs": 10001,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500011,
+      "projectStartUs": 0,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500011,
+      "projectStartUs": 10001,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500020,
+      "projectStartUs": 0,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500020,
+      "projectStartUs": 10001,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500021,
+      "projectStartUs": 0,
+      "frames": 24000
+    },
+    {
+      "sourceStartUs": 500021,
+      "projectStartUs": 10001,
+      "frames": 24000
+    }
+  ],
   "longExecution": {
     "frames": 6144128,
-    "elapsedMs": 13491.154083999998,
+    "elapsedMs": 21288.666832999996,
     "maximumBlockFrames": 8065,
-    "peakResidentBytes": 30654464,
-    "shortPeakResidentBytes": 28655616
+    "peakResidentBytes": 31129600,
+    "shortPeakResidentBytes": 29360128
   }
 }

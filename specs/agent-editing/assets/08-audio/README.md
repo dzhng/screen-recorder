@@ -53,16 +53,21 @@ rational-time true cut preserves the 48 kHz source samples without extra frames.
 
 ## Remaining gates
 
-Sub-sample affine source-to-project offsets and nonaligned retained source origins
-return `NOT_READY`; the worker does not
-round them into a different edit. Rate changes likewise require prepared retiming.
-The baseline accepts mono/stereo streams with sample-aligned affine offsets and source/output run origins. The independent
-review found that mismatched retained origins could shift/exhaust decoded samples;
-[origin red](origin-red.txt) pins the explicit readiness fence. Reconcile general
-origins with frozen nearest-start source addressing before accepting slice 08. Broader
-codec/rate/segment-origin conformance, memory scaling acceptance, actual job
-cancellation cleanup, public live media journeys, and real-narration listening
-remain unverified. The retained long run uses fractional microsecond boundaries with integral sample
-offsets: 128 edits produce exactly 6,144,128 frames. Its measured peak resident
-set stays near the short run; these measurements are not the full scale gate.
-The initial request bounds limit scheduled clips and processing metadata explicitly; the scale slice must validate or improve those bounds.
+Fractional source/project microseconds now use the existing decoder's nearest
+source start and ceil source end, paired with the compiler's absolute output-floor
+origin. Each split/window uses that same full retained run origin. The production
+harness compares half-sample threshold cases against `media.audio`, checks 44.1/48 kHz
+split/window equality, and poisons fully excluded native samples. A quantization
+shortage at the run end receives bounded synthetic zero extension only after the
+decoder reaches its declared selection end; this is endpoint padding, not acquired
+silence, and never reads the next excluded source frame. [Origin red](origin-red.txt)
+records the earlier failure that led to this reconciliation.
+
+Rate changes still require prepared retiming. Broader codec/rate/segment-origin
+conformance, memory scaling acceptance, actual job cancellation cleanup, public
+live media journeys, and real-narration listening remain unverified. The long run
+includes fractional microsecond offsets, while a separate rational edit sequence
+produces exactly 6,144,128 frames. Its measured peak resident set stays near the
+short run; these measurements are not the full scale gate. The initial request
+bounds limit scheduled clips and processing metadata explicitly; the scale slice
+must validate or improve those bounds.

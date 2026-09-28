@@ -1,3 +1,9 @@
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write Objects.LinkFileList
+[2/4] Linking ScreenRecorderAudioTests
+[3/4] Applying ScreenRecorderAudioTests
+Build of product 'ScreenRecorderAudioTests' complete! (3.16s)
 PASS single span of narration is 24000 frames of its own samples at unity gain
 PASS disjoint spans concatenate sample-exactly and never read the removed region
 PASS positive and negative source offsets map recording time onto each track's own timeline

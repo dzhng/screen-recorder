@@ -25,3 +25,17 @@ speaker output were not used.
 
 Docs: the native README and slice08 link the evidence, distinguish native execution
 from public live journeys, and leave the baseline phase/quality gates open.
+
+## Fractional phase reconciliation
+
+A second scoped Codex review found no actionable correctness findings in the
+native nearest-start / ceil-end addressing, full-run output origin, and bounded
+synthetic endpoint padding changes. Its sandbox could not start AVAssetReader;
+that runtime attempt is inconclusive. The independent production-entry run and
+recording preservation run are the execution evidence, not that review attempt.
+
+The source reader must reach its declared selection end before padding is allowed.
+Padding is limited to the arithmetic deficit between owed output frames and the
+selected native frame count converted to output rate. It cannot conceal a short
+physical decode or read the next excluded source frame. The recording caller's
+padding budget remains zero.

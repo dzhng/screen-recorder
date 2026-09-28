@@ -35,17 +35,22 @@ public enum CompositionAudio {
     private struct Context {
         let sourceStart: Int64
         let sourceEnd: Int64
-        let outputStart: Int64
-        let outputEnd: Int64
         let project: Plan.Samples
     }
     private static func retainedContexts(
-        _ ranges: [Plan.Selection], source: SourceTrack,
+        _ ranges: [Plan.Context], source: SourceTrack,
         offset: ExactTime
     ) throws -> [Context] {
         var result: [Context] = []
         var previous = ExactTime(0)
-        for range in ranges {
+        for compiled in ranges {
+            let range = compiled.source
+            guard compiled.sampleRange.valid,
+                compiled.sampleRange.start == (try range.startUs.subtract(offset).sample(rate)),
+                compiled.sampleRange.end == (try range.endUs.subtract(offset).sample(rate))
+            else {
+                throw invalid("Context sample bounds disagree with its source/project mapping.")
+            }
             guard try range.startUs.subtract(previous).numerator >= 0,
                 try range.endUs.subtract(range.startUs).numerator > 0
             else {
@@ -63,25 +68,16 @@ public enum CompositionAudio {
                 guard try end.subtract(start).numerator > 0 else { continue }
                 let rawStart = try start.subtract(ExactTime(Int128(source.sourceOffsetUs)))
                 let rawEnd = try end.subtract(ExactTime(Int128(source.sourceOffsetUs)))
-                let sourceStart = try rawStart.sample(source.sampleRate, ceil: true)
+                let sourceStart = try rawStart.sample(source.sampleRate, nearest: true)
                 let sourceEnd = try rawEnd.sample(source.sampleRate, ceil: true)
-                let outputStart = try rawStart.sample(rate)
-                guard
-                    ExactTime(Int128(sourceStart) * 1_000_000, Int128(source.sampleRate))
-                        .equals(ExactTime(Int128(outputStart) * 1_000_000, Int128(rate)))
-                else {
-                    throw NativeFailure(
-                        "NOT_READY", "Retained audio origin requires source phase reconciliation.")
-                }
                 let project = Plan.Samples(
-                    start: try start.subtract(offset).sample(rate),
-                    end: try end.subtract(offset).sample(rate))
+                    start: max(compiled.sampleRange.start, try start.subtract(offset).sample(rate)),
+                    end: min(compiled.sampleRange.end, try end.subtract(offset).sample(rate)))
                 if sourceEnd > sourceStart, project.end > project.start {
                     result.append(
                         Context(
                             sourceStart: sourceStart, sourceEnd: sourceEnd,
-                            outputStart: try rawStart.sample(rate),
-                            outputEnd: try rawEnd.sample(rate), project: project))
+                            project: project))
                 }
             }
         }
@@ -89,17 +85,14 @@ public enum CompositionAudio {
     }
     private final class Input {
         let source: SourceTrack
-        let offset: ExactTime
         let contexts: [Context]
         let intervals: [Plan.Samples]
         var index = 0
         var conversion: ConvertedAudioInterval?
         var maximumPreroll: Int64 = 0
         var maximumTail: Int64 = 0
-        init(source: SourceTrack, offset: ExactTime, contexts: [Context], intervals: [Plan.Samples])
-        {
+        init(source: SourceTrack, contexts: [Context], intervals: [Plan.Samples]) {
             self.source = source
-            self.offset = offset
             self.contexts = contexts
             self.intervals = intervals
         }
@@ -116,12 +109,7 @@ public enum CompositionAudio {
                 let first = max(position, interval.start)
                 let last = min(end, interval.end)
                 if conversion == nil {
-                    let projectTime = ExactTime(Int128(first) * 1_000_000, Int128(rate))
-                    let raw = try projectTime.subtract(
-                        ExactTime(-offset.numerator, offset.denominator)
-                    )
-                    .subtract(ExactTime(Int128(source.sourceOffsetUs)))
-                    let desired = try raw.sample(rate)
+                    let desired = first
                     var divisor = source.sampleRate
                     var remainder = rate
                     while remainder != 0 { (divisor, remainder) = (remainder, divisor % remainder) }
@@ -129,14 +117,14 @@ public enum CompositionAudio {
                     let outputPeriod = Int64(rate / divisor)
                     guard
                         let contextRange = contexts.first(where: {
-                            desired >= $0.outputStart && desired < $0.outputEnd
+                            desired >= $0.project.start && desired < $0.project.end
                         })
                     else {
                         throw NativeFailure.decodeFailed("No retained context at requested sample.")
                     }
                     let segmentStart = contextRange.sourceStart
-                    let segmentOutputStart = contextRange.outputStart
-                    let segmentOutputEnd = contextRange.outputEnd
+                    let segmentOutputStart = contextRange.project.start
+                    let segmentOutputEnd = contextRange.project.end
                     // Phase is fixed by the compiler's retained run, not a preview window or
                     // clip identity. Decoder input never crosses this selected/available run.
                     let context: Int64 = source.sampleRate == rate ? 0 : 1024
@@ -155,7 +143,12 @@ public enum CompositionAudio {
                         outputRate: rate, owed: owed,
                         end: CMTime(
                             value: contextRange.sourceEnd, timescale: CMTimeScale(source.sampleRate)
-                        ))
+                        ),
+                        paddingFrames: Int(
+                            max(
+                                0,
+                                owed - (contextRange.sourceEnd - startSample) * Int64(rate)
+                                    / Int64(source.sampleRate))))
                     var remaining = skip
                     while remaining > 0 {
                         try Task.checkCancellation()
@@ -290,14 +283,6 @@ public enum CompositionAudio {
                 throw NativeFailure("NOT_READY", "Rate-changing audio requires prepared retiming.")
             }
             let offset = try range.startUs.subtract(clip.placement.startUs)
-            let offsetSamples = try offset.sample(rate)
-            guard
-                try offset.subtract(ExactTime(Int128(offsetSamples) * 1_000_000, Int128(rate)))
-                    .numerator == 0
-            else {
-                throw NativeFailure(
-                    "NOT_READY", "Sub-sample audio placement requires fractional phase execution.")
-            }
             let source: SourceTrack
             if let existing = opened[[assetId, streamId]] {
                 source = existing
@@ -339,7 +324,7 @@ public enum CompositionAudio {
             }
             missing.append(.init(clipId: clip.clipId, ranges: absent))
             inputs[clip.clipId] = Input(
-                source: source, offset: offset, contexts: contexts, intervals: readable)
+                source: source, contexts: contexts, intervals: readable)
         }
         let writer = try AudioWaveWriter(
             sampleRate: rate, channels: 2,
