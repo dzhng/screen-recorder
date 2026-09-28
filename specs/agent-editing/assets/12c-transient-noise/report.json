@@ -1,0 +1,43 @@
+{
+  "planSha256": "72e1f1e4f39841cbf15207bec8f437e43ecf76e307dd91e7aa7743df0f038e58",
+  "processorSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "referenceSha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769",
+  "frames": 240000,
+  "runs": {
+    "noise": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-api",
+        "/tmp/screenrec-denoise-transient-study/noise.f32",
+        "/tmp/screenrec-denoise-transient-study/noise-raw.f32",
+        "2"
+      ],
+      "inputSha256": "579921d530a010087b98ac8363b0ea8b442e42b918fbd63bc63ff6a39ed3f2ba",
+      "outputSha256": "1c2b2166941d014f86056c6bb561ce86145d23fac6ba95ea54148543e3e69023",
+      "outputPeak": 0.008012721315026283,
+      "outputClippedSamples": 0,
+      "relativeErrorDb": -29.570351807312395,
+      "interpretation": "noise-only attenuation, not residual in mixture"
+    },
+    "mixture": {
+      "command": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/tmp/screenrec-rnnoise-api",
+        "/tmp/screenrec-denoise-transient-study/mixture.f32",
+        "/tmp/screenrec-denoise-transient-study/mixture-raw.f32",
+        "2"
+      ],
+      "inputSha256": "2257acaf1067e4392f2c40807ff842ad2bb9adc27d0af9ea2ed7ff13b387a2c3",
+      "outputSha256": "d4ad645447d8976fac46a3880f2b00515213e3bd348ca73ba079340e0ae92319",
+      "outputPeak": 0.07981722801923752,
+      "outputClippedSamples": 0,
+      "relativeErrorDb": 5.739954675319722,
+      "interpretation": "mixture error against reference, not speech damage score"
+    }
+  },
+  "elapsedSeconds": 0.38474895898252726
+}

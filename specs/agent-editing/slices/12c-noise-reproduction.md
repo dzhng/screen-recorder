@@ -77,3 +77,7 @@ verify protected phonemes, joins and broader listening, then
 freeze a state policy that preserves pure splits while excluding removed input.
 Neither measured noise attenuation nor surviving impulse peaks closes listening,
 protected-phoneme, retimed/combined-input or production integration acceptance.
+
+[Brief transient controls](../assets/12c-transient-noise/README.md) extend the
+stationary comparison with fixed bursts. Noise-only attenuation differs across
+these cohorts; mixed-speech error still cannot establish protected speech quality.

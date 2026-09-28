@@ -1,0 +1,9 @@
+{
+  "hypothesis": "Frozen RNNoise may suppress stationary hum more effectively than short transients; noise-only attenuation must not be mistaken for speech preservation.",
+  "baseline": "retained matched-noise original recording reference and RNNoise reference-only output",
+  "input": "same mono48k5s reference; deterministic20ms triangular seeded-noise bursts at0.5,1.5,2.5,3.5,4.5seconds; exact10dB aggregate added-noise ratio",
+  "fixed": "processor697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee;960sample compensation;two zero flush blocks; no output normalization",
+  "outputs": "noise-only and mixture, exact count, peak/clipping, noise-only attenuation and mixture error relative to known input noise; no speech-quality pass threshold",
+  "resources": "30seconds subprocess;120seconds batch; no downloads or playback",
+  "next": "Use this to choose broader listening inputs; do not promote backend or state policy"
+}
