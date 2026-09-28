@@ -28,3 +28,6 @@ review sandbox. That error now reached the caller intact rather than being
 replaced by cleanup EPIPE. The author's unrestricted run completed all checks,
 including actual CLI and MCP project-list requests. This review does not establish
 the underlying cause of the earlier, masked lifecycle-review startup failure.
+
+Root integration also passes the complete failure/graceful/crash/restart probe
+on the combined checkout; `cleanup-root.log` retains its terminal result.

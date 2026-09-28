@@ -39,3 +39,10 @@ refused until their owning stores support portable adoption. Prepared model-depe
 outputs, fonts and actual 15a output remain [slice 22](../../slices/22-portable-projects.md)
 acceptance. Native media equality does not close listening or physical-camera gates.
 A fresh autonomous skill trial remains a separate acceptance check.
+
+Root integration reproduces every public check and the current/historical decoded
+RGB and WAV hashes on the combined worker. Service (16), protocol (19), and core
+(11) checks pass. The first core run retains a five-second large-history deletion
+timeout during a concurrent Swift build; the unchanged confirmation passes after
+the build. This is not evidence of a proven timeout cause or a raised limit.
+`root-integration.json` and compressed logs retain both outcomes.
