@@ -1,6 +1,6 @@
 # 04 — Durable projects and shared commands
 
-Status: core store checkpoint verified; [90 focused tests, type checking/build and independent review](../assets/04-project-store/README.md) pass. [Public CLI/MCP state journeys](../assets/04-public-projects/README.md) now pass, including native fixture admission. [Deletion lifecycle](../assets/04-project-deletion/README.md) now has real queue drain, restart, retained-asset and public CLI/MCP evidence. Remaining public failure/history coverage is still open. Slice remains open. Dependencies: [02](./02-assets.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
+Status: verified for the durable project/public-state boundary. [Core evidence](../assets/04-project-store/README.md), [live CLI/MCP state journeys](../assets/04-public-projects/README.md) and [deletion lifecycle](../assets/04-project-deletion/README.md) pass, including integrated affected checks. Rendered-media acceptance remains 09 and later; future resource owners must join deletion before release. Dependencies: [02](./02-assets.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
 
 ## Contract
 

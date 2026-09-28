@@ -11,13 +11,18 @@
     "restart replay",
     "undo/restore",
     "native admission of real fixture media",
+    "prepared media survives a rejected edit without project mutation",
     "all four processing scopes",
     "new clip has no inherited settings",
     "ordered repeated steps and bypass",
     "linked split with independent processing IDs",
     "audio replacement preserves video and processing",
     "explicit processing reset",
-    "historical stack read"
+    "historical stack read",
+    "no-op receipt preserves history and changed arguments conflict",
+    "concurrent CLI writers admit exactly one edit",
+    "history pages remain pinned across new edits",
+    "no-op replay returns original receipt after head changes"
   ],
   "trace": [
     {
@@ -40,9 +45,9 @@
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "stack",
-        "expectedRevisionId": "9dfe8259-ff15-4c35-a782-adec9d4f1cfa",
+        "expectedRevisionId": "3388ce6d-4b0e-4c14-a49e-2556917e667b",
         "operations": [
           {
             "operation": "group.add",
@@ -88,11 +93,11 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "7f02646d-4c30-41f9-a931-b7ab0284481b",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "1fb92306-1479-4857-ba3a-15fcc5b5cedf",
         "target": {
           "kind": "track",
-          "id": "track:9f095bd56f7a1225aac491d018c4897c04c6f6e09fca26f9a3d9acb966c91267:1"
+          "id": "track:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:1"
         }
       },
       "ok": true
@@ -100,9 +105,9 @@
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "stale",
-        "expectedRevisionId": "9dfe8259-ff15-4c35-a782-adec9d4f1cfa",
+        "expectedRevisionId": "3388ce6d-4b0e-4c14-a49e-2556917e667b",
         "operations": [
           {
             "operation": "group.add",
@@ -149,16 +154,16 @@
         "message": "Current revision has changed",
         "retryable": false,
         "details": {
-          "currentRevisionId": "7f02646d-4c30-41f9-a931-b7ab0284481b"
+          "currentRevisionId": "1fb92306-1479-4857-ba3a-15fcc5b5cedf"
         }
       }
     },
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "rollback",
-        "expectedRevisionId": "7f02646d-4c30-41f9-a931-b7ab0284481b",
+        "expectedRevisionId": "1fb92306-1479-4857-ba3a-15fcc5b5cedf",
         "operations": [
           {
             "operation": "canvas.set",
@@ -170,7 +175,7 @@
             "operation": "processing.set",
             "target": {
               "kind": "track",
-              "id": "track:9f095bd56f7a1225aac491d018c4897c04c6f6e09fca26f9a3d9acb966c91267:1"
+              "id": "track:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:1"
             },
             "steps": [
               {
@@ -192,7 +197,7 @@
         "details": {
           "target": {
             "kind": "track",
-            "id": "track:9f095bd56f7a1225aac491d018c4897c04c6f6e09fca26f9a3d9acb966c91267:1"
+            "id": "track:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:1"
           },
           "stepId": "foreign",
           "operationIndex": 1,
@@ -203,16 +208,16 @@
     {
       "operation": "project.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb"
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c"
       },
       "ok": true
     },
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "stack",
-        "expectedRevisionId": "9dfe8259-ff15-4c35-a782-adec9d4f1cfa",
+        "expectedRevisionId": "3388ce6d-4b0e-4c14-a49e-2556917e667b",
         "operations": [
           {
             "operation": "group.add",
@@ -258,19 +263,19 @@
     {
       "operation": "edit.undo",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "undo",
-        "expectedRevisionId": "7f02646d-4c30-41f9-a931-b7ab0284481b"
+        "expectedRevisionId": "1fb92306-1479-4857-ba3a-15fcc5b5cedf"
       },
       "ok": true
     },
     {
       "operation": "edit.restore",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "restore",
-        "expectedRevisionId": "3e7776e6-de37-4906-b409-47796641ff55",
-        "targetRevisionId": "7f02646d-4c30-41f9-a931-b7ab0284481b"
+        "expectedRevisionId": "5e887c96-0a7c-426a-9f4d-e03431d1e71b",
+        "targetRevisionId": "1fb92306-1479-4857-ba3a-15fcc5b5cedf"
       },
       "ok": true
     },
@@ -285,7 +290,7 @@
     {
       "operation": "job.get",
       "params": {
-        "jobId": "fa8ff33d-535e-4f59-97c2-1519334b4143"
+        "jobId": "eb1ba783-9516-48bf-a332-d58b4f43ef18"
       },
       "ok": true
     },
@@ -307,7 +312,7 @@
     {
       "operation": "job.get",
       "params": {
-        "jobId": "dd8733ed-7363-45db-8f19-2ee8ef794985"
+        "jobId": "bf25a6f7-c770-40e5-96dd-421a5a8ced67"
       },
       "ok": true
     },
@@ -329,7 +334,7 @@
     {
       "operation": "job.get",
       "params": {
-        "jobId": "79cdd3b4-8e54-464c-b0d8-38bc4802037b"
+        "jobId": "6a8bb153-45bb-402f-93db-2c6e6076be27"
       },
       "ok": true
     },
@@ -343,9 +348,93 @@
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "requestId": "prepared-then-rejected",
+        "expectedRevisionId": "c55474eb-6c64-47e5-9b3a-c533f1c900a7",
+        "operations": [
+          {
+            "operation": "place",
+            "clip": {
+              "trackId": "track:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:1",
+              "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "track",
+              "id": "track:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:1"
+            },
+            "steps": [
+              {
+                "id": "foreign",
+                "processor": {
+                  "type": "gain",
+                  "gain": 2
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "INVALID_EDIT",
+        "message": "Processing step does not belong to this target",
+        "retryable": false,
+        "details": {
+          "target": {
+            "kind": "track",
+            "id": "track:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:1"
+          },
+          "stepId": "foreign",
+          "operationIndex": 1,
+          "cause": "INVALID_EDIT"
+        }
+      }
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c"
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.get",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "place",
-        "expectedRevisionId": "603cc877-588b-4336-b917-a095a5b91ad0",
+        "expectedRevisionId": "c55474eb-6c64-47e5-9b3a-c533f1c900a7",
         "operations": [
           {
             "operation": "track.add",
@@ -359,7 +448,7 @@
             "operation": "place",
             "label": "audio",
             "clip": {
-              "trackId": "track:9f095bd56f7a1225aac491d018c4897c04c6f6e09fca26f9a3d9acb966c91267:1",
+              "trackId": "track:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:1",
               "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
               "streamId": "track:1",
               "source": {
@@ -421,11 +510,11 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "f273d973-06aa-4805-845e-7288a7e0cb2f",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "dda976f0-16c9-4d7a-bf20-ea6301c717fd",
         "target": {
           "kind": "clip",
-          "id": "clip:10144b4645b019f4d3747571db2267477cd9abdae2b308f44c727f4a23fd3cc4:1"
+          "id": "clip:8c864ef0836b3b0636a3a69ad4ab15a5c40ba3ca87cf343cdd3dd340c721787f:1"
         }
       },
       "ok": true
@@ -433,15 +522,15 @@
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "all-scopes",
-        "expectedRevisionId": "f273d973-06aa-4805-845e-7288a7e0cb2f",
+        "expectedRevisionId": "dda976f0-16c9-4d7a-bf20-ea6301c717fd",
         "operations": [
           {
             "operation": "processing.set",
             "target": {
               "kind": "clip",
-              "id": "clip:10144b4645b019f4d3747571db2267477cd9abdae2b308f44c727f4a23fd3cc4:1"
+              "id": "clip:8c864ef0836b3b0636a3a69ad4ab15a5c40ba3ca87cf343cdd3dd340c721787f:1"
             },
             "steps": [
               {
@@ -464,7 +553,7 @@
             "operation": "processing.set",
             "target": {
               "kind": "group",
-              "id": "group:9f095bd56f7a1225aac491d018c4897c04c6f6e09fca26f9a3d9acb966c91267:0"
+              "id": "group:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:0"
             },
             "steps": [
               {
@@ -496,11 +585,11 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "bcedd0e6-da63-40b2-bedc-46f54a0d5074",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "629b37ee-ad58-4259-ba6c-56e7eaa1fc1e",
         "target": {
           "kind": "group",
-          "id": "group:9f095bd56f7a1225aac491d018c4897c04c6f6e09fca26f9a3d9acb966c91267:0"
+          "id": "group:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:0"
         }
       },
       "ok": true
@@ -508,8 +597,8 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "bcedd0e6-da63-40b2-bedc-46f54a0d5074",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "629b37ee-ad58-4259-ba6c-56e7eaa1fc1e",
         "target": {
           "kind": "output"
         }
@@ -519,19 +608,19 @@
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "reorder-bypass",
-        "expectedRevisionId": "bcedd0e6-da63-40b2-bedc-46f54a0d5074",
+        "expectedRevisionId": "629b37ee-ad58-4259-ba6c-56e7eaa1fc1e",
         "operations": [
           {
             "operation": "processing.set",
             "target": {
               "kind": "clip",
-              "id": "clip:10144b4645b019f4d3747571db2267477cd9abdae2b308f44c727f4a23fd3cc4:1"
+              "id": "clip:8c864ef0836b3b0636a3a69ad4ab15a5c40ba3ca87cf343cdd3dd340c721787f:1"
             },
             "steps": [
               {
-                "id": "processingStep:7f6b455f23d1a566faae6c19c4f860ad2f8cb123f12aeb11b5cf392a2f732c4c:1",
+                "id": "processingStep:bd8b01aabc8b85814e225e374acb914408259d1e72213976b5b628b587ace0cb:1",
                 "enabled": false,
                 "processor": {
                   "type": "gain",
@@ -539,7 +628,7 @@
                 }
               },
               {
-                "id": "processingStep:7f6b455f23d1a566faae6c19c4f860ad2f8cb123f12aeb11b5cf392a2f732c4c:0",
+                "id": "processingStep:bd8b01aabc8b85814e225e374acb914408259d1e72213976b5b628b587ace0cb:0",
                 "enabled": true,
                 "processor": {
                   "type": "gain",
@@ -555,11 +644,11 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "605c9684-862a-43c0-9845-03892b99cfb5",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "d754693e-5cb0-4854-9170-4c95e5e8cf50",
         "target": {
           "kind": "clip",
-          "id": "clip:10144b4645b019f4d3747571db2267477cd9abdae2b308f44c727f4a23fd3cc4:1"
+          "id": "clip:8c864ef0836b3b0636a3a69ad4ab15a5c40ba3ca87cf343cdd3dd340c721787f:1"
         }
       },
       "ok": true
@@ -567,23 +656,23 @@
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "split",
-        "expectedRevisionId": "605c9684-862a-43c0-9845-03892b99cfb5",
+        "expectedRevisionId": "d754693e-5cb0-4854-9170-4c95e5e8cf50",
         "operations": [
           {
             "operation": "split",
             "clipIds": [
-              "clip:10144b4645b019f4d3747571db2267477cd9abdae2b308f44c727f4a23fd3cc4:1"
+              "clip:8c864ef0836b3b0636a3a69ad4ab15a5c40ba3ca87cf343cdd3dd340c721787f:1"
             ],
             "atUs": 1000000,
             "rightLabels": [
               {
-                "clipId": "clip:10144b4645b019f4d3747571db2267477cd9abdae2b308f44c727f4a23fd3cc4:1",
+                "clipId": "clip:8c864ef0836b3b0636a3a69ad4ab15a5c40ba3ca87cf343cdd3dd340c721787f:1",
                 "label": "rightAudio"
               },
               {
-                "clipId": "clip:10144b4645b019f4d3747571db2267477cd9abdae2b308f44c727f4a23fd3cc4:2",
+                "clipId": "clip:8c864ef0836b3b0636a3a69ad4ab15a5c40ba3ca87cf343cdd3dd340c721787f:2",
                 "label": "rightVideo"
               }
             ]
@@ -595,11 +684,11 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "f6a03fb7-3b9b-43ea-a2b8-a6c2ded3914b",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "9467d72a-eeeb-46ee-b164-929f9037eb51",
         "target": {
           "kind": "clip",
-          "id": "clip:c03a2d143f4d7155b7021e0745c9097249a0a2c4f2c42609aaedd98b4d3ea500:0"
+          "id": "clip:69d8582a7fc619d22970465a2470d19c7cbe2cc0360b21d50c087fa7fc2c2f8d:0"
         }
       },
       "ok": true
@@ -607,13 +696,13 @@
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "replace-audio",
-        "expectedRevisionId": "f6a03fb7-3b9b-43ea-a2b8-a6c2ded3914b",
+        "expectedRevisionId": "9467d72a-eeeb-46ee-b164-929f9037eb51",
         "operations": [
           {
             "operation": "replace",
-            "clipId": "clip:c03a2d143f4d7155b7021e0745c9097249a0a2c4f2c42609aaedd98b4d3ea500:0",
+            "clipId": "clip:69d8582a7fc619d22970465a2470d19c7cbe2cc0360b21d50c087fa7fc2c2f8d:0",
             "kind": "audio",
             "media": {
               "assetId": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0",
@@ -634,11 +723,11 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "4fba104b-041b-4b88-aaa5-310927e7a88c",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "67fe4df3-a978-49d6-be10-7e7c49d0504b",
         "target": {
           "kind": "clip",
-          "id": "clip:c03a2d143f4d7155b7021e0745c9097249a0a2c4f2c42609aaedd98b4d3ea500:0"
+          "id": "clip:69d8582a7fc619d22970465a2470d19c7cbe2cc0360b21d50c087fa7fc2c2f8d:0"
         }
       },
       "ok": true
@@ -646,13 +735,13 @@
     {
       "operation": "edit.apply",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
         "requestId": "reset",
-        "expectedRevisionId": "4fba104b-041b-4b88-aaa5-310927e7a88c",
+        "expectedRevisionId": "67fe4df3-a978-49d6-be10-7e7c49d0504b",
         "operations": [
           {
             "operation": "replace",
-            "clipId": "clip:c03a2d143f4d7155b7021e0745c9097249a0a2c4f2c42609aaedd98b4d3ea500:0",
+            "clipId": "clip:69d8582a7fc619d22970465a2470d19c7cbe2cc0360b21d50c087fa7fc2c2f8d:0",
             "kind": "audio",
             "processing": "reset",
             "media": {
@@ -674,11 +763,11 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "c9e5f1f6-de48-4463-8072-cb032708df94",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "46ea99e9-2dc9-4097-a6a8-a5a7f0f0e345",
         "target": {
           "kind": "clip",
-          "id": "clip:c03a2d143f4d7155b7021e0745c9097249a0a2c4f2c42609aaedd98b4d3ea500:0"
+          "id": "clip:69d8582a7fc619d22970465a2470d19c7cbe2cc0360b21d50c087fa7fc2c2f8d:0"
         }
       },
       "ok": true
@@ -686,12 +775,152 @@
     {
       "operation": "processing.get",
       "params": {
-        "projectId": "43feb235-a7c9-4e5a-8aa5-afbe96c28afb",
-        "revisionId": "7f02646d-4c30-41f9-a931-b7ab0284481b",
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "revisionId": "1fb92306-1479-4857-ba3a-15fcc5b5cedf",
         "target": {
           "kind": "track",
-          "id": "track:9f095bd56f7a1225aac491d018c4897c04c6f6e09fca26f9a3d9acb966c91267:1"
+          "id": "track:a5833db591405f18abb48cc22fcb48ec7772864d6d9aa46d6e20795654bd41a2:1"
         }
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "requestId": "noop-receipt",
+        "expectedRevisionId": "46ea99e9-2dc9-4097-a6a8-a5a7f0f0e345",
+        "operations": []
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "requestId": "noop-receipt",
+        "expectedRevisionId": "46ea99e9-2dc9-4097-a6a8-a5a7f0f0e345",
+        "operations": [
+          {
+            "operation": "canvas.set",
+            "canvas": {
+              "width": 320
+            }
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Request ID was already used with different arguments",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c"
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "limit": 1
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "requestId": "concurrent-320",
+        "expectedRevisionId": "46ea99e9-2dc9-4097-a6a8-a5a7f0f0e345",
+        "operations": [
+          {
+            "operation": "canvas.set",
+            "canvas": {
+              "width": 320
+            }
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "requestId": "concurrent-480",
+        "expectedRevisionId": "46ea99e9-2dc9-4097-a6a8-a5a7f0f0e345",
+        "operations": [
+          {
+            "operation": "canvas.set",
+            "canvas": {
+              "width": 480
+            }
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "STALE_REVISION",
+        "message": "Current revision has changed",
+        "retryable": false,
+        "details": {
+          "currentRevisionId": "f8b8f3e4-88d9-493a-828d-7208a85b35e0"
+        }
+      }
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c"
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "cursor": {
+          "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+          "afterOrdinal": 0,
+          "throughOrdinal": 9
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c",
+        "requestId": "noop-receipt",
+        "expectedRevisionId": "46ea99e9-2dc9-4097-a6a8-a5a7f0f0e345",
+        "operations": []
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "abdeef23-eed5-4126-8a0f-a30eacaeb40c"
       },
       "ok": true
     },

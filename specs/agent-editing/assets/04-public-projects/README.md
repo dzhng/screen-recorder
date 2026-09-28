@@ -3,7 +3,7 @@
 The [runnable harness](../../../../packages/test-harness/editing/projects.mjs)
 uses actual CLI processes, the MCP adapter, the isolated project service, SQLite
 and native asset admission. The [report](report.json) retains terminal command
-parameters and outcomes for fifteen scenarios. Scratch state is removed and all
+parameters and outcomes for 20 scenarios. Scratch state is removed and all
 processes are stopped; the installed recording library is untouched.
 
 Run after building composition, core, protocol, service and CLI:
@@ -17,7 +17,9 @@ Verified live state includes complete cross-transport replay, stale-head rejecti
 late-batch rollback, restart replay, undo/restore, four processing target scopes,
 ordered repeated gain steps and bypass, linked splitting with independent step
 identities, audio replacement with preserved video and settings, explicit reset
-and historical reads. Real corpus WAV/MOV files enter through native import jobs.
+and historical reads. Additional public checks verify prepared-media rollback,
+no-op receipts, changed-argument conflicts, competing CLI writers, pinned history
+pagination and replay after the head advances. Real corpus WAV/MOV files enter through native import jobs.
 The compiler/native renderer is not invoked: **live media verification is pending**.
 Gain capabilities honestly report execution unavailable.
 
@@ -36,8 +38,15 @@ created a project, copied gain settings to a second track using new step IDs,
 bypassed the copy, undid the change, and correctly reported that no media was
 processed. This validates the current skill/API path, not the full tutorial.
 
-Slice 04 remains open for deletion lifecycle and the remaining public mutation/
-history failure matrix. Engine tests cover additional cases but do not substitute
-for those live journeys. Rendered split preservation, processing order, parent
+The integrated run exits successfully and removes its scratch service/home. An
+independent review of the added assertions found no actionable defect; the new
+matrix runs through CLI, while MCP parity is established by complete cross-adapter
+replay, not a duplicate run of every case. Mutating the real service to violate
+[no-op identity](noop-red.txt), [request conflicts](conflict-red.txt),
+[concurrent revision checks](concurrent-red.txt), or
+[pinned pagination](history-red.txt) fails the corresponding assertion. Restored
+production paths pass. The [deletion checkpoint](../04-project-deletion/README.md)
+also passes after integration, as do six project-store and seven focused service
+tests. Together these complete slice 04's persistence/public-state boundary. Rendered split preservation, processing order, parent
 mixing, denoise and voice quality retain their separate gates in the
 [journey inventory](../../journeys.md).

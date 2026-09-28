@@ -581,3 +581,22 @@ trim and stretch replacements keep their single-interval behavior.
   color tolerance to every channel in a gap; timestamp/duration checks and
   rejection of colored glyph-free frames remain. This is an oracle correction,
   not a new production quality threshold or a relaxed whole-image color gate.
+
+## Project retirement — 2026-09-27
+
+- **Sound; medium confidence — A deleted project cannot replay a successful edit.**
+  A retry against a retired project returns NOT_FOUND before looking up an old
+  edit receipt. For live projects, replay still precedes stale-head checks.
+  Returning an edit success after deletion would suggest that work remains
+  available. Retrying the original creation returns its historical receipt but
+  never recreates the project; the caller can inspect its availability.
+- **Sound; high confidence — Keep retirement identity, release media references.**
+  The existing deletion timestamp fences work; retained revision rows journal
+  incomplete cleanup. After the shared queue drains, undo and revision rows retire
+  in bounded pages. Project/request identities remain so retries cannot resurrect
+  work. Deleting a project does not delete its original assets. Future preview or
+  export owners must join this same coordinator before they can publish jobs.
+- **Sound; high confidence — Deletion is idempotent by project ID.**
+  Repeating project.delete for an already absent project succeeds, matching the
+  existing recording deletion contract. There is no extra deletion-request ledger
+  or parallel job queue.

@@ -1,0 +1,1411 @@
+(node:3939) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    {
+      createdAt: '2026-09-28T01:31:49.669Z',
+      document: {
+        canvas: {
+...
+    },
++   {
++     createdAt: '2026-09-28T01:32:00.096Z',
++     document: {
++       canvas: {
++         background: '#000000ff',
++         fps: {
++           denominator: 1,
++           numerator: 30
++         },
++         height: 96,
++         width: 480
++       },
++       captions: [],
++       clips: [
++         {
++           assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
++           id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
++           placement: {
++             kind: 'project',
++             range: {
++               endUs: 1000000,
++               startUs: 0
++             }
++           },
++           source: {
++             kind: 'range',
++             range: {
++               endUs: 1000000,
++               startUs: 0
++             }
++           },
++           streamId: 'track:1',
++           trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1'
++         },
++         {
++           assetId: '29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0',
++           id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
++           placement: {
++             kind: 'project',
++             range: {
++               endUs: 2000000,
++               startUs: 1000000
++             }
++           },
++           source: {
++             kind: 'range',
++             range: {
++               endUs: 1000000,
++               startUs: 0
++             }
++           },
++           streamId: 'track:1',
++           trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1'
++         },
++         {
++           assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
++           id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
++           placement: {
++             kind: 'project',
++             range: {
++               endUs: 1000000,
++               startUs: 0
++             }
++           },
++           source: {
++             kind: 'range',
++             range: {
++               endUs: 1000000,
++               startUs: 0
++             }
++           },
++           streamId: 'track:1',
++           trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0'
++         },
++         {
++           assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
++           id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1',
++           placement: {
++             kind: 'project',
++             range: {
++               endUs: 2000000,
++               startUs: 1000000
++             }
++           },
++           source: {
++             kind: 'range',
++             range: {
++               endUs: 2000000,
++               startUs: 1000000
++             }
++           },
++           streamId: 'track:1',
++           trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0'
++         }
++       ],
++       groups: [
++         {
++           id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
++           kind: 'audio',
++           order: 0
++         }
++       ],
++       processing: [
++         {
++           steps: [
++             {
++               enabled: false,
++               id: 'processingStep:afacc4c989c40f59287a58041a6ac9d4954b677004f710cf9715415ae5d9b796:1',
++               processor: {
++                 gain: 1.2,
++                 type: 'gain'
++               }
++             },
++             {
++               enabled: true,
++               id: 'processingStep:afacc4c989c40f59287a58041a6ac9d4954b677004f710cf9715415ae5d9b796:0',
++               processor: {
++                 gain: 0.8,
++                 type: 'gain'
++               }
++             }
++           ],
++           target: {
++             id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
++             kind: 'clip'
++           }
++         },
++         {
++           steps: [
++             {
++               enabled: true,
++               id: 'processingStep:afacc4c989c40f59287a58041a6ac9d4954b677004f710cf9715415ae5d9b796:2',
++               processor: {
++                 gain: 0.75,
++                 type: 'gain'
++               }
++             }
++           ],
++           target: {
++             id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
++             kind: 'group'
++           }
++         },
++         {
++           steps: [
++             {
++               enabled: true,
++               id: 'processingStep:afacc4c989c40f59287a58041a6ac9d4954b677004f710cf9715415ae5d9b796:3',
++               processor: {
++                 gain: 1.25,
++                 type: 'gain'
++               }
++             }
++           ],
++           target: {
++             kind: 'output'
++           }
++         },
++         {
++           steps: [
++             {
++               enabled: true,
++               id: 'processingStep:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:2',
++               processor: {
++                 gain: 0.5,
++                 type: 'gain'
++               }
++             }
++           ],
++           target: {
++             id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
++             kind: 'track'
++           }
++         }
++       ],
++       syncGroups: [
++         {
++           clipIds: [
++             'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
++             'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2'
++           ],
++           id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3'
++         },
++         {
++           clipIds: [
++             'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
++             'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1'
++           ],
++           id: 'syncGroup:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:2'
++         }
++       ],
++       tracks: [
++         {
++           id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
++           kind: 'audio',
++           order: 0,
++           parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
++         },
++         {
++           id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
++           kind: 'video',
++           order: 0
++         }
++       ]
++     },
++     id: '17031222-0827-4fd6-b8d1-d79ca9811eb8',
++     operation: 'apply',
++     ordinal: 10,
++     projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9'
++   }
+  ]
+
+    at file:///Users/david/dev/screen-recorder/packages/test-harness/editing/projects.mjs:360:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      id: '132722f7-9b27-4cdd-a6eb-952939af5ad9',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 1,
+      createdAt: '2026-09-28T01:31:49.669Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [],
+        syncGroups: [],
+        processing: [ { target: [Object], steps: [Array] } ],
+        captions: []
+      }
+    },
+    {
+      id: '9955f9fc-96ad-4673-b966-77e1cb9ce944',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 2,
+      createdAt: '2026-09-28T01:31:51.279Z',
+      operation: 'undo',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [],
+        groups: [],
+        clips: [],
+        syncGroups: [],
+        processing: [],
+        captions: []
+      }
+    },
+    {
+      id: '62875a59-dbba-497f-81a7-8076c2117569',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 3,
+      createdAt: '2026-09-28T01:31:51.534Z',
+      operation: 'restore',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [],
+        syncGroups: [],
+        processing: [ { target: [Object], steps: [Array] } ],
+        captions: []
+      }
+    },
+    {
+      id: '07d8bac7-dc88-4406-b4ad-1076fc1e2721',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 4,
+      createdAt: '2026-09-28T01:31:54.278Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          }
+        ],
+        processing: [ { target: [Object], steps: [Array] } ],
+        captions: []
+      }
+    },
+    {
+      id: '1443b01a-7492-47a0-b5d6-16b2ae4c6247',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 5,
+      createdAt: '2026-09-28T01:31:54.818Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: 'e1684c5e-3970-4216-80a0-d7b61b44c981',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 6,
+      createdAt: '2026-09-28T01:31:55.675Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: '18a745e4-d9df-4011-b567-a8f9f3219426',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 7,
+      createdAt: '2026-09-28T01:31:56.251Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          },
+          {
+            id: 'syncGroup:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:2',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: '2c207254-088a-437c-8d2e-3c307bff02b9',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 8,
+      createdAt: '2026-09-28T01:31:56.824Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          },
+          {
+            id: 'syncGroup:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:2',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: '4f451dee-f572-4bd2-9846-195611a4c5ac',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 9,
+      createdAt: '2026-09-28T01:31:57.525Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          },
+          {
+            id: 'syncGroup:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:2',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: '17031222-0827-4fd6-b8d1-d79ca9811eb8',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 10,
+      createdAt: '2026-09-28T01:32:00.096Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 480,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          },
+          {
+            id: 'syncGroup:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:2',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    }
+  ],
+  expected: [
+    {
+      id: '132722f7-9b27-4cdd-a6eb-952939af5ad9',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 1,
+      createdAt: '2026-09-28T01:31:49.669Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [],
+        syncGroups: [],
+        processing: [ { target: [Object], steps: [Array] } ],
+        captions: []
+      }
+    },
+    {
+      id: '9955f9fc-96ad-4673-b966-77e1cb9ce944',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 2,
+      createdAt: '2026-09-28T01:31:51.279Z',
+      operation: 'undo',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [],
+        groups: [],
+        clips: [],
+        syncGroups: [],
+        processing: [],
+        captions: []
+      }
+    },
+    {
+      id: '62875a59-dbba-497f-81a7-8076c2117569',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 3,
+      createdAt: '2026-09-28T01:31:51.534Z',
+      operation: 'restore',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [],
+        syncGroups: [],
+        processing: [ { target: [Object], steps: [Array] } ],
+        captions: []
+      }
+    },
+    {
+      id: '07d8bac7-dc88-4406-b4ad-1076fc1e2721',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 4,
+      createdAt: '2026-09-28T01:31:54.278Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          }
+        ],
+        processing: [ { target: [Object], steps: [Array] } ],
+        captions: []
+      }
+    },
+    {
+      id: '1443b01a-7492-47a0-b5d6-16b2ae4c6247',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 5,
+      createdAt: '2026-09-28T01:31:54.818Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: 'e1684c5e-3970-4216-80a0-d7b61b44c981',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 6,
+      createdAt: '2026-09-28T01:31:55.675Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: '18a745e4-d9df-4011-b567-a8f9f3219426',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 7,
+      createdAt: '2026-09-28T01:31:56.251Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          },
+          {
+            id: 'syncGroup:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:2',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: '2c207254-088a-437c-8d2e-3c307bff02b9',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 8,
+      createdAt: '2026-09-28T01:31:56.824Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          },
+          {
+            id: 'syncGroup:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:2',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    },
+    {
+      id: '4f451dee-f572-4bd2-9846-195611a4c5ac',
+      projectId: '6d512194-8b18-4d5a-b465-d3c7e8d5edc9',
+      ordinal: 9,
+      createdAt: '2026-09-28T01:31:57.525Z',
+      operation: 'apply',
+      document: {
+        canvas: {
+          width: 160,
+          height: 96,
+          fps: { numerator: 30, denominator: 1 },
+          background: '#000000ff'
+        },
+        tracks: [
+          {
+            id: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            kind: 'audio',
+            order: 0,
+            parentId: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0'
+          },
+          {
+            id: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            kind: 'video',
+            order: 0
+          }
+        ],
+        groups: [
+          {
+            id: 'group:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:0',
+            kind: 'audio',
+            order: 0
+          }
+        ],
+        clips: [
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:1',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:0',
+            trackId: 'track:8baba04fe61302a76108943ad81326df694c3287f6d3bce9f465dc6ad6e6d1ef:1',
+            placement: [Object],
+            assetId: '29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:2',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          },
+          {
+            id: 'clip:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:1',
+            trackId: 'track:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:0',
+            placement: [Object],
+            assetId: 'f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd',
+            streamId: 'track:1',
+            source: [Object]
+          }
+        ],
+        syncGroups: [
+          {
+            id: 'syncGroup:c2cd5e791dc46ce4a240a8c0c0aad13a4c5fd8fba9efddc4d7f805f9171dd035:3',
+            clipIds: [Array]
+          },
+          {
+            id: 'syncGroup:63958f765965a4a1b985b825a2439428d02c4e424c02658719ba52e536e62dbb:2',
+            clipIds: [Array]
+          }
+        ],
+        processing: [
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] },
+          { target: [Object], steps: [Array] }
+        ],
+        captions: []
+      }
+    }
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

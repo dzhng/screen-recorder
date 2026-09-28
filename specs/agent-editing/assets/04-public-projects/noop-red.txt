@@ -1,0 +1,22 @@
+(node:3350) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ '97245b09-06e0-4f58-9bf9-3e018916a2fc'
+- '5586eaf1-f854-41b5-9096-8328c7112bd2'
+
+    at file:///Users/david/dev/screen-recorder/packages/test-harness/editing/projects.mjs:325:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '97245b09-06e0-4f58-9bf9-3e018916a2fc',
+  expected: '5586eaf1-f854-41b5-9096-8328c7112bd2',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

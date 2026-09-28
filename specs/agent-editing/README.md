@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits and stack authoring verified; durable projects underway. Updated 2026-09-27.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native execution underway. Updated 2026-09-27.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
@@ -10,16 +10,18 @@ the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
 
 Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [architecture](architecture.md), [verification](verification.md) and
-[research](research.md) and [processing](processing.md). Structural edits [03](slices/03-edits.md)
-are accepted for the pure reducer, including the linked-replacement integration
-probe. [03b routing](slices/03b-processing-targets.md) is accepted for the pure
-model, and [03c ordered stacks](slices/03c-processing-stacks.md) is accepted for
-constant-gain authoring/lifecycle. The core transaction owner in
-[04 durable projects](slices/04-projects.md) and shared protocol/service commands are verified through
-[live CLI/MCP state journeys](assets/04-public-projects/README.md). Next implement
-its deletion lifecycle and complete public failure/history coverage. Preserve the accepted
-[03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Compilation [05](slices/05-compiler.md) is the next independent execution seam;
-the first public editing checkpoint remains [09](slices/09-first-preview.md).
+[research](research.md) and [processing](processing.md). Structural edits [03](slices/03-edits.md), exact boundaries [03a](slices/03a-exact-edit-boundaries.md),
+nested targets [03b](slices/03b-processing-targets.md), constant-gain stacks
+[03c](slices/03c-processing-stacks.md), and durable public project state/deletion
+[04](slices/04-projects.md) are verified at their declared boundaries.
+
+Next complete [05 compiler](slices/05-compiler.md): its revision-pinned windows
+are integrated, but a discovered leading-partial-frame omission and source-versus-
+anchor availability provenance are being corrected before native adoption.
+[07 video](slices/07-video-execution.md) and [08 audio](slices/08-audio-mixing.md)
+are underway independently in isolated worktrees. Integrate only reviewed commits
+and verify their media evidence. The first public rendered editing checkpoint
+remains [09](slices/09-first-preview.md); state journeys do not close it.
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
 are integrated in the isolated service. Import identity and job admission commit
@@ -68,7 +70,8 @@ Current evidence:
   pass. Constant gain is authored but native execution is not yet available.
 - [04 project store](assets/04-project-store/README.md): 90 focused core tests,
   type checking/build and independent review pass. [Public journeys](assets/04-public-projects/README.md)
-  verify stack/lifecycle state through CLI/MCP and native imports; rendered media remains pending.
+  verify stack/lifecycle state through CLI/MCP and native imports; [deletion](assets/04-project-deletion/README.md)
+  drains jobs and retires history without deleting original media. Rendered media remains pending.
 - [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.
@@ -173,7 +176,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [03 — Structural edits and attachments](slices/03-edits.md)
 - [x] [03b — Processing targets and nested routing](slices/03b-processing-targets.md)
 - [x] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)
-- [ ] [04 — Durable projects and shared commands](slices/04-projects.md)
+- [x] [04 — Durable projects and shared commands](slices/04-projects.md)
 - [ ] [05 — Compile bounded execution plans](slices/05-compiler.md)
 - [ ] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
 - [ ] [07 — Execute video plans](slices/07-video-execution.md)

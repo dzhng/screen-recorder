@@ -36,6 +36,7 @@ async function call(operation, params, expected = true) {
     ["ready", "failed", "canceled"].includes(result.data.state)
   )
     trace.push({ operation, params, ok: result.ok, ...(result.ok ? {} : { error: result.error }) });
+  if (expected === null) return result;
   assert.equal(result.ok, expected, JSON.stringify(result));
   return result.ok ? result.data : result.error;
 }
@@ -167,6 +168,39 @@ try {
   const audioB = b.streams.find((stream) => stream.kind === "audio" && stream.decodable);
   const picture = video.streams.find((stream) => stream.kind === "video" && stream.decodable);
   assert.ok(audioA && audioB && picture);
+  const rejectedMedia = await call(
+    "edit.apply",
+    {
+      projectId,
+      requestId: "prepared-then-rejected",
+      expectedRevisionId: head,
+      operations: [
+        {
+          operation: "place",
+          clip: {
+            trackId: target.id,
+            assetId: a.id,
+            streamId: audioA.id,
+            source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+            placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+          },
+        },
+        {
+          operation: "processing.set",
+          target,
+          steps: [{ id: "foreign", processor: { type: "gain", gain: 2 } }],
+        },
+      ],
+    },
+    false,
+  );
+  assert.equal(rejectedMedia.code, "INVALID_EDIT");
+  assert.equal((await call("project.get", { projectId })).currentRevisionId, head);
+  assert.deepEqual(
+    (await call("revision.get", { projectId })).revision.document,
+    restored.document,
+  );
+  assert.deepEqual(await call("asset.get", { assetId: a.id }), a);
   const placed = await edit("place", [
     { operation: "track.add", track: { kind: "video", order: 0 }, label: "picture" },
     {
@@ -313,6 +347,53 @@ try {
     (await call("processing.get", { projectId, revisionId: applied.revision.id, target })).steps,
     observed.steps,
   );
+  const beforeNoop = await call("revision.history", { projectId });
+  const noopRequest = {
+    projectId,
+    requestId: "noop-receipt",
+    expectedRevisionId: head,
+    operations: [],
+  };
+  const noop = await call("edit.apply", noopRequest);
+  assert.equal(noop.revision.id, head);
+  assert.equal(noop.edit.changed, false);
+  assert.deepEqual(await call("revision.history", { projectId }), beforeNoop);
+  const conflict = await call(
+    "edit.apply",
+    { ...noopRequest, operations: [{ operation: "canvas.set", canvas: { width: 320 } }] },
+    false,
+  );
+  assert.equal(conflict.code, "REQUEST_CONFLICT");
+  assert.equal((await call("project.get", { projectId })).currentRevisionId, head);
+  const firstPage = await call("revision.history", { projectId, limit: 1 });
+  assert.deepEqual(firstPage.revisions, beforeNoop.revisions.slice(0, 1));
+  const candidates = [320, 480];
+  const contenders = await Promise.all(
+    candidates.map((width) =>
+      call(
+        "edit.apply",
+        {
+          projectId,
+          requestId: `concurrent-${width}`,
+          expectedRevisionId: head,
+          operations: [{ operation: "canvas.set", canvas: { width } }],
+        },
+        null,
+      ),
+    ),
+  );
+  const winner = contenders.findIndex((result) => result.ok);
+  assert.notEqual(winner, -1);
+  assert.equal(contenders[1 - winner].ok, false);
+  assert.equal(contenders[1 - winner].error.code, "STALE_REVISION");
+  assert.equal(contenders[winner].data.revision.document.canvas.width, candidates[winner]);
+  head = contenders[winner].data.revision.id;
+  assert.equal((await call("project.get", { projectId })).currentRevisionId, head);
+  const rest = await call("revision.history", { projectId, cursor: firstPage.nextCursor });
+  assert.deepEqual(rest.revisions, beforeNoop.revisions.slice(1));
+  assert.equal(rest.nextCursor, null);
+  assert.deepEqual(await call("edit.apply", noopRequest), noop);
+  assert.equal((await call("project.get", { projectId })).currentRevisionId, head);
   const capabilities = await call("processing.capabilities", {});
   assert.equal(capabilities.find((c) => c.type === "gain").execution, false);
   console.log(
@@ -330,6 +411,7 @@ try {
           "restart replay",
           "undo/restore",
           "native admission of real fixture media",
+          "prepared media survives a rejected edit without project mutation",
           "all four processing scopes",
           "new clip has no inherited settings",
           "ordered repeated steps and bypass",
@@ -337,6 +419,10 @@ try {
           "audio replacement preserves video and processing",
           "explicit processing reset",
           "historical stack read",
+          "no-op receipt preserves history and changed arguments conflict",
+          "concurrent CLI writers admit exactly one edit",
+          "history pages remain pinned across new edits",
+          "no-op replay returns original receipt after head changes",
         ],
         trace,
         liveStateJourney: true,
