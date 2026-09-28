@@ -1,0 +1,46 @@
+[
+  {
+    "label": "reference",
+    "source": "reference.f32",
+    "sourceSha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769",
+    "gain": 4.866764348067445,
+    "targetRms": 0.05,
+    "peak": 0.42810484766960144,
+    "frames": 240000,
+    "wavSha256": "44a75a825d538132e05f6fee2c5585bc1083ee0c4110f01821d515cb9b731aea",
+    "loudnessMethod": "constant RMS matching for audition only; no limiter, no claim of identical perceived loudness"
+  },
+  {
+    "label": "added-noise",
+    "source": "mixture.f32",
+    "sourceSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+    "gain": 4.602232798706724,
+    "targetRms": 0.05,
+    "peak": 0.42640554904937744,
+    "frames": 240000,
+    "wavSha256": "292ab1621bff0d1bbba21ba58d9c1a169659c4cb0c48608758dc84eef54566e3",
+    "loudnessMethod": "constant RMS matching for audition only; no limiter, no claim of identical perceived loudness"
+  },
+  {
+    "label": "conventional",
+    "source": "afftdn-mixture.f32",
+    "sourceSha256": "6e4f3df0893e43cacdefe8c09dc68c29db6a9bc8a0a2c9a3c57327be93be329f",
+    "gain": 4.664997718029567,
+    "targetRms": 0.05,
+    "peak": 0.41652897000312805,
+    "frames": 240000,
+    "wavSha256": "76ec84938e56285ac411d98826863e949e3d451603e8ece826847695c70b3985",
+    "loudnessMethod": "constant RMS matching for audition only; no limiter, no claim of identical perceived loudness"
+  },
+  {
+    "label": "learned",
+    "source": "rnnoise-mixture.f32",
+    "sourceSha256": "64323229c2b4d4b8412cff23972920e216c029a777c59e567ebf5e24a222d4c2",
+    "gain": 7.187963191667943,
+    "targetRms": 0.05,
+    "peak": 0.5968114733695984,
+    "frames": 240000,
+    "wavSha256": "69865fad2d07d29f136ddb671772e32cda14eed11c96330e689774c5e8a87859",
+    "loudnessMethod": "constant RMS matching for audition only; no limiter, no claim of identical perceived loudness"
+  }
+]

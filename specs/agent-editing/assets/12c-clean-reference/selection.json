@@ -1,0 +1,16 @@
+{
+  "dataset": "hf-internal-testing/librispeech_asr_dummy",
+  "revision": "5be91486e11a2d616f4ec5db8d3fd248585ac07a",
+  "selection": "lexicographically first id before any processing",
+  "id": "1272-128104-0000",
+  "speaker_id": 1272,
+  "chapter_id": 128104,
+  "text": "MISTER QUILTER IS THE APOSTLE OF THE MIDDLE CLASSES AND WE ARE GLAD TO WELCOME HIS GOSPEL",
+  "audioOriginalPath": "1272-128104-0000.flac",
+  "audioFile": "1272-128104-0000.flac",
+  "audioSha256": "4e25e22555cd16e90edb0a3b49fdcf1fe652b2a1250ab643634db33895c75b41",
+  "parquetSha256": "4e69a06fa5edc90921e5e7e39a7084881f8b3ed9c805c574f4f39c6fde27c603",
+  "parquetBytes": 9192059,
+  "readerVersion": "1.5.6",
+  "provenance": "LibriSpeech HF clean validation subset, https://www.openslr.org/12 ; CC BY4.0 ; Vassil Panayotov, Guoguo Chen, Daniel Povey, Sanjeev Khudanpur; LibriVox-derived read speech; no original audio modification"
+}

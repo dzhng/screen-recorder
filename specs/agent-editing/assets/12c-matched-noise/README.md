@@ -53,8 +53,8 @@ and every energy window. No parameter was retuned between trials. Run:
 python3 specs/agent-editing/assets/12c-matched-noise/run.py --repo <checkout> --out <fresh-output> --ffmpeg <pinned-ffmpeg> --processor <pinned-rnnoise-api>
 ```
 
-This is a mechanism comparison, not a new quality threshold. Next use independent
-clean speech and protected consonant/onset/end controls, then obtain listening
-evidence before selecting a backend. Transient noise, retimed/overlapping speech,
+This is a mechanism comparison, not a new quality threshold. [Independent clean speech and a level control](../12c-clean-reference/README.md)
+now extend the comparison. Next verify protected consonants/onsets/ends and
+[optional listening](audition/README.md) before selecting a backend. Transient noise, retimed/overlapping speech,
 channel policy and production state/stack integration remain open. The established
 pure-split and excluded-input requirements are unchanged.

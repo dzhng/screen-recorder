@@ -1,0 +1,1 @@
+{"id": "hf-internal-testing/librispeech_asr_dummy", "card_data": {}, "gated": false, "private": false, "sha": "5be91486e11a2d616f4ec5db8d3fd248585ac07a", "siblings": [{"rfilename": ".gitattributes"}, {"rfilename": "README.md"}, {"rfilename": "clean/validation-00000-of-00001.parquet"}]}

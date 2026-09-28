@@ -107,7 +107,8 @@ Compact evidence ledger:
   and state sensitivity. Both reject independent resets for a pure split;
   neither establishes protected speech quality or a production state policy.
   [Matched noise controls](assets/12c-matched-noise/README.md) expose a strong
-  attenuation/reference-distortion tradeoff; clean speech and listening remain open.
+  attenuation/reference-distortion tradeoff. [Clean-reference and level controls](assets/12c-clean-reference/README.md)
+  extend it; protected phonemes and optional listening remain open.
 
 Use isolated homes and frozen workers. Imported assets never fabricate recording
 rows or narration roles; preserve physical support and acquisition provenance.

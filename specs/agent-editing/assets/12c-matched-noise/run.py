@@ -2,15 +2,22 @@ import argparse, array, hashlib, json, math, pathlib, subprocess, time
 parser = argparse.ArgumentParser(description='Matched known-noise mechanism comparison; no listening or production promotion.')
 for name in ['repo', 'out', 'ffmpeg', 'processor']:
     parser.add_argument('--' + name, type=pathlib.Path, required=True)
+parser.add_argument('--speech', type=pathlib.Path)
+parser.add_argument('--speech-sha256')
+parser.add_argument('--reference-rms', type=float)
 args = parser.parse_args()
+if bool(args.speech) != bool(args.speech_sha256):
+    parser.error('--speech and --speech-sha256 must be provided together')
 repo = args.repo.resolve()
 out = args.out.resolve()
 out.mkdir()
 start = time.monotonic()
-source = repo / 'specs/agent-editing/assets/18-voice/context.wav'
+source = args.speech.resolve() if args.speech else repo / 'specs/agent-editing/assets/18-voice/context.wav'
 ff = args.ffmpeg.resolve()
 rn = args.processor.resolve()
 expected = json.loads((repo / 'specs/agent-editing/assets/12c-rnnoise-timing/report.json').read_text())['identity']
+if args.speech_sha256:
+    expected['speechSha256'] = args.speech_sha256
 digest = lambda b: hashlib.sha256(b).hexdigest()
 assert digest(rn.read_bytes()) == expected['processorSha256']
 assert digest(ff.read_bytes()) == expected['ffmpegSha256']
@@ -54,6 +61,12 @@ reference = floats(run([
     'f32le',
     'pipe:1',
 ]))
+reference_scale = 1.0
+if args.reference_rms is not None:
+    if not math.isfinite(args.reference_rms) or args.reference_rms <= 0:
+        parser.error('--reference-rms must be finite and positive')
+    reference_scale = args.reference_rms / rms(reference)
+    reference = array.array('f', (x * reference_scale for x in reference))
 seed = 20903
 noise = []
 for i in range(len(reference)):
@@ -124,6 +137,7 @@ def energy_windows(a):
     return [rms(a[i:i + 480]) for i in range(0, len(a), 480)]
 report = {
     'productionAdoption': False,
+    'referenceScaleApplied': reference_scale,
     'speechQuality': 'unverified; no listening; reference includes original ambience',
     'sampleRate': 48000,
     'frames': len(reference),

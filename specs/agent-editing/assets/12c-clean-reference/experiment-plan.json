@@ -1,0 +1,29 @@
+{
+  "selection": {
+    "dataset": "hf-internal-testing/librispeech_asr_dummy",
+    "revision": "5be91486e11a2d616f4ec5db8d3fd248585ac07a",
+    "selection": "lexicographically first id before any processing",
+    "id": "1272-128104-0000",
+    "speaker_id": 1272,
+    "chapter_id": 128104,
+    "text": "MISTER QUILTER IS THE APOSTLE OF THE MIDDLE CLASSES AND WE ARE GLAD TO WELCOME HIS GOSPEL",
+    "audioOriginalPath": "1272-128104-0000.flac",
+    "audioFile": "1272-128104-0000.flac",
+    "audioSha256": "4e25e22555cd16e90edb0a3b49fdcf1fe652b2a1250ab643634db33895c75b41",
+    "parquetSha256": "4e69a06fa5edc90921e5e7e39a7084881f8b3ed9c805c574f4f39c6fde27c603",
+    "parquetBytes": 9192059,
+    "readerVersion": "1.5.6",
+    "provenance": "LibriSpeech HF clean validation subset, https://www.openslr.org/12 ; CC BY4.0 ; Vassil Panayotov, Guoguo Chen, Daniel Povey, Sanjeev Khudanpur; LibriVox-derived read speech; no original audio modification"
+  },
+  "factor": "Reference speech fixture changes only; matched48k/10dB stationary noise, both frozen recipes/compensation and all metrics unchanged",
+  "prediction": "A cleaner independent reference separates original-recording ambience sensitivity from general speech alteration; no expected winner",
+  "acceptance": "No subjective quality pass; count/hash/numerical comparison only, protected phonemes/listening still required",
+  "budget": "same300second batch and30second subprocess deadlines; no parameter retuning",
+  "noProductionAdoption": true,
+  "levelControl": {
+    "reason": "Independent reference is6times louder, so fixture result cannot be attributed solely to cleanliness",
+    "factor": "Same clean utterance scaled before noise generation to original narration RMS0.010273766392624829; both recipes and relative10dB addednoise unchanged",
+    "prediction": "If level contributes, RNNoise reference distortion/correlation changes on identical phonetic content; no output gain adjustment or production normalization",
+    "referenceMutation": "analysis input copy only; originalFLAC immutable"
+  }
+}

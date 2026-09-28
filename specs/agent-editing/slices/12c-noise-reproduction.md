@@ -69,7 +69,9 @@ fails independent reset-per-clip state, including exact repeated-run evidence.
 
 [Matched stationary-noise inputs](../assets/12c-matched-noise/README.md) now expose
 the candidates’ attenuation/reference-distortion tradeoff with exact repeatability.
-Next add independent clean-speech/protected-phoneme and listening controls, then
+[Independent clean speech and a matched-level control](../assets/12c-clean-reference/README.md)
+now separate input-level sensitivity from the earlier recording-specific change.
+Next verify protected phonemes and listening, then
 freeze a state policy that preserves pure splits while excluding removed input.
 Neither measured noise attenuation nor surviving impulse peaks closes listening,
 protected-phoneme, retimed/combined-input or production integration acceptance.

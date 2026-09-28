@@ -1,0 +1,7 @@
+Using Python 3.12.14 environment at: /tmp/screenrec-clean-speech-preparation/venv
+Resolved 1 package in 180ms
+Downloading duckdb (14.8MiB)
+ Downloaded duckdb
+Prepared 1 package in 442ms
+Installed 1 package in 1ms
+ + duckdb==1.5.6
