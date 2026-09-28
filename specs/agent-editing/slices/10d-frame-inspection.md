@@ -278,4 +278,5 @@ and raw rendering refuse incomplete images and animation consistently; the
 existing timed video frame path is preserved. This is internal preparation only:
 public source and project still rendering must consume this owner, preserve image
 identity through cache/delivery, and pass actual CLI/MCP/native journeys before
-advertising support. Fresh visual acceptance remains pending.
+advertising support. [Fresh fixture-scoped visual review](../assets/10d-still-image-native/visual-review.md)
+passes; the root native integration journey also passes.

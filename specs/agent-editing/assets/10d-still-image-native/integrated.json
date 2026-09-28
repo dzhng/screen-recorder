@@ -1,0 +1,817 @@
+{
+  "passed": true,
+  "pictures": [
+    {
+      "height": 40,
+      "kind": "png",
+      "orientation": 1,
+      "orientedHeight": 40,
+      "orientedWidth": 64,
+      "path": "/tmp/screenrec-still-image-integrated/sources/png-1.png",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/png-1.png.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/png-1.png",
+      "receipt": {
+        "assetId": "39fccff07571815a1ad72606b4735c2fa8dc997507152e667c68457662f85c02",
+        "bytes": 329,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/png-1.png",
+        "hasAlpha": true,
+        "height": 40,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 1,
+        "readerOpens": 1,
+        "sourceHeight": 40,
+        "sourceWidth": 64,
+        "streamId": "image:0",
+        "width": 64
+      },
+      "normalization": {
+        "opaque": false,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 64,
+        "height": 40,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+      },
+      "maximumError": 0,
+      "sourceSha256": "c22686998b3cf2f836f9c35bb281e3248ef38b652141591075f18d760823fe97",
+      "sha256": "0c6b78bd6f1ef24e20f2c1cd4a8854511a7fb0be74d6f1a84c5308e7eb5b6b8d"
+    },
+    {
+      "height": 40,
+      "kind": "png",
+      "orientation": 2,
+      "orientedHeight": 40,
+      "orientedWidth": 64,
+      "path": "/tmp/screenrec-still-image-integrated/sources/png-2.png",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/png-2.png.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/png-2.png",
+      "receipt": {
+        "assetId": "29ab04d973836d65152151772057cf6427931a74571659781043a469a28d798f",
+        "bytes": 335,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/png-2.png",
+        "hasAlpha": true,
+        "height": 40,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 2,
+        "readerOpens": 1,
+        "sourceHeight": 40,
+        "sourceWidth": 64,
+        "streamId": "image:0",
+        "width": 64
+      },
+      "normalization": {
+        "opaque": false,
+        "width": 64,
+        "height": 40,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      "maximumError": 0,
+      "sourceSha256": "4c393c40dc38452c1d44ef4283bd7f60f787576517bdacf6be924d208d9536e0",
+      "sha256": "51e2a14ba83fcda0093cec58635d0b4d2c58dc302f18a3109b2ae5f1553e0986"
+    },
+    {
+      "height": 40,
+      "kind": "png",
+      "orientation": 3,
+      "orientedHeight": 40,
+      "orientedWidth": 64,
+      "path": "/tmp/screenrec-still-image-integrated/sources/png-3.png",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/png-3.png.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/png-3.png",
+      "receipt": {
+        "assetId": "b45700675a71bde166797c47ad2bb33785f7ea9c3b59d8480a3dcd976e8681d3",
+        "bytes": 338,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/png-3.png",
+        "hasAlpha": true,
+        "height": 40,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 3,
+        "readerOpens": 1,
+        "sourceHeight": 40,
+        "sourceWidth": 64,
+        "streamId": "image:0",
+        "width": 64
+      },
+      "normalization": {
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": false,
+        "width": 64,
+        "height": 40,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+      },
+      "maximumError": 0,
+      "sourceSha256": "506c76fdb3556a334a15a5420d861fa56933ba17d3bbf3a61b072a04eae743b7",
+      "sha256": "38951fad1a0e0c9cb4cd745e8ffc2cbebb0b7275c494ab683c35f7de8bfa0d74"
+    },
+    {
+      "height": 40,
+      "kind": "png",
+      "orientation": 4,
+      "orientedHeight": 40,
+      "orientedWidth": 64,
+      "path": "/tmp/screenrec-still-image-integrated/sources/png-4.png",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/png-4.png.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/png-4.png",
+      "receipt": {
+        "assetId": "22e2897c028896c912f0bc35ad91b47bd0e2d3d0458d3886e061f5d65433d400",
+        "bytes": 338,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/png-4.png",
+        "hasAlpha": true,
+        "height": 40,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 4,
+        "readerOpens": 1,
+        "sourceHeight": 40,
+        "sourceWidth": 64,
+        "streamId": "image:0",
+        "width": 64
+      },
+      "normalization": {
+        "height": 40,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": false,
+        "width": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB"
+      },
+      "maximumError": 0,
+      "sourceSha256": "c2ae6e1149bfc6157a80105a807052ba4524741cc5da11354bcd236afe95cea9",
+      "sha256": "77089150c0ccab57e95420e56f4ad056890083db7058465d1b94ea83b38268dd"
+    },
+    {
+      "height": 40,
+      "kind": "png",
+      "orientation": 5,
+      "orientedHeight": 64,
+      "orientedWidth": 40,
+      "path": "/tmp/screenrec-still-image-integrated/sources/png-5.png",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/png-5.png.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/png-5.png",
+      "receipt": {
+        "assetId": "8119e0724b5e9fd2b86fded4280262d2f069c4b8f95a133fc51230e3986875f6",
+        "bytes": 372,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/png-5.png",
+        "hasAlpha": true,
+        "height": 64,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 5,
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "streamId": "image:0",
+        "width": 40
+      },
+      "normalization": {
+        "opaque": false,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "height": 64,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 40
+      },
+      "maximumError": 0,
+      "sourceSha256": "82cc1876c01ca084f770e521bbb7a9d466ee97bda0cd8ee45237ba1ec4309c5b",
+      "sha256": "edf4e9a412601bfc24fb0ea5e9f55a82bf1a0aefa11c12aae4f4029a104ee414"
+    },
+    {
+      "height": 40,
+      "kind": "png",
+      "orientation": 6,
+      "orientedHeight": 64,
+      "orientedWidth": 40,
+      "path": "/tmp/screenrec-still-image-integrated/sources/png-6.png",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/png-6.png.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/png-6.png",
+      "receipt": {
+        "assetId": "020a6f4e6cdc1a09e1ac8b5f945128ad683879d042fd9a51429017a9b65879d5",
+        "bytes": 320,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/png-6.png",
+        "hasAlpha": true,
+        "height": 64,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 6,
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "streamId": "image:0",
+        "width": 40
+      },
+      "normalization": {
+        "height": 64,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 40,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "opaque": false,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      },
+      "maximumError": 0,
+      "sourceSha256": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+      "sha256": "998730f61d8ea937ca13db03a4de877f54813c3d3014ad83ceb1e15eb729b9ad"
+    },
+    {
+      "height": 40,
+      "kind": "png",
+      "orientation": 7,
+      "orientedHeight": 64,
+      "orientedWidth": 40,
+      "path": "/tmp/screenrec-still-image-integrated/sources/png-7.png",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/png-7.png.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/png-7.png",
+      "receipt": {
+        "assetId": "d94b819e160722075e907304edb0a9240294d19c8321894f53270eb19ca916e4",
+        "bytes": 357,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/png-7.png",
+        "hasAlpha": true,
+        "height": 64,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 7,
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "streamId": "image:0",
+        "width": 40
+      },
+      "normalization": {
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 40,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "height": 64,
+        "opaque": false
+      },
+      "maximumError": 0,
+      "sourceSha256": "5d7feb85d02bfa5405e9056548a825e7b04e01207b42769e1187913e28c32129",
+      "sha256": "2bbdd91d8a8b9728d00a9545e862489250f88ed7f595225f2125b4f7b4ac9638"
+    },
+    {
+      "height": 40,
+      "kind": "png",
+      "orientation": 8,
+      "orientedHeight": 64,
+      "orientedWidth": 40,
+      "path": "/tmp/screenrec-still-image-integrated/sources/png-8.png",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/png-8.png.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/png-8.png",
+      "receipt": {
+        "assetId": "9012ba964ca04d4b73d13fc85a99f45514d16635931b0bcd0bcf6cc36ac09977",
+        "bytes": 340,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/png-8.png",
+        "hasAlpha": true,
+        "height": 64,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 8,
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "streamId": "image:0",
+        "width": 40
+      },
+      "normalization": {
+        "width": 40,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": false,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "height": 64
+      },
+      "maximumError": 0,
+      "sourceSha256": "d011ba1386d76bb1f900fe1b5a0093f1723d927d3197bf0a0d12388ccc7e15ac",
+      "sha256": "2b83c4f39e549132ba30c003d1f86bf5ec94a71f159f0bd7d592327ffe4e8c57"
+    },
+    {
+      "height": 40,
+      "kind": "jpeg",
+      "orientation": 1,
+      "orientedHeight": 40,
+      "orientedWidth": 64,
+      "path": "/tmp/screenrec-still-image-integrated/sources/jpeg-1.jpeg",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/jpeg-1.jpeg.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/jpeg-1.png",
+      "receipt": {
+        "assetId": "fbb9b69ec02b0841b50b6ad63bce2272b8aaffc5a8bf44f6f9df3704fdc2ae2c",
+        "bytes": 331,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/jpeg-1.png",
+        "hasAlpha": false,
+        "height": 40,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 1,
+        "readerOpens": 1,
+        "sourceHeight": 40,
+        "sourceWidth": 64,
+        "streamId": "image:0",
+        "width": 64
+      },
+      "normalization": {
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 64,
+        "height": 40,
+        "opaque": true,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      "maximumError": 1,
+      "sourceSha256": "48e125c4d15fd095ca0229bf32d24830561bf60df46a4cfa10b63e113ada1165",
+      "sha256": "46658b69b4fdfab461fbf2ae68da26c9ff7b79198af44932adbd3945349746d6"
+    },
+    {
+      "height": 40,
+      "kind": "jpeg",
+      "orientation": 2,
+      "orientedHeight": 40,
+      "orientedWidth": 64,
+      "path": "/tmp/screenrec-still-image-integrated/sources/jpeg-2.jpeg",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/jpeg-2.jpeg.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/jpeg-2.png",
+      "receipt": {
+        "assetId": "d9320987a13d00af6699fbed31409ef8e4134ba3b2e2373d4444125eb80f2635",
+        "bytes": 324,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/jpeg-2.png",
+        "hasAlpha": false,
+        "height": 40,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 2,
+        "readerOpens": 1,
+        "sourceHeight": 40,
+        "sourceWidth": 64,
+        "streamId": "image:0",
+        "width": 64
+      },
+      "normalization": {
+        "opaque": true,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 64,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "height": 40,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+      },
+      "maximumError": 1,
+      "sourceSha256": "8cc9d696228045442ae3a6fe6aa746b506c7a6f52645d12602f1d1501000d00c",
+      "sha256": "e383c0a1d11b97328c588a3ed3b996d5aebd3a7bd16d89b02dbe4ede9dd0be20"
+    },
+    {
+      "height": 40,
+      "kind": "jpeg",
+      "orientation": 3,
+      "orientedHeight": 40,
+      "orientedWidth": 64,
+      "path": "/tmp/screenrec-still-image-integrated/sources/jpeg-3.jpeg",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/jpeg-3.jpeg.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/jpeg-3.png",
+      "receipt": {
+        "assetId": "c0b5686ccde7181b886f4d249e6a7dfda02e66d5766cae518e8c65ffffd26e7f",
+        "bytes": 347,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/jpeg-3.png",
+        "hasAlpha": false,
+        "height": 40,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 3,
+        "readerOpens": 1,
+        "sourceHeight": 40,
+        "sourceWidth": 64,
+        "streamId": "image:0",
+        "width": 64
+      },
+      "normalization": {
+        "height": 40,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 64,
+        "opaque": true
+      },
+      "maximumError": 1,
+      "sourceSha256": "9c57ba5536467d28e1bc18d2961974a098868d0e0a6886176a4e4d9930ad7612",
+      "sha256": "2ac7ee37760b4c31ae4a4544b7b0593a1443d3c5015aaade8f0f9e13a9d2a11a"
+    },
+    {
+      "height": 40,
+      "kind": "jpeg",
+      "orientation": 4,
+      "orientedHeight": 40,
+      "orientedWidth": 64,
+      "path": "/tmp/screenrec-still-image-integrated/sources/jpeg-4.jpeg",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/jpeg-4.jpeg.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/jpeg-4.png",
+      "receipt": {
+        "assetId": "1cf65b1f5adbe78e5d492018b35412e8e85e3141b1c97ec8deb25a697e847504",
+        "bytes": 341,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/jpeg-4.png",
+        "hasAlpha": false,
+        "height": 40,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 4,
+        "readerOpens": 1,
+        "sourceHeight": 40,
+        "sourceWidth": 64,
+        "streamId": "image:0",
+        "width": 64
+      },
+      "normalization": {
+        "height": 40,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "opaque": true
+      },
+      "maximumError": 1,
+      "sourceSha256": "5b41b606e73884a52381137c9589d064ccb5ffdb0730f13d9e0556b518ec4c0e",
+      "sha256": "630eb6ee470bffd45d8942a4e97f83d5aa1630f85a30a96e541703fe86961622"
+    },
+    {
+      "height": 40,
+      "kind": "jpeg",
+      "orientation": 5,
+      "orientedHeight": 64,
+      "orientedWidth": 40,
+      "path": "/tmp/screenrec-still-image-integrated/sources/jpeg-5.jpeg",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/jpeg-5.jpeg.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/jpeg-5.png",
+      "receipt": {
+        "assetId": "be6ecbdcf5a014cfc375c0539d15c0bdd78759204eb0f1eb38df6b5c184bfea3",
+        "bytes": 344,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/jpeg-5.png",
+        "hasAlpha": false,
+        "height": 64,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 5,
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "streamId": "image:0",
+        "width": 40
+      },
+      "normalization": {
+        "width": 40,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "opaque": true,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+      },
+      "maximumError": 1,
+      "sourceSha256": "e6d181b945c64f8fe659297ffffcadf4e3e57414802e254afbbe8ca8a508a687",
+      "sha256": "7ddfeb3791bd48580358739ce84bb775d2706913e566bb609571d6abdc059db1"
+    },
+    {
+      "height": 40,
+      "kind": "jpeg",
+      "orientation": 6,
+      "orientedHeight": 64,
+      "orientedWidth": 40,
+      "path": "/tmp/screenrec-still-image-integrated/sources/jpeg-6.jpeg",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/jpeg-6.jpeg.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/jpeg-6.png",
+      "receipt": {
+        "assetId": "4e04691d10b79f814a15a7bd815df7aa8b0d689d0f1ec802c19d1908dd63356a",
+        "bytes": 349,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/jpeg-6.png",
+        "hasAlpha": false,
+        "height": 64,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 6,
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "streamId": "image:0",
+        "width": 40
+      },
+      "normalization": {
+        "width": 40,
+        "opaque": true,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "height": 64,
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      "maximumError": 1,
+      "sourceSha256": "0a5475485b314d29c24fa5da2e7fc343b994710c5c36778b43db31e4688988bc",
+      "sha256": "1b1e83a7b13b8984968c21b0136158a9b8fabd267a3c2d86e634c36e085df3ef"
+    },
+    {
+      "height": 40,
+      "kind": "jpeg",
+      "orientation": 7,
+      "orientedHeight": 64,
+      "orientedWidth": 40,
+      "path": "/tmp/screenrec-still-image-integrated/sources/jpeg-7.jpeg",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/jpeg-7.jpeg.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/jpeg-7.png",
+      "receipt": {
+        "assetId": "c22bb8cd62b7079f84ccdb369e8a4bb21c3acfb8de93662d43acd0fd32e845ee",
+        "bytes": 341,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/jpeg-7.png",
+        "hasAlpha": false,
+        "height": 64,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 7,
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "streamId": "image:0",
+        "width": 40
+      },
+      "normalization": {
+        "width": 40,
+        "opaque": true,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "height": 64
+      },
+      "maximumError": 1,
+      "sourceSha256": "81be0f46534731244f58af8aad14255f28b2eb707bb3f6158623c6016a862bf0",
+      "sha256": "10f7c54cec75d6dc8592f97bc37fcfc29b751a33eeb6c193c261ff610b3d9db6"
+    },
+    {
+      "height": 40,
+      "kind": "jpeg",
+      "orientation": 8,
+      "orientedHeight": 64,
+      "orientedWidth": 40,
+      "path": "/tmp/screenrec-still-image-integrated/sources/jpeg-8.jpeg",
+      "reference": "/tmp/screenrec-still-image-integrated/sources/jpeg-8.jpeg.reference.png",
+      "width": 64,
+      "output": "/tmp/screenrec-still-image-integrated/jpeg-8.png",
+      "receipt": {
+        "assetId": "bffff4dd490dcb6d3d7345071c959c8df9ca8d8f8110471b5f7aeba22901d5c7",
+        "bytes": 337,
+        "decodedImages": 1,
+        "file": "/tmp/screenrec-still-image-integrated/jpeg-8.png",
+        "hasAlpha": false,
+        "height": 64,
+        "kind": "image",
+        "mediaType": "image/png",
+        "orientation": 8,
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "streamId": "image:0",
+        "width": 40
+      },
+      "normalization": {
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 40,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "height": 64,
+        "opaque": true
+      },
+      "maximumError": 1,
+      "sourceSha256": "45c71cefd47a469c2cdfc68bef86c397f9e320e523ce4082e3b4e5d6baadade3",
+      "sha256": "7d2de0cb746af0fc6a6a0fb185d00244b7d590b6ee31c934cc691f9597424179"
+    }
+  ],
+  "refusals": [
+    {
+      "name": "decoded-limit.png",
+      "error": {
+        "code": "LIMIT_EXCEEDED",
+        "message": "Still-image decode exceeds 1 pixels.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "name": "encoded-limit.png",
+      "error": {
+        "code": "LIMIT_EXCEEDED",
+        "message": "Encoded image exceeds the requested byte limit.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "name": "invented-clock.png",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "message": "Request has fields this operation does not read.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "name": "wrong-stream.png",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "message": "Invalid selected still-image request.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "name": "malformed-output.png",
+      "error": {
+        "code": "UNSUPPORTED_MEDIA",
+        "message": "Expected one decodable still image.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "name": "truncated-output.png",
+      "error": {
+        "code": "UNSUPPORTED_MEDIA",
+        "message": "Expected one decodable still image.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "name": "apng-output.png",
+      "error": {
+        "code": "UNSUPPORTED_MEDIA",
+        "message": "Expected one decodable still image.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "name": "gif-output.png",
+      "error": {
+        "code": "UNSUPPORTED_MEDIA",
+        "message": "Raw still pictures require one PNG or JPEG image.",
+        "retryable": false,
+        "details": {}
+      }
+    }
+  ],
+  "videoPreservation": [
+    {
+      "name": "a.mov",
+      "edge": 33,
+      "sha256": "3a07451be807294c2208f0a59dc693b96a8f925e3272cd73de6440fd4b5e0487",
+      "receipt": {
+        "actualSourceUs": 0,
+        "assetId": "a.mov",
+        "bytes": 485,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-still-image-integrated/video-a.mov-33.png",
+        "height": 20,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 0,
+        "sample": {
+          "endTimescale": 16384,
+          "endValue": "4096",
+          "originUs": 0,
+          "timescale": 16384,
+          "value": "0"
+        },
+        "sourceHeight": 96,
+        "sourceWidth": 160,
+        "streamId": "track:1",
+        "width": 33
+      }
+    },
+    {
+      "name": "a.mov",
+      "edge": 1600,
+      "sha256": "27324579401254dc476310a39e8a6f4c45e64977d18f60f18641ce734ac13da9",
+      "receipt": {
+        "actualSourceUs": 0,
+        "assetId": "a.mov",
+        "bytes": 2634,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-still-image-integrated/video-a.mov-1600.png",
+        "height": 96,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 0,
+        "sample": {
+          "endTimescale": 16384,
+          "endValue": "4096",
+          "originUs": 0,
+          "timescale": 16384,
+          "value": "0"
+        },
+        "sourceHeight": 96,
+        "sourceWidth": 160,
+        "streamId": "track:1",
+        "width": 160
+      }
+    },
+    {
+      "name": "orientation.mov",
+      "edge": 33,
+      "sha256": "cda3ca6d80b4a2ffc444d9445ccc84fc99df072092354f298927970358624f39",
+      "receipt": {
+        "actualSourceUs": 0,
+        "assetId": "orientation.mov",
+        "bytes": 487,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-still-image-integrated/video-orientation.mov-33.png",
+        "height": 33,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 0,
+        "sample": {
+          "endTimescale": 16384,
+          "endValue": "4096",
+          "originUs": 0,
+          "timescale": 16384,
+          "value": "0"
+        },
+        "sourceHeight": 160,
+        "sourceWidth": 96,
+        "streamId": "track:1",
+        "width": 20
+      }
+    },
+    {
+      "name": "orientation.mov",
+      "edge": 1600,
+      "sha256": "43608371539111f476be0866e17c7d11caf59f392cceb26977a283bcec37b0bb",
+      "receipt": {
+        "actualSourceUs": 0,
+        "assetId": "orientation.mov",
+        "bytes": 2759,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-still-image-integrated/video-orientation.mov-1600.png",
+        "height": 160,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 0,
+        "sample": {
+          "endTimescale": 16384,
+          "endValue": "4096",
+          "originUs": 0,
+          "timescale": 16384,
+          "value": "0"
+        },
+        "sourceHeight": 160,
+        "sourceWidth": 96,
+        "streamId": "track:1",
+        "width": 96
+      }
+    }
+  ],
+  "bounded": {
+    "assetId": "020a6f4e6cdc1a09e1ac8b5f945128ad683879d042fd9a51429017a9b65879d5",
+    "bytes": 289,
+    "decodedImages": 1,
+    "file": "/tmp/screenrec-still-image-integrated/bounded.png",
+    "hasAlpha": true,
+    "height": 17,
+    "kind": "image",
+    "mediaType": "image/png",
+    "orientation": 6,
+    "readerOpens": 1,
+    "sourceHeight": 64,
+    "sourceWidth": 40,
+    "streamId": "image:0",
+    "width": 11
+  },
+  "worker": {
+    "path": "/tmp/screenrec-still-image-native",
+    "sha256": "111f48db6aeee473017ac568208e615c1475b7fcd275ad59ee1d968e966aed8c"
+  }
+}
