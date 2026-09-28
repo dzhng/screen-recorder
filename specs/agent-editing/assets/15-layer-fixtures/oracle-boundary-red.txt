@@ -1,0 +1,3 @@
+fixed canvas outside support {"actual":[0,0,0,1],"expected":[0,0,0,0]}
+premultiplied half-white source {"actual":[0.1083535059395259,0.1083535059395259,0.1083535059395259,0.5019607843137255],"expected":[0.5019607843137255,0.5019607843137255,0.5019607843137255,0.5019607843137255]}
+Both authored regressions reproduce before correction.

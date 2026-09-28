@@ -1,0 +1,110 @@
+{
+  "screen": {
+    "path": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/layers-fixtures-KqbH5w/authored-sources/screen.mov",
+    "width": 64,
+    "height": 48,
+    "sha256": "0f2a47e47c862ab1b45052090e4c9e0ffdd99cada586c4b7d59fdb1d0cc643ae",
+    "reference": {
+      "requestedUs": 0,
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "file": "/tmp/layers-orientation-proof/screen-reference/000.png",
+      "width": 64,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "actualValue": "0",
+      "height": 48,
+      "index": 0,
+      "actualTimescale": 1000
+    },
+    "normalized": {
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 64,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    }
+  },
+  "presenter": {
+    "path": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/layers-fixtures-KqbH5w/authored-sources/presenter.mov",
+    "width": 24,
+    "height": 40,
+    "sha256": "36a633be5fbd63f7328685be3427c7fc5f64b745b9f78c75a68a05573e3a74c5",
+    "reference": {
+      "requestedUs": 0,
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "width": 24,
+      "index": 0,
+      "actualTimescale": 1000,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "height": 40,
+      "file": "/tmp/layers-orientation-proof/presenter-reference/000.png",
+      "actualValue": "0"
+    },
+    "normalized": {
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 24,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "height": 40
+    }
+  },
+  "plate": {
+    "path": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/layers-fixtures-KqbH5w/authored-sources/plate.mov",
+    "width": 16,
+    "height": 16,
+    "sha256": "a60f593150ab31ea9c1f3267b706d4f3a80d99415dd576e9b93038a191235d9e",
+    "reference": {
+      "height": 16,
+      "actualValue": "0",
+      "requestedUs": 0,
+      "index": 0,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 16,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "file": "/tmp/layers-orientation-proof/plate-reference/000.png",
+      "actualTimescale": 1000
+    },
+    "normalized": {
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 16,
+      "height": 16,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true
+    }
+  },
+  "rotated": {
+    "path": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/layers-fixtures-KqbH5w/authored-sources/rotated.mov",
+    "width": 48,
+    "height": 64,
+    "sha256": "3f0eaaec91e7f8ca49d9d93e09b9096dc81479bc9bdf6f8298c3031ef356fde3",
+    "reference": {
+      "width": 48,
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "file": "/tmp/layers-orientation-proof/rotated-reference/000.png",
+      "actualTimescale": 10240,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "index": 0,
+      "requestedUs": 0,
+      "actualValue": "0",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    "normalized": {
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 48,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    }
+  },
+  "narration": {
+    "path": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/layers-fixtures-KqbH5w/authored-sources/narration.wav",
+    "sha256": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1"
+  }
+}

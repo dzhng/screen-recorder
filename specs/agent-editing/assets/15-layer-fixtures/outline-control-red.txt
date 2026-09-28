@@ -1,0 +1,9 @@
+missing outline passes: {
+  compared: 2020,
+  total: 3072,
+  maximumError: 0,
+  shapes: [
+    { channel: 0, actual: [Object], expected: [Object] },
+    { channel: 3, actual: [Object], expected: [Object] }
+  ]
+}

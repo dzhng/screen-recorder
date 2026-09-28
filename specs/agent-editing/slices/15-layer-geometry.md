@@ -46,3 +46,11 @@ Delegated: Native pixel-compositing primitive and resource reuse. Layer order, g
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
+
+## Fixture and reference prerequisite
+
+[Authored inputs and independent geometry/alpha oracle](../assets/15-layer-fixtures/README.md)
+verify asymmetric decoded source pixels, orientation metadata and reference-control
+sensitivity. This helper checkpoint does not accept new native or public layer
+execution. The actual CLI geometry request still supplies a retained negative
+control; compositor/profile, complete public journey and fresh visual gates remain.

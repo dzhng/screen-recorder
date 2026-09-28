@@ -1,0 +1,17 @@
+✔ authored quarter-turn points pin clockwise rotation and translation after pivot (0.808542ms)
+✔ crop consumes the previous canvas and swapping two instances changes output (0.123791ms)
+✔ flattened parent opacity differs from distributing opacity to overlapping children (0.73775ms)
+✔ pixel oracle rejects one-pixel translation despite an unchanged flat interior (9.650291ms)
+✔ output crops cannot invent background beyond the fixed canvas (0.109541ms)
+✔ premultiplied sRGB inputs are unpremultiplied before linear conversion (0.125917ms)
+✔ losing a thin outline cannot pass merely by retaining its four corners (3.0155ms)
+✔ thin landmark density and every color channel are checked (2.338041ms)
+✔ uniform canvas border pixels cannot disappear behind the interpolation allowance (0.343667ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57.346166

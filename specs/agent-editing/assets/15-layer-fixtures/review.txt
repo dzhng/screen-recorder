@@ -1,0 +1,11 @@
+Scope: layers-fixture.mjs, layers-orientation.swift, layers-oracle.mjs and layers-oracle.test.mjs only. No production implementation or finished public journey claim.
+
+Shape: existing source-reference decoder/profile tools are reused. One fixture owner authors source bytes; one independent point oracle maps those bytes. No compiled/native geometry values feed expectations. Reference-only code is kept outside production packages.
+
+Independent review 1: bounded-background defect and corner-only thin-outline false positive. Both reproduced and fixed; spatial coverage added. Own audit: premultiplied sRGB inputs were incorrectly linearized before unpremultiplication; authored half-white regression reproduced and fixed.
+
+Independent review 2: alternating outline density loss and opaque-border loss could still pass; thin white-to-red corruption could pass. Fixed with coverage-count guard, all RGB channels, and clipped-neighborhood comparisons at borders. Authored controls reject all cases. The one-pixel displacement control composites over the unchanged background so it specifically tests landmark displacement rather than exposing a transparent border.
+
+Final local closeout: nine tests pass; lint and whitespace pass; all independent findings resolved. Comparator thresholds remain provisional pending actual native comparisons and are not a license to repin mismatching output. Actual fixture orientation/decoding checked separately with AVFoundation and CoreGraphics. Product visual review remains unperformed and required.
+
+Decisions: use high-contrast authored sources to isolate geometry, retaining separate realistic/pointer acceptance later; use independent inverse point sampling rather than production transforms; keep existing source profile conversion references. The two-percent/one-pixel mask-count budget is provisional, confidence medium, and must be reconsidered from the real rasterization model if evidence contradicts it. No production alpha/profile policy was introduced here.

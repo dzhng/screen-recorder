@@ -1,0 +1,85 @@
+{
+  "passed": false,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "checks": {},
+  "frames": [],
+  "error": {
+    "message": "edit.apply: {\"id\":\"315c1e34-4cb9-4aad-b2f6-f6baf058f474\",\"ok\":false,\"error\":{\"code\":\"INVALID_PARAMS\",\"message\":\"Parameters do not match the operation schema.\",\"retryable\":false,\"details\":{}}}\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: edit.apply: {\"id\":\"315c1e34-4cb9-4aad-b2f6-f6baf058f474\",\"ok\":false,\"error\":{\"code\":\"INVALID_PARAMS\",\"message\":\"Parameters do not match the operation schema.\",\"retryable\":false,\"details\":{}}}\n\nfalse !== true\n\n    at JourneyService.call (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-evidence-fixture.mjs:110:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async createProject (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/layers.mjs:74:16)\n    at async file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/layers.mjs:118:21"
+  },
+  "boundary": "Actual CLI rejected geometry authoring before backend implementation; this is a negative control, not a completed layer journey."
+}
