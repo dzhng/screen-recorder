@@ -1,0 +1,104 @@
+{
+  "storedModulesAndFixtureLoadersMatch": true,
+  "interpretation": "Stored product modules retain these hashes; isolated child loaders substitute exactly one recipe literal. Actual old/new recipe identities and publication attempts are in generation.json. This does not identify two shipped binaries.",
+  "nativeSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "bothNativeHashesMatch": true,
+  "files": [
+    {
+      "file": "apps/service/dist/project-service.js",
+      "sha256": "dcc4df650e8385bbaa5263c6eb03f6022c5c54dee1e1466f07819a9d8964be59"
+    },
+    {
+      "file": "packages/core/dist/source-events.js",
+      "sha256": "c11ad1e14447c2264670e7b449c48c52418b7dea408aa9025dc8b456c3fd9e59"
+    },
+    {
+      "file": "packages/core/dist/scene-source-read.js",
+      "sha256": "690161b71ee1e289d5e3eb6a8991dc2f1ef55b610dad39bdfddd7cde8ae86c0e"
+    },
+    {
+      "file": "packages/core/dist/project-events.js",
+      "sha256": "a845068184199550b525013eaf0299d2b8d54a8edc0b5af4e2ee07694c1f8d95"
+    },
+    {
+      "file": "packages/protocol/dist/operations.js",
+      "sha256": "d422093850c488594d25b1917f09bdc276bc85e7e6d08f980e43c65ebbbfbf75"
+    },
+    {
+      "file": "packages/test-harness/editing/scene-evidence.mjs",
+      "sha256": "6a1e5c7d5aa3202627506f6c882b81920e3054c89a8f2b6758d1a8c362b607b0"
+    },
+    {
+      "file": "packages/test-harness/editing/generation-evidence.mjs",
+      "sha256": "bace188ace7a986d27ae18cf8b8c4d332cd605f1f508a2a913ae1c198d7898b3"
+    },
+    {
+      "file": "packages/test-harness/editing/generation-scene-service.mjs",
+      "sha256": "5534561c3a7e3e92daa77363e59e964c7e0a783a75b2cf4ca38f4b5c302cfcf1"
+    },
+    {
+      "file": "packages/core/package.json",
+      "sha256": "54018b75b8c520c0208699b88d88e414b7ab00b65f4473a93bc74acbe139a655"
+    },
+    {
+      "file": "apps/service/dist/project-service.js",
+      "sha256": "dcc4df650e8385bbaa5263c6eb03f6022c5c54dee1e1466f07819a9d8964be59"
+    },
+    {
+      "file": "apps/service/dist/worker.js",
+      "sha256": "7a80cfdd7c1bcddb8cd953660e5fc3ab219aa6d960995a3a83b566d3cd065057"
+    },
+    {
+      "file": "apps/cli/dist/main.js",
+      "sha256": "c742bbe69710844f692451eb44dd6672179413207a1f7b034d78cf4d71508bbd"
+    },
+    {
+      "file": "packages/protocol/dist/operations.js",
+      "sha256": "d422093850c488594d25b1917f09bdc276bc85e7e6d08f980e43c65ebbbfbf75"
+    },
+    {
+      "file": "packages/core/dist/project-evidence.js",
+      "sha256": "79bb77f32a6cbd943b432dc36f8e1f720a2a17674dd886dd34e3e70af8f633d5"
+    },
+    {
+      "file": "packages/core/dist/transcript-processing.js",
+      "sha256": "a6a843714a4740c3c825790ecd28707deafcec758d11ef03ad00fbe4b9abda7e"
+    },
+    {
+      "file": "packages/core/dist/transcript-read.js",
+      "sha256": "bdca4a3fca07a7ff3c8e6668905613044ffdc7966c197ead2e05e73b478c562f"
+    },
+    {
+      "file": "packages/core/dist/transcript.js",
+      "sha256": "b2b5b78afb300c5f68844b60164a5c806099f8ac06599812262d8d89b1802974"
+    },
+    {
+      "file": "packages/core/dist/cache.js",
+      "sha256": "9dd96ce1912238ba5b2f295d7ae51cd591fd729548894fb1a10c83a7bd30516d"
+    },
+    {
+      "file": "packages/composition/dist/source-projection.js",
+      "sha256": "c03360230f85b4119ec0d17212c69bb249b0fcce11922dfea31b4a30f6cc43e3"
+    },
+    {
+      "file": "packages/test-harness/editing/evidence.mjs",
+      "sha256": "98c8ca12b2fb0beaa8c7952b77862b8f430d9a52ca9ee256d8aa56bd0f4d5519"
+    },
+    {
+      "file": "packages/test-harness/editing/generation-evidence.mjs",
+      "sha256": "bace188ace7a986d27ae18cf8b8c4d332cd605f1f508a2a913ae1c198d7898b3"
+    },
+    {
+      "file": "packages/test-harness/editing/generation-transcript-service.mjs",
+      "sha256": "2fce7746ca5821af3f033d566354954378fcd9b090c3c824682f9c1c86a2befb"
+    },
+    {
+      "file": "packages/test-harness/editing/evidence-service.mjs",
+      "sha256": "427711425068e9058b7dbb1d0a33b212d93d23484c4684567c94391e3a8ed7b6"
+    },
+    {
+      "file": "packages/test-harness/editing/source-evidence-fixture.mjs",
+      "sha256": "0e8c8287fb8c2e485b1f2cfe1afce24784f593dee0a07912112c7b40e9d00316"
+    }
+  ]
+}

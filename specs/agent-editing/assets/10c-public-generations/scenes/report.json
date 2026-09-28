@@ -1,0 +1,676 @@
+{
+  "passed": true,
+  "checks": {
+    "authoredBoundaryTimes": [
+      400000,
+      800000,
+      1800000,
+      2200000
+    ],
+    "exactPhysicalClocks": true,
+    "physicalGap": true,
+    "mixedCapture": true,
+    "repeatedRetimedOccurrences": true,
+    "pageOneBothTransports": true,
+    "historyRestart": true,
+    "donorDeletion": true,
+    "sceneCancelRetry": true,
+    "changedGeneration": {
+      "publicConsumerRefusal": true,
+      "actualNativePublication": true,
+      "simulatedReleaseIdentity": true,
+      "unchangedCutsAndRevision": true,
+      "readyRetryNoOp": true
+    }
+  },
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "job.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "revision.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "revision.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "job.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "nativeSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "runtime": {
+    "apps/service/dist/project-service.js": "dcc4df650e8385bbaa5263c6eb03f6022c5c54dee1e1466f07819a9d8964be59",
+    "packages/core/dist/source-events.js": "c11ad1e14447c2264670e7b449c48c52418b7dea408aa9025dc8b456c3fd9e59",
+    "packages/core/dist/scene-source-read.js": "690161b71ee1e289d5e3eb6a8991dc2f1ef55b610dad39bdfddd7cde8ae86c0e",
+    "packages/core/dist/project-events.js": "a845068184199550b525013eaf0299d2b8d54a8edc0b5af4e2ee07694c1f8d95",
+    "packages/protocol/dist/operations.js": "d422093850c488594d25b1917f09bdc276bc85e7e6d08f980e43c65ebbbfbf75",
+    "packages/test-harness/editing/scene-evidence.mjs": "6a1e5c7d5aa3202627506f6c882b81920e3054c89a8f2b6758d1a8c362b607b0",
+    "packages/test-harness/editing/generation-evidence.mjs": "bace188ace7a986d27ae18cf8b8c4d332cd605f1f508a2a913ae1c198d7898b3",
+    "packages/test-harness/editing/generation-scene-service.mjs": "5534561c3a7e3e92daa77363e59e964c7e0a783a75b2cf4ca38f4b5c302cfcf1"
+  }
+}

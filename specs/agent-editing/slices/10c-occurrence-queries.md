@@ -1,6 +1,6 @@
 # 10c — Bounded occurrence evidence and phrase search
 
-Status: in progress. Pure selection, core transcript paging and public routing are verified; public phrase search and bounded/acquisition-gap journeys are verified; public capture cursor/pause/geometry queries are verified; project-cut events are verified. Final public changed-generation coverage remains open; source-generation invalidation and cache-owner eviction have real-store core gates. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
+Status: accepted for bounded occurrence, phrase, capture and project-cut inspection. Actual CLI/MCP changed-generation gates pass across a simulated recipe release, using real native scenes and separately labeled frozen-ASR ingestion. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -77,7 +77,7 @@ fixed. Record any budget limits for 24 and update the slice/handoff after each p
 
 Exact window, inverse-range and forward-point selection is implemented and verified
 in the composition owner. [Evidence](../assets/10c-occurrence-window/README.md)
-records the bounded-read and preservation gates; public occurrence queries remain open.
+records the bounded-read and preservation gates; public occurrence queries are verified below.
 
 ## Core paging checkpoint
 
@@ -98,14 +98,14 @@ rebuilds only the query manifest; source preparation failures retain explicit
 source retries. Retry accepts query selectors, not paging cursors or limits.
 The [public paging journey](../assets/10c-public-paging/README.md) and independent
 full-result oracle are integrated, including exact runtime hash agreement.
-Phrase acceptance is recorded below; event/cursor reads remain open.
+Phrase acceptance is recorded below; event/cursor reads are verified below.
 ## Core phrase checkpoint
 
 [Track-local phrase evidence](../assets/10c-project-phrases/README.md) extends the
 same manifest/checkpoint owner with bounded per-track suffixes and exact first-word
 match ordering. Clean cuts preserve adjacency; gaps and partial words interrupt it.
 Raw search text pins continuation and optional retry text selects that manifest.
-Public phrase acceptance is recorded below; project event/cursor inspection remains open.
+Public phrase acceptance is recorded below; project event/cursor inspection is verified below.
 
 
 ## Public phrase checkpoint
@@ -113,7 +113,7 @@ Public phrase acceptance is recorded below; project event/cursor inspection rema
 [Combined paging/search evidence](../assets/10c-public-phrases/README.md) verifies
 actual public routing, independent phrase oracles and historical continuation.
 The [fresh-agent skill check](../assets/10c-project-skill/README.md) validates use
-without implementation instructions. Core capture events/cursor domains are next;
+without implementation instructions. Capture events/cursor domains are verified below;
 [expanded live coverage](../assets/10c-public-bounds/README.md) now verifies acquired
 gaps, empty continuation and bounded late reads. Event/cursor acceptance is
 recorded in the checkpoints below.
@@ -195,13 +195,18 @@ or its before clip for an exit, with an internal ordinal before source observati
 of that same clip. The existing source-event relative order is unchanged.
 
 The [contract audit](../assets/10c-project-cuts/README.md#slice-10c-acceptance-audit)
-distinguishes actual public journeys from real-store owner gates. Public
-changed-generation acceptance remains the final 10c verification pickup; no new
-cut implementation is pending. This does not close umbrella 10 or screenshot-index
-projection in 10d, and does not establish ASR accuracy or listening quality.
+links every named acceptance claim to its public or owner-level evidence. The
+[public generation gate](../assets/10c-public-generations/README.md) verifies both
+source-dependency branches: actual native scene publication and frozen-ASR
+transcript ingestion, with CLI/MCP event, transcript and phrase consumers.
+A recipe-identity change simulates a release; ready-job retry remains a no-op.
+Old cursors refuse before and after replacement, fresh queries preserve the pinned
+revision and complete results, and editorial cuts remain unchanged. This closes
+10c, not umbrella 10, screenshot-index projection in 10d, ASR accuracy or listening
+quality. Public checkpoint-file loss remains distinct from core cache-owner eviction.
+
 
 [Fresh project-cut skill use](../assets/10c-cut-skill/README.md) verifies an agent
-can identify the complete editorial transitions, distinguish source scenes and
+can identify complete editorial transitions, distinguish source scenes and
 availability, and avoid inventing a cut at a pure split through public CLI reads.
-The project remains unchanged. This does not substitute for the remaining public
-changed-generation gate or for rendered/listening acceptance.
+The project remains unchanged; this does not establish rendered/listening acceptance.

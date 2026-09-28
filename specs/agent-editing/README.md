@@ -16,26 +16,26 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Finish [10c occurrence queries](slices/10c-occurrence-queries.md) and
-   [10d picture/index inspection](slices/10d-frame-inspection.md). Source index
+1. Finish [10d picture/index inspection](slices/10d-frame-inspection.md). Source index
    [ownership](assets/10d-index-ownership/README.md),
    [selection](assets/10d-source-index-selection/README.md),
    [queued preparation](assets/10d-source-index-jobs/README.md) and
    [service delivery](assets/10d-source-index-service/README.md) are integrated.
    [Actual native CLI/MCP journeys](assets/10d-source-index-public/README.md) and
-   [fresh product-skill use](assets/10d-source-index-skill/README.md) now pass,
-   including dependency recovery, images, coverage and retained independence.
-   [Project cuts](assets/10c-project-cuts/README.md) pass authored public and
-   capture/scene preservation journeys and [fresh skill use](assets/10c-cut-skill/README.md).
+   [fresh product-skill use](assets/10d-source-index-skill/README.md) pass.
+   [Project cuts](assets/10c-project-cuts/README.md), [fresh cut skill use](assets/10c-cut-skill/README.md)
+   and [changed-generation inspection](assets/10c-public-generations/README.md)
+   complete [10c occurrence queries](slices/10c-occurrence-queries.md). The generation
+   gate simulates a recipe release; native scenes and frozen-ASR transcripts retain
+   separate evidence boundaries. Cache-owner eviction remains a core gate.
    [Compiler frame-boundary selection](assets/10d-project-index-clock/README.md)
-   is integrated; next implement project-index candidates/materialization and finish
-   10c public changed-generation verification;
-   generation invalidation/cache-owner eviction currently retain real-store core
-   gates. Retain the complete [10 umbrella](slices/10-project-evidence.md).
+   is integrated; next implement project-index candidates/materialization.
+   Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
-   integrated. The isolated compiler/native pass is not yet accepted: crop-edge
-   leakage and grouping-dependent rasterization are the current red contract.
+   integrated. The isolated compiler/native pass is not yet accepted: inactive clip
+   taps and aggregate allocation preflight are the current red contracts. Crop-edge
+   leakage and grouping-dependent rasterization now pass isolated gates.
    Preserve independent pixel thresholds, actual orientation domains and old
    identity rendering. Public presenter/stack-order journeys, pointer geometry
    and the final-output profile remain gates.
@@ -167,7 +167,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [x] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
-- [ ] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
+- [x] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
 - [ ] [10d — Direct frames and retained screenshot inspection](slices/10d-frame-inspection.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
 - [x] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { changedTranscriptGeneration } from "./generation-evidence.mjs";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -28,7 +29,7 @@ const report = {
     "Actual CLI/MCP/service/media admission and transcript ingestion; native ASR output is frozen, not newly inferred",
   trace: [],
   checks: {},
-  pending: ["capture events/cursor", "generation invalidation owner gate"],
+  pending: ["capture events/cursor are verified by their separate public journey"],
 };
 const configFile = join(out, "frozen-config.json");
 const readsFile = join(out, "source-reads.jsonl");
@@ -692,6 +693,21 @@ try {
     [...sources, acquiredSource].map((source) => source.sha256).sort(),
   );
   report.checks.onlySelectedSourcesPrepared = true;
+  await save("frozen-calls-baseline.json", frozenCalls);
+  const generation = await changedTranscriptGeneration({
+    service,
+    query: { projectId, revisionId },
+    text: "Okay so",
+    poll,
+  });
+  await save("generation.json", generation);
+  report.checks.changedGeneration = {
+    publicTranscriptAndPhraseRefusal: true,
+    realIngestion: true,
+    frozenASR: true,
+    simulatedReleaseIdentity: true,
+    readyRetryNoOp: true,
+  };
   assert.equal(hash(await readFile(narration)), report.originalNarrationSha256);
   report.runtime = Object.fromEntries(
     await Promise.all(
@@ -708,6 +724,8 @@ try {
         "packages/core/dist/cache.js",
         "packages/composition/dist/source-projection.js",
         "packages/test-harness/editing/evidence.mjs",
+        "packages/test-harness/editing/generation-evidence.mjs",
+        "packages/test-harness/editing/generation-transcript-service.mjs",
         "packages/test-harness/editing/evidence-service.mjs",
         "packages/test-harness/editing/source-evidence-fixture.mjs",
       ].map(async (path) => [path, hash(await readFile(join(root, path)))]),

@@ -1593,3 +1593,19 @@ preparation job or persistent reader lifetime. Slice 24 owns release-scale budge
   leaves repeated-candidate removal, sampling density and tap scope to their
   future owner. This parent-approved scope avoids silently choosing how many
   pictures an agent receives while making boundary selection independently testable.
+
+
+## Public source-generation acceptance — 2026-09-28
+
+- **Sound, high confidence — reproduce a recipe release instead of inventing a
+  force retry.** A ready source job intentionally does nothing when retried. To
+  verify what an agent sees after an analysis recipe changes, the public journey
+  restarts an isolated service with exactly one recipe identifier changed by its
+  test-only loader. Existing owners publish a new source attempt; old CLI/MCP
+  cursors refuse it and fresh queries succeed. The plan required public generation
+  coverage but did not name a legitimate replacement trigger. This adopted test
+  boundary avoids adding a product operation or mutating private catalog rows.
+  Scene samples are actually produced by the frozen native worker; speech engine
+  responses remain the independently labeled frozen fixture. The evidence proves
+  consumer invalidation across a simulated release, not two shipped binaries,
+  fresh ASR quality, cache eviction or a change to retry semantics.

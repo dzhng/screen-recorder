@@ -1,0 +1,2348 @@
+{
+  "boundary": "Simulated decoder recipe release. Native ASR responses are frozen; actual queue, raw ingestion and CLI/MCP transcript/phrase consumers execute. No fresh native ASR, shipped second binary or cache eviction is claimed.",
+  "baseline": [
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+          "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f"
+        },
+        "field": "rows"
+      },
+      "full": {
+        "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+        "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+        "state": "ready",
+        "dependencies": [
+          {
+            "selection": {
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1"
+            },
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+              },
+              "sourceId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 25,
+              "gapCount": 1,
+              "maxWordUs": 1120000,
+              "raw": {
+                "bytes": 9366,
+                "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "0617c7d3-f542-44ca-8b0e-c8494ba68a7b"
+          },
+          {
+            "selection": {
+              "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "streamId": "track:1"
+            },
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+              },
+              "sourceId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "generation": "f6565ae1-e13a-4b8c-b2a6-8cdfd1dda220",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 28,
+              "gapCount": 1,
+              "maxWordUs": 1440000,
+              "raw": {
+                "bytes": 10805,
+                "sha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "c7a833cd-47ec-45ac-8295-b36e085262e0"
+          }
+        ],
+        "page": {
+          "rows": [
+            {
+              "type": "word",
+              "id": "w0",
+              "ordinal": 0,
+              "text": "Okay,",
+              "kind": "speech",
+              "confidence": 0.8691406,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:2",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "project": {
+                    "startUs": 0,
+                    "endUs": 320000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w0",
+              "ordinal": 0,
+              "text": "So",
+              "kind": "speech",
+              "confidence": 0.99609375,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 560000,
+                "endUs": 800000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:8",
+              "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:1",
+              "trackRank": 1,
+              "generation": "f6565ae1-e13a-4b8c-b2a6-8cdfd1dda220",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 560000,
+                    "endUs": 800000
+                  },
+                  "project": {
+                    "startUs": 0,
+                    "endUs": 240000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w1",
+              "ordinal": 1,
+              "text": "so",
+              "kind": "speech",
+              "confidence": 0.99902344,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:3",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  },
+                  "project": {
+                    "startUs": 320000,
+                    "endUs": 640000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w1",
+              "ordinal": 1,
+              "text": "let's",
+              "kind": "speech",
+              "confidence": 0.99869794,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 880000,
+                "endUs": 1200000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:8",
+              "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:1",
+              "trackRank": 1,
+              "generation": "f6565ae1-e13a-4b8c-b2a6-8cdfd1dda220",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 880000,
+                    "endUs": 1200000
+                  },
+                  "project": {
+                    "startUs": 320000,
+                    "endUs": 640000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w0",
+              "ordinal": 0,
+              "text": "Okay,",
+              "kind": "speech",
+              "confidence": 0.8691406,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:4",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "project": {
+                    "startUs": 640000,
+                    "endUs": 960000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w3",
+              "ordinal": 3,
+              "text": "is",
+              "kind": "speech",
+              "confidence": 0.9995117,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:5",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 2240000,
+                    "endUs": 2560000
+                  },
+                  "project": {
+                    "startUs": 960000,
+                    "endUs": 1280000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w2",
+              "ordinal": 2,
+              "text": "this",
+              "kind": "speech",
+              "confidence": 0.9995117,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:6",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1920000,
+                    "endUs": 2240000
+                  },
+                  "project": {
+                    "startUs": 1280000,
+                    "endUs": 1600000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w0",
+              "ordinal": 0,
+              "text": "Okay,",
+              "kind": "speech",
+              "confidence": 0.8691406,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "project": {
+                    "startUs": {
+                      "numerator": 10120000,
+                      "denominator": 3
+                    },
+                    "endUs": 3480000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w1",
+              "ordinal": 1,
+              "text": "so",
+              "kind": "speech",
+              "confidence": 0.99902344,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  },
+                  "project": {
+                    "startUs": {
+                      "numerator": 10600000,
+                      "denominator": 3
+                    },
+                    "endUs": 3640000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w2",
+              "ordinal": 2,
+              "text": "this",
+              "kind": "speech",
+              "confidence": 0.9995117,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1920000,
+                    "endUs": 2240000
+                  },
+                  "project": {
+                    "startUs": 3640000,
+                    "endUs": {
+                      "numerator": 11240000,
+                      "denominator": 3
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w3",
+              "ordinal": 3,
+              "text": "is",
+              "kind": "speech",
+              "confidence": 0.9995117,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 2240000,
+                    "endUs": 2560000
+                  },
+                  "project": {
+                    "startUs": {
+                      "numerator": 11240000,
+                      "denominator": 3
+                    },
+                    "endUs": {
+                      "numerator": 11560000,
+                      "denominator": 3
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w4",
+              "ordinal": 4,
+              "text": "the",
+              "kind": "speech",
+              "confidence": 0.9995117,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 2560000,
+                "endUs": 2880000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 2560000,
+                    "endUs": 2880000
+                  },
+                  "project": {
+                    "startUs": {
+                      "numerator": 11560000,
+                      "denominator": 3
+                    },
+                    "endUs": 3960000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w5",
+              "ordinal": 5,
+              "text": "recorder",
+              "kind": "speech",
+              "confidence": 0.9873047,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 3200000,
+                "endUs": 4320000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 3200000,
+                    "endUs": 4320000
+                  },
+                  "project": {
+                    "startUs": {
+                      "numerator": 12200000,
+                      "denominator": 3
+                    },
+                    "endUs": 4440000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w6",
+              "ordinal": 6,
+              "text": "workbench.",
+              "kind": "speech",
+              "confidence": 0.9607422,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 4320000,
+                "endUs": 5360000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 4320000,
+                    "endUs": 5360000
+                  },
+                  "project": {
+                    "startUs": 4440000,
+                    "endUs": {
+                      "numerator": 14360000,
+                      "denominator": 3
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "nextCursor": null
+        }
+      },
+      "cursor": {
+        "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+        "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+        "manifestId": "8d42839a-a0fe-456c-bcf7-4cdc2e7dcf40",
+        "checkpointId": "c1f7dad5-9b34-4064-8893-0163d5029bb3",
+        "queryDigest": "bfa09d3f399e646a842536723959e17ddc4d711be2a06fa045109b2e5fe02e60"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.search",
+        "params": {
+          "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+          "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+          "text": "Okay so"
+        },
+        "field": "entries"
+      },
+      "full": {
+        "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+        "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+        "state": "ready",
+        "dependencies": [
+          {
+            "selection": {
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1"
+            },
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+              },
+              "sourceId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 25,
+              "gapCount": 1,
+              "maxWordUs": 1120000,
+              "raw": {
+                "bytes": 9366,
+                "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "0617c7d3-f542-44ca-8b0e-c8494ba68a7b"
+          },
+          {
+            "selection": {
+              "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "streamId": "track:1"
+            },
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+              },
+              "sourceId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "generation": "f6565ae1-e13a-4b8c-b2a6-8cdfd1dda220",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 28,
+              "gapCount": 1,
+              "maxWordUs": 1440000,
+              "raw": {
+                "bytes": 10805,
+                "sha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "c7a833cd-47ec-45ac-8295-b36e085262e0"
+          }
+        ],
+        "page": {
+          "entries": [
+            {
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "words": [
+                {
+                  "type": "word",
+                  "id": "w0",
+                  "ordinal": 0,
+                  "text": "Okay,",
+                  "kind": "speech",
+                  "confidence": 0.8691406,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "partial": false,
+                  "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:2",
+                  "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+                  "streamId": "track:1",
+                  "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+                  "trackRank": 0,
+                  "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+                  "fragments": [
+                    {
+                      "source": {
+                        "startUs": 1120000,
+                        "endUs": 1440000
+                      },
+                      "project": {
+                        "startUs": 0,
+                        "endUs": 320000
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "word",
+                  "id": "w1",
+                  "ordinal": 1,
+                  "text": "so",
+                  "kind": "speech",
+                  "confidence": 0.99902344,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  },
+                  "partial": false,
+                  "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:3",
+                  "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+                  "streamId": "track:1",
+                  "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+                  "trackRank": 0,
+                  "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+                  "fragments": [
+                    {
+                      "source": {
+                        "startUs": 1600000,
+                        "endUs": 1920000
+                      },
+                      "project": {
+                        "startUs": 320000,
+                        "endUs": 640000
+                      }
+                    }
+                  ]
+                }
+              ],
+              "projectRange": {
+                "startUs": 0,
+                "endUs": 640000
+              }
+            },
+            {
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "words": [
+                {
+                  "type": "word",
+                  "id": "w0",
+                  "ordinal": 0,
+                  "text": "Okay,",
+                  "kind": "speech",
+                  "confidence": 0.8691406,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "partial": false,
+                  "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+                  "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+                  "streamId": "track:1",
+                  "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+                  "trackRank": 0,
+                  "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+                  "fragments": [
+                    {
+                      "source": {
+                        "startUs": 1120000,
+                        "endUs": 1440000
+                      },
+                      "project": {
+                        "startUs": {
+                          "numerator": 10120000,
+                          "denominator": 3
+                        },
+                        "endUs": 3480000
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "word",
+                  "id": "w1",
+                  "ordinal": 1,
+                  "text": "so",
+                  "kind": "speech",
+                  "confidence": 0.99902344,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  },
+                  "partial": false,
+                  "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+                  "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+                  "streamId": "track:1",
+                  "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+                  "trackRank": 0,
+                  "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+                  "fragments": [
+                    {
+                      "source": {
+                        "startUs": 1600000,
+                        "endUs": 1920000
+                      },
+                      "project": {
+                        "startUs": {
+                          "numerator": 10600000,
+                          "denominator": 3
+                        },
+                        "endUs": 3640000
+                      }
+                    }
+                  ]
+                }
+              ],
+              "projectRange": {
+                "startUs": {
+                  "numerator": 10120000,
+                  "denominator": 3
+                },
+                "endUs": 3640000
+              }
+            }
+          ],
+          "nextCursor": null
+        }
+      },
+      "cursor": {
+        "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+        "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+        "manifestId": "035932bd-9145-49b2-b4c6-cf59708be17a",
+        "checkpointId": "3696c786-1318-42ef-aefe-8e87a3bc01fb",
+        "queryDigest": "230737c9b857b18a962788b944ced5ab1800ed36705d140f4bf58c54a7199f60"
+      }
+    }
+  ],
+  "originalJobs": [
+    {
+      "jobId": "0617c7d3-f542-44ca-8b0e-c8494ba68a7b",
+      "attemptId": "2a55404d-fc84-440b-8465-d065eef9b313",
+      "artifact": "transcript",
+      "lane": "heavy",
+      "input": "{\"selection\":{\"assetId\":\"390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b\",\"streamId\":\"track:1\"},\"source\":{\"kind\":\"asset\",\"streamId\":\"track:1\",\"supportDigest\":\"b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060\",\"durationUs\":12500000},\"modelDigest\":\"4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a\",\"pins\":{\"runtime\":\"FluidAudio\",\"runtimeVersion\":\"0.15.7\",\"runtimeRevision\":\"41540ea237350afe5117a082b5c28eda642d0612\",\"decoder\":\"parakeet-tdt-batch\",\"model\":\"FluidInference/parakeet-tdt-0.6b-v2-coreml\",\"modelRevision\":\"ee09c569f73759e6d44c9bd16766f477b2b36d39\"},\"policy\":\"transcript-v1\",\"decoderExecution\":\"native-audio-v2\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "asset",
+        "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+      },
+      "result": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+        },
+        "sourceId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+        "generation": "2a55404d-fc84-440b-8465-d065eef9b313",
+        "source": {
+          "kind": "asset",
+          "streamId": "track:1",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "durationUs": 12500000
+        },
+        "engine": {
+          "runtime": "FluidAudio",
+          "runtimeVersion": "0.15.7",
+          "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+          "decoder": "parakeet-tdt-batch",
+          "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+          "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+          "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+          "encoderPrecision": "int8",
+          "computeUnits": "cpuAndNeuralEngine",
+          "policy": "transcript-v1",
+          "kindPolicy": "word-kind-v1"
+        },
+        "track": {
+          "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b.mov",
+          "streamId": "track:1",
+          "sourceOffsetUs": -250000
+        },
+        "segmentCount": 2,
+        "wordCount": 25,
+        "gapCount": 1,
+        "maxWordUs": 1120000,
+        "raw": {
+          "bytes": 9366,
+          "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+        }
+      }
+    },
+    {
+      "jobId": "c7a833cd-47ec-45ac-8295-b36e085262e0",
+      "attemptId": "f6565ae1-e13a-4b8c-b2a6-8cdfd1dda220",
+      "artifact": "transcript",
+      "lane": "heavy",
+      "input": "{\"selection\":{\"assetId\":\"71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15\",\"streamId\":\"track:1\"},\"source\":{\"kind\":\"asset\",\"streamId\":\"track:1\",\"supportDigest\":\"b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060\",\"durationUs\":12500000},\"modelDigest\":\"4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a\",\"pins\":{\"runtime\":\"FluidAudio\",\"runtimeVersion\":\"0.15.7\",\"runtimeRevision\":\"41540ea237350afe5117a082b5c28eda642d0612\",\"decoder\":\"parakeet-tdt-batch\",\"model\":\"FluidInference/parakeet-tdt-0.6b-v2-coreml\",\"modelRevision\":\"ee09c569f73759e6d44c9bd16766f477b2b36d39\"},\"policy\":\"transcript-v1\",\"decoderExecution\":\"native-audio-v2\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "asset",
+        "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+      },
+      "result": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+        },
+        "sourceId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+        "generation": "f6565ae1-e13a-4b8c-b2a6-8cdfd1dda220",
+        "source": {
+          "kind": "asset",
+          "streamId": "track:1",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "durationUs": 12500000
+        },
+        "engine": {
+          "runtime": "FluidAudio",
+          "runtimeVersion": "0.15.7",
+          "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+          "decoder": "parakeet-tdt-batch",
+          "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+          "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+          "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+          "encoderPrecision": "int8",
+          "computeUnits": "cpuAndNeuralEngine",
+          "policy": "transcript-v1",
+          "kindPolicy": "word-kind-v1"
+        },
+        "track": {
+          "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15.mov",
+          "streamId": "track:1",
+          "sourceOffsetUs": -250000
+        },
+        "segmentCount": 2,
+        "wordCount": 28,
+        "gapCount": 1,
+        "maxWordUs": 1440000,
+        "raw": {
+          "bytes": 10805,
+          "sha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5"
+        }
+      }
+    }
+  ],
+  "replacementJobs": [
+    {
+      "jobId": "200177a3-c992-437f-b7d1-b8b5e2a7451b",
+      "attemptId": "d462be0a-ea98-4718-8899-7208b483cd03",
+      "artifact": "transcript",
+      "lane": "heavy",
+      "input": "{\"selection\":{\"assetId\":\"390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b\",\"streamId\":\"track:1\"},\"source\":{\"kind\":\"asset\",\"streamId\":\"track:1\",\"supportDigest\":\"b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060\",\"durationUs\":12500000},\"modelDigest\":\"4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a\",\"pins\":{\"runtime\":\"FluidAudio\",\"runtimeVersion\":\"0.15.7\",\"runtimeRevision\":\"41540ea237350afe5117a082b5c28eda642d0612\",\"decoder\":\"parakeet-tdt-batch\",\"model\":\"FluidInference/parakeet-tdt-0.6b-v2-coreml\",\"modelRevision\":\"ee09c569f73759e6d44c9bd16766f477b2b36d39\"},\"policy\":\"transcript-v1\",\"decoderExecution\":\"native-audio-generation-journey\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "asset",
+        "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+      },
+      "result": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+        },
+        "sourceId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+        "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+        "source": {
+          "kind": "asset",
+          "streamId": "track:1",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "durationUs": 12500000
+        },
+        "engine": {
+          "runtime": "FluidAudio",
+          "runtimeVersion": "0.15.7",
+          "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+          "decoder": "parakeet-tdt-batch",
+          "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+          "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+          "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+          "encoderPrecision": "int8",
+          "computeUnits": "cpuAndNeuralEngine",
+          "policy": "transcript-v1",
+          "kindPolicy": "word-kind-v1"
+        },
+        "track": {
+          "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b.mov",
+          "streamId": "track:1",
+          "sourceOffsetUs": -250000
+        },
+        "segmentCount": 2,
+        "wordCount": 25,
+        "gapCount": 1,
+        "maxWordUs": 1120000,
+        "raw": {
+          "bytes": 9366,
+          "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+        }
+      }
+    },
+    {
+      "jobId": "c0a6631a-67f0-43f4-ac2e-543a74390f97",
+      "attemptId": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+      "artifact": "transcript",
+      "lane": "heavy",
+      "input": "{\"selection\":{\"assetId\":\"71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15\",\"streamId\":\"track:1\"},\"source\":{\"kind\":\"asset\",\"streamId\":\"track:1\",\"supportDigest\":\"b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060\",\"durationUs\":12500000},\"modelDigest\":\"4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a\",\"pins\":{\"runtime\":\"FluidAudio\",\"runtimeVersion\":\"0.15.7\",\"runtimeRevision\":\"41540ea237350afe5117a082b5c28eda642d0612\",\"decoder\":\"parakeet-tdt-batch\",\"model\":\"FluidInference/parakeet-tdt-0.6b-v2-coreml\",\"modelRevision\":\"ee09c569f73759e6d44c9bd16766f477b2b36d39\"},\"policy\":\"transcript-v1\",\"decoderExecution\":\"native-audio-generation-journey\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "asset",
+        "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+      },
+      "result": {
+        "owner": {
+          "kind": "asset",
+          "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+        },
+        "sourceId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+        "generation": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+        "source": {
+          "kind": "asset",
+          "streamId": "track:1",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "durationUs": 12500000
+        },
+        "engine": {
+          "runtime": "FluidAudio",
+          "runtimeVersion": "0.15.7",
+          "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+          "decoder": "parakeet-tdt-batch",
+          "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+          "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+          "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+          "encoderPrecision": "int8",
+          "computeUnits": "cpuAndNeuralEngine",
+          "policy": "transcript-v1",
+          "kindPolicy": "word-kind-v1"
+        },
+        "track": {
+          "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15.mov",
+          "streamId": "track:1",
+          "sourceOffsetUs": -250000
+        },
+        "segmentCount": 2,
+        "wordCount": 28,
+        "gapCount": 1,
+        "maxWordUs": 1440000,
+        "raw": {
+          "bytes": 10805,
+          "sha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5"
+        }
+      }
+    }
+  ],
+  "replacements": [
+    {
+      "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+      "streamId": "track:1",
+      "state": "ready",
+      "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+      "page": {
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+          },
+          "sourceId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 25,
+          "gapCount": 1,
+          "maxWordUs": 1120000,
+          "raw": {
+            "bytes": 9366,
+            "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+          }
+        },
+        "rows": [
+          {
+            "type": "word",
+            "id": "w0",
+            "ordinal": 0,
+            "text": "Okay,",
+            "kind": "speech",
+            "confidence": 0.8691406,
+            "segment": 0,
+            "sourceRange": {
+              "startUs": 1120000,
+              "endUs": 1440000
+            },
+            "partial": false
+          }
+        ],
+        "nextCursor": {
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "acquisitionId": null,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "range": null,
+          "afterSourceUs": 1120000,
+          "afterOrdinal": 0
+        }
+      }
+    },
+    {
+      "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+      "streamId": "track:1",
+      "state": "ready",
+      "generation": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+      "page": {
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+          },
+          "sourceId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+          "generation": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 28,
+          "gapCount": 1,
+          "maxWordUs": 1440000,
+          "raw": {
+            "bytes": 10805,
+            "sha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5"
+          }
+        },
+        "rows": [
+          {
+            "type": "word",
+            "id": "w0",
+            "ordinal": 0,
+            "text": "So",
+            "kind": "speech",
+            "confidence": 0.99609375,
+            "segment": 0,
+            "sourceRange": {
+              "startUs": 560000,
+              "endUs": 800000
+            },
+            "partial": false
+          }
+        ],
+        "nextCursor": {
+          "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+          "streamId": "track:1",
+          "acquisitionId": null,
+          "generation": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+          "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+          "range": null,
+          "afterSourceUs": 560000,
+          "afterOrdinal": 0
+        }
+      }
+    }
+  ],
+  "refusals": [
+    {
+      "phase": "before replacement publication",
+      "operation": "transcript.get",
+      "transport": "cli",
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "phase": "before replacement publication",
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "phase": "before replacement publication",
+      "operation": "transcript.search",
+      "transport": "cli",
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "phase": "before replacement publication",
+      "operation": "transcript.search",
+      "transport": "mcp",
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "phase": "after replacement publication",
+      "operation": "transcript.get",
+      "transport": "cli",
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "phase": "after replacement publication",
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "phase": "after replacement publication",
+      "operation": "transcript.search",
+      "transport": "cli",
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "phase": "after replacement publication",
+      "operation": "transcript.search",
+      "transport": "mcp",
+      "error": {
+        "code": "ARTIFACT_CHANGED",
+        "message": "Project evidence continuation or dependencies changed",
+        "retryable": false,
+        "details": {}
+      }
+    }
+  ],
+  "fresh": [
+    {
+      "operation": "transcript.get",
+      "first": {
+        "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+        "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+        "state": "ready",
+        "dependencies": [
+          {
+            "selection": {
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1"
+            },
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+              },
+              "sourceId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 25,
+              "gapCount": 1,
+              "maxWordUs": 1120000,
+              "raw": {
+                "bytes": 9366,
+                "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "200177a3-c992-437f-b7d1-b8b5e2a7451b"
+          },
+          {
+            "selection": {
+              "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "streamId": "track:1"
+            },
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+              },
+              "sourceId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "generation": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 28,
+              "gapCount": 1,
+              "maxWordUs": 1440000,
+              "raw": {
+                "bytes": 10805,
+                "sha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "c0a6631a-67f0-43f4-ac2e-543a74390f97"
+          }
+        ],
+        "page": {
+          "rows": [
+            {
+              "type": "word",
+              "id": "w0",
+              "ordinal": 0,
+              "text": "Okay,",
+              "kind": "speech",
+              "confidence": 0.8691406,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:2",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "project": {
+                    "startUs": 0,
+                    "endUs": 320000
+                  }
+                }
+              ]
+            }
+          ],
+          "nextCursor": {
+            "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+            "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+            "manifestId": "58bc35a5-1f13-4481-9b77-e8565c588b8a",
+            "checkpointId": "9ed28d29-b2b8-437c-90b6-b50f53b6457e",
+            "queryDigest": "bfa09d3f399e646a842536723959e17ddc4d711be2a06fa045109b2e5fe02e60"
+          }
+        }
+      },
+      "rows": [
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "Okay,",
+          "kind": "speech",
+          "confidence": 0.8691406,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:2",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "project": {
+                "startUs": 0,
+                "endUs": 320000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "So",
+          "kind": "speech",
+          "confidence": 0.99609375,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 560000,
+            "endUs": 800000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:8",
+          "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:1",
+          "trackRank": 1,
+          "generation": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 560000,
+                "endUs": 800000
+              },
+              "project": {
+                "startUs": 0,
+                "endUs": 240000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w1",
+          "ordinal": 1,
+          "text": "so",
+          "kind": "speech",
+          "confidence": 0.99902344,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1600000,
+            "endUs": 1920000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:3",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              },
+              "project": {
+                "startUs": 320000,
+                "endUs": 640000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w1",
+          "ordinal": 1,
+          "text": "let's",
+          "kind": "speech",
+          "confidence": 0.99869794,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 880000,
+            "endUs": 1200000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:8",
+          "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:1",
+          "trackRank": 1,
+          "generation": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 880000,
+                "endUs": 1200000
+              },
+              "project": {
+                "startUs": 320000,
+                "endUs": 640000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "Okay,",
+          "kind": "speech",
+          "confidence": 0.8691406,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:4",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "project": {
+                "startUs": 640000,
+                "endUs": 960000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w3",
+          "ordinal": 3,
+          "text": "is",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 2240000,
+            "endUs": 2560000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:5",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              },
+              "project": {
+                "startUs": 960000,
+                "endUs": 1280000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w2",
+          "ordinal": 2,
+          "text": "this",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1920000,
+            "endUs": 2240000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:6",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              },
+              "project": {
+                "startUs": 1280000,
+                "endUs": 1600000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w0",
+          "ordinal": 0,
+          "text": "Okay,",
+          "kind": "speech",
+          "confidence": 0.8691406,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1120000,
+            "endUs": 1440000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 10120000,
+                  "denominator": 3
+                },
+                "endUs": 3480000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w1",
+          "ordinal": 1,
+          "text": "so",
+          "kind": "speech",
+          "confidence": 0.99902344,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1600000,
+            "endUs": 1920000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 10600000,
+                  "denominator": 3
+                },
+                "endUs": 3640000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w2",
+          "ordinal": 2,
+          "text": "this",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 1920000,
+            "endUs": 2240000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 1920000,
+                "endUs": 2240000
+              },
+              "project": {
+                "startUs": 3640000,
+                "endUs": {
+                  "numerator": 11240000,
+                  "denominator": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w3",
+          "ordinal": 3,
+          "text": "is",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 2240000,
+            "endUs": 2560000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 2240000,
+                "endUs": 2560000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 11240000,
+                  "denominator": 3
+                },
+                "endUs": {
+                  "numerator": 11560000,
+                  "denominator": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w4",
+          "ordinal": 4,
+          "text": "the",
+          "kind": "speech",
+          "confidence": 0.9995117,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 2560000,
+            "endUs": 2880000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 2560000,
+                "endUs": 2880000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 11560000,
+                  "denominator": 3
+                },
+                "endUs": 3960000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w5",
+          "ordinal": 5,
+          "text": "recorder",
+          "kind": "speech",
+          "confidence": 0.9873047,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 3200000,
+            "endUs": 4320000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 3200000,
+                "endUs": 4320000
+              },
+              "project": {
+                "startUs": {
+                  "numerator": 12200000,
+                  "denominator": 3
+                },
+                "endUs": 4440000
+              }
+            }
+          ]
+        },
+        {
+          "type": "word",
+          "id": "w6",
+          "ordinal": 6,
+          "text": "workbench.",
+          "kind": "speech",
+          "confidence": 0.9607422,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 4320000,
+            "endUs": 5360000
+          },
+          "partial": false,
+          "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+          "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+          "streamId": "track:1",
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 4320000,
+                "endUs": 5360000
+              },
+              "project": {
+                "startUs": 4440000,
+                "endUs": {
+                  "numerator": 14360000,
+                  "denominator": 3
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "operation": "transcript.search",
+      "first": {
+        "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+        "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+        "state": "ready",
+        "dependencies": [
+          {
+            "selection": {
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1"
+            },
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b"
+              },
+              "sourceId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 25,
+              "gapCount": 1,
+              "maxWordUs": 1120000,
+              "raw": {
+                "bytes": 9366,
+                "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "200177a3-c992-437f-b7d1-b8b5e2a7451b"
+          },
+          {
+            "selection": {
+              "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "streamId": "track:1"
+            },
+            "transcript": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15"
+              },
+              "sourceId": "71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15",
+              "generation": "84667415-908a-4ae3-b9ba-8531ba2633cd",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+                "durationUs": 12500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v1",
+                "kindPolicy": "word-kind-v1"
+              },
+              "track": {
+                "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-Q1Nag0/library/assets/71912b0e126888d7cea07738311307e2f6fbb3ba95d66795197c3c122fcb0b15.mov",
+                "streamId": "track:1",
+                "sourceOffsetUs": -250000
+              },
+              "segmentCount": 2,
+              "wordCount": 28,
+              "gapCount": 1,
+              "maxWordUs": 1440000,
+              "raw": {
+                "bytes": 10805,
+                "sha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5"
+              }
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "c0a6631a-67f0-43f4-ac2e-543a74390f97"
+          }
+        ],
+        "page": {
+          "entries": [
+            {
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "words": [
+                {
+                  "type": "word",
+                  "id": "w0",
+                  "ordinal": 0,
+                  "text": "Okay,",
+                  "kind": "speech",
+                  "confidence": 0.8691406,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "partial": false,
+                  "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:2",
+                  "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+                  "streamId": "track:1",
+                  "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+                  "trackRank": 0,
+                  "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+                  "fragments": [
+                    {
+                      "source": {
+                        "startUs": 1120000,
+                        "endUs": 1440000
+                      },
+                      "project": {
+                        "startUs": 0,
+                        "endUs": 320000
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "word",
+                  "id": "w1",
+                  "ordinal": 1,
+                  "text": "so",
+                  "kind": "speech",
+                  "confidence": 0.99902344,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  },
+                  "partial": false,
+                  "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:3",
+                  "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+                  "streamId": "track:1",
+                  "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+                  "trackRank": 0,
+                  "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+                  "fragments": [
+                    {
+                      "source": {
+                        "startUs": 1600000,
+                        "endUs": 1920000
+                      },
+                      "project": {
+                        "startUs": 320000,
+                        "endUs": 640000
+                      }
+                    }
+                  ]
+                }
+              ],
+              "projectRange": {
+                "startUs": 0,
+                "endUs": 640000
+              }
+            }
+          ],
+          "nextCursor": {
+            "projectId": "b1775437-4433-4ff3-a0bf-105d2e2f0c79",
+            "revisionId": "20a55443-cbbc-4705-973d-1ce77971543f",
+            "manifestId": "a4744ace-713a-4722-b5b7-157c60c877ae",
+            "checkpointId": "8f71919b-f55c-4e72-b7cb-9bd960b8584c",
+            "queryDigest": "230737c9b857b18a962788b944ced5ab1800ed36705d140f4bf58c54a7199f60"
+          }
+        }
+      },
+      "rows": [
+        {
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "words": [
+            {
+              "type": "word",
+              "id": "w0",
+              "ordinal": 0,
+              "text": "Okay,",
+              "kind": "speech",
+              "confidence": 0.8691406,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:2",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "project": {
+                    "startUs": 0,
+                    "endUs": 320000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w1",
+              "ordinal": 1,
+              "text": "so",
+              "kind": "speech",
+              "confidence": 0.99902344,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:3",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  },
+                  "project": {
+                    "startUs": 320000,
+                    "endUs": 640000
+                  }
+                }
+              ]
+            }
+          ],
+          "projectRange": {
+            "startUs": 0,
+            "endUs": 640000
+          }
+        },
+        {
+          "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+          "trackRank": 0,
+          "words": [
+            {
+              "type": "word",
+              "id": "w0",
+              "ordinal": 0,
+              "text": "Okay,",
+              "kind": "speech",
+              "confidence": 0.8691406,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1120000,
+                "endUs": 1440000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1120000,
+                    "endUs": 1440000
+                  },
+                  "project": {
+                    "startUs": {
+                      "numerator": 10120000,
+                      "denominator": 3
+                    },
+                    "endUs": 3480000
+                  }
+                }
+              ]
+            },
+            {
+              "type": "word",
+              "id": "w1",
+              "ordinal": 1,
+              "text": "so",
+              "kind": "speech",
+              "confidence": 0.99902344,
+              "segment": 0,
+              "sourceRange": {
+                "startUs": 1600000,
+                "endUs": 1920000
+              },
+              "partial": false,
+              "clipId": "clip:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:7",
+              "assetId": "390eb32e91629c1a91efe9710592b9f950f9e408e6985d4237e3e17d0ae25f2b",
+              "streamId": "track:1",
+              "trackId": "track:72e2da5fce88fa201495367b96d271bf85f52c5c56c67b649464e1f85f66ad0a:0",
+              "trackRank": 0,
+              "generation": "d462be0a-ea98-4718-8899-7208b483cd03",
+              "fragments": [
+                {
+                  "source": {
+                    "startUs": 1600000,
+                    "endUs": 1920000
+                  },
+                  "project": {
+                    "startUs": {
+                      "numerator": 10600000,
+                      "denominator": 3
+                    },
+                    "endUs": 3640000
+                  }
+                }
+              ]
+            }
+          ],
+          "projectRange": {
+            "startUs": {
+              "numerator": 10120000,
+              "denominator": 3
+            },
+            "endUs": 3640000
+          }
+        }
+      ]
+    }
+  ]
+}

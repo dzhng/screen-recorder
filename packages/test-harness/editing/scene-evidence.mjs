@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { changedSceneGeneration } from "./generation-evidence.mjs";
 import { mkdir, mkdtemp, readFile, rm, writeFile, copyFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -304,6 +305,22 @@ try {
     donorDeletion: true,
     sceneCancelRetry: true,
   };
+  const generation = await changedSceneGeneration({
+    service,
+    query,
+    selected: bound,
+    baseline: projected,
+    source: mixed,
+    pages,
+  });
+  await save("generation.json", generation);
+  report.checks.changedGeneration = {
+    publicConsumerRefusal: true,
+    actualNativePublication: true,
+    simulatedReleaseIdentity: true,
+    unchangedCutsAndRevision: true,
+    readyRetryNoOp: true,
+  };
   report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
   report.runtime = Object.fromEntries(
     await Promise.all(
@@ -314,6 +331,8 @@ try {
         "packages/core/dist/project-events.js",
         "packages/protocol/dist/operations.js",
         "packages/test-harness/editing/scene-evidence.mjs",
+        "packages/test-harness/editing/generation-evidence.mjs",
+        "packages/test-harness/editing/generation-scene-service.mjs",
       ].map(async (p) => [p, hash(await readFile(join(root, p)))]),
     ),
   );

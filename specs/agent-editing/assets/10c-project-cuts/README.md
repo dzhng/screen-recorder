@@ -45,15 +45,15 @@ cursors refuse changed evidence, while a fresh query produces identical cut rows
 | Capture completion authority, left-supported interruption endpoint, shorter audio | Current capture termination oracle and [original provenance gate](../10c-acquisition-lifecycle/README.md). |
 | Measured scene events, physical gaps and exact presentation clocks | Current scene preservation report and [source scene ownership evidence](../10d-public-scenes/README.md). |
 | Editorial cut meaning and exact/paged delivery | Current public cut report, composition tests and core tests. |
-| Generation invalidation and actual cache-owner eviction | [Real-store core gates](../10c-project-evidence/README.md), including this pass's changed-scene-generation/unchanged-cut regression. Public journeys cover checkpoint file loss; they do not establish forced LRU eviction. |
+| Generation invalidation | [Public recipe-release gates](../10c-public-generations/README.md) cover CLI/MCP events, transcript pages and phrase search through both source-pin branches; real-store core tests also cover changes during publication. |
+| Actual cache-owner eviction | [Real-store core gates](../10c-project-evidence/README.md). Public checkpoint-file loss remains a distinct test, not forced LRU eviction. |
 
 Cut-side `rate` is source microseconds per project microsecond; held pictures use
 zero and authored silence has no source clock.
 
-The slice's public changed-generation wording is not fully discharged by the core
-owner gates. Keep that final public verification open; this pass completes the cut
-implementation. Umbrella 10, project screenshot-index projection and broader scale
-acceptance remain open. Frozen speech expectations do not establish fresh native
+The [public changed-generation gates](../10c-public-generations/README.md) complete
+10c's acceptance coverage using a simulated recipe release. Umbrella 10, project
+screenshot-index projection and broader scale acceptance remain open. Frozen speech expectations do not establish fresh native
 ASR accuracy, speech quality or listening acceptance; native inference has its
 separate [10b evidence](../10b-source-transcript-journey/README.md).
 
