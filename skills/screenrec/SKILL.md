@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, or configure ordered clip/track/group processing.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps, or inspect captured cursor and timeline evidence.
 ---
 
 # Screenrec
@@ -88,6 +88,24 @@ results; an exception needs clip treatment or a separate track, not an inherited
 override. Check `processing.capabilities`: authored settings with execution unavailable
 are not processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
+
+For audio inspection, choose the source stream or a pinned project deliberately.
+Source selection uses asset/stream identity and optional acquisition; its range is
+source time. Project audio uses project time and defaults to processed output.
+Start with a bounded range. Read the target stack to select a dry, after-step or
+processed tap using returned target/step IDs. Dry skips only that target's stack;
+its children remain processed. Child taps exclude ancestors. Compare the same
+pinned range across taps to isolate level or processing changes; do not normalize
+or judge a join's sound merely because rendering succeeds. Preserve the returned
+sample clock, channel layout and unavailable ranges when analyzing delivered WAVs.
+
+For captured observations, use advertised `timeline.events` and `cursor.raw` reads.
+A source request needs explicit acquisition authority and source time; project
+reads use the pinned revision and the acquisition bindings of its clip occurrences.
+Retain first-page coverage and all continuations, including empty pages. Unavailable
+metadata is not evidence that nothing happened; unsupported categories remain
+unknown. Keep exact projected times and occurrence identities alongside original
+capture times. Raw cursor coordinates do not simulate the edited crop or zoom.
 
 Use project time for a managed preview range. Keep the returned revision and range
 when polling so a concurrent edit cannot change the result. After replacing only

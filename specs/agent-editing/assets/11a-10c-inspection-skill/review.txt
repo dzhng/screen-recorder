@@ -1,0 +1,2 @@
+Independent skill review, exit0:
+Clean. The added guidance is concise and operational, matches audio-tap and capture-evidence behavior, and avoids schema duplication or unsupported promises. No remaining actionable misleading instructions found in the working-tree changes.

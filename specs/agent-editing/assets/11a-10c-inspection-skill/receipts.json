@@ -1,0 +1,2898 @@
+{
+  "audio.clip-after-first.delivery.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 200000,
+        "endUs": 300000
+      },
+      "tap": {
+        "target": {
+          "kind": "clip",
+          "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+        },
+        "point": {
+          "kind": "after-step",
+          "stepId": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:6"
+        }
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "df41c916-7051-48b4-9319-f7358735f14a",
+      "published": {
+        "generation": 1,
+        "audio": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/cache/derived/beccc1d3-6015-46fb-b0b6-1321f3c840c4.cache",
+          "bytes": 42496,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 4800,
+          "peak": 0.046142578125,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 25067520,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+              "ranges": []
+            }
+          ],
+          "range": {
+            "startUs": 200000,
+            "endUs": 300000
+          },
+          "tap": {
+            "target": {
+              "kind": "clip",
+              "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+            },
+            "point": {
+              "kind": "after-step",
+              "stepId": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:6"
+            }
+          },
+          "implementationId": "native-composition-audio-v1",
+          "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+          "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+          "mediaType": "audio/wav",
+          "layout": "stereo",
+          "sampleRange": {
+            "start": 9600,
+            "end": 14400
+          },
+          "cacheId": "beccc1d3-6015-46fb-b0b6-1321f3c840c4"
+        }
+      },
+      "delivery": {
+        "token": "953c486b-1537-42b1-9150-ce8ccb0720d3",
+        "bytes": 42496,
+        "expiresAt": 1790583063319
+      },
+      "output": "/tmp/inspection-skill-use-2/audio/clip-after-first.wav"
+    },
+    "id": "1300c332-ab76-4a4b-8009-9ab9ff622274"
+  },
+  "audio.clip-after-first.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 200000,
+        "endUs": 300000
+      },
+      "tap": {
+        "target": {
+          "kind": "clip",
+          "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+        },
+        "point": {
+          "kind": "after-step",
+          "stepId": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:6"
+        }
+      },
+      "state": "queued",
+      "reason": null,
+      "retryable": false,
+      "jobId": "df41c916-7051-48b4-9319-f7358735f14a",
+      "published": null,
+      "delivery": null
+    },
+    "id": "520ed8da-44a6-4c60-bc95-015c88fbd3a2"
+  },
+  "audio.clip-after-first.params.json": {
+    "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+    "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+    "range": {
+      "startUs": 200000,
+      "endUs": 300000
+    },
+    "tap": {
+      "target": {
+        "kind": "clip",
+        "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+      },
+      "point": {
+        "kind": "after-step",
+        "stepId": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:6"
+      }
+    }
+  },
+  "audio.clip-dry.delivery.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 200000,
+        "endUs": 300000
+      },
+      "tap": {
+        "target": {
+          "kind": "clip",
+          "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+        },
+        "point": {
+          "kind": "dry"
+        }
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "52595acc-500b-4700-88d2-e1c64c10e425",
+      "published": {
+        "generation": 1,
+        "audio": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/cache/derived/76127db4-9618-477b-b661-667a2c0cbe01.cache",
+          "bytes": 42496,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 4800,
+          "peak": 0.015380859375,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 25182208,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+              "ranges": []
+            }
+          ],
+          "range": {
+            "startUs": 200000,
+            "endUs": 300000
+          },
+          "tap": {
+            "target": {
+              "kind": "clip",
+              "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+            },
+            "point": {
+              "kind": "dry"
+            }
+          },
+          "implementationId": "native-composition-audio-v1",
+          "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+          "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+          "mediaType": "audio/wav",
+          "layout": "stereo",
+          "sampleRange": {
+            "start": 9600,
+            "end": 14400
+          },
+          "cacheId": "76127db4-9618-477b-b661-667a2c0cbe01"
+        }
+      },
+      "delivery": {
+        "token": "1216b63d-ba89-4340-9dcd-5ca3400bbe20",
+        "bytes": 42496,
+        "expiresAt": 1790583063152
+      },
+      "output": "/tmp/inspection-skill-use-2/audio/clip-dry.wav"
+    },
+    "id": "8badbbe3-d7e9-46db-99e8-c2cf94d55926"
+  },
+  "audio.clip-dry.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 200000,
+        "endUs": 300000
+      },
+      "tap": {
+        "target": {
+          "kind": "clip",
+          "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+        },
+        "point": {
+          "kind": "dry"
+        }
+      },
+      "state": "processing",
+      "reason": null,
+      "retryable": false,
+      "jobId": "52595acc-500b-4700-88d2-e1c64c10e425",
+      "published": null,
+      "delivery": null
+    },
+    "id": "d17cce85-3b9e-4c98-adf3-aadf80794c9f"
+  },
+  "audio.clip-dry.params.json": {
+    "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+    "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+    "range": {
+      "startUs": 200000,
+      "endUs": 300000
+    },
+    "tap": {
+      "target": {
+        "kind": "clip",
+        "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+      },
+      "point": {
+        "kind": "dry"
+      }
+    }
+  },
+  "audio.clip-processed.delivery.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 200000,
+        "endUs": 300000
+      },
+      "tap": {
+        "target": {
+          "kind": "clip",
+          "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+        },
+        "point": {
+          "kind": "processed"
+        }
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "f58dfbf5-9804-444c-a524-25fc21a164b7",
+      "published": {
+        "generation": 1,
+        "audio": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/cache/derived/7d33fe42-9ad5-4025-8aba-af0e69fa11b0.cache",
+          "bytes": 42496,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 4800,
+          "peak": 0.0230712890625,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 25149440,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+              "ranges": []
+            }
+          ],
+          "range": {
+            "startUs": 200000,
+            "endUs": 300000
+          },
+          "tap": {
+            "target": {
+              "kind": "clip",
+              "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-audio-v1",
+          "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+          "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+          "mediaType": "audio/wav",
+          "layout": "stereo",
+          "sampleRange": {
+            "start": 9600,
+            "end": 14400
+          },
+          "cacheId": "7d33fe42-9ad5-4025-8aba-af0e69fa11b0"
+        }
+      },
+      "delivery": {
+        "token": "11c6412a-dbf3-48d9-ae84-afea219ac8e0",
+        "bytes": 42496,
+        "expiresAt": 1790583063484
+      },
+      "output": "/tmp/inspection-skill-use-2/audio/clip-processed.wav"
+    },
+    "id": "95b80e0d-cfd2-4de2-b61a-d36a6a52be8d"
+  },
+  "audio.clip-processed.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 200000,
+        "endUs": 300000
+      },
+      "tap": {
+        "target": {
+          "kind": "clip",
+          "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+        },
+        "point": {
+          "kind": "processed"
+        }
+      },
+      "state": "queued",
+      "reason": null,
+      "retryable": false,
+      "jobId": "f58dfbf5-9804-444c-a524-25fc21a164b7",
+      "published": null,
+      "delivery": null
+    },
+    "id": "6f55884d-e60b-4eeb-a9f6-268a0d2c8f48"
+  },
+  "audio.clip-processed.params.json": {
+    "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+    "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+    "range": {
+      "startUs": 200000,
+      "endUs": 300000
+    },
+    "tap": {
+      "target": {
+        "kind": "clip",
+        "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+      },
+      "point": {
+        "kind": "processed"
+      }
+    }
+  },
+  "audio.final-mix.delivery.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 200000,
+        "endUs": 300000
+      },
+      "tap": {
+        "target": {
+          "kind": "output"
+        },
+        "point": {
+          "kind": "processed"
+        }
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "78bd2a9f-9406-45a0-a6e9-49ff6579847d",
+      "published": {
+        "generation": 1,
+        "audio": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/cache/derived/bfc1b3ee-4767-40e7-a270-a51f4836c45b.cache",
+          "bytes": 42496,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 4800,
+          "peak": 7.216987609863281,
+          "clippedSamples": 8314,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 25214976,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+              "ranges": []
+            }
+          ],
+          "range": {
+            "startUs": 200000,
+            "endUs": 300000
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-audio-v1",
+          "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+          "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+          "mediaType": "audio/wav",
+          "layout": "stereo",
+          "sampleRange": {
+            "start": 9600,
+            "end": 14400
+          },
+          "cacheId": "bfc1b3ee-4767-40e7-a270-a51f4836c45b"
+        }
+      },
+      "delivery": {
+        "token": "e72e7c2a-f78b-4ee8-b1e9-7b66c59cdf80",
+        "bytes": 42496,
+        "expiresAt": 1790583063648
+      },
+      "output": "/tmp/inspection-skill-use-2/audio/final-mix.wav"
+    },
+    "id": "4ad7f0af-0989-4907-8c19-aab317ba3409"
+  },
+  "audio.final-mix.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 200000,
+        "endUs": 300000
+      },
+      "tap": {
+        "target": {
+          "kind": "output"
+        },
+        "point": {
+          "kind": "processed"
+        }
+      },
+      "state": "queued",
+      "reason": null,
+      "retryable": false,
+      "jobId": "78bd2a9f-9406-45a0-a6e9-49ff6579847d",
+      "published": null,
+      "delivery": null
+    },
+    "id": "e66a5d4d-5e21-4763-a9fd-b992b60a43d7"
+  },
+  "audio.final-mix.params.json": {
+    "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+    "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+    "range": {
+      "startUs": 200000,
+      "endUs": 300000
+    },
+    "tap": {
+      "target": {
+        "kind": "output"
+      },
+      "point": {
+        "kind": "processed"
+      }
+    }
+  },
+  "cursor-project-page2.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "state": "ready",
+      "dependencies": [
+        {
+          "selection": {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "transcript": null,
+          "capture": {
+            "selection": {
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+            },
+            "domain": "cursor",
+            "durationUs": 134025574,
+            "sourceToAssetOffsetUs": 0,
+            "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+            "evidence": {
+              "owner": {
+                "kind": "acquisition",
+                "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+              },
+              "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+              "receipt": {
+                "audioIntervals": 1,
+                "bytes": 1488048,
+                "cursorSamples": 8039,
+                "displaySpaces": 1,
+                "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+                "finished": true,
+                "firstCursorSourceUs": 49814,
+                "geometryRecords": 5,
+                "header": {
+                  "height": 1970,
+                  "microphone": true,
+                  "schemaVersion": 1,
+                  "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+                  "source": {
+                    "kind": "window",
+                    "windowID": 188
+                  },
+                  "systemAudio": false,
+                  "width": 3120
+                },
+                "incompleteTail": false,
+                "journal": "capture.journal.jsonl",
+                "lastCursorSourceUs": 134019623,
+                "lastSequence": 12842,
+                "originHostUs": 92388474388,
+                "pauseEvents": 0
+              }
+            },
+            "coverage": [
+              {
+                "kind": "cursor",
+                "state": "ready",
+                "reason": null
+              }
+            ]
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": null
+        }
+      ],
+      "coverage": {
+        "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232"
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 83514,
+            "captureAtUs": 83514,
+            "sourceSequence": 5,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3156.8515625,
+              "globalY": -1071.26953125,
+              "sourceUs": 83514,
+              "x": 3095.703125,
+              "y": 649.4609375
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1583514
+          },
+          {
+            "kind": "cursor",
+            "sourceAtUs": 100658,
+            "captureAtUs": 100658,
+            "sourceSequence": 6,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3141.19921875,
+              "globalY": -1063.44921875,
+              "sourceUs": 100658,
+              "x": 3064.3984375,
+              "y": 665.1015625
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1600658
+          }
+        ],
+        "nextCursor": {
+          "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+          "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+          "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232",
+          "checkpointId": "ab99875b-ebcc-4a3d-9304-4b20814fe104",
+          "queryDigest": "4677ddbdfb71778d4ef6fff8374036f3b5186016f65dee6050bd8e97ebe49817"
+        }
+      }
+    },
+    "id": "37cdc794-f967-4214-be30-889dfb1185d0"
+  },
+  "cursor-project-page3.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "state": "ready",
+      "dependencies": [
+        {
+          "selection": {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "transcript": null,
+          "capture": {
+            "selection": {
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+            },
+            "domain": "cursor",
+            "durationUs": 134025574,
+            "sourceToAssetOffsetUs": 0,
+            "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+            "evidence": {
+              "owner": {
+                "kind": "acquisition",
+                "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+              },
+              "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+              "receipt": {
+                "audioIntervals": 1,
+                "bytes": 1488048,
+                "cursorSamples": 8039,
+                "displaySpaces": 1,
+                "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+                "finished": true,
+                "firstCursorSourceUs": 49814,
+                "geometryRecords": 5,
+                "header": {
+                  "height": 1970,
+                  "microphone": true,
+                  "schemaVersion": 1,
+                  "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+                  "source": {
+                    "kind": "window",
+                    "windowID": 188
+                  },
+                  "systemAudio": false,
+                  "width": 3120
+                },
+                "incompleteTail": false,
+                "journal": "capture.journal.jsonl",
+                "lastCursorSourceUs": 134019623,
+                "lastSequence": 12842,
+                "originHostUs": 92388474388,
+                "pauseEvents": 0
+              }
+            },
+            "coverage": [
+              {
+                "kind": "cursor",
+                "state": "ready",
+                "reason": null
+              }
+            ]
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": null
+        }
+      ],
+      "coverage": {
+        "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232"
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 117557,
+            "captureAtUs": 117557,
+            "sourceSequence": 7,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3131.86328125,
+              "globalY": -1059.4453125,
+              "sourceUs": 117557,
+              "x": 3045.7265625,
+              "y": 673.109375
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1617557
+          },
+          {
+            "kind": "cursor",
+            "sourceAtUs": 133520,
+            "captureAtUs": 133520,
+            "sourceSequence": 8,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3113.1875,
+              "globalY": -1050.78515625,
+              "sourceUs": 133520,
+              "x": 3008.375,
+              "y": 690.4296875
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1633520
+          }
+        ],
+        "nextCursor": {
+          "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+          "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+          "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232",
+          "checkpointId": "87fcde01-99b9-433a-9ea3-391cd923a297",
+          "queryDigest": "4677ddbdfb71778d4ef6fff8374036f3b5186016f65dee6050bd8e97ebe49817"
+        }
+      }
+    },
+    "id": "5e96ea48-6979-45de-8002-b4c7af900c12"
+  },
+  "cursor-project-page4.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "state": "ready",
+      "dependencies": [
+        {
+          "selection": {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "transcript": null,
+          "capture": {
+            "selection": {
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+            },
+            "domain": "cursor",
+            "durationUs": 134025574,
+            "sourceToAssetOffsetUs": 0,
+            "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+            "evidence": {
+              "owner": {
+                "kind": "acquisition",
+                "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+              },
+              "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+              "receipt": {
+                "audioIntervals": 1,
+                "bytes": 1488048,
+                "cursorSamples": 8039,
+                "displaySpaces": 1,
+                "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+                "finished": true,
+                "firstCursorSourceUs": 49814,
+                "geometryRecords": 5,
+                "header": {
+                  "height": 1970,
+                  "microphone": true,
+                  "schemaVersion": 1,
+                  "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+                  "source": {
+                    "kind": "window",
+                    "windowID": 188
+                  },
+                  "systemAudio": false,
+                  "width": 3120
+                },
+                "incompleteTail": false,
+                "journal": "capture.journal.jsonl",
+                "lastCursorSourceUs": 134019623,
+                "lastSequence": 12842,
+                "originHostUs": 92388474388,
+                "pauseEvents": 0
+              }
+            },
+            "coverage": [
+              {
+                "kind": "cursor",
+                "state": "ready",
+                "reason": null
+              }
+            ]
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": null
+        }
+      ],
+      "coverage": {
+        "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232"
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 150643,
+            "captureAtUs": 150643,
+            "sourceSequence": 9,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3087.64453125,
+              "globalY": -1040.9609375,
+              "sourceUs": 150643,
+              "x": 2957.2890625,
+              "y": 710.078125
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1650643
+          },
+          {
+            "kind": "cursor",
+            "sourceAtUs": 167167,
+            "captureAtUs": 167167,
+            "sourceSequence": 10,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3072.98046875,
+              "globalY": -1037.765625,
+              "sourceUs": 167167,
+              "x": 2927.9609375,
+              "y": 716.46875
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1667167
+          }
+        ],
+        "nextCursor": {
+          "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+          "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+          "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232",
+          "checkpointId": "e1d057e5-90ae-428f-a5e1-b2efcacb6a71",
+          "queryDigest": "4677ddbdfb71778d4ef6fff8374036f3b5186016f65dee6050bd8e97ebe49817"
+        }
+      }
+    },
+    "id": "44b1ce54-a8d2-4af2-85ca-9c695d8c29c3"
+  },
+  "cursor-project-page5.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "state": "ready",
+      "dependencies": [
+        {
+          "selection": {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "transcript": null,
+          "capture": {
+            "selection": {
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+            },
+            "domain": "cursor",
+            "durationUs": 134025574,
+            "sourceToAssetOffsetUs": 0,
+            "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+            "evidence": {
+              "owner": {
+                "kind": "acquisition",
+                "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+              },
+              "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+              "receipt": {
+                "audioIntervals": 1,
+                "bytes": 1488048,
+                "cursorSamples": 8039,
+                "displaySpaces": 1,
+                "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+                "finished": true,
+                "firstCursorSourceUs": 49814,
+                "geometryRecords": 5,
+                "header": {
+                  "height": 1970,
+                  "microphone": true,
+                  "schemaVersion": 1,
+                  "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+                  "source": {
+                    "kind": "window",
+                    "windowID": 188
+                  },
+                  "systemAudio": false,
+                  "width": 3120
+                },
+                "incompleteTail": false,
+                "journal": "capture.journal.jsonl",
+                "lastCursorSourceUs": 134019623,
+                "lastSequence": 12842,
+                "originHostUs": 92388474388,
+                "pauseEvents": 0
+              }
+            },
+            "coverage": [
+              {
+                "kind": "cursor",
+                "state": "ready",
+                "reason": null
+              }
+            ]
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": null
+        }
+      ],
+      "coverage": {
+        "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232"
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 184204,
+            "captureAtUs": 184204,
+            "sourceSequence": 11,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3064.421875,
+              "globalY": -1036.0390625,
+              "sourceUs": 184204,
+              "x": 2910.84375,
+              "y": 719.921875
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1684204
+          }
+        ],
+        "nextCursor": null
+      }
+    },
+    "id": "9e951e8a-a1c0-442f-8b93-01717207ddc6"
+  },
+  "cursor-project.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "state": "ready",
+      "dependencies": [
+        {
+          "selection": {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "transcript": null,
+          "capture": {
+            "selection": {
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+            },
+            "domain": "cursor",
+            "durationUs": 134025574,
+            "sourceToAssetOffsetUs": 0,
+            "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+            "evidence": {
+              "owner": {
+                "kind": "acquisition",
+                "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+              },
+              "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+              "receipt": {
+                "audioIntervals": 1,
+                "bytes": 1488048,
+                "cursorSamples": 8039,
+                "displaySpaces": 1,
+                "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+                "finished": true,
+                "firstCursorSourceUs": 49814,
+                "geometryRecords": 5,
+                "header": {
+                  "height": 1970,
+                  "microphone": true,
+                  "schemaVersion": 1,
+                  "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+                  "source": {
+                    "kind": "window",
+                    "windowID": 188
+                  },
+                  "systemAudio": false,
+                  "width": 3120
+                },
+                "incompleteTail": false,
+                "journal": "capture.journal.jsonl",
+                "lastCursorSourceUs": 134019623,
+                "lastSequence": 12842,
+                "originHostUs": 92388474388,
+                "pauseEvents": 0
+              }
+            },
+            "coverage": [
+              {
+                "kind": "cursor",
+                "state": "ready",
+                "reason": null
+              }
+            ]
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": null
+        }
+      ],
+      "coverage": {
+        "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232",
+        "occurrences": [
+          {
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "projectRange": {
+              "startUs": 1500000,
+              "endUs": 1700000
+            },
+            "available": [
+              {
+                "startUs": 1500000,
+                "endUs": 1700000
+              }
+            ],
+            "unavailable": []
+          }
+        ]
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 49814,
+            "captureAtUs": 49814,
+            "sourceSequence": 3,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "outside",
+              "geometryEpoch": 1,
+              "globalX": 3178.9140625,
+              "globalY": -1081.234375,
+              "sourceUs": 49814,
+              "x": 3139.828125,
+              "y": 629.53125
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1549814
+          },
+          {
+            "kind": "cursor",
+            "sourceAtUs": 67253,
+            "captureAtUs": 67253,
+            "sourceSequence": 4,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "outside",
+              "geometryEpoch": 1,
+              "globalX": 3174.90625,
+              "globalY": -1079.375,
+              "sourceUs": 67253,
+              "x": 3131.8125,
+              "y": 633.25
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1567253
+          }
+        ],
+        "nextCursor": {
+          "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+          "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+          "manifestId": "c7ed7beb-993a-46c6-8f52-881e015b2232",
+          "checkpointId": "7da0e395-e999-458a-a13a-570b1583ba79",
+          "queryDigest": "4677ddbdfb71778d4ef6fff8374036f3b5186016f65dee6050bd8e97ebe49817"
+        }
+      }
+    },
+    "id": "14a66141-cb72-4f75-8eda-e4ca2512de9a"
+  },
+  "cursor-project.params.json": {
+    "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+    "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+    "range": {
+      "startUs": 1500000,
+      "endUs": 1700000
+    },
+    "trackIds": [
+      "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3"
+    ],
+    "limit": 2
+  },
+  "cursor-source-page2.json": {
+    "ok": true,
+    "data": {
+      "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "streamId": "track:1",
+      "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+      "state": "ready",
+      "context": {
+        "selection": {
+          "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+          "streamId": "track:1",
+          "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+        },
+        "domain": "cursor",
+        "durationUs": 134025574,
+        "sourceToAssetOffsetUs": 0,
+        "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 1488048,
+            "cursorSamples": 8039,
+            "displaySpaces": 1,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 49814,
+            "geometryRecords": 5,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "source": {
+                "kind": "window",
+                "windowID": 188
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 134019623,
+            "lastSequence": 12842,
+            "originHostUs": 92388474388,
+            "pauseEvents": 0
+          }
+        },
+        "coverage": [
+          {
+            "kind": "cursor",
+            "state": "ready",
+            "reason": null
+          }
+        ]
+      },
+      "sourceRange": {
+        "startUs": 0,
+        "endUs": 200000
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 83514,
+            "captureAtUs": 83514,
+            "sourceSequence": 5,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3156.8515625,
+              "globalY": -1071.26953125,
+              "sourceUs": 83514,
+              "x": 3095.703125,
+              "y": 649.4609375
+            }
+          },
+          {
+            "kind": "cursor",
+            "sourceAtUs": 100658,
+            "captureAtUs": 100658,
+            "sourceSequence": 6,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3141.19921875,
+              "globalY": -1063.44921875,
+              "sourceUs": 100658,
+              "x": 3064.3984375,
+              "y": 665.1015625
+            }
+          }
+        ],
+        "nextCursor": {
+          "reference": "984991fe840b0555b48b4e9abf7ff1414cb084ef6f425b8c337e364a309aec17",
+          "position": {
+            "cursor": {
+              "after": [
+                100658,
+                6
+              ],
+              "done": false
+            },
+            "pause": {
+              "after": null,
+              "done": false
+            },
+            "geometry": {
+              "after": null,
+              "done": false
+            }
+          }
+        }
+      }
+    },
+    "id": "df92f249-1b6e-4da2-8b89-9445c79744fb"
+  },
+  "cursor-source-page3.json": {
+    "ok": true,
+    "data": {
+      "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "streamId": "track:1",
+      "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+      "state": "ready",
+      "context": {
+        "selection": {
+          "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+          "streamId": "track:1",
+          "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+        },
+        "domain": "cursor",
+        "durationUs": 134025574,
+        "sourceToAssetOffsetUs": 0,
+        "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 1488048,
+            "cursorSamples": 8039,
+            "displaySpaces": 1,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 49814,
+            "geometryRecords": 5,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "source": {
+                "kind": "window",
+                "windowID": 188
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 134019623,
+            "lastSequence": 12842,
+            "originHostUs": 92388474388,
+            "pauseEvents": 0
+          }
+        },
+        "coverage": [
+          {
+            "kind": "cursor",
+            "state": "ready",
+            "reason": null
+          }
+        ]
+      },
+      "sourceRange": {
+        "startUs": 0,
+        "endUs": 200000
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 117557,
+            "captureAtUs": 117557,
+            "sourceSequence": 7,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3131.86328125,
+              "globalY": -1059.4453125,
+              "sourceUs": 117557,
+              "x": 3045.7265625,
+              "y": 673.109375
+            }
+          },
+          {
+            "kind": "cursor",
+            "sourceAtUs": 133520,
+            "captureAtUs": 133520,
+            "sourceSequence": 8,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3113.1875,
+              "globalY": -1050.78515625,
+              "sourceUs": 133520,
+              "x": 3008.375,
+              "y": 690.4296875
+            }
+          }
+        ],
+        "nextCursor": {
+          "reference": "984991fe840b0555b48b4e9abf7ff1414cb084ef6f425b8c337e364a309aec17",
+          "position": {
+            "cursor": {
+              "after": [
+                133520,
+                8
+              ],
+              "done": false
+            },
+            "pause": {
+              "after": null,
+              "done": false
+            },
+            "geometry": {
+              "after": null,
+              "done": false
+            }
+          }
+        }
+      }
+    },
+    "id": "c008b42f-539f-483b-9f1a-9d2196fed4a0"
+  },
+  "cursor-source-page4.json": {
+    "ok": true,
+    "data": {
+      "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "streamId": "track:1",
+      "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+      "state": "ready",
+      "context": {
+        "selection": {
+          "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+          "streamId": "track:1",
+          "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+        },
+        "domain": "cursor",
+        "durationUs": 134025574,
+        "sourceToAssetOffsetUs": 0,
+        "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 1488048,
+            "cursorSamples": 8039,
+            "displaySpaces": 1,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 49814,
+            "geometryRecords": 5,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "source": {
+                "kind": "window",
+                "windowID": 188
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 134019623,
+            "lastSequence": 12842,
+            "originHostUs": 92388474388,
+            "pauseEvents": 0
+          }
+        },
+        "coverage": [
+          {
+            "kind": "cursor",
+            "state": "ready",
+            "reason": null
+          }
+        ]
+      },
+      "sourceRange": {
+        "startUs": 0,
+        "endUs": 200000
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 150643,
+            "captureAtUs": 150643,
+            "sourceSequence": 9,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3087.64453125,
+              "globalY": -1040.9609375,
+              "sourceUs": 150643,
+              "x": 2957.2890625,
+              "y": 710.078125
+            }
+          },
+          {
+            "kind": "cursor",
+            "sourceAtUs": 167167,
+            "captureAtUs": 167167,
+            "sourceSequence": 10,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3072.98046875,
+              "globalY": -1037.765625,
+              "sourceUs": 167167,
+              "x": 2927.9609375,
+              "y": 716.46875
+            }
+          }
+        ],
+        "nextCursor": {
+          "reference": "984991fe840b0555b48b4e9abf7ff1414cb084ef6f425b8c337e364a309aec17",
+          "position": {
+            "cursor": {
+              "after": [
+                167167,
+                10
+              ],
+              "done": false
+            },
+            "pause": {
+              "after": null,
+              "done": false
+            },
+            "geometry": {
+              "after": null,
+              "done": false
+            }
+          }
+        }
+      }
+    },
+    "id": "b00de85e-cdec-4dd2-93c9-9f142196a509"
+  },
+  "cursor-source-page5.json": {
+    "ok": true,
+    "data": {
+      "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "streamId": "track:1",
+      "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+      "state": "ready",
+      "context": {
+        "selection": {
+          "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+          "streamId": "track:1",
+          "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+        },
+        "domain": "cursor",
+        "durationUs": 134025574,
+        "sourceToAssetOffsetUs": 0,
+        "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 1488048,
+            "cursorSamples": 8039,
+            "displaySpaces": 1,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 49814,
+            "geometryRecords": 5,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "source": {
+                "kind": "window",
+                "windowID": 188
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 134019623,
+            "lastSequence": 12842,
+            "originHostUs": 92388474388,
+            "pauseEvents": 0
+          }
+        },
+        "coverage": [
+          {
+            "kind": "cursor",
+            "state": "ready",
+            "reason": null
+          }
+        ]
+      },
+      "sourceRange": {
+        "startUs": 0,
+        "endUs": 200000
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 184204,
+            "captureAtUs": 184204,
+            "sourceSequence": 11,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "inside",
+              "geometryEpoch": 1,
+              "globalX": 3064.421875,
+              "globalY": -1036.0390625,
+              "sourceUs": 184204,
+              "x": 2910.84375,
+              "y": 719.921875
+            }
+          }
+        ],
+        "nextCursor": null
+      }
+    },
+    "id": "09a79c29-d555-417b-9a45-c0f5010a5426"
+  },
+  "cursor-source.json": {
+    "ok": true,
+    "data": {
+      "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "streamId": "track:1",
+      "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 200000
+        }
+      ],
+      "state": "ready",
+      "context": {
+        "selection": {
+          "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+          "streamId": "track:1",
+          "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+        },
+        "domain": "cursor",
+        "durationUs": 134025574,
+        "sourceToAssetOffsetUs": 0,
+        "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 1488048,
+            "cursorSamples": 8039,
+            "displaySpaces": 1,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 49814,
+            "geometryRecords": 5,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "source": {
+                "kind": "window",
+                "windowID": 188
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 134019623,
+            "lastSequence": 12842,
+            "originHostUs": 92388474388,
+            "pauseEvents": 0
+          }
+        },
+        "coverage": [
+          {
+            "kind": "cursor",
+            "state": "ready",
+            "reason": null
+          }
+        ]
+      },
+      "sourceRange": {
+        "startUs": 0,
+        "endUs": 200000
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "cursor",
+            "sourceAtUs": 49814,
+            "captureAtUs": 49814,
+            "sourceSequence": 3,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "outside",
+              "geometryEpoch": 1,
+              "globalX": 3178.9140625,
+              "globalY": -1081.234375,
+              "sourceUs": 49814,
+              "x": 3139.828125,
+              "y": 629.53125
+            }
+          },
+          {
+            "kind": "cursor",
+            "sourceAtUs": 67253,
+            "captureAtUs": 67253,
+            "sourceSequence": 4,
+            "observation": {
+              "buttons": 0,
+              "eligibility": "outside",
+              "geometryEpoch": 1,
+              "globalX": 3174.90625,
+              "globalY": -1079.375,
+              "sourceUs": 67253,
+              "x": 3131.8125,
+              "y": 633.25
+            }
+          }
+        ],
+        "nextCursor": {
+          "reference": "984991fe840b0555b48b4e9abf7ff1414cb084ef6f425b8c337e364a309aec17",
+          "position": {
+            "cursor": {
+              "after": [
+                67253,
+                4
+              ],
+              "done": false
+            },
+            "pause": {
+              "after": null,
+              "done": false
+            },
+            "geometry": {
+              "after": null,
+              "done": false
+            }
+          }
+        }
+      }
+    },
+    "id": "7a901781-4d78-481c-8e67-53d731f0cf15"
+  },
+  "cursor-source.params.json": {
+    "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+    "streamId": "track:1",
+    "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+    "sourceRange": {
+      "startUs": 0,
+      "endUs": 200000
+    },
+    "limit": 2
+  },
+  "job.clip-after-first.json": {
+    "ok": true,
+    "data": {
+      "jobId": "df41c916-7051-48b4-9319-f7358735f14a",
+      "attemptId": "028a8169-9111-4f04-bab0-c754fe302a4b",
+      "artifact": "audio",
+      "lane": "heavy",
+      "input": "{\"range\":{\"startUs\":200000,\"endUs\":300000},\"tap\":{\"target\":{\"kind\":\"clip\",\"id\":\"clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4\"},\"point\":{\"kind\":\"after-step\",\"stepId\":\"processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:6\"}},\"implementationId\":\"native-composition-audio-v1\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "project",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3"
+      },
+      "result": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/cache/derived/beccc1d3-6015-46fb-b0b6-1321f3c840c4.cache",
+        "bytes": 42496,
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 4800,
+        "peak": 0.046142578125,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 25067520,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+            "ranges": []
+          }
+        ],
+        "range": {
+          "startUs": 200000,
+          "endUs": 300000
+        },
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+          },
+          "point": {
+            "kind": "after-step",
+            "stepId": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:6"
+          }
+        },
+        "implementationId": "native-composition-audio-v1",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+        "mediaType": "audio/wav",
+        "layout": "stereo",
+        "sampleRange": {
+          "start": 9600,
+          "end": 14400
+        },
+        "cacheId": "beccc1d3-6015-46fb-b0b6-1321f3c840c4"
+      }
+    },
+    "id": "6c6e0908-81eb-43e7-8f16-91077588307b"
+  },
+  "job.clip-dry.json": {
+    "ok": true,
+    "data": {
+      "jobId": "52595acc-500b-4700-88d2-e1c64c10e425",
+      "attemptId": "21073cde-73e7-45e9-b4fd-5340a4788e4c",
+      "artifact": "audio",
+      "lane": "heavy",
+      "input": "{\"range\":{\"startUs\":200000,\"endUs\":300000},\"tap\":{\"target\":{\"kind\":\"clip\",\"id\":\"clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4\"},\"point\":{\"kind\":\"dry\"}},\"implementationId\":\"native-composition-audio-v1\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "project",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3"
+      },
+      "result": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/cache/derived/76127db4-9618-477b-b661-667a2c0cbe01.cache",
+        "bytes": 42496,
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 4800,
+        "peak": 0.015380859375,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 25182208,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+            "ranges": []
+          }
+        ],
+        "range": {
+          "startUs": 200000,
+          "endUs": 300000
+        },
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+          },
+          "point": {
+            "kind": "dry"
+          }
+        },
+        "implementationId": "native-composition-audio-v1",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+        "mediaType": "audio/wav",
+        "layout": "stereo",
+        "sampleRange": {
+          "start": 9600,
+          "end": 14400
+        },
+        "cacheId": "76127db4-9618-477b-b661-667a2c0cbe01"
+      }
+    },
+    "id": "7459e2c7-59fb-4f4b-979f-323a5e21a533"
+  },
+  "job.clip-processed.json": {
+    "ok": true,
+    "data": {
+      "jobId": "f58dfbf5-9804-444c-a524-25fc21a164b7",
+      "attemptId": "56c483e2-4fe3-4c06-881c-ec2607cb3b2b",
+      "artifact": "audio",
+      "lane": "heavy",
+      "input": "{\"range\":{\"startUs\":200000,\"endUs\":300000},\"tap\":{\"target\":{\"kind\":\"clip\",\"id\":\"clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4\"},\"point\":{\"kind\":\"processed\"}},\"implementationId\":\"native-composition-audio-v1\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "project",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3"
+      },
+      "result": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/cache/derived/7d33fe42-9ad5-4025-8aba-af0e69fa11b0.cache",
+        "bytes": 42496,
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 4800,
+        "peak": 0.0230712890625,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 25149440,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+            "ranges": []
+          }
+        ],
+        "range": {
+          "startUs": 200000,
+          "endUs": 300000
+        },
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-audio-v1",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+        "mediaType": "audio/wav",
+        "layout": "stereo",
+        "sampleRange": {
+          "start": 9600,
+          "end": 14400
+        },
+        "cacheId": "7d33fe42-9ad5-4025-8aba-af0e69fa11b0"
+      }
+    },
+    "id": "6d0f5194-db0b-405e-bc52-06a2670f6410"
+  },
+  "job.final-mix.json": {
+    "ok": true,
+    "data": {
+      "jobId": "78bd2a9f-9406-45a0-a6e9-49ff6579847d",
+      "attemptId": "313691ef-67f8-4690-b1c9-8760b60c4b6d",
+      "artifact": "audio",
+      "lane": "heavy",
+      "input": "{\"range\":{\"startUs\":200000,\"endUs\":300000},\"tap\":{\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}},\"implementationId\":\"native-composition-audio-v1\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "project",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3"
+      },
+      "result": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/cache/derived/bfc1b3ee-4767-40e7-a270-a51f4836c45b.cache",
+        "bytes": 42496,
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 4800,
+        "peak": 7.216987609863281,
+        "clippedSamples": 8314,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 25214976,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+            "ranges": []
+          }
+        ],
+        "range": {
+          "startUs": 200000,
+          "endUs": 300000
+        },
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-audio-v1",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+        "mediaType": "audio/wav",
+        "layout": "stereo",
+        "sampleRange": {
+          "start": 9600,
+          "end": 14400
+        },
+        "cacheId": "bfc1b3ee-4767-40e7-a270-a51f4836c45b"
+      }
+    },
+    "id": "09bfd2c4-4471-43f8-a5db-1b67c9a56f0b"
+  },
+  "job.timeline-project.json": {
+    "ok": true,
+    "data": {
+      "jobId": "14b53025-f3a2-42c6-8608-ef2681eff6a7",
+      "attemptId": "863ee0fa-daf1-4b5a-b664-73dde1ae5778",
+      "artifact": "project.evidence",
+      "lane": "frame",
+      "input": "{\"query\":{\"domain\":\"events\",\"projectId\":\"44e25c7a-7d85-40d6-a901-06c599a85953\",\"revisionId\":\"083d69bc-446a-4f7a-b1f8-f49b337cf1c3\",\"range\":{\"startUs\":1500000,\"endUs\":1700000},\"trackIds\":[\"track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3\"],\"policy\":\"project-transcript-v1\"},\"pins\":\"c5671383ef7b32ceb4e4d33e93d94877da681bfe5300c941f2159d42140983db\"}",
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "generation": 1,
+      "errorCode": null,
+      "errorDetails": null,
+      "target": {
+        "kind": "project",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3"
+      },
+      "result": {
+        "cacheId": "6c7a733e-000c-4d55-8382-bbbd29710385"
+      }
+    },
+    "id": "42fcf2a7-701c-49b3-86c1-6a3bd027637d"
+  },
+  "processing.capabilities.json": {
+    "ok": true,
+    "data": [
+      {
+        "type": "gain",
+        "mediaKind": "audio",
+        "units": {
+          "gain": "linear multiplier"
+        },
+        "execution": true,
+        "implementationId": "native-composition-movie-v1",
+        "parameters": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "gain"
+            },
+            "gain": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "type",
+            "gain"
+          ],
+          "additionalProperties": false
+        }
+      }
+    ],
+    "id": "0502aa74-e672-4b05-a4ae-a7f27fe0b279"
+  },
+  "processing.get.clip.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "target": {
+        "kind": "clip",
+        "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+      },
+      "steps": [
+        {
+          "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:6",
+          "enabled": true,
+          "processor": {
+            "type": "gain",
+            "gain": 3
+          }
+        },
+        {
+          "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:7",
+          "enabled": false,
+          "processor": {
+            "type": "gain",
+            "gain": 99
+          }
+        },
+        {
+          "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:8",
+          "enabled": true,
+          "processor": {
+            "type": "gain",
+            "gain": 0.5
+          }
+        }
+      ]
+    },
+    "id": "8a4ad33d-6005-4470-9b4f-55fe62d1ecdc"
+  },
+  "project.get.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "title": "Public audio tap journey",
+      "createdAt": "2026-09-28T08:09:01.405Z",
+      "currentRevisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3"
+    },
+    "id": "3b401457-62c5-4e96-b767-a0744934ce90"
+  },
+  "revision.get.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revision": {
+        "id": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+        "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+        "ordinal": 2,
+        "createdAt": "2026-09-28T08:09:01.681Z",
+        "operation": "apply",
+        "document": {
+          "canvas": {
+            "width": 32,
+            "height": 32,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [
+            {
+              "id": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:2",
+              "kind": "audio",
+              "order": 0,
+              "parentId": "group:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:1"
+            },
+            {
+              "id": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+              "kind": "video",
+              "order": 0
+            }
+          ],
+          "groups": [
+            {
+              "id": "group:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:0",
+              "kind": "audio",
+              "order": 0
+            },
+            {
+              "id": "group:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:1",
+              "kind": "audio",
+              "order": 0,
+              "parentId": "group:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:0"
+            }
+          ],
+          "clips": [
+            {
+              "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4",
+              "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:2",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "assetId": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            },
+            {
+              "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:5",
+              "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            },
+            {
+              "id": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+              "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 1500000,
+                  "endUs": 2500000
+                }
+              },
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          ],
+          "syncGroups": [],
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "clip:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:4"
+              },
+              "steps": [
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:6",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 3
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:7",
+                  "enabled": false,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 99
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:8",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 0.5
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "group",
+                "id": "group:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:0"
+              },
+              "steps": [
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:15",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 11
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:16",
+                  "enabled": false,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 99
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:17",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 0.5
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "group",
+                "id": "group:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:1"
+              },
+              "steps": [
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:12",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 7
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:13",
+                  "enabled": false,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 99
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:14",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 0.5
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "steps": [
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:18",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 13
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:19",
+                  "enabled": false,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 99
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:20",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 0.5
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:2"
+              },
+              "steps": [
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:9",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 5
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:10",
+                  "enabled": false,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 99
+                  }
+                },
+                {
+                  "id": "processingStep:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:11",
+                  "enabled": true,
+                  "processor": {
+                    "type": "gain",
+                    "gain": 0.5
+                  }
+                }
+              ]
+            }
+          ],
+          "captions": []
+        }
+      }
+    },
+    "id": "f2fd2b50-b16f-4148-b142-399a6135cba8"
+  },
+  "timeline-project-ready.json": {
+    "ok": true,
+    "data": {
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "state": "ready",
+      "dependencies": [
+        {
+          "selection": {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "transcript": null,
+          "capture": {
+            "selection": {
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+            },
+            "domain": "events",
+            "durationUs": 134025574,
+            "sourceToAssetOffsetUs": 0,
+            "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+            "evidence": {
+              "owner": {
+                "kind": "acquisition",
+                "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+              },
+              "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+              "receipt": {
+                "audioIntervals": 1,
+                "bytes": 1488048,
+                "cursorSamples": 8039,
+                "displaySpaces": 1,
+                "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+                "finished": true,
+                "firstCursorSourceUs": 49814,
+                "geometryRecords": 5,
+                "header": {
+                  "height": 1970,
+                  "microphone": true,
+                  "schemaVersion": 1,
+                  "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+                  "source": {
+                    "kind": "window",
+                    "windowID": 188
+                  },
+                  "systemAudio": false,
+                  "width": 3120
+                },
+                "incompleteTail": false,
+                "journal": "capture.journal.jsonl",
+                "lastCursorSourceUs": 134019623,
+                "lastSequence": 12842,
+                "originHostUs": 92388474388,
+                "pauseEvents": 0
+              }
+            },
+            "coverage": [
+              {
+                "kind": "pause",
+                "state": "ready",
+                "reason": null
+              },
+              {
+                "kind": "geometry",
+                "state": "ready",
+                "reason": null
+              },
+              {
+                "kind": "unplaced_geometry",
+                "state": "unavailable",
+                "reason": "no_source_time"
+              },
+              {
+                "kind": "scene",
+                "state": "unavailable",
+                "reason": "unsupported"
+              },
+              {
+                "kind": "cut",
+                "state": "unavailable",
+                "reason": "unsupported"
+              },
+              {
+                "kind": "interruption",
+                "state": "unavailable",
+                "reason": "unsupported"
+              }
+            ]
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": null
+        }
+      ],
+      "coverage": {
+        "manifestId": "6c7a733e-000c-4d55-8382-bbbd29710385",
+        "occurrences": [
+          {
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "projectRange": {
+              "startUs": 1500000,
+              "endUs": 1700000
+            },
+            "available": [
+              {
+                "startUs": 1500000,
+                "endUs": 1700000
+              }
+            ],
+            "unavailable": []
+          }
+        ]
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "geometry",
+            "sourceAtUs": 0,
+            "captureAtUs": 0,
+            "sourceSequence": 1,
+            "observation": {
+              "epoch": 1,
+              "geometry": {
+                "boundingRect": {
+                  "height": 985,
+                  "width": 1560,
+                  "x": 0,
+                  "y": 0
+                },
+                "contentRect": {
+                  "height": 985,
+                  "width": 1560,
+                  "x": 0,
+                  "y": 0
+                },
+                "contentScale": 1,
+                "outputHeight": 1970,
+                "outputWidth": 3120,
+                "scaleFactor": 2,
+                "screenRect": {
+                  "height": 985,
+                  "width": 1560,
+                  "x": 1609,
+                  "y": -1396
+                }
+              },
+              "hostUs": 92388474388,
+              "sourceUs": 0
+            },
+            "clipId": "clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0",
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+            "trackId": "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3",
+            "trackRank": 1,
+            "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+            "projectAtUs": 1500000
+          }
+        ],
+        "nextCursor": null
+      }
+    },
+    "id": "8bf46ad3-27da-44a7-8894-0a1b2d94bea7"
+  },
+  "timeline-project.json": {
+    "ok": true,
+    "data": {
+      "domain": "events",
+      "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+      "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+      "range": {
+        "startUs": 1500000,
+        "endUs": 1700000
+      },
+      "trackIds": [
+        "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3"
+      ],
+      "policy": "project-transcript-v1",
+      "state": "processing",
+      "reason": null,
+      "retryable": false,
+      "jobId": "14b53025-f3a2-42c6-8608-ef2681eff6a7",
+      "published": null,
+      "dependencies": [
+        {
+          "selection": {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "transcript": null,
+          "capture": {
+            "selection": {
+              "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+              "streamId": "track:1",
+              "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+            },
+            "domain": "events",
+            "durationUs": 134025574,
+            "sourceToAssetOffsetUs": 0,
+            "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+            "evidence": {
+              "owner": {
+                "kind": "acquisition",
+                "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+              },
+              "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+              "receipt": {
+                "audioIntervals": 1,
+                "bytes": 1488048,
+                "cursorSamples": 8039,
+                "displaySpaces": 1,
+                "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+                "finished": true,
+                "firstCursorSourceUs": 49814,
+                "geometryRecords": 5,
+                "header": {
+                  "height": 1970,
+                  "microphone": true,
+                  "schemaVersion": 1,
+                  "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+                  "source": {
+                    "kind": "window",
+                    "windowID": 188
+                  },
+                  "systemAudio": false,
+                  "width": 3120
+                },
+                "incompleteTail": false,
+                "journal": "capture.journal.jsonl",
+                "lastCursorSourceUs": 134019623,
+                "lastSequence": 12842,
+                "originHostUs": 92388474388,
+                "pauseEvents": 0
+              }
+            },
+            "coverage": [
+              {
+                "kind": "pause",
+                "state": "ready",
+                "reason": null
+              },
+              {
+                "kind": "geometry",
+                "state": "ready",
+                "reason": null
+              },
+              {
+                "kind": "unplaced_geometry",
+                "state": "unavailable",
+                "reason": "no_source_time"
+              },
+              {
+                "kind": "scene",
+                "state": "unavailable",
+                "reason": "unsupported"
+              },
+              {
+                "kind": "cut",
+                "state": "unavailable",
+                "reason": "unsupported"
+              },
+              {
+                "kind": "interruption",
+                "state": "unavailable",
+                "reason": "unsupported"
+              }
+            ]
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": null
+        }
+      ],
+      "page": null,
+      "coverage": null
+    },
+    "id": "bb52fb99-fe9a-4fb8-8123-b62e9efe8901"
+  },
+  "timeline-project.params.json": {
+    "projectId": "44e25c7a-7d85-40d6-a901-06c599a85953",
+    "revisionId": "083d69bc-446a-4f7a-b1f8-f49b337cf1c3",
+    "range": {
+      "startUs": 1500000,
+      "endUs": 1700000
+    },
+    "trackIds": [
+      "track:af3b6e179fca7b410413ba03245b853d9c6261e49a8f2406f6b9f8cd3c5aba24:3"
+    ],
+    "limit": 2
+  },
+  "timeline-source.json": {
+    "ok": true,
+    "data": {
+      "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "streamId": "track:1",
+      "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 200000
+        }
+      ],
+      "state": "ready",
+      "context": {
+        "selection": {
+          "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+          "streamId": "track:1",
+          "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+        },
+        "domain": "events",
+        "durationUs": 134025574,
+        "sourceToAssetOffsetUs": 0,
+        "supportDigest": "3f02d7767625825498a498c8b66313a14a45c38216cb7f4d01779b526fdea44d",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571"
+          },
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "generation": "db1cee83-8ed8-40d2-aab3-1285f612dc0e",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 1488048,
+            "cursorSamples": 8039,
+            "displaySpaces": 1,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-audio-taps-GqHEx7/library/acquisitions/8bfc08aa-b5b4-4f41-8ce2-cef62796d571/db1cee83-8ed8-40d2-aab3-1285f612dc0e/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 49814,
+            "geometryRecords": 5,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "source": {
+                "kind": "window",
+                "windowID": 188
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 134019623,
+            "lastSequence": 12842,
+            "originHostUs": 92388474388,
+            "pauseEvents": 0
+          }
+        },
+        "coverage": [
+          {
+            "kind": "pause",
+            "state": "ready",
+            "reason": null
+          },
+          {
+            "kind": "geometry",
+            "state": "ready",
+            "reason": null
+          },
+          {
+            "kind": "unplaced_geometry",
+            "state": "unavailable",
+            "reason": "no_source_time"
+          },
+          {
+            "kind": "scene",
+            "state": "unavailable",
+            "reason": "unsupported"
+          },
+          {
+            "kind": "cut",
+            "state": "unavailable",
+            "reason": "unsupported"
+          },
+          {
+            "kind": "interruption",
+            "state": "unavailable",
+            "reason": "unsupported"
+          }
+        ]
+      },
+      "sourceRange": {
+        "startUs": 0,
+        "endUs": 200000
+      },
+      "page": {
+        "rows": [
+          {
+            "kind": "geometry",
+            "sourceAtUs": 0,
+            "captureAtUs": 0,
+            "sourceSequence": 1,
+            "observation": {
+              "epoch": 1,
+              "geometry": {
+                "boundingRect": {
+                  "height": 985,
+                  "width": 1560,
+                  "x": 0,
+                  "y": 0
+                },
+                "contentRect": {
+                  "height": 985,
+                  "width": 1560,
+                  "x": 0,
+                  "y": 0
+                },
+                "contentScale": 1,
+                "outputHeight": 1970,
+                "outputWidth": 3120,
+                "scaleFactor": 2,
+                "screenRect": {
+                  "height": 985,
+                  "width": 1560,
+                  "x": 1609,
+                  "y": -1396
+                }
+              },
+              "hostUs": 92388474388,
+              "sourceUs": 0
+            }
+          }
+        ],
+        "nextCursor": null
+      }
+    },
+    "id": "3f6c4f19-1159-4ecd-9079-28ce2a0da0eb"
+  },
+  "timeline-source.params.json": {
+    "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+    "streamId": "track:1",
+    "acquisitionId": "8bfc08aa-b5b4-4f41-8ce2-cef62796d571",
+    "sourceRange": {
+      "startUs": 0,
+      "endUs": 200000
+    },
+    "limit": 2
+  }
+}

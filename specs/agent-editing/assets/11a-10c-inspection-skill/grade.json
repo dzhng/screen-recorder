@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "audio": {
+    "clip-dry": {
+      "gain": 1,
+      "frames": 4800,
+      "wavSha256": "6a6f38909bb156f47c286f629caa4be9140115fff84b098cbf918a29286c4b63",
+      "pcmSha256": "18e4e9195028a133a688186ca3ebc4d690de2c7ebfde77e26b73787d91c5c0d9",
+      "peak": 0.015380859375,
+      "rms": 0.008948115419142576
+    },
+    "clip-after-first": {
+      "gain": 3,
+      "frames": 4800,
+      "wavSha256": "682c7346cdef4fc94846a81f7757101a50f394179da2e4bc37764db856a5de4e",
+      "pcmSha256": "0b57ba6c33703046818ab496bdec722668a03447131166b3201fd599fe8d0d45",
+      "peak": 0.046142578125,
+      "rms": 0.02684434625742773
+    },
+    "clip-processed": {
+      "gain": 1.5,
+      "frames": 4800,
+      "wavSha256": "6b8fa55ec230df5946b209010c23b3534b8f9457cdda8e430d391f84e2a7a80a",
+      "pcmSha256": "3c8a4c0a1f3638426a99bae8f8ef8ee4a5c9c5e6ad5f04c99e159eb308fd865b",
+      "peak": 0.0230712890625,
+      "rms": 0.013422173128713865
+    },
+    "final-mix": {
+      "gain": 469.21875,
+      "frames": 4800,
+      "wavSha256": "8bac91c2ecb20a677e390636f317885eff06cbbf5223c5641a07852213b327a9",
+      "pcmSha256": "7271bbba8eb3225a4dab9649760765b4ad9bb245144c12a418b803f1330513b8",
+      "peak": 7.216987609863281,
+      "rms": 4.198623531825806
+    }
+  },
+  "capture": {
+    "source": {
+      "rows": 9,
+      "pages": 5,
+      "completeRowsEqualOracle": true,
+      "firstPageCoverageRetained": true
+    },
+    "project": {
+      "rows": 9,
+      "pages": 5,
+      "completeRowsEqualOracle": true,
+      "firstPageCoverageRetained": true
+    },
+    "geometry": {
+      "sourceAtUs": 0,
+      "projectAtUs": 1500000,
+      "completeRowsEqualOracle": true
+    },
+    "unsupportedCategoriesPreserved": [
+      "scene",
+      "cut",
+      "interruption"
+    ],
+    "missingAuthorityConclusion": "unavailable is not absence; conclusion given without claiming an unauthenticated cursor read was performed"
+  },
+  "boundaries": {
+    "native": "frozen PCM worker; no AAC extraction or listening judgment",
+    "initialAttempt": "service lifetime failure, not a product or skill acceptance run"
+  }
+}

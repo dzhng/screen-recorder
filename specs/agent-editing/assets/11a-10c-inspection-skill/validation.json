@@ -1,0 +1,14 @@
+{
+  "agent": "/root/inspection_skill_use",
+  "model": "gpt-6-luna",
+  "reasoning": "medium",
+  "fork": "none",
+  "inputs": "skill, CLI path, explicit socket/project, user task, output directory only; no source/spec/oracle",
+  "validRuns": 1,
+  "transportSetupFailure": "First setup process ended after setup subagent yield; fresh agent correctly refused ECONNREFUSED. Not counted as product/skill acceptance.",
+  "cleanup": "Parent sent SIGTERM to root-owned runner PID3364; exec session90973 exited0 and scratch home absent verified.",
+  "listening": "No speaker playback or perceptual listening claim. Numerical level/PCM checks only.",
+  "metadataValidation": "Official quick_validate.py unavailable: system Python lacks PyYAML. Existing simple name/description scalar structure, allowed keys, hyphen-case, bounds and angle-bracket checks independently passed.",
+  "skillSha256": "41db054f0725341cb2d83e9ac8678347e35639f2c149ab176ed01429b68d1b2f",
+  "helpSha256": "691d2e620bb18add6b88921881e6690725b58e0486c729cd2d226ca7387df3c7"
+}

@@ -1,0 +1,26 @@
+Project: 44e25c7a-7d85-40d6-a901-06c599a85953
+Pinned revision: 083d69bc-446a-4f7a-b1f8-f49b337cf1c3
+Repeated video occurrence: clip:090e9e97db906d4d24a279ebadb7dc4cfdcd68b890f109171df266698c9e07d7:0, project [1500000,2500000) us maps source [0,1000000) us. Requested window project [1500000,1700000) maps source [0,200000) us.
+
+Audio WAVs are 48 kHz, 2-channel IEEE float32, 4,800 frames (100 ms each), same pinned range and revision. Peak/RMS are computed directly from the delivered WAV float samples; dBFS = 20*log10(amplitude).
+clip-dry.wav: peak 0.01538086 (-36.26 dBFS), RMS 0.008948 (-40.97 dBFS).
+clip-after-first.wav: peak 0.04614258 (-26.72 dBFS), RMS 0.026844 (-31.42 dBFS): exactly 3x dry from enabled clip gain 3.
+clip-processed.wav: peak 0.02307129 (-32.74 dBFS), RMS 0.013422 (-37.44 dBFS): 0.5x prior tap; enabled clip gains 3 then 0.5, disabled gain 99 is skipped. Net clip stack is 1.5x dry.
+final-mix.wav: peak 7.216988 (+17.17 dBFS), RMS 4.198624 (+12.46 dBFS), service reports clippedSamples=8314. Float samples exceed unity. Beyond clip's 1.5x stack, upstream audio group gains (7 * .5, 11 * .5), track gains (5 * .5), and output gains (13 * .5) yield 312.8125x relative to clip-processed, matching measured scaling. Full combined nominal gain is 469.21875x from dry.
+
+Cursor evidence (source and projected project reads match, capture/source offset 0):
+sourceAtUs / projectAtUs / sequence / eligibility / x,y
+49814 / 1549814 / 3 / outside / 3139.828125, 629.53125
+67253 / 1567253 / 4 / outside / 3131.8125, 633.25
+83514 / 1583514 / 5 / inside / 3095.703125, 649.4609375
+100658 / 1600658 / 6 / inside / 3064.3984375, 665.1015625
+117557 / 1617557 / 7 / inside / 3045.7265625, 673.109375
+133520 / 1633520 / 8 / inside / 3008.375, 690.4296875
+150643 / 1650643 / 9 / inside / 2957.2890625, 710.078125
+167167 / 1667167 / 10 / inside / 2927.9609375, 716.46875
+184204 / 1684204 / 11 / inside / 2910.84375, 719.921875
+The x/y coordinates change over time, establishing cursor movement; first two samples are outside eligibility, samples from 83514 us onward are inside. There are 9 cursor rows in five pages (page limits 2); all continuations exhausted. Timeline event reads show one geometry marker at source 0 / project 1500000; event coverage says pause and geometry ready, unplaced geometry unavailable (no source time), scene/cut/interruption unsupported. Source event and project event query receipts include coverage; project first request was processing, same read was repeated when its job reported ready.
+
+Reading an imported video without capture context does not establish absence of pointer motion. Missing/unavailable capture metadata is not evidence that no movement occurred. For this occurrence, explicit acquisition-bound cursor data provides positive evidence of movement.
+
+Read-only inspection only. No project edits, app launch, or speaker playback.
