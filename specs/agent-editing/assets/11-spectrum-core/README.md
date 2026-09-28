@@ -34,3 +34,13 @@ frozen native worker identity is retained by the earlier waveform-core evidence.
 mutations fail their respective oracles. Public spectral delivery, acoustic PNGs,
 visual critique and agent usability remain unverified by this mechanism pass.
 No listening claim is made.
+
+The shared spectral layout now reports the exact surrounding sample window before
+audio preparation. A real ranged PCM fixture preserves every column and density
+value of the full-file reduction. [Context checks](context/focused.txt) and
+[independent review](context/review.txt) pass; 26 acoustic core checks and six
+project-audio checks including all 15 actual native taps also pass. Native worker
+SHA256 is `68d77b776f3629c2329cbf92f80665ecfc521c7ea723c009c889ed52417e72cf`.
+The future public job owner must clamp this context to the source/project extent
+and preserve the requested display range separately. No public spectral claim
+follows from this preflight mechanism.

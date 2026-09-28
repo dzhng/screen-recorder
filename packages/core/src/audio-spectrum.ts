@@ -44,14 +44,11 @@ function transform(real: Float64Array, imaginary: Float64Array) {
     }
   }
 }
-/** No detrending/downmixing. Caller retains the same published PCM lease through every yield. */
-export async function spectralWindows(
-  file: RetainedRead,
-  audio: AudioSamples,
+/** Plan the displayed grid and surrounding PCM before preparing or opening audio. */
+export function spectralLayout(
+  audio: Pick<AudioSamples, "sampleRange" | "frames" | "channels">,
   options: SpectralOptions,
-  signal: AbortSignal,
 ) {
-  signal.throwIfAborted();
   const n = options.fftFrames,
     hop = options.hopFrames,
     window = options.window ?? "hann";
@@ -82,6 +79,35 @@ export async function spectralWindows(
       "Spectrum exceeds 262144 channel/time/frequency cells; narrow the window or increase hopFrames",
       { maximumCells: 262144 },
     );
+  const context = {
+    start: firstGrid + Math.floor(hop / 2) - n / 2,
+    end: firstGrid + (count - 1) * hop + Math.floor(hop / 2) + n / 2,
+  };
+  if (!Number.isSafeInteger(context.start) || !Number.isSafeInteger(context.end))
+    throw new CatalogError(
+      "INVALID_RANGE",
+      "Spectrum analysis window exceeds safe sample accounting",
+    );
+  return { range, firstGrid, count, bins, cells, context, fftFrames: n, hopFrames: hop, window };
+}
+/** No detrending/downmixing. Caller retains the same published PCM lease through every yield. */
+export async function spectralWindows(
+  file: RetainedRead,
+  audio: AudioSamples,
+  options: SpectralOptions,
+  signal: AbortSignal,
+) {
+  signal.throwIfAborted();
+  const {
+    range,
+    firstGrid,
+    count,
+    bins,
+    cells,
+    fftFrames: n,
+    hopFrames: hop,
+    window,
+  } = spectralLayout(audio, options);
   const { dataOffset } = validateAudioWave(file, audio),
     block = Buffer.alloc(n * audio.channels * 4),
     weights = new Float64Array(n),
@@ -107,11 +133,6 @@ export async function spectralWindows(
     const gridStart = firstGrid + index * hop,
       center = gridStart + Math.floor(hop / 2),
       analysis = { start: center - n / 2, end: center + n / 2 };
-    if (!Number.isSafeInteger(analysis.start) || !Number.isSafeInteger(analysis.end))
-      throw new CatalogError(
-        "INVALID_RANGE",
-        "Spectrum analysis window exceeds safe sample accounting",
-      );
     const available = {
       start: Math.max(analysis.start, audio.sampleRange.start),
       end: Math.min(analysis.end, audio.sampleRange.end),

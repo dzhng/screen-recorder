@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { spectralWindows } from "./audio-spectrum.js";
+import { spectralLayout, spectralWindows } from "./audio-spectrum.js";
 import type { RetainedRead } from "./files.js";
 function fixture(samples: number[][], start = 0, rate = 48000) {
   const channels = samples[0]!.length as 1 | 2,
@@ -59,6 +59,32 @@ function directDensity(samples: number[], rate: number, window: "hann" | "rectan
     return ((re * re + im * im) / (rate * energy)) * (k === 0 || k === n / 2 ? 1 : 2);
   });
 }
+test("planned surrounding PCM preserves every spectral column when the delivered file is ranged", async () => {
+  const samples = Array.from({ length: 256 }, (_, i) => [Math.sin(i * 0.3), i === 97 ? 1 : 0.125]);
+  const full = fixture(samples);
+  const options = { fftFrames: 64, hopFrames: 16, sampleRange: { start: 99, end: 137 } };
+  const layout = spectralLayout(full.audio, options);
+  expect(layout.context).toEqual({ start: 72, end: 168 });
+  const clipped = fixture(
+    samples.slice(layout.context.start, layout.context.end),
+    layout.context.start,
+  );
+  const expected = await spectralWindows(
+    full.read,
+    full.audio,
+    options,
+    new AbortController().signal,
+  );
+  const actual = await spectralWindows(
+    clipped.read,
+    clipped.audio,
+    options,
+    new AbortController().signal,
+  );
+  expect(actual.columns).toEqual(expected.columns);
+  expect(actual.density).toEqual(expected.density);
+  expect(actual.readFrames).toBe(expected.readFrames);
+});
 test.each(["hann", "rectangular"] as const)(
   "FFT matches independent direct DFT for %s without merging stereo or removing DC",
   async (window) => {
