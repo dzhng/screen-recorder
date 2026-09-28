@@ -1,0 +1,26 @@
+{
+  "contract": "Research-only retained RNNoise output over compiled selected input. No production readiness or listening acceptance.",
+  "candidate": "Frozen RNNoise frame API; normalized mono float32 at 48000 Hz, two zero flush frames, fixed 960-frame compensation",
+  "hypothesis": "Rendering the unchanged selected target through the native composition executor before preparation preserves pure splits; retained output then supports exact bounded late reads. Changed selections require fresh processing, not cropping old processed output.",
+  "input": "12c-matched-noise/audio/mixture.f32.gz, placed inside one second of excluded prefix and tail",
+  "cases": [
+    "whole five-second selection",
+    "pure split at 2333375 us (112002 frames, not an RNNoise frame boundary)",
+    "trim to project seconds 1 through 4",
+    "poison excluded prefix/tail",
+    "compiled gain 2 before RNNoise versus native gain 2 after RNNoise",
+    "disabled gain bypass"
+  ],
+  "rules": "Exact float bytes/counts for split, poison, bypass and window equality; changed trim must differ from stale cropped output; both order outputs must differ without normalization. Record finite samples and clipping, not speech acceptance thresholds.",
+  "lateRead": "Frames 144017 through 192023, explicit positional read after processor executable has been made unavailable in the runner",
+  "limits": {
+    "processSeconds": 30,
+    "batchSeconds": 180,
+    "maxFrames": 336000,
+    "confirmationRuns": 1
+  },
+  "regressions": "Frozen direct-input output hash must match existing RNNoise mixture. Existing timing harness remains unchanged.",
+  "promotion": "Retained-output mechanism evidence only. Model preparation, durable publication, speech protection, stereo policy, post-retime and product integration remain open.",
+  "next": "Localized complete-word/onset/end auditions and a single core durable prepared-derivative owner shared with stretch",
+  "auditionFollowup": "After first numerical trial passes, create separately labeled RMS 0.05 whole dry/learned copies and 500 ms split-context copies using the whole-copy gains; no playback, phoneme labels, or listening acceptance."
+}

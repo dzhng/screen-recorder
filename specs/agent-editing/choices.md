@@ -2259,3 +2259,11 @@ existing lifetime owner.
   receipts and copy/hash bytes only in the heavy export job. The package's generic
   reference graph retains each immutable transcript generation until publication
   or abandonment, so history does not silently fall back to a newer transcript.
+### Retained-output research uses the compiled output target before production adoption
+
+- **When:** 12c retained-output reproduction.
+- **Choice:** Prove state over the selected combined output before designing clip-level storage. When a five-second selection is split into two clips, the experiment compiles both into the same five-second signal and prepares that signal once. A later preview reads its saved samples. Trimming away a second instead prepares the newly selected signal; it cannot silently crop the old denoised file. The alternative would invent clip lineage and cache policy before the signal contract is measured.
+- **Gap:** The plan requires a split-safe state strategy but does not choose the first target scope for its reproduction.
+- **Reach:** This establishes an output-target mono mechanism only. Future clip-level preparation, window transitions, durable publication and stereo policy still need their own evidence. The harness adds no production storage owner or readiness flag.
+- **Verdict:** Sound — exercises actual compiler/native selection while leaving unproved product policy unavailable.
+- **Confidence:** High.

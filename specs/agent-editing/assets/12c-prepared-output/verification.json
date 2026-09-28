@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "initialSeconds": 4.437,
+  "confirmationSeconds": 2.227,
+  "allComparisonResultsMatch": true,
+  "allOriginalRawArtifactHashesMatch": true,
+  "retainedArtifactHashesVerified": true,
+  "timingRegressionPassed": true,
+  "speechQuality": "unverified; no independent listening or protected phoneme labels",
+  "productionAdoption": false,
+  "independentlyRecomputedComparisons": 9,
+  "allRawCompensationSlicesVerified": true,
+  "auditionHashesVerified": true
+}

@@ -89,3 +89,13 @@ processing. The small measured balance change is not an audible acceptance verdi
 [Range-origin evidence](../assets/12c-range-origin/README.md) rejects the tested
 one-second warmup for exact range/full equality. Investigate retained prepared
 output or verified checkpoints; do not silently replay an unbounded prefix.
+
+[Retained-output reproduction](../assets/12c-prepared-output/README.md) now proves
+exact pure-split/excluded-neighbor preservation through compiled native upstream
+PCM, fixed-recipe parity and bounded reads of the prepared result. Fresh trim
+processing differs from stale cropped output; gain/RNNoise order differs in real
+PCM. This is an output-target mono research proof, not production preparation or
+speech acceptance. Next label protected words/onsets/ends and obtain independent
+listening; carry the retained-output constraints into the single durable owner
+shared with stretch. Clip-level state domains, stereo policy, retimed/combined
+speech and 15a integration remain open.
