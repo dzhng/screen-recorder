@@ -1,3 +1,5 @@
+import { ProjectStore } from "@screenrec/core/projects";
+import { processingCapabilities } from "@screenrec/composition";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { AssetStore } from "@screenrec/core/assets";
@@ -32,6 +34,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     catalog = new Catalog(join(library, "catalog.sqlite"));
     const assets = new AssetStore(catalog, library);
     await assets.recover();
+    const projects = new ProjectStore(catalog, assets);
     const worker = options.worker ?? mediaWorker();
     const targets: JobTargets = {
       pin(target) {
@@ -90,6 +93,73 @@ export async function startProjectService(options: { home: string; worker?: Medi
       const operation = parsed.data;
       try {
         switch (operation.operation) {
+          case "project.create":
+            return {
+              ok: true,
+              data: projects.create({
+                requestId: operation.params.requestId,
+                canvas: operation.params.canvas,
+                ...(operation.params.title === undefined ? {} : { title: operation.params.title }),
+              }),
+            };
+          case "project.get":
+            return { ok: true, data: projects.get(operation.params.projectId) };
+          case "project.list":
+            return {
+              ok: true,
+              data: projects.list({
+                ...operation.params.cursor,
+                ...(operation.params.limit === undefined ? {} : { limit: operation.params.limit }),
+              }),
+            };
+          case "edit.apply":
+            return { ok: true, data: projects.apply(operation.params.projectId, operation.params) };
+          case "processing.get":
+            return {
+              ok: true,
+              data: projects.processing(
+                operation.params.projectId,
+                operation.params.revisionId,
+                operation.params.target,
+              ),
+            };
+          case "processing.capabilities":
+            return { ok: true, data: processingCapabilities() };
+          case "revision.get":
+            if (!("projectId" in operation.params))
+              return operationError("NOT_READY", "This service reads managed project revisions");
+            return {
+              ok: true,
+              data: {
+                projectId: operation.params.projectId,
+                revision: projects.revision(
+                  operation.params.projectId,
+                  operation.params.revisionId,
+                ),
+              },
+            };
+          case "revision.history":
+            if (!("projectId" in operation.params))
+              return operationError("NOT_READY", "This service reads managed project history");
+            return {
+              ok: true,
+              data: projects.history(
+                operation.params.projectId,
+                operation.params.cursor,
+                operation.params.limit,
+              ),
+            };
+          case "edit.undo":
+            if (!("projectId" in operation.params))
+              return operationError("NOT_READY", "This service edits managed projects");
+            return { ok: true, data: projects.undo(operation.params.projectId, operation.params) };
+          case "edit.restore":
+            if (!("projectId" in operation.params))
+              return operationError("NOT_READY", "This service edits managed projects");
+            return {
+              ok: true,
+              data: projects.restore(operation.params.projectId, operation.params),
+            };
           case "asset.import": {
             const prepared = await assets.prepareImport(
               operation.params.requestId,

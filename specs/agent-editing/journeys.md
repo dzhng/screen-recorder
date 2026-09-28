@@ -20,9 +20,13 @@ schemas. Unavailable paths are reported pending, never skipped into a green suit
 
 ## Scenario inventory
 
-Every row is currently **pending live verification**, except the admitted-asset
-baseline explicitly noted below. Owning slice status/evidence is the source of
-truth as implementation advances.
+The [public project journey](assets/04-public-projects/README.md) verifies live
+state for all four stack targets, reorder/bypass, linked splitting, audio
+replacement with preserved video/settings, explicit reset, historical reads,
+undo/restore and restart replay. Native fixture import also passes. This is
+**state verification only**: rendered processing, sound/look preservation and
+listening remain pending. Rows below describe the full acceptance requirement;
+their owning slice status/evidence records progress.
 
 | User scenario | First live owner | Required observable result |
 | --- | --- | --- |

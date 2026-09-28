@@ -1,3 +1,8 @@
+import {
+  compositionSchema,
+  editOperationSchema,
+  processingTargetSchema,
+} from "@screenrec/composition";
 import { z } from "zod";
 import { captureSelectionSchema } from "./capture.js";
 import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";
@@ -16,6 +21,8 @@ const packageTarget = z.object({ packageHandle: id }).strict();
 const inspection = <T extends z.ZodRawShape>(shape: T) =>
   z.union([recording.extend(shape).strict(), packageTarget.extend(shape).strict()]);
 const edit = recording.extend({ requestId: id, expectedRevisionId: id });
+const project = z.object({ projectId: id }).strict();
+const projectEdit = project.extend({ requestId: id, expectedRevisionId: id });
 const historyPosition = {
   afterOrdinal: z.int().min(-1),
   throughOrdinal: z.int().min(-1),
@@ -81,6 +88,62 @@ const transcriptPage = <S extends z.ZodRawShape, C extends z.ZodRawShape>(fields
 
 // Adapters derive their advertised tools from the same schemas the service validates.
 export const operationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({
+      operation: z.literal("project.create"),
+      params: z
+        .object({
+          requestId: id,
+          title: z.string().optional(),
+          canvas: compositionSchema.shape.canvas,
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Create an empty managed project with an explicit canvas; replay requestId to recover the same project.",
+    ),
+  z
+    .object({ operation: z.literal("project.get"), params: project })
+    .strict()
+    .describe("Read project metadata and its current revision identity."),
+  z
+    .object({
+      operation: z.literal("project.list"),
+      params: z
+        .object({
+          cursor: z.object({ afterSequence: z.int().nonnegative() }).strict().optional(),
+          limit: z.int().min(1).max(1000).optional(),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe("Read a bounded page of managed projects."),
+  z
+    .object({
+      operation: z.literal("edit.apply"),
+      params: projectEdit.extend({ operations: z.array(editOperationSchema).max(1000) }).strict(),
+    })
+    .strict()
+    .describe(
+      "Atomically edit a managed project using revision pinning and replay-safe request identity; returns complete normalized changes and labels.",
+    ),
+  z
+    .object({
+      operation: z.literal("processing.get"),
+      params: project.extend({ revisionId: id, target: processingTargetSchema }).strict(),
+    })
+    .strict()
+    .describe(
+      "Read one target's authored ordered processing stack at a pinned revision; this does not execute processors.",
+    ),
+  z
+    .object({ operation: z.literal("processing.capabilities"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Discover typed processing parameters and distinguish authoring support from actual execution readiness.",
+    ),
+
   z
     .object({
       operation: z.literal("asset.import"),
@@ -558,16 +621,23 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("revision.get"),
-      params: inspection({ revisionId: id.optional() }),
+      params: z.union([
+        inspection({ revisionId: id.optional() }),
+        project.extend({ revisionId: id.optional() }).strict(),
+      ]),
     })
     .strict()
     .describe(
-      "Read a specified revision, or resolve the library current revision / package exported revision once. Package history may contain newer entries than its exported revision.",
+      "Read a specified revision, or resolve the current recording/project revision or package exported revision once. Package history may contain newer entries than its exported revision.",
     ),
   z
     .object({
       operation: z.literal("revision.history"),
-      params: z.union([historyParams(recording), historyParams(packageTarget)]),
+      params: z.union([
+        historyParams(recording),
+        historyParams(packageTarget),
+        historyParams(project).extend({ limit: z.int().min(1).max(1000).optional() }),
+      ]),
     })
     .strict()
     .describe("Read a bounded page of history pinned to its initial revision ordinal."),
@@ -583,13 +653,19 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .strict()
     .describe("Remove ranges in the expected revision's playback coordinates."),
   z
-    .object({ operation: z.literal("edit.undo"), params: edit })
+    .object({ operation: z.literal("edit.undo"), params: z.union([edit, projectEdit]) })
     .strict()
     .describe("Undo the active edit by creating a new revision identity."),
   z
-    .object({ operation: z.literal("edit.restore"), params: edit.extend({ targetRevisionId: id }) })
+    .object({
+      operation: z.literal("edit.restore"),
+      params: z.union([
+        edit.extend({ targetRevisionId: id }),
+        projectEdit.extend({ targetRevisionId: id }),
+      ]),
+    })
     .strict()
-    .describe("Restore retained spans from a historical revision into a new revision."),
+    .describe("Restore a historical edit into a new revision identity."),
 ]);
 
 export type OperationName = z.infer<typeof operationSchema>["operation"];

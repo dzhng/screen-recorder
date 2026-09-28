@@ -1,6 +1,6 @@
 # 04 — Durable projects and shared commands
 
-Status: core store checkpoint verified; [90 focused tests, type checking/build and independent review](../assets/04-project-store/README.md) pass. Next wire protocol/service and live CLI/MCP state journeys, then deletion lifecycle. Slice remains open. Dependencies: [02](./02-assets.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
+Status: core store checkpoint verified; [90 focused tests, type checking/build and independent review](../assets/04-project-store/README.md) pass. [Public CLI/MCP state journeys](../assets/04-public-projects/README.md) now pass, including native fixture admission. Next implement deletion lifecycle and remaining public failure/history coverage. Slice remains open. Dependencies: [02](./02-assets.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
 
 ## Contract
 

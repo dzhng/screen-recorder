@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local screen recordings through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, or deliver video and processed recording packages.
+description: Record, inspect, edit, and export local recordings, or author managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, or configure ordered clip/track/group processing.
 ---
 
 # Screenrec
@@ -42,6 +42,23 @@ non-destructive edits and verify the result.
    Distinguish a pending export from a published artifact. Return the actual
    output path and any unresolved verification limits. Use history, undo, or
    restore for requested recovery; never modify source media or the database.
+
+## Managed projects and processing
+
+When the connected service supports managed projects, discover the project and pin
+its revision before editing. During the development cutover these operations need
+an explicitly supplied isolated-service `--socket`; the installed recording service
+can return `NOT_READY` even when checkout help lists their schemas. Do not reinterpret
+a project request as a recording edit or claim an unavailable operation succeeded.
+
+Prepare imported media through the advertised asset/job operations before the edit
+batch. Read the target stack, then set its entire ordered list through `edit.apply`.
+Keep step IDs when changing order, settings or bypass; omit them when copying to
+another target so the copy gets independent IDs. Parent stacks process combined
+results; an exception needs clip treatment or a separate track, not an inherited
+override. Check `processing.capabilities`: authored settings with execution unavailable
+are not processed audio/video. Verify returned settings separately from rendered
+media, and report whichever stage is still unavailable.
 
 ## Invocation and identity
 

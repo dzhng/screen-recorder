@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@screenrec/core": "workspace:*",
-    "@screenrec/protocol": "workspace:*"
+    "@screenrec/protocol": "workspace:*",
+    "@screenrec/composition": "workspace:*"
   },
   "devDependencies": {
     "@screenrec/client": "workspace:*"

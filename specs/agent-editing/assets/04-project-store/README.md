@@ -17,6 +17,6 @@ current pointer, undo target and retained asset references through the existing
 Catalog transaction owner. Replay is checked before stale-head and asset lookup.
 A no-op records a receipt without growing history; undo/restore append identities.
 
-This accepts only the core persistence seam. Public CLI/MCP integration, project
-deletion lifecycle and live state journeys remain open in slice 04. No native
+This accepts only the core persistence seam. The subsequent [public integration checkpoint](../04-public-projects/README.md)
+verifies CLI/MCP state journeys. Project deletion lifecycle remains open in slice 04. No native
 rendering, generated-speech quality or live media journey is claimed.

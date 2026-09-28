@@ -1,3 +1,4 @@
+import { CompositionError } from "@screenrec/composition";
 import type { LibraryTimelineInspection } from "./timeline-inspection.js";
 import type { PackageFrameInspection } from "./package-frames.js";
 import type { RecordingExports } from "./exports.js";
@@ -138,6 +139,12 @@ export async function operate(
   const operation = parsed.data;
   try {
     switch (operation.operation) {
+      case "project.create":
+      case "project.get":
+      case "project.list":
+      case "edit.apply":
+      case "processing.get":
+      case "processing.capabilities":
       case "asset.import":
       case "asset.get":
       case "asset.origins":
@@ -147,7 +154,7 @@ export async function operate(
       case "job.cancel":
         return operationError(
           "NOT_READY",
-          "Project asset operations require the isolated project service until production cutover",
+          "Project operations require the isolated project service until production cutover",
         );
       case "export.create":
         return { ok: true, data: await exports.create(operation.params) };
@@ -411,6 +418,11 @@ export async function operate(
       case "recording.get":
         return { ok: true, data: store.get(operation.params.recordingId) };
       case "revision.get":
+        if ("projectId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Project revisions require the isolated project service until cutover",
+          );
         if ("packageHandle" in operation.params)
           return { ok: true, data: packages.revision(operation.params) };
         return {
@@ -421,6 +433,11 @@ export async function operate(
           },
         };
       case "revision.history":
+        if ("projectId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Project history requires the isolated project service until cutover",
+          );
         if ("packageHandle" in operation.params)
           return {
             ok: true,
@@ -442,6 +459,11 @@ export async function operate(
       case "edit.undo":
       case "edit.restore": {
         const params = operation.params;
+        if ("projectId" in params)
+          return operationError(
+            "NOT_READY",
+            "Project edits require the isolated project service until cutover",
+          );
         const identity = {
           requestId: params.requestId,
           expectedRevisionId: params.expectedRevisionId,
@@ -476,6 +498,8 @@ export async function operate(
 export function operationFailure(error: unknown): OperationFailure {
   if (error instanceof CatalogError)
     return operationError(error.code, error.message, error.retryable, error.details);
+  if (error instanceof CompositionError)
+    return operationError(error.code, error.message, false, error.details);
   if (error instanceof TimelineError) return operationError("INVALID_RANGE", error.message);
   return operationError("INTERNAL_ERROR", "Service handler failed");
 }

@@ -47,6 +47,7 @@
       "name": "@screenrec/service",
       "version": "0.0.0",
       "dependencies": {
+        "@screenrec/composition": "workspace:*",
         "@screenrec/core": "workspace:*",
         "@screenrec/protocol": "workspace:*",
       },
@@ -84,6 +85,7 @@
       "name": "@screenrec/protocol",
       "version": "0.0.0",
       "dependencies": {
+        "@screenrec/composition": "workspace:*",
         "zod": "4.6.5",
       },
     },

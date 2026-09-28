@@ -2,6 +2,8 @@ import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
 import {
   applyBatch,
+  getProcessing,
+  validateComposition,
   compositionSchema,
   editOperationSchema,
   isMediaClip,
@@ -220,6 +222,17 @@ export class ProjectStore {
     request: { requestId: string; expectedRevisionId: string; targetRevisionId: string },
   ): ProjectRevision {
     return this.restoreRevision(projectId, request, "restore", request.targetRevisionId);
+  }
+  processing(projectId: string, revisionId: string, target: unknown) {
+    const revision = this.revision(projectId, revisionId);
+    const ids = [
+      ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
+    ];
+    const model = validateComposition(
+      revision.document,
+      ids.map((id) => compositionAsset(this.assets.get(id))),
+    );
+    return { projectId, revisionId: revision.id, target, steps: getProcessing(model, target) };
   }
   history(projectId: string, cursor: ProjectHistoryCursor | null = null, limit = 250) {
     this.get(projectId);
