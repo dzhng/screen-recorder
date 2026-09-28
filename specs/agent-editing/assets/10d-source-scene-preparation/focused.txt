@@ -1,0 +1,15 @@
+$ vitest run --maxWorkers=4 src/source-scene-processing.test.ts src/scene-processing.test.ts src/index-processing.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:48678) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48680) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:48679) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  3 passed (3)
+      Tests  18 passed (18)
+   Start at  04:43:17
+   Duration  973ms (tests 72%, transform 19%, import 8%)

@@ -191,14 +191,16 @@ async function fixture(
   );
   const sample = ({ source, kept, atSourceUs }, signal) =>
     call("media.visualSamples", { source, kept, atSourceUs }, signal);
-  sceneOwner = new SceneProcessing(
-    store,
+  sceneOwner = new SceneProcessing({
     jobs,
-    sceneEvidence,
-    home,
-    sample,
-    (recordingId, generation) => exports.retainsScenes(recordingId, generation),
-  );
+    evidence: sceneEvidence,
+    recording: {
+      store,
+      home,
+      sample,
+      retained: (recordingId, generation) => exports.retainsScenes(recordingId, generation),
+    },
+  });
   indexOwner = new IndexProcessing(
     store,
     jobs,

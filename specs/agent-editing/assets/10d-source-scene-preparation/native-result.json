@@ -1,0 +1,411 @@
+{
+  "nativeSha256": "d83c422c0ed5d869caba61f283ec5a534e7e7345a05100b623b4ad3d4cab19b2",
+  "inputSha256": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+  "calls": 2,
+  "outputs": [
+    {
+      "selection": {
+        "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+        "streamId": "track:1"
+      },
+      "status": {
+        "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+        "streamId": "track:1",
+        "state": "ready",
+        "jobId": "fe8eb61f-dee0-4200-8a8d-08f1b3731938",
+        "reason": null,
+        "retryable": false,
+        "published": {
+          "generation": 1,
+          "evidence": {
+            "sourceId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+            "generation": "289250d8-cd34-4d1f-b4f9-05836e7425df",
+            "policy": "rgb-spatial-change-v2-presentation-v1",
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "chunkCount": 1,
+            "comparisonCount": 2,
+            "boundaryCount": 0,
+            "owner": {
+              "kind": "asset",
+              "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765"
+            },
+            "source": {
+              "kind": "asset",
+              "streamId": "track:1",
+              "originUs": 1250000,
+              "supportDigest": "da82575efa2fe7bd443578ba91431d42284c977906dbd38f2b71f6003c5cad19",
+              "durationUs": 850000
+            }
+          }
+        }
+      },
+      "chunks": [
+        {
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 850000
+          },
+          "durationUs": 850000,
+          "originUs": 1250000,
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "coverage": [
+            {
+              "requestedSourceUs": 0,
+              "status": "available",
+              "actualSourceUs": 0,
+              "sample": {
+                "value": "12800",
+                "timescale": 10240,
+                "endValue": "13824",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": false,
+              "stillnessRunStartUs": 0
+            },
+            {
+              "requestedSourceUs": 200000,
+              "status": "available",
+              "actualSourceUs": 200000,
+              "sample": {
+                "value": "14848",
+                "timescale": 10240,
+                "endValue": "15872",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": true,
+              "stillnessRunStartUs": 200000
+            },
+            {
+              "requestedSourceUs": 400000,
+              "status": "unavailable",
+              "reason": "outside_support",
+              "continuousFromPrevious": false
+            },
+            {
+              "requestedSourceUs": 600000,
+              "status": "available",
+              "actualSourceUs": 550000,
+              "sample": {
+                "value": "18432",
+                "timescale": 10240,
+                "endValue": "19456",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": false,
+              "stillnessRunStartUs": 600000
+            },
+            {
+              "requestedSourceUs": 800000,
+              "status": "available",
+              "actualSourceUs": 750000,
+              "sample": {
+                "value": "20480",
+                "timescale": 10240,
+                "endValue": "21504",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": true,
+              "stillnessRunStartUs": 800000
+            },
+            {
+              "requestedSourceUs": 849999,
+              "status": "available",
+              "actualSourceUs": 750000,
+              "sample": {
+                "value": "20480",
+                "timescale": 10240,
+                "endValue": "21504",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": true,
+              "stillnessRunStartUs": 800000
+            }
+          ],
+          "comparisons": [
+            {
+              "previous": {
+                "value": "12800",
+                "timescale": 10240,
+                "endValue": "13824",
+                "endTimescale": 10240
+              },
+              "current": {
+                "value": "14848",
+                "timescale": 10240,
+                "endValue": "15872",
+                "endTimescale": 10240
+              },
+              "actualSourceUs": 200000,
+              "changedPixelFraction": 0.0166015625,
+              "changedCellFraction": 0.046875,
+              "meanAbsoluteChannelDifference": 0.00441687091503268,
+              "boundary": false
+            },
+            {
+              "previous": {
+                "value": "18432",
+                "timescale": 10240,
+                "endValue": "19456",
+                "endTimescale": 10240
+              },
+              "current": {
+                "value": "20480",
+                "timescale": 10240,
+                "endValue": "21504",
+                "endTimescale": 10240
+              },
+              "actualSourceUs": 750000,
+              "changedPixelFraction": 0.020182291666666668,
+              "changedCellFraction": 0.078125,
+              "meanAbsoluteChannelDifference": 0.003949227260348584,
+              "boundary": false
+            }
+          ]
+        }
+      ],
+      "boundaries": {
+        "metadata": {
+          "sourceId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+          "generation": "289250d8-cd34-4d1f-b4f9-05836e7425df",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 2,
+          "boundaryCount": 0,
+          "owner": {
+            "kind": "asset",
+            "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "originUs": 1250000,
+            "supportDigest": "da82575efa2fe7bd443578ba91431d42284c977906dbd38f2b71f6003c5cad19",
+            "durationUs": 850000
+          }
+        },
+        "boundaries": [],
+        "scanned": 0,
+        "next": null
+      }
+    },
+    {
+      "selection": {
+        "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+        "streamId": "track:2"
+      },
+      "status": {
+        "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+        "streamId": "track:2",
+        "state": "ready",
+        "jobId": "2f251dfe-c3db-4dae-81c9-12a3d605a2bd",
+        "reason": null,
+        "retryable": false,
+        "published": {
+          "generation": 1,
+          "evidence": {
+            "sourceId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+            "generation": "7713266e-0f39-4bdc-be89-fcfd93d1c3da",
+            "policy": "rgb-spatial-change-v2-presentation-v1",
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "chunkCount": 1,
+            "comparisonCount": 2,
+            "boundaryCount": 0,
+            "owner": {
+              "kind": "asset",
+              "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765"
+            },
+            "source": {
+              "kind": "asset",
+              "streamId": "track:2",
+              "originUs": 1250000,
+              "supportDigest": "da82575efa2fe7bd443578ba91431d42284c977906dbd38f2b71f6003c5cad19",
+              "durationUs": 850000
+            }
+          }
+        }
+      },
+      "chunks": [
+        {
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+          "streamId": "track:2",
+          "range": {
+            "startUs": 0,
+            "endUs": 850000
+          },
+          "durationUs": 850000,
+          "originUs": 1250000,
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "coverage": [
+            {
+              "requestedSourceUs": 0,
+              "status": "available",
+              "actualSourceUs": 0,
+              "sample": {
+                "value": "12800",
+                "timescale": 10240,
+                "endValue": "13824",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": false,
+              "stillnessRunStartUs": 0
+            },
+            {
+              "requestedSourceUs": 200000,
+              "status": "available",
+              "actualSourceUs": 200000,
+              "sample": {
+                "value": "14848",
+                "timescale": 10240,
+                "endValue": "15872",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": true,
+              "stillnessRunStartUs": 0
+            },
+            {
+              "requestedSourceUs": 400000,
+              "status": "unavailable",
+              "reason": "outside_support",
+              "continuousFromPrevious": false
+            },
+            {
+              "requestedSourceUs": 600000,
+              "status": "available",
+              "actualSourceUs": 550000,
+              "sample": {
+                "value": "18432",
+                "timescale": 10240,
+                "endValue": "19456",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": false,
+              "stillnessRunStartUs": 600000
+            },
+            {
+              "requestedSourceUs": 800000,
+              "status": "available",
+              "actualSourceUs": 750000,
+              "sample": {
+                "value": "20480",
+                "timescale": 10240,
+                "endValue": "21504",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": true,
+              "stillnessRunStartUs": 600000
+            },
+            {
+              "requestedSourceUs": 849999,
+              "status": "available",
+              "actualSourceUs": 750000,
+              "sample": {
+                "value": "20480",
+                "timescale": 10240,
+                "endValue": "21504",
+                "endTimescale": 10240
+              },
+              "width": 64,
+              "height": 48,
+              "continuousFromPrevious": true,
+              "stillnessRunStartUs": 600000
+            }
+          ],
+          "comparisons": [
+            {
+              "previous": {
+                "value": "12800",
+                "timescale": 10240,
+                "endValue": "13824",
+                "endTimescale": 10240
+              },
+              "current": {
+                "value": "14848",
+                "timescale": 10240,
+                "endValue": "15872",
+                "endTimescale": 10240
+              },
+              "actualSourceUs": 200000,
+              "changedPixelFraction": 0,
+              "changedCellFraction": 0,
+              "meanAbsoluteChannelDifference": 0,
+              "boundary": false
+            },
+            {
+              "previous": {
+                "value": "18432",
+                "timescale": 10240,
+                "endValue": "19456",
+                "endTimescale": 10240
+              },
+              "current": {
+                "value": "20480",
+                "timescale": 10240,
+                "endValue": "21504",
+                "endTimescale": 10240
+              },
+              "actualSourceUs": 750000,
+              "changedPixelFraction": 0,
+              "changedCellFraction": 0,
+              "meanAbsoluteChannelDifference": 0,
+              "boundary": false
+            }
+          ]
+        }
+      ],
+      "boundaries": {
+        "metadata": {
+          "sourceId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765",
+          "generation": "7713266e-0f39-4bdc-be89-fcfd93d1c3da",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 2,
+          "boundaryCount": 0,
+          "owner": {
+            "kind": "asset",
+            "assetId": "87518e778a482392c47e48af832f68d2128166aa8da189058bd74e1ffc223765"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:2",
+            "originUs": 1250000,
+            "supportDigest": "da82575efa2fe7bd443578ba91431d42284c977906dbd38f2b71f6003c5cad19",
+            "durationUs": 850000
+          }
+        },
+        "boundaries": [],
+        "scanned": 0,
+        "next": null
+      }
+    }
+  ]
+}

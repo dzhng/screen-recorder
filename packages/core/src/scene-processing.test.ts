@@ -54,7 +54,11 @@ async function fixture(
       }),
     };
   };
-  processing = new SceneProcessing(store, jobs, evidence, home, sample);
+  processing = new SceneProcessing({
+    jobs,
+    evidence,
+    recording: { store, home, sample: sample },
+  });
   cleanups.push(async () => {
     await jobs.close();
     store.close();

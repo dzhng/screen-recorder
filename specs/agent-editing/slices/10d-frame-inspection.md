@@ -118,5 +118,6 @@ The [selected-source scene sampler](../assets/10d-source-scene-sampling/README.m
 now preserves exact physical clocks and gaps between grid observations. Its
 separate presentation policy does not change recording nearest-sample evidence.
 [Retained asset chunks and actual-boundary indexing](../assets/10d-source-scene-retention/README.md)
-now preserve this policy through paging and restart. Source preparation jobs,
-public scene readiness and retained screenshot selection remain next.
+now preserve this policy through paging and restart. [Source preparation jobs](../assets/10d-source-scene-preparation/README.md)
+use the shared queue and retain their selected dependencies. Public scene readiness,
+scene projection and retained screenshot selection remain next.

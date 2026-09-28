@@ -107,7 +107,11 @@ async function fixture(beforeDecode?: (call: number) => Promise<void>, beforeSou
       rgbBase64: Buffer.alloc(12).toString("base64"),
     })),
   });
-  scenes = new SceneProcessing(store, jobs, evidence.scenes, home, sample);
+  scenes = new SceneProcessing({
+    jobs,
+    evidence: evidence.scenes,
+    recording: { store, home, sample: sample },
+  });
   const decode: FrameDecoder = async (request) => {
     decoded++;
     await beforeDecode?.(decoded);

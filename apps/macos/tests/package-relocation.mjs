@@ -441,7 +441,11 @@ export function registerRelocationTest({
           (directory, output, signal) =>
             media.run("media.sourceEvidence", { directory, output }, signal),
         );
-        scenes = new SceneProcessing(store, jobs, sceneEvidence, original, media.sample);
+        scenes = new SceneProcessing({
+          jobs,
+          evidence: sceneEvidence,
+          recording: { store, home: original, sample: media.sample },
+        });
         indexing = new IndexProcessing(
           store,
           jobs,

@@ -213,14 +213,16 @@ async function main(): Promise<void> {
     );
     sceneEvidence = new SceneEvidenceStore(store, recordingSceneOwner(store));
     indexEvidence = new ScreenshotIndexStore(store, home);
-    scenes = new SceneProcessing(
-      store,
+    scenes = new SceneProcessing({
       jobs,
-      sceneEvidence,
-      home,
-      visual.sample,
-      (recordingId, generation) => exports!.retainsScenes(recordingId, generation),
-    );
+      evidence: sceneEvidence,
+      recording: {
+        store,
+        home,
+        sample: visual.sample,
+        retained: (recordingId, generation) => exports!.retainsScenes(recordingId, generation),
+      },
+    });
     timeline = new LibraryTimelineInspection(store, processing, scenes, evidence, sceneEvidence);
     index = new IndexProcessing(
       store,

@@ -82,6 +82,20 @@ export function recordingSceneOwner(store: RevisionStore) {
       invalid("Scene evidence identity does not match its source");
   };
 }
+export function sourceSceneDescriptor(
+  selected: ReturnType<typeof selectSource>,
+): Extract<SceneSource, { kind: "asset" }> {
+  return {
+    kind: "asset",
+    streamId: selected.selection.streamId,
+    ...(selected.selection.acquisitionId === undefined
+      ? {}
+      : { acquisitionId: selected.selection.acquisitionId }),
+    originUs: -selected.track.sourceOffsetUs,
+    supportDigest: selected.supportDigest,
+    durationUs: selected.durationUs,
+  };
+}
 export function assetSceneOwner(assets: AssetStore, acquisitions: AcquisitionStore) {
   return (identity: SceneEvidenceIdentity, source: SceneSource): void => {
     if (
@@ -96,18 +110,7 @@ export function assetSceneOwner(assets: AssetStore, acquisitions: AcquisitionSto
       ...(source.acquisitionId === undefined ? {} : { acquisitionId: source.acquisitionId }),
     });
     if (selected.stream.kind !== "video") invalid("Scene evidence requires a video stream");
-    if (
-      !isDeepStrictEqual(source, {
-        kind: "asset",
-        streamId: selected.selection.streamId,
-        ...(selected.selection.acquisitionId === undefined
-          ? {}
-          : { acquisitionId: selected.selection.acquisitionId }),
-        originUs: -selected.track.sourceOffsetUs,
-        supportDigest: selected.supportDigest,
-        durationUs: selected.durationUs,
-      })
-    )
+    if (!isDeepStrictEqual(source, sourceSceneDescriptor(selected)))
       throw new CatalogError("ARTIFACT_CHANGED", "Scene source support changed");
   };
 }

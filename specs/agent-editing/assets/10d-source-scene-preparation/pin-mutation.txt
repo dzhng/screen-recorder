@@ -1,0 +1,34 @@
+$ vitest run --maxWorkers=4 src/source-scene-processing.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:48663) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-scene-processing.test.ts (6 tests | 1 failed) 510ms
+   × sampler execution identity separates work and cleanup preserves all published streams 71ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-scene-processing.test.ts > sampler execution identity separates work and cleanup preserves all published streams
+AssertionError: expected 'ready' to be 'not_requested' // Object.is equality
+
+Expected: "not_requested"
+Received: "ready"
+
+ ❯ src/source-scene-processing.test.ts:303:56
+    301|   const first = f.processing.sourceStatus(f.selection);
+    302|   f.control.implementationId = "presentation-native-v2";
+    303|   expect(f.processing.sourceStatus(f.selection).state).toBe("not_reque…
+       |                                                        ^
+    304|   f.processing.prepareSource(f.selection);
+    305|   await expect.poll(() => f.processing.sourceStatus(f.selection).state…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  04:43:16
+   Duration  717ms (tests 76%, transform 17%, import 7%)
+
+error: script "test" exited with code 1

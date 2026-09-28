@@ -65,15 +65,17 @@ async function fixture(home, input) {
         throw new Error("No fixture exporter");
       },
     );
-    const scenes = new SceneProcessing(
-      store,
+    const scenes = new SceneProcessing({
       jobs,
-      new SceneEvidenceStore(store, recordingSceneOwner(store)),
-      home,
-      async () => {
-        throw new Error("No fixture sampler");
+      evidence: new SceneEvidenceStore(store, recordingSceneOwner(store)),
+      recording: {
+        store,
+        home,
+        sample: async () => {
+          throw new Error("No fixture sampler");
+        },
       },
-    );
+    });
     for (const owner of [source, scenes]) {
       owner.prepare(take.recordingId);
       const status = owner.status(take.recordingId);

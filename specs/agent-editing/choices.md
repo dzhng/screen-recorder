@@ -1344,3 +1344,18 @@ The native plotting operation receives bounded waveform or spectral measurements
   the picture physically present at the requested time. They share generation
   ownership and storage but use explicit typed chunk views. An asset cannot be
   exported accidentally through the recording package representation.
+
+
+## Source scene preparation
+
+- **Sound, high confidence — prepare a complete selected-source generation on demand.**
+  An agent's first scene request queues one bounded scan of that selected stream
+  and acquisition support. Later requests read the retained generation instead
+  of decoding overlapping windows again. Chunking bounds each worker step; the
+  existing heavy-work queue limits concurrent execution. Merely importing an
+  asset does not introduce a second automatic scene scheduler.
+- **Sound, high confidence — keep ordinary cancellation distinct from deletion.**
+  Canceling inspection lets the agent explicitly retry later. Deleting its owner
+  drains the worker and permanently cancels that job under the existing queue
+  policy. A late successful worker result cannot revive deleted work. The same
+  resource-reference and queue owners enforce both cases.

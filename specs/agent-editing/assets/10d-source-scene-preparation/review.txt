@@ -1,0 +1,5 @@
+Independent review: no actionable defects; 18 focused tests and core types passed.
+Full unrestricted core preservation: 533 passed, one skipped. Service types passed after rebuilding protocol/core dependencies; initial service type errors were stale dist, not source defects.
+Shape: one SceneProcessing owner and one bounded publication loop, distinct asset/recording domains; source descriptor shared with retained evidence validation. Constructor consumers swept including JavaScript harnesses.
+Diff: checked ordinary cancellation, deletion drain, partial generation removal, restart, reference rollback and execution identity. Sampler identity mutation fails; restored production passes. Held-worker test returns a late successful sample despite abort, proving owner cancellation fences rather than relying on a cooperative fixture.
+Docs: preparation checkpoint linked from slice; public scene consumers remain explicitly unfinished.

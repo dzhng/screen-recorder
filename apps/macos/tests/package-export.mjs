@@ -57,14 +57,16 @@ async function exportFromLibrary({ store, home, recordingId, revisionId }) {
     (directory, output, signal) => run("media.sourceEvidence", { directory, output }, signal),
     (recordingId, generation) => exports.retainsSource(recordingId, generation),
   );
-  scenes = new SceneProcessing(
-    store,
+  scenes = new SceneProcessing({
     jobs,
-    sceneEvidence,
-    home,
-    sample,
-    (recordingId, generation) => exports.retainsScenes(recordingId, generation),
-  );
+    evidence: sceneEvidence,
+    recording: {
+      store,
+      home,
+      sample,
+      retained: (recordingId, generation) => exports.retainsScenes(recordingId, generation),
+    },
+  });
   index = new IndexProcessing(
     store,
     jobs,
