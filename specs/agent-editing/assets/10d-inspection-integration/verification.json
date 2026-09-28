@@ -1,0 +1,135 @@
+{
+  "nativeSha256": "c167c9ee73ff8f59fea75c063419afb6e018db95ce30c3fd72b64a725697252a",
+  "nativeSourceCommit": "5aa35547",
+  "reports": {
+    "acquisition": {
+      "passed": true,
+      "rawReportSha256": "18c2fda1ace925638f515a3e8a78a53125836938081bb0e8fa0f8c5642c3440d",
+      "rawBytes": 397252,
+      "file": "acquisition.json.gz",
+      "checks": [
+        "adoption",
+        "sources",
+        "pictures",
+        "index",
+        "preview",
+        "rangePreview",
+        "history"
+      ]
+    },
+    "still": {
+      "passed": true,
+      "rawReportSha256": "ba221ebc0353e64ef58056a25358d9ed0e981cd3206f275e99ac91bf96f612bc",
+      "rawBytes": 27353,
+      "file": "still.json.gz",
+      "checks": [],
+      "images": 16,
+      "refusals": 8,
+      "preservedVideoPictures": 4
+    },
+    "project-index": {
+      "passed": true,
+      "rawReportSha256": "f82cc4eb4bf8524477e42f12c3dc73232fd43ee92269dc3fa2cc57ce6df93634",
+      "rawBytes": 233896,
+      "file": "project-index.json.gz",
+      "checks": [
+        "empty",
+        "canceledFrameRetry",
+        "audioOnly",
+        "composition",
+        "taps",
+        "lifetime"
+      ]
+    }
+  },
+  "unchangedProjectPngs": [
+    {
+      "name": "background-0.png",
+      "sha256": "15128b90ea90777dcb5aef4b09e60ae0e876de9cdfa1f7b15b734df23f2dcecd"
+    },
+    {
+      "name": "background-1.png",
+      "sha256": "15128b90ea90777dcb5aef4b09e60ae0e876de9cdfa1f7b15b734df23f2dcecd"
+    },
+    {
+      "name": "composition-0.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "composition-2200000.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "composition-2300000.png",
+      "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+    },
+    {
+      "name": "composition-3200000.png",
+      "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+    },
+    {
+      "name": "composition-3300000.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "composition-5000000.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "composition-5900000.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "current-hidden-presenter.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "direct-0.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "direct-2200000.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "direct-2300000.png",
+      "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+    },
+    {
+      "name": "direct-3200000.png",
+      "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+    },
+    {
+      "name": "direct-3300000.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "direct-5000000.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "direct-5900000.png",
+      "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+    },
+    {
+      "name": "historical-after-restart.png",
+      "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+    },
+    {
+      "name": "historical-before-restart.png",
+      "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+    },
+    {
+      "name": "presenter-dry.png",
+      "sha256": "a4489638f042a798f892786b127d3f00f34c0ca5b3c53b8b3d8878dd187db90e"
+    },
+    {
+      "name": "presenter-processed.png",
+      "sha256": "bbbf3b1663d9b3db39b7554f1a9683c10c2860477647537c2ca5324a2df08e2b"
+    },
+    {
+      "name": "unrelated-project-after-delete.png",
+      "sha256": "15128b90ea90777dcb5aef4b09e60ae0e876de9cdfa1f7b15b734df23f2dcecd"
+    }
+  ]
+}

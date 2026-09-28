@@ -40,7 +40,8 @@ Current pickup and priority:
    unchanged. [Fresh interpretation](assets/10d-frame-visibility/skill/report.md)
    now correctly distinguishes authored edges, displayed intervals and unknown gaps.
    [Public acquisition-gap pictures](assets/10d-acquisition-pictures/README.md)
-   now verify audio-anchored video across selected capture gaps. Next complete raw
+   now verify audio-anchored video across selected capture gaps, including
+   [combined native verification](assets/10d-inspection-integration/README.md). Next complete raw
    still-image inspection through the same frame owner; direct custom video-mask
    admission is not provided by the current capture producer.
    Retain the complete [10 umbrella](slices/10-project-evidence.md).

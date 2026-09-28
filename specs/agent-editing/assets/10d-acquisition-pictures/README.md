@@ -60,3 +60,6 @@ SCREENREC_NATIVE=/path/to/frozen-worker SCREENREC_BASELINE_NATIVE=/path/to/befor
 
 Retained text logs normalize trailing whitespace; JSON receipts and media retain
 their original bytes.
+
+[Combined native verification](../10d-inspection-integration/README.md) also passes
+this journey alongside retained project indexes and the other picture path.
