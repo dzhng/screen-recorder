@@ -391,13 +391,13 @@
   },
   {
     "path": "skill/interior-console.txt",
-    "bytes": 1870,
-    "sha256": "34fad75b7d334778c7f73e75ff3aec0eb1ddb044893b38f97307ad1cf50444be"
+    "bytes": 1868,
+    "sha256": "0fe40853b45a9bc25e1c4c1c01a9dffe1f6e0bf360550f9531fae0547496e8cc"
   },
   {
     "path": "skill/pagination-console.txt",
-    "bytes": 50170,
-    "sha256": "4bac45cdd7181a9ced03e3d801f58d7a4a265af44930ef0c22e86701eac02f52"
+    "bytes": 50160,
+    "sha256": "84105bb78393b3cf7c033a8f3732810f6cf69264eee135122525da2f3f8289dc"
   },
   {
     "path": "skill/query.py",

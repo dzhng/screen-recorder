@@ -24,4 +24,6 @@ stream, retain source/cache lifetimes, validate enabled-step correspondence and
 replay compiler geometry through the shared native executor. Execution stays unbound.
 
 [Combined integration checks](integrated.txt) pass all 36 trail/history tests after
-merging the public frame-visibility change. Native execution remains a separate gate.
+merging the public frame-visibility change. [Service render checks](service.txt)
+pass 18 tests with two pre-existing skips; [all seven type/build tasks](types.txt)
+pass. Native execution remains a separate gate.

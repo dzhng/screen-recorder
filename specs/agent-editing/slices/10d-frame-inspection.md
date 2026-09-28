@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained source indexes pass; project indexes remain open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw still-image inspection and custom acquisition masks remain open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
