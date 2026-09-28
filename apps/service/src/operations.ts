@@ -199,6 +199,11 @@ export async function operate(
             : timeline.get(operation.params, signal)),
         };
       case "index.get":
+        if ("assetId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Source screenshot indexes require the project service until cutover",
+          );
         return {
           ok: true,
           data:
@@ -207,8 +212,18 @@ export async function operate(
               : index.get(operation.params),
         };
       case "index.retry":
+        if ("assetId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Source screenshot indexes require the project service until cutover",
+          );
         return { ok: true, data: index.retry(operation.params) };
       case "index.coverage":
+        if ("assetId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Source screenshot indexes require the project service until cutover",
+          );
         return {
           ok: true,
           data:
@@ -217,6 +232,11 @@ export async function operate(
               : index.coverage(operation.params),
         };
       case "index.frame": {
+        if ("assetId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Source screenshot indexes require the project service until cutover",
+          );
         const { ordinal, ...reference } = operation.params;
         const read = indexReader(reference, index, packages);
         return {
@@ -228,6 +248,11 @@ export async function operate(
         };
       }
       case "index.frames": {
+        if ("assetId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Source screenshot indexes require the project service until cutover",
+          );
         const { ordinals, ...reference } = operation.params;
         const read = indexReader(reference, index, packages);
         return {

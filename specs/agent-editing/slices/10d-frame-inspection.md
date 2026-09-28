@@ -148,3 +148,10 @@ final coverage generation remain required before public source index readiness.
 source images and coverage using the shared queue/readers. Exact queued scene
 retention, terminal retry/cancellation and real native preparation pass. Public
 source index delivery and project frame-phase projection remain the next gates.
+
+## Source index public routing checkpoint
+
+[Service integration](../assets/10d-source-index-service/README.md) routes flat
+selected-source requests and retained PNG delivery through the shared owners.
+Native CLI/MCP journey acceptance remains open; producer checks and existing
+adapter preservation alone do not close it.

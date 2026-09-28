@@ -29,7 +29,10 @@ coverage and explicit prerequisite retry. [Screenshot ownership](assets/10d-inde
 now preserves source indexes and recording packages under Catalog 10.
 [Raw source selection](assets/10d-source-index-selection/README.md) preserves
 observed scene sides and short support islands; typed no-picture observations
-stay distinct from failures. Finish queued index materialization and public delivery; project-cut semantics still
+stay distinct from failures. [Queued index materialization](assets/10d-source-index-jobs/README.md)
+is integrated, including canceled prerequisite recovery and retained-generation reads.
+[Service routing](assets/10d-source-index-service/README.md) is wired and checked;
+finish its native CLI/MCP journey. Project-cut semantics still
 need a concrete definition. [Public interruption](assets/10c-public-interruption/README.md)
 now passes actual CLI/MCP continuation and the combined-runtime journey.
 Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.

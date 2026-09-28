@@ -5,6 +5,9 @@ import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
 import { SourceEvents } from "@screenrec/core/source-events";
 import { SourceSceneRead } from "@screenrec/core/scene-source-read";
 import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evidence";
+import { IndexProcessing } from "@screenrec/core/index-processing";
+import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { sourceIndexDomain, type SourceIndexRecords } from "@screenrec/core/source-index";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceVisualObservations } from "@screenrec/core/source-scenes";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
@@ -141,6 +144,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let mediaAudio: MediaAudioInspection;
     let acoustics: AcousticInspection;
     let scenes: SceneProcessing;
+    let indexes: IndexProcessing;
     const queue = new JobQueue({
       store: catalog,
       targets,
@@ -149,6 +153,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.target.kind === "asset" && job.artifact === "screenshot-index")
+          return indexes.execute({ job, signal });
         if (job.target.kind === "asset" && job.artifact === "source-scenes")
           return scenes.execute({ job, signal });
         if (
@@ -271,6 +277,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
         assets,
         acquisitions,
         implementationId: "native-source-scenes-v1",
+        retained: (assetId, generation) =>
+          indexes?.retainsSourceScenes(assetId, generation) ?? false,
         sample: async (request, signal) =>
           nativeResult(
             await worker("media.sourceVisualSamples", request, { signal }),
@@ -322,6 +330,23 @@ export async function startProjectService(options: { home: string; worker?: Medi
           ),
       },
     });
+    indexes = new IndexProcessing({
+      jobs: queue,
+      asset: {
+        catalog,
+        assets,
+        acquisitions,
+        index: new ScreenshotIndexStore<SourceIndexRecords>(
+          catalog,
+          library,
+          sourceIndexDomain(assets, acquisitions, sceneRecords, mediaFrames),
+        ),
+        scenes,
+        records: sceneRecords,
+        frames: mediaFrames,
+        cache,
+      },
+    });
     const frameDelivery = (status: ReturnType<MediaFrameInspection["request"]>) => ({
       ...status,
       delivery: status.published
@@ -345,6 +370,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     queue.startAdmission((job) => mediaExports.admit(job));
     await transcripts.cleanup(modelLifetime.signal);
     await scenes.cleanup(modelLifetime.signal);
+    await indexes.cleanup(modelLifetime.signal);
     const projectDeletion = new ProjectDeletion(
       projects,
       queue,
@@ -375,6 +401,67 @@ export async function startProjectService(options: { home: string; worker?: Medi
       const operation = parsed.data;
       try {
         switch (operation.operation) {
+          case "index.get": {
+            const params = operation.params;
+            if (!("assetId" in params))
+              return operationError("NOT_READY", "This service reads selected asset indexes");
+            return { ok: true, data: indexes.getSource(params) };
+          }
+          case "index.retry": {
+            const params = operation.params;
+            if (!("assetId" in params))
+              return operationError("NOT_READY", "This service reads selected asset indexes");
+            return { ok: true, data: indexes.retrySource(params) };
+          }
+          case "index.coverage": {
+            const params = operation.params;
+            if (!("assetId" in params))
+              return operationError("NOT_READY", "This service reads selected asset indexes");
+            return { ok: true, data: indexes.coverageSource(params) };
+          }
+          case "index.frame": {
+            const params = operation.params;
+            if (!("assetId" in params))
+              return operationError("NOT_READY", "This service reads selected asset indexes");
+            return {
+              ok: true,
+              data: {
+                ...indexes.frameSource(params),
+                delivery: delivery.open({ kind: "asset", id: params.assetId }, () =>
+                  indexes.openReadSource(params),
+                ),
+              },
+            };
+          }
+          case "index.frames": {
+            const params = operation.params;
+            if (!("assetId" in params))
+              return operationError("NOT_READY", "This service reads selected asset indexes");
+            const { ordinals, ...reference } = params;
+            return {
+              ok: true,
+              data: {
+                ...reference,
+                items: ordinals.map((ordinal) => {
+                  try {
+                    const input = { ...reference, ordinal };
+                    return {
+                      ordinal,
+                      ok: true as const,
+                      data: {
+                        ...indexes.frameSource(input),
+                        delivery: delivery.open({ kind: "asset", id: reference.assetId }, () =>
+                          indexes.openReadSource(input),
+                        ),
+                      },
+                    };
+                  } catch (error) {
+                    return { ordinal, ...operationFailure(error) };
+                  }
+                }),
+              },
+            };
+          }
           case "model.status":
             return { ok: true, data: models.status() };
           case "model.prepare": {

@@ -495,35 +495,60 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("index.get"),
-      params: inspectionPage(
-        { revisionId: id.optional(), limit: z.int().min(1).max(200).default(50) },
-        indexPosition,
-      ),
+      params: z.union([
+        ...inspectionPage(
+          { revisionId: id.optional(), limit: z.int().min(1).max(200).default(50) },
+          indexPosition,
+        ).options,
+        paged(
+          sourceSelection,
+          { limit: z.int().min(1).max(200).default(50) },
+          {
+            generation: id,
+            afterOrdinal: z.int().nonnegative(),
+          },
+        ),
+      ]),
     })
     .strict()
     .describe(
-      "Request a retained screenshot index. Returns readiness until complete, then paged metadata with reasons and stable frame references. Continue with the returned cursor to keep the same revision and generation; use index.frame or index.frames for image bytes.",
+      "Request a retained screenshot index for a recording, package or selected asset video stream. Source selectors use assetId/streamId and optional acquisitionId, without a recording revision. Scene preparation precedes source index preparation. Returns readiness until complete, then paged metadata with reasons and stable frame references. A ready source index may have no images; inspect coverage to distinguish known support gaps from unproven ranges around unavailable observations. Continue with the returned cursor to keep the same revision and generation; use index.frame or index.frames for image bytes.",
     ),
   z
     .object({
       operation: z.literal("index.retry"),
-      params: recording.extend({ revisionId: id.optional() }).strict(),
+      params: z.union([recording.extend({ revisionId: id.optional() }).strict(), sourceSelection]),
     })
     .strict()
     .describe(
-      "Explicitly retry failed screenshot index processing. Failed source or scene dependencies require their own processing.retry.",
+      "Explicitly retry failed or canceled screenshot index processing. Source selectors also retry their retryable terminal scene or frame prerequisite; ordinary reads do not restart terminal work. Recording source/scene dependencies require their own processing.retry.",
     ),
   z
     .object({
       operation: z.literal("index.coverage"),
-      params: inspectionPage(
-        {
-          ...indexFields,
-          candidateOrdinal: z.int().nonnegative().optional(),
-          limit: z.int().min(1).max(200).default(50),
-        },
-        coveragePosition,
-      ),
+      params: z.union([
+        ...inspectionPage(
+          {
+            ...indexFields,
+            candidateOrdinal: z.int().nonnegative().optional(),
+            limit: z.int().min(1).max(200).default(50),
+          },
+          coveragePosition,
+        ).options,
+        paged(
+          sourceSelection,
+          {
+            generation: id,
+            candidateOrdinal: z.int().nonnegative().optional(),
+            limit: z.int().min(1).max(200).default(50),
+          },
+          {
+            generation: id,
+            afterSequence: z.int().nonnegative(),
+            candidateOrdinal: z.int().nonnegative().nullable(),
+          },
+        ),
+      ]),
     })
     .strict()
     .describe(
@@ -532,7 +557,10 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("index.frame"),
-      params: inspection({ ...indexFields, ordinal: z.int().nonnegative() }),
+      params: z.union([
+        ...inspection({ ...indexFields, ordinal: z.int().nonnegative() }).options,
+        sourceSelection.extend({ generation: id, ordinal: z.int().nonnegative() }).strict(),
+      ]),
     })
     .strict()
     .describe(
@@ -541,10 +569,18 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("index.frames"),
-      params: inspection({
-        ...indexFields,
-        ordinals: z.array(z.int().nonnegative()).min(1).max(8),
-      }),
+      params: z.union([
+        ...inspection({
+          ...indexFields,
+          ordinals: z.array(z.int().nonnegative()).min(1).max(8),
+        }).options,
+        sourceSelection
+          .extend({
+            generation: id,
+            ordinals: z.array(z.int().nonnegative()).min(1).max(8),
+          })
+          .strict(),
+      ]),
     })
     .strict()
     .describe(

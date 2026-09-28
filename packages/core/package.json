@@ -231,6 +231,10 @@
     "./scene-source-read": {
       "types": "./dist/scene-source-read.d.ts",
       "default": "./dist/scene-source-read.js"
+    },
+    "./source-index": {
+      "types": "./dist/source-index.d.ts",
+      "default": "./dist/source-index.js"
     }
   },
   "scripts": {
