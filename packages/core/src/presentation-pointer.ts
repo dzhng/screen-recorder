@@ -21,6 +21,7 @@ function pointScene(
   at: number,
   kept: TimeRange,
   source: PresentationEvidence,
+  trailUs = 0,
 ): TrailScene {
   const sample = {
     requestedSourceUs: at,
@@ -37,7 +38,7 @@ function pointScene(
         sourceHeight: source.receipt.sourceHeight,
         samples: [sample],
       },
-      { kept, range: { startUs: at, endUs: at } },
+      { kept, range: { startUs: Math.max(kept.startUs, at - trailUs), endUs: at } },
     ),
     reference: sample,
     futureComparison: null,
@@ -74,7 +75,12 @@ export class PresentationPointer {
     );
   }
   /** Exact event membership stays separate from the integer observation-query cutoff. */
-  atEvent(record: PresentationRecord, at: PresentationTime, resetFloor: PointerResetFloor) {
+  atEvent(
+    record: PresentationRecord,
+    at: PresentationTime,
+    resetFloor: PointerResetFloor,
+    trailUs = 0,
+  ) {
     return this.exclusive(async () => {
       if (
         comparePresentationTimes(at, record.start) < 0 ||
@@ -87,7 +93,7 @@ export class PresentationPointer {
       return {
         at,
         observationCutoffUs: floorMicroseconds(at),
-        inspection: await this.inspect(record, floorMicroseconds(at), resetFloor, at),
+        inspection: await this.inspect(record, floorMicroseconds(at), resetFloor, at, trailUs),
       };
     });
   }
@@ -96,6 +102,7 @@ export class PresentationPointer {
     sourceUs: number,
     resetFloor?: PointerResetFloor,
     eventTime?: PresentationTime,
+    trailUs = 0,
   ) {
     const spanIndex = record.spanIndex;
     if (record.empty)
@@ -107,11 +114,11 @@ export class PresentationPointer {
       };
     const kept = this.source.spans[spanIndex]!;
     const plan = await planVisualTrail(
-      { kept, requestedSourceUs: sourceUs, trailUs: 0 },
+      { kept, requestedSourceUs: sourceUs, trailUs },
       {
         evidence: this.evidence,
         identity: this.identity,
-        scene: pointScene(record, sourceUs, kept, this.source),
+        scene: pointScene(record, sourceUs, kept, this.source, trailUs),
         ...(resetFloor ? { resetFloor } : {}),
         ...(eventTime
           ? { presentationClock: { at: eventTime, sampleTime: record.sampleTime } }

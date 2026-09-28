@@ -239,6 +239,10 @@
     "./project-index": {
       "types": "./dist/project-index.d.ts",
       "default": "./dist/project-index.js"
+    },
+    "./presentation-pointer-history": {
+      "types": "./dist/presentation-pointer-history.d.ts",
+      "default": "./dist/presentation-pointer-history.js"
     }
   },
   "scripts": {

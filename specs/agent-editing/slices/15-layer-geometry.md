@@ -208,3 +208,9 @@ no unequal geometry or temporal sequence. Empty encoded frames retain an explici
 black/opacity check under the existing pixel budget. This calibration checkpoint
 does not claim retimed speech/pitch/listening, pointer execution, deep-GOP scale
 performance or broader movie color/profile acceptance.
+
+[Source-time sampling evidence](../assets/15-pointer-sampling/README.md) pins the
+shared legacy/project event-reset owner and explicit trails at repeated, held and
+backward selected instants. The next vertical pass is bounded attempt-local overlay
+stream preparation with retained source/cache lifetimes and shared native prefix
+replay; no execution binding is enabled by the sampler prerequisite.

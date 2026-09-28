@@ -7,6 +7,7 @@ import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import type { VisualSampler } from "./scenes.js";
 import { planFrameTrail } from "./trails.js";
 import { PresentationEvidence } from "./presentation-evidence.js";
+import { PresentationPointerHistory } from "./presentation-pointer-history.js";
 import { PresentationPointer } from "./presentation-pointer.js";
 import { writePointerSchedule } from "./pointer-schedule.js";
 import { createOriginalRevision, createRevision, type TimelineRevision } from "./timeline.js";
@@ -897,6 +898,234 @@ test("stale-pointer comparisons retain exact order when cumulative changes share
         [exact(0), 20],
         [two, null],
       ]);
+    },
+  );
+});
+
+test("sampled pointers preserve immutable lookback, requested clock and held/backward identity", async () => {
+  const f = await fixture([
+    geometry(),
+    point(100_000, 10),
+    point(200_000, 20),
+    point(400_000, 40),
+    point(900_000, 90),
+  ]);
+  await withPresentation(
+    createOriginalRevision(1_000_000, "source"),
+    [presentationRecord(0, 1_000_000, 0)],
+    async (presentation) => {
+      const h = new PresentationPointerHistory({ ...f, presentation }, signal(), {
+        maxEvents: 100,
+        maxSamples: 10,
+      });
+      try {
+        const first = await h.sample(0, 450_000, 300_000);
+        expect(first.record).toMatchObject({ actualSourceUs: 0 });
+        expect(first.inspection.kind).toBe("picture");
+        if (first.inspection.kind !== "picture") throw Error("Expected picture");
+        expect(first.inspection.plan.requestedSourceUs).toBe(450_000);
+        expect(first.inspection.plan.overlay).toEqual({
+          trailUs: 300_000,
+          trail: [
+            [
+              { atSourceUs: 200_000, x: 20, y: 20 },
+              { atSourceUs: 400_000, x: 40, y: 20 },
+            ],
+          ],
+          pointer: { atSourceUs: 400_000, x: 40, y: 20 },
+        });
+        // A clip beginning at450ms must retain these earlier source observations.
+        expect(await h.sample(0, 450_000, 300_000)).toEqual(first);
+        const noTrail = await h.sample(0, 450_000, 0);
+        expect(
+          noTrail.inspection.kind === "picture" && noTrail.inspection.plan.overlay.trail,
+        ).toEqual([]);
+        const work = h.events;
+        const earlier = await h.sample(0, 150_000, 300_000);
+        expect(
+          earlier.inspection.kind === "picture" && earlier.inspection.plan.overlay.pointer?.x,
+        ).toBe(10);
+        expect(h.events).toBeGreaterThan(work);
+        expect(await h.sample(0, 450_000, 300_000)).toEqual(first);
+      } finally {
+        await h.close();
+      }
+    },
+  );
+});
+
+test("sampled pointer visits intervening A-B-A scenes and physical gaps before a late request", async () => {
+  const f = await fixture([
+    geometry(),
+    point(100_000, 10),
+    point(1_000_000, 20),
+    point(1_100_000, 30),
+    point(2_500_000, 40),
+  ]);
+  await withPresentation(
+    createOriginalRevision(3_000_000, "source"),
+    [
+      presentationRecord(0, 500_000, 0),
+      presentationRecord(500_000, 750_000, 500_000, 255),
+      presentationRecord(750_000, 1_000_000, 750_000),
+      presentationRecord(1_000_000, 1_000_001, null),
+      {
+        ...presentationRecord(1_000_001, 3_000_000, 1_000_001),
+        start: { value: "3000001", timescale: 3_000_000 },
+        sampleTime: { value: "3000001", timescale: 3_000_000 },
+        actualSourceUs: 1_000_000,
+      },
+    ].map((row, i) =>
+      i === 3 ? { ...row, end: { value: "3000001", timescale: 3_000_000 } } : row,
+    ),
+    async (presentation) => {
+      const h = new PresentationPointerHistory({ ...f, presentation }, signal(), {
+        maxEvents: 100,
+        maxSamples: 10,
+      });
+      try {
+        const afterScene = await h.sample(0, 900_000, 1_000_000);
+        expect(
+          afterScene.inspection.kind === "picture" && afterScene.inspection.plan.overlay,
+        ).toEqual({ trailUs: 1_000_000, trail: [], pointer: null });
+        expect((await h.sample(0, 1_000_000, 1_000_000)).inspection.kind).toBe("empty");
+        const afterGap = await h.sample(0, 1_000_001, 1_000_000);
+        expect(afterGap.inspection.kind === "picture" && afterGap.inspection.plan.overlay).toEqual({
+          trailUs: 1_000_000,
+          trail: [],
+          pointer: null,
+        });
+        const fresh = await h.sample(0, 1_200_000, 1_000_000);
+        expect(
+          fresh.inspection.kind === "picture" &&
+            fresh.inspection.plan.overlay.trail.flat().map((p) => p.x),
+        ).toEqual([30]);
+        expect(fresh.inspection.kind === "picture" && fresh.inspection.plan.cutoffs).toContainEqual(
+          { reason: "empty_presentation", atSourceUs: 1_000_001 },
+        );
+      } finally {
+        await h.close();
+      }
+    },
+  );
+});
+
+test("sampled trails retain pause equality and geometry/outside run breaks", async () => {
+  const f = await fixture([
+    geometry(),
+    point(100_000, 10),
+    { event: "pause", data: { atSourceUs: 200_000, elapsedPauseUs: 1_000_000 } },
+    point(200_000, 20),
+    point(250_000, 25),
+    point(300_000, 30, 20, "outside"),
+    point(350_000, 35),
+    geometry(400_000, 2),
+    point(400_000, 40, 20, "inside", 2),
+    point(450_000, 45, 20, "unknownGeometry", 2),
+    point(500_000, 50, 20, "inside", 2),
+  ]);
+  await withPresentation(
+    createOriginalRevision(1_000_000, "source"),
+    [presentationRecord(0, 1_000_000, 0)],
+    async (presentation) => {
+      const h = new PresentationPointerHistory({ ...f, presentation }, signal(), {
+        maxEvents: 100,
+        maxSamples: 10,
+      });
+      try {
+        const pause = await h.sample(0, 200_000, 1_000_000);
+        expect(pause.inspection.kind === "picture" && pause.inspection.plan.overlay).toEqual({
+          trailUs: 1_000_000,
+          trail: [],
+          pointer: null,
+        });
+        const runs = await h.sample(0, 375_000, 1_000_000);
+        expect(
+          runs.inspection.kind === "picture" &&
+            runs.inspection.plan.overlay.trail.map((run) => run.map((p) => p.x)),
+        ).toEqual([[25], [35]]);
+        const changed = await h.sample(0, 550_000, 1_000_000);
+        expect(
+          changed.inspection.kind === "picture" &&
+            changed.inspection.plan.overlay.trail.map((run) => run.map((p) => p.x)),
+        ).toEqual([[40], [50]]);
+      } finally {
+        await h.close();
+      }
+    },
+  );
+});
+
+test("sampled pointer does not evaluate future invalid geometry or admit later journal events", async () => {
+  const future = geometry(800_000, 2);
+  future.data.geometry.outputWidth = 101;
+  const f = await fixture([
+    geometry(),
+    point(100_000, 10),
+    future,
+    point(900_000, 90, 20, "inside", 2),
+  ]);
+  await withPresentation(
+    createOriginalRevision(1_000_000, "source"),
+    [presentationRecord(0, 1_000_000, 0)],
+    async (presentation) => {
+      const h = new PresentationPointerHistory({ ...f, presentation }, signal(), {
+        maxEvents: 100,
+        maxSamples: 10,
+      });
+      try {
+        const result = await h.sample(0, 500_000, 500_000);
+        expect(
+          result.inspection.kind === "picture" && result.inspection.plan.overlay.pointer?.x,
+        ).toBe(10);
+        await expect(h.sample(0, 850_000, 500_000)).rejects.toMatchObject({ code: "UNAVAILABLE" });
+      } finally {
+        await h.close();
+      }
+    },
+  );
+});
+
+test("pointer sampling bounds occurrences and aggregate replay work and honors cancellation", async () => {
+  const f = await fixture([geometry(), point(100_000, 10), point(200_000, 20)]);
+  await withPresentation(
+    createOriginalRevision(1_000_000, "source"),
+    [presentationRecord(0, 1_000_000, 0)],
+    async (presentation) => {
+      const controller = new AbortController();
+      const h = new PresentationPointerHistory({ ...f, presentation }, controller.signal, {
+        maxEvents: 6,
+        maxSamples: 10,
+      });
+      try {
+        await h.sample(0, 300_000, 100_000);
+        await expect(h.sample(0, 150_000, 100_000)).rejects.toMatchObject({
+          code: "LIMIT_EXCEEDED",
+        });
+      } finally {
+        await h.close();
+      }
+      const held = new PresentationPointerHistory({ ...f, presentation }, controller.signal, {
+        maxEvents: 100,
+        maxSamples: 1,
+      });
+      try {
+        await held.sample(0, 300_000, 0);
+        await expect(held.sample(0, 300_000, 0)).rejects.toMatchObject({ code: "LIMIT_EXCEEDED" });
+      } finally {
+        await held.close();
+      }
+      const canceled = new PresentationPointerHistory({ ...f, presentation }, controller.signal, {
+        maxEvents: 100,
+        maxSamples: 10,
+      });
+      try {
+        await canceled.sample(0, 300_000, 0);
+        controller.abort();
+        await expect(canceled.sample(0, 400_000, 0)).rejects.toMatchObject({ name: "AbortError" });
+      } finally {
+        await canceled.close();
+      }
     },
   );
 });

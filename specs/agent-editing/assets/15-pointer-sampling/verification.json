@@ -1,0 +1,33 @@
+{
+  "scope": "directly consumable exact source-time sampler; no prepared artifact or native overlay acceptance",
+  "base": "a3e950b",
+  "gates": {
+    "coreAndServiceRender": {
+      "passed": 634,
+      "skipped": 3
+    },
+    "trailVectors": {
+      "passed": 29
+    },
+    "buildAndTypes": "core/service and dependencies pass",
+    "legacyParity": "Successful schedule vectors rerun against frozen a3e950b schedule implementation; exact JSONL bytes and input-event counts match",
+    "localComposition": "/private/tmp/screenrec-editing-speech/packages/composition"
+  },
+  "negativeControls": [
+    {
+      "mutation": "reset event budget on backward replay",
+      "result": "two sampler tests fail; restored green"
+    },
+    {
+      "mutation": "erase lookback and start trail at requested time",
+      "result": "three sampler tests fail; restored green"
+    }
+  ],
+  "native": "No native source change; visual and public execution gates remain for vertical pass",
+  "review": {
+    "independent": "Codex /tmp/screenrec-pointer-sampler-review.log",
+    "result": "No actionable findings; independently reran29 trail tests",
+    "shape": "single event/reset owner extracted from legacy writer; no parallel selector or retained raster index",
+    "native": "No new rendering claim"
+  }
+}
