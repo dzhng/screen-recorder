@@ -77,3 +77,14 @@ no-reviewer fallback was applied to the three new complete contact sheets:
 
 This is native execution evidence, not public CLI/MCP or full slice-10b acceptance.
 No capture, desktop screenshot, playback or user-library operation was performed.
+
+### Fresh visual integration review
+
+A subsequently available unprimed reviewer inspected all 18 contact sheets and the
+enlarged crop, without code, history or expected verdicts. It found no definite
+visual corruption: upright readable counters, consistent corner markers, clean
+shape changes and completely black excluded tiles without leftover pictures.
+It explicitly could not establish intended edit timing, distinguish intended holds
+from stalls, or verify audio from these stills; the native timing/PCM gates own
+those claims. Root inspection and the retained numerical comparisons agree with
+its visible observations. The existing transient frame mismatch remains unresolved.

@@ -33,8 +33,9 @@ preview and export using only the product skill and advertised schemas.
 its engine checks and the complete public preview/export preservation journey pass.
 Continue [10b source acquisition](slices/10b-source-acquisition.md): pure acquisition
 bindings are integrated (114 composition tests and downstream type checks pass).
-Finish native selected-stream transcription and masked-picture execution, then
-durable acquisition admission/resolution and public source reads. [The inspection plan](assets/10-inspection-plan/README.md)
+Native selected-stream transcription and masked-picture execution are integrated
+with retained native evidence; the combined worker builds. Finish durable
+acquisition admission/resolution and public source reads. [The inspection plan](assets/10-inspection-plan/README.md)
 records the three-draft synthesis. Follow with bounded occurrence queries (10c),
 direct frames/index (10d), shared PCM delivery (11a) and acoustic artifacts (11). Current transcript owners assume
 recording roles; imports must not be represented by fake recording rows or invented

@@ -835,3 +835,24 @@ trim and stretch replacements keep their single-interval behavior.
   missing samples. The plan required physical/support intersection but did not fix
   treatment of a broader journal interval; keeping it preserves raw evidence while
   ensuring playback and inspection use only available media.
+
+
+## Native source selection — 2026-09-27
+
+- **Sound; high confidence — PCM results describe sources; capture receipts describe roles.**
+  Reading an imported stream produces the same PCM report as reading a recorded
+  microphone track, without calling imported audio narration. Recording receipt
+  writers attach their actual microphone/system role. This resolves the shared
+  report boundary left open by the neutral selection contract and keeps one
+  converter available to transcription and subsequent audio inspection.
+- **Sound; high confidence — Ambiguous stream omission is an invalid request.**
+  A file containing two audio streams requires the caller to choose one. Omission
+  returns INVALID_REQUEST; a named stream that cannot decode retains the existing
+  decode failure. The spec fixed refusal but not its error category. Neither file
+  ordering nor a decoder default becomes the agent's editorial choice.
+- **Sound; high confidence — Compiled exclusions may suppress occupied pictures.**
+  A capture context can exclude a picture whose bytes still exist in the file.
+  Native video validates the selected stream and source instant, then respects the
+  compiler's unavailable verdict. It does not alter the shared decoder, so another
+  occurrence can retain that same picture. This resolves the negative-support
+  trust boundary; unknown states or unsupported source timestamps still refuse.

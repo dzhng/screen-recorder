@@ -118,3 +118,10 @@ compiled support; omission and replacement follow the contract above. This is
 engine evidence only. Native video must accept compiled acquisition exclusions
 over physically occupied pictures, and durable context resolution must feed all
 project consumers before public journey acceptance.
+
+Native prerequisites are integrated: [selected-stream transcription](../assets/10b-native-selection/README.md)
+retains complete frozen PCM/raw-transcript parity on real speech;
+[masked native video](../assets/10b-source-acquisition/native-video/README.md)
+passes the occurrence, hold, boundary, refusal and resource gates. The combined
+main-worktree native worker builds. These isolated/native gates do not close
+public acquisition, project context retention or transcript reads.
