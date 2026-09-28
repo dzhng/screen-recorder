@@ -18,16 +18,20 @@ Complete [10c occurrence queries](slices/10c-occurrence-queries.md) and
 [11a PCM delivery](slices/11a-audio-delivery.md). Public transcript paging, phrase
 search and capture cursor/pause/geometry occurrence queries are verified. Capture
 scene/cut/interruption categories remain explicitly unsupported and require
-reconciliation before closing 10c. The next implementation branch is
-[10d direct frames](slices/10d-frame-inspection.md); retain the full
+reconciliation before closing 10c. [10d direct frames](slices/10d-frame-inspection.md) is now the active implementation
+branch: picture-only compilation and core revision/cache lifecycle are committed;
+native still extraction, concurrent staging and public delivery are next. Retain the full
 [10 evidence](slices/10-project-evidence.md) umbrella requirements.
 
 Source and project audio share jobs, cached delivery and locked render attempts.
 The [public tap journey](assets/11a-public-project-taps/wired-render/README.md)
 passes all nested dry/after-step/processed taps with byte-identical WAV outputs.
 Actual source extraction above 1 GiB has passed in isolation; integration of the
-bounded AAC tail-recovery fix and final source journey is the immediate native
-pickup. Do not shorten support or pad missing decoded speech to hide failures.
+bounded AAC tail-recovery fix and final source journey is awaiting independent
+review/integration. Same-old-binary evidence proves a pre-existing tiny AAC
+full-versus-seek float difference; the final journey uses explicit AAC-only RMS
+and maximum error bounds while keeping exact counts/clocks/endpoints and lossless
+byte parity. Do not shorten support or pad missing decoded speech to hide failures.
 Then implement [11 acoustic artifacts](slices/11-audio-inspection.md).
 
 Current public evidence:
@@ -37,8 +41,10 @@ Current public evidence:
 - [Capture journey](assets/10c-public-capture/README.md) uses actual acquisition
   normalization and complete row oracles through CLI/MCP. Physical checkpoint
   loss is tested separately from core cache eviction and generation invalidation.
-- [Transcript skill use](assets/10c-project-skill/README.md) passes blind agent
-  usage; skill adoption for the new capture/audio routes is in progress.
+- [Transcript skill use](assets/10c-project-skill/README.md) and
+  [audio/capture skill use](assets/11a-10c-inspection-skill/README.md) pass blind
+  agent usage. The latter verifies delivered PCM and complete observation rows,
+  without a listening claim.
 - [Source acquisition](slices/10b-source-acquisition.md) retains actual native
   transcription, stream parity, cancellation/retry and same-byte capture masks.
 - [Route integration](assets/11a-capture-routing/README.md) records focused
