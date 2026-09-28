@@ -6,7 +6,8 @@ capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
 [Ordered processing](processing.md) owns the accepted one-stack-per-target API.
 [Reference-style audit](assets/reference-style/README.md) maps the user’s new video
-example to the plan; the user chose to keep foreground cutouts outside this run.
+example to the plan; the user kept segmentation outside this run and requested a
+[generalized video-segmentation placeholder](../video-segmentation/README.md).
 
 ## Next Agent Prompt
 

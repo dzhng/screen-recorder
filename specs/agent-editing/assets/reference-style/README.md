@@ -23,3 +23,7 @@ person cutouts remain outside this run; ordinary rectangular layers are included
 Do not claim that the completed editor recreates the behind-the-presenter effect
 from ordinary footage. Exact caption edge styling remains a verification detail
 for the existing text/caption slice, not an accepted masking expansion.
+
+The user subsequently requested a future [generalized video segmentation processor](../../../video-segmentation/README.md), with SAM 3 as an example candidate.
+This supersedes the person-only framing of the proposed extension; it does not
+activate implementation in this run.
