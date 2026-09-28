@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Gain, transitions, convenience commands and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
+Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Gain, transitions, convenience commands and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
 
 ## Contract
 

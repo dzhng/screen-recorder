@@ -2205,3 +2205,34 @@ existing lifetime owner.
   source edges instead of blending away their outer halves; it introduces no new
   authoring choice, processor, or shared geometry owner. Advance all affected
   picture/movie and source-evidence cache recipes together.
+## Canonical numerical scalar prerequisite
+
+- **Sound; high confidence — one mathematical program for preview and audio.**
+  When a steep curve approaches its endpoint, rounding a tiny time remainder can
+  change the result much more than expected. The compiler now keeps that remainder
+  exact, then runs short polynomial instructions shared with native audio. Native
+  receives numerical coefficients, not a second copy of editorial easing rules.
+  Independent endpoint and fractional-center formulas catch the precision failure;
+  matching native and TypeScript results alone is not the correctness argument.
+- **Sound; high confidence — a fixed global sample origin survives cuts.**
+  Each curve piece chooses its nearest sample origin before a preview window is
+  selected. A shorter render or fractional split therefore evaluates the same
+  original envelope. Activation keeps the existing floor rule, while curve key
+  selection uses ceil because the first sample at or after a key owns its value.
+  This is a compact key-sized program, not a duration-sized gain array.
+- **Corrected unsound provisional choice; high confidence — no new Int128 limit.**
+  A legal pair of nearly equal normalized fractions exceeds fixed-width native
+  rational arithmetic after composition. The initial proposed refusal was removed
+  before implementation. Exact clock lowering stays in the existing BigInt owner;
+  native executes finite sample offsets and slopes. Existing native audio schedule
+  precision bounds justify those finite numbers, rather than the fixtures alone.
+- **Sound; high confidence — prerequisite proof does not advertise gain delivery.**
+  Numerical conformance and preserved PNGs verify the shared evaluator seam.
+  Animated gain remains unavailable until ordered native mixing, bypass, joins,
+  range renders and actual PCM comparisons are implemented and verified.
+- **Sound; high confidence — stop when arithmetic cannot narrow further.**
+  A fixed number of searches can leave a small timing error that a large but legal
+  gain magnifies. The shared solver stops when its two bounds are neighboring
+  floating-point values, with a ceiling derived from the number format. Exact
+  authored endpoints bypass that search. A legal long-span example now agrees with
+  an independent formula; the measured native cost remains explicit in the evidence.

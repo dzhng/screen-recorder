@@ -85,3 +85,4 @@ export { maximumPointerTrailUs } from "./pointer.js";
 export { scalarCurveSchema } from "./schema.js";
 export type { ScalarCurve } from "./schema.js";
 export type { CompiledScalarCurve } from "./curve.js";
+export type { ScalarKernel, SampleScalarPiece, SampleScalarProgram } from "./scalar-program.js";

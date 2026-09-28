@@ -1,0 +1,56 @@
+{
+  "samplesPerRun": 100000,
+  "note": "Process startup and JSON decode/encode included; one scalar evaluation per PCM frame.",
+  "trials": [
+    {
+      "binary": "fixed64",
+      "trial": 0,
+      "milliseconds": 670.853666
+    },
+    {
+      "binary": "adjacent",
+      "trial": 0,
+      "milliseconds": 249.6708329999999
+    },
+    {
+      "binary": "fixed64",
+      "trial": 1,
+      "milliseconds": 210.60408299999995
+    },
+    {
+      "binary": "adjacent",
+      "trial": 1,
+      "milliseconds": 233.52079100000014
+    },
+    {
+      "binary": "fixed64",
+      "trial": 2,
+      "milliseconds": 238.76529099999993
+    },
+    {
+      "binary": "adjacent",
+      "trial": 2,
+      "milliseconds": 249.13670800000023
+    },
+    {
+      "binary": "fixed64",
+      "trial": 3,
+      "milliseconds": 196.59054100000003
+    },
+    {
+      "binary": "adjacent",
+      "trial": 3,
+      "milliseconds": 284.4987080000001
+    },
+    {
+      "binary": "fixed64",
+      "trial": 4,
+      "milliseconds": 235.97887500000024
+    },
+    {
+      "binary": "adjacent",
+      "trial": 4,
+      "milliseconds": 245.6433750000001
+    }
+  ]
+}

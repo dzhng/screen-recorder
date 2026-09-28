@@ -32,8 +32,8 @@ held/still clips, fixed project anchors and source-unavailable gaps. Existing
 composition tests must remain green. Deliberately substituting linear interpolation
 for cubic easing must fail the relevant tests before restoration.
 
-The bounded cubic solver bisects its monotone x function for 64 iterations. Tests
-use analytic cubic points and a 1e-10 absolute tolerance on unit-scale values;
+The numerical execution contract is owned by
+[the canonical program](16b-scalar-program.md). Tests use analytic cubic points and a 1e-10 absolute tolerance on unit-scale values;
 exact key values and pure restriction comparisons remain exact. This tolerance is
 for this in-process numerical seam, not an accepted native rendering tolerance.
 

@@ -221,6 +221,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
+- [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)
 - [ ] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
 - [ ] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)

@@ -227,3 +227,150 @@ test("exact key search preserves adjacent safe-integer times before floating int
   expect(curve.sample(max - 2)).toBe(0.5);
   expect(curve.sample(max - 1)).toBe(1);
 });
+
+test("flat cubic endpoints preserve a one-microsecond remainder at large legal times", () => {
+  const end = Number.MAX_SAFE_INTEGER - 1;
+  const curve = compiler().curve(
+    { keys: [key(0, 0, { cubic: [1, 0, 1, 0] }), key(end, 1)] },
+    { kind: "project", range: { startUs: 0, endUs: Number.MAX_SAFE_INTEGER } },
+  );
+  // x = 1 - (1-t)^3 and y = t^3; subtract exact time before converting phase.
+  expect(curve.sample(end - 1)).toBeCloseTo((1 - Math.cbrt(1 / end)) ** 3, 10);
+  expect(curve.sample(end)).toBe(1);
+});
+
+test("centered cubic inversion resolves either side of a stationary derivative", () => {
+  const end = Number.MAX_SAFE_INTEGER - 1;
+  const curve = compiler().curve(
+    { keys: [key(0, 0, { cubic: [1, 0, 0, 1] }), key(end, 1)] },
+    { kind: "project", range: { startUs: 0, endUs: Number.MAX_SAFE_INTEGER } },
+  );
+  for (const delta of [-100, -1, 0, 1, 100]) {
+    // x = 1/2 + 4(t-1/2)^3, y = 3t^2 - 2t^3.
+    const t = 0.5 + Math.cbrt(delta / end / 4);
+    expect(curve.sample(end / 2 + delta)).toBeCloseTo(3 * t * t - 2 * t * t * t, 10);
+  }
+});
+
+test("sample programs retain global phase through fractional restrictions and steep curves", async () => {
+  const { sampleScalarSamples } = await import("./scalar-program.js");
+  const original = compiler().curve(
+    { keys: [key(0, 0, { cubic: [1, 0, 0, 1] }), key(900, 1)] },
+    project,
+  );
+  const whole = original.samples(48000);
+  const partial = original
+    .restrict({ startUs: { numerator: 1001, denominator: 3 }, endUs: 900 })
+    .samples(48000);
+  expect(partial).toEqual(whole);
+  for (let frame = 0; frame < 44; frame++) {
+    const at = (frame * 1000000) / 48000;
+    const t = 0.5 + Math.cbrt((Math.min(at / 900, 1) - 0.5) / 4);
+    expect(sampleScalarSamples(whole, frame)).toBeCloseTo(3 * t * t - 2 * t * t * t, 10);
+  }
+  expect(sampleScalarSamples(whole, 48)).toBe(1);
+});
+
+test("legal composed fractions beyond Int128 retain their sample values", async () => {
+  const { compileScalarCurve } = await import("./curve.js");
+  const { sampleScalarSamples } = await import("./scalar-program.js");
+  const max = 9007199254740881;
+  const curve = compileScalarCurve(
+    validateComposition(document, assets),
+    {
+      keys: [
+        { ...key(0, 0), at: { numerator: 0, denominator: 1 } },
+        { ...key(1, 1), at: { numerator: 1, denominator: 1 } },
+      ],
+    },
+    {
+      kind: "clip",
+      clipId: "c",
+      start: { numerator: 0, denominator: 1 },
+      end: { numerator: 1, denominator: 1 },
+    },
+    {
+      start: { numerator: 1, denominator: max },
+      end: { numerator: 1, denominator: max - 2 },
+    },
+  );
+  const program = curve.samples(48000);
+  for (const frame of [48, 49, 53, 57]) {
+    expect(sampleScalarSamples(program, frame)).toBeCloseTo(1 / max, 30);
+    expect(Number.isFinite(sampleScalarSamples(program, frame))).toBe(true);
+  }
+});
+
+test("fractional times around a flat center retain a remainder smaller than a Float64 project timestamp", () => {
+  const denominator = 1000000000001;
+  const tiny = structuredClone(document);
+  tiny.clips[0]!.placement = {
+    kind: "project",
+    range: {
+      startUs: { numerator: 1, denominator },
+      endUs: 1,
+    },
+  };
+  const curve = compiler(tiny).curve(
+    {
+      keys: [
+        { ...key(0, 0, { cubic: [1, 0, 0, 1] }), at: { numerator: 0, denominator: 1 } },
+        { ...key(1, 1), at: { numerator: 1, denominator: 1 } },
+      ],
+    },
+    {
+      kind: "clip",
+      clipId: "c",
+      start: { numerator: 0, denominator: 1 },
+      end: { numerator: 1, denominator: 1 },
+    },
+  );
+  const t = 0.5 + Math.cbrt(1 / (denominator - 2) / (denominator - 1) / 4);
+  expect(
+    curve.sample({ numerator: (denominator - 1) / 2, denominator: denominator - 2 }),
+  ).toBeCloseTo(3 * t * t - 2 * t * t * t, 10);
+});
+
+test("interior cubic keys return their stored value exactly in both compiled clocks", async () => {
+  const { sampleScalarSamples } = await import("./scalar-program.js");
+  const curve = compiler().curve(
+    { keys: [key(0, 1), key(1000000, 0, { cubic: [0.5, 1e20, 0.5, 0] }), key(2000000, 1)] },
+    { kind: "project", range: { startUs: 0, endUs: 3000000 } },
+  );
+  expect(curve.sample(1000000)).toBe(0);
+  expect(sampleScalarSamples(curve.samples(48000), 48000)).toBe(0);
+});
+
+test("large finite weights preserve small legal phases beyond a fixed bisection budget", async () => {
+  const { compileScalarCurve } = await import("./curve.js");
+  const { sampleScalarSamples } = await import("./scalar-program.js");
+  const max = 9007199254740881;
+  const long = structuredClone(document);
+  long.clips[0]!.source = { kind: "range", range: { startUs: 0, endUs: max } };
+  long.clips[0]!.placement = { kind: "project", range: { startUs: 0, endUs: max } };
+  const longAssets = structuredClone(assets);
+  longAssets[0]!.streams[0]!.bounds = { startUs: 0, endUs: max };
+  longAssets[0]!.streams[0]!.available = [{ startUs: 0, endUs: max }];
+  const start = { numerator: 1, denominator: max },
+    end = { numerator: 1, denominator: max - 2 };
+  const curve = compileScalarCurve(
+    validateComposition(long, longAssets),
+    {
+      keys: [
+        { ...key(0, 0, { cubic: [0, 1e38, 0, 1e38] }), at: start },
+        { ...key(1, 1), at: { numerator: 1, denominator: 1 } },
+      ],
+    },
+    {
+      kind: "clip",
+      clipId: "c",
+      start: { numerator: 0, denominator: 1 },
+      end: { numerator: 1, denominator: 1 },
+    },
+    { start, end },
+  );
+  const phase = (1000000 / 48000 / max) * (2 / (max - 2) / (max - 1));
+  const t = Math.cbrt(phase),
+    expected = 3 * (1 - t) * t * 1e38 + t * t * t;
+  expect(Math.fround(sampleScalarSamples(curve.samples(48000), 1))).toBe(Math.fround(expected));
+});

@@ -1,7 +1,11 @@
-import { CompositionError } from "./errors.js";
+import {
+  lowerScalarProgram,
+  sampleScalarProgram,
+  lowerSampleScalarProgram,
+  type SampleScalarProgram,
+} from "./scalar-program.js";
 import {
   resolvePlacement,
-  sourceTime,
   projectTime,
   type ValidatedComposition,
   type ExactRange,
@@ -67,30 +71,12 @@ export function curveValuesWithin(curve: ScalarCurve, min: number, max: number):
   return true;
 }
 
-function ease(value: number, method: ScalarCurve["keys"][number]["interpolation"]): number {
-  if (method === "hold") return 0;
-  if (method === "linear") return value;
-  const [x1, y1, x2, y2] = method.cubic;
-  const cubic = (t: number, a: number, b: number) =>
-    3 * (1 - t) * (1 - t) * t * a + 3 * (1 - t) * t * t * b + t * t * t;
-  // Monotone x handles make bisection bounded even where the derivative vanishes.
-  let lo = 0,
-    hi = 1;
-  for (let i = 0; i < 64; i++) {
-    const mid = (lo + hi) / 2;
-    const x = cubic(mid, x1, x2);
-    if (x === value) return cubic(mid, y1, y2);
-    if (x < value) lo = mid;
-    else hi = mid;
-  }
-  return cubic((lo + hi) / 2, y1, y2);
-}
-
 export type CompiledScalarCurve = Readonly<{
   /** Active project fragments; unavailable-source gaps remain excluded. */
   available: readonly ExactRange[];
   boundaries: readonly Rational[];
   sample(atUs: TimeValue): number | null;
+  samples(sampleRate: number): SampleScalarProgram;
   restrict(range: unknown): CompiledScalarCurve;
 }>;
 
@@ -133,22 +119,6 @@ export function compileScalarCurve(
       ? undefined
       : model.clips.find((value) => value.clip.id === anchor.clipId)!;
   const keys = curve.keys.map((key) => ({ ...key, at: fromTime(key.at) }));
-  const clipDomain = (at: Rational) =>
-    divide(subtract(at, parent!.range.start), subtract(parent!.range.end, parent!.range.start));
-  const atDomain = (at: Rational) => {
-    if (anchor.kind === "project") return at;
-    if (anchor.kind === "content") return sourceTime(parent!, at);
-    const fraction = clipDomain(at);
-    return evaluationRange
-      ? add(
-          fromTime(evaluationRange.start),
-          multiply(
-            fraction,
-            subtract(fromTime(evaluationRange.end), fromTime(evaluationRange.start)),
-          ),
-        )
-      : fraction;
-  };
   const atProject = (at: Rational) => {
     if (anchor.kind === "project") return at;
     if (anchor.kind === "content") return projectTime(parent!, at);
@@ -163,6 +133,7 @@ export function compileScalarCurve(
       multiply(fraction, subtract(parent!.range.end, parent!.range.start)),
     );
   };
+  const program = lowerScalarProgram(keys.map((key) => ({ ...key, at: atProject(key.at) })));
   function window(available: readonly ExactRange[]): CompiledScalarCurve {
     const points = [
       ...available.flatMap((range) => [range.start, range.end]),
@@ -177,32 +148,12 @@ export function compileScalarCurve(
         points.filter((at, index) => index === 0 || compare(at, points[index - 1]!) !== 0),
       ),
       available: Object.freeze(available.map((range) => Object.freeze({ ...range }))),
+      samples: (sampleRate: number) => lowerSampleScalarProgram(program, sampleRate),
       sample(atUs: TimeValue) {
         const at = fromTime(timeValueSchema.parse(atUs));
         if (!available.some((range) => compare(at, range.start) >= 0 && compare(at, range.end) < 0))
           return null;
-        const time = atDomain(at);
-        let lo = 0,
-          hi = keys.length;
-        while (lo < hi) {
-          const mid = Math.floor((lo + hi) / 2);
-          if (compare(keys[mid]!.at, time) <= 0) lo = mid + 1;
-          else hi = mid;
-        }
-        if (lo === 0) return keys[0]!.value;
-        const left = keys[lo - 1]!;
-        if (lo === keys.length || compare(left.at, time) === 0) return left.value;
-        const right = keys[lo]!;
-        const ratio = divide(subtract(time, left.at), subtract(right.at, left.at));
-        const progress = Number(ratio.numerator) / Number(ratio.denominator);
-        const amount = ease(progress, left.interpolation);
-        const result = (1 - amount) * left.value + amount * right.value;
-        if (!Number.isFinite(result))
-          throw new CompositionError(
-            "INVALID_COMPOSITION",
-            "Curve evaluation exceeds finite scalar precision",
-          );
-        return result;
+        return sampleScalarProgram(program, at);
       },
       restrict(input: unknown) {
         const range = selectionRangeSchema.parse(input);
