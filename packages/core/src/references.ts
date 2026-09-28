@@ -1,6 +1,11 @@
 import type { Catalog } from "./catalog.js";
 
-export const resourceKinds = ["asset", "acquisition", "scene-generation"] as const;
+export const resourceKinds = [
+  "asset",
+  "acquisition",
+  "scene-generation",
+  "transcript-generation",
+] as const;
 export type ResourceKind = (typeof resourceKinds)[number];
 export type ResourceReference = { kind: ResourceKind; id: string };
 export type ResourceOwner = {

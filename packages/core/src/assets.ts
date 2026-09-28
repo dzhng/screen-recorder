@@ -402,6 +402,7 @@ export class AssetStore {
       }
       signal.throwIfAborted();
       return {
+        path: join(this.directory, retainedName),
         close,
         publish: () => {
           signal.throwIfAborted();

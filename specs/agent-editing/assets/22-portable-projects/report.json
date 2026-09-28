@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "scope": "actual CLI/MCP project package relocation with retained acquisition journal and normalized evidence; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
+  "scope": "actual CLI/MCP/native project package relocation with retained acquisition, source-scene and real source-transcript generations; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
   "checks": {
     "current": {
       "video": "36e7aad74b4d0ff3d42c003ab8995e5939f06cee5feef629a8b6290ed2433f99",
@@ -16,6 +16,8 @@
     "acquisitionIdentityAndBindingsRetained": true,
     "exactNormalizedEvidenceRetained": true,
     "retainedSceneEventsReadyWithoutPreparation": true,
+    "realTranscriptReadyWithModelsAbsent": true,
+    "transcriptRawBytesAndWordsRetained": true,
     "adoptedLibraryRestartedBeforeInspection": true,
     "exactJournalRetained": true,
     "historicalOnlyMediaRetained": true,
@@ -80,6 +82,5489 @@
       "ok": true
     },
     {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
       "operation": "acquisition.import",
       "transport": "cli",
       "ok": true,
@@ -101,6 +5586,36 @@
       "transport": "mcp",
       "ok": true,
       "state": "ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_ready"
     },
     {
       "operation": "timeline.events",
@@ -182,6 +5697,12 @@
       "operation": "preview.get",
       "transport": "cli",
       "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
       "state": "ready"
     },
     {
@@ -223,7 +5744,31 @@
       "operation": "preview.get",
       "transport": "cli",
       "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
       "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
     },
     {
       "operation": "audio.get",
@@ -245,6 +5790,192 @@
     {
       "operation": "export.create",
       "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
       "ok": true,
       "state": "running"
     },
@@ -336,6 +6067,114 @@
       "operation": "package.status",
       "transport": "mcp",
       "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "closing"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "closing"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
       "state": "failed"
     },
     {
@@ -367,6 +6206,90 @@
       "transport": "mcp",
       "ok": true,
       "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "opening"
+    },
+    {
+      "operation": "package.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "closing"
     },
     {
       "operation": "package.status",
@@ -431,6 +6354,18 @@
       "transport": "cli",
       "ok": true,
       "state": "ready"
+    },
+    {
+      "operation": "package.adopt",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "package.adopt",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
     },
     {
       "operation": "package.adopt",
@@ -515,6 +6450,18 @@
       "state": "ready"
     },
     {
+      "operation": "model.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "absent"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
       "operation": "asset.list",
       "transport": "mcp",
       "ok": true
@@ -523,6 +6470,12 @@
       "operation": "revision.history",
       "transport": "cli",
       "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
     },
     {
       "operation": "preview.get",
@@ -564,6 +6517,12 @@
       "operation": "edit.undo",
       "transport": "mcp",
       "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
     },
     {
       "operation": "preview.get",
@@ -718,8 +6677,29 @@
     }
   ],
   "remaining": [
-    "transcript/index generations",
+    "screenshot-index generations",
     "prepared 15a outputs and fonts",
     "fresh autonomous skill journey"
-  ]
+  ],
+  "speech": {
+    "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+    "engine": {
+      "runtime": "FluidAudio",
+      "runtimeVersion": "0.15.7",
+      "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+      "decoder": "parakeet-tdt-batch",
+      "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+      "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+      "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+      "encoderPrecision": "int8",
+      "computeUnits": "cpuAndNeuralEngine",
+      "policy": "transcript-v1",
+      "kindPolicy": "word-kind-v1"
+    },
+    "raw": {
+      "bytes": 113722,
+      "sha256": "2296639338cca309b9d8f38bcf986c2d8e0e32865694855cd335beccc1b990ae"
+    },
+    "rowsSha256": "2c4a7b8c04ff2f5def28ae67063cb30593fab7fba5c12e701625dfd8a2c1caba"
+  }
 }

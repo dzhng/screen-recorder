@@ -2236,3 +2236,26 @@ existing lifetime owner.
   floating-point values, with a ceiling derived from the number format. Exact
   authored endpoints bypass that search. A legal long-span example now agrees with
   an independent formula; the measured native cost remains explicit in the evidence.
+
+## Slice 22 — Retained source-transcript checkpoint
+
+- **Sound, medium confidence:** Reconstruct the bounded native receipt from retained
+  segment rows and word counts, then package it beside exact raw native bytes. When
+  a transcript moves, the existing indexer can validate the original receipt and
+  rebuild its normal tables; a second package-specific transcript format would
+  duplicate that authority. The plan did not prescribe receipt storage. This keeps
+  future format validation in the existing transcript owner and caps receipt size.
+- **Sound, high confidence:** Preserve original engine/model/decoder identities but
+  replace only the donor media locator. A receiver without models reads imported
+  ready evidence immediately. It does not relabel old words as produced by its
+  current model or fabricate an inference job. Future regeneration remains ordinary
+  explicit local processing; shared queue publication retains the old identity.
+- **Sound, high confidence:** Stage raw bytes and indexed rows before the shared
+  adoption transaction, and recover pending generations independently of asset
+  publication. A crash after raw copying can leave no transcript row at all, so
+  recovery also scans the existing transcript directory owner. A canceled package
+  cannot leave visible evidence or block a later retry with an orphan directory.
+- **Sound, high confidence:** Freeze raw file identity while pinning; reconstruct
+  receipts and copy/hash bytes only in the heavy export job. The package's generic
+  reference graph retains each immutable transcript generation until publication
+  or abandonment, so history does not silently fall back to a newer transcript.

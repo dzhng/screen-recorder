@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";
 import type { AssetStore } from "./assets.js";
@@ -6,7 +7,7 @@ import { selectSource, sourceSelectionSchema, type SourceSelection } from "./sou
 import { join } from "node:path";
 import { isSettled, type Recording, type RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
-import type { JobExecution, JobQueue } from "./jobs.js";
+import { retainedPublicationSchema, type JobExecution, type JobQueue } from "./jobs.js";
 import { planAudioTracks } from "./audio.js";
 import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
 import { sourceArtifact, sourcePolicy, type SourceProcessing } from "./processing.js";
@@ -14,6 +15,8 @@ import type { TimeRange } from "./timeline.js";
 import type { SpeechModels } from "./speech-models.js";
 import {
   transcriptPolicy,
+  portableTranscript,
+  type PortableTranscript,
   recordingTranscript,
   type SpeechTranscriber,
   type RecordingTranscriptMetadata,
@@ -28,6 +31,7 @@ const artifact = "transcript";
 // Native PCM decoding is an execution input, separate from portable transcript schema policy.
 const decoderExecution = "native-audio-v2";
 
+export type PortableTranscriptPublication = z.infer<typeof retainedPublicationSchema>;
 /** The model owner as transcription sees it: readiness, the verified file list and its pins. */
 export type TranscriptionModels = Pick<
   SpeechModels,
@@ -240,24 +244,119 @@ export class TranscriptProcessing {
     return this.status(recordingId);
   }
 
-  private sourceIdentity(selected: ReturnType<typeof selectedAudio>) {
+  private execution() {
+    return { modelDigest: this.models.modelDigest, pins: this.models.pins, decoderExecution };
+  }
+  private sourceIdentity(
+    selected: ReturnType<typeof selectedAudio>,
+    execution: ReturnType<TranscriptProcessing["execution"]>,
+  ) {
     return {
       target: { kind: "asset" as const, assetId: selected.selection.assetId },
       artifact,
       input: JSON.stringify({
         selection: selected.selection,
         source: sourceDescriptor(selected),
-        modelDigest: this.models.modelDigest,
-        pins: this.models.pins,
+        modelDigest: execution.modelDigest,
+        pins: execution.pins,
         policy: transcriptPolicy,
-        decoderExecution,
+        decoderExecution: execution.decoderExecution,
       }),
     };
   }
 
+  private portableSelection(value: PortableTranscript) {
+    const selected = selectedAudio(this.asset, {
+      assetId: value.owner.assetId,
+      streamId: value.source.streamId,
+      ...(value.source.acquisitionId === undefined
+        ? {}
+        : { acquisitionId: value.source.acquisitionId }),
+    });
+    if (
+      !isDeepStrictEqual(sourceDescriptor(selected), value.source) ||
+      selected.track.sourceOffsetUs !== value.track.sourceOffsetUs ||
+      selected.track.streamId !== value.track.streamId
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Transcript source and track differ from retained selection",
+      );
+    return selected;
+  }
+  portable(value: PortableTranscript): {
+    available: TimeRange[];
+    publication: PortableTranscriptPublication | null;
+  } {
+    const selected = this.portableSelection(value);
+    const receipt = this.jobs.retainedArtifact(value.owner, artifact, value.generation);
+    if (receipt && !isDeepStrictEqual(portableTranscript(JSON.parse(receipt.result)), value))
+      throw new CatalogError(
+        "INVALID_STORAGE",
+        "Transcript publication differs from owned metadata",
+      );
+    return {
+      available: selected.track.available,
+      publication: receipt
+        ? retainedPublicationSchema.parse({
+            generation: receipt.generation,
+            attemptId: receipt.attemptId,
+            input: receipt.input,
+          })
+        : null,
+    };
+  }
+  adoptPublication(
+    metadata: TranscriptMetadata,
+    available: TimeRange[],
+    publication: PortableTranscriptPublication | null,
+  ): void {
+    const value = portableTranscript(metadata),
+      selected = this.portableSelection(value);
+    if (
+      !isDeepStrictEqual(available, selected.track.available) ||
+      metadata.track.source !== selected.track.source
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Transcript media binding differs from local source",
+      );
+    if (!publication) return;
+    let input: unknown;
+    try {
+      input = JSON.parse(publication.input);
+    } catch {
+      throw new CatalogError("INVALID_PACKAGE", "Invalid transcript publication input");
+    }
+    const parsed = z.object({ decoderExecution: z.string().min(1).max(256) }).safeParse(input);
+    if (!parsed.success)
+      throw new CatalogError("INVALID_PACKAGE", "Transcript publication has no decoder identity");
+    const {
+      encoderPrecision: _precision,
+      computeUnits: _units,
+      policy: _policy,
+      kindPolicy: _kind,
+      modelDigest,
+      ...pins
+    } = value.engine;
+    const identity = this.sourceIdentity(selected, {
+      modelDigest,
+      pins,
+      decoderExecution: parsed.data.decoderExecution,
+    });
+    if (
+      publication.attemptId !== value.generation ||
+      !isDeepStrictEqual(JSON.parse(identity.input), input)
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Transcript publication differs from source or engine identity",
+      );
+    this.jobs.adoptArtifact({ ...identity, ...publication, result: JSON.stringify(metadata) });
+  }
   sourceStatus(selection: SourceSelection) {
     const selected = selectedAudio(this.asset, selection);
-    const status = this.jobs.status(this.sourceIdentity(selected));
+    const status = this.jobs.status(this.sourceIdentity(selected, this.execution()));
     const models = this.models.status();
     const reason = !selected.track.available.length
       ? "no_audio"
@@ -286,7 +385,10 @@ export class TranscriptProcessing {
     const status = this.sourceStatus(selection);
     if (status.state !== "not_requested" || status.reason !== null) return;
     this.jobs.submit(
-      () => ({ ...this.sourceIdentity(selectedAudio(this.asset, selection)), lane: "heavy" }),
+      () => ({
+        ...this.sourceIdentity(selectedAudio(this.asset, selection), this.execution()),
+        lane: "heavy",
+      }),
       (job) => {
         const owner = { kind: "job" as const, id: job.jobId };
         this.asset.assets.retain(owner, [selection.assetId]);
@@ -304,6 +406,7 @@ export class TranscriptProcessing {
   retrySource(selection: SourceSelection) {
     this.prepareSource(selection);
     const status = this.sourceStatus(selection);
+    if (!status.jobId && status.state === "ready") return status;
     if (!status.jobId)
       throw new CatalogError(
         status.reason === "model_not_prepared" ? "MODEL_NOT_PREPARED" : "UNAVAILABLE",
@@ -336,7 +439,7 @@ export class TranscriptProcessing {
     const selected = selectedAudio(this.asset, selection);
     if (
       job.target.assetId !== selection.assetId ||
-      job.input !== this.sourceIdentity(selected).input
+      job.input !== this.sourceIdentity(selected, this.execution()).input
     )
       throw new CatalogError("ARTIFACT_CHANGED", "Transcript source or model inputs changed");
     if (!selected.track.available.length) throw new CatalogError("UNAVAILABLE", "no_audio");

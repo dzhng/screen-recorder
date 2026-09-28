@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { isSettled, type RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
-import type { JobExecution, JobQueue } from "./jobs.js";
+import { retainedPublicationSchema, type JobExecution, type JobQueue } from "./jobs.js";
 import { SourceSceneAnalysis, scenePolicy, type VisualSampler } from "./scenes.js";
 import {
   recordingSceneMetadata,
@@ -26,10 +26,7 @@ import {
 } from "./source-scenes.js";
 
 const artifact = "source-scenes";
-export const portableScenePublicationSchema = z.strictObject({
-  generation: z.int().positive().max(Number.MAX_SAFE_INTEGER),
-  attemptId: z.string().min(1).max(256),
-  input: z.string().max(65536),
+export const portableScenePublicationSchema = retainedPublicationSchema.extend({
   result: z.string().max(65536),
 });
 export type PortableScenePublication = z.infer<typeof portableScenePublicationSchema>;

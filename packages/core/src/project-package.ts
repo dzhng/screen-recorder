@@ -6,6 +6,8 @@ import { compositionAsset, portableAssetSchema } from "./assets.js";
 import { validateProjectSnapshot, type ProjectSnapshot } from "./projects.js";
 import { portableSceneMetadataSchema, sceneGenerationResource } from "./scene-evidence.js";
 import { portableScenePublicationSchema } from "./scene-processing.js";
+import { portableTranscriptSchema, transcriptGenerationResource } from "./transcript.js";
+import { retainedPublicationSchema } from "./jobs.js";
 import { portableAcquisitionSchema } from "./acquisitions.js";
 import type { ResourceReference } from "./references.js";
 import type { ArchiveLimits } from "./package-archive.js";
@@ -36,11 +38,34 @@ const resourceSchema = z.discriminatedUnion("kind", [
       .min(1)
       .max(25000),
   }),
+  z.strictObject({
+    kind: z.literal("transcript-generation"),
+    metadata: portableTranscriptSchema,
+    available: z
+      .array(
+        z
+          .strictObject({
+            startUs: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+            endUs: z.int().positive().max(Number.MAX_SAFE_INTEGER),
+          })
+          .refine((range) => range.startUs < range.endUs),
+      )
+      .max(100000),
+    publication: retainedPublicationSchema.nullable(),
+    receipt: z.strictObject({
+      bytes: z
+        .int()
+        .nonnegative()
+        .max(8 * 1024 * 1024),
+      sha256: digest,
+    }),
+  }),
 ]);
 export type PortableResource = z.infer<typeof resourceSchema>;
 export type PortableDependency =
-  | Exclude<PortableResource, { kind: "scene-generation" }>
-  | Omit<Extract<PortableResource, { kind: "scene-generation" }>, "chunks">;
+  | Exclude<PortableResource, { kind: "scene-generation" | "transcript-generation" }>
+  | Omit<Extract<PortableResource, { kind: "scene-generation" }>, "chunks">
+  | Omit<Extract<PortableResource, { kind: "transcript-generation" }>, "receipt">;
 export function resourceIdentity(resource: PortableDependency): ResourceReference {
   switch (resource.kind) {
     case "asset":
@@ -49,6 +74,8 @@ export function resourceIdentity(resource: PortableDependency): ResourceReferenc
       return { kind: "acquisition", id: resource.acquisition.id };
     case "scene-generation":
       return { kind: "scene-generation", id: sceneGenerationResource(resource.metadata) };
+    case "transcript-generation":
+      return { kind: "transcript-generation", id: transcriptGenerationResource(resource.metadata) };
   }
 }
 const key = (identity: ResourceReference) => `${identity.kind}:${identity.id}`;
@@ -62,6 +89,7 @@ export function resourceDependencies(resource: PortableDependency): ResourceRefe
         id: binding.assetId,
       }));
     case "scene-generation":
+    case "transcript-generation":
       return [
         { kind: "asset", id: resource.metadata.owner.assetId },
         ...(resource.metadata.source.acquisitionId
@@ -86,6 +114,11 @@ export function resourceMembers(
       path: sceneMemberPath(resource, index),
       ...chunk,
     }));
+  if (resource.kind === "transcript-generation")
+    return [
+      { path: transcriptMemberPath(resource, "raw.jsonl"), ...resource.metadata.raw },
+      { path: transcriptMemberPath(resource, "receipt.json"), ...resource.receipt },
+    ];
   const acquisition = resource.acquisition;
   return [
     {
@@ -108,6 +141,15 @@ export function sceneMemberPath(
     .update(key(resourceIdentity(resource)))
     .digest("hex");
   return `scenes/${id}/${ordinal}.json`;
+}
+export function transcriptMemberPath(
+  resource: Extract<PortableDependency, { kind: "transcript-generation" }>,
+  leaf: "raw.jsonl" | "receipt.json",
+): string {
+  const id = createHash("sha256")
+    .update(key(resourceIdentity(resource)))
+    .digest("hex");
+  return `transcripts/${id}/${leaf}`;
 }
 const manifestSchema = z.strictObject({
   format: z.literal("screenrec-project"),

@@ -11,6 +11,7 @@ import {
   resourceMembers,
   resourceIdentity,
   sceneMemberPath,
+  transcriptMemberPath,
   type PortableDependency,
   type PortableResource,
   projectPackageManifest,
@@ -25,6 +26,8 @@ import {
   type SceneEvidenceStore,
 } from "@screenrec/core/scene-evidence";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
+import type { TranscriptStore } from "@screenrec/core/transcript";
+import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import type { JobQueue } from "@screenrec/core/jobs";
 import { PackageRegistry } from "./package-registry.js";
 import { openPackageParent } from "./package-workspace.js";
@@ -37,6 +40,7 @@ export type PinnedProjectPackage = {
   snapshot: ProjectSnapshot;
   resources: PortableDependency[];
   acquisitionFiles: Record<string, Record<"journal" | "normalized", IdentifiedFile>>;
+  transcriptFiles: Record<string, IdentifiedFile>;
 };
 type Workspace = { directory: string; handle: FileHandle };
 type Owners = {
@@ -46,6 +50,8 @@ type Owners = {
   acquisitions: AcquisitionImporter;
   sceneRecords: SceneEvidenceStore;
   scenes: SceneProcessing;
+  transcriptRecords: TranscriptStore;
+  transcripts: TranscriptProcessing;
   jobs: JobQueue;
   worker: MediaWorker;
   delivery: DerivativeDelivery;
@@ -143,6 +149,11 @@ export class ProjectPackages {
     let metadataBytes = 0,
       members = snapshot.revisions.length;
     const acquisitionFiles: PinnedProjectPackage["acquisitionFiles"] = {};
+    const transcriptFiles: PinnedProjectPackage["transcriptFiles"] = {};
+    const transcriptInventory = new Map<
+      string,
+      Extract<PortableDependency, { kind: "transcript-generation" }>
+    >();
     const sceneInventory = new Map<
       string,
       Extract<PortableDependency, { kind: "scene-generation" }>
@@ -176,11 +187,33 @@ export class ProjectPackages {
         return identity;
       });
     };
+    const transcriptsForAsset = (assetId: string) =>
+      this.owners.transcriptRecords.portableGenerations(assetId).map((metadata) => {
+        const resource: Extract<PortableDependency, { kind: "transcript-generation" }> = {
+          kind: "transcript-generation",
+          metadata,
+          ...this.owners.transcripts.portable(metadata),
+        };
+        const identity = resourceIdentity(resource);
+        if (!transcriptInventory.has(identity.id)) {
+          members += 2;
+          metadataBytes += Buffer.byteLength(JSON.stringify(resource)) + 128;
+          if (members >= archiveLimits.entries || metadataBytes > archiveLimits.manifestBytes)
+            throw new CatalogError("LIMIT_EXCEEDED", "Transcript inventory exceeds archive budget");
+          transcriptFiles[identity.id] = this.owners.transcriptRecords.portableFile(metadata);
+          transcriptInventory.set(identity.id, resource);
+        }
+        return identity;
+      });
     const resources = collectPortableResources(projectResourceRoots(snapshot), (identity) => {
       let resource: PortableDependency;
       if (identity.kind === "asset") {
         const asset = this.owners.assets.portable(identity.id);
-        const dependencies = [...asset.dependencies, ...scenesForAsset(identity.id)];
+        const dependencies = [
+          ...asset.dependencies,
+          ...scenesForAsset(identity.id),
+          ...transcriptsForAsset(identity.id),
+        ];
         resource = {
           kind: "asset",
           ...asset,
@@ -193,12 +226,14 @@ export class ProjectPackages {
         acquisitionFiles[identity.id] = pinned.files;
         resource = { kind: "acquisition", acquisition: pinned.acquisition };
       } else {
-        if (!sceneInventory.has(identity.id)) {
+        const inventory =
+          identity.kind === "scene-generation" ? sceneInventory : transcriptInventory;
+        if (!inventory.has(identity.id)) {
           let tuple: unknown;
           try {
             tuple = JSON.parse(identity.id);
           } catch {
-            throw new CatalogError("INVALID_STORAGE", "Invalid scene resource identity");
+            throw new CatalogError("INVALID_STORAGE", "Invalid retained-generation identity");
           }
           if (
             !Array.isArray(tuple) ||
@@ -207,18 +242,19 @@ export class ProjectPackages {
             typeof tuple[1] !== "string" ||
             typeof tuple[2] !== "string"
           )
-            throw new CatalogError("INVALID_STORAGE", "Invalid scene resource identity");
-          scenesForAsset(tuple[1]);
+            throw new CatalogError("INVALID_STORAGE", "Invalid retained-generation identity");
+          if (identity.kind === "scene-generation") scenesForAsset(tuple[1]);
+          else transcriptsForAsset(tuple[1]);
         }
-        const scene = sceneInventory.get(identity.id);
+        const scene = inventory.get(identity.id);
         if (!scene)
           throw new CatalogError(
             "INVALID_STORAGE",
-            "Retained scene reference has no owned generation",
+            "Retained generation reference has no owned data",
           );
         resource = scene;
       }
-      if (resource.kind !== "scene-generation") {
+      if (resource.kind === "asset" || resource.kind === "acquisition") {
         metadataBytes += Buffer.byteLength(JSON.stringify(resource));
         members += resourceMembers(resource).length;
       }
@@ -238,12 +274,15 @@ export class ProjectPackages {
       snapshot,
       resources,
       acquisitionFiles,
+      transcriptFiles,
     };
   }
   checkPinned(pinned: PinnedProjectPackage): void {
     for (const resource of pinned.resources) {
       if (resource.kind === "scene-generation")
         this.owners.sceneRecords.sourcePage({ identity: resource.metadata, limit: 1 });
+      if (resource.kind === "transcript-generation")
+        this.owners.transcriptRecords.portableFile(resource.metadata);
     }
   }
   adopt(packageHandle: string, requestId: string) {
@@ -254,6 +293,11 @@ export class ProjectPackages {
       async (context, signal) => {
         const manifest = context.manifest;
         const staged: Awaited<ReturnType<AssetStore["stagePortable"]>>[] = [];
+        const assetPaths = new Map<string, string>();
+        const transcripts: {
+          stage: Awaited<ReturnType<TranscriptStore["stagePortable"]>>;
+          resource: Extract<PortableResource, { kind: "transcript-generation" }>;
+        }[] = [];
         const acquisitions: Awaited<ReturnType<AcquisitionImporter["stagePortable"]>>[] = [];
         const scenes: {
           stage: Awaited<ReturnType<SceneEvidenceStore["stagePortable"]>>;
@@ -279,6 +323,7 @@ export class ProjectPackages {
                   },
                 ),
               );
+              assetPaths.set(entry.asset.id, staged.at(-1)!.path);
             } finally {
               source.close();
             }
@@ -334,6 +379,44 @@ export class ProjectPackages {
               ),
             });
           }
+          for (const resource of manifest.resources) {
+            if (resource.kind !== "transcript-generation") continue;
+            const rawPath = transcriptMemberPath(resource, "raw.jsonl"),
+              receiptPath = transcriptMemberPath(resource, "receipt.json");
+            const raw = context.files.open(rawPath);
+            try {
+              const receipt = context.files.open(receiptPath);
+              let value: unknown;
+              try {
+                value = JSON.parse(
+                  new TextDecoder("utf-8", { fatal: true }).decode(readFileSync(receipt.fd)),
+                );
+              } finally {
+                receipt.close();
+              }
+              const stat = fstatSync(raw.fd, { bigint: true });
+              transcripts.push({
+                resource,
+                stage: await this.owners.transcriptRecords.stagePortable(
+                  resource.metadata,
+                  value,
+                  {
+                    path: context.files.path(rawPath),
+                    bytes: Number(stat.size),
+                    identity: fileIdentity(stat),
+                  },
+                  {
+                    ...resource.metadata.track,
+                    source: assetPaths.get(resource.metadata.owner.assetId)!,
+                    available: resource.available,
+                  },
+                  signal,
+                ),
+              });
+            } finally {
+              raw.close();
+            }
+          }
           signal.throwIfAborted();
           const result = this.owners.projects.adopt(
             {
@@ -344,6 +427,14 @@ export class ProjectPackages {
             () => {
               for (const asset of staged) asset.publish();
               for (const acquisition of acquisitions) acquisition.publish();
+              for (const { resource, stage } of transcripts) {
+                stage.publish();
+                this.owners.transcripts.adoptPublication(
+                  stage.metadata,
+                  resource.available,
+                  resource.publication,
+                );
+              }
               for (const { resource, stage } of scenes) {
                 stage.publish();
                 if (resource.publication)
@@ -356,6 +447,7 @@ export class ProjectPackages {
             revisionId: result.revision.id,
           });
         } finally {
+          await Promise.all(transcripts.map(({ stage }) => stage.close()));
           await Promise.all(scenes.map(({ stage }) => stage.close()));
           await Promise.all(acquisitions.map((acquisition) => acquisition.close()));
           await Promise.all(staged.map((asset) => asset.close()));
@@ -414,7 +506,9 @@ export class ProjectPackages {
       await text(path, body);
     }
     const declared = pinned.resources.flatMap((resource) =>
-      resource.kind === "scene-generation" ? [] : resourceMembers(resource),
+      resource.kind === "scene-generation" || resource.kind === "transcript-generation"
+        ? []
+        : resourceMembers(resource),
     );
     const resources: PortableResource[] = [];
     if (
@@ -439,6 +533,42 @@ export class ProjectPackages {
         if (chunks.length !== entry.metadata.chunkCount)
           throw new CatalogError("INVALID_STORAGE", "Scene chunk inventory changed");
         resources.push({ ...entry, chunks });
+        continue;
+      }
+      if (entry.kind === "transcript-generation") {
+        const rawPath = transcriptMemberPath(entry, "raw.jsonl"),
+          receiptPath = transcriptMemberPath(entry, "receipt.json");
+        const raw = pinned.transcriptFiles[resourceIdentity(entry).id]!;
+        await mkdir(dirname(join(input.directory, rawPath)), { recursive: true, mode: 0o700 });
+        const copied = await copyImportedFile(
+          raw.path,
+          join(input.directory, rawPath),
+          signal,
+          raw,
+        );
+        if (
+          copied.bytes !== entry.metadata.raw.bytes ||
+          copied.sha256 !== entry.metadata.raw.sha256
+        )
+          throw new CatalogError(
+            "INVALID_STORAGE",
+            "Transcript raw data changed after package pin",
+          );
+        await add(rawPath, copied.bytes, copied.sha256);
+        const body = JSON.stringify(this.owners.transcriptRecords.portableReceipt(entry.metadata));
+        if (Buffer.byteLength(body) > 8 * 1024 * 1024)
+          throw new CatalogError(
+            "LIMIT_EXCEEDED",
+            "Transcript receipt exceeds package read budget",
+          );
+        await text(receiptPath, body);
+        resources.push({
+          ...entry,
+          receipt: {
+            bytes: Buffer.byteLength(body),
+            sha256: createHash("sha256").update(body).digest("hex"),
+          },
+        });
         continue;
       }
       resources.push(entry);

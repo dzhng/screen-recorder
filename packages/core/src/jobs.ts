@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { ResourceReferences, type ResourceKind } from "./references.js";
 import { setImmediate } from "node:timers/promises";
 import { type RevisionStore } from "./library.js";
@@ -109,6 +110,11 @@ export type Artifact = Readonly<{
   result: string;
 }>;
 
+export const retainedPublicationSchema = z.strictObject({
+  generation: z.int().positive().max(Number.MAX_SAFE_INTEGER),
+  attemptId: z.string().min(1).max(256),
+  input: z.string().max(65536),
+});
 /** Publication provenance survives relocation without claiming a local execution. */
 export type RetainedArtifact = Artifact & Readonly<{ attemptId: string }>;
 

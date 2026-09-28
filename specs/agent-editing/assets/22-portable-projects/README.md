@@ -30,7 +30,9 @@ counts here come from the separately executed focused checks.
 Run with a frozen native worker and isolated scratch homes:
 
 ```sh
-SCREENREC_NATIVE=/path/to/frozen/screenrec-native node packages/test-harness/editing/package.mjs --case relocate-edit-undo
+SCREENREC_NATIVE=/path/to/frozen/screenrec-native \
+SCREENREC_ASR_REQUEST=/path/to/prepared-native-transcription-request.json \
+node packages/test-harness/editing/package.mjs --case relocate-edit-undo
 ```
 
 Acquisition dependencies preserve the original acquisition/source/generation IDs,
@@ -69,7 +71,25 @@ timeout is retained in the scratch log; the unchanged test passes after native w
 ends. The final public fixture uses the reviewed code and passes after relocation
 and receiver restart.
 
-This checkpoint requires the current revision. Retained transcript/index
+Retained source transcripts now preserve exact native raw bytes, original model
+and decoder identity, word/gap/segment rows and ordinary ready publication. The
+existing transcript indexer stages adoption against the recipient's retained media
+path; its publication shares the asset/acquisition/project transaction. Startup
+recovery removes unpublished raw directories even when indexing never started.
+Historical model identities remain distinct, and adoption does not prepare models.
+
+The real narration fixture ran native ASR before export. After removing the donor,
+its isolated model clone, external imports and ZIP, the restarted recipient reports
+models absent and returns the same transcript generation, raw hash and complete
+rows on its first read. The request above supplies prepared model paths; the fixture
+copies them into its isolated donor home. No models are downloaded or installed.
+The transcript pass has 32 focused core tests, 16 focused service tests and core/
+service type checks green. Static independent review found no actionable defects.
+The first public attempt used the wrong row discriminator in its assertion; that
+fixture check is corrected, and the complete second run passes. Raw preservation
+and offline reading do not claim synthesis or transcription quality acceptance.
+
+This checkpoint requires the current revision. Retained screenshot-index
 generations are explicitly refused until their stores and queue publication owner
 support atomic portable adoption. Prepared model-dependent outputs, fonts and
 actual 15a output remain [slice 22](../../slices/22-portable-projects.md) acceptance.

@@ -11,6 +11,7 @@ import {
   rm,
   realpath,
   rename,
+  glob,
 } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
@@ -18,6 +19,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { archiveLimits } from "../../../packages/core/dist/package-archive.js";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
+import { copyModels } from "./source-evidence-fixture.mjs";
 import { cliReply } from "./first-preview-transport.mjs";
 
 const args = process.argv.slice(2);
@@ -25,6 +27,10 @@ assert.equal(args[0], "--case");
 assert.equal(args[1], "relocate-edit-undo");
 assert.ok(args.length === 2 || (args.length === 4 && args[2] === "--out"));
 assert.ok(process.env.SCREENREC_NATIVE, "Select a frozen native worker with SCREENREC_NATIVE");
+assert.ok(
+  process.env.SCREENREC_ASR_REQUEST,
+  "Select an existing prepared speech.transcribe request with SCREENREC_ASR_REQUEST",
+);
 let out = args[3] ? resolve(args[3]) : await mkdtemp("/tmp/sr-package-evidence-");
 await mkdir(out, { recursive: true });
 out = await realpath(out);
@@ -36,11 +42,11 @@ const run = promisify(execFile),
 const report = {
   passed: false,
   scope:
-    "actual CLI/MCP project package relocation with retained acquisition journal and normalized evidence; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
+    "actual CLI/MCP/native project package relocation with retained acquisition, source-scene and real source-transcript generations; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
   checks: {},
   trace: [],
   remaining: [
-    "transcript/index generations",
+    "screenshot-index generations",
     "prepared 15a outputs and fonts",
     "fresh autonomous skill journey",
   ],
@@ -91,9 +97,9 @@ async function poll(read, ready) {
     await delay(40);
   }
 }
-async function asset(name) {
+async function asset(name, source = join(corpus, name)) {
   const path = join(scratch, "imports", name);
-  await copyFile(join(corpus, name), path);
+  await copyFile(source, path);
   const pending = await call("asset.import", { requestId: name, path });
   const done = await poll(
     () => call("job.get", { jobId: pending.jobId }),
@@ -151,6 +157,32 @@ try {
   const a = await asset("a.mov"),
     b = await asset("b.mov"),
     reference = await asset("b-audio.wav");
+  const speech = await asset(
+    "narration.mov",
+    new URL("../../../fixtures/narrated-workbench/narration.mov", import.meta.url).pathname,
+  );
+  const prepared = JSON.parse(await readFile(process.env.SCREENREC_ASR_REQUEST, "utf8")).params
+    .models;
+  const modelPins = await copyModels(donor, prepared);
+  assert.equal((await call("model.status", {})).state, "ready");
+  const transcriptParams = {
+    assetId: speech.id,
+    streamId: speech.streams.find((stream) => stream.kind === "audio").id,
+    limit: 1000,
+  };
+  const donorTranscript = await poll(
+    () => call("transcript.get", transcriptParams, { transport: "mcp" }),
+    (value) => value.state === "ready",
+  );
+  assert.equal(donorTranscript.page.nextCursor, null);
+  assert.ok(donorTranscript.page.rows.some((row) => row.type === "word"));
+  report.speech = {
+    modelDigest: modelPins.modelDigest,
+    engine: donorTranscript.page.transcript.engine,
+    raw: donorTranscript.page.transcript.raw,
+    rowsSha256: hash(JSON.stringify(donorTranscript.page.rows)),
+  };
+
   const capture = join(scratch, "imports", "capture");
   await mkdir(capture);
   await copyFile(join(corpus, "a.mov"), join(capture, "video.mov"));
@@ -220,6 +252,7 @@ try {
 
   // The generation producer is not ready. This explicit fixture only tests owned reference closure.
   service.assets.retain({ kind: "asset", id: b.id }, [reference.id]);
+  service.assets.retain({ kind: "asset", id: reference.id }, [speech.id]);
   await service.assets.import(
     join(scratch, "imports", "b.mov"),
     { kind: "generated", source: "portable dependency fixture; no synthesis quality claim" },
@@ -409,9 +442,24 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   assert.equal(adoptedEvents.state, "ready");
   assert.deepEqual(adoptedEvents.page.rows, originalEvents.page.rows);
 
+  assert.equal((await call("model.status", {}, { transport: "mcp" })).state, "absent");
+  const adoptedTranscript = await call("transcript.get", transcriptParams);
+  assert.equal(adoptedTranscript.state, "ready");
+  assert.equal(adoptedTranscript.generation, donorTranscript.generation);
+  assert.deepEqual(adoptedTranscript.page.rows, donorTranscript.page.rows);
+  assert.deepEqual(adoptedTranscript.page.transcript.raw, donorTranscript.page.transcript.raw);
+  const rawFiles = await Array.fromAsync(glob("**/raw.jsonl", { cwd: receiver }));
+  assert.equal(rawFiles.length, 1);
+  assert.equal(
+    hash(await readFile(join(receiver, rawFiles[0]))),
+    donorTranscript.page.transcript.raw.sha256,
+  );
   const actualAssets = (await call("asset.list", {}, { transport: "mcp" })).assets;
-  assert.deepEqual(actualAssets.map((item) => item.id).sort(), [a.id, b.id, reference.id].sort());
-  for (const original of [a, b, reference])
+  assert.deepEqual(
+    actualAssets.map((item) => item.id).sort(),
+    [a.id, b.id, reference.id, speech.id].sort(),
+  );
+  for (const original of [a, b, reference, speech])
     assert.equal(hash(await readFile(service.assets.path(original.id))), original.id);
   assert.deepEqual(
     (await call("revision.history", { projectId: adopted.project.projectId })).revisions.map(
@@ -496,6 +544,8 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     acquisitionIdentityAndBindingsRetained: true,
     exactNormalizedEvidenceRetained: true,
     retainedSceneEventsReadyWithoutPreparation: true,
+    realTranscriptReadyWithModelsAbsent: true,
+    transcriptRawBytesAndWordsRetained: true,
     adoptedLibraryRestartedBeforeInspection: true,
     exactJournalRetained: true,
     historicalOnlyMediaRetained: true,

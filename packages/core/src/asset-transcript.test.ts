@@ -322,3 +322,172 @@ test("current decoder work separates source recipes while retained evidence stay
   expect(f.transcripts.wordRecords(metadata, { limit: 100 })).toEqual(original);
   expect(metadata.engine.policy).toBe("transcript-v1");
 });
+
+test("portable transcripts retain raw bytes and words with models absent in the recipient", async () => {
+  const donor = await fixture(),
+    receiver = await fixture();
+  donor.processing.prepareSource(donor.selection);
+  await expect.poll(() => donor.processing.sourceStatus(donor.selection).state).toBe("ready");
+  const original = donor.processing.sourceStatus(donor.selection).published!.transcript;
+  const value = donor.transcripts.portableGenerations(donor.asset.id)[0]!;
+  const raw = donor.transcripts.portableFile(value),
+    receipt = donor.transcripts.portableReceipt(value);
+  const input = donor.processing.portable(value);
+  receiver.models.state = "absent";
+  expect(receiver.processing.sourceStatus(receiver.selection).reason).toBe("model_not_prepared");
+  const track = {
+    ...value.track,
+    source: receiver.assets.path(receiver.asset.id),
+    available: input.available,
+  };
+  await expect(
+    receiver.transcripts.stagePortable(
+      { ...value, generation: value.generation.toUpperCase() },
+      receipt,
+      raw,
+      track,
+      new AbortController().signal,
+    ),
+  ).rejects.toThrow(/Invalid portable transcript/);
+  const reserved = await receiver.transcripts.reserve(value);
+  await writeFile(reserved, "existing generation bytes");
+  await expect(
+    receiver.transcripts.stagePortable(value, receipt, raw, track, new AbortController().signal),
+  ).rejects.toThrow(/EEXIST/);
+  expect(await readFile(reserved, "utf8")).toBe("existing generation bytes");
+  await receiver.transcripts.remove(value);
+  const stage = await receiver.transcripts.stagePortable(
+    value,
+    receipt,
+    raw,
+    track,
+    new AbortController().signal,
+  );
+  expect(receiver.processing.sourceStatus(receiver.selection).reason).toBe("model_not_prepared");
+  receiver.catalog.transaction(() => {
+    stage.publish();
+    receiver.processing.adoptPublication(stage.metadata, input.available, input.publication);
+  });
+  await stage.close();
+  const adopted = receiver.processing.publishedSource(receiver.selection);
+  expect(adopted).toMatchObject({ state: "ready", jobId: null, models: { state: "absent" } });
+  expect(adopted.published!.transcript.track.source).toBe(receiver.assets.path(receiver.asset.id));
+  expect(adopted.published!.transcript.track.source).not.toBe(original.track.source);
+  expect(receiver.transcripts.wordRecords(adopted.published!.transcript, { limit: 100 })).toEqual(
+    donor.transcripts.wordRecords(original, { limit: 100 }),
+  );
+  expect(await readFile(receiver.transcripts.portableFile(value).path)).toEqual(
+    await readFile(raw.path),
+  );
+  expect(receiver.requests).toEqual([]);
+  await receiver.transcripts.recoverPendingAssets(new AbortController().signal);
+  await receiver.processing.cleanup(new AbortController().signal);
+  expect(receiver.processing.publishedSource(receiver.selection).state).toBe("ready");
+  expect(receiver.requests).toEqual([]);
+});
+
+test("pending transcript recovery covers unpublished owners and cancellation leaves no visible generation", async () => {
+  const donor = await fixture(),
+    receiver = await fixture();
+  donor.processing.prepareSource(donor.selection);
+  await expect.poll(() => donor.processing.sourceStatus(donor.selection).state).toBe("ready");
+  const value = donor.transcripts.portableGenerations(donor.asset.id)[0]!;
+  const raw = donor.transcripts.portableFile(value),
+    receipt = donor.transcripts.portableReceipt(value);
+  const input = donor.processing.portable(value),
+    track = {
+      ...value.track,
+      source: receiver.assets.path(receiver.asset.id),
+      available: input.available,
+    };
+  const orphanHome = await mkdtemp("/tmp/portable-orphan-transcript-");
+  const orphanCatalog = new Catalog(join(orphanHome, "catalog.sqlite"));
+  cleanup.push(async () => {
+    orphanCatalog.close();
+    await rm(orphanHome, { recursive: true, force: true });
+  });
+  const orphan = new TranscriptStore(orphanCatalog, orphanHome, () => {
+    throw new Error("Asset is unpublished");
+  });
+  const path = await orphan.reserve(value);
+  await writeFile(path, "crash before index admission");
+  await orphan.recoverPendingAssets(new AbortController().signal);
+  await orphan.stagePortable(value, receipt, raw, track, new AbortController().signal);
+  await orphan.recoverPendingAssets(new AbortController().signal);
+  expect(orphan.portableGenerations(donor.asset.id)).toEqual([]);
+  const retry = await orphan.stagePortable(
+    value,
+    receipt,
+    raw,
+    track,
+    new AbortController().signal,
+  );
+  await retry.close();
+  const controller = new AbortController();
+  setImmediate(() => controller.abort(new Error("canceled transcript adoption")));
+  await expect(
+    receiver.transcripts.stagePortable(value, receipt, raw, track, controller.signal),
+  ).rejects.toThrow(/canceled|aborted/i);
+  expect(receiver.transcripts.portableGenerations(receiver.asset.id)).toEqual([]);
+  const staged = await receiver.transcripts.stagePortable(
+    value,
+    receipt,
+    raw,
+    track,
+    new AbortController().signal,
+  );
+  expect(() =>
+    receiver.catalog.transaction(() => {
+      staged.publish();
+      receiver.processing.adoptPublication(staged.metadata, input.available, input.publication);
+      throw new Error("project rollback");
+    }),
+  ).toThrow("project rollback");
+  await staged.close();
+  expect(receiver.transcripts.portableGenerations(receiver.asset.id)).toEqual([]);
+  expect(receiver.processing.sourceStatus(receiver.selection).state).toBe("not_requested");
+});
+
+test("portable transcripts preserve historical model recipes independently of recipient defaults", async () => {
+  const donor = await fixture(),
+    receiver = await fixture();
+  receiver.models.state = "absent";
+  for (const digest of ["a".repeat(64), "b".repeat(64)]) {
+    donor.changeModel(digest);
+    donor.processing.prepareSource(donor.selection);
+    await expect.poll(() => donor.processing.sourceStatus(donor.selection).state).toBe("ready");
+    const original = donor.processing.sourceStatus(donor.selection).published!.transcript;
+    const value = donor.transcripts
+      .portableGenerations(donor.asset.id)
+      .find((entry) => entry.generation === original.generation)!;
+    const input = donor.processing.portable(value);
+    const stage = await receiver.transcripts.stagePortable(
+      value,
+      donor.transcripts.portableReceipt(value),
+      donor.transcripts.portableFile(value),
+      {
+        ...value.track,
+        source: receiver.assets.path(receiver.asset.id),
+        available: input.available,
+      },
+      new AbortController().signal,
+    );
+    receiver.catalog.transaction(() => {
+      stage.publish();
+      receiver.processing.adoptPublication(stage.metadata, input.available, input.publication);
+    });
+    await stage.close();
+    receiver.changeModel(digest);
+    expect(receiver.processing.publishedSource(receiver.selection)).toMatchObject({
+      state: "ready",
+      jobId: null,
+      models: { state: "absent" },
+      published: {
+        transcript: { generation: original.generation, engine: { modelDigest: digest } },
+      },
+    });
+  }
+  await receiver.processing.cleanup(new AbortController().signal);
+  expect(receiver.transcripts.portableGenerations(receiver.asset.id)).toHaveLength(2);
+  expect(receiver.requests).toEqual([]);
+});

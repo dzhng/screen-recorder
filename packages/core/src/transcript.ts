@@ -1,7 +1,10 @@
 import { createHash } from "node:crypto";
-import { constants } from "node:fs";
+import { isDeepStrictEqual } from "node:util";
+import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";
+import { ResourceReferences } from "./references.js";
+import { constants, openSync, fstatSync, closeSync } from "node:fs";
 import { lstat, mkdir, open, opendir, rm } from "node:fs/promises";
-import { basename, join } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { z } from "zod";
 import { type RevisionStore } from "./library.js";
@@ -56,6 +59,72 @@ export type TranscriptEngine = SpeechEnginePins & {
   kindPolicy: typeof wordKindPolicy;
 };
 
+const engineLabel = z.string().min(1).max(256);
+export const transcriptEngineSchema = z.strictObject({
+  runtime: engineLabel,
+  runtimeVersion: engineLabel,
+  runtimeRevision: engineLabel,
+  decoder: engineLabel,
+  model: engineLabel,
+  modelRevision: engineLabel,
+  modelDigest: engineLabel,
+  encoderPrecision: engineLabel,
+  computeUnits: engineLabel,
+  policy: z.literal(transcriptPolicy),
+  kindPolicy: z.literal(wordKindPolicy),
+});
+const portableInteger = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+export const portableTranscriptSchema = z
+  .strictObject({
+    owner: z.strictObject({
+      kind: z.literal("asset"),
+      assetId: z.string().regex(/^[a-f0-9]{64}$/),
+    }),
+    sourceId: z.string().regex(/^[a-f0-9]{64}$/),
+    generation: z
+      .uuid()
+      .refine((value) => value === value.toLowerCase(), "Transcript generation must be canonical"),
+    source: z
+      .strictObject({
+        kind: z.literal("asset"),
+        streamId: engineLabel,
+        acquisitionId: z.uuid().optional(),
+        supportDigest: engineLabel,
+        durationUs: portableInteger,
+      })
+      .transform(({ acquisitionId, ...source }) => ({
+        ...source,
+        ...(acquisitionId === undefined ? {} : { acquisitionId }),
+      })),
+    engine: transcriptEngineSchema,
+    track: z.strictObject({
+      streamId: engineLabel,
+      sourceOffsetUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+    }),
+    segmentCount: portableInteger.max(10000),
+    wordCount: portableInteger,
+    gapCount: portableInteger,
+    maxWordUs: portableInteger,
+    raw: z.strictObject({
+      bytes: portableInteger.max(268435456),
+      sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    }),
+  })
+  .refine(
+    (value) =>
+      value.owner.assetId === value.sourceId && value.source.streamId === value.track.streamId,
+    "Transcript source differs from its owner and track",
+  );
+export type PortableTranscript = z.infer<typeof portableTranscriptSchema>;
+export function transcriptGenerationResource(
+  identity: Pick<TranscriptIdentity, "owner" | "generation">,
+): string {
+  return JSON.stringify([...ownerIdentity(identity.owner), identity.generation]);
+}
+export function portableTranscript(metadata: TranscriptMetadata): PortableTranscript {
+  const { source: _source, ...track } = metadata.track;
+  return portableTranscriptSchema.parse({ ...metadata, track });
+}
 export type TranscriptOwner = Extract<JobOwner, { kind: "recording" | "asset" }>;
 export type TranscriptIdentity = Readonly<{
   owner: TranscriptOwner;
@@ -222,17 +291,12 @@ type GenerationRow = {
   maxWordUs: number;
   rawSha256: string;
   bytes: number;
+  state: string;
 };
 
 /** Retained transcript rows and raw engine files; the job queue alone decides what is published. */
 export class TranscriptStore implements TranscriptRecords {
-  hasGenerations(owner: TranscriptOwner): boolean {
-    return Boolean(
-      this.store.catalog
-        .prepare("SELECT 1 FROM transcript_generations WHERE ownerKind=? AND ownerId=? LIMIT 1")
-        .get(...ownerIdentity(owner)),
-    );
-  }
+  private readonly references: ResourceReferences;
   constructor(
     private readonly store: Catalog,
     private readonly home: string,
@@ -241,6 +305,7 @@ export class TranscriptStore implements TranscriptRecords {
       source: TranscriptSource,
     ) => void,
   ) {
+    this.references = new ResourceReferences(store);
     store.catalog.exec(`
       CREATE TABLE IF NOT EXISTS transcript_generations (
         ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,
@@ -268,6 +333,254 @@ export class TranscriptStore implements TranscriptRecords {
         PRIMARY KEY(ownerKind,ownerId,generation,startUs)
       ) STRICT;
     `);
+  }
+
+  /** Exclusive startup recovery reaches unpublished assets and pre-index raw directories. */
+  async recoverPendingAssets(signal: AbortSignal): Promise<void> {
+    let failure: unknown;
+    const root = join(this.home, "transcripts", "assets");
+    let entries;
+    try {
+      entries = await opendir(root, { bufferSize: 16 });
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    }
+    if (entries)
+      for await (const entry of entries) {
+        signal.throwIfAborted();
+        const owner = { kind: "asset" as const, assetId: entry.name };
+        try {
+          await this.reclaim(
+            owner,
+            (generation) =>
+              this.store.catalog
+                .prepare(`SELECT state FROM transcript_generations WHERE ${where}`)
+                .get(...ownerIdentity(owner), generation)?.state === "complete",
+            signal,
+          );
+        } catch (error) {
+          signal.throwIfAborted();
+          failure ??= error;
+        }
+      }
+    let cursor = 0;
+    for (;;) {
+      signal.throwIfAborted();
+      const rows = this.store.catalog
+        .prepare(
+          "SELECT rowid AS cursor,ownerId,generation,state FROM transcript_generations WHERE ownerKind='asset' AND rowid>? ORDER BY rowid LIMIT 100",
+        )
+        .all(cursor) as { cursor: number; ownerId: string; generation: string; state: string }[];
+      for (const row of rows) {
+        if (row.state !== "complete")
+          try {
+            await this.remove(
+              { owner: { kind: "asset", assetId: row.ownerId }, generation: row.generation },
+              signal,
+            );
+          } catch (error) {
+            signal.throwIfAborted();
+            failure ??= error;
+          }
+        cursor = row.cursor;
+      }
+      if (rows.length < 100) {
+        if (failure) throw failure;
+        return;
+      }
+      await setImmediate(undefined, { signal });
+    }
+  }
+  portableGenerations(assetId: string, limit = 25000): PortableTranscript[] {
+    const rows = this.store.catalog
+      .prepare(
+        "SELECT * FROM transcript_generations WHERE ownerKind='asset' AND ownerId=? ORDER BY generation LIMIT ?",
+      )
+      .all(assetId, limit + 1) as GenerationRow[];
+    if (rows.length > limit)
+      throw new CatalogError("LIMIT_EXCEEDED", "Transcript inventory exceeds its limit");
+    return rows.map((row) => {
+      if (row.state !== "complete")
+        throw new CatalogError("PROCESSING_BUSY", "Transcript generation is incomplete", {}, true);
+      return portableTranscript(metadata(row));
+    });
+  }
+  portableFile(value: PortableTranscript): IdentifiedFile {
+    const path = join(
+      this.home,
+      "transcripts",
+      "assets",
+      value.owner.assetId,
+      value.generation,
+      "raw.jsonl",
+    );
+    const fd = openSync(path, constants.O_RDONLY | constants.O_NONBLOCK | constants.O_NOFOLLOW);
+    try {
+      const stat = fstatSync(fd, { bigint: true });
+      if (!stat.isFile() || stat.size !== BigInt(value.raw.bytes))
+        throw new CatalogError("INVALID_STORAGE", "Transcript raw file differs from metadata");
+      return { path, bytes: value.raw.bytes, identity: fileIdentity(stat) };
+    } finally {
+      closeSync(fd);
+    }
+  }
+  portableReceipt(value: PortableTranscript): SpeechTranscriptionReceipt {
+    const counts = new Map(
+      (
+        this.store.catalog
+          .prepare(
+            `SELECT segment,COUNT(*) AS count FROM transcript_words WHERE ${where} GROUP BY segment`,
+          )
+          .all(...ownerIdentity(value.owner), value.generation) as {
+          segment: number;
+          count: number;
+        }[]
+      ).map((row) => [row.segment, row.count]),
+    );
+    const segments = this.segmentRecords(value, { limit: 10001 });
+    if (segments.length !== value.segmentCount)
+      throw new CatalogError(
+        "INVALID_STORAGE",
+        "Transcript segment inventory differs from metadata",
+      );
+    return {
+      output: { file: "raw.jsonl", ...value.raw },
+      engine: {
+        runtime: value.engine.runtime,
+        runtimeVersion: value.engine.runtimeVersion,
+        decoder: value.engine.decoder,
+        encoderPrecision: value.engine.encoderPrecision,
+        computeUnits: value.engine.computeUnits,
+      },
+      wordCount: value.wordCount,
+      segments: segments.map((segment) => ({
+        ordinal: segment.ordinal,
+        source: { startUs: segment.startUs, endUs: segment.endUs },
+        state: segment.state,
+        ...(segment.reason === null ? {} : { reason: segment.reason }),
+        wordCount: counts.get(segment.ordinal) ?? 0,
+      })),
+    };
+  }
+  async stagePortable(
+    value: unknown,
+    receiptValue: unknown,
+    raw: IdentifiedFile,
+    track: SpeechTranscriptionRequest["track"],
+    signal: AbortSignal,
+  ) {
+    const parsedMetadata = portableTranscriptSchema.safeParse(value),
+      parsedReceipt = receiptSchema.safeParse(receiptValue);
+    if (!parsedMetadata.success || !parsedReceipt.success)
+      throw new CatalogError("INVALID_PACKAGE", "Invalid portable transcript metadata or receipt");
+    const expected = parsedMetadata.data,
+      receipt = parsedReceipt.data;
+    if (
+      !isDeepStrictEqual(
+        { bytes: receipt.output.bytes, sha256: receipt.output.sha256 },
+        expected.raw,
+      ) ||
+      receipt.output.file !== "raw.jsonl"
+    )
+      throw new CatalogError("INVALID_PACKAGE", "Transcript raw receipt differs from inventory");
+    const prior = this.store.catalog
+      .prepare(`SELECT * FROM transcript_generations WHERE ${where}`)
+      .get(...ownerIdentity(expected.owner), expected.generation) as GenerationRow | undefined;
+    if (prior) {
+      if (prior.state !== "complete")
+        throw new CatalogError(
+          "PROCESSING_BUSY",
+          "Transcript generation is already being staged",
+          {},
+          true,
+        );
+      const existing = metadata(prior);
+      if (
+        !isDeepStrictEqual(portableTranscript(existing), expected) ||
+        !isDeepStrictEqual(this.portableReceipt(expected), receipt)
+      )
+        throw new CatalogError(
+          "INVALID_PACKAGE",
+          "Transcript metadata conflicts with retained generation",
+        );
+      const file = await open(
+        this.portableFile(expected).path,
+        constants.O_RDONLY | constants.O_NOFOLLOW,
+      );
+      try {
+        if ((await hashFile(file, expected.raw.bytes, signal)).sha256 !== expected.raw.sha256)
+          throw new CatalogError(
+            "INVALID_PACKAGE",
+            "Transcript raw bytes conflict with retained generation",
+          );
+      } finally {
+        await file.close();
+      }
+      return {
+        metadata: existing,
+        close: async () => {},
+        publish: () => {
+          signal.throwIfAborted();
+          this.validateOwner(existing, existing.source);
+        },
+      };
+    }
+    let owned = false;
+    const close = async () => {
+      const row = this.store.catalog
+        .prepare(`SELECT state FROM transcript_generations WHERE ${where}`)
+        .get(...ownerIdentity(expected.owner), expected.generation);
+      if (owned && row?.state !== "complete") await this.remove(expected);
+    };
+    try {
+      const output = await this.reserve(expected);
+      owned = true;
+      const copied = await copyImportedFile(raw.path, output, signal, raw, 268435456);
+      if (copied.bytes !== expected.raw.bytes || copied.sha256 !== expected.raw.sha256)
+        throw new CatalogError("INVALID_PACKAGE", "Transcript raw bytes differ from inventory");
+      const {
+        encoderPrecision: _precision,
+        computeUnits: _units,
+        policy: _policy,
+        kindPolicy: _kind,
+        ...pins
+      } = expected.engine;
+      const indexed = await this.index({
+        identity: expected,
+        source: expected.source,
+        request: { track, output },
+        receipt: { ...receipt, output: { ...receipt.output, file: output } },
+        pins,
+        signal,
+      });
+      if (!isDeepStrictEqual(portableTranscript(indexed), expected))
+        throw new CatalogError(
+          "INVALID_PACKAGE",
+          "Indexed transcript differs from retained metadata",
+        );
+      for (let path = resolve(output); ; path = dirname(path)) {
+        const file = await open(path, constants.O_RDONLY);
+        try {
+          await file.sync();
+        } finally {
+          await file.close();
+        }
+        if (path === resolve(this.home)) break;
+      }
+      return {
+        metadata: indexed,
+        close,
+        publish: () => {
+          signal.throwIfAborted();
+          this.publish(indexed);
+        },
+      };
+    } catch (error) {
+      await close();
+      if (error instanceof CatalogError && error.code === "INVALID_RESPONSE")
+        throw new CatalogError("INVALID_PACKAGE", error.message, error.details);
+      throw error;
+    }
   }
 
   /** Owned parent directories must be real directories so removal never follows a link out. */
@@ -313,6 +626,26 @@ export class TranscriptStore implements TranscriptRecords {
     pins: SpeechEnginePins & { modelDigest: string };
     signal: AbortSignal;
   }): Promise<TranscriptMetadata> {
+    this.validateOwner(input.identity, input.source);
+    const result = await this.index(input);
+    input.signal.throwIfAborted();
+    this.store.transaction(() => this.publish(result));
+    return result;
+  }
+  private publish(value: TranscriptMetadata): void {
+    this.validateOwner(value, value.source);
+    this.store.catalog
+      .prepare(`UPDATE transcript_generations SET state='complete' WHERE ${where}`)
+      .run(...ownerIdentity(value.owner), value.generation);
+  }
+  private async index(input: {
+    identity: TranscriptIdentity;
+    source: TranscriptSource;
+    request: Pick<SpeechTranscriptionRequest, "track" | "output">;
+    receipt: SpeechTranscriptionReceipt;
+    pins: SpeechEnginePins & { modelDigest: string };
+    signal: AbortSignal;
+  }): Promise<TranscriptMetadata> {
     const { identity, request, pins, signal } = input;
     const { owner, sourceId, generation } = identity;
     const [ownerKind, ownerId] = ownerIdentity(owner);
@@ -329,7 +662,6 @@ export class TranscriptStore implements TranscriptRecords {
         "INVALID_EVIDENCE",
         "Transcript source does not match its owner or selection",
       );
-    this.validateOwner(identity, source);
     const parsed = receiptSchema.safeParse(input.receipt);
     if (!parsed.success) invalid("Transcription receipt is malformed");
     const receipt = parsed.data;
@@ -545,10 +877,9 @@ export class TranscriptStore implements TranscriptRecords {
       );
       for (const gap of gaps)
         insertGap.run(ownerKind, ownerId, generation, gap.startUs, gap.endUs, gap.reason);
-      this.validateOwner(identity, source);
       this.store.catalog
         .prepare(
-          `UPDATE transcript_generations SET wordCount=?,gapCount=?,maxWordUs=?,rawSha256=?,bytes=?,state='complete' WHERE ${where}`,
+          `UPDATE transcript_generations SET wordCount=?,gapCount=?,maxWordUs=?,rawSha256=?,bytes=? WHERE ${where}`,
         )
         .run(
           ordinal,
@@ -660,7 +991,14 @@ export class TranscriptStore implements TranscriptRecords {
     let failed = false;
     const visit = async (generation: string) => {
       signal.throwIfAborted();
-      if (keep(generation)) return;
+      if (
+        keep(generation) ||
+        this.references.has(
+          "transcript-generation",
+          transcriptGenerationResource({ owner, generation }),
+        )
+      )
+        return;
       try {
         await this.remove({ owner, generation }, signal);
       } catch (error) {
