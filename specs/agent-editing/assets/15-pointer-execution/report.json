@@ -1,0 +1,1827 @@
+{
+  "status": "prepared-execution-geometry-only; full visual acceptance open",
+  "colorDiagnostics": {
+    "legacyExact": {
+      "limit": 0,
+      "passed": false
+    },
+    "encodedMagenta": {
+      "centroidLimit": 1,
+      "passed": false
+    }
+  },
+  "historyCalls": 2,
+  "cacheRegenerationRetainedInputs": true,
+  "trailPixels": 91,
+  "whitePixels": 15,
+  "legacyMaximum": 1,
+  "legacyChanged": 220,
+  "movies": [
+    {
+      "range": {
+        "startUs": 0,
+        "endUs": 2000000
+      },
+      "receipt": {
+        "bytes": 2479,
+        "decodedSamples": 20,
+        "durationUs": 2000000,
+        "file": "/tmp/screenrec-pointer-native-cachefix/movie-0.mp4",
+        "frames": 20,
+        "height": 160,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 19,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 20,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 256
+      },
+      "samples": [
+        {
+          "frameIndex": 10,
+          "file": "/tmp/screenrec-pointer-native-cachefix/movie-0-references/000.png",
+          "rgba": "/tmp/screenrec-pointer-native-cachefix/movie-0-references/000.png.rgba",
+          "trailPixels": 110,
+          "centroid": {
+            "x": 85.94545454545455,
+            "y": 60.018181818181816
+          },
+          "whiteCore": {
+            "count": 19,
+            "bounds": [
+              105,
+              67,
+              109,
+              76
+            ],
+            "centroid": {
+              "x": 106.57894736842105,
+              "y": 70.21052631578948
+            }
+          },
+          "single": "/tmp/screenrec-pointer-native-cachefix/movie-0-single-0.png"
+        },
+        {
+          "frameIndex": 11,
+          "file": "/tmp/screenrec-pointer-native-cachefix/movie-0-references/001.png",
+          "rgba": "/tmp/screenrec-pointer-native-cachefix/movie-0-references/001.png.rgba",
+          "trailPixels": 157,
+          "centroid": {
+            "x": 98.3312101910828,
+            "y": 62.49044585987261
+          },
+          "whiteCore": {
+            "count": 19,
+            "bounds": [
+              125,
+              71,
+              129,
+              80
+            ],
+            "centroid": {
+              "x": 126.57894736842105,
+              "y": 74.21052631578948
+            }
+          },
+          "single": "/tmp/screenrec-pointer-native-cachefix/movie-0-single-1.png"
+        },
+        {
+          "frameIndex": 12,
+          "file": "/tmp/screenrec-pointer-native-cachefix/movie-0-references/002.png",
+          "rgba": "/tmp/screenrec-pointer-native-cachefix/movie-0-references/002.png.rgba",
+          "trailPixels": 109,
+          "centroid": {
+            "x": 105.97247706422019,
+            "y": 63.96330275229358
+          },
+          "whiteCore": {
+            "count": 18,
+            "bounds": [
+              125,
+              71,
+              129,
+              80
+            ],
+            "centroid": {
+              "x": 126.5,
+              "y": 74.27777777777777
+            }
+          },
+          "single": "/tmp/screenrec-pointer-native-cachefix/movie-0-single-2.png"
+        }
+      ]
+    },
+    {
+      "range": {
+        "startUs": 1050001,
+        "endUs": 1250001
+      },
+      "receipt": {
+        "bytes": 1242,
+        "decodedSamples": 3,
+        "durationUs": 200000,
+        "file": "/tmp/screenrec-pointer-native-cachefix/movie-1050001.mp4",
+        "frames": 3,
+        "height": 160,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 3,
+        "profile": "h264-rec709",
+        "rasterizedFrames": 3,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "width": 256
+      },
+      "samples": [
+        {
+          "frameIndex": 10,
+          "file": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-references/000.png",
+          "rgba": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-references/000.png.rgba",
+          "trailPixels": 85,
+          "centroid": {
+            "x": 87.03529411764706,
+            "y": 60.11764705882353
+          },
+          "whiteCore": {
+            "count": 17,
+            "bounds": [
+              105,
+              67,
+              109,
+              76
+            ],
+            "centroid": {
+              "x": 106.3529411764706,
+              "y": 70.29411764705883
+            }
+          },
+          "single": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-single-0.png"
+        },
+        {
+          "frameIndex": 11,
+          "file": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-references/001.png",
+          "rgba": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-references/001.png.rgba",
+          "trailPixels": 145,
+          "centroid": {
+            "x": 99.39310344827587,
+            "y": 62.641379310344824
+          },
+          "whiteCore": {
+            "count": 17,
+            "bounds": [
+              125,
+              71,
+              129,
+              80
+            ],
+            "centroid": {
+              "x": 126.3529411764706,
+              "y": 74.29411764705883
+            }
+          },
+          "single": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-single-1.png"
+        },
+        {
+          "frameIndex": 12,
+          "file": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-references/002.png",
+          "rgba": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-references/002.png.rgba",
+          "trailPixels": 111,
+          "centroid": {
+            "x": 104.96396396396396,
+            "y": 63.711711711711715
+          },
+          "whiteCore": {
+            "count": 17,
+            "bounds": [
+              125,
+              71,
+              129,
+              80
+            ],
+            "centroid": {
+              "x": 126.3529411764706,
+              "y": 74.29411764705883
+            }
+          },
+          "single": "/tmp/screenrec-pointer-native-cachefix/movie-1050001-single-2.png"
+        }
+      ]
+    }
+  ],
+  "hold": {
+    "bytes": 1799,
+    "decodedSamples": 1,
+    "durationUs": 2000000,
+    "file": "/tmp/screenrec-pointer-native-cachefix/hold.mp4",
+    "frames": 20,
+    "height": 160,
+    "maximumSequentialAdvanceUs": 1000000,
+    "mediaType": "video/mp4",
+    "pixelPoolAllocationThreshold": 4,
+    "pointerRasterizations": 1,
+    "profile": "h264-rec709",
+    "rasterizedFrames": 1,
+    "readerOpens": 1,
+    "retainedSourceBuffersBound": 1,
+    "width": 256
+  },
+  "inactive": {
+    "bytes": 877,
+    "decodedSamples": 0,
+    "file": "/tmp/screenrec-pointer-native-cachefix/inactive.png",
+    "frame": {
+      "index": 10,
+      "layers": [],
+      "sampleAtUs": 1000000,
+      "visibleRange": {
+        "endUs": 1000001,
+        "startUs": 1000000
+      },
+      "visual": [
+        {
+          "inputs": [],
+          "operations": [
+            {
+              "geometryPrefix": [],
+              "kind": "pointer",
+              "stepId": "pointer",
+              "trailUs": 600000
+            },
+            {
+              "height": 159,
+              "kind": "clamp",
+              "width": 255,
+              "x": 0.5,
+              "y": 0.5
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "height": 160,
+              "kind": "coverage",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 256,
+                  "y": 0
+                },
+                {
+                  "x": 256,
+                  "y": 160
+                },
+                {
+                  "x": 0,
+                  "y": 160
+                }
+              ],
+              "width": 256
+            }
+          ],
+          "target": {
+            "id": "clip",
+            "kind": "clip"
+          }
+        }
+      ]
+    },
+    "height": 160,
+    "mediaType": "image/png",
+    "pictures": [],
+    "profile": "h264-rec709",
+    "readerOpens": 0,
+    "sourceHeight": 160,
+    "sourceWidth": 256,
+    "width": 256
+  },
+  "movieDiagnostics": [
+    {
+      "frameIndex": 10,
+      "trailCentroidDelta": {
+        "x": 1.0898395721925027,
+        "y": 0.09946524064171314
+      },
+      "trailPixelCounts": [
+        110,
+        85
+      ]
+    },
+    {
+      "frameIndex": 11,
+      "trailCentroidDelta": {
+        "x": 1.0618932571930628,
+        "y": 0.15093345047221618
+      },
+      "trailPixelCounts": [
+        157,
+        145
+      ]
+    },
+    {
+      "frameIndex": 12,
+      "trailCentroidDelta": {
+        "x": -1.0085131002562235,
+        "y": -0.25159104058186443
+      },
+      "trailPixelCounts": [
+        109,
+        111
+      ]
+    }
+  ],
+  "exactTrailPhase": false,
+  "negatives": [
+    {
+      "name": "wrong-source",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Prepared pointer changed its selected source.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "wrong-sample",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Prepared pointer physical sample differs from the selected picture.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "wrong-request-clock",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Prepared source clock or raster is invalid.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "wrong-step",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Prepared pointer does not match the compiled operation.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "extra-row",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Prepared pointer stream has missing or extra operations.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "missing-row",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Prepared pointer does not match the compiled operation.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "missing-preparation",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Enabled pointer requires prepared source evidence.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "wrong-prefix",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Pointer requires a complete backward geometry prefix and source context.",
+        "retryable": false
+      }
+    },
+    {
+      "name": "byte-budget",
+      "unpublished": true
+    },
+    {
+      "name": "occurrence-budget",
+      "unpublished": true
+    },
+    {
+      "name": "frame-budget",
+      "unpublished": true
+    },
+    {
+      "name": "canceled-after-first-frame",
+      "unpublished": true
+    },
+    {
+      "name": "held-row-mismatch",
+      "error": {
+        "code": "INVALID_REQUEST",
+        "details": {},
+        "message": "Prepared pointer changed its selected source.",
+        "retryable": false
+      }
+    }
+  ],
+  "results": [
+    {
+      "name": "identity",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/identity.pointers.jsonl",
+        "bytes": 657,
+        "records": 1,
+        "sha256": "f657511d1509876d305f9034bc74cc7733131d4e52e65e3810783950b033a856"
+      },
+      "result": {
+        "bytes": 2320,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/identity.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "geometryPrefix": [],
+                  "kind": "pointer",
+                  "stepId": "pointer",
+                  "trailUs": 600000
+                },
+                {
+                  "height": 159,
+                  "kind": "clamp",
+                  "width": 255,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 256,
+                      "y": 0
+                    },
+                    {
+                      "x": 256,
+                      "y": 160
+                    },
+                    {
+                      "x": 0,
+                      "y": 160
+                    }
+                  ],
+                  "width": 256
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    },
+    {
+      "name": "translate",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/translate.pointers.jsonl",
+        "bytes": 657,
+        "records": 1,
+        "sha256": "f657511d1509876d305f9034bc74cc7733131d4e52e65e3810783950b033a856"
+      },
+      "result": {
+        "bytes": 2285,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/translate.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 159,
+                  "kind": "clamp",
+                  "width": 255,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    32,
+                    -16
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 32,
+                      "y": -16
+                    },
+                    {
+                      "x": 288,
+                      "y": -16
+                    },
+                    {
+                      "x": 288,
+                      "y": 144
+                    },
+                    {
+                      "x": 32,
+                      "y": 144
+                    }
+                  ],
+                  "width": 256
+                },
+                {
+                  "geometryPrefix": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "kind": "pointer",
+                  "stepId": "pointer",
+                  "trailUs": 600000
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    },
+    {
+      "name": "before-opacity",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/before-opacity.pointers.jsonl",
+        "bytes": 657,
+        "records": 1,
+        "sha256": "f657511d1509876d305f9034bc74cc7733131d4e52e65e3810783950b033a856"
+      },
+      "result": {
+        "bytes": 2327,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/before-opacity.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "opacity",
+                  "opacity": 0.2
+                },
+                {
+                  "geometryPrefix": [],
+                  "kind": "pointer",
+                  "stepId": "pointer",
+                  "trailUs": 600000
+                },
+                {
+                  "height": 159,
+                  "kind": "clamp",
+                  "width": 255,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 256,
+                      "y": 0
+                    },
+                    {
+                      "x": 256,
+                      "y": 160
+                    },
+                    {
+                      "x": 0,
+                      "y": 160
+                    }
+                  ],
+                  "width": 256
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    },
+    {
+      "name": "after-opacity",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/after-opacity.pointers.jsonl",
+        "bytes": 657,
+        "records": 1,
+        "sha256": "f657511d1509876d305f9034bc74cc7733131d4e52e65e3810783950b033a856"
+      },
+      "result": {
+        "bytes": 2285,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/after-opacity.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "geometryPrefix": [],
+                  "kind": "pointer",
+                  "stepId": "pointer",
+                  "trailUs": 600000
+                },
+                {
+                  "kind": "opacity",
+                  "opacity": 0.2
+                },
+                {
+                  "height": 159,
+                  "kind": "clamp",
+                  "width": 255,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 256,
+                      "y": 0
+                    },
+                    {
+                      "x": 256,
+                      "y": 160
+                    },
+                    {
+                      "x": 0,
+                      "y": 160
+                    }
+                  ],
+                  "width": 256
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    },
+    {
+      "name": "crop-before-pointer",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/crop-before-pointer.pointers.jsonl",
+        "bytes": 657,
+        "records": 1,
+        "sha256": "f657511d1509876d305f9034bc74cc7733131d4e52e65e3810783950b033a856"
+      },
+      "result": {
+        "bytes": 2223,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/crop-before-pointer.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 47,
+                  "kind": "clamp",
+                  "width": 63,
+                  "x": 80.5,
+                  "y": 62.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    -80,
+                    -62
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    80,
+                    62
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 80,
+                      "y": 62
+                    },
+                    {
+                      "x": 144,
+                      "y": 62
+                    },
+                    {
+                      "x": 144,
+                      "y": 110
+                    },
+                    {
+                      "x": 80,
+                      "y": 110
+                    }
+                  ],
+                  "width": 256
+                },
+                {
+                  "geometryPrefix": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "kind": "pointer",
+                  "stepId": "pointer",
+                  "trailUs": 600000
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    },
+    {
+      "name": "pointer-before-crop",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/pointer-before-crop.pointers.jsonl",
+        "bytes": 657,
+        "records": 1,
+        "sha256": "f657511d1509876d305f9034bc74cc7733131d4e52e65e3810783950b033a856"
+      },
+      "result": {
+        "bytes": 2223,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/pointer-before-crop.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "geometryPrefix": [],
+                  "kind": "pointer",
+                  "stepId": "pointer",
+                  "trailUs": 600000
+                },
+                {
+                  "height": 47,
+                  "kind": "clamp",
+                  "width": 63,
+                  "x": 80.5,
+                  "y": 62.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    -80,
+                    -62
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    80,
+                    62
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 80,
+                      "y": 62
+                    },
+                    {
+                      "x": 144,
+                      "y": 62
+                    },
+                    {
+                      "x": 144,
+                      "y": 110
+                    },
+                    {
+                      "x": 80,
+                      "y": 110
+                    }
+                  ],
+                  "width": 256
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    },
+    {
+      "name": "rotate-before-pointer",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/rotate-before-pointer.pointers.jsonl",
+        "bytes": 657,
+        "records": 1,
+        "sha256": "f657511d1509876d305f9034bc74cc7733131d4e52e65e3810783950b033a856"
+      },
+      "result": {
+        "bytes": 2541,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/rotate-before-pointer.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 159,
+                  "kind": "clamp",
+                  "width": 255,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    6.123233995736766e-17,
+                    -1,
+                    1,
+                    6.123233995736766e-17,
+                    48,
+                    208
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 48,
+                      "y": 208
+                    },
+                    {
+                      "x": 48.000000000000014,
+                      "y": -48
+                    },
+                    {
+                      "x": 208.00000000000003,
+                      "y": -48
+                    },
+                    {
+                      "x": 208,
+                      "y": 208
+                    }
+                  ],
+                  "width": 256
+                },
+                {
+                  "geometryPrefix": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "kind": "pointer",
+                  "stepId": "pointer",
+                  "trailUs": 600000
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    },
+    {
+      "name": "pointer-before-rotate",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/pointer-before-rotate.pointers.jsonl",
+        "bytes": 657,
+        "records": 1,
+        "sha256": "f657511d1509876d305f9034bc74cc7733131d4e52e65e3810783950b033a856"
+      },
+      "result": {
+        "bytes": 2541,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/pointer-before-rotate.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "geometryPrefix": [],
+                  "kind": "pointer",
+                  "stepId": "pointer",
+                  "trailUs": 600000
+                },
+                {
+                  "height": 159,
+                  "kind": "clamp",
+                  "width": 255,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    6.123233995736766e-17,
+                    -1,
+                    1,
+                    6.123233995736766e-17,
+                    48,
+                    208
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 48,
+                      "y": 208
+                    },
+                    {
+                      "x": 48.000000000000014,
+                      "y": -48
+                    },
+                    {
+                      "x": 208.00000000000003,
+                      "y": -48
+                    },
+                    {
+                      "x": 208,
+                      "y": 208
+                    }
+                  ],
+                  "width": 256
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    },
+    {
+      "name": "disabled",
+      "pointers": {
+        "file": "/tmp/screenrec-pointer-native-cachefix/disabled.pointers.jsonl",
+        "bytes": 0,
+        "records": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "result": {
+        "bytes": 1159,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-pointer-native-cachefix/disabled.png",
+        "frame": {
+          "index": 10,
+          "layers": [
+            {
+              "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+              "availability": "available",
+              "clipId": "clip",
+              "height": 160,
+              "sourceUs": 1000000,
+              "streamId": "track:1",
+              "trackId": "video",
+              "width": 256
+            }
+          ],
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "endUs": 1000001,
+            "startUs": 1000000
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 159,
+                  "kind": "clamp",
+                  "width": 255,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 160,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 256,
+                      "y": 0
+                    },
+                    {
+                      "x": 256,
+                      "y": 160
+                    },
+                    {
+                      "x": 0,
+                      "y": 160
+                    }
+                  ],
+                  "width": 256
+                }
+              ],
+              "target": {
+                "id": "clip",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "clip",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "video",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "video",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 160,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "actualSourceUs": 1000000,
+            "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+            "clipId": "clip",
+            "requestedSourceUs": 1000000,
+            "sample": {
+              "originUs": 0,
+              "timescale": 10240,
+              "value": "10240"
+            },
+            "status": "available",
+            "streamId": "track:1"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 160,
+        "sourceWidth": 256,
+        "width": 256
+      }
+    }
+  ]
+}

@@ -14,6 +14,7 @@ public enum CompositionFrameRenderer {
         public let assets: [CompositionAsset]
         let maxLongEdge: Int?
         let maxEncodedBytes: Int?
+        let pointers: PreparedPointersReceipt?
     }
     public struct Result: Encodable {
         let file: String
@@ -45,7 +46,7 @@ public enum CompositionFrameRenderer {
             frame.visibleRange.endUs <= TimeSpan.maximumMicroseconds
         else { throw NativeFailure("INVALID_REQUEST", "Invalid compiled picture or image limits.") }
         let pictures = try CompositionPictureExecutor(
-            canvas: request.canvas, bindings: request.assets)
+            canvas: request.canvas, bindings: request.assets, pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }
         let buffer = try await pictures.render(frame) { _ in
@@ -58,6 +59,7 @@ public enum CompositionFrameRenderer {
             else { throw NativeFailure.decodeFailed("Cannot allocate picture buffer.") }
             return buffer
         }
+        try pictures.finishPointers()
         // Orientation and composition are complete. Only the established delivery bound remains.
         let image = try FrameImage(
             buffer: buffer, transform: .identity, overlay: nil, agedFromUs: 0,

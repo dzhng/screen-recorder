@@ -45,6 +45,9 @@ public final class CompositionPictureExecutor {
             let height: Double?
             let matrix: [Double]?
             let opacity: Double?
+            let stepId: String?
+            let trailUs: Int64?
+            let geometryPrefix: [Int]?
         }
         let index: Int64
         let sampleAtUs: Int64
@@ -75,9 +78,16 @@ public final class CompositionPictureExecutor {
         let sampleTime: CMTime?
         let available: Bool
     }
+    private struct PointerRasterKey: Equatable {
+        let clipId: String
+        let stepId: String
+        let captureUs: Int64?
+        let overlay: FrameOverlay?
+    }
     private struct RasterKey: Equatable {
         let layers: [LayerKey]
         let visual: [Frame.Node]
+        let pointers: [PointerRasterKey]
     }
     private final class Reader {
         let source: PresentationSource
@@ -91,6 +101,7 @@ public final class CompositionPictureExecutor {
             self.at = at
         }
     }
+    private let preparedPointers: PreparedPointers?
     private let canvas: Canvas
     private let assets: [String: CompositionAsset]
     private let background: CIImage
@@ -116,12 +127,16 @@ public final class CompositionPictureExecutor {
     private(set) var opens = 0
     private(set) var maximumActiveSources = 0
     private(set) var rasterized = 0
+    private(set) var pointerRasterizations = 0
     private var retainedRaster: (key: RasterKey, buffer: CVPixelBuffer)?
     private(set) var pictures: [Picture] = []
     private(set) var outputIsKnownOpaque = false
     var decodedSamples: Int { decoded + readers.values.reduce(0) { $0 + $1.source.decodedCount } }
 
-    init(canvas: Canvas, bindings: [CompositionAsset]) throws {
+    init(canvas: Canvas, bindings: [CompositionAsset], pointers: PreparedPointersReceipt? = nil)
+        throws
+    {
+        self.preparedPointers = try pointers.map(PreparedPointers.init)
         guard canvas.width > 0, canvas.height > 0, canvas.width <= 8192, canvas.height <= 8192,
             canvas.width.isMultiple(of: 2), canvas.height.isMultiple(of: 2),
             canvas.fps.numerator > 0, canvas.fps.denominator > 0
@@ -251,6 +266,33 @@ public final class CompositionPictureExecutor {
                     available: available))
             surfaces[.init(kind: "clip", id: layer.clipId)] = image
         }
+        var pointerKeys: [PointerRasterKey] = []
+        var pointerRows: [PreparedPointers.Row] = []
+        for node in frame.visual {
+            for operation in node.operations where operation.kind == "pointer" {
+                guard let preparedPointers, let clipId = node.target.id else {
+                    throw Self.invalid("Enabled pointer requires prepared source evidence.")
+                }
+                let row = try preparedPointers.take(
+                    frame: frame, clipId: clipId, operation: operation,
+                    layer: frame.layers.first(where: { $0.clipId == clipId }),
+                    picture: pictures.first(where: { $0.clipId == clipId }))
+                pointerRows.append(row)
+                pointerKeys.append(
+                    PointerRasterKey(
+                        clipId: clipId, stepId: row.stepId, captureUs: row.captureUs,
+                        overlay: row.overlay))
+            }
+        }
+        outputIsKnownOpaque =
+            frame.visual.last!.target.kind == "output" && frame.visual.last!.operations.isEmpty
+        let rasterKey = RasterKey(layers: keys, visual: frame.visual, pointers: pointerKeys)
+        // Identical keys also identify an already-validated graph. Every new evidence row
+        // was consumed above, but held pixels need neither glyph nor primitive rasterization.
+        if let retainedRaster, retainedRaster.key == rasterKey {
+            return try await allocate(retainedRaster.buffer)
+        }
+        var pointerRow = 0
         var seen = Set<CompositionProcessing.Target>()
         var image = transparent
         for node in frame.visual {
@@ -274,50 +316,97 @@ public final class CompositionPictureExecutor {
                 }
                 image = image.cropped(to: canvasRect)
             }
-            for operation in node.operations { image = try apply(operation, to: image) }
+            for operation in node.operations {
+                if operation.kind != "pointer" {
+                    image = try apply(operation, to: image)
+                    continue
+                }
+                let row = pointerRows[pointerRow]
+                pointerRow += 1
+                if let overlay = row.overlay, let width = row.width, let height = row.height,
+                    let at = row.captureUs,
+                    let drawn = try CursorOverlay.image(
+                        overlay, agedFromUs: at, width: width, height: height,
+                        visibleLongEdge: Double(max(width, height)), deliveredScale: 1)
+                {
+                    pointerRasterizations += 1
+                    var pointer = CIImage(cgImage: drawn)
+                    for index in operation.geometryPrefix! {
+                        pointer = try apply(node.operations[index], to: pointer)
+                    }
+                    image = pointer.composited(over: image)
+                }
+            }
             surfaces[node.target] = image
         }
         guard surfaces.count == 1 else {
             throw Self.invalid("Visual graph has unconsumed surfaces.")
         }
-        outputIsKnownOpaque =
-            frame.visual.last!.target.kind == "output" && frame.visual.last!.operations.isEmpty
-        let rasterKey = RasterKey(layers: keys, visual: frame.visual)
-        let reused = retainedRaster?.key == rasterKey
-        let destination = try await allocate(reused ? retainedRaster!.buffer : nil)
-        if !reused {
-            context.render(
-                image, to: destination,
-                bounds: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height),
-                colorSpace: color)
-            CVBufferSetAttachment(
-                destination, kCVImageBufferCGColorSpaceKey, color, .shouldPropagate)
-            CVBufferSetAttachment(
-                destination, kCVImageBufferColorPrimariesKey,
-                kCVImageBufferColorPrimaries_ITU_R_709_2,
-                .shouldPropagate)
-            CVBufferSetAttachment(
-                destination, kCVImageBufferTransferFunctionKey,
-                kCVImageBufferTransferFunction_ITU_R_709_2,
-                .shouldPropagate)
-            CVBufferSetAttachment(
-                destination, kCVImageBufferYCbCrMatrixKey,
-                kCVImageBufferYCbCrMatrix_ITU_R_709_2,
-                .shouldPropagate)
-            // Reuse pixels only when physical samples and every compiled operation agree.
-            retainedRaster = (rasterKey, destination)
-            rasterized += 1
-        }
+        let destination = try await allocate(nil)
+        context.render(
+            image, to: destination,
+            bounds: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height),
+            colorSpace: color)
+        CVBufferSetAttachment(
+            destination, kCVImageBufferCGColorSpaceKey, color, .shouldPropagate)
+        CVBufferSetAttachment(
+            destination, kCVImageBufferColorPrimariesKey,
+            kCVImageBufferColorPrimaries_ITU_R_709_2,
+            .shouldPropagate)
+        CVBufferSetAttachment(
+            destination, kCVImageBufferTransferFunctionKey,
+            kCVImageBufferTransferFunction_ITU_R_709_2,
+            .shouldPropagate)
+        CVBufferSetAttachment(
+            destination, kCVImageBufferYCbCrMatrixKey,
+            kCVImageBufferYCbCrMatrix_ITU_R_709_2,
+            .shouldPropagate)
+        // Reuse pixels only when physical samples and every compiled operation agree.
+        retainedRaster = (rasterKey, destination)
+        rasterized += 1
         return destination
     }
 
     private func preflightSurfaces(_ frame: Frame) throws -> Set<Frame.Operation> {
         var masks = Set<Frame.Operation>()
         var intermediatePixels: Int64 = 0
+        var overlayPixels: Int64 = 0
         let area = Int64(canvas.width) * Int64(canvas.height)
         for node in frame.visual {
             guard node.operations.count <= 1024 else {
                 throw Self.invalid("Picture operation count exceeds execution bounds.")
+            }
+            var geometry: [Int] = []
+            for (index, operation) in node.operations.enumerated() {
+                if operation.kind == "pointer" {
+                    guard node.target.kind == "clip", let id = node.target.id,
+                        let stepId = operation.stepId, !stepId.isEmpty,
+                        let trail = operation.trailUs, trail >= 0,
+                        trail <= FrameLimits.maximumTrailUs,
+                        operation.geometryPrefix == geometry
+                    else {
+                        throw Self.invalid(
+                            "Pointer requires a complete backward geometry prefix and source context."
+                        )
+                    }
+                    if let layer = frame.layers.first(where: { $0.clipId == id }),
+                        layer.availability == "available"
+                    {
+                        guard layer.width.isFinite, layer.height.isFinite, layer.width > 0,
+                            layer.height > 0,
+                            layer.width <= 8192, layer.height <= 8192
+                        else {
+                            throw Self.invalid("Pointer source dimensions exceed raster bounds.")
+                        }
+                        overlayPixels += Int64(layer.width) * Int64(layer.height)
+                        for reference in geometry
+                        where node.operations[reference].kind == "rasterize" {
+                            intermediatePixels += area
+                        }
+                    }
+                } else if operation.kind != "opacity" {
+                    geometry.append(index)
+                }
             }
             for operation in node.operations
             where operation.kind == "rasterize" || operation.kind == "coverage" {
@@ -334,6 +423,9 @@ public final class CompositionPictureExecutor {
             }
         }
         try Self.requireBudget(
+            "pointer-source-pixels", requested: overlayPixels,
+            limit: Self.maximumIntermediatePixels, frame: frame.index)
+        try Self.requireBudget(
             "intermediate-pixels", requested: intermediatePixels,
             limit: Self.maximumIntermediatePixels, frame: frame.index)
         try Self.requireBudget(
@@ -341,6 +433,8 @@ public final class CompositionPictureExecutor {
             limit: Self.maximumCoverageBytes, frame: frame.index)
         return masks
     }
+
+    func finishPointers() throws { try preparedPointers?.finish() }
 
     private static func requireBudget(_ kind: String, requested: Int64, limit: Int64, frame: Int64)
         throws

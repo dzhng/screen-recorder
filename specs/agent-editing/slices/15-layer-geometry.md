@@ -211,9 +211,8 @@ performance or broader movie color/profile acceptance.
 
 [Source-time sampling evidence](../assets/15-pointer-sampling/README.md) pins the
 shared legacy/project event-reset owner and explicit trails at repeated, held and
-backward selected instants. The next vertical pass is bounded attempt-local overlay
-stream preparation with retained source/cache lifetimes and shared native prefix
-replay; no execution binding is enabled by the sampler prerequisite.
+backward selected instants. Prepared native replay is verified below; public
+readiness/admission remains the next integration step.
 
 ## Public pointer preparation admission
 
@@ -237,3 +236,9 @@ immutable clip/acquisition authority. Public execution manifests do not gain
 capture fields merely for service wiring. Attempt-local prepared pointer streams
 remain separate from the original compiler graph and are validated before native
 replay. This is the next integration plan, not a claim that execution is enabled.
+
+The [prepared-execution checkpoint](../assets/15-pointer-execution/README.md)
+now connects queued exact history, bounded attempt streams and shared native prefix
+replay. Scoped sampled geometry and retention gates pass; strict legacy byte parity
+and colored encoded-trail diagnostics remain explicitly red under slice06. This
+checkpoint does not enable public readiness or close the wider slice15 journey.

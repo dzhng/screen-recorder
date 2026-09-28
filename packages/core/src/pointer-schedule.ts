@@ -6,7 +6,10 @@ import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, SourceTrailRead } from "./evidence.js";
 import type { SourceEvidenceReader } from "./evidence-read.js";
 import { PresentationEvidence } from "./presentation-evidence.js";
-import { PresentationPointerHistory } from "./presentation-pointer-history.js";
+import {
+  PresentationPointerHistory,
+  pointerHistoryBudget,
+} from "./presentation-pointer-history.js";
 import { scenePolicy } from "./scenes.js";
 import { trailPolicy, type CursorPoint } from "./trails.js";
 import type { PresentationTime } from "./presentation-time.js";
@@ -68,10 +71,14 @@ export async function writePointerSchedule(input: ScheduleInput, signal: AbortSi
       scenePolicy: scenePolicy.id,
     };
     await append(header);
-    const history = new PresentationPointerHistory(input, signal, {
-      maxEvents: input.maxEvents,
-      maxSamples: 0,
-    });
+    const history = new PresentationPointerHistory(
+      input,
+      signal,
+      pointerHistoryBudget({
+        maxEvents: input.maxEvents,
+        maxSamples: 0,
+      }),
+    );
     for await (const state of pointerStates(history)) {
       await append(state);
       records++;

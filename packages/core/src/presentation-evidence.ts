@@ -1,6 +1,7 @@
-import { constants, type BigIntStats } from "node:fs";
-import { open, type FileHandle } from "node:fs/promises";
+import { constants, fstatSync, readSync, type BigIntStats } from "node:fs";
+import { open } from "node:fs/promises";
 import { z } from "zod";
+import { setImmediate } from "node:timers/promises";
 import {
   presentationTimeSchema as timeSchema,
   comparePresentationTimes as compare,
@@ -11,6 +12,11 @@ import { isAbsolute } from "node:path";
 import { CatalogError } from "./catalog.js";
 import { renderPlan, type TimeRange } from "./timeline.js";
 
+type PresentationRead = {
+  stat(): Promise<BigIntStats>;
+  read(buffer: Buffer, position: number): Promise<number>;
+  close(): Promise<void>;
+};
 const recordBytes = 65_536;
 export type PresentationLimits = {
   maxBytes: number;
@@ -75,7 +81,7 @@ function parse<T>(schema: z.ZodType<T>, value: unknown): T {
 export class PresentationEvidence {
   private closed = false;
   private constructor(
-    private readonly file: FileHandle,
+    private readonly file: PresentationRead,
     private readonly stat: BigIntStats,
     readonly receipt: Readonly<PresentationReceipt>,
     readonly spans: readonly Readonly<TimeRange>[],
@@ -86,30 +92,61 @@ export class PresentationEvidence {
     signal: AbortSignal,
     limits: Pick<PresentationLimits, "maxBytes" | "maxRecords"> = presentationLimits,
   ) {
-    const metadata = Object.freeze(parse(receiptSchema, receipt));
-    signal.throwIfAborted();
-    if (
-      !Number.isSafeInteger(limits.maxBytes) ||
-      limits.maxBytes < 1 ||
-      !Number.isSafeInteger(limits.maxRecords) ||
-      limits.maxRecords < 1 ||
-      metadata.bytes > limits.maxBytes ||
-      metadata.records > limits.maxRecords
-    )
-      throw new CatalogError(
-        "LIMIT_EXCEEDED",
-        "Presentation evidence exceeds its admission budget",
-      );
-    const pinned = Object.freeze(parse(historySchema, spans).map((span) => Object.freeze(span)));
-    const duration = renderPlan({ spans: pinned }).at(-1)!.playback.endUs;
-    if (!Number.isSafeInteger(duration) || duration !== metadata.durationUs)
-      invalid("Presentation duration differs from history spans");
     const file = await open(
-      metadata.file,
+      parse(receiptSchema, receipt).file,
       constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
     );
+    return this.admit(receipt, spans, signal, limits, {
+      stat: () => file.stat({ bigint: true }),
+      read: async (buffer, position) =>
+        (await file.read(buffer, 0, buffer.length, position)).bytesRead,
+      close: () => file.close(),
+    });
+  }
+  /** The caller keeps the cache descriptor lease alive until this reader closes. */
+  static async fromDescriptor(
+    receipt: PresentationReceipt,
+    spans: readonly TimeRange[],
+    fd: number,
+    signal: AbortSignal,
+    limits: Pick<PresentationLimits, "maxBytes" | "maxRecords"> = presentationLimits,
+  ) {
+    return this.admit(receipt, spans, signal, limits, {
+      stat: async () => fstatSync(fd, { bigint: true }),
+      read: async (buffer, position) => {
+        await setImmediate(undefined, { signal });
+        return readSync(fd, buffer, 0, buffer.length, position);
+      },
+      close: async () => {},
+    });
+  }
+  private static async admit(
+    receipt: PresentationReceipt,
+    spans: readonly TimeRange[],
+    signal: AbortSignal,
+    limits: Pick<PresentationLimits, "maxBytes" | "maxRecords">,
+    file: PresentationRead,
+  ) {
     try {
-      const stat = await file.stat({ bigint: true });
+      const metadata = Object.freeze(parse(receiptSchema, receipt));
+      signal.throwIfAborted();
+      if (
+        !Number.isSafeInteger(limits.maxBytes) ||
+        limits.maxBytes < 1 ||
+        !Number.isSafeInteger(limits.maxRecords) ||
+        limits.maxRecords < 1 ||
+        metadata.bytes > limits.maxBytes ||
+        metadata.records > limits.maxRecords
+      )
+        throw new CatalogError(
+          "LIMIT_EXCEEDED",
+          "Presentation evidence exceeds its admission budget",
+        );
+      const pinned = Object.freeze(parse(historySchema, spans).map((span) => Object.freeze(span)));
+      const duration = renderPlan({ spans: pinned }).at(-1)!.playback.endUs;
+      if (!Number.isSafeInteger(duration) || duration !== metadata.durationUs)
+        invalid("Presentation duration differs from history spans");
+      const stat = await file.stat();
       if (!stat.isFile() || stat.size !== BigInt(metadata.bytes))
         invalid("Presentation receipt does not match its file");
       const source = new PresentationEvidence(file, stat, metadata, pinned);
@@ -130,7 +167,7 @@ export class PresentationEvidence {
   private async check(signal: AbortSignal) {
     signal.throwIfAborted();
     if (this.closed) throw new CatalogError("UNAVAILABLE", "Presentation evidence is closed");
-    const current = await this.file.stat({ bigint: true });
+    const current = await this.file.stat();
     if (
       current.size !== this.stat.size ||
       current.mtimeNs !== this.stat.mtimeNs ||
@@ -145,10 +182,8 @@ export class PresentationEvidence {
       used = 0;
     while (position < this.receipt.bytes) {
       await this.check(signal);
-      const { bytesRead } = await this.file.read(
-        chunk,
-        0,
-        Math.min(recordBytes, this.receipt.bytes - position),
+      const bytesRead = await this.file.read(
+        chunk.subarray(0, Math.min(recordBytes, this.receipt.bytes - position)),
         position,
       );
       if (!bytesRead) invalid("Truncated presentation evidence");

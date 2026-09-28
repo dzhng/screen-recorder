@@ -131,3 +131,59 @@ public struct DecodedFrame: Codable, Sendable, Equatable {
     public let overlay: RenderedOverlay?
     public let bytes: Int
 }
+
+extension FrameOverlay {
+    /// Bounds the drawing work and refuses evidence this library would have to guess about: points
+    /// off the source raster, points out of order, and runs that overlap in time.
+    func validate(width: Int, height: Int) throws {
+        let overlay = self
+        guard overlay.trailUs >= 0, overlay.trailUs <= FrameLimits.maximumTrailUs else {
+            throw NativeFailure(
+                "INVALID_RANGE",
+                "Trail duration \(overlay.trailUs) is outside 0...\(FrameLimits.maximumTrailUs) microseconds."
+            )
+        }
+        var total = 0
+        var previousUs: Int64?
+        for run in overlay.trail {
+            guard !run.isEmpty else {
+                throw NativeFailure("INVALID_RANGE", "A trail run holds no points.")
+            }
+            total += run.count
+            for point in run {
+                try validate(point: point, width: width, height: height)
+                if let previousUs, point.atSourceUs <= previousUs {
+                    throw NativeFailure(
+                        "INVALID_RANGE",
+                        "Trail point at \(point.atSourceUs) does not follow \(previousUs) microseconds."
+                    )
+                }
+                previousUs = point.atSourceUs
+            }
+        }
+        guard total <= FrameLimits.maximumTrailPoints else {
+            throw NativeFailure(
+                "INVALID_RANGE",
+                "Trail holds \(total) points, over the \(FrameLimits.maximumTrailPoints) point limit."
+            )
+        }
+        guard total == 0 || overlay.trailUs > 0 else {
+            throw NativeFailure(
+                "INVALID_RANGE", "A trail of \(total) points needs a trail duration.")
+        }
+        if let pointer = overlay.pointer {
+            try validate(point: pointer, width: width, height: height)
+        }
+    }
+
+    private func validate(point: CursorPoint, width: Int, height: Int) throws {
+        guard point.atSourceUs >= 0, point.atSourceUs <= TimeSpan.maximumMicroseconds,
+            point.isOnRaster(width: width, height: height)
+        else {
+            throw NativeFailure(
+                "INVALID_RANGE",
+                "Cursor point \(point.x),\(point.y) at \(point.atSourceUs)us is not inside the \(width)x\(height) source image."
+            )
+        }
+    }
+}

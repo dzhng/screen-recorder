@@ -1,0 +1,36 @@
+✔ current pointer moves and clears over held pixels at exact fractional times (359.274ms)
+✔ fractional pointer transitions survive final AAC mux without rounding (491.410625ms)
+✔ unsupported exact clock never publishes output or leaves staging (150.678709ms)
+✔ schedule hash and initial kept state are required before publication (449.974791ms)
+✔ sub-microsecond pointer transitions remain distinct encoded samples (281.691417ms)
+✔ kept starts reset the current pointer and map fractional source times exactly (309.633042ms)
+✔ changing schedule bytes after preflight prevents movie publication (2462.732834ms)
+✔ proven empty presentation remains black even across a held pointer state (967.694708ms)
+✔ a bounded render scales the movie and keeps the pointer on the same spot (610.969792ms)
+✔ a bound that would round to an odd edge writes the even size H.264 requires (268.781291ms)
+✔ a bound outside the image limit is refused before any render (15.200375ms)
+✔ video worker preserves one-microsecond-spans pixels and exact plan duration (371.056667ms)
+✔ video worker preserves subframe pixels and exact plan duration (340.900083ms)
+✔ video worker preserves fractional-two-cuts pixels and exact plan duration (303.756792ms)
+✔ video worker preserves two-middle-cuts pixels and exact plan duration (321.309167ms)
+✔ video worker preserves original pixels and exact plan duration (318.103792ms)
+✔ video worker preserves sparse-held pixels and exact plan duration (321.91625ms)
+✔ video worker preserves leading-empty pixels and exact plan duration (328.770834ms)
+✔ video worker preserves internal-empty pixels and exact plan duration (326.542458ms)
+✔ video worker preserves trailing-empty pixels and exact plan duration (341.749709ms)
+✔ video worker preserves empty-only pixels and exact plan duration (338.1065ms)
+✔ video worker refuses malformed plans and output aliases without source mutation (169.094292ms)
+✔ video publication preserves a destination created during rendering (1022.68325ms)
+✔ video output preserves the native source's sRGB presentation across decoders (549.734625ms)
+✔ presentation evidence holds the displayed frame instead of nearest future still (372.322042ms)
+✔ presentation evidence clips exact rational supports across cuts and empty edits (342.626291ms)
+✔ presentation evidence refuses unsupported video tail and partial byte-budget output (380.776125ms)
+✔ presentation evidence memory stays bounded while streamed output grows (771.886042ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7901.966708

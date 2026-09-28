@@ -243,6 +243,14 @@
     "./presentation-pointer-history": {
       "types": "./dist/presentation-pointer-history.d.ts",
       "default": "./dist/presentation-pointer-history.js"
+    },
+    "./pointer-preparation": {
+      "types": "./dist/pointer-preparation.d.ts",
+      "default": "./dist/pointer-preparation.js"
+    },
+    "./composition-pointer": {
+      "types": "./dist/composition-pointer.d.ts",
+      "default": "./dist/composition-pointer.js"
     }
   },
   "scripts": {

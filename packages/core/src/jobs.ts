@@ -602,7 +602,7 @@ export class JobQueue {
   }
 
   /** Rebuild an evicted derivative only if the caller still names the published generation. */
-  regenerate(jobId: string, generation: number): Job {
+  regenerate(jobId: string, generation: number, admitted?: (job: Job) => void): Job {
     let changed = false;
     this.store.transaction(() => {
       this.requireOpen();
@@ -610,6 +610,7 @@ export class JobQueue {
       if (current.state !== "ready" || current.generation !== generation) return;
       this.targets.pin(current.target);
       this.requeue(current);
+      admitted?.(this.job(jobId));
       this.store.catalog
         .prepare(
           "DELETE FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=? AND generation=?",

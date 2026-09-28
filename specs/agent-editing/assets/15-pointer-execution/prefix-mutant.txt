@@ -1,0 +1,29 @@
+(node:69585) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Source-local overlay translation must happen exactly once
++ actual - expected
+
+  Buffer(4) [Uint8Array] [
++   134,
++   135,
++   134,
+-   138,
+-   139,
+-   138,
+    255
+  ]
+
+    at file:///private/tmp/screenrec-editing-speech/packages/test-harness/editing/pointer-native.mjs:357:14 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: Buffer(4) [Uint8Array] [ 134, 135, 134, 255 ],
+  expected: Buffer(4) [Uint8Array] [ 138, 139, 138, 255 ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

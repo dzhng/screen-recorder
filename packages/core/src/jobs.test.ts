@@ -1,7 +1,9 @@
 import { test, expect, afterEach } from "vitest";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { DerivedCache } from "./cache.js";
+import { submitCachedDerivative } from "./cached-derivative.js";
 import { ResourceReferences } from "./references.js";
 import { RevisionStore } from "./library.js";
 import { Catalog, CatalogError } from "./catalog.js";
@@ -2181,4 +2183,62 @@ test("settling one job cannot release a scene still pinned by another retryable 
   queue.forgetJob(second.jobId);
   expect(queue.retainsInput("scene-generation", "shared")).toBe(false);
   expect(refs.owners("scene-generation", "shared")).toEqual([]);
+});
+
+test("cache-loss readmission restores transient inputs transactionally and ready replay retains none", async () => {
+  const f = fixture();
+  const recordingId = finished(f.store);
+  const cache = new DerivedCache(f.store, dirname(f.path), () => {});
+  await cache.reconcile();
+  const request = {
+    target: { kind: "recording" as const, recordingId, revisionId: "r0" },
+    artifact: "prepared",
+    input: "pinned",
+  };
+  const admitted = (job: Job) => f.queue.retainInputs(job.jobId, "asset", ["source"]);
+  const first = submitCachedDerivative(f.queue, cache, request, "heavy", admitted);
+  expect(f.queue.retainsInput("asset", "source")).toBe(true);
+  const reserved = cache.reserve(request.target);
+  writeFileSync(reserved.path, "prepared");
+  await cache.publish(reserved.id);
+  const initial = f.queue.job(first.jobId!);
+  (await f.started(initial.attemptId)).finish(JSON.stringify({ cacheId: reserved.id }));
+  await f.queue.idle();
+  expect(f.queue.retainsInput("asset", "source")).toBe(false);
+  expect(submitCachedDerivative(f.queue, cache, request, "heavy", admitted).state).toBe("ready");
+  expect(f.queue.retainsInput("asset", "source")).toBe(false);
+  cache.remove(reserved.id);
+  const next = submitCachedDerivative(f.queue, cache, request, "heavy", admitted);
+  expect(f.queue.retainsInput("asset", "source")).toBe(true);
+  const replacement = f.queue.job(next.jobId!);
+  expect(replacement.generation).toBe(2);
+  (await f.started(replacement.attemptId)).finish(JSON.stringify({ cacheId: "replacement" }));
+  await f.queue.idle();
+  expect(f.queue.retainsInput("asset", "source")).toBe(false);
+});
+
+test("regeneration admission failure rolls back references, attempt and published artifact", async () => {
+  const f = fixture();
+  const recordingId = finished(f.store);
+  const job = f.queue.submit({
+    target: { kind: "recording", recordingId },
+    artifact: "frame",
+    lane: "frame",
+    input: "pinned",
+  });
+  (await f.started(job.attemptId)).finish("published");
+  await f.queue.idle();
+  expect(() =>
+    f.queue.regenerate(job.jobId, job.generation, (next) => {
+      f.queue.retainInputs(next.jobId, "asset", ["source"]);
+      throw new Error("admission failed");
+    }),
+  ).toThrow("admission failed");
+  expect(f.queue.retainsInput("asset", "source")).toBe(false);
+  expect(f.queue.job(job.jobId)).toMatchObject({
+    state: "ready",
+    attemptId: job.attemptId,
+    generation: 1,
+  });
+  expect(f.queue.status(job).published?.result).toBe("published");
 });

@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm, writeFile, open } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { PresentationEvidence } from "./presentation-evidence.js";
@@ -247,4 +247,25 @@ test("presentation admission bounds bytes and records before accepting history",
   await expect(
     PresentationEvidence.open(f.receipt, revision.spans, aborted.signal),
   ).rejects.toMatchObject({ name: "AbortError" });
+});
+
+test("borrowed presentation descriptor keeps exact validation without reopening its receipt path", async () => {
+  const f = await fixture();
+  const descriptor = await open(f.receipt.file, "r");
+  try {
+    const source = await PresentationEvidence.fromDescriptor(
+      { ...f.receipt, file: "/missing/receipt-path" },
+      revision.spans,
+      descriptor.fd,
+      signal(),
+    );
+    expect((await source.cursor(signal()).at(0, 800_000)).record).toMatchObject({ empty: false });
+    await source.close();
+    expect((await descriptor.stat()).size).toBe(f.receipt.bytes);
+    await expect(source.cursor(signal()).at(0, 800_000)).rejects.toMatchObject({
+      code: "UNAVAILABLE",
+    });
+  } finally {
+    await descriptor.close();
+  }
 });

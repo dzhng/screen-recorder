@@ -87,3 +87,11 @@ The [platform-rate comparison](../assets/06-platform-rate/README.md) reproduces
 the existing renderer's unset-bitrate policy. Its first frame matches the
 higher-bitrate candidate exactly; a short multi-frame run is retained for further
 verification. Independent audit is retained with that experiment; broader export-quality judgment remains pending. The subsequent [nine-case platform-rate comparison](../assets/06-platform-temporal/README.md) passes the same temporal gates, with a reviewed codec-tolerant empty-edit oracle.
+
+The [prepared-pointer measurements](../assets/15-pointer-execution/README.md)
+retain a further open color boundary: exact full/range pre-encode pointer PNGs can
+accompany different thin colored-trail membership in decoded H264. Actual movie
+writer inputs have not been compared, so the sequential render/cache versus
+encode/decode cause remains unresolved. Sampled white
+cursor geometry is checked separately; it does not waive the failed trail-color
+diagnostic or establish whole-movie acceptance.

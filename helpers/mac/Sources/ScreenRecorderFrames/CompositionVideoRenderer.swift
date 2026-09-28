@@ -12,10 +12,11 @@ public enum CompositionVideoRenderer {
         let profile: String
         public let processing: [CompositionProcessing]
         public let assets: [CompositionAsset]
+        let pointers: PreparedPointersReceipt?
         public func replacingOutput(_ path: String) -> Self {
             Self(
                 output: path, frames: frames, range: range, canvas: canvas, profile: profile,
-                processing: processing, assets: assets)
+                processing: processing, assets: assets, pointers: pointers)
         }
     }
     public struct Result: Encodable {
@@ -27,6 +28,7 @@ public enum CompositionVideoRenderer {
         public let height: Int
         public let frames: Int
         let rasterizedFrames: Int
+        let pointerRasterizations: Int
         let decodedSamples: Int
         let readerOpens: Int
         let bytes: Int
@@ -50,7 +52,7 @@ public enum CompositionVideoRenderer {
             throw invalid("Video requires a positive range.")
         }
         let pictures = try CompositionPictureExecutor(
-            canvas: canvas, bindings: request.assets)
+            canvas: canvas, bindings: request.assets, pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "video.mp4")
         defer { output.discard() }
         let writer = try AVAssetWriter(outputURL: output.url, fileType: .mp4)
@@ -145,6 +147,7 @@ public enum CompositionVideoRenderer {
             lastSample = frame.sampleAtUs
             frames += 1
         }
+        try pictures.finishPointers()
         guard through == request.range.endUs else {
             throw invalid("Compiled frames do not cover the requested range.")
         }
@@ -160,6 +163,7 @@ public enum CompositionVideoRenderer {
         return Result(
             file: request.output, durationUs: through - request.range.startUs, width: canvas.width,
             height: canvas.height, frames: frames, rasterizedFrames: pictures.rasterized,
+            pointerRasterizations: pictures.pointerRasterizations,
             decodedSamples: pictures.decodedSamples, readerOpens: pictures.opens,
             bytes: bytes, retainedSourceBuffersBound: pictures.maximumActiveSources)
     }

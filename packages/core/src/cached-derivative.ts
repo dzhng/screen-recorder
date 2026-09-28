@@ -16,7 +16,7 @@ export function submitCachedDerivative<Value extends { cacheId: string }>(
     const read = cache.acquire((JSON.parse(status.published.result) as Value).cacheId);
     if (read) read.release();
     else {
-      jobs.regenerate(status.jobId!, status.published.generation);
+      jobs.regenerate(status.jobId!, status.published.generation, admitted);
       status = jobs.status(identity);
     }
   }

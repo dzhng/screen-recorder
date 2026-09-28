@@ -1,6 +1,4 @@
 @preconcurrency import AVFoundation
-import CryptoKit
-import Darwin
 import Foundation
 import ScreenRecorderMedia
 
@@ -41,14 +39,9 @@ final class PointerSchedule {
         let at: Time
         let pointer: CursorPoint?
     }
-    private let file: FileHandle
+    private let lines: RetainedJSONLines
     private let receipt: PointerScheduleReceipt
     private let plan: [VideoRenderSpan]
-    private let initial: stat
-    private var buffer = Data()
-    private var offset = 0
-    private var bytes = 0
-    private var hash = SHA256()
     private var count = 0
     private var previous: State?
     private(set) var next: State?
@@ -63,34 +56,20 @@ final class PointerSchedule {
             receipt.durationUs == (try PresentationSource.duration(of: plan)),
             receipt.file.hasPrefix("/"), !receipt.file.contains("\0"), receipt.sha256.count == 64
         else { throw invalid("Pointer receipt does not match movie plan.") }
-        let fd = open(receipt.file, O_RDONLY | O_NOFOLLOW | O_NONBLOCK)
-        guard fd >= 0 else { throw invalid("Cannot open pinned pointer schedule.") }
-        let file = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
-        var info = stat()
-        guard fstat(fd, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
-            info.st_size == receipt.bytes
-        else {
-            try? file.close()
-            throw invalid("Pointer schedule size or file type changed.")
-        }
-        self.file = file
+        self.lines = try RetainedJSONLines(
+            path: receipt.file, bytes: receipt.bytes, sha256: receipt.sha256, recordBytes: 65_536,
+            maximumBytes: Int.max)
         self.receipt = receipt
         self.plan = plan
-        self.initial = info
         try header()
         while let state = try readState() { try clock.include(state.at.mediaTime()) }
         try finish()
-        try file.seek(toOffset: 0)
-        buffer.removeAll(keepingCapacity: true)
-        offset = 0
-        bytes = 0
-        hash = SHA256()
+        try lines.rewind()
         count = 0
         previous = nil
         try header()
         next = try readState()
     }
-    deinit { try? file.close() }
 
     func selection(spanIndex: Int, at: CMTime, end: CMTime) throws -> (CursorPoint?, CMTime) {
         while let state = next, state.spanIndex == spanIndex, try state.at.mediaTime() <= at {
@@ -107,22 +86,14 @@ final class PointerSchedule {
     }
 
     func finish() throws {
-        guard next == nil, count == receipt.records, previous?.spanIndex == plan.count - 1,
-            bytes == receipt.bytes,
-            hash.finalize().map({ String(format: "%02x", $0) }).joined() == receipt.sha256
-        else { throw invalid("Pointer schedule receipt or complete span coverage differs.") }
-        var info = stat()
-        guard fstat(file.fileDescriptor, &info) == 0, info.st_dev == initial.st_dev,
-            info.st_ino == initial.st_ino, info.st_size == initial.st_size,
-            info.st_mtimespec.tv_sec == initial.st_mtimespec.tv_sec,
-            info.st_mtimespec.tv_nsec == initial.st_mtimespec.tv_nsec,
-            info.st_ctimespec.tv_sec == initial.st_ctimespec.tv_sec,
-            info.st_ctimespec.tv_nsec == initial.st_ctimespec.tv_nsec
-        else { throw invalid("Pinned pointer schedule changed while reading.") }
+        guard next == nil, count == receipt.records, previous?.spanIndex == plan.count - 1 else {
+            throw invalid("Pointer schedule receipt or complete span coverage differs.")
+        }
+        try lines.finish()
     }
 
     private func header() throws {
-        guard let data = try line(),
+        guard let data = try lines.next(),
             let object = try JSONSerialization.jsonObject(with: data) as? [String: Any]
         else {
             throw invalid("Missing pointer schedule header.")
@@ -142,7 +113,7 @@ final class PointerSchedule {
 
     private func readState() throws -> State? {
         try autoreleasepool {
-            guard let data = try line() else { return nil }
+            guard let data = try lines.next() else { return nil }
             guard count < receipt.records else { throw invalid("Extra pointer state.") }
             guard let object = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                 Set(object.keys) == ["spanIndex", "at", "pointer"]
@@ -179,34 +150,6 @@ final class PointerSchedule {
         }
     }
 
-    private func line() throws -> Data? {
-        while true {
-            if let newline = buffer[offset...].firstIndex(of: 10) {
-                let data = buffer.subdata(in: offset..<newline)
-                offset = newline + 1
-                guard !data.isEmpty, data.count < 65_536 else {
-                    throw invalid("Pointer record exceeds its bound.")
-                }
-                return data
-            }
-            if offset > 0 {
-                buffer.removeSubrange(0..<offset)
-                offset = 0
-            }
-            guard buffer.count < 65_536 else { throw invalid("Pointer record exceeds its bound.") }
-            let chunk = try file.read(upToCount: min(16_384, 65_536 - buffer.count)) ?? Data()
-            if chunk.isEmpty {
-                guard buffer.isEmpty else { throw invalid("Unterminated pointer record.") }
-                return nil
-            }
-            guard chunk.count <= receipt.bytes - bytes else {
-                throw invalid("Pointer file exceeds receipt.")
-            }
-            bytes += chunk.count
-            hash.update(data: chunk)
-            buffer.append(chunk)
-        }
-    }
 }
 private func invalid(_ message: String) -> NativeFailure {
     NativeFailure("INVALID_REQUEST", message)

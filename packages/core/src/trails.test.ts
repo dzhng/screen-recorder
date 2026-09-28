@@ -7,7 +7,10 @@ import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import type { VisualSampler } from "./scenes.js";
 import { planFrameTrail } from "./trails.js";
 import { PresentationEvidence } from "./presentation-evidence.js";
-import { PresentationPointerHistory } from "./presentation-pointer-history.js";
+import {
+  PresentationPointerHistory,
+  pointerHistoryBudget,
+} from "./presentation-pointer-history.js";
 import { PresentationPointer } from "./presentation-pointer.js";
 import { writePointerSchedule } from "./pointer-schedule.js";
 import { createOriginalRevision, createRevision, type TimelineRevision } from "./timeline.js";
@@ -914,10 +917,14 @@ test("sampled pointers preserve immutable lookback, requested clock and held/bac
     createOriginalRevision(1_000_000, "source"),
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
-      const h = new PresentationPointerHistory({ ...f, presentation }, signal(), {
-        maxEvents: 100,
-        maxSamples: 10,
-      });
+      const h = new PresentationPointerHistory(
+        { ...f, presentation },
+        signal(),
+        pointerHistoryBudget({
+          maxEvents: 100,
+          maxSamples: 10,
+        }),
+      );
       try {
         const first = await h.sample(0, 450_000, 300_000);
         expect(first.record).toMatchObject({ actualSourceUs: 0 });
@@ -979,10 +986,14 @@ test("sampled pointer visits intervening A-B-A scenes and physical gaps before a
       i === 3 ? { ...row, end: { value: "3000001", timescale: 3_000_000 } } : row,
     ),
     async (presentation) => {
-      const h = new PresentationPointerHistory({ ...f, presentation }, signal(), {
-        maxEvents: 100,
-        maxSamples: 10,
-      });
+      const h = new PresentationPointerHistory(
+        { ...f, presentation },
+        signal(),
+        pointerHistoryBudget({
+          maxEvents: 100,
+          maxSamples: 10,
+        }),
+      );
       try {
         const afterScene = await h.sample(0, 900_000, 1_000_000);
         expect(
@@ -1028,10 +1039,14 @@ test("sampled trails retain pause equality and geometry/outside run breaks", asy
     createOriginalRevision(1_000_000, "source"),
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
-      const h = new PresentationPointerHistory({ ...f, presentation }, signal(), {
-        maxEvents: 100,
-        maxSamples: 10,
-      });
+      const h = new PresentationPointerHistory(
+        { ...f, presentation },
+        signal(),
+        pointerHistoryBudget({
+          maxEvents: 100,
+          maxSamples: 10,
+        }),
+      );
       try {
         const pause = await h.sample(0, 200_000, 1_000_000);
         expect(pause.inspection.kind === "picture" && pause.inspection.plan.overlay).toEqual({
@@ -1069,10 +1084,14 @@ test("sampled pointer does not evaluate future invalid geometry or admit later j
     createOriginalRevision(1_000_000, "source"),
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
-      const h = new PresentationPointerHistory({ ...f, presentation }, signal(), {
-        maxEvents: 100,
-        maxSamples: 10,
-      });
+      const h = new PresentationPointerHistory(
+        { ...f, presentation },
+        signal(),
+        pointerHistoryBudget({
+          maxEvents: 100,
+          maxSamples: 10,
+        }),
+      );
       try {
         const result = await h.sample(0, 500_000, 500_000);
         expect(
@@ -1093,10 +1112,14 @@ test("pointer sampling bounds occurrences and aggregate replay work and honors c
     [presentationRecord(0, 1_000_000, 0)],
     async (presentation) => {
       const controller = new AbortController();
-      const h = new PresentationPointerHistory({ ...f, presentation }, controller.signal, {
-        maxEvents: 6,
-        maxSamples: 10,
-      });
+      const h = new PresentationPointerHistory(
+        { ...f, presentation },
+        controller.signal,
+        pointerHistoryBudget({
+          maxEvents: 6,
+          maxSamples: 10,
+        }),
+      );
       try {
         await h.sample(0, 300_000, 100_000);
         await expect(h.sample(0, 150_000, 100_000)).rejects.toMatchObject({
@@ -1105,26 +1128,56 @@ test("pointer sampling bounds occurrences and aggregate replay work and honors c
       } finally {
         await h.close();
       }
-      const held = new PresentationPointerHistory({ ...f, presentation }, controller.signal, {
-        maxEvents: 100,
-        maxSamples: 1,
-      });
+      const held = new PresentationPointerHistory(
+        { ...f, presentation },
+        controller.signal,
+        pointerHistoryBudget({
+          maxEvents: 100,
+          maxSamples: 1,
+        }),
+      );
       try {
         await held.sample(0, 300_000, 0);
         await expect(held.sample(0, 300_000, 0)).rejects.toMatchObject({ code: "LIMIT_EXCEEDED" });
       } finally {
         await held.close();
       }
-      const canceled = new PresentationPointerHistory({ ...f, presentation }, controller.signal, {
-        maxEvents: 100,
-        maxSamples: 10,
-      });
+      const canceled = new PresentationPointerHistory(
+        { ...f, presentation },
+        controller.signal,
+        pointerHistoryBudget({
+          maxEvents: 100,
+          maxSamples: 10,
+        }),
+      );
       try {
         await canceled.sample(0, 300_000, 0);
         controller.abort();
         await expect(canceled.sample(0, 400_000, 0)).rejects.toMatchObject({ name: "AbortError" });
       } finally {
         await canceled.close();
+      }
+    },
+  );
+});
+
+test("separate pointer histories share the render-attempt occurrence budget", async () => {
+  const f = await fixture([geometry(), point(100_000, 10)]);
+  await withPresentation(
+    createOriginalRevision(1_000_000, "source"),
+    [presentationRecord(0, 1_000_000, 0)],
+    async (presentation) => {
+      const budget = pointerHistoryBudget({ maxEvents: 100, maxSamples: 1 });
+      const first = new PresentationPointerHistory({ ...f, presentation }, signal(), budget);
+      const second = new PresentationPointerHistory({ ...f, presentation }, signal(), budget);
+      try {
+        await first.sample(0, 300_000, 0);
+        await expect(second.sample(0, 300_000, 0)).rejects.toMatchObject({
+          code: "LIMIT_EXCEEDED",
+        });
+      } finally {
+        await first.close();
+        await second.close();
       }
     },
   );
