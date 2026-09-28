@@ -23,6 +23,19 @@ const inspection = <T extends z.ZodRawShape>(shape: T) =>
 const edit = recording.extend({ requestId: id, expectedRevisionId: id });
 const project = z.object({ projectId: id }).strict();
 const projectEdit = project.extend({ requestId: id, expectedRevisionId: id });
+const previewParams = z.union([
+  inspection({ revisionId: id.optional() }),
+  project
+    .extend({
+      revisionId: id.optional(),
+      range: range
+        .refine(({ startUs, endUs }) => endUs > startUs, {
+          message: "Preview range must be positive",
+        })
+        .optional(),
+    })
+    .strict(),
+]);
 const historyPosition = {
   afterOrdinal: z.int().min(-1),
   throughOrdinal: z.int().min(-1),
@@ -449,16 +462,16 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("preview.get"),
-      params: inspection({ revisionId: id.optional() }),
+      params: previewParams,
     })
     .strict()
     .describe(
-      "Request a playable MP4 of the pinned edit with current pointer and acquired audio, for a recording or a relocated package. Returns readiness until complete; pin the returned revision when polling. CLI writes a file; MCP returns a delivery token for artifact.read/close.",
+      "Request a playable MP4 of a pinned project, recording or relocated package. Projects accept an optional range in project microseconds; omitted range renders the whole project. Recording/package previews retain their current pointer and acquired audio. Returns readiness until complete; pin the returned revision when polling. CLI writes a file; MCP returns a delivery token for artifact.read/close.",
     ),
   z
     .object({
       operation: z.literal("preview.retry"),
-      params: inspection({ revisionId: id.optional() }),
+      params: previewParams,
     })
     .strict()
     .describe(

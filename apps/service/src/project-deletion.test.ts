@@ -8,6 +8,7 @@ import { Catalog } from "@screenrec/core/catalog";
 import { AssetStore } from "@screenrec/core/assets";
 import { ProjectStore } from "@screenrec/core/projects";
 import { JobQueue } from "@screenrec/core/jobs";
+import { DerivativeDelivery } from "./delivery.js";
 import { ProjectDeletion } from "./project-deletion.js";
 
 function deferred() {
@@ -65,7 +66,8 @@ test("deletion drains canceled executors before releasing shared media; interrup
       for (const id of ids) await unlink(join(home, "cache", "derived", `${id}.cache`));
     },
   };
-  const deletion = new ProjectDeletion(projects, queue, cache, files);
+  const delivery = new DerivativeDelivery();
+  const deletion = new ProjectDeletion(projects, queue, cache, files, delivery);
   let releaseRead: (() => void) | undefined;
   try {
     await assets.recover();
@@ -128,6 +130,12 @@ test("deletion drains canceled executors before releasing shared media; interrup
     const sibling = cache.reserve({ kind: "project", projectId: two.project.projectId });
     await writeFile(sibling.path, "cached second project");
     await cache.publish(sibling.id);
+    const delivered = delivery.open({ kind: "project", id: target.projectId }, () =>
+      cache.acquire(cached.id),
+    );
+    const siblingDelivery = delivery.open({ kind: "project", id: two.project.projectId }, () =>
+      cache.acquire(sibling.id),
+    );
     const read = cache.acquire(cached.id)!;
     releaseRead = () => read.release();
     const job = queue.submit({ target, artifact: "fixture", lane: "heavy", input: "input" });
@@ -135,6 +143,12 @@ test("deletion drains canceled executors before releasing shared media; interrup
     const removing = deletion.delete(target.projectId);
     expect(deletion.delete(target.projectId)).toBe(removing);
     await aborted.promise;
+    expect(() => delivery.read(delivered.token, 0, 32)).toThrow(
+      expect.objectContaining({ code: "ARTIFACT_EXPIRED" }),
+    );
+    expect(Buffer.from(delivery.read(siblingDelivery.token, 0, 32).data, "base64").toString()).toBe(
+      "cached second project",
+    );
     expect(
       assets
         .references(asset.id)
@@ -152,7 +166,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
     await failed;
     await closing;
     expect(projects.deletionsPage().projectIds).toEqual([target.projectId]);
-    const resumed = new ProjectDeletion(projects, queue, cache, files);
+    const resumed = new ProjectDeletion(projects, queue, cache, files, delivery);
     try {
       const failures: unknown[] = [];
       await resumed.resume((error) => failures.push(error));
@@ -160,9 +174,12 @@ test("deletion drains canceled executors before releasing shared media; interrup
         expect.objectContaining({ code: "DELETE_FAILED", retryable: true }),
       ]);
       expect(projects.deletionsPage().projectIds).toEqual([target.projectId]);
-      expect(assets.references(asset.id).map((ref) => ref.id).sort()).toEqual(
-        [first.revision.id, second.revision.id].sort(),
-      );
+      expect(
+        assets
+          .references(asset.id)
+          .map((ref) => ref.id)
+          .sort(),
+      ).toEqual([first.revision.id, second.revision.id].sort());
       expect(await readFile(cached.path, "utf8")).toBe("cached first project");
       expect(() => cache.acquire(cached.id)).toThrow(/does not exist/);
       releaseRead();
@@ -188,6 +205,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
     }
   } finally {
     releaseRead?.();
+    delivery.dispose();
     exit.resolve();
     await deletion.close();
     await queue.close();

@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or author managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, or configure ordered clip/track/group processing.
+description: Record, inspect, edit, and export local recordings, or edit and preview managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, or configure ordered clip/track/group processing.
 ---
 
 # Screenrec
@@ -59,6 +59,12 @@ results; an exception needs clip treatment or a separate track, not an inherited
 override. Check `processing.capabilities`: authored settings with execution unavailable
 are not processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
+
+Use project time for a managed preview range. Keep the returned revision and range
+when polling so a concurrent edit cannot change the result. After replacing only
+audio or video, inspect both planes: the requested replacement must change while
+the protected plane keeps its source and timing. A downloaded preview is a viewing
+artifact; it does not establish that a durable export intent has published.
 
 ## Invocation and identity
 

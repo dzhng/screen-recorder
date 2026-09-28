@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native execution underway. Updated 2026-09-27.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-27.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
@@ -27,9 +27,10 @@ is verified at its owner seam; broader deadline failures remain under 24.
 Continue [09 public preview/export](slices/09-first-preview.md). Its
 [cache retirement](assets/09-cache-retirement/README.md) and
 [shared render lifetime](assets/09-render-lifetime/README.md) are integrated.
-Native composition movie assembly and core preview admission are in parallel
-implementation worktrees; integrate after review, then deliver project preview through the existing jobs/cache/delivery owners; adapt the same durable
-export-intent/publication owner for project exports. Do not translate compositions
+Native composition movie assembly, core admission and public preview are integrated
+through the existing jobs/cache/delivery owners. Finish retaining the live preview
+journey evidence, then integrate project exports through the same durable
+export-intent/publication owner. Do not translate compositions
 into recording spans or count state journeys as rendered-media acceptance.
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
@@ -76,15 +77,15 @@ Current evidence:
 - [03b routing](assets/03b-routing/README.md): 73 tests, nested ordering and a
   12,000-group iterative validation probe pass; no native processing claim.
 - [03c stacks](assets/03c-stacks/README.md): 78 tests and get/set/lifecycle probes
-  pass. Constant gain is authored but native execution is not yet available.
+  pass. Native constant-gain execution is covered by the subsequent audio/preview gates.
 - [04 project store](assets/04-project-store/README.md): 90 focused core tests,
   type checking/build and independent review pass. [Public journeys](assets/04-public-projects/README.md)
   verify stack/lifecycle state through CLI/MCP and native imports; [deletion](assets/04-project-deletion/README.md)
-  drains jobs and retires history without deleting original media. Rendered media remains pending.
+  drains jobs and retires history without deleting original media. These are state/lifetime checks; rendered acceptance belongs to 09.
 - [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.
-- [05 compiler](assets/05-compiler/README.md): 97 tests, integrated composition/core
+- [05 compiler](assets/05-compiler/README.md): 98 tests, integrated composition/core
   builds, core typecheck and strict-record probe pass; no native readiness claim.
 - [07 video](assets/07-video/README.md): native timing, profile refusal, source-selection
   and cancellation gates pass; resource and integrated decoded preservation pass.
@@ -94,6 +95,8 @@ Current evidence:
   conformance, scale, public delivery and listening remain explicit.
 - [08a derived cache](assets/08a-derived-cache/README.md): owner isolation/lifecycle
   checks, independent review and baseline controls pass; broad core deadlines remain explicitly red.
+- [09 public preview](assets/09-public-preview/README.md): service/protocol, CLI,
+  native preservation and blind skill checks pass; project exports remain open.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
   independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
   verifies profile conversion on the tested frames; encoding loss remains explicit.

@@ -281,6 +281,8 @@ export async function operate(
       case "preview.get":
       case "preview.retry": {
         const params = operation.params;
+        if ("projectId" in params)
+          return operationError("NOT_READY", "Project previews require the project service");
         const method = operation.operation === "preview.get" ? "request" : "retry";
         // A package renders its own media into the same cache, so both answer the same way; only
         // whose lifetime holds the delivery open differs.

@@ -1,6 +1,6 @@
 # 09 — First public preview and export
 
-Status: lifecycle prerequisite integrated: [shared-cache retirement](../assets/09-cache-retirement/README.md). [Shared render lifetime](../assets/09-render-lifetime/README.md) is ready for compiled execution. [Core preview admission](../assets/09-preview-owner/README.md) pins compiled windows and reuses the existing queue/cache; its renderer-boundary owner tests pass. Public rendered acceptance remains open. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
+Status: native assembly, core admission and [public preview](../assets/09-public-preview/README.md) are integrated through the existing owners. Live rendered journey evidence is being retained; durable project exports remain open. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
 
 ## Contract
 
@@ -14,7 +14,7 @@ Existing job/publication owners admit project-targeted preview.get/retry, frame/
 
 Deliver a reproducible CLI/MCP journey using the shared registry. Preview ranges preserve project phase; exports use the declared profile. Requests expose readiness/errors and pinned revision. Update skills/screenrec only for operations now available. The optional terminal/open-file viewer is not an editing GUI.
 
-Create this planned probe in this slice:
+The public journey entry point is:
 
 ```sh
 node packages/test-harness/editing/first-preview.mjs --transport both
@@ -54,3 +54,12 @@ that boundary directly; no legacy timeline adaptation or intermediate WAV decode
 is part of this seam. Production native preservation evidence is recorded under
 [09-pcm-mux](../assets/09-pcm-mux/README.md). This prerequisite does not complete
 the public preview/export journey.
+
+
+### Preview prerequisites
+
+[Shared-cache retirement](../assets/09-cache-retirement/README.md),
+[render lifetime](../assets/09-render-lifetime/README.md),
+[core admission](../assets/09-preview-owner/README.md) and
+[native assembly](../assets/09-assembly/README.md) retain their focused evidence.
+Public acceptance must additionally exercise delivered media through CLI/MCP.

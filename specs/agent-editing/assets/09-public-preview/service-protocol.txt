@@ -1,0 +1,18 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:26189) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26260) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26291) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  4 passed (4)
+      Tests  31 passed (31)
+   Start at  19:56:48
+   Duration  3.15s (tests 71%, transform 15%, import 14%, worker 1%)
+
+    Isolate  4 workers spawned · ~90ms startup each (spawn + environment, per file)
+             at least ~271ms faster with isolate: false — reuses workers across files instead of one per file
+

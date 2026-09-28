@@ -2,6 +2,7 @@ import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { ProjectStore } from "@screenrec/core/projects";
 import type { DerivedCache } from "@screenrec/core/cache";
+import type { DerivativeDelivery } from "./delivery.js";
 import type { ManagedFiles } from "./managed-files.js";
 import type { JobQueue } from "@screenrec/core/jobs";
 
@@ -16,6 +17,7 @@ export class ProjectDeletion {
     private readonly jobs: JobQueue,
     private readonly cache: DerivedCache,
     private readonly files: Pick<ManagedFiles, "removeCacheFiles">,
+    private readonly delivery: DerivativeDelivery,
   ) {}
 
   delete(projectId: string): Promise<Deleted> {
@@ -24,6 +26,7 @@ export class ProjectDeletion {
     const existing = this.active.get(projectId);
     if (existing) return existing;
     if (!this.store.markDeleting(projectId)) return Promise.resolve({ projectId, deleted: true });
+    this.delivery.revoke({ kind: "project", id: projectId });
     const result = this.remove(projectId).finally(() => this.active.delete(projectId));
     this.active.set(projectId, result);
     return result;

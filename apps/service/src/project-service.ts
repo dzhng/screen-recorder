@@ -1,8 +1,11 @@
+import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
+import { projectMovieRenderer } from "./project-render.js";
+import { clearRenderWorkspace } from "./render.js";
+import { DerivativeDelivery } from "./delivery.js";
 import { DerivedCache } from "@screenrec/core/cache";
 import { ManagedFiles } from "./managed-files.js";
 import { ProjectDeletion } from "./project-deletion.js";
 import { ProjectStore } from "@screenrec/core/projects";
-import { processingCapabilities } from "@screenrec/composition";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { AssetStore } from "@screenrec/core/assets";
@@ -34,6 +37,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
   let jobs: JobQueue | undefined;
   let listener: LocalListener | undefined;
   let deletion: ProjectDeletion | undefined;
+  const delivery = new DerivativeDelivery();
   try {
     catalog = new Catalog(join(library, "catalog.sqlite"));
     const assets = new AssetStore(catalog, library);
@@ -47,17 +51,19 @@ export async function startProjectService(options: { home: string; worker?: Medi
       else throw new CatalogError("NOT_FOUND", "Unsupported derived-file owner");
     });
     await cache.reconcile();
+    const workspace = join(library, "render");
+    await clearRenderWorkspace(worker, workspace, new AbortController().signal);
     const targets: JobTargets = {
       pin(target) {
-        if (target.kind !== "import")
-          throw new CatalogError("NOT_READY", "This service currently admits import jobs only");
-        assets.intent(target.importId);
+        if (target.kind === "import") assets.intent(target.importId);
+        else if (target.kind === "project") projects.revision(target.projectId, target.revisionId);
+        else throw new CatalogError("NOT_READY", "Unsupported project service job target");
         return target;
       },
       isAvailable(target) {
-        if (target.kind !== "import") return false;
+        if (target.kind !== "import" && target.kind !== "project") return false;
         try {
-          assets.intent(target.importId);
+          targets.pin(target);
           return true;
         } catch (error) {
           if (error instanceof CatalogError && error.code === "NOT_FOUND") return false;
@@ -67,11 +73,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
       isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
       isCapturing: () => false,
     };
+    let preview: ProjectPreviewInspection;
     const queue = new JobQueue({
       store: catalog,
       targets,
       providers: { newId: randomUUID },
       execute: async ({ job, signal }) => {
+        if (job.target.kind === "project" && job.artifact === "preview")
+          return preview.execute({ job, signal });
         if (job.target.kind !== "import" || job.artifact !== "asset.import")
           throw new CatalogError("NOT_READY", "Unsupported preparation job");
         const asset = await assets.executeImport(
@@ -85,7 +94,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
       },
     });
     jobs = queue;
-    const projectDeletion = new ProjectDeletion(projects, queue, cache, files);
+    preview = new ProjectPreviewInspection(
+      projects,
+      assets,
+      queue,
+      cache,
+      projectMovieRenderer(worker, workspace),
+    );
+    const projectDeletion = new ProjectDeletion(projects, queue, cache, files, delivery);
     deletion = projectDeletion;
     await projectDeletion.resume((error) => console.error(error));
     const status = (jobId: string) => {
@@ -140,7 +156,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
               ),
             };
           case "processing.capabilities":
-            return { ok: true, data: processingCapabilities() };
+            return { ok: true, data: preview.capabilities() };
           case "revision.get":
             if (!("projectId" in operation.params))
               return operationError("NOT_READY", "This service reads managed project revisions");
@@ -211,6 +227,39 @@ export async function startProjectService(options: { home: string; worker?: Medi
                 ...(operation.params.limit === undefined ? {} : { limit: operation.params.limit }),
               }),
             };
+          case "preview.get":
+          case "preview.retry": {
+            const params = operation.params;
+            if (!("projectId" in params))
+              return operationError("NOT_READY", "This service previews managed projects");
+            const status =
+              preview[operation.operation === "preview.get" ? "request" : "retry"](params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                delivery: status.published
+                  ? delivery.open({ kind: "project", id: params.projectId }, () =>
+                      cache.acquire(status.published!.preview.cacheId),
+                    )
+                  : null,
+              },
+            };
+          }
+          case "artifact.read":
+            return {
+              ok: true,
+              data: delivery.read(
+                operation.params.token,
+                operation.params.offset,
+                operation.params.maxBytes,
+              ),
+            };
+          case "artifact.renew":
+            return { ok: true, data: delivery.renew(operation.params.token) };
+          case "artifact.close":
+            delivery.close(operation.params.token);
+            return { ok: true, data: { closed: true } };
           case "job.get":
             return { ok: true, data: status(operation.params.jobId) };
           case "job.retry":
@@ -248,6 +297,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             closing = true;
             await listener!.close();
             await Promise.allSettled(pending);
+            delivery.dispose();
             await projectDeletion.close();
             await queue.close();
             catalog!.close();
@@ -258,6 +308,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     };
   } catch (error) {
     await listener?.close();
+    delivery.dispose();
     await deletion?.close();
     await jobs?.close();
     catalog?.close();

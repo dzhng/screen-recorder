@@ -715,8 +715,9 @@ trim and stretch replacements keep their single-interval behavior.
   Only that calculated deficit may receive synthetic zero, and only after the
   decoder reaches the declared selection end; discarded real audio never fills it.
   This resolves the endpoint policy left open by the plan without changing duration,
-  adding a gain ramp or weakening pure-split/window identity. Recording conversion's
-  existing policy remains unchanged.
+  adding a gain ramp or weakening pure-split/window identity. The shared conversion
+  owner applies this same bounded endpoint rule to recording and composition audio;
+  genuinely truncated retained input still fails.
 - **Sound; high confidence — Reuse an unchanged picture within one render attempt.**
   A held picture may occupy thousands of output frames. Retaining one immutable
   rendered buffer avoids drawing the identical picture repeatedly, while every
@@ -730,3 +731,35 @@ trim and stretch replacements keep their single-interval behavior.
   windows refuse before execution instead of allocating an unbounded tree. These
   are provisional worker limits, not project authoring limits or completion of the
   long-project contract; slice 24 must resolve scalable streaming before release.
+
+
+## Public composition preview and movie assembly — 2026-09-27
+
+- **Sound; medium confidence — Budget a render from the retained movie duration.**
+  Previewing the last second of a long source seeks to that retained interval.
+  Its worker budget includes startup plus two times the selected duration, for
+  picture rendering and PCM/AAC assembly, capped by the shared media limit. The
+  plan did not specify this formula. Charging for a discarded source prefix would
+  hide stalled short previews. Broader throughput remains a separate scale gate.
+- **Sound; high confidence — Pin the whole preview request before starting work.**
+  Asking for a preview without a revision or range resolves both from the current
+  project once. Later edits cannot move that job's target. The implementation
+  identity joins its cache identity, so changed rendering code cannot silently
+  reuse a differently produced result. The initial profile is the measured opaque
+  H.264/Rec.709 profile at the authored canvas; no unverified rendition choices
+  are exposed. Future profiles must retain explicit identity and fidelity gates.
+- **Sound; high confidence — Delivery ends at deletion; existing reads still drain.**
+  Deleting a project immediately invalidates its preview tokens. A read already
+  holding a cache lease can finish, so deletion may need retry before removing
+  derived files and history references. Revoking another project's tokens or
+  removing files beneath active reads would violate ownership. The shared delivery
+  and cache owners enforce this without a second project-specific token store.
+- **Sound; high confidence — Keep movie time and PCM sample time explicit.**
+  A requested window starts movie playback at zero, so its PCM block positions
+  are relative to that window. Source context and unavailable-range evidence
+  retain absolute project positions, allowing an agent to locate the original
+  issue. A positive one-microsecond movie may contain no audio sample and therefore
+  no audio track. Exact MP4 movie/edit-list durations remain authoritative when a
+  probe rounds AAC duration to sample boundaries; no selected PCM sample is dropped
+  merely to make those two reports look identical. This resolves the assembly
+  boundary without inventing sound or changing the requested timeline.

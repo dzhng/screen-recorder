@@ -7,8 +7,8 @@ export type DerivativeRead = {
   release(): void;
 };
 
-/** Identical IDs in a recording and a package have independent delivery lifetimes. */
-export type DerivativeOwner = Readonly<{ kind: "recording" | "package"; id: string }>;
+/** Identical IDs in different domains have independent delivery lifetimes. */
+export type DerivativeOwner = Readonly<{ kind: "recording" | "package" | "project"; id: string }>;
 
 type Lease = {
   owner: DerivativeOwner;

@@ -1,0 +1,937 @@
+(node:31632) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{
+  "status": "passed",
+  "transport": "CLI and MCP",
+  "service": "real isolated service",
+  "scenarios": [
+    "create managed project",
+    "nested target stack set/get",
+    "cross-transport complete replay",
+    "stale edit rejection",
+    "late-operation rollback",
+    "restart replay",
+    "undo/restore",
+    "native admission of real fixture media",
+    "prepared media survives a rejected edit without project mutation",
+    "all four processing scopes",
+    "new clip has no inherited settings",
+    "ordered repeated steps and bypass",
+    "linked split with independent processing IDs",
+    "audio replacement preserves video and processing",
+    "explicit processing reset",
+    "historical stack read",
+    "no-op receipt preserves history and changed arguments conflict",
+    "concurrent CLI writers admit exactly one edit",
+    "history pages remain pinned across new edits",
+    "no-op replay returns original receipt after head changes"
+  ],
+  "trace": [
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "create",
+        "title": "Processing journey",
+        "canvas": {
+          "width": 160,
+          "height": 96,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "stack",
+        "expectedRevisionId": "e4d528e6-bfbe-4ba4-9490-963bfcee7918",
+        "operations": [
+          {
+            "operation": "group.add",
+            "group": {
+              "kind": "audio",
+              "order": 0
+            },
+            "label": "group"
+          },
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "audio",
+              "order": 0,
+              "parentId": {
+                "label": "group"
+              }
+            },
+            "label": "voice"
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "track",
+              "id": {
+                "label": "voice"
+              }
+            },
+            "steps": [
+              {
+                "label": "gain",
+                "processor": {
+                  "type": "gain",
+                  "gain": 0.5
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "172d9abc-170d-4079-b2be-689f940e93b7",
+        "target": {
+          "kind": "track",
+          "id": "track:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:1"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "stale",
+        "expectedRevisionId": "e4d528e6-bfbe-4ba4-9490-963bfcee7918",
+        "operations": [
+          {
+            "operation": "group.add",
+            "group": {
+              "kind": "audio",
+              "order": 0
+            },
+            "label": "group"
+          },
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "audio",
+              "order": 0,
+              "parentId": {
+                "label": "group"
+              }
+            },
+            "label": "voice"
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "track",
+              "id": {
+                "label": "voice"
+              }
+            },
+            "steps": [
+              {
+                "label": "gain",
+                "processor": {
+                  "type": "gain",
+                  "gain": 0.5
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "STALE_REVISION",
+        "message": "Current revision has changed",
+        "retryable": false,
+        "details": {
+          "currentRevisionId": "172d9abc-170d-4079-b2be-689f940e93b7"
+        }
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "rollback",
+        "expectedRevisionId": "172d9abc-170d-4079-b2be-689f940e93b7",
+        "operations": [
+          {
+            "operation": "canvas.set",
+            "canvas": {
+              "width": 320
+            }
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "track",
+              "id": "track:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:1"
+            },
+            "steps": [
+              {
+                "id": "foreign",
+                "processor": {
+                  "type": "gain",
+                  "gain": 2
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "INVALID_EDIT",
+        "message": "Processing step does not belong to this target",
+        "retryable": false,
+        "details": {
+          "target": {
+            "kind": "track",
+            "id": "track:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:1"
+          },
+          "stepId": "foreign",
+          "operationIndex": 1,
+          "cause": "INVALID_EDIT"
+        }
+      }
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "stack",
+        "expectedRevisionId": "e4d528e6-bfbe-4ba4-9490-963bfcee7918",
+        "operations": [
+          {
+            "operation": "group.add",
+            "group": {
+              "kind": "audio",
+              "order": 0
+            },
+            "label": "group"
+          },
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "audio",
+              "order": 0,
+              "parentId": {
+                "label": "group"
+              }
+            },
+            "label": "voice"
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "track",
+              "id": {
+                "label": "voice"
+              }
+            },
+            "steps": [
+              {
+                "label": "gain",
+                "processor": {
+                  "type": "gain",
+                  "gain": 0.5
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.undo",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "undo",
+        "expectedRevisionId": "172d9abc-170d-4079-b2be-689f940e93b7"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.restore",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "restore",
+        "expectedRevisionId": "002d6ffb-27f4-4ab2-993b-18a551eccbf3",
+        "targetRevisionId": "172d9abc-170d-4079-b2be-689f940e93b7"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "a-audio.wav",
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/a-audio.wav"
+      },
+      "ok": true
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "276ff40d-58db-4916-939b-600ddddd87e8"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "b-audio.wav",
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/b-audio.wav"
+      },
+      "ok": true
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "e7ddbaf1-1fe7-4de4-b9ca-9e1a1d7faaff"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "a.mov",
+        "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/00-corpus/a.mov"
+      },
+      "ok": true
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "c6a5fdb3-21f7-41c7-978c-c8e7ffc8b0b3"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "prepared-then-rejected",
+        "expectedRevisionId": "8fa412f5-3dbe-49fb-9e81-a7030fba1b8b",
+        "operations": [
+          {
+            "operation": "place",
+            "clip": {
+              "trackId": "track:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:1",
+              "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "track",
+              "id": "track:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:1"
+            },
+            "steps": [
+              {
+                "id": "foreign",
+                "processor": {
+                  "type": "gain",
+                  "gain": 2
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "INVALID_EDIT",
+        "message": "Processing step does not belong to this target",
+        "retryable": false,
+        "details": {
+          "target": {
+            "kind": "track",
+            "id": "track:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:1"
+          },
+          "stepId": "foreign",
+          "operationIndex": 1,
+          "cause": "INVALID_EDIT"
+        }
+      }
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf"
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf"
+      },
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "place",
+        "expectedRevisionId": "8fa412f5-3dbe-49fb-9e81-a7030fba1b8b",
+        "operations": [
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "video",
+              "order": 0
+            },
+            "label": "picture"
+          },
+          {
+            "operation": "place",
+            "label": "audio",
+            "clip": {
+              "trackId": "track:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:1",
+              "assetId": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 2000000
+                }
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 2000000
+                }
+              }
+            }
+          },
+          {
+            "operation": "place",
+            "label": "video",
+            "clip": {
+              "trackId": {
+                "label": "picture"
+              },
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 2000000
+                }
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 2000000
+                }
+              }
+            }
+          },
+          {
+            "operation": "link",
+            "clipIds": [
+              {
+                "label": "audio"
+              },
+              {
+                "label": "video"
+              }
+            ]
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "8c97d941-e359-410c-8208-9915c1086214",
+        "target": {
+          "kind": "clip",
+          "id": "clip:e7f80546db4093ae36049d7a328e9334cf6f19be14c8dd2fb659e31b7ad685c3:1"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "all-scopes",
+        "expectedRevisionId": "8c97d941-e359-410c-8208-9915c1086214",
+        "operations": [
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "clip",
+              "id": "clip:e7f80546db4093ae36049d7a328e9334cf6f19be14c8dd2fb659e31b7ad685c3:1"
+            },
+            "steps": [
+              {
+                "label": "first",
+                "processor": {
+                  "type": "gain",
+                  "gain": 0.8
+                }
+              },
+              {
+                "label": "second",
+                "processor": {
+                  "type": "gain",
+                  "gain": 1.2
+                }
+              }
+            ]
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "group",
+              "id": "group:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:0"
+            },
+            "steps": [
+              {
+                "processor": {
+                  "type": "gain",
+                  "gain": 0.75
+                }
+              }
+            ]
+          },
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "output"
+            },
+            "steps": [
+              {
+                "processor": {
+                  "type": "gain",
+                  "gain": 1.25
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "5951ba6d-d5e3-4153-9623-0c928f69113b",
+        "target": {
+          "kind": "group",
+          "id": "group:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:0"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "5951ba6d-d5e3-4153-9623-0c928f69113b",
+        "target": {
+          "kind": "output"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "reorder-bypass",
+        "expectedRevisionId": "5951ba6d-d5e3-4153-9623-0c928f69113b",
+        "operations": [
+          {
+            "operation": "processing.set",
+            "target": {
+              "kind": "clip",
+              "id": "clip:e7f80546db4093ae36049d7a328e9334cf6f19be14c8dd2fb659e31b7ad685c3:1"
+            },
+            "steps": [
+              {
+                "id": "processingStep:4b54768ba2acbf4a2d725e7d93c39197c4a4c170626aaad898186d84c3865b3c:1",
+                "enabled": false,
+                "processor": {
+                  "type": "gain",
+                  "gain": 1.2
+                }
+              },
+              {
+                "id": "processingStep:4b54768ba2acbf4a2d725e7d93c39197c4a4c170626aaad898186d84c3865b3c:0",
+                "enabled": true,
+                "processor": {
+                  "type": "gain",
+                  "gain": 0.8
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "3cd0a619-dd0d-4fd8-9bb3-e34aafa097bc",
+        "target": {
+          "kind": "clip",
+          "id": "clip:e7f80546db4093ae36049d7a328e9334cf6f19be14c8dd2fb659e31b7ad685c3:1"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "split",
+        "expectedRevisionId": "3cd0a619-dd0d-4fd8-9bb3-e34aafa097bc",
+        "operations": [
+          {
+            "operation": "split",
+            "clipIds": [
+              "clip:e7f80546db4093ae36049d7a328e9334cf6f19be14c8dd2fb659e31b7ad685c3:1"
+            ],
+            "atUs": 1000000,
+            "rightLabels": [
+              {
+                "clipId": "clip:e7f80546db4093ae36049d7a328e9334cf6f19be14c8dd2fb659e31b7ad685c3:1",
+                "label": "rightAudio"
+              },
+              {
+                "clipId": "clip:e7f80546db4093ae36049d7a328e9334cf6f19be14c8dd2fb659e31b7ad685c3:2",
+                "label": "rightVideo"
+              }
+            ]
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "6c77bc86-fb8d-4fe1-be4c-2ced14919b8b",
+        "target": {
+          "kind": "clip",
+          "id": "clip:2b356b3e70613546942221cec6353f617eae753ab101e8752cb316c56d29bcb9:0"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "replace-audio",
+        "expectedRevisionId": "6c77bc86-fb8d-4fe1-be4c-2ced14919b8b",
+        "operations": [
+          {
+            "operation": "replace",
+            "clipId": "clip:2b356b3e70613546942221cec6353f617eae753ab101e8752cb316c56d29bcb9:0",
+            "kind": "audio",
+            "media": {
+              "assetId": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "971728ce-bb33-454f-bcfb-584cf859adb6",
+        "target": {
+          "kind": "clip",
+          "id": "clip:2b356b3e70613546942221cec6353f617eae753ab101e8752cb316c56d29bcb9:0"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "reset",
+        "expectedRevisionId": "971728ce-bb33-454f-bcfb-584cf859adb6",
+        "operations": [
+          {
+            "operation": "replace",
+            "clipId": "clip:2b356b3e70613546942221cec6353f617eae753ab101e8752cb316c56d29bcb9:0",
+            "kind": "audio",
+            "processing": "reset",
+            "media": {
+              "assetId": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0",
+              "streamId": "track:1",
+              "source": {
+                "kind": "range",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "f2a2e815-2d8a-4d77-abba-81be3b741290",
+        "target": {
+          "kind": "clip",
+          "id": "clip:2b356b3e70613546942221cec6353f617eae753ab101e8752cb316c56d29bcb9:0"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "revisionId": "172d9abc-170d-4079-b2be-689f940e93b7",
+        "target": {
+          "kind": "track",
+          "id": "track:fd007c005af038259f055f0cef11744b5a853d2dffdc2dd8880f3006824a6ad8:1"
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "noop-receipt",
+        "expectedRevisionId": "f2a2e815-2d8a-4d77-abba-81be3b741290",
+        "operations": []
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf"
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "noop-receipt",
+        "expectedRevisionId": "f2a2e815-2d8a-4d77-abba-81be3b741290",
+        "operations": [
+          {
+            "operation": "canvas.set",
+            "canvas": {
+              "width": 320
+            }
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Request ID was already used with different arguments",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf"
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "limit": 1
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "concurrent-320",
+        "expectedRevisionId": "f2a2e815-2d8a-4d77-abba-81be3b741290",
+        "operations": [
+          {
+            "operation": "canvas.set",
+            "canvas": {
+              "width": 320
+            }
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "concurrent-480",
+        "expectedRevisionId": "f2a2e815-2d8a-4d77-abba-81be3b741290",
+        "operations": [
+          {
+            "operation": "canvas.set",
+            "canvas": {
+              "width": 480
+            }
+          }
+        ]
+      },
+      "ok": false,
+      "error": {
+        "code": "STALE_REVISION",
+        "message": "Current revision has changed",
+        "retryable": false,
+        "details": {
+          "currentRevisionId": "93c6c22a-06a4-451a-8f8c-43473409fbb5"
+        }
+      }
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf"
+      },
+      "ok": true
+    },
+    {
+      "operation": "revision.history",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "cursor": {
+          "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+          "afterOrdinal": 0,
+          "throughOrdinal": 9
+        }
+      },
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf",
+        "requestId": "noop-receipt",
+        "expectedRevisionId": "f2a2e815-2d8a-4d77-abba-81be3b741290",
+        "operations": []
+      },
+      "ok": true
+    },
+    {
+      "operation": "project.get",
+      "params": {
+        "projectId": "b9b6de46-be0c-46b8-a74f-43c06f4576cf"
+      },
+      "ok": true
+    },
+    {
+      "operation": "processing.capabilities",
+      "params": {},
+      "ok": true
+    }
+  ],
+  "liveStateJourney": true,
+  "liveMediaJourney": false
+}

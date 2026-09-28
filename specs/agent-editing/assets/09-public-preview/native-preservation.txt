@@ -1,0 +1,24 @@
+✔ audio worker writes a concatenated excerpt and survives invalid requests (204.323833ms)
+✔ a thousand fractional spans keep the duration the plan asked for (310.097917ms)
+✔ audio worker writes WAVE bytes to an opaque derivative path (104.86625ms)
+✔ audio decode failure permits explicit retry while invalid plans remain terminal (15.116458ms)
+✔ AAC source priming is removed before offset placement in streamed PCM (265.235958ms)
+✔ midstream source failure leaves no completed WAVE or staging output (103.82075ms)
+✔ movie preserves original timing and PCM alignment (1205.814375ms)
+✔ movie preserves two-cuts timing and PCM alignment (6196.734458ms)
+✔ movie preserves fractional timing and PCM alignment (676.645958ms)
+✔ tiny AAC has exact native endpoint but differs in FFmpeg decoding (938.06625ms)
+✔ movie preserves subsample timing and PCM alignment (604.248334ms)
+✔ movie preserves mono timing and PCM alignment (1201.951583ms)
+✔ movie preserves silent timing and PCM alignment (580.313125ms)
+✔ changed excluded source samples cannot enter tiny or cut AAC output (1545.054833ms)
+✔ movie accepts 1001 retained/acquired spans while public excerpts retain their cap (1096.765834ms)
+✔ two-cuts resampling endpoint excludes neighboring native frames and refuses truncated decode (965.71425ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15879.216167

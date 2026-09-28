@@ -395,7 +395,7 @@ try {
   assert.deepEqual(await call("edit.apply", noopRequest), noop);
   assert.equal((await call("project.get", { projectId })).currentRevisionId, head);
   const capabilities = await call("processing.capabilities", {});
-  assert.equal(capabilities.find((c) => c.type === "gain").execution, false);
+  assert.equal(capabilities.find((c) => c.type === "gain").execution, true);
   console.log(
     JSON.stringify(
       {
