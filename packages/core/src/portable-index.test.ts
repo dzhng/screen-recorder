@@ -1,3 +1,4 @@
+import { recordingSceneOwner, recordingSceneIdentity } from "./scene-evidence.js";
 import { RetainedIndexRead } from "./index-read.js";
 import { test, expect, afterEach } from "vitest";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync, readFileSync, renameSync } from "node:fs";
@@ -49,7 +50,7 @@ async function fixture(count = 260) {
     generation: "scene1",
     policy: scenePolicy.id,
   };
-  const scenes = new SceneEvidenceStore(store),
+  const scenes = new SceneEvidenceStore(store, recordingSceneOwner(store)),
     analysis = new SourceSceneAnalysis(take.recordingId, "/unused", duration, async (request) => ({
       sourceWidth: 1,
       sourceHeight: 1,
@@ -64,13 +65,14 @@ async function fixture(count = 260) {
     }));
   for (let at = 0; at < duration; at += 10_000_000)
     scenes.append(
-      sceneIdentity,
+      recordingSceneIdentity(sceneIdentity),
+      { kind: "recording", durationUs: duration },
       await analysis.analyze(
         { startUs: at, endUs: Math.min(duration, at + 10_000_000) },
         new AbortController().signal,
       ),
     );
-  scenes.finish(sceneIdentity, duration);
+  scenes.finish(recordingSceneIdentity(sceneIdentity));
   const identity = {
     recordingId: sourceIdentity.owner.recordingId,
     sourceId: sourceIdentity.sourceId,
@@ -146,8 +148,12 @@ function framesWithoutPaths(entries: ReturnType<ScreenshotIndexStore["page"]>["e
 }
 test("scene chunks, retained images and coverage remain readable after library removal and relocation", async () => {
   const f = await fixture();
-  const sceneFirst = f.scenes.page({ identity: f.sceneIdentity, limit: 1 }),
-    sceneNext = f.scenes.page({ identity: f.sceneIdentity, afterStartUs: 0, limit: 100 });
+  const sceneFirst = f.scenes.page({ identity: recordingSceneIdentity(f.sceneIdentity), limit: 1 }),
+    sceneNext = f.scenes.page({
+      identity: recordingSceneIdentity(f.sceneIdentity),
+      afterStartUs: 0,
+      limit: 100,
+    });
   const first = f.index.page({ identity: f.identity, limit: 200 }),
     next = f.index.page({ identity: f.identity, afterOrdinal: first.nextOrdinal!, limit: 200 });
   const coverage = f.index.coveragePage({ identity: f.identity, afterSequence: 254, limit: 200 }),
@@ -156,19 +162,28 @@ test("scene chunks, retained images and coverage remain readable after library r
       candidateOrdinal: 259,
       limit: 1,
     });
-  await writeSceneEvidencePages(f.scenes, f.sceneIdentity, join(f.root, "scenes"));
+  await writeSceneEvidencePages(
+    f.scenes,
+    recordingSceneIdentity(f.sceneIdentity),
+    join(f.root, "scenes"),
+  );
   await writeScreenshotIndexPages(f.index, f.identity, f.revision, join(f.root, "index"));
   f.store.close();
   stores.delete(f.store);
   rmSync(f.original, { recursive: true });
   renameSync(join(f.root, "scenes"), join(f.root, "moved-scenes"));
   renameSync(join(f.root, "index"), join(f.root, "moved-index"));
-  const scenes = new FileSceneEvidence(join(f.root, "moved-scenes"), f.sceneIdentity),
+  const scenes = new FileSceneEvidence(
+      join(f.root, "moved-scenes"),
+      recordingSceneIdentity(f.sceneIdentity),
+    ),
     index = new FileScreenshotIndex(join(f.root, "moved-index"), f.identity, f.revision);
-  expect(scenes.page({ identity: f.sceneIdentity, limit: 1 })).toEqual(sceneFirst);
-  expect(scenes.page({ identity: f.sceneIdentity, afterStartUs: 0, limit: 100 })).toEqual(
-    sceneNext,
+  expect(scenes.page({ identity: recordingSceneIdentity(f.sceneIdentity), limit: 1 })).toEqual(
+    sceneFirst,
   );
+  expect(
+    scenes.page({ identity: recordingSceneIdentity(f.sceneIdentity), afterStartUs: 0, limit: 100 }),
+  ).toEqual(sceneNext);
   const movedFirst = index.page({ identity: f.identity, limit: 200 });
   expect({ ...movedFirst, entries: framesWithoutPaths(movedFirst.entries) }).toEqual({
     ...first,
@@ -224,7 +239,7 @@ test("portable policies, pinned contexts, required members and retained image by
     directory = join(f.root, "index"),
     sceneDirectory = join(f.root, "scenes");
   await writeScreenshotIndexPages(f.index, f.identity, f.revision, directory);
-  await writeSceneEvidencePages(f.scenes, f.sceneIdentity, sceneDirectory);
+  await writeSceneEvidencePages(f.scenes, recordingSceneIdentity(f.sceneIdentity), sceneDirectory);
   expect(() => new FileScreenshotIndex(directory, f.identity, { ...f.revision, id: "r1" })).toThrow(
     "pinned revision",
   );
@@ -251,14 +266,16 @@ test("portable policies, pinned contexts, required members and retained image by
     sceneManifest = JSON.parse(sceneBody.toString());
   sceneManifest.metadata.policy = "future-scene";
   writeFileSync(scenePath, JSON.stringify(sceneManifest));
-  expect(() => new FileSceneEvidence(sceneDirectory, f.sceneIdentity)).toThrow("Unsupported");
+  expect(
+    () => new FileSceneEvidence(sceneDirectory, recordingSceneIdentity(f.sceneIdentity)),
+  ).toThrow("Unsupported");
   writeFileSync(scenePath, sceneBody);
-  const scenes = new FileSceneEvidence(sceneDirectory, f.sceneIdentity);
-  expect(() => scenes.page({ identity: { ...f.sceneIdentity, sourceId: "other" } })).toThrow(
-    "identity",
-  );
+  const scenes = new FileSceneEvidence(sceneDirectory, recordingSceneIdentity(f.sceneIdentity));
+  expect(() =>
+    scenes.page({ identity: { ...recordingSceneIdentity(f.sceneIdentity), sourceId: "other" } }),
+  ).toThrow("identity");
   rmSync(join(sceneDirectory, sceneManifest.indexes.chunks[0].file));
-  expect(() => scenes.page({ identity: f.sceneIdentity })).toThrow();
+  expect(() => scenes.page({ identity: recordingSceneIdentity(f.sceneIdentity) })).toThrow();
   rmSync(join(directory, manifest.indexes.coverage[0].file));
   expect(() => index.coveragePage({ identity: f.identity })).toThrow();
 });
@@ -266,7 +283,7 @@ test("portable policies, pinned contexts, required members and retained image by
 test("portable chunks apply the append owner's semantic validation even with matching hashes", async () => {
   const f = await fixture(2),
     directory = join(f.root, "scenes");
-  await writeSceneEvidencePages(f.scenes, f.sceneIdentity, directory);
+  await writeSceneEvidencePages(f.scenes, recordingSceneIdentity(f.sceneIdentity), directory);
   const manifestPath = join(directory, "pages.json"),
     manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
   const descriptor = manifest.indexes.chunks[0],
@@ -294,8 +311,8 @@ test("portable chunks apply the append owner's semantic validation even with mat
     descriptor.bytes = bytes.length;
     descriptor.sha256 = createHash("sha256").update(bytes).digest("hex");
     writeFileSync(manifestPath, JSON.stringify(manifest));
-    const reader = new FileSceneEvidence(directory, f.sceneIdentity);
-    expect(() => reader.page({ identity: f.sceneIdentity })).toThrow(
+    const reader = new FileSceneEvidence(directory, recordingSceneIdentity(f.sceneIdentity));
+    expect(() => reader.page({ identity: recordingSceneIdentity(f.sceneIdentity) })).toThrow(
       expect.objectContaining({ code: "INVALID_EVIDENCE" }),
     );
   }
@@ -304,7 +321,7 @@ test("portable chunks apply the append owner's semantic validation even with mat
 test("portable chunks must continue their predecessor and cover the whole source", async () => {
   const f = await fixture(12),
     directory = join(f.root, "scenes");
-  await writeSceneEvidencePages(f.scenes, f.sceneIdentity, directory);
+  await writeSceneEvidencePages(f.scenes, recordingSceneIdentity(f.sceneIdentity), directory);
   const manifestPath = join(directory, "pages.json"),
     manifestBody = readFileSync(manifestPath, "utf8");
   const pagePath = join(directory, JSON.parse(manifestBody).indexes.chunks[0].file),
@@ -334,14 +351,16 @@ test("portable chunks must continue their predecessor and cover the whole source
   repeated[1].comparisons.unshift(boundary);
   for (const rows of [repeated, [original[0], original[2]], original.slice(0, 2)]) {
     write(rows);
-    const reader = new FileSceneEvidence(directory, f.sceneIdentity);
-    expect(() => reader.page({ identity: f.sceneIdentity })).toThrow(
+    const reader = new FileSceneEvidence(directory, recordingSceneIdentity(f.sceneIdentity));
+    expect(() => reader.page({ identity: recordingSceneIdentity(f.sceneIdentity) })).toThrow(
       expect.objectContaining({ code: "INVALID_EVIDENCE" }),
     );
   }
   write(original);
   expect(
-    new FileSceneEvidence(directory, f.sceneIdentity).page({ identity: f.sceneIdentity }).chunks,
+    new FileSceneEvidence(directory, recordingSceneIdentity(f.sceneIdentity)).page({
+      identity: recordingSceneIdentity(f.sceneIdentity),
+    }).chunks,
   ).toEqual(original);
 });
 

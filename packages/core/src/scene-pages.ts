@@ -4,6 +4,9 @@ import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
 import {
   SceneEvidenceReader,
+  recordingSceneIdentity,
+  recordingSceneMetadata,
+  type RecordingSceneEvidenceMetadata,
   normalizeSceneChunk,
   type SceneEvidenceRead,
   type SceneEvidenceIdentity,
@@ -58,7 +61,7 @@ const chunkSchema = z.object({
     )
     .max(51),
 });
-const codec: OrderedPageCodec<SceneChunkReport, SceneEvidenceMetadata> = {
+const codec: OrderedPageCodec<SceneChunkReport, RecordingSceneEvidenceMetadata> = {
   metadata: metadataSchema,
   orders: { chunks: 1 },
   decode(value, { metadata }) {
@@ -84,10 +87,10 @@ export async function writeSceneEvidencePages(
       page = reader.page({ identity, afterStartUs: page.nextStartUs, limit: 100 });
     }
   }
-  await writeOrderedPages(directory, first.metadata, codec, chunks, signal);
+  await writeOrderedPages(directory, recordingSceneMetadata(first.metadata), codec, chunks, signal);
 }
 export class FileSceneEvidence extends SceneEvidenceReader {
-  private readonly pages: OrderedPages<SceneChunkReport, SceneEvidenceMetadata>;
+  private readonly pages: OrderedPages<SceneChunkReport, RecordingSceneEvidenceMetadata>;
   constructor(root: string | FileAccess, identity: SceneEvidenceIdentity) {
     super();
     this.pages = new OrderedPages(root, codec);
@@ -98,30 +101,24 @@ export class FileSceneEvidence extends SceneEvidenceReader {
     this.readMetadata(identity);
   }
   protected readMetadata(identity: SceneEvidenceIdentity): SceneEvidenceMetadata {
-    const { recordingId, sourceId, generation, policy } = this.pages.metadata;
-    if (
-      !isDeepStrictEqual(
-        { recordingId, sourceId, generation, policy },
-        {
-          recordingId: identity.recordingId,
-          sourceId: identity.sourceId,
-          generation: identity.generation,
-          policy: identity.policy,
-        },
-      )
-    )
+    const { recordingId, durationUs, ...details } = this.pages.metadata;
+    if (!isDeepStrictEqual(recordingSceneIdentity(this.pages.metadata), identity))
       throw new CatalogError(
         "INVALID_EVIDENCE",
         "Scene evidence is not complete for this identity",
       );
-    return structuredClone(this.pages.metadata);
+    return {
+      ...structuredClone(details),
+      owner: { kind: "recording", recordingId },
+      source: { kind: "recording", durationUs },
+    };
   }
   protected readChunks(
     identity: SceneEvidenceIdentity,
     afterStartUs: number,
     limit: number,
   ): SceneChunkReport[] {
-    const metadata = this.readMetadata(identity);
+    const metadata = recordingSceneMetadata(this.readMetadata(identity));
     // A continuation normally names a chunk start, so the predecessor shares the same page read.
     const rows = this.pages.read({
       index: "chunks",

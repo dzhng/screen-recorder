@@ -1,3 +1,8 @@
+import {
+  recordingSceneOwner,
+  recordingSceneIdentity,
+  recordingSceneMetadata,
+} from "./scene-evidence.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, readFileSync, statSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -85,7 +90,7 @@ async function fixture(staticScenes = false, sourceCount = 520, duration = 2_600
       generation: "scene-1",
       policy: scenePolicy.id,
     },
-    scenes = new SceneEvidenceStore(store);
+    scenes = new SceneEvidenceStore(store, recordingSceneOwner(store));
   const analysis = new SourceSceneAnalysis(
     recording.recordingId,
     "unused",
@@ -108,13 +113,16 @@ async function fixture(staticScenes = false, sourceCount = 520, duration = 2_600
   );
   for (let startUs = 0; startUs < duration; startUs += 10_000_000)
     scenes.append(
-      sceneIdentity,
+      recordingSceneIdentity(sceneIdentity),
+      { kind: "recording", durationUs: duration },
       await analysis.analyze(
         { startUs, endUs: startUs + 10_000_000 },
         new AbortController().signal,
       ),
     );
-  const sceneMetadata = scenes.finish(sceneIdentity, duration);
+  const sceneMetadata = recordingSceneMetadata(
+    scenes.finish(recordingSceneIdentity(sceneIdentity)),
+  );
   const revision = createRevision(
     createOriginalRevision(duration, "fixture"),
     [
@@ -124,11 +132,15 @@ async function fixture(staticScenes = false, sourceCount = 520, duration = 2_600
     { id: "r1", createdAt: "fixture", operation: "cut" },
   );
   await writeSourceEvidencePages(source, sourceIdentity, join(root, "source"));
-  await writeSceneEvidencePages(scenes, sceneIdentity, join(root, "scenes"));
+  await writeSceneEvidencePages(
+    scenes,
+    recordingSceneIdentity(sceneIdentity),
+    join(root, "scenes"),
+  );
   const input = {
     source: new FileSourceEvidence(join(root, "source"), sourceIdentity),
     sourceIdentity: sourceMetadata,
-    scenes: new FileSceneEvidence(join(root, "scenes"), sceneIdentity),
+    scenes: new FileSceneEvidence(join(root, "scenes"), recordingSceneIdentity(sceneIdentity)),
     sceneIdentity: sceneMetadata,
     revision,
     interrupted: true,
@@ -262,7 +274,7 @@ test("static scene scans yield cancellation before repeated decoding exhausts th
         return files.open(file);
       },
     },
-    f.metadata.sceneIdentity,
+    recordingSceneIdentity(f.metadata.sceneIdentity),
   );
   await expect(
     writeTimelineEventPages(

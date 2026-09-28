@@ -2,7 +2,11 @@ import { evidenceRecordingId } from "./evidence.js";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./catalog.js";
 import type { SourceSelectionRead } from "./evidence.js";
-import { sceneBoundaries, type SceneEvidenceRead } from "./scene-evidence.js";
+import {
+  sceneBoundaries,
+  recordingSceneIdentity,
+  type SceneEvidenceRead,
+} from "./scene-evidence.js";
 import type { SelectionEvent, SelectionInput } from "./selection.js";
 
 /** Streams published source evidence; the selector owns kept-span filtering and cut events. */
@@ -23,11 +27,11 @@ export async function* selectionEvidence(
     for (;;) {
       signal.throwIfAborted();
       const page = stores.scenes.page({
-        identity: sceneIdentity,
+        identity: recordingSceneIdentity(sceneIdentity),
         limit: 1,
         ...(afterStartUs === undefined ? {} : { afterStartUs }),
       });
-      if (page.metadata.durationUs !== durationUs)
+      if (page.metadata.source.durationUs !== durationUs)
         throw new CatalogError(
           "INVALID_EVIDENCE",
           "Scene evidence duration does not match the pinned revision",

@@ -6,7 +6,8 @@ import type { EvidenceIdentity } from "./evidence.js";
 import type { SourceEvidenceReader } from "./evidence-read.js";
 import {
   sceneBoundaries,
-  type SceneEvidenceIdentity,
+  recordingSceneIdentity,
+  type RecordingSceneEvidenceIdentity,
   type SceneEvidenceRead,
 } from "./scene-evidence.js";
 import type { FileAccess } from "./files.js";
@@ -24,7 +25,7 @@ export const timelineEventPolicy = "timeline-v1";
 
 export type TimelineEventMetadata = {
   sourceIdentity: EvidenceIdentity;
-  sceneIdentity: SceneEvidenceIdentity;
+  sceneIdentity: RecordingSceneEvidenceIdentity;
   revision: TimelineRevision;
   interrupted: boolean;
 };
@@ -191,13 +192,13 @@ export class TimelineEventRead {
       while (!position.done && consumed < budget) {
         if (chunkOffset === chunks.length) {
           const page = this.input.scenes.page({
-            identity: this.input.sceneIdentity,
+            identity: recordingSceneIdentity(this.input.sceneIdentity),
             ...(position.afterChunkStartUs === null
               ? {}
               : { afterStartUs: position.afterChunkStartUs }),
             limit: 100,
           });
-          if (page.metadata.durationUs !== this.input.revision.sourceDurationUs)
+          if (page.metadata.source.durationUs !== this.input.revision.sourceDurationUs)
             invalid("Scene duration differs from pinned source");
           chunks = page.chunks;
           chunkOffset = 0;

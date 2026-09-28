@@ -1,0 +1,54 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging
+
+(node:66243) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/scene-ownership.test.ts (4 tests | 2 failed | 2 skipped) 200ms
+   × stream, support, duration and source owner mismatches cannot append or rebind a generation 66ms
+   × adopted acquisition contexts are authoritative and a generation cannot switch its context 133ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/scene-ownership.test.ts > stream, support, duration and source owner mismatches cannot append or rebind a generation
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/core/src/scene-ownership.test.ts:175:74
+    173|     new AbortController().signal,
+    174|   );
+    175|   expect(() => f.evidence.append(f.identity, f.descriptor("v2"), later…
+       |                                                                          ^
+    176|     "dimensions changed",
+    177|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/core/src/scene-ownership.test.ts > adopted acquisition contexts are authoritative and a generation cannot switch its context
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/core/src/scene-ownership.test.ts:310:87
+    308|   );
+    309|   const tail = await analysis.analyze({ startUs: 200000, endUs: 100000…
+    310|   expect(() => f.evidence.append(identity, { ...source, acquisitionId:…
+       |                                                                                       ^
+    311|     "dimensions changed",
+    312|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 skipped (4)
+   Start at  02:06:41
+   Duration  674ms (transform 44%, tests 36%, import 19%, worker 1%)

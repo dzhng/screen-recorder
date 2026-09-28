@@ -1,3 +1,4 @@
+import { recordingSceneOwner, recordingSceneIdentity } from "./scene-evidence.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
@@ -24,7 +25,7 @@ async function fixture(
     now: () => "2026-09-16T00:00:00Z",
     newId: () => `id-${++id}`,
   });
-  const evidence = new SceneEvidenceStore(store);
+  const evidence = new SceneEvidenceStore(store, recordingSceneOwner(store));
   let processing: SceneProcessing;
   const jobs = new JobQueue({
     store,
@@ -94,7 +95,10 @@ test("canonical scan retains a future transition beyond the discovering chunk an
   await f.jobs.idle();
   const ready = f.processing.status(id);
   expect(ready.state).toBe("ready");
-  const page = f.evidence.page({ identity: ready.published!.evidence, limit: 100 });
+  const page = f.evidence.page({
+    identity: recordingSceneIdentity(ready.published!.evidence),
+    limit: 100,
+  });
   expect(
     page.chunks.flatMap((chunk) => chunk.comparisons).filter((pair) => pair.boundary),
   ).toContainEqual(
@@ -130,7 +134,10 @@ test("a failed partial scan stays unpublished until an explicit retry", async ()
   const ready = f.processing.status(id);
   expect(ready).toMatchObject({ state: "ready", jobId: failed.jobId });
   expect(ready.published!.evidence.durationUs).toBe(120_000_000);
-  const page = f.evidence.page({ identity: ready.published!.evidence, limit: 1 });
+  const page = f.evidence.page({
+    identity: recordingSceneIdentity(ready.published!.evidence),
+    limit: 1,
+  });
   expect(page.chunks[0]!.range).toEqual({ startUs: 0, endUs: 10_000_000 });
   expect(page.nextStartUs).toBe(0);
 });
@@ -148,7 +155,7 @@ test("a thirty-minute scan and paged evidence keep each native batch bounded", a
     lastEnd = 0;
   for (;;) {
     const page = f.evidence.page({
-      identity,
+      identity: recordingSceneIdentity(identity),
       limit: 3,
       ...(afterStartUs === undefined ? {} : { afterStartUs }),
     });
@@ -197,7 +204,7 @@ test("canceling a scan discards its partial chunks and keeps publication empty",
   expect(() =>
     f.evidence.page({
       identity: {
-        recordingId: id,
+        owner: { kind: "recording", recordingId: id },
         sourceId: f.recording.sourceId,
         generation: job.attemptId,
         policy: job.input,
@@ -205,7 +212,7 @@ test("canceling a scan discards its partial chunks and keeps publication empty",
     }),
   ).toThrow();
   const leftovers: string[] = [];
-  await f.evidence.reclaim(id, (generation) => {
+  await f.evidence.reclaim({ kind: "recording", recordingId: id }, (generation) => {
     leftovers.push(generation);
     return true;
   });
@@ -220,15 +227,22 @@ test("startup cleanup reclaims an abandoned generation but preserves the publish
   await f.jobs.idle();
   const ready = f.processing.status(id),
     identity = ready.published!.evidence;
-  const first = f.evidence.page({ identity, limit: 1 }).chunks[0]!;
-  f.evidence.append({ ...identity, generation: "abandoned-attempt" }, first);
+  const first = f.evidence.page({ identity: recordingSceneIdentity(identity), limit: 1 })
+    .chunks[0]!;
+  f.evidence.append(
+    recordingSceneIdentity({ ...identity, generation: "abandoned-attempt" }),
+    { kind: "recording", durationUs: first.kept.endUs },
+    first,
+  );
   await f.processing.cleanup(new AbortController().signal);
   const generations: string[] = [];
-  await f.evidence.reclaim(id, (generation) => {
+  await f.evidence.reclaim({ kind: "recording", recordingId: id }, (generation) => {
     generations.push(generation);
     return true;
   });
   expect(generations).toEqual([identity.generation]);
-  expect(f.evidence.page({ identity, limit: 1 }).chunks[0]).toEqual(first);
+  expect(
+    f.evidence.page({ identity: recordingSceneIdentity(identity), limit: 1 }).chunks[0],
+  ).toEqual(first);
   expect(f.processing.status(id)).toEqual(ready);
 });

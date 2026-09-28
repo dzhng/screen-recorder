@@ -1,31 +1,114 @@
+import { isDeepStrictEqual } from "node:util";
+import { ownerIdentity, type JobOwner } from "./jobs.js";
+import type { AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import { selectSource } from "./source-selection.js";
 import { setImmediate } from "node:timers/promises";
 import { type RevisionStore } from "./library.js";
-import { CatalogError } from "./catalog.js";
+import { CatalogError, type Catalog } from "./catalog.js";
 import { sceneSampleTimes, type SourceSceneAnalysis, type VisualComparison } from "./scenes.js";
 
+export type SceneOwner = Extract<JobOwner, { kind: "recording" | "asset" }>;
 export type SceneEvidenceIdentity = {
+  owner: SceneOwner;
+  sourceId: string;
+  generation: string;
+  policy: string;
+};
+export type SceneSource = { durationUs: number } & (
+  | { kind: "recording" }
+  | { kind: "asset"; streamId: string; acquisitionId?: string; supportDigest: string }
+);
+export type RecordingSceneEvidenceIdentity = {
   recordingId: string;
   sourceId: string;
   generation: string;
   policy: string;
 };
 export type SceneChunkReport = Awaited<ReturnType<SourceSceneAnalysis["analyze"]>>;
-export type SceneEvidenceMetadata = SceneEvidenceIdentity & {
-  durationUs: number;
+type SceneDetails = {
   sourceWidth: number;
   sourceHeight: number;
   chunkCount: number;
   comparisonCount: number;
   boundaryCount: number;
 };
-type Generation = SceneEvidenceMetadata & {
+export type SceneEvidenceMetadata = SceneEvidenceIdentity & SceneDetails & { source: SceneSource };
+export type RecordingSceneEvidenceMetadata = RecordingSceneEvidenceIdentity &
+  SceneDetails & { durationUs: number };
+export function recordingSceneIdentity({
+  recordingId,
+  sourceId,
+  generation,
+  policy,
+}: RecordingSceneEvidenceIdentity): SceneEvidenceIdentity {
+  return { sourceId, generation, policy, owner: { kind: "recording", recordingId } };
+}
+export function recordingSceneMetadata({
+  owner,
+  source,
+  ...metadata
+}: SceneEvidenceMetadata): RecordingSceneEvidenceMetadata {
+  if (owner.kind !== "recording" || source.kind !== "recording")
+    invalid("Recording scene view requires a recording source");
+  return { ...metadata, recordingId: owner.recordingId, durationUs: source.durationUs };
+}
+export function recordingSceneOwner(store: RevisionStore) {
+  return (identity: SceneEvidenceIdentity, source: SceneSource): void => {
+    if (identity.owner.kind !== "recording" || source.kind !== "recording")
+      invalid("Scene identity requires a recording source");
+    const recording = store.get(identity.owner.recordingId);
+    if (
+      recording.state === "canceled" ||
+      recording.sourceId !== identity.sourceId ||
+      recording.sourceDurationUs !== source.durationUs
+    )
+      invalid("Scene evidence identity does not match its source");
+  };
+}
+export function assetSceneOwner(assets: AssetStore, acquisitions: AcquisitionStore) {
+  return (identity: SceneEvidenceIdentity, source: SceneSource): void => {
+    if (
+      identity.owner.kind !== "asset" ||
+      source.kind !== "asset" ||
+      identity.sourceId !== identity.owner.assetId
+    )
+      invalid("Scene identity requires an asset source");
+    const selected = selectSource(assets, acquisitions, {
+      assetId: identity.owner.assetId,
+      streamId: source.streamId,
+      ...(source.acquisitionId === undefined ? {} : { acquisitionId: source.acquisitionId }),
+    });
+    if (selected.stream.kind !== "video") invalid("Scene evidence requires a video stream");
+    if (
+      !isDeepStrictEqual(source, {
+        kind: "asset",
+        streamId: selected.selection.streamId,
+        ...(selected.selection.acquisitionId === undefined
+          ? {}
+          : { acquisitionId: selected.selection.acquisitionId }),
+        supportDigest: selected.supportDigest,
+        durationUs: selected.durationUs,
+      })
+    )
+      throw new CatalogError("ARTIFACT_CHANGED", "Scene source support changed");
+  };
+}
+type Generation = SceneDetails & {
+  ownerKind: SceneOwner["kind"];
+  ownerId: string;
+  sourceId: string;
+  generation: string;
+  policy: string;
+  source: string;
+  durationUs: number;
   throughUs: number;
   complete: number;
   lastComparison: string | null;
 };
-const where = "recordingId=? AND sourceId=? AND generation=? AND policy=?";
+const where = "ownerKind=? AND ownerId=? AND sourceId=? AND generation=? AND policy=?";
 const key = (identity: SceneEvidenceIdentity) => [
-  identity.recordingId,
+  ...ownerIdentity(identity.owner),
   identity.sourceId,
   identity.generation,
   identity.policy,
@@ -36,12 +119,20 @@ function invalid(message: string): never {
 }
 function metadata(row: Generation): SceneEvidenceMetadata {
   const {
+    ownerKind,
+    ownerId,
+    source,
+    durationUs,
     throughUs: _throughUs,
     complete: _complete,
     lastComparison: _lastComparison,
-    ...result
+    ...details
   } = row;
-  return result;
+  const owner: SceneOwner =
+    ownerKind === "recording"
+      ? { kind: "recording", recordingId: ownerId }
+      : { kind: "asset", assetId: ownerId };
+  return { ...details, owner, source: { ...JSON.parse(source), durationUs } };
 }
 /** Scene resets are the boundary comparisons; chunks do not store a second copy. */
 export function sceneBoundaries(chunk: Pick<SceneChunkReport, "comparisons">) {
@@ -161,19 +252,22 @@ export abstract class SceneEvidenceReader {
 
 /** Retained analysis lives in the catalog; queue readiness remains the publication authority. */
 export class SceneEvidenceStore extends SceneEvidenceReader {
-  constructor(private readonly store: RevisionStore) {
+  constructor(
+    private readonly store: Catalog,
+    private readonly validateOwner: (identity: SceneEvidenceIdentity, source: SceneSource) => void,
+  ) {
     super();
     store.catalog.exec(`CREATE TABLE IF NOT EXISTS scene_evidence_generations (
-   recordingId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,policy TEXT NOT NULL,
-   durationUs INTEGER NOT NULL,sourceWidth INTEGER NOT NULL,sourceHeight INTEGER NOT NULL,
+   ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,policy TEXT NOT NULL,
+   source TEXT NOT NULL,durationUs INTEGER NOT NULL,sourceWidth INTEGER NOT NULL,sourceHeight INTEGER NOT NULL,
    throughUs INTEGER NOT NULL,chunkCount INTEGER NOT NULL,comparisonCount INTEGER NOT NULL,
    boundaryCount INTEGER NOT NULL,lastComparison TEXT,complete INTEGER NOT NULL,
-   PRIMARY KEY(recordingId,sourceId,generation,policy)
+   PRIMARY KEY(ownerKind,ownerId,sourceId,generation,policy)
   ) STRICT;
   CREATE TABLE IF NOT EXISTS scene_evidence_chunks (
-   recordingId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,policy TEXT NOT NULL,
+   ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,policy TEXT NOT NULL,
    startUs INTEGER NOT NULL,content TEXT NOT NULL,
-   PRIMARY KEY(recordingId,sourceId,generation,policy,startUs)
+   PRIMARY KEY(ownerKind,ownerId,sourceId,generation,policy,startUs)
   ) STRICT;`);
   }
   private get(identity: SceneEvidenceIdentity): Generation | undefined {
@@ -181,16 +275,15 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       .prepare(`SELECT * FROM scene_evidence_generations WHERE ${where}`)
       .get(...key(identity)) as Generation | undefined;
   }
-  append(identity: SceneEvidenceIdentity, report: SceneChunkReport): void {
+  append(identity: SceneEvidenceIdentity, source: SceneSource, report: SceneChunkReport): void {
     this.store.transaction(() => {
-      const recording = this.store.get(identity.recordingId);
-      const durationUs = recording.sourceDurationUs;
+      this.validateOwner(identity, source);
+      const { durationUs, ...descriptor } = source;
       if (
-        recording.state === "canceled" ||
+        !integer(durationUs) ||
+        durationUs < 1 ||
         !identity.generation ||
         !identity.policy ||
-        recording.sourceId !== identity.sourceId ||
-        durationUs === null ||
         report.policy !== identity.policy
       )
         invalid("Scene evidence identity does not match its source");
@@ -201,9 +294,9 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
         row &&
         (row.sourceWidth !== report.sourceWidth ||
           row.sourceHeight !== report.sourceHeight ||
-          row.durationUs !== durationUs)
+          !isDeepStrictEqual(metadata(row).source, source))
       )
-        invalid("Scene source dimensions changed");
+        invalid("Scene source context or dimensions changed");
       const { chunk, last } = normalizeSceneChunk(
         report,
         durationUs,
@@ -212,10 +305,18 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       const content = JSON.stringify(chunk);
       if (!row)
         this.store.catalog
-          .prepare(`INSERT INTO scene_evidence_generations VALUES (?,?,?,?,?,?,?,0,0,0,0,NULL,0)`)
-          .run(...key(identity), durationUs, report.sourceWidth, report.sourceHeight);
+          .prepare(
+            `INSERT INTO scene_evidence_generations VALUES (?,?,?,?,?,?,?,?,?,0,0,0,0,NULL,0)`,
+          )
+          .run(
+            ...key(identity),
+            JSON.stringify(descriptor),
+            durationUs,
+            report.sourceWidth,
+            report.sourceHeight,
+          );
       this.store.catalog
-        .prepare("INSERT INTO scene_evidence_chunks VALUES (?,?,?,?,?,?)")
+        .prepare("INSERT INTO scene_evidence_chunks VALUES (?,?,?,?,?,?,?)")
         .run(...key(identity), report.range.startUs, content);
       this.store.catalog
         .prepare(
@@ -230,16 +331,12 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
         );
     });
   }
-  finish(identity: SceneEvidenceIdentity, durationUs: number): SceneEvidenceMetadata {
+  finish(identity: SceneEvidenceIdentity): SceneEvidenceMetadata {
     return this.store.transaction(() => {
       const row = this.get(identity);
-      if (
-        !row ||
-        row.complete === -1 ||
-        row.durationUs !== durationUs ||
-        row.throughUs !== durationUs
-      )
+      if (!row || row.complete === -1 || row.throughUs !== row.durationUs)
         invalid("Scene coverage is incomplete");
+      this.validateOwner(identity, metadata(row).source);
       this.store.catalog
         .prepare(`UPDATE scene_evidence_generations SET complete=1 WHERE ${where}`)
         .run(...key(identity));
@@ -288,7 +385,7 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
     });
   }
   async reclaim(
-    recordingId: string,
+    owner: SceneOwner,
     keep: (generation: string) => boolean,
     signal?: AbortSignal,
   ): Promise<void> {
@@ -297,12 +394,14 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       signal?.throwIfAborted();
       const rows = this.store.catalog
         .prepare(
-          "SELECT rowid AS cursor,recordingId,sourceId,generation,policy FROM scene_evidence_generations WHERE recordingId=? AND rowid>? ORDER BY rowid LIMIT 100",
+          "SELECT rowid AS cursor,sourceId,generation,policy FROM scene_evidence_generations WHERE ownerKind=? AND ownerId=? AND rowid>? ORDER BY rowid LIMIT 100",
         )
-        .all(recordingId, cursor) as (SceneEvidenceIdentity & { cursor: number })[];
+        .all(...ownerIdentity(owner), cursor) as (Omit<SceneEvidenceIdentity, "owner"> & {
+        cursor: number;
+      })[];
       for (const row of rows) {
         signal?.throwIfAborted();
-        if (!keep(row.generation)) await this.remove(row);
+        if (!keep(row.generation)) await this.remove({ ...row, owner });
         cursor = row.cursor;
       }
       if (rows.length < 100) return;

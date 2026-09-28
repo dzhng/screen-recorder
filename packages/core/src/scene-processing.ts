@@ -4,7 +4,11 @@ import { isSettled, type RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import { SourceSceneAnalysis, scenePolicy, type VisualSampler } from "./scenes.js";
-import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
+import {
+  recordingSceneMetadata,
+  type SceneEvidenceStore,
+  type RecordingSceneEvidenceMetadata,
+} from "./scene-evidence.js";
 
 const artifact = "source-scenes";
 /** Canonical source analysis is independent of edit revisions and local frame demand. */
@@ -52,7 +56,7 @@ export class SceneProcessing {
       published: status.published
         ? {
             generation: status.published.generation,
-            evidence: JSON.parse(status.published.result) as SceneEvidenceMetadata,
+            evidence: JSON.parse(status.published.result) as RecordingSceneEvidenceMetadata,
           }
         : null,
     };
@@ -85,7 +89,7 @@ export class SceneProcessing {
   }
   private cleanupRecording(recordingId: string, signal: AbortSignal) {
     return this.evidence.reclaim(
-      recordingId,
+      { kind: "recording", recordingId },
       (generation) =>
         this.jobs.retainsAttempt(
           { kind: "recording", recordingId: recordingId },
@@ -109,7 +113,7 @@ export class SceneProcessing {
       throw new CatalogError("UNAVAILABLE", "Scene analysis needs finalized video");
     await this.cleanupRecording(job.target.recordingId, signal);
     const identity = {
-      recordingId: job.target.recordingId,
+      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
       sourceId: recording.sourceId,
       generation: job.attemptId,
       policy: scenePolicy.id,
@@ -129,11 +133,11 @@ export class SceneProcessing {
           { startUs, endUs: Math.min(startUs + scenePolicy.maximumRangeUs, kept.endUs) },
           signal,
         );
-        this.evidence.append(identity, analyzed);
+        this.evidence.append(identity, { kind: "recording", durationUs: kept.endUs }, analyzed);
         await setImmediate();
       }
       signal.throwIfAborted();
-      return JSON.stringify(this.evidence.finish(identity, kept.endUs));
+      return JSON.stringify(recordingSceneMetadata(this.evidence.finish(identity)));
     } catch (error) {
       await this.evidence.remove(identity);
       throw error;

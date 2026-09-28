@@ -1,6 +1,6 @@
 import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, RawCursorSample } from "./evidence.js";
-import type { SceneEvidenceIdentity } from "./scene-evidence.js";
+import type { RecordingSceneEvidenceIdentity } from "./scene-evidence.js";
 import { scenePolicy } from "./scenes.js";
 import { trailPolicy } from "./trails.js";
 import { renderPlan, type RenderSpan, type TimelineRevision, type TimeRange } from "./timeline.js";
@@ -31,7 +31,7 @@ export type SelectionEvent =
 export type SelectionInput = {
   revision: TimelineRevision;
   sourceIdentity: EvidenceIdentity;
-  sceneIdentity: SceneEvidenceIdentity;
+  sceneIdentity: RecordingSceneEvidenceIdentity;
   sourceWidth: number;
   sourceHeight: number;
 };
@@ -49,7 +49,7 @@ export type SelectedCandidate = {
   kept: TimeRange;
   reasons: SelectionReason[];
   sourceIdentity: EvidenceIdentity;
-  sceneIdentity: SceneEvidenceIdentity;
+  sceneIdentity: RecordingSceneEvidenceIdentity;
 };
 export type SelectionRecord =
   | SelectedCandidate

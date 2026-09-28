@@ -13,7 +13,7 @@ import type { JobExecution, JobQueue } from "./jobs.js";
 import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 import type { SceneProcessing } from "./scene-processing.js";
-import type { SceneEvidenceRead, SceneEvidenceMetadata } from "./scene-evidence.js";
+import type { SceneEvidenceRead, RecordingSceneEvidenceMetadata } from "./scene-evidence.js";
 import { selectIndex, selectionPolicy } from "./selection.js";
 import { selectionEvidence } from "./selection-evidence.js";
 import { materializeFrame, framePolicy, type FrameDecoder } from "./frame-materialization.js";
@@ -27,7 +27,10 @@ export type IndexReference = Pick<
   "recordingId" | "revisionId" | "generation"
 >;
 export type IndexFrameReference = IndexReference & { ordinal: number };
-export type IndexEvidence = { source: SourceEvidenceMetadata; scenes: SceneEvidenceMetadata };
+export type IndexEvidence = {
+  source: SourceEvidenceMetadata;
+  scenes: RecordingSceneEvidenceMetadata;
+};
 type IndexInput = IndexEvidence & {
   selectionPolicy: string;
   framePolicy: string;

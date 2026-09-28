@@ -1,3 +1,4 @@
+import { recordingSceneOwner, recordingSceneIdentity } from "./scene-evidence.js";
 import { afterEach, expect, test, vi } from "vitest";
 import { mkdtemp, writeFile, rm } from "node:fs/promises";
 import { join } from "node:path";
@@ -82,7 +83,7 @@ async function fixture({
     policy: scenePolicy.id,
   };
   const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store));
-  const scenes = new SceneEvidenceStore(store);
+  const scenes = new SceneEvidenceStore(store, recordingSceneOwner(store));
   const file = join(root, "normalized.jsonl");
   const body = records.map((row) => JSON.stringify(row) + "\n").join("");
   await writeFile(file, body);
@@ -136,9 +137,9 @@ async function fixture({
       { startUs, endUs: Math.min(startUs + 10_000_000, durationUs) },
       new AbortController().signal,
     );
-    scenes.append(sceneIdentity, report);
+    scenes.append(recordingSceneIdentity(sceneIdentity), { kind: "recording", durationUs }, report);
   }
-  scenes.finish(sceneIdentity, durationUs);
+  scenes.finish(recordingSceneIdentity(sceneIdentity));
   const input = { revision: store.revision(recording.recordingId), sourceIdentity, sceneIdentity };
   const stores = { source, scenes };
   return {

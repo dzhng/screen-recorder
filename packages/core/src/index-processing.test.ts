@@ -1,3 +1,4 @@
+import { recordingSceneOwner } from "./scene-evidence.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join, basename, dirname } from "node:path";
@@ -26,7 +27,7 @@ async function fixture(beforeDecode?: (call: number) => Promise<void>, beforeSou
   });
   const evidence = {
     source: new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
-    scenes: new SceneEvidenceStore(store),
+    scenes: new SceneEvidenceStore(store, recordingSceneOwner(store)),
   };
   const retained = new ScreenshotIndexStore(store, home);
   let source: SourceProcessing, scenes: SceneProcessing, index: IndexProcessing;

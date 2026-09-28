@@ -90,3 +90,11 @@ verified; [public routing](../assets/10d-source-routing/README.md) and actual
 source delivery also pass. Raw still-image source
 requests remain explicitly unsupported under 10d/06, without inventing timed media.
 Scene/cut/interruption and retained index generalization remain required follow-up.
+
+## Retained scene-store prerequisite
+
+The [scene ownership checkpoint](../assets/10d-scene-ownership/README.md) separates
+asset/stream/context identity from actual recording/package views while retaining
+the canonical chunk and generation owners. Sampling, source scene preparation,
+retained screenshot selection/index generalization and projected scene events
+remain open; a completed store generation alone does not establish readiness.

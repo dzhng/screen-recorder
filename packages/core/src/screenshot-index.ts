@@ -15,7 +15,7 @@ import { isDeepStrictEqual } from "node:util";
 import { type RevisionStore } from "./library.js";
 import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity } from "./evidence.js";
-import type { SceneEvidenceIdentity } from "./scene-evidence.js";
+import type { RecordingSceneEvidenceIdentity } from "./scene-evidence.js";
 import type { MaterializedFrame } from "./frame-materialization.js";
 import type { SelectedCandidate, SelectionCoverage } from "./selection.js";
 import { editedToSource, sourceToEdited } from "./timeline.js";
@@ -26,7 +26,7 @@ export type ScreenshotIndexIdentity = {
   revisionId: string;
   generation: string;
   sourceIdentity: EvidenceIdentity;
-  sceneIdentity: SceneEvidenceIdentity;
+  sceneIdentity: RecordingSceneEvidenceIdentity;
   selectionPolicy: string;
   framePolicy: string;
   trailPolicy: string;
@@ -73,7 +73,7 @@ function invalid(message: string): never {
 function sourceIdentity({ owner, sourceId, generation }: EvidenceIdentity): EvidenceIdentity {
   return { owner, sourceId, generation };
 }
-function sceneIdentity(identity: SceneEvidenceIdentity): SceneEvidenceIdentity {
+function sceneIdentity(identity: RecordingSceneEvidenceIdentity): RecordingSceneEvidenceIdentity {
   const { recordingId, sourceId, generation, policy } = identity;
   return { recordingId, sourceId, generation, policy };
 }
