@@ -1,0 +1,36 @@
+{
+  "commit": "54866648",
+  "passed": true,
+  "catalogFormat": 14,
+  "workerSha256": "2946c6e499e717b040e5bd05875a3f56b01852c2f9f0e2ed7c61e6c6335a17b7",
+  "checks": {
+    "current": {
+      "video": "36e7aad74b4d0ff3d42c003ab8995e5939f06cee5feef629a8b6290ed2433f99",
+      "audio": "cd4a09c43069e8b15d3ff2abc0dc95e5462d8dd68201970ddf3bc8d302ab920b"
+    },
+    "history": {
+      "video": "fffe97c167c7baafb6daf29ab9edaf43d3ba7a3ccaf7c87e5673c835901fcb2e",
+      "audio": "edd6a926a57241b6be35a5bbaeb6e23e28846c650834472ab50f4c0aa51605cb"
+    },
+    "donorRemoved": true,
+    "packageRemoved": true,
+    "sourceBytesUnchanged": true,
+    "acquisitionIdentityAndBindingsRetained": true,
+    "exactNormalizedEvidenceRetained": true,
+    "exactJournalRetained": true,
+    "historicalOnlyMediaRetained": true,
+    "generatedReferenceFixtureRetained": true,
+    "editableUndo": true,
+    "adoptionReplay": true,
+    "canceledAdoptionInvisible": true,
+    "corruptAndMissingMembersRejected": true,
+    "aggregateHistoryLimitBeforePublication": true,
+    "closedAdmissionStatusRetained": true
+  },
+  "verification": {
+    "build": "passed",
+    "service": "16 passed",
+    "affectedCore": "97 passed; source WAV test timed out at5seconds",
+    "unchangedAudioConfirmation": "17 passed including prior timeout; timeout cause unproven"
+  }
+}

@@ -68,3 +68,11 @@ RGB and WAV hashes on the combined worker. Service (16), protocol (19), and core
 timeout during a concurrent Swift build; the unchanged confirmation passes after
 the build. This is not evidence of a proven timeout cause or a raised limit.
 `root-integration.json` and compressed logs retain both outcomes.
+
+Root acquisition integration now reproduces every public check, including source
+identities/bindings, exact journal/normalized evidence, current/history media and
+rollback/replay. Catalog format 14 is a development cutover with no migration. The
+affected core run passes 97 checks and times out one source-WAV check at five seconds;
+that unchanged file then passes all 17 checks. Service 16 and the targeted build pass.
+Both outcomes are retained; no timeout threshold was increased and its cause is
+unproven. `root-acquisition-integration.json` records this scope.

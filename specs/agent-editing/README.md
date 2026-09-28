@@ -48,7 +48,9 @@ Compact evidence ledger:
   frame/edit controls pass on the combined build;
   neither closes full keyframes or encoded quality. [Portable archive relocation](assets/22-portable-projects/README.md)
   and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
-  their asset-only checkpoints, retaining workflow failures and handoff-ID errors.
+  their respective checkpoints, retaining workflow failures and handoff-ID errors.
+  Relocation now preserves acquisition identities and raw/normalized evidence;
+  derived scene/transcript/index generations and other dependencies remain open.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.
