@@ -1,0 +1,11 @@
+✔ selected source pictures preserve explicit streams, physical sample clocks and excluded support (896.302958ms)
+✔ the native process answers every shared conformance line in order (17.637875ms)
+✔ a changed directory identity reports the same final failure through every operation family (40.172958ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 927.673625

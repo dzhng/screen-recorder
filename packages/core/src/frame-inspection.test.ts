@@ -4,10 +4,11 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore } from "./assets.js";
+import { AcquisitionStore } from "./acquisitions.js";
 import { ProjectStore } from "./projects.js";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
-import { ProjectFrameInspection, type ProjectFrameRenderer } from "./project-frames.js";
+import { MediaFrameInspection, type ProjectFrameRenderer } from "./frame-inspection.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
@@ -59,7 +60,7 @@ async function fixture(render = renderer) {
     projects.get(owner.projectId);
   });
   await cache.reconcile();
-  let frames!: ProjectFrameInspection;
+  let frames!: MediaFrameInspection;
   const jobs = new JobQueue({
     store: catalog,
     providers: { newId: randomUUID },
@@ -74,7 +75,19 @@ async function fixture(render = renderer) {
     },
     execute: (execution) => frames.execute(execution),
   });
-  frames = new ProjectFrameInspection(projects, assets, jobs, cache, render);
+  frames = new MediaFrameInspection({
+    assets,
+    acquisitions: new AcquisitionStore(catalog),
+    jobs,
+    cache,
+    sourceRenderer: {
+      implementationId: "unused-source",
+      render: async () => {
+        throw new Error("Unused source renderer");
+      },
+    },
+    project: { projects, renderer: render },
+  });
   cleanup.push(async () => {
     await jobs.close();
     catalog.close();

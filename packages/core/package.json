@@ -200,9 +200,9 @@
       "types": "./dist/capture-source-read.d.ts",
       "default": "./dist/capture-source-read.js"
     },
-    "./project-frames": {
-      "types": "./dist/project-frames.d.ts",
-      "default": "./dist/project-frames.js"
+    "./frame-inspection": {
+      "types": "./dist/frame-inspection.d.ts",
+      "default": "./dist/frame-inspection.js"
     }
   },
   "scripts": {

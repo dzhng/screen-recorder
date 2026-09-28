@@ -1,0 +1,70 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection
+
+(node:1590) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/source-frame-inspection.test.ts (9 tests | 1 failed | 8 skipped) 27ms
+   × wrong source receipt stream cannot publish 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/source-frame-inspection.test.ts > wrong source receipt stream cannot publish
+AssertionError: expected { …(12) } to match object { state: 'failed', published: null }
+(10 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "published": null,
+-   "state": "failed",
++   "published": {
++     "frame": {
++       "acquisitionId": "mask",
++       "actualSourceUs": 100000,
++       "assetId": "7a7387c1dbf91ac17a8d51fecbe657d9e524cbb385052af5f9f4452d0ec917c1",
++       "atUs": 150000,
++       "bytes": 16,
++       "cacheId": "80c1553b-e3af-45af-a5f2-0489bba5b1d3",
++       "decodedSamples": 1,
++       "file": "/private/tmp/source-frame-core-UH6jC6/cache/derived/80c1553b-e3af-45af-a5f2-0489bba5b1d3.cache",
++       "height": 48,
++       "implementationId": "fixture-source-picture",
++       "maxLongEdge": 1600,
++       "mediaType": "image/png",
++       "readerOpens": 1,
++       "requestedSourceUs": 150000,
++       "sample": {
++         "endTimescale": 1000000,
++         "endValue": "1450000",
++         "originUs": 1250000,
++         "timescale": 1000000,
++         "value": "1350000",
++       },
++       "sourceHeight": 48,
++       "sourceWidth": 64,
++       "streamId": "track:2",
++       "supportDigest": "2dffc65b4f4c3ceb8a4cc1156d651ab9bfa5158347ad8c756399e00de0296ebf",
++       "width": 64,
++     },
++     "generation": 1,
++   },
++   "state": "ready",
+  }
+
+ ❯ packages/core/src/source-frame-inspection.test.ts:218:41
+    216|     f.frames.request(f.request);
+    217|     await f.jobs.idle();
+    218|     expect(f.frames.request(f.request)).toMatchObject({ state: "failed…
+       |                                         ^
+    219|     expect(f.cache.bytes).toBe(0);
+    220|     expect(await readFile(f.source, "utf8")).toBe("immutable multi-str…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  01:48:40
+   Duration  283ms (transform 60%, import 27%, tests 12%, worker 1%)
+

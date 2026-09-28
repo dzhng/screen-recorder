@@ -1,0 +1,10 @@
+{
+  "nativeSha256": "7c280322958c91782e865bba6fc00bc7b68069495bb605cf12835838ab5391cf",
+  "referenceHelperCommit": "f6845b03d3f592ecb97f8ed60d83a589a9aec2c8",
+  "referenceHelperSha256": "cba232f5f49e2c33a1dc8e8f5d4d19f0153a555beb762f9e1bfd77474e4036ba",
+  "repeatedDeliveryImages": {
+    "frame-0.png": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+    "frame-1.png": "f5559a2028199be2f55af6dab8a0910f891c16bd1617909331383640f16f3dda",
+    "frame-5.png": "33152176d6aa7d2f1371c2a78e28e444671d54597f10af83992f64651d30f7dd"
+  }
+}

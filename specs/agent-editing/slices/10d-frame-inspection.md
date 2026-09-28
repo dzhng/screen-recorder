@@ -80,3 +80,12 @@ separately from the actual physical sample and distinguish unavailable pictures
 from an empty canvas. The [native checkpoint evidence](../assets/10d-native-pictures/EVIDENCE.md)
 records the executed gates and links the corrected common-profile visual review. This does
 not close the public delivery, selected-source or retained-index gates above.
+
+## Selected-source native/core checkpoint
+
+[Selected timed-video source frames](../assets/10d-source-frames/README.md) use the
+shared frame inspection lifetime and explicit-track physical presentation reader.
+Source clocks, sample support, acquisition exclusion and source-only references are
+verified; public routing/delivery remains integration work. Raw still-image source
+requests remain explicitly unsupported under 10d/06, without inventing timed media.
+Scene/cut/interruption and retained index generalization remain required follow-up.

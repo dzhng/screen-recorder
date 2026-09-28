@@ -1,0 +1,219 @@
+[
+  {
+    "params": {
+      "asset": {
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "streamId": "track:1",
+        "path": "/tmp/source-frame-proof/source.mov",
+        "originUs": 1250000
+      },
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 1000000
+        }
+      ],
+      "atUs": 150000,
+      "output": "/tmp/source-frame-proof/frame-0.png"
+    },
+    "reply": {
+      "data": {
+        "actualSourceUs": 100000,
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "bytes": 405,
+        "decodedSamples": 1,
+        "file": "/tmp/source-frame-proof/frame-0.png",
+        "height": 48,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 150000,
+        "sample": {
+          "endTimescale": 10240,
+          "endValue": "14848",
+          "originUs": 1250000,
+          "timescale": 10240,
+          "value": "13824"
+        },
+        "sourceHeight": 48,
+        "sourceWidth": 64,
+        "streamId": "track:1",
+        "width": 64
+      },
+      "id": "source-frame",
+      "ok": true
+    }
+  },
+  {
+    "params": {
+      "asset": {
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "streamId": "track:2",
+        "path": "/tmp/source-frame-proof/source.mov",
+        "originUs": 1250000
+      },
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 1000000
+        }
+      ],
+      "atUs": 150000,
+      "output": "/tmp/source-frame-proof/frame-1.png"
+    },
+    "reply": {
+      "data": {
+        "actualSourceUs": 100000,
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "bytes": 415,
+        "decodedSamples": 1,
+        "file": "/tmp/source-frame-proof/frame-1.png",
+        "height": 48,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 150000,
+        "sample": {
+          "endTimescale": 10240,
+          "endValue": "14848",
+          "originUs": 1250000,
+          "timescale": 10240,
+          "value": "13824"
+        },
+        "sourceHeight": 48,
+        "sourceWidth": 64,
+        "streamId": "track:2",
+        "width": 64
+      },
+      "id": "source-frame",
+      "ok": true
+    }
+  },
+  {
+    "params": {
+      "asset": {
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "streamId": "track:1",
+        "path": "/tmp/source-frame-proof/source.mov",
+        "originUs": 1250000
+      },
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 1000000
+        }
+      ],
+      "atUs": 450000,
+      "output": "/tmp/source-frame-proof/frame-2.png"
+    },
+    "reply": {
+      "error": {
+        "code": "UNAVAILABLE",
+        "details": {},
+        "message": "Requested source picture has no physical sample.",
+        "retryable": false
+      },
+      "id": "source-frame",
+      "ok": false
+    }
+  },
+  {
+    "params": {
+      "asset": {
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "streamId": "track:1",
+        "path": "/tmp/source-frame-proof/source.mov",
+        "originUs": 1250000
+      },
+      "available": [
+        {
+          "startUs": 600000,
+          "endUs": 1000000
+        }
+      ],
+      "atUs": 150000,
+      "output": "/tmp/source-frame-proof/frame-3.png"
+    },
+    "reply": {
+      "error": {
+        "code": "UNAVAILABLE",
+        "details": {},
+        "message": "Requested picture is outside selected source support.",
+        "retryable": false
+      },
+      "id": "source-frame",
+      "ok": false
+    }
+  },
+  {
+    "params": {
+      "asset": {
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "streamId": "track:999",
+        "path": "/tmp/source-frame-proof/source.mov",
+        "originUs": 1250000
+      },
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 1000000
+        }
+      ],
+      "atUs": 150000,
+      "output": "/tmp/source-frame-proof/frame-4.png"
+    },
+    "reply": {
+      "error": {
+        "code": "UNAVAILABLE",
+        "details": {},
+        "message": "Render plan exceeds a usable video source.",
+        "retryable": false
+      },
+      "id": "source-frame",
+      "ok": false
+    }
+  },
+  {
+    "params": {
+      "asset": {
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "streamId": "track:1",
+        "path": "/tmp/source-frame-proof/source.mov",
+        "originUs": 1250000
+      },
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 1000000
+        }
+      ],
+      "atUs": 950000,
+      "output": "/tmp/source-frame-proof/frame-5.png",
+      "maxLongEdge": 32
+    },
+    "reply": {
+      "data": {
+        "actualSourceUs": 900000,
+        "assetId": "62ff5a869f414d728bc7e06bec0335e718782ff129d5a1f1f27fa74b835b9852",
+        "bytes": 276,
+        "decodedSamples": 1,
+        "file": "/tmp/source-frame-proof/frame-5.png",
+        "height": 24,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 950000,
+        "sample": {
+          "endTimescale": 10240,
+          "endValue": "23040",
+          "originUs": 1250000,
+          "timescale": 10240,
+          "value": "22016"
+        },
+        "sourceHeight": 48,
+        "sourceWidth": 64,
+        "streamId": "track:1",
+        "width": 32
+      },
+      "id": "source-frame",
+      "ok": true
+    }
+  }
+]

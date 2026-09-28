@@ -62,14 +62,7 @@ public enum CompositionFrameRenderer {
         let image = try FrameImage(
             buffer: buffer, transform: .identity, overlay: nil, agedFromUs: 0,
             crop: nil, maxLongEdge: edge)
-        let data = try image.png(context: pictures.context)
-        guard data.count <= limit else {
-            throw NativeFailure("LIMIT_EXCEEDED", "Encoded frame exceeds the requested byte limit.")
-        }
-        try Task.checkCancellation()
-        try output.write(data)
-        try Task.checkCancellation()
-        let bytes = try output.publish()
+        let bytes = try image.publishPNG(to: output, context: pictures.context, maxEncodedBytes: limit)
         return Result(
             file: request.output, frame: frame, picture: pictures.picture,
             width: image.width, height: image.height,

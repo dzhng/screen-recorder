@@ -1,0 +1,30 @@
+✖ selected source pictures preserve explicit streams, physical sample clocks and excluded support (1233.495583ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1263.858334
+
+✖ failing tests:
+
+test at helpers/mac/Tests/source-frame.test.mjs:17:1
+✖ selected source pictures preserve explicit streams, physical sample clocks and excluded support (1233.495583ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(rgb2[middle + 1] > rgb2[middle] + 50)
+  
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-source-audio-inspection/helpers/mac/Tests/source-frame.test.mjs:99:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

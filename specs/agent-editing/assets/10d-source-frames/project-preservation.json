@@ -1,0 +1,691 @@
+{
+  "results": [
+    {
+      "name": "av-replacement",
+      "pictures": 32,
+      "moviePixelSHA256": "bf341e7c56c1f595f93dd63d7b82cee384be351b336a638b639a0256272e6e5b",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "B2",
+        "B2",
+        "B2",
+        "B2",
+        "B3",
+        "B3",
+        "B3",
+        "B3",
+        "B4",
+        "B4",
+        "B4",
+        "B4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A5"
+      ]
+    },
+    {
+      "name": "audio-replacement",
+      "pictures": 32,
+      "moviePixelSHA256": "6566e7fd21d9a14a288928ac028907373c03ce1b09d85da2bfb622025e42df82",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A6",
+        "A6"
+      ]
+    },
+    {
+      "name": "nonzero-preview",
+      "pictures": 21,
+      "moviePixelSHA256": "de48b34abfe78d44e7127005e1454786c973eb0c325dea43af3545ab09d0ddc7",
+      "ids": [
+        "A1",
+        "A1",
+        "A1",
+        "B2",
+        "B2",
+        "B2",
+        "B2",
+        "B3",
+        "B3",
+        "B3",
+        "B3",
+        "B4",
+        "B4",
+        "B4",
+        "B4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5"
+      ]
+    },
+    {
+      "name": "held-frame",
+      "pictures": 10,
+      "moviePixelSHA256": "694d7cf8b548604f4e9f7fa0d5db5e5d345163249586f1b5b139d1cfce2fc870",
+      "ids": [
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1"
+      ]
+    },
+    {
+      "name": "subframe-source",
+      "pictures": 10,
+      "moviePixelSHA256": "b5c3c2af19a1364f8a3e9ee50eade40109f189fc59aae1c58b22124da9d2b1a2",
+      "ids": [
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3"
+      ]
+    },
+    {
+      "name": "vfr-held-tail",
+      "pictures": 40,
+      "moviePixelSHA256": "14e8fd3e4e67b6d01e82a22b5c905def2502c46c65b1407e7148ce17af204442",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A6",
+        "A6",
+        "A6",
+        "A6",
+        "A6",
+        "A7",
+        "A7",
+        "A7",
+        "A7",
+        "A7"
+      ]
+    },
+    {
+      "name": "empty-edit",
+      "pictures": 25,
+      "moviePixelSHA256": "9c698c238d6ba0147980350296e62d6deff18a6b57a8af71b302aa2045b306d9",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2"
+      ]
+    },
+    {
+      "name": "empty-edit-preview",
+      "pictures": 14,
+      "moviePixelSHA256": "d9508c46cd961ca0189aeabbf3d79f2353c27bf5cc67ec6c5cfe863152e5a7d1",
+      "ids": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2"
+      ]
+    },
+    {
+      "name": "repeat-reorder",
+      "pictures": 35,
+      "moviePixelSHA256": "813bbad4f278f03ec1ff267b78e5e3bab4a90d2763fc869b2557d8cafb815a27",
+      "ids": [
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A5",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "B0",
+        "B0",
+        "B0",
+        "B0",
+        "B1",
+        "B1",
+        "B1",
+        "B1",
+        "B2",
+        "B2"
+      ]
+    },
+    {
+      "name": "leading-partial-picture",
+      "pictures": 2,
+      "moviePixelSHA256": "630054a1fb5bf437862d87fa2066a94c798c73248df1afa03ec02f3bcdb8501b",
+      "ids": [
+        "A0",
+        "black"
+      ]
+    },
+    {
+      "name": "retimed-picture",
+      "pictures": 20,
+      "moviePixelSHA256": "1ae96d009b55d2b5fe88816def1ccc3aa7ab4e9d26d261725342ac20360b13d3",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1"
+      ]
+    },
+    {
+      "name": "selected-second-stream",
+      "pictures": 10,
+      "moviePixelSHA256": "a3895b03222a4bf73cdb9f59fa9bd0d16e3b29b72d31a3852e441ebaaefad6da",
+      "ids": [
+        "B0",
+        "B0",
+        "B0",
+        "B0",
+        "B1",
+        "B1",
+        "B1",
+        "B1",
+        "B2",
+        "B2"
+      ]
+    },
+    {
+      "name": "raster-reuse-transitions",
+      "pictures": 18,
+      "moviePixelSHA256": "c7db91cd84feb77bcf3e3f54f40657f16c665c34c6b7e341288a71e4d967b8df",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "black",
+        "black",
+        "black",
+        "A0",
+        "A0",
+        "A0",
+        "B0",
+        "B0",
+        "B0",
+        "A0",
+        "A0",
+        "A0",
+        "B0",
+        "B0",
+        "B0"
+      ]
+    },
+    {
+      "name": "sparse-forward-cuts",
+      "pictures": 10,
+      "moviePixelSHA256": "413bc10f5034b29f94ec4fc1a11595093c17c2cf4e0a0fdd5dd1e269f752abf8",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A4",
+        "A4",
+        "A4",
+        "A4",
+        "A4"
+      ]
+    },
+    {
+      "name": "sparse-forward-retime",
+      "pictures": 10,
+      "moviePixelSHA256": "ed719a52f2669704b48b3e43821cd39702bf95aca868005154d334ab3f138297",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0"
+      ]
+    },
+    {
+      "name": "acquisition-occurrences",
+      "pictures": 60,
+      "moviePixelSHA256": "aa81196cd094270964494574e1604ea172cb8ec3da51b0efe985623052893198",
+      "ids": [
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A3",
+        "A3",
+        "A3",
+        "A3",
+        "A3"
+      ]
+    },
+    {
+      "name": "acquisition-boundary-window",
+      "pictures": 7,
+      "moviePixelSHA256": "edf6cb5a1d91895184312f44337958181f0e2368477465aaf965e27c480d94f1",
+      "ids": [
+        "A0",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A2"
+      ]
+    },
+    {
+      "name": "acquisition-held-pictures",
+      "pictures": 30,
+      "moviePixelSHA256": "7c7b15c870ac082063fbe2492a56af8ec566bb2639a573fcc0cece5129d4f177",
+      "ids": [
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A1",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "A0",
+        "black",
+        "black",
+        "black",
+        "black",
+        "black",
+        "A2",
+        "A2",
+        "A2",
+        "A2",
+        "A2"
+      ]
+    }
+  ],
+  "negatives": [
+    {
+      "name": "encoded-limit",
+      "code": "LIMIT_EXCEEDED"
+    },
+    {
+      "name": "oversize-limit",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "name": "invalid-size",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "name": "unknown-crop",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "name": "layering",
+      "code": "NOT_READY"
+    }
+  ],
+  "bounded": {
+    "bytes": 1319,
+    "decodedSamples": 1,
+    "file": "/tmp/source-frame-picture-preservation/bounded.png",
+    "frame": {
+      "index": 0,
+      "layers": [
+        {
+          "assetId": "tagged-a.mov",
+          "availability": "available",
+          "clipId": "a-first",
+          "placement": "contain",
+          "sourceUs": 0,
+          "streamId": "track:1",
+          "trackId": "video"
+        }
+      ],
+      "sampleAtUs": 0,
+      "visibleRange": {
+        "endUs": 50000,
+        "startUs": 0
+      }
+    },
+    "height": 64,
+    "mediaType": "image/png",
+    "picture": {
+      "actualSourceUs": 0,
+      "assetId": "tagged-a.mov",
+      "clipId": "a-first",
+      "requestedSourceUs": 0,
+      "sample": {
+        "originUs": 0,
+        "timescale": 16384,
+        "value": "0"
+      },
+      "status": "available",
+      "streamId": "track:1"
+    },
+    "profile": "h264-rec709",
+    "readerOpens": 1,
+    "sourceHeight": 128,
+    "sourceWidth": 160,
+    "width": 80
+  },
+  "physical": {
+    "bytes": 724,
+    "decodedSamples": 0,
+    "file": "/tmp/source-frame-picture-preservation/physical-empty.png",
+    "frame": {
+      "index": 5,
+      "layers": [
+        {
+          "assetId": "empty-edit.mov",
+          "availability": "available",
+          "clipId": "gapped",
+          "placement": "contain",
+          "sourceUs": 250000,
+          "streamId": "track:1",
+          "trackId": "video"
+        }
+      ],
+      "sampleAtUs": 250000,
+      "visibleRange": {
+        "endUs": 300000,
+        "startUs": 250000
+      }
+    },
+    "height": 128,
+    "mediaType": "image/png",
+    "picture": {
+      "assetId": "empty-edit.mov",
+      "clipId": "gapped",
+      "reason": "physical-empty",
+      "requestedSourceUs": 250000,
+      "status": "unavailable",
+      "streamId": "track:1"
+    },
+    "profile": "h264-rec709",
+    "readerOpens": 1,
+    "sourceHeight": 128,
+    "sourceWidth": 160,
+    "width": 160
+  },
+  "fractional": {
+    "bytes": 20328,
+    "decodedSamples": 1,
+    "file": "/tmp/source-frame-picture-preservation/fractional.png",
+    "frame": {
+      "index": 0,
+      "layers": [
+        {
+          "assetId": "fractional",
+          "availability": "available",
+          "clipId": "a-first",
+          "placement": "contain",
+          "sourceUs": 33367,
+          "streamId": "track:1",
+          "trackId": "video"
+        }
+      ],
+      "sampleAtUs": 0,
+      "visibleRange": {
+        "endUs": 50000,
+        "startUs": 0
+      }
+    },
+    "height": 128,
+    "mediaType": "image/png",
+    "picture": {
+      "actualSourceUs": 33367,
+      "assetId": "fractional",
+      "clipId": "a-first",
+      "requestedSourceUs": 33367,
+      "sample": {
+        "originUs": 0,
+        "timescale": 90000,
+        "value": "3003"
+      },
+      "status": "available",
+      "streamId": "track:1"
+    },
+    "profile": "h264-rec709",
+    "readerOpens": 1,
+    "sourceHeight": 128,
+    "sourceWidth": 160,
+    "width": 160
+  },
+  "defaultBound": {
+    "bytes": 27241,
+    "decodedSamples": 0,
+    "file": "/tmp/source-frame-picture-preservation/default-bound.png",
+    "frame": {
+      "index": 0,
+      "layers": [],
+      "sampleAtUs": 0,
+      "visibleRange": {
+        "endUs": 50000,
+        "startUs": 0
+      }
+    },
+    "height": 900,
+    "mediaType": "image/png",
+    "picture": {
+      "status": "background"
+    },
+    "profile": "h264-rec709",
+    "readerOpens": 0,
+    "sourceHeight": 1800,
+    "sourceWidth": 3200,
+    "width": 1600
+  },
+  "cancellation": "PASS production NativeWire task cancellation drains writer and removes staging",
+  "passed": true
+}

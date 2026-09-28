@@ -1,0 +1,2204 @@
+2026-09-28T08:52:45.775774Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T08:52:45.775840Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /private/tmp/screenrec-source-audio-inspection
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e737-7244-7b50-815d-d8dd2078c31c
+--------
+user
+current changes
+2026-09-28T08:52:46.049902Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T08:52:46.049925Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+exec
+/bin/zsh -lc 'pwd; git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md; find . -name AGENTS.md -o -name AGENTS.override.md' in /private/tmp/screenrec-source-audio-inspection
+2026-09-28T08:52:51.828828Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e737-7244-7b50-815d-d8dd2078c31c turn_id=01a0e737-72cf-7181-b5cb-03c609d225e6 item_id="exec-ba9d7437-c80a-4af3-833c-9a000c32ad23"
+ succeeded in 0ms:
+./AGENTS.md
+
+exec
+/bin/zsh -lc 'git diff --stat; git diff -- helpers/mac packages/core/package.json; cat packages/core/src/frame-inspection.ts' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+ .../CompositionFrameRenderer.swift                 |   9 +-
+ .../CompositionPictureExecutor.swift               |  46 +---
+ .../Sources/ScreenRecorderFrames/FrameImage.swift  |  11 +
+ helpers/mac/Sources/ScreenRecorderWire/Wire.swift  |   1 +
+ packages/core/package.json                         |   6 +-
+ packages/core/src/project-frames.test.ts           | 212 ------------------
+ packages/core/src/project-frames.ts                | 236 ---------------------
+ specs/agent-editing/slices/10d-frame-inspection.md |   9 +
+ 8 files changed, 26 insertions(+), 504 deletions(-)
+diff --git a/helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift b/helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift
+index 1f6bc23..e105dcd 100644
+--- a/helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift
++++ b/helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift
+@@ -62,14 +62,7 @@ public enum CompositionFrameRenderer {
+         let image = try FrameImage(
+             buffer: buffer, transform: .identity, overlay: nil, agedFromUs: 0,
+             crop: nil, maxLongEdge: edge)
+-        let data = try image.png(context: pictures.context)
+-        guard data.count <= limit else {
+-            throw NativeFailure("LIMIT_EXCEEDED", "Encoded frame exceeds the requested byte limit.")
+-        }
+-        try Task.checkCancellation()
+-        try output.write(data)
+-        try Task.checkCancellation()
+-        let bytes = try output.publish()
++        let bytes = try image.publishPNG(to: output, context: pictures.context, maxEncodedBytes: limit)
+         return Result(
+             file: request.output, frame: frame, picture: pictures.picture,
+             width: image.width, height: image.height,
+diff --git a/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift b/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift
+index f3ad035..7002bd0 100644
+--- a/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift
++++ b/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift
+@@ -139,7 +139,7 @@ public final class CompositionPictureExecutor {
+                 source = try await PresentationSource(
+                     source: URL(fileURLWithPath: asset.path), streamId: asset.streamId,
+                     startUs: at)
+-                try await Self.requireSupportedColor(source!.track)
++                try await VideoColorPolicy.requireSupportedColor(source!.track)
+                 key = nextKey
+                 opens += 1
+             }
+@@ -207,50 +207,6 @@ public final class CompositionPictureExecutor {
+         return destination
+     }
+
+-    private static func requireSupportedColor(_ track: AVAssetTrack) async throws {
+-        for format in try await track.load(.formatDescriptions) {
+-            func value(_ key: CFString) -> CFPropertyList? {
+-                CMFormatDescriptionGetExtension(format, extensionKey: key)
+-            }
+-            func permits(_ key: CFString, _ supported: [CFString]) -> Bool {
+-                guard let actual = value(key) else { return true }
+-                return (actual as? String).map { text in
+-                    supported.contains { ($0 as String) == text }
+-                } ?? false
+-            }
+-            guard
+-                permits(
+-                    kCMFormatDescriptionExtension_ColorPrimaries,
+-                    [kCMFormatDescriptionColorPrimaries_ITU_R_709_2]),
+-                permits(
+-                    kCMFormatDescriptionExtension_TransferFunction,
+-                    [
+-                        kCMFormatDescriptionTransferFunction_ITU_R_709_2,
+-                        kCMFormatDescriptionTransferFunction_sRGB,
+-                    ]),
+-                permits(
+-                    kCMFormatDescriptionExtension_YCbCrMatrix,
+-                    [
+-                        kCMFormatDescriptionYCbCrMatrix_ITU_R_709_2,
+-                        kCMFormatDescriptionYCbCrMatrix_ITU_R_601_4,
+-                    ]),
+-                [
+-                    kCMFormatDescriptionExtension_ICCProfile,
+-                    kCMFormatDescriptionExtension_GammaLevel,
+-                    kCMFormatDescriptionExtension_AlternativeTransferCharacteristics,
+-                    kCMFormatDescriptionExtension_LogTransferFunction,
+-                    kCMFormatDescriptionExtension_MasteringDisplayColorVolume,
+-                    kCMFormatDescriptionExtension_ContentLightLevelInfo,
+-                ]
+-                .allSatisfy({ value($0) == nil })
+-            else {
+-                throw unsupported(
+-                    "Source color profile requires an explicit HDR, wide-gamut or custom-profile conversion."
+-                )
+-            }
+-        }
+-    }
+-
+     private static func contained(
+         _ buffer: CVPixelBuffer, transform: CGAffineTransform, canvas: Canvas
+     ) -> CIImage {
+diff --git a/helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift b/helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift
+index f6fb1a2..2ccc637 100644
+--- a/helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift
++++ b/helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift
+@@ -95,6 +95,17 @@ struct FrameImage {
+         return rgb
+     }
+
++    func publishPNG(to output: NewFile, context: CIContext, maxEncodedBytes: Int) throws -> Int {
++        let data = try png(context: context)
++        guard data.count <= maxEncodedBytes else {
++            throw NativeFailure("LIMIT_EXCEEDED", "Encoded frame exceeds the requested byte limit.")
++        }
++        try Task.checkCancellation()
++        try output.write(data)
++        try Task.checkCancellation()
++        return try output.publish()
++    }
++
+     func png(context: CIContext) throws -> Data {
+         guard
+             let rendered = context.createCGImage(
+diff --git a/helpers/mac/Sources/ScreenRecorderWire/Wire.swift b/helpers/mac/Sources/ScreenRecorderWire/Wire.swift
+index bf16ddc..90ff8d1 100644
+--- a/helpers/mac/Sources/ScreenRecorderWire/Wire.swift
++++ b/helpers/mac/Sources/ScreenRecorderWire/Wire.swift
+@@ -42,6 +42,7 @@ public enum NativeWire {
+             "media.renderMovie": media { try json(await MovieOperation.execute($0)) },
+             "media.renderCompositionMovie": media { try json(await CompositionMovieOperation.execute($0)) },
+             "media.mixCompositionAudio": media { try json(await CompositionAudioOperation.execute($0)) },
++            "media.sourceFrame": media { try json(await SourceFrameOperation.execute($0)) },
+             "media.sourceAudio": media { try json(await SourceAudioOperation.execute($0)) },
+             "media.audio": media { try json(await AudioOperation.execute($0)) },
+             "media.recover": media { params in
+diff --git a/packages/core/package.json b/packages/core/package.json
+index 098a982..2e49c0c 100644
+--- a/packages/core/package.json
++++ b/packages/core/package.json
+@@ -200,9 +200,9 @@
+       "types": "./dist/capture-source-read.d.ts",
+       "default": "./dist/capture-source-read.js"
+     },
+-    "./project-frames": {
+-      "types": "./dist/project-frames.d.ts",
+-      "default": "./dist/project-frames.js"
++    "./frame-inspection": {
++      "types": "./dist/frame-inspection.d.ts",
++      "default": "./dist/frame-inspection.js"
+     }
+   },
+   "scripts": {
+import { isDeepStrictEqual } from "node:util";
+import { z } from "zod";
+import {
+  compiledFrameSchema,
+  processingTapSchema,
+  type ProcessingTap,
+} from "@screenrec/composition";
+import type { ProjectStore } from "./projects.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
+import type { AssetStore } from "./assets.js";
+import type { JobQueue, JobExecution, JobOwner } from "./jobs.js";
+import type { DerivedCache } from "./cache.js";
+import { CatalogError } from "./catalog.js";
+import { submitCachedDerivative } from "./cached-derivative.js";
+import {
+  projectWindow,
+  type CompositionWindow,
+  type CompositionAssetBinding,
+} from "./project-window.js";
+
+const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+const selectedPicture = {
+  clipId: z.string().min(1),
+  assetId: z.string().min(1),
+  streamId: z.string().min(1),
+  requestedSourceUs: time,
+};
+const projectReceiptSchema = z.object({
+  file: z.string(),
+  mediaType: z.literal("image/png"),
+  profile: z.literal("h264-rec709"),
+  frame: compiledFrameSchema,
+  width: z.int().positive(),
+  height: z.int().positive(),
+  sourceWidth: z.int().positive(),
+  sourceHeight: z.int().positive(),
+  decodedSamples: time,
+  readerOpens: time,
+  bytes: z
+    .int()
+    .positive()
+    .max(32 * 1024 * 1024),
+  picture: z.discriminatedUnion("status", [
+    z.object({ status: z.literal("background") }),
+    z.object({ status: z.literal("unavailable"), ...selectedPicture, reason: z.string().min(1) }),
+    z.object({
+      status: z.literal("available"),
+      ...selectedPicture,
+      actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+      sample: z.object({
+        value: z.string().regex(/^-?\d+$/),
+        timescale: z.int().positive(),
+        originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+      }),
+    }),
+  ]),
+});
+const optionsSchema = z.strictObject({
+  atUs: time,
+  maxLongEdge: z.int().min(1).max(8192),
+  tap: processingTapSchema,
+  implementationId: z.string().min(1),
+});
+export type ProjectFrameInput = {
+  projectId: string;
+  revisionId?: string | undefined;
+  atUs: number;
+  maxLongEdge?: number | undefined;
+  tap?: ProcessingTap | undefined;
+};
+export type ProjectFrameRenderer = {
+  implementationId: string;
+  render(
+    request: {
+      window: CompositionWindow;
+      assets: readonly CompositionAssetBinding[];
+      output: string;
+      maxLongEdge: number;
+    },
+    signal: AbortSignal,
+  ): Promise<unknown>;
+};
+export type ProjectFrameArtifact = z.infer<typeof projectReceiptSchema> &
+  z.infer<typeof optionsSchema> & {
+    projectId: string;
+    revisionId: string;
+    cacheId: string;
+  };
+
+const sourceOptionsSchema = z.strictObject({
+  selection: sourceSelectionSchema,
+  atUs: time,
+  maxLongEdge: z.int().min(1).max(8192),
+  supportDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  implementationId: z.string().min(1),
+});
+const sourceReceiptSchema = projectReceiptSchema
+  .omit({ profile: true, frame: true, picture: true })
+  .extend({
+    assetId: z.string().min(1),
+    streamId: z.string().min(1),
+    requestedSourceUs: time,
+    actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+    sample: z.object({
+      value: z
+        .string()
+        .max(21)
+        .regex(/^-?\d+$/),
+      timescale: z.int().positive(),
+      endValue: z
+        .string()
+        .max(21)
+        .regex(/^-?\d+$/),
+      endTimescale: z.int().positive(),
+      originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+    }),
+  });
+export type SourceFrameInput = SourceSelection & { atUs: number; maxLongEdge?: number | undefined };
+export type MediaFrameInput = SourceFrameInput | ProjectFrameInput;
+export type SourceFrameRenderer = {
+  implementationId: string;
+  render(
+    request: {
+      asset: CompositionAssetBinding;
+      available: { startUs: number; endUs: number }[];
+      atUs: number;
+      maxLongEdge: number;
+      output: string;
+    },
+    signal: AbortSignal,
+  ): Promise<unknown>;
+};
+export type SourceFrameArtifact = z.infer<typeof sourceReceiptSchema> &
+  SourceSelection & {
+    atUs: number;
+    maxLongEdge: number;
+    supportDigest: string;
+    implementationId: string;
+    cacheId: string;
+  };
+
+/** A demanded picture uses the movie's global schedule and shared derivative lifetime. */
+export class MediaFrameInspection {
+  constructor(
+    private readonly owners: {
+      assets: AssetStore;
+      acquisitions: AcquisitionStore;
+      jobs: JobQueue;
+      cache: DerivedCache;
+      sourceRenderer: SourceFrameRenderer;
+      project?: { projects: ProjectStore; renderer: ProjectFrameRenderer };
+    },
+  ) {
+    if (
+      !owners.sourceRenderer.implementationId ||
+      (owners.project && !owners.project.renderer.implementationId)
+    )
+      throw new Error("Picture renderer needs an implementation identity");
+  }
+  private get project() {
+    if (!this.owners.project)
+      throw new CatalogError("UNSUPPORTED_JOB", "Project pictures are unavailable");
+    return this.owners.project;
+  }
+
+  private planSource(input: SourceFrameInput) {
+    const source = selectSource(this.owners.assets, this.owners.acquisitions, {
+      assetId: input.assetId,
+      streamId: input.streamId,
+      acquisitionId: input.acquisitionId,
+    });
+    if (source.stream.kind !== "video")
+      throw new CatalogError("UNSUPPORTED_MEDIA", "Source pictures require timed video");
+    const parsed = sourceOptionsSchema.safeParse({
+      selection: source.selection,
+      atUs: input.atUs,
+      maxLongEdge: input.maxLongEdge ?? 1600,
+      supportDigest: source.supportDigest,
+      implementationId: this.owners.sourceRenderer.implementationId,
+    });
+    if (!parsed.success || input.atUs >= source.durationUs)
+      throw new CatalogError("INVALID_RANGE", "Picture time must lie within the source duration");
+    const contains = (range: { startUs: number; endUs: number }) =>
+      range.startUs <= input.atUs && input.atUs < range.endUs;
+    const reason = !(source.stream.available ?? [source.stream.bounds]).some(contains)
+      ? "physical_gap"
+      : !source.track.available.some(contains)
+        ? "acquisition_excluded"
+        : null;
+    const asset: CompositionAssetBinding = {
+      assetId: source.selection.assetId,
+      streamId: source.selection.streamId,
+      path: source.track.source,
+      originUs: -source.track.sourceOffsetUs,
+    };
+    return { source, options: parsed.data, asset, reason };
+  }
+  private requestSource(input: SourceFrameInput) {
+    const { options, reason } = this.planSource(input);
+    const { assets, acquisitions, jobs, cache } = this.owners;
+    const status = reason
+      ? {
+          state: "unavailable" as const,
+          reason,
+          retryable: false,
+          jobId: null,
+          published: null,
+        }
+      : submitCachedDerivative<SourceFrameArtifact>(
+          jobs,
+          cache,
+          {
+            target: { kind: "asset", assetId: options.selection.assetId },
+            artifact: "frame",
+            input: JSON.stringify(options),
+          },
+          "frame",
+          (job) => {
+            const owner = { kind: "job" as const, id: job.jobId };
+            assets.retain(owner, [options.selection.assetId]);
+            if (options.selection.acquisitionId)
+              acquisitions.retain(owner, [options.selection.acquisitionId]);
+          },
+        );
+    return {
+      ...options.selection,
+      atUs: options.atUs,
+      maxLongEdge: options.maxLongEdge,
+      supportDigest: options.supportDigest,
+      implementationId: options.implementationId,
+      state: status.state,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      published: status.published
+        ? { generation: status.published.generation, frame: status.published.value }
+        : null,
+    };
+  }
+  private async publish<T extends { file: string; bytes: number }>(
+    owner: Extract<JobOwner, { kind: "asset" | "project" }>,
+    signal: AbortSignal,
+    render: (output: string) => Promise<T>,
+  ) {
+    signal.throwIfAborted();
+    const output = this.owners.cache.reserve(owner);
+    try {
+      const value = await render(output.path);
+      signal.throwIfAborted();
+      if (value.file !== output.path)
+        throw new CatalogError("INVALID_RESPONSE", "Picture receipt changed output path");
+      const cached = await this.owners.cache.publish(output.id);
+      signal.throwIfAborted();
+      if (cached.bytes !== value.bytes)
+        throw new CatalogError(
+          "INVALID_RESPONSE",
+          "Published picture size differs from its receipt",
+        );
+      return JSON.stringify({ ...value, cacheId: output.id });
+    } catch (error) {
+      this.owners.cache.remove(output.id);
+      throw error;
+    }
+  }
+  private async executeSource({ job, signal }: JobExecution) {
+    const parsed = sourceOptionsSchema.safeParse(JSON.parse(job.input));
+    if (
+      job.target.kind !== "asset" ||
+      job.artifact !== "frame" ||
+      !parsed.success ||
+      parsed.data.selection.assetId !== job.target.assetId
+    )
+      throw new CatalogError("UNSUPPORTED_JOB", "Picture job does not name a selected source");
+    if (parsed.data.implementationId !== this.owners.sourceRenderer.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
+    const plan = this.planSource({ ...parsed.data.selection, ...parsed.data });
+    if (plan.options.supportDigest !== parsed.data.supportDigest)
+      throw new CatalogError("ARTIFACT_CHANGED", "Selected source support changed");
+    if (plan.reason) throw new CatalogError("UNAVAILABLE", plan.reason);
+    return this.publish({ kind: "asset", assetId: job.target.assetId }, signal, async (output) => {
+      const parsedReceipt = sourceReceiptSchema.safeParse(
+        await this.owners.sourceRenderer.render(
+          {
+            asset: plan.asset,
+            available: plan.source.track.available,
+            atUs: plan.options.atUs,
+            maxLongEdge: plan.options.maxLongEdge,
+            output,
+          },
+          signal,
+        ),
+      );
+      if (!parsedReceipt.success)
+        throw new CatalogError("INVALID_RESPONSE", "Malformed source picture receipt");
+      const value = parsedReceipt.data,
+        sample = value.sample;
+      const start = BigInt(sample.value),
+        end = BigInt(sample.endValue),
+        scale = BigInt(sample.timescale),
+        endScale = BigInt(sample.endTimescale);
+      const at = BigInt(plan.options.atUs) + BigInt(plan.asset.originUs);
+      const numerator = start * 1000000n,
+        absolute = numerator < 0n ? -numerator : numerator;
+      const rounded =
+        (absolute / scale + ((absolute % scale) * 2n >= scale ? 1n : 0n)) *
+        (numerator < 0n ? -1n : 1n);
+      const metadata = this.owners.assets
+        .get(plan.asset.assetId)
+        .streams.find((stream) => stream.id === plan.asset.streamId)!;
+      if (
+        value.assetId !== plan.asset.assetId ||
+        value.streamId !== plan.asset.streamId ||
+        value.requestedSourceUs !== plan.options.atUs ||
+        sample.originUs !== plan.asset.originUs ||
+        rounded - BigInt(sample.originUs) !== BigInt(value.actualSourceUs) ||
+        start * 1000000n > at * scale ||
+        end * 1000000n <= at * endScale ||
+        value.sourceWidth !== (metadata.orientedWidth ?? metadata.width) ||
+        value.sourceHeight !== (metadata.orientedHeight ?? metadata.height) ||
+        value.width > value.sourceWidth ||
+        value.height > value.sourceHeight ||
+        Math.max(value.width, value.height) > plan.options.maxLongEdge
+      )
+        throw new CatalogError(
+          "INVALID_RESPONSE",
+          "Source picture receipt changed its selection or physical clock",
+        );
+      return {
+        ...value,
+        ...plan.options.selection,
+        atUs: plan.options.atUs,
+        maxLongEdge: plan.options.maxLongEdge,
+        supportDigest: plan.options.supportDigest,
+        implementationId: plan.options.implementationId,
+      };
+    });
+  }
+
+  private planProject(input: ProjectFrameInput) {
+    const options = optionsSchema.safeParse({
+      atUs: input.atUs,
+      maxLongEdge: input.maxLongEdge ?? 1600,
+      tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
+      implementationId: this.project.renderer.implementationId,
+    });
+    if (!options.success || input.atUs === Number.MAX_SAFE_INTEGER)
+      throw new CatalogError("INVALID_PARAMS", "Invalid demanded picture options");
+    const plan = projectWindow(
+      this.project.projects,
+      this.owners.assets,
+      {
+        projectId: input.projectId,
+        revisionId: input.revisionId,
+        range: { startUs: input.atUs, endUs: input.atUs + 1 },
+        tap: options.data.tap,
+      },
+      this.project.renderer.implementationId,
+      "video",
+    );
+    return { ...plan, options: options.data };
+  }
+
+  private requestProject(input: ProjectFrameInput) {
+    const { window, options } = this.planProject(input);
+    const revisionId = window.manifest.revisionId;
+    const status = submitCachedDerivative<ProjectFrameArtifact>(
+      this.owners.jobs,
+      this.owners.cache,
+      {
+        target: { kind: "project", projectId: input.projectId, revisionId },
+        artifact: "frame",
+        input: JSON.stringify(options),
+      },
+      "frame",
+    );
+    return {
+      projectId: input.projectId,
+      revisionId,
+      ...options,
+      state: status.state,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      published: status.published
+        ? { generation: status.published.generation, frame: status.published.value }
+        : null,
+    };
+  }
+
+  request(input: SourceFrameInput): ReturnType<MediaFrameInspection["requestSource"]>;
+  request(input: ProjectFrameInput): ReturnType<MediaFrameInspection["requestProject"]>;
+  request(
+    input: MediaFrameInput,
+  ):
+    | ReturnType<MediaFrameInspection["requestSource"]>
+    | ReturnType<MediaFrameInspection["requestProject"]>;
+  request(input: MediaFrameInput) {
+    return "projectId" in input ? this.requestProject(input) : this.requestSource(input);
+  }
+  retry(input: SourceFrameInput): ReturnType<MediaFrameInspection["requestSource"]>;
+  retry(input: ProjectFrameInput): ReturnType<MediaFrameInspection["requestProject"]>;
+  retry(
+    input: MediaFrameInput,
+  ):
+    | ReturnType<MediaFrameInspection["requestSource"]>
+    | ReturnType<MediaFrameInspection["requestProject"]>;
+  retry(input: MediaFrameInput) {
+    const current = this.request(input);
+    if (current.jobId) this.owners.jobs.retry(current.jobId);
+    return this.request(
+      "projectId" in current
+        ? { ...input, projectId: current.projectId, revisionId: current.revisionId }
+        : input,
+    );
+  }
+  async execute(execution: JobExecution): Promise<string> {
+    return execution.job.target.kind === "project"
+      ? this.executeProject(execution)
+      : this.executeSource(execution);
+  }
+  private async executeProject({ job, signal }: JobExecution): Promise<string> {
+    const parsed = optionsSchema.safeParse(JSON.parse(job.input));
+    if (job.target.kind !== "project" || job.artifact !== "frame" || !parsed.success)
+      throw new CatalogError("UNSUPPORTED_JOB", "Picture job does not name a project frame");
+    if (parsed.data.implementationId !== this.project.renderer.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
+    const plan = this.planProject({
+      projectId: job.target.projectId,
+      revisionId: job.target.revisionId,
+      ...parsed.data,
+    });
+    const projectId = job.target.projectId;
+    return this.publish({ kind: "project", projectId }, signal, async (output) => {
+      const parsedReceipt = projectReceiptSchema.safeParse(
+        await this.project.renderer.render(
+          {
+            window: plan.window,
+            assets: plan.assets,
+            output,
+            maxLongEdge: plan.options.maxLongEdge,
+          },
+          signal,
+        ),
+      );
+      signal.throwIfAborted();
+      if (!parsedReceipt.success)
+        throw new CatalogError("INVALID_RESPONSE", "Malformed picture receipt");
+      const value = parsedReceipt.data;
+      const expected = plan.window.frames().next().value!;
+      const layer = expected.layers[0];
+      const { picture } = value;
+      if (
+        value.file !== output ||
+        !isDeepStrictEqual(value.frame, expected) ||
+        value.sourceWidth !== plan.window.manifest.canvas.width ||
+        value.sourceHeight !== plan.window.manifest.canvas.height ||
+        value.width > value.sourceWidth ||
+        value.height > value.sourceHeight ||
+        Math.max(value.width, value.height) > plan.options.maxLongEdge ||
+        (layer === undefined
+          ? picture.status !== "background"
+          : picture.status === "background" ||
+            picture.clipId !== layer.clipId ||
+            picture.assetId !== layer.assetId ||
+            picture.streamId !== layer.streamId ||
+            picture.requestedSourceUs !== layer.sourceUs ||
+            (layer.availability !== "available" && picture.status === "available"))
+      )
+        throw new CatalogError("INVALID_RESPONSE", "Picture receipt differs from its pinned frame");
+      if (
+        picture.status === "available" &&
+        picture.sample.originUs !==
+          plan.assets.find(
+            (asset) => asset.assetId === picture.assetId && asset.streamId === picture.streamId,
+          )?.originUs
+      )
+        throw new CatalogError("INVALID_RESPONSE", "Picture receipt changed its source clock");
+      return { ...value, ...plan.options, projectId, revisionId: plan.window.manifest.revisionId };
+    });
+  }
+}
+
+2026-09-28T08:52:55.317508Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e737-7244-7b50-815d-d8dd2078c31c turn_id=01a0e737-72cf-7181-b5cb-03c609d225e6 item_id="exec-9e8ac70f-befb-47d1-9935-faa6dc1176d5"
+exec
+/bin/zsh -lc 'cat helpers/mac/Sources/ScreenRecorderFrames/{SourceFrameRenderer,VideoColorPolicy}.swift helpers/mac/Sources/ScreenRecorderWire/SourceFrameOperation.swift; cat packages/core/src/source-selection.ts; cat specs/agent-editing/slices/10d-frame-inspection.md; cat .agents/skills/write-tests/SKILL.md' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+@preconcurrency import AVFoundation
+import CoreImage
+import Foundation
+import ScreenRecorderMedia
+
+/// A demanded raw source picture uses physical presentation membership, without a project canvas.
+public enum SourceFrameRenderer {
+    public struct Request: Codable {
+        public let asset: CompositionAsset
+        let available: [TimeSpan]
+        let atUs: Int64
+        public let output: String
+        let maxLongEdge: Int?
+        let maxEncodedBytes: Int?
+    }
+    public struct Sample: Encodable {
+        let value: String
+        let timescale: Int32
+        let endValue: String
+        let endTimescale: Int32
+        let originUs: Int64
+    }
+    public struct Result: Encodable {
+        let file: String
+        let mediaType = "image/png"
+        let assetId: String
+        let streamId: String
+        let requestedSourceUs: Int64
+        let actualSourceUs: Int64
+        let sample: Sample
+        let width: Int
+        let height: Int
+        let sourceWidth: Int
+        let sourceHeight: Int
+        let decodedSamples: Int
+        let readerOpens = 1
+        let bytes: Int
+    }
+
+    public static func write(_ request: Request) async throws -> Result {
+        let edge = request.maxLongEdge ?? FrameLimits.defaultLongEdge
+        let limit = request.maxEncodedBytes ?? FrameLimits.maximumEncodedBytes
+        guard request.atUs >= 0, request.atUs <= TimeSpan.maximumMicroseconds,
+            !request.asset.assetId.isEmpty, !request.asset.streamId.isEmpty,
+            edge > 0, edge <= FrameLimits.maximumLongEdge,
+            limit > 0, limit <= FrameLimits.maximumEncodedBytes,
+            TimeSpan.areRetained(request.available)
+        else { throw NativeFailure("INVALID_REQUEST", "Invalid selected source picture request.") }
+        guard request.available.contains(where: { $0.startUs <= request.atUs && request.atUs < $0.endUs }) else {
+            throw NativeFailure("UNAVAILABLE", "Requested picture is outside selected source support.")
+        }
+        let (containerUs, overflow) = request.atUs.addingReportingOverflow(request.asset.originUs)
+        guard !overflow else { throw NativeFailure("INVALID_REQUEST", "Source picture clock overflow.") }
+        let output = try NewFile(at: request.output, assembledAs: "frame.png")
+        defer { output.discard() }
+        let source = try await PresentationSource(
+            source: URL(fileURLWithPath: request.asset.path), streamId: request.asset.streamId,
+            startUs: containerUs)
+        try await VideoColorPolicy.requireSupportedColor(source.track)
+        let selected = try source.selection(at: time(microseconds: containerUs), end: .positiveInfinity)
+        guard let buffer = selected.buffer, let stamp = selected.sampleTime else {
+            throw NativeFailure("UNAVAILABLE", "Requested source picture has no physical sample.")
+        }
+        let (actualUs, clockOverflow) = microseconds(stamp).subtractingReportingOverflow(request.asset.originUs)
+        guard !clockOverflow else { throw NativeFailure("INVALID_REQUEST", "Physical picture clock overflow.") }
+        let image = try FrameImage(buffer: buffer, transform: source.transform, overlay: nil,
+            agedFromUs: 0, crop: nil, maxLongEdge: edge)
+        let bytes = try image.publishPNG(to: output,
+            context: CIContext(options: [.cacheIntermediates: false]), maxEncodedBytes: limit)
+        return Result(file: request.output, assetId: request.asset.assetId,
+            streamId: request.asset.streamId, requestedSourceUs: request.atUs,
+            actualSourceUs: actualUs,
+            sample: Sample(value: String(stamp.value), timescale: stamp.timescale,
+                endValue: String(selected.end.value), endTimescale: selected.end.timescale,
+                originUs: request.asset.originUs),
+            width: image.width, height: image.height, sourceWidth: source.width,
+            sourceHeight: source.height, decodedSamples: source.decodedCount, bytes: bytes)
+    }
+}
+@preconcurrency import AVFoundation
+import ScreenRecorderMedia
+
+/// Color admission shared by raw-source and compiled pictures.
+enum VideoColorPolicy {
+    static func requireSupportedColor(_ track: AVAssetTrack) async throws {
+        for format in try await track.load(.formatDescriptions) {
+            func value(_ key: CFString) -> CFPropertyList? {
+                CMFormatDescriptionGetExtension(format, extensionKey: key)
+            }
+            func permits(_ key: CFString, _ supported: [CFString]) -> Bool {
+                guard let actual = value(key) else { return true }
+                return (actual as? String).map { text in
+                    supported.contains { ($0 as String) == text }
+                } ?? false
+            }
+            guard
+                permits(
+                    kCMFormatDescriptionExtension_ColorPrimaries,
+                    [kCMFormatDescriptionColorPrimaries_ITU_R_709_2]),
+                permits(
+                    kCMFormatDescriptionExtension_TransferFunction,
+                    [
+                        kCMFormatDescriptionTransferFunction_ITU_R_709_2,
+                        kCMFormatDescriptionTransferFunction_sRGB,
+                    ]),
+                permits(
+                    kCMFormatDescriptionExtension_YCbCrMatrix,
+                    [
+                        kCMFormatDescriptionYCbCrMatrix_ITU_R_709_2,
+                        kCMFormatDescriptionYCbCrMatrix_ITU_R_601_4,
+                    ]),
+                [
+                    kCMFormatDescriptionExtension_ICCProfile,
+                    kCMFormatDescriptionExtension_GammaLevel,
+                    kCMFormatDescriptionExtension_AlternativeTransferCharacteristics,
+                    kCMFormatDescriptionExtension_LogTransferFunction,
+                    kCMFormatDescriptionExtension_MasteringDisplayColorVolume,
+                    kCMFormatDescriptionExtension_ContentLightLevelInfo,
+                ]
+                .allSatisfy({ value($0) == nil })
+            else {
+                throw NativeFailure("NOT_READY",
+                    "Source color profile requires an explicit HDR, wide-gamut or custom-profile conversion."
+                )
+            }
+        }
+    }
+
+}
+import ScreenRecorderFrames
+
+enum SourceFrameOperation {
+    static func execute(_ params: [String: Any]) async throws -> SourceFrameRenderer.Result {
+        let request = try WireRequest.decode(SourceFrameRenderer.Request.self, from: params)
+        try WireRequest.requireAbsolute(request.output)
+        try WireRequest.requireAbsolute(request.asset.path)
+        return try await SourceFrameRenderer.write(request)
+    }
+}
+import { createHash } from "node:crypto";
+import type { z } from "zod";
+import { mediaClipSchema, sourceAvailability } from "@screenrec/composition";
+import { compositionAsset, type AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import { CatalogError } from "./catalog.js";
+
+export const sourceSelectionSchema = mediaClipSchema.pick({
+  assetId: true,
+  streamId: true,
+  acquisitionId: true,
+});
+export type SourceSelection = z.infer<typeof sourceSelectionSchema>;
+
+/** Resolve immutable source inputs without inventing a recording or a project timeline. */
+export function selectSource(
+  assets: AssetStore,
+  acquisitions: AcquisitionStore,
+  input: SourceSelection,
+) {
+  const selection = sourceSelectionSchema.parse(input);
+  const asset = assets.get(selection.assetId);
+  const stream = compositionAsset(asset).streams.find((value) => value.id === selection.streamId);
+  if (!stream || stream.kind === "image")
+    throw new CatalogError(
+      "UNSUPPORTED_MEDIA",
+      "Source inspection requires a decodable timed stream",
+      selection,
+    );
+  const acquisition =
+    selection.acquisitionId === undefined ? undefined : acquisitions.get(selection.acquisitionId);
+  const binding = acquisition?.bindings.find(
+    (value) => value.assetId === asset.id && value.streamId === stream.id,
+  );
+  if (acquisition && !binding)
+    throw new CatalogError(
+      "INVALID_PARAMS",
+      "Acquisition does not bind the selected asset and stream",
+      selection,
+    );
+  const available = sourceAvailability(stream.available, binding?.available);
+  const supportDigest = createHash("sha256").update(JSON.stringify(available)).digest("hex");
+  return {
+    selection,
+    stream,
+    durationUs: stream.bounds.endUs,
+    supportDigest,
+    track: {
+      source: assets.path(asset.id),
+      streamId: stream.id,
+      sourceOffsetUs: -asset.originUs,
+      available,
+    },
+  };
+}
+
+export const sourceSelectionKey = (value: SourceSelection) =>
+  JSON.stringify([value.assetId, value.streamId, value.acquisitionId ?? null]);
+# 10d — Direct project frames and retained screenshot inspection
+
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public/source/index integration remains open; fresh visual review found a color/brightness discrepancy that is being investigated. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+
+## Contract
+
+An agent receives source/project frames and retained screenshot-index results with
+correct occurrence, time domain, revision and generation identity through CLI/MCP.
+
+## Seam and ownership
+
+Source frames use the existing selected-source decoder. Project frames consume the
+compiler's globally phased picture instructions and the same compositor as movie
+previews; do not render and decode a temporary MP4 to obtain a still. Extract only
+the reusable compiled-picture execution boundary from the existing native owner.
+Readiness/capability binding is shared with preview and later audio inspection.
+
+Retained screenshot selection/index keeps its existing lifecycle and bounded
+readers; project coverage uses the occurrence-query owner. Jobs, cache, delivery
+and deletion remain the shared owners from 09.
+
+## Work and review surface
+
+Extend existing frame/index registry operations with flat source/project selectors.
+Return declared sampling/visible times and exact context pins. Source indexes remain
+raw-source evidence; a processed project frame is explicitly distinguished. Gaps,
+holds, unavailable acquisition and repeated uses retain their identities.
+
+```sh
+node packages/test-harness/editing/frame-evidence.mjs --fixture repeated-picture
+```
+
+## Acceptance
+
+Delivered still membership/timing matches verified preview/export for boundary,
+interior, held and leading partial pictures, repeated/reordered sources and selected
+acquisition gaps. Use asymmetric landmarks to verify orientation/framing. Test
+paging/index coverage, source-generation changes, eviction, cancellation, deletion
+and cross-transport delivery. Unsupported processors/profiles refuse consistently
+with preview. Existing recording/package frame/index gates remain green.
+
+## Visual acceptance
+
+Judge picture membership and framing in contact sheets and boundary crops, not
+new styling. Compare against the named preview/corpus using compare-screenshots;
+run a fresh unprimed screenshot-critique as the final visual check. Retain hashes,
+shots and verdicts. Human review is non-blocking under the spec's standing review
+procedure; no listening or broader codec-quality claim follows from stills.
+
+## Failure boundary and discretion
+
+Do not create a second layer/transform interpreter or bypass source availability.
+Unimplemented pointer/geometry features remain their named later gates.
+
+Delegated: extraction of the coherent native picture executor and index storage
+representation. Sampling, capability, identity and single-owner rules are fixed.
+Update slice Status and the README handoff after verified passes.
+
+
+## Picture planning checkpoint
+
+The compiler now selects the video plane through the same contributor, processing
+and execution-window owners used by movies and audio inspection. A narrow request
+inside a frame retains that frame's global sample timestamp; unrelated audio
+retiming and audio processing do not block the picture. [Focused evidence](../assets/10d-picture-window/README.md)
+covers this pure planning prerequisite, not delivered-image acceptance.
+
+The [core demanded-picture lifecycle](../assets/10d-project-frame-core/README.md)
+now pins requests and checks native receipt identity under the shared job/cache
+owners. Its controlled-renderer tests do not establish native or public acceptance.
+Concurrent frame and movie staging must share safe workspace lifetime before
+the service route is integrated.
+## Native checkpoint
+
+Demanded PNGs and movies share one compiled-picture execution owner, including
+selected-stream physical membership, support masking, orientation and the canvas
+raster. Delivery bounds apply after that raster. Receipts preserve compiler time
+separately from the actual physical sample and distinguish unavailable pictures
+from an empty canvas. The [native checkpoint evidence](../assets/10d-native-pictures/EVIDENCE.md)
+records the executed gates and the still-pending fresh visual review. This does
+not close the public delivery, selected-source or retained-index gates above.
+
+## Selected-source native/core checkpoint
+
+[Selected timed-video source frames](../assets/10d-source-frames/README.md) use the
+shared frame inspection lifetime and explicit-track physical presentation reader.
+Source clocks, sample support, acquisition exclusion and source-only references are
+verified; public routing/delivery remains integration work. Raw still-image source
+requests remain explicitly unsupported under 10d/06, without inventing timed media.
+Scene/cut/interruption and retained index generalization remain required follow-up.
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T08:52:59.724345Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e737-7244-7b50-815d-d8dd2078c31c turn_id=01a0e737-72cf-7181-b5cb-03c609d225e6 item_id="exec-fcdf162a-8fe6-4be8-977d-79958a6dd31c"
+exec
+/bin/zsh -lc 'cat helpers/mac/Sources/ScreenRecorderFrames/PresentationSource.swift; cat packages/core/src/source-frame-inspection.test.ts' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+@preconcurrency import AVFoundation
+import CoreImage
+import Foundation
+import ScreenRecorderMedia
+
+/// One owner for sequential movie presentation membership. Unlike still selection,
+/// the retained moment belongs to a sample's support, not its nearest timestamp.
+public final class PresentationSource {
+    public struct Selection {
+        public let buffer: CVPixelBuffer?
+        public let sampleTime: CMTime?
+        public let end: CMTime
+    }
+    let width: Int
+    let height: Int
+    public let transform: CGAffineTransform
+    private let reader: AVAssetReader
+    private let decoded: AVAssetReaderTrackOutput
+    let track: AVAssetTrack
+    private let segments: [AVAssetTrackSegment]
+    private let occupied: [SourceSegment]
+    public private(set) var decodedCount = 0
+    private var held: CMSampleBuffer?
+    private var heldStart = CMTime.invalid
+    private var heldEnd = CMTime.invalid
+    private var segmentIndex = 0
+
+    static func duration(of plan: [VideoRenderSpan]) throws -> Int64 {
+        guard !plan.isEmpty, plan.count <= 10_000 else {
+            throw NativeFailure("INVALID_REQUEST", "Render plan requires 1...10000 spans.")
+        }
+        var through: Int64 = 0
+        for span in plan {
+            guard span.playback.startUs == through,
+                span.playback.endUs - span.playback.startUs == span.source.endUs
+                    - span.source.startUs
+            else {
+                throw NativeFailure(
+                    "INVALID_REQUEST", "Render plan playback must follow its source spans.")
+            }
+            through = span.playback.endUs
+        }
+        guard TimeSpan.areRetained(plan.map(\.source)) else {
+            throw NativeFailure("INVALID_REQUEST", "Render plan has invalid source ranges.")
+        }
+        return through
+    }
+
+    convenience init(source: URL, plan: [VideoRenderSpan]) async throws {
+        _ = try Self.duration(of: plan)
+        try await self.init(
+            source: source, streamId: nil, startUs: nil,
+            endUs: plan.last!.source.endUs, evenDimensions: true)
+    }
+
+    /// Compiled source timestamps are already resolved; this only seeks physical sample support.
+    public init(
+        source: URL, streamId: String?, startUs: Int64?, endUs: Int64? = nil,
+        evenDimensions: Bool = false
+    ) async throws {
+        let asset = AVURLAsset(
+            url: source,
+            options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+        let sourceDuration = try await asset.load(.duration)
+        let tracks = try await asset.loadTracks(withMediaType: .video)
+        guard
+            let track = streamId.flatMap({ id in tracks.first { "track:\($0.trackID)" == id } })
+                ?? (streamId == nil ? tracks.first : nil),
+            try await track.load(.canProvideSampleCursors),
+            endUs.map({ time(microseconds: $0) <= sourceDuration }) ?? true
+        else { throw NativeFailure("UNAVAILABLE", "Render plan exceeds a usable video source.") }
+        let segments = try await track.load(.segments)
+        let occupied = SourceSegment.occupied(of: segments)
+        let transform = try await track.load(.preferredTransform)
+        let natural = try await track.load(.naturalSize).applying(transform)
+        let width = Int(abs(natural.width).rounded())
+        let height = Int(abs(natural.height).rounded())
+        guard width > 0, height > 0, width <= 8192, height <= 8192,
+            !evenDimensions || (width.isMultiple(of: 2) && height.isMultiple(of: 2))
+        else {
+            throw NativeFailure(
+                "UNAVAILABLE", "Video renderer requires even dimensions up to 8192 pixels.")
+        }
+        let reader = try AVAssetReader(asset: asset)
+        let decoded = AVAssetReaderTrackOutput(
+            track: track,
+            outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
+        decoded.alwaysCopiesSampleData = false
+        reader.add(decoded)
+        self.track = track
+        self.segments = segments
+        self.occupied = occupied
+        self.transform = transform
+        self.width = width
+        self.height = height
+        self.reader = reader
+        self.decoded = decoded
+        if let startUs {
+            let start = time(microseconds: startUs)
+            var decodeStart = start
+            if let segment = occupied.first(where: { $0.asset.containsTime(start) }),
+                let cursor = track.makeSampleCursor(
+                    presentationTimeStamp: segment.mediaTime(ofAsset: start))
+            {
+                decodeStart = segment.assetTime(ofMedia: cursor.presentationTimeStamp)
+            }
+            reader.timeRange = CMTimeRange(
+                start: decodeStart,
+                end: endUs.map { time(microseconds: $0) } ?? sourceDuration)
+        }
+        guard reader.startReading() else {
+            throw NativeFailure.decodeFailed("Cannot start sequential presentation read.")
+        }
+    }
+
+    /// Metadata-only preflight: container timescales can be much finer than actual
+    /// transitions. Including unused ticks can falsely reject an exact audio mux.
+    func movieClock(plan: [VideoRenderSpan]) throws -> MovieClock {
+        var clock = MovieClock()
+        var firstSegment = 0
+        for span in plan {
+            let start = time(microseconds: span.source.startUs)
+            let end = time(microseconds: span.source.endUs)
+            while firstSegment < segments.count
+                && CMTimeRangeGetEnd(segments[firstSegment].timeMapping.target) <= start
+            { firstSegment += 1 }
+            for segment in segments[firstSegment...] {
+                if segment.timeMapping.target.start >= end { break }
+                let range = segment.timeMapping.target
+                let begin = CMTimeMaximum(start, range.start)
+                let through = CMTimeMinimum(end, CMTimeRangeGetEnd(range))
+                guard begin < through else { continue }
+                try clock.include(begin)
+                try clock.include(through)
+                guard !segment.isEmpty else { continue }
+                let mapping = SourceSegment(media: segment.timeMapping.source, asset: range)
+                guard
+                    let cursor = track.makeSampleCursor(
+                        presentationTimeStamp: mapping.mediaTime(ofAsset: begin))
+                else {
+                    throw NativeFailure("UNAVAILABLE", "Cannot inspect movie presentation clock.")
+                }
+                repeat {
+                    let at = mapping.assetTime(ofMedia: cursor.presentationTimeStamp)
+                    if at >= through { break }
+                    if at >= begin { try clock.include(at) }
+                    if let supportEnd = assetEnd(ofSamplePresentedAt: at, in: occupied, of: track),
+                        supportEnd > begin
+                    {
+                        try clock.include(CMTimeMinimum(supportEnd, through))
+                    }
+                } while cursor.stepInPresentationOrder(byCount: 1) == 1
+            }
+        }
+        return clock
+    }
+
+    deinit { reader.cancelReading() }
+
+    public func selection(at: CMTime, end: CMTime) throws -> Selection {
+        while segmentIndex < segments.count
+            && CMTimeRangeGetEnd(segments[segmentIndex].timeMapping.target) <= at
+        { segmentIndex += 1 }
+        guard segmentIndex < segments.count,
+            segments[segmentIndex].timeMapping.target.containsTime(at)
+        else {
+            throw NativeFailure("UNAVAILABLE", "Retained time has no proven track support.")
+        }
+        let segment = segments[segmentIndex]
+        if segment.isEmpty {
+            return Selection(
+                buffer: nil, sampleTime: nil,
+                end: CMTimeMinimum(end, CMTimeRangeGetEnd(segment.timeMapping.target)))
+        }
+        while held == nil || heldEnd <= at {
+            held = nil
+            guard let sample = autoreleasepool(invoking: { decoded.copyNextSampleBuffer() }) else {
+                throw NativeFailure("UNAVAILABLE", "Decoder ended before retained sample support.")
+            }
+            try Task.checkCancellation()
+            decodedCount += 1
+            let pts = CMSampleBufferGetPresentationTimeStamp(sample)
+            // Duplicate pictures in empty edits do not prove nonempty support.
+            guard let supportEnd = assetEnd(ofSamplePresentedAt: pts, in: occupied, of: track)
+            else { continue }
+            held = sample
+            heldStart = pts
+            heldEnd = supportEnd
+        }
+        guard heldStart <= at, let buffer = CMSampleBufferGetImageBuffer(held!) else {
+            throw NativeFailure("UNAVAILABLE", "Retained time has unknown sample support.")
+        }
+        return Selection(buffer: buffer, sampleTime: heldStart, end: CMTimeMinimum(end, heldEnd))
+    }
+}
+import { afterEach, expect, test } from "vitest";
+import { randomUUID } from "node:crypto";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { Catalog } from "./catalog.js";
+import { AssetStore } from "./assets.js";
+import { AcquisitionStore } from "./acquisitions.js";
+import { JobQueue } from "./jobs.js";
+import { DerivedCache } from "./cache.js";
+import { MediaFrameInspection, type SourceFrameRenderer } from "./frame-inspection.js";
+const cleanup: (() => Promise<void>)[] = [];
+afterEach(async () => {
+  for (const close of cleanup.splice(0).reverse()) await close();
+});
+const renderer: SourceFrameRenderer = {
+  implementationId: "fixture-source-picture",
+  async render({ asset, atUs, output }, signal) {
+    signal.throwIfAborted();
+    const bytes = Buffer.from(`selected ${asset.streamId}`);
+    await writeFile(output, bytes, { flag: "wx" });
+    const actualSourceUs = Math.floor(atUs / 100000) * 100000;
+    return {
+      file: output,
+      mediaType: "image/png",
+      assetId: asset.assetId,
+      streamId: asset.streamId,
+      requestedSourceUs: atUs,
+      actualSourceUs,
+      sample: {
+        value: String(actualSourceUs + asset.originUs),
+        timescale: 1000000,
+        endValue: String(actualSourceUs + asset.originUs + 100000),
+        endTimescale: 1000000,
+        originUs: asset.originUs,
+      },
+      width: 64,
+      height: 48,
+      sourceWidth: 64,
+      sourceHeight: 48,
+      decodedSamples: 1,
+      readerOpens: 1,
+      bytes: bytes.length,
+    };
+  },
+};
+async function fixture(render = renderer) {
+  const home = await mkdtemp("/tmp/source-frame-core-");
+  const catalog = new Catalog(join(home, "catalog.sqlite"));
+  const assets = new AssetStore(catalog, home),
+    acquisitions = new AcquisitionStore(catalog);
+  await assets.recover();
+  const source = join(home, "source.mov");
+  await writeFile(source, "immutable multi-stream source");
+  const asset = await assets.import(source, { kind: "import" }, async () => ({
+    originUs: 1250000,
+    streams: ["track:1", "track:2"].map((id) => ({
+      id,
+      kind: "video",
+      codec: "fixture",
+      decodable: true,
+      width: 64,
+      height: 48,
+      orientedWidth: 64,
+      orientedHeight: 48,
+      startUs: 0,
+      endUs: 1000000,
+      segments: [
+        { startUs: 0, endUs: 400000, empty: false },
+        { startUs: 400000, endUs: 600000, empty: true },
+        { startUs: 600000, endUs: 1000000, empty: false },
+      ],
+    })),
+  }));
+  catalog.catalog
+    .prepare("INSERT INTO acquisitions VALUES(?,?,?,?,?)")
+    .run(
+      "mask",
+      "capture",
+      home,
+      "{}",
+      JSON.stringify({
+        id: "mask",
+        bindings: [
+          {
+            assetId: asset.id,
+            streamId: "track:2",
+            available: [{ startUs: 100000, endUs: 300000 }],
+          },
+        ],
+      }),
+    );
+  const cache = new DerivedCache(catalog, home, (owner) => {
+    if (owner.kind !== "asset") throw new Error("Expected source owner");
+    assets.get(owner.assetId);
+  });
+  await cache.reconcile();
+  let frames!: MediaFrameInspection;
+  const jobs = new JobQueue({
+    store: catalog,
+    providers: { newId: randomUUID },
+    targets: {
+      pin(target) {
+        if (target.kind !== "asset") throw new Error("Expected asset");
+        assets.get(target.assetId);
+        return target;
+      },
+      isAvailable: () => true,
+      isDeleting: () => false,
+      isCapturing: () => false,
+    },
+    execute: (execution) => frames.execute(execution),
+  });
+  const calls: Parameters<SourceFrameRenderer["render"]>[0][] = [];
+  frames = new MediaFrameInspection({
+    assets,
+    acquisitions,
+    jobs,
+    cache,
+    sourceRenderer: {
+      ...render,
+      async render(request, signal) {
+        calls.push(request);
+        return render.render(request, signal);
+      },
+    },
+  });
+  cleanup.push(async () => {
+    await jobs.close();
+    catalog.close();
+    await rm(home, { recursive: true, force: true });
+  });
+  return {
+    home,
+    assets,
+    acquisitions,
+    jobs,
+    cache,
+    frames,
+    calls,
+    asset,
+    source,
+    catalog,
+    request: { assetId: asset.id, streamId: "track:2", acquisitionId: "mask", atUs: 150000 },
+  };
+}
+test("selected source frames retain context and sample provenance through eviction", async () => {
+  const f = await fixture();
+  const pending = f.frames.request(f.request);
+  expect(f.assets.references(f.asset.id)).toContainEqual({ kind: "job", id: pending.jobId });
+  expect(f.acquisitions.references("mask")).toEqual([{ kind: "job", id: pending.jobId }]);
+  await f.jobs.idle();
+  const ready = f.frames.request(f.request),
+    image = ready.published!.frame;
+  expect(image).toMatchObject({
+    assetId: f.asset.id,
+    streamId: "track:2",
+    acquisitionId: "mask",
+    atUs: 150000,
+    actualSourceUs: 100000,
+    sample: { value: "1350000", timescale: 1000000, endValue: "1450000", originUs: 1250000 },
+  });
+  expect(f.calls[0]).toMatchObject({
+    asset: { path: f.assets.path(f.asset.id), streamId: "track:2", originUs: 1250000 },
+    available: [{ startUs: 100000, endUs: 300000 }],
+  });
+  expect(await readFile(image.file, "utf8")).toBe("selected track:2");
+  f.cache.remove(image.cacheId);
+  expect(f.frames.request(f.request).published).toBeNull();
+  await f.jobs.idle();
+  const regenerated = f.frames.request(f.request);
+  expect(regenerated.published!.generation).not.toBe(ready.published!.generation);
+  expect(await readFile(regenerated.published!.frame.file, "utf8")).toBe("selected track:2");
+  expect(await readFile(f.source, "utf8")).toBe("immutable multi-stream source");
+  expect(
+    f.catalog.catalog
+      .prepare("SELECT name FROM sqlite_master WHERE name='recordings' OR name='projects'")
+      .all(),
+  ).toEqual([]);
+});
+test("physical holes and acquisition exclusions remain distinct and schedule no frames", async () => {
+  const f = await fixture();
+  expect(f.frames.request({ ...f.request, atUs: 450000 })).toMatchObject({
+    state: "unavailable",
+    reason: "physical_gap",
+    jobId: null,
+    published: null,
+  });
+  expect(f.frames.request({ ...f.request, atUs: 350000 })).toMatchObject({
+    state: "unavailable",
+    reason: "acquisition_excluded",
+    jobId: null,
+    published: null,
+  });
+  expect(() => f.frames.request({ ...f.request, streamId: "track:1" })).toThrow("bind");
+  expect(() => f.frames.request({ ...f.request, atUs: 1000000 })).toThrow("duration");
+  expect(f.calls).toEqual([]);
+  f.frames.request({ assetId: f.asset.id, streamId: "track:1", atUs: 350000 });
+  await f.jobs.idle();
+  expect(f.calls[0]!.asset.streamId).toBe("track:1");
+});
+test.each(["stream", "clock", "membership", "bytes", "path"])(
+  "wrong source receipt %s cannot publish",
+  async (fault) => {
+    const f = await fixture({
+      ...renderer,
+      async render(request, signal) {
+        const value = (await renderer.render(request, signal)) as Record<string, any>;
+        if (fault === "stream") value.streamId = "track:1";
+        if (fault === "clock") value.sample.originUs++;
+        if (fault === "membership") value.sample.endValue = value.sample.value;
+        if (fault === "bytes") value.bytes++;
+        if (fault === "path") value.file = request.asset.path;
+        return value;
+      },
+    });
+    f.frames.request(f.request);
+    await f.jobs.idle();
+    expect(f.frames.request(f.request)).toMatchObject({ state: "failed", published: null });
+    expect(f.cache.bytes).toBe(0);
+    expect(await readFile(f.source, "utf8")).toBe("immutable multi-stream source");
+  },
+);
+test("late source results cannot escape cancellation and explicit retry gets new work", async () => {
+  let entered!: () => void, release!: () => void;
+  const started = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let first = true;
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      if (first) {
+        first = false;
+        entered();
+        await held;
+        return renderer.render(request, new AbortController().signal);
+      }
+      return renderer.render(request, signal);
+    },
+  });
+  cleanup.push(async () => release());
+  const pending = f.frames.request(f.request);
+  await started;
+  f.jobs.cancel(pending.jobId!);
+  release();
+  await f.jobs.idle();
+  expect(f.cache.bytes).toBe(0);
+  expect(f.frames.request(f.request)).toMatchObject({
+    state: "not_requested",
+    reason: "canceled",
+    published: null,
+  });
+  expect(f.calls).toHaveLength(1);
+  f.frames.retry(f.request);
+  await f.jobs.idle();
+  expect(f.frames.request(f.request).state).toBe("ready");
+  expect(f.calls).toHaveLength(2);
+});
+
+test("raw still images are refused without inventing a timed source", async () => {
+  const f = await fixture();
+  const path = join(f.home, "image.png");
+  await writeFile(path, "immutable still");
+  const image = await f.assets.import(path, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [
+      { id: "image:0", kind: "image", codec: "png", decodable: true, width: 64, height: 48 },
+    ],
+  }));
+  expect(() => f.frames.request({ assetId: image.id, streamId: "image:0", atUs: 0 })).toThrow(
+    "timed stream",
+  );
+  expect(f.calls).toEqual([]);
+});
+
+2026-09-28T08:53:04.742489Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e737-7244-7b50-815d-d8dd2078c31c turn_id=01a0e737-72cf-7181-b5cb-03c609d225e6 item_id="exec-ce4a263f-53a8-4590-804f-5e080c158624"
+exec
+/bin/zsh -lc "cat helpers/mac/Tests/source-frame.test.mjs; cat helpers/mac/Tests/SourceFrame/*; rg 'project-frames|ProjectFrames|ProjectFrameInspection'; cat helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift; cat package.json; cat specs/agent-editing/assets/10d-source-frames/README.md" in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { test } from "node:test";
+const native =
+  process.env.SCREENREC_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+function run(file, args, options = {}) {
+  const result = spawnSync(file, args, { timeout: 30000, ...options });
+  assert.equal(result.status, 0, String(result.stderr || result.error));
+  return result.stdout;
+}
+test("selected source pictures preserve explicit streams, physical sample clocks and excluded support", () => {
+  const dir =
+    process.env.SCREENREC_SOURCE_FRAME_EVIDENCE ?? mkdtempSync(join(tmpdir(), "source-frame-"));
+  mkdirSync(dir, { recursive: true });
+  try {
+    for (const [name, color, box] of [
+      ["first", "red", "blue"],
+      ["second", "green", "yellow"],
+    ]) {
+      run("ffmpeg", [
+        "-v",
+        "error",
+        "-nostdin",
+        "-f",
+        "lavfi",
+        "-i",
+        `color=c=${color}:s=64x48:r=10:d=1,drawbox=x=0:y=0:w=12:h=24:color=${box}:t=fill`,
+        "-c:v",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        "-color_primaries",
+        "bt709",
+        "-color_trc",
+        "bt709",
+        "-colorspace",
+        "bt709",
+        join(dir, `${name}.mov`),
+      ]);
+    }
+    const fixture = join(dir, "fixture");
+    run("swiftc", [
+      "-parse-as-library",
+      fileURLToPath(new URL("SourceFrame/fixture.swift", import.meta.url)),
+      "-o",
+      fixture,
+    ]);
+    const source = join(dir, "source.mov");
+    run(fixture, [join(dir, "first.mov"), join(dir, "second.mov"), source]);
+    const hash = () => createHash("sha256").update(readFileSync(source)).digest("hex");
+    const before = hash();
+    let ordinal = 0;
+    const trace = [];
+    const call = (changes = {}) => {
+      const params = {
+        asset: { assetId: before, streamId: "track:1", path: source, originUs: 1250000 },
+        available: [{ startUs: 0, endUs: 1000000 }],
+        atUs: 150000,
+        output: join(dir, `frame-${ordinal++}.png`),
+        ...changes,
+      };
+      const reply = JSON.parse(
+        run(native, [], {
+          input:
+            JSON.stringify({ id: "source-frame", operation: "media.sourceFrame", params }) + "\n",
+          encoding: "utf8",
+        }),
+      );
+      trace.push({ params, reply });
+      if (process.env.SCREENREC_SOURCE_FRAME_EVIDENCE)
+        writeFileSync(join(dir, "requests.json"), JSON.stringify(trace, null, 2));
+      return { params, reply };
+    };
+    const first = call();
+    assert.equal(first.reply.ok, true, JSON.stringify(first.reply));
+    const value = first.reply.data;
+    assert.equal(value.streamId, "track:1");
+    assert.equal(value.actualSourceUs, 100000);
+    assert.equal(value.requestedSourceUs, 150000);
+    assert.equal(BigInt(value.sample.value) * 1000000n, 1350000n * BigInt(value.sample.timescale));
+    assert.equal(
+      BigInt(value.sample.endValue) * 1000000n,
+      1450000n * BigInt(value.sample.endTimescale),
+    );
+    assert.equal(value.sample.originUs, 1250000);
+    assert.ok(value.decodedSamples > 0 && value.decodedSamples <= 2);
+    assert.equal(value.bytes, readFileSync(value.file).length);
+    const second = call({ asset: { ...first.params.asset, streamId: "track:2" } });
+    assert.equal(second.reply.ok, true, JSON.stringify(second.reply));
+    const pixels = (file) =>
+      run("ffmpeg", ["-v", "error", "-i", file, "-f", "rawvideo", "-pix_fmt", "rgb24", "pipe:1"]);
+    const rgb1 = pixels(value.file),
+      rgb2 = pixels(second.reply.data.file);
+    const middle = (24 * 64 + 32) * 3,
+      left = (12 * 64 + 3) * 3;
+    assert.ok(rgb1[middle] > rgb1[middle + 1] + 100);
+    assert.ok(rgb1[left + 2] > rgb1[left] + 100);
+    assert.ok(rgb2[middle + 1] > rgb2[middle] + 50);
+    assert.ok(rgb2[left] > 150 && rgb2[left + 1] > 150);
+    const lowerLeft = (36 * 64 + 3) * 3;
+    assert.ok(rgb1[lowerLeft] > rgb1[lowerLeft + 2] + 100);
+    assert.ok(rgb2[lowerLeft + 1] > rgb2[lowerLeft] + 50);
+    for (const changes of [
+      { atUs: 450000 }, // The caller cannot turn a physical empty edit into a picture.
+      { available: [{ startUs: 600000, endUs: 1000000 }] },
+      { asset: { ...first.params.asset, streamId: "track:999" } },
+    ]) {
+      const failed = call(changes);
+      assert.equal(failed.reply.ok, false);
+      assert.equal(failed.reply.error.code, "UNAVAILABLE");
+      assert.equal(existsSync(failed.params.output), false);
+    }
+    const late = call({ atUs: 950000, maxLongEdge: 32 });
+    assert.equal(late.reply.ok, true, JSON.stringify(late.reply));
+    assert.equal(late.reply.data.actualSourceUs, 900000);
+    assert.equal(late.reply.data.width, 32);
+    assert.equal(late.reply.data.height, 24);
+    assert.ok(late.reply.data.decodedSamples <= 2);
+    assert.equal(hash(), before);
+  } finally {
+    if (!process.env.SCREENREC_SOURCE_FRAME_EVIDENCE) rmSync(dir, { recursive: true, force: true });
+  }
+});
+@preconcurrency import AVFoundation
+import Foundation
+
+@main struct SourceFrameFixture {
+    static func main() async throws {
+        let movie = AVMutableComposition()
+        for path in CommandLine.arguments[1...2] {
+            let asset = AVURLAsset(url: URL(fileURLWithPath: path))
+            let source = try await asset.loadTracks(withMediaType: .video)[0]
+            let target = movie.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
+            try target.insertTimeRange(CMTimeRange(start: .zero, duration: CMTime(value: 4, timescale: 10)),
+                of: source, at: CMTime(value: 125, timescale: 100))
+            try target.insertTimeRange(CMTimeRange(start: CMTime(value: 6, timescale: 10), duration: CMTime(value: 4, timescale: 10)),
+                of: source, at: CMTime(value: 185, timescale: 100))
+        }
+        let writer = AVAssetExportSession(asset: movie, presetName: AVAssetExportPresetPassthrough)!
+        try await writer.export(to: URL(fileURLWithPath: CommandLine.arguments[3]), as: .mov)
+    }
+}
+packages/core/src/frame-inspection.test.ts:  const home = await mkdtemp("/tmp/screenrec-project-frames-");
+specs/agent-editing/assets/10d-project-frame-core/wrong-picture-mutation.txt: ❯ packages/core/src/project-frames.test.ts (3 tests | 1 failed | 2 skipped) 86ms
+specs/agent-editing/assets/10d-project-frame-core/wrong-picture-mutation.txt: FAIL  packages/core/src/project-frames.test.ts > a renderer cannot publish the wrong globally phased picture
+specs/agent-editing/assets/10d-project-frame-core/wrong-picture-mutation.txt:+       "file": "/private/tmp/screenrec-project-frames-n84Q0C/cache/derived/e64d7814-3bfb-4b3a-8aab-5d35a3b5c05e.cache",
+specs/agent-editing/assets/10d-project-frame-core/wrong-picture-mutation.txt: ❯ packages/core/src/project-frames.test.ts:187:37
+import CoreImage
+import CoreVideo
+import Foundation
+import ImageIO
+import ScreenRecorderMedia
+import UniformTypeIdentifiers
+
+/// Orients a decoded sample, applies an already validated crop, bounds its long edge and encodes
+/// it. Crop coordinates arrive in oriented top-left pixels; Core Image works bottom-left, so the
+/// vertical flip happens here rather than in the caller.
+struct FrameImage {
+    let image: CIImage
+    let width: Int
+    let height: Int
+
+    /// The pixel size a visible `width`x`height` is delivered at once its long edge is bounded
+    /// to `maxLongEdge`. `even` additionally snaps both edges down to the even dimensions H.264
+    /// requires, which costs at most one pixel of aspect ratio.
+    static func delivered(width: Int, height: Int, maxLongEdge: Int, even: Bool) -> (
+        width: Int, height: Int
+    ) {
+        let longEdge = max(width, height)
+        let scale = longEdge > maxLongEdge ? Double(maxLongEdge) / Double(longEdge) : 1
+        var delivered = (
+            width: max(1, Int((Double(width) * scale).rounded())),
+            height: max(1, Int((Double(height) * scale).rounded()))
+        )
+        if even {
+            delivered.width = max(2, delivered.width - delivered.width % 2)
+            delivered.height = max(2, delivered.height - delivered.height % 2)
+        }
+        return delivered
+    }
+
+    init(
+        buffer: CVPixelBuffer, transform: CGAffineTransform, overlay: FrameOverlay?,
+        agedFromUs: Int64, crop: FrameCrop?, maxLongEdge: Int, evenDimensions: Bool = false
+    ) throws {
+        var oriented = orientedVideoImage(buffer, transform: transform)
+        var visible = oriented.extent
+        if let crop {
+            visible = CGRect(
+                x: CGFloat(crop.x), y: oriented.extent.height - CGFloat(crop.y + crop.height),
+                width: CGFloat(crop.width), height: CGFloat(crop.height))
+        }
+        let sourceWidth = Int(visible.width.rounded())
+        let sourceHeight = Int(visible.height.rounded())
+        let longEdge = max(sourceWidth, sourceHeight)
+        guard longEdge > 0 else {
+            throw NativeFailure.decodeFailed("Decoded sample has no pixels.")
+        }
+        // Drawing happens in source pixels, before the crop and the long-edge bound, so the points
+        // the core supplied are read in the geometry they were measured in. The bound that follows
+        // shrinks every mark with the frame, so the overlay is told it up front and sizes its
+        // strokes for the pixels the caller will actually receive.
+        let deliveredScale = longEdge > maxLongEdge ? Double(maxLongEdge) / Double(longEdge) : 1
+        if let overlay,
+            let drawn = try CursorOverlay.image(
+                overlay, agedFromUs: agedFromUs, width: Int(oriented.extent.width.rounded()),
+                height: Int(oriented.extent.height.rounded()), visibleLongEdge: Double(longEdge),
+                deliveredScale: deliveredScale)
+        {
+            oriented = CIImage(cgImage: drawn).composited(over: oriented)
+        }
+        if crop != nil {
+            oriented = oriented.cropped(to: visible).transformed(
+                by: CGAffineTransform(translationX: -visible.origin.x, y: -visible.origin.y))
+        }
+        let delivered = FrameImage.delivered(
+            width: sourceWidth, height: sourceHeight, maxLongEdge: maxLongEdge,
+            even: evenDimensions)
+        width = delivered.width
+        height = delivered.height
+        if width != sourceWidth || height != sourceHeight {
+            image = oriented.transformed(
+                by: CGAffineTransform(
+                    scaleX: CGFloat(width) / visible.width, y: CGFloat(height) / visible.height))
+        } else {
+            image = oriented
+        }
+    }
+
+    /// Bitmap rendering writes top-left rows despite Core Image's geometric bottom-left origin.
+    /// Preserve that order so analysis bytes and public frame pixel coordinates agree.
+    func rgb(context: CIContext) -> Data {
+        var rgba = [UInt8](repeating: 0, count: width * height * 4)
+        context.render(
+            image, toBitmap: &rgba, rowBytes: width * 4,
+            bounds: CGRect(x: 0, y: 0, width: width, height: height),
+            format: .RGBA8, colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!)
+        var rgb = Data(capacity: width * height * 3)
+        for offset in stride(from: 0, to: rgba.count, by: 4) {
+            rgb.append(contentsOf: rgba[offset..<(offset + 3)])
+        }
+        return rgb
+    }
+
+    func publishPNG(to output: NewFile, context: CIContext, maxEncodedBytes: Int) throws -> Int {
+        let data = try png(context: context)
+        guard data.count <= maxEncodedBytes else {
+            throw NativeFailure("LIMIT_EXCEEDED", "Encoded frame exceeds the requested byte limit.")
+        }
+        try Task.checkCancellation()
+        try output.write(data)
+        try Task.checkCancellation()
+        return try output.publish()
+    }
+
+    func png(context: CIContext) throws -> Data {
+        guard
+            let rendered = context.createCGImage(
+                image, from: CGRect(x: 0, y: 0, width: width, height: height))
+        else {
+            throw NativeFailure.decodeFailed("Cannot render \(width)x\(height) frame.")
+        }
+        let data = NSMutableData()
+        guard
+            let destination = CGImageDestinationCreateWithData(
+                data, UTType.png.identifier as CFString, 1, nil)
+        else {
+            throw NativeFailure.decodeFailed("Cannot create PNG encoder.")
+        }
+        CGImageDestinationAddImage(destination, rendered, nil)
+        guard CGImageDestinationFinalize(destination) else {
+            throw NativeFailure.decodeFailed("Cannot encode PNG frame.")
+        }
+        return data as Data
+    }
+}
+
+/// Display-coordinate orientation shared by still delivery and full-canvas rendering.
+public func orientedVideoImage(_ buffer: CVPixelBuffer, transform: CGAffineTransform) -> CIImage {
+    let decoded = CIImage(cvPixelBuffer: buffer)
+    // A track's preferred transform is stated in display coordinates, where y grows downward;
+    // Core Image grows y upward, so applying it directly turns a quarter turn into a
+    // three-quarter turn. Flipping into and out of display space keeps both agreeing.
+    let flipDecoded = CGAffineTransform(
+        a: 1, b: 0, c: 0, d: -1, tx: 0, ty: decoded.extent.height)
+    let displayed = decoded.extent.applying(transform)
+    let flipDisplayed = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: displayed.height)
+    var oriented = decoded.transformed(
+        by: flipDecoded.concatenating(transform).concatenating(flipDisplayed))
+    oriented = oriented.transformed(
+        by: CGAffineTransform(
+            translationX: -oriented.extent.origin.x, y: -oriented.extent.origin.y))
+    return oriented
+}
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+# Selected timed-video source pictures
+
+Source and project frame inspection share one job/cache publication owner. Source
+requests retain their actual asset and optional acquisition context; they never
+invent a recording revision, clip, or canvas. The selected source's support digest
+and renderer identity pin the recipe. Declared physical gaps and explicit capture
+exclusions return distinct unavailability without scheduling a PNG.
+
+Native source pictures use explicit-track `PresentationSource` membership, the
+same color admission as compiled pictures, and the existing oriented `FrameImage`
+PNG sink. The receipt carries requested source time, actual sample time, and exact
+container-clock sample start/end with origin. `selection` receives an infinite
+query end so the returned support endpoint is physical, not a clipped query bound.
+No overlay or processing stack is implied by a raw source picture.
+
+## Evidence
+
+The native test creates two distinct video streams with a nonzero origin and a
+physical empty edit. It checks exact sample start/end, acquisition exclusion,
+bounded late selection, delivery dimensions, original hashes, and absence of files
+for missing pictures. `native-requests.json` retains requests and receipts.
+The prior binary refuses the new operation; a first-track mutation produces the
+wrong second-track pixels. Cancellation through the real native wire leaves no PNG.
+
+Core tests verify stream/context retention, source-only operation without project or
+recording tables, physical versus capture gaps, malformed receipts, cache eviction,
+and canceled late output followed by explicit retry. Removing receipt stream
+validation makes its negative test fail. Existing project frame and preview tests
+pass with the renamed shared owner. Native compiled-picture preservation passes
+386 pictures across 18 cases after extracting shared color admission and PNG publication.
+
+Both full native source PNGs are pixel-identical to independent AVAssetImageGenerator
+references explicitly converted to sRGB, using the committed FrameColorReference
+helper. Corner landmarks test horizontal and vertical placement. The bounded image
+preserves the same composition. Full images, contact sheet, references, original
+fixtures, profile receipts, and pixel metrics are retained under `visual/`.
+Provenance records frozen binary/helper hashes and repeated-delivery image equality.
+Fresh independent visual review found no visible pair differences, missing content,
+or corruption; its limited judgment is recorded in `visual-review.md`.
+
+This is native/core verification, not yet public source-frame CLI/MCP delivery.
+It does not establish all codec/rotation/color combinations, rich imagery fidelity,
+or a universal decoded-work bound. Actual counters describe returned decoded samples.
+Raw still-image source inspection remains explicitly refused and open in 10d/06.
+Scene, cut, interruption and retained screenshot-index generalization remain open;
+no source index was synthesized from these demanded frames.
+
+2026-09-28T08:53:10.765507Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e737-7244-7b50-815d-d8dd2078c31c turn_id=01a0e737-72cf-7181-b5cb-03c609d225e6 item_id="exec-16998798-3213-4943-9f9f-1b7bad71e23d"
+exec
+/bin/zsh -lc 'git show HEAD:packages/core/src/project-frames.ts | tail -140; cat packages/core/src/cached-derivative.ts; cat packages/core/src/source-audio.ts 2>/dev/null | head -60; cat specs/recording-for-ai/README.md | head -65; ls node_modules/.bin/vitest; node --version; node_modules/.bin/vitest run packages/core/src/frame-inspection.test.ts packages/core/src/source-frame-inspection.test.ts' in /private/tmp/screenrec-source-audio-inspection
+2026-09-28T08:53:18.052425Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e737-7244-7b50-815d-d8dd2078c31c turn_id=01a0e737-72cf-7181-b5cb-03c609d225e6 item_id="exec-c4e3f0f5-5dfd-4f06-b075-8dc49b2b8ac9"
+ succeeded in 391ms:
+(node:16398) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16397) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  01:53:17
+   Duration  379ms (tests 54%, transform 30%, import 15%)
+
+
+exec
+/bin/zsh -lc 'node --test helpers/mac/Tests/source-frame.test.mjs; node_modules/.bin/tsc --noEmit -p packages/core/tsconfig.json' in /private/tmp/screenrec-source-audio-inspection
+2026-09-28T08:53:25.339364Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e737-7244-7b50-815d-d8dd2078c31c turn_id=01a0e737-72cf-7181-b5cb-03c609d225e6 item_id="exec-43d139e3-7ac3-4764-859c-4f102bc29ecb"
+ succeeded in 3032ms:
+✖ selected source pictures preserve explicit streams, physical sample clocks and excluded support (2893.161041ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2932.380542
+
+✖ failing tests:
+
+test at helpers/mac/Tests/source-frame.test.mjs:17:1
+✖ selected source pictures preserve explicit streams, physical sample clocks and excluded support (2893.161041ms)
+  AssertionError [ERR_ASSERTION]: <unknown>:0: error: unable to open output file '/Users/david/.cache/clang/ModuleCache/2S232HFN52QDJ/SwiftShims-3DMJL40ENYFGZ.pcm': 'Operation not permitted'
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/swift/Swift.swiftmodule/arm64e-apple-macos.swiftinterface:5:8: error: could not build Objective-C module 'SwiftShims'
+      3 | // swift-module-flags: -target arm64e-apple-macosx26.5 -target-variant arm64e-apple-ios26.5-macabi -enable-objc-interop -enable-library-evolution -module-link-name swiftCore -parse-stdlib -swift-version 5 -O -library-level api -enforce-exclusivity=unchecked -target-min-inlining-version min -enable-experimental-concise-pound-file -disable-objc-attr-requires-foundation-module -enable-experimental-feature NoncopyableGenerics2 -enable-experimental-feature SuppressedAssociatedTypes -enable-experimental-feature SE427NoInferenceOnExtension -enable-experimental-feature NonescapableTypes -enable-experimental-feature LifetimeDependence -enable-experimental-feature InoutLifetimeDependence -enable-experimental-feature LifetimeDependenceMutableAccessors -enable-experimental-feature MemberImportVisibility -enable-experimental-feature TypedThrows -enable-experimental-feature Macros -enable-experimental-feature FreestandingMacros -enable-experimental-feature BitwiseCopyable -enable-experimental-feature Extern -enable-experimental-feature AllowUnsafeAttribute -enable-experimental-feature ValueGenerics -enable-experimental-feature AddressableParameters -enable-experimental-feature AddressableTypes -user-module-version 6.3.2.1.3 -module-name Swift
+      4 | // swift-module-flags-ignorable: -enable-lexical-lifetimes=false -strict-memory-safety -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.2
+      5 | import SwiftShims
+        |        `- error: could not build Objective-C module 'SwiftShims'
+      6 | @inlinable public func min<T>(_ x: T, _ y: T) -> T where T : Swift.Comparable {
+      7 |
+
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/swift/Swift.swiftmodule/arm64e-apple-macos.swiftinterface:1:1: error: failed to build module 'Swift'; this SDK is not supported by the compiler (the SDK is built with 'Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.2 clang-2100.0.123.2)', while this compiler is 'Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)'). Please select a toolchain which matches the SDK.
+      1 | // swift-interface-format-version: 1.0
+        | `- error: failed to build module 'Swift'; this SDK is not supported by the compiler (the SDK is built with 'Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.2 clang-2100.0.123.2)', while this compiler is 'Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)'). Please select a toolchain which matches the SDK.
+      2 | // swift-compiler-version: Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.2 clang-2100.0.123.2)
+      3 | // swift-module-flags: -target arm64e-apple-macosx26.5 -target-variant arm64e-apple-ios26.5-macabi -enable-objc-interop -enable-library-evolution -module-link-name swiftCore -parse-stdlib -swift-version 5 -O -library-level api -enforce-exclusivity=unchecked -target-min-inlining-version min -enable-experimental-concise-pound-file -disable-objc-attr-requires-foundation-module -enable-experimental-feature NoncopyableGenerics2 -enable-experimental-feature SuppressedAssociatedTypes -enable-experimental-feature SE427NoInferenceOnExtension -enable-experimental-feature NonescapableTypes -enable-experimental-feature LifetimeDependence -enable-experimental-feature InoutLifetimeDependence -enable-experimental-feature LifetimeDependenceMutableAccessors -enable-experimental-feature MemberImportVisibility -enable-experimental-feature TypedThrows -enable-experimental-feature Macros -enable-experimental-feature FreestandingMacros -enable-experimental-feature BitwiseCopyable -enable-experimental-feature Extern -enable-experimental-feature AllowUnsafeAttribute -enable-experimental-feature ValueGenerics -enable-experimental-feature AddressableParameters -enable-experimental-feature AddressableTypes -user-module-version 6.3.2.1.3 -module-name Swift
+
+
+  1 !== 0
+
+      at run (file:///private/tmp/screenrec-source-audio-inspection/helpers/mac/Tests/source-frame.test.mjs:14:10)
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-source-audio-inspection/helpers/mac/Tests/source-frame.test.mjs:48:5)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+exec
+/bin/zsh -lc "rg -n 'func unsupported|orientedWidth|naturalSize' helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift helpers/mac/Sources/ScreenRecorderMedia; git diff --no-index /dev/null packages/core/src/frame-inspection.test.ts | head -120; git ls-files --others --exclude-standard | tail -25" in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift:240:    private static func unsupported(_ message: String) -> NativeFailure {
+helpers/mac/Sources/ScreenRecorderMedia/MediaProbe.swift:21:    public var orientedWidth: Int?
+helpers/mac/Sources/ScreenRecorderMedia/MediaProbe.swift:68:            stream.orientedWidth = swapped ? pixels.height : pixels.width
+helpers/mac/Sources/ScreenRecorderMedia/MediaProbe.swift:126:                stream.orientedWidth = Int(abs(oriented.width).rounded())
+diff --git a/packages/core/src/frame-inspection.test.ts b/packages/core/src/frame-inspection.test.ts
+new file mode 100644
+index 0000000..a65bdbf
+--- /dev/null
++++ b/packages/core/src/frame-inspection.test.ts
+@@ -0,0 +1,225 @@
++import { afterEach, expect, test } from "vitest";
++import { randomUUID } from "node:crypto";
++import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
++import { join } from "node:path";
++import { Catalog, CatalogError } from "./catalog.js";
++import { AssetStore } from "./assets.js";
++import { AcquisitionStore } from "./acquisitions.js";
++import { ProjectStore } from "./projects.js";
++import { JobQueue } from "./jobs.js";
++import { DerivedCache } from "./cache.js";
++import { MediaFrameInspection, type ProjectFrameRenderer } from "./frame-inspection.js";
++const cleanup: (() => Promise<void>)[] = [];
++afterEach(async () => {
++  for (const close of cleanup.splice(0).reverse()) await close();
++});
++const renderer: ProjectFrameRenderer = {
++  implementationId: "fixture-picture",
++  async render({ window, assets, output }, signal) {
++    signal.throwIfAborted();
++    const bytes = Buffer.from("test frame payload");
++    await writeFile(output, bytes, { flag: "wx" });
++    const frame = [...window.frames()][0]!;
++    const layer = frame.layers[0]!;
++    return {
++      file: output,
++      mediaType: "image/png",
++      profile: "h264-rec709",
++      frame,
++      width: window.manifest.canvas.width,
++      height: window.manifest.canvas.height,
++      sourceWidth: window.manifest.canvas.width,
++      sourceHeight: window.manifest.canvas.height,
++      decodedSamples: 1,
++      readerOpens: 1,
++      bytes: bytes.length,
++      picture: {
++        status: "available",
++        clipId: layer.clipId,
++        assetId: layer.assetId,
++        streamId: layer.streamId,
++        requestedSourceUs: layer.sourceUs,
++        actualSourceUs: layer.sourceUs,
++        sample: {
++          value: String(layer.sourceUs + assets[0]!.originUs),
++          timescale: 1000000,
++          originUs: assets[0]!.originUs,
++        },
++      },
++    };
++  },
++};
++async function fixture(render = renderer) {
++  const home = await mkdtemp("/tmp/screenrec-project-frames-");
++  const catalog = new Catalog(join(home, "catalog.sqlite"));
++  const assets = new AssetStore(catalog, home);
++  await assets.recover();
++  const projects = new ProjectStore(catalog, assets);
++  const cache = new DerivedCache(catalog, home, (owner) => {
++    if (owner.kind !== "project") throw new CatalogError("INVALID_TARGET", "Expected project");
++    projects.get(owner.projectId);
++  });
++  await cache.reconcile();
++  let frames!: MediaFrameInspection;
++  const jobs = new JobQueue({
++    store: catalog,
++    providers: { newId: randomUUID },
++    targets: {
++      pin(target) {
++        if (target.kind !== "project") throw new Error("Expected project");
++        return { ...target, revisionId: projects.revision(target.projectId, target.revisionId).id };
++      },
++      isAvailable: (target) => target.kind === "project" && !projects.isDeleting(target.projectId),
++      isDeleting: (target) => target.kind === "project" && projects.isDeleting(target.projectId),
++      isCapturing: () => false,
++    },
++    execute: (execution) => frames.execute(execution),
++  });
++  frames = new MediaFrameInspection({
++    assets,
++    acquisitions: new AcquisitionStore(catalog),
++    jobs,
++    cache,
++    sourceRenderer: {
++      implementationId: "unused-source",
++      render: async () => {
++        throw new Error("Unused source renderer");
++      },
++    },
++    project: { projects, renderer: render },
++  });
++  cleanup.push(async () => {
++    await jobs.close();
++    catalog.close();
++    await rm(home, { recursive: true, force: true });
++  });
++  const input = join(home, "source.mov");
++  await writeFile(input, "source identity");
++  const asset = await assets.import(input, { kind: "import" }, async () => ({
++    originUs: 9000,
++    streams: [
++      {
++        id: "track:7",
++        kind: "video",
++        codec: "h264",
++        decodable: true,
++        startUs: 0,
++        endUs: 1000000,
++        segments: [{ startUs: 0, endUs: 1000000, empty: false }],
++        width: 160,
++        height: 96,
++      },
++    ],
++  }));
++  const created = projects.create({
+specs/agent-editing/assets/10d-source-frames/cancellation.txt
+specs/agent-editing/assets/10d-source-frames/choices.md
+specs/agent-editing/assets/10d-source-frames/core-tests.txt
+specs/agent-editing/assets/10d-source-frames/first-track-mutation.txt
+specs/agent-editing/assets/10d-source-frames/missing-operation-red.txt
+specs/agent-editing/assets/10d-source-frames/native-requests.json
+specs/agent-editing/assets/10d-source-frames/native.txt
+specs/agent-editing/assets/10d-source-frames/project-preservation.json
+specs/agent-editing/assets/10d-source-frames/provenance.json
+specs/agent-editing/assets/10d-source-frames/receipt-mutation.txt
+specs/agent-editing/assets/10d-source-frames/types.txt
+specs/agent-editing/assets/10d-source-frames/visual-review.md
+specs/agent-editing/assets/10d-source-frames/visual/contact.png
+specs/agent-editing/assets/10d-source-frames/visual/first-reference-receipt.json
+specs/agent-editing/assets/10d-source-frames/visual/first.mov
+specs/agent-editing/assets/10d-source-frames/visual/frame-0.png
+specs/agent-editing/assets/10d-source-frames/visual/frame-1.png
+specs/agent-editing/assets/10d-source-frames/visual/frame-5.png
+specs/agent-editing/assets/10d-source-frames/visual/pixel-comparison.json
+specs/agent-editing/assets/10d-source-frames/visual/reference-first.png
+specs/agent-editing/assets/10d-source-frames/visual/reference-second.png
+specs/agent-editing/assets/10d-source-frames/visual/second-reference-receipt.json
+specs/agent-editing/assets/10d-source-frames/visual/second.mov
+specs/agent-editing/assets/10d-source-frames/visual/source.mov
+specs/agent-editing/assets/10d-source-frames/wire.txt
+
+2026-09-28T08:53:29.536590Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e737-7244-7b50-815d-d8dd2078c31c turn_id=01a0e737-72cf-7181-b5cb-03c609d225e6 item_id="exec-8dfa24cc-3c3b-496b-80a3-a7b834175092"
+codex
+No actionable regressions were identified. All 12 focused core tests and the core TypeScript check passed; native verification was blocked by local Swift toolchain and sandbox errors.
+No actionable regressions were identified. All 12 focused core tests and the core TypeScript check passed; native verification was blocked by local Swift toolchain and sandbox errors.

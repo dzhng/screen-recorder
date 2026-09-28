@@ -95,6 +95,17 @@ struct FrameImage {
         return rgb
     }
 
+    func publishPNG(to output: NewFile, context: CIContext, maxEncodedBytes: Int) throws -> Int {
+        let data = try png(context: context)
+        guard data.count <= maxEncodedBytes else {
+            throw NativeFailure("LIMIT_EXCEEDED", "Encoded frame exceeds the requested byte limit.")
+        }
+        try Task.checkCancellation()
+        try output.write(data)
+        try Task.checkCancellation()
+        return try output.publish()
+    }
+
     func png(context: CIContext) throws -> Data {
         guard
             let rendered = context.createCGImage(

@@ -1,0 +1,28 @@
+[
+  {
+    "pair": "track1",
+    "meanAbsolute": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "maximum": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "pair": "track2",
+    "meanAbsolute": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "maximum": [
+      0,
+      0,
+      0
+    ]
+  }
+]
