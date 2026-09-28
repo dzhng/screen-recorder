@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "case": "routing",
+  "durationUs": 1000000,
+  "observed": [
+    [
+      "clip:routing-probe:5",
+      0
+    ],
+    [
+      "clip:routing-probe:4",
+      0
+    ]
+  ],
+  "checks": [
+    "deterministic replay",
+    "nested grouping",
+    "combined sibling order",
+    "unchanged clip timing and sync links",
+    "cycle rejection and batch immutability"
+  ],
+  "nativeProcessingClaimed": false
+}

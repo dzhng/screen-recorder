@@ -463,3 +463,16 @@ Ordinary pieces preserve the one-source-clock-per-clip rule and reuse all edit
 primitives. Expansion removes old attached descendants, even with an unchanged
 source selection; detach first to preserve a chosen overlay. Exact/default,
 trim and stretch replacements keep their single-interval behavior.
+
+## Processing routing — deterministic audio ties
+
+- **When:** 03b routing implementation.
+- **Choice:** Equal-order audio siblings use node kind and ID as deterministic
+  tie-breakers. When two narration tracks share an order, reading the same project
+  gives the same occurrence ordering even if its stored arrays were rearranged.
+  This does not change their gain or give either voice priority.
+- **Gap:** The plan required canonical audio ordering but did not name tie-breakers.
+- **Reach:** Inspection and later compilation share the same resolved track rank;
+  visual siblings still reject duplicate order rather than guess layering.
+- **Verdict:** sound; a stable content-derived tie-break avoids storage-order drift.
+- **Confidence:** high.

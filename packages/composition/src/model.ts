@@ -1,3 +1,4 @@
+import { resolveRouting } from "./routing.js";
 import {
   assetSchema,
   compositionSchema,
@@ -34,6 +35,7 @@ type ResolvedClip = ResolvedPlacement & {
   clip: Immutable<Clip>;
   stream: Immutable<Stream> | null;
   track: Immutable<Composition["tracks"][number]>;
+  trackRank: number;
   rate: Rational | null;
 };
 export type ValidatedComposition = Readonly<{
@@ -226,12 +228,7 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
         }
       }
   }
-  const orders = new Set<number>();
-  for (const track of tracks.values())
-    if (track.kind === "video") {
-      if (orders.has(track.order)) invalid(`Duplicate video layer order: ${track.order}`);
-      orders.add(track.order);
-    }
+  const trackRanks = new Map(resolveRouting(document).map((id, rank) => [id, rank]));
   const grouped = new Set<string>();
   for (const group of unique(document.syncGroups, "sync group").values())
     for (const id of group.clipIds) {
@@ -272,7 +269,14 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
       clip.source.kind === "range"
         ? divide(length(exact(clip.source.range)), length(anchor.range))
         : null;
-    const result: ResolvedClip = { ...anchor, clip, track, stream, rate };
+    const result: ResolvedClip = {
+      ...anchor,
+      clip,
+      track,
+      trackRank: trackRanks.get(track.id)!,
+      stream,
+      rate,
+    };
     let available: ExactRange[] = [anchor.range];
     if (stream && stream.kind !== "image" && clip.source.kind !== "silence") {
       if (clip.source.kind === "hold") {
@@ -297,7 +301,7 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
   const ordered = [...resolved.values()].sort(
     (a, b) =>
       compare(a.range.start, b.range.start) ||
-      a.track.order - b.track.order ||
+      a.trackRank - b.trackRank ||
       (a.clip.id < b.clip.id ? -1 : a.clip.id > b.clip.id ? 1 : 0),
   );
   const last = new Map<string, ResolvedClip>();
@@ -401,7 +405,7 @@ export function sourceToProject(
       {
         clipId: clip.clip.id,
         trackId: clip.clip.trackId,
-        trackOrder: clip.track.order,
+        trackOrder: clip.trackRank,
         project,
         available: intersectAll([project], clip.available),
         firstProjectUs: contains(project, integer(first)) ? first : null,

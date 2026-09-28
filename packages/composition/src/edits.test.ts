@@ -11,6 +11,7 @@ const input = {
   clips: [],
   syncGroups: [],
   effects: [],
+  groups: [],
   captions: [],
 };
 const context = {
@@ -128,7 +129,13 @@ test("canvas and layer order changes preserve all clip timing", () => {
     first.document,
     [
       { operation: "track.add", track: { kind: "video", order: 1 }, label: "overlay" },
-      { operation: "track.reorder", trackIds: [{ label: "overlay" }, first.labels.picture] },
+      {
+        operation: "layers.reorder",
+        targets: [
+          { kind: "track", id: { label: "overlay" } },
+          { kind: "track", id: first.labels.picture },
+        ],
+      },
       { operation: "canvas.set", canvas: { width: 1080, height: 1920 } },
     ],
     { ...context, namespace: "layout" },

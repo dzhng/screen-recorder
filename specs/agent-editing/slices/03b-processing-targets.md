@@ -1,6 +1,6 @@
 # 03b — Processing targets and nested routing
 
-Status: not started. Dependencies: [03](./03-edits.md).
+Status: accepted for pure routing. [Evidence](../assets/03b-routing/README.md): 73 tests, type checking, build and independent review pass. Dependencies: [03](./03-edits.md).
 
 ## Contract
 

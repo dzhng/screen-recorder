@@ -49,6 +49,7 @@ function document(clips: Clip[] = []): Composition {
     clips,
     syncGroups: [],
     effects: [],
+    groups: [],
     captions: [],
   };
 }

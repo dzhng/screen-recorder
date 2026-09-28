@@ -65,6 +65,7 @@ if (process.argv.slice(2).join(" ") !== "--fixture repeat-reorder") {
       ],
       syncGroups: [],
       effects: [],
+      groups: [],
       captions: [],
     },
     assets,

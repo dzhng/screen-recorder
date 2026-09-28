@@ -29,6 +29,7 @@ if (process.argv.slice(2).join(" ") !== "--fixture linked-replacement") {
       background: "#000000ff",
     },
     tracks: [],
+    groups: [],
     clips: [],
     syncGroups: [],
     effects: [],

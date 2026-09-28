@@ -55,3 +55,9 @@ The [corpus probe](../test-harness/editing/composition.mjs) checks the independe
 membership oracle and prints repeated-source reverse lookup after building this
 package. The test suite additionally exercises exact fractions, source gaps,
 held media, invalid identities and a range of reversible point mappings.
+
+Processing groups organize how tracks combine; synchronization groups organize
+which clips edit together. Routing changes leave media timing untouched. The
+[routing owner](src/routing.ts) validates the parent forest and derives the leaf
+order shared by evidence and compilation. Stacks and native processing remain
+separate planned capabilities.

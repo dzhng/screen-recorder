@@ -1,0 +1,102 @@
+$ vitest run --maxWorkers=4 src/routing.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-processing-routing/packages/composition
+
+ ❯ src/routing.test.ts (1 test | 1 failed) 7ms
+   × nested routing changes visual order without changing source timing or sync links 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/routing.test.ts > nested routing changes visual order without changing source timing or sync links
+CompositionError: [
+  {
+    "code": "invalid_union",
+    "errors": [],
+    "note": "No matching discriminator",
+    "discriminator": "operation",
+    "options": [
+      "replace",
+      "insert",
+      "retime",
+      "duplicate",
+      "detach",
+      "reanchor",
+      "move",
+      "trim",
+      "remove",
+      "split",
+      "track.add",
+      "track.remove",
+      "track.reorder",
+      "canvas.set",
+      "place",
+      "link",
+      "unlink"
+    ],
+    "path": [
+      0,
+      "operation"
+    ],
+    "message": "Invalid discriminator value. Expected 'replace' | 'insert' | 'retime' | 'duplicate' | 'detach' | 'reanchor' | 'move' | 'trim' | 'remove' | 'split' | 'track.add' | 'track.remove' | 'track.reorder' | 'canvas.set' | 'place' | 'link' | 'unlink'"
+  },
+  {
+    "code": "invalid_union",
+    "errors": [],
+    "note": "No matching discriminator",
+    "discriminator": "operation",
+    "options": [
+      "replace",
+      "insert",
+      "retime",
+      "duplicate",
+      "detach",
+      "reanchor",
+      "move",
+      "trim",
+      "remove",
+      "split",
+      "track.add",
+      "track.remove",
+      "track.reorder",
+      "canvas.set",
+      "place",
+      "link",
+      "unlink"
+    ],
+    "path": [
+      1,
+      "operation"
+    ],
+    "message": "Invalid discriminator value. Expected 'replace' | 'insert' | 'retime' | 'duplicate' | 'detach' | 'reanchor' | 'move' | 'trim' | 'remove' | 'split' | 'track.add' | 'track.remove' | 'track.reorder' | 'canvas.set' | 'place' | 'link' | 'unlink'"
+  },
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "parentId"
+    ],
+    "path": [
+      2,
+      "track"
+    ],
+    "message": "Unrecognized key: \"parentId\""
+  }
+]
+ ❯ invalid src/edits.ts:175:9
+    173| };
+    174| function invalid(message: string, details: Record<string, unknown> = {…
+    175|   throw new CompositionError("INVALID_EDIT", message, details);
+       |         ^
+    176| }
+    177| function difference<T extends { id: string }>(
+ ❯ applyBatch src/edits.ts:223:24
+ ❯ src/routing.test.ts:21:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  17:32:50
+   Duration  162ms (transform 60%, import 32%, tests 6%, worker 2%)
+
+error: script "test" exited with code 1

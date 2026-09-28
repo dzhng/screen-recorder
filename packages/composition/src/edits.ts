@@ -6,6 +6,7 @@ import {
   silenceClipSchema,
   compositionSchema,
   rangeSchema,
+  routingNodeSchema,
 } from "./schema.js";
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
@@ -19,9 +20,11 @@ import { replaceClip } from "./replace.js";
 import { retimeClips } from "./retime.js";
 
 type Document = ValidatedComposition["document"];
-type EntityKind = "clip" | "track" | "syncGroup";
+type EntityKind = "clip" | "track" | "group" | "syncGroup";
 const reference = z.union([z.string().min(1), z.object({ label: z.string().min(1) }).strict()]);
 const label = z.string().min(1).optional();
+const routingTarget = z.object({ kind: z.enum(["track", "group"]), id: reference }).strict();
+const routedNode = routingNodeSchema.omit({ id: true }).extend({ parentId: reference.optional() });
 const ripple = z.union([
   z.literal("none"),
   z.object({ trackIds: z.array(reference).min(1) }).strict(),
@@ -138,12 +141,28 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("track.add"),
-      track: compositionSchema.shape.tracks.element.omit({ id: true }),
+      track: routedNode,
       label,
     })
     .strict(),
   z.object({ operation: z.literal("track.remove"), trackId: reference }).strict(),
-  z.object({ operation: z.literal("track.reorder"), trackIds: z.array(reference) }).strict(),
+  z.object({ operation: z.literal("group.add"), group: routedNode, label }).strict(),
+  z.object({ operation: z.literal("group.remove"), groupId: reference }).strict(),
+  z
+    .object({
+      operation: z.literal("routing.set"),
+      target: routingTarget,
+      parentId: reference.optional(),
+      order: routingNodeSchema.shape.order,
+    })
+    .strict(),
+  z
+    .object({
+      operation: z.literal("layers.reorder"),
+      parentId: reference.optional(),
+      targets: z.array(routingTarget),
+    })
+    .strict(),
   z
     .object({
       operation: z.literal("canvas.set"),
@@ -158,6 +177,7 @@ export type EditOperation = z.infer<typeof editOperationSchema>;
 export type EditChange =
   | { kind: "canvas"; value: Document["canvas"] }
   | { kind: "track"; id: string; value: Document["tracks"][number] | null }
+  | { kind: "group"; id: string; value: Document["groups"][number] | null }
   | { kind: "clip"; id: string; value: Document["clips"][number] | null }
   | { kind: "syncGroup"; id: string; value: Document["syncGroups"][number] | null };
 export type EditBatchResult = {
@@ -193,6 +213,10 @@ function changes(before: Document, after: Document): EditChange[] {
       kind: "track" as const,
       ...change,
     })),
+    ...difference(before.groups, after.groups).map((change) => ({
+      kind: "group" as const,
+      ...change,
+    })),
     ...difference(before.clips, after.clips).map((change) => ({
       kind: "clip" as const,
       ...change,
@@ -226,6 +250,7 @@ export function applyBatch(
   const identities = {
     clip: new Set(initial.clips.map((value) => value.id)),
     track: new Set(initial.tracks.map((value) => value.id)),
+    group: new Set(initial.groups.map((value) => value.id)),
     syncGroup: new Set(initial.syncGroups.map((value) => value.id)),
   };
   const createdIds: EditBatchResult["createdIds"] = [];
@@ -503,7 +528,18 @@ export function applyBatch(
         case "track.add": {
           const id = allocate("track");
           bind(operation.label, "track", id);
-          next = { ...before, tracks: [...before.tracks, { ...operation.track, id }] };
+          const { parentId, ...track } = operation.track;
+          next = {
+            ...before,
+            tracks: [
+              ...before.tracks,
+              {
+                ...track,
+                id,
+                ...(parentId === undefined ? {} : { parentId: resolve(parentId, "group") }),
+              },
+            ],
+          };
           break;
         }
         case "track.remove": {
@@ -519,20 +555,90 @@ export function applyBatch(
           next = { ...before, tracks: before.tracks.filter((track) => track.id !== id) };
           break;
         }
-        case "track.reorder": {
-          const ids = operation.trackIds.map((value) => resolve(value, "track"));
-          const visual = before.tracks.filter((track) => track.kind === "video");
-          if (
-            ids.length !== visual.length ||
-            new Set(ids).size !== ids.length ||
-            visual.some((track) => !ids.includes(track.id))
-          )
-            invalid("Reorder must name every video track exactly once");
-          const order = new Map(ids.map((id, index) => [id, index]));
+        case "group.add": {
+          const id = allocate("group");
+          bind(operation.label, "group", id);
+          const { parentId, ...group } = operation.group;
           next = {
             ...before,
-            tracks: before.tracks.map((track) =>
-              track.kind === "video" ? { ...track, order: order.get(track.id)! } : track,
+            groups: [
+              ...before.groups,
+              {
+                ...group,
+                id,
+                ...(parentId === undefined ? {} : { parentId: resolve(parentId, "group") }),
+              },
+            ],
+          };
+          break;
+        }
+        case "group.remove": {
+          const id = resolve(operation.groupId, "group");
+          if ([...before.groups, ...before.tracks].some((node) => node.parentId === id))
+            invalid("Reparent the group's children explicitly first", { groupId: id });
+          next = { ...before, groups: before.groups.filter((group) => group.id !== id) };
+          break;
+        }
+        case "routing.set": {
+          const id = resolve(operation.target.id, operation.target.kind);
+          const key = operation.target.kind === "track" ? "tracks" : "groups";
+          if (!before[key].some((node) => node.id === id))
+            invalid("Unknown routing target", { target: operation.target });
+          const parentId =
+            operation.parentId === undefined ? undefined : resolve(operation.parentId, "group");
+          next = {
+            ...before,
+            [key]: before[key].map((node) => {
+              if (node.id !== id) return node;
+              const { parentId: previousParent, ...fields } = node;
+              return {
+                ...fields,
+                order: operation.order,
+                ...(parentId === undefined ? {} : { parentId }),
+              };
+            }),
+          };
+          break;
+        }
+        case "layers.reorder": {
+          const parentId =
+            operation.parentId === undefined ? undefined : resolve(operation.parentId, "group");
+          if (
+            parentId !== undefined &&
+            !before.groups.some((group) => group.id === parentId && group.kind === "video")
+          )
+            invalid("Layer parent must be a video group", { parentId });
+          const targets = operation.targets.map((target) => ({
+            kind: target.kind,
+            id: resolve(target.id, target.kind),
+          }));
+          const key = (kind: string, id: string) => JSON.stringify([kind, id]);
+          const order = new Map(targets.map((target, i) => [key(target.kind, target.id), i]));
+          const siblings = [
+            ...before.tracks
+              .filter((node) => node.kind === "video" && node.parentId === parentId)
+              .map((node) => key("track", node.id)),
+            ...before.groups
+              .filter((node) => node.kind === "video" && node.parentId === parentId)
+              .map((node) => key("group", node.id)),
+          ];
+          if (
+            order.size !== targets.length ||
+            siblings.length !== targets.length ||
+            siblings.some((id) => !order.has(id))
+          )
+            invalid("Reorder must name every video sibling exactly once");
+          next = {
+            ...before,
+            tracks: before.tracks.map((node) =>
+              order.has(key("track", node.id))
+                ? { ...node, order: order.get(key("track", node.id))! }
+                : node,
+            ),
+            groups: before.groups.map((node) =>
+              order.has(key("group", node.id))
+                ? { ...node, order: order.get(key("group", node.id))! }
+                : node,
             ),
           };
           break;

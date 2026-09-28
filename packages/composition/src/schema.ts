@@ -79,6 +79,14 @@ export const streamSchema = z.discriminatedUnion("kind", [
     .strict(),
 ]);
 export const assetSchema = z.object({ id, streams: z.array(streamSchema) }).strict();
+export const routingNodeSchema = z
+  .object({
+    id,
+    kind: z.enum(["video", "audio"]),
+    order: z.int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+    parentId: id.optional(),
+  })
+  .strict();
 export const compositionSchema = z
   .object({
     canvas: z
@@ -89,15 +97,8 @@ export const compositionSchema = z
         background: z.string().regex(/^#[0-9a-fA-F]{8}$/),
       })
       .strict(),
-    tracks: z.array(
-      z
-        .object({
-          id,
-          kind: z.enum(["video", "audio"]),
-          order: z.int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
-        })
-        .strict(),
-    ),
+    tracks: z.array(routingNodeSchema),
+    groups: z.array(routingNodeSchema),
     clips: z.array(clipSchema),
     syncGroups: z.array(z.object({ id, clipIds: z.array(id).min(2) }).strict()),
     effects: z.array(z.never()).max(0),
