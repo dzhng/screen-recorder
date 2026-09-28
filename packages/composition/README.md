@@ -77,9 +77,16 @@ Processing groups organize how tracks combine; synchronization groups organize
 which clips edit together. Routing changes leave media timing untouched. The
 [routing owner](src/routing.ts) validates the parent forest and derives the leaf
 order shared by evidence and compilation. The [processing owner](src/processing.ts) validates target-owned ordered stacks
-and preserves configuration across structural edits. Get/set and constant audio
-gain authoring are available in this pure package; capability discovery explicitly
-distinguishes that from native execution, which remains unimplemented.
+and preserves configuration across structural edits. Authoring and execution are
+distinct capabilities: the pure package validates and compiles, while native media
+workers execute prepared plans. Discover current execution support at the service
+boundary.
+
+The [curve compiler](src/curve.ts) owns parameter clocks and easing. Structural cuts
+restrict the original evaluation range instead of restarting the curve on each
+piece. [Temporal processing](src/temporal-processing.ts) resolves picture parameters
+and exposes their exact boundaries to retained inspection; consumers do not rebuild
+keyframe or anchor math.
 
 The [compiler](src/compiler.ts) builds an interval index once for a validated
 immutable revision. Frame iterators keep absolute project phase, including the already-visible picture
