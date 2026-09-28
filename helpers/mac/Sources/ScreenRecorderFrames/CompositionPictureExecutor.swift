@@ -213,16 +213,13 @@ public final class CompositionPictureExecutor {
             let selected = try reader.source.selection(
                 at: time(microseconds: at), end: time(microseconds: at + 1))
             switch layer.availability {
-            case "available", "source-unavailable": break
-            case "anchor-unavailable":
-                throw NativeFailure("UNAVAILABLE", "Compiled ancestor support is unavailable.")
+            case "available", "source-unavailable", "anchor-unavailable": break
             default: throw Self.invalid("Unknown compiled source availability.")
             }
             var picture = Picture(
                 status: "unavailable", clipId: layer.clipId, assetId: layer.assetId,
                 streamId: layer.streamId, requestedSourceUs: layer.sourceUs,
-                reason: layer.availability == "source-unavailable"
-                    ? "source-unavailable" : "physical-empty"
+                reason: layer.availability == "available" ? "physical-empty" : layer.availability
             )
             var image = CIImage(color: .clear).cropped(
                 to: CGRect(x: 0, y: 0, width: layer.width, height: layer.height))

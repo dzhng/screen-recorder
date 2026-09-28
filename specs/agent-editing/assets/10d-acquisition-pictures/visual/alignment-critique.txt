@@ -1,0 +1,7 @@
+All four pictures appear aligned and geometrically identical relative to their black image boundaries:
+
+- The L has the same top and left inset, vertical height, arm thickness, and horizontal reach. Its bottom and right margins also appear equal across the four pictures.
+- The detached square has the same size and position. Its top edge aligns with the L’s top edge, and its right edge sits slightly left of the L’s rightmost end.
+- No discernible shifts, stretching, clipping, rotation, or differences in corner shape are visible between either source and its corresponding preview, or between the two columns.
+
+**Confidence:** High for the absence of conspicuous alignment or shape differences at this enlargement. Visual inspection alone cannot establish pixel equality or rule out subtle edge, subpixel, or resampling differences.

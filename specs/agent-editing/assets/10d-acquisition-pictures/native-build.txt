@@ -1,0 +1,4 @@
+[0/1] Planning build
+Building for production...
+[0/2] Write swift-version--1AB21518FC5DEDBE.txt
+Build of product 'screenrec-native' complete! (0.80s)

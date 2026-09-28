@@ -620,7 +620,10 @@ trim and stretch replacements keep their single-interval behavior.
   available, source-unavailable and anchor-unavailable, prioritizing the ancestor.
   This fills a boundary-information gap: a native decoder may prove that a source
   gap is an explicit empty edit, but that proof cannot repair missing parent support.
-  Only source-unavailable can enter that media proof; unknown gaps still fail.
+  The initial native executor refused ancestor gaps outright. The acquisition-gap
+  picture pass below completes that path: physical selection remains validated,
+  then either known exclusion suppresses the layer while preserving its reason.
+  Unknown availability states and unsupported physical timestamps still fail.
 
 ## Derived-file ownership — 2026-09-27
 
@@ -1871,3 +1874,25 @@ existing lifetime owner.
   existing frame sizing/publication is shared below the timing boundary. The plan
   required still admission but left this shape open. Public source selection and
   project image provenance must preserve that distinction in the next pass.
+
+
+## Acquisition-gap picture scope — 2026-09-28
+
+- **Sound; medium confidence — Test selected acquisition gaps using the public producer.**
+  A video clip attached to captured audio disappears when that selected audio
+  context says its parent was unavailable. The same video bytes remain readable
+  directly and in a full-context occurrence. The plan required delivered pictures
+  across acquisition gaps but did not define an arbitrary video-mask authoring
+  API. This pass uses existing public capture admission and content attachment to
+  cover that project behavior, keeping its `anchor-unavailable` provenance distinct
+  from direct source exclusion. A future direct video-support producer belongs to
+  acquisition admission in 10b and needs authoritative capture evidence; native/core
+  support for narrower video masks does not itself promise that public producer.
+
+- **Sound; high confidence — Missing parent support suppresses its child picture.**
+  An attached video whose parent has a capture gap must leave the background or
+  other layers visible. Rejecting the entire frame would make the compiler's valid
+  unavailable interval impossible to inspect or preview. The native executor now
+  treats that declared gap as transparent after the existing physical-source checks,
+  and retains the ancestor reason. This completes the earlier unsupported execution
+  path without letting a decoder invent evidence that the parent was available.

@@ -38,7 +38,11 @@ also pass live CLI/MCP delivery against frozen source transcripts.
 [large source WAV delivery](assets/11a-audio-extraction/README.md) and
 [large multi-source project WAV delivery](assets/11a-large-project-audio/README.md) have actual
 public journeys. [Project stills](assets/10d-public-project-frames/README.md)
-verify delivered picture membership and retained media after project deletion. [Waveform JSON](assets/11-waveform-public/README.md) now verifies actual
+verify delivered picture membership and retained media after project deletion.
+[Acquisition-gap project pictures](assets/10d-acquisition-pictures/README.md) verify
+public audio-context anchors through frames, retained indexes and preview, with
+direct source-video readability preserved; custom direct video masks remain
+native/core-only. [Waveform JSON](assets/11-waveform-public/README.md) now verifies actual
 raw and processed bucket measurements. [Capture interruptions](assets/10c-public-interruption/README.md) also pass actual
 public continuation and terminal-provenance checks. [Acoustic images/spectrograms](assets/11-public-acoustic-images/README.md) pass
 actual public delivery and numerical/pixel oracles. [Source/project scenes](assets/10d-public-scenes/README.md)

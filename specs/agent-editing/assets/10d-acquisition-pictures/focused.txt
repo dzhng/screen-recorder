@@ -1,0 +1,12 @@
+
+ RUN  v5.0.0 /Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder
+
+(node:62251) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:62252) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  3 passed (3)
+      Tests  32 passed (32)
+   Start at  09:34:41
+   Duration  1.42s (tests 49%, transform 38%, import 12%)

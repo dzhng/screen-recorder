@@ -562,7 +562,7 @@ for (const [name, frame, code] of [
     { ...first, layers: first.layers.map((l) => ({ ...l, availability: "mystery" })) },
     "INVALID_REQUEST",
   ],
-  ...["available", "source-unavailable"].map((availability) => [
+  ...["available", "source-unavailable", "anchor-unavailable"].map((availability) => [
     `outside-physical-support-${availability}`,
     {
       ...first,
@@ -598,7 +598,38 @@ await writeFile(
     layers: gapFrame.layers.map((l) => ({ ...l, availability: "anchor-unavailable" })),
   }) + "\n",
 );
-await rejected("anchor-unavailable", { ...gap, frames: anchorPath }, "UNAVAILABLE");
+const anchorRequest = {
+  ...gap,
+  range: gapFrame.visibleRange,
+  frames: anchorPath,
+  output: join(out, "anchor-unavailable.mp4"),
+};
+const anchorResponse = call("media.renderCompositionVideo", anchorRequest);
+assert.equal(anchorResponse.ok, true, JSON.stringify(anchorResponse));
+const anchorPixels = ff([
+  "-i",
+  anchorRequest.output,
+  "-map",
+  "0:v:0",
+  "-fps_mode",
+  "passthrough",
+  "-pix_fmt",
+  "rgb24",
+  "-f",
+  "rawvideo",
+  "pipe:1",
+]);
+assert.equal(anchorPixels.length, bytes);
+// Decoded H.264 black can differ by two channel levels from the lossless canvas.
+assert.ok(
+  anchorPixels.every((value) => value <= 2),
+  "Excluded ancestor must leave the black canvas intact within the decoded codec budget",
+);
+const ancestorExclusion = {
+  request: anchorRequest,
+  response: anchorResponse,
+  maximumDecodedChannel: Math.max(...anchorPixels),
+};
 
 const preservation = [];
 if (process.env.SCREENREC_BASELINE_NATIVE) {
@@ -755,6 +786,7 @@ await save(join(out, "report.json"), {
   livePublicJourney: false,
   resourceChecksRun: !args.includes("--temporal-only"),
   sourceProfiles,
+  ancestorExclusion,
   results,
   negatives,
   resources,

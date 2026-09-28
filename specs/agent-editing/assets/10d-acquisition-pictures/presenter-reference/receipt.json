@@ -1,0 +1,22 @@
+{
+  "reference": {
+    "actualValue": "0",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "height": 40,
+    "requestedUs": 0,
+    "actualTimescale": 1000,
+    "index": 0,
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "file": "/tmp/acquisition-pictures-final/presenter-reference/000.png",
+    "width": 24
+  },
+  "normalized": {
+    "outputProfile": "kCGColorSpaceSRGB",
+    "opaque": true,
+    "height": 40,
+    "sourceProfile": "kCGColorSpaceSRGB",
+    "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+    "width": 24
+  }
+}

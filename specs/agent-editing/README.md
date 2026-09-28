@@ -39,9 +39,10 @@ Current pickup and priority:
    now uses the compiler interval, with native validation intact and all 22 PNGs
    unchanged. [Fresh interpretation](assets/10d-frame-visibility/skill/report.md)
    now correctly distinguishes authored edges, displayed intervals and unknown gaps.
-   Next complete raw still-image inspection through the same frame owner; then
-   the acquired-gap picture journey. Its audio-anchor case found a native refusal
-   where a transparent contributor is required; that fix is in progress.
+   [Public acquisition-gap pictures](assets/10d-acquisition-pictures/README.md)
+   now verify audio-anchored video across selected capture gaps. Next complete raw
+   still-image inspection through the same frame owner; direct custom video-mask
+   admission is not provided by the current capture producer.
    Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
@@ -81,10 +82,11 @@ Compact evidence ledger:
 - [Project pictures](assets/10d-public-project-frames/README.md),
   [source pictures](assets/10d-source-frame-public/README.md) and
   [typed no-picture delivery](assets/10d-source-empty-observation/README.md) pass
-  their named gates. Public acquired-gap pictures and raw still-image integration
-  remain open. [Native still preparation](assets/10d-still-image-native/README.md)
-  passes behavior checks and fixture-scoped fresh visual review; public source/project
-  integration remains pending. No new layer capability is implied by those picture checks.
+  their named gates. [Acquisition-gap project pictures](assets/10d-acquisition-pictures/README.md)
+  use public audio-context anchors; direct narrower video masks remain native/core-only.
+  [Native still preparation](assets/10d-still-image-native/README.md) passes behavior
+  checks and fixture-scoped fresh visual review; public source/project integration
+  remains pending. No new layer capability is implied by those picture checks.
 - [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
   project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),
   [acoustic images/lifecycle](assets/11-acoustic-lifecycle/README.md) and

@@ -41,7 +41,8 @@ original report hashes.
 
 The public acquisition importer admits physical video support, not a custom
 video exclusion mask. Narrower video-mask checks remain native/core evidence;
-this journey does not invent public admission by editing storage. Public custom
-video-mask scope still needs reconciliation with 10b. Raw still-image admission,
+this journey does not invent public admission by editing storage. The [acquisition-picture journey](../10d-acquisition-pictures/README.md) reconciles
+10d project-gap acceptance through public audio-context anchors; it does not add
+a direct-source video-mask producer. Raw still-image admission,
 source scene/cut/interruption index generalization, and broader visual fidelity
 remain pending under 10d/06. Existing project frame acceptance is a separate gate.

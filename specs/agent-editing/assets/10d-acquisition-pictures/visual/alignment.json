@@ -1,0 +1,62 @@
+[
+  {
+    "path": "source-a.png",
+    "sha256": "9bf879fb6e47f02622140c349eb9079dfe7b6746fb9bca36e00685982dc55e5d",
+    "whitePixels": 768,
+    "bounds": [
+      4,
+      4,
+      59,
+      43
+    ],
+    "centroid": [
+      25.166666666666668,
+      30.166666666666668
+    ]
+  },
+  {
+    "path": "source-b.png",
+    "sha256": "9bf879fb6e47f02622140c349eb9079dfe7b6746fb9bca36e00685982dc55e5d",
+    "whitePixels": 768,
+    "bounds": [
+      4,
+      4,
+      59,
+      43
+    ],
+    "centroid": [
+      25.166666666666668,
+      30.166666666666668
+    ]
+  },
+  {
+    "path": "preview-frames/000.png",
+    "sha256": "9a0b2932636fc4b20019fc5be2340f67370373bc592991fd1b1fb24d24fa73f9",
+    "whitePixels": 768,
+    "bounds": [
+      4,
+      4,
+      59,
+      43
+    ],
+    "centroid": [
+      25.166666666666668,
+      30.166666666666668
+    ]
+  },
+  {
+    "path": "preview-frames/001.png",
+    "sha256": "587ca4199b36d85cff9a72ca68734d9b550db45b99634bfa2852c9fc8269c87a",
+    "whitePixels": 768,
+    "bounds": [
+      4,
+      4,
+      59,
+      43
+    ],
+    "centroid": [
+      25.166666666666668,
+      30.166666666666668
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "reference": {
+    "outputProfile": "kCGColorSpaceSRGB",
+    "height": 64,
+    "index": 0,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "file": "/tmp/acquisition-pictures-final/rotated-reference/000.png",
+    "requestedUs": 0,
+    "actualValue": "0",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "width": 48,
+    "actualTimescale": 10240
+  },
+  "normalized": {
+    "outputProfile": "kCGColorSpaceSRGB",
+    "height": 64,
+    "width": 48,
+    "sourceProfile": "kCGColorSpaceSRGB",
+    "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+    "opaque": true
+  }
+}

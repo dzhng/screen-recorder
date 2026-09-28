@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw still-image inspection and custom acquisition masks remain open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw still-image inspection remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -253,8 +253,8 @@ store after job/delivery drain. [Fresh product-skill use](../assets/10d-project-
 exposes competing one-microsecond request and full-frame visibility ranges; resolve
 that public metadata ambiguity through the compiler clock and repeat fresh use.
 [The visibility correction and fresh reinspection](../assets/10d-frame-visibility/README.md)
-now resolve that ambiguity with unchanged pixels. These checks do not close custom
-exclusion masks, raw still admission or all 10d gates.
+now resolve that ambiguity with unchanged pixels. Raw still admission and all
+remaining 10d gates are not implied by those checks.
 
 
 ## Public frame visibility
@@ -280,3 +280,19 @@ public source and project still rendering must consume this owner, preserve imag
 identity through cache/delivery, and pass actual CLI/MCP/native journeys before
 advertising support. [Fresh fixture-scoped visual review](../assets/10d-still-image-native/visual-review.md)
 passes; the root native integration journey also passes.
+
+## Public acquisition-gap picture acceptance
+
+[The public acquisition-picture journey](../assets/10d-acquisition-pictures/README.md)
+verifies delivered project pictures, retained indexes and preview across an audio
+parent's selected acquisition gap, with identical footage under full-context and
+physical-only controls. Source video stays readable; project provenance correctly
+identifies ancestor exclusion. Donor deletion, historical reads and restart retain
+these distinctions.
+
+This is the original selected-acquisition-gap acceptance gate, using existing
+public admission and attachment semantics. The earlier “custom video masks” TODO
+was broader than that contract. Direct narrower video-source masks remain
+native/core-only: public admission uses physical video support. Any future public
+captured-video support producer belongs to 10b and needs authoritative acquisition
+evidence; no arbitrary mask-authoring API is inferred by 10d.

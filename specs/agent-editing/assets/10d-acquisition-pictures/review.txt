@@ -1,0 +1,2577 @@
+2026-09-28T16:41:00.688815Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T16:41:00.688884Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e8e4-23fd-7d52-a79e-98dd948504a4
+--------
+user
+Review the current uncommitted production and runnable harness diff for correctness, regression coverage and misleading claims. Follow repository code-review principles. Focus on apps/service/src/project-render.ts, helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift, packages/test-harness/editing/video.mjs, packages/test-harness/editing/acquisition-picture-evidence.mjs and the changed spec prose; retained reports and images are evidence, not code to enumerate. Return only actionable findings with file/line, or a concise clean verdict. Do not modify files.
+exec
+/bin/zsh -lc 'cat .agents/skills/code-review/SKILL.md; git status --short; find .. -name AGENTS.md -o -name AGENTS.override.md' in /Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder
+2026-09-28T16:41:06.750618Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8e4-23fd-7d52-a79e-98dd948504a4 turn_id=01a0e8e4-2474-7062-b70d-35efdde59081 item_id="exec-d48cafeb-c6cd-43fc-b0df-2ad91e82ce34"
+ succeeded in 0ms:
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+ M apps/service/src/project-render.ts
+ M helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift
+ M packages/test-harness/editing/video.mjs
+ M specs/agent-editing/README.md
+ M specs/agent-editing/assets/10d-source-frame-public/README.md
+ M specs/agent-editing/choices.md
+ M specs/agent-editing/journeys.md
+ M specs/agent-editing/slices/10d-frame-inspection.md
+?? packages/test-harness/editing/acquisition-picture-evidence.mjs
+?? specs/agent-editing/assets/10d-acquisition-pictures/
+../screen-recorder/AGENTS.md
+../screen-recorder/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screen-recorder/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+
+exec
+/bin/zsh -lc 'cat AGENTS.md; cat .agents/skills/write-tests/SKILL.md; git diff -- apps/service/src/project-render.ts helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift packages/test-harness/editing/video.mjs; cat packages/test-harness/editing/acquisition-picture-evidence.mjs' in /Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder
+ succeeded in 0ms:
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+diff --git a/apps/service/src/project-render.ts b/apps/service/src/project-render.ts
+index 7015cdbe..016d2d10 100644
+--- a/apps/service/src/project-render.ts
++++ b/apps/service/src/project-render.ts
+@@ -11,7 +11,7 @@ import { renderWindowDeadlineMs, nativeResult, type MediaWorker } from "./worker
+ /** Compiled pictures and PCM share the existing attempt and final movie publication boundary. */
+ export function projectMovieRenderer(worker: MediaWorker, workspace: string): ProjectMovieRenderer {
+   return {
+-    implementationId: "native-composition-movie-v3",
++    implementationId: "native-composition-movie-v4",
+     async render(request, signal) {
+       await mkdir(workspace, { recursive: true, mode: 0o700 });
+       const { manifest } = request.window;
+@@ -105,7 +105,7 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
+
+ export function projectFrameRenderer(worker: MediaWorker, workspace: string): ProjectFrameRenderer {
+   return {
+-    implementationId: "native-composition-picture-v4",
++    implementationId: "native-composition-picture-v5",
+     render: async ({ window, assets, output, maxLongEdge }, signal) =>
+       withRenderedFile(
+         worker,
+diff --git a/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift b/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift
+index 84821cd0..b30f32ed 100644
+--- a/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift
++++ b/helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift
+@@ -213,16 +213,13 @@ public final class CompositionPictureExecutor {
+             let selected = try reader.source.selection(
+                 at: time(microseconds: at), end: time(microseconds: at + 1))
+             switch layer.availability {
+-            case "available", "source-unavailable": break
+-            case "anchor-unavailable":
+-                throw NativeFailure("UNAVAILABLE", "Compiled ancestor support is unavailable.")
++            case "available", "source-unavailable", "anchor-unavailable": break
+             default: throw Self.invalid("Unknown compiled source availability.")
+             }
+             var picture = Picture(
+                 status: "unavailable", clipId: layer.clipId, assetId: layer.assetId,
+                 streamId: layer.streamId, requestedSourceUs: layer.sourceUs,
+-                reason: layer.availability == "source-unavailable"
+-                    ? "source-unavailable" : "physical-empty"
++                reason: layer.availability == "available" ? "physical-empty" : layer.availability
+             )
+             var image = CIImage(color: .clear).cropped(
+                 to: CGRect(x: 0, y: 0, width: layer.width, height: layer.height))
+diff --git a/packages/test-harness/editing/video.mjs b/packages/test-harness/editing/video.mjs
+index f5743e77..a603c243 100644
+--- a/packages/test-harness/editing/video.mjs
++++ b/packages/test-harness/editing/video.mjs
+@@ -562,7 +562,7 @@ for (const [name, frame, code] of [
+     { ...first, layers: first.layers.map((l) => ({ ...l, availability: "mystery" })) },
+     "INVALID_REQUEST",
+   ],
+-  ...["available", "source-unavailable"].map((availability) => [
++  ...["available", "source-unavailable", "anchor-unavailable"].map((availability) => [
+     `outside-physical-support-${availability}`,
+     {
+       ...first,
+@@ -598,7 +598,38 @@ await writeFile(
+     layers: gapFrame.layers.map((l) => ({ ...l, availability: "anchor-unavailable" })),
+   }) + "\n",
+ );
+-await rejected("anchor-unavailable", { ...gap, frames: anchorPath }, "UNAVAILABLE");
++const anchorRequest = {
++  ...gap,
++  range: gapFrame.visibleRange,
++  frames: anchorPath,
++  output: join(out, "anchor-unavailable.mp4"),
++};
++const anchorResponse = call("media.renderCompositionVideo", anchorRequest);
++assert.equal(anchorResponse.ok, true, JSON.stringify(anchorResponse));
++const anchorPixels = ff([
++  "-i",
++  anchorRequest.output,
++  "-map",
++  "0:v:0",
++  "-fps_mode",
++  "passthrough",
++  "-pix_fmt",
++  "rgb24",
++  "-f",
++  "rawvideo",
++  "pipe:1",
++]);
++assert.equal(anchorPixels.length, bytes);
++// Decoded H.264 black can differ by two channel levels from the lossless canvas.
++assert.ok(
++  anchorPixels.every((value) => value <= 2),
++  "Excluded ancestor must leave the black canvas intact within the decoded codec budget",
++);
++const ancestorExclusion = {
++  request: anchorRequest,
++  response: anchorResponse,
++  maximumDecodedChannel: Math.max(...anchorPixels),
++};
+
+ const preservation = [];
+ if (process.env.SCREENREC_BASELINE_NATIVE) {
+@@ -755,6 +786,7 @@ await save(join(out, "report.json"), {
+   livePublicJourney: false,
+   resourceChecksRun: !args.includes("--temporal-only"),
+   sourceProfiles,
++  ancestorExclusion,
+   results,
+   negatives,
+   resources,
+import assert from "node:assert/strict";
+import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { parseArgs } from "node:util";
+import { acquisitionDonor, JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
+import { prepareLayersFixture } from "./layers-fixture.mjs";
+import { compareGeometry } from "./layers-oracle.mjs";
+
+const { values } = parseArgs({ options: { out: { type: "string" } } });
+assert.ok(process.env.SCREENREC_NATIVE, "Freeze the native worker before this journey");
+assert.equal(process.env.SCREENREC_TEST_PROBE_OVERRIDES, undefined, "Use real public admission");
+const out = values.out
+  ? resolve(values.out)
+  : await mkdtemp(join(tmpdir(), "acquisition-pictures-"));
+await mkdir(out, { recursive: true });
+const home = await mkdtemp(join(tmpdir(), "sr-acquisition-pictures-"));
+const report = { passed: false, trace: [], checks: {} };
+const service = new JourneyService(home, report),
+  call = service.call.bind(service);
+const range = (startUs, endUs) => ({ startUs, endUs });
+const full = [range(0, 1000000)],
+  masked = [range(0, 350000), range(650000, 1000000)];
+const canvas = {
+  width: 64,
+  height: 48,
+  fps: { numerator: 10, denominator: 1 },
+  background: "#000000ff",
+};
+let fixtures;
+async function pixels(file) {
+  const raw = join(home, "pixels.rgba");
+  await rm(raw, { force: true });
+  const receipt = JSON.parse((await run(fixtures.pixelTool, [file, raw])).stdout);
+  assert.deepEqual([receipt.width, receipt.height], [64, 48]);
+  return readFile(raw);
+}
+function visual(actual, absent) {
+  if (absent) {
+    assert.equal(actual.length, 64 * 48 * 4);
+    assert.ok(
+      actual.every((value, i) => value === (i % 4 === 3 ? 255 : 0)),
+      "Excluded picture must be opaque black",
+    );
+    return { opaqueBlack: true };
+  }
+  return compareGeometry(actual, fixtures.media.screen.rgba, 64, 48);
+}
+async function image(operation, params, name) {
+  const file = join(out, `${name}.png`);
+  const data = await poll(
+    () => call(operation, params, { output: file }),
+    (value) => {
+      assert.notEqual(value.state, "unavailable", JSON.stringify(value));
+      return value.state === undefined || value.state === "ready";
+    },
+    name,
+  );
+  const mcp = await service.mcp.callTool({ name: operation, arguments: params });
+  assert.equal(mcp.structuredContent.ok, true, JSON.stringify(mcp));
+  const images = mcp.content.filter((item) => item.type === "image");
+  assert.equal(images.length, 1);
+  const bytes = await readFile(file);
+  assert.ok(bytes.equals(Buffer.from(images[0].data, "base64")), "CLI and MCP images differ");
+  report.trace.push({ operation, transport: "mcp", ok: true, inlineImage: true });
+  return { file, sha256: hash(bytes), data, rgba: await pixels(file) };
+}
+function picture(frame, atUs, clipId) {
+  const sampleAtUs = Math.floor(atUs / 100000) * 100000;
+  const sourceUs = sampleAtUs % 1000000;
+  const excluded = sampleAtUs < 1000000 && sourceUs >= 350000 && sourceUs < 650000;
+  assert.equal(frame.frame.sampleAtUs, sampleAtUs);
+  assert.deepEqual(frame.frame.visibleRange, range(sampleAtUs, sampleAtUs + 100000));
+  assert.deepEqual(
+    frame.frame.layers.map((layer) => [layer.clipId, layer.sourceUs, layer.availability]),
+    [[clipId, sourceUs, excluded ? "anchor-unavailable" : "available"]],
+  );
+  assert.equal(frame.pictures.length, 1);
+  assert.equal(frame.pictures[0].clipId, clipId);
+  assert.equal(frame.pictures[0].requestedSourceUs, sourceUs);
+  assert.equal(frame.pictures[0].status, excluded ? "unavailable" : "available");
+  if (excluded) assert.equal(frame.pictures[0].reason, "anchor-unavailable");
+  return excluded;
+}
+try {
+  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+  fixtures = await prepareLayersFixture(home, out);
+  const audio = join(home, "narration.mov");
+  await run("ffmpeg", [
+    "-v",
+    "error",
+    "-nostdin",
+    "-i",
+    fixtures.media.narration.path,
+    "-c:a",
+    "pcm_f32le",
+    audio,
+  ]);
+  await service.start();
+  const contexts = {};
+  for (const [name, available] of [
+    ["a", masked],
+    ["b", full],
+  ]) {
+    const donor = join(home, `donor-${name}`);
+    const journalHash = await acquisitionDonor(donor, audio, available);
+    await copyFile(fixtures.media.screen.path, join(donor, "video.mov"));
+    const pending = await call("acquisition.import", { requestId: name, path: donor });
+    const job = await poll(
+      () => call("job.get", { jobId: pending.jobId }),
+      (value) => value.state === "ready",
+      "capture adoption",
+    );
+    const context = await call(
+      "acquisition.get",
+      { acquisitionId: job.target.acquisitionId },
+      { transport: "mcp" },
+    );
+    assert.equal(context.journal.sha256, journalHash);
+    const binding = (role) => context.bindings.find((value) => value.sourceRoles.includes(role));
+    assert.deepEqual(binding("narration").available, available);
+    assert.deepEqual(binding("video").available, full);
+    assert.equal(binding("video").supportBasis, "physical");
+    contexts[name] = { context, audio: binding("narration"), video: binding("video") };
+    await rm(donor, { recursive: true });
+  }
+  assert.notEqual(contexts.a.context.id, contexts.b.context.id);
+  for (const kind of ["audio", "video"]) {
+    assert.equal(contexts.a[kind].assetId, contexts.b[kind].assetId);
+    assert.equal(contexts.a[kind].streamId, contexts.b[kind].streamId);
+  }
+  report.checks.adoption = contexts;
+  const selected = (kind, name) => {
+    const context = contexts[name === "physical" ? "b" : name];
+    const binding = context[kind];
+    return {
+      assetId: binding.assetId,
+      streamId: binding.streamId,
+      ...(name === "physical" ? {} : { acquisitionId: context.context.id }),
+    };
+  };
+  // A video source with context A is still physically present: only its audio ancestor excludes it.
+  report.checks.sources = [];
+  for (const name of ["a", "b", "physical"]) {
+    const source = await image(
+      "frame.get",
+      { ...selected("video", name), atUs: 400000, maxLongEdge: 64 },
+      `source-${name}`,
+    );
+    assert.equal(source.data.state, "ready");
+    report.checks.sources.push({
+      name,
+      sha256: source.sha256,
+      data: source.data,
+      verdict: visual(source.rgba, false),
+    });
+  }
+  assert.equal(new Set(report.checks.sources.map((value) => value.sha256)).size, 1);
+  const created = await call("project.create", { requestId: "pictures", canvas });
+  const projectId = created.project.projectId;
+  const operations = [
+    { operation: "track.add", label: "audio", track: { kind: "audio", order: 0 } },
+    { operation: "track.add", label: "video", track: { kind: "video", order: 0 } },
+  ];
+  for (const [index, name] of ["a", "b", "physical"].entries()) {
+    operations.push({
+      operation: "place",
+      label: `${name}-audio`,
+      clip: {
+        ...selected("audio", name),
+        trackId: { label: "audio" },
+        source: { kind: "range", range: range(0, 1000000) },
+        placement: { kind: "project", range: range(index * 1000000, (index + 1) * 1000000) },
+      },
+    });
+    operations.push({
+      operation: "place",
+      label: `${name}-video`,
+      clip: {
+        ...selected("video", name),
+        trackId: { label: "video" },
+        source: { kind: "range", range: range(0, 1000000) },
+        placement: {
+          kind: "content",
+          clipId: { label: `${name}-audio` },
+          sourceRange: range(0, 1000000),
+        },
+      },
+    });
+  }
+  const edited = await call(
+    "edit.apply",
+    { projectId, expectedRevisionId: created.revision.id, requestId: "occurrences", operations },
+    { transport: "mcp" },
+  );
+  const selection = { projectId, revisionId: edited.revision.id, maxLongEdge: 64 };
+  report.project = { ...selection, labels: edited.edit.labels };
+  const clipAt = (atUs) =>
+    edited.edit.labels[`${["a", "b", "physical"][Math.floor(atUs / 1000000)]}-video`];
+  const direct = new Map();
+  report.checks.pictures = [];
+  for (const offset of [0, 1000000, 2000000]) {
+    for (const local of [
+      0, 349999, 350000, 399999, 400000, 649999, 650000, 699999, 700000, 999999,
+    ]) {
+      const atUs = offset + local;
+      const result = await image("frame.get", { ...selection, atUs }, `direct-${atUs}`);
+      const excluded = picture(result.data.published.frame, atUs, clipAt(atUs));
+      const verdict = visual(result.rgba, excluded);
+      direct.set(atUs, result);
+      report.checks.pictures.push({
+        atUs,
+        excluded,
+        sha256: result.sha256,
+        receipt: result.data.published.frame,
+        verdict,
+      });
+    }
+  }
+  assert.notEqual(direct.get(400000).sha256, direct.get(1400000).sha256);
+  assert.equal(direct.get(1400000).sha256, direct.get(2400000).sha256);
+  assert.equal(direct.get(700000).sha256, direct.get(1700000).sha256);
+  const first = await poll(
+    () => call("index.get", { ...selection, limit: 1 }, { transport: "mcp" }),
+    (value) => value.state === "ready",
+    "retained project index",
+  );
+  const metadata = first.page.metadata;
+  const reference = Object.fromEntries(
+    ["projectId", "revisionId", "generation", "tap", "maxLongEdge"].map((key) => [
+      key,
+      metadata[key],
+    ]),
+  );
+  const entries = [...first.page.entries];
+  let cursor = first.page.nextCursor,
+    afterOrdinal = -1;
+  while (cursor) {
+    assert.ok(cursor.afterOrdinal > afterOrdinal, "Index paging must advance");
+    afterOrdinal = cursor.afterOrdinal;
+    const next = await call("index.get", { ...selection, cursor, limit: 1 });
+    assert.equal(next.page.metadata.generation, metadata.generation);
+    entries.push(...next.page.entries);
+    cursor = next.page.nextCursor;
+  }
+  for (const atUs of [300000, 400000, 600000, 700000])
+    assert.ok(
+      entries.some((entry) => entry.candidate.sampleAtUs === atUs),
+      `Index omitted gap neighbor ${atUs}`,
+    );
+  assert.equal(entries.length, metadata.candidateCount);
+  report.checks.index = { metadata, reference, images: [] };
+  for (const entry of entries) {
+    const atUs = entry.candidate.sampleAtUs;
+    const result = await image(
+      "index.frame",
+      { ...reference, ordinal: entry.candidate.ordinal },
+      `index-${atUs}`,
+    );
+    const excluded = picture(entry.frame, atUs, clipAt(atUs));
+    const matching =
+      direct.get(atUs) ?? (await image("frame.get", { ...selection, atUs }, `direct-${atUs}`));
+    assert.equal(result.sha256, matching.sha256);
+    assert.deepEqual(entry.frame.frame.visibleRange, entry.candidate.visibleRange);
+    report.checks.index.images.push({
+      entry,
+      sha256: result.sha256,
+      verdict: visual(result.rgba, excluded),
+    });
+  }
+  const coverage = [];
+  let afterSequence = -1;
+  do {
+    if (cursor) {
+      assert.ok(cursor.afterSequence > afterSequence, "Coverage paging must advance");
+      afterSequence = cursor.afterSequence;
+    }
+    const page = await call("index.coverage", {
+      ...reference,
+      limit: 1,
+      ...(cursor ? { cursor } : {}),
+    });
+    coverage.push(...page.coverage);
+    cursor = page.nextCursor;
+  } while (cursor);
+  for (const entry of entries)
+    assert.deepEqual(
+      coverage
+        .filter((row) => row.ordinal === entry.candidate.ordinal)
+        .map((row) => [row.project, row.equality]),
+      [[entry.candidate.visibleRange, "sampled"]],
+    );
+  report.checks.index.coverage = coverage;
+  const movie = join(out, "preview.mp4");
+  const preview = await poll(
+    () => call("preview.get", { projectId, revisionId: selection.revisionId }, { output: movie }),
+    (value) => {
+      assert.notEqual(value.state, "unavailable", JSON.stringify(value));
+      return value.state === "ready";
+    },
+    "preview",
+  );
+  const references = join(out, "preview-frames");
+  await mkdir(references);
+  const request = join(home, "preview-reference.json");
+  const timesUs = Array.from({ length: 30 }, (_, i) => i * 100000);
+  await writeFile(request, JSON.stringify({ movie, output: references, timesUs }));
+  const decoded = JSON.parse(
+    (await run(fixtures.referenceTool, [request], { timeout: 60000 })).stdout,
+  );
+  report.checks.preview = { receipt: preview, sha256: hash(await readFile(movie)), pictures: [] };
+  for (const item of decoded) {
+    const excluded = item.requestedUs >= 400000 && item.requestedUs <= 600000;
+    report.checks.preview.pictures.push({
+      ...item,
+      verdict: visual(await pixels(item.file), excluded),
+    });
+  }
+  const partialMovie = join(out, "range-preview.mp4");
+  const partialRange = range(350001, 750001);
+  const partial = await poll(
+    () =>
+      call(
+        "preview.get",
+        { projectId, revisionId: selection.revisionId, range: partialRange },
+        { output: partialMovie },
+      ),
+    (value) => {
+      assert.notEqual(value.state, "unavailable", JSON.stringify(value));
+      return value.state === "ready";
+    },
+    "range preview",
+  );
+  assert.deepEqual(partial.published.preview.range, partialRange);
+  const partialDirectory = join(out, "range-frames");
+  await mkdir(partialDirectory);
+  const partialTimes = [0, 49999, 149999, 249999, 349999];
+  await writeFile(
+    request,
+    JSON.stringify({ movie: partialMovie, output: partialDirectory, timesUs: partialTimes }),
+  );
+  const partialDecoded = JSON.parse(
+    (await run(fixtures.referenceTool, [request], { timeout: 60000 })).stdout,
+  );
+  report.checks.rangePreview = {
+    receipt: partial,
+    sha256: hash(await readFile(partialMovie)),
+    pictures: [],
+  };
+  for (const [index, item] of partialDecoded.entries()) {
+    const rgba = await pixels(item.file);
+    const fullPicture = await pixels(decoded[index + 3].file);
+    const fullComparison = compareGeometry(rgba, fullPicture, 64, 48);
+    report.checks.rangePreview.pictures.push({
+      ...item,
+      fullComparison,
+      verdict: visual(rgba, index > 0 && index < 4),
+    });
+  }
+  const changed = await call("edit.apply", {
+    projectId,
+    expectedRevisionId: selection.revisionId,
+    requestId: "new-head",
+    operations: [{ operation: "canvas.set", canvas: { background: "#ffffffff" } }],
+  });
+  await service.stop();
+  await service.start();
+  const historical = await image("frame.get", { ...selection, atUs: 400000 }, "historical");
+  assert.equal(historical.sha256, direct.get(400000).sha256);
+  const gapEntry = entries.find((entry) => entry.candidate.sampleAtUs === 400000);
+  const retained = await image(
+    "index.frame",
+    { ...reference, ordinal: gapEntry.candidate.ordinal },
+    "historical-index",
+  );
+  assert.equal(retained.sha256, historical.sha256);
+  // A fresh request key proves retained media/context resolution after donor deletion and restart.
+  const fresh = await image("frame.get", { ...selection, atUs: 400001 }, "historical-uncached");
+  assert.equal(fresh.sha256, historical.sha256);
+  picture(fresh.data.published.frame, 400001, clipAt(400001));
+  const head = await image(
+    "frame.get",
+    { projectId, atUs: 400000, maxLongEdge: 64 },
+    "current-head",
+  );
+  assert.equal(head.data.revisionId, changed.revision.id);
+  assert.ok(
+    head.rgba.every((value) => value === 255),
+    "New head must render the white gap background",
+  );
+  report.checks.history = {
+    oldRevision: selection.revisionId,
+    currentRevision: changed.revision.id,
+    historicalHash: historical.sha256,
+    uncachedHash: fresh.sha256,
+    currentHash: head.sha256,
+    donorsDeletedBeforePictures: true,
+  };
+  report.passed = true;
+} catch (error) {
+  report.error = { message: error.message, stack: error.stack };
+  process.exitCode = 1;
+} finally {
+  try {
+    await service.stop().catch((error) => {
+      report.passed = false;
+      report.shutdownError = error.message;
+      process.exitCode = 1;
+    });
+    await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
+    await writeFile(join(out, "service.log"), service.logs.join(""));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
+}
+console.log(JSON.stringify({ passed: report.passed, out, error: report.error?.message }));
+
+2026-09-28T16:41:10.958380Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8e4-23fd-7d52-a79e-98dd948504a4 turn_id=01a0e8e4-2474-7062-b70d-35efdde59081 item_id="exec-fbddad1f-7af1-452b-8d30-19457080c237"
+exec
+/bin/zsh -lc "git diff -- specs; sed -n '130,320p' helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift; cat packages/test-harness/editing/layers-oracle.mjs; sed -n '1,100p' packages/test-harness/editing/video.mjs" in /Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder
+2026-09-28T16:41:14.613957Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8e4-23fd-7d52-a79e-98dd948504a4 turn_id=01a0e8e4-2474-7062-b70d-35efdde59081 item_id="exec-9df95e32-ee68-430f-b7f9-1e9cbcc4b914"
+ succeeded in 0ms:
+diff --git a/specs/agent-editing/README.md b/specs/agent-editing/README.md
+index 0b15981c..f80133bb 100644
+--- a/specs/agent-editing/README.md
++++ b/specs/agent-editing/README.md
+@@ -39,8 +39,10 @@ Current pickup and priority:
+    now uses the compiler interval, with native validation intact and all 22 PNGs
+    unchanged. [Fresh interpretation](assets/10d-frame-visibility/skill/report.md)
+    now correctly distinguishes authored edges, displayed intervals and unknown gaps.
+-   Next complete raw still-image inspection through the same frame owner; then
+-   custom exclusion masks. Both remain open.
++   [Public acquisition-gap pictures](assets/10d-acquisition-pictures/README.md)
++   now verify audio-anchored video across selected capture gaps. Next complete raw
++   still-image inspection through the same frame owner; direct custom video-mask
++   admission is not provided by the current capture producer.
+    Retain the complete [10 umbrella](slices/10-project-evidence.md).
+ 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
+    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
+@@ -80,8 +82,9 @@ Compact evidence ledger:
+ - [Project pictures](assets/10d-public-project-frames/README.md),
+   [source pictures](assets/10d-source-frame-public/README.md) and
+   [typed no-picture delivery](assets/10d-source-empty-observation/README.md) pass
+-  their named gates. Custom public exclusion masks and raw still-image admission
+-  remain open. No new layer capability is verified by those picture checks.
++  their named gates. [Acquisition-gap project pictures](assets/10d-acquisition-pictures/README.md)
++  use public audio-context anchors; direct narrower video masks remain native/core-only.
++  Raw still-image admission remains open. No new layer capability is verified by those picture checks.
+ - [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
+   project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),
+   [acoustic images/lifecycle](assets/11-acoustic-lifecycle/README.md) and
+diff --git a/specs/agent-editing/assets/10d-source-frame-public/README.md b/specs/agent-editing/assets/10d-source-frame-public/README.md
+index 72f3609b..29061400 100644
+--- a/specs/agent-editing/assets/10d-source-frame-public/README.md
++++ b/specs/agent-editing/assets/10d-source-frame-public/README.md
+@@ -41,7 +41,8 @@ original report hashes.
+
+ The public acquisition importer admits physical video support, not a custom
+ video exclusion mask. Narrower video-mask checks remain native/core evidence;
+-this journey does not invent public admission by editing storage. Public custom
+-video-mask scope still needs reconciliation with 10b. Raw still-image admission,
++this journey does not invent public admission by editing storage. The [acquisition-picture journey](../10d-acquisition-pictures/README.md) reconciles
++10d project-gap acceptance through public audio-context anchors; it does not add
++a direct-source video-mask producer. Raw still-image admission,
+ source scene/cut/interruption index generalization, and broader visual fidelity
+ remain pending under 10d/06. Existing project frame acceptance is a separate gate.
+diff --git a/specs/agent-editing/choices.md b/specs/agent-editing/choices.md
+index a6d2a9e1..040c3c1e 100644
+--- a/specs/agent-editing/choices.md
++++ b/specs/agent-editing/choices.md
+@@ -620,7 +620,10 @@ trim and stretch replacements keep their single-interval behavior.
+   available, source-unavailable and anchor-unavailable, prioritizing the ancestor.
+   This fills a boundary-information gap: a native decoder may prove that a source
+   gap is an explicit empty edit, but that proof cannot repair missing parent support.
+-  Only source-unavailable can enter that media proof; unknown gaps still fail.
++  The initial native executor refused ancestor gaps outright. The acquisition-gap
++  picture pass below completes that path: physical selection remains validated,
++  then either known exclusion suppresses the layer while preserving its reason.
++  Unknown availability states and unsupported physical timestamps still fail.
+
+ ## Derived-file ownership — 2026-09-27
+
+@@ -1846,3 +1849,25 @@ existing lifetime owner.
+   but left the counters unspecified. Future preparation can refuse excessive work
+   explicitly instead of silently truncating overlays; resource thresholds remain
+   provisional until the scale slice measures them.
++
++
++## Acquisition-gap picture scope — 2026-09-28
++
++- **Sound; medium confidence — Test selected acquisition gaps using the public producer.**
++  A video clip attached to captured audio disappears when that selected audio
++  context says its parent was unavailable. The same video bytes remain readable
++  directly and in a full-context occurrence. The plan required delivered pictures
++  across acquisition gaps but did not define an arbitrary video-mask authoring
++  API. This pass uses existing public capture admission and content attachment to
++  cover that project behavior, keeping its `anchor-unavailable` provenance distinct
++  from direct source exclusion. A future direct video-support producer belongs to
++  acquisition admission in 10b and needs authoritative capture evidence; native/core
++  support for narrower video masks does not itself promise that public producer.
++
++- **Sound; high confidence — Missing parent support suppresses its child picture.**
++  An attached video whose parent has a capture gap must leave the background or
++  other layers visible. Rejecting the entire frame would make the compiler's valid
++  unavailable interval impossible to inspect or preview. The native executor now
++  treats that declared gap as transparent after the existing physical-source checks,
++  and retains the ancestor reason. This completes the earlier unsupported execution
++  path without letting a decoder invent evidence that the parent was available.
+diff --git a/specs/agent-editing/journeys.md b/specs/agent-editing/journeys.md
+index faaa1051..1d4ba063 100644
+--- a/specs/agent-editing/journeys.md
++++ b/specs/agent-editing/journeys.md
+@@ -38,7 +38,11 @@ also pass live CLI/MCP delivery against frozen source transcripts.
+ [large source WAV delivery](assets/11a-audio-extraction/README.md) and
+ [large multi-source project WAV delivery](assets/11a-large-project-audio/README.md) have actual
+ public journeys. [Project stills](assets/10d-public-project-frames/README.md)
+-verify delivered picture membership and retained media after project deletion. [Waveform JSON](assets/11-waveform-public/README.md) now verifies actual
++verify delivered picture membership and retained media after project deletion.
++[Acquisition-gap project pictures](assets/10d-acquisition-pictures/README.md) verify
++public audio-context anchors through frames, retained indexes and preview, with
++direct source-video readability preserved; custom direct video masks remain
++native/core-only. [Waveform JSON](assets/11-waveform-public/README.md) now verifies actual
+ raw and processed bucket measurements. [Capture interruptions](assets/10c-public-interruption/README.md) also pass actual
+ public continuation and terminal-provenance checks. [Acoustic images/spectrograms](assets/11-public-acoustic-images/README.md) pass
+ actual public delivery and numerical/pixel oracles. [Source/project scenes](assets/10d-public-scenes/README.md)
+diff --git a/specs/agent-editing/slices/10d-frame-inspection.md b/specs/agent-editing/slices/10d-frame-inspection.md
+index 782817b8..f3ec135d 100644
+--- a/specs/agent-editing/slices/10d-frame-inspection.md
++++ b/specs/agent-editing/slices/10d-frame-inspection.md
+@@ -1,6 +1,6 @@
+ # 10d — Direct project frames and retained screenshot inspection
+
+-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw still-image inspection and custom acquisition masks remain open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
++Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw still-image inspection remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+
+ ## Contract
+
+@@ -253,8 +253,8 @@ store after job/delivery drain. [Fresh product-skill use](../assets/10d-project-
+ exposes competing one-microsecond request and full-frame visibility ranges; resolve
+ that public metadata ambiguity through the compiler clock and repeat fresh use.
+ [The visibility correction and fresh reinspection](../assets/10d-frame-visibility/README.md)
+-now resolve that ambiguity with unchanged pixels. These checks do not close custom
+-exclusion masks, raw still admission or all 10d gates.
++now resolve that ambiguity with unchanged pixels. Raw still admission and all
++remaining 10d gates are not implied by those checks.
+
+
+ ## Public frame visibility
+@@ -268,3 +268,19 @@ sample; the base-only 2.20-second sample remains displayed through 2.30 seconds.
+ This distinguishes authored intent from sampled output without another clock.
+ The project-picture recipe advances to v4 because cached metadata changed; native
+ pixels, source-picture identity and movie windows are unchanged.
++
++## Public acquisition-gap picture acceptance
++
++[The public acquisition-picture journey](../assets/10d-acquisition-pictures/README.md)
++verifies delivered project pictures, retained indexes and preview across an audio
++parent's selected acquisition gap, with identical footage under full-context and
++physical-only controls. Source video stays readable; project provenance correctly
++identifies ancestor exclusion. Donor deletion, historical reads and restart retain
++these distinctions.
++
++This is the original selected-acquisition-gap acceptance gate, using existing
++public admission and attachment semantics. The earlier “custom video masks” TODO
++was broader than that contract. Direct narrower video-source masks remain
++native/core-only: public admission uses physical video support. Any future public
++captured-video support producer belongs to 10b and needs authoritative acquisition
++evidence; no arbitrary mask-authoring API is inferred by 10d.
+                "Pictures require even canvas dimensions up to 8192 and a positive frame rate.")
+        }
+        var assets: [String: CompositionAsset] = [:]
+        for asset in bindings {
+            let key = asset.assetId + "\u{0}" + asset.streamId
+            guard assets.updateValue(asset, forKey: key) == nil else {
+                throw Self.invalid("Duplicate source binding.")
+            }
+        }
+        self.background = try Self.background(canvas)
+        self.canvas = canvas
+        self.assets = assets
+    }
+
+    func render(_ frame: Frame, allocate: (CVPixelBuffer?) async throws -> CVPixelBuffer)
+        async throws
+        -> CVPixelBuffer
+    {
+        try Task.checkCancellation()
+        guard frame.layers.count <= 256, !frame.visual.isEmpty, frame.visual.count <= 10_000 else {
+            throw Self.invalid("Compiled picture graph exceeds execution bounds.")
+        }
+        let requiredMasks = try preflightSurfaces(frame)
+        var media: [String: PresentationSource.Media] = [:]
+        for reader in readers.values { media[reader.binding] = reader.source.media }
+        var decodedPixels: Int64 = 0
+        for layer in frame.layers {
+            try Task.checkCancellation()
+            let key = layer.assetId + "\u{0}" + layer.streamId
+            guard let asset = assets[key] else {
+                throw Self.invalid("Missing retained source binding.")
+            }
+            if media[key] == nil {
+                let prepared = try await PresentationSource.prepare(
+                    source: URL(fileURLWithPath: asset.path), streamId: asset.streamId)
+                try await VideoColorPolicy.requireSupportedColor(prepared.track)
+                media[key] = prepared
+            }
+            decodedPixels += media[key]!.decodedPixels
+            try Self.requireBudget(
+                "decoded-source-pixels", requested: decodedPixels,
+                limit: Self.maximumDecodedPixels, frame: frame.index)
+        }
+        coverageMasks = coverageMasks.filter { requiredMasks.contains($0.key) }
+        let canvasRect = CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height)
+        let transparent = CIImage(color: .clear).cropped(to: canvasRect)
+        let active = Set(frame.layers.map(\.clipId))
+        guard active.count == frame.layers.count else {
+            throw Self.invalid("Duplicate picture occurrence.")
+        }
+        for id in readers.keys where !active.contains(id) {
+            decoded += readers.removeValue(forKey: id)!.source.decodedCount
+        }
+        var surfaces: [CompositionProcessing.Target: CIImage] = [:]
+        var keys: [LayerKey] = []
+        pictures = []
+        for layer in frame.layers {
+            try Task.checkCancellation()
+            guard layer.sourceUs >= 0, layer.sourceUs <= TimeSpan.maximumMicroseconds,
+                layer.width > 0, layer.height > 0, layer.width <= 32768, layer.height <= 32768
+            else { throw Self.invalid("Invalid compiled layer.") }
+            let binding = layer.assetId + "\u{0}" + layer.streamId
+            guard let asset = assets[binding] else {
+                throw Self.invalid("Missing retained source binding.")
+            }
+            let (at, overflow) = layer.sourceUs.addingReportingOverflow(asset.originUs)
+            guard !overflow, at >= -TimeSpan.maximumMicroseconds, at <= TimeSpan.maximumMicroseconds
+            else { throw Self.invalid("Source clock exceeds native precision.") }
+            if let reader = readers[layer.clipId],
+                reader.binding != binding || at < reader.at
+                    || at - reader.at > Self.maximumSequentialAdvanceUs
+            {
+                decoded += readers.removeValue(forKey: layer.clipId)!.source.decodedCount
+            }
+            if readers[layer.clipId] == nil {
+                let source = try PresentationSource(media: media[binding]!, startUs: at)
+                opens += 1
+                readers[layer.clipId] = Reader(
+                    source: source, binding: binding, ordinal: opens, at: at)
+            }
+            maximumActiveSources = max(maximumActiveSources, readers.count)
+            let reader = readers[layer.clipId]!
+            reader.at = at
+            let selected = try reader.source.selection(
+                at: time(microseconds: at), end: time(microseconds: at + 1))
+            switch layer.availability {
+            case "available", "source-unavailable", "anchor-unavailable": break
+            default: throw Self.invalid("Unknown compiled source availability.")
+            }
+            var picture = Picture(
+                status: "unavailable", clipId: layer.clipId, assetId: layer.assetId,
+                streamId: layer.streamId, requestedSourceUs: layer.sourceUs,
+                reason: layer.availability == "available" ? "physical-empty" : layer.availability
+            )
+            var image = CIImage(color: .clear).cropped(
+                to: CGRect(x: 0, y: 0, width: layer.width, height: layer.height))
+            let available = layer.availability == "available" && selected.buffer != nil
+            if available, let buffer = selected.buffer {
+                guard let sampleTime = selected.sampleTime else {
+                    throw Self.invalid("Selected picture has no physical sample time.")
+                }
+                image = orientedVideoImage(buffer, transform: reader.source.transform)
+                guard abs(image.extent.width - Double(layer.width)) < 0.001,
+                    abs(image.extent.height - Double(layer.height)) < 0.001
+                else {
+                    throw Self.invalid(
+                        "Compiled source dimensions \(layer.width)x\(layer.height) disagree with oriented media \(image.extent.width)x\(image.extent.height)."
+                    )
+                }
+                picture = Picture(
+                    status: "available", clipId: layer.clipId, assetId: layer.assetId,
+                    streamId: layer.streamId, requestedSourceUs: layer.sourceUs,
+                    actualSourceUs: microseconds(sampleTime) - asset.originUs,
+                    sample: Sample(
+                        value: String(sampleTime.value), timescale: sampleTime.timescale,
+                        originUs: asset.originUs))
+            }
+            pictures.append(picture)
+            keys.append(
+                LayerKey(
+                    clipId: layer.clipId, reader: reader.ordinal, sampleTime: selected.sampleTime,
+                    available: available))
+            surfaces[.init(kind: "clip", id: layer.clipId)] = image
+        }
+        var seen = Set<CompositionProcessing.Target>()
+        var image = transparent
+        for node in frame.visual {
+            guard seen.insert(node.target).inserted, node.operations.count <= 1024,
+                ["clip", "track", "group", "output"].contains(node.target.kind),
+                node.target.kind == "output" ? node.target.id == nil : node.target.id != nil
+            else { throw Self.invalid("Invalid visual graph target.") }
+            if node.target.kind == "clip" {
+                guard node.inputs.isEmpty else {
+                    throw Self.invalid("A clip cannot have visual inputs.")
+                }
+                image = surfaces[node.target] ?? transparent
+            } else {
+                image = node.target.kind == "output" ? background : transparent
+                for input in node.inputs {
+                    guard seen.contains(input), let child = surfaces.removeValue(forKey: input)
+                    else {
+                        throw Self.invalid("Visual inputs must precede their one parent.")
+                    }
+                    image = child.composited(over: image)
+                }
+                image = image.cropped(to: canvasRect)
+            }
+            for operation in node.operations { image = try apply(operation, to: image) }
+            surfaces[node.target] = image
+        }
+        guard surfaces.count == 1 else {
+            throw Self.invalid("Visual graph has unconsumed surfaces.")
+        }
+        outputIsKnownOpaque =
+            frame.visual.last!.target.kind == "output" && frame.visual.last!.operations.isEmpty
+        let rasterKey = RasterKey(layers: keys, visual: frame.visual)
+        let reused = retainedRaster?.key == rasterKey
+        let destination = try await allocate(reused ? retainedRaster!.buffer : nil)
+        if !reused {
+            context.render(
+                image, to: destination,
+                bounds: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height),
+                colorSpace: color)
+            CVBufferSetAttachment(
+                destination, kCVImageBufferCGColorSpaceKey, color, .shouldPropagate)
+            CVBufferSetAttachment(
+                destination, kCVImageBufferColorPrimariesKey,
+                kCVImageBufferColorPrimaries_ITU_R_709_2,
+                .shouldPropagate)
+            CVBufferSetAttachment(
+                destination, kCVImageBufferTransferFunctionKey,
+                kCVImageBufferTransferFunction_ITU_R_709_2,
+                .shouldPropagate)
+            CVBufferSetAttachment(
+                destination, kCVImageBufferYCbCrMatrixKey,
+                kCVImageBufferYCbCrMatrix_ITU_R_709_2,
+                .shouldPropagate)
+            // Reuse pixels only when physical samples and every compiled operation agree.
+            retainedRaster = (rasterKey, destination)
+            rasterized += 1
+        }
+        return destination
+    }
+
+    private func preflightSurfaces(_ frame: Frame) throws -> Set<Frame.Operation> {
+        var masks = Set<Frame.Operation>()
+        var intermediatePixels: Int64 = 0
+        let area = Int64(canvas.width) * Int64(canvas.height)
+        for node in frame.visual {
+            guard node.operations.count <= 1024 else {
+                throw Self.invalid("Picture operation count exceeds execution bounds.")
+import assert from "node:assert/strict";
+
+const clear = [0, 0, 0, 0];
+const srgbToLinear = (v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+const linearToSrgb = (v) => (v <= 0.0031308 ? v * 12.92 : 1.055 * v ** (1 / 2.4) - 0.055);
+
+// Independent inverse-coordinate oracle. Source sampling uses the fixture's verified
+// encoded profile; composition remains premultiplied linear light. CoreVideo's 709
+// transfer is gamma 1.961, per Apple's vImageBuffer_InitWithCVPixelBuffer docs.
+export function sourceSurface({ width, height, rgba, encodedProfile }) {
+  const decode = encodedProfile === "corevideo709" ? (v) => v ** 1.961 : srgbToLinear;
+  const encode = encodedProfile === "corevideo709" ? (v) => v ** (1 / 1.961) : linearToSrgb;
+  assert.ok(encodedProfile === undefined || ["corevideo709", "srgb"].includes(encodedProfile));
+  const pixel = (x, y) => {
+    const at =
+      (Math.max(0, Math.min(height - 1, y)) * width + Math.max(0, Math.min(width - 1, x))) * 4;
+    const alpha = rgba[at + 3] / 255;
+    return [0, 1, 2]
+      .map((c) => srgbToLinear(alpha ? rgba[at + c] / (255 * alpha) : 0) * alpha)
+      .concat(alpha);
+  };
+  return {
+    width,
+    height,
+    sample(x, y) {
+      if (!encodedProfile)
+        return x < 0 || y < 0 || x >= width || y >= height
+          ? clear
+          : pixel(Math.floor(x), Math.floor(y));
+      if (x < 0 || y < 0 || x >= width || y >= height) return clear;
+      const left = Math.floor(x - 0.5),
+        top = Math.floor(y - 0.5);
+      const fx = x - 0.5 - left,
+        fy = y - 0.5 - top;
+      const result = [0, 0, 0, 0];
+      for (const [dx, dy, weight] of [
+        [0, 0, (1 - fx) * (1 - fy)],
+        [1, 0, fx * (1 - fy)],
+        [0, 1, (1 - fx) * fy],
+        [1, 1, fx * fy],
+      ]) {
+        const p = pixel(left + dx, top + dy);
+        for (let c = 0; c < 3; c++) result[c] += encode(p[3] ? p[c] / p[3] : 0) * p[3] * weight;
+        result[3] += p[3] * weight;
+      }
+      return result
+        .slice(0, 3)
+        .map((v) => decode(result[3] ? v / result[3] : 0) * result[3])
+        .concat(result[3]);
+    },
+  };
+}
+export function background(canvas, rgba = [0, 0, 0, 1]) {
+  return {
+    ...canvas,
+    canvasDomain: true,
+    sample: (x, y) => (x >= 0 && y >= 0 && x < canvas.width && y < canvas.height ? rgba : clear),
+  };
+}
+export function over(below, above) {
+  assert.deepEqual([below.width, below.height], [above.width, above.height]);
+  return {
+    width: below.width,
+    height: below.height,
+    canvasDomain: true,
+    sample(x, y) {
+      const a = above.sample(x, y),
+        b = below.sample(x, y);
+      return a.map((value, channel) => value + b[channel] * (1 - a[3]));
+    },
+  };
+}
+export function opacitySurface(surface, opacity) {
+  return { ...surface, sample: (x, y) => surface.sample(x, y).map((v) => v * opacity) };
+}
+// A deliberate materialization boundary samples a pixel grid in linear premultiplied
+// space. Fractional crop coverage is the intersection with each unit pixel square.
+function rasterSurface(surface, rect) {
+  const pixel = (x, y) => {
+    const coverage =
+      Math.max(0, Math.min(x + 1, rect.x + rect.width) - Math.max(x, rect.x)) *
+      Math.max(0, Math.min(y + 1, rect.y + rect.height) - Math.max(y, rect.y));
+    return coverage ? surface.sample(x + 0.5, y + 0.5).map((v) => v * coverage) : clear;
+  };
+  return {
+    ...surface,
+    sample(x, y) {
+      const left = Math.floor(x - 0.5),
+        top = Math.floor(y - 0.5),
+        fx = x - 0.5 - left,
+        fy = y - 0.5 - top;
+      const result = [0, 0, 0, 0];
+      for (const [dx, dy, weight] of [
+        [0, 0, (1 - fx) * (1 - fy)],
+        [1, 0, fx * (1 - fy)],
+        [0, 1, (1 - fx) * fy],
+        [1, 1, fx * fy],
+      ])
+        pixel(left + dx, top + dy).forEach((v, c) => {
+          result[c] += v * weight;
+        });
+      return result;
+    },
+  };
+}
+export function geometrySurface(surface, settings, canvas) {
+  const crop = settings.crop ?? { x: 0, y: 0, width: surface.width, height: surface.height };
+  if (surface.canvasDomain)
+    surface = rasterSurface(surface, { x: 0, y: 0, width: surface.width, height: surface.height });
+  const rect = settings.rect ?? { x: 0, y: 0, ...canvas };
+  const fit = settings.fit ?? "contain",
+    scale = settings.scale ?? { x: 1, y: 1 };
+  const pivot = settings.pivot ?? { x: 0.5, y: 0.5 };
+  const turn = ((settings.rotationDeg ?? 0) * Math.PI) / 180;
+  const fitX = rect.width / crop.width,
+    fitY = rect.height / crop.height;
+  const factor = fit === "cover" ? Math.max(fitX, fitY) : Math.min(fitX, fitY);
+  const sx = fit === "stretch" ? fitX : factor,
+    sy = fit === "stretch" ? fitY : factor;
+  const padX = (rect.width - crop.width * sx) / 2,
+    padY = (rect.height - crop.height * sy) / 2;
+  const px = pivot.x * rect.width,
+    py = pivot.y * rect.height;
+  const bounds =
+    fit === "cover"
+      ? [0, 0, rect.width, rect.height]
+      : [padX, padY, crop.width * sx, crop.height * sy];
+  const polygon = [
+    [bounds[0], bounds[1]],
+    [bounds[0] + bounds[2], bounds[1]],
+    [bounds[0] + bounds[2], bounds[1] + bounds[3]],
+    [bounds[0], bounds[1] + bounds[3]],
+  ].map(([x, y]) => {
+    const dx = (x - px) * scale.x,
+      dy = (y - py) * scale.y;
+    return [
+      rect.x + px + dx * Math.cos(turn) - dy * Math.sin(turn),
+      rect.y + py + dx * Math.sin(turn) + dy * Math.cos(turn),
+    ];
+  });
+  const clamped = (value, start, length) => {
+    const first = Math.ceil(start - 0.5) + 0.5,
+      last = Math.floor(start + length - 0.5) + 0.5;
+    return first <= last ? Math.max(first, Math.min(last, value)) : start + length / 2;
+  };
+  return {
+    ...canvas,
+    canvasDomain: true,
+    sample(x, y) {
+      if (x < 0 || y < 0 || x >= canvas.width || y >= canvas.height || !scale.x || !scale.y)
+        return clear;
+      const coverage = polygonPixelCoverage(polygon, x, y);
+      if (!coverage) return clear;
+      const dx = x - rect.x - px,
+        dy = y - rect.y - py;
+      const localX = (dx * Math.cos(turn) + dy * Math.sin(turn)) / scale.x + px;
+      const localY = (-dx * Math.sin(turn) + dy * Math.cos(turn)) / scale.y + py;
+      const fromX = clamped((localX - padX) / sx + crop.x, crop.x, crop.width);
+      const fromY = clamped((localY - padY) / sy + crop.y, crop.y, crop.height);
+      return surface.sample(fromX, fromY).map((v) => v * coverage);
+    },
+  };
+}
+// Independent polygon/unit-pixel intersection; no compiled coordinates or worker masks.
+function polygonPixelCoverage(polygon, x, y) {
+  let clipped = polygon;
+  for (const [axis, edge, direction] of [
+    [0, x - 0.5, 1],
+    [0, x + 0.5, -1],
+    [1, y - 0.5, 1],
+    [1, y + 0.5, -1],
+  ]) {
+    const next = [];
+    for (let i = 0; i < clipped.length; i++) {
+      const a = clipped[i],
+        b = clipped[(i + 1) % clipped.length];
+      const insideA = (a[axis] - edge) * direction >= 0,
+        insideB = (b[axis] - edge) * direction >= 0;
+      if (insideA) next.push(a);
+      if (insideA !== insideB) {
+        const t = (edge - a[axis]) / (b[axis] - a[axis]);
+        next.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
+      }
+    }
+    clipped = next;
+  }
+  let area = 0;
+  for (let i = 0; i < clipped.length; i++) {
+    const a = clipped[i],
+      b = clipped[(i + 1) % clipped.length];
+    area += a[0] * b[1] - b[0] * a[1];
+  }
+  return Math.max(0, Math.min(1, Math.abs(area) / 2));
+}
+
+export function stackSurface(surface, steps, canvas, sourceDomain = false) {
+  for (const { processor, enabled = true } of steps) {
+    if (!enabled) continue;
+    if (processor.type === "geometry") {
+      surface = geometrySurface(surface, processor, canvas);
+      sourceDomain = false;
+    } else if (processor.type === "opacity") surface = opacitySurface(surface, processor.opacity);
+    else assert.fail(`No authored reference for ${processor.type}`);
+  }
+  return sourceDomain ? geometrySurface(surface, {}, canvas) : surface;
+}
+export function expectedRgba(surface) {
+  const bytes = Buffer.alloc(surface.width * surface.height * 4);
+  for (let y = 0; y < surface.height; y++)
+    for (let x = 0; x < surface.width; x++) {
+      const sample = surface.sample(x + 0.5, y + 0.5),
+        at = (y * surface.width + x) * 4;
+      for (let c = 0; c < 3; c++)
+        bytes[at + c] = Math.round(
+          Math.max(
+            0,
+            Math.min(1, sample[3] ? linearToSrgb(sample[c] / sample[3]) * sample[3] : 0),
+          ) * 255,
+        );
+      bytes[at + 3] = Math.round(Math.max(0, Math.min(1, sample[3])) * 255);
+    }
+  return bytes;
+}
+
+export function layerTree(canvas, media, settings) {
+  const taps = new Map();
+  const process = (name, input, steps = [], sourceDomain = false) => {
+    taps.set(`${name}/dry`, stackSurface(input, [], canvas, sourceDomain));
+    for (let i = 0; i < steps.length; i++)
+      taps.set(
+        `${name}/after:${steps[i].label}`,
+        stackSurface(input, steps.slice(0, i + 1), canvas, sourceDomain),
+      );
+    const output = stackSurface(input, steps, canvas, sourceDomain);
+    taps.set(`${name}/processed`, output);
+    return output;
+  };
+  const screen = process("screen", sourceSurface(media.screen), settings.screen, true);
+  const presenter = process("presenter", sourceSurface(media.presenter), settings.presenter, true);
+  const screenTrack = process("screen-track", screen, settings.screenTrack);
+  const presenterTrack = process("presenter-track", presenter, settings.presenterTrack);
+  const combined = settings.reversed
+    ? over(presenterTrack, screenTrack)
+    : over(screenTrack, presenterTrack);
+  const inner = process("inner", combined, settings.inner);
+  const outer = process("outer", inner, settings.outer);
+  const output = process("output", over(background(canvas), outer), settings.output);
+  return { output, taps };
+}
+
+export function compareGeometry(actual, expected, width, height) {
+  assert.equal(actual.length, width * height * 4);
+  assert.equal(expected.length, actual.length);
+  let compared = 0,
+    maximumError = 0;
+  for (let y = 0; y < height; y++)
+    for (let x = 0; x < width; x++) {
+      const at = (y * width + x) * 4;
+      let uniform = true;
+      for (let dy = -2; dy <= 2 && uniform; dy++)
+        for (let dx = -2; dx <= 2 && uniform; dx++) {
+          const nx = x + dx,
+            ny = y + dy;
+          if (nx < 0 || nx >= width || ny < 0 || ny >= height) continue;
+          for (let c = 0; c < 4; c++)
+            if (Math.abs(expected[(ny * width + nx) * 4 + c] - expected[at + c]) > 2)
+              uniform = false;
+        }
+      if (!uniform) continue;
+      compared++;
+      for (let c = 0; c < 4; c++) {
+        const error = Math.abs(actual[at + c] - expected[at + c]);
+        maximumError = Math.max(maximumError, error);
+        assert.ok(
+          error <= 2,
+          `Interior pixel (${x},${y}) channel ${c}: ${actual[at + c]} != ${expected[at + c]}`,
+        );
+      }
+    }
+  assert.ok(compared > (width * height) / 2, "Reference has too few stable interior pixels");
+  return {
+    compared,
+    total: width * height,
+    maximumError,
+    ...compareLandmarks(actual, expected, width, height),
+  };
+}
+
+export function compareLandmarks(actual, expected, width, height) {
+  assert.equal(actual.length, width * height * 4);
+  assert.equal(expected.length, actual.length);
+  const moments = (bytes, channel, threshold) => {
+    let count = 0,
+      sumX = 0,
+      sumY = 0;
+    const bounds = [width, height, -1, -1],
+      mask = new Uint8Array(width * height);
+    for (let y = 0; y < height; y++)
+      for (let x = 0; x < width; x++)
+        if (bytes[(y * width + x) * 4 + channel] > threshold) {
+          mask[y * width + x] = 1;
+          count++;
+          sumX += x + 0.5;
+          sumY += y + 0.5;
+          bounds[0] = Math.min(bounds[0], x);
+          bounds[1] = Math.min(bounds[1], y);
+          bounds[2] = Math.max(bounds[2], x);
+          bounds[3] = Math.max(bounds[3], y);
+        }
+    return { count, center: count ? [sumX / count, sumY / count] : null, bounds, mask };
+  };
+  const shapes = [];
+  for (const channel of [0, 1, 2, 3]) {
+    let maximum = 0;
+    for (let at = channel; at < expected.length; at += 4) maximum = Math.max(maximum, expected[at]);
+    // Half-light edges are localized to a raster pixel; color is normalized to sRGB.
+    const threshold =
+      channel === 3 ? maximum / 2 : linearToSrgb(srgbToLinear(maximum / 255) / 2) * 255;
+    const a = moments(actual, channel, threshold),
+      e = moments(expected, channel, threshold);
+    assert.equal(a.count === 0, e.count === 0, "Geometry unexpectedly added or lost a landmark");
+    assert.ok(
+      Math.abs(a.count - e.count) <= Math.max(1, e.count * 0.02),
+      "Landmark coverage count changed beyond the rasterization budget",
+    );
+    if (e.count) {
+      for (let axis = 0; axis < 2; axis++)
+        assert.ok(
+          Math.abs(a.center[axis] - e.center[axis]) <= 0.51,
+          `Landmark centroid shifted on axis ${axis}`,
+        );
+      for (let edge = 0; edge < 4; edge++)
+        assert.ok(
+          Math.abs(a.bounds[edge] - e.bounds[edge]) <= 1,
+          "Landmark boundary moved by more than one raster pixel",
+        );
+    }
+    for (const [from, to] of [
+      [a.mask, e.mask],
+      [e.mask, a.mask],
+    ])
+      for (let y = 0; y < height; y++)
+        for (let x = 0; x < width; x++) {
+          if (!from[y * width + x]) continue;
+          let matched = false;
+          for (let dy = -1; dy <= 1 && !matched; dy++)
+            for (let dx = -1; dx <= 1 && !matched; dx++) {
+              const nx = x + dx,
+                ny = y + dy;
+              if (nx >= 0 && nx < width && ny >= 0 && ny < height && to[ny * width + nx])
+                matched = true;
+            }
+          assert.ok(matched, `Landmark coverage missing near (${x},${y})`);
+        }
+    const { mask: _actualMask, ...actualShape } = a,
+      { mask: _expectedMask, ...expectedShape } = e;
+    shapes.push({ channel, actual: actualShape, expected: expectedShape });
+  }
+  return { shapes };
+}
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { spawnSync } from "node:child_process";
+import { mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { basename, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { createCompiler, validateComposition } from "../../composition/dist/index.js";
+import { compositionAsset } from "../../core/dist/assets.js";
+import { classify, corpusReferences } from "./render-membership.mjs";
+const root = fileURLToPath(new URL("../../../", import.meta.url));
+const args = process.argv.slice(2);
+assert.deepEqual(args.slice(0, 2), ["--case", "repeat-reorder"]);
+const out = args[2] === "--out" ? resolve(args[3]) : await mkdtemp(join(tmpdir(), "sr-video-"));
+await mkdir(out, { recursive: true });
+assert.deepEqual(await readdir(out), [], "Evidence folder must be empty");
+const native =
+  process.env.SCREENREC_NATIVE ?? join(root, "helpers/mac/.build/debug/screenrec-native");
+const frozen = join(root, "specs/agent-editing/assets/06-platform-temporal");
+const corpus = join(root, "specs/agent-editing/assets/00-corpus");
+const bytes = 160 * 128 * 3;
+function run(command, args, input) {
+  const r = spawnSync(command, args, { input, timeout: 60000, maxBuffer: 64 * 1024 * 1024 });
+  assert.ifError(r.error);
+  assert.equal(r.status, 0, r.stderr.toString());
+  return r.stdout;
+}
+function call(operation, params) {
+  return JSON.parse(run(native, [], JSON.stringify({ id: "video", operation, params }) + "\n"));
+}
+function ff(args) {
+  return run("ffmpeg", ["-v", "error", "-nostdin", ...args]);
+}
+const json = async (path) => JSON.parse(await readFile(path));
+const save = (path, value) => writeFile(path, JSON.stringify(value, null, 2) + "\n");
+const refs = corpusReferences((id) =>
+  ff([
+    "-i",
+    join(corpus, id + ".mov"),
+    "-map",
+    "0:v:0",
+    "-fps_mode",
+    "passthrough",
+    "-pix_fmt",
+    "rgb24",
+    "-f",
+    "rawvideo",
+    "pipe:1",
+  ]),
+);
+const files = new Map();
+async function asset(file) {
+  if (files.has(file)) return files.get(file);
+  const p = call("media.probe", { path: file });
+  assert.equal(p.ok, true, JSON.stringify(p));
+  const id = basename(file);
+  const result = {
+    asset: compositionAsset({ id, ...p.data }),
+    binding: {
+      assetId: id,
+      streamId: p.data.streams.find((s) => s.kind === "video").id,
+      path: file,
+      originUs: p.data.originUs,
+    },
+  };
+  files.set(file, result);
+  return result;
+}
+async function compile(
+  pictures,
+  range,
+  directory,
+  fps = { numerator: 20, denominator: 1 },
+  acquisitions = [],
+) {
+  const clips = [],
+    bindings = [],
+    assets = [];
+  for (const picture of pictures) {
+    const local =
+      picture.localFile ??
+      join(
+        basename(picture.file) === "timestamp-gap.mov" ? corpus : frozen,
+        basename(picture.file),
+      );
+    const a = await asset(local);
+    const binding = picture.streamId ? { ...a.binding, streamId: picture.streamId } : a.binding;
+    bindings.push(binding);
+    assets.push(a.asset);
+    clips.push({
+      id: picture.id,
+      trackId: "video",
+      assetId: a.asset.id,
+      streamId: binding.streamId,
+      ...(picture.acquisitionId ? { acquisitionId: picture.acquisitionId } : {}),
+      source:
+        picture.holdUs === null
+          ? { kind: "range", range: picture.source }
+          : { kind: "hold", atUs: picture.holdUs },
+      placement: { kind: "project", range: picture.project },
+
+exec
+/bin/zsh -lc "cat specs/agent-editing/assets/10d-acquisition-pictures/README.md; rg -n 'atUs|sampleAtUs|implementationId' packages/core/src/project-frames*; sed -n '1,130p' packages/test-harness/editing/layers-fixture.mjs; sed -n '490,610p' packages/test-harness/editing/video.mjs; cat specs/recording-for-ai/README.md | head -65; rg -n 'acquisitionDonor|class JourneyService|async start|async stop' packages/test-harness/editing/source-evidence-fixture.mjs" in /Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder
+ succeeded in 0ms:
+# Acquisition gaps in public project pictures
+
+The [executable journey](../../../../packages/test-harness/editing/acquisition-picture-evidence.mjs)
+uses synthetic acquisition journals around real, identical audio/video files.
+Everything is admitted through `acquisition.import`; the catalog, source probe,
+compiler and native renderer use their production paths. This is not a physical-capture claim.
+
+A video occurrence follows an audio parent through a content anchor. Context A
+excludes an internal audio interval; context B and the occurrence without a context
+retain it. The pictures therefore disappear only in A, with `anchor-unavailable`
+provenance. The original video source remains readable in all three cases. The
+comparison keeps byte identity, source ranges, placement rate and framing fixed.
+
+[The report](report.json) covers CLI files and actual MCP inline bytes for direct
+project pictures and retained screenshot entries, exact gap-neighbor selection,
+sampled coverage, decoded preview pictures and historical reads after advancing
+the head and restarting. A fresh picture request after restart resolves retained
+media and acquisition evidence after donor deletion. The global frame clock still
+owns visibility: a gap beginning between sample instants takes effect on the next
+sample, and a request inside a displayed interval reports that entire interval.
+The asymmetric source landmarks use the existing common-profile geometry oracle;
+excluded pictures must be completely opaque black.
+
+This satisfies 10d's public **project** pictures across selected acquisition gaps.
+It does not establish direct-source video `acquisition_excluded`: public capture
+admission currently derives video support from the file and audio support from
+journal evidence. Direct narrower video masks remain covered by native/core tests.
+Adding a public video-support producer would belong to 10b and require authoritative
+capture evidence; an arbitrary editable mask API is not part of this journey.
+
+The evidence retains the native binary hash and runtime hashes. No model download,
+recording, desktop capture, audio playback, installed app or user library is used.
+
+The retained [before report](before.json) fails on an actual public project frame:
+the former executor rejected `anchor-unavailable` for the complete artifact. Its
+older direct-native refusal check described an unfinished path; physical support
+cannot repair ancestor availability, but a valid compiled exclusion must suppress
+that layer. The executor now keeps the physical validation and emits a transparent
+layer with its original exclusion reason. The direct-native gate checks actual
+black output instead of that refusal; other source/timestamp/state refusals remain.
+The selected-source physical/timestamp validation also rejects out-of-support
+`anchor-unavailable` requests. Movie and picture recipe identities advance so previous terminal unavailable jobs
+do not prevent execution under the completed contract.
+
+Validation: [focused checks](focused.txt), [native temporal preservation](native.json),
+[public runtime pins](runtime.json), and [independent code review](review.txt).
+The native temporal run preserves the existing decoded membership and matched
+baseline checks; it does not rerun the separate long-render resource gates.
+
+[Complete visual review](visual/verdict.md) resolves the fresh critic's alignment
+concern with exact source hashes, shape telemetry and a larger fresh comparison.
+The direct source, project and index PNGs retain exact CLI/MCP byte equality.
+
+Run the journey after building the TypeScript packages and freezing a native worker:
+
+```sh
+SCREENREC_NATIVE=/path/to/frozen-worker node packages/test-harness/editing/acquisition-picture-evidence.mjs --out /empty/output/directory
+SCREENREC_NATIVE=/path/to/frozen-worker SCREENREC_BASELINE_NATIVE=/path/to/before-worker node packages/test-harness/editing/video.mjs --case repeat-reorder --out /empty/native/directory --temporal-only
+```
+zsh:1: no matches found: packages/core/src/project-frames*
+import assert from "node:assert/strict";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { hash, root, run } from "./source-evidence-fixture.mjs";
+
+// Unequal corner landmarks make flips, source-domain crops and cover alignment observable.
+function picture(width, height, presenter) {
+  const bytes = Buffer.alloc(width * height * 3);
+  for (let y = 0; y < height; y++)
+    for (let x = 0; x < width; x++) {
+      const light = presenter
+        ? x >= 4 &&
+          x < width - 4 &&
+          y >= 4 &&
+          y < height - 4 &&
+          !(x >= width / 2 && y < height / 3) &&
+          !(x < 8 && y >= height - 12)
+        : (x >= 4 && x < 12 && y >= 4 && y < height - 4) ||
+          (x >= 4 && x < width - 4 && y >= height - 12 && y < height - 4) ||
+          (x >= width - 16 && x < width - 8 && y >= 4 && y < 12);
+      const at = (y * width + x) * 3;
+      bytes.fill(light ? 255 : 0, at, at + 3);
+    }
+  return bytes;
+}
+export const narrationSample = (frame, channel) =>
+  (((frame * (channel ? 13 : 7)) % 127) - 63) / 4096;
+function narration() {
+  const frames = 48000,
+    bytes = Buffer.alloc(44 + frames * 8);
+  bytes.write("RIFF");
+  bytes.writeUInt32LE(bytes.length - 8, 4);
+  bytes.write("WAVEfmt ", 8);
+  bytes.writeUInt32LE(16, 16);
+  bytes.writeUInt16LE(3, 20);
+  bytes.writeUInt16LE(2, 22);
+  bytes.writeUInt32LE(48000, 24);
+  bytes.writeUInt32LE(384000, 28);
+  bytes.writeUInt16LE(8, 32);
+  bytes.writeUInt16LE(32, 34);
+  bytes.write("data", 36);
+  bytes.writeUInt32LE(frames * 8, 40);
+  for (let frame = 0; frame < frames; frame++)
+    for (let channel = 0; channel < 2; channel++)
+      bytes.writeFloatLE(narrationSample(frame, channel), 44 + frame * 8 + channel * 4);
+  return bytes;
+}
+export async function prepareLayersFixture(home, out) {
+  const directory = join(home, "authored-sources");
+  await mkdir(directory, { recursive: true });
+  const referenceTool = join(home, "frame-reference"),
+    pixelTool = join(home, "frame-pixels");
+  for (const [source, target] of [
+    ["FrameColorReference.swift", referenceTool],
+    ["FrameImagePixels.swift", pixelTool],
+  ])
+    await run(
+      "swiftc",
+      ["-parse-as-library", join(root, "packages/test-harness/editing", source), "-o", target],
+      { timeout: 120000 },
+    );
+  async function referenceSource(name, path, width, height, raw) {
+    const refs = join(out, `${name}-reference`);
+    await mkdir(refs, { recursive: true });
+    const request = join(home, `${name}-reference.json`);
+    await writeFile(request, JSON.stringify({ movie: path, output: refs, timesUs: [0] }));
+    const { stdout } = await run(referenceTool, [request], { timeout: 60000 });
+    const reference = JSON.parse(stdout)[0],
+      rgbaPath = join(refs, "source.rgba");
+    const normalized = JSON.parse((await run(pixelTool, [reference.file, rgbaPath])).stdout);
+    assert.deepEqual([normalized.width, normalized.height], [width, height]);
+    assert.equal(reference.sourceProfile, "kCGColorSpaceCoreMedia709");
+    await writeFile(join(refs, "receipt.json"), JSON.stringify({ reference, normalized }, null, 2));
+    const rgba = await readFile(rgbaPath);
+    for (let pixel = 0; pixel < width * height; pixel++) {
+      assert.equal(rgba[pixel * 4 + 3], 255);
+      for (let channel = 0; channel < 3; channel++)
+        assert.ok(
+          Math.abs(rgba[pixel * 4 + channel] - raw[pixel * 3 + channel]) <= 2,
+          "Encoded source lost the independently authored black/white landmark",
+        );
+    }
+    return {
+      path,
+      width,
+      height,
+      sha256: hash(await readFile(path)),
+      reference,
+      normalized,
+      rgba,
+      encodedProfile: "corevideo709",
+    };
+  }
+  const media = {};
+  for (const [name, width, height, presenter] of [
+    ["screen", 64, 48, false],
+    ["presenter", 24, 40, true],
+    ["plate", 16, 16, false],
+  ]) {
+    const raw =
+        name === "plate"
+          ? Buffer.alloc(width * height * 3, 255)
+          : picture(width, height, presenter),
+      input = join(directory, `${name}.rgb`),
+      path = join(directory, `${name}.mov`);
+    await writeFile(input, Buffer.concat(Array.from({ length: 10 }, () => raw)));
+    await run(
+      "ffmpeg",
+      [
+        "-v",
+        "error",
+        "-nostdin",
+        "-f",
+        "rawvideo",
+        "-pixel_format",
+        "rgb24",
+        "-video_size",
+        `${width}x${height}`,
+        "-framerate",
+        "10",
+        "-i",
+        input,
+        "-vf",
+        "format=yuv420p,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+        "-c:v",
+        "libx264",
+        "-qp",
+        "1",
+        "-pix_fmt",
+        "yuv420p",
+    "-i",
+    request.output,
+    "-map",
+    "0:v:0",
+    "-fps_mode",
+    "passthrough",
+    "-pix_fmt",
+    "rgb24",
+    "-f",
+    "rawvideo",
+    "pipe:1",
+  ]);
+  const observed = metadata.frames.filter((f) => f.media_type === "video");
+  assert.equal(raw.length, frames.length * bytes);
+  const ids = [];
+  for (let i = 0; i < frames.length; i++) {
+    const actual = classify(raw.subarray(i * bytes, (i + 1) * bytes), refs);
+    assert.equal(
+      actual.id,
+      expected.frameIDsOnFullProjectGrid[frames[i].index],
+      `${name} frame ${i}`,
+    );
+    assert.equal(
+      Math.round(Number(observed[i].best_effort_timestamp_time) * 1e6),
+      frames[i].visibleRange.startUs - request.range.startUs,
+    );
+    assert.equal(
+      Math.round(Number(observed[i].duration_time) * 1e6),
+      frames[i].visibleRange.endUs - frames[i].visibleRange.startUs,
+    );
+    ids.push(actual.id);
+  }
+  assert.equal(
+    Math.round(Number(metadata.format.duration) * 1e6),
+    request.range.endUs - request.range.startUs,
+  );
+  assert.equal(metadata.streams[0].color_space, "bt709");
+  assert.equal(metadata.streams[0].color_transfer, "bt709");
+  assert.equal(metadata.streams[0].color_primaries, "bt709");
+  await mkdir(join(directory, "shots"));
+  ff(["-i", request.output, "-fps_mode", "passthrough", join(directory, "shots/%03d.png")]);
+  results.push({ name, ids, receipt: response.data });
+}
+
+const negatives = [];
+const base = await json(join(out, "av-replacement/request.json"));
+async function rejected(name, change, code) {
+  const directory = join(out, name);
+  await mkdir(directory);
+  const request = { ...base, ...change, output: join(directory, "video.mp4") };
+  const response = call("media.renderCompositionVideo", request);
+  assert.equal(response.ok, false, name);
+  assert.equal(response.error.code, code, JSON.stringify(response));
+  assert.deepEqual(await readdir(directory), [], `${name} leaked staging/output`);
+  negatives.push({ name, error: response.error });
+}
+await rejected("odd-canvas", { canvas: { ...base.canvas, width: 159 } }, "INVALID_REQUEST");
+await rejected(
+  "transparent-canvas",
+  { canvas: { ...base.canvas, background: "#00000000" } },
+  "NOT_READY",
+);
+await rejected("unknown-profile", { profile: "mystery" }, "NOT_READY");
+await rejected(
+  "missing-stream",
+  { assets: base.assets.map((a) => ({ ...a, streamId: "track:999" })) },
+  "INVALID_REQUEST",
+);
+const first = JSON.parse((await readFile(base.frames, "utf8")).split("\n")[0]);
+for (const [name, frame, code] of [
+  [
+    "unknown-availability",
+    { ...first, layers: first.layers.map((l) => ({ ...l, availability: "mystery" })) },
+    "INVALID_REQUEST",
+  ],
+  ...["available", "source-unavailable", "anchor-unavailable"].map((availability) => [
+    `outside-physical-support-${availability}`,
+    {
+      ...first,
+      layers: first.layers.map((layer) => ({ ...layer, sourceUs: 2000000, availability })),
+    },
+    "UNAVAILABLE",
+  ]),
+  ["unknown-frame-field", { ...first, guess: 1 }, "INVALID_REQUEST"],
+  ["duplicate-layer", { ...first, layers: [first.layers[0], first.layers[0]] }, "INVALID_REQUEST"],
+  [
+    "unknown-picture-primitive",
+    {
+      ...first,
+      visual: first.visual.map((node, index) =>
+        index ? node : { ...node, operations: [{ kind: "unknown" }] },
+      ),
+    },
+    "NOT_READY",
+  ],
+]) {
+  const path = join(out, name + ".jsonl");
+  await writeFile(path, JSON.stringify(frame) + "\n");
+  await rejected(name, { frames: path }, code);
+}
+const gap = await json(join(out, "empty-edit-preview/request.json"));
+const gapFrame = JSON.parse((await readFile(gap.frames, "utf8")).split("\n")[0]);
+assert.equal(gapFrame.layers[0].availability, "source-unavailable");
+const anchorPath = join(out, "anchor-unavailable.jsonl");
+await writeFile(
+  anchorPath,
+  JSON.stringify({
+    ...gapFrame,
+    layers: gapFrame.layers.map((l) => ({ ...l, availability: "anchor-unavailable" })),
+  }) + "\n",
+);
+const anchorRequest = {
+  ...gap,
+  range: gapFrame.visibleRange,
+  frames: anchorPath,
+  output: join(out, "anchor-unavailable.mp4"),
+};
+const anchorResponse = call("media.renderCompositionVideo", anchorRequest);
+assert.equal(anchorResponse.ok, true, JSON.stringify(anchorResponse));
+const anchorPixels = ff([
+  "-i",
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
+outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
+it fixed three real defects, the worst of which let a cut of one word silently delete the next.
+
+Needing this person rather than a check:
+54:export class JourneyService {
+68:  async start() {
+135:  async stop(crash = false) {
+165:export async function acquisitionDonor(directory, narration, available) {
+
+2026-09-28T16:41:21.710647Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8e4-23fd-7d52-a79e-98dd948504a4 turn_id=01a0e8e4-2474-7062-b70d-35efdde59081 item_id="exec-521d0443-62a7-4f18-9ada-71fefaec1bf0"
+exec
+/bin/zsh -lc "rg -n 'implementationId|sampleAtUs|atUs:' packages/core/src/*frame* packages/core/src/*picture* 2>/dev/null; sed -n '1,185p' packages/test-harness/editing/source-evidence-fixture.mjs; cat packages/test-harness/editing/FrameColorReference.swift | tail -90; rg -n 'acquisition|gap|mask' specs/agent-editing/slices/10d-frame-inspection.md | head -25; git diff --check; node --check packages/test-harness/editing/acquisition-picture-evidence.mjs" in /Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder
+ succeeded in 0ms:
+zsh:1: no matches found: packages/core/src/*picture*
+import assert from "node:assert/strict";
+import { execFile, fork } from "node:child_process";
+import { createHash, randomUUID } from "node:crypto";
+import { once } from "node:events";
+import { constants } from "node:fs";
+import { copyFile, lstat, mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
+import { promisify } from "node:util";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { cliReply } from "./first-preview-transport.mjs";
+
+export const run = promisify(execFile);
+export const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+export const root = new URL("../../../", import.meta.url).pathname;
+export async function poll(read, done, label) {
+  const deadline = performance.now() + 180000;
+  for (;;) {
+    const value = await read();
+    if (done(value)) return value;
+    assert.ok(!["failed", "canceled"].includes(value.state), `${label}: ${JSON.stringify(value)}`);
+    assert.ok(performance.now() < deadline, `${label}: deadline`);
+    await delay(100);
+  }
+}
+
+/** Copies already prepared, hash-pinned files. No network fetch or preparation operation. */
+export async function copyModels(home, request) {
+  const { parakeetModel: manifest, SpeechModels } =
+    await import("../../../packages/core/dist/speech-models.js");
+  assert.deepEqual(request.files, manifest.files);
+  const models = new SpeechModels(join(home, "library"));
+  const target = join(home, "library/models", manifest.name, manifest.revision);
+  const receipt = { modelDigest: models.modelDigest, files: {} };
+  for (const file of manifest.files) {
+    const source = join(request.directory, file.path);
+    const destination = join(target, manifest.folderName, file.path);
+    assert.ok((await lstat(source)).isFile());
+    await mkdir(dirname(destination), { recursive: true });
+    await copyFile(source, destination, constants.COPYFILE_FICLONE);
+    const bytes = await readFile(destination);
+    assert.equal(bytes.length, file.bytes);
+    assert.equal(hash(bytes), file.sha256);
+    const stat = await lstat(destination, { bigint: true });
+    receipt.files[file.path] = { modifiedNs: String(stat.mtimeNs), inode: String(stat.ino) };
+  }
+  await writeFile(join(target, "receipt.json"), JSON.stringify(receipt));
+  assert.deepEqual(models.status(), { state: "ready" });
+  return { modelDigest: models.modelDigest, files: manifest.files };
+}
+
+/** Public transports around a scratch project service; barriers hold only real native replies. */
+export class JourneyService {
+  constructor(
+    home,
+    report,
+    evidence,
+    serviceModule = new URL("./source-acquisition-service.mjs", import.meta.url),
+  ) {
+    this.home = home;
+    this.serviceModule = serviceModule;
+    this.evidence = evidence;
+    this.report = report;
+    this.logs = [];
+    this.barriers = new Map();
+  }
+  async start() {
+    this.child = fork(this.serviceModule, [this.home, ...(this.evidence ? [this.evidence] : [])], {
+      stdio: ["ignore", "pipe", "pipe", "ipc"],
+    });
+    this.child.stdout.on("data", (b) => this.logs.push(b.toString()));
+    this.child.stderr.on("data", (b) => this.logs.push(b.toString()));
+    this.child.on("message", (m) => {
+      if (m.type) this.barriers.set(`${m.id}/${m.type}`, m);
+    });
+    const [ready] = await Promise.race([
+      once(this.child, "message"),
+      once(this.child, "exit").then(([code]) => {
+        throw new Error(`Service exited ${code}: ${this.logs.join("")}`);
+      }),
+      delay(30000, undefined, { ref: false }).then(() => {
+        throw new Error("Service startup deadline");
+      }),
+    ]);
+    assert.equal(ready.error, undefined, JSON.stringify(ready));
+    this.socketPath = ready.socketPath;
+    this.mcp = new Client({ name: "source-transcript-journey", version: "1" });
+    await this.mcp.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [join(root, "apps/cli/dist/main.js"), "mcp", "--socket", this.socketPath],
+        stderr: "pipe",
+      }),
+    );
+  }
+  async call(operation, params, { transport = "cli", error = false, output } = {}) {
+    const response =
+      transport === "mcp"
+        ? (await this.mcp.callTool({ name: operation, arguments: params })).structuredContent
+        : await cliReply([
+            join(root, "apps/cli/dist/main.js"),
+            operation,
+            "--socket",
+            this.socketPath,
+            "--params",
+            JSON.stringify(params),
+            ...(output ? ["--output", output] : []),
+          ]);
+    assert.equal(response?.ok, !error, `${operation}: ${JSON.stringify(response)}`);
+    this.report.trace.push({
+      operation,
+      transport,
+      ok: response.ok,
+      state: response.data?.state,
+      error: response.error,
+    });
+    return response.ok ? response.data : response.error;
+  }
+  async arm(operation) {
+    const id = randomUUID();
+    this.child.send({ type: "barrier.arm", id, operation, remaining: 1 });
+    await poll(
+      () => this.barriers.get(`${id}/barrier.armed`) ?? {},
+      (v) => v.type === "barrier.armed",
+      "arm",
+    );
+    return () =>
+      poll(
+        () => this.barriers.get(`${id}/barrier.hit`) ?? {},
+        (v) => v.nativeSucceeded,
+        "native reply",
+      );
+  }
+  async stop(crash = false) {
+    await this.mcp?.close();
+    this.mcp = undefined;
+    const child = this.child;
+    if (!child || child.exitCode !== null || child.signalCode !== null) return;
+    const exited = once(child, "exit");
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        child.kill("SIGKILL");
+        reject(new Error("Service shutdown deadline"));
+      }, 15000);
+      timer.unref();
+    });
+    if (crash) child.kill("SIGKILL");
+    else child.send("close");
+    try {
+      const [code, signal] = await Promise.race([exited, timeout]);
+      if (crash) assert.equal(signal, "SIGKILL");
+      else assert.equal(code, 0, this.logs.join(""));
+    } catch (error) {
+      await exited;
+      throw error;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+}
+
+/** Synthetic acquisition journals around real speech bytes; not a physical capture claim. */
+export async function acquisitionDonor(directory, narration, available) {
+  await mkdir(directory, { recursive: true });
+  await copyFile(
+    join(root, "fixtures/narrated-workbench/video.mov"),
+    join(directory, "video.mov"),
+    constants.COPYFILE_FICLONE,
+  );
+  await copyFile(narration, join(directory, "narration.mov"), constants.COPYFILE_FICLONE);
+  const records = [
+    {
+      event: "header",
+      data: {
+        schemaVersion: 1,
+        sessionID: `synthetic-source-journey-${randomUUID()}`,
+        source: { kind: "window", windowID: 7 },
+        width: 3120,
+        height: 1970,
+        microphone: true,
+        systemAudio: false,
+      },
+    },
+@preconcurrency import AVFoundation
+import CoreGraphics
+import CryptoKit
+import Foundation
+import ImageIO
+import UniformTypeIdentifiers
+
+// Independent display reference: AVFoundation selects an encoded movie picture, then
+// CoreGraphics converts its actual embedded profile into the PNG delivery color space.
+// A raw ffmpeg hstack cannot preserve different profiles on its two halves.
+@main struct FrameColorReference {
+    struct Request: Decodable {
+        let movie: String
+        let output: String
+        let timesUs: [Int64]
+    }
+    struct Receipt: Encodable {
+        let index: Int
+        let requestedUs: Int64
+        let actualValue: String
+        let actualTimescale: Int32
+        let sourceProfile: String
+        let sourceProfileSHA256: String
+        let outputProfile: String
+        let width: Int
+        let height: Int
+        let file: String
+    }
+    static func main() async throws {
+        let request = try JSONDecoder().decode(
+            Request.self, from: Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1])))
+        let generator = AVAssetImageGenerator(
+            asset: AVURLAsset(url: URL(fileURLWithPath: request.movie)))
+        generator.requestedTimeToleranceBefore = .zero
+        generator.requestedTimeToleranceAfter = .zero
+        generator.appliesPreferredTrackTransform = true
+        let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+        var receipts: [Receipt] = []
+        for (index, requestedUs) in request.timesUs.enumerated() {
+            let requested = CMTime(value: requestedUs, timescale: 1_000_000)
+            let selected = try await generator.image(at: requested)
+            precondition(
+                selected.actualTime == requested, "Reference selected a different movie picture")
+            let image = selected.image
+            let context = CGContext(
+                data: nil, width: image.width, height: image.height, bitsPerComponent: 8,
+                bytesPerRow: image.width * 4, space: srgb,
+                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+                    | CGBitmapInfo.byteOrder32Big.rawValue)!
+            context.interpolationQuality = .none
+            context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+            let converted = context.makeImage()!
+            let file = URL(fileURLWithPath: request.output)
+                .appendingPathComponent(String(format: "%03d.png", index))
+            let destination = CGImageDestinationCreateWithURL(
+                file as CFURL, UTType.png.identifier as CFString, 1, nil)!
+            CGImageDestinationAddImage(destination, converted, nil)
+            precondition(
+                CGImageDestinationFinalize(destination), "Cannot write color-managed reference")
+            receipts.append(
+                Receipt(
+                    index: index, requestedUs: requestedUs,
+                    actualValue: String(selected.actualTime.value),
+                    actualTimescale: selected.actualTime.timescale,
+                    sourceProfile: image.colorSpace!.name.map { $0 as String } ?? "unnamed ICC",
+                    sourceProfileSHA256: SHA256.hash(
+                        data: image.colorSpace!.copyICCData()! as Data
+                    ).map { String(format: "%02x", $0) }.joined(),
+                    outputProfile: converted.colorSpace!.name.map { $0 as String } ?? "unnamed ICC",
+                    width: image.width, height: image.height, file: file.path))
+        }
+        FileHandle.standardOutput.write(try JSONEncoder().encode(receipts))
+    }
+}
+3:Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw still-image inspection remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+27:holds, unavailable acquisition and repeated uses retain their identities.
+37:acquisition gaps. Use asymmetric landmarks to verify orientation/framing. Test
+77:selected-stream physical membership, support masking, orientation and the canvas
+88:Source clocks, sample support, acquisition exclusion and source-only references are
+106:covers actual CLI/MCP PNG delivery, mixed batches, retained acquisition authority,
+107:physical gaps and cancellation/retry. Exact color-managed pixels preserve the
+108:reviewed native reference set. Public custom video-mask admission is not covered:
+109:the existing acquisition importer exposes physical video support, while narrower
+110:mask verification remains native/core only. Raw still-image admission and project-index projection remain open.
+114:source gaps and the project global sample clock without task-specific coaching.
+118:now preserves exact physical clocks and gaps between grid observations. Its
+124:stillness/gap context. [Public scene journeys](../assets/10d-public-scenes/README.md)
+192:occurrence's available fragment; do not substitute another clip or a source gap.
+247:job retirement also releases ordinary asset/acquisition references. Catalog format
+272:## Public acquisition-gap picture acceptance
+274:[The public acquisition-picture journey](../assets/10d-acquisition-pictures/README.md)
+276:parent's selected acquisition gap, with identical footage under full-context and
+281:This is the original selected-acquisition-gap acceptance gate, using existing
+282:public admission and attachment semantics. The earlier “custom video masks” TODO
+283:was broader than that contract. Direct narrower video-source masks remain
+285:captured-video support producer belongs to 10b and needs authoritative acquisition
+286:evidence; no arbitrary mask-authoring API is inferred by 10d.
+
+2026-09-28T16:41:28.628423Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8e4-23fd-7d52-a79e-98dd948504a4 turn_id=01a0e8e4-2474-7062-b70d-35efdde59081 item_id="exec-fd4caed1-8a5e-400c-a448-5b17f0d6ff06"
+exec
+/bin/zsh -lc "rg -n 'implementationId|sampleAtUs|atUs' packages/core/src/project-frame.ts | head -65; rg -n 'implementationId' packages/core/src | grep -E 'frame|index|preview'; sed -n '1,55p' specs/agent-editing/slices/10d-frame-inspection.md; cat apps/service/package.json | head -50; ls packages/core/src/*frame*" in /Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder
+ succeeded in 0ms:
+rg: packages/core/src/project-frame.ts: IO error for operation on packages/core/src/project-frame.ts: No such file or directory (os error 2)
+packages/core/src/frame-inspection.test.ts:17:  implementationId: "fixture-picture",
+packages/core/src/frame-inspection.test.ts:90:      implementationId: "unused-source",
+packages/core/src/project-index-processing.test.ts:313:  expect(f.index.frameProject(reference).published.frame.implementationId).toBe("fixture-project");
+packages/core/src/source-index.ts:24:  implementationId: string;
+packages/core/src/source-index.ts:78:      implementationId: i.implementationId,
+packages/core/src/source-index.ts:92:        !identity.implementationId ||
+packages/core/src/source-index.ts:114:        frame.implementationId !== identity.implementationId ||
+packages/core/src/source-index.ts:171:              frame.implementationId !== identity.implementationId ||
+packages/core/src/project-index-materialization.ts:123:      if (frame.implementationId !== identity.implementationId)
+packages/core/src/source-frame-inspection.test.ts:16:  implementationId: "fixture-source-picture",
+packages/core/src/source-frame-inspection.test.ts:298:    implementationId: renderer.implementationId,
+packages/core/src/source-index-materialization.ts:143:    if (frame.implementationId !== identity.implementationId)
+packages/core/src/project-preview.test.ts:23:  implementationId: "fixture-movie-v1",
+packages/core/src/project-preview.test.ts:176:      (r: { implementationId: unknown }) => typeof r.implementationId === "string",
+packages/core/src/project-preview.test.ts:270:      implementationId: null,
+packages/core/src/project-preview.test.ts:272:    { type: "geometry", execution: true, implementationId: renderer.implementationId },
+packages/core/src/project-preview.test.ts:273:    { type: "opacity", execution: true, implementationId: renderer.implementationId },
+packages/core/src/project-preview.test.ts:274:    { type: "gain", execution: true, implementationId: renderer.implementationId },
+packages/core/src/project-preview.test.ts:341:      .map((r: { processor: { gain: number }; implementationId: string }) => [
+packages/core/src/project-preview.test.ts:343:        r.implementationId,
+packages/core/src/project-preview.test.ts:345:  ).toEqual([0.1, 0.2, 0.3, 0.4, 0.5].map((gain) => [gain, renderer.implementationId]));
+packages/core/src/project-preview.test.ts:362:        requirements: [expect.objectContaining({ kind: "retime", implementationId: null })],
+packages/core/src/project-preview.test.ts:373:  const next = f.replaceRenderer({ ...renderer, implementationId: "fixture-movie-v2" });
+packages/core/src/project-preview.test.ts:380:  expect(ready.implementationId).toBe("fixture-movie-v2");
+packages/core/src/project-preview.test.ts:382:    { kind: "executor", mediaKind: "audio", implementationId: "fixture-movie-v2" },
+packages/core/src/project-preview.test.ts:383:    { kind: "executor", mediaKind: "video", implementationId: "fixture-movie-v2" },
+packages/core/src/project-index.test.ts:150:    identity.implementationId,
+packages/core/src/project-index.test.ts:160:    implementationId: identity.implementationId,
+packages/core/src/source-index.test.ts:118:    implementationId: "source-frame",
+packages/core/src/source-index.test.ts:163:      implementationId: "source-frame",
+packages/core/src/source-index.test.ts:431:        implementationId: f.identity.implementationId,
+packages/core/src/index-processing.fixture.ts:136:          implementationId: projectRendererId,
+packages/core/src/index-processing.fixture.ts:184:        implementationId: "fixture-frame",
+packages/core/src/index-processing.fixture.ts:225:        implementationId: "fixture-scene",
+packages/core/src/index-processing.fixture.ts:293:        implementationId: projectRendererId,
+packages/core/src/index-processing.fixture.ts:342:    async restart(implementationId = projectRendererId) {
+packages/core/src/index-processing.fixture.ts:344:      projectRendererId = implementationId;
+packages/core/src/frame-inspection.ts:67:  implementationId: z.string().min(1),
+packages/core/src/frame-inspection.ts:78:  implementationId: string;
+packages/core/src/frame-inspection.ts:101:  implementationId: z.string().min(1),
+packages/core/src/frame-inspection.ts:131:  implementationId: string;
+packages/core/src/frame-inspection.ts:148:    implementationId: string;
+packages/core/src/frame-inspection.ts:165:      !owners.sourceRenderer.implementationId ||
+packages/core/src/frame-inspection.ts:166:      (owners.project && !owners.project.renderer.implementationId)
+packages/core/src/frame-inspection.ts:189:      implementationId: this.owners.sourceRenderer.implementationId,
+packages/core/src/frame-inspection.ts:240:      implementationId: options.implementationId,
+packages/core/src/frame-inspection.ts:313:    if (parsed.data.implementationId !== this.owners.sourceRenderer.implementationId)
+packages/core/src/frame-inspection.ts:378:        implementationId: plan.options.implementationId,
+packages/core/src/frame-inspection.ts:388:      implementationId: this.project.renderer.implementationId,
+packages/core/src/frame-inspection.ts:401:      this.project.renderer.implementationId,
+packages/core/src/frame-inspection.ts:469:    if (parsed.data.implementationId !== this.project.renderer.implementationId)
+packages/core/src/project-index.ts:26:  "projectId" | "revisionId" | "tap" | "implementationId" | "maxLongEdge"
+packages/core/src/project-index.ts:43:  implementationId: string,
+packages/core/src/project-index.ts:48:    implementationId,
+packages/core/src/project-index.ts:53:    ? composition.window({ tap: parsed.data.tap }, implementationId, "video").window.manifest
+packages/core/src/project-index.ts:100:  implementationId: string,
+packages/core/src/project-index.ts:117:      identity.implementationId,
+packages/core/src/project-index.ts:124:        plan: projectIndexPlan(composition, identity, identity.implementationId),
+packages/core/src/project-index.ts:136:      implementationId: identity.implementationId,
+packages/core/src/project-index.ts:142:      if (identity.implementationId !== implementationId)
+packages/core/src/project-index.ts:193:        frame.implementationId !== identity.implementationId ||
+packages/core/src/project-index.ts:206:          identity.implementationId,
+packages/core/src/project-preview.ts:23:  implementationId?: string | undefined;
+packages/core/src/project-preview.ts:30:  implementationId: string;
+packages/core/src/project-preview.ts:45:  implementationId: string;
+packages/core/src/project-preview.ts:52:    implementationId: z.string().min(1),
+packages/core/src/project-preview.ts:65:    if (!renderer.implementationId)
+packages/core/src/project-preview.ts:70:    return projectCapabilities(this.renderer.implementationId);
+packages/core/src/project-preview.ts:74:    if (input.implementationId !== undefined) this.requireImplementation(input.implementationId);
+packages/core/src/project-preview.ts:81:      implementationId: this.renderer.implementationId,
+packages/core/src/project-preview.ts:89:      implementationId: pinned.implementationId,
+packages/core/src/project-preview.ts:129:  private requireImplementation(implementationId: string) {
+packages/core/src/project-preview.ts:130:    if (implementationId !== this.renderer.implementationId)
+packages/core/src/project-preview.ts:134:        { implementationId },
+packages/core/src/project-preview.ts:140:    return projectWindow(this.projects, this.assets, input, this.renderer.implementationId);
+packages/core/src/project-preview.ts:147:    this.requireImplementation(options.data.implementationId);
+packages/core/src/index-processing.ts:89:    implementationId: string;
+packages/core/src/index-processing.ts:136:      this.project.implementationId,
+packages/core/src/index-processing.ts:319:      implementationId: options.implementationId,
+# 10d — Direct project frames and retained screenshot inspection
+
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw still-image inspection remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+
+## Contract
+
+An agent receives source/project frames and retained screenshot-index results with
+correct occurrence, time domain, revision and generation identity through CLI/MCP.
+
+## Seam and ownership
+
+Source frames use the existing selected-source decoder. Project frames consume the
+compiler's globally phased picture instructions and the same compositor as movie
+previews; do not render and decode a temporary MP4 to obtain a still. Extract only
+the reusable compiled-picture execution boundary from the existing native owner.
+Readiness/capability binding is shared with preview and later audio inspection.
+
+Retained screenshot selection/index keeps its existing lifecycle and bounded
+readers; project coverage uses the occurrence-query owner. Jobs, cache, delivery
+and deletion remain the shared owners from 09.
+
+## Work and review surface
+
+Extend existing frame/index registry operations with flat source/project selectors.
+Return declared sampling/visible times and exact context pins. Source indexes remain
+raw-source evidence; a processed project frame is explicitly distinguished. Gaps,
+holds, unavailable acquisition and repeated uses retain their identities.
+
+```sh
+node packages/test-harness/editing/frame-evidence.mjs --fixture repeated-picture
+```
+
+## Acceptance
+
+Delivered still membership/timing matches verified preview/export for boundary,
+interior, held and leading partial pictures, repeated/reordered sources and selected
+acquisition gaps. Use asymmetric landmarks to verify orientation/framing. Test
+paging/index coverage, source-generation changes, eviction, cancellation, deletion
+and cross-transport delivery. Unsupported processors/profiles refuse consistently
+with preview. Existing recording/package frame/index gates remain green.
+
+## Visual acceptance
+
+Judge picture membership and framing in contact sheets and boundary crops, not
+new styling. Compare against the named preview/corpus using compare-screenshots;
+run a fresh unprimed screenshot-critique as the final visual check. Retain hashes,
+shots and verdicts. Human review is non-blocking under the spec's standing review
+procedure; no listening or broader codec-quality claim follows from stills.
+
+## Failure boundary and discretion
+
+Do not create a second layer/transform interpreter or bypass source availability.
+Unimplemented pointer/geometry features remain their named later gates.
+
+Delegated: extraction of the coherent native picture executor and index storage
+{
+  "name": "@screenrec/service",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.check.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@screenrec/core": "workspace:*",
+    "@screenrec/protocol": "workspace:*",
+    "@screenrec/composition": "workspace:*"
+  },
+  "devDependencies": {
+    "@screenrec/client": "workspace:*"
+  }
+}
+packages/core/src/frame-inspection.test.ts
+packages/core/src/frame-inspection.ts
+packages/core/src/frame-materialization.ts
+packages/core/src/frames.test.ts
+packages/core/src/frames.ts
+packages/core/src/index-frame.ts
+packages/core/src/source-frame-inspection.test.ts
+
+2026-09-28T16:41:33.715580Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e8e4-23fd-7d52-a79e-98dd948504a4 turn_id=01a0e8e4-2474-7062-b70d-35efdde59081 item_id="exec-2fb72d8f-e09e-492f-9cad-6e4ec45e9fb3"
+codex
+No actionable correctness, regression-coverage, or misleading-claim issues found in the scoped diff. The exclusion behavior, cache identity changes, and public harness agree; native journeys were not rerun.
+No actionable correctness, regression-coverage, or misleading-claim issues found in the scoped diff. The exclusion behavior, cache identity changes, and public harness agree; native journeys were not rerun.
