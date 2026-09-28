@@ -22,8 +22,9 @@ The 24 opaque output rotations match independent pixel reversal exactly and
 reject an omitted rotation. All 100 native PNGs are in [images](images/).
 Expected alpha buffers are gzip-compressed beside their images.
 
-This is a measured PNG geometry checkpoint, not visual acceptance or a new
-movie profile. Fresh visual critique is pending. The full capture set, full-view
+This is a measured PNG geometry checkpoint with [fresh visual review](review/status.md),
+not a new movie profile. [Root integration](root-integration.json) reproduces
+all 100 captured PNGs on the combined worker. The full capture set, full-view
 sheets and 4x feature crops are in [review](review/). The source contains a small
 cursor whose repeated fractional resampling visibly softens its border and
 trail; the alpha gate does not certify sharpness or color fidelity.

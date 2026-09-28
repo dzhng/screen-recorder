@@ -1,8 +1,18 @@
 # Visual review status
 
-Pending fresh unprimed critique. All four agent slots were occupied when the
-request was attempted; the author will yield this slot so the coordinator can
-run the fresh review. No fallback self-review is being used as acceptance.
+Fresh unprimed review inspected all 100 originals, corresponding 4x crops through
+all seven crop sheets, all seven full-context sheets and six individual crops.
+No concrete clipping, missing pointers, detached trails or isolated geometry
+failures were found. Pointer tips remain attached to trail endpoints in both
+orientations. Mild edge softness and uneven magenta trail brightness are visible
+at 4x and subtle at native size; the critic could not distinguish a defect from
+normal resampling. This limitation remains open for quality work.
+
+Root inspection agrees. Independent full-alpha sampling and shift/missing-pointer
+negative controls establish the measured geometry; visual review does not establish
+intended coordinates by itself. Isolated pointer stills cannot prove compositing
+over actual footage, continuous motion or encoded color fidelity. Root's combined
+worker rerun reproduces all 100 PNGs exactly, preserving the reviewed capture set.
 
 Author inspected all seven full sheets followed by all seven crop sheets.
 Each state has one attached cursor/trail and visible asymmetric movement.

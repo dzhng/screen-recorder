@@ -1,0 +1,8 @@
+{
+  "rootCommit": "c3523324",
+  "workerSha256": "2946c6e499e717b040e5bd05875a3f56b01852c2f9f0e2ed7c61e6c6335a17b7",
+  "cases": 6,
+  "capturedPicturesExact": 100,
+  "passed": true,
+  "scope": "PNG pointer geometry only; no encodedcolor/footage/motion acceptance"
+}
