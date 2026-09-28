@@ -94,3 +94,13 @@ affected core run passes 97 checks and times out one source-WAV check at five se
 that unchanged file then passes all 17 checks. Service 16 and the targeted build pass.
 Both outcomes are retained; no timeout threshold was increased and its cause is
 unproven. `root-acquisition-integration.json` records this scope.
+
+## Combined-build scene verification
+
+The root [integration receipt](root-scene-integration.json) reproduces the complete
+public relocation journey with the border-corrected worker. The donor and archive
+are removed, the recipient restarts, and its first scene query returns retained
+events without preparing them again. Current/history media, source and acquisition
+evidence, undo, replay and failure checks remain green. The focused queue/scene
+tests pass on the combined build. Transcript/index, fonts and prepared model
+outputs remain separate unfinished dependencies.
