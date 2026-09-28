@@ -1015,3 +1015,39 @@ trim and stretch replacements keep their single-interval behavior.
   The plan fixed role-free source semantics but left that implementation split
   open. Project taps must join shared processing, and job-reference retirement
   remains an explicit cutover requirement. Landed in the core source WAV pass.
+
+
+## Full source WAV delivery
+
+- **Sound; medium confidence — Bound published cache bytes at the supported WAV ceiling.**
+  A long stereo extraction can exceed the former one-GiB cache despite fitting the
+  native WAV format. The shared default is now four GiB, and the audio owner checks
+  its known minimum size before rendering. The plan required full extraction but
+  left the cache budget unspecified. Existing leases still protect active readers;
+  insufficient free space can fail at publication, and in-progress files are outside
+  this published-byte budget. Custom smaller budgets remain possible. This changes
+  retained disk use, not per-read memory. Landed in the shared capacity pass.
+
+- **Sound; medium confidence — Preflight uses the minimum WAV size, not a copied native header rule.**
+  For a known rate and channel count, exact absolute sample boundaries determine
+  PCM bytes. The check adds the smallest RIFF header; it does not claim to predict
+  every encoder chunk. The plan did not define preflight precision. This prevents
+  certainly oversized work without falsely refusing valid files; final publication
+  checks actual size. The native writer independently owns its format ceiling.
+  Landed in the shared capacity pass.
+
+- **Sound; high confidence — Large MCP audio remains an artifact instead of an inline message.**
+  A full recording can produce a gigabyte WAV. CLI streams it to disk; MCP returns
+  its existing renewable delivery token once audio exceeds the bounded inline size.
+  Small excerpts retain inline audio. The plan specified full delivery but not MCP
+  representation. This lets agents inspect bounded chunks or download the file
+  without allocating a gigabyte message. The same artifact read/renew/close protocol
+  already serves previews. Landed in the public source audio pass.
+
+- **Sound; medium confidence — Source extraction deadlines scale with selected output duration.**
+  A short late excerpt gets startup allowance plus twice its requested duration,
+  rather than a budget based on the discarded prefix. Full extraction receives a
+  longer but finite deadline, capped by the existing worker timer limit. The plan
+  left this scheduling parameter open. This matches the existing movie execution
+  policy; slice 24 still owns empirical long-work and no-progress acceptance.
+  Landed in the public source audio pass.

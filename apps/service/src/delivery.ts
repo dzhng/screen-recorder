@@ -8,7 +8,10 @@ export type DerivativeRead = {
 };
 
 /** Identical IDs in different domains have independent delivery lifetimes. */
-export type DerivativeOwner = Readonly<{ kind: "recording" | "package" | "project"; id: string }>;
+export type DerivativeOwner = Readonly<{
+  kind: "recording" | "package" | "project" | "asset";
+  id: string;
+}>;
 
 type Lease = {
   owner: DerivativeOwner;

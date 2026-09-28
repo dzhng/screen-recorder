@@ -1,6 +1,6 @@
 # 10c — Bounded occurrence evidence and phrase search
 
-Status: in progress. Pure selection, core transcript paging and public routing are verified; live harness integration, phrase search and event/cursor evidence remain open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Pure selection, core transcript paging and public routing are verified; phrase search and event/cursor evidence remain open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -96,5 +96,5 @@ CLI/MCP acceptance and does not close phrase/event work.
 CLI/MCP schema, project job dispatch and service integration. Project retry
 rebuilds only the query manifest; source preparation failures retain explicit
 source retries. Retry accepts query selectors, not paging cursors or limits.
-The isolated public paging journey has passed; its reviewed harness/evidence is
-the next integration step. Phrase search and event/cursor reads remain open.
+The [public paging journey](../assets/10c-public-paging/README.md) and independent
+full-result oracle are integrated, including exact current-runtime hash agreement. Phrase search and event/cursor reads remain open.

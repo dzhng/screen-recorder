@@ -103,13 +103,24 @@ const frameFields = {
 };
 const frameParams = inspection(frameFields);
 
-const audioParams = inspection({
-  revisionId: id.optional(),
-  range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
-    message: "Audio range must be positive and no longer than 30 seconds",
-  }),
-  track: z.enum(["narration", "system", "mix"]).default("mix"),
-});
+const audioParams = z.union([
+  ...inspection({
+    revisionId: id.optional(),
+    range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
+      message: "Audio range must be positive and no longer than 30 seconds",
+    }),
+    track: z.enum(["narration", "system", "mix"]).default("mix"),
+  }).options,
+  sourceSelection
+    .extend({
+      range: range
+        .refine(({ startUs, endUs }) => endUs > startUs, {
+          message: "Audio range must be positive",
+        })
+        .optional(),
+    })
+    .strict(),
+]);
 
 const indexFields = { revisionId: id, generation: id };
 const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };
@@ -577,7 +588,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("audio.get"), params: audioParams })
     .strict()
     .describe(
-      "Request a WAVE excerpt in edited playback time, with explicit acquisition gaps and track availability. Pin the returned revision when polling.",
+      "Request a WAV from an explicitly selected assetId/streamId with optional acquisitionId and source-time range. Omitted source range extracts the full selected stream at its native supported rate/layout; unavailable support is explicit. Recording/package selectors use their bounded playback excerpts and track selection. CLI streams to a file; MCP embeds small audio and leaves large audio as a renewable artifact.read/close delivery. Pin selection, range and any returned revision while polling.",
     ),
   z
     .object({ operation: z.literal("audio.retry"), params: audioParams })

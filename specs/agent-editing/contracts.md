@@ -165,6 +165,11 @@ returns all occurrences, with clip IDs. Source evidence remains source-scoped.
 Projected evidence includes `(clipId, assetId, generation, source range, project
 fragments)` and sorts by `(projectStartUs, resolvedTrackRank, clipId, sourceOrdinal)`.
 Partial words remain partial; never silently promote fragments to whole words.
+Project transcript query windows select intersecting word rows; each row retains
+its full editorial fragments and editorial partiality. Narrowing an inspection
+window must not erase recoverable word boundaries or imply an editorial cut.
+Synthetic unavailable-support gaps have no original word row and describe the
+selected window; raw source evidence retains its original source range.
 
 Project phrase search matches consecutive retained whole-word tokens separately
 on each selected speech-bearing audio track. With no track filter, search all such

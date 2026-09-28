@@ -518,3 +518,91 @@ test("project transcript paging uses shared jobs and returns an empty historical
     error: { code: "NOT_FOUND" },
   });
 });
+
+test("selected-source audio publishes verified WAV bytes through artifact delivery", async () => {
+  const wave = Buffer.from(
+    "524946462800000057415645666d7420100000000300010080bb000000ee02000400200064617461040000000000803e",
+    "hex",
+  );
+  const f = await setup(async (operation, params) => {
+    if (operation === "media.renderWorkspace") return { ok: true, data: { removed: true } };
+    if (operation === "media.probe")
+      return {
+        ok: true,
+        data: {
+          originUs: 0,
+          streams: [
+            {
+              id: "audio:1",
+              kind: "audio",
+              codec: "pcm",
+              decodable: true,
+              startUs: 0,
+              endUs: 1000000,
+              sampleRate: 48000,
+              channels: 1,
+              segments: [{ startUs: 0, endUs: 1000000, empty: false }],
+            },
+          ],
+        },
+      };
+    if (operation !== "media.sourceAudio") throw new Error(operation);
+    expect(params.source).toMatchObject({
+      streamId: "audio:1",
+      available: [{ startUs: 0, endUs: 1000000 }],
+    });
+    expect(params.range).toEqual({ startUs: 0, endUs: 21 });
+    await writeFile(params.output as string, wave, { flag: "wx" });
+    return {
+      ok: true,
+      data: {
+        file: params.output,
+        mediaType: "audio/wav",
+        bytes: wave.length,
+        sampleRate: 48000,
+        channels: 1,
+        layout: "mono",
+        range: params.range,
+        sampleRange: { start: 0, end: 1 },
+        frames: 1,
+        decodedFrames: 1,
+        unavailable: [],
+      },
+    };
+  });
+  const imported = await f.call("asset.import", { requestId: "audio", path: f.path });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const admitted = await f.job((imported.data as { jobId: string }).jobId, "ready");
+  const selection = {
+    assetId: admitted.result!.assetId,
+    streamId: "audio:1",
+    range: { startUs: 0, endUs: 21 },
+  };
+  const pending = await f.call("audio.get", selection);
+  if (!pending.ok) throw new Error(JSON.stringify(pending));
+  await f.job((pending.data as { jobId: string }).jobId, "ready");
+  const ready = await f.call("audio.get", selection);
+  expect(ready).toMatchObject({
+    ok: true,
+    data: {
+      state: "ready",
+      published: {
+        audio: {
+          ...selection,
+          frames: 1,
+          sampleRate: 48000,
+          channels: 1,
+          unavailable: [],
+        },
+      },
+    },
+  });
+  if (!ready.ok) throw new Error(JSON.stringify(ready));
+  const { token } = (ready.data as { delivery: { token: string } }).delivery;
+  const read = await f.call("artifact.read", { token, offset: 0 });
+  expect(read).toMatchObject({
+    ok: true,
+    data: { data: wave.toString("base64"), eof: true, nextOffset: wave.length },
+  });
+  expect(await f.call("artifact.close", { token })).toMatchObject({ ok: true });
+});

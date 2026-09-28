@@ -191,6 +191,10 @@
     "./project-evidence": {
       "types": "./dist/project-evidence.d.ts",
       "default": "./dist/project-evidence.js"
+    },
+    "./audio-inspection": {
+      "types": "./dist/audio-inspection.d.ts",
+      "default": "./dist/audio-inspection.js"
     }
   },
   "scripts": {

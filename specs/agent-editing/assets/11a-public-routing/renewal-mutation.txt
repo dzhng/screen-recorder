@@ -1,0 +1,30 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/cli
+
+ ❯ src/media.test.ts (12 tests | 1 failed | 11 skipped) 32ms
+   × streaming renews the same delivery beyond its original expiry 31ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 skipped (12)
+   Start at  00:03:12
+   Duration  331ms (transform 55%, import 32%, tests 13%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/media.test.ts > streaming renews the same delivery beyond its original expiry
+Error: Media delivery expired
+ ❯ chunks src/media.ts:67:15
+     65|     while (offset < bytes) {
+     66|       if (Date.now() >= expiresAt)
+     67|         throw new MediaDeliveryError("ARTIFACT_EXPIRED", "Media delive…
+       |               ^
+     68|       const response = await callLocal(
+     69|         socket,
+ ❯ src/media.ts:174:28
+ ❯ consumeMedia src/media.ts:106:12
+ ❯ mediaFile src/media.ts:158:12
+ ❯ src/media.test.ts:314:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

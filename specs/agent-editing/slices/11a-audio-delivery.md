@@ -1,6 +1,6 @@
 # 11a — Shared source and project PCM delivery
 
-Status: in progress. Native source-window WAV extraction and core cached admission are integrated; public source/project routes, full-extraction capacity and tap delivery remain open. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Native source-window WAV extraction and core cached admission are integrated; public source routing and shared capacity preflight are integrated; actual native public delivery and project taps remain open. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -82,3 +82,12 @@ sink refuses payloads beyond UInt32.max minus a 4096-byte header reserve before
 creating output. Slice 24 must assess long-output/format limits; the 60-second
 memory point measurement is not full scale acceptance. Public API acceptance
 and processing taps remain required before this slice can close.
+
+
+## Public source route
+
+[Routing and delivery evidence](../assets/11a-public-routing/README.md) records
+selected-source admission through audio.get/retry, shared artifact leases and
+bounded CLI file streaming. Large MCP audio remains an explicit renewable
+artifact; small audio can be inline. Actual native source/large-WAV acceptance
+belongs to the audio-extraction journey, and project tap binding remains open.

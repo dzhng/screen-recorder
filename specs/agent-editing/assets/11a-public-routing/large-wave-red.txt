@@ -1,0 +1,28 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/apps/cli
+
+ ❯ src/media.test.ts (11 tests | 1 failed | 9 skipped) 2698ms
+   × large audio/wav media streams to an exclusive output 84ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/media.test.ts > large audio/wav media streams to an exclusive output
+Error: Media exceeds its delivery byte limit
+ ❯ consumeMedia src/media.ts:112:13
+    110|           : Number.MAX_SAFE_INTEGER;
+    111|     if (bytes > limit)
+    112|       throw new MediaDeliveryError("LIMIT_EXCEEDED", "Media exceeds it…
+       |             ^
+    113|     return await consume({ bytes, mediaType }, chunks());
+    114|   } finally {
+ ❯ mediaFile src/media.ts:152:12
+ ❯ src/media.test.ts:259:10
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed | 9 skipped (11)
+   Start at  23:59:55
+   Duration  4.08s (tests 71%, transform 19%, import 10%)
+

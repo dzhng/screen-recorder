@@ -1,4 +1,4 @@
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 import { mkdtemp, rm, writeFile, access, readFile, readdir } from "node:fs/promises";
 import { listenLocal } from "@screenrec/service";
 import type { OperationResponse } from "@screenrec/protocol";
@@ -6,16 +6,19 @@ import { mediaBytes, consumeBatch, mediaFile } from "./media.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
+  vi.restoreAllMocks();
   for (const close of cleanups.splice(0).reverse()) await close();
 });
 async function fixture(
   bytes: Buffer,
   malformed: boolean | number = false,
   mediaType: "image/png" | "audio/wav" | "video/mp4" = "image/png",
+  onRead: () => void = () => {},
 ) {
   const runtimeDirectory = await mkdtemp("/tmp/scr-delivery-client-");
   let closes = 0;
   let reads = 0;
+  let renewals = 0;
   const listener = await listenLocal({
     runtimeDirectory,
     handler: async (request) => {
@@ -23,6 +26,14 @@ async function fixture(
         closes++;
         return { ok: true, data: { closed: true } };
       }
+      if (request.operation === "artifact.renew") {
+        renewals++;
+        return {
+          ok: true,
+          data: { token: "lease", bytes: bytes.length, expiresAt: Date.now() + 30000 },
+        };
+      }
+      onRead();
       reads++;
       const { offset, maxBytes } = request.params as { offset: number; maxBytes: number };
       const part = bytes.subarray(offset, offset + maxBytes);
@@ -59,6 +70,7 @@ async function fixture(
     result,
     selection: { socketPath: listener.socketPath },
     reads: () => reads,
+    renewals: () => renewals,
     closes: () => closes,
   };
 }
@@ -250,23 +262,33 @@ test("selected batch metadata cannot masquerade as timestamp batch metadata", as
   expect(f.reads()).toBe(0);
 });
 
-test("a playable preview larger than excerpt limits is streamed to an exclusive output", async () => {
-  const bytes = Buffer.alloc(49 * 1024 * 1024 + 17, 0x5d);
-  const f = await fixture(bytes, false, "video/mp4");
-  const directory = await mkdtemp("/tmp/screenrec-preview-delivery-");
-  cleanups.push(() => rm(directory, { recursive: true, force: true }));
-  const output = directory + "/preview.mp4";
-  expect(await mediaFile(f.selection, f.result, output)).toEqual({
-    output,
-    bytes: bytes.length,
-    mediaType: "video/mp4",
-  });
-  expect((await readFile(output)).equals(bytes)).toBe(true);
-  expect(f.reads()).toBeGreaterThan(1);
-  expect(f.closes()).toBe(1);
-  await expect(mediaFile(f.selection, f.result, output)).rejects.toMatchObject({ code: "EEXIST" });
-  expect((await readFile(output)).equals(bytes)).toBe(true);
-});
+test.each(["video/mp4", "audio/wav"] as const)(
+  "large %s media streams to an exclusive output",
+  async (mediaType) => {
+    const bytes = Buffer.alloc(49 * 1024 * 1024 + 17, 0x5d);
+    const f = await fixture(bytes, false, mediaType);
+    const directory = await mkdtemp("/tmp/screenrec-preview-delivery-");
+    cleanups.push(() => rm(directory, { recursive: true, force: true }));
+    const output = directory + "/preview.mp4";
+    if (mediaType === "audio/wav") {
+      expect(await mediaBytes(f.selection, f.result)).toBeNull();
+      expect(f.reads()).toBe(0);
+      expect(f.closes()).toBe(0);
+    }
+    expect(await mediaFile(f.selection, f.result, output)).toEqual({
+      output,
+      bytes: bytes.length,
+      mediaType,
+    });
+    expect((await readFile(output)).equals(bytes)).toBe(true);
+    expect(f.reads()).toBeGreaterThan(1);
+    expect(f.closes()).toBe(1);
+    await expect(mediaFile(f.selection, f.result, output)).rejects.toMatchObject({
+      code: "EEXIST",
+    });
+    expect((await readFile(output)).equals(bytes)).toBe(true);
+  },
+);
 
 test("a failed streamed read leaves no output or partial staging and releases its lease", async () => {
   const f = await fixture(Buffer.alloc(512 * 1024 + 17, 0x6d), 2, "video/mp4");
@@ -276,5 +298,21 @@ test("a failed streamed read leaves no output or partial staging and releases it
     code: "INVALID_RESPONSE",
   });
   expect(await readdir(directory)).toEqual([]);
+  expect(f.closes()).toBe(1);
+});
+
+test("streaming renews the same delivery beyond its original expiry", async () => {
+  let now = Date.now();
+  vi.spyOn(Date, "now").mockImplementation(() => now);
+  const bytes = Buffer.alloc(5 * 512 * 1024, 0x27);
+  const f = await fixture(bytes, false, "audio/wav", () => {
+    now += 9000;
+  });
+  const directory = await mkdtemp("/tmp/screenrec-renew-delivery-");
+  cleanups.push(() => rm(directory, { recursive: true, force: true }));
+  const output = directory + "/full.wav";
+  await mediaFile(f.selection, f.result, output);
+  expect((await readFile(output)).equals(bytes)).toBe(true);
+  expect(f.renewals()).toBe(1);
   expect(f.closes()).toBe(1);
 });

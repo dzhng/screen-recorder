@@ -320,6 +320,11 @@ export async function operate(
       case "audio.get":
       case "audio.retry": {
         const params = operation.params;
+        if ("assetId" in params)
+          return operationError(
+            "NOT_READY",
+            "Asset audio requires the project service until cutover",
+          );
         const method = operation.operation === "audio.get" ? "request" : "retry";
         if ("packageHandle" in params) {
           const inspector = packages.audio(params.packageHandle);

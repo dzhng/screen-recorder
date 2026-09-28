@@ -51,7 +51,8 @@ async function consumeMedia<T>(
   const parsed = ready.safeParse(data);
   if (!parsed.success)
     throw new MediaDeliveryError("INVALID_RESPONSE", "Ready media has no valid delivery");
-  const { token, bytes, expiresAt } = parsed.data.delivery;
+  const { token, bytes } = parsed.data.delivery;
+  let expiresAt = parsed.data.delivery.expiresAt;
   const mediaType: MediaType =
     "frame" in parsed.data.published
       ? "image/png"
@@ -64,6 +65,31 @@ async function consumeMedia<T>(
     while (offset < bytes) {
       if (Date.now() >= expiresAt)
         throw new MediaDeliveryError("ARTIFACT_EXPIRED", "Media delivery expired", true);
+      if (expiresAt - Date.now() < 5000) {
+        const renewal = await callLocal(
+          socket,
+          { id: randomUUID(), operation: "artifact.renew", params: { token } },
+          selection.signal ? { signal: selection.signal } : {},
+        );
+        if (!renewal.ok)
+          throw new MediaDeliveryError(
+            renewal.error.code,
+            renewal.error.message,
+            renewal.error.retryable,
+          );
+        const renewed = receipt.safeParse(renewal.data);
+        if (
+          !renewed.success ||
+          renewed.data.token !== token ||
+          renewed.data.bytes !== bytes ||
+          renewed.data.expiresAt <= expiresAt
+        )
+          throw new MediaDeliveryError(
+            "INVALID_RESPONSE",
+            "Media renewal changed its identity or failed to extend the lease",
+          );
+        expiresAt = renewed.data.expiresAt;
+      }
       const response = await callLocal(
         socket,
         {
@@ -102,14 +128,6 @@ async function consumeMedia<T>(
     }
   }
   try {
-    const limit =
-      mediaType === "image/png"
-        ? 32 * 1024 ** 2
-        : mediaType === "audio/wav"
-          ? 48 * 1024 ** 2
-          : Number.MAX_SAFE_INTEGER;
-    if (bytes > limit)
-      throw new MediaDeliveryError("LIMIT_EXCEEDED", "Media exceeds its delivery byte limit");
     return await consume({ bytes, mediaType }, chunks());
   } finally {
     // Expiry releases the same pin if the service disappeared or the caller was canceled.
@@ -125,11 +143,24 @@ export async function mediaBytes(
   selection: ServiceSelection,
   result: OperationResponse,
 ): Promise<{ bytes: Buffer; mediaType: "image/png" | "audio/wav" } | null> {
+  const parsed = result.ok ? ready.safeParse(result.data) : null;
+  // Large audio remains a renewable artifact for MCP callers instead of becoming one huge message.
+  if (
+    parsed?.success &&
+    "audio" in parsed.data.published &&
+    parsed.data.delivery.bytes > 48 * 1024 ** 2
+  )
+    return null;
   return consumeMedia(selection, result, async ({ bytes, mediaType }, chunks) => {
     if (mediaType === "video/mp4")
       throw new MediaDeliveryError(
         "INVALID_REQUEST",
         "Playable previews must be streamed to a file",
+      );
+    if (mediaType === "image/png" && bytes > 32 * 1024 ** 2)
+      throw new MediaDeliveryError(
+        "LIMIT_EXCEEDED",
+        "Image exceeds its buffered delivery byte limit",
       );
     const output = Buffer.alloc(bytes);
     let offset = 0;

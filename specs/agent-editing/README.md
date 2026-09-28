@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-27.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-28.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
@@ -17,8 +17,9 @@ available public operations only; the installed app has not switched engines.
 Continue [10c occurrence queries](slices/10c-occurrence-queries.md): core and
 public project transcript paging now share pinned manifests/checkpoints and exact
 occurrence mapping. Track-local phrase search and event/cursor reads remain open.
-The public paging journey has passed in isolation; integrate its reviewed harness
-and retained evidence next. See [routing evidence](assets/10c-public-routing/README.md).
+The [public paging journey](assets/10c-public-paging/README.md) is integrated and
+passes against the current audio/transcript runtime. Its original reports and
+subsequent exact-hash integration evidence remain separate.
 
 [10b source acquisition](slices/10b-source-acquisition.md) is verified, including
 actual native transcription, selected-stream parity, cancellation/retry and
@@ -27,10 +28,11 @@ Project paging's frozen transcription fixture verifies projection and delivery,
 not a second native-inference run.
 
 [11a source WAV](slices/11a-audio-delivery.md) has native extraction and core cached
-admission integrated. Public delivery, shared full-extraction capacity/preflight,
-and project processing taps remain open.
+admission, shared capacity preflight and [public routing](assets/11a-public-routing/README.md)
+integrated. Its actual native source journey is in progress; project processing
+taps remain open.
 
-Alongside 10c, continue source WAV admission/cache/delivery and then shared project
+Alongside 10c, complete the actual source WAV journey and then shared project
 tap binding for 11a. Then follow [10d direct frames](slices/10d-frame-inspection.md),
 [11a PCM delivery](slices/11a-audio-delivery.md) and
 [11 acoustic artifacts](slices/11-audio-inspection.md).
