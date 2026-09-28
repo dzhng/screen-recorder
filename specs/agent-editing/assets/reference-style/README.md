@@ -18,8 +18,8 @@ audition the soundtrack; visual inspection cannot identify synthesized audio.
 Timed imported sound effects/music and independent audio replacement are within
 the plan. A built-in sound-effect library or generator is not promised.
 
-An optional scope question asks whether to add automatic person cutouts to this
-run. Until answered, this audit records the missing capability without treating
-it as accepted scope or claiming the full reference is reproducible. A proposed
-processor would need hair/hand edges, temporal stability, moving subjects,
-ordered-stack/bypass behavior, and matching range/preview/export verification.
+The user explicitly chose **Keep the current scope** on 2026-09-28. Automatic
+person cutouts remain outside this run; ordinary rectangular layers are included.
+Do not claim that the completed editor recreates the behind-the-presenter effect
+from ordinary footage. Exact caption edge styling remains a verification detail
+for the existing text/caption slice, not an accepted masking expansion.
