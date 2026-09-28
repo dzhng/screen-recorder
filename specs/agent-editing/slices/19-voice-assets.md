@@ -12,6 +12,8 @@ voice.generate, shared job.get/retry/cancel and model preparation in the common 
 
 ## Work and review surface
 
+Reference extraction explicitly chooses raw or processed audio and retains that provenance. Generated replacement preserves compatible target-owned processing; per-phrase volume adjustment and track treatment remain independent. No automatic denoising or room-tone policy.
+
 Adopt slice 18's frozen runtime/config behind one managed worker boundary. Accept references from current media, imported local audio and past projects after admission. Retain bounded reference bytes. Persist outputs for retry rather than regenerate unpredictably. Return actual duration; the agent explicitly chooses any stretch/pad/ripple fit. Support the contracts' room-tone workflow through ordinary retained audio assets and mixing; verify reference-region provenance and unchanged context outside declared transitions.
 
 Create this planned probe in this slice:

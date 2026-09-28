@@ -81,3 +81,43 @@ real outputs. All findings were resolved; no compatibility or cycle defect remai
 
 No production code, model weights, captured footage or runtime performance results
 were generated in this planning pass. The existing CLI skill is from discovery.
+
+## Ordered processing amendment
+
+The user explicitly chose one get/set stack per clip, track, nested group or
+output, processing that target's combined result. This supersedes earlier
+clip-only/source-stage drafts and the briefly accepted inherited-member-settings
+proposal. Compatible processing survives replacement; media/caption attachments
+retain their distinct lifecycle. No migration or UI scope was added.
+
+Four independent read-only drafts informed this amendment: Codex fewest-slices,
+risk-first and seam-quality lenses, plus Claude Opus's simplicity/end-to-end lens.
+All agreed on typed target ownership, a single parent tree, preserved originals,
+explicit gain and backend quality gates. Synthesis chose one canonical collection
+of target-owned stacks rather than embedding duplicated schemas on every entity.
+It is not an attachment store: replacement/partitioning explicitly owns its lifecycle.
+
+The fixed clip stack follows retiming, matching the result-oriented rule at every
+target. Claude proposed pre-retime clip processing to give denoising natural-speed
+speech; this remains a rejected alternative because it gives clip and parent
+stacks different timing behavior. Post-retime denoise is an explicit research gate,
+not an assumed quality success. No hidden upstream movement is permitted.
+
+Homogeneous audio/video groups use fixed transparent project-canvas intermediates,
+not content-derived bounds. This keeps parent coordinates stable when children
+change. Output has one list with media-typed steps, rather than two master APIs.
+Nested routing does not imply group-local time or a new synchronization policy.
+
+Atomic rejection of incompatible retained processing was chosen over editable
+but unrenderable revisions. Errors name the settings needing repair; an earlier
+set/reset in the same batch can resolve them. This preserves existing reducer
+validation and prevents silent bypass or loss of configuration.
+
+The foundation is split into 03b topology and 03c stateless lifecycle so the next
+pass has one verdict. Existing audio/video/curve slices own real execution; 12c
+reproduces denoise and 15a adopts it after retime/window support. Additional IIR,
+blur and color-matrix families proposed by Claude are not added just to test a
+framework. Its claim that copying clip fields alone preserves split processing
+was not adopted: identities, curve restriction and DSP state need explicit gates.
+Universal finite-context assumptions and clip-only fallback denoising were also
+rejected; research must prove context at the required scopes before readiness.

@@ -8,11 +8,13 @@ Any admitted audio instances can overlap and replace one another independently o
 
 ## Seam and ownership
 
-Native audio execution consumes the independent audio plan from slice 05. Replace recording-role uniqueness inside the new path with stream/clip identity. Mixing is linear float PCM at the declared output rate/channels with explicit gains and ramps.
+Native audio execution consumes the independent audio plan from slice 05. Replace recording-role uniqueness inside the new path with stream/clip identity. Mixing is linear float PCM at the declared output rate/channels with explicit constant gain stacks; animated gains and fades belong to 16.
 
 ## Work and review surface
 
-Decode and resample admitted streams, place them by project sample bounds, sum requested tracks and report peak/clipping evidence. Implement explicit trims, silence gaps and fades without automatic ducking/normalization. Preserve acquisition-gap reporting. Rate-changing pitch-preserved audio waits for slice 14.
+Execute constant gain stacks at clip, track, nested group and output scopes after their declared combination. No inherited source-count attenuation or hidden join ramps. Empty/bypassed stacks preserve baseline; adding a silent track cannot change other levels. Gain chains commute, so actual noncommuting audio-order proof belongs to 15a.
+
+Decode and resample admitted streams, place them by project sample bounds, sum requested tracks and report peak/clipping evidence. Implement explicit trims and silence gaps without automatic ducking/normalization. Preserve acquisition-gap reporting. Rate-changing pitch-preserved audio waits for slice 14.
 
 Create this planned probe in this slice:
 

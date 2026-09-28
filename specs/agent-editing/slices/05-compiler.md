@@ -1,6 +1,6 @@
 # 05 — Compile bounded execution plans
 
-Status: not started. Dependencies: [01](./01-composition.md), [03](./03-edits.md).
+Status: not started. Dependencies: [01](./01-composition.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
 
 ## Contract
 
@@ -11,6 +11,8 @@ One compiler produces bounded, windowed execution instructions used by every ins
 `compileWindow(revision, assetMetadata, range, rendition)` and bounded frame/audio schedule iterators in composition. Outputs use asset/stream IDs, exact project bounds, source requests, layer order and prepared audio segments; service alone resolves assets to retained files.
 
 ## Work and review surface
+
+Compile the processing target forest, ordered stacks and combined parent inputs per processing.md. Preserve fixed post-retime placement, depth-first layer rank, raw/dry/after-step tap identity, implementation/context dependencies and downstream invalidation. Prove nested-tree window/full schedule equality; reject unsupported execution explicitly.
 
 Implement global frame phase, source sample selection requests, sample-accurate audio placements, gaps/holds, compiled transform defaults and dependency identity. Reuse one interval index per immutable revision. Define strict worker-facing records without a second editable project format.
 

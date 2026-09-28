@@ -12,6 +12,8 @@ Composition retime operations resolve durations/attachments; shared jobs prepare
 
 ## Work and review surface
 
+Run clip stacks after exact retime/pitch preparation. Use the single core prepared-derivative owner shared with other processors. Retime changes invalidate affected downstream output; source evidence remains raw. Test post-retime processing and pure-split preservation together.
+
 Slow a selected rushed passage with linked video/evidence, then slow audio alone after an explicit unlink. Separately insert/replace visuals while narration stays at its original speed. Use clip splits for piecewise rate changes; video holds/loops use the existing model. Keep time fitting an explicit agent operation.
 
 Create this planned probe in this slice:

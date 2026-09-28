@@ -133,3 +133,30 @@ test, lint and format checks plus relevant native/media harnesses. Follow
 [review](../../.agents/skills/review/SKILL.md) and the substantive-change
 [Codex review](../../.agents/skills/codex/SKILL.md) policy before implementation
 closeout; the present planning-only pass does not execute those runtime gates.
+
+## Ordered processing gates
+
+The [processing contract](processing.md) applies through every target scope.
+03b proves acyclic single-parent routing and unchanged clip timing; 03c proves
+atomic get/set, stable identities, repeated steps, bypass and structural lifecycle.
+04 repeats edits through CLI/MCP with revision replay/undo. 05 proves bounded
+compilation and target/tap identity. No JSON-only check proves DSP execution.
+
+08 checks nested gain placement, empty/bypass identity and unchanged amplitude
+when adding a silent track. Two gains commute: 15a must prove real noncommuting
+audio order and combined-input semantics using the frozen denoiser. 15 checks
+nested translucent visuals, ordered geometry and composed pointer mapping; 16
+checks activation/animation through exact splits and padding. Visual owners retain
+the existing compare-screenshots and final unprimed screenshot-critique gates.
+
+12c/15a require protected speech, raw and separately loudness-matched auditions,
+clean/noisy controls, post-retime speech, overlaps, exact samples/latency, poisoned
+excluded inputs, chunk-size/reset behavior and full/range equivalence. Independent
+listening remains distinct from ASR/noise metrics. Pure splits preserve DSP state;
+changes to retained input invalidate it. Failed state isolation is a failed gate,
+not permission to weaken the existing excluded-speech contract.
+
+22 retains processed current/history playback without donor model cache. 24 bounds
+group depth/width, stack length, context/preparation work and retained storage.
+25 demonstrates real agent get/set, exceptions via clips/separate tracks, optional
+denoise, replacement, split, preview/export, undo and package relocation.

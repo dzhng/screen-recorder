@@ -12,6 +12,8 @@ Shared evidence jobs provide WAV excerpts, full selected-stream/project-mix WAV 
 
 ## Work and review surface
 
+Provide raw-source and processed-target dry/after-step taps through the same execution plan. Compare bounded waveform/spectrogram and audio results against full output, including nested group treatment and bypass.
+
 Expose bucket origin/duration, min/max/RMS, channel handling and returned bounds in JSON. Image axes identify time domain, units, revision/generation and range. Full-track extraction is a bounded background job. Silence/energy suggestions are explicitly heuristic, never edits. Reuse artifact delivery tokens/file output.
 
 Create this planned probe in this slice:

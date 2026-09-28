@@ -78,3 +78,18 @@ A failed research gate does not silently remove user scope or become a passing
 mock. Record the failure, try the bounded alternative named by that slice, and
 reslice the failing seam if neither works. Unrelated dependency-ready work can
 continue. Keep the capability incomplete and report the exact limitation.
+
+## Optional noise reduction
+
+Primary sources revisited 2026-09-27: [FFmpeg afftdn](https://ffmpeg.org/ffmpeg-filters.html#afftdn)
+is a conventional spectral candidate; [RNNoise](https://github.com/xiph/rnnoise)
+and [DeepFilterNet](https://github.com/Rikorose/DeepFilterNet) are learned speech
+noise-suppression candidates. Documentation is candidate discovery, not acceptance
+of quality, distribution rights, runtime or latency. Freeze actual revisions,
+models, licenses and preparation behavior in [12c](slices/12c-noise-reproduction.md).
+No new denoising experiment or model download is claimed by this plan update.
+
+Reproduce the actual fixed post-retime and combined-result input semantics.
+Reject a candidate that meets noise-floor metrics by damaging speech. Compare a
+bounded conventional and learned implementation before [15a](slices/15a-noise-processing.md)
+adoption; do not silently use the installed FFmpeg binary as a product dependency.

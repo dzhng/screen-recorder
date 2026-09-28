@@ -198,3 +198,10 @@ The discovery kickoff has been fulfilled by [README.md](README.md). To build:
 implement that spec starting at slice 00, preserve the decisions here, and update
 its handoff and evidence after each pass. Do not present proposed APIs or model
 capabilities as shipped.
+
+## Processing scope amendment
+
+The [processing discovery](PROCESSING-MAP.md) records the later accepted simple
+stack API. Its reconciled [contract](processing.md) adds nested target processing
+and preserves compatible processing on replacement; original source-attached
+media/caption removal rules remain distinct. Follow the current README handoff.

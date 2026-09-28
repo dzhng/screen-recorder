@@ -24,11 +24,12 @@ flowchart LR
 
 | Concept | Owner | Consumers and boundary |
 | --- | --- | --- |
-| Composition, time maps, anchors, edit algebra, curve compilation | New `packages/composition` (`@screenrec/composition`) | Pure TypeScript; no filesystem, database or native calls. Protocol imports its serializable schemas. Service calls the reducer/compiler. |
+| Composition, processing registry/tree, time maps, anchors, edit algebra, curve compilation | New `packages/composition` (`@screenrec/composition`) | Pure TypeScript; no filesystem, database or native calls. Protocol imports its serializable schemas. Service calls the reducer/compiler. |
 | Asset admission, immutable identity, dependencies and leases | Focused asset modules in `packages/core` | Service handles local paths and worker probing. Composition sees metadata/IDs only. Capture and generation publish through the same asset boundary. |
 | Project revisions, transaction/replay/undo | Focused project store modules in `packages/core` | Reuse the proven transaction pattern from `library.ts`; one catalog/connection owner, not one DB per subsystem. Store calls the pure reducer. |
 | Source evidence generations | Existing processing/evidence owners refactored to asset/stream identities | Preserve acquired data, timing and provenance. Project projections are separate reads through the composition mapping, never rewritten source evidence. |
 | Job admission, cancellation, restart and publication | Existing core jobs + service coordination | Generalize target identity once to assets/projects; do not create separate preview, TTS and export queue implementations. |
+| Prepared derivatives | One core lifecycle shared by retiming and processors, using existing jobs | Retain pinned implementation/context identity and published outputs; never prepare inside edit transactions. |
 | Render semantics | Composition compiler | Supplies resolved frame schedules, audio placements and compiled effects. No native second interpretation of editorial commands. |
 | Decode, pixel execution, PCM processing, encode | Swift targets under `helpers/mac` | Chosen mechanisms must pass reproduction gates. The same executor serves inspection, range previews and exports. |
 | Local voice inference | Prepared, pinned worker selected by voice research | Sidecar process if MLX Audio Python wins; no cloud service, embedded editorial agent, or mandatory training. Same asset/job lifecycle as other processing. |
@@ -40,7 +41,14 @@ Add the pure package because composition has an independently testable algebra
 and multiple consumers. Keep I/O modules in the existing core/service; do not
 invent an application per operation. Native wire envelopes are an external
 boundary; code generation or a small typed bridge is allowed, but the wire must
-not become another authoring model. No arbitrary `effects: any[]` escape hatch.
+not become another authoring model. No arbitrary processor parameter-bag escape hatch.
+
+[Processing](processing.md) is one target forest and one ordered-stack owner in
+composition. There is no inherited settings system, parallel routing or effect
+mutation API. Processing groups and synchronized edit groups remain distinct.
+Native workers execute compiled post-retime/combined-result instructions; preview,
+inspection and export consume the same plan. Replace unshipped schema placeholders
+directly; no migration or compatibility adapter is required.
 
 ## Source preservation and fresh storage
 

@@ -3,7 +3,8 @@
 Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits underway. Updated 2026-09-27.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
-the [map](MAP.md) remains the record of user intent.
+the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
+[Ordered processing](processing.md) owns the accepted one-stack-per-target API.
 
 ## Next Agent Prompt
 
@@ -18,7 +19,8 @@ Authored silence and hold/silence replacement expansion are verified. Next run
 the full linked-replacement harness and close the structural-edit slice. Preserve the accepted
 [03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Durable projects
 [04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow the
-completed reducer; the first public editing checkpoint remains [09](slices/09-first-preview.md).
+completed reducer and [03b routing](slices/03b-processing-targets.md) →
+[03c stacks](slices/03c-processing-stacks.md); the first public editing checkpoint remains [09](slices/09-first-preview.md).
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
 are integrated in the isolated service. Import identity and job admission commit
@@ -32,7 +34,8 @@ quality and broader color coverage remain open;
 [13a](slices/13a-stretch-endpoints.md) has corrected numerical support evidence but
 needs protected-word/listening and short-duration policy acceptance; and
 [18](slices/18-voice-reproduction.md) runs offline with a passing independent ASR word check, but still needs identity,
-delivery and join acceptance. Do not adopt numerical success as speech-quality proof. Camera
+delivery and join acceptance. Do not adopt numerical success as speech-quality proof. Noise reduction [12c](slices/12c-noise-reproduction.md) is a separate unstarted
+research branch; it does not block the first preview. Camera
 [20](slices/20-camera-reproduction.md) is still unstarted.
 
 Current evidence:
@@ -94,7 +97,10 @@ takes and imported footage: remove mistakes, audible fillers and accidental word
 repetitions; slow rushed passages; insert or overlap footage; replace video while
 keeping sound or vice versa; add music, text, captions and keyframed zooms; generate
 replacement words from selected local reference audio; verify and export a local
-video and portable editable project at requested dimensions.
+video and portable editable project at requested dimensions. Optional ordered
+audio/video processing supports clips, tracks, nested groups and final output,
+including verified local noise reduction, bypass, windows and supported animation.
+Parent stacks process combined results; no inherited settings or member overrides.
 
 CLI is primary; MCP exposes exactly the same operations. Commands edit a managed
 project in atomic, undoable, revision-bound batches. General composition/keyframe
@@ -114,10 +120,10 @@ implied; capabilities stay extensible through the one typed composition model.
 
 | Checkpoint | What becomes usable | Owning slices |
 | --- | --- | --- |
-| Prove the risky mechanisms | Frozen media/voice/stretch experiments and exact timing contract | 00–01, 06, 12, 13, 18, 20 |
+| Prove the risky mechanisms | Frozen media/voice/stretch experiments and exact timing contract | 00–01, 06, 12/12c, 13, 18, 20 |
 | First working edit | Import two clips, independently replace audio/video, undo, preview and export | 02–09 |
 | Give agents reliable evidence | Every repeated/reordered word/event, waveform/spectrogram, full audio delivery, verified cleanup pipeline | 10–12b |
-| Full composition | Retiming, presenter layers, pointer geometry, keyframes, captions and local generated speech | 14–19 |
+| Full composition | Ordered processing, retiming, presenter layers, keyframes, captions and local generated speech | 14–19 |
 | Record and carry projects | Separate synchronized webcam, durable dependencies and editable relocated packages | 20–22 |
 | One production engine | Cutover with preservation parity, scale checks and autonomous real-agent acceptance | 23–25 |
 
@@ -128,8 +134,8 @@ only after their recorded gates pass.
 ```mermaid
 flowchart LR
   Corpus[00 Corpus] --> Model[01 Composition]
-  Model --> Core[02–05 Assets / edits / transactions / compiler]
-  Corpus --> Research[06 / 12 / 13 / 18 / 20 Reproductions]
+  Model --> Core[02–05 Assets / edits / routing / stacks / compiler]
+  Corpus --> Research[06 / 12 / 12c / 13 / 18 / 20 Reproductions]
   Core --> First[07–09 First playable edit]
   Research --> First
   First --> Evidence[10–12b Evidence]
@@ -145,7 +151,7 @@ flowchart LR
 ```
 
 The diagram groups branches for readability; it does not imply that voice/camera
-research blocks the first preview. Individual dependency lists are checked for cycles.
+or noise research blocks the first preview. Individual dependency lists are checked for cycles.
 
 ## Global checklist
 
@@ -155,6 +161,8 @@ research blocks the first preview. Individual dependency lists are checked for c
 - [x] [02 — Immutable asset admission](slices/02-assets.md)
 - [x] [03a — Preserve exact edit boundaries](slices/03a-exact-edit-boundaries.md)
 - [ ] [03 — Structural edits and attachments](slices/03-edits.md)
+- [ ] [03b — Processing targets and nested routing](slices/03b-processing-targets.md)
+- [ ] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)
 - [ ] [04 — Durable projects and shared commands](slices/04-projects.md)
 - [ ] [05 — Compile bounded execution plans](slices/05-compiler.md)
 - [ ] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
@@ -165,10 +173,12 @@ research blocks the first preview. Individual dependency lists are checked for c
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
+- [ ] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
 - [ ] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
 - [ ] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
 - [ ] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
+- [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)
 - [ ] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
 - [ ] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
@@ -185,6 +195,8 @@ research blocks the first preview. Individual dependency lists are checked for c
 - [Contracts](contracts.md) fixes time domains, identity, edit/ripple/link/anchor
   behavior, project storage, inspection and output semantics. New choices require
   an explicit spec update, not an unrecorded implementer guess.
+- [Processing](processing.md) owns target routing, atomic get/set stacks, fixed
+  execution order, replacement preservation and shared-result semantics.
 - [Architecture](architecture.md) gives each concept one owner. A temporary
   development boundary is removed in slice 23; no compatibility wrapper survives.
   Preview/export compile the same document. Generated/imported/captured assets
@@ -212,7 +224,10 @@ No milestone depends on a finished editor GUI.
 Planning validation consists of three independent whole-plan drafts (fewest-slices
 Codex, risk-first Claude, seam-quality Claude), primary-source research, ownership
 and contract review, a dependency/link/required-section audit, and scrollback
-reconciliation. No new rendering, voice quality, webcam or performance gate is
+reconciliation. The processing amendment adds four independent drafts (three
+Codex lenses and Claude Opus), a scoped ownership review and a checked 34-slice
+dependency graph. Review fixed denoise dependencies on retiming/automation and
+kept fades in the curve owner rather than early audio mixing. No new rendering, voice quality, webcam or performance gate is
 claimed passed by planning validation. Implementation evidence lives in the
 current handoff and owning slices.
 

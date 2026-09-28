@@ -12,6 +12,8 @@ Adopt the frozen slice 06 mechanism behind one composition video execution opera
 
 ## Work and review surface
 
+Consume processing-aware plans. Before slice 15, report unimplemented visual processor kinds explicitly; empty-stack nested ordering must still agree with compiler leaf order. Do not silently skip configured steps.
+
 Consume bounded schedules from slice 05, preserve PTS/orientation and source gaps, handle repeat/reorder/holds and a single visible layer at each time. Implement background/canvas sizing and matching frame/range rendering. Layer geometry is slice 15; this slice only executes already resolved full-frame placements.
 
 Create this planned probe in this slice:

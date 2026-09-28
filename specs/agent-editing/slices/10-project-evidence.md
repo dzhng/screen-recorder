@@ -12,6 +12,8 @@ Asset-scoped source processing/readers feed one composition projection owner. Pr
 
 ## Work and review surface
 
+Keep raw source evidence immutable and identify processed target/tap and processing dependencies on project artifacts. Parent processing is excluded from a child tap explicitly, never by an undocumented read path.
+
 Refactor source acquisition metadata away from one-recording presentation assumptions without rewriting raw evidence. Add explicit source/project scopes to the shared inspection schemas. Page in the stable ordering in contracts.md, including simultaneous tracks and repeated sources. Preserve acquisition gaps, partial words and traceable source IDs.
 
 Create this planned probe in this slice:

@@ -10,7 +10,7 @@ An **asset** is immutable admitted media with a byte hash and probed streams. A
 clip IDs; an asset ID alone can never target a specific use of a word or frame.
 
 `AssetId` identifies immutable media bytes, `StreamId` a probed stream within
-them, and `ClipId`, `TrackId`, `EffectId`, `SyncGroupId` are opaque identities.
+them, and `ClipId`, `TrackId`, `ProcessingGroupId`, `ProcessingStepId`, `SyncGroupId` are opaque identities.
 Evidence identity additionally includes its processing generation and policy.
 Origin is capture/import/generated provenance, not a restriction on use as audio
 or video. Do not encode imported speech as a fake captured narration role.
@@ -27,7 +27,8 @@ All assets referenced by retained revisions remain reachable through undo.
 Generation stores the actual bounded reference audio as an admitted asset plus
 reference text and model/request provenance. No separate enrollment object is
 required. Imported original bytes are retained even if decoding derivatives are
-created. Derived caches can be rebuilt and are not sources of truth.
+created. Rebuildable caches are not sources of truth; model-dependent published processing
+results needed for playback/history are retained dependencies, per [processing](processing.md).
 
 Probe metadata records a shared asset presentation origin and each stream's
 offset from it. Normalize the earliest valid presentation time to asset time zero
@@ -68,23 +69,26 @@ type Curve = {
 type Composition = {
   canvas: { width: number; height: number;
     fps: { numerator: number; denominator: number }; background: string };
-  tracks: { id: string; kind: "video" | "audio"; order: number }[];
+  tracks: { id: string; kind: "video" | "audio"; order: number; parentId?: string }[];
+  groups: { id: string; kind: "video" | "audio"; order: number; parentId?: string }[];
   clips: Clip[];
   syncGroups: { id: string; clipIds: string[] }[];
-  effects: Effect[];
+  processing: { target: ProcessingTarget; steps: ProcessingStep[] }[];
   captions: Caption[];
 };
 ```
 
-The typed `Effect` variants are transform, crop, opacity, audio gain and captured
-pointer presentation. `Caption` holds literal text/style and an anchor; it can be
+[Processing](processing.md) defines ProcessingTarget/ProcessingStep, the typed registry,
+one get/set stack API, nested groups and fixed execution order. Variants include
+audio gain, geometry, opacity, pointer presentation and verified noise reduction
+when their capability slices pass. `Caption` holds literal text/style and an anchor; it can be
 seeded from pinned transcript occurrences. There is no persisted special zoom,
 presenter, B-roll or filler-removal object. Convenience operations expand into
 ordinary edits and return their expansion for inspection.
 
 Empty projects are valid editable state. Rendering requires a positive requested
 range; an audio-only project can render against its explicit canvas background.
-Duration is the latest resolved clip/caption/project-effect end. A project gap
+Duration is the latest resolved clip/caption end; processing windows do not extend it. A project gap
 renders the declared background and silence. Gaps in *acquisition* remain reported
 as unavailable source evidence; they must not become fictitious captured silence.
 Authored silence is an explicit audio-only occurrence with no asset, stream,
@@ -94,8 +98,11 @@ its identity and authored interval remain visible in the composition. Normalized
 clip anchors can follow it, while content anchors require an invertible source
 clock. It introduces no asset dependency or generated silence file.
 
-Tracks order visual layers from lower to higher integer `order`, unique per video
-track. Clips may not overlap within a track; use separate tracks for overlaps.
+Tracks and processing groups order visual siblings from lower to higher integer
+`order`, unique across video siblings under one parent. Parent omission means
+output. Grouping changes routing, never clip timing or synchronization. The compiler
+derives a depth-first leaf rank for evidence ordering; [processing](processing.md)
+owns the forest contract. Clips may not overlap within a track; use separate tracks for overlaps.
 Audio tracks sum without order significance. No automatic normalization or ducking:
 gain automation is explicit and inspectors report peaks/clipping. An optional
 explicit output limiter is a future typed effect, not a hidden export change.
@@ -143,7 +150,7 @@ caption timing, or evaluate a different source sample from a full export.
 `projectToSource` identifies all active visual/audio occurrences; `sourceToProject`
 returns all occurrences, with clip IDs. Source evidence remains source-scoped.
 Projected evidence includes `(clipId, assetId, generation, source range, project
-fragments)` and sorts by `(projectStartUs, trackOrder, clipId, sourceOrdinal)`.
+fragments)` and sorts by `(projectStartUs, resolvedTrackRank, clipId, sourceOrdinal)`.
 Partial words remain partial; never silently promote fragments to whole words.
 
 Project phrase search matches consecutive retained whole-word tokens separately
@@ -174,7 +181,8 @@ final document change, including batches that undo their own intermediate work.
 
 | Operation | Defined behavior |
 | --- | --- |
-| Track / canvas | Add an explicit track, remove an empty track, reorder all video layers, or patch canvas dimensions/rate/background. Removing an occupied track requires explicit clip edits first. |
+| Track / canvas | Add an explicit track, remove an empty track, reorder all video track/group siblings under one parent, or patch canvas dimensions/rate/background. Removing an occupied track requires explicit clip edits first. |
+| Processing / groups | Get a target stack; atomically set its complete list in edit.apply. Add/remove groups and explicitly set parent/sibling routing. [Processing](processing.md) owns these contracts; sync groups remain separate. |
 | Place / overlap | Place a selected stream without moving other content; require a free interval or a different track. Importing AV and placing it are separate actions. |
 | Insert | Open a gap by splitting at insertion time and shifting content on explicit tracks by the inserted duration. Place new media into that gap in the same atomic batch. The command requires ripple scope; named convenience commands can choose a documented scope and show it. |
 | Remove | Delete the addressed range/occurrences; `ripple: none` leaves a gap. Ripple requires explicit track IDs and collapses exactly the removed union. |
@@ -188,9 +196,11 @@ final document change, including batches that undo their own intermediate work.
 
 Interval-preserving replacement retains the addressed occurrence ID and its
 synchronization membership. Without expansion, an identical source selection preserves attachments;
-a source identity or selection change removes its descendants instead of assigning
+a source identity or selection change removes its attached media descendants instead of assigning
 them to new content. Detach/reanchor beforehand to retain chosen attachments.
-Validate the whole supplied selection before applying a fitting policy. `trim`
+Owned processing is preserved when compatible, or explicitly reset; its lifecycle
+and incompatible-reference errors follow [processing](processing.md), not media
+attachment removal. Validate the whole supplied selection before applying a fitting policy. `trim`
 keeps its beginning and requires sufficient duration; agents select a different
 source start explicitly. `stretch` keeps the selected source range and authors
 pitch preservation for audio unless `follow` is requested. `ripple` instead
@@ -207,7 +217,8 @@ both IDs. The tail joins the existing sync group, or creates a group with the
 prefix. Linked edits therefore carry the envelope, while selected scope edits
 only the specifically addressed pieces. Hold uses the last selected microsecond;
 source gaps remain unavailable rather than invented footage. Equal duration
-creates no tail. Expansion removes old attached descendants even when the same
+creates no tail. Expansion partitions retained processing over the prefix/tail using its lifecycle
+contract. Expansion removes old attached media descendants even when the same
 source selection is retained; detach/reanchor first to keep chosen attachments.
 These fits do not create a second within-clip timeline or automatic rate change.
 
@@ -246,7 +257,8 @@ Content anchors refer to one clip occurrence and its source range. They follow
 move and retime. Trims intersect the anchor with surviving source content. Splits
 partition attached effects/overlays/captions and preserve boundary curve values.
 No surviving content removes the attachment. Replacing content does not retarget
-its old attachments to unrelated media; the agent can add/reanchor them explicitly.
+its old media/caption attachments to unrelated media; the agent can add/reanchor
+them explicitly. Target-owned processing follows its separate preserve/reset policy.
 
 An attached media overlay uses the same resolved placement algebra: when its
 parent is shortened or retimed, preserve the corresponding portion of its own
@@ -270,9 +282,11 @@ what speaking pace is appropriate.
 ## Visual and audio parameters
 
 Coordinates use top-left canvas space, positive x right/y down, square pixels.
-Crop is in oriented source pixels. The order is source orientation → source crop
-→ fit into the requested rectangle → scale/rotation about a normalized pivot →
-translation → opacity → composition. Fit modes are explicit contain/cover/stretch;
+Clip processing starts in oriented source pixels; crop uses the preceding
+image domain. Within a geometry processor the order is crop → fit into the
+requested rectangle → scale/rotation about a normalized pivot → translation.
+Stack order controls the order of distinct instances, including opacity. Parent
+processors consume the combined canvas-sized surface, per [processing](processing.md). Fit modes are explicit contain/cover/stretch;
 contain is the convenience default. Do not bake orientation or crop into source
 assets. Pointer positions and trails use the same transform as their source.
 
@@ -316,7 +330,7 @@ screenrec preview.get --params - --output preview.mp4 < preview.json
 ```
 
 `project.create/list/get/delete`, `asset.import/get/list`, `edit.apply/undo/restore`,
-`revision.get/history`, source/project inspection, `preview.get/retry`,
+`revision.get/history`, `processing.get/capabilities`, source/project inspection, `preview.get/retry`,
 `export.create/status/list/retry/recover/cancel/abandon`,
 `package.open/status/close`, `job.get/retry/cancel`, model preparation and
 `voice.generate` are
@@ -378,6 +392,9 @@ includes bounded WAV excerpts and complete selected-stream/project-mix WAV expor
 as a job. Waveforms return min/max/RMS buckets with bucket duration and optional
 timestamped images. Spectrograms return bounded images with time/frequency axes.
 Silence/energy candidates are labeled heuristic and never cut anything themselves.
+Processed target/tap inspection uses the same stack executor as preview/export;
+raw source evidence remains unchanged. Artifacts identify which target and step
+they represent, including whether later parent processing is excluded.
 
 Import baseline: AVFoundation-decodable MOV/MP4 H.264/HEVC, WAV/AIFF/M4A/MP3 audio,
 and PNG/JPEG stills, verified by the import slice's fixtures. Probe unsupported

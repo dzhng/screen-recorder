@@ -1,6 +1,6 @@
 # 04 — Durable projects and shared commands
 
-Status: not started. Dependencies: [02](./02-assets.md), [03](./03-edits.md).
+Status: not started. Dependencies: [02](./02-assets.md), [03](./03-edits.md), [03c](./03c-processing-stacks.md).
 
 ## Contract
 
@@ -11,6 +11,8 @@ The same CLI/MCP calls create and atomically edit durable managed projects with 
 Core ProjectStore composes the pure reducer with the one catalog transaction owner. Add project.create/list/get/delete, edit.apply/undo/restore and revision.get/history schemas to packages/protocol. Use existing CLI JSON stdin and MCP dispatch; do not invent space-separated subcommands.
 
 ## Work and review surface
+
+Publish revision-pinned processing.get and registry-derived capabilities; processing.set and routing edits use the same edit.apply transaction. Verify multi-target set rollback, no-op/replay, undo and retained processing dependencies through both CLI and MCP.
 
 Use the fresh library layout in architecture.md. Commit document, replay receipt, dependency references and undo state together. Only ready assets enter a batch. Prepare jobs and files outside transactions; reuse the shared job.get/retry/cancel contract from [02a](./02a-preparation-jobs.md). Preserve replay-before-stale checks and new revision identities for undo/restore. Return created IDs and edit expansion.
 

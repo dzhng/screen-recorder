@@ -1,6 +1,6 @@
 # 22 — Relocatable editable projects
 
-Status: not started. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [11](./11-audio-inspection.md), [17](./17-text-captions.md).
+Status: not started. Dependencies: [09](./09-first-preview.md), [10](./10-project-evidence.md), [11](./11-audio-inspection.md), [17](./17-text-captions.md), [15a](./15a-noise-processing.md).
 
 ## Contract
 
@@ -11,6 +11,8 @@ A portable package contains an editable project and all dependencies needed for 
 Replace fixed-role package interpretation in the new path with one asset-inventory/dependency manifest. Reuse bounded archive creation/extraction and retained-file ownership. package.open/status/close inspect the package; explicit project adoption owns independent durable asset references.
 
 ## Work and review surface
+
+Retain editable routing/stacks and lossless prepared outputs required by current and historical model-dependent processing. Remove donor model cache and prove processed playback/undo; changed settings can require explicit preparation. Dependency fixtures can develop the package mechanism early, but final acceptance includes real 15a output.
 
 Include current/history documents, referenced source/generated/reference audio, evidence generations and font requirements. Media dependencies are addressed by identity, not external absolute paths. Reuse source bytes without lossy recoding. Validate hashes/member paths and atomically adopt only after all required dependencies validate.
 

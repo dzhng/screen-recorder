@@ -12,6 +12,8 @@ Independent agent journey through installed CLI and MCP; the production service/
 
 ## Work and review surface
 
+The agent discovers actual capabilities, gets/sets/reorders/bypasses clip/track/group/output stacks, inserts new narration into a processed track, applies optional denoise, replaces/splits media and verifies unchanged originals plus historical undo/package playback. Exceptions use individual clips/separate tracks, never parent-step overrides.
+
 Have the agent assemble multiple takes, remove named mistakes/ums/repetitions, slow rushed speech, insert and overlay footage, replace audio and video independently, add music/gain automation, captions and animated zoom, generate a wording correction from an explicitly chosen local reference, and export any requested canvas plus an editable package. Let the agent choose visual cover if any.
 
 Create this planned probe in this slice:

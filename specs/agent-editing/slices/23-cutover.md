@@ -1,6 +1,6 @@
 # 23 — Cut over all consumers and remove old owners
 
-Status: not started. Dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md).
+Status: not started. Dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 
 ## Contract
 
@@ -11,6 +11,8 @@ The installed product has one composition/time interpretation, preserving verifi
 Follow architecture.md's cutover: one fresh library/catalog, capture-to-assets/project finalization, shared project inspection/render/export, same CLI/MCP registry. Remove the old span revision interpreter, fixed-role movie/package requests and obsolete editing target schemas after parity.
 
 ## Work and review surface
+
+Include processing discovery, get/set, routing and all processed inspection/export consumers in the same cutover. Remove old hidden gain/transition assumptions from the new path; do not preserve a second DSP or effect interpreter.
 
 Before deletion, run the preservation matrix through old and new public entry points with matched inputs. Keep source capture/recovery/evidence primitives; refactor mixed modules rather than leave compatibility wrappers. Update app lifecycle, source discovery, job targets, export recovery, product skill and developer docs together. Leave the old library untouched for explicit media import.
 
