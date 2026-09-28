@@ -9,3 +9,7 @@ The adversarial source fixture ingests a long initial word and more than ten tho
 Portable tests modify actual page files, update descriptor hashes/counts/bounds, and update the edited projection to match. Removing nonoverlap admission causes both within-page and cross-page malformed packages to be accepted; restoring it rejects them. This is distinct from a hash-mismatch test. The mutation log preserves the erroneous resolved FileTranscript result.
 
 Independent Codex review found no actionable regression and ran transcript preservation tests. After that review, the portable test was strengthened to keep edited output consistent; production code did not change. Final checks cover source reads, portable pages, transcript ingestion/ownership and processing. No native inference, live CLI/MCP or whole-spec acceptance is claimed by this focused pass.
+
+Root integration at 74cc76e rebuilt core and passed all 29 source-reader, portable-page,
+transcript and ownership tests in four files. This is separate from the delegate's
+34-test gate, which additionally covered asset preparation.

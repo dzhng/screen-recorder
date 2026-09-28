@@ -28,3 +28,6 @@ mutation red and full green output are retained.
 Build, type checks, lint, formatting and diff checks pass. Independent CLI review
 found no actionable defects. No renderer, core service, public route or live-media
 acceptance is implied by this pure mapping checkpoint.
+
+Root integration at 99ac270 rebuilt composition and passed all 118 composition
+tests. Public project evidence endpoints remain unimplemented.

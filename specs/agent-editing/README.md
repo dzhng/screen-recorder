@@ -25,6 +25,13 @@ passing focused service gates. Run the real selected-stream transcript and
 differing-context hole/partial-word journey, currently in progress. Do not close 10b on its
 storage or native prerequisites alone.
 
+The [bounded transcript seek](assets/10b-transcript-seek/README.md) correction is
+integrated: portable admission enforces the same nonoverlap invariant as ingestion,
+and late windows seek one predecessor rather than scanning a longest-word prefix.
+The [10c exact window prerequisite](assets/10c-occurrence-window/README.md) is also
+integrated; core occurrence manifests/read/search remain unimplemented. Native
+source-window PCM work for 11a can proceed independently in an isolated build.
+
 After 10b, follow [10c occurrence queries](slices/10c-occurrence-queries.md),
 [10d direct frames](slices/10d-frame-inspection.md),
 [11a PCM delivery](slices/11a-audio-delivery.md) and

@@ -932,3 +932,24 @@ trim and stretch replacements keep their single-interval behavior.
   A caller leaving a download that another caller still needs returns promptly.
   The plan did not specify cancellation settlement timing; this makes awaiting the
   owner meaningful without introducing another shutdown owner or polling loop.
+
+
+## Bounded source and occurrence seeks — 2026-09-27
+
+- **Sound; high confidence — Portable admission establishes the same word ordering invariant.**
+  A late transcript window used to scan backward by the longest word anywhere in
+  the source. A long early word could therefore make a late request read thousands
+  of irrelevant rows. Source ingestion already prevents overlapping words; portable
+  package admission now enforces that same property, including page boundaries.
+  Both readers can then seek just one earlier word and the rows in the window.
+  The plan required bounded work but did not select this invariant-based seek;
+  metadata and cursor formats stay unchanged.
+- **Sound; high confidence — Select occurrence envelopes before filtering available fragments.**
+  A query entirely inside a capture hole still identifies the clip and selected
+  capture context, with an empty list of available fragments. Dropping that clip
+  would hide why evidence is missing and could join speech across the hole.
+  Composition therefore owns indexed envelope selection and exact inverse mapping;
+  core can represent unavailability without reconstructing timeline arithmetic.
+  The plan fixed gap-aware phrase matching but left this selection representation
+  open. Full-word projection remains separate so query clipping cannot change
+  whether an edit retained the whole word.
