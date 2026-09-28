@@ -3,8 +3,9 @@ import { copyFile, mkdir, open } from "node:fs/promises";
 import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { CompositionMovie, ProjectMovieRenderer } from "@screenrec/core/project-preview";
-import { withRenderAttempt } from "./render.js";
-import { MAX_MEDIA_TIMEOUT_MS, nativeResult, type MediaWorker } from "./worker.js";
+import type { ProjectAudioRenderer } from "@screenrec/core/audio-inspection";
+import { withRenderAttempt, withRenderedAudio } from "./render.js";
+import { renderWindowDeadlineMs, nativeResult, type MediaWorker } from "./worker.js";
 
 /** Compiled pictures and PCM share the existing attempt and final movie publication boundary. */
 export function projectMovieRenderer(worker: MediaWorker, workspace: string): ProjectMovieRenderer {
@@ -38,7 +39,6 @@ export function projectMovieRenderer(worker: MediaWorker, workspace: string): Pr
           }
           signal.throwIfAborted();
           const file = join(directory, "movie.mp4");
-          const durationUs = manifest.range.endUs - manifest.range.startUs;
           const response = await execute(
             "media.renderCompositionMovie",
             {
@@ -55,7 +55,7 @@ export function projectMovieRenderer(worker: MediaWorker, workspace: string): Pr
               signal,
               // Video rendering and PCM/AAC assembly each get the retained playback duration.
               // Sparse source seeks do not budget discarded recording prefixes.
-              timeoutMs: Math.min(MAX_MEDIA_TIMEOUT_MS, 30_000 + 2 * Math.ceil(durationUs / 1000)),
+              timeoutMs: renderWindowDeadlineMs(manifest.range),
             },
           );
           signal.throwIfAborted();
@@ -73,5 +73,31 @@ export function projectMovieRenderer(worker: MediaWorker, workspace: string): Pr
         },
       );
     },
+  };
+}
+
+export function projectAudioRenderer(worker: MediaWorker, workspace: string): ProjectAudioRenderer {
+  return {
+    implementationId: "native-composition-audio-v1",
+    render: async ({ window, assets, output }, signal) =>
+      withRenderedAudio(
+        worker,
+        { attemptParent: workspace, output },
+        signal,
+        async (file, execute) =>
+          nativeResult(
+            await execute(
+              "media.mixCompositionAudio",
+              {
+                output: file,
+                range: window.manifest.sampleRange,
+                clips: [...window.audio()],
+                processing: window.manifest.processing,
+                assets,
+              },
+              { signal, timeoutMs: renderWindowDeadlineMs(window.manifest.range) },
+            ),
+          ),
+      ),
   };
 }

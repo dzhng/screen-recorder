@@ -1,3 +1,4 @@
+import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
 import { ProjectEvidenceInspection } from "@screenrec/core/project-evidence";
 import { SpeechModels } from "@screenrec/core/speech-models";
@@ -8,8 +9,8 @@ import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisiti
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { MediaExports } from "./exports.js";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
-import { projectMovieRenderer } from "./project-render.js";
-import { clearRenderWorkspace } from "./render.js";
+import { projectMovieRenderer, projectAudioRenderer } from "./project-render.js";
+import { clearRenderWorkspace, withRenderedAudio } from "./render.js";
 import { DerivativeDelivery } from "./delivery.js";
 import { DerivedCache } from "@screenrec/core/cache";
 import { ManagedFiles } from "./managed-files.js";
@@ -34,7 +35,7 @@ import {
 } from "./index.js";
 import { claimStartup } from "./startup.js";
 import {
-  MAX_MEDIA_TIMEOUT_MS,
+  renderWindowDeadlineMs,
   mediaWorker,
   nativeResult,
   transcriptionDeadlineMs,
@@ -74,6 +75,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       library,
     );
     const projects = new ProjectStore(catalog, assets, acquisitions);
+    const capture = new CaptureSourceRead(assets, acquisitions, evidence);
     const worker = options.worker ?? mediaWorker();
     const models = new SpeechModels(library);
     const transcriptStore = new TranscriptStore(
@@ -122,7 +124,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let preview: ProjectPreviewInspection;
     let transcripts: TranscriptProcessing;
     let projectEvidence: ProjectEvidenceInspection;
-    let sourceAudio: MediaAudioInspection;
+    let mediaAudio: MediaAudioInspection;
     const queue = new JobQueue({
       store: catalog,
       targets,
@@ -131,8 +133,11 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
-        if (job.target.kind === "asset" && job.artifact === "audio")
-          return sourceAudio.execute({ job, signal });
+        if (
+          (job.target.kind === "asset" || job.target.kind === "project") &&
+          job.artifact === "audio"
+        )
+          return mediaAudio.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "project.evidence")
           return projectEvidence.execute({ job, signal });
         if (job.artifact === "transcript") return transcripts.execute({ job, signal });
@@ -182,23 +187,30 @@ export async function startProjectService(options: { home: string; worker?: Medi
           }),
         ) as SpeechTranscriptionReceipt,
     });
-    sourceAudio = new MediaAudioInspection({
+    mediaAudio = new MediaAudioInspection({
       assets,
       acquisitions,
       jobs: queue,
       cache,
+      project: { projects, renderer: projectAudioRenderer(worker, workspace) },
       sourceRenderer: {
         implementationId: "native-source-audio-v1",
         render: async (request, signal) =>
-          nativeResult(
-            await worker("media.sourceAudio", request, {
-              signal,
-              // Budget the selected output interval, including required silence, not its source prefix.
-              timeoutMs: Math.min(
-                MAX_MEDIA_TIMEOUT_MS,
-                30_000 + 2 * Math.ceil((request.range.endUs - request.range.startUs) / 1000),
+          withRenderedAudio(
+            worker,
+            { attemptParent: workspace, output: request.output },
+            signal,
+            async (output, execute) =>
+              nativeResult(
+                await execute(
+                  "media.sourceAudio",
+                  { ...request, output },
+                  {
+                    signal,
+                    timeoutMs: renderWindowDeadlineMs(request.range),
+                  },
+                ),
               ),
-            }),
           ),
       },
     });
@@ -209,6 +221,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       transcripts,
       records: transcriptStore,
+      capture,
     });
     preview = new ProjectPreviewInspection(
       projects,
@@ -319,20 +332,35 @@ export async function startProjectService(options: { home: string; worker?: Medi
               },
             };
           }
+          case "timeline.events":
+          case "cursor.raw": {
+            const params = operation.params;
+            const method = operation.operation === "timeline.events" ? "events" : "cursor";
+            if ("projectId" in params)
+              return { ok: true, data: await projectEvidence[method](params) };
+            if ("assetId" in params) return { ok: true, data: capture[method](params) };
+            return operationError(
+              "NOT_READY",
+              "This service inspects asset and project capture evidence",
+            );
+          }
           case "audio.get":
           case "audio.retry": {
             const params = operation.params;
-            if (!("assetId" in params))
-              return operationError("NOT_READY", "This service extracts selected asset audio");
+            if (!("assetId" in params) && !("projectId" in params))
+              return operationError("NOT_READY", "This service extracts asset and project audio");
             const status =
-              sourceAudio[operation.operation === "audio.get" ? "request" : "retry"](params);
+              mediaAudio[operation.operation === "audio.get" ? "request" : "retry"](params);
             return {
               ok: true,
               data: {
                 ...status,
                 delivery: status.published
-                  ? delivery.open({ kind: "asset", id: params.assetId }, () =>
-                      cache.acquire(status.published!.audio.cacheId),
+                  ? delivery.open(
+                      "assetId" in params
+                        ? { kind: "asset", id: params.assetId }
+                        : { kind: "project", id: params.projectId },
+                      () => cache.acquire(status.published!.audio.cacheId),
                     )
                   : null,
               },

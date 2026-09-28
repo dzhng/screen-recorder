@@ -3,6 +3,7 @@ import {
   mediaClipSchema,
   editOperationSchema,
   processingTargetSchema,
+  processingTapSchema,
 } from "@screenrec/composition";
 import { z } from "zod";
 import { captureSelectionSchema } from "./capture.js";
@@ -36,7 +37,7 @@ const sourceTranscriptReference = {
   afterSourceUs: time,
 };
 const project = z.object({ projectId: id }).strict();
-const projectTranscriptParams = project
+const projectEvidenceParams = project
   .extend({
     revisionId: id.optional(),
     range: range.optional(),
@@ -53,6 +54,27 @@ const projectTranscriptParams = project
       .optional(),
   })
   .strict();
+const capturePosition = z.strictObject({
+  after: z.tuple([time, time]).nullable(),
+  done: z.boolean(),
+});
+const sourceCaptureParams = (maximum: number) =>
+  sourceSelection
+    .extend({
+      sourceRange: range.optional(),
+      limit: z.int().min(1).max(maximum).optional(),
+      cursor: z
+        .strictObject({
+          reference: id,
+          position: z.strictObject({
+            cursor: capturePosition,
+            pause: capturePosition,
+            geometry: capturePosition,
+          }),
+        })
+        .optional(),
+    })
+    .strict();
 const projectEdit = project.extend({ requestId: id, expectedRevisionId: id });
 const exportDestination = {
   exportId: z.uuid(),
@@ -104,6 +126,17 @@ const frameFields = {
 const frameParams = inspection(frameFields);
 
 const audioParams = z.union([
+  project
+    .extend({
+      revisionId: id.optional(),
+      range: range
+        .refine(({ startUs, endUs }) => endUs > startUs, {
+          message: "Audio range must be positive",
+        })
+        .optional(),
+      tap: processingTapSchema.optional(),
+    })
+    .strict(),
   ...inspection({
     revisionId: id.optional(),
     range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
@@ -476,7 +509,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("transcript.get"),
       params: z.union([
-        projectTranscriptParams,
+        projectEvidenceParams,
         ...transcriptPage(
           {
             revisionId: id.optional(),
@@ -509,7 +542,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("transcript.search"),
       params: z.union([
-        projectTranscriptParams
+        projectEvidenceParams
           .extend({ text: z.string().min(1).max(200), limit: z.int().min(1).max(500).optional() })
           .strict(),
         ...transcriptPage(
@@ -541,7 +574,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("transcript.retry"),
       params: z.union([
         sourceSelection,
-        projectTranscriptParams
+        projectEvidenceParams
           .omit({ cursor: true, limit: true })
           .extend({ text: z.string().min(1).max(200).optional() })
           .strict(),
@@ -594,7 +627,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("audio.get"), params: audioParams })
     .strict()
     .describe(
-      "Request a WAV from an explicitly selected assetId/streamId with optional acquisitionId and source-time range. Omitted source range extracts the full selected stream at its native supported rate/layout; unavailable support is explicit. Recording/package selectors use their bounded playback excerpts and track selection. CLI streams to a file; MCP embeds small audio and leaves large audio as a renewable artifact.read/close delivery. Pin selection, range and any returned revision while polling.",
+      "Request project WAV audio with projectId, optional revisionId/range and processing tap (defaults to processed output). Clip/track/group taps exclude later parent stages; dry skips the selected target stack while retaining child processing, and after-step includes the named step. Omitted project range uses the full pinned project; project output is 48kHz stereo and ranges retain the absolute sample clock. Or request a WAV from an explicitly selected assetId/streamId with optional acquisitionId and source-time range. Omitted source range extracts the full selected stream at its native supported rate/layout; unavailable support is explicit. Recording/package selectors use their bounded playback excerpts and track selection. CLI streams to a file; MCP embeds small audio and leaves large audio as a renewable artifact.read/close delivery. Pin selection, range and any returned revision while polling.",
     ),
   z
     .object({ operation: z.literal("audio.retry"), params: audioParams })
@@ -643,32 +676,40 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("timeline.events"),
-      params: inspection({
-        revisionId: id.optional(),
-        cursor: z.string().min(1).max(4096).optional(),
-        limit: z.int().min(1).max(500).default(100),
-      }),
+      params: z.union([
+        projectEvidenceParams.extend({ limit: z.int().min(1).max(500).optional() }),
+        ...inspection({
+          revisionId: id.optional(),
+          cursor: z.string().min(1).max(4096).optional(),
+          limit: z.int().min(1).max(500).default(100),
+        }).options,
+        sourceCaptureParams(500),
+      ]),
     })
     .strict()
     .describe(
-      "Read pause, cut, geometry, scene and interruption markers in pinned playback time. Continue while nextCursor exists, even if rows is empty. Adjacent rows with equal atUs form one logical group and may span pages. A cursor pins its target, revision and source/scene generations; included package history can be inspected explicitly.",
+      "Read captured pause/geometry markers for a selected asset stream or project. Source selectors use sourceRange; project selectors use range/revisionId/trackIds. Capture identity requires explicit acquisitionId; missing metadata is unavailable, not an empty success. Timed geometry belongs to captured video; pauses follow each bound timed occurrence. Coverage reports unsupported scene/cut/interruption categories. Preserve first-page coverage and exact projectAtUs values across continuations. Recording/package selectors retain pause, cut, geometry, scene and interruption markers in pinned playback time. Continue while nextCursor exists, even if rows is empty. Adjacent rows with equal atUs form one logical group and may span pages. A cursor pins its target, revision and source/scene generations; included package history can be inspected explicitly.",
     ),
   z
     .object({
       operation: z.literal("cursor.raw"),
-      params: inspectionPage(
-        { sourceRange: cursorRange, limit: z.int().min(1).max(5000).default(1000) },
-        {
-          sourceId: id,
-          generation: id,
-          sourceRange: cursorRange,
-          afterSequence: z.int().positive(),
-        },
-      ),
+      params: z.union([
+        projectEvidenceParams.extend({ limit: z.int().min(1).max(5000).optional() }),
+        ...inspectionPage(
+          { sourceRange: cursorRange, limit: z.int().min(1).max(5000).default(1000) },
+          {
+            sourceId: id,
+            generation: id,
+            sourceRange: cursorRange,
+            afterSequence: z.int().positive(),
+          },
+        ).options,
+        sourceCaptureParams(5000),
+      ]),
     })
     .strict()
     .describe(
-      "Page raw cursor observations in explicit source time, including retained integrity markers; edits do not alter these samples.",
+      "Page raw cursor observations with explicit capture authority. Selected assets use sourceRange and require acquisitionId for captured video; project selectors use range/revisionId/trackIds and return each retained occurrence with exact projectAtUs. Raw coordinates, captureAtUs and integrity receipt remain unchanged; this does not simulate crop/zoom. Missing capture metadata reports unavailable coverage. Keep first-page coverage and continue while nextCursor exists, even on empty pages. Recording/package selectors retain their bounded source-time reads.",
     ),
   z
     .object({

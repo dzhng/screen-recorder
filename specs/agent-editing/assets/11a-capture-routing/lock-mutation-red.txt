@@ -1,0 +1,37 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey
+
+(node:72643) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/render.test.ts (16 tests | 1 failed | 15 skipped) 483ms
+   × audio owner SIGKILL preserves the orphan child's lock until restart can reclaim staging 483ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/render.test.ts > audio owner SIGKILL preserves the orphan child's lock until restart can reclaim staging
+AssertionError: promise resolved "undefined" instead of rejecting
+
+- Expected:
+Error {
+  "message": "rejected promise",
+}
+
++ Received:
+undefined
+
+ ❯ apps/service/src/render.test.ts:496:6
+    494|     await expect(
+    495|       clearRenderWorkspace(run, parent, new AbortController().signal),
+    496|     ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY", retryable…
+       |      ^
+    497|     expect(await readdir(parent)).toEqual(staged);
+    498|     expect(await readFile(join(active.dir, ".movie-render-held", "part…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 skipped (16)
+   Start at  00:56:35
+   Duration  1.02s (tests 51%, transform 40%, import 8%)
+

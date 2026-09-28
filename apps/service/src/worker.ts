@@ -22,6 +22,14 @@ import type { TimeRange } from "@screenrec/core/timeline";
 const NATIVE_EXECUTABLE_VARIABLE = "SCREENREC_NATIVE";
 export const MAX_MEDIA_TIMEOUT_MS = 2_147_483_647;
 
+/** Budget selected output, including silence, without charging for discarded source prefixes. */
+export function renderWindowDeadlineMs(range: TimeRange): number {
+  return Math.min(
+    MAX_MEDIA_TIMEOUT_MS,
+    30_000 + 2 * Math.ceil((range.endUs - range.startUs) / 1000),
+  );
+}
+
 /** Ten minutes covers a cold model load and verifying its files; inference gets twice the narration
  * the request plans to read. */
 export function transcriptionDeadlineMs(available: readonly TimeRange[]): number {

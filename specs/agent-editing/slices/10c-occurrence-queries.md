@@ -1,6 +1,6 @@
 # 10c — Bounded occurrence evidence and phrase search
 
-Status: in progress. Pure selection, core transcript paging and public routing are verified; public phrase search and bounded/acquisition-gap journeys are verified; event/cursor domains remain open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Pure selection, core transcript paging and public routing are verified; public phrase search and bounded/acquisition-gap journeys are verified; public capture cursor/pause/geometry queries are verified; remaining event categories are open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -125,3 +125,11 @@ occurrences, explicit unavailable categories and acquired-window coverage. Captu
 uses the shared query lifecycle and bounded heap with its own source traversal.
 Public event/cursor routing and journeys, plus unsupported scene/project-cut/
 interruption categories, remain required pickup work.
+
+## Public capture checkpoint
+
+[The actual CLI/MCP journey](../assets/10c-public-capture/README.md) verifies
+source and project clocks, repeats, rational retimes, coverage, complete rows,
+historical restart, checkpoint loss and bounded late reads. Scene/cut/interruption
+categories still report unsupported; completing their required semantics remains
+open. Earlier checkpoint notes describe their evidence boundary at that time.

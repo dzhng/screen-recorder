@@ -187,6 +187,11 @@ export async function operate(
       case "recording.delete":
         return { ok: true, data: await deletion.delete(operation.params.recordingId) };
       case "timeline.events":
+        if ("assetId" in operation.params || "projectId" in operation.params)
+          return operationError(
+            "NOT_READY",
+            "Asset and project capture evidence requires the project service until cutover",
+          );
         return {
           ok: true,
           data: await ("packageHandle" in operation.params
@@ -320,10 +325,10 @@ export async function operate(
       case "audio.get":
       case "audio.retry": {
         const params = operation.params;
-        if ("assetId" in params)
+        if ("assetId" in params || "projectId" in params)
           return operationError(
             "NOT_READY",
-            "Asset audio requires the project service until cutover",
+            "Asset and project audio require the project service until cutover",
           );
         const method = operation.operation === "audio.get" ? "request" : "retry";
         if ("packageHandle" in params) {
@@ -370,6 +375,11 @@ export async function operate(
         return { ok: true, data: { closed: true } };
       case "cursor.raw": {
         const params = operation.params;
+        if ("assetId" in params || "projectId" in params)
+          return operationError(
+            "NOT_READY",
+            "Asset and project capture evidence requires the project service until cutover",
+          );
         return {
           ok: true,
           data:

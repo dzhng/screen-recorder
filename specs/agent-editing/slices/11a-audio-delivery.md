@@ -1,6 +1,6 @@
 # 11a — Shared source and project PCM delivery
 
-Status: in progress. Native source-window WAV extraction and core cached admission are integrated; public source routing and shared capacity preflight are integrated; actual native public delivery and project taps remain open. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Native source-window WAV extraction and core cached admission are integrated; public source routing and shared capacity preflight are integrated; project taps and their public journey are verified; final native source integration remains open. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -101,3 +101,12 @@ source. No support shortening or compensating silence is accepted as a fix.
 Lossless extraction and full CLI delivery above 1 GiB pass separately; their
 retained evidence is pending integration. Resolve the AAC native owner and
 preserve the existing recording/composition audio gates before closing this slice.
+
+## Public project audio and render lifetime
+
+[Wired tap evidence](../assets/11a-public-project-taps/wired-render/README.md)
+verifies actual CLI/MCP WAVs for nested processing and bypass, history, restart,
+cancellation/retry and deletion. Audio encoders stage inside the existing locked
+render attempt; only completed WAVs enter the cache. This prevents abandoned
+encoder staging from escaping startup cleanup. The [integration pass](../assets/11a-capture-routing/README.md)
+separates process-lifetime checks from decoded-media conformance.

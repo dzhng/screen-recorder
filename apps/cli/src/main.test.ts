@@ -122,11 +122,24 @@ function expectCallableContract(tools: AdvertisedTool[]) {
   ]);
   expect(required("transcript.retry")).toEqual([["assetId", "streamId"], ["projectId"]]);
   expect(required("audio.get")).toEqual([
+    ["projectId"],
     ["recordingId", "range"],
     ["packageHandle", "range"],
     ["assetId", "streamId"],
   ]);
   expect(required("audio.retry")).toEqual(required("audio.get"));
+  expect(required("timeline.events")).toEqual([
+    ["projectId"],
+    ["recordingId"],
+    ["packageHandle"],
+    ["assetId", "streamId"],
+  ]);
+  expect(required("cursor.raw")).toEqual([
+    ["projectId"],
+    ["recordingId", "sourceRange"],
+    ["packageHandle", "sourceRange"],
+    ["assetId", "streamId"],
+  ]);
   expect(required("model.prepare")).toBeUndefined();
   expect(tools.filter((tool) => !tool.description).map((tool) => tool.name)).toEqual([]);
 }

@@ -14,36 +14,40 @@ slice's acceptance gates remain the scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill describes
 available public operations only; the installed app has not switched engines.
 
-Continue [10c occurrence queries](slices/10c-occurrence-queries.md): core and
-public transcript paging/track-local phrase search are verified through the
-[combined journey](assets/10c-public-phrases/README.md). Event/cursor source and
-project domains are the current core pickup. The [expanded live journey](assets/10c-public-bounds/README.md)
-now also verifies explicit acquisition-gap phrases, empty continuations and bounded
-late reads. Generation invalidation and cache-owner eviction retain separate core gates.
-The [product skill check](assets/10c-project-skill/README.md) passes with a fresh
-agent using only the skill and advertised CLI.
+Complete [10c occurrence queries](slices/10c-occurrence-queries.md) and
+[11a PCM delivery](slices/11a-audio-delivery.md). Public transcript paging, phrase
+search and capture cursor/pause/geometry occurrence queries are verified. Capture
+scene/cut/interruption categories remain explicitly unsupported and require
+reconciliation before closing 10c. The next implementation branch is
+[10d direct frames](slices/10d-frame-inspection.md); retain the full
+[10 evidence](slices/10-project-evidence.md) umbrella requirements.
 
-[10b source acquisition](slices/10b-source-acquisition.md) is verified, including
-actual native transcription, selected-stream parity, cancellation/retry and
-same-byte capture masks. Its historical test advances the head before restart.
-Project paging's frozen transcription fixture verifies projection and delivery,
-not a second native-inference run.
+Source and project audio share jobs, cached delivery and locked render attempts.
+The [public tap journey](assets/11a-public-project-taps/wired-render/README.md)
+passes all nested dry/after-step/processed taps with byte-identical WAV outputs.
+Actual source extraction above 1 GiB has passed in isolation; integration of the
+bounded AAC tail-recovery fix and final source journey is the immediate native
+pickup. Do not shorten support or pad missing decoded speech to hide failures.
+Then implement [11 acoustic artifacts](slices/11-audio-inspection.md).
 
-[11a source WAV](slices/11a-audio-delivery.md) has native extraction and core cached
-admission, shared capacity preflight and [public routing](assets/11a-public-routing/README.md)
-integrated. Small native source journeys and lossless extraction/CLI delivery above
-1 GiB have passed in isolation, with evidence integration pending. Long AAC extraction
-has a reproduced native short-coverage failure; diagnose it without changing support
-or padding away missing samples. Project processing taps proceed independently.
+Current public evidence:
+- [Paging/search](assets/10c-public-phrases/README.md) and
+  [bounded/acquired-gap reads](assets/10c-public-bounds/README.md) use frozen ASR
+  rows to verify exact projection, not fresh inference.
+- [Capture journey](assets/10c-public-capture/README.md) uses actual acquisition
+  normalization and complete row oracles through CLI/MCP. Physical checkpoint
+  loss is tested separately from core cache eviction and generation invalidation.
+- [Transcript skill use](assets/10c-project-skill/README.md) passes blind agent
+  usage; skill adoption for the new capture/audio routes is in progress.
+- [Source acquisition](slices/10b-source-acquisition.md) retains actual native
+  transcription, stream parity, cancellation/retry and same-byte capture masks.
+- [Route integration](assets/11a-capture-routing/README.md) records focused
+  checks, independent review and interrupted-render lifetime evidence.
 
-Alongside 10c, complete the actual source WAV journey and then shared project
-tap binding for 11a. Then follow [10d direct frames](slices/10d-frame-inspection.md),
-[11a PCM delivery](slices/11a-audio-delivery.md) and
-[11 acoustic artifacts](slices/11-audio-inspection.md).
-[The inspection plan](assets/10-inspection-plan/README.md) explains these seams.
-Use the dependency graph to run independent work in parallel. Imported sources
-must never fabricate recording rows, narration roles or revisions. Preserve raw
-capture clocks and acquisition provenance separately from normalized file support.
+Use isolated homes and frozen workers. Imported sources never fabricate recording
+rows or narration roles. Preserve capture clocks/acquisition provenance separately
+from physical support. The installed app still uses the recording engine; cutover,
+scale and physical/listening acceptance remain explicit later gates.
 
 Evidence boundaries to preserve:
 

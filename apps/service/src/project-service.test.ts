@@ -3,7 +3,7 @@ import { mkdtemp, writeFile, rm, readdir, readFile } from "node:fs/promises";
 import { fork } from "node:child_process";
 import { once } from "node:events";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { afterEach, expect, test } from "vitest";
 import { AssetStore } from "@screenrec/core/assets";
@@ -481,7 +481,7 @@ test("selected-source transcript reads report unprepared models without download
 
 test("project transcript paging uses shared jobs and returns an empty historical revision", async () => {
   const f = await setup(async (operation) => {
-    if (operation === "media.renderWorkspace") return { ok: true, data: { removed: true } };
+    if (operation === "storage.clearRenderWorkspace") return { ok: true, data: { removed: true } };
     throw new Error(`Empty transcript must not invoke native work: ${operation}`);
   });
   const created = await f.call("project.create", {
@@ -536,8 +536,14 @@ test("selected-source audio publishes verified WAV bytes through artifact delive
     "524946462800000057415645666d7420100000000300010080bb000000ee02000400200064617461040000000000803e",
     "hex",
   );
+  let renderWorkspace: string | undefined;
   const f = await setup(async (operation, params) => {
-    if (operation === "media.renderWorkspace") return { ok: true, data: { removed: true } };
+    if (operation === "storage.clearRenderWorkspace") {
+      if (renderWorkspace)
+        for (const child of await readdir(renderWorkspace))
+          await rm(join(renderWorkspace, child), { recursive: true, force: true });
+      return { ok: true, data: { removed: true } };
+    }
     if (operation === "media.probe")
       return {
         ok: true,
@@ -559,6 +565,7 @@ test("selected-source audio publishes verified WAV bytes through artifact delive
         },
       };
     if (operation !== "media.sourceAudio") throw new Error(operation);
+    renderWorkspace = dirname(dirname(params.output as string));
     expect(params.source).toMatchObject({
       streamId: "audio:1",
       available: [{ startUs: 0, endUs: 1000000 }],

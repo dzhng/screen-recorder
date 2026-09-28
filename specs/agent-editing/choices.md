@@ -1078,3 +1078,26 @@ trim and stretch replacements keep their single-interval behavior.
   makes transcript evidence useful for subsequent edits. Synthetic missing-support
   gaps still describe the selected window because they have no original word row.
   Landed in public paging and clarified in contracts during phrase integration.
+
+## Capture and audio integration decisions
+
+- **Sound; medium confidence — Missing event categories are explicit, not fabricated.**
+  A project can currently return captured pauses and geometry while reporting that
+  scene, cut and interruption evidence is unsupported. An agent must not interpret
+  this as proof that none occurred. The plan left category rollout unspecified;
+  the remaining categories stay required work before occurrence-query closure.
+
+- **Sound; high confidence — Audio encoder staging uses the existing render lock.**
+  If the service crashes while a native encoder is still writing, the child keeps
+  the inherited workspace lock. A restarted service cannot clear that child's
+  files; after it exits, ordinary workspace cleanup removes the whole attempt.
+  Only completed WAV bytes are copied exclusively into the cache. The plan left
+  native temporary-file lifetime unspecified. Reusing this owner avoids a second
+  cache janitor with knowledge of private encoder filenames.
+
+- **Sound; high confidence — Audio-only requests bind only audible dependencies.**
+  Inspecting a track should not fail because an unrelated picture processor is
+  unavailable. Audio windows use the compiler's shared planning and source-binding
+  owners but select the audio plane. Generic movie windows retain both planes.
+  The plan required shared binding without specifying this separation; later
+  processors must preserve it rather than introducing another mixer.

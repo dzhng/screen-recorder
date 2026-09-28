@@ -1,0 +1,37 @@
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/composition, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running check-types in 9 packages
+   • Remote caching disabled
+
+@screenrec/composition:build: cache hit, replaying logs 65111fc2a4d80957
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/protocol:check-types: cache miss, executing 1fa78f7980633247
+@screenrec/protocol:build: cache hit, replaying logs 7119d4b5a13ac732
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:check-types: cache miss, executing 0cc193f34ff7e4dd
+@screenrec/core:check-types: cache hit, replaying logs 8d5bea55e1b067be
+@screenrec/core:build: cache hit, replaying logs edd29b994320115e
+@screenrec/composition:check-types: cache hit, replaying logs 943cb02b62c25ad6
+@screenrec/client:build: cache hit, replaying logs 9df803df28188df4
+@screenrec/core:check-types: $ tsc -p tsconfig.check.json
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/composition:check-types: $ tsc -p tsconfig.check.json
+@screenrec/test-harness:check-types: cache miss, executing e4b3f5fd9693ddd7
+@screenrec/service:check-types: cache miss, executing f7a81f5cc60904b8
+@screenrec/service:build: cache miss, executing df7a3dd3dd1ed60d
+@screenrec/protocol:check-types: $ tsc -p tsconfig.check.json
+@screenrec/client:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:check-types: $ tsc -p tsconfig.check.json
+@screenrec/test-harness:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:build: cache miss, executing e5b0e96e583f83b9
+@screenrec/cli:check-types: cache miss, executing 2768826c6f7e428c
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/cli:check-types: $ tsc -p tsconfig.check.json
+
+ Tasks:    13 successful, 13 total
+Cached:    6 cached, 13 total
+  Time:    508ms 
+

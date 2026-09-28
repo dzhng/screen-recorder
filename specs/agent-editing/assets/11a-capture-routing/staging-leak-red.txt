@@ -1,0 +1,38 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey
+
+(node:63056) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/render.test.ts (14 tests | 1 failed | 13 skipped) 385ms
+   × reproduction: interrupted direct cache WAV staging is reclaimed by cache startup 385ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/render.test.ts > reproduction: interrupted direct cache WAV staging is reclaimed by cache startup
+AssertionError: expected [ '.movie-render-held', 'pid' ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   ".movie-render-held",
++   "pid",
++ ]
+
+ ❯ apps/service/src/render.test.ts:387:36
+    385|     const restarted = new DerivedCache(catalog, home, () => {});
+    386|     await restarted.reconcile();
+    387|     expect(await readdir(staging)).toEqual([]);
+       |                                    ^
+    388|   } finally { catalog.close(); }
+    389| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 skipped (14)
+   Start at  00:53:26
+   Duration  622ms (tests 68%, transform 20%, import 11%)
+
