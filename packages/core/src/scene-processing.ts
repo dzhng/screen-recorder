@@ -38,6 +38,7 @@ export type SceneProcessingOptions = {
     acquisitions: AcquisitionStore;
     sample: SourceVisualSampler;
     implementationId: string;
+    retained?: (assetId: string, generation: string) => boolean;
   };
 };
 /** Canonical source analysis is independent of edit revisions and local frame demand. */
@@ -189,7 +190,9 @@ export class SceneProcessing {
     const owner = { kind: "asset" as const, assetId };
     return this.evidence.reclaim(
       owner,
-      (generation) => this.jobs.retainsAttempt(owner, artifact, generation),
+      (generation) =>
+        this.jobs.retainsAttempt(owner, artifact, generation) ||
+        !!this.asset.retained?.(assetId, generation),
       signal,
     );
   }

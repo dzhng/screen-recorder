@@ -143,3 +143,8 @@ evidence establishes why source selection must inspect short supported islands.
 bounded raw-picture requests from observed scene sides and support edges, and
 retains verified demanded no-picture provenance. Shared-queue materialization and
 final coverage generation remain required before public source index readiness.
+
+[Retained source index jobs](../assets/10d-source-index-jobs/README.md) now publish
+source images and coverage using the shared queue/readers. Exact queued scene
+retention, terminal retry/cancellation and real native preparation pass. Public
+source index delivery and project frame-phase projection remain the next gates.

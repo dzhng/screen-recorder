@@ -1,10 +1,10 @@
 import { evidenceIdentitySchema } from "./evidence-pages.js";
-import { retainedFileRead } from "./files.js";
+import { retainedFileRead, copyRetainedFile } from "./files.js";
 import { z } from "zod";
 import { createHash } from "node:crypto";
 import { readSync } from "node:fs";
 import { fileAccess, type FileAccess } from "./files.js";
-import { mkdir, open } from "node:fs/promises";
+import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
@@ -147,24 +147,10 @@ async function copyImage(
 ) {
   const source = index.openRead(identity, ordinal),
     file = `images/${ordinal}.png`;
-  let output: Awaited<ReturnType<typeof open>> | undefined;
   try {
-    output = await open(join(directory, file), "wx");
-    const buffer = Buffer.alloc(65536),
-      hash = createHash("sha256");
-    for (let position = 0; position < source.bytes;) {
-      signal?.throwIfAborted();
-      const bytes = source.read(buffer, position);
-      if (!bytes) invalid("Retained image ended during copy");
-      const part = buffer.subarray(0, bytes);
-      hash.update(part);
-      await output.writeFile(part);
-      position += bytes;
-    }
-    return { file, bytes: source.bytes, sha256: hash.digest("hex") };
+    return { file, ...(await copyRetainedFile(source, join(directory, file), signal)) };
   } finally {
     source.release();
-    await output?.close();
   }
 }
 export async function writeScreenshotIndexPages(

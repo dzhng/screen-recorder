@@ -1,0 +1,31 @@
+$ vitest run --maxWorkers=4 src/source-index-processing.test.ts -t "two source parents"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:43222) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-index-processing.test.ts (8 tests | 1 failed | 7 skipped) 5022ms
+   × two source parents share the heavy lane and leave frame capacity for their children 5021ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-index-processing.test.ts > two source parents share the heavy lane and leave frame capacity for their children
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/source-index-processing.test.ts:370:1
+    368| });
+    369|
+    370| test("two source parents share the heavy lane and leave frame capacity…
+       | ^
+    371|   const f = await fixture();
+    372|   const other = { ...f.selection, streamId: "w" };
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  06:04:37
+   Duration  5.25s (tests 97%, transform 3%, import 1%)
+
+error: script "test" exited with code 1

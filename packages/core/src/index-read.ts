@@ -2,12 +2,13 @@ import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
 import type { ScreenshotIndexReader } from "./screenshot-index-read.js";
 import type {
-  ScreenshotIndexIdentity,
+  IndexRecords,
+  RecordingIndexRecords,
   ScreenshotIndexMetadata,
   ScreenshotIndexStore,
 } from "./screenshot-index.js";
 
-export type IndexReadReference = { revisionId: string; generation: string };
+export type IndexReadReference = { generation: string };
 export type IndexReadCursor<R> = R & { afterOrdinal: number };
 export type IndexCoverageCursor<R> = R & { afterSequence: number; candidateOrdinal: number | null };
 type CoverageInput<R> = {
@@ -15,11 +16,14 @@ type CoverageInput<R> = {
   cursor?: IndexCoverageCursor<R> | undefined;
   limit?: number | undefined;
 };
-type Reader = Pick<ScreenshotIndexReader, "page" | "coveragePage" | "readEntry"> & {
+type Reader<D extends IndexRecords> = Pick<
+  ScreenshotIndexReader<D>,
+  "page" | "coveragePage" | "readEntry"
+> & {
   openRead(
-    identity: ScreenshotIndexIdentity,
+    identity: D["identity"],
     ordinal: number,
-  ): ReturnType<ScreenshotIndexStore["openRead"]>;
+  ): ReturnType<ScreenshotIndexStore<D>["openRead"]>;
 };
 
 export function validateIndexCoverageCursor<R extends IndexReadReference>(
@@ -39,17 +43,22 @@ export function validateIndexCoverageCursor<R extends IndexReadReference>(
 }
 
 /** Read-only formatting over an admitted retained generation; callers own target resolution/publication. */
-export class RetainedIndexRead<R extends IndexReadReference> {
-  private readonly metadata: ScreenshotIndexMetadata;
+export class RetainedIndexRead<
+  R extends IndexReadReference,
+  D extends IndexRecords = RecordingIndexRecords,
+> {
+  private readonly metadata: ScreenshotIndexMetadata<D>;
   private readonly reference: R;
   constructor(
-    private readonly reader: Reader,
-    metadata: ScreenshotIndexMetadata,
+    private readonly reader: Reader<D>,
+    metadata: ScreenshotIndexMetadata<D>,
     reference: R,
   ) {
     if (
-      reference.revisionId !== metadata.revisionId ||
-      reference.generation !== metadata.generation
+      Object.entries(reference).some(
+        ([key, value]) =>
+          Reflect.has(metadata, key) && !isDeepStrictEqual(value, Reflect.get(metadata, key)),
+      )
     )
       throw new CatalogError(
         "ARTIFACT_CHANGED",

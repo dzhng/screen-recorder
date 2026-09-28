@@ -1,0 +1,490 @@
+{
+  "nativeSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "inputSha256": "a57880e3814025d1337e544c09db1d3d3def84a8a29f9007466a67c843f16fa0",
+  "probeSupport": "Deliberately coarse full video interval; native decoding determines whether an observed point has an image",
+  "results": [
+    {
+      "selection": {
+        "assetId": "a57880e3814025d1337e544c09db1d3d3def84a8a29f9007466a67c843f16fa0",
+        "streamId": "track:1"
+      },
+      "generation": "ed625695-946d-48bb-b4d6-e2f5eb75b74c",
+      "candidateCount": 3,
+      "pictures": [
+        {
+          "candidate": {
+            "ordinal": 0,
+            "requestedSourceUs": 0,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 0
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 0
+              }
+            ]
+          },
+          "sample": {
+            "value": "12800",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "actualSourceUs": 0,
+          "sha256": "8cc6b787ee571f49d4f31f2b593f1b91b3779913a2e52ac54c0e18ed3403cae9"
+        },
+        {
+          "candidate": {
+            "ordinal": 1,
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "sample": {
+            "value": "18432",
+            "timescale": 10240,
+            "endValue": "19456",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "actualSourceUs": 550000,
+          "sha256": "4941b55bd4a7dc1be6bc1c803ad9727fdf9d3d5468c057fd10045b8ebf009c52"
+        },
+        {
+          "candidate": {
+            "ordinal": 2,
+            "requestedSourceUs": 849999,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 850000
+              }
+            ]
+          },
+          "sample": {
+            "value": "20480",
+            "timescale": 10240,
+            "endValue": "21504",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "actualSourceUs": 750000,
+          "sha256": "5f547596267ca3539a508ca77f3169c0c4f03bd966b381e87c907f181316410b"
+        }
+      ],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": 0,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 0,
+            "endUs": 400000
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "observation",
+          "equality": "unproven",
+          "observation": {
+            "kind": "scene",
+            "point": {
+              "requestedSourceUs": 400000,
+              "status": "unavailable",
+              "reason": "empty_edit",
+              "continuousFromPrevious": false
+            }
+          },
+          "source": {
+            "startUs": 400000,
+            "endUs": 600000
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": 1,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 600000,
+            "endUs": 849999
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": 2,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 849999,
+            "endUs": 850000
+          }
+        }
+      ]
+    },
+    {
+      "selection": {
+        "assetId": "a57880e3814025d1337e544c09db1d3d3def84a8a29f9007466a67c843f16fa0",
+        "streamId": "track:2"
+      },
+      "generation": "785e8bee-be35-4ad3-888d-3e6b23319d72",
+      "candidateCount": 3,
+      "pictures": [
+        {
+          "candidate": {
+            "ordinal": 0,
+            "requestedSourceUs": 0,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 0
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 0
+              }
+            ]
+          },
+          "sample": {
+            "value": "12800",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "actualSourceUs": 0,
+          "sha256": "3d825920d33b5d0d4010e85c39d941dce003a16f5f53960c0d2b9a56cb2356e9"
+        },
+        {
+          "candidate": {
+            "ordinal": 1,
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "sample": {
+            "value": "18432",
+            "timescale": 10240,
+            "endValue": "19456",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "actualSourceUs": 550000,
+          "sha256": "3d825920d33b5d0d4010e85c39d941dce003a16f5f53960c0d2b9a56cb2356e9"
+        },
+        {
+          "candidate": {
+            "ordinal": 2,
+            "requestedSourceUs": 849999,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 850000
+              }
+            ]
+          },
+          "sample": {
+            "value": "20480",
+            "timescale": 10240,
+            "endValue": "21504",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "actualSourceUs": 750000,
+          "sha256": "3d825920d33b5d0d4010e85c39d941dce003a16f5f53960c0d2b9a56cb2356e9"
+        }
+      ],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": 0,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 0,
+            "endUs": 400000
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "observation",
+          "equality": "unproven",
+          "observation": {
+            "kind": "scene",
+            "point": {
+              "requestedSourceUs": 400000,
+              "status": "unavailable",
+              "reason": "empty_edit",
+              "continuousFromPrevious": false
+            }
+          },
+          "source": {
+            "startUs": 400000,
+            "endUs": 600000
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": 1,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 600000,
+            "endUs": 849999
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": 2,
+          "state": "available",
+          "equality": "sampled",
+          "source": {
+            "startUs": 849999,
+            "endUs": 850000
+          }
+        }
+      ]
+    },
+    {
+      "selection": {
+        "assetId": "a57880e3814025d1337e544c09db1d3d3def84a8a29f9007466a67c843f16fa0",
+        "streamId": "track:1",
+        "acquisitionId": "island"
+      },
+      "generation": "943f892e-7f14-4c29-a7e3-12e5a61472bb",
+      "candidateCount": 2,
+      "pictures": [
+        {
+          "candidate": {
+            "ordinal": 0,
+            "requestedSourceUs": 50000,
+            "support": {
+              "startUs": 50000,
+              "endUs": 100000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 50000
+              }
+            ]
+          },
+          "sample": {
+            "value": "12800",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "actualSourceUs": 0,
+          "sha256": null
+        },
+        {
+          "candidate": {
+            "ordinal": 1,
+            "requestedSourceUs": 99999,
+            "support": {
+              "startUs": 50000,
+              "endUs": 100000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 100000
+              }
+            ]
+          },
+          "sample": {
+            "value": "12800",
+            "timescale": 10240,
+            "endValue": "13824",
+            "endTimescale": 10240,
+            "originUs": 1250000
+          },
+          "actualSourceUs": 0,
+          "sha256": null
+        }
+      ],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 0,
+            "endUs": 50000
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": 0,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 50000,
+            "endUs": 99999
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": 1,
+          "state": "available",
+          "equality": "unproven",
+          "source": {
+            "startUs": 99999,
+            "endUs": 100000
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 100000,
+            "endUs": 850000
+          }
+        }
+      ]
+    },
+    {
+      "selection": {
+        "assetId": "a57880e3814025d1337e544c09db1d3d3def84a8a29f9007466a67c843f16fa0",
+        "streamId": "track:1",
+        "acquisitionId": "empty-island"
+      },
+      "generation": "af3e74f0-44ef-4713-b6a6-e3d06c38affc",
+      "candidateCount": 0,
+      "pictures": [],
+      "coverage": [
+        {
+          "sequence": 0,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 0,
+            "endUs": 420000
+          }
+        },
+        {
+          "sequence": 1,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "observation",
+          "equality": "unproven",
+          "observation": {
+            "kind": "frame",
+            "frame": {
+              "selection": {
+                "assetId": "a57880e3814025d1337e544c09db1d3d3def84a8a29f9007466a67c843f16fa0",
+                "streamId": "track:1",
+                "acquisitionId": "empty-island"
+              },
+              "atUs": 420000,
+              "maxLongEdge": 1600,
+              "supportDigest": "f420040ac35479576ab8f1c32ab51828f327ebfc1efc0d0832e805518f4518ca",
+              "implementationId": "native-source-picture-v2",
+              "jobId": "7ef7a3a5-bf34-4ee0-b2e3-368aba43e830",
+              "attemptId": "8e86166c-af9e-411d-921f-915d6e7b3cdd",
+              "reason": "Requested source picture has no physical sample.",
+              "observation": {
+                "requestedSourceUs": 420000,
+                "status": "unavailable",
+                "reason": "empty_edit"
+              }
+            }
+          },
+          "source": {
+            "startUs": 420000,
+            "endUs": 429999
+          }
+        },
+        {
+          "sequence": 2,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "observation",
+          "equality": "unproven",
+          "observation": {
+            "kind": "frame",
+            "frame": {
+              "selection": {
+                "assetId": "a57880e3814025d1337e544c09db1d3d3def84a8a29f9007466a67c843f16fa0",
+                "streamId": "track:1",
+                "acquisitionId": "empty-island"
+              },
+              "atUs": 429999,
+              "maxLongEdge": 1600,
+              "supportDigest": "f420040ac35479576ab8f1c32ab51828f327ebfc1efc0d0832e805518f4518ca",
+              "implementationId": "native-source-picture-v2",
+              "jobId": "a7d290bc-0521-46e4-8cca-112315ef38c3",
+              "attemptId": "438aadcf-4f7d-422b-9080-3c6e983f797a",
+              "reason": "Requested source picture has no physical sample.",
+              "observation": {
+                "requestedSourceUs": 429999,
+                "status": "unavailable",
+                "reason": "empty_edit"
+              }
+            }
+          },
+          "source": {
+            "startUs": 429999,
+            "endUs": 430000
+          }
+        },
+        {
+          "sequence": 3,
+          "ordinal": null,
+          "state": "unavailable",
+          "basis": "support",
+          "source": {
+            "startUs": 430000,
+            "endUs": 850000
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -135,9 +135,20 @@ async function fixture(beforeDecode?: (call: number) => Promise<void>, beforeSou
       overlay: { trailPoints: 0 },
     };
   };
-  index = new IndexProcessing(store, jobs, retained, source, scenes, evidence, home, {
-    sample,
-    decode,
+  index = new IndexProcessing({
+    jobs: jobs,
+    recording: {
+      store: store,
+      index: retained,
+      source: source,
+      scenes: scenes,
+      evidence: evidence,
+      home: home,
+      render: {
+        sample,
+        decode,
+      },
+    },
   });
   cleanup.push(async () => {
     await jobs.close();

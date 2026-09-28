@@ -67,17 +67,19 @@ async function exportFromLibrary({ store, home, recordingId, revisionId }) {
       retained: (recordingId, generation) => exports.retainsScenes(recordingId, generation),
     },
   });
-  index = new IndexProcessing(
-    store,
-    jobs,
-    indexEvidence,
-    processing,
-    scenes,
-    { source, scenes: sceneEvidence },
-    home,
-    { decode: (params, signal) => run("media.frame", params, signal), sample },
-    (recordingId, generation) => exports.retainsIndex(recordingId, generation),
-  );
+  index = new IndexProcessing({
+    jobs: jobs,
+    recording: {
+      store: store,
+      index: indexEvidence,
+      source: processing,
+      scenes: scenes,
+      evidence: { source, scenes: sceneEvidence },
+      home: home,
+      render: { decode: (params, signal) => run("media.frame", params, signal), sample },
+      retained: (recordingId, generation) => exports.retainsIndex(recordingId, generation),
+    },
+  });
   preview = new PreviewInspection(store, jobs, cache, source, processing, home, (request, signal) =>
     run("media.renderMovie", request, signal),
   );

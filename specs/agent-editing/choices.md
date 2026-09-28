@@ -1517,3 +1517,19 @@ The native plotting operation receives bounded waveform or spectral measurements
   reason records the actual physical sample clock and the 400ms observation
   separately. Requesting 399.999ms would show the new picture twice and imply
   knowledge of an unseen semantic cut that the samples do not establish.
+
+## Source index preparation
+
+- **Sound, high confidence — queued recipes retain their input scenes; finished indexes do not need them.**
+  An index may wait behind another heavy task while scene analysis is regenerated.
+  Its recipe keeps the exact earlier stream/context generation until execution or
+  explicit retry is no longer possible. Once images and coverage are retained,
+  those results can be read independently and older scenes can be reclaimed. The
+  source scene owner uses the existing job records for this decision, without a
+  parallel lifetime table.
+- **Sound, high confidence — explicit index retry follows its failed dependency chain.**
+  Canceling a scene or frame job does not make an ordinary index read restart it.
+  When the user explicitly retries the index, retryable terminal dependencies get
+  one new attempt, including canceled jobs represented as `not_requested` by the
+  queue. A terminal child failure ends the parent with its exact dependency, rather
+  than leaving a polling parent waiting forever or hiding which request failed.

@@ -201,17 +201,19 @@ async function fixture(
       retained: (recordingId, generation) => exports.retainsScenes(recordingId, generation),
     },
   });
-  indexOwner = new IndexProcessing(
-    store,
-    jobs,
-    indexEvidence,
-    processing,
-    sceneOwner,
-    { source: evidence, scenes: sceneEvidence },
-    home,
-    { decode: (params, signal) => call("media.frame", params, signal), sample },
-    (recordingId, generation) => exports.retainsIndex(recordingId, generation),
-  );
+  indexOwner = new IndexProcessing({
+    jobs: jobs,
+    recording: {
+      store: store,
+      index: indexEvidence,
+      source: processing,
+      scenes: sceneOwner,
+      evidence: { source: evidence, scenes: sceneEvidence },
+      home: home,
+      render: { decode: (params, signal) => call("media.frame", params, signal), sample },
+      retained: (recordingId, generation) => exports.retainsIndex(recordingId, generation),
+    },
+  });
   transcriptOwner = new TranscriptProcessing({
     jobs,
     transcripts: transcriptEvidence,

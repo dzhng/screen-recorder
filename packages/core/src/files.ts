@@ -204,6 +204,31 @@ export function retainedFileRead(file: OpenedFile, bytes: number): RetainedRead 
   };
 }
 
+/** Copies through a held descriptor; the caller releases its lease after publication or failure. */
+export async function copyRetainedFile(
+  source: RetainedRead,
+  destination: string,
+  signal?: AbortSignal,
+) {
+  const output = await open(destination, "wx");
+  try {
+    const buffer = Buffer.alloc(65536),
+      hash = createHash("sha256");
+    for (let position = 0; position < source.bytes;) {
+      signal?.throwIfAborted();
+      const bytes = source.read(buffer, position);
+      if (!bytes) throw new CatalogError("INVALID_EVIDENCE", "Retained image ended during copy");
+      const part = buffer.subarray(0, bytes);
+      hash.update(part);
+      await output.writeFile(part);
+      position += bytes;
+    }
+    return { bytes: source.bytes, sha256: hash.digest("hex") };
+  } finally {
+    await output.close();
+  }
+}
+
 /** Copy a frozen local file with bounded memory; the caller owns staged-file cleanup/publication. */
 export async function copyImportedFile(
   path: string,

@@ -224,20 +224,22 @@ async function main(): Promise<void> {
       },
     });
     timeline = new LibraryTimelineInspection(store, processing, scenes, evidence, sceneEvidence);
-    index = new IndexProcessing(
-      store,
-      jobs,
-      indexEvidence,
-      processing,
-      scenes,
-      { source: evidence, scenes: sceneEvidence },
-      home,
-      {
-        sample: visual.sample,
-        decode: (request, signal) => nativeData<NativeFrame>("media.frame", request, signal),
+    index = new IndexProcessing({
+      jobs: jobs,
+      recording: {
+        store: store,
+        index: indexEvidence,
+        source: processing,
+        scenes: scenes,
+        evidence: { source: evidence, scenes: sceneEvidence },
+        home: home,
+        render: {
+          sample: visual.sample,
+          decode: (request, signal) => nativeData<NativeFrame>("media.frame", request, signal),
+        },
+        retained: (recordingId, generation) => exports!.retainsIndex(recordingId, generation),
       },
-      (recordingId, generation) => exports!.retainsIndex(recordingId, generation),
-    );
+    });
     frames = new LibraryFrameInspection(
       store,
       jobs,

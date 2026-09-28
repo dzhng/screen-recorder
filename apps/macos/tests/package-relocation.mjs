@@ -446,16 +446,18 @@ export function registerRelocationTest({
           evidence: sceneEvidence,
           recording: { store, home: original, sample: media.sample },
         });
-        indexing = new IndexProcessing(
-          store,
-          jobs,
-          index,
-          processing,
-          scenes,
-          { source: sourceEvidence, scenes: sceneEvidence },
-          original,
-          { decode: media.decode, sample: media.sample },
-        );
+        indexing = new IndexProcessing({
+          jobs: jobs,
+          recording: {
+            store: store,
+            index: index,
+            source: processing,
+            scenes: scenes,
+            evidence: { source: sourceEvidence, scenes: sceneEvidence },
+            home: original,
+            render: { decode: media.decode, sample: media.sample },
+          },
+        });
         let ready;
         const deadline = Date.now() + 60_000;
         for (;;) {
