@@ -1,3 +1,4 @@
+import { spectralWindows } from "./audio-spectrum.js";
 import { WaveformInspection } from "./waveform.js";
 import { waveformBuckets } from "./audio-wave.js";
 import { spawnSync } from "node:child_process";
@@ -454,6 +455,28 @@ test.runIf(Boolean(process.env.SCREENREC_NATIVE))(
           );
           expect(waveform.buckets[0]!.sampleRange).toEqual({ start: 15, end: 480 });
           expect(waveform.buckets.at(-1)!.sampleRange).toEqual({ start: 47520, end: 47952 });
+          const spectrum = await spectralWindows(
+            lease,
+            receipt,
+            {
+              fftFrames: 32,
+              hopFrames: 32,
+              window: "rectangular",
+              sampleRange: { start: 480, end: 512 },
+            },
+            new AbortController().signal,
+          );
+          expect(spectrum.columns[0]).toMatchObject({
+            sampleRange: { start: 480, end: 512 },
+            analysis: { start: 480, end: 512 },
+            partial: false,
+          });
+          for (let channel = 0; channel < 2; channel++)
+            for (let bin = 0; bin < 17; bin++)
+              expect(spectrum.density[channel * 17 + bin]).toBeCloseTo(
+                bin === 0 ? (((channel === 0 ? 0.25 : -0.125) * gain) ** 2 * 32) / 48000 : 0,
+                12,
+              );
           for (const bucket of waveform.buckets)
             expect(bucket.channels).toEqual([
               { min: 0.25 * gain, max: 0.25 * gain, rms: 0.25 * gain },

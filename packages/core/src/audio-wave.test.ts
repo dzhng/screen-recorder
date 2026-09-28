@@ -1,3 +1,4 @@
+import { spectralWindows } from "./audio-spectrum.js";
 import { expect, test } from "vitest";
 import { waveformBuckets } from "./audio-wave.js";
 import type { RetainedRead } from "./files.js";
@@ -229,6 +230,34 @@ test("late subset of a >1GiB published WAV uses only positioned bounded reads an
         },
       ]);
       expect(reads.filter((r) => r.position >= 62)).toEqual([{ position: total - 80, bytes: 80 }]);
+      reads.length = 0;
+      const spectral = await spectralWindows(
+        input,
+        { ...f.audio, bytes: total, frames, sampleRange: { start: 0, end: frames } },
+        {
+          fftFrames: 16,
+          hopFrames: 16,
+          window: "rectangular",
+          sampleRange: { start: frames - 16, end: frames },
+        },
+        new AbortController().signal,
+      );
+      expect(spectral.columns[0]).toMatchObject({
+        sampleRange: { start: frames - 16, end: frames },
+        analysis: { start: frames - 16, end: frames },
+        available: { start: frames - 16, end: frames },
+        partial: false,
+      });
+      for (let channel = 0; channel < 2; channel++)
+        for (let bin = 0; bin < 9; bin++)
+          expect(spectral.density[channel * 9 + bin]).toBeCloseTo(
+            ((channel === 0 ? 0.75 ** 2 : 0.5 ** 2) / (48000 * 16)) *
+              (bin === 0 || bin === 8 ? 1 : 2),
+            14,
+          );
+      expect(reads.filter((r) => r.position >= 62)).toEqual([
+        { position: total - 128, bytes: 128 },
+      ]);
     } finally {
       lease.release();
     }

@@ -70,7 +70,7 @@ export type WaveformBucket = {
   channels: { min: number; max: number; rms: number }[];
 };
 /** Plan the absolute grid and refuse oversized detail before preparing or reading PCM. */
-export function waveformLayout(
+export function sampleGrid(
   audio: Pick<AudioSamples, "frames" | "sampleRange">,
   options: { bucketFrames: number; sampleRange?: { start: number; end: number } },
 ) {
@@ -89,14 +89,14 @@ export function waveformLayout(
   )
     throw new CatalogError(
       "INVALID_RANGE",
-      "Waveform window must contain samples within the published audio and bucketFrames must be a positive integer",
+      "Analysis window must contain samples within the published audio and bucketFrames must be a positive integer",
     );
   const firstGrid = Math.floor(range.start / width) * width;
   const count = Math.floor((range.end - 1) / width) - Math.floor(range.start / width) + 1;
   if (count > 4096)
     throw new CatalogError(
       "LIMIT_EXCEEDED",
-      "Waveform request exceeds 4096 buckets; increase bucketFrames or narrow the sample window",
+      "Analysis request exceeds 4096 time buckets; increase the grid spacing or narrow the sample window",
       { maximumBuckets: 4096 },
     );
   return { range, width, firstGrid };
@@ -109,7 +109,7 @@ export async function waveformBuckets(
   signal: AbortSignal,
 ) {
   signal.throwIfAborted();
-  const { range, width, firstGrid } = waveformLayout(audio, options);
+  const { range, width, firstGrid } = sampleGrid(audio, options);
   const { dataOffset } = validateAudioWave(file, audio),
     buckets: WaveformBucket[] = [];
   const block = Buffer.alloc(8192 * audio.channels * 4);

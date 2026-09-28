@@ -1,0 +1,169 @@
+$ vitest run --maxWorkers=4 src/audio-spectrum.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey/packages/core
+
+(node:18274) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-spectrum.test.ts (6 tests | 2 failed) 11ms
+   × impulse energy peaks in its global time cell and subset columns keep full contextual windows 4ms
+   × nonzero published origins use sample coordinates and explicitly zero-pad absent window support 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-spectrum.test.ts > impulse energy peaks in its global time cell and subset columns keep full contextual windows
+AssertionError: expected Float64Array[ …(33.999999168920255) ] to deeply equal Float64Array[ …(33.99999913194444) ]
+
+- Expected
++ Received
+
+  Float64Array [
+-   8.680555555555556e-7,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   0.0000017361111111111112,
+-   8.680555555555556e-7,
++   8.310797477464605e-7,
++   0.000001662159495492921,
++   0.000001662159495492921,
++   0.0000016621594954929205,
++   0.0000016621594954929214,
++   0.0000016621594954929214,
++   0.000001662159495492922,
++   0.0000016621594954929218,
++   0.000001662159495492922,
++   0.0000016621594954929224,
++   0.0000016621594954929229,
++   0.0000016621594954929222,
++   0.0000016621594954929226,
++   0.0000016621594954929229,
++   0.000001662159495492923,
++   0.0000016621594954929233,
++   0.0000016621594954929233,
++   0.000001662159495492923,
++   0.0000016621594954929235,
++   0.000001662159495492923,
++   0.0000016621594954929237,
++   0.0000016621594954929235,
++   0.0000016621594954929237,
++   0.0000016621594954929243,
++   0.0000016621594954929245,
++   0.000001662159495492924,
++   0.0000016621594954929241,
++   0.0000016621594954929245,
++   0.0000016621594954929248,
++   0.0000016621594954929248,
++   0.0000016621594954929254,
++   0.0000016621594954929254,
++   8.310797477464605e-7,
+  ]
+
+ ❯ src/audio-spectrum.test.ts:162:26
+    160|     new AbortController().signal,
+    161|   );
+    162|   expect(subset.density).toEqual(full.density.subarray(2 * 33, 3 * 33)…
+       |                          ^
+    163|   expect(subset.columns[0]).toEqual({ ...full.columns[2], sampleRange:…
+    164|   expect(full.columns[0]).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/audio-spectrum.test.ts > nonzero published origins use sample coordinates and explicitly zero-pad absent window support
+AssertionError: expected [ { gridStart: 1001, …(5) }, …(1) ] to deeply equal [ { gridStart: 992, …(5) }, …(1) ]
+
+- Expected
++ Received
+
+  [
+    {
+      "analysis": {
+-       "end": 1016,
+-       "start": 984,
++       "end": 1025,
++       "start": 993,
+      },
+      "available": {
+-       "end": 1016,
++       "end": 1017,
+        "start": 1001,
+      },
+-     "center": 1000,
+-     "gridStart": 992,
++     "center": 1009,
++     "gridStart": 1001,
+      "partial": true,
+      "sampleRange": {
+-       "end": 1008,
++       "end": 1017,
+        "start": 1001,
+      },
+    },
+    {
+      "analysis": {
+-       "end": 1032,
+-       "start": 1000,
++       "end": 1041,
++       "start": 1009,
+      },
+      "available": {
+        "end": 1017,
+-       "start": 1001,
++       "start": 1009,
+      },
+-     "center": 1016,
+-     "gridStart": 1008,
++     "center": 1025,
++     "gridStart": 1017,
+      "partial": true,
+      "sampleRange": {
+        "end": 1017,
+-       "start": 1008,
++       "start": 1017,
+      },
+    },
+  ]
+
+ ❯ src/audio-spectrum.test.ts:180:26
+    178|     new AbortController().signal,
+    179|   );
+    180|   expect(result.columns).toEqual([
+       |                          ^
+    181|     {
+    182|       gridStart: 992,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 4 passed (6)
+   Start at  02:45:13
+   Duration  95ms (transform 55%, tests 25%, import 16%, worker 4%)
+
+error: script "test" exited with code 1

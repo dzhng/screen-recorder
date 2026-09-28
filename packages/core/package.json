@@ -211,6 +211,10 @@
     "./waveform": {
       "types": "./dist/waveform.d.ts",
       "default": "./dist/waveform.js"
+    },
+    "./audio-spectrum": {
+      "types": "./dist/audio-spectrum.d.ts",
+      "default": "./dist/audio-spectrum.js"
     }
   },
   "scripts": {

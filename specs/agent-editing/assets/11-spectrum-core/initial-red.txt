@@ -1,0 +1,26 @@
+$ vitest run --maxWorkers=4 src/audio-spectrum.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey/packages/core
+
+ ❯ src/audio-spectrum.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-spectrum.test.ts [ src/audio-spectrum.test.ts ]
+Error: Cannot find module './audio-spectrum.js' imported from /private/tmp/screenrec-project-evidence-journey/packages/core/src/audio-spectrum.test.ts
+ ❯ src/audio-spectrum.test.ts:2:1
+      1| import {test,expect} from 'vitest';
+      2| import {spectralWindows} from './audio-spectrum.js';
+       | ^
+      3| import type {RetainedRead} from './files.js';
+      4| function fixture(samples:number[][],start=0,rate=48000){
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  02:40:06
+   Duration  87ms (worker 97%, environment 3%)
+
+error: script "test" exited with code 1

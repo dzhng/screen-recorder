@@ -1,0 +1,72 @@
+$ vitest run --maxWorkers=4 src/audio-spectrum.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey/packages/core
+
+(node:18261) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-spectrum.test.ts (6 tests | 4 failed) 8ms
+   × FFT matches independent direct DFT for hann without merging stereo or removing DC 3ms
+   × FFT matches independent direct DFT for rectangular without merging stereo or removing DC 1ms
+   × known tones integrate to mean-square power and DC/Nyquist are not doubled 0ms
+   × nonzero published origins use sample coordinates and explicitly zero-pad absent window support 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-spectrum.test.ts > FFT matches independent direct DFT for hann without merging stereo or removing DC
+AssertionError: expected 0.00001388888950977061 to be close to 0.000006944444754885305, received difference is 0.000006944444754885305, but expected 5e-14
+ ❯ src/audio-spectrum.test.ts:103:61
+    101|         );
+    102|         oracle.forEach((expected, k) =>
+    103|           expect(result.density[(column * 2 + c) * 17 + k]).toBeCloseT…
+       |                                                             ^
+    104|         );
+    105|       }
+ ❯ src/audio-spectrum.test.ts:102:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/audio-spectrum.test.ts > FFT matches independent direct DFT for rectangular without merging stereo or removing DC
+AssertionError: expected 0.000020833334264655918 to be close to 0.000010416667132327959, received difference is 0.000010416667132327959, but expected 5e-14
+ ❯ src/audio-spectrum.test.ts:103:61
+    101|         );
+    102|         oracle.forEach((expected, k) =>
+    103|           expect(result.density[(column * 2 + c) * 17 + k]).toBeCloseT…
+       |                                                             ^
+    104|         );
+    105|       }
+ ❯ src/audio-spectrum.test.ts:102:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/audio-spectrum.test.ts > known tones integrate to mean-square power and DC/Nyquist are not doubled
+AssertionError: expected 0.125 to be close to 0.0625, received difference is 0.0625, but expected 5e-9
+ ❯ src/audio-spectrum.test.ts:130:7
+    128|     expect(
+    129|       [...result.density].reduce((sum, power) => sum + power, 0) * res…
+    130|     ).toBeCloseTo(expected, 8);
+       |       ^
+    131|     const peak = [...result.density].indexOf(Math.max(...result.densit…
+    132|     expect(peak).toBe(kind === "dc" ? 0 : kind === "nyquist" ? 32 : 5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/audio-spectrum.test.ts > nonzero published origins use sample coordinates and explicitly zero-pad absent window support
+AssertionError: expected 6.32424818223328e-7 to be close to 3.16212409111664e-7, received difference is 3.16212409111664e-7, but expected 5e-14
+ ❯ src/audio-spectrum.test.ts:200:33
+    198|   const padded = Array.from({ length: 32 }, (_, i) => (i === 20 ? 0.5 …
+    199|   directDensity(padded, 48000, "hann").forEach((expected, bin) =>
+    200|     expect(result.density[bin]).toBeCloseTo(expected, 13),
+       |                                 ^
+    201|   );
+    202|   expect(f.reads.filter((r) => r.position >= 44)).toEqual([
+ ❯ src/audio-spectrum.test.ts:199:40
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 2 passed (6)
+   Start at  02:45:13
+   Duration  92ms (transform 58%, tests 20%, import 18%, worker 3%)
+
+error: script "test" exited with code 1

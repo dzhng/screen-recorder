@@ -1,0 +1,4 @@
+No actionable defects were found in the current changes, including the untracked spectral analysis files. Type checking and all 16 executed targeted tests passed; one native integration test was skipped.
+No actionable defects were found in the current changes, including the untracked spectral analysis files. Type checking and all 16 executed targeted tests passed; one native integration test was skipped.
+
+The explicit retained native run did not skip the native tap integration.

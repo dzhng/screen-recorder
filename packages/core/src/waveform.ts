@@ -11,7 +11,7 @@ import {
   type SourceAudioArtifact,
   type ProjectAudioArtifact,
 } from "./audio-inspection.js";
-import { waveformBuckets, waveformLayout } from "./audio-wave.js";
+import { waveformBuckets, sampleGrid } from "./audio-wave.js";
 
 const optionsSchema = z.strictObject({
   audioJobId: z.string().min(1),
@@ -71,10 +71,7 @@ export class WaveformInspection {
     const recipe = this.owners.audio.recipe(selection);
     if (bucketFrames !== undefined && recipe.sampleClock) {
       const { sampleRange } = recipe.sampleClock;
-      waveformLayout(
-        { sampleRange, frames: sampleRange.end - sampleRange.start },
-        { bucketFrames },
-      );
+      sampleGrid({ sampleRange, frames: sampleRange.end - sampleRange.start }, { bucketFrames });
     }
     return { recipe, bucketFrames: bucketFrames ?? null };
   }
