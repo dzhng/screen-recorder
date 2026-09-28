@@ -1,0 +1,30 @@
+✖ movie preserves two-cuts timing and PCM alignment (548.131125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1763.57425
+
+✖ failing tests:
+
+test at helpers/mac/Tests/movie-render.test.mjs:146:3
+✖ movie preserves two-cuts timing and PCM alignment (548.131125ms)
+  AssertionError [ERR_ASSERTION]: {"error":{"code":"NATIVE_DECODE_FAILED","details":{},"message":"Audio conversion made no progress: short decoded coverage","retryable":true},"id":"movie","ok":false}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-audio-execution/helpers/mac/Tests/movie-render.test.mjs:156:14)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

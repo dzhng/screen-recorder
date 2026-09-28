@@ -37,5 +37,6 @@ recording preservation run are the execution evidence, not that review attempt.
 The source reader must reach its declared selection end before padding is allowed.
 Padding is limited to the arithmetic deficit between owed output frames and the
 selected native frame count converted to output rate. It cannot conceal a short
-physical decode or read the next excluded source frame. The recording caller's
-padding budget remains zero.
+physical decode or read the next excluded source frame. The recording caller's budget was zero at this checkpoint. The [later shared
+endpoint correction](../09-audio-endpoint/README.md) derives the same arithmetic
+allowance inside the sole interval converter for both consumers.

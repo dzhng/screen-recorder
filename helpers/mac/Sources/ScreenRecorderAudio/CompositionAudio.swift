@@ -154,12 +154,7 @@ public enum CompositionAudio {
                         outputRate: rate, owed: owed,
                         end: CMTime(
                             value: contextRange.sourceEnd, timescale: CMTimeScale(source.sampleRate)
-                        ),
-                        paddingFrames: Int(
-                            max(
-                                0,
-                                owed - (contextRange.sourceEnd - startSample) * Int64(rate)
-                                    / Int64(source.sampleRate))))
+                        ))
                     var remaining = skip
                     while remaining > 0 {
                         try Task.checkCancellation()

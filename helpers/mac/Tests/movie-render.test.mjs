@@ -457,3 +457,97 @@ test("movie accepts 1001 retained/acquired spans while public excerpts retain th
     publicExcerptError: excerpt.error.code,
   });
 });
+
+test("two-cuts resampling endpoint excludes neighboring native frames and refuses truncated decode", () => {
+  const ranges = cases.find(([name]) => name === "two-cuts")[1];
+  const base = Buffer.alloc(6 * 44100 * 4);
+  const results = [];
+  let original;
+  for (const [name, markers] of [
+    ["zero", []],
+    ["outside", [104737, 259087]],
+    ["inside-start", [104738]],
+    ["inside-end", [259086]],
+  ]) {
+    const raw = join(dir, `endpoint-${name}.f32`),
+      source = join(dir, `endpoint-${name}.mov`);
+    const signal = Buffer.from(base);
+    for (const frame of markers) signal.writeFloatLE(0.9, frame * 4);
+    writeFileSync(raw, signal);
+    run("ffmpeg", [
+      "-v",
+      "error",
+      "-f",
+      "f32le",
+      "-ar",
+      "44100",
+      "-ac",
+      "1",
+      "-i",
+      raw,
+      "-c:a",
+      "pcm_f32le",
+      "-movflags",
+      "+faststart",
+      source,
+    ]);
+    if (name === "zero") original = source;
+    const result = request("media.audio", {
+      output: join(dir, `endpoint-${name}.wav`),
+      spans: ranges.map(([startUs, endUs]) => ({ startUs, endUs })),
+      tracks: [{ ...allTracks[0], source }, allTracks[1]],
+    });
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.equal(result.data.frames, 242811);
+    const binary = spawnSync(
+      "ffmpeg",
+      ["-v", "error", "-i", result.data.file, "-f", "f32le", "pipe:1"],
+      { timeout: 60000, maxBuffer: 4 * 1024 * 1024 },
+    );
+    assert.equal(binary.status, 0, binary.stderr.toString());
+    assert.equal(binary.stdout.length, 242811 * 2 * 4);
+    results.push(binary.stdout);
+  }
+  assert.deepEqual(
+    results[1],
+    results[0],
+    "Excluded nearest-start and ceil-end neighbors must never influence PCM",
+  );
+  for (const selected of results.slice(2))
+    assert.notDeepEqual(
+      selected,
+      results[0],
+      "Each selected boundary impulse must survive decoding",
+    );
+  const damaged = join(dir, "endpoint-truncated.mov");
+  const bytes = readFileSync(original);
+  writeFileSync(damaged, bytes.subarray(0, bytes.length - 44100 * 4));
+  const output = join(dir, "endpoint-truncated.wav");
+  const failure = request("media.audio", {
+    output,
+    spans: ranges.map(([startUs, endUs]) => ({ startUs, endUs })),
+    tracks: [{ ...allTracks[0], source: damaged }, allTracks[1]],
+  });
+  assert.equal(
+    failure.error?.code,
+    "NATIVE_DECODE_FAILED",
+    JSON.stringify(failure),
+  );
+  assert(!readdirSync(dir).includes("endpoint-truncated.wav"));
+  assert(
+    !readdirSync(dir).some((name) => name.startsWith(".screenrec-output-")),
+  );
+  reports.push({
+    name: "two-cuts-quantized-endpoint",
+    inputRate: 44100,
+    outputRate: 48000,
+    retainedInput: { start: 104738, end: 259087, frames: 154349 },
+    owedIntervalOutput: 167999,
+    converterWholeFrames: 167998,
+    boundedExtension: 1,
+    totalOutputFrames: 242811,
+    excludedMarkers: [104737, 259087],
+    includedMarkers: [104738, 259086],
+    truncatedDecodeRefused: true,
+  });
+});

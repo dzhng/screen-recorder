@@ -9,5 +9,5 @@ separate report, including exact container clocks and native cancellation cleanu
 
 The small public video request/result surface lets the assembly owner reuse the
 renderer; no duplicate frame reader, decoder, mixer, WAV intermediary, or movie mux
-was introduced. The previous recording two-cuts conversion failure remains an
-explicit independent gate in the shared PCM prerequisite evidence.
+was introduced. The previous recording two-cuts conversion failure was an independent gate at
+this checkpoint; the [later endpoint correction](../09-audio-endpoint/README.md) resolves it.

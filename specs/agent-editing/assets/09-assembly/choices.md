@@ -14,5 +14,6 @@
   rounded field equal the microsecond movie duration would violate sample ownership.
 
 The existing bounded audio schedule/metadata admission limits remain provisional
-scale work. The baseline recording two-cuts decoder red is independent and open;
-this pass does not relabel it as an accepted fallback.
+scale work. The baseline recording two-cuts decoder red was independent at this checkpoint;
+the [later endpoint correction](../09-audio-endpoint/README.md) resolves it without
+relabeling missing decode as accepted silence.

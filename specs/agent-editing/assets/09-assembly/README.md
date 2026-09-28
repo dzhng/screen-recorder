@@ -40,5 +40,5 @@ rounded duration exact. A positive one-microsecond video window with zero audio
 samples produces video only, with no fabricated PCM sample or AAC track.
 
 Broader codec/mux conformance, public job/publication/cache journeys and listening
-remain integration gates. The unrelated baseline recording two-cuts converter
-failure remains documented in [PCM mux prerequisite evidence](../09-pcm-mux/README.md).
+remain integration gates. The earlier recording two-cuts converter
+failure and its resolution are documented in [endpoint coverage evidence](../09-audio-endpoint/README.md).

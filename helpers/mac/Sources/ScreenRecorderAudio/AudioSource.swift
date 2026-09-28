@@ -110,9 +110,8 @@ final class ConvertedAudioInterval {
 
     init(
         source: SourceTrack, decoder: AudioSourceReader, start: CMTime,
-        outputRate: Int, owed: Int64, end limit: CMTime? = nil, paddingFrames: Int = 0
+        outputRate: Int, owed: Int64, end limit: CMTime? = nil
     ) throws {
-        self.paddingFrames = paddingFrames
         sourceInput = source.input
         guard
             let sourceFormat = AVAudioFormat(
@@ -132,6 +131,18 @@ final class ConvertedAudioInterval {
         // Cumulative layout rounding owns the duration, including a last frame rounded up.
         let requestedEnd = CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate)))
         let end = limit.map { min($0, requestedEnd) } ?? requestedEnd
+        let first = CMTimeConvertScale(
+            start, timescale: CMTimeScale(source.sampleRate),
+            method: .roundHalfAwayFromZero
+        ).value
+        let last = CMTimeConvertScale(
+            end, timescale: CMTimeScale(source.sampleRate),
+            method: .roundTowardPositiveInfinity
+        ).value
+        // Native selection and cumulative output use different integer clocks. Only their
+        // arithmetic shortfall may be zero-extended, and only after the reader reaches end.
+        let covered = Int128(max(0, last - first)) * Int128(outputRate) / Int128(source.sampleRate)
+        paddingFrames = Int(max(0, Int128(owed) - covered))
         try decoder.begin(at: start, end: end)
         let openedInput = ConversionInput(reader: decoder)
         guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)

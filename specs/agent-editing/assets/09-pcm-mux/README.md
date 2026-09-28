@@ -11,7 +11,7 @@ priming, excluded-source isolation, fractional timing and tiny/sub-sample output
 The two-cuts movie case reproducibly fails with short decoded coverage. Restoring
 both Swift files to pre-change HEAD and rebuilding reproduces the
 [same failure](baseline-two-cuts.txt), so it is not introduced by this extraction.
-That existing converter coverage gate remains open; no all-green movie claim is made.
+That baseline failure was subsequently resolved by the [bounded endpoint correction](../09-audio-endpoint/README.md); the evidence here retains the original failed checkpoint.
 
 Independent Codex review found no actionable regressions; its own build attempt
 waited behind the active SwiftPM build. The implementing run completed the build
