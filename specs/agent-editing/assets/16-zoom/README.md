@@ -21,8 +21,10 @@ maximum channel difference of 37. That gate only supports frame membership and
 layout, not strict encoded-color acceptance. No cause has been established and no
 threshold was relaxed. `details.png` shows complete enlarged PNG/movie frame pairs;
 `edge-metrics.json` retains differing-pixel extents. The complete contact sheet and
-all individual captures are retained for fresh, unprimed visual review, which is
-pending. This evidence does not close a strict movie parity gate or full slice 16.
+all individual captures were inspected in a fresh, unprimed visual review.
+The reviewer confirmed pale strips along yellow/green edges, darker gray and colored
+fringes in movie frames, especially at 375 ms. Direct/static/moved/split geometry
+looked consistent; still captures do not establish interframe motion quality. This evidence does not close a strict movie parity gate or full slice 16.
 
 Composition has 166 passing tests, including independent axes, lifecycle preservation,
 output-target timing, window boundaries, mirror/zero crossings and invalid extrema.
@@ -31,3 +33,8 @@ types and targeted service/CLI builds pass. Independent code review found no
 actionable defect. Existing opacity's 24 PNGs and static layers' 124 PNGs remain
 byte-exact against their prior runs. `verification.json` records artifact hashes and
 uncompressed report/log hashes; compressed public reports retain requests and checks.
+
+Root integration on the combined worker reproduces all 39 public PNGs byte for
+byte, with 166 composition and 20 retained-index tests passing and targeted builds
+green. `root-integration.json` records the worker and exact outputs. The visible
+encoded artifacts remain a required investigation, not an accepted color tolerance.

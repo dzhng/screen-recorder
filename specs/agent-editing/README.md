@@ -49,7 +49,9 @@ Current pickup and priority:
    other dependency-ready slices; these priorities do not remove later scope.
    [Scalar curve compilation](slices/16a-curve-primitives.md) is verified; persisted
    [opacity animation and retained inspection](assets/16-opacity-index/README.md)
-   now pass their public vertical; animated geometry, gain and remaining keyframe
+   now pass their public vertical. [Animated zoom](assets/16-zoom/README.md) passes
+   exact frame/edit controls on the combined worker, while fresh review confirms
+   encoded edge/color defects. Remaining geometry scalars, gain and keyframe
    journeys stay in 16.
 
 [Portable snapshots](slices/22a-portable-snapshots.md) are a dependency-ready core

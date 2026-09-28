@@ -93,8 +93,8 @@ controls/split preservation, scoped movie comparisons, static-layer preservation
 failed attempts and reviews. [Retained-index integration](../assets/16-opacity-index/README.md)
 now proves tap-aware boundary selection, direct/retained PNG equality and fresh
 visual review. The service/native projection is shared with direct worker harnesses;
-no authoring easing is sent for native reinterpretation. Animated geometry, gain,
-transitions and remaining full-slice journeys are next.
+no authoring easing is sent for native reinterpretation. Remaining geometry scalars,
+gain, transitions and full-slice journeys stay open.
 
 ## Animated zoom vertical
 
@@ -120,7 +120,8 @@ convenience commands remain explicit unfinished consumers in full slice 16.
 
 The [zoom evidence](../assets/16-zoom/README.md) retains 39 exact public PNG checks,
 166 passing composition tests, static/opacity preservation and independent code
-review. Fresh visual acceptance is pending. Direct PNG versus encoded movie maximum
+review. Root reproduces all 39 PNGs exactly; fresh visual review confirms movie
+edge fringes and darker gray, leaving encoded acceptance open. Direct PNG versus encoded movie maximum
 channel error reaches **240** despite passing the inherited mean-RGB membership
 criterion; encoded color/edge parity remains unresolved, with no established cause.
 Full/range movie membership and exact preview/export bytes do not establish strict
