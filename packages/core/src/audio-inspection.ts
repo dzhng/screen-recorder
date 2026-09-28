@@ -1,4 +1,6 @@
-import { constants, openSync, closeSync, fstatSync, readSync } from "node:fs";
+import { validateAudioWave } from "./audio-wave.js";
+import { openedFile, retainedFileRead } from "./files.js";
+import { constants, openSync, fstatSync } from "node:fs";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import { rangeSchema, processingTapSchema, type ProcessingTap } from "@screenrec/composition";
@@ -432,60 +434,18 @@ export class MediaAudioInspection {
   }
 }
 
-/** Verify bounded RIFF metadata against the receipt without loading full extraction samples. */
+/** Validate the completed producer file before it enters the immutable cache. */
 function checkWave(
   value: Pick<SourceAudioResult, "file" | "bytes" | "sampleRate" | "channels" | "frames">,
 ) {
   const fd = openSync(value.file, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+  const file = retainedFileRead(openedFile(fd), value.bytes);
   try {
     const stat = fstatSync(fd);
     if (!stat.isFile() || stat.size !== value.bytes)
       invalid("Audio output is not the reported regular file");
-    const read = (at: number, size: number) => {
-      const bytes = Buffer.alloc(size);
-      if (readSync(fd, bytes, 0, size, at) !== size) invalid("Truncated WAV metadata");
-      return bytes;
-    };
-    const header = read(0, 12);
-    if (
-      header.toString("ascii", 0, 4) !== "RIFF" ||
-      header.toString("ascii", 8, 12) !== "WAVE" ||
-      header.readUInt32LE(4) + 8 !== stat.size
-    )
-      invalid("Audio output is not a complete RIFF WAVE");
-    let at = 12,
-      format = false,
-      data = false,
-      chunks = 0;
-    while (at < stat.size) {
-      if (++chunks > 128 || at + 8 > stat.size) invalid("WAV chunk metadata exceeds its bounds");
-      const chunk = read(at, 8),
-        name = chunk.toString("ascii", 0, 4),
-        size = chunk.readUInt32LE(4);
-      at += 8;
-      if (at + size + (size % 2) > stat.size) invalid("WAV chunk exceeds the file");
-      if (name === "fmt ") {
-        if (format || size < 16) invalid("WAV format is missing or repeated");
-        const fmt = read(at, 16);
-        if (
-          fmt.readUInt16LE(0) !== 3 ||
-          fmt.readUInt16LE(2) !== value.channels ||
-          fmt.readUInt32LE(4) !== value.sampleRate ||
-          fmt.readUInt32LE(8) !== value.sampleRate * value.channels * 4 ||
-          fmt.readUInt16LE(12) !== value.channels * 4 ||
-          fmt.readUInt16LE(14) !== 32
-        )
-          invalid("WAV format differs from the native receipt");
-        format = true;
-      } else if (name === "data") {
-        if (data || BigInt(size) !== BigInt(value.frames) * BigInt(value.channels) * 4n)
-          invalid("WAV sample count differs from its receipt");
-        data = true;
-      }
-      at += size + (size % 2);
-    }
-    if (!format || !data) invalid("WAV format or samples are missing");
+    validateAudioWave(file, value);
   } finally {
-    closeSync(fd);
+    file.release();
   }
 }

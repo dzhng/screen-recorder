@@ -1,0 +1,132 @@
+$ vitest run --maxWorkers=4 src/audio-wave.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey/packages/core
+
+(node:89440) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-wave.test.ts (5 tests | 3 failed) 64ms
+   × absolute buckets preserve independent channels and clipped sample windows despite nonstandard WAV header 4ms
+   × resolution cap refuses before reading and fractional source clocks stay sample based 2ms
+   × late subset of a >1GiB published WAV uses only positioned bounded reads and holds its lease across yields 53ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-wave.test.ts > absolute buckets preserve independent channels and clipped sample windows despite nonstandard WAV header
+AssertionError: expected [ { gridStart: +0, …(3) } ] to deeply equal [ { gridStart: 4, …(3) } ]
+
+- Expected
++ Received
+
+@@ -10,11 +10,11 @@
+          "max": -2,
+          "min": -5,
+          "rms": 3.6742346141747673,
+        },
+      ],
+-     "gridStart": 4,
++     "gridStart": 0,
+      "partial": false,
+      "sampleRange": {
+        "end": 8,
+        "start": 4,
+      },
+
+ ❯ src/audio-wave.test.ts:108:26
+    106|     new AbortController().signal,
+    107|   );
+    108|   expect(ranged.buckets).toEqual([result.buckets[1]]);
+       |                          ^
+    109| });
+    110|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/audio-wave.test.ts > resolution cap refuses before reading and fractional source clocks stay sample based
+AssertionError: expected [ { gridStart: +0, …(3) } ] to deeply equal [ { gridStart: 8379, …(3) }, …(1) ]
+
+- Expected
++ Received
+
+@@ -2,31 +2,16 @@
+    {
+      "channels": [
+        {
+          "max": 1,
+          "min": 0,
+-         "rms": 0.5773502691896257,
+-       },
+-     ],
+-     "gridStart": 8379,
+-     "partial": true,
+-     "sampleRange": {
+-       "end": 8820,
+-       "start": 8817,
+-     },
+-   },
+-   {
+-     "channels": [
+-       {
+-         "max": 0,
+-         "min": 0,
+-         "rms": 0,
++         "rms": 0.5,
+        },
+      ],
+-     "gridStart": 8820,
++     "gridStart": 0,
+      "partial": true,
+      "sampleRange": {
+        "end": 8821,
+-       "start": 8820,
++       "start": 8817,
+      },
+    },
+  ]
+
+ ❯ src/audio-wave.test.ts:127:26
+    125|     new AbortController().signal,
+    126|   );
+    127|   expect(result.buckets).toEqual([
+       |                          ^
+    128|     {
+    129|       gridStart: 8379,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/audio-wave.test.ts > late subset of a >1GiB published WAV uses only positioned bounded reads and holds its lease across yields
+AssertionError: expected [ { gridStart: +0, …(3) } ] to deeply equal [ { gridStart: 143999990, …(3) } ]
+
+- Expected
++ Received
+
+@@ -10,11 +10,11 @@
+          "max": 0,
+          "min": -0.5,
+          "rms": 0.15811388300841897,
+        },
+      ],
+-     "gridStart": 143999990,
++     "gridStart": 0,
+      "partial": false,
+      "sampleRange": {
+        "end": 144000000,
+        "start": 143999990,
+      },
+
+ ❯ src/audio-wave.test.ts:220:30
+    218|       );
+    219|       const result = await pending;
+    220|       expect(result.buckets).toEqual([
+       |                              ^
+    221|         {
+    222|           gridStart: frames - 10,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 2 passed (5)
+   Start at  02:16:59
+   Duration  141ms (tests 72%, transform 20%, import 6%, worker 2%)
+
+error: script "test" exited with code 1

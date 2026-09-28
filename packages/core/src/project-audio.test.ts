@@ -1,3 +1,4 @@
+import { waveformBuckets } from "./audio-wave.js";
 import { spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
@@ -416,6 +417,24 @@ test.runIf(Boolean(process.env.SCREENREC_NATIVE))(
           expectedPCM.writeFloatLE(-0.125 * gain, frame * 8 + 4);
         }
         expect(data.equals(expectedPCM), `${target.kind}/${mode} complete stereo PCM`).toBe(true);
+        const lease = f.cache.acquire(receipt.cacheId)!;
+        try {
+          const waveform = await waveformBuckets(
+            lease,
+            receipt,
+            { bucketFrames: 480 },
+            new AbortController().signal,
+          );
+          expect(waveform.buckets[0]!.sampleRange).toEqual({ start: 15, end: 480 });
+          expect(waveform.buckets.at(-1)!.sampleRange).toEqual({ start: 47520, end: 47952 });
+          for (const bucket of waveform.buckets)
+            expect(bucket.channels).toEqual([
+              { min: 0.25 * gain, max: 0.25 * gain, rms: 0.25 * gain },
+              { min: -0.125 * gain, max: -0.125 * gain, rms: 0.125 * gain },
+            ]);
+        } finally {
+          lease.release();
+        }
       }
     }
   },

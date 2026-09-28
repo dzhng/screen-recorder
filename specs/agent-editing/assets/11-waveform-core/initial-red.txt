@@ -1,0 +1,26 @@
+$ vitest run --maxWorkers=4 src/audio-wave.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey/packages/core
+
+ ❯ src/audio-wave.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-wave.test.ts [ src/audio-wave.test.ts ]
+Error: Cannot find module './audio-wave.js' imported from /private/tmp/screenrec-project-evidence-journey/packages/core/src/audio-wave.test.ts
+ ❯ src/audio-wave.test.ts:2:1
+      1| import {expect,test} from 'vitest';
+      2| import {waveformBuckets} from './audio-wave.js';
+       | ^
+      3| import type {RetainedRead} from './files.js';
+      4| function fixture(values:number[][],start=0,rate=48000){
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  02:13:02
+   Duration  78ms (worker 97%, environment 3%)
+
+error: script "test" exited with code 1

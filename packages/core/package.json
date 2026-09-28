@@ -203,6 +203,10 @@
     "./frame-inspection": {
       "types": "./dist/frame-inspection.d.ts",
       "default": "./dist/frame-inspection.js"
+    },
+    "./audio-wave": {
+      "types": "./dist/audio-wave.d.ts",
+      "default": "./dist/audio-wave.js"
     }
   },
   "scripts": {
