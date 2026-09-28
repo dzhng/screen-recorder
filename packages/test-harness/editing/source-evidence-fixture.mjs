@@ -66,6 +66,7 @@ export class JourneyService {
     this.barriers = new Map();
   }
   async start() {
+    this.started = false;
     this.child = fork(this.serviceModule, [this.home, ...(this.evidence ? [this.evidence] : [])], {
       stdio: ["ignore", "pipe", "pipe", "ipc"],
     });
@@ -93,6 +94,7 @@ export class JourneyService {
         stderr: "pipe",
       }),
     );
+    this.started = true;
   }
   async call(operation, params, { transport = "cli", error = false, output } = {}) {
     const response =
@@ -147,16 +149,19 @@ export class JourneyService {
       timer.unref();
     });
     if (crash) child.kill("SIGKILL");
-    else child.send("close");
+    // Startup failures may close IPC before cleanup. The bounded terminal-exit
+    // check owns shutdown success; a failed send must not hide the startup error.
+    else child.send("close", () => {});
     try {
       const [code, signal] = await Promise.race([exited, timeout]);
       if (crash) assert.equal(signal, "SIGKILL");
-      else assert.equal(code, 0, this.logs.join(""));
+      else if (this.started) assert.equal(code, 0, this.logs.join(""));
     } catch (error) {
       await exited;
       throw error;
     } finally {
       clearTimeout(timer);
+      this.started = false;
     }
   }
 }

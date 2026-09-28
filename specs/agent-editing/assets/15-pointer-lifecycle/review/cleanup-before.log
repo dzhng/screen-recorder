@@ -1,0 +1,11 @@
+startup: AssertionError [ERR_ASSERTION]: {"error":{"code":"ENOTDIR","message":"ENOTDIR: not a directory, mkdir '/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-invalid-home-duhPdz/not-a-directory/library'"}}
++ actual - expected
+
++ {
++   code: 'ENOTDIR',
++   message: "ENOTDIR: not a directory, mkdir '/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-invalid-home-duhPdz/not-a-directory/library'"
++ }
+- undefined
+
+cleanup: Error: write EPIPE
+{ exitCode: null, signalCode: null, connected: true }

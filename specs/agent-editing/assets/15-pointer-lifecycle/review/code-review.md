@@ -22,3 +22,6 @@ and no report was saved in that review output directory. The underlying startup
 failure was not preserved, so the cause is not claimed. This is not a second
 successful native run. The author's completed terminal result and retained
 artifacts are the native evidence for this checkpoint.
+
+The cleanup weakness was subsequently reproduced and fixed in the shared harness;
+[the separate diagnostic checkpoint](cleanup.md) retains its scope and regression.
