@@ -429,6 +429,26 @@ try {
   );
   assert.deepEqual(render(split441.document).samples, resampled.samples);
   assert.equal(windowError, 0);
+  const mixedRates = {
+    ...resampledDoc,
+    tracks: [...resampledDoc.tracks, { id: "native-rate", kind: "audio", order: 1 }],
+    clips: [...resampledDoc.clips, clip("native-rate", b, "native-rate", 0, 1000000)],
+  };
+  const mixedRatePcm = render(mixedRates).samples;
+  for (let i = 0; i < mixedRatePcm.length; i++)
+    assert.equal(mixedRatePcm[i], Math.fround(resampled.samples[i] + b.samples[i]),
+      `mixed-rate sample ${i}`);
+  const mixedRateRange = { startUs: 123457, endUs: 812349 };
+  assert.deepEqual(render(mixedRates, mixedRateRange).samples,
+    mixedRatePcm.slice(Math.floor(mixedRateRange.startUs * 48000 / 1000000) * 2,
+      Math.floor(mixedRateRange.endUs * 48000 / 1000000) * 2));
+  const mixedRateSplit = applyBatch(mixedRates, [{ operation: "split",
+    clipIds: ["resampled", "native-rate"], atUs: 333333, scope: "selected" }],
+    { assets: sources.map((source) => source.asset), namespace: "mixed-rate-split" });
+  assert.deepEqual(render(mixedRateSplit.document).samples, mixedRatePcm);
+  evidence.checks.push(
+    "simultaneous44.1k mono and48k stereo sum exactly after resampling, retaining fractional window and split phase",
+  );
   const excludedImpulse = fixture("excluded-impulse", 44100, 1, (i) => (i === 22049 ? 0.75 : 0));
   sources.push(excludedImpulse);
   const impulseDoc = {

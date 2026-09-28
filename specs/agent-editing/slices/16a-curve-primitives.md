@@ -1,6 +1,6 @@
 # 16a — Scalar curve compiler primitive
 
-Status: implemented and verified as an in-process compiler prerequisite; public/native activation remains in 16. Dependencies: [01](01-composition.md), [03c](03c-processing-stacks.md).
+Status: implemented and verified as an in-process compiler prerequisite; public/native activation remains in 16. Dependencies: [01](./01-composition.md), [03c](./03c-processing-stacks.md).
 Consumer [16](16-keyframes.md) still depends on retiming and layer geometry.
 
 ## Contract

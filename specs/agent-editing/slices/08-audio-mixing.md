@@ -49,3 +49,7 @@ phase still requires prepared retiming and must not be inferred from those check
 verifies AIFF mono and ALAC stereo overlap against every original WAV sample,
 including fractional windows and pure splits. This does not close broader codec,
 mixed-rate, segment-origin or listening acceptance.
+
+[Simultaneous44.1/48kHz evidence](../assets/08-mixed-rates/README.md) now proves
+actual overlapping resampling/mixing, exact fractional windows and pure splits.
+Other codec/segment combinations and listening remain open.

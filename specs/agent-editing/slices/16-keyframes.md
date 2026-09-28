@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: public/native integration not started. Scalar prerequisite: [16a](./16a-curve-primitives.md). Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md).
+Status: public/native integration not started. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
 
 ## Contract
 

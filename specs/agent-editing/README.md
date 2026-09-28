@@ -17,8 +17,10 @@ verified public operations only; the installed app has not switched engines.
 Current pickup and priority:
 
 1. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
-   skill use and [remaining delivered-media gaps](assets/15-acceptance-audit/README.md).
+   [remaining delivered-media gaps](assets/15-acceptance-audit/README.md).
    Whole-chain pointer transforms and replacement/undo coverage are next.
+   [Pointer skill trials](assets/15-pointer-skill/README.md) verify delivered results
+   and targeted guidance, while retaining workflow and report errors.
    [Opaque final-output geometry](assets/15-output-geometry/README.md) passes
    still/full/range/export and unchanged-audio checks on both canvases.
    Static presenter/stack/edit behavior passes
@@ -35,6 +37,8 @@ Current pickup and priority:
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue
    other dependency-ready slices; these priorities do not remove later scope.
+   [Scalar curve compilation](slices/16a-curve-primitives.md) is verified; persisted
+   animation, native execution and public keyframe journeys remain in16.
 
 Compact evidence ledger:
 
@@ -197,6 +201,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
 - [ ] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)
+- [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [ ] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
 - [ ] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
