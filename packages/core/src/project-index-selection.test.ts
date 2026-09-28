@@ -50,6 +50,8 @@ function fixture(clips: Composition["clips"] = [clip("c", 0, 12000000)]) {
         {
           id: "video",
           kind: "video",
+          width: 640,
+          height: 480,
           bounds: { startUs: 0, endUs: 20000000 },
           available: [{ startUs: 0, endUs: 20000000 }],
         },
@@ -279,7 +281,12 @@ test("holds, empty projects and audio-only timelines need no scene dependency", 
   expect(await select(fixture([]), unexpectedRead)).toEqual([]);
   const audio = fixture();
   audio.document.tracks[0]!.kind = "audio";
-  audio.assets[0]!.streams[0]!.kind = "audio";
+  audio.assets[0]!.streams[0] = {
+    id: "video",
+    kind: "audio",
+    bounds: { startUs: 0, endUs: 20000000 },
+    available: [{ startUs: 0, endUs: 20000000 }],
+  };
   expect((await select(audio, unexpectedRead)).map((candidate) => candidate.sampleAtUs)).toEqual([
     0, 5000000, 10000000, 11966666,
   ]);

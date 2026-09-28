@@ -29,7 +29,8 @@ Current pickup and priority:
    gate simulates a recipe release; native scenes and frozen-ASR transcripts retain
    separate evidence boundaries. Cache-owner eviction remains a core gate.
    [Compiler frame-boundary selection](assets/10d-project-index-clock/README.md)
-   is integrated; next implement project-index candidates/materialization.
+   and [candidate selection](assets/10d-project-index-selection/README.md) are
+   integrated; next implement retained project-index materialization.
    Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are

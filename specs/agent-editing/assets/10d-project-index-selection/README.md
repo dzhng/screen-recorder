@@ -36,3 +36,8 @@ can attach to one frame even when the selector's total count limits are satisfie
 Keep this storage check with the store; test a heavily overlapping frame and prove
 structured refusal occurs before rendering, rather than introducing a second byte
 policy in the pure selector.
+
+Integration with required source dimensions and the compiled visual graph passes
+all17 focused source/project selection tests. The audio-only fixture retains an
+audio stream schema, not leftover visual dimensions. Native materialization and
+public delivery remain the next acceptance boundary.

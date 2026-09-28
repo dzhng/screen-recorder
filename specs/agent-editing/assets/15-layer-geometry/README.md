@@ -63,3 +63,9 @@ Geometry and opacity now advertise the shared verified implementation through
 project capability/readiness binding. Focused preview/frame owner tests and
 CLI/service builds pass; the actual public geometry journey is still required
 before accepting the new end-to-end workflow.
+
+The combined worker also passes the historical18-case/386-frame picture/movie
+corpus, cancellation/negative gates and11 existing pointer-movie tests. All92
+geometry PNGs are byte-identical to the independently reviewed checkpoint. The
+actual scene generation journey passes with the new recipe identity. These
+preservation gates do not close new project-pointer or public layering acceptance.
