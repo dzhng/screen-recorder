@@ -5,7 +5,7 @@ import {
   type CapturePosition,
   type CaptureRow,
 } from "./capture-source-read.js";
-import { mergeHeads, type EvidenceKey } from "./evidence-merge.js";
+import { compareKey, mergeHeads, type EvidenceKey } from "./evidence-merge.js";
 import type { EvidenceManifest, EvidencePlan, EvidenceCheckpoint } from "./project-evidence.js";
 import { sourceSelectionKey } from "./source-selection.js";
 export type ProjectCaptureRow = CaptureRow & {
@@ -18,15 +18,18 @@ export type ProjectCaptureRow = CaptureRow & {
   generation: string;
   projectAtUs: TimeValue;
 };
+type CaptureHead = { key: EvidenceKey; row: ProjectCaptureRow };
 export type ProjectCapturePosition = {
   clip: number;
   source: CapturePosition;
-  head: { key: EvidenceKey; row: ProjectCaptureRow } | null;
+  head: CaptureHead | null;
+  deferred: CaptureHead | null;
 };
 export const initialProjectCapture = (): ProjectCapturePosition => ({
   clip: 0,
   source: initialCapture(),
   head: null,
+  deferred: null,
 });
 export function mergeCapture(
   manifest: EvidenceManifest,
@@ -40,11 +43,11 @@ export function mergeCapture(
     manifest.dependencies.map((d) => [sourceSelectionKey(d.selection), d.capture!]),
   );
   const budget = { remaining: 128 };
-  const fill = (index: number): boolean => {
+  const next = (index: number): CaptureHead | null | undefined => {
     const position = state.tracks[index]!,
       ids = manifest.tracks[index]!.clipIds;
     while (position.clip < ids.length) {
-      if (budget.remaining <= 0) return false;
+      if (budget.remaining <= 0) return undefined;
       const clip = clips.get(ids[position.clip]!)!,
         context = dependencies.get(sourceSelectionKey(clip))!;
       const row = clip.fragments.length
@@ -58,22 +61,29 @@ export function mergeCapture(
             budget,
           )
         : null;
-      if (row === undefined) return false;
+      if (row === undefined) return undefined;
       if (row === null) {
         budget.remaining--;
         position.clip++;
         position.source = initialCapture();
         continue;
       }
-      const mapped = plan.projection.point(clip.clipId, row.sourceAtUs);
+      const ending = row.kind === "interruption";
+      const mapped = ending
+        ? plan.projection.endpoint(clip.clipId, row.sourceAtUs)
+        : plan.projection.point(clip.clipId, row.sourceAtUs);
       if (
         !mapped ||
-        compare(mapped.project, fromTime(plan.query.range.startUs)) < 0 ||
-        compare(mapped.project, fromTime(plan.query.range.endUs)) >= 0
+        (ending
+          ? compare(mapped.project, fromTime(plan.query.range.startUs)) <= 0
+          : compare(mapped.project, fromTime(plan.query.range.startUs)) < 0) ||
+        (ending
+          ? compare(mapped.project, fromTime(plan.query.range.endUs)) > 0
+          : compare(mapped.project, fromTime(plan.query.range.endUs)) >= 0)
       )
         continue;
       const projectAtUs = toTime(mapped.project);
-      position.head = {
+      return {
         key: {
           projectStartUs: projectAtUs,
           trackRank: clip.trackRank,
@@ -93,10 +103,37 @@ export function mergeCapture(
           projectAtUs,
         },
       };
+    }
+    return null;
+  };
+  const fill = (index: number): boolean => {
+    const position = state.tracks[index]!;
+    // A preceding endpoint can tie the next clip's opening observations. Retain one
+    // head while reading that opening, so the established clip-ID ordering still wins.
+    for (;;) {
+      if (position.deferred && position.deferred.row.kind !== "interruption") {
+        position.head = position.deferred;
+        position.deferred = null;
+        return true;
+      }
+      const candidate = next(index);
+      if (candidate === undefined) return false;
+      if (position.deferred) {
+        if (!candidate || compareKey(position.deferred.key, candidate.key) <= 0) {
+          position.head = position.deferred;
+          position.deferred = candidate;
+        } else {
+          position.head = candidate;
+        }
+        return true;
+      }
+      if (candidate?.row.kind === "interruption") {
+        position.deferred = candidate;
+        continue;
+      }
+      position.head = candidate;
       return true;
     }
-    position.head = null;
-    return true;
   };
   const rows: ProjectCaptureRow[] = [];
   mergeHeads(

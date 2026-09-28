@@ -25,20 +25,24 @@ export function intervalIndex<T>(
     };
   }
   const root = build(0, sorted.length);
-  return function query(start: Rational, end?: Rational): T[] {
+  function query(start: Rational, end?: Rational, before = false): T[] {
     const result: T[] = [];
     const pending = root ? [root] : [];
     while (pending.length) {
       const node = pending.pop()!;
-      if (compare(node.end, start) <= 0) continue;
+      if (compare(node.end, start) < (before ? 0 : 1)) continue;
       if (node.left) pending.push(node.left);
       const beforeEnd = end
         ? compare(range(node.clip).start, end) < 0
-        : compare(range(node.clip).start, start) <= 0;
+        : compare(range(node.clip).start, start) < (before ? 0 : 1);
       if (!beforeEnd) continue;
-      if (compare(range(node.clip).end, start) > 0) result.push(node.clip);
+      if (compare(range(node.clip).end, start) >= (before ? 0 : 1)) result.push(node.clip);
       if (node.right) pending.push(node.right);
     }
     return order ? result.sort(order) : result;
-  };
+  }
+  return Object.assign((start: Rational, end?: Rational) => query(start, end), {
+    /** Support immediately before a boundary: start < at <= end, without rounding or epsilon. */
+    before: (at: Rational) => query(at, undefined, true),
+  });
 }

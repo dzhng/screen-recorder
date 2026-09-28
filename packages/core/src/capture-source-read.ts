@@ -22,7 +22,7 @@ export type CaptureSourceInput = SourceSelection & {
   cursor?: unknown;
 };
 export type CaptureDomain = "events" | "cursor";
-type PointKind = "pause" | "geometry" | "cursor";
+type PointKind = "pause" | "geometry" | "cursor" | "interruption";
 export type CaptureCoverage = {
   kind: string;
   state: "ready" | "unavailable";
@@ -45,11 +45,12 @@ export type CaptureRow = {
   observation: Record<string, unknown>;
 };
 type Head = { after: [number, number] | null; done: boolean; row: CaptureRow | null };
-export type CapturePosition = { cursor: Head; pause: Head; geometry: Head };
+export type CapturePosition = Record<PointKind, Head>;
 export const initialCapture = (): CapturePosition => ({
   cursor: { after: null, done: false, row: null },
   pause: { after: null, done: false, row: null },
   geometry: { after: null, done: false, row: null },
+  interruption: { after: null, done: false, row: null },
 });
 const index = { cursor: "cursor", pause: "pauses", geometry: "geometry" } as const;
 const sourcePositionSchema = z.strictObject({
@@ -60,6 +61,7 @@ const positionSchema = z.strictObject({
   cursor: sourcePositionSchema,
   pause: sourcePositionSchema,
   geometry: sourcePositionSchema,
+  interruption: sourcePositionSchema,
 });
 const digest = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
 
@@ -87,6 +89,20 @@ export class CaptureSourceRead {
           ? null
           : "requires_captured_video",
     });
+    const receipt = acquisition?.evidence.receipt;
+    const completion = receipt?.completion;
+    const terminal = receipt?.lastLifecycle?.state;
+    const interruptionReason = !acquisition
+      ? "capture_context_missing"
+      : receipt?.incompleteTail || receipt?.invalidAtSequence != null
+        ? "capture_completion_untrusted"
+        : !completion
+          ? "capture_completion_unknown"
+          : terminal &&
+              ["complete", "interrupted", "canceled"].includes(terminal) &&
+              terminal !== completion.state
+            ? "capture_completion_conflict"
+            : null;
     const coverage =
       domain === "cursor"
         ? [capability("cursor", !!visual)]
@@ -94,7 +110,12 @@ export class CaptureSourceRead {
             capability("pause"),
             capability("geometry", !!visual),
             { kind: "unplaced_geometry", state: "unavailable" as const, reason: "no_source_time" },
-            ...["scene", "cut", "interruption"].map((kind) => ({
+            {
+              kind: "interruption",
+              state: interruptionReason ? ("unavailable" as const) : ("ready" as const),
+              reason: interruptionReason,
+            },
+            ...["scene", "cut"].map((kind) => ({
               kind,
               state: "unavailable" as const,
               reason: "unsupported",
@@ -125,11 +146,36 @@ export class CaptureSourceRead {
       startUs: Math.max(0, range.startUs - context.sourceToAssetOffsetUs),
       endUs: Math.max(0, range.endUs - context.sourceToAssetOffsetUs),
     };
-    if (captureRange.startUs >= captureRange.endUs) return null;
     for (const kind of kinds) {
       const position = state[kind];
       if (position.row || position.done) continue;
       if (budget.remaining-- <= 0) return undefined;
+      if (kind === "interruption") {
+        position.done = true;
+        const completion = context.evidence.receipt.completion;
+        if (completion?.state === "interrupted") {
+          const source = BigInt(completion.durationUs) + BigInt(context.sourceToAssetOffsetUs);
+          if (source > BigInt(range.startUs) && source <= BigInt(range.endUs)) {
+            position.done = false;
+            position.row = {
+              kind,
+              sourceAtUs: Number(source),
+              captureAtUs: completion.durationUs,
+              sourceSequence: completion.sequence,
+              observation: {
+                state: completion.state,
+                durationUs: completion.durationUs,
+                ...(completion.failureCode == null ? {} : { failureCode: completion.failureCode }),
+              },
+            };
+          }
+        }
+        continue;
+      }
+      if (captureRange.startUs >= captureRange.endUs) {
+        position.done = true;
+        continue;
+      }
       const row = this.records.pointRecords(
         context.evidence,
         index[kind],
@@ -161,6 +207,7 @@ export class CaptureSourceRead {
       )[0];
     if (!head) return null;
     state[head.kind].row = null;
+    if (head.kind === "interruption") state[head.kind].done = true;
     state[head.kind].after = [head.captureAtUs, head.sourceSequence];
     return head;
   }
@@ -203,7 +250,7 @@ export class CaptureSourceRead {
         throw new CatalogError("INVALID_PARAMS", "Invalid capture evidence cursor");
       if (cursor.data.reference !== reference)
         throw new CatalogError("ARTIFACT_CHANGED", "Capture evidence or filters changed");
-      for (const kind of Object.keys(index) as PointKind[])
+      for (const kind of Object.keys(position) as PointKind[])
         position[kind] = { ...cursor.data.position[kind], row: null };
     }
     const selected = selectSource(this.assets, this.acquisitions, selection);
@@ -221,7 +268,9 @@ export class CaptureSourceRead {
         more = false;
         break;
       }
-      if (available(fromTime(row.sourceAtUs)).length) rows.push(row);
+      const at = fromTime(row.sourceAtUs);
+      if ((row.kind === "interruption" ? available.before(at) : available(at)).length)
+        rows.push(row);
     }
     const ready = context.coverage.some((c) => c.state === "ready");
     const result = {

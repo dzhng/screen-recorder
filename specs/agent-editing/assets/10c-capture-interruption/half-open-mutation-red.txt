@@ -1,0 +1,54 @@
+$ vitest run --maxWorkers=4 src/capture-interruption.test.ts -t "adjacent clip endpoints"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:22448) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/capture-interruption.test.ts (6 tests | 1 failed | 5 skipped) 79ms
+   × adjacent clip endpoints merge next opening ties by existing clip ID order across page-one checkpoints 79ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/capture-interruption.test.ts > adjacent clip endpoints merge next opening ties by existing clip ID order across page-one checkpoints
+AssertionError: expected [ [ +0, …(3) ], [ +0, …(3) ], …(4) ] to deeply equal [ [ +0, …(3) ], [ +0, …(3) ], …(6) ]
+
+- Expected
++ Received
+
+@@ -33,18 +33,6 @@
+      1000,
+      "clip:46fa1f80faa37729194ed6be2e9d4eb3249fda6306fa50d64f203098a5530f1d:1",
+      "pause",
+      3,
+    ],
+-   [
+-     1000,
+-     "clip:46fa1f80faa37729194ed6be2e9d4eb3249fda6306fa50d64f203098a5530f1d:2",
+-     "interruption",
+-     6,
+-   ],
+-   [
+-     2000,
+-     "clip:46fa1f80faa37729194ed6be2e9d4eb3249fda6306fa50d64f203098a5530f1d:1",
+-     "interruption",
+-     6,
+-   ],
+  ]
+
+ ❯ src/capture-interruption.test.ts:352:87
+    350|   expect(project.labels.opening! < project.labels.ending!).toBe(true);
+    351|   const result = await f.pages({ ...project, limit: 1 });
+    352|   expect(result.rows.map((r) => [r.projectAtUs, r.clipId, r.kind, r.so…
+       |                                                                                       ^
+    353|     ...[1, 2, 3].map((n) => [0, project.labels.ending, "pause", n]),
+    354|     ...[1, 2, 3].map((n) => [1000, project.labels.opening, "pause", n]…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  02:50:07
+   Duration  352ms (transform 53%, tests 26%, import 20%)
+
+error: script "test" exited with code 1

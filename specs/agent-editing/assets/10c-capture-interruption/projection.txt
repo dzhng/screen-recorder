@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4 src/source-projection.test.ts src/interval-index.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/composition
+
+
+ Test Files  2 passed (2)
+      Tests  12 passed (12)
+   Start at  02:51:21
+   Duration  229ms (transform 45%, tests 35%, import 19%, worker 1%)

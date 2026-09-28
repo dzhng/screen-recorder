@@ -370,7 +370,15 @@ test("named point projection preserves rational time and rejects excluded half-o
   expect(projection.point("parent", 4)).toBeNull();
   expect(projection.point("parent", 6)?.project).toEqual(r(21n, 5n));
   expect(projection.point("parent", 10)).toBeNull();
+  expect(projection.endpoint("parent", 0)).toBeNull();
+  expect(projection.endpoint("parent", 4)?.project).toEqual(r(14n, 5n));
+  expect(projection.endpoint("parent", 6)).toBeNull();
+  expect(projection.endpoint("parent", 10)?.project).toEqual(r(7n));
+  expect(projection.endpoint("parent", { numerator: 10, denominator: 7 })?.project).toEqual(r(1n));
+  expect(projection.endpoint("held", 3)).toBeNull();
   expect(projection.point("child", 6)).toBeNull();
+  expect(projection.endpoint("child", 6)?.project).toEqual(r(14n, 5n));
+  expect(projection.endpoint("child", 8)).toBeNull();
   expect(projection.point("child", 8)?.project).toEqual(r(21n, 5n));
   expect(projection.point("held", 3)).toBeNull();
   expect(projection.inverse("held", range(20, 21))).toBeNull();

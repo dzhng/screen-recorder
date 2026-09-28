@@ -1,0 +1,35 @@
+$ vitest run --maxWorkers=4 src/capture-interruption.test.ts -t "adjacent clip endpoints"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:22436) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/capture-interruption.test.ts (6 tests | 1 failed | 5 skipped) 81ms
+   × adjacent clip endpoints merge next opening ties by existing clip ID order across page-one checkpoints 80ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/capture-interruption.test.ts > adjacent clip endpoints merge next opening ties by existing clip ID order across page-one checkpoints
+Error: Project evidence order did not advance
+ ❯ mergeHeads src/evidence-merge.ts:87:13
+     85|       currentKey = key(index)!;
+     86|     if (state.last && compareKey(currentKey, state.last) <= 0)
+     87|       throw new CatalogError("INVALID_EVIDENCE", "Project evidence ord…
+       |             ^
+     88|     emit(index);
+     89|     emitted++;
+ ❯ mergeCapture src/project-capture.ts:116:3
+ ❯ ProjectEvidenceInspection.read src/project-evidence.ts:506:24
+ ❯ ProjectEvidenceInspection.events src/project-evidence.ts:413:31
+ ❯ Object.pages src/capture-interruption.test.ts:203:39
+ ❯ src/capture-interruption.test.ts:351:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  02:50:06
+   Duration  366ms (transform 53%, tests 26%, import 21%)
+
+error: script "test" exited with code 1

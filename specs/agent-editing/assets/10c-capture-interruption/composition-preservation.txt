@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/composition
+
+
+ Test Files  8 passed (8)
+      Tests  121 passed (121)
+   Start at  02:50:08
+   Duration  524ms (tests 45%, transform 34%, import 20%, worker 1%)

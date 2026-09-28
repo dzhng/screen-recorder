@@ -1,0 +1,11 @@
+$ vitest run --maxWorkers=4 src/capture-interruption.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:23312) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  02:51:20
+   Duration  1.40s (tests 85%, transform 11%, import 4%)

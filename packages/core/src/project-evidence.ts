@@ -49,7 +49,8 @@ export type { ProjectTranscriptRow, ProjectTranscriptMatch } from "./project-tra
 export type EvidencePlan = ReturnType<ProjectEvidenceInspection["plan"]>;
 
 const artifact = "project.evidence";
-const policy = "project-transcript-v1";
+const policy = (domain: Query["domain"]) =>
+  domain === "events" || domain === "cursor" ? "project-capture-v2" : "project-transcript-v1";
 // Provisional inspection budgets; scale acceptance owns changes to these limits.
 const maximumBytes = 8 * 1024 * 1024;
 
@@ -191,7 +192,7 @@ export class ProjectEvidenceInspection {
       revisionId,
       range: parsed.data,
       trackIds,
-      policy,
+      policy: policy(domain),
     };
     return { query, queryDigest: digest(query), projection, occurrences };
   }
@@ -454,7 +455,11 @@ export class ProjectEvidenceInspection {
       }
       const manifestId = cursor?.manifestId ?? status!.published!.value.cacheId;
       const manifest = this.acquire<EvidenceManifest>(manifestId, leases);
-      if (manifest?.query?.policy !== policy) throw changed();
+      if (
+        manifest?.query?.policy !==
+        policy(input.domain ?? (input.text === undefined ? "transcript" : "transcript.search"))
+      )
+        throw changed();
       const plan = this.plan(
         {
           ...input,

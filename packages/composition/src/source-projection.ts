@@ -170,6 +170,17 @@ export function createSourceRangeProjection(model: ValidatedComposition) {
     }
     return { ...occurrenceIdentity(value), project, fragments, unavailable };
   }
+  function point(clipId: string, atUs: TimeValue, endpoint: boolean): SourcePointOccurrence | null {
+    const value = named(clipId);
+    const parsed = timeValueSchema.safeParse(atUs);
+    if (!parsed.success) throw new CompositionError("INVALID_TIME", parsed.error.message);
+    if (!advancing(value)) return null;
+    const source = fromTime(parsed.data),
+      project = projectTime(value, source);
+    const available = support.get(clipId)!;
+    if (!(endpoint ? available.before(project) : available(project)).length) return null;
+    return { ...occurrenceIdentity(value), source, project };
+  }
   return {
     window(input: {
       range: SelectionRange;
@@ -197,14 +208,11 @@ export function createSourceRangeProjection(model: ValidatedComposition) {
       return inverse(named(clipId), checked(range));
     },
     point(clipId: string, atUs: TimeValue): SourcePointOccurrence | null {
-      const value = named(clipId);
-      const parsed = timeValueSchema.safeParse(atUs);
-      if (!parsed.success) throw new CompositionError("INVALID_TIME", parsed.error.message);
-      if (!advancing(value)) return null;
-      const source = fromTime(parsed.data),
-        project = projectTime(value, source);
-      if (!support.get(clipId)!(project).length) return null;
-      return { ...occurrenceIdentity(value), source, project };
+      return point(clipId, atUs, false);
+    },
+    /** Closing boundary of retained support; ordinary sample points remain half-open. */
+    endpoint(clipId: string, atUs: TimeValue): SourcePointOccurrence | null {
+      return point(clipId, atUs, true);
     },
     clip(clipId: string, range: SelectionRange): SourceRangeOccurrence | null {
       return project(named(clipId), checked(range));

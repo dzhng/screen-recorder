@@ -141,3 +141,12 @@ adds bounded optional lifecycle/completion facts without changing normalized
 observations or recording/package readers. Only a valid finished payload supplies
 the capture/video endpoint; missing or damaged tails do not prove interruption.
 Source/project interruption rows and public delivery remain a separate pass.
+
+## Core interruption checkpoint
+
+[Capture-end inspection](../assets/10c-capture-interruption/README.md) preserves
+explicit completion authority, exact capture offsets, left-supported endpoints and
+existing occurrence ordering through bounded adjacent-head merging. Unknown,
+damaged or conflicting termination stays qualified as unavailable. Public
+source/project interruption routing and live delivery remain unverified here;
+ordinary frame/sample point semantics remain half-open.

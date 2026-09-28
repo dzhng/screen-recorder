@@ -1,0 +1,40 @@
+$ vitest run --maxWorkers=4 src/capture-interruption.test.ts -t "source page-one"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:22439) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/capture-interruption.test.ts (6 tests | 1 failed | 5 skipped) 64ms
+   × source page-one continuation retains an unconsumed terminal head and tied observation order 63ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/capture-interruption.test.ts > source page-one continuation retains an unconsumed terminal head and tied observation order
+AssertionError: expected [ 'pause', 'pause' ] to deeply equal [ 'pause', 'pause', 'interruption' ]
+
+- Expected
++ Received
+
+  [
+    "pause",
+    "pause",
+-   "interruption",
+  ]
+
+ ❯ src/capture-interruption.test.ts:339:5
+    337|   expect(
+    338|     [...first.page!.rows, ...second.page!.rows, ...third.page!.rows].m…
+    339|   ).toEqual(["pause", "pause", "interruption"]);
+       |     ^
+    340| });
+    341|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  02:50:07
+   Duration  349ms (transform 58%, tests 22%, import 20%, worker 1%)
+
+error: script "test" exited with code 1
