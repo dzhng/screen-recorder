@@ -1,0 +1,111 @@
+{
+  "nativeSourceRevision": "1bc2070b259ee0266778f24b897b5544c4a7b038",
+  "nativeSourceTree": "b4bceda6ef259926a635b8f040af95611eaccbaa",
+  "workers": {
+    "default": {
+      "path": "/tmp/screenrec-project-image-integrated-native",
+      "sha256": "2b40350219d91abdb79d0872d2fa34aff64be0d60a711cacf3724d06749c0db2"
+    },
+    "observer": {
+      "path": "/tmp/screenrec-pointer-chain-writer-native",
+      "sha256": "7599a1b3253aab77114e2b3cf7b844bf99d3c4ee3b69832826c01d70f7aec387"
+    },
+    "40mbps": {
+      "path": "/tmp/screenrec-pointer-chain-40mbps-native",
+      "sha256": "b7c2f3c9b81d78ed45e100a2ada88cd39d27ef8dd949cd7eccd664a02817f8b6"
+    },
+    "prores": {
+      "path": "/tmp/screenrec-pointer-chain-prores-native",
+      "sha256": "dfba3316e263894d63110a1df0efe19edd109a743134c52f6b277b340f900ccc"
+    }
+  },
+  "independentHelpers": {
+    "packages/test-harness/editing/FrameColorReference.swift": "cba232f5f49e2c33a1dc8e8f5d4d19f0153a555beb762f9e1bfd77474e4036ba",
+    "packages/test-harness/editing/FrameImagePixels.swift": "fad481a23d56d34c6557b3dd599c4ccac9b55bd3dc028a935e72f86c6767e302",
+    "packages/test-harness/editing/layers-oracle.mjs": "b09a6344987b37f2074441e400675325b7df3b556febcb701ce372ca61092945"
+  },
+  "reproduction": {
+    "encodingDecodedPixelsExact": true,
+    "losslessPositiveAndNegativePassed": true
+  },
+  "flatControl": {
+    "linearReferenceVsImportedPng": {
+      "maximumCodeDifference": 1,
+      "channelsAboveTwo": 0
+    },
+    "linearReferenceVsOriginalPointerBranches": {
+      "maximumCodeDifference": 55,
+      "channelsAboveTwo": 358
+    }
+  },
+  "writerVsIntactPicture": {
+    "frame": 0,
+    "iccSha256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "maximumCodeDifference": 1,
+    "changedChannels": 1
+  },
+  "acceptance": {
+    "slice15": false,
+    "productionProfilesChanged": false,
+    "invalidOracleInstalled": false
+  },
+  "artifacts": {
+    "README.md": "23507f4b4a2a4349ff56cca0b2d16bbb40da2e1d0ac27f6b4e85803d3f0beb7e",
+    "WriterPixels.swift": "a651f510ab4a937f0c73e3acf55ccc48f7a1afdeeb9872223b92a33a762f9354",
+    "check-rawvideo-srgb.mjs.gz": "af4d7c9406aaeea3df9d9b2965219f79ccd89f142837fed3609d0564d2eb275b",
+    "check-rawvideo.mjs.gz": "d938967688c89af5d05c89fd16c8e2eebb494a04ac3d4e112c10d56b883ead51",
+    "cohort-media.tar.gz": "202aaf86760033bcd99466186d2ec8570d242a87d23d7362d51a5308101d946d",
+    "cohort-report.json.gz": "0d0acd3ad496f9f6f359996e8159f46be2ebdc38392529002fbca6c4a5fecdf5",
+    "cohort-run.log.gz": "c89255d2c6d65b54b45b1337930faed01ba6051417665b6792fa30bb11e80269",
+    "disproven-reference.patch.gz": "d524fc3c86999376fa7188b06bec16754fb034d2ab0d8da41f4c1e22f9cbbdb6",
+    "encoding-report.json.gz": "256af0f5c900bf269f0180af08688ad48a335ba73dc572a35ce1e389ba002db2",
+    "encoding-reproduction.json.gz": "1403de590b82abb2289474f4c94b95fd8b01c53b13ab3f79bfe0d8fb9aa8f117",
+    "encoding-results.tar.gz": "053d3e8b86de1aa16ae62c5791b9a45d15b79e545ae7bb5a4e0c084c1e2b2a3c",
+    "flat-image-control.tar.gz": "5dbeea065e5a32b5731fdcd2f41228fc61e84745500083e7d561481d8c970928",
+    "flat-linear-proof.mjs.gz": "88d16ec5cbac51d11ceab94ae22b9e46ad6340f6e8d69fe36ac17fa4dc02ffe6",
+    "independent-review.log.gz": "361a459b306b5a40546fc02e933bb3f7b605f90e292c8699fc8045fb3e7f7b75",
+    "input/full.frames.jsonl": "6eddcf386a9c058ac5a134afb22e9155f08c236a64e01464ee87ef0cd4b65453",
+    "input/full.pointers.jsonl": "2507fad25230e19a4900a074f6279358c81cf9b39b3db536c31c3bbbfe190aaa",
+    "input/full.request.json": "8682ed29b44b45bb259757efaf51c779d270336af0b426ac35706d812534bbf5",
+    "input/intact-0.png": "269e10ae8c1d171b52737c91a57ee0dd7909f153ef26ebf4ed9f327a0f354c28",
+    "input/intact-0.rgba.gz": "5f9be22a292b107b61ca8bc8df951155d8a8e79b1d4bc56cda128cd57e718baa",
+    "input/intact-1.png": "bb7fbcc993bd9c4a4d468b9f05d44e20bcfbc1d8b3bf50b06322c64a95f0f080",
+    "input/intact-1.rgba.gz": "c384c6f3ac28d63e2dce91bad2ae4a3ce033a23f6b4faf2a44d65974ff1f32c2",
+    "input/intact-2.png": "87955e79dea0dcbbeaa06f87f3971eb8a756e6cc3aa9b1c832c3de00bce50223",
+    "input/intact-2.rgba.gz": "07aa707a7f6f19d8666bb648122f9a83023500f377cf8f595cdc8cf6d1332812",
+    "input/intact-3.png": "40d67bd082e08ec00a9a9c431f5b6970ac7197dd47f11c3ab1d6813135d249bc",
+    "input/intact-3.rgba.gz": "c537e12ff243c1fbd61b7c35a55de91c2227da1fa6157ff032d3c9246cd9a70f",
+    "input/range.frames.jsonl": "1de66e60e1bf2b9c43177a3141679fbeb067142ceeed27647162e26eb841c826",
+    "input/range.pointers.jsonl": "c575af0fe11f4ba1989f1176c314e2929e8b6f5c411e52614ce6e8c3230f3200",
+    "input/range.request.json": "ef6406a497fd658cd1d9f16ebd679e15bfa582ee8a1ca0655b9906b83c1ad2c5",
+    "input/source.mov": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+    "lossless-report.json.gz": "fd9bff304adfdef694b7beb124e5bd7aa2460d36c1075add8f6efd6f071637a0",
+    "lossless-srgb.tar.gz": "85036cbac775879371e27a9f1ce6857b27deccbf514268ec27e2512fef1b0619",
+    "oracle-review.md": "128d239ee1a722f2ff23771fde75d74259fbd26b8b7efedcc5e980ea11c8d5cb",
+    "pointer-chain-encoding.log.gz": "0f07692ce9c14010d06d1383541424d9036cbb9050e8f12059fe0aba982f34b7",
+    "pointer-chain-prores.log.gz": "969df022e05fd01d9d2a09ec31f4b1c3cda11eb1106db3b59f7367ec964a2905",
+    "pointer-chain-prores2.log.gz": "d17561ed58672fc951370f038aea3f44c8fe085bf8b1c2ade61a78e58c7323c2",
+    "pointer-chain-stages.mjs.gz": "0dde26ca121a55f4c169ec3a66cdbbb9877818eb5adc097f14f7f6522a282de5",
+    "pointer-flat-control.log.gz": "07891f65c86f4d5a5490f19d3f1a23524dc5ae56906a70048cf7e8955088699a",
+    "pointer-flat-control.mjs.gz": "4948de26338e9aec0289c69d7c6e492e9de7c2e542bc62216244db3c16af8b9f",
+    "pointer-flat-control2.log.gz": "f28e39db6ed356b46935a4391fc518a7c0ab657173449e241c01687d77d2e195",
+    "pointer-flat-control3.log.gz": "447b9b18352efd8d24ab609f0b2cb44be50cd508da8037af8c920748e91083e5",
+    "prores-observer.patch.gz": "3bd66e516b22d56c09db357bdbb89ce2618bd98f75aa68a73129f3e86767bd23",
+    "prores-report.json.gz": "f08695c5063b9825fa962de661124a736b7cb98f587f90a0d6c02d6705d22981",
+    "prores-results.tar.gz": "5bd4574615d5e30f56c4e81d41da11cd3b921f74dc92ca7e64a2543c4bf65070",
+    "raw-transfer-control.tar.gz": "6e8291fe208420d68425bd0138a410cf275d5a8d3e6e8b102745dc168cfee08e",
+    "review.md": "746dded1a88bae8be5e14a30ca821ab0f0d11f32b0ac070ba4514635ca0e6f50",
+    "run-encoding.mjs": "d29f7f71be702e175611a29e0a4260cda155df7844e9f1b560f3d8817a35efed",
+    "run-lossless.mjs": "421c0b57d1fd13b8cf4a80167db7447c852aebae3d3af04b9c685f0c85da4c24",
+    "screenrec-pointer-chain-prores-build.log.gz": "c1f1d40fa5a12a105d14bec9f8c2e24fd5ea0aae0417f2281337b82d0e4550b4",
+    "screenrec-pointer-chain-prores-build2.log.gz": "6dee8223304529f99a35be0deccb4f4571546a048e095a4678df1c3cf570f6a9",
+    "screenrec-pointer-chain-prores-build3.log.gz": "ef711ab48ec1d0cffca707c822723deb6511f126f42da2ee88808da812c3eff8",
+    "screenrec-pointer-chain-rate-build.log.gz": "10a13b382fd835aea5e11e4f0168f58ccd1480f8c16ef875ac76f4414d3539e1",
+    "screenrec-pointer-chain-rate-build2.log.gz": "a127ed680700fb9069036aa85b5dfec1fe9e59ce9df7b790b97ea59749e8d301",
+    "screenrec-pointer-chain-writer-build.log.gz": "7570b226a0c000f075e074422763ae978220198bacf58aad188f203cb4a9b7bc",
+    "screenrec-pointer-chain-writer-build2.log.gz": "42e1a1ba747b0bc5a7771aec7c4ffeed438ab7e92c63519245bb9146d9d48f44",
+    "stage-media.tar.gz": "783938993315a2d0608ae50f9c7ea673379fde383413d29729ac7aa26f73108c",
+    "stage-report.json.gz": "f540cdf894b1a9e39b7be62a4d4ab0ed9a77ee7613c5c601d93f8044f766003d",
+    "writer-observer.patch.gz": "9ba1ecf7ce7ee6dd0a1d189549c3b909fd5473503247e8ea42b2307161fe7ecb"
+  }
+}

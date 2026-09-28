@@ -1,0 +1,190 @@
+{
+  "output": "movie.mp4",
+  "pointers": {
+    "file": "range.pointers.jsonl",
+    "bytes": 2408,
+    "records": 3,
+    "sha256": "c575af0fe11f4ba1989f1176c314e2929e8b6f5c411e52614ce6e8c3230f3200"
+  },
+  "frames": "range.frames.jsonl",
+  "range": {
+    "startUs": 50001,
+    "endUs": 250001
+  },
+  "canvas": {
+    "width": 256,
+    "height": 160,
+    "fps": {
+      "numerator": 10,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "profile": "h264-rec709",
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "clip:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:3"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": [
+        {
+          "id": "processingStep:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:4",
+          "enabled": true,
+          "processor": {
+            "type": "pointer",
+            "trailUs": 600000
+          }
+        },
+        {
+          "id": "processingStep:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:5",
+          "enabled": true,
+          "processor": {
+            "type": "geometry",
+            "crop": {
+              "x": 32,
+              "y": 24,
+              "width": 192,
+              "height": 112
+            },
+            "rect": {
+              "x": 24,
+              "y": 16,
+              "width": 192,
+              "height": 128
+            },
+            "fit": "contain"
+          }
+        },
+        {
+          "id": "processingStep:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:6",
+          "enabled": true,
+          "processor": {
+            "type": "geometry",
+            "rect": {
+              "x": 8,
+              "y": 8,
+              "width": 240,
+              "height": 144
+            },
+            "fit": "stretch"
+          }
+        }
+      ]
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "track:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:2"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "clip:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:3"
+        }
+      ],
+      "steps": [
+        {
+          "id": "processingStep:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:7",
+          "enabled": true,
+          "processor": {
+            "type": "geometry",
+            "rotationDeg": 180
+          }
+        }
+      ]
+    },
+    {
+      "target": {
+        "kind": "group",
+        "id": "group:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:1"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "track:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:2"
+        }
+      ],
+      "steps": [
+        {
+          "id": "processingStep:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:8",
+          "enabled": true,
+          "processor": {
+            "type": "geometry",
+            "rect": {
+              "x": 8,
+              "y": 8,
+              "width": 240,
+              "height": 144
+            },
+            "fit": "stretch"
+          }
+        }
+      ]
+    },
+    {
+      "target": {
+        "kind": "group",
+        "id": "group:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:0"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "group",
+          "id": "group:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:1"
+        }
+      ],
+      "steps": [
+        {
+          "id": "processingStep:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:9",
+          "enabled": true,
+          "processor": {
+            "type": "geometry",
+            "rotationDeg": 180
+          }
+        }
+      ]
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "group",
+          "id": "group:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:0"
+        }
+      ],
+      "steps": [
+        {
+          "id": "processingStep:5ee1cca01999c41869ff8ebefa1006ab44dc8f6fb089093611055d661262273b:10",
+          "enabled": true,
+          "processor": {
+            "type": "geometry",
+            "rotationDeg": 180
+          }
+        }
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "5283c719910a007185ec377be5b194fc92b885ad08bf814e7a35f2a604d36327",
+      "streamId": "track:1",
+      "path": "source.mov",
+      "originUs": 0
+    }
+  ],
+  "audio": {
+    "range": {
+      "start": 2400,
+      "end": 12000
+    },
+    "clips": []
+  }
+}

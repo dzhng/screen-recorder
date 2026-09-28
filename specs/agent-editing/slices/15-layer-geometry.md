@@ -276,3 +276,14 @@ requests, delivered pictures and durable exports, with independent pixel checks
 and a fresh artifact critique. Scope/identity mistakes informed narrow procedural
 clarification; these trials do not close the outstanding whole-chain, replacement,
 output-profile or final visual acceptance gates.
+
+### Whole-chain reference and delivery diagnosis
+
+[Controlled pointer experiments](../assets/15-pointer-chain/README.md) retain the
+whole-chain public cohort, its disproven flattened-source reference, per-stage
+localization and matched writer/decoder controls. The invalid oracle is archived,
+not installed as a default acceptance test. Bitrate and ProRes4:4:4 probes fail the
+original intact-pointer delivery criterion; an ICC-normalized uncompressed RGB
+control passes. No production profile is promoted. Next use a branch-preserving
+or independently validated alpha/support reference, while keeping slice06
+encoded color/coverage acceptance separate and open.
