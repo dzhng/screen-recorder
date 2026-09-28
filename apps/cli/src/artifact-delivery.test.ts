@@ -357,3 +357,17 @@ test("invalid JSON evidence fails as a delivery error and releases its lease", a
   });
   expect(f.closes()).toBe(1);
 });
+
+test.each(["waveform", "spectrogram"])(
+  "%s images use the shared image delivery and close the lease",
+  async (kind) => {
+    const bytes = Buffer.from("external PNG transport fixture");
+    const f = await fixture(bytes);
+    const response = {
+      ...f.result,
+      data: { ...(f.result.data as object), published: { [kind]: { mediaType: "image/png" } } },
+    };
+    expect(await artifactBytes(f.selection, response)).toEqual({ bytes, mediaType: "image/png" });
+    expect(f.closes()).toBe(1);
+  },
+);

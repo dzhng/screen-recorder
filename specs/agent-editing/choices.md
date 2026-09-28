@@ -1359,3 +1359,35 @@ The native plotting operation receives bounded waveform or spectral measurements
   drains the worker and permanently cancels that job under the existing queue
   policy. A late successful worker result cannot revive deleted work. The same
   resource-reference and queue owners enforce both cases.
+
+## Acoustic delivery and surrounding context
+
+- **Sound; medium confidence — Spectrograms begin with a bounded local view.**
+  A long recording first gets a waveform overview; a spectrogram uses a short
+  selected window, with explicit FFT and hop sizes for frequency/time resolution.
+  Excessive detail refuses with a limit instead of silently discarding columns.
+  The plan left public defaults open; this keeps a request inspectable and makes
+  the resolution visible. Waveforms offer JSON or images; the separate spectrogram
+  operation shares their preparation and delivery owners.
+
+- **Sound; high confidence — Image preparation depends on measurements, not resident audio bytes.**
+  If a temporary WAV has been evicted, an existing waveform or spectral measurement
+  can still produce its image. An existing image also survives measurement eviction.
+  When rebuilding needs missing inputs, explicit retry follows the same dependency
+  chain; ordinary reads do not restart canceled work. The plan left multistage cache
+  lifetime open. This preserves useful evidence without pinning large WAV files.
+
+- **Sound; high confidence — The displayed interval and FFT context remain distinct.**
+  An image of a word can require a few neighboring samples to measure frequencies.
+  Those samples use the same source masks and processing tap, but their exclusions
+  are reported separately. If a neighboring exclusion affects a column, the image
+  warns that its analysis is incomplete even when the displayed interval has audio.
+  The plan required full/range parity without specifying this annotation; context
+  cannot masquerade as measured silence or silently widen the agent's chosen range.
+
+- **Sound; high confidence — Large bounded measurements use the existing render attempt's files.**
+  A valid spectrogram can exceed the worker's small command-message limit. The
+  service writes its measurements inside the same locked temporary directory used
+  for rendering and sends the path. The worker reads only a bounded regular file;
+  cleanup removes it with the attempt. This fills the transport seam without
+  raising global command limits or adding a second file-lifetime mechanism.

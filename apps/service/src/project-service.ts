@@ -1,4 +1,5 @@
-import { WaveformInspection } from "@screenrec/core/waveform";
+import { writeFile } from "node:fs/promises";
+import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
 import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
 import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
@@ -132,7 +133,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let transcripts: TranscriptProcessing;
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
-    let waveforms: WaveformInspection;
+    let acoustics: AcousticInspection;
     const queue = new JobQueue({
       store: catalog,
       targets,
@@ -143,9 +144,9 @@ export async function startProjectService(options: { home: string; worker?: Medi
       execute: async ({ job, signal }) => {
         if (
           (job.target.kind === "asset" || job.target.kind === "project") &&
-          job.artifact === "waveform"
+          ["waveform", "spectrum", "acoustic-image"].includes(job.artifact)
         )
-          return waveforms.execute({ job, signal });
+          return acoustics.execute({ job, signal });
         if (
           (job.target.kind === "project" || job.target.kind === "asset") &&
           job.artifact === "frame"
@@ -232,7 +233,28 @@ export async function startProjectService(options: { home: string; worker?: Medi
           ),
       },
     });
-    waveforms = new WaveformInspection({ audio: mediaAudio, jobs: queue, cache });
+    acoustics = new AcousticInspection({
+      audio: mediaAudio,
+      jobs: queue,
+      cache,
+      renderer: {
+        implementationId: "native-acoustic-image-v1",
+        render: async (request, signal) =>
+          withRenderedFile(
+            worker,
+            { attemptParent: workspace, output: request.output, filename: "frame.png" },
+            signal,
+            async (output, execute) => {
+              const bytes = Buffer.from(JSON.stringify({ ...request, output }));
+              if (bytes.length > 16 * 1024 * 1024)
+                throw new CatalogError("LIMIT_EXCEEDED", "Acoustic measurements exceed 16 MiB");
+              const input = output + ".json";
+              await writeFile(input, bytes, { flag: "wx", signal });
+              return nativeResult(await execute("media.acousticImage", { input }, { signal }));
+            },
+          ),
+      },
+    });
     projectEvidence = new ProjectEvidenceInspection({
       projects,
       assets,
@@ -452,20 +474,31 @@ export async function startProjectService(options: { home: string; worker?: Medi
             };
           }
           case "waveform.get":
-          case "waveform.retry": {
-            const status = waveforms[operation.operation === "waveform.get" ? "request" : "retry"](
-              operation.params,
+          case "waveform.retry":
+          case "spectrogram.get":
+          case "spectrogram.retry": {
+            const spectrum = operation.operation.startsWith("spectrogram.");
+            const status = acoustics[operation.operation.endsWith(".get") ? "request" : "retry"](
+              spectrum
+                ? { ...operation.params, kind: "spectrum", format: "image" }
+                : operation.params,
             );
             return {
               ok: true,
               data: {
                 ...status,
+                published: status.published
+                  ? {
+                      generation: status.published.generation,
+                      [spectrum ? "spectrogram" : "waveform"]: status.published.artifact,
+                    }
+                  : null,
                 delivery: status.published
                   ? delivery.open(
                       "projectId" in status
                         ? { kind: "project", id: status.projectId }
                         : { kind: "asset", id: status.assetId },
-                      () => cache.acquire(status.published!.waveform.cacheId),
+                      () => cache.acquire(status.published!.artifact.cacheId),
                     )
                   : null,
               },

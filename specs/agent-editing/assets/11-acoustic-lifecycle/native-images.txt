@@ -1,0 +1,12 @@
+(node:70869) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ acoustic measurement files reject oversized data, links and non-files before rendering (1455.159042ms)
+✔ actual waveform and spectral PNGs preserve absolute sample axes, channel identity and narrow energy (2592.80375ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4128.945208

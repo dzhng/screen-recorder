@@ -177,6 +177,7 @@ export class MediaAudioInspection {
     return {
       source,
       sampleRate: stream.sampleRate,
+      channels: stream.channels,
       options: {
         selection: source.selection,
         range: parsed.data,
@@ -186,8 +187,10 @@ export class MediaAudioInspection {
     };
   }
   private sourceRecipe(input: SourceAudioInput) {
-    const { options, sampleRate: rate } = this.plan(input);
+    const { options, sampleRate: rate, source, channels } = this.plan(input);
     return {
+      durationUs: source.durationUs,
+      channels,
       sampleClock:
         rate === undefined || !Number.isSafeInteger(rate) || rate <= 0
           ? undefined
@@ -210,6 +213,37 @@ export class MediaAudioInspection {
   /** Canonical immutable audio identity without submitting work or regenerating evicted PCM. */
   recipe(input: MediaAudioInput) {
     return "projectId" in input ? this.projectRecipe(input) : this.sourceRecipe(input);
+  }
+  /** Surrounding analysis samples use the same pinned selector, masks and native audio owner. */
+  context(input: MediaAudioInput, requested: { start: number; end: number }) {
+    const recipe = this.recipe(input),
+      clock = recipe.sampleClock;
+    if (!clock)
+      throw new CatalogError(
+        "UNSUPPORTED_FORMAT",
+        "Audio context requires an integral sample rate",
+      );
+    if (
+      !Number.isSafeInteger(requested.start) ||
+      !Number.isSafeInteger(requested.end) ||
+      requested.start > clock.sampleRange.start ||
+      requested.end < clock.sampleRange.end
+    )
+      throw new CatalogError(
+        "INVALID_RANGE",
+        "Audio context must contain the requested sample range",
+      );
+    const rate = BigInt(clock.sampleRate);
+    const us = (frame: number) => Number((BigInt(frame) * 1_000_000n + rate - 1n) / rate);
+    const start = Math.max(0, requested.start);
+    const end = Math.min(sample(recipe.durationUs, clock.sampleRate), requested.end);
+    return this.recipe({
+      ...recipe.selection,
+      range: {
+        startUs: Math.min(recipe.selection.range.startUs, us(start)),
+        endUs: Math.max(recipe.selection.range.endUs, Math.min(recipe.durationUs, us(end))),
+      },
+    });
   }
   private requestSource(input: SourceAudioInput) {
     const { options, identity } = this.sourceRecipe(input);
@@ -293,7 +327,7 @@ export class MediaAudioInspection {
     return plan;
   }
   private projectRecipe(input: ProjectAudioInput) {
-    const { window } = this.projectPlan(input);
+    const { window, durationUs } = this.projectPlan(input);
     const { range, tap, revisionId } = window.manifest;
     const options = {
       range,
@@ -301,6 +335,8 @@ export class MediaAudioInspection {
       implementationId: this.owners.project!.renderer.implementationId,
     };
     return {
+      durationUs,
+      channels: 2 as const,
       options,
       sampleClock: { sampleRate: 48000, sampleRange: window.manifest.sampleRange },
       selection: { projectId: input.projectId, revisionId, range, tap },

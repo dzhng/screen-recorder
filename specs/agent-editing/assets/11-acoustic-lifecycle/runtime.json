@@ -1,0 +1,7 @@
+{
+  "nativeSha256": "540153b361ff661c945295c844dd95f19f2a1296d5d900ba39ef6fb00185c316",
+  "nativeBeforeLegendSha256": "228bd87918e5423d7e84df4da4a7bca65687a56f79b94aec891f9dc5969f74f8",
+  "publicJourney": "../11-public-acoustic-images/report.json",
+  "publicProductionInputs": "../11-public-acoustic-images/production-inputs.json",
+  "finalDifference": "Waveform footer wording only; numerical/plot preservation in legend-pixel-proof.json"
+}

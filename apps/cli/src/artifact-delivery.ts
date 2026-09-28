@@ -27,7 +27,8 @@ const ready = z.object({
     z.object({ frame: z.object({ mediaType: z.literal("image/png") }) }),
     z.object({ audio: z.object({ mediaType: z.literal("audio/wav") }) }),
     z.object({ preview: z.object({ mediaType: z.literal("video/mp4") }) }),
-    z.object({ waveform: z.object({ mediaType: z.literal("application/json") }) }),
+    z.object({ spectrogram: z.object({ mediaType: z.literal("image/png") }) }),
+    z.object({ waveform: z.object({ mediaType: z.enum(["application/json", "image/png"]) }) }),
   ]),
 });
 const chunk = z.object({
@@ -59,9 +60,11 @@ async function consumeArtifact<T>(
       ? "image/png"
       : "audio" in parsed.data.published
         ? "audio/wav"
-        : "waveform" in parsed.data.published
-          ? "application/json"
-          : "video/mp4";
+        : "spectrogram" in parsed.data.published
+          ? "image/png"
+          : "waveform" in parsed.data.published
+            ? parsed.data.published.waveform.mediaType
+            : "video/mp4";
   const socket = await resolveServiceSocket(selection);
   async function* chunks() {
     let offset = 0;

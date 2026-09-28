@@ -1,6 +1,6 @@
 # Cached waveform lifecycle evidence
 
-The [waveform owner](../../../../packages/core/src/waveform.ts) delegates immutable
+The [waveform owner](../../../../packages/core/src/acoustic-inspection.ts) delegates immutable
 selection and PCM preparation to the audio owner. An ordinary read can serve a
 surviving waveform after PCM eviction; the waveform retains the exact audio job
 and generation, source/project clock, selected range, processing tap and missing

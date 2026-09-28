@@ -88,5 +88,5 @@ export function projectWindow(
       originUs: asset.originUs,
     });
   }
-  return { window: bound, assets: [...bindings.values()] };
+  return { window: bound, assets: [...bindings.values()], durationUs: model.durationUs };
 }

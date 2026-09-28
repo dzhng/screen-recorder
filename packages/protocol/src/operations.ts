@@ -166,10 +166,22 @@ const audioParams = z.union([
   }).options,
   sourceAudioParams,
 ]);
-const waveformFields = { bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional() };
+const waveformFields = {
+  bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional(),
+  format: z.enum(["json", "image"]).optional(),
+};
 const waveformParams = z.union([
   projectAudioParams.extend(waveformFields),
   sourceAudioParams.extend(waveformFields),
+]);
+
+const spectrumFields = {
+  fftFrames: z.int().min(16).max(8192).optional(),
+  hopFrames: z.int().positive().max(8192).optional(),
+};
+const spectrogramParams = z.union([
+  projectAudioParams.extend(spectrumFields),
+  sourceAudioParams.extend(spectrumFields),
 ]);
 
 const indexFields = { revisionId: id, generation: id };
@@ -673,13 +685,25 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("waveform.get"), params: waveformParams })
     .strict()
     .describe(
-      "Inspect a selected audio source or project processing tap as per-channel min/max/RMS JSON. Uses audio.get selectors and range in the selected time domain. Omit bucketFrames for an automatic overview; set a positive sample count for finer inspection (maximum 4096 buckets). Returned sample bounds and resolution are exact; unavailable support is not proof of silence. CLI writes JSON to --output; MCP returns its JSON text. Pin the returned project revision while polling. This measures audio and never edits it.",
+      "Inspect a selected audio source or project processing tap as per-channel min/max/RMS JSON or a labeled image with format:image. Uses audio.get selectors and range in the selected time domain. Omit bucketFrames for an automatic overview; set a positive sample count for finer inspection (maximum 4096 buckets). Returned sample bounds and resolution are exact; unavailable support is not proof of silence. CLI writes JSON to --output; MCP returns its JSON text or image. Pin the returned project revision while polling. This measures audio and never edits it.",
     ),
   z
     .object({ operation: z.literal("waveform.retry"), params: waveformParams })
     .strict()
     .describe(
       "Explicitly retry waveform preparation and its audio prerequisite using the same pinned selection, range, tap and resolution.",
+    ),
+  z
+    .object({ operation: z.literal("spectrogram.get"), params: spectrogramParams })
+    .strict()
+    .describe(
+      "Inspect a bounded selected-source or project audio tap as a time/frequency image. Uses audio selectors and the selected clock. Defaults to fftFrames:1024 and hopFrames:512; FFT must be a power of two, hop no larger than FFT. Narrow the range when the 262144 channel/time/frequency-cell limit is exceeded. Surrounding PCM preserves range/full alignment; unavailable support is distinct from silence. Channels remain separate. Labels report density in dB relative to full-scale squared per Hz, with a fixed display floor; the image cannot establish speech quality. Pin revision while polling.",
+    ),
+  z
+    .object({ operation: z.literal("spectrogram.retry"), params: spectrogramParams })
+    .strict()
+    .describe(
+      "Explicitly retry the same spectrogram, including failed measurements and audio prerequisites.",
     ),
   z
     .object({

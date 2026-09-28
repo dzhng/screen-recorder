@@ -1,0 +1,35 @@
+(node:52919) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ acoustic measurement files reject oversized data, links and non-files before rendering (420.13175ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 509.278708
+
+✖ failing tests:
+
+test at helpers/mac/Tests/acoustic-image.test.mjs:23:1
+✖ acoustic measurement files reject oversized data, links and non-files before rendering (420.13175ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'INVALID_REQUEST'
+  - 'LIMIT_EXCEEDED'
+  
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/acoustic-image.test.mjs:30:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'INVALID_REQUEST',
+    expected: 'LIMIT_EXCEEDED',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

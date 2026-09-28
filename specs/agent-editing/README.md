@@ -20,18 +20,21 @@ project frames pass, including [blind product-skill use](assets/10d-frame-skill/
 [Scene ownership](assets/10d-scene-ownership/README.md) is integrated with actual
 recording/package preservation. [Selected-source sampling](assets/10d-source-scene-sampling/README.md)
 and [capture-end projection](assets/10c-capture-interruption/README.md) are integrated
-mechanisms. Finish retained scene chunks/indexes and their preparation, then public
-scene/cut queries. Wire interruption continuation through the public schema and
-verify its actual CLI/MCP journey; core completion does not establish that route.
+mechanisms. [Retained scene indexes](assets/10d-source-scene-retention/README.md)
+and [queued preparation](assets/10d-source-scene-preparation/README.md) are integrated.
+Finish source/project scene reads, public preparation/events and screenshot selection;
+project-cut semantics still need a concrete definition. [Public interruption](assets/10c-public-interruption/README.md)
+now passes actual CLI/MCP continuation and the combined-runtime journey.
 Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
 
 In parallel, finish [11 acoustic artifacts](slices/11-audio-inspection.md).
 [Public waveform JSON](assets/11-waveform-public/README.md) verifies raw/processed
 measurements, all nested taps, automatic overview, history and dependency retry.
 [Blind waveform skill use](assets/11-waveform-skill/README.md) also passes.
-Images, bounded spectrograms, labeled axes and visual acceptance remain.
-The bounded spectral kernel is integrated; finish raster artifacts and their public
-job/cache lifecycle. PCM analysis is independent of the remaining event categories.
+[Labeled native images](assets/11-acoustic-raster/README.md) pass visual review.
+[Public acoustic lifecycle](assets/11-acoustic-lifecycle/README.md) passes masked FFT
+context, cache eviction, explicit retry, history and restart. Finish fresh image-based
+skill use and track retiming-dependent conformance before closing 11. PCM analysis is independent of event queries.
 
 [11a PCM delivery](slices/11a-audio-delivery.md) is verified, including actual
 [source WAVs](assets/11a-audio-extraction/README.md) and
@@ -49,8 +52,9 @@ Current public evidence:
   rows for exact projection, not fresh inference. [Source acquisition](slices/10b-source-acquisition.md)
   separately retains actual native transcription and capture-mask media evidence.
 - [Capture journey](assets/10c-public-capture/README.md) uses actual acquisition
-  normalization and complete cursor/pause/geometry row oracles. Unsupported
-  categories remain visible, not empty successes.
+  normalization and complete cursor/pause/geometry row oracles; the interruption
+  extension includes synthetic terminal journals and frozen-transcript preservation.
+  Scene/cut categories remain visible as unsupported until their paths land.
 - [Project pictures](assets/10d-public-project-frames/README.md) verify actual
   membership, history and owned-media survival after project deletion.
   [Source pictures](assets/10d-source-frame-public/README.md) verify selected

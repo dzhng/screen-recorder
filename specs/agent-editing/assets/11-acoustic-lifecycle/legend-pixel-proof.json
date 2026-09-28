@@ -1,0 +1,37 @@
+{
+  "waveform.png": {
+    "changedPixels": 1159,
+    "firstChangedRow": 665,
+    "lastChangedRow": 676,
+    "beforeSha256": "b151b1512cf49777e5ecb0332949e6ccb070cd163f0ffbda7115a4d4a50f969d",
+    "afterSha256": "85560851ebba65cc1a363062842ede7b12b8eae50804a27f235e17d6e3a36895"
+  },
+  "detail.png": {
+    "changedPixels": 1159,
+    "firstChangedRow": 665,
+    "lastChangedRow": 676,
+    "beforeSha256": "c5cc7f75e7618a25edb4416633d265d393dc447f64e39cfbe7db232d9e27828a",
+    "afterSha256": "1496018be499b26cd654aa210a2f1342f97684f07b56fbbe5052efa40a3e6eff"
+  },
+  "long-provenance.png": {
+    "changedPixels": 1159,
+    "firstChangedRow": 665,
+    "lastChangedRow": 676,
+    "beforeSha256": "f872498b48787915b56828ba4a659ff0573b2058cc5ac4d36c8a48ecd11a2b0c",
+    "afterSha256": "0724f02c12135f308318c7dc67d0431aceac0412345b2a52a68249f456771a2b"
+  },
+  "spectrum.png": {
+    "changedPixels": 0,
+    "firstChangedRow": null,
+    "lastChangedRow": null,
+    "beforeSha256": "f29bee73febf9a12f08639fe65d83bd5a06c2404089dbd8c93868c679d6f71f7",
+    "afterSha256": "f29bee73febf9a12f08639fe65d83bd5a06c2404089dbd8c93868c679d6f71f7"
+  },
+  "context-support.png": {
+    "changedPixels": 0,
+    "firstChangedRow": null,
+    "lastChangedRow": null,
+    "beforeSha256": "262bc418b730288e33b5ca9fbd18a0d1c071d138429035da2e9abf4f4ed427ae",
+    "afterSha256": "262bc418b730288e33b5ca9fbd18a0d1c071d138429035da2e9abf4f4ed427ae"
+  }
+}

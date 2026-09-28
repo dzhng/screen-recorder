@@ -1,0 +1,40 @@
+$ vitest run --maxWorkers=4 src/acoustic-image.test.ts
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:61080) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/acoustic-image.test.ts (1 test | 1 failed) 4ms
+   × spectral columns mark missing surrounding support without declaring the displayed audio absent 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/acoustic-image.test.ts > spectral columns mark missing surrounding support without declaring the displayed audio absent
+AssertionError: expected [ false, false ] to deeply equal [ true, false ]
+
+- Expected
++ Received
+
+  [
+-   true,
++   false,
+    false,
+  ]
+
+ ❯ src/acoustic-image.test.ts:25:48
+     23|   for (const metadata of [source, project]) {
+     24|     const result = acousticImageRequest(metadata, { kind: "spectrum", …
+     25|     expect(result.columns.map(c => c.partial)).toEqual([true, false]);
+       |                                                ^
+     26|     expect(result.unavailable).toEqual([]);
+     27|     expect(result.columns[0]!.values[0]).toEqual(Array(513).fill(0));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  04:49:44
+   Duration  97ms (transform 60%, import 20%, tests 13%, worker 7%)
+
+error: script "test" exited with code 1

@@ -1,5 +1,5 @@
 import { spectralWindows } from "./audio-spectrum.js";
-import { WaveformInspection } from "./waveform.js";
+import { AcousticInspection } from "./acoustic-inspection.js";
 import { waveformBuckets } from "./audio-wave.js";
 import { spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
@@ -81,7 +81,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
   );
   await cache.reconcile();
   let inspection!: MediaAudioInspection;
-  let waveform!: WaveformInspection;
+  let waveform!: AcousticInspection;
   const jobs = new JobQueue({
     store: catalog,
     providers: { newId: randomUUID },
@@ -112,7 +112,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
     },
     project: { projects, renderer: { implementationId: "fixture-audio", render: renderer } },
   });
-  waveform = new WaveformInspection({ audio: inspection, jobs, cache });
+  waveform = new AcousticInspection({ audio: inspection, jobs, cache });
   cleanups.push(async () => {
     await jobs.close();
     catalog.close();
@@ -214,6 +214,29 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
     projectId: created.project.projectId,
   };
 }
+
+test("surrounding project audio preserves the pinned revision and requested processing tap", async () => {
+  const f = await fixture();
+  const input = {
+    projectId: f.projectId,
+    revisionId: f.placed.revision.id,
+    range: { startUs: 500000, endUs: 999999 },
+    tap: {
+      target: { kind: "track" as const, id: f.placed.edit.labels.voice! },
+      point: { kind: "dry" as const },
+    },
+  };
+  const context = f.inspection.context(input, { start: 23968, end: 48032 });
+  expect(context.selection).toEqual({ ...input, range: { startUs: 499334, endUs: 1000000 } });
+  expect(context.sampleClock).toMatchObject({ sampleRange: { start: 23968, end: 48000 } });
+  f.inspection.request(context.selection);
+  await f.jobs.idle();
+  expect(f.inspection.request(context.selection).published!.audio).toMatchObject({
+    revisionId: input.revisionId,
+    tap: input.tap,
+    sampleRange: { start: 23968, end: 48000 },
+  });
+});
 
 test("project audio taps bind only their descendants and target-owned processing, with absolute sample clocks", async () => {
   const requests: Parameters<ProjectAudioRenderer["render"]>[0][] = [];
@@ -429,7 +452,7 @@ test.runIf(Boolean(process.env.SCREENREC_NATIVE))(
         await f.jobs.idle();
         const acoustic = f.waveform.request({ ...input, bucketFrames: 480 });
         expect(acoustic.state).toBe("ready");
-        const document = JSON.parse(await readFile(acoustic.published!.waveform.file, "utf8"));
+        const document = JSON.parse(await readFile(acoustic.published!.artifact.file, "utf8"));
         expect(document).toMatchObject({
           domain: "project",
           projectId: f.projectId,

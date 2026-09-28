@@ -1,0 +1,42 @@
+$ vitest run --maxWorkers=4 src/audio-inspection.test.ts
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:43699) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-inspection.test.ts (17 tests | 1 failed) 1404ms
+   × cached spectral jobs preserve full versus ranged measurements and survive PCM eviction 34ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-inspection.test.ts > cached spectral jobs preserve full versus ranged measurements and survive PCM eviction
+AssertionError: expected [ { startUs: 198667, endUs: 200000 } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "endUs": 200000,
++     "startUs": 198667,
++   },
++ ]
+
+ ❯ src/audio-inspection.test.ts:506:29
+    504|   const whole = JSON.parse(await readFile(full.published!.artifact.fil…
+    505|   const detail = JSON.parse(await readFile(narrow.published!.artifact.…
+    506|   expect(whole.unavailable).toEqual([]);
+       |                             ^
+    507|   expect(detail.sampleRange).toEqual({ start: 9759, end: 10000 });
+    508|   expect(detail.range).toEqual({ startUs: 203333, endUs: 208337 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 passed (17)
+   Start at  04:40:23
+   Duration  1.61s (tests 90%, transform 7%, import 3%)
+
+error: script "test" exited with code 1

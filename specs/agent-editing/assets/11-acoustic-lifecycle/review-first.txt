@@ -1,0 +1,3698 @@
+2026-09-28T11:46:39.317596Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T11:46:39.317672Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/dev/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e7d6-a637-7c71-adaf-f9207a203696
+--------
+user
+current changes
+exec
+/bin/zsh -lc 'git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md' in /Users/david/dev/screen-recorder
+2026-09-28T11:46:45.191257Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-4cda14ae-c10f-4993-a09e-77b6221ea30c"
+ succeeded in 0ms:
+ M apps/cli/src/artifact-delivery.test.ts
+ M apps/cli/src/artifact-delivery.ts
+ M apps/cli/src/main.ts
+ M apps/service/src/operations.ts
+ M apps/service/src/project-service.ts
+ M helpers/mac/Sources/ScreenRecorderWire/Wire.swift
+ M helpers/mac/Tests/acoustic-image.test.mjs
+ M packages/core/package.json
+ M packages/core/src/acoustic-image.ts
+ M packages/core/src/audio-inspection.test.ts
+ M packages/core/src/audio-inspection.ts
+ M packages/core/src/project-audio.test.ts
+ M packages/core/src/project-window.ts
+ D packages/core/src/waveform.ts
+ M packages/protocol/src/operations.ts
+?? helpers/mac/Sources/ScreenRecorderWire/AcousticImageOperation.swift
+?? packages/core/src/acoustic-inspection.ts
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+
+exec
+/bin/zsh -lc 'find .. -name AGENTS.md -o -name AGENTS.override.md | head -60; git diff --stat; git diff -- apps/cli apps/service packages/protocol packages/core/package.json packages/core/src/project-window.ts; cat .agents/skills/write-tests/SKILL.md' in /Users/david/dev/screen-recorder
+exec
+/bin/zsh -lc 'find apps packages helpers -name AGENTS.md -o -name AGENTS.override.md; git diff --stat; git diff -- apps/cli apps/service packages/protocol packages/core/package.json packages/core/src/project-window.ts' in /Users/david/dev/screen-recorder
+2026-09-28T11:47:03.557782Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-d5893f62-c804-44ee-b09f-a92c9af2f80b"
+ succeeded in 434ms:
+apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+ apps/cli/src/artifact-delivery.test.ts            |  14 ++
+ apps/cli/src/artifact-delivery.ts                 |  11 +-
+ apps/cli/src/main.ts                              |   2 +
+ apps/service/src/operations.ts                    |   4 +-
+ apps/service/src/project-service.ts               |  51 ++++-
+ helpers/mac/Sources/ScreenRecorderWire/Wire.swift |   6 +-
+ helpers/mac/Tests/acoustic-image.test.mjs         |  72 ++++---
+ packages/core/package.json                        |   6 +-
+ packages/core/src/acoustic-image.ts               |  25 +--
+ packages/core/src/audio-inspection.test.ts        | 187 +++++++++++++++--
+ packages/core/src/audio-inspection.ts             |  40 +++-
+ packages/core/src/project-audio.test.ts           |  31 ++-
+ packages/core/src/project-window.ts               |   2 +-
+ packages/core/src/waveform.ts                     | 238 ----------------------
+ packages/protocol/src/operations.ts               |  28 ++-
+ 15 files changed, 386 insertions(+), 331 deletions(-)
+diff --git a/apps/cli/src/artifact-delivery.test.ts b/apps/cli/src/artifact-delivery.test.ts
+index c248ce4..ca8b1bc 100644
+--- a/apps/cli/src/artifact-delivery.test.ts
++++ b/apps/cli/src/artifact-delivery.test.ts
+@@ -357,3 +357,17 @@ test("invalid JSON evidence fails as a delivery error and releases its lease", a
+   });
+   expect(f.closes()).toBe(1);
+ });
++
++test.each(["waveform", "spectrogram"])(
++  "%s images use the shared image delivery and close the lease",
++  async (kind) => {
++    const bytes = Buffer.from("external PNG transport fixture");
++    const f = await fixture(bytes);
++    const response = {
++      ...f.result,
++      data: { ...(f.result.data as object), published: { [kind]: { mediaType: "image/png" } } },
++    };
++    expect(await artifactBytes(f.selection, response)).toEqual({ bytes, mediaType: "image/png" });
++    expect(f.closes()).toBe(1);
++  },
++);
+diff --git a/apps/cli/src/artifact-delivery.ts b/apps/cli/src/artifact-delivery.ts
+index c1cb2b0..84f71a3 100644
+--- a/apps/cli/src/artifact-delivery.ts
++++ b/apps/cli/src/artifact-delivery.ts
+@@ -27,7 +27,8 @@ const ready = z.object({
+     z.object({ frame: z.object({ mediaType: z.literal("image/png") }) }),
+     z.object({ audio: z.object({ mediaType: z.literal("audio/wav") }) }),
+     z.object({ preview: z.object({ mediaType: z.literal("video/mp4") }) }),
+-    z.object({ waveform: z.object({ mediaType: z.literal("application/json") }) }),
++    z.object({ spectrogram: z.object({ mediaType: z.literal("image/png") }) }),
++    z.object({ waveform: z.object({ mediaType: z.enum(["application/json", "image/png"]) }) }),
+   ]),
+ });
+ const chunk = z.object({
+@@ -59,9 +60,11 @@ async function consumeArtifact<T>(
+       ? "image/png"
+       : "audio" in parsed.data.published
+         ? "audio/wav"
+-        : "waveform" in parsed.data.published
+-          ? "application/json"
+-          : "video/mp4";
++        : "spectrogram" in parsed.data.published
++          ? "image/png"
++          : "waveform" in parsed.data.published
++            ? parsed.data.published.waveform.mediaType
++            : "video/mp4";
+   const socket = await resolveServiceSocket(selection);
+   async function* chunks() {
+     let offset = 0;
+diff --git a/apps/cli/src/main.ts b/apps/cli/src/main.ts
+index e1b085a..1d067f8 100644
+--- a/apps/cli/src/main.ts
++++ b/apps/cli/src/main.ts
+@@ -46,6 +46,8 @@ const artifactOperations = new Set([
+   "audio.retry",
+   "waveform.get",
+   "waveform.retry",
++  "spectrogram.get",
++  "spectrogram.retry",
+ ]);
+ 
+ function failure(
+diff --git a/apps/service/src/operations.ts b/apps/service/src/operations.ts
+index b8fc59c..c8d5e01 100644
+--- a/apps/service/src/operations.ts
++++ b/apps/service/src/operations.ts
+@@ -380,9 +380,11 @@ export async function operate(
+         };
+       case "waveform.get":
+       case "waveform.retry":
++      case "spectrogram.get":
++      case "spectrogram.retry":
+         return operationError(
+           "NOT_READY",
+-          "Waveform inspection requires the project service until cutover",
++          "Acoustic inspection requires the project service until cutover",
+         );
+       case "artifact.renew":
+         return { ok: true, data: delivery.renew(operation.params.token) };
+diff --git a/apps/service/src/project-service.ts b/apps/service/src/project-service.ts
+index 6ab6f04..aef10eb 100644
+--- a/apps/service/src/project-service.ts
++++ b/apps/service/src/project-service.ts
+@@ -1,4 +1,5 @@
+-import { WaveformInspection } from "@screenrec/core/waveform";
++import { writeFile } from "node:fs/promises";
++import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
+ import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
+ import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
+ import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
+@@ -132,7 +133,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
+     let transcripts: TranscriptProcessing;
+     let projectEvidence: ProjectEvidenceInspection;
+     let mediaAudio: MediaAudioInspection;
+-    let waveforms: WaveformInspection;
++    let acoustics: AcousticInspection;
+     const queue = new JobQueue({
+       store: catalog,
+       targets,
+@@ -143,9 +144,9 @@ export async function startProjectService(options: { home: string; worker?: Medi
+       execute: async ({ job, signal }) => {
+         if (
+           (job.target.kind === "asset" || job.target.kind === "project") &&
+-          job.artifact === "waveform"
++          ["waveform", "spectrum", "acoustic-image"].includes(job.artifact)
+         )
+-          return waveforms.execute({ job, signal });
++          return acoustics.execute({ job, signal });
+         if (
+           (job.target.kind === "project" || job.target.kind === "asset") &&
+           job.artifact === "frame"
+@@ -232,7 +233,28 @@ export async function startProjectService(options: { home: string; worker?: Medi
+           ),
+       },
+     });
+-    waveforms = new WaveformInspection({ audio: mediaAudio, jobs: queue, cache });
++    acoustics = new AcousticInspection({
++      audio: mediaAudio,
++      jobs: queue,
++      cache,
++      renderer: {
++        implementationId: "native-acoustic-image-v1",
++        render: async (request, signal) =>
++          withRenderedFile(
++            worker,
++            { attemptParent: workspace, output: request.output, filename: "frame.png" },
++            signal,
++            async (output, execute) => {
++              const bytes = Buffer.from(JSON.stringify({ ...request, output }));
++              if (bytes.length > 16 * 1024 * 1024)
++                throw new CatalogError("LIMIT_EXCEEDED", "Acoustic measurements exceed 16 MiB");
++              const input = output + ".json";
++              await writeFile(input, bytes, { flag: "wx", signal });
++              return nativeResult(await execute("media.acousticImage", { input }, { signal }));
++            },
++          ),
++      },
++    });
+     projectEvidence = new ProjectEvidenceInspection({
+       projects,
+       assets,
+@@ -452,20 +474,31 @@ export async function startProjectService(options: { home: string; worker?: Medi
+             };
+           }
+           case "waveform.get":
+-          case "waveform.retry": {
+-            const status = waveforms[operation.operation === "waveform.get" ? "request" : "retry"](
+-              operation.params,
++          case "waveform.retry":
++          case "spectrogram.get":
++          case "spectrogram.retry": {
++            const spectrum = operation.operation.startsWith("spectrogram.");
++            const status = acoustics[operation.operation.endsWith(".get") ? "request" : "retry"](
++              spectrum
++                ? { ...operation.params, kind: "spectrum", format: "image" }
++                : operation.params,
+             );
+             return {
+               ok: true,
+               data: {
+                 ...status,
++                published: status.published
++                  ? {
++                      generation: status.published.generation,
++                      [spectrum ? "spectrogram" : "waveform"]: status.published.artifact,
++                    }
++                  : null,
+                 delivery: status.published
+                   ? delivery.open(
+                       "projectId" in status
+                         ? { kind: "project", id: status.projectId }
+                         : { kind: "asset", id: status.assetId },
+-                      () => cache.acquire(status.published!.waveform.cacheId),
++                      () => cache.acquire(status.published!.artifact.cacheId),
+                     )
+                   : null,
+               },
+diff --git a/packages/core/package.json b/packages/core/package.json
+index 8afde26..c135eec 100644
+--- a/packages/core/package.json
++++ b/packages/core/package.json
+@@ -208,9 +208,9 @@
+       "types": "./dist/audio-wave.d.ts",
+       "default": "./dist/audio-wave.js"
+     },
+-    "./waveform": {
+-      "types": "./dist/waveform.d.ts",
+-      "default": "./dist/waveform.js"
++    "./acoustic-inspection": {
++      "types": "./dist/acoustic-inspection.d.ts",
++      "default": "./dist/acoustic-inspection.js"
+     },
+     "./audio-spectrum": {
+       "types": "./dist/audio-spectrum.d.ts",
+diff --git a/packages/core/src/project-window.ts b/packages/core/src/project-window.ts
+index 0499069..0dda3a1 100644
+--- a/packages/core/src/project-window.ts
++++ b/packages/core/src/project-window.ts
+@@ -88,5 +88,5 @@ export function projectWindow(
+       originUs: asset.originUs,
+     });
+   }
+-  return { window: bound, assets: [...bindings.values()] };
++  return { window: bound, assets: [...bindings.values()], durationUs: model.durationUs };
+ }
+diff --git a/packages/protocol/src/operations.ts b/packages/protocol/src/operations.ts
+index 834d1b2..18c511e 100644
+--- a/packages/protocol/src/operations.ts
++++ b/packages/protocol/src/operations.ts
+@@ -166,12 +166,24 @@ const audioParams = z.union([
+   }).options,
+   sourceAudioParams,
+ ]);
+-const waveformFields = { bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional() };
++const waveformFields = {
++  bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional(),
++  format: z.enum(["json", "image"]).optional(),
++};
+ const waveformParams = z.union([
+   projectAudioParams.extend(waveformFields),
+   sourceAudioParams.extend(waveformFields),
+ ]);
+ 
++const spectrumFields = {
++  fftFrames: z.int().min(16).max(8192).optional(),
++  hopFrames: z.int().positive().max(8192).optional(),
++};
++const spectrogramParams = z.union([
++  projectAudioParams.extend(spectrumFields),
++  sourceAudioParams.extend(spectrumFields),
++]);
++
+ const indexFields = { revisionId: id, generation: id };
+ const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };
+ const coveragePosition = {
+@@ -673,7 +685,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
+     .object({ operation: z.literal("waveform.get"), params: waveformParams })
+     .strict()
+     .describe(
+-      "Inspect a selected audio source or project processing tap as per-channel min/max/RMS JSON. Uses audio.get selectors and range in the selected time domain. Omit bucketFrames for an automatic overview; set a positive sample count for finer inspection (maximum 4096 buckets). Returned sample bounds and resolution are exact; unavailable support is not proof of silence. CLI writes JSON to --output; MCP returns its JSON text. Pin the returned project revision while polling. This measures audio and never edits it.",
++      "Inspect a selected audio source or project processing tap as per-channel min/max/RMS JSON or a labeled image with format:image. Uses audio.get selectors and range in the selected time domain. Omit bucketFrames for an automatic overview; set a positive sample count for finer inspection (maximum 4096 buckets). Returned sample bounds and resolution are exact; unavailable support is not proof of silence. CLI writes JSON to --output; MCP returns its JSON text or image. Pin the returned project revision while polling. This measures audio and never edits it.",
+     ),
+   z
+     .object({ operation: z.literal("waveform.retry"), params: waveformParams })
+@@ -681,6 +693,18 @@ export const operationSchema = z.discriminatedUnion("operation", [
+     .describe(
+       "Explicitly retry waveform preparation and its audio prerequisite using the same pinned selection, range, tap and resolution.",
+     ),
++  z
++    .object({ operation: z.literal("spectrogram.get"), params: spectrogramParams })
++    .strict()
++    .describe(
++      "Inspect a bounded selected-source or project audio tap as a time/frequency image. Uses audio selectors and the selected clock. Defaults to fftFrames:1024 and hopFrames:512; FFT must be a power of two, hop no larger than FFT. Narrow the range when the 262144 channel/time/frequency-cell limit is exceeded. Surrounding PCM preserves range/full alignment; unavailable support is distinct from silence. Channels remain separate. Labels report density in dB relative to full-scale squared per Hz, with a fixed display floor; the image cannot establish speech quality. Pin revision while polling.",
++    ),
++  z
++    .object({ operation: z.literal("spectrogram.retry"), params: spectrogramParams })
++    .strict()
++    .describe(
++      "Explicitly retry the same spectrogram, including failed measurements and audio prerequisites.",
++    ),
+   z
+     .object({
+       operation: z.literal("artifact.read"),
+
+exec
+/bin/zsh -lc 'cat packages/core/src/acoustic-inspection.ts' in /Users/david/dev/screen-recorder
+2026-09-28T11:47:09.558335Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-328f0b7d-3454-4acb-acd4-22545fd5b53d"
+ succeeded in 0ms:
+import { isDeepStrictEqual } from "node:util";
+import { writeFile } from "node:fs/promises";
+import { z } from "zod";
+import { CatalogError } from "./catalog.js";
+import type { DerivedCache } from "./cache.js";
+import type { JobQueue, JobExecution, Job } from "./jobs.js";
+import { submitCachedDerivative } from "./cached-derivative.js";
+import {
+  MediaAudioInspection,
+  type MediaAudioInput,
+  type SourceAudioArtifact,
+  type ProjectAudioArtifact,
+} from "./audio-inspection.js";
+import { waveformBuckets, sampleGrid } from "./audio-wave.js";
+import { spectralLayout, spectralWindows } from "./audio-spectrum.js";
+import { acousticImageRequest, type AcousticImageRequest } from "./acoustic-image.js";
+
+const waveformOptions = z.strictObject({
+  audioJobId: z.string().min(1),
+  audioGeneration: z.int().positive(),
+  bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).nullable(),
+  policy: z.literal("waveform-buckets-v1"),
+});
+const spectrumOptions = waveformOptions.omit({ bucketFrames: true, policy: true }).extend({
+  fftFrames: z.int().positive(),
+  hopFrames: z.int().positive(),
+  range: z.strictObject({ startUs: z.int().nonnegative(), endUs: z.int().positive() }),
+  sampleRange: z.strictObject({ start: z.int().nonnegative(), end: z.int().positive() }),
+  policy: z.literal("spectrum-density-v1"),
+});
+const optionsSchema = z.union([waveformOptions, spectrumOptions]);
+export type AcousticInput = MediaAudioInput & { format?: "json" | "image" | undefined } & (
+    | { kind?: "waveform"; bucketFrames?: number | undefined }
+    | { kind: "spectrum"; fftFrames?: number | undefined; hopFrames?: number | undefined }
+  );
+type AudioArtifact = SourceAudioArtifact | ProjectAudioArtifact;
+function metadata(audio: AudioArtifact) {
+  const common = {
+    range: audio.range,
+    timeOriginUs: 0,
+    sampleRange: audio.sampleRange,
+    sampleRate: audio.sampleRate,
+    channels: audio.channels,
+    layout: audio.layout,
+    implementationId: audio.implementationId,
+  };
+  return "projectId" in audio
+    ? {
+        ...common,
+        unavailable: audio.unavailable,
+        domain: "project" as const,
+        projectId: audio.projectId,
+        revisionId: audio.revisionId,
+        tap: audio.tap,
+      }
+    : {
+        ...common,
+        unavailable: audio.unavailable,
+        domain: "source" as const,
+        assetId: audio.assetId,
+        streamId: audio.streamId,
+        ...(audio.acquisitionId ? { acquisitionId: audio.acquisitionId } : {}),
+        supportDigest: audio.supportDigest,
+      };
+}
+export type AcousticArtifact = ReturnType<typeof metadata> & {
+  file: string;
+  bytes: number;
+  mediaType: "application/json" | "image/png";
+  cacheId: string;
+  bucketFrames?: number;
+  bucketCount?: number;
+  context?: Pick<ReturnType<typeof metadata>, "range" | "sampleRange" | "unavailable">;
+  analysis:
+    | { kind: "waveform"; bucketFrames: number; bucketCount: number }
+    | { kind: "spectrum"; fftFrames: number; hopFrames: number; columnCount: number };
+  audio: { jobId: string; generation: number };
+};
+const imageOptions = z.strictObject({
+  measurementJobId: z.string().min(1),
+  measurementGeneration: z.int().positive(),
+  implementationId: z.string().min(1),
+});
+const imageReceipt = z.object({
+  file: z.string(),
+  bytes: z
+    .int()
+    .positive()
+    .max(32 * 1024 * 1024),
+  mediaType: z.literal("image/png"),
+  width: z.int().positive(),
+  height: z.int().positive(),
+  provenance: z.array(z.string()),
+  plotLeft: z.int().nonnegative(),
+  plotWidth: z.int().positive(),
+  plotTop: z.int().nonnegative(),
+  panelHeight: z.int().positive(),
+  panelStride: z.int().positive(),
+  amplitudeLimit: z.number().positive().nullable().optional(),
+  densityFloorDb: z.number().nullable().optional(),
+  densityCeilingDb: z.number().nullable().optional(),
+});
+export type AcousticRenderer = {
+  implementationId: string;
+  render(request: AcousticImageRequest, signal: AbortSignal): Promise<unknown>;
+};
+const lost = (message: string) => new CatalogError("ARTIFACT_CHANGED", message, {}, true);
+/** Acoustic derivatives retain audio provenance; only a rebuild needs the disposable PCM bytes. */
+export class AcousticInspection {
+  constructor(
+    private readonly owners: {
+      audio: MediaAudioInspection;
+      jobs: JobQueue;
+      cache: DerivedCache;
+      renderer?: AcousticRenderer;
+    },
+  ) {}
+  private input(value: AcousticInput) {
+    const { format, ...input } = value;
+    if (input.kind === "spectrum") {
+      const { kind, fftFrames = 1024, hopFrames = 512, ...selection } = input;
+      const display = this.owners.audio.recipe(selection),
+        clock = display.sampleClock;
+      if (!clock)
+        throw new CatalogError("UNSUPPORTED_FORMAT", "Spectra require an integral sample rate");
+      if (display.channels !== 1 && display.channels !== 2)
+        throw new CatalogError("UNSUPPORTED_FORMAT", "Spectra require known mono or stereo audio");
+      const layout = spectralLayout(
+        {
+          ...clock,
+          frames: clock.sampleRange.end - clock.sampleRange.start,
+          channels: display.channels,
+        },
+        { fftFrames, hopFrames },
+      );
+      const recipe = this.owners.audio.context(display.selection, layout.context);
+      return {
+        recipe,
+        selection: display.selection,
+        parameters: {
+          fftFrames,
+          hopFrames,
+          range: display.selection.range,
+          sampleRange: clock.sampleRange,
+          policy: "spectrum-density-v1" as const,
+        },
+        artifact: "spectrum",
+      };
+    }
+    const { bucketFrames, kind, ...selection } = input;
+    if (bucketFrames !== undefined && (!Number.isSafeInteger(bucketFrames) || bucketFrames < 1))
+      throw new CatalogError("INVALID_PARAMS", "bucketFrames must be a positive integer");
+    const recipe = this.owners.audio.recipe(selection);
+    if (bucketFrames !== undefined && recipe.sampleClock) {
+      const { sampleRange } = recipe.sampleClock;
+      sampleGrid({ sampleRange, frames: sampleRange.end - sampleRange.start }, { bucketFrames });
+    }
+    return {
+      recipe,
+      selection: recipe.selection,
+      parameters: {
+        bucketFrames: bucketFrames ?? null,
+        policy: "waveform-buckets-v1" as const,
+      },
+      artifact: "waveform",
+    };
+  }
+  private dependency(identity: ReturnType<MediaAudioInspection["recipe"]>["identity"]) {
+    const status = this.owners.jobs.status(identity);
+    return {
+      status,
+      summary: {
+        jobId: status.jobId,
+        state: status.state,
+        reason: status.reason,
+        retryable: status.retryable,
+        generation: status.published?.generation ?? null,
+      },
+    };
+  }
+  request(input: AcousticInput) {
+    return input.format === "image" ? this.image(input) : this.measurements(input);
+  }
+  private measurements(input: AcousticInput, regenerate = true) {
+    const { recipe, selection, parameters, artifact } = this.input(input);
+    let dependency = this.dependency(recipe.identity);
+    if (!dependency.status.published) {
+      this.owners.audio.request(recipe.selection);
+      dependency = this.dependency(recipe.identity);
+    }
+    if (!dependency.status.published)
+      return {
+        ...selection,
+        state: dependency.status.state,
+        reason: dependency.status.reason,
+        retryable: dependency.status.retryable,
+        jobId: dependency.status.jobId,
+        dependency: dependency.summary,
+        published: null,
+      };
+    const identity = {
+      target: recipe.identity.target,
+      artifact,
+      input: JSON.stringify({
+        audioJobId: dependency.status.jobId!,
+        audioGeneration: dependency.status.published.generation,
+        ...parameters,
+      }),
+    };
+    const retained = this.owners.jobs.status(identity);
+    const status =
+      !regenerate && retained.published
+        ? {
+            ...retained,
+            published: {
+              generation: retained.published.generation,
+              value: JSON.parse(retained.published.result) as AcousticArtifact,
+            },
+          }
+        : submitCachedDerivative<AcousticArtifact>(
+            this.owners.jobs,
+            this.owners.cache,
+            identity,
+            "heavy",
+          );
+    return {
+      ...selection,
+      state: status.state,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      dependency: dependency.summary,
+      published: status.published
+        ? { generation: status.published.generation, artifact: status.published.value }
+        : null,
+    };
+  }
+  private image(input: AcousticInput) {
+    const renderer = this.owners.renderer;
+    if (!renderer)
+      throw new CatalogError("NOT_READY", "Acoustic image renderer is unavailable", {}, true);
+    const measurement = this.measurements(input, false);
+    if (!measurement.published) return measurement;
+    const source = this.owners.jobs.job(measurement.jobId!);
+    const status = submitCachedDerivative<AcousticArtifact>(
+      this.owners.jobs,
+      this.owners.cache,
+      {
+        target: source.target,
+        artifact: "acoustic-image",
+        input: JSON.stringify({
+          measurementJobId: source.jobId,
+          measurementGeneration: measurement.published.generation,
+          implementationId: renderer.implementationId,
+        }),
+      },
+      "heavy",
+    );
+    return {
+      ...measurement,
+      ...status,
+      published: status.published
+        ? {
+            generation: status.published.generation,
+            artifact: status.published.value,
+          }
+        : null,
+    };
+  }
+  retry(input: AcousticInput) {
+    const { recipe, selection } = this.input(input);
+    const pinnedInput = { ...input, ...selection };
+    const current = this.request(pinnedInput);
+    if (current.published) return current;
+    if (input.format === "image") {
+      this.retry({ ...pinnedInput, format: "json" });
+    } else this.owners.audio.retry(recipe.selection);
+    const next = this.request(pinnedInput);
+    if (next.jobId && next.jobId !== next.dependency.jobId) this.owners.jobs.retry(next.jobId);
+    return this.request(pinnedInput);
+  }
+  private pinned(job: Job, options: z.infer<typeof optionsSchema>) {
+    const source = this.owners.jobs.job(options.audioJobId);
+    if (source.artifact !== "audio" || !isDeepStrictEqual(source.target, job.target))
+      throw lost("Acoustic dependency does not belong to its selected audio target");
+    const status = this.owners.jobs.status(source);
+    if (
+      !status.published ||
+      status.published.generation !== options.audioGeneration ||
+      source.generation !== options.audioGeneration
+    )
+      throw lost("Pinned audio generation is no longer available");
+    return JSON.parse(status.published.result) as AudioArtifact;
+  }
+  private measurement(job: Job, options: z.infer<typeof imageOptions>) {
+    const source = this.owners.jobs.job(options.measurementJobId);
+    const status = this.owners.jobs.status(source);
+    if (
+      !["waveform", "spectrum"].includes(source.artifact) ||
+      !isDeepStrictEqual(source.target, job.target) ||
+      !status.published ||
+      source.generation !== options.measurementGeneration ||
+      status.published.generation !== options.measurementGeneration
+    )
+      throw lost("Pinned acoustic measurements are no longer available");
+    return {
+      kind: source.artifact,
+      value: JSON.parse(status.published.result) as AcousticArtifact,
+    };
+  }
+  private async executeImage({ job, signal }: JobExecution, raw: unknown) {
+    const options = imageOptions.parse(raw),
+      renderer = this.owners.renderer;
+    if (!renderer || renderer.implementationId !== options.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned acoustic renderer is unavailable", {}, true);
+    const measurement = this.measurement(job, options),
+      lease = this.owners.cache.acquire(measurement.value.cacheId);
+    if (!lease)
+      throw new CatalogError(
+        "ARTIFACT_EXPIRED",
+        "Acoustic measurements were evicted; retry image preparation",
+        {},
+        true,
+      );
+    let output: ReturnType<DerivedCache["reserve"]> | undefined;
+    try {
+      if (lease.bytes > 16 * 1024 * 1024)
+        throw new CatalogError("LIMIT_EXCEEDED", "Acoustic measurements exceed 16 MiB");
+      const bytes = Buffer.alloc(lease.bytes);
+      if (lease.read(bytes, 0) !== bytes.length) throw lost("Acoustic measurements are incomplete");
+      const document = JSON.parse(bytes.toString("utf8"));
+      const evidence =
+        measurement.kind === "waveform"
+          ? {
+              kind: "waveform" as const,
+              data: document as Awaited<ReturnType<typeof waveformBuckets>>,
+            }
+          : {
+              kind: "spectrum" as const,
+              data: { ...document, density: Float64Array.from(document.density) } as Awaited<
+                ReturnType<typeof spectralWindows>
+              >,
+            };
+      output = this.owners.cache.reserve(job.target);
+      const request = acousticImageRequest(measurement.value, evidence, output.path);
+      const receipt = imageReceipt.parse(await renderer.render(request, signal));
+      signal.throwIfAborted();
+      if (
+        receipt.file !== output.path ||
+        !isDeepStrictEqual(receipt.provenance, request.provenance)
+      )
+        throw lost("Acoustic image receipt differs from its pinned request");
+      this.measurement(job, options);
+      lease.release();
+      const published = await this.owners.cache.publish(output.id);
+      if (published.bytes !== receipt.bytes)
+        throw lost("Acoustic image byte count differs from its receipt");
+      signal.throwIfAborted();
+      this.measurement(job, options);
+      return JSON.stringify({
+        ...measurement.value,
+        ...receipt,
+        cacheId: output.id,
+        measurements: {
+          jobId: options.measurementJobId,
+          generation: options.measurementGeneration,
+        },
+        imageImplementationId: renderer.implementationId,
+      });
+    } catch (error) {
+      if (output) this.owners.cache.remove(output.id);
+      throw error;
+    } finally {
+      lease.release();
+    }
+  }
+  async execute(execution: JobExecution) {
+    const { job, signal } = execution;
+    let raw: unknown;
+    try {
+      raw = JSON.parse(job.input);
+    } catch {
+      throw new CatalogError("UNSUPPORTED_JOB", "Invalid acoustic input");
+    }
+    if (job.artifact === "acoustic-image") return this.executeImage(execution, raw);
+    const parsed = optionsSchema.safeParse(raw);
+    if (
+      !["waveform", "spectrum"].includes(job.artifact) ||
+      !parsed.success ||
+      (job.target.kind !== "asset" && job.target.kind !== "project")
+    )
+      throw new CatalogError("UNSUPPORTED_JOB", "Job does not name acoustic measurements");
+    const options = parsed.data,
+      audio = this.pinned(job, options);
+    const lease = this.owners.cache.acquire(audio.cacheId);
+    if (!lease)
+      throw new CatalogError(
+        "ARTIFACT_EXPIRED",
+        "Pinned PCM bytes were evicted; retry acoustic preparation",
+        {},
+        true,
+      );
+    let output: ReturnType<DerivedCache["reserve"]> | undefined;
+    try {
+      output = this.owners.cache.reserve(job.target);
+      const provenance = { jobId: options.audioJobId, generation: options.audioGeneration };
+      const description = metadata(audio);
+      let context: AcousticArtifact["context"];
+      let measurements: object;
+      let analysis: AcousticArtifact["analysis"];
+      if (options.policy === "waveform-buckets-v1") {
+        const bucketFrames = options.bucketFrames ?? Math.max(1, Math.ceil(audio.frames / 1024));
+        const result = await waveformBuckets(lease, audio, { bucketFrames }, signal);
+        measurements = {
+          ...result,
+          units: {
+            range: "microsecond",
+            sampleRange: "sample-frame",
+            amplitude: "linear",
+            rms: "linear",
+          },
+        };
+        analysis = { kind: "waveform", bucketFrames, bucketCount: result.buckets.length };
+      } else {
+        const result = await spectralWindows(lease, audio, options, signal);
+        context = {
+          range: description.range,
+          sampleRange: description.sampleRange,
+          unavailable: description.unavailable,
+        };
+        description.range = options.range;
+        description.sampleRange = options.sampleRange;
+        if (description.domain === "project") {
+          description.unavailable = description.unavailable.map((entry) => ({
+            ...entry,
+            ranges: entry.ranges
+              .map((span) => ({
+                start: Math.max(span.start, options.sampleRange.start),
+                end: Math.min(span.end, options.sampleRange.end),
+              }))
+              .filter((span) => span.start < span.end),
+          }));
+        } else {
+          description.unavailable = description.unavailable
+            .map((span) => ({
+              startUs: Math.max(span.startUs, options.range.startUs),
+              endUs: Math.min(span.endUs, options.range.endUs),
+            }))
+            .filter((span) => span.startUs < span.endUs);
+        }
+        measurements = { ...result, density: Array.from(result.density) };
+        analysis = {
+          kind: "spectrum",
+          fftFrames: options.fftFrames,
+          hopFrames: options.hopFrames,
+          columnCount: result.columns.length,
+        };
+      }
+      signal.throwIfAborted();
+      const document = {
+        ...description,
+        ...measurements,
+        ...(context ? { context } : {}),
+        audio: provenance,
+        generation: job.generation,
+      };
+      const bytes = Buffer.from(JSON.stringify(document) + "\n");
+      const maximum = options.policy === "waveform-buckets-v1" ? 4 * 1024 * 1024 : 16 * 1024 * 1024;
+      if (bytes.length > maximum)
+        throw new CatalogError("LIMIT_EXCEEDED", "Acoustic JSON exceeds its byte limit");
+      this.owners.cache.checkCapacity(bytes.length);
+      await writeFile(output.path, bytes, { flag: "wx", signal });
+      const pinned = this.pinned(job, options);
+      if (pinned.cacheId !== audio.cacheId)
+        throw lost("Pinned PCM identity changed during reduction");
+      lease.release();
+      const published = await this.owners.cache.publish(output.id);
+      signal.throwIfAborted();
+      this.pinned(job, options);
+      return JSON.stringify({
+        ...description,
+        ...(context ? { context } : {}),
+        file: output.path,
+        bytes: published.bytes,
+        mediaType: "application/json",
+        cacheId: output.id,
+        analysis,
+        ...(analysis.kind === "waveform"
+          ? { bucketFrames: analysis.bucketFrames, bucketCount: analysis.bucketCount }
+          : {}),
+        audio: provenance,
+      } satisfies AcousticArtifact);
+    } catch (error) {
+      if (output) this.owners.cache.remove(output.id);
+      throw error;
+    } finally {
+      lease.release();
+    }
+  }
+}
+
+exec
+/bin/zsh -lc 'git diff -- packages/core/src/audio-inspection.ts packages/core/src/acoustic-image.ts helpers/mac/Sources/ScreenRecorderWire/Wire.swift; cat helpers/mac/Sources/ScreenRecorderWire/AcousticImageOperation.swift; cat .agents/skills/write-tests/SKILL.md' in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+diff --git a/helpers/mac/Sources/ScreenRecorderWire/Wire.swift b/helpers/mac/Sources/ScreenRecorderWire/Wire.swift
+index 4e6e62c..b4e7317 100644
+--- a/helpers/mac/Sources/ScreenRecorderWire/Wire.swift
++++ b/helpers/mac/Sources/ScreenRecorderWire/Wire.swift
+@@ -43,11 +43,7 @@ public enum NativeWire {
+             "media.renderCompositionMovie": media { try json(await CompositionMovieOperation.execute($0)) },
+             "media.mixCompositionAudio": media { try json(await CompositionAudioOperation.execute($0)) },
+             "media.sourceVisualSamples": media { try json(await SourceVisualSamplesOperation.execute($0)) },
+-            "media.acousticImage": media { params in
+-                let request = try WireRequest.decode(AcousticImage.Request.self, from: params)
+-                try WireRequest.requireAbsolute(request.output)
+-                return try json(AcousticImage.write(request))
+-            },
++            "media.acousticImage": media { try json(AcousticImageOperation.execute($0)) },
+             "media.sourceFrame": media { try json(await SourceFrameOperation.execute($0)) },
+             "media.sourceAudio": media { try json(await SourceAudioOperation.execute($0)) },
+             "media.audio": media { try json(await AudioOperation.execute($0)) },
+diff --git a/packages/core/src/acoustic-image.ts b/packages/core/src/acoustic-image.ts
+index 3e28236..d3ae8b3 100644
+--- a/packages/core/src/acoustic-image.ts
++++ b/packages/core/src/acoustic-image.ts
+@@ -1,6 +1,6 @@
+ import type { waveformBuckets } from "./audio-wave.js";
+ import type { spectralWindows } from "./audio-spectrum.js";
+-import type { WaveformArtifact } from "./waveform.js";
++import type { AcousticArtifact } from "./acoustic-inspection.js";
+ import { CatalogError } from "./catalog.js";
+ 
+ type Waveform = Awaited<ReturnType<typeof waveformBuckets>>;
+@@ -9,15 +9,10 @@ type Span = { start: number; end: number };
+ type Metadata<T> = T extends unknown
+   ? Omit<
+       T,
+-      | "file"
+-      | "bytes"
+-      | "mediaType"
+-      | "cacheId"
+-      | "bucketFrames"
+-      | "bucketCount"
++      "file" | "bytes" | "mediaType" | "cacheId" | "analysis" | "bucketFrames" | "bucketCount"
+     >
+   : never;
+-export type AcousticMetadata = Metadata<WaveformArtifact>;
++export type AcousticMetadata = Metadata<AcousticArtifact>;
+ export type AcousticImageRequest = {
+   output: string;
+   kind: "waveform" | "spectrum";
+@@ -34,8 +29,7 @@ export type AcousticImageRequest = {
+ /** Converts retained measurements to one bounded renderer request; never reacquires PCM. */
+ export function acousticImageRequest(
+   metadata: AcousticMetadata,
+-  evidence:
+-    { kind: "waveform"; data: Waveform } | { kind: "spectrum"; data: Spectrum },
++  evidence: { kind: "waveform"; data: Waveform } | { kind: "spectrum"; data: Spectrum },
+   output: string,
+ ): AcousticImageRequest {
+   const data = evidence.data;
+@@ -79,9 +73,7 @@ export function acousticImageRequest(
+       ? `project ${metadata.projectId} | revision ${metadata.revisionId}`
+       : `asset ${metadata.assetId} | stream ${metadata.streamId}`,
+     `audio ${metadata.audio.jobId} | generation ${metadata.audio.generation}`,
+-    project
+-      ? `tap ${JSON.stringify(metadata.tap)}`
+-      : `support ${metadata.supportDigest}`,
++    project ? `tap ${JSON.stringify(metadata.tap)}` : `support ${metadata.supportDigest}`,
+   ];
+   if (evidence.kind === "spectrum")
+     provenance.push(
+@@ -116,11 +108,8 @@ export function acousticImageRequest(
+       range: column.sampleRange,
+       partial: column.partial,
+       values: Array.from({ length: spectrum.channels }, (_, channel) => {
+-        const start =
+-          (index * spectrum.channels + channel) * spectrum.frequency.bins;
+-        return Array.from(
+-          spectrum.density.subarray(start, start + spectrum.frequency.bins),
+-        );
++        const start = (index * spectrum.channels + channel) * spectrum.frequency.bins;
++        return Array.from(spectrum.density.subarray(start, start + spectrum.frequency.bins));
+       }),
+     })),
+   };
+diff --git a/packages/core/src/audio-inspection.ts b/packages/core/src/audio-inspection.ts
+index 6c8d7d2..37601bd 100644
+--- a/packages/core/src/audio-inspection.ts
++++ b/packages/core/src/audio-inspection.ts
+@@ -177,6 +177,7 @@ export class MediaAudioInspection {
+     return {
+       source,
+       sampleRate: stream.sampleRate,
++      channels: stream.channels,
+       options: {
+         selection: source.selection,
+         range: parsed.data,
+@@ -186,8 +187,10 @@ export class MediaAudioInspection {
+     };
+   }
+   private sourceRecipe(input: SourceAudioInput) {
+-    const { options, sampleRate: rate } = this.plan(input);
++    const { options, sampleRate: rate, source, channels } = this.plan(input);
+     return {
++      durationUs: source.durationUs,
++      channels,
+       sampleClock:
+         rate === undefined || !Number.isSafeInteger(rate) || rate <= 0
+           ? undefined
+@@ -211,6 +214,37 @@ export class MediaAudioInspection {
+   recipe(input: MediaAudioInput) {
+     return "projectId" in input ? this.projectRecipe(input) : this.sourceRecipe(input);
+   }
++  /** Surrounding analysis samples use the same pinned selector, masks and native audio owner. */
++  context(input: MediaAudioInput, requested: { start: number; end: number }) {
++    const recipe = this.recipe(input),
++      clock = recipe.sampleClock;
++    if (!clock)
++      throw new CatalogError(
++        "UNSUPPORTED_FORMAT",
++        "Audio context requires an integral sample rate",
++      );
++    if (
++      !Number.isSafeInteger(requested.start) ||
++      !Number.isSafeInteger(requested.end) ||
++      requested.start > clock.sampleRange.start ||
++      requested.end < clock.sampleRange.end
++    )
++      throw new CatalogError(
++        "INVALID_RANGE",
++        "Audio context must contain the requested sample range",
++      );
++    const rate = BigInt(clock.sampleRate);
++    const us = (frame: number) => Number((BigInt(frame) * 1_000_000n + rate - 1n) / rate);
++    const start = Math.max(0, requested.start);
++    const end = Math.min(sample(recipe.durationUs, clock.sampleRate), requested.end);
++    return this.recipe({
++      ...recipe.selection,
++      range: {
++        startUs: Math.min(recipe.selection.range.startUs, us(start)),
++        endUs: Math.max(recipe.selection.range.endUs, Math.min(recipe.durationUs, us(end))),
++      },
++    });
++  }
+   private requestSource(input: SourceAudioInput) {
+     const { options, identity } = this.sourceRecipe(input);
+     const { assets, acquisitions, jobs, cache } = this.owners;
+@@ -293,7 +327,7 @@ export class MediaAudioInspection {
+     return plan;
+   }
+   private projectRecipe(input: ProjectAudioInput) {
+-    const { window } = this.projectPlan(input);
++    const { window, durationUs } = this.projectPlan(input);
+     const { range, tap, revisionId } = window.manifest;
+     const options = {
+       range,
+@@ -301,6 +335,8 @@ export class MediaAudioInspection {
+       implementationId: this.owners.project!.renderer.implementationId,
+     };
+     return {
++      durationUs,
++      channels: 2 as const,
+       options,
+       sampleClock: { sampleRate: 48000, sampleRange: window.manifest.sampleRange },
+       selection: { projectId: input.projectId, revisionId, range, tap },
+import Darwin
+import Foundation
+import ScreenRecorderFrames
+import ScreenRecorderMedia
+
+/// Bounded measurements travel in the locked render attempt, not the small command envelope.
+enum AcousticImageOperation {
+    private struct Request: Codable { let input: String }
+
+    static func execute(_ params: [String: Any]) throws -> AcousticImage.Result {
+        let request = try WireRequest.decode(Request.self, from: params)
+        try WireRequest.requireAbsolute(request.input)
+        let descriptor = open(request.input, O_RDONLY | O_NOFOLLOW | O_NONBLOCK)
+        guard descriptor >= 0 else {
+            throw NativeFailure("INVALID_REQUEST", "Cannot open acoustic measurements.")
+        }
+        defer { close(descriptor) }
+        var info = stat()
+        guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG else {
+            throw NativeFailure("INVALID_REQUEST", "Acoustic measurements must be a regular file.")
+        }
+        let maximumBytes = 16 * 1024 * 1024
+        guard info.st_size > 0, info.st_size <= maximumBytes else {
+            throw NativeFailure("LIMIT_EXCEEDED", "Acoustic measurements exceed 16 MiB.")
+        }
+        let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: false)
+        guard let bytes = try handle.read(upToCount: maximumBytes + 1), bytes.count <= maximumBytes else {
+            throw NativeFailure("LIMIT_EXCEEDED", "Acoustic measurements exceed 16 MiB.")
+        }
+        guard let values = try JSONSerialization.jsonObject(with: bytes) as? [String: Any] else {
+            throw NativeFailure("INVALID_REQUEST", "Acoustic measurements must be an object.")
+        }
+        let image = try WireRequest.decode(AcousticImage.Request.self, from: values)
+        try WireRequest.requireAbsolute(image.output)
+        return try AcousticImage.write(image)
+    }
+}
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T11:47:09.814656Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-a35e6c05-e75e-42d7-8d2a-c5c53daa2c1b"
+exec
+/bin/zsh -lc 'git diff -- packages/core/src/audio-inspection.test.ts packages/core/src/project-audio.test.ts helpers/mac/Tests/acoustic-image.test.mjs; cat packages/core/src/cached-derivative.ts; cat apps/service/src/render-attempt.ts; cat package.json' in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+diff --git a/helpers/mac/Tests/acoustic-image.test.mjs b/helpers/mac/Tests/acoustic-image.test.mjs
+index a6b63fa..13d4d78 100644
+--- a/helpers/mac/Tests/acoustic-image.test.mjs
++++ b/helpers/mac/Tests/acoustic-image.test.mjs
+@@ -6,6 +6,8 @@ import {
+   readFileSync,
+   writeFileSync,
+   rmSync,
++  symlinkSync,
++  truncateSync,
+ } from "node:fs";
+ import { tmpdir } from "node:os";
+ import { join } from "node:path";
+@@ -26,10 +28,35 @@ function run(file, args, options = {}) {
+   assert.equal(result.status, 0, String(result.stderr || result.error));
+   return result.stdout;
+ }
++test("acoustic measurement files reject oversized data, links and non-files before rendering", () => {
++  const dir = mkdtempSync(join(tmpdir(), "acoustic-input-"));
++  try {
++    const call = (input) =>
++      JSON.parse(
++        run(native, [], {
++          input:
++            JSON.stringify({ id: "bounds", operation: "media.acousticImage", params: { input } }) +
++            "\n",
++          encoding: "utf8",
++        }),
++      );
++    const large = join(dir, "large.json");
++    writeFileSync(large, "{}");
++    truncateSync(large, 16 * 1024 * 1024 + 1);
++    assert.equal(call(large).error.code, "LIMIT_EXCEEDED");
++    const target = join(dir, "request.json");
++    writeFileSync(target, "{}");
++    symlinkSync(target, join(dir, "link.json"));
++    assert.equal(call(join(dir, "link.json")).error.code, "INVALID_REQUEST");
++    assert.equal(call(dir).error.code, "INVALID_REQUEST");
++    assert.equal(call("relative.json").error.code, "INVALID_REQUEST");
++  } finally {
++    rmSync(dir, { recursive: true, force: true });
++  }
++});
+ test("actual waveform and spectral PNGs preserve absolute sample axes, channel identity and narrow energy", async () => {
+   const dir =
+-    process.env.SCREENREC_ACOUSTIC_EVIDENCE ??
+-    mkdtempSync(join(tmpdir(), "acoustic-image-"));
++    process.env.SCREENREC_ACOUSTIC_EVIDENCE ?? mkdtempSync(join(tmpdir(), "acoustic-image-"));
+   mkdirSync(dir, { recursive: true });
+   try {
+     const rate = 48000,
+@@ -49,14 +76,9 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
+     bytes.write("data", 36);
+     bytes.writeUInt32LE(frames * 8, 40);
+     for (let i = 0; i < frames; i++) {
++      bytes.writeFloatLE(0.125 * Math.cos((2 * Math.PI * 750 * i) / rate), 44 + i * 8);
+       bytes.writeFloatLE(
+-        0.125 * Math.cos((2 * Math.PI * 750 * i) / rate),
+-        44 + i * 8,
+-      );
+-      bytes.writeFloatLE(
+-        i + start === 102000
+-          ? 2
+-          : 0.0625 * Math.cos((2 * Math.PI * 3000 * i) / rate),
++        i + start === 102000 ? 2 : 0.0625 * Math.cos((2 * Math.PI * 3000 * i) / rate),
+         48 + i * 8,
+       );
+     }
+@@ -88,13 +110,15 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
+     let ordinal = 0;
+     const calls = [];
+     function call(params) {
++      const input = join(dir, `request-${ordinal}.json`);
++      writeFileSync(input, JSON.stringify(params));
+       const reply = JSON.parse(
+         run(native, [], {
+           input:
+             JSON.stringify({
+               id: `plot-${ordinal++}`,
+               operation: "media.acousticImage",
+-              params,
++              params: { input },
+             }) + "\n",
+           encoding: "utf8",
+         }),
+@@ -125,12 +149,7 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
+       ];
+     }
+     const signal = new AbortController().signal;
+-    const wave = await waveformBuckets(
+-      reader,
+-      audio,
+-      { bucketFrames: 48 },
+-      signal,
+-    );
++    const wave = await waveformBuckets(reader, audio, { bucketFrames: 48 }, signal);
+     const waveRequest = acousticImageRequest(
+       metadata,
+       { kind: "waveform", data: wave },
+@@ -202,9 +221,7 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
+       { kind: "waveform", data: detail },
+       join(dir, "detail.png"),
+     );
+-    assert.deepEqual(detailRequest.unavailable, [
+-      { start: 101700, end: 101850 },
+-    ]);
++    assert.deepEqual(detailRequest.unavailable, [{ start: 101700, end: 101850 }]);
+     assert.equal(detailRequest.domain, "project");
+     assert.throws(
+       () =>
+@@ -223,12 +240,8 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
+       ),
+     );
+     const detailPixel = raster(detailReply),
+-      detailX =
+-        92 + ((102000 - range.start) / (range.end - range.start)) * 1080;
+-    assert.ok(
+-      detailPixel(detailX + 1, 420)[2] < 230,
+-      "excerpt impulse lost its absolute clock",
+-    );
++      detailX = 92 + ((102000 - range.start) / (range.end - range.start)) * 1080;
++    assert.ok(detailPixel(detailX + 1, 420)[2] < 230, "excerpt impulse lost its absolute clock");
+     processingTapSchema.parse(projectMetadata.tap);
+     const longMetadata = {
+       ...projectMetadata,
+@@ -265,11 +278,7 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
+         columns: Array.from({ length: columns }, (_, c) => ({
+           range: { start: c, end: c + 1 },
+           partial: false,
+-          values: [
+-            Array.from({ length: bins }, (_, b) =>
+-              c === column && b === bin ? 0.01 : 0,
+-            ),
+-          ],
++          values: [Array.from({ length: bins }, (_, b) => (c === column && b === bin ? 0.01 : 0))],
+         })),
+       };
+       const densePixel = raster(call(request));
+@@ -301,7 +310,6 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
+       ),
+     );
+   } finally {
+-    if (!process.env.SCREENREC_ACOUSTIC_EVIDENCE)
+-      rmSync(dir, { recursive: true, force: true });
++    if (!process.env.SCREENREC_ACOUSTIC_EVIDENCE) rmSync(dir, { recursive: true, force: true });
+   }
+ });
+diff --git a/packages/core/src/audio-inspection.test.ts b/packages/core/src/audio-inspection.test.ts
+index 454dbf5..fee6e7b 100644
+--- a/packages/core/src/audio-inspection.test.ts
++++ b/packages/core/src/audio-inspection.test.ts
+@@ -1,4 +1,4 @@
+-import { WaveformInspection } from "./waveform.js";
++import { AcousticInspection, type AcousticRenderer } from "./acoustic-inspection.js";
+ import { randomUUID } from "node:crypto";
+ import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+ import { join } from "node:path";
+@@ -70,6 +70,7 @@ async function fixture(
+   budget?: number,
+   durationUs = 1000000,
+   sampleRate = 48000,
++  raster?: AcousticRenderer,
+ ) {
+   const home = await mkdtemp("/tmp/source-audio-inspection-");
+   const catalog = new Catalog(join(home, "catalog.sqlite"));
+@@ -116,7 +117,7 @@ async function fixture(
+   );
+   await cache.reconcile();
+   let inspection!: MediaAudioInspection;
+-  let waveform!: WaveformInspection;
++  let waveform!: AcousticInspection;
+   let pinHook = () => {};
+   const makeJobs = () =>
+     new JobQueue({
+@@ -134,7 +135,7 @@ async function fixture(
+         isCapturing: () => false,
+       },
+       execute: (execution) =>
+-        execution.job.artifact === "waveform"
++        ["waveform", "spectrum", "acoustic-image"].includes(execution.job.artifact)
+           ? waveform.execute(execution)
+           : inspection.execute(execution),
+     });
+@@ -148,7 +149,12 @@ async function fixture(
+       sourceRenderer: render,
+     });
+   inspection = makeInspection();
+-  waveform = new WaveformInspection({ audio: inspection, jobs, cache });
++  waveform = new AcousticInspection({
++    audio: inspection,
++    jobs,
++    cache,
++    ...(raster ? { renderer: raster } : {}),
++  });
+   cleanup.push(async () => {
+     await jobs.close();
+     catalog.close();
+@@ -170,7 +176,12 @@ async function fixture(
+       await jobs.close();
+       jobs = makeJobs();
+       inspection = makeInspection();
+-      waveform = new WaveformInspection({ audio: inspection, jobs, cache });
++      waveform = new AcousticInspection({
++        audio: inspection,
++        jobs,
++        cache,
++        ...(raster ? { renderer: raster } : {}),
++      });
+       return { jobs, inspection, waveform };
+     },
+     onPin(hook: () => void) {
+@@ -386,6 +397,158 @@ test("long source capacity arithmetic rejects before rendering without losing hi
+   expect(small.jobId).toBeTruthy();
+ });
+ 
++test("acoustic images reuse cached measurements and explicit retry rebuilds evicted dependencies", async () => {
++  let decodes = 0,
++    images = 0;
++  const f = await fixture(
++    {
++      ...renderer,
++      async render(request, signal) {
++        decodes++;
++        return renderer.render(request, signal);
++      },
++    },
++    undefined,
++    1000000,
++    48000,
++    {
++      implementationId: "fixture-raster",
++      async render(request) {
++        images++;
++        const bytes = Buffer.from("external raster fixture");
++        await writeFile(request.output, bytes, { flag: "wx" });
++        return {
++          file: request.output,
++          mediaType: "image/png",
++          bytes: bytes.length,
++          width: 1240,
++          height: 704,
++          provenance: request.provenance,
++          plotLeft: 92,
++          plotWidth: 1080,
++          plotTop: 164,
++          panelHeight: 180,
++          panelStride: 244,
++        };
++      },
++    },
++  );
++  const input = {
++    ...f.selection,
++    range: { startUs: 200000, endUs: 210000 },
++    format: "image" as const,
++  };
++  const prepare = async () => {
++    for (let i = 0; i < 4; i++) {
++      f.waveform.request(input);
++      await f.jobs.idle();
++    }
++    const result = f.waveform.request(input);
++    expect(result.state).toBe("ready");
++    return result;
++  };
++  const first = await prepare();
++  expect(first.published!.artifact.mediaType).toBe("image/png");
++  const measurements = f.waveform.request({ ...input, format: "json" });
++  const pcm = f.inspection.request({ ...f.selection, range: input.range }).published!.audio;
++  f.cache.remove(pcm.cacheId);
++  f.cache.remove(first.published!.artifact.cacheId);
++  const second = await prepare();
++  expect([decodes, images]).toEqual([1, 2]);
++  f.cache.remove(measurements.published!.artifact.cacheId);
++  expect(f.waveform.request(input).published).toEqual(second.published);
++  f.cache.remove(second.published!.artifact.cacheId);
++  f.waveform.request(input);
++  await f.jobs.idle();
++  expect(f.waveform.request(input).state).toBe("failed");
++  f.waveform.retry(input);
++  await f.jobs.idle();
++  await prepare();
++  expect([decodes, images]).toEqual([2, 3]);
++});
++
++test("cached spectral jobs preserve full versus ranged measurements and survive PCM eviction", async () => {
++  const f = await fixture({
++    ...renderer,
++    async render(request, signal) {
++      const receipt = (await renderer.render(request, signal)) as {
++        sampleRange: { start: number; end: number };
++      };
++      const bytes = await readFile(request.output);
++      for (let i = receipt.sampleRange.start; i < receipt.sampleRange.end; i++) {
++        bytes.writeFloatLE(Math.sin(i * 0.17) * 0.3, 44 + (i - receipt.sampleRange.start) * 8);
++        bytes.writeFloatLE(i === 9841 ? 0.9 : -0.1, 48 + (i - receipt.sampleRange.start) * 8);
++      }
++      await writeFile(request.output, bytes);
++      return receipt;
++    },
++  });
++  const input = {
++    ...f.selection,
++    acquisitionId: "mask",
++    kind: "spectrum" as const,
++    fftFrames: 256,
++    hopFrames: 128,
++  };
++  const prepare = async (range: { startUs: number; endUs: number }) => {
++    f.waveform.request({ ...input, range });
++    await f.jobs.idle();
++    f.waveform.request({ ...input, range });
++    await f.jobs.idle();
++    const result = f.waveform.request({ ...input, range });
++    expect(result.state).toBe("ready");
++    return result;
++  };
++  const full = await prepare({ startUs: 200000, endUs: 220000 });
++  const narrow = await prepare({ startUs: 203333, endUs: 208337 });
++  const whole = JSON.parse(await readFile(full.published!.artifact.file, "utf8"));
++  const detail = JSON.parse(await readFile(narrow.published!.artifact.file, "utf8"));
++  expect(whole.unavailable).toEqual([]);
++  expect(detail.sampleRange).toEqual({ start: 9759, end: 10000 });
++  expect(detail.range).toEqual({ startUs: 203333, endUs: 208337 });
++  for (const [i, column] of detail.columns.entries()) {
++    const j = whole.columns.findIndex(
++      (other: { gridStart: number }) => other.gridStart === column.gridStart,
++    );
++    expect(j).toBeGreaterThanOrEqual(0);
++    expect(detail.density.slice(i * 258, (i + 1) * 258)).toEqual(
++      whole.density.slice(j * 258, (j + 1) * 258),
++    );
++    expect(column.partial).toBe(false);
++  }
++  const audio = JSON.parse(f.jobs.status(f.jobs.job(narrow.dependency.jobId!)).published!.result);
++  f.cache.remove(audio.cacheId);
++  expect(f.waveform.request({ ...input, range: detail.range }).published).toEqual(narrow.published);
++});
++
++test("audio context keeps source selection and rounds outward without crossing source extent", async () => {
++  const f = await fixture();
++  const input = {
++    ...f.selection,
++    acquisitionId: "mask",
++    range: { startUs: 333333, endUs: 533337 },
++  };
++  const context = f.inspection.context(input, { start: 15967, end: 25632 });
++  expect(context.selection).toEqual({ ...input, range: { startUs: 332646, endUs: 534000 } });
++  expect(context.sampleClock).toMatchObject({ sampleRange: { start: 15967, end: 25632 } });
++  const pending = f.inspection.request(context.selection);
++  await f.jobs.idle();
++  expect(f.inspection.request(context.selection).published!.audio).toMatchObject({
++    assetId: f.asset.id,
++    streamId: "a",
++    acquisitionId: "mask",
++    sampleRange: { start: 15967, end: 25632 },
++    unavailable: [],
++  });
++  expect(pending.jobId).toBeTruthy();
++  const edge = f.inspection.context(
++    { ...f.selection, range: { startUs: 0, endUs: 1000000 } },
++    { start: -32, end: 48032 },
++  );
++  expect(edge.selection.range).toEqual({ startUs: 0, endUs: 1000000 });
++  expect(() => f.inspection.context(input, { start: 16000, end: 25632 })).toThrow(/contain/);
++});
++
+ test("waveform jobs reuse bounded audio recipes, publish source axes and survive eviction of PCM", async () => {
+   let renders = 0;
+   const f = await fixture({
+@@ -406,7 +569,7 @@ test("waveform jobs reuse bounded audio recipes, publish source axes and survive
+   f.waveform.request(input);
+   await f.jobs.idle();
+   const ready = f.waveform.request(input),
+-    artifact = ready.published!.waveform;
++    artifact = ready.published!.artifact;
+   expect(ready.state).toBe("ready");
+   expect(renders).toBe(1);
+   const document = JSON.parse(await readFile(artifact.file, "utf8"));
+@@ -455,7 +618,7 @@ test("waveform jobs reuse bounded audio recipes, publish source axes and survive
+   await f.jobs.idle();
+   const rebuilt = f.waveform.request(input);
+   expect(rebuilt.state).toBe("ready");
+-  expect(rebuilt.published!.waveform.audio.generation).toBe(2);
++  expect(rebuilt.published!.artifact.audio.generation).toBe(2);
+   expect(renders).toBe(2);
+ });
+ 
+@@ -504,7 +667,7 @@ test("audio generation changes cannot publish stale waveform work and cancellati
+   await f.jobs.idle();
+   const ready = f.waveform.request(f.selection);
+   expect(ready.state).toBe("ready");
+-  expect(ready.published!.waveform.audio.generation).toBe(2);
++  expect(ready.published!.artifact.audio.generation).toBe(2);
+ });
+ 
+ test("default full-source overview handles longer tracks and persisted waveform survives owner restart", async () => {
+@@ -515,11 +678,11 @@ test("default full-source overview handles longer tracks and persisted waveform
+   await f.jobs.idle();
+   const ready = f.waveform.request(f.selection);
+   expect(ready.state).toBe("ready");
+-  expect(ready.published!.waveform.bucketCount).toBeLessThanOrEqual(1025);
+-  expect(ready.published!.waveform.range.endUs).toBe(120000000);
++  expect(ready.published!.artifact.bucketCount).toBeLessThanOrEqual(1025);
++  expect(ready.published!.artifact.range.endUs).toBe(120000000);
+   const { waveform } = await f.restart();
+   expect(waveform.request(f.selection).published).toEqual(ready.published);
+-  const artifact = ready.published!.waveform;
++  const artifact = ready.published!.artifact;
+   const before = await readFile(artifact.file);
+   const held = f.cache.acquire(artifact.cacheId)!;
+   expect(() => f.cache.remove(artifact.cacheId)).toThrow(
+@@ -565,7 +728,7 @@ test.each(["failed", "canceled"] as const)(
+     await next.jobs.idle();
+     const ready = next.waveform.request(f.selection);
+     expect(ready.state).toBe("ready");
+-    expect(ready.published!.waveform.audio).toEqual({ jobId: pending.jobId, generation: 2 });
++    expect(ready.published!.artifact.audio).toEqual({ jobId: pending.jobId, generation: 2 });
+     expect(calls).toBe(2);
+   },
+ );
+diff --git a/packages/core/src/project-audio.test.ts b/packages/core/src/project-audio.test.ts
+index c66004d..926c697 100644
+--- a/packages/core/src/project-audio.test.ts
++++ b/packages/core/src/project-audio.test.ts
+@@ -1,5 +1,5 @@
+ import { spectralWindows } from "./audio-spectrum.js";
+-import { WaveformInspection } from "./waveform.js";
++import { AcousticInspection } from "./acoustic-inspection.js";
+ import { waveformBuckets } from "./audio-wave.js";
+ import { spawnSync } from "node:child_process";
+ import { randomUUID } from "node:crypto";
+@@ -81,7 +81,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
+   );
+   await cache.reconcile();
+   let inspection!: MediaAudioInspection;
+-  let waveform!: WaveformInspection;
++  let waveform!: AcousticInspection;
+   const jobs = new JobQueue({
+     store: catalog,
+     providers: { newId: randomUUID },
+@@ -112,7 +112,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
+     },
+     project: { projects, renderer: { implementationId: "fixture-audio", render: renderer } },
+   });
+-  waveform = new WaveformInspection({ audio: inspection, jobs, cache });
++  waveform = new AcousticInspection({ audio: inspection, jobs, cache });
+   cleanups.push(async () => {
+     await jobs.close();
+     catalog.close();
+@@ -215,6 +215,29 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
+   };
+ }
+ 
++test("surrounding project audio preserves the pinned revision and requested processing tap", async () => {
++  const f = await fixture();
++  const input = {
++    projectId: f.projectId,
++    revisionId: f.placed.revision.id,
++    range: { startUs: 500000, endUs: 999999 },
++    tap: {
++      target: { kind: "track" as const, id: f.placed.edit.labels.voice! },
++      point: { kind: "dry" as const },
++    },
++  };
++  const context = f.inspection.context(input, { start: 23968, end: 48032 });
++  expect(context.selection).toEqual({ ...input, range: { startUs: 499334, endUs: 1000000 } });
++  expect(context.sampleClock).toMatchObject({ sampleRange: { start: 23968, end: 48000 } });
++  f.inspection.request(context.selection);
++  await f.jobs.idle();
++  expect(f.inspection.request(context.selection).published!.audio).toMatchObject({
++    revisionId: input.revisionId,
++    tap: input.tap,
++    sampleRange: { start: 23968, end: 48000 },
++  });
++});
++
+ test("project audio taps bind only their descendants and target-owned processing, with absolute sample clocks", async () => {
+   const requests: Parameters<ProjectAudioRenderer["render"]>[0][] = [];
+   const f = await fixture(async (request, signal) => {
+@@ -429,7 +452,7 @@ test.runIf(Boolean(process.env.SCREENREC_NATIVE))(
+         await f.jobs.idle();
+         const acoustic = f.waveform.request({ ...input, bucketFrames: 480 });
+         expect(acoustic.state).toBe("ready");
+-        const document = JSON.parse(await readFile(acoustic.published!.waveform.file, "utf8"));
++        const document = JSON.parse(await readFile(acoustic.published!.artifact.file, "utf8"));
+         expect(document).toMatchObject({
+           domain: "project",
+           projectId: f.projectId,
+import type { Job, JobLane, JobQueue } from "./jobs.js";
+import type { DerivedCache } from "./cache.js";
+
+/** Published metadata does not make an evicted derivative ready. Regeneration keeps the same
+ * pinned job identity and uses the queue's existing generation/retry policy. */
+export function submitCachedDerivative<Value extends { cacheId: string }>(
+  jobs: JobQueue,
+  cache: DerivedCache,
+  identity: Pick<Job, "target" | "artifact" | "input">,
+  lane: JobLane,
+  admitted?: (job: Job) => void,
+) {
+  jobs.submit({ ...identity, lane }, admitted);
+  let status = jobs.status(identity);
+  if (status.published) {
+    const read = cache.acquire((JSON.parse(status.published.result) as Value).cacheId);
+    if (read) read.release();
+    else {
+      jobs.regenerate(status.jobId!, status.published.generation);
+      status = jobs.status(identity);
+    }
+  }
+  return {
+    state: status.state,
+    reason: status.reason,
+    retryable: status.retryable,
+    jobId: status.jobId,
+    published: status.published
+      ? {
+          generation: status.published.generation,
+          value: JSON.parse(status.published.result) as Value,
+        }
+      : null,
+  };
+}
+cat: apps/service/src/render-attempt.ts: No such file or directory
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+
+2026-09-28T11:47:15.983640Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-2ee8637b-a9f4-41bb-bbb1-d578b3705496"
+2026-09-28T11:47:20.502034Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-b6639832-b4ea-48f5-99c5-9c108f0aa64e"
+ succeeded in 30922ms:
+../photoctl/target/ort-runtime/6d66f175d6c1405606dd46d05675ec725e10ebe39f187fa20972d43872e7926d/source/AGENTS.md
+../photoctl/target/ort-runtime/6d66f175d6c1405606dd46d05675ec725e10ebe39f187fa20972d43872e7926d/build/_deps/kleidiai-src/AGENTS.md
+../photoctl/AGENTS.md
+../agentphone/AGENTS.md
+../duet-agent/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet/AGENTS.md
+../screen-recorder-acquisition-composition/AGENTS.md
+../screen-recorder-acquisition-composition/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../chat-app/AGENTS.md
+../game/AGENTS.md
+../screen-recorder/AGENTS.md
+../screen-recorder/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screen-recorder/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../battlegame/.claude/worktrees/agent-ab04b348b2930cbd2/AGENTS.md
+../battlegame/.claude/worktrees/agent-a41df7103afacd021/AGENTS.md
+../battlegame/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/research-assistant/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/packages/official-agents-seed/content/agents/writing-editor/AGENTS.md
+../duet-interview/scenarios/campaign-attribution/code/AGENTS.md
+../agentlogs/node_modules/.bun/recharts@3.8.0+cc24ebc1a65b5eee/node_modules/recharts/AGENTS.md
+../agentlogs/AGENTS.md
+../factory/AGENTS.md
+../3d-harness/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+ apps/cli/src/artifact-delivery.test.ts            |  14 ++
+ apps/cli/src/artifact-delivery.ts                 |  11 +-
+ apps/cli/src/main.ts                              |   2 +
+ apps/service/src/operations.ts                    |   4 +-
+ apps/service/src/project-service.ts               |  51 ++++-
+ helpers/mac/Sources/ScreenRecorderWire/Wire.swift |   6 +-
+ helpers/mac/Tests/acoustic-image.test.mjs         |  72 ++++---
+ packages/core/package.json                        |   6 +-
+ packages/core/src/acoustic-image.ts               |  25 +--
+ packages/core/src/audio-inspection.test.ts        | 187 +++++++++++++++--
+ packages/core/src/audio-inspection.ts             |  40 +++-
+ packages/core/src/project-audio.test.ts           |  31 ++-
+ packages/core/src/project-window.ts               |   2 +-
+ packages/core/src/waveform.ts                     | 238 ----------------------
+ packages/protocol/src/operations.ts               |  28 ++-
+ 15 files changed, 386 insertions(+), 331 deletions(-)
+diff --git a/apps/cli/src/artifact-delivery.test.ts b/apps/cli/src/artifact-delivery.test.ts
+index c248ce4..ca8b1bc 100644
+--- a/apps/cli/src/artifact-delivery.test.ts
++++ b/apps/cli/src/artifact-delivery.test.ts
+@@ -357,3 +357,17 @@ test("invalid JSON evidence fails as a delivery error and releases its lease", a
+   });
+   expect(f.closes()).toBe(1);
+ });
++
++test.each(["waveform", "spectrogram"])(
++  "%s images use the shared image delivery and close the lease",
++  async (kind) => {
++    const bytes = Buffer.from("external PNG transport fixture");
++    const f = await fixture(bytes);
++    const response = {
++      ...f.result,
++      data: { ...(f.result.data as object), published: { [kind]: { mediaType: "image/png" } } },
++    };
++    expect(await artifactBytes(f.selection, response)).toEqual({ bytes, mediaType: "image/png" });
++    expect(f.closes()).toBe(1);
++  },
++);
+diff --git a/apps/cli/src/artifact-delivery.ts b/apps/cli/src/artifact-delivery.ts
+index c1cb2b0..84f71a3 100644
+--- a/apps/cli/src/artifact-delivery.ts
++++ b/apps/cli/src/artifact-delivery.ts
+@@ -27,7 +27,8 @@ const ready = z.object({
+     z.object({ frame: z.object({ mediaType: z.literal("image/png") }) }),
+     z.object({ audio: z.object({ mediaType: z.literal("audio/wav") }) }),
+     z.object({ preview: z.object({ mediaType: z.literal("video/mp4") }) }),
+-    z.object({ waveform: z.object({ mediaType: z.literal("application/json") }) }),
++    z.object({ spectrogram: z.object({ mediaType: z.literal("image/png") }) }),
++    z.object({ waveform: z.object({ mediaType: z.enum(["application/json", "image/png"]) }) }),
+   ]),
+ });
+ const chunk = z.object({
+@@ -59,9 +60,11 @@ async function consumeArtifact<T>(
+       ? "image/png"
+       : "audio" in parsed.data.published
+         ? "audio/wav"
+-        : "waveform" in parsed.data.published
+-          ? "application/json"
+-          : "video/mp4";
++        : "spectrogram" in parsed.data.published
++          ? "image/png"
++          : "waveform" in parsed.data.published
++            ? parsed.data.published.waveform.mediaType
++            : "video/mp4";
+   const socket = await resolveServiceSocket(selection);
+   async function* chunks() {
+     let offset = 0;
+diff --git a/apps/cli/src/main.ts b/apps/cli/src/main.ts
+index e1b085a..1d067f8 100644
+--- a/apps/cli/src/main.ts
++++ b/apps/cli/src/main.ts
+@@ -46,6 +46,8 @@ const artifactOperations = new Set([
+   "audio.retry",
+   "waveform.get",
+   "waveform.retry",
++  "spectrogram.get",
++  "spectrogram.retry",
+ ]);
+ 
+ function failure(
+diff --git a/apps/service/src/operations.ts b/apps/service/src/operations.ts
+index b8fc59c..c8d5e01 100644
+--- a/apps/service/src/operations.ts
++++ b/apps/service/src/operations.ts
+@@ -380,9 +380,11 @@ export async function operate(
+         };
+       case "waveform.get":
+       case "waveform.retry":
++      case "spectrogram.get":
++      case "spectrogram.retry":
+         return operationError(
+           "NOT_READY",
+-          "Waveform inspection requires the project service until cutover",
++          "Acoustic inspection requires the project service until cutover",
+         );
+       case "artifact.renew":
+         return { ok: true, data: delivery.renew(operation.params.token) };
+diff --git a/apps/service/src/project-service.ts b/apps/service/src/project-service.ts
+index 6ab6f04..aef10eb 100644
+--- a/apps/service/src/project-service.ts
++++ b/apps/service/src/project-service.ts
+@@ -1,4 +1,5 @@
+-import { WaveformInspection } from "@screenrec/core/waveform";
++import { writeFile } from "node:fs/promises";
++import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
+ import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
+ import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
+ import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
+@@ -132,7 +133,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
+     let transcripts: TranscriptProcessing;
+     let projectEvidence: ProjectEvidenceInspection;
+     let mediaAudio: MediaAudioInspection;
+-    let waveforms: WaveformInspection;
++    let acoustics: AcousticInspection;
+     const queue = new JobQueue({
+       store: catalog,
+       targets,
+@@ -143,9 +144,9 @@ export async function startProjectService(options: { home: string; worker?: Medi
+       execute: async ({ job, signal }) => {
+         if (
+           (job.target.kind === "asset" || job.target.kind === "project") &&
+-          job.artifact === "waveform"
++          ["waveform", "spectrum", "acoustic-image"].includes(job.artifact)
+         )
+-          return waveforms.execute({ job, signal });
++          return acoustics.execute({ job, signal });
+         if (
+           (job.target.kind === "project" || job.target.kind === "asset") &&
+           job.artifact === "frame"
+@@ -232,7 +233,28 @@ export async function startProjectService(options: { home: string; worker?: Medi
+           ),
+       },
+     });
+-    waveforms = new WaveformInspection({ audio: mediaAudio, jobs: queue, cache });
++    acoustics = new AcousticInspection({
++      audio: mediaAudio,
++      jobs: queue,
++      cache,
++      renderer: {
++        implementationId: "native-acoustic-image-v1",
++        render: async (request, signal) =>
++          withRenderedFile(
++            worker,
++            { attemptParent: workspace, output: request.output, filename: "frame.png" },
++            signal,
++            async (output, execute) => {
++              const bytes = Buffer.from(JSON.stringify({ ...request, output }));
++              if (bytes.length > 16 * 1024 * 1024)
++                throw new CatalogError("LIMIT_EXCEEDED", "Acoustic measurements exceed 16 MiB");
++              const input = output + ".json";
++              await writeFile(input, bytes, { flag: "wx", signal });
++              return nativeResult(await execute("media.acousticImage", { input }, { signal }));
++            },
++          ),
++      },
++    });
+     projectEvidence = new ProjectEvidenceInspection({
+       projects,
+       assets,
+@@ -452,20 +474,31 @@ export async function startProjectService(options: { home: string; worker?: Medi
+             };
+           }
+           case "waveform.get":
+-          case "waveform.retry": {
+-            const status = waveforms[operation.operation === "waveform.get" ? "request" : "retry"](
+-              operation.params,
++          case "waveform.retry":
++          case "spectrogram.get":
++          case "spectrogram.retry": {
++            const spectrum = operation.operation.startsWith("spectrogram.");
++            const status = acoustics[operation.operation.endsWith(".get") ? "request" : "retry"](
++              spectrum
++                ? { ...operation.params, kind: "spectrum", format: "image" }
++                : operation.params,
+             );
+             return {
+               ok: true,
+               data: {
+                 ...status,
++                published: status.published
++                  ? {
++                      generation: status.published.generation,
++                      [spectrum ? "spectrogram" : "waveform"]: status.published.artifact,
++                    }
++                  : null,
+                 delivery: status.published
+                   ? delivery.open(
+                       "projectId" in status
+                         ? { kind: "project", id: status.projectId }
+                         : { kind: "asset", id: status.assetId },
+-                      () => cache.acquire(status.published!.waveform.cacheId),
++                      () => cache.acquire(status.published!.artifact.cacheId),
+                     )
+                   : null,
+               },
+diff --git a/packages/core/package.json b/packages/core/package.json
+index 8afde26..c135eec 100644
+--- a/packages/core/package.json
++++ b/packages/core/package.json
+@@ -208,9 +208,9 @@
+       "types": "./dist/audio-wave.d.ts",
+       "default": "./dist/audio-wave.js"
+     },
+-    "./waveform": {
+-      "types": "./dist/waveform.d.ts",
+-      "default": "./dist/waveform.js"
++    "./acoustic-inspection": {
++      "types": "./dist/acoustic-inspection.d.ts",
++      "default": "./dist/acoustic-inspection.js"
+     },
+     "./audio-spectrum": {
+       "types": "./dist/audio-spectrum.d.ts",
+diff --git a/packages/core/src/project-window.ts b/packages/core/src/project-window.ts
+index 0499069..0dda3a1 100644
+--- a/packages/core/src/project-window.ts
++++ b/packages/core/src/project-window.ts
+@@ -88,5 +88,5 @@ export function projectWindow(
+       originUs: asset.originUs,
+     });
+   }
+-  return { window: bound, assets: [...bindings.values()] };
++  return { window: bound, assets: [...bindings.values()], durationUs: model.durationUs };
+ }
+diff --git a/packages/protocol/src/operations.ts b/packages/protocol/src/operations.ts
+index 834d1b2..18c511e 100644
+--- a/packages/protocol/src/operations.ts
++++ b/packages/protocol/src/operations.ts
+@@ -166,12 +166,24 @@ const audioParams = z.union([
+   }).options,
+   sourceAudioParams,
+ ]);
+-const waveformFields = { bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional() };
++const waveformFields = {
++  bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional(),
++  format: z.enum(["json", "image"]).optional(),
++};
+ const waveformParams = z.union([
+   projectAudioParams.extend(waveformFields),
+   sourceAudioParams.extend(waveformFields),
+ ]);
+ 
++const spectrumFields = {
++  fftFrames: z.int().min(16).max(8192).optional(),
++  hopFrames: z.int().positive().max(8192).optional(),
++};
++const spectrogramParams = z.union([
++  projectAudioParams.extend(spectrumFields),
++  sourceAudioParams.extend(spectrumFields),
++]);
++
+ const indexFields = { revisionId: id, generation: id };
+ const indexPosition = { ...indexFields, afterOrdinal: z.int().nonnegative() };
+ const coveragePosition = {
+@@ -673,7 +685,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
+     .object({ operation: z.literal("waveform.get"), params: waveformParams })
+     .strict()
+     .describe(
+-      "Inspect a selected audio source or project processing tap as per-channel min/max/RMS JSON. Uses audio.get selectors and range in the selected time domain. Omit bucketFrames for an automatic overview; set a positive sample count for finer inspection (maximum 4096 buckets). Returned sample bounds and resolution are exact; unavailable support is not proof of silence. CLI writes JSON to --output; MCP returns its JSON text. Pin the returned project revision while polling. This measures audio and never edits it.",
++      "Inspect a selected audio source or project processing tap as per-channel min/max/RMS JSON or a labeled image with format:image. Uses audio.get selectors and range in the selected time domain. Omit bucketFrames for an automatic overview; set a positive sample count for finer inspection (maximum 4096 buckets). Returned sample bounds and resolution are exact; unavailable support is not proof of silence. CLI writes JSON to --output; MCP returns its JSON text or image. Pin the returned project revision while polling. This measures audio and never edits it.",
+     ),
+   z
+     .object({ operation: z.literal("waveform.retry"), params: waveformParams })
+@@ -681,6 +693,18 @@ export const operationSchema = z.discriminatedUnion("operation", [
+     .describe(
+       "Explicitly retry waveform preparation and its audio prerequisite using the same pinned selection, range, tap and resolution.",
+     ),
++  z
++    .object({ operation: z.literal("spectrogram.get"), params: spectrogramParams })
++    .strict()
++    .describe(
++      "Inspect a bounded selected-source or project audio tap as a time/frequency image. Uses audio selectors and the selected clock. Defaults to fftFrames:1024 and hopFrames:512; FFT must be a power of two, hop no larger than FFT. Narrow the range when the 262144 channel/time/frequency-cell limit is exceeded. Surrounding PCM preserves range/full alignment; unavailable support is distinct from silence. Channels remain separate. Labels report density in dB relative to full-scale squared per Hz, with a fixed display floor; the image cannot establish speech quality. Pin revision while polling.",
++    ),
++  z
++    .object({ operation: z.literal("spectrogram.retry"), params: spectrogramParams })
++    .strict()
++    .describe(
++      "Explicitly retry the same spectrogram, including failed measurements and audio prerequisites.",
++    ),
+   z
+     .object({
+       operation: z.literal("artifact.read"),
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+exec
+/bin/zsh -lc "rg 'waveform|spectrogram' apps/mcp apps/cli/src; rg -n 'withRenderedFile' apps/service/src; cat packages/core/src/audio-spectrum.ts | head -180; sed -n '1,150p' specs/recording-for-ai/README.md; cat packages/core/package.json | tail -30" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+rg: apps/mcp: No such file or directory (os error 2)
+apps/cli/src/main.test.ts:  expect(required("waveform.get")).toEqual([["projectId"], ["assetId", "streamId"]]);
+apps/cli/src/main.test.ts:  expect(required("waveform.retry")).toEqual(required("waveform.get"));
+apps/cli/src/artifact-delivery.test.ts:              ? { waveform: { mediaType } }
+apps/cli/src/artifact-delivery.test.ts:test("waveform JSON streams unchanged and uses bounded buffered delivery with lease cleanup", async () => {
+apps/cli/src/artifact-delivery.test.ts:  const folder = await mkdtemp("/tmp/scr-waveform-delivery-");
+apps/cli/src/artifact-delivery.test.ts:  const output = folder + "/waveform.json";
+apps/cli/src/artifact-delivery.test.ts:test.each(["waveform", "spectrogram"])(
+apps/cli/src/artifact-delivery.ts:    z.object({ spectrogram: z.object({ mediaType: z.literal("image/png") }) }),
+apps/cli/src/artifact-delivery.ts:    z.object({ waveform: z.object({ mediaType: z.enum(["application/json", "image/png"]) }) }),
+apps/cli/src/artifact-delivery.ts:        : "spectrogram" in parsed.data.published
+apps/cli/src/artifact-delivery.ts:          : "waveform" in parsed.data.published
+apps/cli/src/artifact-delivery.ts:            ? parsed.data.published.waveform.mediaType
+apps/cli/src/artifact-delivery.ts:        "application/json": "waveform.json",
+apps/cli/src/main.ts:  "waveform.get",
+apps/cli/src/main.ts:  "waveform.retry",
+apps/cli/src/main.ts:  "spectrogram.get",
+apps/cli/src/main.ts:  "spectrogram.retry",
+apps/service/src/project-service.ts:20:import { clearRenderWorkspace, withRenderedFile } from "./render.js";
+apps/service/src/project-service.ts:218:          withRenderedFile(
+apps/service/src/project-service.ts:243:          withRenderedFile(
+apps/service/src/project-service.ts:283:          withRenderedFile(
+apps/service/src/render.ts:272:export async function withRenderedFile(
+apps/service/src/project-render.ts:8:import { withRenderAttempt, withRenderedFile } from "./render.js";
+apps/service/src/project-render.ts:84:      withRenderedFile(
+apps/service/src/project-render.ts:110:      withRenderedFile(
+apps/service/src/render.test.ts:24:  withRenderedFile,
+apps/service/src/render.test.ts:386:    const receipt = await withRenderedFile(
+apps/service/src/render.test.ts:397:      withRenderedFile(run, { attemptParent: parent, output, filename }, signal, produce),
+apps/service/src/render.test.ts:403:      withRenderedFile(
+apps/service/src/render.test.ts:422:  const pending = withRenderedFile(
+apps/service/src/render.test.ts:456:    import {withRenderedFile} from ${JSON.stringify(pathToFileURL(join(home, "render.mjs")).href)};
+apps/service/src/render.test.ts:458:    await withRenderedFile(mediaWorker({SCREENREC_NATIVE:${JSON.stringify(executable)}}),
+apps/service/src/render.test.ts:528:    withRenderedFile(
+apps/service/src/render.test.ts:595:      withRenderedFile(
+import { setImmediate } from "node:timers/promises";
+import { CatalogError } from "./catalog.js";
+import type { RetainedRead } from "./files.js";
+import { sampleGrid, validateAudioWave, type AudioSamples } from "./audio-wave.js";
+
+export type SpectralOptions = {
+  fftFrames: number;
+  hopFrames: number;
+  window?: "hann" | "rectangular";
+  sampleRange?: { start: number; end: number };
+};
+/** Unnormalized forward radix-two transform; spectrum normalization belongs to the window owner. */
+function transform(real: Float64Array, imaginary: Float64Array) {
+  const n = real.length;
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+    for (; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if (i < j) {
+      [real[i], real[j]] = [real[j]!, real[i]!];
+      [imaginary[i], imaginary[j]] = [imaginary[j]!, imaginary[i]!];
+    }
+  }
+  for (let length = 2; length <= n; length *= 2) {
+    const angle = (-2 * Math.PI) / length,
+      stepReal = Math.cos(angle),
+      stepImaginary = Math.sin(angle);
+    for (let begin = 0; begin < n; begin += length) {
+      let wr = 1,
+        wi = 0;
+      for (let j = 0; j < length / 2; j++) {
+        const even = begin + j,
+          odd = even + length / 2,
+          vr = real[odd]! * wr - imaginary[odd]! * wi,
+          vi = real[odd]! * wi + imaginary[odd]! * wr;
+        real[odd] = real[even]! - vr;
+        imaginary[odd] = imaginary[even]! - vi;
+        real[even] = real[even]! + vr;
+        imaginary[even] = imaginary[even]! + vi;
+        const next = wr * stepReal - wi * stepImaginary;
+        wi = wr * stepImaginary + wi * stepReal;
+        wr = next;
+      }
+    }
+  }
+}
+/** Plan the displayed grid and surrounding PCM before preparing or opening audio. */
+export function spectralLayout(
+  audio: Pick<AudioSamples, "sampleRange" | "frames" | "channels">,
+  options: SpectralOptions,
+) {
+  const n = options.fftFrames,
+    hop = options.hopFrames,
+    window = options.window ?? "hann";
+  if (
+    !Number.isInteger(n) ||
+    n < 16 ||
+    n > 8192 ||
+    (n & (n - 1)) !== 0 ||
+    !Number.isInteger(hop) ||
+    hop < 1 ||
+    hop > n ||
+    !["hann", "rectangular"].includes(window)
+  )
+    throw new CatalogError(
+      "INVALID_PARAMS",
+      "Spectrum needs a power-of-two fftFrames from 16 through 8192, hopFrames from 1 through fftFrames, and hann or rectangular window",
+    );
+  const { range, firstGrid } = sampleGrid(audio, {
+    bucketFrames: hop,
+    ...(options.sampleRange ? { sampleRange: options.sampleRange } : {}),
+  });
+  const count = Math.ceil((range.end - firstGrid) / hop),
+    bins = n / 2 + 1,
+    cells = count * bins * audio.channels;
+  if (cells > 262144)
+    throw new CatalogError(
+      "LIMIT_EXCEEDED",
+      "Spectrum exceeds 262144 channel/time/frequency cells; narrow the window or increase hopFrames",
+      { maximumCells: 262144 },
+    );
+  const context = {
+    start: firstGrid + Math.floor(hop / 2) - n / 2,
+    end: firstGrid + (count - 1) * hop + Math.floor(hop / 2) + n / 2,
+  };
+  if (!Number.isSafeInteger(context.start) || !Number.isSafeInteger(context.end))
+    throw new CatalogError(
+      "INVALID_RANGE",
+      "Spectrum analysis window exceeds safe sample accounting",
+    );
+  return { range, firstGrid, count, bins, cells, context, fftFrames: n, hopFrames: hop, window };
+}
+/** No detrending/downmixing. Caller retains the same published PCM lease through every yield. */
+export async function spectralWindows(
+  file: RetainedRead,
+  audio: AudioSamples,
+  options: SpectralOptions,
+  signal: AbortSignal,
+) {
+  signal.throwIfAborted();
+  const {
+    range,
+    firstGrid,
+    count,
+    bins,
+    cells,
+    fftFrames: n,
+    hopFrames: hop,
+    window,
+  } = spectralLayout(audio, options);
+  const { dataOffset } = validateAudioWave(file, audio),
+    block = Buffer.alloc(n * audio.channels * 4),
+    weights = new Float64Array(n),
+    real = new Float64Array(n),
+    imaginary = new Float64Array(n),
+    density = new Float64Array(cells);
+  let energy = 0,
+    readFrames = 0;
+  for (let i = 0; i < n; i++) {
+    weights[i] = window === "hann" ? 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / n) : 1;
+    energy += weights[i]! ** 2;
+  }
+  const columns: {
+    gridStart: number;
+    sampleRange: { start: number; end: number };
+    center: number;
+    analysis: { start: number; end: number };
+    available: { start: number; end: number };
+    partial: boolean;
+  }[] = [];
+  for (let index = 0; index < count; index++) {
+    signal.throwIfAborted();
+    const gridStart = firstGrid + index * hop,
+      center = gridStart + Math.floor(hop / 2),
+      analysis = { start: center - n / 2, end: center + n / 2 };
+    const available = {
+      start: Math.max(analysis.start, audio.sampleRange.start),
+      end: Math.min(analysis.end, audio.sampleRange.end),
+    };
+    const frames = available.end - available.start,
+      bytes = frames * audio.channels * 4;
+    if (
+      file.read(
+        block.subarray(0, bytes),
+        dataOffset + (available.start - audio.sampleRange.start) * audio.channels * 4,
+      ) !== bytes
+    )
+      throw new CatalogError("INVALID_RESPONSE", "Truncated spectrum PCM");
+    readFrames += frames;
+    for (let channel = 0; channel < audio.channels; channel++) {
+      real.fill(0);
+      imaginary.fill(0);
+      for (let i = 0; i < frames; i++) {
+        const value = block.readFloatLE((i * audio.channels + channel) * 4);
+        if (!Number.isFinite(value))
+          throw new CatalogError("INVALID_RESPONSE", "Spectrum PCM contains a non-finite sample");
+        const at = available.start - analysis.start + i;
+        real[at] = value * weights[at]!;
+      }
+      transform(real, imaginary);
+      for (let bin = 0; bin < bins; bin++)
+        density[(index * audio.channels + channel) * bins + bin] =
+          ((real[bin]! ** 2 + imaginary[bin]! ** 2) / (audio.sampleRate * energy)) *
+          (bin === 0 || bin === n / 2 ? 1 : 2);
+    }
+    columns.push({
+      gridStart,
+      sampleRange: {
+        start: Math.max(gridStart, range.start),
+        end: Math.min(gridStart + hop, range.end),
+      },
+      center,
+      analysis,
+      available,
+      partial: frames !== n,
+    });
+    await setImmediate(undefined, { signal });
+  }
+  return {
+    sampleRate: audio.sampleRate,
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
+outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
+it fixed three real defects, the worst of which let a cut of one word silently delete the next.
+
+Needing this person rather than a check:
+
+- **System audio:** a take with something playing, which a check must not make this Mac do,
+  and with it the A/V timing measurement that needs both tracks against a known event
+  ([01](slices/01-native-capture.md)).
+- **A region take:** proving where one landed means recording whatever is on the screen, and a
+  fixture launch is refused every source but its own window precisely so an automated run cannot
+  ([01](slices/01-native-capture.md), [03](slices/03-cursor-geometry.md)).
+- **The menu bar and the pointer:** clicking the status menu, dragging the floating controls, and
+  making the deliberate gestures the trail and index gates are about — computer-use reaches none
+  of them on this Mac ([07](slices/07-menu-bar-controls.md),
+  [10](slices/10-cursor-trails.md), [11](slices/11-screenshot-selection.md)).
+- **Ears:** an audio excerpt, a recovered tail (`bun run lab:recovery --microphone` writes the
+  clips), and a cut inside a rendered export
+  ([09](slices/09-frame-inspection.md), [02](slices/02-interruption-recovery.md),
+  [13](slices/13-edited-media.md)).
+- **An agent that is not this one:** the real-narration journey through CLI and MCP
+  ([12](slices/12-cli-mcp-operations.md)).
+
+The installed copy was rebuilt and replaced on 2026-09-26. `bun run install:personal`
+replaces it on subsequent changes and refuses while the app is running.
+
+Priority order: the two recorded capability decisions, then whatever the person answers above.
+
+The original [verification gates](verification.md) remain requirements. Fixtures
+and unit checks do not close the full read → edit → inspect → export journey.
+
+- [ ] [00 — Workspace and runnable native harness](slices/00-workspace.md)
+- [x] [00b — Real-agent image access](slices/00b-client-image-probe.md)
+- [ ] [01 — Native capture and separate audio](slices/01-native-capture.md)
+- [ ] [02 — Recover interrupted source media](slices/02-interruption-recovery.md)
+- [ ] [03 — Cursor positions in captured coordinates](slices/03-cursor-geometry.md)
+- [x] [04 — Select a verbatim local speech engine](slices/04-local-speech-gate.md)
+- [x] [05 — Pure non-destructive timeline engine](slices/05-timeline-and-revisions.md)
+- [ ] [06 — Single-writer library and app-managed service](slices/06-service-and-jobs.md)
+  - [x] [06a — Durable revision transactions](slices/06a-revision-store.md)
+  - [x] [06b — Bounded local transport](slices/06b-local-transport.md)
+  - [x] [06c — App-owned service lifetime](slices/06c-app-service-lifetime.md)
+  - [x] [06d — Durable recording lifecycle](slices/06d-recording-lifecycle.md)
+  - [x] [06e — Library operations through the service](slices/06e-library-operations.md)
+  - [x] [06f — Native capture service control](slices/06f-capture-service.md)
+  - [x] [06g — Durable artifact jobs](slices/06g-durable-jobs.md)
+  - [x] [06h — Normalized cursor evidence index](slices/06h-evidence-index.md)
+  - [x] [06i — Source processing integration](slices/06i-source-processing.md)
+  - [x] [06j — Source timing evidence](slices/06j-source-timing.md)
+- [ ] [07 — Usable menu-bar recording controls](slices/07-menu-bar-controls.md)
+  - [x] [07a — Settings window, permissions and launch at login](slices/07a-settings-window.md)
+  - [ ] [07b — Countdown and recording overlay](slices/07b-recording-overlays.md)
+- [x] [08 — Durable local transcription and projections](slices/08-transcript-processing.md)
+- [ ] [09 — Arbitrary clean frames and media excerpts](slices/09-frame-inspection.md)
+  - [x] [09a — Native kept-interval frame decoding](slices/09a-native-frame-decode.md)
+  - [x] [09b — Native retained-span audio excerpts](slices/09b-native-audio-excerpts.md)
+  - [x] [09c — Derived cache primitive](slices/09c-derived-cache.md)
+  - [ ] [09d — Revision-bound public frame inspection](slices/09d-public-frames.md)
+  - [x] [09e — Revision-bound audio inspection](slices/09e-public-audio.md)
+- [ ] [10 — Readable cursor trails on requested frames](slices/10-cursor-trails.md)
+  - [x] [10a — Native cursor and trail rendering](slices/10a-native-cursor-render.md)
+  - [ ] [10b — Shared clean visual observations](slices/10b-visual-observations.md)
+  - [ ] [10c — Requested-time trail planning](slices/10c-trail-timing.md)
+  - [x] [10d — Indexed trail evidence](slices/10d-trail-evidence.md)
+  - [ ] [10e — Default public trail frames](slices/10e-public-trails.md)
+  - [x] [10f — Durable shared scene evidence](slices/10f-durable-scenes.md)
+- [ ] [11 — Useful bounded screenshot index](slices/11-screenshot-selection.md)
+  - [x] [11a — Incremental selection ledger](slices/11a-selection-ledger.md)
+  - [x] [11b — Shared frame materialization](slices/11b-shared-frame-materialization.md)
+  - [ ] [11c — Retained index and public delivery](slices/11c-retained-index.md)
+- [ ] [12 — Complete CLI/MCP inspection and editing](slices/12-cli-mcp-operations.md)
+  - [x] [12a — CLI/MCP adapter seam](slices/12a-cli-mcp-adapters.md)
+- [ ] [13 — Playable edited media and audio joins](slices/13-edited-media.md)
+  - [x] [13a — Native render timing feasibility](slices/13a-native-render-timing.md)
+  - [x] [13b — Bounded retained audio stream](slices/13b-streaming-audio.md)
+  - [x] [13c — AAC and video assembly](slices/13c-aac-movie-assembly.md)
+  - [x] [13d1 — Native presentation evidence](slices/13d1-presentation-evidence.md)
+  - [x] [13d2 — Shared presentation-point policy](slices/13d2-presentation-pointer-core.md)
+  - [x] [13d3 — Sequential pointer schedule](slices/13d3-pointer-schedule.md)
+  - [x] [13d4 — Native pointer composition](slices/13d4-pointer-composition.md)
+  - [ ] [13e — Preview publication and playback](slices/13e-preview-publication.md)
+- [ ] [14 — Two exports and relocated AI inspection](slices/14-exports-and-package-reader.md)
+  - [x] [14a — Pinned package manifest and truthful readiness](slices/14a-package-manifest.md)
+  - [x] [14b — Portable read-only inspection](slices/14b-portable-inspection.md)
+    - [x] [14b1 — Shared inspection read seam](slices/14b1-audio-read-seam.md)
+    - [x] [14b2 — Portable normalized source queries](slices/14b2-source-evidence-pages.md)
+    - [x] [14b3 — Retained evidence and native relocation](slices/14b3-retained-inspection.md)
+  - [x] [14c1 — Bounded archive extraction](slices/14c1-bounded-archive-extraction.md)
+  - [x] [14c2 — Retained archive inspection](slices/14c2-retained-package-inspection.md)
+  - [x] [14c3a — Transient package job contexts](slices/14c3a-transient-context-jobs.md)
+      "types": "./dist/audio-wave.d.ts",
+      "default": "./dist/audio-wave.js"
+    },
+    "./acoustic-inspection": {
+      "types": "./dist/acoustic-inspection.d.ts",
+      "default": "./dist/acoustic-inspection.js"
+    },
+    "./audio-spectrum": {
+      "types": "./dist/audio-spectrum.d.ts",
+      "default": "./dist/audio-spectrum.js"
+    },
+    "./source-scenes": {
+      "types": "./dist/source-scenes.d.ts",
+      "default": "./dist/source-scenes.js"
+    },
+    "./acoustic-image": {
+      "types": "./dist/acoustic-image.d.ts",
+      "default": "./dist/acoustic-image.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.check.json",
+    "test": "vitest run --maxWorkers=4"
+  },
+  "dependencies": {
+    "@screenrec/composition": "workspace:*",
+    "zod": "4.6.5"
+  }
+}
+
+2026-09-28T11:47:21.006847Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-080d2a3b-fabb-4bb4-bb92-be639649fe8b"
+exec
+/bin/zsh -lc "sed -n '272,350p' apps/service/src/render.ts; cat packages/core/src/acoustic-image.ts; rg -n 'artifactOperations|artifactBytes' apps/cli/src/main.ts; sed -n '1,130p' packages/core/src/project-window.ts; git show HEAD:packages/core/src/waveform.ts | head -170; bun run check-types" in /Users/david/dev/screen-recorder
+2026-09-28T11:47:27.141706Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-f8df62c2-53f3-4774-b4e4-079d34b27680"
+ succeeded in 481ms:
+
+ Tasks:    13 successful, 13 total
+Cached:    8 cached, 13 total
+  Time:    533ms 
+
+
+exec
+/bin/zsh -lc "bunx vitest run packages/core/src/audio-inspection.test.ts packages/core/src/project-audio.test.ts apps/cli/src/artifact-delivery.test.ts --maxWorkers=4; rg -n 'channels:|sampleRate:' packages/core/src/audio-inspection.ts; sed -n '180,220p' packages/core/src/audio-spectrum.ts; rg -n 'partial|unavailable' helpers/mac/Sources/ScreenRecorderFrames/AcousticImage.swift" in /Users/david/dev/screen-recorder
+2026-09-28T11:47:39.681334Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-0da69d3d-1bae-406f-80d0-eefca93b5cac"
+ succeeded in 2127ms:
+(node:57274) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:57273) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/cli/src/artifact-delivery.test.ts (16 tests | 16 failed) 34ms
+   × the image transport assembles bytes larger than one metadata response and releases its delivery 11ms
+   × a nonadvancing chunk fails immediately and still releases the delivery 2ms
+   × audio payloads can exceed the image limit while preserving type and bytes 3ms
+   × an oversized image is refused before reading and its lease is released 1ms
+   × selected-image batches preserve ordinal order, duplicates and generation while draining failed output leases 1ms
+   × metadata-only selected batches never read bytes or create an output file 2ms
+   × timestamp batches preserve timestamp identity on failed media reads 0ms
+   × selected batch metadata cannot masquerade as timestamp batch metadata 0ms
+   × large video/mp4 media streams to an exclusive output 4ms
+   × large audio/wav media streams to an exclusive output 5ms
+   × a failed streamed read leaves no output or partial staging and releases its lease 1ms
+   × streaming renews the same delivery beyond its original expiry 1ms
+   × waveform JSON streams unchanged and uses bounded buffered delivery with lease cleanup 0ms
+   × invalid JSON evidence fails as a delivery error and releases its lease 0ms
+   × waveform images use the shared image delivery and close the lease 0ms
+   × spectrogram images use the shared image delivery and close the lease 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > the image transport assembles bytes larger than one metadata response and releases its delivery
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-g0Qdz4/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:83:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > a nonadvancing chunk fails immediately and still releases the delivery
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-u4DeZ4/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:90:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > audio payloads can exceed the image limit while preserving type and bytes
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-NfWgZj/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:100:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > an oversized image is refused before reading and its lease is released
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-sYauf3/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:108:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > selected-image batches preserve ordinal order, duplicates and generation while draining failed output leases
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-d5kigI/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:118:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > metadata-only selected batches never read bytes or create an output file
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-ecUB6b/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:177:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > timestamp batches preserve timestamp identity on failed media reads
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-jvimF1/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:202:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > selected batch metadata cannot masquerade as timestamp batch metadata
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-IRJOxX/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:247:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > large video/mp4 media streams to an exclusive output
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-4mMppl/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:273:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > large audio/wav media streams to an exclusive output
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-qnGEca/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:273:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > a failed streamed read leaves no output or partial staging and releases its lease
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-alKfoO/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:298:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > streaming renews the same delivery beyond its original expiry
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-mpu7Qt/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:314:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > waveform JSON streams unchanged and uses bounded buffered delivery with lease cleanup
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-8gihuy/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:330:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > invalid JSON evidence fails as a delivery error and releases its lease
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-D6nbQO/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:354:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > waveform images use the shared image delivery and close the lease
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-SGvfO6/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:365:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/16]⎯
+
+ FAIL  apps/cli/src/artifact-delivery.test.ts > spectrogram images use the shared image delivery and close the lease
+Error: listen EPERM: operation not permitted /tmp/scr-delivery-client-ZVU39I/service.sock
+ ❯ apps/service/dist/index.js:106:16
+    104|     await new Promise((resolve, reject) => {
+    105|         server.once("error", reject);
+    106|         server.listen(socketPath, resolve);
+       |                ^
+    107|     });
+    108|     try {
+ ❯ listenLocal apps/service/dist/index.js:104:11
+ ❯ fixture apps/cli/src/artifact-delivery.test.ts:22:20
+ ❯ apps/cli/src/artifact-delivery.test.ts:365:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/16]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  16 failed | 23 passed | 1 skipped (40)
+   Start at  04:47:37
+   Duration  1.95s (tests 70%, transform 22%, import 7%)
+
+27:  sampleRate: integer.min(1).max(192000),
+28:  channels: z.union([z.literal(1), z.literal(2)]),
+68:  sampleRate: z.literal(48000),
+69:  channels: z.literal(2),
+77:    sampleRate: z.literal(48000),
+179:      sampleRate: stream.sampleRate,
+180:      channels: stream.channels,
+190:    const { options, sampleRate: rate, source, channels } = this.plan(input);
+198:              sampleRate: rate,
+339:      channels: 2 as const,
+341:      sampleClock: { sampleRate: 48000, sampleRange: window.manifest.sampleRange },
+    sampleRate: audio.sampleRate,
+    channels: audio.channels,
+    sampleRange: range,
+    fftFrames: n,
+    hopFrames: hop,
+    window,
+    windowEnergy: energy,
+    frequency: { bins, binHz: audio.sampleRate / n, firstHz: 0, lastHz: audio.sampleRate / 2 },
+    units: "full-scale-squared/Hz" as const,
+    layout: "column-channel-frequency" as const,
+    columns,
+    density,
+    readFrames,
+  };
+}
+14:        let partial: Bool
+27:        let unavailable: [Span]
+56:            !r.columns.isEmpty, r.columns.count <= 4096, r.unavailable.count <= 4096
+101:        for span in r.unavailable {
+103:                throw NativeFailure("INVALID_REQUEST", "Invalid unavailable support.")
+238:                if column.partial {
+244:            for unavailable in r.unavailable {
+246:                    x: x(unavailable.start), y: bottom,
+247:                    width: x(unavailable.end) - x(unavailable.start),
+
+exec
+/bin/zsh -lc "rg -n 'spectr|unavailable|context' specs/agent-editing/slices/*acoustic*; sed -n '160,210p' packages/core/src/audio-spectrum.ts; rg -n 'partial|unavailable' helpers/mac/Sources/ScreenRecorderFrames/AcousticImage.swift; rg -n 'retry\\(|regenerate\\(' packages/core/src/jobs.ts; sed -n '130,190p' packages/core/src/audio-inspection.ts; sed -n '370,425p' packages/core/src/audio-inspection.ts" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+zsh:1: no matches found: specs/agent-editing/slices/*acoustic*
+      transform(real, imaginary);
+      for (let bin = 0; bin < bins; bin++)
+        density[(index * audio.channels + channel) * bins + bin] =
+          ((real[bin]! ** 2 + imaginary[bin]! ** 2) / (audio.sampleRate * energy)) *
+          (bin === 0 || bin === n / 2 ? 1 : 2);
+    }
+    columns.push({
+      gridStart,
+      sampleRange: {
+        start: Math.max(gridStart, range.start),
+        end: Math.min(gridStart + hop, range.end),
+      },
+      center,
+      analysis,
+      available,
+      partial: frames !== n,
+    });
+    await setImmediate(undefined, { signal });
+  }
+  return {
+    sampleRate: audio.sampleRate,
+    channels: audio.channels,
+    sampleRange: range,
+    fftFrames: n,
+    hopFrames: hop,
+    window,
+    windowEnergy: energy,
+    frequency: { bins, binHz: audio.sampleRate / n, firstHz: 0, lastHz: audio.sampleRate / 2 },
+    units: "full-scale-squared/Hz" as const,
+    layout: "column-channel-frequency" as const,
+    columns,
+    density,
+    readFrames,
+  };
+}
+14:        let partial: Bool
+27:        let unavailable: [Span]
+56:            !r.columns.isEmpty, r.columns.count <= 4096, r.unavailable.count <= 4096
+101:        for span in r.unavailable {
+103:                throw NativeFailure("INVALID_REQUEST", "Invalid unavailable support.")
+238:                if column.partial {
+244:            for unavailable in r.unavailable {
+246:                    x: x(unavailable.start), y: bottom,
+247:                    width: x(unavailable.end) - x(unavailable.start),
+573:  retry(jobId: string): Job {
+602:  regenerate(jobId: string, generation: number): Job {
+/** Source and project PCM share admission, cache publication and WAV validation. */
+export class MediaAudioInspection {
+  constructor(
+    private readonly owners: {
+      assets: AssetStore;
+      acquisitions: AcquisitionStore;
+      jobs: JobQueue;
+      cache: DerivedCache;
+      sourceRenderer: SourceAudioRenderer;
+      project?: { projects: ProjectStore; renderer: ProjectAudioRenderer };
+    },
+  ) {
+    if (owners.project && !owners.project.renderer.implementationId)
+      throw new Error("Project audio renderer needs an implementation identity");
+    if (!owners.sourceRenderer.implementationId)
+      throw new Error("Audio renderer needs an implementation identity");
+  }
+  private plan(input: SourceAudioInput) {
+    const { range, ...selection } = input;
+    const source = selectSource(this.owners.assets, this.owners.acquisitions, selection);
+    if (source.stream.kind !== "audio")
+      throw new CatalogError("UNSUPPORTED_MEDIA", "Audio inspection requires an audio stream");
+    const parsed = rangeSchema.safeParse(range === undefined ? source.stream.bounds : range);
+    if (!parsed.success || parsed.data.endUs > source.durationUs)
+      throw new CatalogError(
+        "INVALID_RANGE",
+        "Audio range must lie within the selected source duration",
+      );
+    const stream = this.owners.assets
+      .get(source.selection.assetId)
+      .streams.find((value) => value.id === source.selection.streamId)!;
+    // Native admission owns unsupported formats. Known PCM dimensions permit early size refusal.
+    if (
+      stream.sampleRate !== undefined &&
+      Number.isSafeInteger(stream.sampleRate) &&
+      stream.sampleRate > 0 &&
+      stream.channels !== undefined
+    ) {
+      const rate = BigInt(stream.sampleRate);
+      const frames =
+        (BigInt(parsed.data.endUs) * rate) / 1_000_000n -
+        (BigInt(parsed.data.startUs) * rate) / 1_000_000n;
+      const minimumBytes = frames * BigInt(stream.channels) * 4n + 44n;
+      if (minimumBytes > BigInt(Number.MAX_SAFE_INTEGER))
+        throw new CatalogError("LIMIT_EXCEEDED", "Audio derivative size exceeds safe accounting");
+      this.owners.cache.checkCapacity(Number(minimumBytes));
+    }
+    return {
+      source,
+      sampleRate: stream.sampleRate,
+      channels: stream.channels,
+      options: {
+        selection: source.selection,
+        range: parsed.data,
+        supportDigest: source.supportDigest,
+        implementationId: this.owners.sourceRenderer.implementationId,
+      },
+    };
+  }
+  private sourceRecipe(input: SourceAudioInput) {
+    const { options, sampleRate: rate, source, channels } = this.plan(input);
+    const parsed = projectOptionsSchema.safeParse(raw);
+    if (job.target.kind !== "project" || job.artifact !== artifact || !parsed.success)
+      throw new CatalogError("UNSUPPORTED_JOB", "Audio job does not name a project window");
+    const owner = this.owners.project;
+    if (!owner || owner.renderer.implementationId !== parsed.data.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned project audio renderer is unavailable", {}, true);
+    const plan = this.projectPlan({
+      projectId: job.target.projectId,
+      revisionId: job.target.revisionId,
+      ...parsed.data,
+    });
+    signal.throwIfAborted();
+    const output = this.owners.cache.reserve({ kind: "project", projectId: job.target.projectId });
+    try {
+      const receipt = projectReceiptSchema.safeParse(
+        await owner.renderer.render({ ...plan, output: output.path }, signal),
+      );
+      signal.throwIfAborted();
+      if (!receipt.success) invalid("Malformed project audio receipt");
+      const value = receipt.data;
+      const sampleRange = plan.window.manifest.sampleRange;
+      if (
+        value.file !== output.path ||
+        value.frames !== sampleRange.end - sampleRange.start ||
+        value.clippedSamples > value.frames * 2
+      )
+        invalid("Project audio receipt differs from its pinned sample window");
+      const clips = new Map(
+        [...plan.window.audio()]
+          .filter((clip) => clip.source.kind === "range")
+          .map((clip) => [clip.clipId, clip]),
+      );
+      for (const missing of value.unavailable) {
+        const clip = clips.get(missing.clipId);
+        if (!clip) invalid("Project audio receipt names an unselected or repeated clip");
+        let through = clip.sampleRange.start;
+        for (const gap of missing.ranges) {
+          if (gap.start < through || gap.end <= gap.start || gap.end > clip.sampleRange.end)
+            invalid("Project audio unavailable samples exceed their clip");
+          through = gap.end;
+        }
+        clips.delete(missing.clipId);
+      }
+      if (clips.size) invalid("Project audio receipt omitted a selected clip");
+      checkWave(value);
+      const cached = await this.owners.cache.publish(output.id);
+      signal.throwIfAborted();
+      if (cached.bytes !== value.bytes) invalid("Published audio size differs from its receipt");
+      return JSON.stringify({
+        ...value,
+        ...parsed.data,
+        projectId: job.target.projectId,
+        revisionId: job.target.revisionId,
+        mediaType: "audio/wav",
+        layout: "stereo",
+        sampleRange,
+
+2026-09-28T11:47:49.449936Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-29e3e43a-acc0-465f-8770-4b93e37c615a"
+exec
+/bin/zsh -lc "sed -n '570,630p' packages/core/src/jobs.ts; sed -n '200,260p' helpers/mac/Sources/ScreenRecorderFrames/AcousticImage.swift; rg -n 'spectrum|spectrogram|unavailable' specs/agent-editing | head -55; nl -ba packages/core/src/acoustic-inspection.ts | sed -n '335,355p;432,482p'; git status --short" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+   * queued or running is that attempt, and a job that already produced its artifact is the outcome
+   * being asked for, so both are returned unchanged rather than duplicated.
+   */
+  retry(jobId: string): Job {
+    let changed = false;
+    const retried = this.store.transaction(() => {
+      this.requireOpen();
+      const current = this.job(jobId);
+      this.targets.pin(current.target);
+      if (
+        current.state === "waiting" ||
+        current.state === "queued" ||
+        current.state === "running" ||
+        current.state === "ready"
+      )
+        return current.jobId;
+      if (!current.retryable)
+        throw new CatalogError("UNAVAILABLE", "This job cannot be retried", {
+          state: current.state,
+          reason: current.reason,
+          errorCode: current.errorCode,
+        });
+      this.requeue(current);
+      changed = true;
+      return jobId;
+    });
+    if (changed) this.resumeAdmission();
+    this.runQueued();
+    return this.job(retried);
+  }
+
+  /** Rebuild an evicted derivative only if the caller still names the published generation. */
+  regenerate(jobId: string, generation: number): Job {
+    let changed = false;
+    this.store.transaction(() => {
+      this.requireOpen();
+      const current = this.job(jobId);
+      if (current.state !== "ready" || current.generation !== generation) return;
+      this.targets.pin(current.target);
+      this.requeue(current);
+      this.store.catalog
+        .prepare(
+          "DELETE FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=? AND generation=?",
+        )
+        .run(...targetValues(current.target), current.artifact, current.input, generation);
+      changed = true;
+    });
+    if (changed) this.resumeAdmission();
+    this.runQueued();
+    return this.job(jobId);
+  }
+
+  /** Starts another attempt. Only a lost prerequisite marks it readmitted; an explicit request clears that. */
+  private requeue(current: Job, readmitted = false): void {
+    const { deferred } = this.store.catalog
+      .prepare("SELECT deferred FROM jobs WHERE jobId=?")
+      .get(current.jobId) as { deferred: number };
+    if (deferred) this.admitWaiting();
+    else this.admit();
+    this.store.catalog
+      .prepare(
+                                x: CGFloat(92 + px), y: bottom + CGFloat(py), width: 1, height: 1),
+                            color(t, t * t, 0.12 + 0.3 * (1 - t)))
+                    }
+                }
+            }
+            if !wave {
+                for py in 0..<180 {
+                    let t = CGFloat(py) / 179
+                    fill(
+                        CGRect(x: 1186, y: bottom + CGFloat(py), width: 12, height: 1),
+                        color(t, t * t, 0.12 + 0.3 * (1 - t)))
+                }
+                text("dB", 1184, bottom + 190, 10)
+                for (row, label) in [(0, "-120"), (90, "-60"), (180, "0")] {
+                    text(label, 1202, bottom + CGFloat(row) - 3, 9)
+                }
+            }
+            context.saveGState()
+            context.clip(to: plot)
+            for column in r.columns {
+                let left = x(column.range.start)
+                let right = x(column.range.end)
+                let values = column.values[channel]
+                if wave {
+                    let low = bottom + 90 + CGFloat(values[0] / peak) * 90
+                    let high = bottom + 90 + CGFloat(values[1] / peak) * 90
+                    fill(
+                        CGRect(
+                            x: left, y: low, width: max(1, right - left), height: max(1, high - low)
+                        ),
+                        color(0.14, 0.43, 0.65))
+                    let rms = CGFloat(values[2] / peak) * 90
+                    fill(
+                        CGRect(
+                            x: left, y: bottom + 90 - rms, width: max(1, right - left),
+                            height: max(1, rms * 2)),
+                        color(0.02, 0.23, 0.36, 0.55))
+                }
+                if column.partial {
+                    fill(
+                        CGRect(x: left, y: bottom + 176, width: max(1, right - left), height: 4),
+                        color(0.9, 0.5, 0.04))
+                }
+            }
+            for unavailable in r.unavailable {
+                let gap = CGRect(
+                    x: x(unavailable.start), y: bottom,
+                    width: x(unavailable.end) - x(unavailable.start),
+                    height: 180)
+                fill(gap, color(0.55, 0.55, 0.55, 0.6))
+            }
+            context.restoreGState()
+            context.setStrokeColor(color(0.45, 0.5, 0.56))
+            context.setLineWidth(0.5)
+            context.stroke(plot)
+            for tick in 0...4 {
+                let tx = CGFloat(92 + tick * 270)
+                let seconds =
+                    (Double(r.range.start) + span * Double(tick) / 4) / Double(r.sampleRate)
+                text(String(format: "%.6f", seconds), tx - 30, bottom - 20, 11)
+                let value =
+specs/agent-editing/journeys.md:43:acoustic images/spectrograms, processors beyond constant gain and subjective
+specs/agent-editing/journeys.md:65:| Inspect raw versus processed waveforms, spectrograms, audio and frames | 10/11 | Delivered target/tap artifacts match the rendered result, identify domains/revisions and preserve immutable raw evidence. |
+specs/agent-editing/assets/10d-source-scene-preparation/native-result.json:89:              "status": "unavailable",
+specs/agent-editing/assets/10d-source-scene-preparation/native-result.json:291:              "status": "unavailable",
+specs/agent-editing/assets/11a-10c-inspection-skill/agent-analysis.txt:22:The x/y coordinates change over time, establishing cursor movement; first two samples are outside eligibility, samples from 83514 us onward are inside. There are 9 cursor rows in five pages (page limits 2); all continuations exhausted. Timeline event reads show one geometry marker at source 0 / project 1500000; event coverage says pause and geometry ready, unplaced geometry unavailable (no source time), scene/cut/interruption unsupported. Source event and project event query receipts include coverage; project first request was processing, same read was repeated when its job reported ready.
+specs/agent-editing/assets/11a-10c-inspection-skill/agent-analysis.txt:24:Reading an imported video without capture context does not establish absence of pointer motion. Missing/unavailable capture metadata is not evidence that no movement occurred. For this occurrence, explicit acquisition-bound cursor data provides positive evidence of movement.
+specs/agent-editing/assets/10d-source-scene-preparation/README.md:30:streams become ready and retain the unavailable observation; original bytes remain
+specs/agent-editing/assets/11a-10c-inspection-skill/validation.json:11:  "metadataValidation": "Official quick_validate.py unavailable: system Python lacks PyYAML. Existing simple name/description scalar structure, allowed keys, hyphen-case, bounds and angle-bracket checks independently passed.",
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:156:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:161:        "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:183:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:198:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:213:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:228:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:247:          "unavailable": [
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:267:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-cursor.json:282:          "unavailable": []
+specs/agent-editing/assets/10d-source-frame-public/review-first.txt:10:- [P2] Assert that unavailable MCP replies contain no images — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:122-127
+specs/agent-editing/assets/10d-source-frame-public/review-first.txt:11:  For the MCP gap request, `service.call` discards `reply.content` and returns only structured data. Consequently, a reply containing the expected `unavailable` metadata plus an erroneous image passes these assertions. The cancellation check has the same blind spot, and the batch check inspects only successful image slots. Inspect the complete MCP replies and assert that unavailable/canceled items produce no image content or content index, including the mixed batch.
+specs/agent-editing/assets/10d-source-frame-public/review-first.txt:22:- [P2] Assert that unavailable MCP replies contain no images — /private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/source-frame-evidence.mjs:122-127
+specs/agent-editing/assets/10d-source-frame-public/review-first.txt:23:  For the MCP gap request, `service.call` discards `reply.content` and returns only structured data. Consequently, a reply containing the expected `unavailable` metadata plus an erroneous image passes these assertions. The cancellation check has the same blind spot, and the batch check inspects only successful image slots. Inspect the complete MCP replies and assert that unavailable/canceled items produce no image content or content index, including the mixed batch.
+specs/agent-editing/assets/10c-public-capture/project-events.json:68:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:73:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:78:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:83:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:88:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:162:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:167:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:172:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:177:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:253:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:258:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:263:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:268:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:297:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:302:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:307:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:312:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:317:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:322:              "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:327:        "state": "unavailable",
+specs/agent-editing/assets/10c-public-capture/project-events.json:349:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-events.json:368:          "unavailable": [
+specs/agent-editing/assets/10c-public-capture/project-events.json:392:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-events.json:407:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-events.json:422:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-events.json:441:          "unavailable": [
+specs/agent-editing/assets/10c-public-capture/project-events.json:461:          "unavailable": []
+specs/agent-editing/assets/10c-public-capture/project-events.json:476:          "unavailable": []
+specs/agent-editing/assets/11a-cache-capacity/review.txt:1060:  unavailable: z.array(rangeSchema),
+specs/agent-editing/assets/11a-cache-capacity/review.txt:1088:function unavailable(range: TimeRange, support: readonly TimeRange[]) {
+specs/agent-editing/assets/11a-cache-capacity/review.txt:1208:      throw new CatalogError("NOT_READY", "Pinned audio renderer is unavailable", {}, true);
+specs/agent-editing/assets/11a-cache-capacity/review.txt:1238:        !isDeepStrictEqual(value.unavailable, unavailable(options.range, source.track.available))
+specs/agent-editing/assets/11a-cache-capacity/review.txt:2267:helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift:98:        role: AudioRole, gain: Double, sampleRate: Int, channels: Int, unavailable: [TimeSpan]
+specs/agent-editing/assets/11-acoustic-raster/scene-metrics.json:27:    "image": "spectrum.png",
+   335	              kind: "waveform" as const,
+   336	              data: document as Awaited<ReturnType<typeof waveformBuckets>>,
+   337	            }
+   338	          : {
+   339	              kind: "spectrum" as const,
+   340	              data: { ...document, density: Float64Array.from(document.density) } as Awaited<
+   341	                ReturnType<typeof spectralWindows>
+   342	              >,
+   343	            };
+   344	      output = this.owners.cache.reserve(job.target);
+   345	      const request = acousticImageRequest(measurement.value, evidence, output.path);
+   346	      const receipt = imageReceipt.parse(await renderer.render(request, signal));
+   347	      signal.throwIfAborted();
+   348	      if (
+   349	        receipt.file !== output.path ||
+   350	        !isDeepStrictEqual(receipt.provenance, request.provenance)
+   351	      )
+   352	        throw lost("Acoustic image receipt differs from its pinned request");
+   353	      this.measurement(job, options);
+   354	      lease.release();
+   355	      const published = await this.owners.cache.publish(output.id);
+   432	        description.sampleRange = options.sampleRange;
+   433	        if (description.domain === "project") {
+   434	          description.unavailable = description.unavailable.map((entry) => ({
+   435	            ...entry,
+   436	            ranges: entry.ranges
+   437	              .map((span) => ({
+   438	                start: Math.max(span.start, options.sampleRange.start),
+   439	                end: Math.min(span.end, options.sampleRange.end),
+   440	              }))
+   441	              .filter((span) => span.start < span.end),
+   442	          }));
+   443	        } else {
+   444	          description.unavailable = description.unavailable
+   445	            .map((span) => ({
+   446	              startUs: Math.max(span.startUs, options.range.startUs),
+   447	              endUs: Math.min(span.endUs, options.range.endUs),
+   448	            }))
+   449	            .filter((span) => span.startUs < span.endUs);
+   450	        }
+   451	        measurements = { ...result, density: Array.from(result.density) };
+   452	        analysis = {
+   453	          kind: "spectrum",
+   454	          fftFrames: options.fftFrames,
+   455	          hopFrames: options.hopFrames,
+   456	          columnCount: result.columns.length,
+   457	        };
+   458	      }
+   459	      signal.throwIfAborted();
+   460	      const document = {
+   461	        ...description,
+   462	        ...measurements,
+   463	        ...(context ? { context } : {}),
+   464	        audio: provenance,
+   465	        generation: job.generation,
+   466	      };
+   467	      const bytes = Buffer.from(JSON.stringify(document) + "\n");
+   468	      const maximum = options.policy === "waveform-buckets-v1" ? 4 * 1024 * 1024 : 16 * 1024 * 1024;
+   469	      if (bytes.length > maximum)
+   470	        throw new CatalogError("LIMIT_EXCEEDED", "Acoustic JSON exceeds its byte limit");
+   471	      this.owners.cache.checkCapacity(bytes.length);
+   472	      await writeFile(output.path, bytes, { flag: "wx", signal });
+   473	      const pinned = this.pinned(job, options);
+   474	      if (pinned.cacheId !== audio.cacheId)
+   475	        throw lost("Pinned PCM identity changed during reduction");
+   476	      lease.release();
+   477	      const published = await this.owners.cache.publish(output.id);
+   478	      signal.throwIfAborted();
+   479	      this.pinned(job, options);
+   480	      return JSON.stringify({
+   481	        ...description,
+   482	        ...(context ? { context } : {}),
+ M apps/cli/src/artifact-delivery.test.ts
+ M apps/cli/src/artifact-delivery.ts
+ M apps/cli/src/main.ts
+ M apps/service/src/operations.ts
+ M apps/service/src/project-service.ts
+ M helpers/mac/Sources/ScreenRecorderWire/Wire.swift
+ M helpers/mac/Tests/acoustic-image.test.mjs
+ M packages/core/package.json
+ M packages/core/src/acoustic-image.ts
+ M packages/core/src/audio-inspection.test.ts
+ M packages/core/src/audio-inspection.ts
+ M packages/core/src/project-audio.test.ts
+ M packages/core/src/project-window.ts
+ D packages/core/src/waveform.ts
+ M packages/protocol/src/operations.ts
+?? helpers/mac/Sources/ScreenRecorderWire/AcousticImageOperation.swift
+?? packages/core/src/acoustic-inspection.ts
+
+2026-09-28T11:48:00.699588Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-9a665a51-5007-482d-8cf7-103e6c1ec96a"
+exec
+/bin/zsh -lc "node --input-type=module <<'JS'
+import {spectralWindows} from './packages/core/dist/audio-spectrum.js';
+import {acousticImageRequest} from './packages/core/dist/acoustic-image.js';
+const frames=2048, b=Buffer.alloc(44+frames*4); b.write('RIFF');b.writeUInt32LE(b.length-8,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(3,20);b.writeUInt16LE(1,22);b.writeUInt32LE(48000,24);b.writeUInt32LE(192000,28);b.writeUInt16LE(4,32);b.writeUInt16LE(32,34);b.write('data',36);b.writeUInt32LE(frames*4,40);
+const audio={sampleRate:48000,channels:1,frames,sampleRange:{start:0,end:frames}};
+const data=await spectralWindows({bytes:b.length,read:(out,offset)=>b.copy(out,0,offset,offset+out.length)},audio,{fftFrames:1024,hopFrames:256,sampleRange:{start:512,end:768}},new AbortController().signal);
+const metadata={...audio,domain:'source',assetId:'a',streamId:'s',audio:{jobId:'j',generation:1},sampleRange:data.sampleRange,unavailable:[],context:{sampleRange:audio.sampleRange,unavailable:[{startUs:5333,endUs:10667}]}};
+const request=acousticImageRequest(metadata,{kind:'spectrum',data},'/tmp/not-written.png');
+console.log(JSON.stringify({analysis:data.columns[0].analysis,missingContext:metadata.context.unavailable,imageUnavailable:request.unavailable,imagePartial:request.columns[0].partial}));
+JS" in /Users/david/dev/screen-recorder
+ exited 1 in 0ms:
+(node:58830) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+file:///Users/david/dev/screen-recorder/packages/core/dist/audio-wave.js:4
+    throw new CatalogError("INVALID_RESPONSE", message);
+          ^
+
+CatalogError: WAV size differs from its receipt
+    at invalid (file:///Users/david/dev/screen-recorder/packages/core/dist/audio-wave.js:4:11)
+    at validateAudioWave (file:///Users/david/dev/screen-recorder/packages/core/dist/audio-wave.js:9:9)
+    at spectralWindows (file:///Users/david/dev/screen-recorder/packages/core/dist/audio-spectrum.js:65:28)
+    at file:///Users/david/dev/screen-recorder/[eval1]:5:18
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:268:26)
+    at async ModuleLoader.executeModuleJob (node:internal/modules/esm/loader:265:20)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  code: 'INVALID_RESPONSE',
+  details: {},
+  retryable: false
+}
+
+Node.js v24.14.0
+
+2026-09-28T11:48:20.794884Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-a4aa2324-3791-46ef-94b1-e0f3cacee800"
+exec
+/bin/zsh -lc "node --input-type=module <<'JS'
+import {spectralWindows} from './packages/core/dist/audio-spectrum.js';
+import {acousticImageRequest} from './packages/core/dist/acoustic-image.js';
+const frames=2048, b=Buffer.alloc(44+frames*4); b.write('RIFF');b.writeUInt32LE(b.length-8,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(3,20);b.writeUInt16LE(1,22);b.writeUInt32LE(48000,24);b.writeUInt32LE(192000,28);b.writeUInt16LE(4,32);b.writeUInt16LE(32,34);b.write('data',36);b.writeUInt32LE(frames*4,40);
+const audio={bytes:b.length,sampleRate:48000,channels:1,frames,sampleRange:{start:0,end:frames}};
+const data=await spectralWindows({bytes:b.length,read:(out,offset)=>b.copy(out,0,offset,offset+out.length)},audio,{fftFrames:1024,hopFrames:256,sampleRange:{start:512,end:768}},new AbortController().signal);
+const metadata={...audio,domain:'source',assetId:'a',streamId:'s',audio:{jobId:'j',generation:1},sampleRange:data.sampleRange,unavailable:[],context:{sampleRange:audio.sampleRange,unavailable:[{startUs:5333,endUs:10666}]}};
+const request=acousticImageRequest(metadata,{kind:'spectrum',data},'/tmp/not-written.png');
+console.log(JSON.stringify({analysis:data.columns[0].analysis,missingContext:metadata.context.unavailable,imageUnavailable:request.unavailable,imagePartial:request.columns[0].partial}));
+JS" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+(node:59625) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"analysis":{"start":128,"end":1152},"missingContext":[{"startUs":5333,"endUs":10666}],"imageUnavailable":[],"imagePartial":false}
+
+2026-09-28T11:48:35.379159Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e7d6-a637-7c71-adaf-f9207a203696 turn_id=01a0e7d6-a6ed-7663-92c2-6d0559fdfb9f item_id="exec-f776c5f9-31e2-4e7b-9f06-e6aafb657aa4"
+codex
+Spectrogram images lose support warnings for missing audio in their surrounding FFT context. Type checks and the focused core tests passed; CLI delivery tests were blocked by sandbox socket permissions.
+
+Review comment:
+
+- [P2] Mark spectral columns affected by unavailable context — /Users/david/dev/screen-recorder/packages/core/src/acoustic-inspection.ts:344-346
+  When unavailable audio lies outside the displayed range but inside an FFT window, the image silently presents incomplete measurements as fully supported. Spectral preparation retains those gaps in `context.unavailable`, but `acousticImageRequest` only reads the clipped top-level `unavailable`; column `partial` only detects PCM extent clipping, not masked gaps. For example, a displayed column spanning samples 512–768 with an analysis window of 128–1152 receives no warning for missing samples 256–512. Propagate context support into the affected columns' image annotations so missing audio cannot masquerade as measured silence.
+Spectrogram images lose support warnings for missing audio in their surrounding FFT context. Type checks and the focused core tests passed; CLI delivery tests were blocked by sandbox socket permissions.
+
+Review comment:
+
+- [P2] Mark spectral columns affected by unavailable context — /Users/david/dev/screen-recorder/packages/core/src/acoustic-inspection.ts:344-346
+  When unavailable audio lies outside the displayed range but inside an FFT window, the image silently presents incomplete measurements as fully supported. Spectral preparation retains those gaps in `context.unavailable`, but `acousticImageRequest` only reads the clipped top-level `unavailable`; column `partial` only detects PCM extent clipping, not masked gaps. For example, a displayed column spanning samples 512–768 with an analysis window of 128–1152 receives no warning for missing samples 256–512. Propagate context support into the affected columns' image annotations so missing audio cannot masquerade as measured silence.

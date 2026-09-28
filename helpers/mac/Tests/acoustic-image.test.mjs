@@ -6,6 +6,8 @@ import {
   readFileSync,
   writeFileSync,
   rmSync,
+  symlinkSync,
+  truncateSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -26,10 +28,35 @@ function run(file, args, options = {}) {
   assert.equal(result.status, 0, String(result.stderr || result.error));
   return result.stdout;
 }
+test("acoustic measurement files reject oversized data, links and non-files before rendering", () => {
+  const dir = mkdtempSync(join(tmpdir(), "acoustic-input-"));
+  try {
+    const call = (input) =>
+      JSON.parse(
+        run(native, [], {
+          input:
+            JSON.stringify({ id: "bounds", operation: "media.acousticImage", params: { input } }) +
+            "\n",
+          encoding: "utf8",
+        }),
+      );
+    const large = join(dir, "large.json");
+    writeFileSync(large, "{}");
+    truncateSync(large, 16 * 1024 * 1024 + 1);
+    assert.equal(call(large).error.code, "LIMIT_EXCEEDED");
+    const target = join(dir, "request.json");
+    writeFileSync(target, "{}");
+    symlinkSync(target, join(dir, "link.json"));
+    assert.equal(call(join(dir, "link.json")).error.code, "INVALID_REQUEST");
+    assert.equal(call(dir).error.code, "INVALID_REQUEST");
+    assert.equal(call("relative.json").error.code, "INVALID_REQUEST");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
 test("actual waveform and spectral PNGs preserve absolute sample axes, channel identity and narrow energy", async () => {
   const dir =
-    process.env.SCREENREC_ACOUSTIC_EVIDENCE ??
-    mkdtempSync(join(tmpdir(), "acoustic-image-"));
+    process.env.SCREENREC_ACOUSTIC_EVIDENCE ?? mkdtempSync(join(tmpdir(), "acoustic-image-"));
   mkdirSync(dir, { recursive: true });
   try {
     const rate = 48000,
@@ -49,14 +76,9 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
     bytes.write("data", 36);
     bytes.writeUInt32LE(frames * 8, 40);
     for (let i = 0; i < frames; i++) {
+      bytes.writeFloatLE(0.125 * Math.cos((2 * Math.PI * 750 * i) / rate), 44 + i * 8);
       bytes.writeFloatLE(
-        0.125 * Math.cos((2 * Math.PI * 750 * i) / rate),
-        44 + i * 8,
-      );
-      bytes.writeFloatLE(
-        i + start === 102000
-          ? 2
-          : 0.0625 * Math.cos((2 * Math.PI * 3000 * i) / rate),
+        i + start === 102000 ? 2 : 0.0625 * Math.cos((2 * Math.PI * 3000 * i) / rate),
         48 + i * 8,
       );
     }
@@ -88,13 +110,15 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
     let ordinal = 0;
     const calls = [];
     function call(params) {
+      const input = join(dir, `request-${ordinal}.json`);
+      writeFileSync(input, JSON.stringify(params));
       const reply = JSON.parse(
         run(native, [], {
           input:
             JSON.stringify({
               id: `plot-${ordinal++}`,
               operation: "media.acousticImage",
-              params,
+              params: { input },
             }) + "\n",
           encoding: "utf8",
         }),
@@ -125,12 +149,7 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
       ];
     }
     const signal = new AbortController().signal;
-    const wave = await waveformBuckets(
-      reader,
-      audio,
-      { bucketFrames: 48 },
-      signal,
-    );
+    const wave = await waveformBuckets(reader, audio, { bucketFrames: 48 }, signal);
     const waveRequest = acousticImageRequest(
       metadata,
       { kind: "waveform", data: wave },
@@ -202,9 +221,7 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
       { kind: "waveform", data: detail },
       join(dir, "detail.png"),
     );
-    assert.deepEqual(detailRequest.unavailable, [
-      { start: 101700, end: 101850 },
-    ]);
+    assert.deepEqual(detailRequest.unavailable, [{ start: 101700, end: 101850 }]);
     assert.equal(detailRequest.domain, "project");
     assert.throws(
       () =>
@@ -223,12 +240,8 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
       ),
     );
     const detailPixel = raster(detailReply),
-      detailX =
-        92 + ((102000 - range.start) / (range.end - range.start)) * 1080;
-    assert.ok(
-      detailPixel(detailX + 1, 420)[2] < 230,
-      "excerpt impulse lost its absolute clock",
-    );
+      detailX = 92 + ((102000 - range.start) / (range.end - range.start)) * 1080;
+    assert.ok(detailPixel(detailX + 1, 420)[2] < 230, "excerpt impulse lost its absolute clock");
     processingTapSchema.parse(projectMetadata.tap);
     const longMetadata = {
       ...projectMetadata,
@@ -265,11 +278,7 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
         columns: Array.from({ length: columns }, (_, c) => ({
           range: { start: c, end: c + 1 },
           partial: false,
-          values: [
-            Array.from({ length: bins }, (_, b) =>
-              c === column && b === bin ? 0.01 : 0,
-            ),
-          ],
+          values: [Array.from({ length: bins }, (_, b) => (c === column && b === bin ? 0.01 : 0))],
         })),
       };
       const densePixel = raster(call(request));
@@ -280,6 +289,45 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
         `${name} lost the only energy cell at ${px},${py}: ${densePixel(px, py)}`,
       );
     }
+    const contextSpectrum = await spectralWindows(
+      reader,
+      audio,
+      {
+        fftFrames: 512,
+        hopFrames: 256,
+        sampleRange: { start: 99072, end: 99584 },
+      },
+      new AbortController().signal,
+    );
+    const contextRequest = acousticImageRequest(
+      {
+        ...metadata,
+        unavailable: [],
+        context: {
+          range: metadata.range,
+          sampleRange: audio.sampleRange,
+          unavailable: [{ startUs: 2061667, endUs: 2063541 }],
+        },
+      },
+      { kind: "spectrum", data: contextSpectrum },
+      join(dir, "context-support.png"),
+    );
+    assert.deepEqual(
+      contextRequest.columns.map((c) => c.partial),
+      [true, false],
+    );
+    assert.deepEqual(contextRequest.unavailable, []);
+    const contextPixel = raster(call(contextRequest));
+    const orange = ([r, g, b]) => r > 200 && g > 90 && g < 160 && b < 50;
+    assert.ok(
+      orange(contextPixel(300, 166)),
+      "Missing surrounding support must mark its spectral column",
+    );
+    assert.equal(
+      orange(contextPixel(900, 166)),
+      false,
+      "Fully supported neighboring column must remain unmarked",
+    );
     const bad = structuredClone(waveRequest);
     bad.output = join(dir, "bad.png");
     bad.columns[1].range.start++;
@@ -301,7 +349,6 @@ test("actual waveform and spectral PNGs preserve absolute sample axes, channel i
       ),
     );
   } finally {
-    if (!process.env.SCREENREC_ACOUSTIC_EVIDENCE)
-      rmSync(dir, { recursive: true, force: true });
+    if (!process.env.SCREENREC_ACOUSTIC_EVIDENCE) rmSync(dir, { recursive: true, force: true });
   }
 });

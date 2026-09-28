@@ -1,0 +1,29 @@
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/core, @screenrec/protocol, @screenrec/service
+   • Running check-types in 4 packages
+   • Remote caching disabled
+
+@screenrec/composition:build: cache hit, replaying logs e1473b0a724bebe9
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/protocol:build: cache hit, replaying logs 9df4ad2650545f8e
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/core:check-types: cache miss, executing 9f99698df0a9b6ab
+@screenrec/client:build: cache hit, replaying logs 7fa1244ac1062244
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/protocol:check-types: cache hit, replaying logs 8620a9afd93de937
+@screenrec/core:build: cache hit, replaying logs d360509bfe7eff1e
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/protocol:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:check-types: cache miss, executing eb634b8108b8c902
+@screenrec/service:build: cache hit, replaying logs 11c7f965d955da89
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:check-types: cache miss, executing e8f69a5f7c4cbc24
+@screenrec/core:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:check-types: $ tsc -p tsconfig.check.json
+@screenrec/cli:check-types: $ tsc -p tsconfig.check.json
+
+ Tasks:    9 successful, 9 total
+Cached:    6 cached, 9 total
+  Time:    455ms 
+

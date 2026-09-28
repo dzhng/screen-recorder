@@ -266,12 +266,12 @@ public enum AcousticImage {
         }
         text(
             wave
-                ? "Shared amplitude scale +/-\(String(format: "%.3g", peak)); no clipping or channel mixing."
-                : "PSD: -120 to 0 dB re 1 FS²/Hz (dark to yellow); max per pixel; display floor only.",
+                ? "Shared amplitude scale +/-\(String(format: "%.3g", peak)); no display clipping or channel mixing."
+                : "PSD: -120 to 0 dB re 1 FS²/Hz (dark to yellow); max per pixel; display limits only.",
             24,
             36, 11)
         text(
-            "Orange: clipped bucket / zero-padded FFT. Grey: incomplete source support; other sources may still sound.",
+            "Orange: clipped bucket / incomplete FFT. Grey: incomplete source support; other sources may still sound.",
             24, 17, 11)
         guard let image = context.makeImage() else {
             throw NativeFailure.decodeFailed("Cannot finish acoustic image.")

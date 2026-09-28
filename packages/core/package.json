@@ -208,9 +208,9 @@
       "types": "./dist/audio-wave.d.ts",
       "default": "./dist/audio-wave.js"
     },
-    "./waveform": {
-      "types": "./dist/waveform.d.ts",
-      "default": "./dist/waveform.js"
+    "./acoustic-inspection": {
+      "types": "./dist/acoustic-inspection.d.ts",
+      "default": "./dist/acoustic-inspection.js"
     },
     "./audio-spectrum": {
       "types": "./dist/audio-spectrum.d.ts",

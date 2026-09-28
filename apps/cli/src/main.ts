@@ -46,6 +46,8 @@ const artifactOperations = new Set([
   "audio.retry",
   "waveform.get",
   "waveform.retry",
+  "spectrogram.get",
+  "spectrogram.retry",
 ]);
 
 function failure(

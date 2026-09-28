@@ -380,9 +380,11 @@ export async function operate(
         };
       case "waveform.get":
       case "waveform.retry":
+      case "spectrogram.get":
+      case "spectrogram.retry":
         return operationError(
           "NOT_READY",
-          "Waveform inspection requires the project service until cutover",
+          "Acoustic inspection requires the project service until cutover",
         );
       case "artifact.renew":
         return { ok: true, data: delivery.renew(operation.params.token) };

@@ -1,4 +1,4 @@
-import { WaveformInspection } from "./waveform.js";
+import { AcousticInspection, type AcousticRenderer } from "./acoustic-inspection.js";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -70,6 +70,7 @@ async function fixture(
   budget?: number,
   durationUs = 1000000,
   sampleRate = 48000,
+  raster?: AcousticRenderer,
 ) {
   const home = await mkdtemp("/tmp/source-audio-inspection-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
@@ -116,7 +117,7 @@ async function fixture(
   );
   await cache.reconcile();
   let inspection!: MediaAudioInspection;
-  let waveform!: WaveformInspection;
+  let waveform!: AcousticInspection;
   let pinHook = () => {};
   const makeJobs = () =>
     new JobQueue({
@@ -134,7 +135,7 @@ async function fixture(
         isCapturing: () => false,
       },
       execute: (execution) =>
-        execution.job.artifact === "waveform"
+        ["waveform", "spectrum", "acoustic-image"].includes(execution.job.artifact)
           ? waveform.execute(execution)
           : inspection.execute(execution),
     });
@@ -148,7 +149,12 @@ async function fixture(
       sourceRenderer: render,
     });
   inspection = makeInspection();
-  waveform = new WaveformInspection({ audio: inspection, jobs, cache });
+  waveform = new AcousticInspection({
+    audio: inspection,
+    jobs,
+    cache,
+    ...(raster ? { renderer: raster } : {}),
+  });
   cleanup.push(async () => {
     await jobs.close();
     catalog.close();
@@ -170,7 +176,12 @@ async function fixture(
       await jobs.close();
       jobs = makeJobs();
       inspection = makeInspection();
-      waveform = new WaveformInspection({ audio: inspection, jobs, cache });
+      waveform = new AcousticInspection({
+        audio: inspection,
+        jobs,
+        cache,
+        ...(raster ? { renderer: raster } : {}),
+      });
       return { jobs, inspection, waveform };
     },
     onPin(hook: () => void) {
@@ -386,6 +397,158 @@ test("long source capacity arithmetic rejects before rendering without losing hi
   expect(small.jobId).toBeTruthy();
 });
 
+test("acoustic images reuse cached measurements and explicit retry rebuilds evicted dependencies", async () => {
+  let decodes = 0,
+    images = 0;
+  const f = await fixture(
+    {
+      ...renderer,
+      async render(request, signal) {
+        decodes++;
+        return renderer.render(request, signal);
+      },
+    },
+    undefined,
+    1000000,
+    48000,
+    {
+      implementationId: "fixture-raster",
+      async render(request) {
+        images++;
+        const bytes = Buffer.from("external raster fixture");
+        await writeFile(request.output, bytes, { flag: "wx" });
+        return {
+          file: request.output,
+          mediaType: "image/png",
+          bytes: bytes.length,
+          width: 1240,
+          height: 704,
+          provenance: request.provenance,
+          plotLeft: 92,
+          plotWidth: 1080,
+          plotTop: 164,
+          panelHeight: 180,
+          panelStride: 244,
+        };
+      },
+    },
+  );
+  const input = {
+    ...f.selection,
+    range: { startUs: 200000, endUs: 210000 },
+    format: "image" as const,
+  };
+  const prepare = async () => {
+    for (let i = 0; i < 4; i++) {
+      f.waveform.request(input);
+      await f.jobs.idle();
+    }
+    const result = f.waveform.request(input);
+    expect(result.state).toBe("ready");
+    return result;
+  };
+  const first = await prepare();
+  expect(first.published!.artifact.mediaType).toBe("image/png");
+  const measurements = f.waveform.request({ ...input, format: "json" });
+  const pcm = f.inspection.request({ ...f.selection, range: input.range }).published!.audio;
+  f.cache.remove(pcm.cacheId);
+  f.cache.remove(first.published!.artifact.cacheId);
+  const second = await prepare();
+  expect([decodes, images]).toEqual([1, 2]);
+  f.cache.remove(measurements.published!.artifact.cacheId);
+  expect(f.waveform.request(input).published).toEqual(second.published);
+  f.cache.remove(second.published!.artifact.cacheId);
+  f.waveform.request(input);
+  await f.jobs.idle();
+  expect(f.waveform.request(input).state).toBe("failed");
+  f.waveform.retry(input);
+  await f.jobs.idle();
+  await prepare();
+  expect([decodes, images]).toEqual([2, 3]);
+});
+
+test("cached spectral jobs preserve full versus ranged measurements and survive PCM eviction", async () => {
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      const receipt = (await renderer.render(request, signal)) as {
+        sampleRange: { start: number; end: number };
+      };
+      const bytes = await readFile(request.output);
+      for (let i = receipt.sampleRange.start; i < receipt.sampleRange.end; i++) {
+        bytes.writeFloatLE(Math.sin(i * 0.17) * 0.3, 44 + (i - receipt.sampleRange.start) * 8);
+        bytes.writeFloatLE(i === 9841 ? 0.9 : -0.1, 48 + (i - receipt.sampleRange.start) * 8);
+      }
+      await writeFile(request.output, bytes);
+      return receipt;
+    },
+  });
+  const input = {
+    ...f.selection,
+    acquisitionId: "mask",
+    kind: "spectrum" as const,
+    fftFrames: 256,
+    hopFrames: 128,
+  };
+  const prepare = async (range: { startUs: number; endUs: number }) => {
+    f.waveform.request({ ...input, range });
+    await f.jobs.idle();
+    f.waveform.request({ ...input, range });
+    await f.jobs.idle();
+    const result = f.waveform.request({ ...input, range });
+    expect(result.state).toBe("ready");
+    return result;
+  };
+  const full = await prepare({ startUs: 200000, endUs: 220000 });
+  const narrow = await prepare({ startUs: 203333, endUs: 208337 });
+  const whole = JSON.parse(await readFile(full.published!.artifact.file, "utf8"));
+  const detail = JSON.parse(await readFile(narrow.published!.artifact.file, "utf8"));
+  expect(whole.unavailable).toEqual([]);
+  expect(detail.sampleRange).toEqual({ start: 9759, end: 10000 });
+  expect(detail.range).toEqual({ startUs: 203333, endUs: 208337 });
+  for (const [i, column] of detail.columns.entries()) {
+    const j = whole.columns.findIndex(
+      (other: { gridStart: number }) => other.gridStart === column.gridStart,
+    );
+    expect(j).toBeGreaterThanOrEqual(0);
+    expect(detail.density.slice(i * 258, (i + 1) * 258)).toEqual(
+      whole.density.slice(j * 258, (j + 1) * 258),
+    );
+    expect(column.partial).toBe(false);
+  }
+  const audio = JSON.parse(f.jobs.status(f.jobs.job(narrow.dependency.jobId!)).published!.result);
+  f.cache.remove(audio.cacheId);
+  expect(f.waveform.request({ ...input, range: detail.range }).published).toEqual(narrow.published);
+});
+
+test("audio context keeps source selection and rounds outward without crossing source extent", async () => {
+  const f = await fixture();
+  const input = {
+    ...f.selection,
+    acquisitionId: "mask",
+    range: { startUs: 333333, endUs: 533337 },
+  };
+  const context = f.inspection.context(input, { start: 15967, end: 25632 });
+  expect(context.selection).toEqual({ ...input, range: { startUs: 332646, endUs: 534000 } });
+  expect(context.sampleClock).toMatchObject({ sampleRange: { start: 15967, end: 25632 } });
+  const pending = f.inspection.request(context.selection);
+  await f.jobs.idle();
+  expect(f.inspection.request(context.selection).published!.audio).toMatchObject({
+    assetId: f.asset.id,
+    streamId: "a",
+    acquisitionId: "mask",
+    sampleRange: { start: 15967, end: 25632 },
+    unavailable: [],
+  });
+  expect(pending.jobId).toBeTruthy();
+  const edge = f.inspection.context(
+    { ...f.selection, range: { startUs: 0, endUs: 1000000 } },
+    { start: -32, end: 48032 },
+  );
+  expect(edge.selection.range).toEqual({ startUs: 0, endUs: 1000000 });
+  expect(() => f.inspection.context(input, { start: 16000, end: 25632 })).toThrow(/contain/);
+});
+
 test("waveform jobs reuse bounded audio recipes, publish source axes and survive eviction of PCM", async () => {
   let renders = 0;
   const f = await fixture({
@@ -406,7 +569,7 @@ test("waveform jobs reuse bounded audio recipes, publish source axes and survive
   f.waveform.request(input);
   await f.jobs.idle();
   const ready = f.waveform.request(input),
-    artifact = ready.published!.waveform;
+    artifact = ready.published!.artifact;
   expect(ready.state).toBe("ready");
   expect(renders).toBe(1);
   const document = JSON.parse(await readFile(artifact.file, "utf8"));
@@ -455,7 +618,7 @@ test("waveform jobs reuse bounded audio recipes, publish source axes and survive
   await f.jobs.idle();
   const rebuilt = f.waveform.request(input);
   expect(rebuilt.state).toBe("ready");
-  expect(rebuilt.published!.waveform.audio.generation).toBe(2);
+  expect(rebuilt.published!.artifact.audio.generation).toBe(2);
   expect(renders).toBe(2);
 });
 
@@ -504,7 +667,7 @@ test("audio generation changes cannot publish stale waveform work and cancellati
   await f.jobs.idle();
   const ready = f.waveform.request(f.selection);
   expect(ready.state).toBe("ready");
-  expect(ready.published!.waveform.audio.generation).toBe(2);
+  expect(ready.published!.artifact.audio.generation).toBe(2);
 });
 
 test("default full-source overview handles longer tracks and persisted waveform survives owner restart", async () => {
@@ -515,11 +678,11 @@ test("default full-source overview handles longer tracks and persisted waveform 
   await f.jobs.idle();
   const ready = f.waveform.request(f.selection);
   expect(ready.state).toBe("ready");
-  expect(ready.published!.waveform.bucketCount).toBeLessThanOrEqual(1025);
-  expect(ready.published!.waveform.range.endUs).toBe(120000000);
+  expect(ready.published!.artifact.bucketCount).toBeLessThanOrEqual(1025);
+  expect(ready.published!.artifact.range.endUs).toBe(120000000);
   const { waveform } = await f.restart();
   expect(waveform.request(f.selection).published).toEqual(ready.published);
-  const artifact = ready.published!.waveform;
+  const artifact = ready.published!.artifact;
   const before = await readFile(artifact.file);
   const held = f.cache.acquire(artifact.cacheId)!;
   expect(() => f.cache.remove(artifact.cacheId)).toThrow(
@@ -565,7 +728,7 @@ test.each(["failed", "canceled"] as const)(
     await next.jobs.idle();
     const ready = next.waveform.request(f.selection);
     expect(ready.state).toBe("ready");
-    expect(ready.published!.waveform.audio).toEqual({ jobId: pending.jobId, generation: 2 });
+    expect(ready.published!.artifact.audio).toEqual({ jobId: pending.jobId, generation: 2 });
     expect(calls).toBe(2);
   },
 );

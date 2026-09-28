@@ -1,0 +1,14 @@
+$ vitest run --maxWorkers=4 src/acoustic-image.test.ts src/audio-inspection.test.ts
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:61637) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:61638) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  04:50:10
+   Duration  1.83s (tests 83%, transform 12%, import 4%)
+
