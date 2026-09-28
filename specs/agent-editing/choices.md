@@ -1556,3 +1556,25 @@ The native plotting operation receives bounded waveform or spectral measurements
   same file. The immutable revision supplies authority without a detector job or
   synthetic source generation. This preserves pure splits, fractional timing and
   stable results when the same final composition was reached by different edits.
+
+
+## Project-cut query integration — 2026-09-28
+
+- **Sound, medium confidence — deterministic ties use the arriving clip.** When a
+  cut and a captured observation share a project time, the cut sorts under the
+  arriving clip; an exit uses the departing clip. Its internal ordinal sorts before
+  source observations of that same clip. The frozen plan required stable ordering
+  without choosing this tie key. This preserves every existing source row's relative
+  position and avoids adding a global kind-first order that would reshuffle earlier
+  event consumers. Future event kinds must use the same exact merge contract.
+- **Sound, high confidence — cut readiness belongs to the project coverage.** A
+  project made entirely from authored silence can report its gap boundaries even
+  though no source evidence exists. The first-page coverage names cuts as ready from
+  the revision; per-source cut coverage remains unavailable. The plan required the
+  distinction but left its response location open. Attaching cut readiness to each
+  source would invent provenance and could not describe a source-free project.
+
+The per-revision boundary index, a single additional bounded merge lane and the
+20,000-selected-cut ceiling are delegated index/budget choices, using the existing
+128-step page budget and cache lifetime. They introduce no new table, endpoint,
+preparation job or persistent reader lifetime. Slice 24 owns release-scale budgets.

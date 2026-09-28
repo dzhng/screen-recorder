@@ -377,12 +377,13 @@ test("adjacent clip endpoints merge next opening ties by existing clip ID order 
   expect(
     result.rows.map((r) => [
       r.projectAtUs,
-      r.clipId,
+      r.kind === "cut" ? (r.after ?? r.before)!.clipId : r.clipId,
       r.kind,
       "sourceSequence" in r ? r.sourceSequence : null,
     ]),
   ).toEqual([
     ...[1, 2, 3].map((n) => [0, project.labels.ending, "pause", n]),
+    [1000, project.labels.opening, "cut", null],
     ...[1, 2, 3].map((n) => [1000, project.labels.opening, "pause", n]),
     [1000, project.labels.ending, "interruption", 6],
     [2000, project.labels.opening, "interruption", 6],
@@ -409,13 +410,14 @@ test("reordered, repeated and rationally retimed capture endpoints retain exact 
   const result = await f.pages({ ...project, limit: 1 });
   expect(
     result.rows.map((r) => [
-      r.clipId,
-      r.sourceAtUs,
+      r.kind === "cut" ? (r.after ?? r.before)!.clipId : r.clipId,
+      r.kind === "cut" ? null : r.sourceAtUs,
       "captureAtUs" in r ? r.captureAtUs : null,
       r.projectAtUs,
     ]),
   ).toEqual([
     [project.labels.earlier, 500, 1000, 500],
+    [project.labels.later, null, null, 1000],
     [project.labels.later, 500, 1000, { numerator: 3001, denominator: 2 }],
   ]);
 });

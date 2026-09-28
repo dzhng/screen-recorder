@@ -1,4 +1,12 @@
-import { compare, fromTime, toTime, floor, ceil, type TimeValue } from "@screenrec/composition";
+import {
+  compare,
+  fromTime,
+  toTime,
+  floor,
+  ceil,
+  type TimeValue,
+  type ProjectCut,
+} from "@screenrec/composition";
 import {
   initialSourceEvents,
   SourceEvents,
@@ -9,7 +17,7 @@ import {
 import { compareKey, mergeHeads, type EvidenceKey } from "./evidence-merge.js";
 import type { EvidenceManifest, EvidencePlan, EvidenceCheckpoint } from "./project-evidence.js";
 import { sourceSelectionKey } from "./source-selection.js";
-export type ProjectEventRow = SourceEventRow & {
+type ProjectSourceEventRow = SourceEventRow & {
   clipId: string;
   assetId: string;
   streamId: string;
@@ -19,15 +27,18 @@ export type ProjectEventRow = SourceEventRow & {
   generation: string;
   projectAtUs: TimeValue;
 };
+export type ProjectEventRow = ProjectSourceEventRow | ProjectCut;
 type EventHead = { key: EvidenceKey; row: ProjectEventRow };
 export type ProjectEventPosition = {
   clip: number;
+  cut: number;
   source: SourceEventPosition;
   head: EventHead | null;
   deferred: EventHead | null;
 };
 export const initialProjectEvents = (): ProjectEventPosition => ({
   clip: 0,
+  cut: 0,
   source: initialSourceEvents(),
   head: null,
   deferred: null,
@@ -47,6 +58,22 @@ export function mergeEvents(
   const next = (index: number): EventHead | null | undefined => {
     const position = state.tracks[index]!,
       ids = manifest.tracks[index]!.clipIds;
+    if (manifest.tracks[index]!.cuts) {
+      if (budget.remaining <= 0) return undefined;
+      budget.remaining--;
+      const row = plan.cuts[position.cut++];
+      if (!row) return null;
+      return {
+        row,
+        key: {
+          projectStartUs: row.projectAtUs,
+          trackRank: row.trackRank,
+          clipId: (row.after ?? row.before)!.clipId,
+          sourceOrdinal: -1,
+          eventKind: "cut",
+        },
+      };
+    }
     while (position.clip < ids.length) {
       if (budget.remaining <= 0) return undefined;
       const clip = clips.get(ids[position.clip]!)!,

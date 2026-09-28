@@ -1,6 +1,6 @@
 # 10c — Bounded occurrence evidence and phrase search
 
-Status: in progress. Pure selection, core transcript paging and public routing are verified; public phrase search and bounded/acquisition-gap journeys are verified; public capture cursor/pause/geometry queries are verified; remaining event categories are open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Pure selection, core transcript paging and public routing are verified; public phrase search and bounded/acquisition-gap journeys are verified; public capture cursor/pause/geometry queries are verified; project-cut events are verified. Final public changed-generation coverage remains open; source-generation invalidation and cache-owner eviction have real-store core gates. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -125,14 +125,14 @@ source/project clock separation, visual cursor/geometry applicability, pause
 occurrences, explicit unavailable categories and acquired-window coverage. Capture
 uses the shared query lifecycle and bounded heap with its own source traversal.
 Public event/cursor routing, scene and interruption journeys are verified below;
-project-cut events remain required pickup work.
+project-cut events are verified in the checkpoint below.
 
 ## Public capture checkpoint
 
 [The actual CLI/MCP journey](../assets/10c-public-capture/README.md) verifies
 source and project clocks, repeats, rational retimes, coverage, complete rows,
 historical restart, checkpoint loss and bounded late reads. The interruption and
-scene checkpoints below extend this coverage; project-cut events remain open.
+scene checkpoints below extend this coverage; project-cut events are verified below.
 
 ## Acquisition lifecycle prerequisite
 
@@ -158,7 +158,7 @@ verifies retained journal qualifications, exact nonzero-origin capture endpoints
 short audio, adjacent occurrence ordering, page-one continuations and historical
 restart. The public schema now accepts the reader's interruption continuation head.
 Existing capture and frozen transcript journeys pass on matching shared runtime
-hashes. Source scenes are verified below; project-cut semantics remain open.
+hashes. Source scenes are verified below; project-cut semantics are verified below.
 
 ## Public scene event checkpoint
 
@@ -167,9 +167,9 @@ actual native preparation and CLI/MCP source/project scene events, exact physica
 clocks, physical gaps, mixed capture ordering, explicit cancellation/retry,
 repeated and retimed occurrences, pagination and historical restart. Existing
 capture/interruption journeys pass without dropping scene rows. Screenshot-index
-acceptance and project-cut semantics remain separate open work.
+acceptance remains open; project-cut semantics are verified below.
 
-## Project-native cut events: next implementation seam
+## Project-native cut events: verified seam
 
 The [inspection contract](../contracts.md#inspection-exports-and-supported-media)
 now defines cuts as track-local editorial mapping transitions. Composition owns
@@ -185,3 +185,17 @@ gaps; same-rate continuity versus rate change; hold/silence transitions; seam-st
 and seam-end query ownership; tied scene/cut/interruption pages at several limits;
 history/restart and independence from later source generations. Compare complete
 expected rows, not counts. Raw still-image admission remains its separate gate.
+
+
+[Project-cut evidence](../assets/10c-project-cuts/README.md) verifies the pure selector,
+actual CLI/MCP authored cases, complete capture/scene preservation and historical
+restart. The event policy invalidates older manifests; source cursor and transcript
+policies retain their existing semantics. A cut uses its after clip for tie ordering,
+or its before clip for an exit, with an internal ordinal before source observations
+of that same clip. The existing source-event relative order is unchanged.
+
+The [contract audit](../assets/10c-project-cuts/README.md#slice-10c-acceptance-audit)
+distinguishes actual public journeys from real-store owner gates. Public
+changed-generation acceptance remains the final 10c verification pickup; no new
+cut implementation is pending. This does not close umbrella 10 or screenshot-index
+projection in 10d, and does not establish ASR accuracy or listening quality.

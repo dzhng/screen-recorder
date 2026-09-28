@@ -6,6 +6,7 @@ import {
   fromTime,
   toTime,
   createSourceRangeProjection,
+  createProjectCuts,
   isMediaClip,
   rangeSchema,
   validateComposition,
@@ -42,7 +43,11 @@ export type EvidencePlan = ReturnType<ProjectEvidenceInspection["plan"]>;
 
 const artifact = "project.evidence";
 const policy = (domain: Query["domain"]) =>
-  domain === "events" || domain === "cursor" ? "project-events-v1" : "project-transcript-v1";
+  domain === "events"
+    ? "project-events-v2"
+    : domain === "cursor"
+      ? "project-events-v1"
+      : "project-transcript-v1";
 // Provisional inspection budgets; scale acceptance owns changes to these limits.
 const maximumBytes = 8 * 1024 * 1024;
 
@@ -85,7 +90,7 @@ export type EvidenceManifest = {
   query: Query;
   queryDigest: string;
   dependencies: Dependency[];
-  tracks: { clipIds: string[]; lowerBound: TimeValue }[];
+  tracks: { clipIds: string[]; lowerBound: TimeValue; cuts?: true }[];
   coverage?: {
     clipId: string;
     trackId: string;
@@ -125,6 +130,7 @@ export class ProjectEvidenceInspection {
     {
       model: ReturnType<typeof validateComposition>;
       projection: ReturnType<typeof createSourceRangeProjection>;
+      cuts?: ReturnType<typeof createProjectCuts>;
       tracks: readonly { id: string; kind: string }[];
     }
   >();
@@ -176,6 +182,12 @@ export class ProjectEvidenceInspection {
     const occurrences = empty ? [] : projection.window({ range: parsed.data, trackIds });
     if (occurrences.length > 10000)
       throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 10000 occurrences");
+    const cuts =
+      empty || domain !== "events"
+        ? []
+        : (context.cuts ??= createProjectCuts(model)).window({ range: parsed.data, trackIds });
+    if (cuts.length > 20000)
+      throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 20000 cuts");
     if (input.text !== undefined) transcriptSearchTerms(input.text);
     const query: Query = {
       domain,
@@ -186,7 +198,7 @@ export class ProjectEvidenceInspection {
       trackIds,
       policy: policy(domain),
     };
-    return { query, queryDigest: digest(query), projection, occurrences };
+    return { query, queryDigest: digest(query), projection, occurrences, cuts };
   }
   private dependencies(
     occurrences: SourceWindowOccurrence[],
@@ -313,7 +325,7 @@ export class ProjectEvidenceInspection {
       throw changed();
     const byTrack = new Map(plan.query.trackIds.map((id) => [id, [] as string[]]));
     for (const clip of plan.occurrences) byTrack.get(clip.trackId)!.push(clip.clipId);
-    const tracks = [...byTrack.values()]
+    const tracks: EvidenceManifest["tracks"] = [...byTrack.values()]
       .flatMap((clipIds) => {
         return clipIds.length
           ? [
@@ -330,6 +342,10 @@ export class ProjectEvidenceInspection {
           : [];
       })
       .sort((a, b) => compare(fromTime(a.lowerBound), fromTime(b.lowerBound)));
+    if (plan.cuts.length) {
+      tracks.push({ clipIds: [], lowerBound: plan.cuts[0]!.projectAtUs, cuts: true });
+      tracks.sort((a, b) => compare(fromTime(a.lowerBound), fromTime(b.lowerBound)));
+    }
     const manifest: EvidenceManifest = {
       query: plan.query,
       queryDigest: plan.queryDigest,
@@ -506,13 +522,26 @@ export class ProjectEvidenceInspection {
               events: mergeEvents(manifest, plan, state, limit, this.options.events!),
             }
           : { ...mergeTranscript(manifest, plan, state, limit, this.options.records), events: [] };
+      const coverage = manifest.coverage
+        ? {
+            manifestId,
+            ...(cursor
+              ? {}
+              : {
+                  occurrences: manifest.coverage,
+                  ...(plan.query.domain === "events"
+                    ? { cuts: { state: "ready", basis: "revision" } }
+                    : {}),
+                }),
+          }
+        : undefined;
       if (state.kind === "events")
         boundSourceEvidenceResponse({
           projectId: input.projectId,
           revisionId: manifest.query.revisionId,
           state: "ready",
           dependencies: manifest.dependencies,
-          coverage: { manifestId, ...(cursor ? {} : { occurrences: manifest.coverage }) },
+          coverage,
           page: {
             rows: merged.events,
             nextCursor: {
@@ -545,9 +574,7 @@ export class ProjectEvidenceInspection {
         revisionId: manifest.query.revisionId,
         state: "ready",
         dependencies: manifest.dependencies,
-        ...(manifest.coverage
-          ? { coverage: { manifestId, ...(cursor ? {} : { occurrences: manifest.coverage }) } }
-          : {}),
+        ...(coverage ? { coverage } : {}),
         page: { ...merged, nextCursor },
       };
     } catch (error) {

@@ -1,0 +1,143 @@
+{
+  "returnedSourceRows": 1,
+  "sourceReads": [
+    {
+      "sourceId": "f91b866dc7e81b903d8e295968f824bcc38ac0b251b65fadc73ce57ddbf4e208",
+      "generation": "6cb2e752-7ccb-4eff-8019-552c9940e8d0",
+      "query": {
+        "upper": {
+          "key": [
+            4800000,
+            0
+          ],
+          "inclusive": false
+        },
+        "reverse": true,
+        "limit": 1
+      },
+      "rows": 1
+    },
+    {
+      "sourceId": "f91b866dc7e81b903d8e295968f824bcc38ac0b251b65fadc73ce57ddbf4e208",
+      "generation": "6cb2e752-7ccb-4eff-8019-552c9940e8d0",
+      "query": {
+        "lower": {
+          "key": [
+            4800000,
+            0
+          ],
+          "inclusive": true
+        },
+        "upper": {
+          "key": [
+            5000000,
+            0
+          ],
+          "inclusive": false
+        },
+        "limit": 2
+      },
+      "rows": 0
+    }
+  ],
+  "late": {
+    "projectId": "40289c88-ceab-4e4c-8696-7cdde193b65d",
+    "revisionId": "6ab3b2d3-2dac-4292-9a9d-92557351f530",
+    "state": "ready",
+    "dependencies": [
+      {
+        "selection": {
+          "assetId": "f91b866dc7e81b903d8e295968f824bcc38ac0b251b65fadc73ce57ddbf4e208",
+          "streamId": "track:1"
+        },
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "f91b866dc7e81b903d8e295968f824bcc38ac0b251b65fadc73ce57ddbf4e208"
+          },
+          "sourceId": "f91b866dc7e81b903d8e295968f824bcc38ac0b251b65fadc73ce57ddbf4e208",
+          "generation": "6cb2e752-7ccb-4eff-8019-552c9940e8d0",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-E537WS/library/assets/f91b866dc7e81b903d8e295968f824bcc38ac0b251b65fadc73ce57ddbf4e208.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 25,
+          "gapCount": 1,
+          "maxWordUs": 1120000,
+          "raw": {
+            "bytes": 9366,
+            "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "a9962c8d-8252-4eb1-9b00-782b83b8434a"
+      }
+    ],
+    "page": {
+      "rows": [
+        {
+          "type": "word",
+          "id": "w6",
+          "ordinal": 6,
+          "text": "workbench.",
+          "kind": "speech",
+          "confidence": 0.9607422,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 4320000,
+            "endUs": 5360000
+          },
+          "partial": false,
+          "clipId": "clip:abf5ac2d28aaeff39a85dd032bde29842429d3e1314d4362c06280af11d7034c:37",
+          "assetId": "f91b866dc7e81b903d8e295968f824bcc38ac0b251b65fadc73ce57ddbf4e208",
+          "streamId": "track:1",
+          "trackId": "track:abf5ac2d28aaeff39a85dd032bde29842429d3e1314d4362c06280af11d7034c:13",
+          "trackRank": 6,
+          "generation": "6cb2e752-7ccb-4eff-8019-552c9940e8d0",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 4320000,
+                "endUs": 5360000
+              },
+              "project": {
+                "startUs": 172320000,
+                "endUs": 173360000
+              }
+            }
+          ]
+        }
+      ],
+      "nextCursor": {
+        "projectId": "40289c88-ceab-4e4c-8696-7cdde193b65d",
+        "revisionId": "6ab3b2d3-2dac-4292-9a9d-92557351f530",
+        "manifestId": "6826f31f-28e6-406e-a7e7-765dbcd0b5be",
+        "checkpointId": "2773aa08-c857-4f38-b918-fce388faeb3d",
+        "queryDigest": "02133d648baaca7b6caa22c024044b8fa9f09a71a8bf299f69c7a73091677e23"
+      }
+    }
+  }
+}

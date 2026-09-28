@@ -1058,7 +1058,7 @@ test("capture source and project reads preserve raw clocks, exact retimes and mi
     observation: { elapsedPauseUs: 77 },
   });
   const second = await f.evidence.events({ ...input, limit: 500, cursor: result.page!.nextCursor });
-  expect(second.page!.rows.map((row) => row.kind)).toEqual(["geometry"]);
+  expect(second.page!.rows.map((row) => row.kind)).toEqual(["geometry", "cut"]);
   expect(
     result.dependencies.map((d) => d.capture!.coverage.find((c) => c.kind === "pause")!.state),
   ).toEqual(["ready", "unavailable"]);
@@ -1124,7 +1124,8 @@ test("capture cursor repeats every visual occurrence and masks unavailable sampl
   }
   expect(
     rows.map((row) => {
-      if (row.kind === "scene") throw new Error("Cursor domain returned scene");
+      if (row.kind === "scene" || row.kind === "cut")
+        throw new Error("Cursor domain returned non-cursor evidence");
       return [row.projectAtUs, row.sourceAtUs, row.sourceSequence];
     }),
   ).toEqual([
@@ -1133,7 +1134,7 @@ test("capture cursor repeats every visual occurrence and masks unavailable sampl
     [1100, 100, 1],
     [1300, 300, 3],
   ]);
-  expect(new Set(rows.map((row) => row.clipId)).size).toBe(2);
+  expect(new Set(rows.filter((row) => row.kind !== "cut").map((row) => row.clipId)).size).toBe(2);
   expect(() => f.captureRead.events({ ...selection, cursor: raw.page!.nextCursor })).toThrow(
     /changed/,
   );
@@ -1239,7 +1240,12 @@ test("late capture windows seek only relevant points and report unavailable supp
   }
   f.captureReads.length = 0;
   const result = await f.evidence.cursor(query);
-  expect(result.page!.rows.map((row) => row.sourceAtUs)).toEqual([800, 802, 804, 808]);
+  expect(
+    result.page!.rows.map((row) => {
+      if (row.kind === "cut") throw Error("Unexpected cursor cut");
+      return row.sourceAtUs;
+    }),
+  ).toEqual([800, 802, 804, 808]);
   expect(f.captureReads.flat()).toEqual([1300, 1302, 1304, 1306, 1308]);
   expect(result.coverage!.occurrences![0]).toMatchObject({
     available: [
@@ -1376,13 +1382,24 @@ test("source scene readiness is independent of capture context and exact scene c
     clip(f.asset.id, "again", "v", 3000000, 4000000, 0, 1000000, "video"),
   ]);
   const one = await eventPages(f, { ...input, limit: 1 });
-  expect(one.rows.map((r) => r.projectAtUs)).toEqual(
+  expect(one.rows.filter((r) => r.kind === "scene").map((r) => r.projectAtUs)).toEqual(
     [2999994, 5999994, 8999994, 11999994, 15999998, 16999998, 17999998, 18999998].map(
       (numerator) => ({ numerator, denominator: 5 }),
     ),
   );
+  expect(one.rows.filter((r) => r.kind === "cut").map((r) => r.projectAtUs)).toEqual([3000000]);
   expect((await eventPages(f, { ...input, limit: 500 })).rows).toEqual(one.rows);
-  expect(new Set(one.rows.map((r) => r.clipId)).size).toBe(2);
+  expect(new Set(one.rows.filter((r) => r.kind !== "cut").map((r) => r.clipId)).size).toBe(2);
+  const pinned = await f.evidence.events({ ...input, limit: 1 });
+  const prepared = f.sceneProcessing.sourceStatus(selection);
+  f.jobs.regenerate(prepared.jobId!, f.jobs.job(prepared.jobId!).generation);
+  await f.jobs.idle();
+  await expect(
+    f.evidence.events({ ...input, cursor: pinned.page!.nextCursor }),
+  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+  expect((await eventPages(f, input)).rows.filter((r) => r.kind === "cut")).toEqual(
+    one.rows.filter((r) => r.kind === "cut"),
+  );
   expect(
     (
       await eventPages(f, { ...input, range: { startUs: 200000, endUs: 600000 }, limit: 1 })
@@ -1478,7 +1495,9 @@ test("scene-only tied tracks preserve bounded empty-page progress and acquisitio
   expect(first.page!.nextCursor).not.toBeNull();
   const all = await eventPages(f, { ...input, limit: 500 });
   expect(all.rows).toHaveLength(258);
-  expect(new Set(all.rows.map((r) => JSON.stringify(r.sourceAtUs)))).toEqual(
+  expect(
+    new Set(all.rows.filter((r) => r.kind !== "cut").map((r) => JSON.stringify(r.sourceAtUs))),
+  ).toEqual(
     new Set([
       JSON.stringify({ numerator: 999998, denominator: 5 }),
       JSON.stringify({ numerator: 3999998, denominator: 5 }),
@@ -1487,4 +1506,59 @@ test("scene-only tied tracks preserve bounded empty-page progress and acquisitio
   expect(first.coverage!.occurrences![0]!.unavailable).toEqual([
     { startUs: 300000, endUs: 600000 },
   ]);
+});
+
+test("project-native cuts page without source evidence, survive historical heads, and belong to right query windows", async () => {
+  const f = await fixture();
+  const input = f.create([
+    { operation: "track.add", label: "a", track: { kind: "audio", order: 0 } },
+    {
+      operation: "place",
+      label: "s1",
+      clip: {
+        trackId: { label: "a" },
+        source: { kind: "silence" },
+        placement: { kind: "project", range: { startUs: 0, endUs: 200 } },
+      },
+    },
+    {
+      operation: "place",
+      label: "s2",
+      clip: {
+        trackId: { label: "a" },
+        source: { kind: "silence" },
+        placement: { kind: "project", range: { startUs: 400, endUs: 800 } },
+      },
+    },
+  ]);
+  const all = await eventPages(f, { ...input, limit: 1 });
+  expect(all.rows.map((r) => [r.kind, r.projectAtUs])).toEqual([
+    ["cut", 200],
+    ["cut", 400],
+  ]);
+  expect(all.result.dependencies).toEqual([]);
+  const first = await f.evidence.events({ ...input, limit: 1 });
+  expect(first.coverage).toMatchObject({ cuts: { state: "ready", basis: "revision" } });
+  expect(first.page!.rows[0]).toMatchObject({
+    before: { kind: "silence" },
+    after: null,
+    mediaKind: "audio",
+  });
+  f.projects.apply(input.projectId, {
+    requestId: randomUUID(),
+    expectedRevisionId: input.revisionId,
+    operations: [{ operation: "track.add", label: "unused", track: { kind: "video", order: 1 } }],
+  });
+  const historical = await f.evidence.events({
+    projectId: input.projectId,
+    cursor: first.page!.nextCursor,
+  });
+  expect(historical.revisionId).toBe(input.revisionId);
+  expect([...first.page!.rows, ...historical.page!.rows]).toEqual(all.rows);
+  expect(
+    (await eventPages(f, { ...input, range: { startUs: 200, endUs: 400 } })).rows.map(
+      (r) => r.projectAtUs,
+    ),
+  ).toEqual([200]);
+  expect((await eventPages(f, { ...input, range: { startUs: 201, endUs: 400 } })).rows).toEqual([]);
 });

@@ -1,0 +1,151 @@
+{
+  "allReportsPassed": true,
+  "runtimeFiles": [
+    {
+      "file": "packages/composition/dist/project-cuts.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/project-events.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/project-evidence.js",
+      "matches": true
+    },
+    {
+      "file": "packages/protocol/dist/operations.js",
+      "matches": true
+    },
+    {
+      "file": "apps/service/dist/project-service.js",
+      "matches": true
+    },
+    {
+      "file": "packages/test-harness/editing/cut-evidence.mjs",
+      "matches": true
+    },
+    {
+      "file": "apps/service/dist/project-service.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/source-events.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/scene-source-read.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/project-events.js",
+      "matches": true
+    },
+    {
+      "file": "packages/protocol/dist/operations.js",
+      "matches": true
+    },
+    {
+      "file": "packages/test-harness/editing/scene-evidence.mjs",
+      "matches": true
+    },
+    {
+      "file": "apps/service/dist/project-service.js",
+      "matches": true
+    },
+    {
+      "file": "packages/protocol/dist/operations.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/capture-source-read.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/project-evidence.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/project-events.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/evidence-read.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/evidence-merge.js",
+      "matches": true
+    },
+    {
+      "file": "packages/test-harness/editing/capture-evidence.mjs",
+      "matches": true
+    },
+    {
+      "file": "packages/test-harness/editing/capture-evidence-fixture.mjs",
+      "matches": true
+    },
+    {
+      "file": "packages/test-harness/editing/capture-evidence-service.mjs",
+      "matches": true
+    },
+    {
+      "file": "packages/core/package.json",
+      "matches": true
+    },
+    {
+      "file": "apps/service/dist/project-service.js",
+      "matches": true
+    },
+    {
+      "file": "apps/service/dist/worker.js",
+      "matches": true
+    },
+    {
+      "file": "apps/cli/dist/main.js",
+      "matches": true
+    },
+    {
+      "file": "packages/protocol/dist/operations.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/project-evidence.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/transcript-processing.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/transcript-read.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/transcript.js",
+      "matches": true
+    },
+    {
+      "file": "packages/core/dist/cache.js",
+      "matches": true
+    },
+    {
+      "file": "packages/composition/dist/source-projection.js",
+      "matches": true
+    },
+    {
+      "file": "packages/test-harness/editing/evidence.mjs",
+      "matches": true
+    },
+    {
+      "file": "packages/test-harness/editing/evidence-service.mjs",
+      "matches": true
+    },
+    {
+      "file": "packages/test-harness/editing/source-evidence-fixture.mjs",
+      "matches": true
+    }
+  ],
+  "nativeSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "allNativeHashesMatch": true
+}

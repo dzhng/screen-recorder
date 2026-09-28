@@ -245,12 +245,14 @@ try {
   });
   const query = { projectId: project.project.projectId, revisionId: edited.revision.id };
   const projected = await pages(query);
-  const actual = projected.rows.map((r) => ({
-    kind: r.kind,
-    sourceAtUs: r.sourceAtUs,
-    projectAtUs: r.projectAtUs,
-    clipId: r.clipId,
-  }));
+  const actual = projected.rows
+    .filter((r) => r.kind !== "cut")
+    .map((r) => ({
+      kind: r.kind,
+      sourceAtUs: r.sourceAtUs,
+      projectAtUs: r.projectAtUs,
+      clipId: r.clipId,
+    }));
   const expected = plans.flatMap((p) =>
     mixedExpected.map((r) => ({
       kind: r.kind,
@@ -260,6 +262,15 @@ try {
     })),
   );
   assert.deepEqual(actual, expected);
+  assert.deepEqual(
+    projected.rows
+      .filter((r) => r.kind === "cut")
+      .map((r) => [r.projectAtUs, r.before?.clipId ?? null, r.after?.clipId ?? null]),
+    [
+      [2500000, edited.edit.labels.first, null],
+      [3000000, null, edited.edit.labels.repeat],
+    ],
+  );
   for (const limit of [2, 500]) assert.deepEqual((await pages(query, limit)).rows, projected.rows);
   const first = projected.first;
   await call("edit.apply", {

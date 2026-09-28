@@ -1,0 +1,493 @@
+[
+  {
+    "name": "synthetic",
+    "interruption": {
+      "state": "unavailable",
+      "reason": "capture_completion_unknown",
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/synthetic-donor",
+    "journalSha256": "66dbbb1d911c004866df6d3be7fae9ceb25f5f5848a1754f758726e58160fe43",
+    "normalizedSha256": "649c59b6024756cbca848d810e23e660e2655f632150141d74d78c5bd37588f0",
+    "receipt": {
+      "audioIntervals": 2,
+      "bytes": 2124,
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/synthetic-normalized.jsonl",
+      "finished": true,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastLifecycle": {
+        "state": "complete"
+      },
+      "lastSequence": 12,
+      "originHostUs": 1000000,
+      "pauseEvents": 2
+    }
+  },
+  {
+    "name": "incomplete",
+    "interruption": {
+      "state": "unavailable",
+      "reason": "capture_completion_untrusted",
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/incomplete-donor",
+    "journalSha256": "f9e486ab78c4169080a18a8340f0eec15d535c6ed309b57d1ed1ce73b8164d5b",
+    "normalizedSha256": "649c59b6024756cbca848d810e23e660e2655f632150141d74d78c5bd37588f0",
+    "receipt": {
+      "audioIntervals": 2,
+      "bytes": 2124,
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/incomplete-normalized.jsonl",
+      "finished": false,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": true,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastSequence": 10,
+      "originHostUs": 1000000,
+      "pauseEvents": 2
+    }
+  },
+  {
+    "name": "empty",
+    "interruption": {
+      "state": "unavailable",
+      "reason": "capture_completion_unknown",
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/empty-donor",
+    "journalSha256": "b006788e9075594adc0ef248b78d52ec3eb80cd48e9184afdcb87992cc8038ba",
+    "normalizedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt": {
+      "audioIntervals": 0,
+      "bytes": 0,
+      "cursorSamples": 0,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/empty-normalized.jsonl",
+      "finished": true,
+      "geometryRecords": 0,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastLifecycle": {
+        "state": "complete"
+      },
+      "lastSequence": 4,
+      "originHostUs": 1000000,
+      "pauseEvents": 0
+    }
+  },
+  {
+    "name": "complete",
+    "interruption": {
+      "state": "ready",
+      "reason": null,
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/complete-donor",
+    "journalSha256": "3dbe20495d3d0bf5ba90b4b8b4eefd42633bf0da3c48833239e7f3ed0551039b",
+    "normalizedSha256": "a5a140d5f07bc20997bf73395087a36209794d0909f9dc444d52ebaa7f1e6087",
+    "receipt": {
+      "audioIntervals": 1,
+      "bytes": 2164,
+      "completion": {
+        "durationUs": 2750000,
+        "sequence": 12,
+        "state": "complete"
+      },
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/complete-normalized.jsonl",
+      "finished": true,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastLifecycle": {
+        "state": "complete"
+      },
+      "lastSequence": 13,
+      "originHostUs": 1000000,
+      "pauseEvents": 4
+    }
+  },
+  {
+    "name": "interrupted",
+    "interruption": {
+      "state": "ready",
+      "reason": null,
+      "marker": {
+        "sequence": 12,
+        "state": "interrupted",
+        "durationUs": 2750000,
+        "failureCode": "DEVICE_LOST"
+      }
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/interrupted-donor",
+    "journalSha256": "d3cae543503c3a2c677bcc6783bdeb6c7048f8ab9bd4feb0d3fe3b09781704a6",
+    "normalizedSha256": "a5a140d5f07bc20997bf73395087a36209794d0909f9dc444d52ebaa7f1e6087",
+    "receipt": {
+      "audioIntervals": 1,
+      "bytes": 2164,
+      "completion": {
+        "durationUs": 2750000,
+        "failureCode": "DEVICE_LOST",
+        "sequence": 12,
+        "state": "interrupted"
+      },
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/interrupted-normalized.jsonl",
+      "finished": true,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastLifecycle": {
+        "reason": "DEVICE_LOST",
+        "state": "interrupted"
+      },
+      "lastSequence": 13,
+      "originHostUs": 1000000,
+      "pauseEvents": 4
+    }
+  },
+  {
+    "name": "missing",
+    "interruption": {
+      "state": "unavailable",
+      "reason": "capture_completion_unknown",
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/missing-donor",
+    "journalSha256": "f873f9020172c799dc97aea45cfcd4f70d7aad2154b22bff3ea19c6c20135b5e",
+    "normalizedSha256": "a5a140d5f07bc20997bf73395087a36209794d0909f9dc444d52ebaa7f1e6087",
+    "receipt": {
+      "audioIntervals": 1,
+      "bytes": 2164,
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/missing-normalized.jsonl",
+      "finished": false,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastSequence": 11,
+      "originHostUs": 1000000,
+      "pauseEvents": 4
+    }
+  },
+  {
+    "name": "lifecycle-only",
+    "interruption": {
+      "state": "unavailable",
+      "reason": "capture_completion_unknown",
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/lifecycle-only-donor",
+    "journalSha256": "0c9900889b4e06ed166d8845998688c84af4c19890457ddf7ae101dfb37da3f5",
+    "normalizedSha256": "a5a140d5f07bc20997bf73395087a36209794d0909f9dc444d52ebaa7f1e6087",
+    "receipt": {
+      "audioIntervals": 1,
+      "bytes": 2164,
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/lifecycle-only-normalized.jsonl",
+      "finished": false,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastLifecycle": {
+        "state": "interrupted"
+      },
+      "lastSequence": 12,
+      "originHostUs": 1000000,
+      "pauseEvents": 4
+    }
+  },
+  {
+    "name": "torn",
+    "interruption": {
+      "state": "unavailable",
+      "reason": "capture_completion_untrusted",
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/torn-donor",
+    "journalSha256": "c4ff741f94c767960acdc05b3e84a10b1721bacef3d6c6e8c873bd232ab6dd7d",
+    "normalizedSha256": "a5a140d5f07bc20997bf73395087a36209794d0909f9dc444d52ebaa7f1e6087",
+    "receipt": {
+      "audioIntervals": 1,
+      "bytes": 2164,
+      "completion": {
+        "durationUs": 2750000,
+        "failureCode": "DEVICE_LOST",
+        "sequence": 12,
+        "state": "interrupted"
+      },
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/torn-normalized.jsonl",
+      "finished": true,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": true,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastLifecycle": {
+        "reason": "DEVICE_LOST",
+        "state": "interrupted"
+      },
+      "lastSequence": 13,
+      "originHostUs": 1000000,
+      "pauseEvents": 4
+    }
+  },
+  {
+    "name": "corrupt",
+    "interruption": {
+      "state": "unavailable",
+      "reason": "capture_completion_untrusted",
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/corrupt-donor",
+    "journalSha256": "9e21207fc953f0f946ccff05366f1fd7557cdd1479ac026c766f7d64fb334015",
+    "normalizedSha256": "a5a140d5f07bc20997bf73395087a36209794d0909f9dc444d52ebaa7f1e6087",
+    "receipt": {
+      "audioIntervals": 1,
+      "bytes": 2164,
+      "completion": {
+        "durationUs": 2750000,
+        "failureCode": "DEVICE_LOST",
+        "sequence": 12,
+        "state": "interrupted"
+      },
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/corrupt-normalized.jsonl",
+      "finished": true,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "invalidAtSequence": 14,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastLifecycle": {
+        "reason": "DEVICE_LOST",
+        "state": "interrupted"
+      },
+      "lastSequence": 13,
+      "originHostUs": 1000000,
+      "pauseEvents": 4
+    }
+  },
+  {
+    "name": "conflicting",
+    "interruption": {
+      "state": "unavailable",
+      "reason": "capture_completion_conflict",
+      "marker": null
+    },
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/conflicting-donor",
+    "journalSha256": "7edd028ec05577273c5965731bfefa46b1dd4d40351c05c869d9e508779742eb",
+    "normalizedSha256": "a5a140d5f07bc20997bf73395087a36209794d0909f9dc444d52ebaa7f1e6087",
+    "receipt": {
+      "audioIntervals": 1,
+      "bytes": 2164,
+      "completion": {
+        "durationUs": 2750000,
+        "sequence": 12,
+        "state": "complete"
+      },
+      "cursorSamples": 8,
+      "displaySpaces": 0,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/conflicting-normalized.jsonl",
+      "finished": true,
+      "firstCursorSourceUs": 250000,
+      "geometryRecords": 3,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "synthetic-capture-evidence",
+        "source": {
+          "kind": "window",
+          "windowID": 7
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 2749999,
+      "lastLifecycle": {
+        "state": "interrupted"
+      },
+      "lastSequence": 13,
+      "originHostUs": 1000000,
+      "pauseEvents": 4
+    }
+  },
+  {
+    "name": "real",
+    "directory": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-capture-evidence-NIccu9/real-donor",
+    "journalSha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+    "normalizedSha256": "0becd1bd6fc8e1544c2bfc4c475b1c570a4ca598f328b23b79527fa134bf63c9",
+    "receipt": {
+      "audioIntervals": 1,
+      "bytes": 1488048,
+      "completion": {
+        "durationUs": 134025574,
+        "sequence": 12841,
+        "state": "complete"
+      },
+      "cursorSamples": 8039,
+      "displaySpaces": 1,
+      "file": "/private/tmp/screenrec-source-audio-inspection/specs/agent-editing/assets/10c-project-cuts/capture-preservation/real-normalized.jsonl",
+      "finished": true,
+      "firstCursorSourceUs": 49814,
+      "geometryRecords": 5,
+      "header": {
+        "height": 1970,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+        "source": {
+          "kind": "window",
+          "windowID": 188
+        },
+        "systemAudio": false,
+        "width": 3120
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastCursorSourceUs": 134019623,
+      "lastLifecycle": {
+        "state": "complete"
+      },
+      "lastSequence": 12842,
+      "originHostUs": 92388474388,
+      "pauseEvents": 0
+    }
+  }
+]

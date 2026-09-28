@@ -1,0 +1,16 @@
+{"data":{"epoch":1,"geometry":{"contentRect":{"height":985,"width":1560,"x":0,"y":0},"contentScale":1,"outputHeight":1970,"outputWidth":3120,"scaleFactor":2},"hostUs":1000000,"sourceUs":250000},"event":"geometry"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":100,"globalY":200,"sourceUs":250000,"x":10,"y":20},"event":"cursorSample"}
+{"data":{"buttons":1,"eligibility":"outside","geometryEpoch":1,"globalX":101,"globalY":201,"sourceUs":300001,"x":11,"y":21},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":102,"globalY":202,"sourceUs":550001,"x":12,"y":22},"event":"cursorSample"}
+{"data":{"buttons":1,"eligibility":"inside","geometryEpoch":1,"globalX":103,"globalY":203,"sourceUs":1250000,"x":13,"y":23},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":104,"globalY":204,"sourceUs":1500000,"x":14,"y":24},"event":"cursorSample"}
+{"data":{"buttons":1,"eligibility":"inside","geometryEpoch":1,"globalX":105,"globalY":205,"sourceUs":1750000,"x":15,"y":25},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":106,"globalY":206,"sourceUs":2000000,"x":16,"y":26},"event":"cursorSample"}
+{"data":{"buttons":1,"eligibility":"inside","geometryEpoch":1,"globalX":107,"globalY":207,"sourceUs":2749999,"x":17,"y":27},"event":"cursorSample"}
+{"data":{"atSourceUs":550001,"elapsedPauseUs":123456},"event":"pause"}
+{"data":{"atSourceUs":1500000,"elapsedPauseUs":234567},"event":"pause"}
+{"data":{"epoch":2,"geometry":{"contentRect":{"height":985,"width":1560,"x":0,"y":0},"contentScale":1,"outputHeight":1970,"outputWidth":3120,"scaleFactor":2},"hostUs":1300001,"sourceUs":550001},"event":"geometry"}
+{"data":{"epoch":3,"geometry":{"contentRect":{"height":985,"width":1560,"x":0,"y":0},"contentScale":1,"outputHeight":1970,"outputWidth":3120,"scaleFactor":2},"hostUs":1400000},"event":"geometry"}
+{"data":{"atSourceUs":250000,"elapsedPauseUs":17},"event":"pause"}
+{"data":{"atSourceUs":250000,"elapsedPauseUs":19},"event":"pause"}
+{"data":{"endUs":600000,"role":"narration","startUs":0},"event":"audioAcquired"}

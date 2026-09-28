@@ -1,0 +1,98 @@
+[
+  {
+    "kind": "cursor",
+    "sourceAtUs": 0,
+    "captureAtUs": 250000,
+    "sourceSequence": 2,
+    "observation": {
+      "buttons": 0,
+      "eligibility": "inside",
+      "geometryEpoch": 1,
+      "globalX": 100,
+      "globalY": 200,
+      "sourceUs": 250000,
+      "x": 10,
+      "y": 20
+    }
+  },
+  {
+    "kind": "cursor",
+    "sourceAtUs": 50001,
+    "captureAtUs": 300001,
+    "sourceSequence": 3,
+    "observation": {
+      "buttons": 1,
+      "eligibility": "outside",
+      "geometryEpoch": 1,
+      "globalX": 101,
+      "globalY": 201,
+      "sourceUs": 300001,
+      "x": 11,
+      "y": 21
+    }
+  },
+  {
+    "kind": "cursor",
+    "sourceAtUs": 300001,
+    "captureAtUs": 550001,
+    "sourceSequence": 4,
+    "observation": {
+      "buttons": 0,
+      "eligibility": "inside",
+      "geometryEpoch": 1,
+      "globalX": 102,
+      "globalY": 202,
+      "sourceUs": 550001,
+      "x": 12,
+      "y": 22
+    }
+  },
+  {
+    "kind": "cursor",
+    "sourceAtUs": 1500000,
+    "captureAtUs": 1750000,
+    "sourceSequence": 7,
+    "observation": {
+      "buttons": 1,
+      "eligibility": "inside",
+      "geometryEpoch": 1,
+      "globalX": 105,
+      "globalY": 205,
+      "sourceUs": 1750000,
+      "x": 15,
+      "y": 25
+    }
+  },
+  {
+    "kind": "cursor",
+    "sourceAtUs": 1750000,
+    "captureAtUs": 2000000,
+    "sourceSequence": 8,
+    "observation": {
+      "buttons": 0,
+      "eligibility": "inside",
+      "geometryEpoch": 1,
+      "globalX": 106,
+      "globalY": 206,
+      "sourceUs": 2000000,
+      "x": 16,
+      "y": 26
+    }
+  },
+  {
+    "kind": "cursor",
+    "sourceAtUs": 2499999,
+    "captureAtUs": 2749999,
+    "sourceSequence": 9,
+    "observation": {
+      "buttons": 1,
+      "eligibility": "inside",
+      "geometryEpoch": 1,
+      "globalX": 107,
+      "globalY": 207,
+      "sourceUs": 2749999,
+      "x": 17,
+      "y": 27
+    }
+  }
+]

@@ -25,9 +25,11 @@ Current pickup and priority:
    [Actual native CLI/MCP journeys](assets/10d-source-index-public/README.md) and
    [fresh product-skill use](assets/10d-source-index-skill/README.md) now pass,
    including dependency recovery, images, coverage and retained independence.
-   Next implement project-index selection on the compiler frame phase and project
-   cuts from the explicit track-local mapping contract; retain the complete
-   [10 umbrella](slices/10-project-evidence.md).
+   [Project cuts](assets/10c-project-cuts/README.md) pass authored public and
+   capture/scene preservation journeys. Next implement project-index selection on
+   the compiler frame phase and finish 10c public changed-generation verification;
+   generation invalidation/cache-owner eviction currently retain real-store core
+   gates. Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
    integrated. The isolated compiler/native pass is not yet accepted: crop-edge

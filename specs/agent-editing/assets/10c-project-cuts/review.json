@@ -1,0 +1,8 @@
+{
+  "reviewer": "independent codex review",
+  "findings": [],
+  "scope": "Project cut selector, core merge/query integration, protocol description and authored/preservation harnesses",
+  "boundary": "Read-only review; reviewer did not run native journeys",
+  "followup": "Author consolidated duplicated coverage response construction, strengthened public fractional/rate gates and updated a stale audio-pause-only assertion. Full suite and actual public journeys passed afterward.",
+  "reviewLogSha256": "4dc4ef1adde38ae3dc62ffe8a9047728c981bb611ee735db18a782ae7b5423f9"
+}

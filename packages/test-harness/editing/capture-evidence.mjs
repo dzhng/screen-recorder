@@ -19,7 +19,7 @@ const report = {
     "Actual CLI/MCP, acquisition import, native media probing and journal normalization. Synthetic journals are explicitly labeled; no live capture or database seeding.",
   checks: {},
   trace: [],
-  pending: ["project cut semantics"],
+  pending: [],
 };
 const service = new JourneyService(
   home,
@@ -132,6 +132,43 @@ const projectRows = (plans, labels, domain) =>
         a.sourceSequence - b.sourceSequence ||
         a.kind.localeCompare(b.kind),
     );
+
+// Authored transitions are listed by each scenario; this helper only fills public identities.
+function authoredCuts(plans, labels, boundaries) {
+  const side = (label, after) => {
+    if (label === null) return null;
+    const p = plans.find((p) => p.label === label);
+    return {
+      clipId: labels[label],
+      kind: "range",
+      assetId: p.binding.assetId,
+      streamId: p.binding.streamId,
+      ...(p.fixture ? { acquisitionId: p.fixture.context.id } : {}),
+      sourceAtUs: after ? p.from : p.to,
+      rate: fraction(p.to - p.from, p.duration),
+    };
+  };
+  return boundaries.map(([projectAtUs, before, after]) => {
+    const p = plans.find((p) => p.label === (after ?? before));
+    return {
+      kind: "cut",
+      projectAtUs,
+      trackId: labels[p.track],
+      trackRank: p.rank,
+      mediaKind: p.track === "audio" ? "audio" : "video",
+      before: side(before, false),
+      after: side(after, true),
+    };
+  });
+}
+const eventCompare = (a, b) =>
+  compare(a.projectAtUs, b.projectAtUs) ||
+  a.trackRank - b.trackRank ||
+  (a.kind === "cut" ? (a.after ?? a.before).clipId : a.clipId).localeCompare(
+    b.kind === "cut" ? (b.after ?? b.before).clipId : b.clipId,
+  ) ||
+  (a.kind === "cut" ? -1 : a.sourceSequence) - (b.kind === "cut" ? -1 : b.sourceSequence) ||
+  a.kind.localeCompare(b.kind);
 
 async function pages(operation, params, limit, expectedRevisionId) {
   let result = await poll(
@@ -535,7 +572,22 @@ try {
     { transport: "mcp" },
   );
   const revisionId = edited.revision.id;
-  const oracle = (domain) => projectRows(plans, edited.edit.labels, domain);
+  const cuts = authoredCuts(plans, edited.edit.labels, [
+    [1000000, "later-first", "first"],
+    [1000000, null, "tied"],
+    [2000000, "first", "repeat"],
+    [2000000, "tied", null],
+    [2500000, "audio-clip", null],
+    [3000000, "repeat", null],
+    [4000000, null, "retimed"],
+    [7750000, "retimed", null],
+    [8000000, null, "unbound"],
+    [9000000, "unbound", "empty"],
+  ]);
+  const oracle = (domain) =>
+    [...projectRows(plans, edited.edit.labels, domain), ...(domain === "events" ? cuts : [])].sort(
+      eventCompare,
+    );
   for (const [operation, domain, limits] of [
     ["cursor.raw", "cursor", [1, 2, 5000]],
     ["timeline.events", "events", [1, 2, 500]],
@@ -569,7 +621,7 @@ try {
   assert.equal(
     oracle("events")
       .filter((row) => row.trackId === edited.edit.labels.audio)
-      .every((row) => row.kind === "pause"),
+      .every((row) => row.kind === "pause" || row.kind === "cut"),
     true,
   );
   report.checks.project = {
@@ -711,7 +763,16 @@ try {
     projectId: terminationProject.project.projectId,
     revisionId: terminationEdit.revision.id,
   };
-  const expectedTermination = projectRows(terminationPlans, terminationEdit.edit.labels, "events");
+  const expectedTermination = [
+    ...projectRows(terminationPlans, terminationEdit.edit.labels, "events"),
+    ...authoredCuts(terminationPlans, terminationEdit.edit.labels, [
+      [1000000, "ending", "opening"],
+      [1000000, "short", null],
+      [2000000, "opening", "repeat"],
+      [3000000, "repeat", null],
+      [4000000, null, "retimed"],
+    ]),
+  ].sort(eventCompare);
   for (const limit of [1, 2, 500])
     assert.deepEqual(
       (await pages("timeline.events", terminationQuery, limit, terminationQuery.revisionId)).rows,
@@ -720,7 +781,7 @@ try {
   const atJoin = expectedTermination.filter((row) => compare(row.projectAtUs, 1000000) === 0);
   assert.deepEqual(
     atJoin.map((row) => row.kind),
-    ["geometry", "pause", "pause", "interruption"],
+    ["cut", "geometry", "pause", "pause", "interruption", "cut"],
   );
   assert.equal(
     expectedTermination.filter((row) => row.trackRank === 1 && row.kind === "interruption").length,
@@ -736,17 +797,7 @@ try {
     { ...terminationQuery, range: { startUs: 1000000, endUs: 7750001 } },
     1,
   );
-  assert.deepEqual(
-    [...left.rows, ...right.rows].sort(
-      (a, b) =>
-        compare(a.projectAtUs, b.projectAtUs) ||
-        a.trackRank - b.trackRank ||
-        a.clipId.localeCompare(b.clipId) ||
-        a.sourceSequence - b.sourceSequence ||
-        a.kind.localeCompare(b.kind),
-    ),
-    expectedTermination,
-  );
+  assert.deepEqual([...left.rows, ...right.rows].sort(eventCompare), expectedTermination);
   const terminationFirst = await call("timeline.events", { ...terminationQuery, limit: 1 });
   assert.ok(terminationFirst.page.nextCursor);
   await call("edit.apply", {
