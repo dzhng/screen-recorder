@@ -81,3 +81,6 @@ export { createProjectCuts } from "./project-cuts.js";
 export type { ProjectCut, ProjectCutSide } from "./project-cuts.js";
 
 export { maximumPointerTrailUs } from "./pointer.js";
+
+export { scalarCurveSchema } from "./curve.js";
+export type { ScalarCurve, CompiledScalarCurve } from "./curve.js";

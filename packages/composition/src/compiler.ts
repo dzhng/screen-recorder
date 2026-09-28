@@ -1,3 +1,4 @@
+import { compileScalarCurve } from "./curve.js";
 import { visualPlanner } from "./visual-plan.js";
 import { intervalIndex } from "./interval-index.js";
 import { sampleAt } from "./sample-clock.js";
@@ -263,6 +264,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
   }
   return {
     ...compileSchedules(visual, processing, undefined, clock, query, contexts),
+    curve: (curve: unknown, anchor: unknown) => compileScalarCurve(model, curve, anchor),
     /** Neighbors of an exact boundary in the existing integer-microsecond picture clock. */
     frameBoundary(at: TimeValue) {
       const parsed = timeValueSchema.safeParse(at);

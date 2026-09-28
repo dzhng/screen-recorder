@@ -2021,3 +2021,20 @@ existing lifetime owner.
   the agent can accidentally recreate an existing effect or invent an ID the
   service rejects. Requests and receipts from failed attempts remain separate
   from successful recovery, preserving what actually happened for inspection.
+
+
+## Scalar curve compiler prerequisite — 16a
+
+- **Choice:** Restrict animation by keeping its original function and clock, then
+  narrowing where it is active. For example, splitting a zoom halfway through a
+  curved acceleration should keep the same acceleration on each side; starting
+  a fresh curve from the split value would change its motion. The compiler keeps
+  its complete keys and exact clock behind intersected project windows.
+- **Gap:** The contract allows either exact curve reparameterization or an
+  evaluation window; this pass chooses the window representation in process.
+- **Reach:** Slice 16 must preserve this function/clock when it connects persisted
+  processing edits and native execution. This pass does not choose that storage
+  format or advertise runnable animation. It avoids a second source-clock or
+  easing owner in workers.
+- **Verdict:** Sound, high confidence. Pure restrictions preserve every original
+  sample exactly without approximating cubic control handles.

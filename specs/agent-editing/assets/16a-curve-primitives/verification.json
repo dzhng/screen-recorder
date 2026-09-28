@@ -1,0 +1,19 @@
+{
+  "scope": "In-process scalar compiler primitive only; no public/native animation acceptance",
+  "checks": {
+    "compositionTests": 149,
+    "finalFocusedTests": 8,
+    "types": "pass",
+    "mutation": "linear substitution fails analytic cubic test, restored green",
+    "review": "no actionable defects; reviewer reran149 tests and types",
+    "afterReview": "comments clarified and existing held-clip case additionally exercises still-image source; focused tests and types pass"
+  },
+  "logsUncompressedSha256": {
+    "mutation.log.gz": "627f262ea3d08044567b2540c71672be3efbb4f4b48d593ea26c565ff4ba9dd9",
+    "tests.log.gz": "ebf1b5e309b95e1fb9c46197ca9ebba49faa61e6695ff1594cc0b59df0ead9d0",
+    "types.log.gz": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a",
+    "review.log.gz": "7c61082b8c7d81d6dc426d3988310e2983036e801fd9ade22f658ed3cb4da4fb",
+    "final-tests.log.gz": "67d0cb8b4e7bb56b0c16682ad4a2a1e1e8cf4f105a5cea5cbee83df5090bf947",
+    "final-types.log.gz": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+  }
+}
