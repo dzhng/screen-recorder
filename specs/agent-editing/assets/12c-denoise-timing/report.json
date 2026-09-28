@@ -392,6 +392,31 @@
       "rmsError": 0.0
     }
   },
+  "selectedInput": {
+    "sourceFrames": [
+      24000,
+      96000
+    ],
+    "excludedPoison": {
+      "samples": 72000,
+      "differentSamples": 0,
+      "maxAbsoluteError": 0.0,
+      "rmsError": 0.0
+    },
+    "processBeforeSelectionNegativeControl": {
+      "samples": 72000,
+      "differentSamples": 14810,
+      "maxAbsoluteError": 0.015545492991805077,
+      "rmsError": 0.000218564427169352
+    },
+    "independentSplitResetNegativeControl": {
+      "samples": 72000,
+      "differentSamples": 3841,
+      "maxAbsoluteError": 0.004103376995772123,
+      "rmsError": 7.376228431851081e-05
+    },
+    "scope": "Selected-input filter ordering only; no production cache/lineage policy"
+  },
   "rawSpeechDifference": {
     "samples": 120000,
     "differentSamples": 120000,
@@ -416,7 +441,7 @@
       "rmsError": 0.0
     }
   ],
-  "elapsedSeconds": 0.954475459002424,
+  "elapsedSeconds": 1.133960625040345,
   "commands": [
     {
       "argv": [
@@ -1475,6 +1500,131 @@
         "-ar",
         "24000",
         "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "atrim=start_sample=24000:end_sample=96000,asetpts=PTS-STARTPTS,apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=72600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "outputSha256": "a5e61d7f634d0f35f9a5ed36dbed387ccb29160373ffcfd249297cdf6b21c79e"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "atrim=start_sample=24000:end_sample=96000,asetpts=PTS-STARTPTS,apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=72600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "b244ac6db428ca31ef8b5fa37ffe2cb1d7ac3a3def67341c690ee6f2aaab3455",
+      "outputSha256": "a5e61d7f634d0f35f9a5ed36dbed387ccb29160373ffcfd249297cdf6b21c79e"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=120600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "b244ac6db428ca31ef8b5fa37ffe2cb1d7ac3a3def67341c690ee6f2aaab3455",
+      "outputSha256": "4964360b0fdc2fb5ab4334f230e5cacebd1e3c41cecfb5a0a74d86ebcbdc926c"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "atrim=start_sample=24000:end_sample=60000,asetpts=PTS-STARTPTS,apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=36600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "outputSha256": "95b4b7f7591dd9421bd481c55892874406f39247940895837c1bcfd10010844e"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "atrim=start_sample=60000:end_sample=96000,asetpts=PTS-STARTPTS,apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=36600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "outputSha256": "38e9b0440f6b4d985d056269193d0ca545efe12f144ca55117754d95bef2750e"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
         "2",
         "-i",
         "pipe:0",
@@ -1541,7 +1691,7 @@
     }
   ],
   "identity": {
-    "runnerSha256": "4af1f9ddc6366dfb549a13a0797bad7ab51e301daf82aee1632e16ad99b16d7c",
+    "runnerSha256": "d45f973521ae0d086c2f0e8c223dc1ea8a29516f10a9386b26edb1b57fd6fcda",
     "ffmpegSha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c",
     "speechSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45"
   },
@@ -1706,9 +1856,29 @@
       "bytes": 480000,
       "sha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
     },
+    "speech-poisoned-before-selection.f32": {
+      "bytes": 480000,
+      "sha256": "4964360b0fdc2fb5ab4334f230e5cacebd1e3c41cecfb5a0a74d86ebcbdc926c"
+    },
     "speech-repeat.f32": {
       "bytes": 480000,
       "sha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    "speech-selected-left.f32": {
+      "bytes": 144000,
+      "sha256": "95b4b7f7591dd9421bd481c55892874406f39247940895837c1bcfd10010844e"
+    },
+    "speech-selected-poisoned.f32": {
+      "bytes": 288000,
+      "sha256": "a5e61d7f634d0f35f9a5ed36dbed387ccb29160373ffcfd249297cdf6b21c79e"
+    },
+    "speech-selected-right.f32": {
+      "bytes": 144000,
+      "sha256": "38e9b0440f6b4d985d056269193d0ca545efe12f144ca55117754d95bef2750e"
+    },
+    "speech-selected.f32": {
+      "bytes": 288000,
+      "sha256": "a5e61d7f634d0f35f9a5ed36dbed387ccb29160373ffcfd249297cdf6b21c79e"
     },
     "stereo-channel-0.f32": {
       "bytes": 96000,

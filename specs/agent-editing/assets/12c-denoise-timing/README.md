@@ -49,7 +49,7 @@ not an intelligibility or noise-reduction score. No normalization was applied.
 The confirmation batch took about one second. The [report](report.json) pins
 commands, executable/input/runner/output hashes and every result; [version](version.txt)
 includes the linked FFmpeg library versions. All raw outputs remain in
-`/tmp/screenrec-denoise-timing-confirm`; the retained `speech-compensated.f32` is mono 24 kHz little-endian
+`/tmp/screenrec-denoise-selected-final`; the retained `speech-compensated.f32` is mono 24 kHz little-endian
 float PCM for subsequent matched comparisons. No output is an audition verdict.
 
 Reproduce with a fresh output directory:
@@ -70,3 +70,29 @@ zero-tail hypothesis. Independent `codex review --uncommitted` found no actionab
 defects, reran the documented experiment successfully and checked runner/audio
 hashes. Its scope was numerical reproducibility, not speech listening or edited
 state. The full local log is `/tmp/screenrec-denoise-timing-review.log`.
+
+
+## Selected-input follow-up contract
+
+Keep the timing recipe fixed and test a middle three-fifths selection of the same
+real extract. Replace only excluded prefix/tail samples with alternating ±0.9.
+Trimming before processing must produce identical selected PCM; processing the
+whole poisoned source and trimming afterward must reveal contamination. Reprocess
+both halves independently as a negative control for the pure-split requirement.
+This tests input ordering, not a production cache, lineage or context policy.
+The same deadlines and no-promotion rule apply. Prior timing gates remain enabled.
+
+
+The follow-up passes the exclusion-ordering check: all 72,000 selected samples
+are byte-identical despite poisoned excluded neighbors. The intentionally wrong
+process-before-trim path changes 14,810 samples (maximum absolute error 0.0155455).
+Restarting independent filters at a pure split changes 3,841 samples (maximum
+0.00410338), so compensation does not solve state continuity. All prior timing,
+packet and stereo checks still pass. Use this result to preserve upstream-input
+isolation in the future prepared-result owner; it does not verify that unbuilt
+owner or authorize per-clip resets.
+
+The follow-up's independent review found no actionable defects, reran the full
+experiment and reproduced the selected-input results and identity hashes
+(`/tmp/screenrec-denoise-isolation-review.log`). The existing exclusion and
+pure-split requirements remain unchanged; no new production policy is selected.

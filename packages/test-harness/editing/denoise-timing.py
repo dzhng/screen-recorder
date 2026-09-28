@@ -38,10 +38,17 @@ def floats(data):
     return values
 
 
-def process(name, values, rate, channels=1, compensate=True, tail_hops=2, packet=None):
+def process(name, values, rate, channels=1, compensate=True, tail_hops=2, packet=None, selection=None):
     count = len(values) // channels
     hop = rate // 80
-    filters = [] if packet is None else [f'asetnsamples=n={packet}:p=0']
+    filters = []
+    if selection is not None:
+        start, end = selection
+        assert 0 <= start < end <= count
+        count = end - start
+        filters.extend([f'atrim=start_sample={start}:end_sample={end}', 'asetpts=PTS-STARTPTS'])
+    if packet is not None:
+        filters.append(f'asetnsamples=n={packet}:p=0')
     if compensate:
         filters.append(f'apad=pad_len={tail_hops * hop}')
     filters.append(RECIPE)
@@ -96,6 +103,30 @@ for name, settings in [('longer-tail', {'tail_hops': 4}), ('packet-17', {'packet
     result = comparison(prepared, candidate)
     report['speechControls'][name] = result
     assert result['differentSamples'] == 0, name
+# Exclusion is applied before the filter, not by cropping its already affected output.
+selection = (len(speech) // 5, 4 * len(speech) // 5)
+first, last = selection
+poisoned = array.array('f', speech)
+for i in range(len(poisoned)):
+    if i < first or i >= last:
+        poisoned[i] = 0.9 if i % 2 else -0.9
+selected = process('speech-selected', speech, 24000, selection=selection)
+selected_poisoned = process('speech-selected-poisoned', poisoned, 24000, selection=selection)
+excluded = comparison(selected, selected_poisoned)
+assert excluded['differentSamples'] == 0
+wrong_clean = prepared[first:last]
+wrong_poisoned = process('speech-poisoned-before-selection', poisoned, 24000)[first:last]
+leak = comparison(wrong_clean, wrong_poisoned)
+assert leak['differentSamples'] > 0, 'Excluded-input negative control did not expose leakage'
+midpoint = (first + last) // 2
+reset = (process('speech-selected-left', speech, 24000, selection=(first, midpoint)) +
+         process('speech-selected-right', speech, 24000, selection=(midpoint, last)))
+reset_error = comparison(selected, reset)
+assert reset_error['differentSamples'] > 0, 'Independent resets unexpectedly preserve the prepared result'
+report['selectedInput'] = {'sourceFrames': [first, last], 'excludedPoison': excluded,
+                           'processBeforeSelectionNegativeControl': leak,
+                           'independentSplitResetNegativeControl': reset_error,
+                           'scope': 'Selected-input filter ordering only; no production cache/lineage policy'}
 report['rawSpeechDifference'] = comparison(speech, prepared)
 report['speechPeak'] = {'input': max(map(abs, speech)), 'output': max(map(abs, prepared))}
 # Independent channels carry unequal, differently placed impulses.
