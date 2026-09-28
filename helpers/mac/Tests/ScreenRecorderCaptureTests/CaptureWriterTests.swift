@@ -69,6 +69,14 @@ func runCaptureDurationTests() async throws {
             ? CaptureFailure("INTERRUPTED", "Generated interruption") : nil)
         precondition(result.state == (interrupted ? "interrupted" : "complete"))
         if interrupted { precondition(result.durationUs == 33_333) }
+        let evidenceFile = directory.deletingLastPathComponent().appendingPathComponent(UUID().uuidString + ".jsonl")
+        defer { try? FileManager.default.removeItem(at: evidenceFile) }
+        let evidence = try SourceEvidenceExport.write(directory: directory.path, output: evidenceFile.path)
+        precondition(evidence.completion?.durationUs == result.durationUs
+            && evidence.completion?.state == result.state
+            && evidence.completion?.failureCode == result.failure?.code
+            && evidence.completion?.sequence == evidence.lastSequence,
+            "Actual writer completion must survive normalized evidence export")
         let asset = AVURLAsset(url: directory.appendingPathComponent("video.mov"),
             options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
         let duration = try await asset.load(.duration)

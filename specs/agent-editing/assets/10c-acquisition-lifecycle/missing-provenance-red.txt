@@ -1,0 +1,36 @@
+✖ terminal provenance preserves the recorded capture endpoint, independently of untimed lifecycle (27.443208ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 61.976083
+
+✖ failing tests:
+
+test at helpers/mac/Tests/source-evidence.test.mjs:377:1
+✖ terminal provenance preserves the recorded capture endpoint, independently of untimed lifecycle (27.443208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   durationUs: 700,
+  -   sequence: 5,
+  -   state: 'complete'
+  - }
+  
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-source-audio-inspection/helpers/mac/Tests/source-evidence.test.mjs:389:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { sequence: 5, state: 'complete', durationUs: 700 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -133,3 +133,11 @@ source and project clocks, repeats, rational retimes, coverage, complete rows,
 historical restart, checkpoint loss and bounded late reads. Scene/cut/interruption
 categories still report unsupported; completing their required semantics remains
 open. Earlier checkpoint notes describe their evidence boundary at that time.
+
+## Acquisition lifecycle prerequisite
+
+[Retained lifecycle provenance](../assets/10c-acquisition-lifecycle/README.md)
+adds bounded optional lifecycle/completion facts without changing normalized
+observations or recording/package readers. Only a valid finished payload supplies
+the capture/video endpoint; missing or damaged tails do not prove interruption.
+Source/project interruption rows and public delivery remain a separate pass.

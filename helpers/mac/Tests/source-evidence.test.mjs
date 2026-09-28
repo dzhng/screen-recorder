@@ -373,3 +373,118 @@ for (const timing of ["audio gaps", "deferred pauses"])
       });
     }
   });
+
+test("terminal provenance preserves the recorded capture endpoint, independently of untimed lifecycle", (t) => {
+  for (const state of ["complete", "interrupted"]) {
+    const failure =
+      state === "interrupted" ? { code: "DEVICE_LOST", message: "fixture failure" } : null;
+    const f = fixture(t, [
+      { event: "origin", data: { hostUs: 1000000 } },
+      { event: "audioSamples", data: { role: "narration", startUs: 100, endUs: 300 } },
+      { event: "cursorSamples", data: { samples: [sample] } },
+      { event: "finished", data: { state, durationUs: 700, failure } },
+      { event: "lifecycle", data: { state, reason: failure?.code ?? null } },
+    ]);
+    const result = request(f.directory, f.output);
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.deepEqual(result.data.completion, {
+      sequence: 5,
+      state,
+      durationUs: 700,
+      ...(failure ? { failureCode: failure.code } : {}),
+    });
+    assert.deepEqual(result.data.lastLifecycle, {
+      state,
+      ...(failure ? { reason: failure.code } : {}),
+    });
+    assert.equal(result.data.finished, true);
+    assert.equal(result.data.lastSequence, 6);
+    assert.equal(readFileSync(f.journal, "utf8"), f.text);
+    const expected = [
+      { data: sample, event: "cursorSample" },
+      { data: { endUs: 300, role: "narration", startUs: 100 }, event: "audioAcquired" },
+    ];
+    assert.deepEqual(readFileSync(f.output, "utf8").trim().split("\n").map(JSON.parse), expected);
+  }
+});
+
+test("missing or partial completion never fabricates a timed interruption", (t) => {
+  for (const records of [
+    [],
+    [{ event: "finished", data: {} }],
+    [{ event: "finished", data: { state: "interrupted" } }],
+  ]) {
+    const f = fixture(t, [
+      { event: "lifecycle", data: { state: "interrupted", reason: "DEVICE_LOST" } },
+      ...records,
+    ]);
+    const result = request(f.directory, f.output);
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.deepEqual(result.data.lastLifecycle, { state: "interrupted", reason: "DEVICE_LOST" });
+    assert.equal(result.data.completion, undefined);
+    assert.equal(result.data.finished, records.length > 0);
+  }
+});
+
+test("invalid terminal payloads stop at the trustworthy prefix", (t) => {
+  for (const data of [
+    { state: "recording", durationUs: 700 },
+    { state: "complete", durationUs: -1 },
+    { state: "complete", durationUs: "700" },
+    { durationUs: 700 },
+    { state: "interrupted", durationUs: 700, failure: { code: 1 } },
+    { state: "complete", durationUs: 700, failure: { code: "CONTRADICTION" } },
+  ]) {
+    const f = fixture(t, [
+      { event: "cursorSamples", data: { samples: [sample] } },
+      { event: "finished", data },
+      { event: "lifecycle", data: { state: "complete" } },
+    ]);
+    const result = request(f.directory, f.output);
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.equal(result.data.invalidAtSequence, 3);
+    assert.equal(result.data.lastSequence, 2);
+    assert.equal(result.data.finished, false);
+    assert.equal(result.data.completion, undefined);
+    assert.equal(result.data.lastLifecycle, undefined);
+    assert.deepEqual(JSON.parse(readFileSync(f.output, "utf8")), {
+      event: "cursorSample",
+      data: sample,
+    });
+  }
+});
+
+test("torn and corrupt suffixes retain only an already recorded completion", (t) => {
+  for (const completed of [false, true])
+    for (const tail of ["{", "{bad}\n"]) {
+      const f = fixture(
+        t,
+        completed
+          ? [
+              {
+                event: "finished",
+                data: { state: "interrupted", durationUs: 700, failure: { code: "DEVICE_LOST" } },
+              },
+            ]
+          : [],
+      );
+      appendFileSync(f.journal, tail);
+      const result = request(f.directory, f.output);
+      assert.equal(result.ok, true, JSON.stringify(result));
+      assert.equal(result.data.finished, completed);
+      assert.equal(result.data.completion?.durationUs, completed ? 700 : undefined);
+      assert.equal(result.data.incompleteTail, tail === "{");
+      assert.equal(result.data.invalidAtSequence, tail === "{" ? undefined : completed ? 3 : 2);
+    }
+});
+
+test("lifecycle provenance shares the bounded receipt budget and refuses publication", (t) => {
+  const f = fixture(t, [
+    { event: "lifecycle", data: { state: "interrupted", reason: "x".repeat(17000) } },
+  ]);
+  const result = request(f.directory, f.output);
+  assert.equal(result.ok, false);
+  assert.equal(result.error.code, "EVIDENCE_LIMIT");
+  assert.equal(existsSync(f.output), false);
+  assert.equal(readFileSync(f.journal, "utf8"), f.text);
+});

@@ -1,0 +1,70 @@
+$ vitest run --maxWorkers=4 src/evidence.test.ts -t "malformed terminal provenance"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:8800) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/evidence.test.ts (21 tests | 1 failed | 20 skipped) 15ms
+   × malformed terminal provenance refuses evidence publication 14ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/evidence.test.ts > malformed terminal provenance refuses evidence publication
+AssertionError: promise resolved "{ …(4) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "generation": "invalid-0",
++   "owner": {
++     "kind": "recording",
++     "recordingId": "id-1",
++   },
++   "receipt": {
++     "audioIntervals": 0,
++     "bytes": 563,
++     "completion": {
++       "durationUs": 700,
++       "failureCode": "DEVICE_LOST",
++       "sequence": 4,
++       "state": "interrupted",
++     },
++     "cursorSamples": 4,
++     "displaySpaces": 0,
++     "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/evidence-X45hC0/normalized.jsonl",
++     "finished": false,
++     "firstCursorSourceUs": 0,
++     "geometryRecords": 0,
++     "header": {
++       "sessionID": "id-2",
++     },
++     "incompleteTail": true,
++     "invalidAtSequence": 6,
++     "journal": "capture.journal.jsonl",
++     "lastCursorSourceUs": 20,
++     "lastSequence": 5,
++     "pauseEvents": 0,
++   },
++   "sourceId": "id-2",
+  }
+
+ ❯ src/evidence.test.ts:768:6
+    766|         receipt: { ...f.receipt, ...change } as never,
+    767|       }),
+    768|     ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
+       |      ^
+    769|     expect(() =>
+    770|       f.evidence.page({ ...identity, range: { startUs: 0, endUs: 100 }…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 20 skipped (21)
+   Start at  02:34:57
+   Duration  147ms (transform 49%, import 33%, tests 16%, worker 2%)
+
+error: script "test" exited with code 1

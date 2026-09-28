@@ -40,7 +40,7 @@ public struct CaptureJournalSummary: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case file, header, originHostUs, pauses, openPauseHostUs, lastLifecycle, lastSequence,
             incompleteTail,
-            invalidAtSequence, finished, cursorSamples, firstCursorSourceUs, lastCursorSourceUs,
+            invalidAtSequence, finished, completion, cursorSamples, firstCursorSourceUs, lastCursorSourceUs,
             geometryEpochs, lastGeometry, zeroOriginHeight
     }
     public var header: CaptureJournalHeader?
@@ -71,6 +71,7 @@ public struct CaptureJournalSummary: Codable, Sendable {
     /// different things to a consumer deciding whether the take ended.
     public var invalidAtSequence: Int?
     public var finished = false
+    public var completion: JournalCompletion?
 
     public init() {}
 }
@@ -299,7 +300,14 @@ public final class CaptureJournal {
                 summary.zeroOriginHeight = space.zeroOriginHeight
                 try displaySpace(space)
             case .lifecycle(let lifecycle): summary.lastLifecycle = lifecycle
-            case .finished: summary.finished = true
+            case .finished(let finished):
+                summary.finished = true
+                if let state = finished.state, let durationUs = finished.durationUs {
+                    summary.completion = JournalCompletion(sequence: record.sequence,
+                        state: state, durationUs: durationUs, failureCode: finished.failure?.code)
+                } else {
+                    summary.completion = nil
+                }
             case .other: break
             }
             return true
@@ -344,7 +352,7 @@ private struct JournalEntry: Decodable {
         case cursorSamples([CursorSample])
         case displaySpace(JournalDisplaySpace)
         case lifecycle(JournalLifecycle)
-        case finished
+        case finished(JournalFinished)
         case other
     }
 
@@ -401,7 +409,13 @@ private struct JournalEntry: Decodable {
         case "cursorSamples": event = .cursorSamples(try payload(JournalCursorSamples.self).samples)
         case "displaySpace": event = .displaySpace(try payload(JournalDisplaySpace.self))
         case "lifecycle": event = .lifecycle(try payload(JournalLifecycle.self))
-        case "finished": event = .finished
+        case "finished":
+            let finished = try payload(JournalFinished.self)
+            guard finished.state == nil || ["complete", "interrupted"].contains(finished.state!),
+                finished.durationUs == nil || (finished.state != nil && finished.durationUs! >= 0),
+                finished.state != "complete" || finished.failure == nil
+            else { throw invalid("Invalid journal completion.") }
+            event = .finished(finished)
         default: event = .other
         }
     }
@@ -463,4 +477,20 @@ struct JournalCursorSamples: Codable {
 public struct JournalDisplaySpace: Codable, Sendable {
     public let hostUs: Int64
     public let zeroOriginHeight: Double
+}
+
+/// The finalized capture/video source endpoint, not the wall-clock instant a failure began.
+/// Missing timing on a presence-only finished record supplies no completion boundary.
+public struct JournalCompletion: Codable, Sendable {
+    public let sequence: Int
+    public let state: String
+    public let durationUs: Int64
+    public let failureCode: String?
+}
+
+private struct JournalFinished: Decodable {
+    struct Failure: Decodable { let code: String }
+    let state: String?
+    let durationUs: Int64?
+    let failure: Failure?
 }

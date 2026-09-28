@@ -21,6 +21,8 @@ package struct SourceEvidenceExport: Encodable {
     package let incompleteTail: Bool
     package let invalidAtSequence: Int?
     package let finished: Bool
+    package let lastLifecycle: JournalLifecycle?
+    package let completion: JournalCompletion?
     package let bytes: Int
 
     /// The caller supplies a finalized/recovered source. A missing finished record remains visible
@@ -88,7 +90,13 @@ package struct SourceEvidenceExport: Encodable {
         guard summary.header != nil else {
             throw CaptureFailure("INVALID_JOURNAL", "Evidence requires a readable journal header.")
         }
-        guard try encoder.encode(summary.header).count <= 16_384 else {
+        struct Provenance: Encodable {
+            let header: CaptureJournalHeader?
+            let lastLifecycle: JournalLifecycle?
+            let completion: JournalCompletion?
+        }
+        guard try encoder.encode(Provenance(header: summary.header,
+            lastLifecycle: summary.lastLifecycle, completion: summary.completion)).count <= 16_384 else {
             throw CaptureFailure(
                 "EVIDENCE_LIMIT", "Journal provenance exceeds the response budget.")
         }
@@ -102,7 +110,8 @@ package struct SourceEvidenceExport: Encodable {
             firstCursorSourceUs: summary.firstCursorSourceUs,
             lastCursorSourceUs: summary.lastCursorSourceUs, lastSequence: summary.lastSequence,
             incompleteTail: summary.incompleteTail, invalidAtSequence: summary.invalidAtSequence,
-            finished: summary.finished, bytes: bytes)
+            finished: summary.finished, lastLifecycle: summary.lastLifecycle,
+            completion: summary.completion, bytes: bytes)
     }
 }
 

@@ -428,3 +428,38 @@ test("source inspection uses the same physical/context support and asset clock a
     selectSource(f.assets, f.acquisitions, { ...selector, streamId: "missing" }),
   ).toThrow(expect.objectContaining({ code: "UNSUPPORTED_MEDIA" }));
 });
+
+test("adoption retains explicit completion independently of selected-stream support", async () => {
+  const f = await fixture();
+  const completion = {
+    sequence: 2,
+    state: "interrupted" as const,
+    durationUs: 700,
+    failureCode: "DEVICE_LOST",
+  };
+  const native = {
+    ...f.native,
+    exportSource: async (...args: Parameters<SourceExporter>) => ({
+      ...(await f.native.exportSource(...args)),
+      completion,
+      lastLifecycle: { state: "interrupted", reason: "DEVICE_LOST" },
+    }),
+  };
+  const intent = await f.admit();
+  const result = await f.importer.executeImport(
+    intent.acquisitionId,
+    "completion",
+    native,
+    signal(),
+  );
+  await rm(f.donor, { recursive: true });
+  const reopenedCatalog = new Catalog(join(f.root, "catalog.sqlite"));
+  cleanup.push(async () => reopenedCatalog.close());
+  const retained = new AcquisitionStore(reopenedCatalog).get(result.id);
+  expect(retained.evidence.receipt.completion).toEqual(completion);
+  expect(retained.bindings.every((binding) => binding.available.at(-1)!.endUs === 100)).toBe(true);
+  expect(f.evidence.audio(retained.evidence, "narration", { startUs: 0, endUs: 1000 })).toEqual([
+    { startUs: 100, endUs: 140 },
+    { startUs: 160, endUs: 200 },
+  ]);
+});

@@ -45,6 +45,14 @@ export type SourceEvidenceReceipt = Readonly<{
   incompleteTail: boolean;
   invalidAtSequence?: number | null;
   finished: boolean;
+  lastLifecycle?: Readonly<{ state: string; reason?: string | null }> | null;
+  /** Recorded capture/video endpoint, never inferred from a selected stream's duration. */
+  completion?: Readonly<{
+    sequence: number;
+    state: "complete" | "interrupted";
+    durationUs: number;
+    failureCode?: string | null;
+  }> | null;
   bytes: number;
 }>;
 export type SourceEvidenceMetadata = EvidenceIdentity & { receipt: SourceEvidenceReceipt };
@@ -167,6 +175,28 @@ export function validateSourceReceipt(value: unknown, sourceId: string): SourceE
     Buffer.byteLength(JSON.stringify(receipt)) > 32768
   )
     invalid("Invalid evidence receipt");
+  if (receipt.lastLifecycle != null) {
+    const lifecycle = object(receipt.lastLifecycle);
+    if (
+      typeof lifecycle.state !== "string" ||
+      (lifecycle.reason != null && typeof lifecycle.reason !== "string")
+    )
+      invalid("Invalid capture lifecycle provenance");
+  }
+  if (receipt.completion != null) {
+    const completion = object(receipt.completion);
+    if (
+      !receipt.finished ||
+      !integer(completion.sequence) ||
+      completion.sequence < 1 ||
+      completion.sequence > (receipt.lastSequence as number) ||
+      !["complete", "interrupted"].includes(completion.state as string) ||
+      !integer(completion.durationUs) ||
+      (completion.failureCode != null && typeof completion.failureCode !== "string") ||
+      (completion.state === "complete" && completion.failureCode != null)
+    )
+      invalid("Invalid capture completion provenance");
+  }
   return receipt as SourceEvidenceReceipt;
 }
 

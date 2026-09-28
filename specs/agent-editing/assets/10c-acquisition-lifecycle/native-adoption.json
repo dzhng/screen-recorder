@@ -1,0 +1,148 @@
+{
+  "passed": true,
+  "publicTransport": false,
+  "actualNativeExportAndProbe": true,
+  "syntheticJournals": true,
+  "donorDeleted": true,
+  "reopened": true,
+  "receipts": [
+    {
+      "id": "e6da6cf8-6ff4-46ca-a9f3-1d85182d2224",
+      "sourceId": "actual-native-complete",
+      "evidence": {
+        "owner": {
+          "kind": "acquisition",
+          "acquisitionId": "e6da6cf8-6ff4-46ca-a9f3-1d85182d2224"
+        },
+        "sourceId": "actual-native-complete",
+        "generation": "attempt-complete",
+        "receipt": {
+          "audioIntervals": 0,
+          "bytes": 0,
+          "completion": {
+            "durationUs": 700000,
+            "sequence": 3,
+            "state": "complete"
+          },
+          "cursorSamples": 0,
+          "displaySpaces": 0,
+          "file": "/tmp/acquisition-lifecycle-adoption-QeE8Me/acquisitions/e6da6cf8-6ff4-46ca-a9f3-1d85182d2224/attempt-complete/source.jsonl",
+          "finished": true,
+          "geometryRecords": 0,
+          "header": {
+            "height": 48,
+            "microphone": false,
+            "schemaVersion": 1,
+            "sessionID": "actual-native-complete",
+            "source": {
+              "kind": "window",
+              "windowID": 7
+            },
+            "systemAudio": false,
+            "width": 64
+          },
+          "incompleteTail": false,
+          "journal": "capture.journal.jsonl",
+          "lastLifecycle": {
+            "state": "complete"
+          },
+          "lastSequence": 4,
+          "originHostUs": 1000000,
+          "pauseEvents": 0
+        }
+      },
+      "journal": {
+        "fileName": "attempt-complete/source/capture.journal.jsonl",
+        "sha256": "926a0b8e13d803f627dc575b8e622e7938850653ee2668e593fd6b1abd3b0029",
+        "bytes": 401
+      },
+      "bindings": [
+        {
+          "assetId": "b52fe7b878b9a206f59276f9093fb6e6cbde458997b0f51bd3b58f9e7b5dab10",
+          "streamId": "track:1",
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 1000000
+            }
+          ],
+          "sourceRoles": [
+            "video"
+          ],
+          "sourceToAssetOffsetUs": 0,
+          "supportBasis": "physical"
+        }
+      ]
+    },
+    {
+      "id": "74e3b57c-392e-4af1-9254-3ec371dc6c51",
+      "sourceId": "actual-native-interrupted",
+      "evidence": {
+        "owner": {
+          "kind": "acquisition",
+          "acquisitionId": "74e3b57c-392e-4af1-9254-3ec371dc6c51"
+        },
+        "sourceId": "actual-native-interrupted",
+        "generation": "attempt-interrupted",
+        "receipt": {
+          "audioIntervals": 0,
+          "bytes": 0,
+          "completion": {
+            "durationUs": 700000,
+            "failureCode": "DEVICE_LOST",
+            "sequence": 3,
+            "state": "interrupted"
+          },
+          "cursorSamples": 0,
+          "displaySpaces": 0,
+          "file": "/tmp/acquisition-lifecycle-adoption-QeE8Me/acquisitions/74e3b57c-392e-4af1-9254-3ec371dc6c51/attempt-interrupted/source.jsonl",
+          "finished": true,
+          "geometryRecords": 0,
+          "header": {
+            "height": 48,
+            "microphone": false,
+            "schemaVersion": 1,
+            "sessionID": "actual-native-interrupted",
+            "source": {
+              "kind": "window",
+              "windowID": 7
+            },
+            "systemAudio": false,
+            "width": 64
+          },
+          "incompleteTail": false,
+          "journal": "capture.journal.jsonl",
+          "lastLifecycle": {
+            "reason": "DEVICE_LOST",
+            "state": "interrupted"
+          },
+          "lastSequence": 4,
+          "originHostUs": 1000000,
+          "pauseEvents": 0
+        }
+      },
+      "journal": {
+        "fileName": "attempt-interrupted/source/capture.journal.jsonl",
+        "sha256": "8771b7a8c1cc3eb66c492425eab0899b76466704134fe1be34ae34b7dbf35e9a",
+        "bytes": 496
+      },
+      "bindings": [
+        {
+          "assetId": "b52fe7b878b9a206f59276f9093fb6e6cbde458997b0f51bd3b58f9e7b5dab10",
+          "streamId": "track:1",
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 1000000
+            }
+          ],
+          "sourceRoles": [
+            "video"
+          ],
+          "sourceToAssetOffsetUs": 0,
+          "supportBasis": "physical"
+        }
+      ]
+    }
+  ]
+}

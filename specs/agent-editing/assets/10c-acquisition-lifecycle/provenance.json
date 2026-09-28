@@ -1,0 +1,9 @@
+{
+  "binary": "/tmp/screenrec-acquisition-lifecycle-native",
+  "sha256": "0d504b4d34ac76e1cd0f75091779e80ca789917f0961d26b597a646be9f8650a",
+  "baseCommit": "53f8788",
+  "normalizedParityRecords": 40005,
+  "actualCapture": false,
+  "generatedCaptureWriterSamples": true,
+  "publicTransport": false
+}

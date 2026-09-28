@@ -70,6 +70,9 @@ func runCaptureJournalTests() async throws {
             == [[250_000, 400_000], [500_000, 700_000]],
         "Written audio ranges must coalesce across rounding only, got \(read.acquiredAudio)")
     precondition(read.finished && read.lastSequence == 9, "A finished take must read back finished")
+    precondition(read.completion?.state == "complete" && read.completion?.sequence == 9
+        && read.completion?.durationUs == 700_000 && read.completion?.failureCode == nil,
+        "Completion must retain the writer's recorded capture endpoint")
     precondition(
         !read.incompleteTail && read.invalidAtSequence == nil,
         "A whole journal has neither a torn tail nor a bad record")

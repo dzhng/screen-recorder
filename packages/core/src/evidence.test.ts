@@ -704,3 +704,70 @@ test("source purge retains unfinished generation identity across an interrupted 
   expect(f.store.catalog.prepare("SELECT sequence FROM source_evidence_records").all()).toEqual([]);
   expect(readFileSync(f.file).equals(original)).toBe(true);
 });
+
+test("capture completion provenance survives ingestion without fabricating timing for presence-only receipts", async () => {
+  const f = fixture();
+  const completion = {
+    sequence: 4,
+    state: "interrupted" as const,
+    durationUs: 700,
+    failureCode: "DEVICE_LOST",
+  };
+  const lastLifecycle = { state: "interrupted", reason: "DEVICE_LOST" };
+  const receipt = { ...f.receipt, finished: true, completion, lastLifecycle };
+  const admitted = await f.evidence.ingest({ ...f.identity, file: f.file, receipt });
+  expect(admitted.receipt.completion).toEqual(completion);
+  expect(admitted.receipt.lastLifecycle).toEqual(lastLifecycle);
+  expect(
+    f.evidence
+      .page({ ...f.identity, range: { startUs: 0, endUs: 100 }, limit: 10 })
+      .samples.map((s) => s.sourceUs),
+  ).toEqual([0, 10, 10, 20]);
+  const legacy = { ...f.receipt, finished: true };
+  const retained = await f.evidence.ingest({
+    ...f.identity,
+    generation: "presence-only",
+    file: f.file,
+    receipt: legacy,
+  });
+  expect(retained.receipt.finished).toBe(true);
+  expect(retained.receipt.completion).toBeUndefined();
+});
+
+test("malformed terminal provenance refuses evidence publication", async () => {
+  const f = fixture();
+  const completion = {
+    sequence: 4,
+    state: "interrupted",
+    durationUs: 700,
+    failureCode: "DEVICE_LOST",
+  };
+  const cases = [
+    { completion },
+    ...[
+      { sequence: 0 },
+      { sequence: 6 },
+      { state: "recording" },
+      { durationUs: -1 },
+      { durationUs: Number.MAX_SAFE_INTEGER + 1 },
+      { failureCode: 7 },
+      { state: "complete" },
+    ].map((change) => ({ finished: true, completion: { ...completion, ...change } })),
+    { lastLifecycle: { state: 7 } },
+    { lastLifecycle: { state: "interrupted", reason: 7 } },
+    { lastLifecycle: { state: "interrupted", reason: "x".repeat(32768) } },
+  ];
+  for (const [i, change] of cases.entries()) {
+    const identity = { ...f.identity, generation: `invalid-${i}` };
+    await expect(
+      f.evidence.ingest({
+        ...identity,
+        file: f.file,
+        receipt: { ...f.receipt, ...change } as never,
+      }),
+    ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
+    expect(() =>
+      f.evidence.page({ ...identity, range: { startUs: 0, endUs: 100 }, limit: 10 }),
+    ).toThrow(expect.objectContaining({ code: "NOT_READY" }));
+  }
+});
