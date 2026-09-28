@@ -2267,3 +2267,26 @@ existing lifetime owner.
 - **Reach:** This establishes an output-target mono mechanism only. Future clip-level preparation, window transitions, durable publication and stereo policy still need their own evidence. The harness adds no production storage owner or readiness flag.
 - **Verdict:** Sound — exercises actual compiler/native selection while leaving unproved product policy unavailable.
 - **Confidence:** High.
+
+## Durable prepared-audio lifecycle prerequisite
+
+- **Sound, high confidence — publish through the existing queue fence.** File
+  preparation finishes before settlement; a synchronous catalog callback then
+  publishes asset metadata and revision references in the same transaction as the
+  queue result. Cancellation or a newer attempt prevents that callback from running.
+  This avoids a second registry that could say audio is ready after its job failed.
+- **Sound, high confidence — share bytes without mixing their histories.** Two
+  unrelated projects can produce identical silence. Their PCM asset may be shared,
+  but their source dependencies belong to each immutable publication receipt and
+  revision reference set. Putting those dependencies on the shared asset would
+  unnecessarily retain or package another project's sources.
+- **Sound, high confidence — retain exact local file identity separately from the
+  recipe.** Drop the staging hard link before capturing identity because unlinking
+  it changes filesystem metadata. A later bounded reader refuses substituted files
+  rather than silently re-rendering different bytes. Relocation must adopt a new
+  local identity while preserving recipe and content identity.
+- **Sound, high confidence — refuse incomplete portable exports.** The first
+  checkpoint establishes core storage and lifecycle behavior. Until the existing
+  package owner learns this resource, export reports unsupported prepared retention
+  instead of producing a package that silently loses it. Native constant gain and
+  unit-rate verification do not make RNNoise or stretch executable.

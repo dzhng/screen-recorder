@@ -1,3 +1,4 @@
+import { ResourceReferences } from "@screenrec/core/references";
 import { ProjectStore } from "@screenrec/core/projects";
 import { mkdtemp, writeFile, rm, readdir, readFile } from "node:fs/promises";
 import { fork } from "node:child_process";
@@ -622,4 +623,50 @@ test("selected-source audio publishes verified WAV bytes through artifact delive
     data: { data: wave.toString("base64"), eof: true, nextOffset: wave.length },
   });
   expect(await f.call("artifact.close", { token })).toMatchObject({ ok: true });
+});
+
+test("project export refuses retained prepared audio until its package adapter is ready", async () => {
+  const f = await setup(async () => ({ ok: true, data: metadata }));
+  const created = await f.call("project.create", {
+    requestId: "prepared-project",
+    canvas: {
+      width: 64,
+      height: 48,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw Error(JSON.stringify(created));
+  const { project, revision } = created.data as {
+    project: { projectId: string };
+    revision: { id: string };
+  };
+  await f.service.close();
+  const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
+  new ResourceReferences(catalog).retain("prepared-audio", { kind: "revision", id: revision.id }, [
+    JSON.stringify([project.projectId, "prepared-attempt"]),
+  ]);
+  catalog.close();
+  const service = await startProjectService({
+    home: f.home,
+    worker: async () => {
+      throw Error("Export must refuse before native work");
+    },
+  });
+  cleanups.push(() => service.close());
+  const result = await callLocal(service.socketPath, {
+    id: "export",
+    operation: "export.create",
+    params: {
+      projectId: project.projectId,
+      exportId: "7c3f4225-31f5-4467-9bb5-4f82d2ddf0d5",
+      kind: "processed-package",
+      directory: f.home,
+      leaf: "prepared.zip",
+    },
+  });
+  expect(result).toMatchObject({
+    ok: false,
+    error: { code: "NOT_READY", message: "Prepared audio package retention is not implemented" },
+  });
 });

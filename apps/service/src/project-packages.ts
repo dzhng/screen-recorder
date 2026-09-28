@@ -141,6 +141,20 @@ export class ProjectPackages {
   }
   pin(projectId: string, revisionId?: string): PinnedProjectPackage {
     const snapshot = this.owners.projects.snapshot(projectId);
+    if (
+      snapshot.revisions.some((revision) =>
+        this.owners.projects
+          .revisionDependencies(projectId, revision.id)
+          .some((reference) => reference.kind === "prepared-audio"),
+      )
+    )
+      throw new CatalogError(
+        "NOT_READY",
+        "Prepared audio package retention is not implemented",
+        {},
+        false,
+      );
+
     if (revisionId && revisionId !== snapshot.project.currentRevisionId)
       throw new CatalogError(
         "UNSUPPORTED_PACKAGE_REVISION",

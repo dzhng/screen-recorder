@@ -1,3 +1,4 @@
+import { ResourceReferences } from "./references.js";
 import { archiveLimits } from "./package-archive.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { createHash, randomUUID } from "node:crypto";
@@ -117,11 +118,13 @@ function pageLimit(limit: number) {
 
 /** Immutable revisions and replay receipts share the catalog transaction with asset references. */
 export class ProjectStore {
+  private readonly references: ResourceReferences;
   constructor(
     private readonly store: Catalog,
     private readonly assets: AssetStore,
     private readonly acquisitions = new AcquisitionStore(store),
   ) {
+    this.references = new ResourceReferences(store);
     store.catalog.exec(`
       CREATE TABLE IF NOT EXISTS projects (
         sequence INTEGER PRIMARY KEY AUTOINCREMENT, projectId TEXT UNIQUE NOT NULL,
@@ -220,7 +223,7 @@ export class ProjectStore {
       )
       .all(after, limit + 1);
     return {
-      projects: rows.slice(0, limit).map(({ sequence, ...row }) => row as Project),
+      projects: rows.slice(0, limit).map(({ sequence: _sequence, ...row }) => row as Project),
       nextCursor:
         rows.length > limit ? { afterSequence: rows[limit - 1]!.sequence as number } : null,
     };
@@ -274,8 +277,9 @@ export class ProjectStore {
         .prepare("SELECT id FROM project_revisions WHERE projectId=? LIMIT 256")
         .all(projectId);
       for (const row of rows) {
-        this.assets.release({ kind: "revision", id: row.id as string });
-        this.acquisitions.release({ kind: "revision", id: row.id as string });
+        // Retire every dependency kind before deleting the immutable revision marker.
+        if (this.references.releaseOwnerPage({ kind: "revision", id: row.id as string }) === 256)
+          return false;
         this.store.catalog.prepare("DELETE FROM project_revisions WHERE id=?").run(row.id!);
       }
       const complete = !this.store.catalog
@@ -572,6 +576,10 @@ export class ProjectStore {
   }
   contexts(document: ProjectRevision["document"]) {
     return acquisitionIds(document).map((id) => this.acquisitions.context(id));
+  }
+  revisionDependencies(projectId: string, revisionId: string) {
+    this.revision(projectId, revisionId);
+    return this.references.dependencies({ kind: "revision", id: revisionId });
   }
   private insertRevision(revision: ProjectRevision) {
     const ids = [

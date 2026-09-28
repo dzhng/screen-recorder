@@ -128,12 +128,18 @@ export type ArtifactStatus = Readonly<{
 
 /** The running attempt handed to the executor, with the signal that asks it to stop. */
 export type JobExecution = Readonly<{ job: Job; signal: AbortSignal }>;
+/** File work finishes before settlement; only synchronous catalog writes join the queue fence. */
+export type StagedJobResult = {
+  result: string;
+  publish(): undefined;
+  close(): Promise<void>;
+};
 /**
  * Does the actual work and resolves with the artifact result to publish. An ordinary rejection is a
  * retryable failure. Only CatalogError("UNAVAILABLE") reports an absent artifact; other
  * non-retryable errors remain failures rather than pretending the evidence cannot exist.
  */
-export type JobExecutor = (execution: JobExecution) => Promise<string>;
+export type JobExecutor = (execution: JobExecution) => Promise<string | StagedJobResult>;
 /**
  * A lost prerequisite releases the settled attempt back to dependency admission once. Losing it
  * again fails the job as retryable, so a prerequisite that keeps disappearing cannot cycle forever.
@@ -1291,19 +1297,33 @@ export class JobQueue {
   private startAttempt(
     job: Pick<Job, "jobId" | "attemptId" | "lane" | "artifact">,
     owner: { target: JobOwner } | { context: ContextState },
-    execute: (signal: AbortSignal) => Promise<string>,
-    settle: (outcome: { result: string } | { error: unknown }) => void,
+    execute: (signal: AbortSignal) => Promise<string | StagedJobResult>,
+    settle: (outcome: { result: string; publish?: () => undefined } | { error: unknown }) => void,
   ): void {
     const controller = new AbortController();
+    let staged: StagedJobResult | undefined;
     const done = Promise.resolve()
       .then(() => execute(controller.signal))
       .then(
-        (result) => settle({ result }),
+        (value) => {
+          if (typeof value !== "string") staged = value;
+          try {
+            settle(typeof value === "string" ? { result: value } : value);
+          } catch (error) {
+            // Failed catalog publication rolled back; fail the same still-current attempt.
+            settle({ error });
+          }
+        },
         (error: unknown) => settle({ error }),
       )
-      .finally(() => {
-        this.attempts.delete(job.attemptId);
-        if ("target" in owner) this.store.transaction(() => this.releaseFinishedInputs(job.jobId));
+      .finally(async () => {
+        try {
+          await staged?.close();
+        } finally {
+          this.attempts.delete(job.attemptId);
+          if ("target" in owner)
+            this.store.transaction(() => this.releaseFinishedInputs(job.jobId));
+        }
       });
     this.attempts.set(job.attemptId, {
       ...owner,
@@ -1326,7 +1346,10 @@ export class JobQueue {
     if (!this.closed) this.onCapacity?.();
   }
 
-  private settle(job: Job, outcome: { result: string } | { error: unknown }): void {
+  private settle(
+    job: Job,
+    outcome: { result: string; publish?: () => undefined } | { error: unknown },
+  ): void {
     this.store.transaction(() => {
       const current = this.store.catalog
         .prepare(`SELECT ${jobColumns} FROM jobs WHERE jobId=?`)
@@ -1357,6 +1380,7 @@ export class JobQueue {
         this.fail(job.jobId, error, job.attemptId);
         return;
       }
+      outcome.publish?.();
       this.store.catalog
         .prepare(
           `INSERT INTO artifacts(targetKind,targetId,revisionId,artifact,generation,input,attemptId,result)

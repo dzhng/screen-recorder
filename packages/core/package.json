@@ -259,6 +259,10 @@
     "./references": {
       "types": "./dist/references.d.ts",
       "default": "./dist/references.js"
+    },
+    "./prepared-audio": {
+      "types": "./dist/prepared-audio.d.ts",
+      "default": "./dist/prepared-audio.js"
     }
   },
   "scripts": {

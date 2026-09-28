@@ -1,0 +1,12 @@
+2026-09-28 lifecycle checkpoint
+
+Core and service check-types: PASS
+Focused prepared-audio, job-publication, project-audio, project-service: 29 passed, 1 existing skip
+Native oracle, pure split, constant gain, historical excerpt after restart: PASS
+Independent review: no actionable regressions after diagnostics/export fixes
+
+Broader core run: 639 passed, 23 failed, 1 skipped (22 timing failures, one subprocess deadline)
+Serial failed-file rerun: 287 passed, 2 timeout failures
+Narrow projects/scene ownership rerun: 11 passed, project history timeout remains
+Original pre-change ProjectStore baseline: 7 passed, same large-history timeout
+No test deadline was relaxed. Full core suite is not claimed green.

@@ -1,6 +1,6 @@
 # 14a — Durable prepared audio shared by retiming and processors
 
-Status: planned; first lifecycle checkpoint implementing. Dependencies: 02a, 04,
+Status: first core lifecycle checkpoint verified; portable closure and public consumers remain open. Dependencies: 02a, 04,
 05, 08 and 22a. This storage/publication prerequisite does not depend on accepting
 RNNoise or stretch quality; actual DSP adoption remains gated by 12c/13a.
 
@@ -44,9 +44,10 @@ Canceled/stale completions run cleanup but never publish. Cleanup settles before
 attempt ownership ends; existing startup asset recovery removes staging/orphan
 files and interrupted work requires explicit retry.
 
-Each publication is linked to its exact revision outside composition JSON. It
-retains the output asset and complete upstream resource closure through the shared
-reference graph. Old revisions keep their own publication. A changed recipe
+Each publication is linked to its exact revision outside composition JSON. Its
+queue receipt names the output asset and upstream dependencies, all retained by
+that revision through the shared reference graph. Identical PCM can share one
+asset without merging different projects’ recipe dependencies onto that asset. Old revisions keep their own publication. A changed recipe
 requires a different job identity; no latest-result lookup or cross-revision reuse
 is assumed. Pure splits may reprepare identical PCM until reuse is separately
 proven. Source evidence stays raw.
@@ -77,7 +78,10 @@ cannot advertise those processors as ready.
 
 ## Review surface and pickup
 
-Focused core tests and a bounded native harness expose the receipt, recipe,
-retained history links and exact excerpt bytes. Preserve evidence under the slice's
-assets directory; update this status after each checkpoint. Full portability,
-scale/deletion and public processor integration remain required before closure.
+The [retained evidence](../assets/14a-prepared-audio/README.md) records actual native
+unit-rate, split and constant-gain output, bounded reads after restart, lifecycle
+tests and the broad-suite verification limits. The core owner is exercised through
+the production native renderer but is not yet registered as a public preparation
+command. Package export explicitly refuses revisions carrying prepared resources
+until the next checkpoint supplies its adapter. Full portability, scale/deletion
+verification and public processor integration remain required before closure.

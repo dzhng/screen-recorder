@@ -62,7 +62,7 @@ const projectOptionsSchema = z.strictObject({
 const sampleRangeSchema = z
   .object({ start: integer, end: integer })
   .refine((value) => value.end >= value.start);
-const projectReceiptSchema = z.object({
+const projectAudioReceiptSchema = z.object({
   file: z.string(),
   bytes: integer.positive(),
   sampleRate: z.literal(48000),
@@ -97,7 +97,7 @@ export type ProjectAudioRenderer = {
     signal: AbortSignal,
   ): Promise<unknown>;
 };
-export type ProjectAudioArtifact = z.infer<typeof projectReceiptSchema> & {
+export type ProjectAudioArtifact = z.infer<typeof projectAudioReceiptSchema> & {
   projectId: string;
   revisionId: string;
   range: TimeRange;
@@ -248,18 +248,14 @@ export class MediaAudioInspection {
   private requestSource(input: SourceAudioInput) {
     const { options, identity } = this.sourceRecipe(input);
     const { assets, acquisitions, jobs, cache } = this.owners;
-    const status = submitCachedDerivative<SourceAudioArtifact>(
-      jobs,
-      cache,
-      identity,
-      "heavy",
-      { admitted: (job) => {
+    const status = submitCachedDerivative<SourceAudioArtifact>(jobs, cache, identity, "heavy", {
+      admitted: (job) => {
         const owner = { kind: "job" as const, id: job.jobId };
         assets.retain(owner, [options.selection.assetId]);
         if (options.selection.acquisitionId)
           acquisitions.retain(owner, [options.selection.acquisitionId]);
-      } },
-    );
+      },
+    });
     return {
       ...options.selection,
       range: options.range,
@@ -307,13 +303,7 @@ export class MediaAudioInspection {
     const owner = this.owners.project;
     if (!owner)
       throw new CatalogError("NOT_READY", "Project audio renderer is unavailable", {}, true);
-    const plan = projectWindow(
-      owner.projects,
-      this.owners.assets,
-      input,
-      owner.renderer,
-      "audio",
-    );
+    const plan = projectWindow(owner.projects, this.owners.assets, input, owner.renderer, "audio");
     const { sampleRange } = plan.window.manifest;
     if (sampleRange.end <= sampleRange.start)
       throw new CatalogError(
@@ -381,37 +371,13 @@ export class MediaAudioInspection {
     signal.throwIfAborted();
     const output = this.owners.cache.reserve({ kind: "project", projectId: job.target.projectId });
     try {
-      const receipt = projectReceiptSchema.safeParse(
+      const value = checkProjectAudioResult(
         await owner.renderer.render({ ...plan, output: output.path }, signal),
+        plan.window,
+        output.path,
       );
       signal.throwIfAborted();
-      if (!receipt.success) invalid("Malformed project audio receipt");
-      const value = receipt.data;
       const sampleRange = plan.window.manifest.sampleRange;
-      if (
-        value.file !== output.path ||
-        value.frames !== sampleRange.end - sampleRange.start ||
-        value.clippedSamples > value.frames * 2
-      )
-        invalid("Project audio receipt differs from its pinned sample window");
-      const clips = new Map(
-        [...plan.window.audio()]
-          .filter((clip) => clip.source.kind === "range")
-          .map((clip) => [clip.clipId, clip]),
-      );
-      for (const missing of value.unavailable) {
-        const clip = clips.get(missing.clipId);
-        if (!clip) invalid("Project audio receipt names an unselected or repeated clip");
-        let through = clip.sampleRange.start;
-        for (const gap of missing.ranges) {
-          if (gap.start < through || gap.end <= gap.start || gap.end > clip.sampleRange.end)
-            invalid("Project audio unavailable samples exceed their clip");
-          through = gap.end;
-        }
-        clips.delete(missing.clipId);
-      }
-      if (clips.size) invalid("Project audio receipt omitted a selected clip");
-      checkWave(value);
       const cached = await this.owners.cache.publish(output.id);
       signal.throwIfAborted();
       if (cached.bytes !== value.bytes) invalid("Published audio size differs from its receipt");
@@ -481,7 +447,7 @@ export class MediaAudioInspection {
         !isDeepStrictEqual(value.unavailable, unavailable(options.range, source.track.available))
       )
         invalid("Source audio receipt differs from its selected stream or sample window");
-      checkWave(value);
+      checkAudioWaveFile(value);
       const cached = await this.owners.cache.publish(output.id);
       signal.throwIfAborted();
       if (cached.bytes !== value.bytes) invalid("Published audio size differs from its receipt");
@@ -499,8 +465,8 @@ export class MediaAudioInspection {
   }
 }
 
-/** Validate the completed producer file before it enters the immutable cache. */
-function checkWave(
+/** Validate the completed producer file before immutable publication. */
+function checkAudioWaveFile(
   value: Pick<SourceAudioResult, "file" | "bytes" | "sampleRate" | "channels" | "frames">,
 ) {
   const fd = openSync(value.file, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
@@ -513,4 +479,41 @@ function checkWave(
   } finally {
     file.release();
   }
+}
+
+/** The same receipt and source-gap contract applies to cached and durably prepared audio. */
+export function checkProjectAudioResult(
+  result: unknown,
+  window: CompositionWindow,
+  output: string,
+) {
+  const receipt = projectAudioReceiptSchema.safeParse(result);
+  if (!receipt.success) invalid("Malformed project audio receipt");
+  const value = receipt.data;
+  const sampleRange = window.manifest.sampleRange;
+  if (
+    value.file !== output ||
+    value.frames !== sampleRange.end - sampleRange.start ||
+    value.clippedSamples > value.frames * 2
+  )
+    invalid("Project audio receipt differs from its pinned sample window");
+  const clips = new Map(
+    [...window.audio()]
+      .filter((clip) => clip.source.kind === "range")
+      .map((clip) => [clip.clipId, clip]),
+  );
+  for (const missing of value.unavailable) {
+    const clip = clips.get(missing.clipId);
+    if (!clip) invalid("Project audio receipt names an unselected or repeated clip");
+    let through = clip.sampleRange.start;
+    for (const gap of missing.ranges) {
+      if (gap.start < through || gap.end <= gap.start || gap.end > clip.sampleRange.end)
+        invalid("Project audio unavailable samples exceed their clip");
+      through = gap.end;
+    }
+    clips.delete(missing.clipId);
+  }
+  if (clips.size) invalid("Project audio receipt omitted a selected clip");
+  checkAudioWaveFile(value);
+  return value;
 }

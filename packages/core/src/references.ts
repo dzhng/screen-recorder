@@ -5,6 +5,7 @@ export const resourceKinds = [
   "acquisition",
   "scene-generation",
   "transcript-generation",
+  "prepared-audio",
 ] as const;
 export type ResourceKind = (typeof resourceKinds)[number];
 export type ResourceReference = { kind: ResourceKind; id: string };
