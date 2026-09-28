@@ -1,0 +1,1727 @@
+{
+  "recipe": "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+  "delayRule": "2 * floor(sampleRate / 80)",
+  "impulses": [
+    {
+      "name": "impulse-24000-24000-0-raw",
+      "rate": 24000,
+      "inputFrames": 24000,
+      "outputFrames": 24000,
+      "at": 0,
+      "peakAt": 600,
+      "peak": 0.2919829189777374,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-24000-24000-0-compensated",
+      "rate": 24000,
+      "inputFrames": 24000,
+      "outputFrames": 24000,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.2919829189777374,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-24000-24000-2400-raw",
+      "rate": 24000,
+      "inputFrames": 24000,
+      "outputFrames": 24000,
+      "at": 2400,
+      "peakAt": 3000,
+      "peak": 0.4671613872051239,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-24000-24000-2400-compensated",
+      "rate": 24000,
+      "inputFrames": 24000,
+      "outputFrames": 24000,
+      "at": 2400,
+      "peakAt": 2400,
+      "peak": 0.4671613872051239,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-24000-24000-23999-raw",
+      "rate": 24000,
+      "inputFrames": 24000,
+      "outputFrames": 24000,
+      "at": 23999,
+      "peakAt": 23991,
+      "peak": 2.0822260270712302e-14,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-24000-24000-23999-compensated",
+      "rate": 24000,
+      "inputFrames": 24000,
+      "outputFrames": 24000,
+      "at": 23999,
+      "peakAt": 23999,
+      "peak": 0.4672507643699646,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-24000-1-0-raw",
+      "rate": 24000,
+      "inputFrames": 1,
+      "outputFrames": 1,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.0,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-24000-1-0-compensated",
+      "rate": 24000,
+      "inputFrames": 1,
+      "outputFrames": 1,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.2919829189777374,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-24000-17-16-raw",
+      "rate": 24000,
+      "inputFrames": 17,
+      "outputFrames": 17,
+      "at": 16,
+      "peakAt": 9,
+      "peak": -4.3269719946816e-13,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-24000-17-16-compensated",
+      "rate": 24000,
+      "inputFrames": 17,
+      "outputFrames": 17,
+      "at": 16,
+      "peakAt": 16,
+      "peak": 0.31612077355384827,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-24000-299-298-raw",
+      "rate": 24000,
+      "inputFrames": 299,
+      "outputFrames": 299,
+      "at": 298,
+      "peakAt": 242,
+      "peak": -3.6118901110011176e-14,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-24000-299-298-compensated",
+      "rate": 24000,
+      "inputFrames": 299,
+      "outputFrames": 299,
+      "at": 298,
+      "peakAt": 298,
+      "peak": 0.4673408269882202,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-44100-44100-0-raw",
+      "rate": 44100,
+      "inputFrames": 44100,
+      "outputFrames": 44100,
+      "at": 0,
+      "peakAt": 1102,
+      "peak": 0.2826148271560669,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-44100-44100-0-compensated",
+      "rate": 44100,
+      "inputFrames": 44100,
+      "outputFrames": 44100,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.2826148271560669,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-44100-44100-4410-raw",
+      "rate": 44100,
+      "inputFrames": 44100,
+      "outputFrames": 44100,
+      "at": 4410,
+      "peakAt": 5512,
+      "peak": 0.45179444551467896,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-44100-44100-4410-compensated",
+      "rate": 44100,
+      "inputFrames": 44100,
+      "outputFrames": 44100,
+      "at": 4410,
+      "peakAt": 4410,
+      "peak": 0.45179444551467896,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-44100-44100-44099-raw",
+      "rate": 44100,
+      "inputFrames": 44100,
+      "outputFrames": 44100,
+      "at": 44099,
+      "peakAt": 44095,
+      "peak": -6.080398851082691e-09,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-44100-44100-44099-compensated",
+      "rate": 44100,
+      "inputFrames": 44100,
+      "outputFrames": 44100,
+      "at": 44099,
+      "peakAt": 44099,
+      "peak": 0.4518771767616272,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-44100-1-0-raw",
+      "rate": 44100,
+      "inputFrames": 1,
+      "outputFrames": 1,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.0,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-44100-1-0-compensated",
+      "rate": 44100,
+      "inputFrames": 1,
+      "outputFrames": 1,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.2826148271560669,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-44100-17-16-raw",
+      "rate": 44100,
+      "inputFrames": 17,
+      "outputFrames": 17,
+      "at": 16,
+      "peakAt": 15,
+      "peak": -2.099089944831295e-13,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-44100-17-16-compensated",
+      "rate": 44100,
+      "inputFrames": 17,
+      "outputFrames": 17,
+      "at": 16,
+      "peakAt": 16,
+      "peak": 0.2970085144042969,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-44100-550-549-raw",
+      "rate": 44100,
+      "inputFrames": 550,
+      "outputFrames": 550,
+      "at": 549,
+      "peakAt": 307,
+      "peak": 1.1747308516023812e-14,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-44100-550-549-compensated",
+      "rate": 44100,
+      "inputFrames": 550,
+      "outputFrames": 550,
+      "at": 549,
+      "peakAt": 549,
+      "peak": 0.451997846364975,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-48000-48000-0-raw",
+      "rate": 48000,
+      "inputFrames": 48000,
+      "outputFrames": 48000,
+      "at": 0,
+      "peakAt": 1200,
+      "peak": 0.27979418635368347,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-48000-48000-0-compensated",
+      "rate": 48000,
+      "inputFrames": 48000,
+      "outputFrames": 48000,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.27979418635368347,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-48000-48000-4800-raw",
+      "rate": 48000,
+      "inputFrames": 48000,
+      "outputFrames": 48000,
+      "at": 4800,
+      "peakAt": 6000,
+      "peak": 0.44651713967323303,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-48000-48000-4800-compensated",
+      "rate": 48000,
+      "inputFrames": 48000,
+      "outputFrames": 48000,
+      "at": 4800,
+      "peakAt": 4800,
+      "peak": 0.44651713967323303,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-48000-48000-47999-raw",
+      "rate": 48000,
+      "inputFrames": 48000,
+      "outputFrames": 48000,
+      "at": 47999,
+      "peakAt": 47919,
+      "peak": -3.824230090042867e-15,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-48000-48000-47999-compensated",
+      "rate": 48000,
+      "inputFrames": 48000,
+      "outputFrames": 48000,
+      "at": 47999,
+      "peakAt": 47999,
+      "peak": 0.44658544659614563,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-48000-1-0-raw",
+      "rate": 48000,
+      "inputFrames": 1,
+      "outputFrames": 1,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.0,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-48000-1-0-compensated",
+      "rate": 48000,
+      "inputFrames": 1,
+      "outputFrames": 1,
+      "at": 0,
+      "peakAt": 0,
+      "peak": 0.27979418635368347,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-48000-17-16-raw",
+      "rate": 48000,
+      "inputFrames": 17,
+      "outputFrames": 17,
+      "at": 16,
+      "peakAt": 13,
+      "peak": 2.2664219388360924e-15,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-48000-17-16-compensated",
+      "rate": 48000,
+      "inputFrames": 17,
+      "outputFrames": 17,
+      "at": 16,
+      "peakAt": 16,
+      "peak": 0.2927261292934418,
+      "timingPass": true
+    },
+    {
+      "name": "impulse-48000-599-598-raw",
+      "rate": 48000,
+      "inputFrames": 599,
+      "outputFrames": 599,
+      "at": 598,
+      "peakAt": 518,
+      "peak": 2.539384277671069e-14,
+      "timingPass": false
+    },
+    {
+      "name": "impulse-48000-599-598-compensated",
+      "rate": 48000,
+      "inputFrames": 599,
+      "outputFrames": 599,
+      "at": 598,
+      "peakAt": 598,
+      "peak": 0.4466559886932373,
+      "timingPass": true
+    }
+  ],
+  "speechQuality": "unverified; no listening",
+  "productionAdoption": false,
+  "speechFrames": 120000,
+  "speechControls": {
+    "longer-tail": {
+      "samples": 120000,
+      "differentSamples": 0,
+      "maxAbsoluteError": 0.0,
+      "rmsError": 0.0
+    },
+    "packet-17": {
+      "samples": 120000,
+      "differentSamples": 0,
+      "maxAbsoluteError": 0.0,
+      "rmsError": 0.0
+    },
+    "packet-997": {
+      "samples": 120000,
+      "differentSamples": 0,
+      "maxAbsoluteError": 0.0,
+      "rmsError": 0.0
+    },
+    "repeat": {
+      "samples": 120000,
+      "differentSamples": 0,
+      "maxAbsoluteError": 0.0,
+      "rmsError": 0.0
+    }
+  },
+  "rawSpeechDifference": {
+    "samples": 120000,
+    "differentSamples": 120000,
+    "maxAbsoluteError": 0.010850168764591217,
+    "rmsError": 0.000989810737408099
+  },
+  "speechPeak": {
+    "input": 0.08745469897985458,
+    "output": 0.08369695395231247
+  },
+  "stereo": [
+    {
+      "samples": 24000,
+      "differentSamples": 0,
+      "maxAbsoluteError": 0.0,
+      "rmsError": 0.0
+    },
+    {
+      "samples": 24000,
+      "differentSamples": 0,
+      "maxAbsoluteError": 0.0,
+      "rmsError": 0.0
+    }
+  ],
+  "elapsedSeconds": 0.954475459002424,
+  "commands": [
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "61f4163deb70036e7647fe329708747d7cd7c30d494500cd4480f7c91b771ea3",
+      "outputSha256": "7b7e52fe937d7380cf4f77b6781b012b2f0dd7f7cb37da7807c5f7b55369b531"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=24600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "61f4163deb70036e7647fe329708747d7cd7c30d494500cd4480f7c91b771ea3",
+      "outputSha256": "199a60f2e509cb10ebbbc12c259174d75ddd0975dec7832246a34a609a26ac29"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "324366cb5598d087d5563769dd85b08116faca316305acc8c0f4aa748c264407",
+      "outputSha256": "4161fa2d55d890f65224bb883c4cf0686b6573035af8f4c729cf844e5844af80"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=24600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "324366cb5598d087d5563769dd85b08116faca316305acc8c0f4aa748c264407",
+      "outputSha256": "be8c4cad36e42ca0dcf1060bde3a3b5027834ca6c1b59c144d1f89d1bedf02ec"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "0ef194f9116559a06bd51a6eed102dee835ade61d082570afa28443455dc1a7a",
+      "outputSha256": "09a311398d393aa5e7a55cbc08c8eb4bf765a40df0cc0a6397ff1689dcbd6679"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=24600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "0ef194f9116559a06bd51a6eed102dee835ade61d082570afa28443455dc1a7a",
+      "outputSha256": "35d199baba1639595e4bc04989f9fe80cf7cc63ddf3ccd81ca3024eceeb41c83"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "d99e58435243d9fef9c88273b8d553b4fba4d0baf8009d29eae74fa99e0d9f57",
+      "outputSha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=601",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "d99e58435243d9fef9c88273b8d553b4fba4d0baf8009d29eae74fa99e0d9f57",
+      "outputSha256": "2093fba6fd9383f234472fb0218e0d86bd61166fea5a2448b7995b2952654d28"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "668ea4134adfe7f3b9f034708ec39f8a39f8f9f21884e9f1cdeac365f7ffbca9",
+      "outputSha256": "fdceee7fd73cbcb96331c1b26747fdc789bf79c4e75263ce7191c18040975384"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=617",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "668ea4134adfe7f3b9f034708ec39f8a39f8f9f21884e9f1cdeac365f7ffbca9",
+      "outputSha256": "2c862c2abaf6fcfc1655406ef2911b3d15423316c0dc13a441b9f26392f39bf1"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "13a59e50ea6533a77a13df22037b4435cf2cdea5e8f60b1265347e662c1360b1",
+      "outputSha256": "b7ef1d3a632878bffc4edf5a5d762e0b937d4a8826266b5cba4eb8aa6e2d5419"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=899",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "13a59e50ea6533a77a13df22037b4435cf2cdea5e8f60b1265347e662c1360b1",
+      "outputSha256": "a71f7af0fb7ab2825a40f818138454e267a5f332502cca176fda6864ab894738"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "ddaf46dfabed5f409186a6d404ca441428b24939639722376170058635c53f06",
+      "outputSha256": "9afb7fc4ca3db46dd9861e200855b645a4e5a142476326802b110b6e802fc39b"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1102,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1102:end_sample=45202",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "ddaf46dfabed5f409186a6d404ca441428b24939639722376170058635c53f06",
+      "outputSha256": "57d4e984e9950572ba6ef704b1a678dc6ba9ddf92b7ef075951e618adba60262"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "5f7c174c6cc4a7c9993ded6f50eab8ca06bd279373a93341a28aa35a1b702031",
+      "outputSha256": "55820b802cf5e51433721ba8583ebf3aa8ea8329e87be226e98783cb7b7577e0"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1102,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1102:end_sample=45202",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "5f7c174c6cc4a7c9993ded6f50eab8ca06bd279373a93341a28aa35a1b702031",
+      "outputSha256": "e8194638e7c13d04d5b478366889c652b4f30bd076ebc05143e1afba362b6848"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "fd53beadfb12807d9dd77218d5a9a2eff196f2b199479e49c47f2417206571dc",
+      "outputSha256": "7e527b8af29de5fa37094a66d6ac71fb132a70e5ac91a267d441df5bd3883be5"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1102,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1102:end_sample=45202",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "fd53beadfb12807d9dd77218d5a9a2eff196f2b199479e49c47f2417206571dc",
+      "outputSha256": "96f9fbd64b3c54f8f32f922bc9615c17bf7a84cc4af9b381d700be4aa504596e"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "d99e58435243d9fef9c88273b8d553b4fba4d0baf8009d29eae74fa99e0d9f57",
+      "outputSha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1102,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1102:end_sample=1103",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "d99e58435243d9fef9c88273b8d553b4fba4d0baf8009d29eae74fa99e0d9f57",
+      "outputSha256": "dba2fea416b4ecdf3b0ef0bd6028a943c1153f308f4b4b26bebcea7e7dca6c18"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "668ea4134adfe7f3b9f034708ec39f8a39f8f9f21884e9f1cdeac365f7ffbca9",
+      "outputSha256": "f8bcb25af6cce9d59e8e582492035de16e331d22335e4ad9fdabd21a28b960ef"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1102,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1102:end_sample=1119",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "668ea4134adfe7f3b9f034708ec39f8a39f8f9f21884e9f1cdeac365f7ffbca9",
+      "outputSha256": "4dabf010da4156c68e26901cb2350e98eac7d3dfecee6a77cf9566eb4ead8f21"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "ceba16efe324d02e9e610d8a239a7a27ce09642df55f49a4682f844f5a5140ea",
+      "outputSha256": "ae812773a17a1520d7abd5d2a6f864207d991a2f98ec121606a98a33bd9f2a58"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "44100",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1102,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1102:end_sample=1652",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "ceba16efe324d02e9e610d8a239a7a27ce09642df55f49a4682f844f5a5140ea",
+      "outputSha256": "929902ae059657e275703f7874a111e0ad30f598b8403fb729b331caceb17bc7"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "37d7a6d273b17e9efd3d862d2ab12e187c61fad6681be5bb312bdc1716794d63",
+      "outputSha256": "41470d4081ed695a771f6c72efa5b2537fc90fd738229efb78b76d0c74ab969b"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=49200",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "37d7a6d273b17e9efd3d862d2ab12e187c61fad6681be5bb312bdc1716794d63",
+      "outputSha256": "29cf51e3f0dee19bc886b7aad8a2a71bd16f0d932e0d3459eee4317bc30f2969"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "fe5348dadce49af173b77f97f98cde203af6f44b4952b8c8b385f9a40c289789",
+      "outputSha256": "6a93c9bfa3fd9788c42775cafca32f2a90dfce25bac04ad8e64867ee6b95452e"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=49200",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "fe5348dadce49af173b77f97f98cde203af6f44b4952b8c8b385f9a40c289789",
+      "outputSha256": "4e2a9afe938b78999befdbc51ed795acc1ae699dcbf5d28b2a19db21d784bf92"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "ab65bc0a3d8608573722c1256e82807f972c38d449197b890a32e505b9057879",
+      "outputSha256": "51cc674ad10c1518556d8492ac94fb87cd8b0a122f2a6523510fbccd59e2c93c"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=49200",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "ab65bc0a3d8608573722c1256e82807f972c38d449197b890a32e505b9057879",
+      "outputSha256": "019cac9ed555f9deddc472930b19e1b4834f636d28b6d52611c02f66ae958ca3"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "d99e58435243d9fef9c88273b8d553b4fba4d0baf8009d29eae74fa99e0d9f57",
+      "outputSha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=1201",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "d99e58435243d9fef9c88273b8d553b4fba4d0baf8009d29eae74fa99e0d9f57",
+      "outputSha256": "12d825f123eb289d80fd635caf8b01a8e3bace6e03fc026649003f69177d2970"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "668ea4134adfe7f3b9f034708ec39f8a39f8f9f21884e9f1cdeac365f7ffbca9",
+      "outputSha256": "bc55a5cbde55ff7d3f824306dfb9af6f3105819b9a9f11856dbe3cb982ac5dea"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=1217",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "668ea4134adfe7f3b9f034708ec39f8a39f8f9f21884e9f1cdeac365f7ffbca9",
+      "outputSha256": "3b6584e5c1c708a844f8231faf827692faf91215f4dfbb2c87bb31203f835e56"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "b91a1284b1a68d3985be846af0cece5b5d7f6f443784a39e2cf3747c6d4fa66f",
+      "outputSha256": "96a30dd488d0ca79bdc96fc0a0e7789b426d3e29e3ca14494f1d9d72c87c2628"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=1799",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "b91a1284b1a68d3985be846af0cece5b5d7f6f443784a39e2cf3747c6d4fa66f",
+      "outputSha256": "8089bbf14489ea4f350eb6fbf7b648d999a136334db03e68bb4a80cb61e1dc54"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-i",
+        "specs/agent-editing/assets/18-voice/context.wav",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": null,
+      "outputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=120600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "outputSha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=120600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "outputSha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "asetnsamples=n=17:p=0,apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=120600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "outputSha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "asetnsamples=n=997:p=0,apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=120600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "outputSha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=120600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "85b6e886d1aea1c0681057325702b4cbc86d0c25b6a290241590c77830ea6cd2",
+      "outputSha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "2",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=24600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "46cca2c1ff59d5c44809f153bf303c74b7573ce67d1e1a0dc9d6e9f7cfcafed1",
+      "outputSha256": "93b499a939815ed8948d963bbc1e8adbfa07be3c19f73a3bffef54eac9c95885"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=24600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "61f4163deb70036e7647fe329708747d7cd7c30d494500cd4480f7c91b771ea3",
+      "outputSha256": "199a60f2e509cb10ebbbc12c259174d75ddd0975dec7832246a34a609a26ac29"
+    },
+    {
+      "argv": [
+        "/opt/homebrew/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "24000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=600,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=600:end_sample=24600",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "inputSha256": "8d5fae9de17a2657be373578865148ab98b71502b2a189b3243fca6d01db5649",
+      "outputSha256": "c56854e3c0dd8eaf31cb79366c2dd3029c7413fd44ed643a1bc03d7163d239e1"
+    }
+  ],
+  "identity": {
+    "runnerSha256": "4af1f9ddc6366dfb549a13a0797bad7ab51e301daf82aee1632e16ad99b16d7c",
+    "ffmpegSha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c",
+    "speechSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45"
+  },
+  "outputs": {
+    "impulse-24000-1-0-compensated.f32": {
+      "bytes": 4,
+      "sha256": "2093fba6fd9383f234472fb0218e0d86bd61166fea5a2448b7995b2952654d28"
+    },
+    "impulse-24000-1-0-raw.f32": {
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    "impulse-24000-17-16-compensated.f32": {
+      "bytes": 68,
+      "sha256": "2c862c2abaf6fcfc1655406ef2911b3d15423316c0dc13a441b9f26392f39bf1"
+    },
+    "impulse-24000-17-16-raw.f32": {
+      "bytes": 68,
+      "sha256": "fdceee7fd73cbcb96331c1b26747fdc789bf79c4e75263ce7191c18040975384"
+    },
+    "impulse-24000-24000-0-compensated.f32": {
+      "bytes": 96000,
+      "sha256": "199a60f2e509cb10ebbbc12c259174d75ddd0975dec7832246a34a609a26ac29"
+    },
+    "impulse-24000-24000-0-raw.f32": {
+      "bytes": 96000,
+      "sha256": "7b7e52fe937d7380cf4f77b6781b012b2f0dd7f7cb37da7807c5f7b55369b531"
+    },
+    "impulse-24000-24000-23999-compensated.f32": {
+      "bytes": 96000,
+      "sha256": "35d199baba1639595e4bc04989f9fe80cf7cc63ddf3ccd81ca3024eceeb41c83"
+    },
+    "impulse-24000-24000-23999-raw.f32": {
+      "bytes": 96000,
+      "sha256": "09a311398d393aa5e7a55cbc08c8eb4bf765a40df0cc0a6397ff1689dcbd6679"
+    },
+    "impulse-24000-24000-2400-compensated.f32": {
+      "bytes": 96000,
+      "sha256": "be8c4cad36e42ca0dcf1060bde3a3b5027834ca6c1b59c144d1f89d1bedf02ec"
+    },
+    "impulse-24000-24000-2400-raw.f32": {
+      "bytes": 96000,
+      "sha256": "4161fa2d55d890f65224bb883c4cf0686b6573035af8f4c729cf844e5844af80"
+    },
+    "impulse-24000-299-298-compensated.f32": {
+      "bytes": 1196,
+      "sha256": "a71f7af0fb7ab2825a40f818138454e267a5f332502cca176fda6864ab894738"
+    },
+    "impulse-24000-299-298-raw.f32": {
+      "bytes": 1196,
+      "sha256": "b7ef1d3a632878bffc4edf5a5d762e0b937d4a8826266b5cba4eb8aa6e2d5419"
+    },
+    "impulse-44100-1-0-compensated.f32": {
+      "bytes": 4,
+      "sha256": "dba2fea416b4ecdf3b0ef0bd6028a943c1153f308f4b4b26bebcea7e7dca6c18"
+    },
+    "impulse-44100-1-0-raw.f32": {
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    "impulse-44100-17-16-compensated.f32": {
+      "bytes": 68,
+      "sha256": "4dabf010da4156c68e26901cb2350e98eac7d3dfecee6a77cf9566eb4ead8f21"
+    },
+    "impulse-44100-17-16-raw.f32": {
+      "bytes": 68,
+      "sha256": "f8bcb25af6cce9d59e8e582492035de16e331d22335e4ad9fdabd21a28b960ef"
+    },
+    "impulse-44100-44100-0-compensated.f32": {
+      "bytes": 176400,
+      "sha256": "57d4e984e9950572ba6ef704b1a678dc6ba9ddf92b7ef075951e618adba60262"
+    },
+    "impulse-44100-44100-0-raw.f32": {
+      "bytes": 176400,
+      "sha256": "9afb7fc4ca3db46dd9861e200855b645a4e5a142476326802b110b6e802fc39b"
+    },
+    "impulse-44100-44100-44099-compensated.f32": {
+      "bytes": 176400,
+      "sha256": "96f9fbd64b3c54f8f32f922bc9615c17bf7a84cc4af9b381d700be4aa504596e"
+    },
+    "impulse-44100-44100-44099-raw.f32": {
+      "bytes": 176400,
+      "sha256": "7e527b8af29de5fa37094a66d6ac71fb132a70e5ac91a267d441df5bd3883be5"
+    },
+    "impulse-44100-44100-4410-compensated.f32": {
+      "bytes": 176400,
+      "sha256": "e8194638e7c13d04d5b478366889c652b4f30bd076ebc05143e1afba362b6848"
+    },
+    "impulse-44100-44100-4410-raw.f32": {
+      "bytes": 176400,
+      "sha256": "55820b802cf5e51433721ba8583ebf3aa8ea8329e87be226e98783cb7b7577e0"
+    },
+    "impulse-44100-550-549-compensated.f32": {
+      "bytes": 2200,
+      "sha256": "929902ae059657e275703f7874a111e0ad30f598b8403fb729b331caceb17bc7"
+    },
+    "impulse-44100-550-549-raw.f32": {
+      "bytes": 2200,
+      "sha256": "ae812773a17a1520d7abd5d2a6f864207d991a2f98ec121606a98a33bd9f2a58"
+    },
+    "impulse-48000-1-0-compensated.f32": {
+      "bytes": 4,
+      "sha256": "12d825f123eb289d80fd635caf8b01a8e3bace6e03fc026649003f69177d2970"
+    },
+    "impulse-48000-1-0-raw.f32": {
+      "bytes": 4,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    "impulse-48000-17-16-compensated.f32": {
+      "bytes": 68,
+      "sha256": "3b6584e5c1c708a844f8231faf827692faf91215f4dfbb2c87bb31203f835e56"
+    },
+    "impulse-48000-17-16-raw.f32": {
+      "bytes": 68,
+      "sha256": "bc55a5cbde55ff7d3f824306dfb9af6f3105819b9a9f11856dbe3cb982ac5dea"
+    },
+    "impulse-48000-48000-0-compensated.f32": {
+      "bytes": 192000,
+      "sha256": "29cf51e3f0dee19bc886b7aad8a2a71bd16f0d932e0d3459eee4317bc30f2969"
+    },
+    "impulse-48000-48000-0-raw.f32": {
+      "bytes": 192000,
+      "sha256": "41470d4081ed695a771f6c72efa5b2537fc90fd738229efb78b76d0c74ab969b"
+    },
+    "impulse-48000-48000-47999-compensated.f32": {
+      "bytes": 192000,
+      "sha256": "019cac9ed555f9deddc472930b19e1b4834f636d28b6d52611c02f66ae958ca3"
+    },
+    "impulse-48000-48000-47999-raw.f32": {
+      "bytes": 192000,
+      "sha256": "51cc674ad10c1518556d8492ac94fb87cd8b0a122f2a6523510fbccd59e2c93c"
+    },
+    "impulse-48000-48000-4800-compensated.f32": {
+      "bytes": 192000,
+      "sha256": "4e2a9afe938b78999befdbc51ed795acc1ae699dcbf5d28b2a19db21d784bf92"
+    },
+    "impulse-48000-48000-4800-raw.f32": {
+      "bytes": 192000,
+      "sha256": "6a93c9bfa3fd9788c42775cafca32f2a90dfce25bac04ad8e64867ee6b95452e"
+    },
+    "impulse-48000-599-598-compensated.f32": {
+      "bytes": 2396,
+      "sha256": "8089bbf14489ea4f350eb6fbf7b648d999a136334db03e68bb4a80cb61e1dc54"
+    },
+    "impulse-48000-599-598-raw.f32": {
+      "bytes": 2396,
+      "sha256": "96a30dd488d0ca79bdc96fc0a0e7789b426d3e29e3ca14494f1d9d72c87c2628"
+    },
+    "speech-compensated.f32": {
+      "bytes": 480000,
+      "sha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    "speech-longer-tail.f32": {
+      "bytes": 480000,
+      "sha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    "speech-packet-17.f32": {
+      "bytes": 480000,
+      "sha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    "speech-packet-997.f32": {
+      "bytes": 480000,
+      "sha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    "speech-repeat.f32": {
+      "bytes": 480000,
+      "sha256": "85c96d7581022fb2387d04550466c30230140d76aa8fea50a97ee31e170bf6b1"
+    },
+    "stereo-channel-0.f32": {
+      "bytes": 96000,
+      "sha256": "199a60f2e509cb10ebbbc12c259174d75ddd0975dec7832246a34a609a26ac29"
+    },
+    "stereo-channel-1.f32": {
+      "bytes": 96000,
+      "sha256": "c56854e3c0dd8eaf31cb79366c2dd3029c7413fd44ed643a1bc03d7163d239e1"
+    },
+    "stereo-compensated.f32": {
+      "bytes": 192000,
+      "sha256": "93b499a939815ed8948d963bbc1e8adbfa07be3c19f73a3bffef54eac9c95885"
+    }
+  },
+  "passedTimingMechanism": true
+}

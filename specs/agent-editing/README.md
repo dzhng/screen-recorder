@@ -90,8 +90,10 @@ Evidence boundaries to preserve:
   (stretch speech/listening), 18/19 (voice identity/delivery/joins), and 20/21
   (physical camera/capture). Numerical success does not establish listening quality.
   The [matched speech alternative](assets/12-verbatim/README.md) fails completeness
-  and p95 timing; next speech work is separate forced alignment on frozen text,
-  while independent audible labels and joins remain open.
+  and p95 timing. [Separate forced alignment](assets/12-alignment/README.md) also
+  fails p95 and memory; independent audible labels and joins remain open.
+  [Denoise compensation](assets/12c-denoise-timing/README.md) passes limited
+  numerical timing gates; edited-input state and speech quality remain open.
 
 Keep sources intact, use isolated homes and frozen native binaries, and never
 change test thresholds to hide failures. No history migration, editing GUI,

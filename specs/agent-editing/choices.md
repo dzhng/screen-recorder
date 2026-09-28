@@ -1442,3 +1442,14 @@ The native plotting operation receives bounded waveform or spectral measurements
   agent can rescore every edge without rerunning inference. The separate verbatim
   candidate's research restrictions still apply to its own output. The plan left
   evidence storage unspecified; neither output can serve as independent labels.
+
+
+## Denoise timing research — 2026-09-28
+
+- **Sound, medium confidence — flush the processing state with explicit zeros, not nearby source audio.**
+  A selected final word must not borrow the excluded next word merely to flush a
+  filter's delayed output. The research candidate appends zeros after its chosen
+  input, removes the implementation's sample delay, and keeps the requested
+  count. The plan requires isolation but leaves filter-tail handling open. This
+  tests a reversible timing mechanism; it does not yet choose production context
+  or establish preserved speech quality. Future state/quality gates can reject it.

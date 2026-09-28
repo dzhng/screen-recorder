@@ -1,6 +1,6 @@
 # 12c — Reproduce local noise reduction
 
-Status: initial conventional baseline runs; [mechanism evidence](../assets/12c-denoise-baseline/README.md) preserves counts but does not establish quality/state/timing acceptance. [State/endpoint probes](../assets/12c-denoise-state/README.md) fail naive reset and reveal uncompensated 25 ms impulse delay. Dependencies: [00](./00-corpus.md).
+Status: initial conventional baseline runs; [mechanism evidence](../assets/12c-denoise-baseline/README.md) preserves counts but does not establish quality/state/timing acceptance. [State/endpoint probes](../assets/12c-denoise-state/README.md) fail naive reset and reveal uncompensated 25 ms impulse delay. [Explicit flushing/compensation](../assets/12c-denoise-timing/README.md) now restores tested impulse timing/counts across three rates; speech quality and edited-input state policy remain open. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 

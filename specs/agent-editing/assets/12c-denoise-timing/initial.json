@@ -1,0 +1,68 @@
+[
+  {
+    "rate": 24000,
+    "n": 24000,
+    "at": 0,
+    "mode": "raw",
+    "delay": 600,
+    "length": 24000,
+    "peakAt": 600,
+    "peak": 0.2919829189777374,
+    "passTiming": false
+  },
+  {
+    "rate": 24000,
+    "n": 24000,
+    "at": 0,
+    "mode": "compensated",
+    "delay": 600,
+    "length": 24000,
+    "peakAt": 0,
+    "peak": 0.2919829189777374,
+    "passTiming": true
+  },
+  {
+    "rate": 24000,
+    "n": 24000,
+    "at": 2400,
+    "mode": "raw",
+    "delay": 600,
+    "length": 24000,
+    "peakAt": 3000,
+    "peak": 0.4671613872051239,
+    "passTiming": false
+  },
+  {
+    "rate": 24000,
+    "n": 24000,
+    "at": 2400,
+    "mode": "compensated",
+    "delay": 600,
+    "length": 24000,
+    "peakAt": 2400,
+    "peak": 0.4671613872051239,
+    "passTiming": true
+  },
+  {
+    "rate": 24000,
+    "n": 24000,
+    "at": 23999,
+    "mode": "raw",
+    "delay": 600,
+    "length": 24000,
+    "peakAt": 23991,
+    "peak": 2.0822260270712302e-14,
+    "passTiming": false
+  },
+  {
+    "rate": 24000,
+    "n": 24000,
+    "at": 23999,
+    "mode": "compensated",
+    "delay": 600,
+    "length": 24000,
+    "peakAt": 23999,
+    "peak": 0.4672507643699646,
+    "passTiming": true
+  }
+]
