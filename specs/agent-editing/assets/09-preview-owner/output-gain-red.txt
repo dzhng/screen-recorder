@@ -1,0 +1,32 @@
+$ vitest run --maxWorkers=4 src/project-preview.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-preview/packages/core
+
+(node:12923) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-preview.test.ts (4 tests | 1 failed) 555ms
+   × binds supported gain throughout audio routing and output, but refuses unprepared retiming 131ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-preview.test.ts > binds supported gain throughout audio routing and output, but refuses unprepared retiming
+CompositionError: Native execution and preparation are not bound to this window
+ ❯ ProjectPreviewInspection.plan src/project-preview.ts:84:5
+     82|     }));
+     83|     const bound = { ...window, manifest: { ...window.manifest, require…
+     84|     requireWindowReady(bound.manifest);
+       |     ^
+     85|     const bindings = new Map<string, CompositionAssetBinding>();
+     86|     for (const source of bound.manifest.sources) {
+ ❯ ProjectPreviewInspection.request src/project-preview.ts:47:23
+ ❯ src/project-preview.test.ts:126:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  19:47:34
+   Duration  2.41s (transform 58%, tests 26%, import 16%, worker 1%)
+
+error: script "test" exited with code 1

@@ -1,3 +1,4 @@
+import { submitCachedDerivative } from "./cached-derivative.js";
 import type { RevisionStore } from "./library.js";
 import type { Job, JobLane, JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
@@ -144,27 +145,6 @@ export class LibraryDerivatives implements DerivativeBackend<{ recordingId: stri
     identity: Pick<Job, "target" | "artifact" | "input">,
     lane: JobLane,
   ): DerivativeSubmission<Value> {
-    this.jobs.submit({ ...identity, lane });
-    let status = this.jobs.status(identity);
-    if (status.published) {
-      const read = this.cache.acquire((JSON.parse(status.published.result) as Value).cacheId);
-      if (read) read.release();
-      else {
-        this.jobs.regenerate(status.jobId!, status.published.generation);
-        status = this.jobs.status(identity);
-      }
-    }
-    return {
-      state: status.state,
-      reason: status.reason,
-      retryable: status.retryable,
-      jobId: status.jobId,
-      published: status.published
-        ? {
-            generation: status.published.generation,
-            value: JSON.parse(status.published.result) as Value,
-          }
-        : null,
-    };
+    return submitCachedDerivative<Value>(this.jobs, this.cache, identity, lane);
   }
 }

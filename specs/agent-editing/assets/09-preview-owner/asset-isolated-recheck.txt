@@ -1,0 +1,12 @@
+$ vitest run --maxWorkers=4 src/assets.test.ts -t "a source modified during streamed copying"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-preview/packages/core
+
+(node:17944) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 11 skipped (12)
+   Start at  19:51:02
+   Duration  980ms (import 34%, transform 34%, tests 30%, worker 1%)
+

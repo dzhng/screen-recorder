@@ -1,6 +1,6 @@
 # 09 — First public preview and export
 
-Status: lifecycle prerequisite integrated: [shared-cache retirement](../assets/09-cache-retirement/README.md). [Shared render lifetime](../assets/09-render-lifetime/README.md) is ready for compiled execution. Public rendering remains unimplemented. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
+Status: lifecycle prerequisite integrated: [shared-cache retirement](../assets/09-cache-retirement/README.md). [Shared render lifetime](../assets/09-render-lifetime/README.md) is ready for compiled execution. [Core preview admission](../assets/09-preview-owner/README.md) pins compiled windows and reuses the existing queue/cache; its renderer-boundary owner tests pass. Public rendered acceptance remains open. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
 
 ## Contract
 

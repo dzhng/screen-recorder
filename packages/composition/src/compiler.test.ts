@@ -1008,3 +1008,44 @@ test("processing includes only audio occurrences with requested output samples",
     }),
   ).toThrowError(expect.objectContaining({ code: "NOT_READY" }));
 });
+
+test("execution window owns exact sample endpoints and readiness requires every bound implementation", () => {
+  const compiler = createCompiler(validateComposition(document, assets), "sample-window");
+  const window = compiler.window({
+    range: { startUs: Number.MAX_SAFE_INTEGER - 20, endUs: Number.MAX_SAFE_INTEGER },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  const endpoint = (us: number) => Number((BigInt(us) * 48000n) / 1000000n);
+  expect(window.manifest.sampleRange).toEqual({
+    start: endpoint(Number.MAX_SAFE_INTEGER - 20),
+    end: endpoint(Number.MAX_SAFE_INTEGER),
+  });
+  const tiny = compiler.window({
+    range: { startUs: 1, endUs: 2 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  expect(tiny.manifest.sampleRange).toEqual({ start: 0, end: 0 });
+  const bound = {
+    ...tiny.manifest,
+    requirements: tiny.manifest.requirements.map((r) => ({
+      ...r,
+      implementationId: "tested-native",
+    })),
+  };
+  expect(() => requireWindowReady(executionWindowManifestSchema.parse(bound))).not.toThrow();
+  const partial = {
+    ...bound,
+    requirements: bound.requirements.map((r, i) => ({
+      ...r,
+      implementationId: i === 0 ? null : r.implementationId,
+    })),
+  };
+  expect(() => requireWindowReady(partial)).toThrowError(
+    expect.objectContaining({
+      code: "NOT_READY",
+      details: { requirements: [partial.requirements[0]] },
+    }),
+  );
+});

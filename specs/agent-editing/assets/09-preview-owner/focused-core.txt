@@ -1,0 +1,22 @@
+$ vitest run --maxWorkers=4 src/project-preview.test.ts src/preview.test.ts src/cache-owners.test.ts src/jobs.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-preview/packages/core
+
+(node:19961) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19957) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19956) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19958) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  4 passed (4)
+      Tests  69 passed (69)
+   Start at  19:52:23
+   Duration  6.69s (tests 66%, transform 27%, import 7%)
+
+  Transform  transforming modules took 3.13s · 27% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

@@ -95,7 +95,6 @@ export const processorRegistry = {
   gain: {
     schema: z.object({ type: z.literal("gain"), gain: z.number().finite().nonnegative() }).strict(),
     mediaKind: "audio" as const,
-    execution: false,
     units: { gain: "linear multiplier" },
   },
 };

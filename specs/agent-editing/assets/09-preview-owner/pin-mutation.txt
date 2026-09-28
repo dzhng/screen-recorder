@@ -1,0 +1,34 @@
+$ vitest run --maxWorkers=4 src/project-preview.test.ts -t "pins an old revision"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-preview/packages/core
+
+(node:19373) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-preview.test.ts (8 tests | 1 failed | 7 skipped) 186ms
+   × pins an old revision through edits, repeated admission and cache eviction 183ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-preview.test.ts > pins an old revision through edits, repeated admission and cache eviction
+AssertionError: expected '61ca144b-42bb-4544-904e-95975daeb3d8' to be '763be23c-0b74-4974-a257-97709c6b93e9' // Object.is equality
+
+Expected: "763be23c-0b74-4974-a257-97709c6b93e9"
+Received: "61ca144b-42bb-4544-904e-95975daeb3d8"
+
+ ❯ src/project-preview.test.ts:157:43
+    155|   });
+    156|   const pinned = { ...request, revisionId: first.revisionId };
+    157|   expect(f.preview.request(pinned).jobId).toBe(first.jobId);
+       |                                           ^
+    158|   release.resolve();
+    159|   await f.jobs.idle();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  19:51:39
+   Duration  1.82s (transform 65%, import 20%, tests 13%, worker 2%)
+
+error: script "test" exited with code 1

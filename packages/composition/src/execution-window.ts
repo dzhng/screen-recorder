@@ -4,6 +4,7 @@ import { audioContextSchema, type CompiledAudio, type CompiledFrame } from "./co
 import { type ValidatedComposition } from "./model.js";
 import { processingInstructionSchema, type ProcessingInstruction } from "./processing-plan.js";
 import type { audioContexts } from "./audio-context.js";
+import { sampleAt } from "./sample-clock.js";
 import { compare, fromTime, toTime } from "./rational.js";
 import {
   compositionSchema,
@@ -48,6 +49,13 @@ const source = z
 export const executionWindowManifestSchema = z
   .object({
     revisionId: id,
+    sampleRange: z
+      .object({
+        start: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+        end: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
+      })
+      .strict()
+      .refine((value) => value.end >= value.start),
     ...executionWindowRequestSchema.shape,
     canvas: compositionSchema.shape.canvas,
     mediaKind: z.enum(["audio", "video", "output"]),
@@ -59,7 +67,7 @@ export const executionWindowManifestSchema = z
           .object({
             kind: z.literal("executor"),
             mediaKind: z.enum(["audio", "video"]),
-            implementationId: z.null(),
+            implementationId: z.string().min(1).nullable(),
           })
           .strict(),
         z
@@ -68,7 +76,7 @@ export const executionWindowManifestSchema = z
             target: processingTargetSchema,
             stepId: id,
             processor: processingStepSchema.shape.processor,
-            implementationId: z.null(),
+            implementationId: z.string().min(1).nullable(),
           })
           .strict(),
         z
@@ -77,7 +85,7 @@ export const executionWindowManifestSchema = z
             clipId: id,
             sampleCount: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
             pitch: z.enum(["preserve", "follow"]),
-            implementationId: z.null(),
+            implementationId: z.string().min(1).nullable(),
           })
           .strict(),
       ]),
@@ -85,11 +93,15 @@ export const executionWindowManifestSchema = z
   })
   .strict();
 export type ExecutionWindowManifest = z.infer<typeof executionWindowManifestSchema>;
-export function requireWindowReady(manifest: ExecutionWindowManifest): never {
+export function requireWindowReady(manifest: ExecutionWindowManifest): void {
+  const requirements = manifest.requirements.filter(
+    (requirement) => requirement.implementationId === null,
+  );
+  if (!requirements.length) return;
   throw new CompositionError(
     "NOT_READY",
     "Native execution and preparation are not bound to this window",
-    { requirements: manifest.requirements },
+    { requirements },
   );
 }
 
@@ -158,6 +170,10 @@ export function executionWindow(
   const manifest = executionWindowManifestSchema.parse({
     revisionId,
     ...request,
+    sampleRange: {
+      start: sampleAt(fromTime(request.range.startUs), request.rendition.sampleRate),
+      end: sampleAt(fromTime(request.range.endUs), request.rendition.sampleRate),
+    },
     canvas,
     mediaKind,
     sources,

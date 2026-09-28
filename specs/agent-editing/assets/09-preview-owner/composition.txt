@@ -1,0 +1,14 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-preview/packages/composition
+
+
+ Test Files  5 passed (5)
+      Tests  98 passed (98)
+   Start at  19:52:16
+   Duration  3.68s (transform 47%, tests 36%, import 17%, worker 1%)
+
+  Transform  transforming modules took 4.96s · 47% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

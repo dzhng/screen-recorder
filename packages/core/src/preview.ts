@@ -129,7 +129,7 @@ export abstract class PreviewInspectionBase<
  * published: this is what stands between a native receipt and somebody's library.
  */
 export function checkRenderedPreview(
-  movie: RenderedMovie,
+  movie: Omit<RenderedMovie, "audio">,
   expected: { file: string; durationUs: number; maxLongEdge: number | null },
 ): void {
   if (

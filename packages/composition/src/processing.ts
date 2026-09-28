@@ -53,10 +53,15 @@ export function getProcessing(model: ValidatedComposition, targetInput: unknown)
     model.document.processing.find((stack) => processingKey(stack.target) === key)?.steps ?? []
   );
 }
-export function processingCapabilities() {
+export type ProcessorImplementations = Readonly<
+  Partial<Record<keyof typeof processorRegistry, string>>
+>;
+export function processingCapabilities(implementations: ProcessorImplementations = {}) {
   return Object.entries(processorRegistry).map(([type, { schema, ...capability }]) => ({
     type,
     ...capability,
+    execution: Boolean(implementations[type as keyof typeof processorRegistry]),
+    implementationId: implementations[type as keyof typeof processorRegistry] ?? null,
     parameters: z.toJSONSchema(schema),
   }));
 }

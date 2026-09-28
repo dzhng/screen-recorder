@@ -179,6 +179,10 @@
     "./projects": {
       "types": "./dist/projects.d.ts",
       "default": "./dist/projects.js"
+    },
+    "./project-preview": {
+      "types": "./dist/project-preview.d.ts",
+      "default": "./dist/project-preview.js"
     }
   },
   "scripts": {
@@ -187,7 +191,7 @@
     "test": "vitest run --maxWorkers=4"
   },
   "dependencies": {
-    "zod": "4.6.5",
-    "@screenrec/composition": "workspace:*"
+    "@screenrec/composition": "workspace:*",
+    "zod": "4.6.5"
   }
 }

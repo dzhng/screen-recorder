@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 src/compiler.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-preview/packages/composition
+
+ ❯ src/compiler.test.ts (20 tests | 1 failed) 1302ms
+   × execution window owns exact sample endpoints and readiness requires every bound implementation 26ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/compiler.test.ts > execution window owns exact sample endpoints and readiness requires every bound implementation
+AssertionError: expected undefined to deeply equal { start: 432345564227566, …(1) }
+
+- Expected:
+{
+  "end": 432345564227567,
+  "start": 432345564227566,
+}
+
++ Received:
+undefined
+
+ ❯ src/compiler.test.ts:1016:39
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 19 passed (20)
+   Start at  19:46:33
+   Duration  5.51s (transform 62%, tests 27%, import 11%)
+
+  Transform  transforming modules took 3.03s · 62% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
+error: script "test" exited with code 1
