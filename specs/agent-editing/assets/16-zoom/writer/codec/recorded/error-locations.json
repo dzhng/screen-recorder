@@ -1,0 +1,122 @@
+[
+  {
+    "startUs": 0,
+    "variant": "h264",
+    "x": 1291,
+    "y": 25,
+    "channel": 2,
+    "reference": [
+      239,
+      183,
+      18,
+      255
+    ],
+    "decoded": [
+      212,
+      184,
+      141,
+      255
+    ],
+    "maximum": 123
+  },
+  {
+    "startUs": 0,
+    "variant": "h26440mbps",
+    "x": 977,
+    "y": 13,
+    "channel": 0,
+    "reference": [
+      245,
+      90,
+      54,
+      255
+    ],
+    "decoded": [
+      126,
+      120,
+      137,
+      255
+    ],
+    "maximum": 119
+  },
+  {
+    "startUs": 0,
+    "variant": "prores4444",
+    "x": 1509,
+    "y": 23,
+    "channel": 2,
+    "reference": [
+      246,
+      207,
+      2,
+      255
+    ],
+    "decoded": [
+      230,
+      202,
+      107,
+      254
+    ],
+    "maximum": 105
+  },
+  {
+    "startUs": 60000000,
+    "variant": "h264",
+    "x": 978,
+    "y": 13,
+    "channel": 0,
+    "reference": [
+      238,
+      86,
+      20,
+      255
+    ],
+    "decoded": [
+      118,
+      109,
+      139,
+      255
+    ],
+    "maximum": 120
+  },
+  {
+    "startUs": 60000000,
+    "variant": "h26440mbps",
+    "x": 978,
+    "y": 13,
+    "channel": 0,
+    "reference": [
+      238,
+      86,
+      20,
+      255
+    ],
+    "decoded": [
+      117,
+      112,
+      131,
+      255
+    ],
+    "maximum": 121
+  },
+  {
+    "startUs": 60000000,
+    "variant": "prores4444",
+    "x": 270,
+    "y": 21,
+    "channel": 0,
+    "reference": [
+      51,
+      198,
+      129,
+      255
+    ],
+    "decoded": [
+      158,
+      171,
+      99,
+      254
+    ],
+    "maximum": 107
+  }
+]

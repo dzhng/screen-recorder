@@ -1,0 +1,74 @@
+[
+  {
+    "startUs": 0,
+    "frame": 0,
+    "maxRGB": 2,
+    "meanRGB": 0.039911747685185184,
+    "fractionOver4": 0.0,
+    "alphaMin": 254,
+    "alphaMax": 254
+  },
+  {
+    "startUs": 0,
+    "frame": 10,
+    "maxRGB": 2,
+    "meanRGB": 0.03868200231481481,
+    "fractionOver4": 0.0,
+    "alphaMin": 254,
+    "alphaMax": 254
+  },
+  {
+    "startUs": 0,
+    "frame": 20,
+    "maxRGB": 2,
+    "meanRGB": 0.03865419238683127,
+    "fractionOver4": 0.0,
+    "alphaMin": 254,
+    "alphaMax": 254
+  },
+  {
+    "startUs": 0,
+    "frame": 29,
+    "maxRGB": 2,
+    "meanRGB": 0.038874099794238684,
+    "fractionOver4": 0.0,
+    "alphaMin": 254,
+    "alphaMax": 254
+  },
+  {
+    "startUs": 60000000,
+    "frame": 0,
+    "maxRGB": 2,
+    "meanRGB": 0.02151925797325103,
+    "fractionOver4": 0.0,
+    "alphaMin": 254,
+    "alphaMax": 254
+  },
+  {
+    "startUs": 60000000,
+    "frame": 10,
+    "maxRGB": 2,
+    "meanRGB": 0.02147537294238683,
+    "fractionOver4": 0.0,
+    "alphaMin": 254,
+    "alphaMax": 254
+  },
+  {
+    "startUs": 60000000,
+    "frame": 20,
+    "maxRGB": 2,
+    "meanRGB": 0.02147730195473251,
+    "fractionOver4": 0.0,
+    "alphaMin": 254,
+    "alphaMax": 254
+  },
+  {
+    "startUs": 60000000,
+    "frame": 29,
+    "maxRGB": 2,
+    "meanRGB": 0.021478105709876544,
+    "fractionOver4": 0.0,
+    "alphaMin": 254,
+    "alphaMax": 254
+  }
+]

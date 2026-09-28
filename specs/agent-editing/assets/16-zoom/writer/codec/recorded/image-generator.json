@@ -1,0 +1,781 @@
+{
+  "preEncodeTolerance": 4,
+  "preEncodeToleranceSource": "Existing native color reproduction four-level gate, fixed before full-size measurement",
+  "scope": "Two1second recorded-screen windows at1920x1080/30fps, four display samples each; not sustained resource or general footage acceptance",
+  "cases": [
+    {
+      "sourceStartUs": 0,
+      "writer": [
+        {
+          "atUs": 0,
+          "index": 0,
+          "error": {
+            "max": 1,
+            "mean": 0.0005217978395061729,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "height": 1080,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 1920,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          }
+        },
+        {
+          "atUs": 333333,
+          "index": 10,
+          "error": {
+            "max": 1,
+            "mean": 0.000524048353909465,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "height": 1080,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 1920
+          }
+        },
+        {
+          "atUs": 666667,
+          "index": 20,
+          "error": {
+            "max": 1,
+            "mean": 0.0005234053497942387,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "height": 1080,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 1920,
+            "outputProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "atUs": 966667,
+          "index": 29,
+          "error": {
+            "max": 1,
+            "mean": 0.0005224408436213992,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 1080,
+            "opaque": true,
+            "width": 1920,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          }
+        }
+      ],
+      "variants": [
+        {
+          "variant": "h264",
+          "bytes": 99859,
+          "checks": [
+            {
+              "atUs": 0,
+              "error": {
+                "max": 123,
+                "mean": 1.9246465084876543,
+                "fractionOver4": 0.030165734310699587,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 333333,
+              "error": {
+                "max": 116,
+                "mean": 1.789778967335391,
+                "fractionOver4": 0.017513503086419753,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 666667,
+              "error": {
+                "max": 116,
+                "mean": 1.7901109182098764,
+                "fractionOver4": 0.017470421810699587,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 966667,
+              "error": {
+                "max": 116,
+                "mean": 1.7895344650205762,
+                "fractionOver4": 0.017457240226337448,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            }
+          ],
+          "receipts": [
+            {
+              "width": 1920,
+              "actualTimescale": 1000000,
+              "index": 0,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "actualValue": "0",
+              "requestedUs": 0,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/h264/000.png"
+            },
+            {
+              "width": 1920,
+              "actualTimescale": 1000000,
+              "index": 1,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "actualValue": "333333",
+              "requestedUs": 333333,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/h264/001.png"
+            },
+            {
+              "width": 1920,
+              "index": 2,
+              "actualTimescale": 1000000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "requestedUs": 666666,
+              "actualValue": "666666",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/h264/002.png"
+            },
+            {
+              "width": 1920,
+              "index": 3,
+              "actualTimescale": 1000000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "requestedUs": 966666,
+              "actualValue": "966666",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/h264/003.png"
+            }
+          ]
+        },
+        {
+          "variant": "h26440mbps",
+          "bytes": 164840,
+          "checks": [
+            {
+              "atUs": 0,
+              "error": {
+                "max": 119,
+                "mean": 1.7513509516460906,
+                "fractionOver4": 0.0105981545781893,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 333333,
+              "error": {
+                "max": 115,
+                "mean": 1.7238493441358025,
+                "fractionOver4": 0.007839184670781893,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 666667,
+              "error": {
+                "max": 115,
+                "mean": 1.7251974022633745,
+                "fractionOver4": 0.007926150977366255,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 966667,
+              "error": {
+                "max": 115,
+                "mean": 1.7263859953703704,
+                "fractionOver4": 0.007978716563786008,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            }
+          ],
+          "receipts": [
+            {
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/h26440mbps/000.png",
+              "index": 0,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "actualValue": "0",
+              "height": 1080,
+              "width": 1920,
+              "actualTimescale": 1000000,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "requestedUs": 0
+            },
+            {
+              "actualValue": "333333",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/h26440mbps/001.png",
+              "requestedUs": 333333,
+              "actualTimescale": 1000000,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "index": 1,
+              "height": 1080,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "width": 1920
+            },
+            {
+              "actualValue": "666666",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/h26440mbps/002.png",
+              "requestedUs": 666666,
+              "actualTimescale": 1000000,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "index": 2,
+              "height": 1080,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "width": 1920
+            },
+            {
+              "actualValue": "966666",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/h26440mbps/003.png",
+              "requestedUs": 966666,
+              "actualTimescale": 1000000,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "index": 3,
+              "height": 1080,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "width": 1920
+            }
+          ]
+        },
+        {
+          "variant": "prores4444",
+          "bytes": 19919987,
+          "checks": [
+            {
+              "atUs": 0,
+              "error": {
+                "max": 105,
+                "mean": 0.7360542052469136,
+                "fractionOver4": 0.003912519290123457,
+                "alphaMax": 1,
+                "alphaMin": 254,
+                "alphaMaxValue": 254
+              }
+            },
+            {
+              "atUs": 333333,
+              "error": {
+                "max": 108,
+                "mean": 0.7443680877057613,
+                "fractionOver4": 0.0045146926440329214,
+                "alphaMax": 1,
+                "alphaMin": 254,
+                "alphaMaxValue": 254
+              }
+            },
+            {
+              "atUs": 666667,
+              "error": {
+                "max": 107,
+                "mean": 0.7444002379115227,
+                "fractionOver4": 0.00451855066872428,
+                "alphaMax": 1,
+                "alphaMin": 254,
+                "alphaMaxValue": 254
+              }
+            },
+            {
+              "atUs": 966667,
+              "error": {
+                "max": 107,
+                "mean": 0.7445662937242798,
+                "fractionOver4": 0.004518711419753086,
+                "alphaMax": 1,
+                "alphaMin": 254,
+                "alphaMaxValue": 254
+              }
+            }
+          ],
+          "receipts": [
+            {
+              "actualTimescale": 1000000,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/prores4444/000.png",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "index": 0,
+              "requestedUs": 0,
+              "width": 1920,
+              "height": 1080,
+              "actualValue": "0"
+            },
+            {
+              "actualTimescale": 1000000,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/prores4444/001.png",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "index": 1,
+              "requestedUs": 333333,
+              "width": 1920,
+              "height": 1080,
+              "actualValue": "333333"
+            },
+            {
+              "actualValue": "666666",
+              "actualTimescale": 1000000,
+              "requestedUs": 666666,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "width": 1920,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/prores4444/002.png",
+              "index": 2
+            },
+            {
+              "actualValue": "966666",
+              "actualTimescale": 1000000,
+              "requestedUs": 966666,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "width": 1920,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/0/prores4444/003.png",
+              "index": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceStartUs": 60000000,
+      "writer": [
+        {
+          "atUs": 0,
+          "index": 0,
+          "error": {
+            "max": 1,
+            "mean": 0.0002293917181069959,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 1080,
+            "width": 1920,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true
+          }
+        },
+        {
+          "atUs": 333333,
+          "index": 10,
+          "error": {
+            "max": 1,
+            "mean": 0.0002300347222222222,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "opaque": true,
+            "height": 1080,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 1920
+          }
+        },
+        {
+          "atUs": 666667,
+          "index": 20,
+          "error": {
+            "max": 1,
+            "mean": 0.00022971322016460905,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 1920,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "height": 1080
+          }
+        },
+        {
+          "atUs": 966667,
+          "index": 29,
+          "error": {
+            "max": 1,
+            "mean": 0.0002290702160493827,
+            "fractionOver4": 0.0,
+            "alphaMax": 0,
+            "alphaMin": 255,
+            "alphaMaxValue": 255
+          },
+          "receipt": {
+            "height": 1080,
+            "width": 1920,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true
+          }
+        }
+      ],
+      "variants": [
+        {
+          "variant": "h264",
+          "bytes": 71421,
+          "checks": [
+            {
+              "atUs": 0,
+              "error": {
+                "max": 120,
+                "mean": 1.5902099408436214,
+                "fractionOver4": 0.020913708847736627,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 333333,
+              "error": {
+                "max": 121,
+                "mean": 1.5666793659979423,
+                "fractionOver4": 0.013512409979423868,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 666667,
+              "error": {
+                "max": 121,
+                "mean": 1.5666478587962962,
+                "fractionOver4": 0.013508873456790124,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 966667,
+              "error": {
+                "max": 121,
+                "mean": 1.5665506044238684,
+                "fractionOver4": 0.013488618827160494,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            }
+          ],
+          "receipts": [
+            {
+              "actualValue": "0",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "actualTimescale": 1000000,
+              "requestedUs": 0,
+              "width": 1920,
+              "height": 1080,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "index": 0,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/h264/000.png"
+            },
+            {
+              "actualValue": "333333",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "actualTimescale": 1000000,
+              "requestedUs": 333333,
+              "width": 1920,
+              "height": 1080,
+              "index": 1,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/h264/001.png"
+            },
+            {
+              "width": 1920,
+              "actualTimescale": 1000000,
+              "index": 2,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "requestedUs": 666666,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/h264/002.png",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "actualValue": "666666",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "height": 1080
+            },
+            {
+              "width": 1920,
+              "actualTimescale": 1000000,
+              "index": 3,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "requestedUs": 966666,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/h264/003.png",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "actualValue": "966666",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "height": 1080
+            }
+          ]
+        },
+        {
+          "variant": "h26440mbps",
+          "bytes": 98642,
+          "checks": [
+            {
+              "atUs": 0,
+              "error": {
+                "max": 121,
+                "mean": 1.5345214441872428,
+                "fractionOver4": 0.00889355066872428,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 333333,
+              "error": {
+                "max": 120,
+                "mean": 1.5072509966563785,
+                "fractionOver4": 0.005491576646090535,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 666667,
+              "error": {
+                "max": 120,
+                "mean": 1.5072087191358026,
+                "fractionOver4": 0.0054832175925925925,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            },
+            {
+              "atUs": 966667,
+              "error": {
+                "max": 120,
+                "mean": 1.5072133809156378,
+                "fractionOver4": 0.00548193158436214,
+                "alphaMax": 0,
+                "alphaMin": 255,
+                "alphaMaxValue": 255
+              }
+            }
+          ],
+          "receipts": [
+            {
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "requestedUs": 0,
+              "width": 1920,
+              "index": 0,
+              "actualTimescale": 1000000,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/h26440mbps/000.png",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "actualValue": "0"
+            },
+            {
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "requestedUs": 333333,
+              "width": 1920,
+              "index": 1,
+              "actualTimescale": 1000000,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/h26440mbps/001.png",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "actualValue": "333333"
+            },
+            {
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/h26440mbps/002.png",
+              "height": 1080,
+              "requestedUs": 666666,
+              "actualTimescale": 1000000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "actualValue": "666666",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "index": 2,
+              "width": 1920,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+            },
+            {
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/h26440mbps/003.png",
+              "height": 1080,
+              "requestedUs": 966666,
+              "actualTimescale": 1000000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "actualValue": "966666",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "index": 3,
+              "width": 1920,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+            }
+          ]
+        },
+        {
+          "variant": "prores4444",
+          "bytes": 13857799,
+          "checks": [
+            {
+              "atUs": 0,
+              "error": {
+                "max": 107,
+                "mean": 0.5738253922325103,
+                "fractionOver4": 0.00315698945473251,
+                "alphaMax": 1,
+                "alphaMin": 254,
+                "alphaMaxValue": 254
+              }
+            },
+            {
+              "atUs": 333333,
+              "error": {
+                "max": 107,
+                "mean": 0.573804012345679,
+                "fractionOver4": 0.003156024948559671,
+                "alphaMax": 1,
+                "alphaMin": 254,
+                "alphaMaxValue": 254
+              }
+            },
+            {
+              "atUs": 666667,
+              "error": {
+                "max": 107,
+                "mean": 0.5738228202160494,
+                "fractionOver4": 0.003158918467078189,
+                "alphaMax": 1,
+                "alphaMin": 254,
+                "alphaMaxValue": 254
+              }
+            },
+            {
+              "atUs": 966667,
+              "error": {
+                "max": 107,
+                "mean": 0.5738266782407407,
+                "fractionOver4": 0.003159722222222222,
+                "alphaMax": 1,
+                "alphaMin": 254,
+                "alphaMaxValue": 254
+              }
+            }
+          ],
+          "receipts": [
+            {
+              "actualTimescale": 1000000,
+              "height": 1080,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "index": 0,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/prores4444/000.png",
+              "actualValue": "0",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "requestedUs": 0,
+              "width": 1920
+            },
+            {
+              "actualTimescale": 1000000,
+              "height": 1080,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "index": 1,
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/prores4444/001.png",
+              "actualValue": "333333",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "requestedUs": 333333,
+              "width": 1920
+            },
+            {
+              "actualTimescale": 1000000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "requestedUs": 666666,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "index": 2,
+              "width": 1920,
+              "actualValue": "666666",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/prores4444/002.png",
+              "sourceProfile": "kCGColorSpaceCoreMedia709"
+            },
+            {
+              "actualTimescale": 1000000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 1080,
+              "requestedUs": 966666,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "index": 3,
+              "width": 1920,
+              "actualValue": "966666",
+              "file": "/tmp/screenrec-real-encoding/comparison-exact-pts/60000000/prores4444/003.png",
+              "sourceProfile": "kCGColorSpaceCoreMedia709"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

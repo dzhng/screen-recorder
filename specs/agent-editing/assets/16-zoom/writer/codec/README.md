@@ -48,3 +48,8 @@ the same file decoded by FFmpeg yields 255. Including alpha still meets the four
 numerical check, but full opacity is not assumed and transparency fidelity remains
 unverified. This is an observed decode-path difference, not an established encoder
 cause. The RGB result does not erase it.
+
+The [recorded-screen cohort](recorded/README.md) extends this tiny experiment to
+1080p footage and distinguishes encoder fidelity from decoder-path artifacts.
+Its results supersede any inference that the tiny image-generator comparison
+alone proves a generally accurate ProRes display path.

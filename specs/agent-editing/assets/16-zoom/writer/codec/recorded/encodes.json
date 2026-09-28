@@ -1,0 +1,48 @@
+[
+  {
+    "sourceStartUs": 0,
+    "variant": "h264",
+    "file": "/tmp/screenrec-real-encoding/cohort/0/h264.mp4",
+    "bytes": 99859,
+    "traceDirectory": "/tmp/screenrec-real-writer-traces/movie-9vh31yeu",
+    "decodedExactToPublic": true,
+    "decodedHash": "SHA256=1b05b6a99bb019dce71d5f3b3dc7c040b0608b4fde1528c783748c8f695904f3"
+  },
+  {
+    "sourceStartUs": 0,
+    "variant": "h26440mbps",
+    "file": "/tmp/screenrec-real-encoding/cohort/0/h26440mbps.mp4",
+    "bytes": 164840,
+    "traceDirectory": "/tmp/screenrec-real-writer-traces/movie-9vh31yeu"
+  },
+  {
+    "sourceStartUs": 0,
+    "variant": "prores4444",
+    "file": "/tmp/screenrec-real-encoding/cohort/0/prores4444.mov",
+    "bytes": 19919987,
+    "traceDirectory": "/tmp/screenrec-real-writer-traces/movie-9vh31yeu"
+  },
+  {
+    "sourceStartUs": 60000000,
+    "variant": "h264",
+    "file": "/tmp/screenrec-real-encoding/cohort/60000000/h264.mp4",
+    "bytes": 71421,
+    "traceDirectory": "/tmp/screenrec-real-writer-traces/movie-_uz3eir7",
+    "decodedExactToPublic": true,
+    "decodedHash": "SHA256=157fcf6c3e1bb1b9b89f8e21f0924ea2e916a73ceeb92af03b0675d81e702d3f"
+  },
+  {
+    "sourceStartUs": 60000000,
+    "variant": "h26440mbps",
+    "file": "/tmp/screenrec-real-encoding/cohort/60000000/h26440mbps.mp4",
+    "bytes": 98642,
+    "traceDirectory": "/tmp/screenrec-real-writer-traces/movie-_uz3eir7"
+  },
+  {
+    "sourceStartUs": 60000000,
+    "variant": "prores4444",
+    "file": "/tmp/screenrec-real-encoding/cohort/60000000/prores4444.mov",
+    "bytes": 13857799,
+    "traceDirectory": "/tmp/screenrec-real-writer-traces/movie-_uz3eir7"
+  }
+]

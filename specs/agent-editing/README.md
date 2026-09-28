@@ -23,7 +23,9 @@ Current pickup and priority:
    [16](slices/16-keyframes.md). The [zoom writer probe](assets/16-zoom/writer/README.md)
    proves matching pre-append pixels and full/range inputs; profile-aware movie
    decoding still differs. The [composed PNG boundary correction](assets/15-composed-border/README.md)
-   preserves finished-canvas pixels on the full-size probe, with fresh visual and code review. Do not treat the membership tolerance as color acceptance.
+   preserves finished-canvas pixels on the full-size probe, with fresh visual and code review. The [recorded-screen decoder cohort](assets/16-zoom/writer/codec/recorded/README.md)
+   localizes a large ProRes discrepancy to the image-generator path; real playback
+   and profile adoption remain open. Do not treat membership tolerance as color acceptance.
    Use the [remaining media audit](assets/15-acceptance-audit/README.md) to reconcile
    completed pointer lifecycle checks with the still-open delivery gates.
 2. Continue dependency-ready [keyframes](slices/16-keyframes.md) and
