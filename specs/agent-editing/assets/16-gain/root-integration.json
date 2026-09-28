@@ -1,0 +1,105 @@
+{
+  "commit": "1dc2bd40",
+  "workerSha256": "dbb30dbec4d8b80b03a708bd2b8216fca660ed83288c3cb869d1a64cdc0e6953",
+  "checks": [
+    {
+      "name": "dry",
+      "frames": 48000,
+      "sha256": "871e440dfc1fa7cde563fa1f94072232709e14a6e7a2216733b3e7be9339ceb8"
+    },
+    {
+      "name": "after-curve",
+      "frames": 48000,
+      "sha256": "73b35e54b97f677f598d2ecc96ae708d2fa3e6901767a836100e8a951c569a68"
+    },
+    {
+      "name": "clip-processed",
+      "frames": 48000,
+      "sha256": "806497d7834ad17e96ae66ff05079e8a22de6dd4539a36190372e478273aba0b"
+    },
+    {
+      "name": "full",
+      "frames": 48000,
+      "sha256": "e217bed4c402d519ba1d11da7ad56265b8fe4e78c69a34ff455c0940520bbdfc"
+    },
+    {
+      "name": "range",
+      "frames": 16001,
+      "sha256": "e82d847cdf75e02b91fb4aafb70cfb397be2e67426a85a89acdf00f8964ab29a"
+    },
+    {
+      "name": "all-scope-curves",
+      "frames": 48000,
+      "sha256": "4718039d1703c7423af85d5a492d1b01230ed39e8a1531305bbbcff73be32926"
+    },
+    {
+      "name": "bypass",
+      "frames": 48000,
+      "sha256": "543fdefcf3b60af21b29dd425d93695c9e9f47668120dc98ae1d43972a44fb5c"
+    },
+    {
+      "name": "fractional-window",
+      "frames": 48000,
+      "sha256": "b744989be4b0c0da33e36452738d83ae06c6f08ba66ad84ac8acbea0689f1efb"
+    },
+    {
+      "name": "cubic",
+      "frames": 48000,
+      "sha256": "9d6e4484e5b82392a39623db52689e485ac037ac7a72c0db7589ce6e1caf75aa"
+    },
+    {
+      "name": "hold-key-ownership",
+      "frames": 48000,
+      "sha256": "0318378b96d309a3084ca59fa4cd689185d76d6784755c4c124f5cc658fc854d"
+    },
+    {
+      "name": "fractional-move-dry",
+      "frames": 48000,
+      "sha256": "871e440dfc1fa7cde563fa1f94072232709e14a6e7a2216733b3e7be9339ceb8"
+    },
+    {
+      "name": "fractional-move",
+      "frames": 48000,
+      "sha256": "fdf998c09e1a0725744d9e74d4c924bb2b9733e2de96b5f83751a7520b6a225d"
+    },
+    {
+      "name": "moved",
+      "frames": 48000,
+      "sha256": "e217bed4c402d519ba1d11da7ad56265b8fe4e78c69a34ff455c0940520bbdfc"
+    },
+    {
+      "name": "split",
+      "frames": 48000,
+      "sha256": "e217bed4c402d519ba1d11da7ad56265b8fe4e78c69a34ff455c0940520bbdfc"
+    },
+    {
+      "name": "trimmed",
+      "frames": 19200,
+      "sha256": "4984450ab3705662ead5d07159976afa7696beb89f3de1e33e20d8d58f38bee7"
+    },
+    {
+      "name": "retime-preserve-retains-existing-refusal",
+      "code": "NOT_READY"
+    },
+    {
+      "name": "retime-follow-retains-existing-refusal",
+      "code": "NOT_READY"
+    }
+  ],
+  "cubicMaximumPcmError": 0,
+  "movie": {
+    "previewExportByteIdentity": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "quality": "PCM envelope verified separately; AAC quality not judged from this synthetic fixture"
+  },
+  "matchedReleasePcmHashes": true,
+  "focusedTests": {
+    "passed": 21,
+    "skipped": 1
+  },
+  "pending": [
+    "Delivered retime+gain PCM remains dependent on the unbound stretch executor in slice14"
+  ],
+  "skillConsumer": "Fresh spawn rejected: agent thread limit reached; gate remains open"
+}

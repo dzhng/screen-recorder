@@ -203,3 +203,8 @@ preservation and bounded mixer-cost measurements. The final release journey also
 checks movement to a fractional sample boundary. Independent code review is clean.
 The broad core runs encountered wall-clock timeouts; each remaining affected case
 passed unchanged in isolation, with those separate results retained explicitly.
+
+[Combined-root gain confirmation](../assets/16-gain/root-integration.json) passes
+all17 public checks with a fresh native build and exact retained release PCM
+hashes. Prepared-audio and gain tests pass together; the fresh skill-consumer
+gate remains open because a new agent spawn hit the thread limit.
