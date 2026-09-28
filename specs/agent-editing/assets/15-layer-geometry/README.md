@@ -58,3 +58,8 @@ and source-index journeys pass. Catalog format and all affected pixel/scene reci
 identities now invalidate earlier admitted geometry and rendered data; capture
 journal and audio recipes remain unchanged because this correction does not reach
 their execution paths. Public geometry activation and its journeys remain next.
+
+Geometry and opacity now advertise the shared verified implementation through
+project capability/readiness binding. Focused preview/frame owner tests and
+CLI/service builds pass; the actual public geometry journey is still required
+before accepting the new end-to-end workflow.

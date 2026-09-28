@@ -20,7 +20,11 @@ export type CompositionAssetBinding = {
   originUs: number;
 };
 
-const implementations = (id: string): ProcessorImplementations => ({ gain: id });
+const implementations = (id: string): ProcessorImplementations => ({
+  geometry: id,
+  opacity: id,
+  gain: id,
+});
 export const projectCapabilities = (id: string) => processingCapabilities(implementations(id));
 
 /** Preview and media inspection resolve the same immutable dependencies and execution requirements. */
