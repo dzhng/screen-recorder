@@ -1,0 +1,205 @@
+{
+  "name": "@screenrec/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./timeline": {
+      "types": "./dist/timeline.d.ts",
+      "default": "./dist/timeline.js"
+    },
+    "./library": {
+      "types": "./dist/library.d.ts",
+      "default": "./dist/library.js"
+    },
+    "./jobs": {
+      "types": "./dist/jobs.d.ts",
+      "default": "./dist/jobs.js"
+    },
+    "./evidence": {
+      "types": "./dist/evidence.d.ts",
+      "default": "./dist/evidence.js"
+    },
+    "./processing": {
+      "types": "./dist/processing.d.ts",
+      "default": "./dist/processing.js"
+    },
+    "./cache": {
+      "types": "./dist/cache.d.ts",
+      "default": "./dist/cache.js"
+    },
+    "./frames": {
+      "types": "./dist/frames.d.ts",
+      "default": "./dist/frames.js"
+    },
+    "./audio": {
+      "types": "./dist/audio.d.ts",
+      "default": "./dist/audio.js"
+    },
+    "./scenes": {
+      "types": "./dist/scenes.d.ts",
+      "default": "./dist/scenes.js"
+    },
+    "./trails": {
+      "types": "./dist/trails.d.ts",
+      "default": "./dist/trails.js"
+    },
+    "./visual-cache": {
+      "types": "./dist/visual-cache.d.ts",
+      "default": "./dist/visual-cache.js"
+    },
+    "./scene-evidence": {
+      "types": "./dist/scene-evidence.d.ts",
+      "default": "./dist/scene-evidence.js"
+    },
+    "./scene-processing": {
+      "types": "./dist/scene-processing.d.ts",
+      "default": "./dist/scene-processing.js"
+    },
+    "./frame-materialization": {
+      "types": "./dist/frame-materialization.d.ts",
+      "default": "./dist/frame-materialization.js"
+    },
+    "./selection": {
+      "types": "./dist/selection.d.ts",
+      "default": "./dist/selection.js"
+    },
+    "./screenshot-index": {
+      "types": "./dist/screenshot-index.d.ts",
+      "default": "./dist/screenshot-index.js"
+    },
+    "./index-processing": {
+      "types": "./dist/index-processing.d.ts",
+      "default": "./dist/index-processing.js"
+    },
+    "./storage": {
+      "types": "./dist/storage.d.ts",
+      "default": "./dist/storage.js"
+    },
+    "./package-manifest": {
+      "types": "./dist/package-manifest.d.ts",
+      "default": "./dist/package-manifest.js"
+    },
+    "./evidence-pages": {
+      "types": "./dist/evidence-pages.d.ts",
+      "default": "./dist/evidence-pages.js"
+    },
+    "./scene-pages": {
+      "types": "./dist/scene-pages.d.ts",
+      "default": "./dist/scene-pages.js"
+    },
+    "./index-pages": {
+      "types": "./dist/index-pages.d.ts",
+      "default": "./dist/index-pages.js"
+    },
+    "./presentation-evidence": {
+      "types": "./dist/presentation-evidence.d.ts",
+      "default": "./dist/presentation-evidence.js"
+    },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "default": "./dist/preview.js"
+    },
+    "./pointer-schedule": {
+      "types": "./dist/pointer-schedule.d.ts",
+      "default": "./dist/pointer-schedule.js"
+    },
+    "./package-archive": {
+      "types": "./dist/package-archive.d.ts",
+      "default": "./dist/package-archive.js"
+    },
+    "./files": {
+      "types": "./dist/files.d.ts",
+      "default": "./dist/files.js"
+    },
+    "./index-read": {
+      "types": "./dist/index-read.d.ts",
+      "default": "./dist/index-read.js"
+    },
+    "./event-pages": {
+      "types": "./dist/event-pages.d.ts",
+      "default": "./dist/event-pages.js"
+    },
+    "./retained-image": {
+      "types": "./dist/retained-image.d.ts",
+      "default": "./dist/retained-image.js"
+    },
+    "./raw-cursor": {
+      "types": "./dist/raw-cursor.d.ts",
+      "default": "./dist/raw-cursor.js"
+    },
+    "./ordered-pages": {
+      "types": "./dist/ordered-pages.d.ts",
+      "default": "./dist/ordered-pages.js"
+    },
+    "./evidence-read": {
+      "types": "./dist/evidence-read.d.ts",
+      "default": "./dist/evidence-read.js"
+    },
+    "./timeline-inspection": {
+      "types": "./dist/timeline-inspection.d.ts",
+      "default": "./dist/timeline-inspection.js"
+    },
+    "./derivative-inspection": {
+      "types": "./dist/derivative-inspection.d.ts",
+      "default": "./dist/derivative-inspection.js"
+    },
+    "./speech-models": {
+      "types": "./dist/speech-models.d.ts",
+      "default": "./dist/speech-models.js"
+    },
+    "./word-kind": {
+      "types": "./dist/word-kind.d.ts",
+      "default": "./dist/word-kind.js"
+    },
+    "./transcript": {
+      "types": "./dist/transcript.d.ts",
+      "default": "./dist/transcript.js"
+    },
+    "./transcript-read": {
+      "types": "./dist/transcript-read.d.ts",
+      "default": "./dist/transcript-read.js"
+    },
+    "./transcript-pages": {
+      "types": "./dist/transcript-pages.d.ts",
+      "default": "./dist/transcript-pages.js"
+    },
+    "./transcript-processing": {
+      "types": "./dist/transcript-processing.d.ts",
+      "default": "./dist/transcript-processing.js"
+    },
+    "./catalog": {
+      "types": "./dist/catalog.d.ts",
+      "default": "./dist/catalog.js"
+    },
+    "./assets": {
+      "types": "./dist/assets.d.ts",
+      "default": "./dist/assets.js"
+    },
+    "./projects": {
+      "types": "./dist/projects.d.ts",
+      "default": "./dist/projects.js"
+    },
+    "./project-preview": {
+      "types": "./dist/project-preview.d.ts",
+      "default": "./dist/project-preview.js"
+    },
+    "./acquisitions": {
+      "types": "./dist/acquisitions.d.ts",
+      "default": "./dist/acquisitions.js"
+    },
+    "./project-evidence": {
+      "types": "./dist/project-evidence.d.ts",
+      "default": "./dist/project-evidence.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.check.json",
+    "test": "vitest run --maxWorkers=4"
+  },
+  "dependencies": {
+    "@screenrec/composition": "workspace:*",
+    "zod": "4.6.5"
+  }
+}

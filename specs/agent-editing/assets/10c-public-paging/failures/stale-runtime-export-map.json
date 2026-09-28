@@ -1,0 +1,16 @@
+{
+  "passed": false,
+  "boundary": "Actual CLI/MCP/service/media admission and transcript ingestion; native ASR output is frozen, not newly inferred",
+  "trace": [],
+  "checks": {},
+  "pending": [
+    "phrase search",
+    "capture events/cursor",
+    "generation invalidation owner gate"
+  ],
+  "originalNarrationSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "error": {
+    "message": "Service exited 1: node:internal/modules/esm/resolve:314\n  return new ERR_PACKAGE_PATH_NOT_EXPORTED(\n         ^\n\nError [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './project-evidence' is not defined by \"exports\" in /private/tmp/screenrec-project-evidence-journey/apps/service/node_modules/@screenrec/core/package.json imported from /private/tmp/screenrec-project-evidence-journey/apps/service/dist/project-service.js\n    at exportsNotFound (node:internal/modules/esm/resolve:314:10)\n    at packageExportsResolve (node:internal/modules/esm/resolve:662:9)\n    at packageResolve (node:internal/modules/esm/resolve:774:12)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:991:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:719:20)\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:736:38)\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:765:52)\n    at #resolve (node:internal/modules/esm/loader:701:17)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:621:35) {\n  code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'\n}\n\nNode.js v24.14.0\n",
+    "stack": "Error: Service exited 1: node:internal/modules/esm/resolve:314\n  return new ERR_PACKAGE_PATH_NOT_EXPORTED(\n         ^\n\nError [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './project-evidence' is not defined by \"exports\" in /private/tmp/screenrec-project-evidence-journey/apps/service/node_modules/@screenrec/core/package.json imported from /private/tmp/screenrec-project-evidence-journey/apps/service/dist/project-service.js\n    at exportsNotFound (node:internal/modules/esm/resolve:314:10)\n    at packageExportsResolve (node:internal/modules/esm/resolve:662:9)\n    at packageResolve (node:internal/modules/esm/resolve:774:12)\n    at moduleResolve (node:internal/modules/esm/resolve:859:18)\n    at defaultResolve (node:internal/modules/esm/resolve:991:11)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:719:20)\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:736:38)\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:765:52)\n    at #resolve (node:internal/modules/esm/loader:701:17)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:621:35) {\n  code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'\n}\n\nNode.js v24.14.0\n\n    at file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/source-evidence-fixture.mjs:80:15\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async JourneyService.start (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/source-evidence-fixture.mjs:77:21)\n    at async file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/evidence.mjs:83:3"
+  }
+}

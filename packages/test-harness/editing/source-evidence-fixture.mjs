@@ -52,21 +52,23 @@ export async function copyModels(home, request) {
 
 /** Public transports around a scratch project service; barriers hold only real native replies. */
 export class JourneyService {
-  constructor(home, report, evidence) {
+  constructor(
+    home,
+    report,
+    evidence,
+    serviceModule = new URL("./source-acquisition-service.mjs", import.meta.url),
+  ) {
     this.home = home;
+    this.serviceModule = serviceModule;
     this.evidence = evidence;
     this.report = report;
     this.logs = [];
     this.barriers = new Map();
   }
   async start() {
-    this.child = fork(
-      new URL("./source-acquisition-service.mjs", import.meta.url),
-      [this.home, ...(this.evidence ? [this.evidence] : [])],
-      {
-        stdio: ["ignore", "pipe", "pipe", "ipc"],
-      },
-    );
+    this.child = fork(this.serviceModule, [this.home, ...(this.evidence ? [this.evidence] : [])], {
+      stdio: ["ignore", "pipe", "pipe", "ipc"],
+    });
     this.child.stdout.on("data", (b) => this.logs.push(b.toString()));
     this.child.stderr.on("data", (b) => this.logs.push(b.toString()));
     this.child.on("message", (m) => {

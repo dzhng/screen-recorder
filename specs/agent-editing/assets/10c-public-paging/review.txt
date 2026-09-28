@@ -1,0 +1,18 @@
+The harness exercises the requested public path, but its oracle can certify incorrect occurrence output and word-fragment clipping. Review was read-only; no native or model runs were performed.
+
+Full review comments:
+
+- [P2] Assert retained fragments for both word-clipping cases — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/evidence.mjs:223-230
+  The narrow-window and partial-word checks never inspect `fragments`, so returning the entire word's mapped interval instead of its retained intersection still passes. Assert source 1200000–1350000/project 3400000–3450000 for the narrow window, and source 1120000–1300000/project 6000000–6180000 for the editorial trim. These are distinct from the original `sourceRange` and completeness flag, as required by the [occurrence contract](specs/agent-editing/slices/10c-occurrence-queries.md#L36-L38).
+
+- [P2] Check the complete occurrence result against an independent oracle — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/evidence.mjs:159-162
+  Only the first seven words and the retimed clip receive independent expectations; everything else is compared back to `full.page.rows`. Extra words appended for another clip, invented gap rows, or incorrect timing on repeated/reordered occurrences can therefore survive the transport, pagination and historical-read checks. Assert the complete expected row sequence and occurrence mappings before using `full` as the paging baseline, consistent with the [frozen-row oracle requirement](specs/agent-editing/slices/10c-occurrence-queries.md#L56-L60).
+The harness exercises the requested public path, but its oracle can certify incorrect occurrence output and word-fragment clipping. Review was read-only; no native or model runs were performed.
+
+Full review comments:
+
+- [P2] Assert retained fragments for both word-clipping cases — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/evidence.mjs:223-230
+  The narrow-window and partial-word checks never inspect `fragments`, so returning the entire word's mapped interval instead of its retained intersection still passes. Assert source 1200000–1350000/project 3400000–3450000 for the narrow window, and source 1120000–1300000/project 6000000–6180000 for the editorial trim. These are distinct from the original `sourceRange` and completeness flag, as required by the [occurrence contract](specs/agent-editing/slices/10c-occurrence-queries.md#L36-L38).
+
+- [P2] Check the complete occurrence result against an independent oracle — /private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/evidence.mjs:159-162
+  Only the first seven words and the retimed clip receive independent expectations; everything else is compared back to `full.page.rows`. Extra words appended for another clip, invented gap rows, or incorrect timing on repeated/reordered occurrences can therefore survive the transport, pagination and historical-read checks. Assert the complete expected row sequence and occurrence mappings before using `full` as the paging baseline, consistent with the [frozen-row oracle requirement](specs/agent-editing/slices/10c-occurrence-queries.md#L56-L60).
