@@ -82,6 +82,31 @@ export abstract class SourceEvidenceReader {
       ...(after ? { lower: { key: after, inclusive: false } } : {}),
     });
   }
+  /** Source-window point seeks share the persisted timestamp/sequence indexes. */
+  pointRecords(
+    identity: EvidenceIdentity,
+    index: "cursor" | "pauses" | "geometry",
+    range: TimeRange,
+    after: readonly [number, number] | null,
+    limit: number,
+  ): RecordRow[] {
+    this.timingRange(range);
+    if (
+      !integer(limit) ||
+      limit < 1 ||
+      limit > 256 ||
+      (after && (after.length !== 2 || after.some((value) => !integer(value))))
+    )
+      invalid("Invalid source point page");
+    this.requireComplete(identity);
+    const resume = after && after[0] >= range.startUs;
+    return this.records(identity, {
+      index,
+      limit,
+      lower: { key: resume ? after : [range.startUs, 0], inclusive: !resume },
+      upper: { key: [range.endUs, 0], inclusive: false },
+    });
+  }
   private timingRange(range: TimeRange) {
     if (!integer(range.startUs) || !integer(range.endUs) || range.endUs < range.startUs)
       throw new CatalogError("INVALID_RANGE", "Invalid source timing range");

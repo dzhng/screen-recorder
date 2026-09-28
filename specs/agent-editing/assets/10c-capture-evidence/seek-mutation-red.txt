@@ -1,0 +1,42 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "late capture windows"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:20385) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (25 tests | 1 failed | 24 skipped) 229ms
+   × late capture windows seek only relevant points and report unavailable support independently 228ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > late capture windows seek only relevant points and report unavailable support independently
+AssertionError: expected [] to deeply equal [ 800, 802, 804, 808 ]
+
+- Expected
++ Received
+
+- [
+-   800,
+-   802,
+-   804,
+-   808,
+- ]
++ []
+
+ ❯ src/project-evidence.test.ts:1166:58
+    1164|   f.captureReads.length = 0;
+    1165|   const result = await f.evidence.cursor(query);
+    1166|   expect(result.page!.rows.map((row) => row.sourceAtUs)).toEqual([800,…
+       |                                                          ^
+    1167|   expect(f.captureReads.flat()).toEqual([1300, 1302, 1304, 1306, 1308]…
+    1168|   expect(result.coverage!.occurrences![0]).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 24 skipped (25)
+   Start at  00:31:20
+   Duration  2.43s (transform 76%, import 13%, tests 10%)
+
+error: script "test" exited with code 1

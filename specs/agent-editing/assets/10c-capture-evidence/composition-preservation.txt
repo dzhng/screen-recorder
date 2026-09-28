@@ -1,0 +1,10 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/composition
+
+
+ Test Files  7 passed (7)
+      Tests  119 passed (119)
+   Start at  00:30:57
+   Duration  617ms (tests 47%, transform 31%, import 21%, worker 1%)
+

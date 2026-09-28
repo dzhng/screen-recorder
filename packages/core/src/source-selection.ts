@@ -53,3 +53,6 @@ export function selectSource(
     },
   };
 }
+
+export const sourceSelectionKey = (value: SourceSelection) =>
+  JSON.stringify([value.assetId, value.streamId, value.acquisitionId ?? null]);

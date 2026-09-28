@@ -74,3 +74,5 @@ export type {
   SourceWindowOccurrence,
   SourcePointOccurrence,
 } from "./source-projection.js";
+
+export { intervalIndex } from "./interval-index.js";

@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "boundary": "Actual CLI/MCP/service/media admission and transcript ingestion; native ASR output is frozen, not newly inferred",
+  "checks": {
+    "boundedInspection": {
+      "emptyContinuation": true,
+      "lateSourceRows": 1,
+      "unrelatedTranscriptsUnread": true
+    },
+    "phrases": {
+      "publicBothTransports": true,
+      "exactIndependentMatches": true,
+      "crossClip": true,
+      "reorderedSpeech": true,
+      "separateSpeakers": true,
+      "partialWordBarrier": true,
+      "authoredGapBarrier": true,
+      "physicalGapBarrier": true,
+      "acquisitionGapBarrier": true,
+      "limits": [
+        1,
+        2,
+        500
+      ],
+      "changedTextAndDomainRefused": true,
+      "historicalSearchAfterRestart": true
+    },
+    "historyAndFaults": {
+      "headAdvanced": true,
+      "originalDocumentAndRows": true,
+      "checkpointFileLossNotLRUEviction": true,
+      "freshQueryAfterLoss": true
+    },
+    "paging": {
+      "publicBothTransports": true,
+      "repeatsAndReorders": true,
+      "simultaneousTrackOrder": true,
+      "limits": [
+        1,
+        2,
+        1000
+      ]
+    },
+    "onlySelectedSourcesPrepared": true
+  },
+  "pending": [
+    "capture events/cursor",
+    "generation invalidation owner gate"
+  ],
+  "originalNarrationSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "runtime": {
+    "packages/core/package.json": "7aabc76b5fef004df85aaa0a393b0ab070583775885972f104eaeea43ab2cdd3",
+    "apps/service/dist/project-service.js": "bf460ae40ef1a564a2081f057099d60a7c1e71e546fa946ce26543c4389626a4",
+    "apps/service/dist/worker.js": "d34e4caa92a828ab4abdd0d97182b67be5155bdc2ce45dcffe1717a7655f4568",
+    "apps/cli/dist/main.js": "b5eea3cc28a4540af9b5d3429e5e7dd29f27addd29d12e04582ec465bca875e1",
+    "packages/protocol/dist/operations.js": "91ff9a5241a2655228c4dec38b8993704a4e055ab324989bdc472ed9aa27218c",
+    "packages/core/dist/project-evidence.js": "53a06681aa7957af4e398c2d63254e433d6d1f52c910b0f0ddb3537607ce628d",
+    "packages/core/dist/transcript-processing.js": "5ac8e7c70d6b7693b8bbf27c823ec5ca979bda780061ca53a1a588858aa68b59",
+    "packages/core/dist/transcript-read.js": "bdca4a3fca07a7ff3c8e6668905613044ffdc7966c197ead2e05e73b478c562f",
+    "packages/core/dist/transcript.js": "b2b5b78afb300c5f68844b60164a5c806099f8ac06599812262d8d89b1802974",
+    "packages/core/dist/cache.js": "9dd96ce1912238ba5b2f295d7ae51cd591fd729548894fb1a10c83a7bd30516d",
+    "packages/composition/dist/source-projection.js": "060ccfd9b9ca033575db75d9f648396b80c49796ca21d22ad80b865954d150a7",
+    "packages/test-harness/editing/evidence.mjs": "77aef3bd41133abd6bc331cedfeee7d5447fcee95a74427c14ed4bcb7d13b439",
+    "packages/test-harness/editing/evidence-service.mjs": "427711425068e9058b7dbb1d0a33b212d93d23484c4684567c94391e3a8ed7b6",
+    "packages/test-harness/editing/source-evidence-fixture.mjs": "0e8c8287fb8c2e485b1f2cfe1afce24784f593dee0a07912112c7b40e9d00316"
+  },
+  "nativeSha256": "611ee1097c95fa2eae4ef7c6a0cb11facc39d236c642b953e9ccf072f8f05137",
+  "harnessCommit": "65fc2c6",
+  "sameChecksAsIntegratedBaseline": true
+}

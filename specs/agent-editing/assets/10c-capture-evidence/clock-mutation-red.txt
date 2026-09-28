@@ -1,0 +1,49 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "capture source and project reads"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:20191) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (25 tests | 1 failed | 24 skipped) 76ms
+   × capture source and project reads preserve raw clocks, exact retimes and missing context coverage 74ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > capture source and project reads preserve raw clocks, exact retimes and missing context coverage
+AssertionError: expected [] to match object [ { kind: 'cursor', …(4) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "captureAtUs": 750,
+-     "kind": "cursor",
+-     "observation": {
+-       "sourceUs": 750,
+-       "x": 12,
+-       "y": 34,
+-     },
+-     "sourceAtUs": 250,
+-     "sourceSequence": 1,
+-   },
+- ]
++ []
+
+ ❯ src/project-evidence.test.ts:962:26
+    960|   const source = { assetId: f.asset.id, streamId: "video", acquisition…
+    961|   const raw = f.captureRead.cursor({ ...source, sourceRange: { startUs…
+    962|   expect(raw.page!.rows).toMatchObject([
+       |                          ^
+    963|     {
+    964|       kind: "cursor",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 24 skipped (25)
+   Start at  00:31:10
+   Duration  791ms (transform 63%, import 24%, tests 11%, worker 1%)
+
+error: script "test" exited with code 1

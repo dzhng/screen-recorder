@@ -1,0 +1,16 @@
+{"data":{"epoch":1,"geometry":{"boundingRect":{"height":985,"width":1560,"x":0,"y":0},"contentRect":{"height":985,"width":1560,"x":0,"y":0},"contentScale":1,"outputHeight":1970,"outputWidth":3120,"scaleFactor":2,"screenRect":{"height":985,"width":1560,"x":1609,"y":-1396}},"hostUs":92388474388,"sourceUs":0},"event":"geometry"}
+{"data":{"hostUs":92388524202,"zeroOriginHeight":982},"event":"displaySpace"}
+{"data":{"buttons":0,"eligibility":"outside","geometryEpoch":1,"globalX":3178.9140625,"globalY":-1081.234375,"sourceUs":49814,"x":3139.828125,"y":629.53125},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"outside","geometryEpoch":1,"globalX":3174.90625,"globalY":-1079.375,"sourceUs":67253,"x":3131.8125,"y":633.25},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3156.8515625,"globalY":-1071.26953125,"sourceUs":83514,"x":3095.703125,"y":649.4609375},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3141.19921875,"globalY":-1063.44921875,"sourceUs":100658,"x":3064.3984375,"y":665.1015625},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3131.86328125,"globalY":-1059.4453125,"sourceUs":117557,"x":3045.7265625,"y":673.109375},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3113.1875,"globalY":-1050.78515625,"sourceUs":133520,"x":3008.375,"y":690.4296875},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3087.64453125,"globalY":-1040.9609375,"sourceUs":150643,"x":2957.2890625,"y":710.078125},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3072.98046875,"globalY":-1037.765625,"sourceUs":167167,"x":2927.9609375,"y":716.46875},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3064.421875,"globalY":-1036.0390625,"sourceUs":184204,"x":2910.84375,"y":719.921875},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3061.1640625,"globalY":-1035.26953125,"sourceUs":200623,"x":2904.328125,"y":721.4609375},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3060.93359375,"globalY":-1035.26953125,"sourceUs":217594,"x":2903.8671875,"y":721.4609375},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3060.93359375,"globalY":-1035.26953125,"sourceUs":233817,"x":2903.8671875,"y":721.4609375},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3060.93359375,"globalY":-1035.26953125,"sourceUs":250641,"x":2903.8671875,"y":721.4609375},"event":"cursorSample"}
+{"data":{"buttons":0,"eligibility":"inside","geometryEpoch":1,"globalX":3060.93359375,"globalY":-1035.26953125,"sourceUs":268181,"x":2903.8671875,"y":721.4609375},"event":"cursorSample"}

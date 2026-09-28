@@ -5,15 +5,12 @@ import {
   compare,
   fromTime,
   toTime,
-  floor,
-  ceil,
   createSourceRangeProjection,
   isMediaClip,
   rangeSchema,
   validateComposition,
-  type ExactRange,
-  type SelectionRange,
   type TimeValue,
+  type SelectionRange,
   type SourceWindowOccurrence,
 } from "@screenrec/composition";
 import { AssetStore, compositionAsset } from "./assets.js";
@@ -24,20 +21,38 @@ import type { DerivedCache } from "./cache.js";
 import type { RetainedRead } from "./files.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
 import { TranscriptProcessing } from "./transcript-processing.js";
-import {
-  SourceTranscriptRead,
-  transcriptSearchTerms,
-  type SourceTranscriptRow,
-} from "./transcript-read.js";
+import { transcriptSearchTerms } from "./transcript-read.js";
 import type { TranscriptMetadata, TranscriptRecords } from "./transcript.js";
-import type { SourceSelection } from "./source-selection.js";
-import { foldWord } from "./word-kind.js";
+import { sourceSelectionKey as selectionKey, type SourceSelection } from "./source-selection.js";
+import {
+  initialTranscript,
+  mergeTranscript,
+  type TranscriptPosition,
+} from "./project-transcript.js";
+import type { EvidenceKey } from "./evidence-merge.js";
+import {
+  CaptureSourceRead,
+  boundCaptureResponse,
+  type CaptureContext,
+  type CaptureDomain,
+} from "./capture-source-read.js";
+import {
+  initialProjectCapture,
+  mergeCapture,
+  type ProjectCapturePosition,
+} from "./project-capture.js";
+type ProjectCheckpoint =
+  | (EvidenceCheckpoint<TranscriptPosition> & { kind: "transcript" })
+  | (EvidenceCheckpoint<ProjectCapturePosition> & { kind: "capture" });
+export type { ProjectCaptureRow } from "./project-capture.js";
+export type { ProjectTranscriptRow, ProjectTranscriptMatch } from "./project-transcript.js";
+export type EvidencePlan = ReturnType<ProjectEvidenceInspection["plan"]>;
 
 const artifact = "project.evidence";
 const policy = "project-transcript-v1";
 // Provisional inspection budgets; scale acceptance owns changes to these limits.
 const maximumBytes = 8 * 1024 * 1024;
-const scanBudget = 128;
+
 const cursorSchema = z.strictObject({
   projectId: z.string(),
   revisionId: z.string(),
@@ -54,9 +69,9 @@ export type ProjectEvidenceInput = {
   limit?: number | undefined;
   cursor?: unknown;
 };
-type QueryInput = ProjectEvidenceInput & { text?: string | undefined };
+type QueryInput = ProjectEvidenceInput & { text?: string | undefined; domain?: Query["domain"] };
 type Query = {
-  domain: "transcript" | "transcript.search";
+  domain: "transcript" | "transcript.search" | CaptureDomain;
   text?: string;
   projectId: string;
   revisionId: string;
@@ -65,6 +80,7 @@ type Query = {
   policy: string;
 };
 type Dependency = {
+  capture?: CaptureContext;
   selection: SourceSelection;
   transcript: TranscriptMetadata | null;
   state: string;
@@ -72,97 +88,31 @@ type Dependency = {
   retryable: boolean;
   jobId: string | null;
 };
-type Manifest = {
+export type EvidenceManifest = {
   query: Query;
   queryDigest: string;
   dependencies: Dependency[];
   tracks: { clipIds: string[]; lowerBound: TimeValue }[];
+  coverage?: {
+    clipId: string;
+    trackId: string;
+    projectRange: SelectionRange;
+    available: SelectionRange[];
+    unavailable: SelectionRange[];
+  }[];
 };
-type Key = {
-  projectStartUs: TimeValue;
-  trackRank: number;
-  clipId: string;
-  sourceOrdinal: number;
-  eventKind: "gap" | "word";
-};
-export type ProjectTranscriptRow = {
-  clipId: string;
-  assetId: string;
-  streamId: string;
-  acquisitionId?: string;
-  trackId: string;
-  trackRank: number;
-  generation: string | null;
-  sourceRange: SelectionRange;
-  fragments: { source: SelectionRange; project: SelectionRange }[];
-  partial: boolean;
-} & (
-  | Omit<Extract<SourceTranscriptRow, { type: "word" }>, "sourceRange" | "partial">
-  | Omit<Extract<SourceTranscriptRow, { type: "gap" }>, "sourceRange" | "partial">
-);
-
-type ProjectTranscriptWord = Extract<ProjectTranscriptRow, { type: "word" }>;
-export type ProjectTranscriptMatch = {
-  trackId: string;
-  trackRank: number;
-  words: ProjectTranscriptWord[];
-  projectRange: SelectionRange;
-};
-type MatchCandidate = { key: Key; entry: ProjectTranscriptMatch };
-type Candidate = { key: Key; row: ProjectTranscriptRow };
-type TrackState = {
-  clip: number;
-  gap: number;
-  cursor: unknown;
-  done: boolean;
-  pending: Candidate | null;
-  head: Candidate | null;
-  headKind: "source" | "gap" | null;
-  suffix: { key: Key; row: ProjectTranscriptWord }[];
-  match: MatchCandidate | null;
-};
-type Checkpoint = {
+export type EvidenceCheckpoint<Position> = {
   manifestId: string;
   queryDigest: string;
   initialized: number;
   pendingTrack: number | null;
-  tracks: TrackState[];
+  tracks: Position[];
   heap: number[];
-  last: Key | null;
+  last: EvidenceKey | null;
 };
 const digest = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
-const selectionKey = (value: SourceSelection) =>
-  JSON.stringify([value.assetId, value.streamId, value.acquisitionId ?? null]);
-const range = (value: ExactRange): SelectionRange => ({
-  startUs: toTime(value.start),
-  endUs: toTime(value.end),
-});
 const changed = () =>
   new CatalogError("ARTIFACT_CHANGED", "Project evidence continuation or dependencies changed");
-// Equal-time gap/word ties follow the contract's source ordinal, then gap before word.
-function compareKey(a: Key, b: Key) {
-  return (
-    compare(fromTime(a.projectStartUs), fromTime(b.projectStartUs)) ||
-    a.trackRank - b.trackRank ||
-    (a.clipId < b.clipId ? -1 : a.clipId > b.clipId ? 1 : 0) ||
-    a.sourceOrdinal - b.sourceOrdinal ||
-    (a.eventKind === b.eventKind ? 0 : a.eventKind === "gap" ? -1 : 1)
-  );
-}
-function initialTrack(): TrackState {
-  return {
-    clip: 0,
-    gap: 0,
-    cursor: null,
-    done: false,
-    pending: null,
-    head: null,
-    headKind: null,
-    suffix: [],
-    match: null,
-  };
-}
-
 /** Immutable query manifests and resumable merge checkpoints share the project's disposable cache. */
 export class ProjectEvidenceInspection {
   constructor(
@@ -173,6 +123,7 @@ export class ProjectEvidenceInspection {
       cache: DerivedCache;
       transcripts: TranscriptProcessing;
       records: TranscriptRecords;
+      capture?: CaptureSourceRead;
     },
   ) {}
 
@@ -181,8 +132,7 @@ export class ProjectEvidenceInspection {
     {
       model: ReturnType<typeof validateComposition>;
       projection: ReturnType<typeof createSourceRangeProjection>;
-      audioTracks: string[];
-      audioIds: Set<string>;
+      tracks: readonly { id: string; kind: string }[];
     }
   >();
 
@@ -201,20 +151,23 @@ export class ProjectEvidenceInspection {
         ids.map((id) => compositionAsset(this.options.assets.get(id))),
         this.options.projects.contexts(revision.document),
       );
-      const audioTracks = model.document.tracks
-        .filter((track) => track.kind === "audio")
-        .map((track) => track.id);
       context = {
         model,
         projection: createSourceRangeProjection(model),
-        audioTracks,
-        audioIds: new Set(audioTracks),
+        tracks: model.document.tracks,
       };
     }
     this.revisions.delete(key);
     this.revisions.set(key, context);
     if (this.revisions.size > 4) this.revisions.delete(this.revisions.keys().next().value!);
-    const { model, projection, audioTracks, audioIds } = context;
+    const { model, projection } = context;
+    const domain = input.domain ?? (input.text === undefined ? "transcript" : "transcript.search");
+    const eligible = context.tracks
+      .filter(
+        (track) => domain === "events" || track.kind === (domain === "cursor" ? "video" : "audio"),
+      )
+      .map((track) => track.id);
+    const eligibleIds = new Set(eligible);
     const empty =
       model.durationUs === 0 &&
       (input.range === undefined ||
@@ -224,15 +177,15 @@ export class ProjectEvidenceInspection {
       : rangeSchema.safeParse(input.range ?? { startUs: 0, endUs: model.durationUs });
     if (!parsed.success || parsed.data.endUs > model.durationUs)
       throw new CatalogError("INVALID_RANGE", "Evidence range must be within the project");
-    const trackIds = [...new Set(input.trackIds ?? audioTracks)].sort();
-    if (trackIds.some((id) => !audioIds.has(id)))
-      throw new CatalogError("INVALID_PARAMS", "Transcript tracks must be audio tracks");
+    const trackIds = [...new Set(input.trackIds ?? eligible)].sort();
+    if (trackIds.some((id) => !eligibleIds.has(id)))
+      throw new CatalogError("INVALID_PARAMS", "Tracks are not applicable to this evidence domain");
     const occurrences = empty ? [] : projection.window({ range: parsed.data, trackIds });
     if (occurrences.length > 10000)
       throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 10000 occurrences");
     if (input.text !== undefined) transcriptSearchTerms(input.text);
     const query: Query = {
-      domain: input.text === undefined ? "transcript" : "transcript.search",
+      domain,
       ...(input.text === undefined ? {} : { text: input.text }),
       projectId: input.projectId,
       revisionId,
@@ -242,7 +195,11 @@ export class ProjectEvidenceInspection {
     };
     return { query, queryDigest: digest(query), projection, occurrences };
   }
-  private dependencies(occurrences: SourceWindowOccurrence[], prepare: boolean): Dependency[] {
+  private dependencies(
+    occurrences: SourceWindowOccurrence[],
+    prepare: boolean,
+    domain: Query["domain"],
+  ): Dependency[] {
     const selections = new Map<string, SourceSelection>();
     for (const value of occurrences) {
       const selection = {
@@ -257,6 +214,21 @@ export class ProjectEvidenceInspection {
     return [...selections]
       .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
       .map(([, selection]) => {
+        if (domain === "events" || domain === "cursor") {
+          if (!this.options.capture)
+            throw new CatalogError("UNAVAILABLE", "Capture inspection is unavailable");
+          const capture = this.options.capture.resolve(selection, domain);
+          const ready = capture.coverage.some((value) => value.state === "ready");
+          return {
+            selection,
+            transcript: null,
+            capture,
+            state: ready ? "ready" : "unavailable",
+            reason: ready ? null : capture.coverage[0]!.reason,
+            retryable: false,
+            jobId: null,
+          };
+        }
         const status = prepare
           ? this.options.transcripts.publishedSource(selection)
           : this.options.transcripts.sourceStatus(selection);
@@ -271,20 +243,25 @@ export class ProjectEvidenceInspection {
       });
   }
   private pins(dependencies: Dependency[]) {
-    return dependencies.map(({ selection, transcript, state, reason }) => ({
-      selection,
-      generation: transcript?.generation ?? null,
-      source: transcript?.source ?? null,
-      engine: transcript?.engine ?? null,
-      state,
-      reason,
-    }));
+    return dependencies.map(({ selection, transcript, state, reason, capture }) =>
+      capture
+        ? { selection, capture }
+        : {
+            selection,
+            generation: transcript?.generation ?? null,
+            source: transcript?.source ?? null,
+            engine: transcript?.engine ?? null,
+            state,
+            reason,
+          },
+    );
   }
   request(input: QueryInput) {
     const plan = this.plan(input),
-      dependencies = this.dependencies(plan.occurrences, true);
+      dependencies = this.dependencies(plan.occurrences, true, plan.query.domain);
     const pending = dependencies.filter(
-      (dependency) => !dependency.transcript && dependency.reason !== "no_audio",
+      (dependency) =>
+        !dependency.capture && !dependency.transcript && dependency.reason !== "no_audio",
     );
     if (pending.length)
       return {
@@ -328,7 +305,7 @@ export class ProjectEvidenceInspection {
       { ...input.query, projectId: job.target.projectId, revisionId: job.target.revisionId },
       true,
     );
-    const dependencies = this.dependencies(plan.occurrences, false);
+    const dependencies = this.dependencies(plan.occurrences, false, plan.query.domain);
     if (
       digest(this.pins(dependencies)) !== input.pins ||
       digest(plan.query) !== digest(input.query)
@@ -353,11 +330,28 @@ export class ProjectEvidenceInspection {
           : [];
       })
       .sort((a, b) => compare(fromTime(a.lowerBound), fromTime(b.lowerBound)));
-    const manifest: Manifest = {
+    const manifest: EvidenceManifest = {
       query: plan.query,
       queryDigest: plan.queryDigest,
       dependencies,
       tracks,
+      ...(plan.query.domain === "events" || plan.query.domain === "cursor"
+        ? {
+            coverage: plan.occurrences.map((clip) => {
+              const range = (value: {
+                start: Parameters<typeof toTime>[0];
+                end: Parameters<typeof toTime>[0];
+              }) => ({ startUs: toTime(value.start), endUs: toTime(value.end) });
+              return {
+                clipId: clip.clipId,
+                trackId: clip.trackId,
+                projectRange: range(clip.project),
+                available: clip.fragments.map((value) => range(value.project)),
+                unavailable: clip.unavailable.map((value) => range(value.project)),
+              };
+            }),
+          }
+        : {}),
     };
     const cacheId = await this.publish(plan.query.projectId, manifest, signal);
     return JSON.stringify({ cacheId });
@@ -414,6 +408,22 @@ export class ProjectEvidenceInspection {
       page: result.page && { entries: result.page.entries, nextCursor: result.page.nextCursor },
     };
   }
+  async events(input: ProjectEvidenceInput) {
+    const result = await this.read({ ...input, domain: "events" });
+    return {
+      ...result,
+      coverage: "coverage" in result ? (result.coverage ?? null) : null,
+      page: result.page && { rows: result.page.capture, nextCursor: result.page.nextCursor },
+    };
+  }
+  async cursor(input: ProjectEvidenceInput) {
+    const result = await this.read({ ...input, domain: "cursor" });
+    return {
+      ...result,
+      coverage: "coverage" in result ? (result.coverage ?? null) : null,
+      page: result.page && { rows: result.page.capture, nextCursor: result.page.nextCursor },
+    };
+  }
   private async read(input: QueryInput) {
     const parsed = input.cursor === undefined ? null : cursorSchema.safeParse(input.cursor);
     if (parsed && !parsed.success)
@@ -425,7 +435,12 @@ export class ProjectEvidenceInspection {
         (input.revisionId !== undefined && input.revisionId !== cursor.revisionId))
     )
       throw changed();
-    const maximum = input.text === undefined ? 1000 : 500;
+    const maximum =
+      input.domain === "cursor"
+        ? 5000
+        : input.domain === "events" || input.text !== undefined
+          ? 500
+          : 1000;
     const limit = input.limit ?? 250;
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > maximum)
       throw new CatalogError("INVALID_PARAMS", `Limit must be 1 to ${maximum}`);
@@ -433,9 +448,12 @@ export class ProjectEvidenceInspection {
     let created: string | null = null;
     try {
       const status = cursor ? null : this.request(input);
-      if (status && !status.published) return { ...status, page: null };
+      if (status && !status.published) {
+        if (input.domain === "events" || input.domain === "cursor") boundCaptureResponse(status);
+        return { ...status, page: null };
+      }
       const manifestId = cursor?.manifestId ?? status!.published!.value.cacheId;
-      const manifest = this.acquire<Manifest>(manifestId, leases);
+      const manifest = this.acquire<EvidenceManifest>(manifestId, leases);
       if (manifest?.query?.policy !== policy) throw changed();
       const plan = this.plan(
         {
@@ -454,26 +472,53 @@ export class ProjectEvidenceInspection {
       const validate = () => {
         this.options.projects.get(input.projectId);
         if (
-          digest(this.pins(this.dependencies(plan.occurrences, false))) !==
+          digest(this.pins(this.dependencies(plan.occurrences, false, plan.query.domain))) !==
           digest(this.pins(manifest.dependencies))
         )
           throw changed();
       };
       validate();
       const state = cursor
-        ? this.acquire<Checkpoint>(cursor.checkpointId, leases)
+        ? this.acquire<ProjectCheckpoint>(cursor.checkpointId, leases)
         : ({
             manifestId,
             queryDigest: manifest.queryDigest,
             initialized: 0,
             pendingTrack: null,
-            tracks: manifest.tracks.map(initialTrack),
+            ...(plan.query.domain === "events" || plan.query.domain === "cursor"
+              ? { kind: "capture" as const, tracks: manifest.tracks.map(initialProjectCapture) }
+              : { kind: "transcript" as const, tracks: manifest.tracks.map(initialTranscript) }),
             heap: [],
             last: null,
-          } satisfies Checkpoint);
+          } satisfies ProjectCheckpoint);
       if (state.manifestId !== manifestId || state.queryDigest !== manifest.queryDigest)
         throw changed();
-      const merged = this.merge(manifest, plan, state, limit);
+      const merged =
+        state.kind === "capture"
+          ? {
+              rows: [],
+              entries: [],
+              capture: mergeCapture(manifest, plan, state, limit, this.options.capture!),
+            }
+          : { ...mergeTranscript(manifest, plan, state, limit, this.options.records), capture: [] };
+      if (state.kind === "capture")
+        boundCaptureResponse({
+          projectId: input.projectId,
+          revisionId: manifest.query.revisionId,
+          state: "ready",
+          dependencies: manifest.dependencies,
+          coverage: { manifestId, ...(cursor ? {} : { occurrences: manifest.coverage }) },
+          page: {
+            rows: merged.capture,
+            nextCursor: {
+              projectId: input.projectId,
+              revisionId: manifest.query.revisionId,
+              manifestId,
+              checkpointId: "00000000-0000-0000-0000-000000000000",
+              queryDigest: manifest.queryDigest,
+            },
+          },
+        });
       const more =
         state.initialized < state.tracks.length ||
         state.pendingTrack !== null ||
@@ -495,6 +540,9 @@ export class ProjectEvidenceInspection {
         revisionId: manifest.query.revisionId,
         state: "ready",
         dependencies: manifest.dependencies,
+        ...(manifest.coverage
+          ? { coverage: { manifestId, ...(cursor ? {} : { occurrences: manifest.coverage }) } }
+          : {}),
         page: { ...merged, nextCursor },
       };
     } catch (error) {
@@ -503,250 +551,5 @@ export class ProjectEvidenceInspection {
     } finally {
       for (const lease of leases.reverse()) lease.release();
     }
-  }
-
-  private merge(
-    manifest: Manifest,
-    plan: ReturnType<ProjectEvidenceInspection["plan"]>,
-    state: Checkpoint,
-    limit: number,
-  ) {
-    const occurrences = new Map(plan.occurrences.map((clip) => [clip.clipId, clip]));
-    const dependencies = new Map(
-      manifest.dependencies.map((dependency) => [selectionKey(dependency.selection), dependency]),
-    );
-    let budget = scanBudget;
-    const common = (clip: SourceWindowOccurrence, transcript: TranscriptMetadata | null) => ({
-      clipId: clip.clipId,
-      assetId: clip.assetId,
-      streamId: clip.streamId,
-      ...(clip.acquisitionId === undefined ? {} : { acquisitionId: clip.acquisitionId }),
-      trackId: clip.trackId,
-      trackRank: clip.trackRank,
-      generation: transcript?.generation ?? null,
-    });
-    const candidate = (row: ProjectTranscriptRow, ordinal: number): Candidate => ({
-      row,
-      key: {
-        projectStartUs: row.fragments[0]!.project.startUs,
-        trackRank: row.trackRank,
-        clipId: row.clipId,
-        sourceOrdinal: ordinal,
-        eventKind: row.type,
-      },
-    });
-    const project = (
-      clip: SourceWindowOccurrence,
-      transcript: TranscriptMetadata,
-      row: SourceTranscriptRow,
-    ): Candidate | null => {
-      const instant = row.type === "word" && row.instant;
-      const point = instant ? plan.projection.point(clip.clipId, row.sourceRange.startUs) : null;
-      const projected = instant ? null : plan.projection.clip(clip.clipId, row.sourceRange);
-      const fragments = point
-        ? [
-            {
-              source: { start: point.source, end: point.source },
-              project: { start: point.project, end: point.project },
-            },
-          ]
-        : projected?.fragments;
-      if (
-        !fragments?.some(({ project: fragment }) =>
-          instant
-            ? compare(fragment.start, fromTime(plan.query.range.startUs)) >= 0 &&
-              compare(fragment.start, fromTime(plan.query.range.endUs)) < 0
-            : compare(fragment.end, fromTime(plan.query.range.startUs)) > 0 &&
-              compare(fragment.start, fromTime(plan.query.range.endUs)) < 0,
-        )
-      )
-        return null;
-      return candidate(
-        {
-          ...row,
-          ...common(clip, transcript),
-          partial: projected?.completeness === "partial",
-          fragments: fragments.map((fragment) => ({
-            source: range(fragment.source),
-            project: range(fragment.project),
-          })),
-        },
-        row.type === "word" ? row.ordinal : -1,
-      );
-    };
-    const fill = (index: number): boolean => {
-      const track = state.tracks[index]!,
-        clips = manifest.tracks[index]!.clipIds;
-      while (track.clip < clips.length) {
-        const clip = occurrences.get(clips[track.clip]!)!;
-        const transcript = dependencies.get(selectionKey(clip))!.transcript;
-        if (!track.pending && !track.done) {
-          if (budget-- <= 0) return false;
-          if (!transcript || !clip.fragments.length) track.done = true;
-          else {
-            const first = clip.fragments[0]!.source,
-              last = clip.fragments.at(-1)!.source;
-            const page = new SourceTranscriptRead(this.options.records, transcript).page({
-              range: { startUs: floor(first.start), endUs: ceil(last.end) },
-              ...(track.cursor === null ? {} : { cursor: track.cursor }),
-              limit: 1,
-            });
-            track.cursor = page.nextCursor;
-            track.done = page.nextCursor === null;
-            const row = page.rows[0];
-            if (row) track.pending = project(clip, transcript, row);
-            if (!track.pending && !track.done) continue;
-          }
-        }
-        const gap = clip.unavailable[track.gap];
-        const gapCandidate = gap
-          ? candidate(
-              {
-                ...common(clip, transcript),
-                type: "gap",
-                reason: "not_acquired",
-                sourceRange: range(gap.source),
-                partial: false,
-                fragments: [{ source: range(gap.source), project: range(gap.project) }],
-              },
-              -1,
-            )
-          : null;
-        if (gapCandidate || track.pending) {
-          const gapFirst =
-            gapCandidate && (!track.pending || compareKey(gapCandidate.key, track.pending.key) < 0);
-          track.head = gapFirst ? gapCandidate : track.pending;
-          track.headKind = gapFirst ? "gap" : "source";
-          return true;
-        }
-        if (budget-- <= 0) return false;
-        const nextClip = clips[track.clip + 1];
-        if (nextClip && compare(clip.project.end, occurrences.get(nextClip)!.project.start) !== 0)
-          track.suffix = [];
-        track.clip++;
-        track.gap = 0;
-        track.cursor = null;
-        track.done = false;
-        track.pending = null;
-      }
-      track.head = null;
-      track.headKind = null;
-      return true;
-    };
-    const terms =
-      manifest.query.text === undefined ? null : transcriptSearchTerms(manifest.query.text);
-    const consume = (track: TrackState) => {
-      if (track.headKind === "gap") track.gap++;
-      else track.pending = null;
-      track.head = null;
-      track.headKind = null;
-    };
-    const fillNext = (index: number): boolean => {
-      if (!terms) return fill(index);
-      const track = state.tracks[index]!;
-      for (;;) {
-        if (budget <= 0) return false;
-        if (!fill(index)) return false;
-        const head = track.head;
-        if (!head) return true;
-        budget--;
-        consume(track);
-        if (head.row.type !== "word" || head.row.partial) {
-          track.suffix = [];
-          continue;
-        }
-        track.suffix.push({ key: head.key, row: head.row });
-        if (track.suffix.length > terms.length) track.suffix.shift();
-        if (
-          track.suffix.length !== terms.length ||
-          track.suffix.some((value, i) => foldWord(value.row.text) !== terms[i])
-        )
-          continue;
-        const words = track.suffix.map(({ row }) => row);
-        track.match = {
-          key: track.suffix[0]!.key,
-          entry: {
-            trackId: head.row.trackId,
-            trackRank: head.row.trackRank,
-            words,
-            projectRange: {
-              startUs: words[0]!.fragments[0]!.project.startUs,
-              endUs: words.at(-1)!.fragments.at(-1)!.project.endUs,
-            },
-          },
-        };
-        return true;
-      }
-    };
-    const key = (index: number) =>
-      terms ? state.tracks[index]!.match?.key : state.tracks[index]!.head?.key;
-    const less = (a: number, b: number) => compareKey(key(a)!, key(b)!) < 0;
-    const push = (index: number) => {
-      if (!key(index)) return;
-      state.heap.push(index);
-      let at = state.heap.length - 1;
-      while (at > 0) {
-        const parent = (at - 1) >>> 1;
-        if (!less(state.heap[at]!, state.heap[parent]!)) break;
-        [state.heap[at], state.heap[parent]] = [state.heap[parent]!, state.heap[at]!];
-        at = parent;
-      }
-    };
-    const pop = () => {
-      const result = state.heap[0]!,
-        last = state.heap.pop()!;
-      if (state.heap.length) {
-        state.heap[0] = last;
-        let at = 0;
-        for (;;) {
-          const left = at * 2 + 1,
-            right = left + 1;
-          if (left >= state.heap.length) break;
-          const next =
-            right < state.heap.length && less(state.heap[right]!, state.heap[left]!) ? right : left;
-          if (!less(state.heap[next]!, state.heap[at]!)) break;
-          [state.heap[at], state.heap[next]] = [state.heap[next]!, state.heap[at]!];
-          at = next;
-        }
-      }
-      return result;
-    };
-    const rows: ProjectTranscriptRow[] = [];
-    const entries: ProjectTranscriptMatch[] = [];
-    while (rows.length + entries.length < limit) {
-      if (state.pendingTrack !== null) {
-        if (!fillNext(state.pendingTrack)) break;
-        push(state.pendingTrack);
-        state.pendingTrack = null;
-      }
-      const next = manifest.tracks[state.initialized];
-      if (
-        next &&
-        (!state.heap.length ||
-          compare(fromTime(next.lowerBound), fromTime(key(state.heap[0]!)!.projectStartUs)) <= 0)
-      ) {
-        const index = state.initialized;
-        if (!fillNext(index)) break;
-        push(index);
-        state.initialized++;
-        continue;
-      }
-      if (!state.heap.length) break;
-      const index = pop(),
-        track = state.tracks[index]!,
-        currentKey = key(index)!;
-      if (state.last && compareKey(currentKey, state.last) <= 0)
-        throw new CatalogError("INVALID_EVIDENCE", "Project evidence order did not advance");
-      if (terms) {
-        entries.push(track.match!.entry);
-        track.match = null;
-      } else {
-        rows.push(track.head!.row);
-        consume(track);
-      }
-      state.last = currentKey;
-      state.pendingTrack = index;
-    }
-    return { rows, entries };
   }
 }

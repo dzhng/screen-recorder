@@ -1,9 +1,11 @@
 import { createHash, randomUUID } from "node:crypto";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
 import type { EditOperation } from "@screenrec/composition";
 import { Catalog } from "./catalog.js";
+import { SourceEvidenceStore } from "./evidence.js";
+import { CaptureSourceRead } from "./capture-source-read.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { ProjectStore } from "./projects.js";
@@ -24,7 +26,7 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
-async function fixture() {
+async function fixture({ durationUs = 1000, originUs = 500 } = {}) {
   const home = await mkdtemp("/tmp/project-evidence-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
@@ -39,17 +41,87 @@ async function fixture() {
   const input = join(home, "media.mov");
   await writeFile(input, "original media");
   const asset = await assets.import(input, { kind: "import" }, async () => ({
-    originUs: 500,
+    originUs,
     streams: ["speech", "empty", "short", "narrow", "video"].map((id) => ({
       id,
       kind: id === "video" ? "video" : "audio",
       codec: "fixture",
       decodable: true,
       startUs: 0,
-      endUs: 1000,
-      segments: [{ startUs: 0, endUs: 1000, empty: false }],
+      endUs: durationUs,
+      segments: [{ startUs: 0, endUs: durationUs, empty: false }],
     })),
   }));
+  const captureRecords = new SourceEvidenceStore(catalog, (identity) => {
+    if (identity.owner.kind !== "acquisition") throw new Error("Wrong capture owner");
+    acquisitions.intent(identity.owner.acquisitionId);
+  });
+  const captureReads: number[][] = [];
+  const pointRecords = captureRecords.pointRecords.bind(captureRecords);
+  captureRecords.pointRecords = (...args) => {
+    const rows = pointRecords(...args);
+    captureReads.push(rows.map((row) => row.sourceUs!));
+    return rows;
+  };
+  const captureRead = new CaptureSourceRead(assets, acquisitions, captureRecords);
+  async function capture(
+    rows: { event: string; data: Record<string, unknown> }[],
+    available = [{ startUs: 0, endUs: durationUs }],
+  ) {
+    const id = randomUUID(),
+      file = join(home, `${id}.jsonl`),
+      body = rows.map((row) => JSON.stringify(row) + "\n").join("");
+    catalog.catalog
+      .prepare("INSERT INTO acquisitions VALUES(?,?,?,?,NULL)")
+      .run(id, id, home, "{}");
+    await writeFile(file, body);
+    const evidence = await captureRecords.ingest({
+      owner: { kind: "acquisition", acquisitionId: id },
+      sourceId: "capture",
+      generation: "first",
+      file,
+      receipt: {
+        file,
+        journal: "capture.journal.jsonl",
+        header: { sessionID: "capture" },
+        cursorSamples: rows.filter((row) => row.event === "cursorSample").length,
+        geometryRecords: rows.filter((row) => row.event === "geometry").length,
+        displaySpaces: rows.filter((row) => row.event === "displaySpace").length,
+        pauseEvents: rows.filter((row) => row.event === "pause").length,
+        firstCursorSourceUs:
+          (rows.find((row) => row.event === "cursorSample")?.data.sourceUs as number) ?? null,
+        lastCursorSourceUs:
+          (rows.findLast((row) => row.event === "cursorSample")?.data.sourceUs as number) ?? null,
+        audioIntervals: rows.filter((row) => row.event === "audioAcquired").length,
+        lastSequence: rows.length,
+        incompleteTail: false,
+        finished: true,
+        bytes: Buffer.byteLength(body),
+      },
+    });
+    const value = {
+      id,
+      sourceId: "capture",
+      evidence,
+      journal: {
+        fileName: `${id}.jsonl`,
+        bytes: Buffer.byteLength(body),
+        sha256: createHash("sha256").update(body).digest("hex"),
+      },
+      bindings: ["video", "speech"].map((streamId) => ({
+        assetId: asset.id,
+        streamId,
+        available,
+        sourceRoles: [streamId === "video" ? "video" : "narration"],
+        sourceToAssetOffsetUs: -originUs,
+        supportBasis: "physical",
+      })),
+    };
+    catalog.catalog
+      .prepare("UPDATE acquisitions SET metadata=? WHERE id=?")
+      .run(JSON.stringify(value), id);
+    return value;
+  }
   const records = new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions));
   const reads: { source: string; rows: number; limit: number }[] = [];
   const observed: TranscriptRecords = {
@@ -168,6 +240,7 @@ async function fixture() {
     cache,
     transcripts,
     records: observed,
+    capture: captureRead,
   });
   cleanup.push(async () => {
     await jobs.close();
@@ -201,6 +274,10 @@ async function fixture() {
   }
   return {
     home,
+    capture,
+    captureRead,
+    captureRecords,
+    captureReads,
     catalog,
     assets,
     acquisitions,
@@ -830,4 +907,356 @@ test("phrase matches preserve rational timing and reject replaced source generat
   await expect(
     f.evidence.search({ ...query, cursor: first.page!.nextCursor }),
   ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+});
+
+const cursorSample = (sourceUs: number) => ({
+  event: "cursorSample",
+  data: {
+    sourceUs,
+    x: 12,
+    y: 34,
+    globalX: 112,
+    globalY: 134,
+    buttons: 0,
+    eligibility: "inside",
+    geometryEpoch: 1,
+  },
+});
+const geometry = (sourceUs: number | null) => ({
+  event: "geometry",
+  data: {
+    epoch: 1,
+    hostUs: 10,
+    sourceUs,
+    geometry: {
+      outputWidth: 160,
+      outputHeight: 96,
+      contentScale: 1,
+      scaleFactor: 1,
+      contentRect: { x: 0, y: 0, width: 160, height: 96 },
+    },
+  },
+});
+function capturedClip(
+  assetId: string,
+  acquisitionId: string,
+  label: string,
+  trackLabel: string,
+  start: number,
+  end: number,
+): EditOperation {
+  const operation = clip(assetId, label, trackLabel, start, end, 0, 1000, "video");
+  if (operation.operation !== "place") throw new Error("Expected placement");
+  return { ...operation, clip: { ...operation.clip, acquisitionId } };
+}
+test("capture source and project reads preserve raw clocks, exact retimes and missing context coverage", async () => {
+  const f = await fixture();
+  const capture = await f.capture([
+    cursorSample(750),
+    { event: "pause", data: { atSourceUs: 750, elapsedPauseUs: 77 } },
+    geometry(750),
+    geometry(null),
+  ]);
+  const source = { assetId: f.asset.id, streamId: "video", acquisitionId: capture.id };
+  const raw = f.captureRead.cursor({ ...source, sourceRange: { startUs: 200, endUs: 300 } });
+  expect(raw.page!.rows).toMatchObject([
+    {
+      kind: "cursor",
+      sourceAtUs: 250,
+      captureAtUs: 750,
+      sourceSequence: 1,
+      observation: { sourceUs: 750, x: 12, y: 34 },
+    },
+  ]);
+  const input = f.create([
+    { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+    capturedClip(f.asset.id, capture.id, "first", "v", 0, 1501),
+    clip(f.asset.id, "unbound", "v", 1501, 2501, 0, 1000, "video"),
+  ]);
+  for (let n = 0; n < 4; n++) {
+    if ((await f.evidence.events(input)).page) break;
+    await f.jobs.idle();
+  }
+  const result = await f.evidence.events({ ...input, limit: 1 });
+  expect(result.page!.rows[0]).toMatchObject({
+    kind: "pause",
+    sourceAtUs: 250,
+    captureAtUs: 750,
+    sourceSequence: 2,
+    projectAtUs: { numerator: 1501, denominator: 4 },
+    observation: { elapsedPauseUs: 77 },
+  });
+  const second = await f.evidence.events({ ...input, limit: 500, cursor: result.page!.nextCursor });
+  expect(second.page!.rows.map((row) => row.kind)).toEqual(["geometry"]);
+  expect(
+    result.dependencies.map((d) => d.capture!.coverage.find((c) => c.kind === "pause")!.state),
+  ).toEqual(["ready", "unavailable"]);
+  expect(result.dependencies.find((d) => d.capture!.evidence)?.capture!.coverage).toContainEqual({
+    kind: "unplaced_geometry",
+    state: "unavailable",
+    reason: "no_source_time",
+  });
+});
+
+test("capture cursor repeats every visual occurrence and masks unavailable samples without audio duplication", async () => {
+  const f = await fixture();
+  const captured = await f.capture(
+    [cursorSample(600), cursorSample(700), cursorSample(800)],
+    [
+      { startUs: 0, endUs: 150 },
+      { startUs: 250, endUs: 1000 },
+    ],
+  );
+  const selection = { assetId: f.asset.id, streamId: "video", acquisitionId: captured.id };
+  const raw = f.captureRead.cursor({ ...selection, limit: 1 });
+  expect(raw.page!.rows.map((row) => row.sourceAtUs)).toEqual([100]);
+  const next = f.captureRead.cursor({ ...selection, limit: 5000, cursor: raw.page!.nextCursor });
+  expect(next.page!.rows.map((row) => row.sourceAtUs)).toEqual([300]);
+  expect(f.captureRead.cursor({ assetId: f.asset.id, streamId: "video" })).toMatchObject({
+    state: "unavailable",
+    page: null,
+  });
+  expect(f.captureRead.cursor({ ...selection, streamId: "speech" })).toMatchObject({
+    state: "unavailable",
+    page: null,
+    context: { coverage: [{ reason: "requires_captured_video" }] },
+  });
+  const input = f.create([
+    { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+    capturedClip(f.asset.id, captured.id, "a", "v", 0, 1000),
+    capturedClip(f.asset.id, captured.id, "b", "v", 1000, 2000),
+    track("audio", 1),
+    {
+      operation: "place",
+      clip: {
+        assetId: f.asset.id,
+        streamId: "speech",
+        acquisitionId: captured.id,
+        trackId: { label: "audio" },
+        source: { kind: "range", range: { startUs: 0, endUs: 1000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 1000 } },
+      },
+    },
+  ]);
+  for (let n = 0; n < 4; n++) {
+    if ((await f.evidence.cursor(input)).page) break;
+    await f.jobs.idle();
+  }
+  const rows = [];
+  let cursor: unknown;
+  for (let n = 0; n < 20; n++) {
+    const page = (await f.evidence.cursor({ ...input, limit: 1, ...(cursor ? { cursor } : {}) }))
+      .page!;
+    rows.push(...page.rows);
+    if (!page.nextCursor) break;
+    cursor = page.nextCursor;
+  }
+  expect(rows.map((row) => [row.projectAtUs, row.sourceAtUs, row.sourceSequence])).toEqual([
+    [100, 100, 1],
+    [300, 300, 3],
+    [1100, 100, 1],
+    [1300, 300, 3],
+  ]);
+  expect(new Set(rows.map((row) => row.clipId)).size).toBe(2);
+  expect(() => f.captureRead.events({ ...selection, cursor: raw.page!.nextCursor })).toThrow(
+    /changed/,
+  );
+});
+
+test("actual native-normalized capture observations retain coordinates and half-open source boundaries", async () => {
+  const f = await fixture({ durationUs: 1_000_000, originUs: 0 });
+  const body = await readFile(
+    new URL(
+      "../../../specs/agent-editing/assets/10c-capture-evidence/native-source-excerpt.jsonl",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  const normalized = body
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line));
+  const captured = await f.capture(normalized);
+  const result = f.captureRead.cursor({
+    assetId: f.asset.id,
+    streamId: "video",
+    acquisitionId: captured.id,
+    sourceRange: { startUs: 49814, endUs: 100658 },
+  });
+  expect(result.page!.rows.map((row) => row.captureAtUs)).toEqual([49814, 67253, 83514]);
+  expect(result.page!.rows.map((row) => row.observation)).toEqual(
+    normalized
+      .filter((row) => row.event === "cursorSample")
+      .slice(0, 3)
+      .map((row) => row.data),
+  );
+  expect(result.page!.rows[0]!.observation).toMatchObject({
+    eligibility: "outside",
+    x: 3139.828125,
+    y: 629.53125,
+  });
+});
+
+test("capture project checkpoints bound tied-track initialization and reject domain/query/cache changes", async () => {
+  const f = await fixture();
+  const captured = await f.capture([cursorSample(750)]);
+  const operations: EditOperation[] = [];
+  for (let n = 0; n < 140; n++)
+    operations.push(
+      { operation: "track.add", label: `v${n}`, track: { kind: "video", order: n } },
+      capturedClip(f.asset.id, captured.id, `c${n}`, `v${n}`, 0, 1000),
+    );
+  const input = f.create(operations);
+  for (let n = 0; n < 4; n++) {
+    if ((await f.evidence.cursor(input)).page) break;
+    await f.jobs.idle();
+  }
+  f.captureReads.length = 0;
+  const first = await f.evidence.cursor({ ...input, limit: 1 });
+  expect(first.page!.rows).toEqual([]);
+  expect(first.coverage!.occurrences!.length).toBe(140);
+  expect(f.captureReads.length).toBeLessThanOrEqual(128);
+  const saved = first.page!.nextCursor!;
+  await expect(f.evidence.events({ ...input, cursor: saved })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+  await expect(
+    f.evidence.cursor({ ...input, range: { startUs: 1, endUs: 1000 }, cursor: saved }),
+  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+  const rows = [];
+  let cursor = first.page!.nextCursor;
+  while (cursor) {
+    const before = f.captureReads.length;
+    const result = await f.evidence.cursor({ ...input, limit: 1, cursor });
+    expect(f.captureReads.length - before).toBeLessThanOrEqual(128);
+    expect(result.coverage).toEqual({ manifestId: saved.manifestId });
+    rows.push(...result.page!.rows);
+    cursor = result.page!.nextCursor;
+  }
+  expect(rows.map((row) => [row.trackRank, row.projectAtUs])).toEqual(
+    Array.from({ length: 140 }, (_, rank) => [rank, 250]),
+  );
+  expect(f.captureReads.length).toBeLessThan(140 * 3);
+  f.cache.remove(saved.checkpointId);
+  await expect(f.evidence.cursor({ ...input, cursor: saved })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+});
+
+test("late capture windows seek only relevant points and report unavailable support independently", async () => {
+  const f = await fixture();
+  const captured = await f.capture(
+    Array.from({ length: 500 }, (_, n) => cursorSample(500 + 2 * n)),
+    [
+      { startUs: 0, endUs: 805 },
+      { startUs: 807, endUs: 1000 },
+    ],
+  );
+  const input = f.create([
+    { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+    capturedClip(f.asset.id, captured.id, "c", "v", 0, 1000),
+  ]);
+  const query = { ...input, range: { startUs: 800, endUs: 810 } };
+  for (let n = 0; n < 4; n++) {
+    if ((await f.evidence.cursor(query)).page) break;
+    await f.jobs.idle();
+  }
+  f.captureReads.length = 0;
+  const result = await f.evidence.cursor(query);
+  expect(result.page!.rows.map((row) => row.sourceAtUs)).toEqual([800, 802, 804, 808]);
+  expect(f.captureReads.flat()).toEqual([1300, 1302, 1304, 1306, 1308]);
+  expect(result.coverage!.occurrences![0]).toMatchObject({
+    available: [
+      { startUs: 800, endUs: 805 },
+      { startUs: 807, endUs: 810 },
+    ],
+    unavailable: [{ startUs: 805, endUs: 807 }],
+  });
+});
+
+test("empty capture observations remain ready and audio occurrences receive only pause markers", async () => {
+  const f = await fixture();
+  const empty = await f.capture([]);
+  const source = { assetId: f.asset.id, streamId: "video", acquisitionId: empty.id };
+  expect(f.captureRead.events(source)).toMatchObject({
+    state: "ready",
+    page: { rows: [], nextCursor: null },
+  });
+  const captured = await f.capture([
+    geometry(700),
+    { event: "pause", data: { atSourceUs: 700, elapsedPauseUs: 12 } },
+  ]);
+  const input = f.create([
+    track("a"),
+    {
+      operation: "place",
+      clip: {
+        assetId: f.asset.id,
+        streamId: "speech",
+        acquisitionId: captured.id,
+        trackId: { label: "a" },
+        source: { kind: "range", range: { startUs: 0, endUs: 1000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 1000 } },
+      },
+    },
+  ]);
+  for (let n = 0; n < 4; n++) {
+    if ((await f.evidence.events(input)).page) break;
+    await f.jobs.idle();
+  }
+  const result = await f.evidence.events(input);
+  expect(result.page!.rows.map((row) => [row.kind, row.projectAtUs])).toEqual([["pause", 200]]);
+  expect(result.dependencies[0]!.capture!.coverage).toContainEqual({
+    kind: "geometry",
+    state: "unavailable",
+    reason: "requires_captured_video",
+  });
+  const first = await f.evidence.events({ ...input, limit: 1 });
+  f.projects.apply(input.projectId, {
+    requestId: randomUUID(),
+    expectedRevisionId: input.revisionId,
+    operations: [track("later", 1)],
+  });
+  const historical = await f.evidence.events({
+    projectId: input.projectId,
+    cursor: first.page!.nextCursor,
+  });
+  expect(historical.revisionId).toBe(input.revisionId);
+  expect(historical.page!.rows).toEqual([]);
+});
+
+test("capture replies refuse oversized observations before publishing an unusable continuation", async () => {
+  const f = await fixture();
+  const captured = await f.capture(
+    Array.from({ length: 100 }, (_, n) => ({
+      event: "cursorSample",
+      data: { ...cursorSample(500 + n).data, retainedDetail: "x".repeat(50_000) },
+    })),
+  );
+  const selection = { assetId: f.asset.id, streamId: "video", acquisitionId: captured.id };
+  expect(() => f.captureRead.cursor({ ...selection, limit: 5000 })).toThrow(/response exceeds/);
+  expect(
+    f.captureRead.cursor({ ...selection, limit: 1 }).page!.rows.map((row) => row.sourceAtUs),
+  ).toEqual([0]);
+  const input = f.create([
+    { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+    capturedClip(f.asset.id, captured.id, "c", "v", 0, 1000),
+  ]);
+  for (let n = 0; n < 4; n++) {
+    if ((await f.evidence.cursor({ ...input, limit: 1 })).page) break;
+    await f.jobs.idle();
+  }
+  let writes = 0;
+  const publish = f.cache.publish.bind(f.cache);
+  f.cache.publish = (id) => {
+    writes++;
+    return publish(id);
+  };
+  await expect(f.evidence.cursor({ ...input, limit: 5000 })).rejects.toMatchObject({
+    code: "LIMIT_EXCEEDED",
+  });
+  expect(writes).toBe(0);
+  expect(
+    (await f.evidence.cursor({ ...input, limit: 1 })).page!.rows.map((row) => row.projectAtUs),
+  ).toEqual([0]);
 });

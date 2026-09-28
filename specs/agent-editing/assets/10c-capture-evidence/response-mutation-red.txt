@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "capture replies refuse"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:20563) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (25 tests | 1 failed | 24 skipped) 212ms
+   × capture replies refuse oversized observations before publishing an unusable continuation 211ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > capture replies refuse oversized observations before publishing an unusable continuation
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/project-evidence.test.ts:1237:69
+    1235|   );
+    1236|   const selection = { assetId: f.asset.id, streamId: "video", acquisit…
+    1237|   expect(() => f.captureRead.cursor({ ...selection, limit: 5000 })).to…
+       |                                                                     ^
+    1238|   expect(
+    1239|     f.captureRead.cursor({ ...selection, limit: 1 }).page!.rows.map((r…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 24 skipped (25)
+   Start at  00:31:30
+   Duration  1.30s (transform 62%, import 19%, tests 19%, worker 1%)
+
+error: script "test" exited with code 1

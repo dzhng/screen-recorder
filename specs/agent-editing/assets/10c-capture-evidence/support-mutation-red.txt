@@ -1,0 +1,39 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "capture cursor repeats"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:20758) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (25 tests | 1 failed | 24 skipped) 114ms
+   × capture cursor repeats every visual occurrence and masks unavailable samples without audio duplication 113ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > capture cursor repeats every visual occurrence and masks unavailable samples without audio duplication
+AssertionError: expected [ 200, 300 ] to deeply equal [ 300 ]
+
+- Expected
++ Received
+
+  [
++   200,
+    300,
+  ]
+
+ ❯ src/project-evidence.test.ts:1014:56
+    1012|   expect(raw.page!.rows.map((row) => row.sourceAtUs)).toEqual([100]);
+    1013|   const next = f.captureRead.cursor({ ...selection, limit: 5000, curso…
+    1014|   expect(next.page!.rows.map((row) => row.sourceAtUs)).toEqual([300]);
+       |                                                        ^
+    1015|   expect(f.captureRead.cursor({ assetId: f.asset.id, streamId: "video"…
+    1016|     state: "unavailable",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 24 skipped (25)
+   Start at  00:31:39
+   Duration  986ms (transform 65%, import 21%, tests 14%)
+
+error: script "test" exited with code 1

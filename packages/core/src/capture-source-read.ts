@@ -1,0 +1,262 @@
+import { createHash } from "node:crypto";
+import { z } from "zod";
+import { intervalIndex, fromTime } from "@screenrec/composition";
+import type { AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import type { SourceEvidenceReader } from "./evidence-read.js";
+import type { SourceEvidenceMetadata } from "./evidence.js";
+import { CatalogError } from "./catalog.js";
+import { selectSource, type SourceSelection } from "./source-selection.js";
+
+// Leave headroom for transport envelopes beneath the public eight-MiB frame bound.
+export function boundCaptureResponse(value: unknown): void {
+  if (Buffer.byteLength(JSON.stringify(value)) > 4 * 1024 * 1024)
+    throw new CatalogError(
+      "LIMIT_EXCEEDED",
+      "Capture evidence response exceeds 4MiB; narrow the range, tracks or page limit",
+    );
+}
+export type CaptureSourceInput = SourceSelection & {
+  sourceRange?: { startUs: number; endUs: number } | undefined;
+  limit?: number | undefined;
+  cursor?: unknown;
+};
+export type CaptureDomain = "events" | "cursor";
+type PointKind = "pause" | "geometry" | "cursor";
+export type CaptureCoverage = {
+  kind: string;
+  state: "ready" | "unavailable";
+  reason: string | null;
+};
+export type CaptureContext = {
+  selection: SourceSelection;
+  domain: CaptureDomain;
+  durationUs: number;
+  sourceToAssetOffsetUs: number;
+  supportDigest: string;
+  evidence: SourceEvidenceMetadata | null;
+  coverage: CaptureCoverage[];
+};
+export type CaptureRow = {
+  kind: PointKind;
+  sourceAtUs: number;
+  captureAtUs: number;
+  sourceSequence: number;
+  observation: Record<string, unknown>;
+};
+type Head = { after: [number, number] | null; done: boolean; row: CaptureRow | null };
+export type CapturePosition = { cursor: Head; pause: Head; geometry: Head };
+export const initialCapture = (): CapturePosition => ({
+  cursor: { after: null, done: false, row: null },
+  pause: { after: null, done: false, row: null },
+  geometry: { after: null, done: false, row: null },
+});
+const index = { cursor: "cursor", pause: "pauses", geometry: "geometry" } as const;
+const sourcePositionSchema = z.strictObject({
+  after: z.tuple([z.number().int().nonnegative(), z.number().int().nonnegative()]).nullable(),
+  done: z.boolean(),
+});
+const positionSchema = z.strictObject({
+  cursor: sourcePositionSchema,
+  pause: sourcePositionSchema,
+  geometry: sourcePositionSchema,
+});
+const digest = (value: unknown) => createHash("sha256").update(JSON.stringify(value)).digest("hex");
+
+/** Explicit capture authority and clock conversion, shared by source and project inspection. */
+export class CaptureSourceRead {
+  constructor(
+    private readonly assets: AssetStore,
+    private readonly acquisitions: AcquisitionStore,
+    private readonly records: SourceEvidenceReader,
+  ) {}
+  resolve(selection: SourceSelection, domain: CaptureDomain): CaptureContext {
+    const selected = selectSource(this.assets, this.acquisitions, selection);
+    const acquisition =
+      selection.acquisitionId === undefined ? null : this.acquisitions.get(selection.acquisitionId);
+    const binding = acquisition?.bindings.find(
+      (b) => b.assetId === selection.assetId && b.streamId === selection.streamId,
+    );
+    const visual = selected.stream.kind === "video" && binding?.sourceRoles.includes("video");
+    const capability = (kind: string, applicable = true): CaptureCoverage => ({
+      kind,
+      state: acquisition && applicable ? "ready" : "unavailable",
+      reason: !acquisition
+        ? "capture_context_missing"
+        : applicable
+          ? null
+          : "requires_captured_video",
+    });
+    const coverage =
+      domain === "cursor"
+        ? [capability("cursor", !!visual)]
+        : [
+            capability("pause"),
+            capability("geometry", !!visual),
+            { kind: "unplaced_geometry", state: "unavailable" as const, reason: "no_source_time" },
+            ...["scene", "cut", "interruption"].map((kind) => ({
+              kind,
+              state: "unavailable" as const,
+              reason: "unsupported",
+            })),
+          ];
+    return {
+      selection: selected.selection,
+      domain,
+      durationUs: selected.durationUs,
+      sourceToAssetOffsetUs: binding?.sourceToAssetOffsetUs ?? 0,
+      supportDigest: selected.supportDigest,
+      evidence: acquisition?.evidence ?? null,
+      coverage,
+    };
+  }
+  /** undefined means bounded work exhausted; null means this source window is complete. */
+  next(
+    context: CaptureContext,
+    range: { startUs: number; endUs: number },
+    state: CapturePosition,
+    budget: { remaining: number },
+  ): CaptureRow | null | undefined {
+    if (!context.evidence) return null;
+    const kinds = context.coverage
+      .filter((c) => c.state === "ready")
+      .map((c) => c.kind as PointKind);
+    const captureRange = {
+      startUs: Math.max(0, range.startUs - context.sourceToAssetOffsetUs),
+      endUs: Math.max(0, range.endUs - context.sourceToAssetOffsetUs),
+    };
+    if (captureRange.startUs >= captureRange.endUs) return null;
+    for (const kind of kinds) {
+      const position = state[kind];
+      if (position.row || position.done) continue;
+      if (budget.remaining-- <= 0) return undefined;
+      const row = this.records.pointRecords(
+        context.evidence,
+        index[kind],
+        captureRange,
+        position.after,
+        1,
+      )[0];
+      if (!row) {
+        position.done = true;
+        continue;
+      }
+      const captureAtUs = row.sourceUs!;
+      position.row = {
+        kind,
+        sourceAtUs: captureAtUs + context.sourceToAssetOffsetUs,
+        captureAtUs,
+        sourceSequence: row.sequence,
+        observation: JSON.parse(row.content),
+      };
+    }
+    const head = kinds
+      .map((kind) => state[kind].row)
+      .filter((row): row is CaptureRow => !!row)
+      .sort(
+        (a, b) =>
+          a.sourceAtUs - b.sourceAtUs ||
+          a.sourceSequence - b.sourceSequence ||
+          a.kind.localeCompare(b.kind),
+      )[0];
+    if (!head) return null;
+    state[head.kind].row = null;
+    state[head.kind].after = [head.captureAtUs, head.sourceSequence];
+    return head;
+  }
+  events(input: CaptureSourceInput) {
+    return this.get(input, "events");
+  }
+  cursor(input: CaptureSourceInput) {
+    return this.get(input, "cursor");
+  }
+  private get(input: CaptureSourceInput, domain: CaptureDomain) {
+    const selection = {
+      assetId: input.assetId,
+      streamId: input.streamId,
+      ...(input.acquisitionId === undefined ? {} : { acquisitionId: input.acquisitionId }),
+    };
+    const context = this.resolve(selection, domain);
+    const range = input.sourceRange ?? { startUs: 0, endUs: context.durationUs };
+    const limit = input.limit ?? (domain === "events" ? 100 : 1000),
+      maximum = domain === "events" ? 500 : 5000;
+    if (
+      !Number.isSafeInteger(range.startUs) ||
+      !Number.isSafeInteger(range.endUs) ||
+      range.startUs < 0 ||
+      range.endUs <= range.startUs ||
+      range.endUs > context.durationUs
+    )
+      throw new CatalogError(
+        "INVALID_RANGE",
+        "Capture evidence range must be within the selected stream",
+      );
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > maximum)
+      throw new CatalogError("INVALID_PARAMS", `Limit must be 1 to ${maximum}`);
+    const reference = digest({ context, range });
+    let position = initialCapture();
+    if (input.cursor !== undefined) {
+      const cursor = z
+        .strictObject({ reference: z.string(), position: positionSchema })
+        .safeParse(input.cursor);
+      if (!cursor.success)
+        throw new CatalogError("INVALID_PARAMS", "Invalid capture evidence cursor");
+      if (cursor.data.reference !== reference)
+        throw new CatalogError("ARTIFACT_CHANGED", "Capture evidence or filters changed");
+      for (const kind of Object.keys(index) as PointKind[])
+        position[kind] = { ...cursor.data.position[kind], row: null };
+    }
+    const selected = selectSource(this.assets, this.acquisitions, selection);
+    const available = intervalIndex(selected.track.available, (r) => ({
+      start: fromTime(r.startUs),
+      end: fromTime(r.endUs),
+    }));
+    const rows: CaptureRow[] = [];
+    const budget = { remaining: 128 };
+    let more = true;
+    while (rows.length < limit) {
+      const row = this.next(context, range, position, budget);
+      if (row === undefined) break;
+      if (row === null) {
+        more = false;
+        break;
+      }
+      if (available(fromTime(row.sourceAtUs)).length) rows.push(row);
+    }
+    const ready = context.coverage.some((c) => c.state === "ready");
+    const result = {
+      ...selection,
+      ...(input.cursor === undefined
+        ? {
+            available: available(fromTime(range.startUs), fromTime(range.endUs))
+              .map((value) => ({
+                startUs: Math.max(value.startUs, range.startUs),
+                endUs: Math.min(value.endUs, range.endUs),
+              }))
+              .sort((a, b) => a.startUs - b.startUs),
+          }
+        : {}),
+      state: ready ? "ready" : "unavailable",
+      context,
+      sourceRange: range,
+      page: ready
+        ? {
+            rows,
+            nextCursor: more
+              ? {
+                  reference,
+                  position: Object.fromEntries(
+                    Object.entries(position).map(([kind, { after, done }]) => [
+                      kind,
+                      { after, done },
+                    ]),
+                  ),
+                }
+              : null,
+          }
+        : null,
+    };
+    boundCaptureResponse(result);
+    return result;
+  }
+}

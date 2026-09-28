@@ -1,0 +1,33 @@
+{
+  "sourceJournalSha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+  "normalizedSha256": "0becd1bd6fc8e1544c2bfc4c475b1c570a4ca598f328b23b79527fa134bf63c9",
+  "retainedRows": 16,
+  "receipt": {
+    "audioIntervals": 1,
+    "bytes": 1488048,
+    "cursorSamples": 8039,
+    "displaySpaces": 1,
+    "file": "/tmp/project-capture-native-source.jsonl",
+    "finished": true,
+    "firstCursorSourceUs": 49814,
+    "geometryRecords": 5,
+    "header": {
+      "height": 1970,
+      "microphone": true,
+      "schemaVersion": 1,
+      "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+      "source": {
+        "kind": "window",
+        "windowID": 188
+      },
+      "systemAudio": false,
+      "width": 3120
+    },
+    "incompleteTail": false,
+    "journal": "capture.journal.jsonl",
+    "lastCursorSourceUs": 134019623,
+    "lastSequence": 12842,
+    "originHostUs": 92388474388,
+    "pauseEvents": 0
+  }
+}

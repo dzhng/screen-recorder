@@ -116,3 +116,12 @@ The [fresh-agent skill check](../assets/10c-project-skill/README.md) validates u
 without implementation instructions. Core capture events/cursor domains are next;
 [expanded live coverage](../assets/10c-public-bounds/README.md) now verifies acquired
 gaps, empty continuation and bounded late reads. Event/cursor domains remain open.
+
+## Core capture checkpoint
+
+[Capture observation evidence](../assets/10c-capture-evidence/README.md) records
+source/project clock separation, visual cursor/geometry applicability, pause
+occurrences, explicit unavailable categories and acquired-window coverage. Capture
+uses the shared query lifecycle and bounded heap with its own source traversal.
+Public event/cursor routing and journeys, plus unsupported scene/project-cut/
+interruption categories, remain required pickup work.

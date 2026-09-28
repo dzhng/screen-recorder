@@ -195,6 +195,10 @@
     "./audio-inspection": {
       "types": "./dist/audio-inspection.d.ts",
       "default": "./dist/audio-inspection.js"
+    },
+    "./capture-source-read": {
+      "types": "./dist/capture-source-read.d.ts",
+      "default": "./dist/capture-source-read.js"
     }
   },
   "scripts": {
