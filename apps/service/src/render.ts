@@ -203,48 +203,71 @@ export async function withRenderedMedia<T>(
   signal: AbortSignal,
   consume: (video: RenderedMovie) => Promise<T>,
 ): Promise<T> {
+  return withRenderAttempt(
+    worker,
+    request.attemptParent,
+    signal,
+    async (attempt, boundWorker) => {
+      const pointerSchedule = await request.preparePointer?.(attempt, boundWorker, signal);
+      if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
+      const file = join(attempt, "video.mp4");
+      const response = await boundWorker(
+        "media.renderMovie",
+        {
+          source: request.source,
+          plan: request.plan,
+          output: file,
+          tracks: request.tracks,
+          ...(pointerSchedule ? { pointerSchedule } : {}),
+          ...(request.maxLongEdge == null ? {} : { maxLongEdge: request.maxLongEdge }),
+        },
+        { signal, timeoutMs: renderDeadlineMs(request.plan, request.tracks.length > 0) },
+      );
+      if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
+      const receipt = nativeResult(response) as RenderedMovie;
+      if (
+        receipt.file !== file ||
+        receipt.durationUs !== request.plan.at(-1)?.playback.endUs ||
+        receipt.mediaType !== "video/mp4" ||
+        receipt.codec !== "h264"
+      ) {
+        throw new CatalogError(
+          "NATIVE_DECODE_FAILED",
+          "Native media receipt does not match the pinned attempt",
+        );
+      }
+      return receipt;
+    },
+    consume,
+  );
+}
+
+/** The render action owns media semantics; this owner fences late results and
+ * retains the workspace lock until the consumer and native children finish.
+ * Actions must await all preparation/render calls before returning. */
+export async function withRenderAttempt<Artifact, Result>(
+  worker: MediaWorker,
+  parent: string,
+  signal: AbortSignal,
+  render: (directory: string, worker: MediaWorker) => Promise<Artifact>,
+  consume: (artifact: Artifact) => Promise<Result>,
+): Promise<Result> {
   const checkCanceled = () => {
     if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
   };
   checkCanceled();
   return withLockedRenderWorkspace(
     worker,
-    request.attemptParent,
+    parent,
     signal,
-    async ({ directory: parent, worker: boundWorker, clear }) => {
+    async ({ directory, worker: boundWorker, clear }) => {
       await clear();
       try {
-        const attempt = await mkdtemp(join(parent, "render-"));
+        const attempt = await mkdtemp(join(directory, "render-"));
         checkCanceled();
-        const pointerSchedule = await request.preparePointer?.(attempt, boundWorker, signal);
+        const artifact = await render(attempt, boundWorker);
         checkCanceled();
-        const file = join(attempt, "video.mp4");
-        const response = await boundWorker(
-          "media.renderMovie",
-          {
-            source: request.source,
-            plan: request.plan,
-            output: file,
-            tracks: request.tracks,
-            ...(pointerSchedule ? { pointerSchedule } : {}),
-            ...(request.maxLongEdge == null ? {} : { maxLongEdge: request.maxLongEdge }),
-          },
-          { signal, timeoutMs: renderDeadlineMs(request.plan, request.tracks.length > 0) },
-        );
-        checkCanceled();
-        const receipt = nativeResult(response) as RenderedMovie;
-        if (
-          receipt.file !== file ||
-          receipt.durationUs !== request.plan.at(-1)?.playback.endUs ||
-          receipt.mediaType !== "video/mp4" ||
-          receipt.codec !== "h264"
-        ) {
-          throw new CatalogError(
-            "NATIVE_DECODE_FAILED",
-            "Native media receipt does not match the pinned attempt",
-          );
-        }
-        const result = await consume(receipt);
+        const result = await consume(artifact);
         checkCanceled();
         return result;
       } finally {

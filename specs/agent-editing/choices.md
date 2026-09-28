@@ -667,3 +667,14 @@ trim and stretch replacements keep their single-interval behavior.
   the busy-read response unspecified. This reuses the cache's existing lease refusal
   and project tombstone, keeping later preview/export delivery responsible for
   revoking its own reads before final retirement.
+
+## Render lifetime — 2026-09-27
+
+- **Sound; high confidence — Share attempt ownership without translating edits.**
+  When a project preview renders independent audio and video, its action will run
+  inside the same locked temporary directory and cleanup boundary as recording
+  previews. The action interprets the compiler's records; it does not turn them
+  into old recording spans. The plan required reuse but left that seam unspecified.
+  Separating the render action keeps cancellation, child-process lifetime and
+  publication fencing in one owner while allowing the old recording interpreter
+  to be removed at cutover.
