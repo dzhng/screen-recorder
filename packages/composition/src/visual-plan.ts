@@ -1,7 +1,8 @@
-import { compileGeometry, type PicturePrimitive } from "./geometry.js";
+import { compileGeometry } from "./geometry.js";
 import type { ValidatedComposition } from "./model.js";
 import type { ProcessingInstruction } from "./processing-plan.js";
 import type { CompiledFrame } from "./compiled-records.js";
+import type { VisualOperation } from "./pointer.js";
 import { CompositionError } from "./errors.js";
 
 /** Flattening domains are fixed by target ownership, never inferred from child bounds. */
@@ -25,17 +26,27 @@ export function visualPlanner(model: ValidatedComposition) {
           domain = { width: stream.width, height: stream.height };
           pixelBounds = stream.kind === "video" ? stream.pixelBounds : undefined;
         }
-        const operations: PicturePrimitive[] = [];
+        const operations: VisualOperation[] = [];
+        const geometryPrefix: number[] = [];
         for (const step of node.steps) {
           if (!step.enabled) continue;
           if (step.processor.type === "geometry") {
+            const start = operations.length;
             if (!sourceSpace)
               operations.push({ kind: "rasterize", width: canvas.width, height: canvas.height });
             operations.push(...compileGeometry(domain, canvas, step.processor, pixelBounds));
+            for (let index = start; index < operations.length; index++) geometryPrefix.push(index);
             domain = canvas;
             sourceSpace = false;
             pixelBounds = undefined;
-          } else if (step.processor.type === "opacity")
+          } else if (step.processor.type === "pointer")
+            operations.push({
+              kind: "pointer",
+              stepId: step.id,
+              trailUs: step.processor.trailUs,
+              geometryPrefix: [...geometryPrefix],
+            });
+          else if (step.processor.type === "opacity")
             operations.push({ kind: "opacity", opacity: step.processor.opacity });
         }
         if (sourceSpace)

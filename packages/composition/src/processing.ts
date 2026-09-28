@@ -28,6 +28,7 @@ function targetKind(kinds: ReturnType<typeof targetKinds>, target: ProcessingTar
 }
 export function validateProcessing(document: Document) {
   const kinds = targetKinds(document);
+  const clips = new Map(document.clips.map((clip) => [clip.id, clip]));
   const targets = new Set<string>();
   const stepIds = new Set<string>();
   for (const { target, steps } of document.processing) {
@@ -39,6 +40,17 @@ export function validateProcessing(document: Document) {
       if (stepIds.has(step.id)) invalid("Duplicate processing step ID", { stepId: step.id });
       stepIds.add(step.id);
       const definition = processorRegistry[step.processor.type];
+      if (!definition.targets.some((scope) => scope === target.kind))
+        invalid("Processor is incompatible with target scope", { target, stepId: step.id });
+      if (
+        "requiresAcquisition" in definition &&
+        definition.requiresAcquisition &&
+        target.kind === "clip"
+      ) {
+        const clip = clips.get(target.id)!;
+        if (!("acquisitionId" in clip) || !clip.acquisitionId)
+          invalid("Pointer requires an explicit clip acquisition", { target, stepId: step.id });
+      }
       if (kind !== "output" && kind !== definition.mediaKind)
         invalid("Processor is incompatible with target media", { target, stepId: step.id });
     }

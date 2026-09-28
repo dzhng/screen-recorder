@@ -1,3 +1,4 @@
+import { pointerSchema } from "./pointer.js";
 import { geometrySchema } from "./geometry.js";
 import { z } from "zod";
 import { compare, fromTime } from "./rational.js";
@@ -128,9 +129,18 @@ export const processingTargetSchema = z.union([
   z.object({ kind: z.enum(["clip", "track", "group"]), id }).strict(),
   z.object({ kind: z.literal("output") }).strict(),
 ]);
+const allProcessingTargets = ["clip", "track", "group", "output"] as const;
 export const processorRegistry = {
+  pointer: {
+    schema: pointerSchema,
+    mediaKind: "video" as const,
+    targets: ["clip"] as const,
+    requiresAcquisition: true,
+    units: { trailUs: "source microseconds" },
+  },
   geometry: {
     schema: geometrySchema,
+    targets: allProcessingTargets,
     mediaKind: "video" as const,
     units: {
       crop: "preceding image pixels",
@@ -142,11 +152,13 @@ export const processorRegistry = {
   },
   opacity: {
     schema: z.object({ type: z.literal("opacity"), opacity: z.number().min(0).max(1) }).strict(),
+    targets: allProcessingTargets,
     mediaKind: "video" as const,
     units: { opacity: "linear alpha multiplier" },
   },
   gain: {
     schema: z.object({ type: z.literal("gain"), gain: z.number().finite().nonnegative() }).strict(),
+    targets: allProcessingTargets,
     mediaKind: "audio" as const,
     units: { gain: "linear multiplier" },
   },
@@ -156,6 +168,7 @@ export const processingStepSchema = z
     id,
     enabled: z.boolean(),
     processor: z.discriminatedUnion("type", [
+      processorRegistry.pointer.schema,
       processorRegistry.gain.schema,
       processorRegistry.geometry.schema,
       processorRegistry.opacity.schema,

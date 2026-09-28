@@ -79,3 +79,5 @@ export { intervalIndex } from "./interval-index.js";
 
 export { createProjectCuts } from "./project-cuts.js";
 export type { ProjectCut, ProjectCutSide } from "./project-cuts.js";
+
+export { maximumPointerTrailUs } from "./pointer.js";

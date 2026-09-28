@@ -1,3 +1,4 @@
+import { maximumPointerTrailUs } from "@screenrec/composition";
 import { evidenceRecordingId } from "./evidence.js";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
@@ -6,7 +7,6 @@ import {
   analyzeFrameScene,
   compareVisualSamples,
   compareVisualRasters,
-  scenePolicy,
   type VisualSampler,
 } from "./scenes.js";
 import {
@@ -35,7 +35,7 @@ export type TrailCutoff = {
 export const trailPolicy = Object.freeze({
   id: "requested-time-trail-v1",
   defaultUs: 2_000_000,
-  maximumUs: scenePolicy.maximumRangeUs,
+  maximumUs: maximumPointerTrailUs,
   maximumPoints: 1200,
   maximumObservations: 5000,
 });

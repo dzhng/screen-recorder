@@ -262,6 +262,13 @@ test("deletion denies new previews while the existing queue drains before revisi
 test("binds supported gain throughout audio routing and output, but refuses unprepared retiming", async () => {
   const f = await fixture();
   expect(f.preview.capabilities()).toMatchObject([
+    {
+      type: "pointer",
+      targets: ["clip"],
+      requiresAcquisition: true,
+      execution: false,
+      implementationId: null,
+    },
     { type: "geometry", execution: true, implementationId: renderer.implementationId },
     { type: "opacity", execution: true, implementationId: renderer.implementationId },
     { type: "gain", execution: true, implementationId: renderer.implementationId },

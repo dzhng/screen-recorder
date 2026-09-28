@@ -183,3 +183,8 @@ physical sample support; do not claim whole-file identity across distinct schedu
 Preparation must bound/cancel records, bytes, observations and output-occurrence
 work; exhausted or damaged evidence publishes nothing. Existing guards remain
 provisional until slice 24 measures release-scale behavior.
+
+Checkpoint 1 now has [authoring/compiler evidence](../assets/15-pointer-contract/README.md):
+registry-owned scope/acquisition compatibility, atomic replacement rules, complete
+backward geometry references and pure-edit identity retention. Execution remains
+unbound; exact source-history preparation and native replay are the next checkpoint.

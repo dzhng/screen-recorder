@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { picturePrimitiveSchema } from "./geometry.js";
+import { visualOperationsSchema } from "./pointer.js";
 import { rangeSchema, selectionRangeSchema, processingTargetSchema } from "./schema.js";
 
 const id = z.string().min(1);
@@ -14,7 +14,7 @@ export const compiledFrameSchema = z
         .object({
           target: processingTargetSchema,
           inputs: z.array(processingTargetSchema),
-          operations: z.array(picturePrimitiveSchema),
+          operations: visualOperationsSchema,
         })
         .strict(),
     ),

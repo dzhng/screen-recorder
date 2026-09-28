@@ -1,0 +1,103 @@
+{
+  "scope": "Authoring/compiler only; native preparation and replay unbound",
+  "base": "a8779f4",
+  "tests": {
+    "composition": 140,
+    "corePassed": 585,
+    "coreSkipped": 1,
+    "compositionTypes": true,
+    "coreTypes": true,
+    "lint": true,
+    "nativeGeometryCases": 48,
+    "unchangedGeometryPngs": 94
+  },
+  "resolution": {
+    "compositionFromCore": "/private/tmp/screenrec-editing-speech/packages/composition",
+    "compositionFromProtocol": "/private/tmp/screenrec-editing-speech/packages/composition",
+    "files": [
+      {
+        "file": "/private/tmp/screenrec-editing-speech/packages/composition/dist/index.js",
+        "sha256": "ec219aa1006ec22e8efe49c944229f6b506e1fc3749403f31d1abb418bc9c46c"
+      },
+      {
+        "file": "/private/tmp/screenrec-editing-speech/packages/composition/dist/pointer.js",
+        "sha256": "d106048d7d6972db32a9b48bdb7d4479806f48546d51d55a37f9342f9e27a4a2"
+      },
+      {
+        "file": "/private/tmp/screenrec-editing-speech/packages/core/dist/trails.js",
+        "sha256": "5bac45cbb1194660581ebb846d823e446b22a7dfb4ec270d570838f10545beaf"
+      }
+    ]
+  },
+  "negativeControls": {
+    "beforeSchema": "/tmp/screenrec-pointer-contract-red.log",
+    "omitMaterializationFromPrefix": "/tmp/screenrec-pointer-prefix-mutation.log",
+    "bypassAcquisitionCheck": "/tmp/screenrec-pointer-acquisition-mutation.log"
+  },
+  "geometryReport": "/tmp/screenrec-pointer-geometry-preservation/report.json",
+  "initialCoreRun": "Unconstrained parallel run timed out one portable-index test while native fixture work ran; standard maxWorkers4 rerun passed with unchanged5000ms threshold. Existing capability expectation was updated for the new authoring-only processor.",
+  "nativeBypass": {
+    "worker": "/tmp/screenrec-pointer-contract-native",
+    "sha256": "46e823a5fca14970c4848d06007b21bc70b433f832bad14035b70b45f0fa43f0",
+    "red": "/tmp/screenrec-pointer-admission-wire-red.log",
+    "green": "/tmp/screenrec-pointer-admission-wire/report.json",
+    "checks": [
+      {
+        "inactive": "dry",
+        "readerOpens": 0,
+        "transparent": true
+      },
+      {
+        "inactive": "processed",
+        "readerOpens": 0,
+        "transparent": true
+      },
+      {
+        "limit": "decoded-source-pixels",
+        "response": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "h264-rec709 profile limit decoded-source-pixels: frame 0 requests 80000000, bound 67108864; reduce simultaneous sources or processing surfaces.",
+          "retryable": false
+        }
+      },
+      {
+        "limit": "intermediate-pixels",
+        "response": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "h264-rec709 profile limit intermediate-pixels: frame 0 requests 68157440, bound 67108864; reduce simultaneous sources or processing surfaces.",
+          "retryable": false
+        }
+      },
+      {
+        "limit": "coverage-mask-bytes",
+        "response": {
+          "code": "NOT_READY",
+          "details": {},
+          "message": "h264-rec709 profile limit coverage-mask-bytes: frame 0 requests 68157440, bound 67108864; reduce simultaneous sources or processing surfaces.",
+          "retryable": false
+        }
+      },
+      {
+        "recovery": true,
+        "readerOpens": 1
+      },
+      {
+        "disabledPointer": {
+          "frameBytesExact": true,
+          "picturesExact": true,
+          "decodedMoviePixelsExact": true
+        }
+      }
+    ],
+    "scope": "Strict DTO field support only; disabled pointer frame and movie parity, no pointer executor.",
+    "confirmed": "/tmp/screenrec-pointer-admission-confirmed/report.json"
+  },
+  "review": {
+    "contractCompiler": "No actionable defects; independently reran140composition and8preview tests plus composition types.",
+    "followup": "Implementer found disabled native metadata rejection; optional trailUs DTO field fixes wire roundtrip. Dedicated regression fails on prior worker and passes candidate.",
+    "final": "No actionable issues. Reviewer independently ran140composition tests, types, diff checks, and native wire probes. Its parity run stopped at pixel-buffer allocation before new assertions; implementing-agent normal-worker rerun passed all7 admission/bypass checks.",
+    "finalLog": "/tmp/screenrec-pointer-wire-review.log"
+  }
+}

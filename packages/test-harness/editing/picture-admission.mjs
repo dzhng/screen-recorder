@@ -144,7 +144,7 @@ const large = {
     },
   ],
 };
-function sourceFrame(count) {
+function sourceFrame(count, disabledPointer = false, range = { startUs: 0, endUs: 1 }) {
   const tracks = Array.from({ length: count }, (_, i) => ({
     id: `v${i}`,
     kind: "video",
@@ -154,16 +154,52 @@ function sourceFrame(count) {
     id: t.id,
     trackId: t.id,
     assetId: "large",
+    ...(disabledPointer ? { acquisitionId: "wire-fixture" } : {}),
     streamId: stream.id,
     source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
     placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
   }));
   const c = createCompiler(
-    validateComposition({ ...document, tracks, clips }, [large]),
+    validateComposition(
+      {
+        ...document,
+        tracks,
+        clips,
+        processing: disabledPointer
+          ? [
+              {
+                target: { kind: "clip", id: "v0" },
+                steps: [
+                  {
+                    id: "bypassed-pointer",
+                    enabled: false,
+                    processor: { type: "pointer", trailUs: 2_000_000 },
+                  },
+                ],
+              },
+            ]
+          : [],
+      },
+      [large],
+      disabledPointer
+        ? [
+            {
+              id: "wire-fixture",
+              bindings: [
+                {
+                  assetId: "large",
+                  streamId: stream.id,
+                  available: [{ startUs: 0, endUs: 1_000_000 }],
+                },
+              ],
+            },
+          ]
+        : [],
+    ),
     "source-budget",
   );
   const window = c.videoWindow({
-    range: { startUs: 0, endUs: 1 },
+    range,
     rendition: { sampleRate: 48000, channels: 2 },
     tap: { target: { kind: "output" }, point: { kind: "processed" } },
   });
@@ -255,5 +291,48 @@ const recovered = call("media.renderCompositionFrame", {
 assert.ok(recovered.ok, JSON.stringify(recovered));
 assert.equal(recovered.data.readerOpens, 1);
 checks.push({ recovery: true, readerOpens: 1 });
+const bypass = call("media.renderCompositionFrame", {
+  ...sourceFrame(1, true),
+  output: join(out, "disabled-pointer.png"),
+});
+assert.ok(bypass.ok, JSON.stringify(bypass));
+assert.deepEqual(bypass.data.pictures, recovered.data.pictures);
+assert.deepEqual(await readFile(bypass.data.file), await readFile(recovered.data.file));
+const moviePixels = [];
+for (const disabledPointer of [false, true]) {
+  const range = { startUs: 0, endUs: 100000 };
+  const { frame, ...params } = sourceFrame(1, disabledPointer, range);
+  const frames = join(out, `pointer-${disabledPointer}.jsonl`);
+  await writeFile(frames, JSON.stringify(frame) + "\n");
+  const rendered = call("media.renderCompositionVideo", {
+    ...params,
+    frames,
+    range,
+    output: join(out, `pointer-${disabledPointer}.mp4`),
+  });
+  assert.ok(rendered.ok, JSON.stringify(rendered));
+  assert.equal(rendered.data.durationUs, 100000);
+  moviePixels.push(
+    run("ffmpeg", [
+      "-v",
+      "error",
+      "-nostdin",
+      "-i",
+      rendered.data.file,
+      "-f",
+      "rawvideo",
+      "-pix_fmt",
+      "rgba",
+      "-fps_mode",
+      "passthrough",
+      "pipe:1",
+    ]),
+  );
+}
+assert.ok(moviePixels[0].length > 0);
+assert.deepEqual(moviePixels[0], moviePixels[1]);
+checks.push({
+  disabledPointer: { frameBytesExact: true, picturesExact: true, decodedMoviePixelsExact: true },
+});
 await writeFile(join(out, "report.json"), JSON.stringify({ checks }, null, 2));
 console.log(JSON.stringify({ out, passed: true, checks: checks.length }));
