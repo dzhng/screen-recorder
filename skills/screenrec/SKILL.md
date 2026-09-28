@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, inspect selected-source or edited-project pictures, or inspect source scene changes, captured cursor and timeline evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, inspect selected-source screenshot indexes or edited-project pictures, or inspect source scene changes, captured cursor and timeline evidence.
 ---
 
 # Screenrec
@@ -125,6 +125,17 @@ missing evidence, not a black frame. Poll the same selection while processing;
 inspect failure before explicit frame retry. For batches, preserve per-item order
 and errors, and deliver only ready pictures. Check the returned dimensions and
 sample identity; an inspection size bound does not author a crop or aspect ratio.
+
+For a source storyboard, request its retained screenshot index with the same
+asset/stream selection and optional acquisition. Poll the selection while scene
+or image preparation is pending; inspect terminal failures before explicit index
+retry, which also recovers retryable prerequisites. Page every entry and coverage
+cursor, keeping its complete selection and generation. Fetch images using returned
+references, with bounded batches when useful; preserve per-image errors. A ready
+index can contain zero images. Support gaps are known exclusions; unavailable
+observations and unproven ranges do not establish what every intervening frame
+contains. Source indexes exclude project edits and processing. Use project frames
+for the edited result, and do not describe source scene changes as project cuts.
 
 For timeline inspection, use advertised `timeline.events` reads. Video scene changes
 need a selected asset/stream, not capture metadata; add acquisition only to apply

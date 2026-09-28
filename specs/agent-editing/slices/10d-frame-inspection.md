@@ -155,3 +155,11 @@ source index delivery and project frame-phase projection remain the next gates.
 selected-source requests and retained PNG delivery through the shared owners.
 Native CLI/MCP journey acceptance remains open; producer checks and existing
 adapter preservation alone do not close it.
+
+## Source index skill checkpoint
+
+[Fresh product-skill use](../assets/10d-source-index-skill/README.md) recovers a
+canceled prerequisite and retrieves every source storyboard entry, image and
+coverage interval through the actual public CLI. It preserves requested versus
+decoded clocks, generation and uncertainty. Multi-page and broader lifecycle
+acceptance belong to the public journey; project index projection remains open.
