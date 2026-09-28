@@ -2152,3 +2152,20 @@ existing lifetime owner.
   acquisition closure through one graph walk. Scene-generation resources still
   refuse export until their real retained owner and queue readiness are portable;
   the refusal is a checkpoint boundary, not reduced final package scope.
+
+## Slice 16 — Crop, dimension and pivot curves
+
+- **Sound, high confidence:** Preserve the static geometry domain for animation.
+  When an agent moves a crop partly outside the source, it remains a valid crop
+  just as the same constant rectangle was valid. Width and height must stay
+  positive and each pivot coordinate between zero and one, but no new rule forces
+  the rectangle inside an image. The plan required static-domain preservation;
+  it did not spell out whether to add a combined inside-image constraint. Adding
+  one would reject existing creative placements and create a second geometry policy.
+- **Sound, high confidence:** Use the smallest positive representable number as
+  the lower bound for a size curve's complete value function. A curve that touches
+  zero halfway through is invalid even with positive keys; an arbitrarily small
+  positive value is not rejected merely by choosing an unexplained epsilon.
+  The plan required strict positivity without choosing a numerical expression.
+  Sampled matrix precision remains the existing compiler's responsibility, so this
+  does not promise that tiny dimensions produce safe output matrices.

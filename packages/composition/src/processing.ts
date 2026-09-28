@@ -43,7 +43,23 @@ export function processingScalars(
   if (processor.type === "geometry")
     return {
       ...(processor.scale ? { "scale.x": processor.scale.x, "scale.y": processor.scale.y } : {}),
-      ...(processor.rect ? { "rect.x": processor.rect.x, "rect.y": processor.rect.y } : {}),
+      ...(processor.rect
+        ? {
+            "rect.x": processor.rect.x,
+            "rect.y": processor.rect.y,
+            "rect.width": processor.rect.width,
+            "rect.height": processor.rect.height,
+          }
+        : {}),
+      ...(processor.crop
+        ? {
+            "crop.x": processor.crop.x,
+            "crop.y": processor.crop.y,
+            "crop.width": processor.crop.width,
+            "crop.height": processor.crop.height,
+          }
+        : {}),
+      ...(processor.pivot ? { "pivot.x": processor.pivot.x, "pivot.y": processor.pivot.y } : {}),
       ...(processor.rotationDeg !== undefined ? { rotationDeg: processor.rotationDeg } : {}),
     };
   return {};
@@ -86,11 +102,15 @@ export function validateProcessing(document: Document) {
       const domain = step.window?.kind ?? (target.kind === "clip" ? "clip" : "project");
       if (step.evaluationRange && (target.kind !== "clip" || domain !== "clip"))
         invalid("Evaluation range requires normalized clip timing", { target, stepId: step.id });
-      for (const value of Object.values(processingScalars(step.processor)))
+      for (const [slot, value] of Object.entries(processingScalars(step.processor)))
         if (typeof value !== "number") {
           const parsed = scalarCurveSchema(domain).safeParse(value);
           const bounds =
-            step.processor.type === "opacity" ? [0, 1] : [-Number.MAX_VALUE, Number.MAX_VALUE];
+            step.processor.type === "opacity" || slot === "pivot.x" || slot === "pivot.y"
+              ? [0, 1]
+              : ["rect.width", "rect.height", "crop.width", "crop.height"].includes(slot)
+                ? [Number.MIN_VALUE, Number.MAX_VALUE]
+                : [-Number.MAX_VALUE, Number.MAX_VALUE];
           if (!parsed.success || !curveValuesWithin(parsed.data, bounds[0]!, bounds[1]!))
             invalid("Processing curve must match its clock and remain within parameter bounds", {
               target,

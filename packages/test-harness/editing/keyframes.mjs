@@ -8,8 +8,9 @@ import { parseArgs } from "node:util";
 import { fileURLToPath } from "node:url";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
-assert.ok(["moved-split-zoom", "moved-split-pose"].includes(values.case));
-const pose = values.case === "moved-split-pose";
+assert.ok(["moved-split-zoom", "moved-split-pose", "moved-split-geometry"].includes(values.case));
+const pose = values.case !== "moved-split-zoom";
+const box = values.case === "moved-split-geometry";
 assert.ok(values.out && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out);
 assert.ok(!existsSync(out));
@@ -99,16 +100,29 @@ try {
   const geometry = (t) => {
     const e = t === undefined ? undefined : 3 * t * t - 2 * t * t * t;
     const value = e === undefined ? scale : (1 - e) * 0.5 + e * 1.5;
+    const parameter = (first, last) =>
+      t === undefined ? linear(first, last) : (1 - t) * first + t * last;
     return {
       type: "geometry",
       scale: { x: value, y: value },
+      ...(box
+        ? {
+            crop: {
+              x: parameter(-4, 4),
+              y: parameter(-8, 8),
+              width: parameter(32, 48),
+              height: parameter(48, 80),
+            },
+            pivot: { x: parameter(0.25, 0.75), y: parameter(0.75, 0.25) },
+          }
+        : {}),
       ...(pose
         ? {
             rect: {
               x: t === undefined ? linear(-8, 8) : (1 - t) * -8 + t * 8,
               y: t === undefined ? linear(4, -4) : (1 - t) * 4 + t * -4,
-              width: 40,
-              height: 64,
+              width: box ? parameter(32, 48) : 40,
+              height: box ? parameter(80, 48) : 64,
             },
             rotationDeg:
               e === undefined
@@ -153,6 +167,64 @@ try {
     original.push(
       await picture({ projectId, revisionId: authored.revision.id, atUs: i * 125000 }, "zoom-" + i),
     );
+  if (box) {
+    const before = await call("processing.get", {
+      projectId,
+      revisionId: head,
+      target: { kind: "clip", id: clipId },
+    });
+    for (const [index, [slot, unit]] of [
+      ["crop.width", 1],
+      ["crop.height", 1],
+      ["rect.width", 1],
+      ["rect.height", 1],
+      ["pivot.x", 1],
+      ["pivot.y", 1],
+      ["crop.width", Number.MIN_VALUE],
+    ].entries()) {
+      const [field, component] = slot.split(".");
+      const invalid = structuredClone(geometry());
+      invalid[field][component] =
+        field === "pivot"
+          ? {
+              keys: [
+                { at: fraction(0), value: 0.2, interpolation: { cubic: [1 / 3, 5, 2 / 3, 5] } },
+                { at: fraction(1), value: 0.8, interpolation: "linear" },
+              ],
+            }
+          : {
+              keys: [
+                { at: fraction(0), value: unit, interpolation: { cubic: [1 / 3, -1, 2 / 3, -2] } },
+                { at: fraction(1), value: 2 * unit, interpolation: "linear" },
+              ],
+            };
+      const failure = await call(
+        "edit.apply",
+        {
+          projectId,
+          expectedRevisionId: head,
+          requestId: randomUUID(),
+          operations: [
+            {
+              operation: "processing.set",
+              target: { kind: "clip", id: clipId },
+              steps: [{ id: stepId, processor: invalid }],
+            },
+          ],
+        },
+        { error: true, transport: index % 2 ? "mcp" : "cli" },
+      );
+      assert.equal(failure.code, "INVALID_EDIT");
+      assert.deepEqual(
+        await call("processing.get", {
+          projectId,
+          revisionId: head,
+          target: { kind: "clip", id: clipId },
+        }),
+        before,
+      );
+    }
+  }
   const controls = [];
   for (let i = 0; i < 8; i++) {
     const t = i / 8;
@@ -341,6 +413,7 @@ try {
     rangeErrors.push(e);
   }
   report.checks = {
+    wholeCurveRefusals: box ? 7 : 0,
     analyticStaticControls: 8,
     movedPictures: 8,
     splitPictures: 8,

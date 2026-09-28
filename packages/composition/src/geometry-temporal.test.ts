@@ -358,3 +358,151 @@ test("animated top-left pivot follows authored x/y and clockwise angle in raster
     }
   }
 });
+
+test("crop, rectangle dimensions and pivot curves resolve through the existing geometry", () => {
+  const doc = structuredClone(document);
+  doc.processing[0]!.steps[0]!.processor = {
+    type: "geometry",
+    crop: { x: curve(0, 8), y: curve(4, 0), width: curve(64, 40), height: curve(40, 48) },
+    rect: { x: 3, y: 5, width: curve(48, 64), height: curve(48, 24) },
+    pivot: { x: curve(0, 1), y: curve(1, 0) },
+    rotationDeg: 30,
+  };
+  const before = operations(doc);
+  for (let i = 0; i < 8; i++) {
+    const t = i / 8,
+      fixed = structuredClone(doc);
+    fixed.processing[0]!.steps[0]!.processor = {
+      type: "geometry",
+      crop: {
+        x: 8 * t,
+        y: (1 - t) * 4,
+        width: (1 - t) * 64 + t * 40,
+        height: (1 - t) * 40 + t * 48,
+      },
+      rect: { x: 3, y: 5, width: (1 - t) * 48 + t * 64, height: (1 - t) * 48 + t * 24 },
+      pivot: { x: t, y: 1 - t },
+      rotationDeg: 30,
+    };
+    expect(before[i]).toEqual(operations(fixed, i * 125000, i * 125000 + 1)[0]);
+  }
+});
+
+test.each(["crop.width", "crop.height", "rect.width", "rect.height", "pivot.x", "pivot.y"])(
+  "%s rejects an illegal cubic interior despite legal endpoints",
+  (slot) => {
+    const doc = structuredClone(document);
+    const touchingZero = {
+      keys: [
+        {
+          at: fraction(0),
+          value: 1,
+          interpolation: { cubic: [1 / 3, -1, 2 / 3, -2] as [number, number, number, number] },
+        },
+        { at: fraction(1), value: 2, interpolation: "linear" as const },
+      ],
+    };
+    const overshoot = {
+      keys: [
+        {
+          at: fraction(0),
+          value: 0.2,
+          interpolation: { cubic: [1 / 3, 5, 2 / 3, 5] as [number, number, number, number] },
+        },
+        { at: fraction(1), value: 0.8, interpolation: "linear" as const },
+      ],
+    };
+    const [field, component] = slot.split(".");
+    const processor =
+      field === "pivot"
+        ? { type: "geometry", pivot: { x: 0.5, y: 0.5, [component!]: overshoot } }
+        : {
+            type: "geometry",
+            [field!]: { x: 0, y: 0, width: 64, height: 48, [component!]: touchingZero },
+          };
+    Object.assign(doc.processing[0]!.steps[0]!, { processor });
+    expect(() => validateComposition(doc, assets)).toThrow(/parameter bounds/);
+  },
+);
+
+test("animated crop corners and pivot land at independently authored coordinates", () => {
+  const doc = structuredClone(document);
+  doc.processing[0]!.steps[0]!.processor = {
+    type: "geometry",
+    crop: { x: curve(0, 16), y: curve(0, 8), width: curve(48, 16), height: curve(40, 8) },
+    rect: { x: 10, y: 6, width: curve(48, 80), height: curve(32, 64) },
+    pivot: { x: curve(0, 0.5), y: curve(0.5, 1) },
+    rotationDeg: 90,
+  };
+  const row = operations(doc, 500000, 500001)[0]!;
+  expect(row[0]).toEqual({ kind: "clamp", x: 8.5, y: 20.5, width: 31, height: 23 });
+  for (const [sx, sy, ex, ey] of [
+    [8, 44, 62, 22],
+    [40, 20, 14, -42],
+  ]) {
+    let x = sx!,
+      y = sy!;
+    for (const op of row)
+      if (op.kind === "affine") {
+        const [a, b, c, d, tx, ty] = op.matrix;
+        [x, y] = [a * x + c * y + tx, b * x + d * y + ty];
+      }
+    expect(x).toBeCloseTo(ex!, 10);
+    expect(y).toBeCloseTo(ey!, 10);
+  }
+  const before = operations(doc);
+  const split = edit(doc, [{ operation: "split", clipIds: ["c"], atUs: 375001 }]);
+  expect(operations(split)).toEqual(before);
+  const padded = edit(doc, [
+    {
+      operation: "replace",
+      clipId: "c",
+      kind: "video",
+      fit: "hold",
+      media: {
+        assetId: "a",
+        streamId: "v",
+        source: { kind: "range", range: { startUs: 1700000, endUs: 2075001 } },
+      },
+    },
+  ]);
+  expect(operations(padded)).toEqual(before);
+  const slowed = edit(doc, [
+    { operation: "retime", clipIds: ["c"], durationUs: 2000000, ripple: "none" },
+  ]);
+  expect(operations(slowed, 0, 2000000).filter((_, i) => i % 2 === 0)).toEqual(before);
+});
+
+test("animated crop and rectangle may leave the source or canvas under the static domain", () => {
+  const doc = structuredClone(document);
+  doc.processing[0]!.steps[0]!.processor = {
+    type: "geometry",
+    crop: { x: curve(-100, 100), y: curve(-100, 100), width: curve(1, 128), height: curve(1, 96) },
+    rect: { x: curve(-100, 100), y: curve(-100, 100), width: curve(1, 128), height: curve(1, 96) },
+    pivot: { x: curve(0, 1), y: curve(1, 0) },
+  };
+  expect(() => operations(doc)).not.toThrow();
+});
+
+test("subnormal positive size keys cannot hide an interior zero through derivative underflow", () => {
+  const doc = structuredClone(document);
+  doc.processing[0]!.steps[0]!.processor = {
+    type: "geometry",
+    crop: {
+      x: 0,
+      y: 0,
+      height: 48,
+      width: {
+        keys: [
+          {
+            at: fraction(0),
+            value: Number.MIN_VALUE,
+            interpolation: { cubic: [1 / 3, -1, 2 / 3, -2] },
+          },
+          { at: fraction(1), value: 2 * Number.MIN_VALUE, interpolation: "linear" },
+        ],
+      },
+    },
+  };
+  expect(() => validateComposition(doc, assets)).toThrow(/parameter bounds/);
+});

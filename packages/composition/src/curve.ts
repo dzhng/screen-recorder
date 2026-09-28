@@ -41,7 +41,8 @@ export function curveValuesWithin(curve: ScalarCurve, min: number, max: number):
       right.value,
     ];
     if (p.some((value) => !Number.isFinite(value))) return false;
-    const scale = Math.max(1, ...p.map(Math.abs));
+    // Normalize tiny coefficients too: their derivative discriminant can underflow.
+    const scale = Math.max(...p.map(Math.abs)) || 1;
     const [p0, p1, p2, p3] = p.map((value) => value / scale) as [number, number, number, number];
     const a = -p0 + 3 * p1 - 3 * p2 + p3,
       b = 2 * (p0 - 2 * p1 + p2),

@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity and scale/position/rotation have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Remaining geometry parameters, gain, transitions, convenience commands and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
+Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Gain, transitions, convenience commands and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
 
 ## Contract
 
@@ -93,8 +93,8 @@ controls/split preservation, scoped movie comparisons, static-layer preservation
 failed attempts and reviews. [Retained-index integration](../assets/16-opacity-index/README.md)
 now proves tap-aware boundary selection, direct/retained PNG equality and fresh
 visual review. The service/native projection is shared with direct worker harnesses;
-no authoring easing is sent for native reinterpretation. Remaining geometry scalars,
-gain, transitions and full-slice journeys stay open.
+no authoring easing is sent for native reinterpretation. Gain, transitions and
+full-slice journeys stay open.
 
 ## Animated zoom vertical
 
@@ -135,11 +135,32 @@ scale. Their existing units, pivot and transform order remain authoritative; the
 is no additional translation object. Each scalar uses the same step window and
 retained clock, but keeps its own curve program. Full-curve values must stay finite,
 and sampled geometry still passes the numeric compiler's existing precision checks.
-Rectangle dimensions, crop and pivot remain numeric in this checkpoint. Gain,
-transitions and convenience edits stay open.
+The remaining crop/dimension/pivot fields share that clock as described below.
+Gain, transitions and convenience edits stay open.
 
 [Public pose evidence](../assets/16-pose/README.md) retains exact animated/static
 frames and move/split/trim/window preservation, plus independent pivot/angle
 landmarks that reject a deliberately swapped coordinate. Encoded edge/color limits
 remain explicit. Fresh scoped geometry review and independent code review pass;
 movie edge/color artifacts stay unresolved.
+
+## Complete geometry scalar domains
+
+Crop coordinates and dimensions, rectangle dimensions and pivot coordinates now
+use the same clock and retained scalar programs as position/scale/rotation. Keep
+each field's static domain across the whole curve, including cubic extrema:
+strictly positive dimensions, normalized pivots in [0,1], and finite coordinates.
+There is no new inside-source/inside-canvas requirement: static geometry admits
+outside rectangles and its sampled numeric compiler remains responsible for joint
+matrix representability. Do not clamp an invalid curve or defer scalar violations
+until one preview happens to sample them.
+
+[Geometry scalar evidence](../assets/16-geometry/README.md) owns the public
+combined-geometry journey, independent corner/pivot controls and rejection of cubic
+interiors with otherwise legal endpoints. Public delivery and independent code
+review pass; fresh scoped geometry review passes with movie edge/color defects
+explicitly open. All 64 public static tap PNGs retain prior bytes. Tiny-coefficient
+extrema normalization rejects subnormal interior-zero sizes; final public
+confirmation preserves every reviewed picture and verifies seven curve refusals.
+Gain, transitions and convenience commands remain open; this is not whole-slice16
+acceptance.

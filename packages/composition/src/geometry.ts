@@ -4,24 +4,31 @@ import { CompositionError } from "./errors.js";
 const coordinate = z.number().finite();
 const size = z.number().finite().positive();
 const point = z.object({ x: coordinate, y: coordinate }).strict();
-const rectangle = z.object({ x: coordinate, y: coordinate, width: size, height: size }).strict();
-export function geometrySchemaWithMotion<T extends z.ZodType>(scalar: T) {
+export function geometrySchemaWithScalars<
+  C extends z.ZodType,
+  S extends z.ZodType,
+  P extends z.ZodType,
+>(scalar: { coordinate: C; size: S; pivot: P }) {
+  const box = z
+    .object({ x: scalar.coordinate, y: scalar.coordinate, width: scalar.size, height: scalar.size })
+    .strict();
   return z
     .object({
       type: z.literal("geometry"),
-      crop: rectangle.optional(),
-      rect: z.object({ x: scalar, y: scalar, width: size, height: size }).strict().optional(),
+      crop: box.optional(),
+      rect: box.optional(),
       fit: z.enum(["contain", "cover", "stretch"]).optional(),
-      scale: z.object({ x: scalar, y: scalar }).strict().optional(),
-      rotationDeg: scalar.optional(),
-      pivot: z
-        .object({ x: z.number().min(0).max(1), y: z.number().min(0).max(1) })
-        .strict()
-        .optional(),
+      scale: z.object({ x: scalar.coordinate, y: scalar.coordinate }).strict().optional(),
+      rotationDeg: scalar.coordinate.optional(),
+      pivot: z.object({ x: scalar.pivot, y: scalar.pivot }).strict().optional(),
     })
     .strict();
 }
-export const geometrySchema = geometrySchemaWithMotion(coordinate);
+export const geometrySchema = geometrySchemaWithScalars({
+  coordinate,
+  size,
+  pivot: z.number().min(0).max(1),
+});
 export type Geometry = z.infer<typeof geometrySchema>;
 export type ImageDomain = { width: number; height: number };
 export type Affine = [number, number, number, number, number, number];
@@ -78,7 +85,7 @@ export function compileGeometry(
   input: ImageDomain,
   canvas: ImageDomain,
   step: Geometry,
-  pixelBounds?: z.infer<typeof rectangle>,
+  pixelBounds?: Geometry["crop"],
 ): PicturePrimitive[] {
   const source = step.crop ?? { x: 0, y: 0, ...input };
   const rect = step.rect ?? { x: 0, y: 0, ...canvas };

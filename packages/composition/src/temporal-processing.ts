@@ -97,7 +97,7 @@ export function temporalProcessing(model: ValidatedComposition) {
     },
     geometry(step: ProcessingStep, target: ProcessingTarget, at: number): Geometry | null {
       if (step.processor.type !== "geometry") return null;
-      const { scale, rect, rotationDeg, ...rest } = step.processor;
+      const { scale, rect, crop, pivot, rotationDeg, ...rest } = step.processor;
       const resolved = Object.fromEntries(
         Object.entries(processingScalars(step.processor)).map(([slot, value]) => [
           slot,
@@ -112,7 +112,27 @@ export function temporalProcessing(model: ValidatedComposition) {
       return {
         ...rest,
         ...(scale ? { scale: { x: resolved["scale.x"]!, y: resolved["scale.y"]! } } : {}),
-        ...(rect ? { rect: { ...rect, x: resolved["rect.x"]!, y: resolved["rect.y"]! } } : {}),
+        ...(rect
+          ? {
+              rect: {
+                x: resolved["rect.x"]!,
+                y: resolved["rect.y"]!,
+                width: resolved["rect.width"]!,
+                height: resolved["rect.height"]!,
+              },
+            }
+          : {}),
+        ...(crop
+          ? {
+              crop: {
+                x: resolved["crop.x"]!,
+                y: resolved["crop.y"]!,
+                width: resolved["crop.width"]!,
+                height: resolved["crop.height"]!,
+              },
+            }
+          : {}),
+        ...(pivot ? { pivot: { x: resolved["pivot.x"]!, y: resolved["pivot.y"]! } } : {}),
         ...(rotationDeg !== undefined ? { rotationDeg: resolved.rotationDeg! } : {}),
       };
     },
