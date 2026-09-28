@@ -1,3 +1,4 @@
+import { executionWindow, executionWindowRequestSchema } from "./execution-window.js";
 import { processingPlanner } from "./processing-plan.js";
 import { CompositionError } from "./errors.js";
 import { sourceTime, type ValidatedComposition } from "./model.js";
@@ -86,18 +87,11 @@ function intervalIndex(clips: readonly Resolved[]) {
   };
 }
 
-/** Build once per validated immutable revision, then request lazy globally phased schedules. */
-export function createCompiler(model: ValidatedComposition) {
-  const query = intervalIndex(model.clips);
-  const processing = processingPlanner(model);
+function compileSchedules(model: ValidatedComposition, query: ReturnType<typeof intervalIndex>) {
   const fps = model.document.canvas.fps;
   const frameNumerator = BigInt(fps.numerator);
   const frameDenominator = 1000000n * BigInt(fps.denominator);
   return {
-    processing(input: Range) {
-      const range = checkedRange(input);
-      return processing(query(fromTime(range.startUs), fromTime(range.endUs)));
-    },
     *audio(input: Range, sampleRate = 48000): Generator<CompiledAudio> {
       const range = checkedRange(input);
       if (!Number.isSafeInteger(sampleRate) || sampleRate <= 0)
@@ -171,6 +165,40 @@ export function createCompiler(model: ValidatedComposition) {
         yield { index: safeInteger(index), atUs, layers };
         index++;
       }
+    },
+  };
+}
+
+/** Build once per validated immutable revision, then request lazy globally phased schedules. */
+export function createCompiler(model: ValidatedComposition, revisionId: string) {
+  if (typeof revisionId !== "string" || revisionId.length === 0)
+    throw new CompositionError("INVALID_COMPOSITION", "Expected a revision identity");
+  const query = intervalIndex(model.clips);
+  const processing = processingPlanner(model);
+  return {
+    ...compileSchedules(model, query),
+    processing(input: Range) {
+      const range = checkedRange(input);
+      return processing(query(fromTime(range.startUs), fromTime(range.endUs)));
+    },
+    window(input: unknown) {
+      const parsed = executionWindowRequestSchema.safeParse(input);
+      if (!parsed.success) throw new CompositionError("INVALID_COMPOSITION", parsed.error.message);
+      const request = parsed.data;
+      const clips = query(fromTime(request.range.startUs), fromTime(request.range.endUs));
+      const plan = processing(clips, request.tap);
+      const selected = new Set(
+        plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
+      );
+      const inputs = clips.filter((value) => selected.has(value.clip.id));
+      return executionWindow(
+        revisionId,
+        model.document.canvas,
+        request,
+        inputs,
+        plan,
+        compileSchedules(model, intervalIndex(inputs)),
+      );
     },
   };
 }

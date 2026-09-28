@@ -1,14 +1,20 @@
+import { z } from "zod";
+import { CompositionError } from "./errors.js";
+import type { ProcessingTap } from "./execution-window.js";
 import type { ValidatedComposition } from "./model.js";
 import { processingKey } from "./processing.js";
 import { compareRoutingSiblings } from "./routing.js";
-import type { ProcessingTarget } from "./schema.js";
+import { processingTargetSchema, processingStepSchema, type ProcessingTarget } from "./schema.js";
 
-export type ProcessingInstruction = {
-  target: ProcessingTarget;
-  mediaKind: "audio" | "video" | "output";
-  inputs: ProcessingTarget[];
-  steps: ValidatedComposition["document"]["processing"][number]["steps"];
-};
+export const processingInstructionSchema = z
+  .object({
+    target: processingTargetSchema,
+    mediaKind: z.enum(["audio", "video", "output"]),
+    inputs: z.array(processingTargetSchema),
+    steps: z.array(processingStepSchema).readonly(),
+  })
+  .strict();
+export type ProcessingInstruction = z.infer<typeof processingInstructionSchema>;
 type Entry = Omit<ProcessingInstruction, "inputs"> & { parent?: ProcessingTarget; order: number };
 
 /** Compile only requested occurrences and their ancestors, in child-before-parent execution order. */
@@ -45,7 +51,23 @@ export function processingPlanner(model: ValidatedComposition) {
       kind: "track",
       id: value.clip.trackId,
     });
-  return (clips: readonly ValidatedComposition["clips"][number][]): ProcessingInstruction[] => {
+  return (
+    clips: readonly ValidatedComposition["clips"][number][],
+    tap: ProcessingTap = { target: { kind: "output" }, point: { kind: "processed" } },
+  ): ProcessingInstruction[] => {
+    const output = entries.get(processingKey(tap.target));
+    if (!output)
+      throw new CompositionError("INVALID_COMPOSITION", "Unknown processing tap target", {
+        target: tap.target,
+      });
+    const point = tap.point;
+    const last =
+      point.kind === "after-step" ? output.steps.findIndex((step) => step.id === point.stepId) : -1;
+    if (point.kind === "after-step" && last === -1)
+      throw new CompositionError("INVALID_COMPOSITION", "Unknown step on processing tap target", {
+        target: tap.target,
+        stepId: point.stepId,
+      });
     const selected = new Map<string, Entry>();
     const children = new Map<string, Entry[]>();
     for (const clip of clips) {
@@ -64,7 +86,6 @@ export function processingPlanner(model: ValidatedComposition) {
         target = entry.parent;
       }
     }
-    const output = entries.get(processingKey({ kind: "output" }))!;
     for (const siblings of children.values())
       siblings.sort((a, b) => {
         if (a.target.kind === "clip" || b.target.kind === "clip") return a.order - b.order;
@@ -81,7 +102,10 @@ export function processingPlanner(model: ValidatedComposition) {
           target: entry.target,
           mediaKind: entry.mediaKind,
           inputs: inputs.map((child) => child.target),
-          steps: entry.steps,
+          steps:
+            entry === output && point.kind !== "processed"
+              ? entry.steps.slice(0, point.kind === "dry" ? 0 : last + 1)
+              : entry.steps,
         });
       else {
         pending.push({ entry, visited: true });

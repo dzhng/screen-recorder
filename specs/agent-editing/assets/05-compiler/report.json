@@ -7,5 +7,8 @@
     44100,
     48000
   ],
-  "nestedProcessing": true
+  "nestedProcessing": true,
+  "targetTaps": true,
+  "strictManifest": true,
+  "nativeReadiness": "unresolved; NOT_READY"
 }

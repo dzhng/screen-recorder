@@ -73,6 +73,16 @@ ordered steps and combine children before their parent stack. Their list is
 restricted to window contributors and their ancestors, so a late preview does
 not materialize earlier frames or unrelated processing branches.
 
-These are pure schedules, not executable native requests or readiness claims.
-The [compiler slice](../../specs/agent-editing/slices/05-compiler.md) owns remaining
-preparation, tap and dependency contracts before native consumers adopt them.
+The compiler binds a revision identity once. Its window request selects a target's
+dry, after-step or processed result; dry preserves child processing and excludes
+only that target's stack. A window's source schedules are built from selected
+descendants, so inspecting one track does not repeatedly resolve sibling media.
+The strict manifest carries the rendition, source mappings and ordered dependency
+requirements that storage can use to identify work. Unresolved native executors,
+processors and retiming remain explicit requirements; the readiness guard fails
+rather than treating a descriptor as prepared media. Raw source evidence remains
+separate from target taps.
+
+These are pure schedules and dependency manifests, not native readiness claims.
+The [compiler slice](../../specs/agent-editing/slices/05-compiler.md) owns the remaining
+worker binding and media acceptance before native consumers adopt them.

@@ -51,3 +51,10 @@ export type { ProcessingTarget, ProcessingStep } from "./schema.js";
 export { createCompiler } from "./compiler.js";
 export type { CompiledFrame, CompiledAudio } from "./compiler.js";
 export type { ProcessingInstruction } from "./processing-plan.js";
+export {
+  executionWindowRequestSchema,
+  executionWindowManifestSchema,
+  processingTapSchema,
+  requireWindowReady,
+} from "./execution-window.js";
+export type { ExecutionWindowManifest, ProcessingTap } from "./execution-window.js";

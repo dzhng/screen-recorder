@@ -550,3 +550,24 @@ trim and stretch replacements keep their single-interval behavior.
   gain processor cannot generate one. The plan required bounded work but left graph
   pruning unspecified. A future processor that generates sound or has a tail beyond
   its input must revisit this rule before its capability is admitted.
+
+## Compiler execution-window contract — 2026-09-27
+
+- **Sound; medium confidence — Identify work with its complete manifest.** An agent
+  asking for the same window gets the same revision, rendition, tap, source mappings
+  and ordered processing requirements. These serializable values identify its work;
+  storage can hash them when assigning an artifact key. The plan required dependency
+  identity without choosing a hashing owner. Keeping hashing out of composition
+  avoids a second algorithm that must agree with durable preparation and publication.
+- **Sound; high confidence — Dry means before this target's stack.** Inspecting a
+  dry group still hears its processed child tracks, and inspecting after one group
+  step excludes all later group steps and every parent stack. The plan named taps
+  without defining their request shape. Explicit target plus dry/after-step/processed
+  selection preserves this meaning; immutable raw source evidence remains a separate
+  existing read rather than an ambiguous dry option.
+- **Sound; medium confidence — Native requirements stay unresolved.** A retimed
+  narration window records its full selection, placement, pitch policy and required
+  output count but cannot claim readiness without the actual prepared implementation.
+  The compiler can validate this request now; native adoption later supplies media.
+  This fills the plan's worker-binding gap without adding pretend executor identities
+  or allowing inspection to silently substitute dry or unstretched audio.

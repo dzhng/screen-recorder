@@ -1,5 +1,11 @@
 import assert from "node:assert/strict";
-import { applyBatch, createCompiler, validateComposition } from "../../composition/dist/index.js";
+import {
+  applyBatch,
+  createCompiler,
+  validateComposition,
+  requireWindowReady,
+  executionWindowManifestSchema,
+} from "../../composition/dist/index.js";
 
 if (process.argv.slice(2).join(" ") !== "--fixture phase-offset")
   throw new Error("Usage: compiler.mjs --fixture phase-offset");
@@ -44,7 +50,7 @@ const assets = [
   },
 ];
 const model = validateComposition(document, assets);
-const compiler = createCompiler(model);
+const compiler = createCompiler(model, "revision");
 const full = [...compiler.frames({ startUs: 0, endUs: 700000 })];
 let comparisons = 0;
 for (const startUs of [0, 1, 33366, 33367, 100001, 401234]) {
@@ -66,7 +72,7 @@ const split = applyBatch(
   [{ operation: "split", clipIds: ["video", "audio"], atUs: 123457, scope: "selected" }],
   { assets, namespace: "compiler-probe" },
 );
-const after = createCompiler(validateComposition(split.document, assets));
+const after = createCompiler(validateComposition(split.document, assets), "split-revision");
 assert.deepEqual(
   [...after.frames({ startUs: 0, endUs: 700000 })].map((frame) => [
     frame.atUs,
@@ -84,6 +90,39 @@ assert.deepEqual(compiler.processing({ startUs: 1, endUs: 2 }).at(-1).inputs, [
   { kind: "track", id: "video" },
   { kind: "group", id: "voice" },
 ]);
+const request = {
+  range: { startUs: 100001, endUs: 400009 },
+  rendition: { sampleRate: 48000, channels: 2 },
+  tap: { target: { kind: "group", id: "voice" }, point: { kind: "dry" } },
+};
+const dry = compiler.window(request);
+assert.deepEqual(
+  dry.manifest.processing.flatMap((node) => node.steps),
+  [],
+);
+assert.deepEqual([...dry.frames()], []);
+assert.equal(dry.manifest.requirements.find((item) => item.kind === "retime").sampleCount, 33600);
+assert.deepEqual(
+  dry.manifest.sources.map((item) => [item.assetId, item.streamId]),
+  [["source", "audio"]],
+);
+const wet = compiler.window({
+  ...request,
+  tap: { ...request.tap, point: { kind: "after-step", stepId: "level" } },
+});
+assert.deepEqual(
+  wet.manifest.processing.at(-1).steps.map((step) => step.id),
+  ["level"],
+);
+assert.deepEqual([...wet.audio()], [...dry.audio()]);
+assert.throws(
+  () => requireWindowReady(wet.manifest),
+  (error) => error.code === "NOT_READY",
+);
+assert.deepEqual(
+  executionWindowManifestSchema.parse(JSON.parse(JSON.stringify(wet.manifest))),
+  wet.manifest,
+);
 console.log(
   JSON.stringify(
     {
@@ -93,6 +132,9 @@ console.log(
       splitPreserved: true,
       outputSampleRates: [44100, 48000],
       nestedProcessing: true,
+      targetTaps: true,
+      strictManifest: true,
+      nativeReadiness: "unresolved; NOT_READY",
     },
     null,
     2,

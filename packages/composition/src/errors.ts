@@ -5,7 +5,8 @@ export class CompositionError extends Error {
       | "INVALID_TIME"
       | "UNKNOWN_CLIP"
       | "UNKNOWN_SOURCE"
-      | "INVALID_EDIT",
+      | "INVALID_EDIT"
+      | "NOT_READY",
     message: string,
     readonly details: Record<string, unknown> = {},
   ) {
