@@ -1,3 +1,4 @@
+import { remapClipProcessing } from "./processing.js";
 import { clipGraph } from "./clip-graph.js";
 import { CompositionError } from "./errors.js";
 import { placementForRange, validateSourceSelection, type ValidatedComposition } from "./model.js";
@@ -10,7 +11,7 @@ export function replaceClip(
   kind: "audio" | "video",
   media: Pick<MediaClip, "assetId" | "streamId" | "source">,
   fit: "exact" | "trim" | "stretch" | "ripple" | "hold" | "silence",
-  allocate: (kind: "clip" | "syncGroup") => string,
+  allocate: (kind: "clip" | "syncGroup" | "processingStep", copiedFrom?: string) => string,
   pitch?: "preserve" | "follow",
 ) {
   const target = model.clips.find((value) => value.clip.id === clipId)!;
@@ -99,6 +100,7 @@ export function replaceClip(
     return {
       document: {
         ...document,
+        processing: remapClipProcessing(model.document, document.clips, [], allocate),
         syncGroups: document.syncGroups.filter((group) => group.clipIds.length >= 2),
       },
       removedAttachments: [...removed],
@@ -144,13 +146,16 @@ export function replaceClip(
     return { ...group, clipIds: [...group.clipIds, tailId] };
   });
   if (!grouped) syncGroups.push({ id: allocate("syncGroup"), clipIds: [clipId, tailId] });
+  const clips = document.clips.flatMap((clip) => (clip.id === clipId ? [prefix, tail] : [clip]));
+  const lineage = [{ originalId: clipId, clipIds: [clipId, tailId] }];
   return {
     document: {
       ...document,
-      clips: document.clips.flatMap((clip) => (clip.id === clipId ? [prefix, tail] : [clip])),
+      clips,
+      processing: remapClipProcessing(model.document, clips, lineage, allocate),
       syncGroups: syncGroups.filter((group) => group.clipIds.length >= 2),
     },
     removedAttachments: [...removed],
-    lineage: [{ originalId: clipId, clipIds: [clipId, tailId] }],
+    lineage,
   };
 }

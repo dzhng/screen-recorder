@@ -32,7 +32,7 @@ if (process.argv.slice(2).join(" ") !== "--fixture linked-replacement") {
     groups: [],
     clips: [],
     syncGroups: [],
-    effects: [],
+    processing: [],
     captions: [],
   };
   const run = (document, operations, namespace) =>

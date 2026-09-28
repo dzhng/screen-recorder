@@ -13,9 +13,10 @@ Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [research](research.md) and [processing](processing.md). Structural edits [03](slices/03-edits.md)
 are accepted for the pure reducer, including the linked-replacement integration
 probe. [03b routing](slices/03b-processing-targets.md) is accepted for the pure
-model. Continue [03c ordered stacks](slices/03c-processing-stacks.md), preserving the accepted
-[03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Durable projects
-[04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow;
+model, and [03c ordered stacks](slices/03c-processing-stacks.md) is accepted for
+constant-gain authoring/lifecycle. Continue the core transaction owner in
+[04 durable projects](slices/04-projects.md), preserving the accepted
+[03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Compilation [05](slices/05-compiler.md) is the next independent execution seam;
 the first public editing checkpoint remains [09](slices/09-first-preview.md).
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
@@ -59,6 +60,8 @@ Current evidence:
   selected-member link fix.
 - [03b routing](assets/03b-routing/README.md): 73 tests, nested ordering and a
   12,000-group iterative validation probe pass; no native processing claim.
+- [03c stacks](assets/03c-stacks/README.md): 78 tests and get/set/lifecycle probes
+  pass. Constant gain is authored but native execution is not yet available.
 - [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.
@@ -160,7 +163,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [03a — Preserve exact edit boundaries](slices/03a-exact-edit-boundaries.md)
 - [x] [03 — Structural edits and attachments](slices/03-edits.md)
 - [x] [03b — Processing targets and nested routing](slices/03b-processing-targets.md)
-- [ ] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)
+- [x] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)
 - [ ] [04 — Durable projects and shared commands](slices/04-projects.md)
 - [ ] [05 — Compile bounded execution plans](slices/05-compiler.md)
 - [ ] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)

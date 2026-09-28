@@ -1,10 +1,19 @@
 import assert from "node:assert/strict";
-import { applyBatch, validateComposition, projectToSource } from "../../composition/dist/index.js";
+import {
+  applyBatch,
+  validateComposition,
+  projectToSource,
+  getProcessing,
+  processingCapabilities,
+} from "../../composition/dist/index.js";
 
-if (process.argv.slice(2).join(" ") !== "--case routing") {
-  console.error("Usage: node packages/test-harness/editing/processors.mjs --case routing");
+const requested = process.argv.slice(2).join(" ");
+if (!["--case routing", "--case ordered-edits"].includes(requested)) {
+  console.error(
+    "Usage: node packages/test-harness/editing/processors.mjs --case routing|ordered-edits",
+  );
   process.exitCode = 1;
-} else {
+} else if (requested === "--case routing") {
   const empty = {
     canvas: {
       width: 160,
@@ -16,7 +25,7 @@ if (process.argv.slice(2).join(" ") !== "--case routing") {
     groups: [],
     clips: [],
     syncGroups: [],
-    effects: [],
+    processing: [],
     captions: [],
   };
   const context = {
@@ -113,6 +122,114 @@ if (process.argv.slice(2).join(" ") !== "--case routing") {
           "combined sibling order",
           "unchanged clip timing and sync links",
           "cycle rejection and batch immutability",
+        ],
+        nativeProcessingClaimed: false,
+      },
+      null,
+      2,
+    ),
+  );
+} else {
+  const empty = {
+    canvas: {
+      width: 160,
+      height: 96,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+    tracks: [],
+    groups: [],
+    clips: [],
+    syncGroups: [],
+    processing: [],
+    captions: [],
+  };
+  const context = { namespace: "stack-probe", assets: [] };
+  const first = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "narration" },
+      {
+        operation: "place",
+        label: "clip",
+        clip: {
+          trackId: { label: "narration" },
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: { label: "clip" } },
+        steps: [
+          { processor: { type: "gain", gain: 0.5 }, label: "quiet" },
+          { processor: { type: "gain", gain: 2 }, label: "loud" },
+        ],
+      },
+    ],
+    context,
+  );
+  assert.deepEqual(
+    applyBatch(
+      empty,
+      [{ operation: "track.add", track: { kind: "audio", order: 0 }, label: "narration" }],
+      context,
+    ).labels.narration,
+    first.labels.narration,
+  );
+  const target = { kind: "clip", id: first.labels.clip };
+  const steps = [
+    { id: first.labels.loud, enabled: false, processor: { type: "gain", gain: 2 } },
+    { id: first.labels.quiet, enabled: true, processor: { type: "gain", gain: 0.5 } },
+  ];
+  const changed = applyBatch(
+    first.document,
+    [{ operation: "processing.set", target, steps }],
+    context,
+  );
+  assert.deepEqual(getProcessing(validateComposition(changed.document, []), target), steps);
+  const split = applyBatch(
+    changed.document,
+    [{ operation: "split", clipIds: [first.labels.clip], atUs: 400000 }],
+    { ...context, namespace: "split" },
+  );
+  assert.equal(split.document.processing.length, 2);
+  for (const stack of split.document.processing)
+    assert.deepEqual(
+      stack.steps.map(({ enabled, processor }) => ({ enabled, processor })),
+      steps.map(({ enabled, processor }) => ({ enabled, processor })),
+    );
+  assert.equal(
+    new Set(split.document.processing.flatMap((stack) => stack.steps.map((step) => step.id))).size,
+    4,
+  );
+  const snapshot = structuredClone(changed.document);
+  assert.throws(
+    () =>
+      applyBatch(
+        changed.document,
+        [
+          { operation: "canvas.set", canvas: { width: 320 } },
+          { operation: "processing.set", target: { kind: "output" }, steps },
+        ],
+        context,
+      ),
+    /does not belong/,
+  );
+  assert.deepEqual(changed.document, snapshot);
+  console.log(
+    JSON.stringify(
+      {
+        status: "passed",
+        case: "ordered-edits",
+        steps,
+        lineage: split.processingLineage,
+        capabilities: processingCapabilities(),
+        checks: [
+          "ordered set and bypass",
+          "get returns authored settings",
+          "split retains settings with independent IDs",
+          "foreign-ID rollback",
         ],
         nativeProcessingClaimed: false,
       },

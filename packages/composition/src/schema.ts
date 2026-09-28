@@ -87,6 +87,33 @@ export const routingNodeSchema = z
     parentId: id.optional(),
   })
   .strict();
+export const processingTargetSchema = z.union([
+  z.object({ kind: z.enum(["clip", "track", "group"]), id }).strict(),
+  z.object({ kind: z.literal("output") }).strict(),
+]);
+export const processorRegistry = {
+  gain: {
+    schema: z.object({ type: z.literal("gain"), gain: z.number().finite().nonnegative() }).strict(),
+    mediaKind: "audio" as const,
+    execution: false,
+    units: { gain: "linear multiplier" },
+  },
+};
+export const processingStepSchema = z
+  .object({
+    id,
+    enabled: z.boolean(),
+    processor: processorRegistry.gain.schema,
+  })
+  .strict();
+export const processingStackSchema = z
+  .object({
+    target: processingTargetSchema,
+    steps: z.array(processingStepSchema).min(1),
+  })
+  .strict();
+export type ProcessingTarget = z.infer<typeof processingTargetSchema>;
+export type ProcessingStep = z.infer<typeof processingStepSchema>;
 export const compositionSchema = z
   .object({
     canvas: z
@@ -101,7 +128,7 @@ export const compositionSchema = z
     groups: z.array(routingNodeSchema),
     clips: z.array(clipSchema),
     syncGroups: z.array(z.object({ id, clipIds: z.array(id).min(2) }).strict()),
-    effects: z.array(z.never()).max(0),
+    processing: z.array(processingStackSchema),
     captions: z.array(z.never()).max(0),
   })
   .strict();

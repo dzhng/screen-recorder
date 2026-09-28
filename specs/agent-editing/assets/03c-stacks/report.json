@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "case": "ordered-edits",
+  "steps": [
+    {
+      "id": "processingStep:stack-probe:3",
+      "enabled": false,
+      "processor": {
+        "type": "gain",
+        "gain": 2
+      }
+    },
+    {
+      "id": "processingStep:stack-probe:2",
+      "enabled": true,
+      "processor": {
+        "type": "gain",
+        "gain": 0.5
+      }
+    }
+  ],
+  "lineage": [
+    {
+      "originalId": "processingStep:stack-probe:3",
+      "stepId": "processingStep:split:1"
+    },
+    {
+      "originalId": "processingStep:stack-probe:2",
+      "stepId": "processingStep:split:2"
+    }
+  ],
+  "capabilities": [
+    {
+      "type": "gain",
+      "mediaKind": "audio",
+      "execution": false,
+      "units": {
+        "gain": "linear multiplier"
+      },
+      "parameters": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "gain"
+          },
+          "gain": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "type",
+          "gain"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "checks": [
+    "ordered set and bypass",
+    "get returns authored settings",
+    "split retains settings with independent IDs",
+    "foreign-ID rollback"
+  ],
+  "nativeProcessingClaimed": false
+}

@@ -476,3 +476,29 @@ trim and stretch replacements keep their single-interval behavior.
   visual siblings still reject duplicate order rather than guess layering.
 - **Verdict:** sound; a stable content-derived tie-break avoids storage-order drift.
 - **Confidence:** high.
+
+## Processing identity and authoring readiness
+
+- **When:** 03c stack lifecycle.
+- **Choice:** Processor IDs are unique across a project, and copy receipts record
+  each original step → new step relationship. Splitting a clip keeps the old IDs
+  on its retained first piece and allocates different IDs for additional pieces.
+  An agent can therefore change one fragment without changing its neighbor.
+- **Gap:** The plan required stable/fresh IDs and lineage without fixing their
+  uniqueness scope or receipt shape.
+- **Reach:** Inspection and prepared-result dependencies can identify a step
+  unambiguously; copied settings never become a hidden shared configuration.
+- **Verdict:** sound; follows existing transaction identity allocation.
+- **Confidence:** high.
+
+- **When:** 03c registry foundation.
+- **Choice:** Constant gain uses a finite nonnegative linear multiplier, including
+  zero for silence, with no automatic upper clipping limit. The registry reports
+  authoring support separately from executable support. An agent can inspect a
+  valid authored stack without being told that audio processing already works.
+- **Gap:** The plan delegated the registry representation, and required explicit
+  gain rather than hidden normalization; this fixes its initial numeric domain.
+- **Reach:** Native mixing will apply these values and report peaks rather than
+  silently attenuate the mix. Decibel conveniences convert at the shared boundary.
+- **Verdict:** sound; consistent with the existing linear-gain contract.
+- **Confidence:** high.

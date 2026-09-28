@@ -43,3 +43,7 @@ export { applyBatch, editOperationSchema } from "./edits.js";
 export type { EditOperation, EditBatchResult, EditChange } from "./edits.js";
 
 export { CompositionError } from "./errors.js";
+
+export { getProcessing, processingCapabilities } from "./processing.js";
+export { processingTargetSchema, processingStepSchema } from "./schema.js";
+export type { ProcessingTarget, ProcessingStep } from "./schema.js";

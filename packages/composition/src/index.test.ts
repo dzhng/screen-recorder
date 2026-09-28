@@ -48,7 +48,7 @@ function document(clips: Clip[] = []): Composition {
     ],
     clips,
     syncGroups: [],
-    effects: [],
+    processing: [],
     groups: [],
     captions: [],
   };
@@ -303,7 +303,18 @@ describe("semantic validation rejects documents that could silently change meani
     ];
     expect(() => validateComposition(input, [asset()])).toThrow("multiple synchronization");
     expect(() =>
-      validateComposition({ ...document(), effects: [{ kind: "arbitrary" }] }, []),
+      validateComposition(
+        {
+          ...document(),
+          processing: [
+            {
+              target: { kind: "output" },
+              steps: [{ id: "bad", enabled: true, processor: { type: "arbitrary" } }],
+            },
+          ],
+        },
+        [],
+      ),
     ).toThrow(CompositionError);
     expect(() => validateComposition({ ...document(), compatibilitySpans: [] }, [])).toThrow(
       CompositionError,

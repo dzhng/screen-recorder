@@ -1,6 +1,6 @@
 # 03c — Ordered stack authoring and structural lifecycle
 
-Status: not started. Dependencies: [03b](./03b-processing-targets.md), [03a](./03a-exact-edit-boundaries.md).
+Status: accepted for constant-gain authoring/lifecycle. [Evidence](../assets/03c-stacks/README.md): 78 tests, build/type checking and independent review pass; no native/public-service readiness claim. Dependencies: [03b](./03b-processing-targets.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 

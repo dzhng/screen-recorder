@@ -10,7 +10,7 @@ const input = {
   tracks: [],
   clips: [],
   syncGroups: [],
-  effects: [],
+  processing: [],
   groups: [],
   captions: [],
 };

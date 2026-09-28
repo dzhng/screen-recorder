@@ -1,3 +1,4 @@
+import { getProcessing, processingKey } from "./processing.js";
 import { CompositionError } from "./errors.js";
 import { z } from "zod";
 import {
@@ -7,6 +8,8 @@ import {
   compositionSchema,
   rangeSchema,
   routingNodeSchema,
+  processingTargetSchema,
+  processingStepSchema,
 } from "./schema.js";
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
@@ -20,10 +23,19 @@ import { replaceClip } from "./replace.js";
 import { retimeClips } from "./retime.js";
 
 type Document = ValidatedComposition["document"];
-type EntityKind = "clip" | "track" | "group" | "syncGroup";
+type EntityKind = "clip" | "track" | "group" | "syncGroup" | "processingStep";
 const reference = z.union([z.string().min(1), z.object({ label: z.string().min(1) }).strict()]);
 const label = z.string().min(1).optional();
 const routingTarget = z.object({ kind: z.enum(["track", "group"]), id: reference }).strict();
+const processingTarget = z.union([
+  processingTargetSchema.options[0].extend({ id: reference }),
+  processingTargetSchema.options[1],
+]);
+const authoredStep = processingStepSchema.extend({
+  id: reference.optional(),
+  enabled: z.boolean().default(true),
+  label,
+});
 const routedNode = routingNodeSchema.omit({ id: true }).extend({ parentId: reference.optional() });
 const ripple = z.union([
   z.literal("none"),
@@ -51,6 +63,13 @@ const placedClip = z.union([
 export const editOperationSchema = z.discriminatedUnion("operation", [
   z
     .object({
+      operation: z.literal("processing.set"),
+      target: processingTarget,
+      steps: z.array(authoredStep),
+    })
+    .strict(),
+  z
+    .object({
       operation: z.literal("replace"),
       clipId: reference,
       kind: z.enum(["audio", "video"]),
@@ -61,6 +80,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
         .strict()
         .optional(),
       pitch: z.enum(["preserve", "follow"]).optional(),
+      processing: z.enum(["keep", "reset"]).default("keep"),
     })
     .strict()
     .refine(
@@ -175,6 +195,11 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
 ]);
 export type EditOperation = z.infer<typeof editOperationSchema>;
 export type EditChange =
+  | {
+      kind: "processing";
+      target: Document["processing"][number]["target"];
+      steps: Document["processing"][number]["steps"];
+    }
   | { kind: "canvas"; value: Document["canvas"] }
   | { kind: "track"; id: string; value: Document["tracks"][number] | null }
   | { kind: "group"; id: string; value: Document["groups"][number] | null }
@@ -188,6 +213,7 @@ export type EditBatchResult = {
   normalized: { operationIndex: number; changes: EditChange[] }[];
   clipLineage: { originalId: string; clipIds: string[] }[];
   removedAttachments: string[];
+  processingLineage: { originalId: string; stepId: string }[];
   touchedFixedAnchors: { kind: "clip"; id: string }[];
   linkChanges: Extract<EditChange, { kind: "syncGroup" }>[];
 };
@@ -226,6 +252,15 @@ function changes(before: Document, after: Document): EditChange[] {
       ...change,
     })),
   ];
+  const previous = new Map(before.processing.map((stack) => [processingKey(stack.target), stack]));
+  for (const stack of after.processing) {
+    const key = processingKey(stack.target);
+    if (JSON.stringify(previous.get(key)) !== JSON.stringify(stack))
+      result.push({ kind: "processing", ...stack });
+    previous.delete(key);
+  }
+  for (const stack of previous.values())
+    result.push({ kind: "processing", target: stack.target, steps: [] });
   if (JSON.stringify(before.canvas) !== JSON.stringify(after.canvas))
     result.unshift({ kind: "canvas", value: after.canvas });
   return result;
@@ -250,6 +285,9 @@ export function applyBatch(
   const identities = {
     clip: new Set(initial.clips.map((value) => value.id)),
     track: new Set(initial.tracks.map((value) => value.id)),
+    processingStep: new Set(
+      initial.processing.flatMap((stack) => stack.steps.map((step) => step.id)),
+    ),
     group: new Set(initial.groups.map((value) => value.id)),
     syncGroup: new Set(initial.syncGroups.map((value) => value.id)),
   };
@@ -258,6 +296,7 @@ export function applyBatch(
   const normalized: EditBatchResult["normalized"] = [];
   const clipLineage: EditBatchResult["clipLineage"] = [];
   const removedAttachments: string[] = [];
+  const processingLineage: EditBatchResult["processingLineage"] = [];
   const touchedFixedAnchors = new Map<string, { kind: "clip"; id: string }>();
   let ordinal = 0;
   const resolve = (value: z.infer<typeof reference>, kind: EntityKind): string => {
@@ -275,12 +314,14 @@ export function applyBatch(
     if (bindings.has(name)) invalid("Operation label was already bound", { label: name });
     bindings.set(name, { kind, id });
   };
-  const allocate = (kind: EntityKind): string => {
+  const allocate = (kind: EntityKind, copiedFrom?: string): string => {
     const id = `${kind}:${identityContext.namespace}:${ordinal++}`;
     if (identities[kind].has(id))
       invalid("Identity namespace collides with an existing entity", { kind, id });
     identities[kind].add(id);
     createdIds.push({ kind, id });
+    if (kind === "processingStep" && copiedFrom !== undefined)
+      processingLineage.push({ originalId: copiedFrom, stepId: id });
     return id;
   };
   const clips = (refs: z.infer<typeof reference>[], allowMissing = false) => {
@@ -296,9 +337,58 @@ export function applyBatch(
     let next: Document;
     try {
       switch (operation.operation) {
+        case "processing.set": {
+          const target =
+            operation.target.kind === "output"
+              ? operation.target
+              : {
+                  kind: operation.target.kind,
+                  id: resolve(operation.target.id, operation.target.kind),
+                };
+          const existing = new Set(getProcessing(model, target).map((step) => step.id));
+          const used = new Set<string>();
+          const steps = operation.steps.map((step) => {
+            const id =
+              step.id === undefined
+                ? allocate("processingStep")
+                : resolve(step.id, "processingStep");
+            if (step.id !== undefined && !existing.has(id))
+              invalid("Processing step does not belong to this target", { target, stepId: id });
+            if (used.has(id)) invalid("Repeated processing step ID", { stepId: id });
+            used.add(id);
+            bind(step.label, "processingStep", id);
+            return { id, enabled: step.enabled, processor: step.processor };
+          });
+          const key = processingKey(target);
+          const processing = before.processing.filter(
+            (stack) => processingKey(stack.target) !== key,
+          );
+          if (steps.length) processing.push({ target, steps });
+          processing.sort((a, b) =>
+            processingKey(a.target) < processingKey(b.target)
+              ? -1
+              : processingKey(a.target) > processingKey(b.target)
+                ? 1
+                : 0,
+          );
+          next = { ...before, processing };
+          break;
+        }
         case "replace": {
           const result = replaceClip(
-            model,
+            operation.processing === "reset"
+              ? validateComposition(
+                  {
+                    ...before,
+                    processing: before.processing.filter(
+                      (stack) =>
+                        stack.target.kind !== "clip" ||
+                        stack.target.id !== resolve(operation.clipId, "clip"),
+                    ),
+                  },
+                  model.assets,
+                )
+              : model,
             clips([operation.clipId])[0]!,
             operation.kind,
             operation.media,
@@ -552,7 +642,13 @@ export function applyBatch(
               trackId: id,
               clipIds: occupants,
             });
-          next = { ...before, tracks: before.tracks.filter((track) => track.id !== id) };
+          next = {
+            ...before,
+            tracks: before.tracks.filter((track) => track.id !== id),
+            processing: before.processing.filter(
+              (stack) => stack.target.kind !== "track" || stack.target.id !== id,
+            ),
+          };
           break;
         }
         case "group.add": {
@@ -576,7 +672,13 @@ export function applyBatch(
           const id = resolve(operation.groupId, "group");
           if ([...before.groups, ...before.tracks].some((node) => node.parentId === id))
             invalid("Reparent the group's children explicitly first", { groupId: id });
-          next = { ...before, groups: before.groups.filter((group) => group.id !== id) };
+          next = {
+            ...before,
+            groups: before.groups.filter((group) => group.id !== id),
+            processing: before.processing.filter(
+              (stack) => stack.target.kind !== "group" || stack.target.id !== id,
+            ),
+          };
           break;
         }
         case "routing.set": {
@@ -717,6 +819,7 @@ export function applyBatch(
     normalized,
     clipLineage,
     removedAttachments,
+    processingLineage,
     touchedFixedAnchors: [...touchedFixedAnchors.values()],
     linkChanges: normalized.flatMap((step) =>
       step.changes.filter(

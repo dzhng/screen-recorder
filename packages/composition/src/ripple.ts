@@ -189,7 +189,7 @@ export function insertGap(
   atUs: number,
   duration: Rational,
   tracks: readonly string[],
-  allocate: (kind: "clip" | "syncGroup") => string,
+  allocate: (kind: "clip" | "syncGroup" | "processingStep", copiedFrom?: string) => string,
 ) {
   const at = fromTime(atUs);
   const partitioned = splitRippleBoundary(model, at, new Set(tracks), allocate);
@@ -205,7 +205,7 @@ export function splitRippleBoundary(
   model: ValidatedComposition,
   at: Rational,
   tracks: ReadonlySet<string>,
-  allocate: (kind: "clip" | "syncGroup") => string,
+  allocate: (kind: "clip" | "syncGroup" | "processingStep", copiedFrom?: string) => string,
 ) {
   const crossing = model.clips
     .filter(

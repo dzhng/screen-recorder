@@ -1,3 +1,4 @@
+import { remapClipProcessing } from "./processing.js";
 import { clipGraph } from "./clip-graph.js";
 import {
   sourceTime,
@@ -35,7 +36,7 @@ export function partitionClips(
     | { kind: "split"; atUs: TimeValue }
     | { kind: "remove"; ranges?: readonly ExactRange[] }
   ),
-  allocate: (kind: "clip" | "syncGroup") => string,
+  allocate: (kind: "clip" | "syncGroup" | "processingStep", copiedFrom?: string) => string,
 ) {
   const { children, expand } = clipGraph(model);
   const affected = expand(selected, operation.scope === "linked");
@@ -165,13 +166,15 @@ export function partitionClips(
         clipIds,
       }));
   });
+  const clips = model.document.clips.flatMap((clip) =>
+    pieces.get(clip.id)!.map((piece) => piece.clip),
+  );
   return {
     document: {
       ...model.document,
-      clips: model.document.clips.flatMap((clip) =>
-        pieces.get(clip.id)!.map((piece) => piece.clip),
-      ),
+      clips,
       syncGroups,
+      processing: remapClipProcessing(model.document, clips, lineage, allocate),
     },
     lineage,
     removalRanges:

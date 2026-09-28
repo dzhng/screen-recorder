@@ -59,5 +59,7 @@ held media, invalid identities and a range of reversible point mappings.
 Processing groups organize how tracks combine; synchronization groups organize
 which clips edit together. Routing changes leave media timing untouched. The
 [routing owner](src/routing.ts) validates the parent forest and derives the leaf
-order shared by evidence and compilation. Stacks and native processing remain
-separate planned capabilities.
+order shared by evidence and compilation. The [processing owner](src/processing.ts) validates target-owned ordered stacks
+and preserves configuration across structural edits. Get/set and constant audio
+gain authoring are available in this pure package; capability discovery explicitly
+distinguishes that from native execution, which remains unimplemented.

@@ -9,7 +9,7 @@ export function rippleMove(
   transformed: ReturnType<typeof transformSelection>,
   atUs: number,
   tracks: readonly string[],
-  allocate: (kind: "clip" | "syncGroup") => string,
+  allocate: (kind: "clip" | "syncGroup" | "processingStep", copiedFrom?: string) => string,
 ) {
   // Validate even an identity move's explicit track list.
   rippleTimeline(model, { kind: "remove", ranges: [] }, tracks);
@@ -66,6 +66,12 @@ export function rippleMove(
   return {
     document: {
       ...shifted.document,
+      processing: [
+        ...shifted.document.processing,
+        ...transformed.document.processing.filter(
+          (stack) => stack.target.kind === "clip" && transformed.affected.has(stack.target.id),
+        ),
+      ],
       clips: restoreOrder(model.document.clips, [...shifted.document.clips, ...moved]),
       syncGroups: restoreOrder(model.document.syncGroups, [
         ...shifted.document.syncGroups,

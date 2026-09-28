@@ -11,7 +11,7 @@ const empty = {
   groups: [],
   clips: [],
   syncGroups: [],
-  effects: [],
+  processing: [],
   captions: [],
 };
 const context = {

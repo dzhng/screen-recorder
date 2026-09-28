@@ -1,0 +1,43 @@
+$ vitest run --maxWorkers=4 src/processing.test.ts
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+ ❯ src/processing.test.ts (2 tests | 1 failed) 14ms
+   × clip split copies independent steps and replacement padding retains or resets them 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/processing.test.ts > clip split copies independent steps and replacement padding retains or resets them
+AssertionError: expected [ { type: 'gain', gain: 0.25 } ] to deeply equal [ { type: 'gain', gain: 0.25 }, …(1) ]
+
+- Expected
++ Received
+
+  [
+    {
+      "gain": 0.25,
+      "type": "gain",
+    },
+-   {
+-     "gain": 0.25,
+-     "type": "gain",
+-   },
+  ]
+
+ ❯ src/processing.test.ts:40:69
+     38|   ], env);
+     39|   const split = applyBatch(first.document, [{ operation: "split", clip…
+     40|   expect(split.document.processing.map(s => s.steps[0]!.processor)).to…
+       |                                                                     ^
+     41|   expect(new Set(split.document.processing.map(s => s.steps[0]!.id)).s…
+     42|   expect(split.document.processing[0]!.steps[0]!.id).toBe(first.labels…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  17:42:57
+   Duration  224ms (transform 57%, import 32%, tests 10%, worker 2%)
+
+error: script "test" exited with code 1

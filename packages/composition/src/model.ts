@@ -1,3 +1,4 @@
+import { validateProcessing } from "./processing.js";
 import { resolveRouting } from "./routing.js";
 import {
   assetSchema,
@@ -313,6 +314,7 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
     last.set(clip.track.id, clip);
     durationUs = Math.max(durationUs, ceil(clip.range.end));
   }
+  validateProcessing(document);
   return freeze({ document, assets, clips: ordered, durationUs });
 }
 
