@@ -24,5 +24,6 @@ raising its deadline. Earlier timing failures are not represented as a green bro
 suite.
 
 This checkpoint does not cover project screenshot indexes, prepared audio, fonts,
-noncurrent export or a fresh autonomous skill journey. Combined-root integration
-and its affected checks remain required before calling this checkpoint integrated.
+noncurrent export or a fresh autonomous skill journey. [Combined-root integration](root-integration.json) passes the full public journey
+with the gain-enabled native worker and49focused owner/service tests. Full slice22
+closure still requires the remaining resource kinds and workflows.

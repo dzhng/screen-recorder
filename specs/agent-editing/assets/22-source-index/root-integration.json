@@ -1,0 +1,43 @@
+{
+  "commit": "dbe88a4c",
+  "passed": true,
+  "checks": {
+    "current": {
+      "video": "36e7aad74b4d0ff3d42c003ab8995e5939f06cee5feef629a8b6290ed2433f99",
+      "audio": "cd4a09c43069e8b15d3ff2abc0dc95e5462d8dd68201970ddf3bc8d302ab920b"
+    },
+    "history": {
+      "video": "fffe97c167c7baafb6daf29ab9edaf43d3ba7a3ccaf7c87e5673c835901fcb2e",
+      "audio": "edd6a926a57241b6be35a5bbaeb6e23e28846c650834472ab50f4c0aa51605cb"
+    },
+    "donorRemoved": true,
+    "packageRemoved": true,
+    "sourceBytesUnchanged": true,
+    "acquisitionIdentityAndBindingsRetained": true,
+    "exactNormalizedEvidenceRetained": true,
+    "retainedSceneEventsReadyWithoutPreparation": true,
+    "realTranscriptReadyWithModelsAbsent": true,
+    "sourceIndexPixelsRowsCoverageRetained": true,
+    "existingProducedEvidenceAdoption": true,
+    "revisionOnlyReferenceRestored": true,
+    "transcriptRawBytesAndWordsRetained": true,
+    "adoptedLibraryRestartedBeforeInspection": true,
+    "exactJournalRetained": true,
+    "historicalOnlyMediaRetained": true,
+    "generatedReferenceFixtureRetained": true,
+    "editableUndo": true,
+    "adoptionReplay": true,
+    "canceledAdoptionInvisible": true,
+    "corruptAndMissingMembersRejected": true,
+    "aggregateHistoryLimitBeforePublication": true,
+    "closedAdmissionStatusRetained": true
+  },
+  "remaining": [
+    "project screenshot-index generations",
+    "prepared 15a outputs and fonts",
+    "fresh autonomous skill journey"
+  ],
+  "focusedTests": 49,
+  "build": "six targeted packages passed",
+  "native": "/tmp/screenrec-gain-root-native"
+}

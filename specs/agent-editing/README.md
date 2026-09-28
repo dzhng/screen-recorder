@@ -19,6 +19,10 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
+Parallel agents stopped with usage-limit errors. Their work remains recoverable;
+see the [interrupted implementation pickup](assets/implementation-pickup.md).
+Do not assume those agents or old processes are still running.
+
 1. Implement [agent-controlled output settings](slices/09b-output-settings.md), then
    select and verify the required H.264 quality/size policy for [06](slices/06-render-reproduction.md),
    [15](slices/15-layer-geometry.md) and [16](slices/16-keyframes.md). Source and
@@ -27,7 +31,7 @@ Current pickup and priority:
    separates encoding loss from image-generator artifacts. ProRes is a diagnostic
    control, not an added release requirement. Preserve all existing measured failures
    and use the [remaining media audit](assets/15-acceptance-audit/README.md).
-2. Continue transition/convenience delivery and portable screenshot-index closure
+2. Continue transition/convenience delivery and portable project screenshot-index closure
    in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json).
    The shared [scalar prerequisite](slices/16b-scalar-program.md) and
    retained source transcripts pass combined-build confirmation. The [font/layout reproduction](slices/17a-text-layout.md) is verified within its
@@ -63,8 +67,8 @@ Compact evidence ledger:
   and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
   their respective checkpoints, retaining workflow failures and handoff-ID errors.
   Relocation now preserves acquisition identities, raw/normalized evidence and retained
-  source-scene and real source-transcript generations through restart; screenshot
-  indexes and other dependencies remain open.
+  source-scene, real source-transcript and [source screenshot-index generations](assets/22-source-index/README.md)
+  through restart. Project indexes and other dependencies remain open.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.
