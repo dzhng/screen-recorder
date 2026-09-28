@@ -1,0 +1,1 @@
+ScreenRecorderSourceAudioTests/main.swift:105: Precondition failed: Channel/source-frame mapping changed

@@ -1,0 +1,14 @@
+[
+  {
+    "rate": 44100,
+    "bytes": 215736,
+    "sha256": "8fea0761af9965aa7a6df6c41d97f1182b11e56c08e0065ae68149444b8c819d",
+    "equal": true
+  },
+  {
+    "rate": 48000,
+    "bytes": 234456,
+    "sha256": "2671f204055e03165ff13953bd999fc2750f7508593d89dab2ce1bf1b271fd70",
+    "equal": true
+  }
+]

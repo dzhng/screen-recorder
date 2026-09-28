@@ -1,0 +1,6 @@
+Command: codex review --uncommitted
+Exit: 0
+
+codex
+No actionable regressions were identified in the changed and untracked files. Verification remains limited: the native test failed to start an audio reader, and build attempts encountered environment restrictions.
+No actionable regressions were identified in the changed and untracked files. Verification remains limited: the native test failed to start an audio reader, and build attempts encountered environment restrictions.

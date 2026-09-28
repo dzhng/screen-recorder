@@ -14,14 +14,14 @@ struct SourceTrack {
     let channels: Int
     let available: [TimeSpan]
 
-    static func open(selection: AudioSourceSelection) async throws -> SourceTrack {
+    static func open(selection: AudioSourceSelection, strictWindowFormat: Bool = false) async throws -> SourceTrack {
         try await open(source: selection.source, streamId: selection.streamId,
-            sourceOffsetUs: selection.sourceOffsetUs, available: selection.available)
+            sourceOffsetUs: selection.sourceOffsetUs, available: selection.available, strictWindowFormat: strictWindowFormat)
     }
 
     static func open(
         source path: String, streamId: String?, sourceOffsetUs: Int64,
-        available: [TimeSpan]
+        available: [TimeSpan], strictWindowFormat: Bool = false
     ) async throws -> SourceTrack {
         let source = URL(fileURLWithPath: path)
         guard FileManager.default.fileExists(atPath: source.path) else {
@@ -45,7 +45,9 @@ struct SourceTrack {
                 throw NativeFailure.decodeFailed(
                     "Source has no matching audio track: \(source.path).")
             }
-            guard let description = try await track.load(.formatDescriptions).first,
+            let descriptions = try await track.load(.formatDescriptions)
+            if strictWindowFormat { try Self.validateWindowFormats(descriptions) }
+            guard let description = descriptions.first,
                 let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
             else {
                 throw NativeFailure.decodeFailed(
@@ -86,6 +88,35 @@ struct SourceTrack {
             // Physical occupancy is not acquisition evidence. Recording callers supply acquired
             // intervals here; composition execution additionally intersects its retained domains.
             available: TimeSpan.intersection(available, occupied))
+    }
+
+    private static func validateWindowFormats(_ descriptions: [CMAudioFormatDescription]) throws {
+        var signature: [Double]?
+        for description in descriptions {
+            guard let value = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee,
+                value.mSampleRate.isFinite, value.mSampleRate.rounded() == value.mSampleRate,
+                (1...Double(AudioLimits.maximumSampleRate)).contains(value.mSampleRate),
+                value.mChannelsPerFrame == 1 || value.mChannelsPerFrame == 2
+            else { throw NativeFailure("UNSUPPORTED_FORMAT", "Source windows require an integral native rate and mono or stereo audio.") }
+            let current = [value.mSampleRate, Double(value.mChannelsPerFrame)]
+            guard signature == nil || signature == current else {
+                throw NativeFailure("UNSUPPORTED_FORMAT", "Source format changes within the stream.")
+            }
+            signature = current
+            guard let layout = CMAudioFormatDescriptionGetChannelLayout(description, sizeOut: nil) else { continue }
+            let tag = layout.pointee.mChannelLayoutTag
+            let channels = value.mChannelsPerFrame
+            var conventional = tag == (channels == 1 ? kAudioChannelLayoutTag_Mono : kAudioChannelLayoutTag_Stereo)
+            if tag == kAudioChannelLayoutTag_UseChannelBitmap {
+                conventional = layout.pointee.mChannelBitmap == (channels == 1 ? AudioChannelBitmap.bit_Center : AudioChannelBitmap.bit_Left.union(.bit_Right))
+            } else if tag == kAudioChannelLayoutTag_UseChannelDescriptions, layout.pointee.mNumberChannelDescriptions == channels {
+                let pointer = UnsafeRawPointer(layout).advanced(by: MemoryLayout<AudioChannelLayout>.offset(of: \.mChannelDescriptions)!).assumingMemoryBound(to: AudioChannelDescription.self)
+                conventional = channels == 1
+                    ? [kAudioChannelLabel_Mono, kAudioChannelLabel_Center].contains(pointer[0].mChannelLabel)
+                    : pointer[0].mChannelLabel == kAudioChannelLabel_Left && pointer[1].mChannelLabel == kAudioChannelLabel_Right
+            }
+            guard conventional else { throw NativeFailure("UNSUPPORTED_FORMAT", "Source channel layout is not conventional mono or stereo.") }
+        }
     }
 
 }
@@ -228,6 +259,7 @@ final class AudioSourceReader {
     private let format: AVAudioFormat
     private var position = CMTime.zero
     private var end = CMTime.zero
+    private(set) var decodedFrames: Int64 = 0
     var failed: Bool { reader?.status == .failed }
     var reachedSelectionEnd: Bool { position >= end }
 
@@ -281,7 +313,10 @@ final class AudioSourceReader {
         guard position < end else { return nil }
         while true {
             try Task.checkCancellation()
-            if pending == nil { pending = output?.copyNextSampleBuffer() }
+            if pending == nil {
+                pending = output?.copyNextSampleBuffer()
+                if let pending { decodedFrames += Int64(CMSampleBufferGetNumSamples(pending)) }
+            }
             guard let sample = pending else {
                 if let detail = source.input.failure { throw detail }
                 if failed { throw NativeFailure.decodeFailed("Audio reader failed.") }

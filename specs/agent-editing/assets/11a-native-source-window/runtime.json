@@ -1,0 +1,10 @@
+{
+  "baseline": {
+    "path": "/tmp/screenrec-acquisition-journey-native-a477c4e",
+    "sha256": "611ee1097c95fa2eae4ef7c6a0cb11facc39d236c642b953e9ccf072f8f05137"
+  },
+  "candidate": {
+    "path": "/tmp/screenrec-source-window-native-final",
+    "sha256": "063e8f04e690140dcd85fb92be5b067363a042d288550c058f99a3db1562b677"
+  }
+}

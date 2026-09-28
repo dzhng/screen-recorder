@@ -1,0 +1,23 @@
+{
+  "data": {
+    "bytes": 23044096,
+    "channels": 2,
+    "decodedFrames": 2880000,
+    "file": "/tmp/source-window-proof-7/memory-long-final.wav",
+    "frames": 2880000,
+    "layout": "stereo",
+    "mediaType": "audio/wav",
+    "range": {
+      "endUs": 60000000,
+      "startUs": 0
+    },
+    "sampleRange": {
+      "end": 2880000,
+      "start": 0
+    },
+    "sampleRate": 48000,
+    "unavailable": []
+  },
+  "id": "memory",
+  "ok": true
+}

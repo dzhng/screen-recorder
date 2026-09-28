@@ -435,7 +435,7 @@ public enum CompositionAudio {
     public static func write(_ plan: CompositionAudioPlan) async throws -> CompositionAudioResult {
         let stream = try await open(plan)
         let writer = try AudioWaveWriter(
-            sampleRate: rate, channels: 2,
+            sampleRate: rate, frames: plan.range.end - plan.range.start, channels: 2,
             output: URL(fileURLWithPath: plan.output),
             sources: plan.assets.map { URL(fileURLWithPath: $0.path) })
         defer { writer.discard() }

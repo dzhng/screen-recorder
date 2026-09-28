@@ -21,10 +21,11 @@ public enum AudioExcerpts {
 public enum AudioWave {
     public static func write(_ stream: AudioPCMStream, to output: URL) async throws -> Int {
         let writer = try AudioWaveWriter(
-            sampleRate: stream.format.sampleRate,
+            sampleRate: stream.format.sampleRate, frames: stream.frames,
             channels: stream.format.channels, output: output, sources: stream.sourceURLs)
         defer { writer.discard() }
         try await stream.consume { try writer.write($0) }
+        try Task.checkCancellation()
         return try writer.finish()
     }
 }
@@ -36,7 +37,12 @@ final class AudioWaveWriter {
     private let destination: OutputFile
     private var file: AVAudioFile?
 
-    init(sampleRate: Int, channels: Int, output: URL, sources: [URL]) throws {
+    init(sampleRate: Int, frames: Int64, channels: Int, output: URL, sources: [URL]) throws {
+        // RIFF uses 32-bit sizes. Reserve bounded room for the platform's format/fact headers;
+        // refusing before output creation is preferable to publishing a wrapped/truncated file.
+        guard frames >= 0, Int128(frames) * Int128(channels) * 4 <= Int128(UInt32.max) - 4096 else {
+            throw NativeFailure("LIMIT_EXCEEDED", "Float WAV exceeds the supported RIFF capacity (4 GiB minus 4096 header bytes).")
+        }
         guard
             let format = AVAudioFormat(
                 commonFormat: .pcmFormatFloat32,

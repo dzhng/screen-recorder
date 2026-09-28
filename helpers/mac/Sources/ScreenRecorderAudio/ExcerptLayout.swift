@@ -15,14 +15,26 @@ struct ExcerptLayout {
     let playedUs: [Int64]
     /// `spans.count + 1` frame boundaries, each quantised from the matching `playedUs`.
     let starts: [Int64]
+    let sourceOriginFrame: Int64?
 
     init(spans: [TimeSpan], sampleRate: Int) {
+        sourceOriginFrame = nil
         self.spans = spans
         self.sampleRate = sampleRate
         var played: [Int64] = [0]
         for span in spans { played.append(played.last! + (span.endUs - span.startUs)) }
         playedUs = played
         starts = played.map { Self.frames(ofUs: $0, at: sampleRate) }
+    }
+
+    init(window: TimeSpan, sampleRate: Int) throws {
+        spans = [window]
+        self.sampleRate = sampleRate
+        let start = try ExactTime(Int128(window.startUs)).sample(sampleRate)
+        let end = try ExactTime(Int128(window.endUs)).sample(sampleRate)
+        sourceOriginFrame = start
+        playedUs = [0, window.endUs - window.startUs]
+        starts = [0, end - start]
     }
 
     var totalFrames: Int64 { starts.last! }
@@ -36,8 +48,12 @@ struct ExcerptLayout {
     /// The output frame holding recording source time `us`, which must lie inside span `index`.
     /// Quantised from the same cumulative playback timeline as the span boundaries, so material
     /// inside a span cannot land a frame away from where that span was placed.
-    func frame(ofUs us: Int64, inSpan index: Int) -> Int64 {
-        Self.frames(ofUs: playedUs[index] + (us - spans[index].startUs), at: sampleRate)
+    func frame(ofUs us: Int64, inSpan index: Int) throws -> Int64 {
+        if let sourceOriginFrame {
+            // Selected windows use the same absolute floor clock as composition output.
+            return try ExactTime(Int128(us)).sample(sampleRate) - sourceOriginFrame
+        }
+        return Self.frames(ofUs: playedUs[index] + (us - spans[index].startUs), at: sampleRate)
     }
 
     /// Ramp length at a join. Half of a short span, so a fade-out and a fade-in inside the same

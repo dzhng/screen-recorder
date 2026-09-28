@@ -30,6 +30,7 @@ public protocol AudioPCMSource {
 public final class AudioPCMStream: AudioPCMSource {
     public static let maximumBlockFrames = 8_192
     public let format: AudioPCMFormat
+    public private(set) var decodedFrames: Int64 = 0
     public let frames: Int64
     public let durationUs: Int64
     public let reports: [AudioSourceReport]
@@ -45,6 +46,7 @@ public final class AudioPCMStream: AudioPCMSource {
         let source: TimeSpan
         let start: Int64
         let end: Int64
+        let decodeRange: (start: CMTime, end: CMTime)?
     }
 
     /// `sampleRate` defaults to the highest rate among the tracks, so nothing is resampled down
@@ -79,13 +81,21 @@ public final class AudioPCMStream: AudioPCMSource {
             spans: spans, sampleRate: sampleRate)
     }
 
+    /// One source-clock window retains the full support-run origin for repeatable sample selection.
+    public static func open(source: AudioSourceSelection, range: TimeSpan) async throws -> AudioPCMStream {
+        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        try ExcerptValidation.check(spans: [range], maximumDurationUs: TimeSpan.maximumMicroseconds, maximumSpans: 1)
+        let track = try await SourceTrack.open(selection: source, strictWindowFormat: true)
+        return try AudioPCMStream(sources: [track], spans: [range], sampleRate: nil, sourceWindow: true)
+    }
+
     /// Physical occupancy intersected with the caller's selected acquisition support.
     public static func readableIntervals(of source: AudioSourceSelection) async throws -> [TimeSpan] {
         try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
         return try await SourceTrack.open(selection: source).available
     }
 
-    private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?) throws {
+    private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?, sourceWindow: Bool = false) throws {
         let sampleRate = sampleRate ?? sources.map(\.sampleRate).max()!
         let channels = sources.map(\.channels).max()!
         guard channels <= 2 else {
@@ -99,7 +109,7 @@ public final class AudioPCMStream: AudioPCMSource {
                 "UNSUPPORTED_FORMAT",
                 "Cannot map acquired audio channels without inventing a layout.")
         }
-        let layout = ExcerptLayout(spans: spans, sampleRate: sampleRate)
+        let layout = try sourceWindow ? ExcerptLayout(window: spans[0], sampleRate: sampleRate) : ExcerptLayout(spans: spans, sampleRate: sampleRate)
         let gain: Float = sources.count == 1 ? 1 : 0.5
         var intervals: [[Interval]] = []
         var reports: [AudioSourceReport] = []
@@ -112,23 +122,32 @@ public final class AudioPCMStream: AudioPCMSource {
                     track.available[availableIndex].endUs <= span.startUs
                 { availableIndex += 1 }
                 var cursor = availableIndex
-                var readable: [TimeSpan] = []
+                var readable: [(interval: TimeSpan, run: TimeSpan)] = []
                 while cursor < track.available.count,
                     track.available[cursor].startUs < span.endUs
                 {
                     if let interval = span.intersection(track.available[cursor]) {
-                        readable.append(interval)
+                        readable.append((interval, track.available[cursor]))
                     }
                     cursor += 1
                 }
-                for interval in readable {
-                    let start = layout.frame(ofUs: interval.startUs, inSpan: index)
-                    let end = layout.frame(ofUs: interval.endUs, inSpan: index)
+                for piece in readable {
+                    let interval = piece.interval
+                    let start = try layout.frame(ofUs: interval.startUs, inSpan: index)
+                    let end = try layout.frame(ofUs: interval.endUs, inSpan: index)
                     if end > start {
-                        readableIntervals.append(Interval(source: interval, start: start, end: end))
+                        let decodeRange: (start: CMTime, end: CMTime)?
+                        if sourceWindow {
+                            let run = piece.run
+                            let origin = try ExactTime(Int128(run.startUs - track.sourceOffsetUs)).sample(sampleRate, nearest: true)
+                            let skip = try ExactTime(Int128(interval.startUs)).sample(sampleRate) - ExactTime(Int128(run.startUs)).sample(sampleRate)
+                            let limit = try ExactTime(Int128(run.endUs - track.sourceOffsetUs)).sample(sampleRate, ceil: true)
+                            decodeRange = (CMTime(value: origin + skip, timescale: CMTimeScale(sampleRate)), CMTime(value: limit, timescale: CMTimeScale(sampleRate)))
+                        } else { decodeRange = nil }
+                        readableIntervals.append(Interval(source: interval, start: start, end: end, decodeRange: decodeRange))
                     }
                 }
-                unavailable.append(contentsOf: span.subtracting(readable))
+                unavailable.append(contentsOf: span.subtracting(readable.map(\.interval)))
             }
             intervals.append(readableIntervals)
             reports.append(
@@ -157,7 +176,10 @@ public final class AudioPCMStream: AudioPCMSource {
         let decoders = sources.map { AudioSourceReader(source: $0) }
         var indices = [Int](repeating: 0, count: sources.count)
         var conversions = [ConvertedAudioInterval?](repeating: nil, count: sources.count)
-        defer { conversions.removeAll() }
+        defer {
+            decodedFrames = decoders.reduce(0) { $0 + $1.decodedFrames }
+            conversions.removeAll()
+        }
         for span in layout.spans.indices {
             var position = layout.starts[span]
             let spanEnd = layout.starts[span + 1]
@@ -176,9 +198,14 @@ public final class AudioPCMStream: AudioPCMSource {
                         }
                         if interval.start >= end { break }
                         if conversions[track] == nil {
-                            conversions[track] = try ConvertedAudioInterval(
-                                source: sources[track], decoder: decoders[track], interval: interval.source,
-                                outputRate: format.sampleRate, owed: interval.end - interval.start)
+                            if let range = interval.decodeRange {
+                                conversions[track] = try ConvertedAudioInterval(source: sources[track], decoder: decoders[track], start: range.start,
+                                    outputRate: format.sampleRate, owed: interval.end - interval.start, end: range.end)
+                            } else {
+                                conversions[track] = try ConvertedAudioInterval(
+                                    source: sources[track], decoder: decoders[track], interval: interval.source,
+                                    outputRate: format.sampleRate, owed: interval.end - interval.start)
+                            }
                         }
                         let begin = max(position, interval.start)
                         let finish = min(end, interval.end)

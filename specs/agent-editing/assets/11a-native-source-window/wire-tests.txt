@@ -1,0 +1,21 @@
+✔ audio worker writes a concatenated excerpt and survives invalid requests (1591.336583ms)
+✔ a thousand fractional spans keep the duration the plan asked for (935.814208ms)
+✔ audio worker writes WAVE bytes to an opaque derivative path (348.833541ms)
+✔ audio decode failure permits explicit retry while invalid plans remain terminal (34.966375ms)
+✔ AAC source priming is removed before offset placement in streamed PCM (954.060417ms)
+✔ midstream source failure leaves no completed WAVE or staging output (317.477916ms)
+✔ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (9920.747833ms)
+✔ malformed, relative and unsafe requests are refused before models are read (1196.960625ms)
+✔ absent model files are unavailable and changed ones invalid, before any load (294.619833ms)
+✔ verified models still refuse an occupied output and report unreadable narration (93.417833ms)
+✔ only readable narration becomes segments, and a fragment too short is skipped unread by the engine (438.937083ms)
+✔ a verified model that cannot load fails retryably and is left exactly as it was (431.261916ms)
+✔ selected audio streams stay distinct and an omitted ambiguous selection is refused (521.576916ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10030.338208
