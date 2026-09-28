@@ -86,6 +86,17 @@ export function intersectAll(a: readonly ExactRange[], b: readonly ExactRange[])
   }
   return result;
 }
+/** Integer source-clock support shared by composition and direct source inspection. */
+export function sourceAvailability(
+  physical: readonly Range[],
+  acquisition?: readonly Range[],
+): Range[] {
+  if (acquisition === undefined) return physical.map((range) => ({ ...range }));
+  return intersectAll(physical.map(exact), acquisition.map(exact)).map((range) => ({
+    startUs: floor(range.start),
+    endUs: floor(range.end),
+  }));
+}
 function unique<T extends { id: string }>(values: readonly T[], kind: string): Map<string, T> {
   const entries = new Map<string, T>();
   for (const value of values) {
@@ -319,12 +330,9 @@ export function validateComposition(
     };
     let available: ExactRange[] = [anchor.range];
     if (stream && clip.source.kind !== "silence" && (stream.kind !== "image" || acquisition)) {
-      const physical = stream.kind === "image" ? undefined : stream.available.map(exact);
-      const support = acquisition
-        ? physical
-          ? intersectAll(physical, acquisition.map(exact))
-          : acquisition.map(exact)
-        : physical!;
+      const support = (
+        stream.kind === "image" ? acquisition! : sourceAvailability(stream.available, acquisition)
+      ).map(exact);
       if (clip.source.kind === "hold") {
         const at = integer(clip.source.atUs);
         available = support.some((range) => contains(range, at)) ? [anchor.range] : [];

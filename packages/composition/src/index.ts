@@ -30,6 +30,7 @@ export type { Rational } from "./rational.js";
 
 export {
   validateComposition,
+  sourceAvailability,
   resolvePlacement,
   projectToSource,
   sourceToProject,

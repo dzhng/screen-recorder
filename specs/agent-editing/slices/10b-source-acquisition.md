@@ -140,3 +140,10 @@ public differing-mask/transcript fixture. Do not close this slice on adoption al
 The importer currently caps acquired intervals at 100,000 per bound stream; raw
 journal/evidence retains the existing native 256 MiB cap. Slice 24 must validate
 these limits and preparation/storage costs before release.
+
+[Transcript ownership](../assets/10b-transcript-ownership/README.md) is integrated
+with explicit recording/asset owners and neutral source descriptors; Catalog7
+refuses earlier shapes. The [selected-source prerequisite](../assets/10b-source-selection/README.md)
+shares capture/physical support with composition. Next implement asset processing
+and bounded source transcript reads through CLI/MCP; these storage tests are not
+that public acceptance.

@@ -1,3 +1,4 @@
+import { selectSource } from "./source-selection.js";
 import { ProjectStore } from "./projects.js";
 import { compositionAsset } from "./assets.js";
 import { createSourceRangeProjection, validateComposition } from "@screenrec/composition";
@@ -377,4 +378,53 @@ test("unacquired audio remains empty and ambiguous capture streams refuse public
   await expect(
     f.importer.executeImport(ambiguous.acquisitionId, "changed", f.native, signal()),
   ).rejects.toMatchObject({ code: "SOURCE_CHANGED" });
+});
+
+test("source inspection uses the same physical/context support and asset clock as composition", async () => {
+  const f = await fixture();
+  const admitted = await f.admit();
+  const acquisition = await f.importer.executeImport(
+    admitted.acquisitionId,
+    "selected",
+    f.native,
+    signal(),
+  );
+  const binding = acquisition.bindings.find((value) => value.sourceRoles.includes("narration"))!;
+  const selector = { assetId: binding.assetId, streamId: binding.streamId };
+  const physical = selectSource(f.assets, f.acquisitions, selector);
+  const captured = selectSource(f.assets, f.acquisitions, {
+    ...selector,
+    acquisitionId: acquisition.id,
+  });
+  expect(physical.track).toEqual({
+    source: f.assets.path(binding.assetId),
+    streamId: binding.streamId,
+    sourceOffsetUs: -100,
+    available: [{ startUs: 0, endUs: 100 }],
+  });
+  expect(captured.track).toEqual({
+    ...physical.track,
+    available: [
+      { startUs: 0, endUs: 40 },
+      { startUs: 60, endUs: 100 },
+    ],
+  });
+  expect(captured.durationUs).toBe(100);
+  expect(captured.supportDigest).not.toBe(physical.supportDigest);
+  expect(selectSource(f.assets, f.acquisitions, selector)).toEqual(physical);
+  const unrelated = await f.assets.import(
+    join(f.donor, "capture.journal.jsonl"),
+    { kind: "import" },
+    f.native.probe,
+  );
+  expect(() =>
+    selectSource(f.assets, f.acquisitions, {
+      ...selector,
+      assetId: unrelated.id,
+      acquisitionId: acquisition.id,
+    }),
+  ).toThrow(expect.objectContaining({ code: "INVALID_PARAMS" }));
+  expect(() =>
+    selectSource(f.assets, f.acquisitions, { ...selector, streamId: "missing" }),
+  ).toThrow(expect.objectContaining({ code: "UNSUPPORTED_MEDIA" }));
 });

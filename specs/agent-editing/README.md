@@ -35,7 +35,8 @@ Continue [10b source acquisition](slices/10b-source-acquisition.md): pure acquis
 bindings are integrated (114 composition tests and downstream type checks pass).
 Native selected-stream transcription and masked-picture execution are integrated
 with retained native evidence; the combined worker builds. Capture adoption and durable project bindings now pass the [actual CLI/MCP journey](assets/10b-source-acquisition/README.md).
-Finish asset transcript ownership/planning and public source reads;
+Transcript ownership and shared source selection are integrated; finish asset
+transcript planning and public source reads;
 [integration evidence](assets/10b-acquisition-integration/README.md) separates
 functional acceptance from retained broad-suite deadlines. [The inspection plan](assets/10-inspection-plan/README.md)
 records the three-draft synthesis. Follow with bounded occurrence queries (10c),

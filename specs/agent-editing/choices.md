@@ -889,3 +889,21 @@ trim and stretch replacements keep their single-interval behavior.
   files a resumed import just created. The plan required recovery but did not fix
   this initialization order; the actual crash journey checks all three kinds of
   abandoned state before permitting retry.
+
+## Source transcript storage — 2026-09-27
+
+- **Sound; high confidence — Recording packages retain their actual domain metadata.**
+  The shared transcript store now indexes either a recording or an imported asset,
+  with explicit source descriptors. Existing recording package readers receive a
+  checked recording view with their real narration provenance; an asset transcript
+  cannot pass that conversion. The plan required preserving packages but left this
+  boundary representation open. It keeps one raw ingester and bounded index without
+  pretending an arbitrary imported stream belongs to a recording. Managed project
+  packages will adopt their own explicit source dependencies in slice 22.
+- **Sound; high confidence — Source support hashes supplement source identities.**
+  Two contexts may retain the same samples but have different capture provenance.
+  Source preparation therefore keeps the selected asset, stream and acquisition
+  identity alongside a digest of the effective support. It never replaces those
+  identifiers with the digest alone. This determines the compact preparation-input
+  shape without storing large interval arrays in job keys; raw evidence remains
+  separately pinned and immutable.
