@@ -813,3 +813,25 @@ trim and stretch replacements keep their single-interval behavior.
   shape; this keeps absent audio from appearing as spoken words. Public inspection
   must still report unavailable/acquisition ranges through its separate source
   evidence, rather than treating missing words as proof of silence.
+
+
+## Acquisition-bound composition — 2026-09-27
+
+- **Sound; medium confidence — Changing capture context replaces source identity.**
+  If a clip switches from a context that excludes a capture gap to one that includes
+  it, content attached to the old source selection follows the existing replacement
+  removal rules. Keeping those attachments silently could make annotations refer to
+  different retained material. The plan specified replacement binding but left this
+  attachment consequence open; processing keep/reset remains independent.
+- **Sound; high confidence — A capture context may describe unused sibling streams.**
+  A capture containing screen video and microphone audio keeps both bindings even
+  when a project uses only the microphone. Validation requires the selected binding
+  to match loaded media, without requiring unused sibling assets in every project
+  model. This resolves the scope of context validation and preserves provenance
+  without expanding every revision's media dependencies.
+- **Sound; high confidence — Captured support constrains rather than guarantees bytes.**
+  If a journal says audio was acquired beyond a file's physical endpoint, the model
+  uses only the intersection. It does not reject the complete context or invent
+  missing samples. The plan required physical/support intersection but did not fix
+  treatment of a broader journal interval; keeping it preserves raw evidence while
+  ensuring playback and inspection use only available media.

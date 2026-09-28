@@ -1,6 +1,6 @@
 # 10b — Source acquisition and selected-stream transcripts
 
-Status: not started. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
+Status: in progress. Pure acquisition bindings integrated and verified; durable admission, native execution and public acceptance remain open. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [05](./05-compiler.md), [09](./09-first-preview.md), [10a](./10a-source-range-projection.md).
 
 ## Contract
 
@@ -108,3 +108,13 @@ Delegated: internal file layout, shared reference-table representation and bound
 admission mechanics within the existing owners. Record new limits and keep their
 release resolution in 24. Identity, omission/replacement semantics and one-owner
 requirements above are fixed. Update Status and the README pickup with evidence.
+
+## Integrated evidence
+
+[Composition binding](../assets/10b-source-acquisition/composition.md) passes all
+114 composition tests in the main worktree, plus composition/core builds and
+composition/core/service type checks. Explicit contexts constrain projection and
+compiled support; omission and replacement follow the contract above. This is
+engine evidence only. Native video must accept compiled acquisition exclusions
+over physically occupied pictures, and durable context resolution must feed all
+project consumers before public journey acceptance.
