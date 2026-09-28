@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project pictures pass; selected-source/index integration remains open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project and selected-source pictures pass; retained-index integration remains open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -86,6 +86,7 @@ not close the public delivery, selected-source or retained-index gates above.
 [Selected timed-video source frames](../assets/10d-source-frames/README.md) use the
 shared frame inspection lifetime and explicit-track physical presentation reader.
 Source clocks, sample support, acquisition exclusion and source-only references are
-verified; public routing/delivery remains integration work. Raw still-image source
+verified; [public routing](../assets/10d-source-routing/README.md) and actual
+source delivery also pass. Raw still-image source
 requests remain explicitly unsupported under 10d/06, without inventing timed media.
 Scene/cut/interruption and retained index generalization remain required follow-up.

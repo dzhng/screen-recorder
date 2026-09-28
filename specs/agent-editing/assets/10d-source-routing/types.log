@@ -1,0 +1,38 @@
+$ turbo check-types
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/composition, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running check-types in 9 packages
+   • Remote caching disabled
+
+@screenrec/composition:check-types: cache hit, replaying logs 881c05a9086290a2
+@screenrec/composition:check-types: $ tsc -p tsconfig.check.json
+@screenrec/composition:build: cache hit, replaying logs 6821edd14d7ebeda
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/core:check-types: cache miss, executing 98de6d12469ee4ab
+@screenrec/protocol:check-types: cache hit, replaying logs 9e5252db729a75b6
+@screenrec/protocol:check-types: $ tsc -p tsconfig.check.json
+@screenrec/protocol:build: cache hit, replaying logs e175407867905ff6
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:check-types: cache hit, replaying logs d9fac58872621ba8
+@screenrec/client:build: cache hit, replaying logs 76ba94f594424051
+@screenrec/client:check-types: $ tsc -p tsconfig.check.json
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:build: cache hit, replaying logs 0222e306298b54d8
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/service:check-types: cache miss, executing afd839fa0d5ef1af
+@screenrec/test-harness:check-types: cache miss, executing bb8fc55261ca9ce9
+@screenrec/service:build: cache hit, replaying logs 979724df3d8a0cb1
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:check-types: cache miss, executing ef8c662dcdc648ff
+@screenrec/cli:build: cache hit, replaying logs 7486be8a072d8bf0
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/core:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:check-types: $ tsc -p tsconfig.check.json
+@screenrec/test-harness:check-types: $ tsc -p tsconfig.check.json
+@screenrec/cli:check-types: $ tsc -p tsconfig.check.json
+
+ Tasks:    13 successful, 13 total
+Cached:    9 cached, 13 total
+  Time:    549ms 
+

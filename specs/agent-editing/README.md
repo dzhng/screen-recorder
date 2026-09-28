@@ -15,14 +15,17 @@ slice's acceptance gates remain the scope. Read [contracts](contracts.md),
 available public operations only; the installed app has not switched engines.
 
 Complete [10c occurrence queries](slices/10c-occurrence-queries.md) and
-[11a PCM delivery](slices/11a-audio-delivery.md). Public transcript paging, phrase
+[10d picture inspection](slices/10d-frame-inspection.md). [11a PCM delivery](slices/11a-audio-delivery.md)
+is verified, including the [large multi-source project journey](assets/11a-large-project-audio/README.md). Public transcript paging, phrase
 search and capture cursor/pause/geometry occurrence queries are verified. Capture
 scene/cut/interruption categories remain explicitly unsupported and require
 reconciliation before closing 10c. [10d direct frames](slices/10d-frame-inspection.md) is now the active implementation
 branch: picture-only compilation and core revision/cache lifecycle are committed;
 native still extraction, common-profile visual comparison and concurrent staging
 are integrated. [Public project pictures](assets/10d-public-project-frames/README.md)
-pass actual CLI/MCP delivery; selected-source frames and retained indexes are next. Retain the full
+pass actual CLI/MCP delivery. [Selected-source routes](assets/10d-source-routing/README.md)
+and their actual journey pass; finish retaining that evidence, then continue
+scene ownership and retained indexes. Retain the full
 [10 evidence](slices/10-project-evidence.md) umbrella requirements.
 
 Source and project audio share jobs, cached delivery and locked render attempts.
@@ -35,7 +38,8 @@ preview/export and project-picture journeys. Same-old-binary evidence proves a p
 full-versus-seek float difference; the final journey uses explicit AAC-only RMS
 and maximum error bounds while keeping exact counts/clocks/endpoints and lossless
 byte parity. Do not shorten support or pad missing decoded speech to hide failures.
-Then implement [11 acoustic artifacts](slices/11-audio-inspection.md).
+Implement [11 acoustic artifacts](slices/11-audio-inspection.md) in parallel with
+scene/index ownership: its PCM-only first pass is independent of remaining events.
 
 Current public evidence:
 - [Paging/search](assets/10c-public-phrases/README.md) and
@@ -168,7 +172,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)
 - [ ] [10d — Direct frames and retained screenshot inspection](slices/10d-frame-inspection.md)
 - [ ] [10 — Occurrence-aware inspection](slices/10-project-evidence.md)
-- [ ] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)
+- [x] [11a — Shared source and project PCM delivery](slices/11a-audio-delivery.md)
 - [ ] [11 — Audio, waveforms and spectrograms](slices/11-audio-inspection.md)
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)

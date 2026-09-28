@@ -168,7 +168,7 @@ export class MediaFrameInspection {
     const source = selectSource(this.owners.assets, this.owners.acquisitions, {
       assetId: input.assetId,
       streamId: input.streamId,
-      acquisitionId: input.acquisitionId,
+      ...(input.acquisitionId === undefined ? {} : { acquisitionId: input.acquisitionId }),
     });
     if (source.stream.kind !== "video")
       throw new CatalogError("UNSUPPORTED_MEDIA", "Source pictures require timed video");

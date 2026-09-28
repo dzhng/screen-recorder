@@ -242,14 +242,23 @@ const indexBatchResponse = targetedBatch({
     .min(1)
     .max(8),
 });
+const frameItems = z
+  .array(z.intersection(resultSchema, z.object({ atUs: z.number() })))
+  .min(1)
+  .max(8);
 const batchResponse = {
-  atUs: targetedBatch({
-    revisionId: z.string(),
-    items: z
-      .array(z.intersection(resultSchema, z.object({ atUs: z.number() })))
-      .min(1)
-      .max(8),
-  }),
+  atUs: z.union([
+    ...targetedBatch({ revisionId: z.string(), items: frameItems }).options,
+    z.object({
+      assetId: z.string(),
+      streamId: z.string(),
+      acquisitionId: z.string().optional(),
+      projectId: z.never().optional(),
+      recordingId: z.never().optional(),
+      packageHandle: z.never().optional(),
+      items: frameItems,
+    }),
+  ]),
   ordinal: indexBatchResponse,
 };
 

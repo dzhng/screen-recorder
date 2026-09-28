@@ -3,7 +3,7 @@ import { copyFile, mkdir, open } from "node:fs/promises";
 import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { CompositionMovie, ProjectMovieRenderer } from "@screenrec/core/project-preview";
-import type { ProjectFrameRenderer } from "@screenrec/core/project-frames";
+import type { ProjectFrameRenderer } from "@screenrec/core/frame-inspection";
 import type { ProjectAudioRenderer } from "@screenrec/core/audio-inspection";
 import { withRenderAttempt, withRenderedFile } from "./render.js";
 import { renderWindowDeadlineMs, nativeResult, type MediaWorker } from "./worker.js";

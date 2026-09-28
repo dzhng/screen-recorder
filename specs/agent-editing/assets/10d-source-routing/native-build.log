@@ -1,0 +1,31 @@
+Another instance of SwiftPM (PID: 77525) is already running using '/Users/david/dev/screen-recorder/helpers/mac/.build', waiting until that process has finished execution...[0/1] Planning build
+Building for debugging...
+[0/6] Write sources
+[2/6] Write swift-version--1AB21518FC5DEDBE.txt
+[4/12] Compiling ScreenRecorderFrames CompositionFrameRenderer.swift
+[5/12] Compiling ScreenRecorderFrames VideoColorPolicy.swift
+[6/12] Compiling ScreenRecorderFrames SourceFrameRenderer.swift
+[7/12] Compiling ScreenRecorderFrames FrameImage.swift
+[8/12] Emitting module ScreenRecorderFrames
+[9/12] Compiling ScreenRecorderFrames CompositionPictureExecutor.swift
+[10/16] Compiling ScreenRecorderFrames FrameSource.swift
+[11/16] Compiling ScreenRecorderFrames PresentationEvidence.swift
+[12/16] Compiling ScreenRecorderFrames VideoRenderer.swift
+[13/16] Compiling ScreenRecorderFrames CompositionVideoRenderer.swift
+[14/27] Compiling ScreenRecorderWire Wire.swift
+[15/27] Emitting module ScreenRecorderWire
+[16/27] Compiling ScreenRecorderWire MovieOperation.swift
+[17/27] Compiling ScreenRecorderWire CompositionMovieOperation.swift
+[18/27] Compiling ScreenRecorderWire CompositionFrameOperation.swift
+[19/27] Compiling ScreenRecorderWire FrameOperation.swift
+[20/27] Compiling ScreenRecorderWire MovieMux.swift
+[21/27] Compiling ScreenRecorderWire SourceFrameOperation.swift
+[22/27] Compiling ScreenRecorderWire CompositionVideoOperation.swift
+[23/27] Compiling ScreenRecorderWire WireRequest.swift
+[24/27] Compiling ScreenRecorderWire PresentationEvidenceOperation.swift
+[25/29] Compiling ScreenRecorderNative main.swift
+[26/29] Emitting module ScreenRecorderNative
+[26/29] Write Objects.LinkFileList
+[27/29] Linking screenrec-native
+[28/29] Applying screenrec-native
+Build of product 'screenrec-native' complete! (3.85s)

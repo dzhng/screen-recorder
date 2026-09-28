@@ -1,0 +1,5 @@
+codex
+No actionable defects were identified in the current changes. Type checks passed; CLI and service integration verification was limited by sandbox restrictions preventing local socket creation.
+No actionable defects were identified in the current changes. Type checks passed; CLI and service integration verification was limited by sandbox restrictions preventing local socket creation.
+
+Live source transport subsequently found explicit undefined acquisitionId in core source selection and batch identity. Both now omit absent optional fields. The unchanged public source journey changed from INTERNAL_ERROR to green; this is stronger runtime evidence than the sandbox-limited review.

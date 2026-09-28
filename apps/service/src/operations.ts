@@ -253,10 +253,10 @@ export async function operate(
       }
       case "frame.batch": {
         const params = operation.params;
-        if ("projectId" in params)
+        if ("projectId" in params || "assetId" in params)
           return operationError(
             "NOT_READY",
-            "Project frames require the project service until cutover",
+            "Source and project frames require the project service until cutover",
           );
         const batch =
           "packageHandle" in params
@@ -283,10 +283,10 @@ export async function operate(
       case "frame.get":
       case "frame.retry": {
         const params = operation.params;
-        if ("projectId" in params)
+        if ("projectId" in params || "assetId" in params)
           return operationError(
             "NOT_READY",
-            "Project frames require the project service until cutover",
+            "Source and project frames require the project service until cutover",
           );
         const method = operation.operation === "frame.get" ? "request" : "retry";
         const status =

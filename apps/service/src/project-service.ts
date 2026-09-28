@@ -1,4 +1,4 @@
-import { ProjectFrameInspection } from "@screenrec/core/project-frames";
+import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
 import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
 import { ProjectEvidenceInspection } from "@screenrec/core/project-evidence";
@@ -127,7 +127,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     };
     await acquisitionImports.recover(new AbortController().signal);
     let preview: ProjectPreviewInspection;
-    let projectFrames: ProjectFrameInspection;
+    let mediaFrames: MediaFrameInspection;
     let transcripts: TranscriptProcessing;
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
@@ -139,8 +139,11 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
-        if (job.target.kind === "project" && job.artifact === "frame")
-          return projectFrames.execute({ job, signal });
+        if (
+          (job.target.kind === "project" || job.target.kind === "asset") &&
+          job.artifact === "frame"
+        )
+          return mediaFrames.execute({ job, signal });
         if (
           (job.target.kind === "asset" || job.target.kind === "project") &&
           job.artifact === "audio"
@@ -238,18 +241,32 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       projectMovieRenderer(worker, workspace),
     );
-    projectFrames = new ProjectFrameInspection(
-      projects,
+    mediaFrames = new MediaFrameInspection({
       assets,
-      queue,
+      acquisitions,
+      jobs: queue,
       cache,
-      projectFrameRenderer(worker, workspace),
-    );
-    const frameDelivery = (status: ReturnType<ProjectFrameInspection["request"]>) => ({
+      project: { projects, renderer: projectFrameRenderer(worker, workspace) },
+      sourceRenderer: {
+        implementationId: "native-source-picture-v1",
+        render: async (request, signal) =>
+          withRenderedFile(
+            worker,
+            { attemptParent: workspace, output: request.output, filename: "frame.png" },
+            signal,
+            async (output, execute) =>
+              nativeResult(await execute("media.sourceFrame", { ...request, output }, { signal })),
+          ),
+      },
+    });
+    const frameDelivery = (status: ReturnType<MediaFrameInspection["request"]>) => ({
       ...status,
       delivery: status.published
-        ? delivery.open({ kind: "project", id: status.projectId }, () =>
-            cache.acquire(status.published!.frame.cacheId),
+        ? delivery.open(
+            "projectId" in status
+              ? { kind: "project", id: status.projectId }
+              : { kind: "asset", id: status.assetId },
+            () => cache.acquire(status.published!.frame.cacheId),
           )
         : null,
     });
@@ -370,34 +387,51 @@ export async function startProjectService(options: { home: string; worker?: Medi
           case "frame.get":
           case "frame.retry": {
             const params = operation.params;
-            if (!("projectId" in params))
-              return operationError("NOT_READY", "This service renders project pictures");
+            if (!("projectId" in params) && !("assetId" in params))
+              return operationError(
+                "NOT_READY",
+                "This service renders source and project pictures",
+              );
             return {
               ok: true,
               data: frameDelivery(
-                projectFrames[operation.operation === "frame.get" ? "request" : "retry"](params),
+                mediaFrames[operation.operation === "frame.get" ? "request" : "retry"](params),
               ),
             };
           }
           case "frame.batch": {
             const params = operation.params;
-            if (!("projectId" in params))
-              return operationError("NOT_READY", "This service renders project pictures");
-            const revisionId = projects.revision(params.projectId, params.revisionId).id;
+            if (!("projectId" in params) && !("assetId" in params))
+              return operationError(
+                "NOT_READY",
+                "This service renders source and project pictures",
+              );
+            const identity =
+              "projectId" in params
+                ? {
+                    projectId: params.projectId,
+                    revisionId: projects.revision(params.projectId, params.revisionId).id,
+                  }
+                : {
+                    assetId: params.assetId,
+                    streamId: params.streamId,
+                    ...(params.acquisitionId === undefined
+                      ? {}
+                      : { acquisitionId: params.acquisitionId }),
+                  };
             return {
               ok: true,
               data: {
-                projectId: params.projectId,
-                revisionId,
+                ...identity,
                 items: params.atUs.map((atUs) => {
                   try {
                     return {
                       atUs,
                       ok: true,
                       data: frameDelivery(
-                        projectFrames.request({
+                        mediaFrames.request({
                           ...params,
-                          revisionId,
+                          ...identity,
                           atUs,
                         }),
                       ),

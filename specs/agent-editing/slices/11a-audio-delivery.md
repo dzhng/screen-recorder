@@ -1,6 +1,6 @@
 # 11a — Shared source and project PCM delivery
 
-Status: in progress. Native source-window WAV extraction and core cached admission are integrated; public source routing and shared capacity preflight are integrated; project taps and their public journey are verified; final native source integration remains open. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
+Status: verified for the admitted source formats and current constant-gain project execution. Actual source and multi-source project WAV journeys, processing taps, shared capacity checks and combined-runtime preservation pass. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -56,7 +56,7 @@ that numerical finding from the missing-packet regression.
 Current constant gain executes; future retime/denoise conformance stays open until
 those processors are verified. Existing raw audio and movie gates remain green.
 
-## Open full-extraction capacity gate
+## Full-extraction capacity gate
 
 The shared cache now defaults to 4 GiB, enough for the native sink's supported RIFF
 capacity. Its shared intrinsic-size check runs before selected-source rendering when
@@ -66,7 +66,9 @@ pressure, and unfinished outputs can temporarily consume disk beyond the publish
 The [capacity pass](../assets/11a-cache-capacity/README.md) proves real sparse publication
 above 1 GiB and bounded reading, not a native render of that size. The source journey below supplies real native
 extraction above 1 GiB; project tap preflight is covered in the core tap evidence.
-Full multi-source project extraction still needs its own scale observation.
+The [large project journey](../assets/11a-large-project-audio/README.md) verifies
+100 clips on two simultaneous tracks, a complete 1.15 GB PCM oracle, late fractional
+reads and bounded sampled memory. General high-track/multi-hour stress remains 24.
 
 ## Failure boundary and discretion
 
@@ -90,8 +92,7 @@ The current source format contract is integral native rates and conventional
 mono/stereo. Larger layouts and fractional rates refuse. The shared float-WAV
 sink refuses payloads beyond UInt32.max minus a 4096-byte header reserve before
 creating output. Slice 24 must assess long-output/format limits; the 60-second
-memory point measurement is not full scale acceptance. Public API acceptance
-and processing taps remain required before this slice can close.
+memory point measurement is not full scale acceptance. Public source delivery and project processing taps are verified below.
 
 
 ## Public source route
@@ -114,9 +115,10 @@ continuation; no missing speech is padded. [Signed-start preservation](../assets
 also protects admitted negative origins.
 
 [Execution pins](../assets/11a-audio-execution-pins/README.md) distinguish new work
-without changing retained portable transcript schemas. Final root service pin
-and concurrent-render integration reruns remain open. Long multi-source project
-extraction and the broader format/scale contracts remain separate gates.
+without changing retained portable transcript schemas. The [combined-runtime check](../assets/10d-public-project-frames/README.md)
+verifies service execution pins, concurrent staging, full source delivery and
+preview/export preservation. The large project journey completes this slice's
+full-output gate; broader format/scale contracts remain separate.
 
 ## Public project audio and render lifetime
 

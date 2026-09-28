@@ -131,7 +131,17 @@ const projectFrameParams = project
     tap: processingTapSchema.optional(),
   })
   .strict();
-const frameParams = z.union([projectFrameParams, ...inspection(frameFields).options]);
+const sourceFrameParams = sourceSelection
+  .extend({
+    atUs: time,
+    maxLongEdge: frameFields.maxLongEdge,
+  })
+  .strict();
+const frameParams = z.union([
+  projectFrameParams,
+  ...inspection(frameFields).options,
+  sourceFrameParams,
+]);
 
 const audioParams = z.union([
   project
@@ -610,6 +620,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
       params: z.union([
         projectFrameParams.extend({ atUs: z.array(time).min(1).max(8) }),
         ...inspection({ ...frameFields, atUs: z.array(time).min(1).max(8) }).options,
+        sourceFrameParams.extend({ atUs: z.array(time).min(1).max(8) }),
       ]),
     })
     .strict()
@@ -651,7 +662,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Recording/package selectors request a frame at edited playback time with an observed pointer and two-second trail by default. Use clean:true for no overlay or trailUs:0 for pointer only. Pin the returned revision when polling.",
+      "Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Recording/package selectors request a frame at edited playback time with an observed pointer and two-second trail by default. Use clean:true for no overlay or trailUs:0 for pointer only. Pin the returned revision when polling.",
     ),
   z
     .object({ operation: z.literal("frame.retry"), params: frameParams })

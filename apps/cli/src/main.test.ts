@@ -132,6 +132,7 @@ function expectCallableContract(tools: AdvertisedTool[]) {
     ["projectId", "atUs"],
     ["recordingId", "atUs"],
     ["packageHandle", "atUs"],
+    ["assetId", "streamId", "atUs"],
   ]);
   expect(required("frame.retry")).toEqual(required("frame.get"));
   expect(required("frame.batch")).toEqual(required("frame.get"));
@@ -453,11 +454,17 @@ it("does not replay a mutation when the discovered service loses its response", 
 it.each([
   { operation: "frame.batch", reference: "atUs", scope: "recording" },
   { operation: "frame.batch", reference: "atUs", scope: "project" },
+  { operation: "frame.batch", reference: "atUs", scope: "source" },
   { operation: "index.frames", reference: "ordinal", scope: "recording" },
 ] as const)(
   "$operation $scope adapters retain partial failures, drain leases and never overwrite outputs",
   async ({ operation, reference, scope }) => {
-    const target = scope === "project" ? { projectId: "project" } : { recordingId: "take" };
+    const target =
+      scope === "project"
+        ? { projectId: "project" }
+        : scope === "source"
+          ? { assetId: "asset", streamId: "video" }
+          : { recordingId: "take" };
     const home = await mkdtemp("/tmp/scr-batch-client-");
     cleanup.push(() => rm(home, { recursive: true, force: true }));
     const closed: string[] = [];
@@ -497,7 +504,7 @@ it.each([
           ok: true,
           data: {
             ...target,
-            revisionId: "r0",
+            ...(scope === "source" ? {} : { revisionId: "r0" }),
             ...selectedIdentity,
             items: (collideFile ? ["first", "second", "third"] : ["first", "second"]).map(
               (token, index) => ({

@@ -1176,3 +1176,18 @@ trim and stretch replacements keep their single-interval behavior.
   embedded profile to the PNG's sRGB space before comparison. The plan required
   visual parity without specifying reference conversion; no production pixels
   or acceptance tolerances change. Broader color fidelity remains a separate gate.
+
+
+## Selected-source picture decisions
+
+- **Sound; high confidence — Source frames keep source identity without project-shaped metadata.**
+  An agent inspecting the second video stream in an imported file supplies that
+  asset, stream and optional capture context. The result contains the physical
+  picture covering the requested source instant, including its exact start/end
+  clock. It has no made-up project revision, clip, canvas or processing tap.
+  Declared physical gaps and capture exclusions return distinct unavailability,
+  rather than a synthetic black source image. The plan left the raw receipt and
+  gap response open; this prevents absence from looking like recorded black video.
+  Source and project requests share frame job/cache publication and the native
+  color/orientation owner, while retaining different planning inputs. Landed in
+  the selected-source picture integration.
