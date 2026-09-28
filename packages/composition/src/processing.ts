@@ -7,6 +7,8 @@ import {
   processingTargetSchema,
   scalarCurveSchema,
   type ProcessingTarget,
+  type ProcessingStep,
+  type ScalarCurve,
 } from "./schema.js";
 import type { ValidatedComposition } from "./model.js";
 type Document = ValidatedComposition["document"];
@@ -33,6 +35,16 @@ function targetKind(kinds: ReturnType<typeof targetKinds>, target: ProcessingTar
   if (kind === undefined) invalid("Unknown processing target", { target });
   return kind;
 }
+/** Closed scalar slots, shared by validation, edit preservation and temporal compilation. */
+export function processingScalars(
+  processor: ProcessingStep["processor"],
+): Record<string, number | ScalarCurve> {
+  if (processor.type === "opacity") return { opacity: processor.opacity };
+  if (processor.type === "geometry" && processor.scale)
+    return { "scale.x": processor.scale.x, "scale.y": processor.scale.y };
+  return {};
+}
+
 export function validateProcessing(document: Document) {
   const kinds = targetKinds(document);
   const clips = new Map(document.clips.map((clip) => [clip.id, clip]));
@@ -47,7 +59,10 @@ export function validateProcessing(document: Document) {
       if (stepIds.has(step.id)) invalid("Duplicate processing step ID", { stepId: step.id });
       stepIds.add(step.id);
       const definition = processorRegistry[step.processor.type];
-      if ((step.window || step.evaluationRange) && step.processor.type !== "opacity")
+      if (
+        (step.window || step.evaluationRange) &&
+        !["opacity", "geometry"].includes(step.processor.type)
+      )
         invalid("Temporal processing is not supported for this processor", {
           target,
           stepId: step.id,
@@ -67,14 +82,17 @@ export function validateProcessing(document: Document) {
       const domain = step.window?.kind ?? (target.kind === "clip" ? "clip" : "project");
       if (step.evaluationRange && (target.kind !== "clip" || domain !== "clip"))
         invalid("Evaluation range requires normalized clip timing", { target, stepId: step.id });
-      if (step.processor.type === "opacity" && typeof step.processor.opacity !== "number") {
-        const parsed = scalarCurveSchema(domain).safeParse(step.processor.opacity);
-        if (!parsed.success || !curveValuesWithin(parsed.data, 0, 1))
-          invalid("Opacity curve must match its clock and stay within [0,1]", {
-            target,
-            stepId: step.id,
-          });
-      }
+      for (const value of Object.values(processingScalars(step.processor)))
+        if (typeof value !== "number") {
+          const parsed = scalarCurveSchema(domain).safeParse(value);
+          const bounds =
+            step.processor.type === "opacity" ? [0, 1] : [-Number.MAX_VALUE, Number.MAX_VALUE];
+          if (!parsed.success || !curveValuesWithin(parsed.data, bounds[0]!, bounds[1]!))
+            invalid("Processing curve must match its clock and remain within parameter bounds", {
+              target,
+              stepId: step.id,
+            });
+        }
       if (!definition.targets.some((scope) => scope === target.kind))
         invalid("Processor is incompatible with target scope", { target, stepId: step.id });
       if (
@@ -147,7 +165,9 @@ export function remapClipProcessing(
             compare(restricted.original.end, restricted.retained.end) !== 0) &&
           normalized &&
           (step.window ||
-            (step.processor.type === "opacity" && typeof step.processor.opacity !== "number"))
+            Object.values(processingScalars(step.processor)).some(
+              (value) => typeof value !== "number",
+            ))
         ) {
           const prior = evaluationRange ?? {
             start: { numerator: 0, denominator: 1 },

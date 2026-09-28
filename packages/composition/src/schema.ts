@@ -1,5 +1,5 @@
 import { pointerSchema } from "./pointer.js";
-import { geometrySchema } from "./geometry.js";
+import { geometrySchemaWithScale } from "./geometry.js";
 import { z } from "zod";
 import { compare, fromTime } from "./rational.js";
 
@@ -175,7 +175,9 @@ export const processorRegistry = {
     units: { trailUs: "source microseconds" },
   },
   geometry: {
-    schema: geometrySchema,
+    schema: geometrySchemaWithScale(
+      z.union([z.number().finite(), scalarCurveSchema("project"), scalarCurveSchema("clip")]),
+    ),
     targets: allProcessingTargets,
     mediaKind: "video" as const,
     units: {

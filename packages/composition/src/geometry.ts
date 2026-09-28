@@ -5,20 +5,23 @@ const coordinate = z.number().finite();
 const size = z.number().finite().positive();
 const point = z.object({ x: coordinate, y: coordinate }).strict();
 const rectangle = z.object({ x: coordinate, y: coordinate, width: size, height: size }).strict();
-export const geometrySchema = z
-  .object({
-    type: z.literal("geometry"),
-    crop: rectangle.optional(),
-    rect: rectangle.optional(),
-    fit: z.enum(["contain", "cover", "stretch"]).optional(),
-    scale: point.optional(),
-    rotationDeg: coordinate.optional(),
-    pivot: z
-      .object({ x: z.number().min(0).max(1), y: z.number().min(0).max(1) })
-      .strict()
-      .optional(),
-  })
-  .strict();
+export function geometrySchemaWithScale<T extends z.ZodType>(scalar: T) {
+  return z
+    .object({
+      type: z.literal("geometry"),
+      crop: rectangle.optional(),
+      rect: rectangle.optional(),
+      fit: z.enum(["contain", "cover", "stretch"]).optional(),
+      scale: z.object({ x: scalar, y: scalar }).strict().optional(),
+      rotationDeg: coordinate.optional(),
+      pivot: z
+        .object({ x: z.number().min(0).max(1), y: z.number().min(0).max(1) })
+        .strict()
+        .optional(),
+    })
+    .strict();
+}
+export const geometrySchema = geometrySchemaWithScale(coordinate);
 export type Geometry = z.infer<typeof geometrySchema>;
 export type ImageDomain = { width: number; height: number };
 export type Affine = [number, number, number, number, number, number];

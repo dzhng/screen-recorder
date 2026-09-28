@@ -95,3 +95,33 @@ now proves tap-aware boundary selection, direct/retained PNG equality and fresh
 visual review. The service/native projection is shared with direct worker harnesses;
 no authoring easing is sent for native reinterpretation. Animated geometry, gain,
 transitions and remaining full-slice journeys are next.
+
+## Animated zoom vertical
+
+Geometry scale x/y accepts the same typed number-or-Curve values as opacity;
+crop, rectangle, rotation and pivot remain numeric in this pass. Scalar slots
+share one step clock, activation window and retained evaluation range. Validation,
+edit restriction and temporal-boundary discovery consume the same closed slots;
+there is no generic user-facing parameter-path language. Scale retains the existing
+finite signed contract, including zero collapse and negative mirroring. Whole-curve
+extrema must remain finite; every emitted matrix still passes the existing exact
+geometry compiler's finite/safe-number checks. No clamping repairs invalid values.
+
+At each existing global picture timestamp the compiler resolves the numeric scale,
+then calls the unchanged geometry compiler. Outside the step's activation it skips
+that processor; remaining baseline contain behavior remains unchanged. Native
+metadata carries geometry's type/identity only, while numeric matrices and coverage
+primitives carry execution. The shared native-boundary projection and recipe IDs
+advance together. This pass's public `keyframes.mjs --case moved-split-zoom` journey
+must prove actual zoom, exact static controls, movement, split/trim, window activation
+and full/range preview/export correspondence. Position/rotation/gain curves and
+convenience commands remain explicit unfinished consumers in full slice 16.
+
+
+The [zoom evidence](../assets/16-zoom/README.md) retains 39 exact public PNG checks,
+166 passing composition tests, static/opacity preservation and independent code
+review. Fresh visual acceptance is pending. Direct PNG versus encoded movie maximum
+channel error reaches **240** despite passing the inherited mean-RGB membership
+criterion; encoded color/edge parity remains unresolved, with no established cause.
+Full/range movie membership and exact preview/export bytes do not establish strict
+color parity. This scoped zoom pass does not close full slice 16.

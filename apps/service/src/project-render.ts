@@ -85,7 +85,7 @@ export function projectMovieRenderer(
   pointers?: PointerOwners,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v6",
+    implementationId: "native-composition-movie-v7",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -186,7 +186,7 @@ export function projectFrameRenderer(
   pointers?: PointerOwners,
 ): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v7",
+    implementationId: "native-composition-picture-v8",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
       const { window, assets, output, maxLongEdge } = request;

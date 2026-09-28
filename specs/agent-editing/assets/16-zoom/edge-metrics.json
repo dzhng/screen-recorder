@@ -1,0 +1,42 @@
+[
+  {
+    "frame": 1,
+    "pixelsAbove50": 89,
+    "bbox": [
+      9,
+      14,
+      31,
+      49
+    ]
+  },
+  {
+    "frame": 2,
+    "pixelsAbove50": 119,
+    "bbox": [
+      6,
+      11,
+      33,
+      53
+    ]
+  },
+  {
+    "frame": 3,
+    "pixelsAbove50": 143,
+    "bbox": [
+      3,
+      5,
+      37,
+      59
+    ]
+  },
+  {
+    "frame": 6,
+    "pixelsAbove50": 58,
+    "bbox": [
+      0,
+      0,
+      39,
+      63
+    ]
+  }
+]

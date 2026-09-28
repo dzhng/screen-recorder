@@ -2078,3 +2078,18 @@ existing lifetime owner.
 - **Sound, high confidence:** Preserve the actual active undo stack separately from
   historical documents. Undo/restore operations append revisions, so deriving undo
   from the last two documents would change the next undo after relocation.
+
+## Animated scale vertical — slice 16
+
+- **Choice:** Use closed internal scalar slots for opacity and scale x/y, with one
+  clock per processing step and separate compiled programs per scalar. This extends
+  the existing curve owner without a generic author-facing parameter-path API.
+  **Verdict:** sound, high confidence. Both axes retain the same original clip
+  timing through edits while independent values cannot overwrite each other's cache.
+- **Choice:** Preserve signed and zero scale, validate complete curve extrema for
+  finiteness, and keep numeric matrix safety checks at emission. Do not clamp values
+  or reject a curve merely because it crosses zero. **Verdict:** sound, high
+  confidence; animation inherits the established static geometry semantics.
+- **Choice:** Extend the existing native projection to omit geometry authoring
+  values after matrix compilation. **Verdict:** sound, high confidence. The worker
+  has no second curve evaluator and direct harnesses share the same projection.

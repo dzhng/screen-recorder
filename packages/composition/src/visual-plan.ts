@@ -35,10 +35,12 @@ export function visualPlanner(
         for (const step of node.steps) {
           if (!step.enabled) continue;
           if (step.processor.type === "geometry") {
+            const geometry = temporal.geometry(step, node.target, atUs);
+            if (geometry === null) continue;
             const start = operations.length;
             if (!sourceSpace)
               operations.push({ kind: "rasterize", width: canvas.width, height: canvas.height });
-            operations.push(...compileGeometry(domain, canvas, step.processor, pixelBounds));
+            operations.push(...compileGeometry(domain, canvas, geometry, pixelBounds));
             for (let index = start; index < operations.length; index++) geometryPrefix.push(index);
             domain = canvas;
             sourceSpace = false;

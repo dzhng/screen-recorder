@@ -1,0 +1,325 @@
+import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { existsSync } from "node:fs";
+import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
+import { join, resolve } from "node:path";
+import { tmpdir } from "node:os";
+import { parseArgs } from "node:util";
+import { fileURLToPath } from "node:url";
+import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
+const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
+assert.equal(values.case, "moved-split-zoom");
+assert.ok(values.out && process.env.SCREENREC_NATIVE);
+const out = resolve(values.out);
+assert.ok(!existsSync(out));
+await mkdir(out);
+const home = await mkdtemp(join(tmpdir(), "zoom-public-"));
+const report = {
+  passed: false,
+  trace: [],
+  pictures: [],
+  checks: {},
+  runnerSha256: hash(await readFile(fileURLToPath(import.meta.url))),
+  workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  decoderSha256: hash(await readFile("/opt/homebrew/bin/ffmpeg")),
+};
+const service = new JourneyService(home, report),
+  call = service.call.bind(service);
+const ref = (label) => ({ label }),
+  fraction = (numerator, denominator = 1) => ({ numerator, denominator });
+async function picture(selection, name) {
+  await poll(
+    () => call("frame.get", selection),
+    (v) => v.state === "ready",
+    name,
+  );
+  const file = join(out, name + ".png"),
+    result = await call("frame.get", selection, { output: file });
+  const mcp = await service.mcp.callTool({ name: "frame.get", arguments: selection });
+  assert.equal(mcp.structuredContent.ok, true);
+  assert.deepEqual(
+    Buffer.from(mcp.content.find((v) => v.type === "image").data, "base64"),
+    await readFile(file),
+  );
+  const row = {
+    name,
+    selection,
+    file,
+    sha256: hash(await readFile(file)),
+    receipt: result.published.frame,
+  };
+  report.pictures.push(row);
+  return row;
+}
+try {
+  await service.start();
+  const source = join(root, "specs/agent-editing/assets/10d-still-image-native/sources/png-6.png");
+  const pending = await call("asset.import", { requestId: randomUUID(), path: source });
+  await poll(
+    () => call("job.get", { jobId: pending.jobId }),
+    (v) => v.state === "ready",
+    "import",
+  );
+  const asset = await call("asset.get", { assetId: hash(await readFile(source)) });
+  const created = await call("project.create", {
+      requestId: randomUUID(),
+      canvas: {
+        width: 40,
+        height: 64,
+        fps: { numerator: 8, denominator: 1 },
+        background: "#000000ff",
+      },
+    }),
+    projectId = created.project.projectId;
+  let head = created.revision.id;
+  const edit = async (operations) => {
+    const result = await call("edit.apply", {
+      projectId,
+      expectedRevisionId: head,
+      requestId: randomUUID(),
+      operations,
+    });
+    head = result.revision.id;
+    return result;
+  };
+  const scale = {
+    keys: [
+      { at: fraction(0), value: 0.5, interpolation: { cubic: [1 / 3, 0, 2 / 3, 1] } },
+      { at: fraction(1), value: 1.5, interpolation: "linear" },
+    ],
+  };
+  const authored = await edit([
+    { operation: "track.add", label: "track", track: { kind: "video", order: 0 } },
+    {
+      operation: "place",
+      label: "clip",
+      clip: {
+        trackId: ref("track"),
+        assetId: asset.id,
+        streamId: asset.streams[0].id,
+        source: { kind: "hold", atUs: 0 },
+        placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+      },
+    },
+    {
+      operation: "processing.set",
+      target: { kind: "clip", id: ref("clip") },
+      steps: [{ label: "zoom", processor: { type: "geometry", scale: { x: scale, y: scale } } }],
+    },
+  ]);
+  const clipId = authored.edit.labels.clip,
+    stepId = authored.edit.labels.zoom;
+  const original = [];
+  for (let i = 0; i < 8; i++)
+    original.push(
+      await picture({ projectId, revisionId: authored.revision.id, atUs: i * 125000 }, "zoom-" + i),
+    );
+  const controls = [];
+  for (let i = 0; i < 8; i++) {
+    const t = i / 8,
+      e = 3 * t * t - 2 * t * t * t,
+      value = (1 - e) * 0.5 + e * 1.5;
+    const control = await edit([
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: clipId },
+        steps: [{ id: stepId, processor: { type: "geometry", scale: { x: value, y: value } } }],
+      },
+    ]);
+    controls.push(
+      await picture(
+        { projectId, revisionId: control.revision.id, atUs: i * 125000 },
+        "constant-" + i,
+      ),
+    );
+    assert.equal(controls[i].sha256, original[i].sha256, "Analytic static zoom control differs");
+  }
+  const restored = await call("edit.restore", {
+    projectId,
+    requestId: randomUUID(),
+    expectedRevisionId: head,
+    targetRevisionId: authored.revision.id,
+  });
+  head = restored.id;
+  const moved = await edit([
+    { operation: "move", clipIds: [clipId], atUs: 2000000, ripple: "none" },
+  ]);
+  for (let i = 0; i < 8; i++)
+    assert.equal(
+      (
+        await picture(
+          { projectId, revisionId: moved.revision.id, atUs: 2000000 + i * 125000 },
+          "moved-" + i,
+        )
+      ).sha256,
+      original[i].sha256,
+    );
+  const split = await edit([{ operation: "split", clipIds: [clipId], atUs: 2375001 }]);
+  for (let i = 0; i < 8; i++)
+    assert.equal(
+      (
+        await picture(
+          { projectId, revisionId: split.revision.id, atUs: 2000000 + i * 125000 },
+          "split-" + i,
+        )
+      ).sha256,
+      original[i].sha256,
+    );
+  const right = split.edit.clipLineage
+    .find((row) => row.originalId === clipId)
+    .clipIds.find((id) => id !== clipId);
+  const trimmed = await edit([
+    {
+      operation: "trim",
+      clipId: right,
+      range: { startUs: 2500000, endUs: 2900000 },
+      ripple: "none",
+    },
+  ]);
+  for (let i = 4; i < 8; i++)
+    assert.equal(
+      (
+        await picture(
+          { projectId, revisionId: trimmed.revision.id, atUs: 2000000 + i * 125000 },
+          "trim-" + i,
+        )
+      ).sha256,
+      original[i].sha256,
+    );
+  const stack = await call("processing.get", {
+    projectId,
+    revisionId: head,
+    target: { kind: "clip", id: clipId },
+  });
+  const windowed = await edit([
+    {
+      operation: "processing.set",
+      target: { kind: "clip", id: clipId },
+      steps: stack.steps.map((step) => ({
+        ...step,
+        window: { kind: "clip", clipId, start: fraction(1, 8), end: fraction(1, 4) },
+      })),
+    },
+  ]);
+  for (const [i, expected] of [
+    [0, controls[4]],
+    [1, original[1]],
+    [2, controls[4]],
+  ])
+    assert.equal(
+      (
+        await picture(
+          { projectId, revisionId: windowed.revision.id, atUs: 2000000 + i * 125000 },
+          "window-" + i,
+        )
+      ).sha256,
+      expected.sha256,
+      "Window activation differs from exact processed/dry control",
+    );
+  const selection = { projectId, revisionId: split.revision.id };
+  const fullPath = join(out, "full.mp4"),
+    rangePath = join(out, "range.mp4");
+  await poll(
+    () => call("preview.get", selection, { output: fullPath }),
+    (v) => v.state === "ready",
+    "full preview",
+  );
+  await poll(
+    () =>
+      call(
+        "preview.get",
+        { ...selection, range: { startUs: 2250001, endUs: 2750001 } },
+        { output: rangePath },
+      ),
+    (v) => v.state === "ready",
+    "range preview",
+  );
+  const exportId = randomUUID();
+  await call("export.create", {
+    ...selection,
+    kind: "video",
+    exportId,
+    directory: out,
+    leaf: "export.mp4",
+  });
+  const exported = await poll(
+    () => call("export.status", { exportId }),
+    (v) => v.state === "committed",
+    "export",
+  );
+  assert.deepEqual(await readFile(fullPath), await readFile(exported.output));
+  const decode = async (path, name) => {
+    const file = join(out, name + ".rgba");
+    await run("/opt/homebrew/bin/ffmpeg", [
+      "-v",
+      "error",
+      "-i",
+      path,
+      "-vsync",
+      "0",
+      "-f",
+      "rawvideo",
+      "-pix_fmt",
+      "rgba",
+      file,
+    ]);
+    return readFile(file);
+  };
+  const full = await decode(fullPath, "full"),
+    range = await decode(rangePath, "range"),
+    frameBytes = 40 * 64 * 4;
+  assert.equal(full.length, 24 * frameBytes);
+  assert.equal(range.length, 5 * frameBytes);
+  const error = (a, b) => {
+    let sum = 0,
+      max = 0;
+    for (let j = 0; j < frameBytes; j++)
+      if (j % 4 !== 3) {
+        const delta = Math.abs(a[j] - b[j]);
+        sum += delta;
+        max = Math.max(max, delta);
+      }
+    return { mean: sum / (40 * 64 * 3), max };
+  };
+  const movieErrors = [],
+    rangeErrors = [];
+  for (let i = 0; i < 8; i++) {
+    const e = error(
+      full.subarray((i + 16) * frameBytes, (i + 17) * frameBytes),
+      await decode(original[i].file, "reference-" + i),
+    );
+    assert.ok(e.mean <= 12);
+    movieErrors.push(e);
+  }
+  for (let i = 0; i < 5; i++) {
+    const e = error(
+      full.subarray((i + 18) * frameBytes, (i + 19) * frameBytes),
+      range.subarray(i * frameBytes, (i + 1) * frameBytes),
+    );
+    assert.ok(e.mean <= 12);
+    rangeErrors.push(e);
+  }
+  report.checks = {
+    analyticStaticControls: 8,
+    movedPictures: 8,
+    splitPictures: 8,
+    trimmedPictures: 4,
+    activationPictures: 3,
+    previewExportExact: true,
+    movieErrors,
+    rangeErrors,
+    encodedGate:
+      "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance",
+  };
+  report.passed = true;
+  await call("project.delete", { projectId });
+} catch (error) {
+  report.error = String(error.stack ?? error);
+  throw error;
+} finally {
+  await service.stop();
+  report.serviceLogs = service.logs;
+  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
+  await rm(home, { recursive: true, force: true });
+}
+console.log(JSON.stringify({ passed: report.passed, pictures: report.pictures.length, out }));
