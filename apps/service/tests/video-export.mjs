@@ -206,13 +206,10 @@ async function fixture(
     { decode: (params, signal) => call("media.frame", params, signal), sample },
     (recordingId, generation) => exports.retainsIndex(recordingId, generation),
   );
-  transcriptOwner = new TranscriptProcessing(
-    store,
+  transcriptOwner = new TranscriptProcessing({
     jobs,
-    transcriptEvidence,
-    processing,
-    evidence,
-    {
+    transcripts: transcriptEvidence,
+    models: {
       status: () => ({ state: speech.models }),
       nativeRequest: () => ({ directory: join(home, "models"), files: [] }),
       modelDigest: "a".repeat(64),
@@ -223,10 +220,15 @@ async function fixture(
         modelRevision: "ee09c569f73759e6d44c9bd16766f477b2b36d39",
       },
     },
-    home,
-    fakeTranscriber(speech),
-    (recordingId, generation) => exports.retainsTranscript(recordingId, generation),
-  );
+    recording: {
+      store,
+      source: processing,
+      evidence,
+      home,
+      retained: (recordingId, generation) => exports.retainsTranscript(recordingId, generation),
+    },
+    transcribe: fakeTranscriber(speech),
+  });
   const files = new ManagedFiles(home, worker);
   exports = new MediaExports({
     catalog: store,

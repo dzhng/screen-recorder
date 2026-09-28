@@ -186,23 +186,25 @@ async function main(): Promise<void> {
     );
     models = new SpeechModels(home);
     transcriptStore = new TranscriptStore(store, home, recordingTranscriptOwner(store));
-    transcripts = new TranscriptProcessing(
-      store,
+    transcripts = new TranscriptProcessing({
       jobs,
-      transcriptStore,
-      processing,
-      evidence,
+      transcripts: transcriptStore,
       models,
-      home,
-      (request, signal) =>
+      recording: {
+        store,
+        source: processing,
+        evidence,
+        home,
+        retained: (recordingId, generation) => exports!.retainsTranscript(recordingId, generation),
+      },
+      transcribe: (request, signal) =>
         nativeData<SpeechTranscriptionReceipt>(
           "speech.transcribe",
           request,
           signal,
           transcriptionDeadlineMs(request.track.available),
         ),
-      (recordingId, generation) => exports!.retainsTranscript(recordingId, generation),
-    );
+    });
     const visual = new VisualObservationCache(
       store,
       cache,

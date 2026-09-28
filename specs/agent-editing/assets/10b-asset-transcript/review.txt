@@ -1,0 +1,6 @@
+The new test introduces a confirmed type-check failure. All 71 focused transcript, admission, and job tests passed.
+
+Review comment:
+
+- [P2] Change the fixture digest without assigning a readonly property — /private/tmp/screenrec-asset-transcript-processing/packages/core/src/asset-transcript.test.ts:277-277
+  This assignment fails the core type-check gate with TS2540 because `TranscriptionModels` preserves `SpeechModels.modelDigest`'s readonly modifier. Vitest passes, but `tsc -p packages/core/tsconfig.check.json --noEmit` fails under the pinned TypeScript 7.0.2, verified following the [toolchain confirmation guidance](.agents/skills/code-review/SKILL.md#L102-L104). Expose the fixture digest through a getter backed by mutable test state instead.

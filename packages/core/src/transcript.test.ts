@@ -181,17 +181,13 @@ async function fixture(options: Options = {}) {
     };
     return receipt as unknown as Awaited<ReturnType<SpeechTranscriber>>;
   };
-  transcript = new TranscriptProcessing(
-    store,
+  transcript = new TranscriptProcessing({
     jobs,
     transcripts,
-    source,
-    evidence,
     models,
-    home,
     transcribe,
-    options.retained,
-  );
+    recording: { store, source, evidence, home, retained: options.retained },
+  });
   cleanup.push(async () => {
     await jobs.close();
     store.close();

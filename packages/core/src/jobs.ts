@@ -508,17 +508,22 @@ export class JobQueue {
    * Admits one job for a pinned target. An existing exact identity returns its current outcome, including failure. Resolve
    * current once at admission; historical requests pin their explicit revision. Only retry
    * creates another attempt, so repeated inspection cannot trigger automatic retry loops.
-   * A request factory runs on replay too: use idempotent same-catalog writes only.
+   * Factories and admission callbacks run on replay too: use idempotent same-catalog writes only.
+   * The callback receives the real job ID before commit, so dependency references publish atomically.
    */
-  submit(request: JobRequest | (() => JobRequest)): Job {
-    return this.submitJob(request, false);
+  submit(request: JobRequest | (() => JobRequest), admitted?: (job: Job) => void): Job {
+    return this.submitJob(request, false, admitted);
   }
 
   submitDeferred(request: JobRequest): Job {
     return this.submitJob(request, true);
   }
 
-  private submitJob(input: JobRequest | (() => JobRequest), deferred: boolean): Job {
+  private submitJob(
+    input: JobRequest | (() => JobRequest),
+    deferred: boolean,
+    admitted?: (job: Job) => void,
+  ): Job {
     let created = false;
     const jobId = this.store.transaction(() => {
       this.requireOpen();
@@ -529,19 +534,20 @@ export class JobQueue {
       if (existing) {
         if (existing.lane !== request.lane)
           throw new CatalogError("INVALID_REQUEST", "An existing job cannot change execution lane");
+        admitted?.(this.job(existing.jobId));
         return existing.jobId;
       }
       if (deferred) this.admitWaiting();
       else this.admit();
       created = true;
-      const admitted = this.newId();
+      const admittedId = this.newId();
       this.store.catalog
         .prepare(
           `INSERT INTO jobs(${jobColumns},queuedSequence,deferred)
            VALUES (?,?,?,?,?,?,?,?,?,NULL,0,1,NULL,NULL,?,?)`,
         )
         .run(
-          admitted,
+          admittedId,
           this.newId(),
           ...targetValues(target),
           request.artifact,
@@ -551,7 +557,8 @@ export class JobQueue {
           ++this.sequence,
           Number(deferred),
         );
-      return admitted;
+      admitted?.(this.job(admittedId));
+      return admittedId;
     });
     if (created) this.resumeAdmission();
     this.runQueued();

@@ -1,0 +1,16 @@
+$ vitest run src/deletion.test.ts src/package-guide.test.ts src/operations.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-asset-transcript-processing/apps/service
+
+(node:79316) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79315) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:79317) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  3 passed (3)
+      Tests  17 passed (17)
+   Start at  22:56:24
+   Duration  7.70s (tests 79%, transform 14%, import 7%)
+

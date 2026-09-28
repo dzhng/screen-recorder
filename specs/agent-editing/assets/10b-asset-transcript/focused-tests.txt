@@ -1,0 +1,41 @@
+$ vitest run --maxWorkers=4 src/job-admission.test.ts src/asset-transcript.test.ts src/transcript.test.ts src/transcript-pages.test.ts src/transcript-ownership.test.ts src/jobs.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-asset-transcript-processing/packages/core
+
+(node:78929) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78930) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78932) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78931) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78943) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78967) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/jobs.test.ts (52 tests | 1 failed) 14874ms
+   × forgetting a large ready history yields and preserves another recording's publication 5752ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/jobs.test.ts > forgetting a large ready history yields and preserves another recording's publication
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/jobs.test.ts:999:1
+    997| });
+    998|
+    999| test("forgetting a large ready history yields and preserves another re…
+       | ^
+    1000|   const { store, queue, started } = fixture();
+    1001|   const recordingId = finished(store),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 79 passed (80)
+   Start at  22:55:53
+   Duration  17.35s (tests 77%, transform 15%, import 8%)
+
+error: script "test" exited with code 1

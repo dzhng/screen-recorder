@@ -1,0 +1,12 @@
+$ vitest run --maxWorkers=4 src/jobs.test.ts -t "forgetting a large ready history"
+
+ RUN  v5.0.0 /private/tmp/screenrec-asset-transcript-processing/packages/core
+
+(node:80062) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 51 skipped (52)
+   Start at  22:56:51
+   Duration  843ms (tests 78%, transform 15%, import 7%)
+

@@ -1,0 +1,97 @@
+$ vitest run --maxWorkers=4 src/asset-transcript.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-asset-transcript-processing/packages/core
+
+(node:74205) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/asset-transcript.test.ts (4 tests | 4 failed) 4263ms
+   × selected source admission retains its real asset and publishes normalized words without a recording 1062ms
+   × model readiness and failure stay explicit, reads never retry and explicit retry creates a fresh attempt 1098ms
+   × cancelled attempts are not revived by reads; cleanup preserves other published source generations 1050ms
+   × explicit acquisition masks separate jobs for the same bytes and retain the context 1051ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/asset-transcript.test.ts > selected source admission retains its real asset and publishes normalized words without a recording
+AssertionError: expected 'failed' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "failed"
+
+ ❯ src/asset-transcript.test.ts:149:73
+    147|   const f = await fixture();
+    148|   f.processing.prepareSource(f.selection);
+    149|   await expect.poll(() => f.processing.sourceStatus(f.selection).state…
+       |                                                                         ^
+    150|   const status = f.processing.sourceStatus(f.selection);
+    151|   expect(f.requests[0]!.track).toEqual({
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/asset-transcript.test.ts:149:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/asset-transcript.test.ts > model readiness and failure stay explicit, reads never retry and explicit retry creates a fresh attempt
+AssertionError: expected 'failed' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "failed"
+
+ ❯ src/asset-transcript.test.ts:195:73
+    193|   f.control.fail = false;
+    194|   f.processing.retrySource(f.selection);
+    195|   await expect.poll(() => f.processing.sourceStatus(f.selection).state…
+       |                                                                         ^
+    196|   expect(f.processing.sourceStatus(f.selection).published!.generation)…
+    197|   expect(f.requests).toHaveLength(2);
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/asset-transcript.test.ts:195:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/asset-transcript.test.ts > cancelled attempts are not revived by reads; cleanup preserves other published source generations
+AssertionError: expected 'failed' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "failed"
+
+ ❯ src/asset-transcript.test.ts:204:73
+    202|   const f = await fixture();
+    203|   f.processing.prepareSource(f.selection);
+    204|   await expect.poll(() => f.processing.sourceStatus(f.selection).state…
+       |                                                                         ^
+    205|   const retained = f.processing.sourceStatus(f.selection).published!.t…
+    206|   f.control.hold = true;
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/asset-transcript.test.ts:204:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/asset-transcript.test.ts > explicit acquisition masks separate jobs for the same bytes and retain the context
+AssertionError: expected 'failed' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "failed"
+
+ ❯ src/asset-transcript.test.ts:253:68
+    251|   const masked = { ...f.selection, acquisitionId: "masked" };
+    252|   f.processing.prepareSource(masked);
+    253|   await expect.poll(() => f.processing.sourceStatus(masked).state).toB…
+       |                                                                    ^
+    254|   f.processing.prepareSource(f.selection);
+    255|   await expect.poll(() => f.processing.sourceStatus(f.selection).state…
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ src/asset-transcript.test.ts:253:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  22:52:46
+   Duration  4.99s (tests 88%, transform 8%, import 4%)
+
+error: script "test" exited with code 1
