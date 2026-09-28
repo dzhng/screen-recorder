@@ -1,7 +1,13 @@
 import { constants, openSync, closeSync, fstatSync, readSync } from "node:fs";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
-import { rangeSchema } from "@screenrec/composition";
+import { rangeSchema, processingTapSchema, type ProcessingTap } from "@screenrec/composition";
+import type { ProjectStore } from "./projects.js";
+import {
+  projectWindow,
+  type CompositionWindow,
+  type CompositionAssetBinding,
+} from "./project-window.js";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
@@ -46,6 +52,61 @@ const optionsSchema = z.strictObject({
   supportDigest: z.string(),
   implementationId: z.string().min(1),
 });
+const projectOptionsSchema = z.strictObject({
+  range: rangeSchema,
+  tap: processingTapSchema,
+  implementationId: z.string().min(1),
+});
+const sampleRangeSchema = z
+  .object({ start: integer, end: integer })
+  .refine((value) => value.end >= value.start);
+const projectReceiptSchema = z.object({
+  file: z.string(),
+  bytes: integer.positive(),
+  sampleRate: z.literal(48000),
+  channels: z.literal(2),
+  frames: integer,
+  peak: z.number().finite().nonnegative(),
+  clippedSamples: integer,
+  maximumBlockFrames: integer.positive(),
+  peakResidentBytes: integer,
+  decoderContext: z.object({
+    policy: z.literal("bounded-current-retained-run"),
+    sampleRate: z.literal(48000),
+    maximumPrerollFrames: integer,
+    maximumTailFrames: integer,
+  }),
+  unavailable: z.array(z.object({ clipId: z.string(), ranges: z.array(sampleRangeSchema) })),
+});
+export type ProjectAudioInput = {
+  projectId: string;
+  revisionId?: string | undefined;
+  range?: TimeRange | undefined;
+  tap?: ProcessingTap | undefined;
+};
+export type ProjectAudioRenderer = {
+  implementationId: string;
+  render(
+    request: {
+      window: CompositionWindow;
+      assets: readonly CompositionAssetBinding[];
+      output: string;
+    },
+    signal: AbortSignal,
+  ): Promise<unknown>;
+};
+export type ProjectAudioArtifact = z.infer<typeof projectReceiptSchema> & {
+  projectId: string;
+  revisionId: string;
+  range: TimeRange;
+  tap: ProcessingTap;
+  implementationId: string;
+  sampleRange: { start: number; end: number };
+  mediaType: "audio/wav";
+  layout: "stereo";
+  cacheId: string;
+};
+export type MediaAudioInput = SourceAudioInput | ProjectAudioInput;
 const artifact = "audio";
 function invalid(message: string): never {
   throw new CatalogError("INVALID_RESPONSE", message);
@@ -64,7 +125,7 @@ function unavailable(range: TimeRange, support: readonly TimeRange[]) {
   return gaps;
 }
 
-/** Selected-source audio shares queue/cache delivery without inventing a recording revision. */
+/** Source and project PCM share admission, cache publication and WAV validation. */
 export class MediaAudioInspection {
   constructor(
     private readonly owners: {
@@ -73,8 +134,11 @@ export class MediaAudioInspection {
       jobs: JobQueue;
       cache: DerivedCache;
       sourceRenderer: SourceAudioRenderer;
+      project?: { projects: ProjectStore; renderer: ProjectAudioRenderer };
     },
   ) {
+    if (owners.project && !owners.project.renderer.implementationId)
+      throw new Error("Project audio renderer needs an implementation identity");
     if (!owners.sourceRenderer.implementationId)
       throw new Error("Audio renderer needs an implementation identity");
   }
@@ -118,7 +182,7 @@ export class MediaAudioInspection {
       },
     };
   }
-  request(input: SourceAudioInput) {
+  private requestSource(input: SourceAudioInput) {
     const { options } = this.plan(input);
     const { assets, acquisitions, jobs, cache } = this.owners;
     const status = submitCachedDerivative<SourceAudioArtifact>(
@@ -149,10 +213,155 @@ export class MediaAudioInspection {
         : null,
     };
   }
-  retry(input: SourceAudioInput) {
+  request(input: SourceAudioInput): ReturnType<MediaAudioInspection["requestSource"]>;
+  request(input: ProjectAudioInput): ReturnType<MediaAudioInspection["requestProject"]>;
+  request(
+    input: MediaAudioInput,
+  ):
+    | ReturnType<MediaAudioInspection["requestSource"]>
+    | ReturnType<MediaAudioInspection["requestProject"]>;
+  request(input: MediaAudioInput) {
+    return "projectId" in input ? this.requestProject(input) : this.requestSource(input);
+  }
+  retry(input: SourceAudioInput): ReturnType<MediaAudioInspection["requestSource"]>;
+  retry(input: ProjectAudioInput): ReturnType<MediaAudioInspection["requestProject"]>;
+  retry(
+    input: MediaAudioInput,
+  ):
+    | ReturnType<MediaAudioInspection["requestSource"]>
+    | ReturnType<MediaAudioInspection["requestProject"]>;
+  retry(input: MediaAudioInput) {
     const current = this.request(input);
     if (current.jobId) this.owners.jobs.retry(current.jobId);
-    return this.request(input);
+    return this.request(
+      "projectId" in current
+        ? {
+            projectId: current.projectId,
+            revisionId: current.revisionId,
+            range: current.range,
+            tap: current.tap,
+          }
+        : input,
+    );
+  }
+  private projectPlan(input: ProjectAudioInput) {
+    const owner = this.owners.project;
+    if (!owner)
+      throw new CatalogError("NOT_READY", "Project audio renderer is unavailable", {}, true);
+    const plan = projectWindow(
+      owner.projects,
+      this.owners.assets,
+      input,
+      owner.renderer.implementationId,
+      "audio",
+    );
+    const { sampleRange } = plan.window.manifest;
+    if (sampleRange.end <= sampleRange.start)
+      throw new CatalogError(
+        "INVALID_RANGE",
+        "Project audio window must contain at least one sample",
+      );
+    const bytes = BigInt(sampleRange.end - sampleRange.start) * 8n + 44n;
+    if (bytes > BigInt(Number.MAX_SAFE_INTEGER))
+      throw new CatalogError("LIMIT_EXCEEDED", "Audio derivative size exceeds safe accounting");
+    this.owners.cache.checkCapacity(Number(bytes));
+    return plan;
+  }
+  private requestProject(input: ProjectAudioInput) {
+    const { window } = this.projectPlan(input);
+    const { range, tap, revisionId } = window.manifest;
+    const options = {
+      range,
+      tap,
+      implementationId: this.owners.project!.renderer.implementationId,
+    };
+    const status = submitCachedDerivative<ProjectAudioArtifact>(
+      this.owners.jobs,
+      this.owners.cache,
+      {
+        target: { kind: "project", projectId: input.projectId, revisionId },
+        artifact,
+        input: JSON.stringify(options),
+      },
+      "heavy",
+    );
+    return {
+      projectId: input.projectId,
+      revisionId,
+      range,
+      tap,
+      state: status.state,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      published: status.published
+        ? { generation: status.published.generation, audio: status.published.value }
+        : null,
+    };
+  }
+  private async executeProject({ job, signal }: JobExecution, raw: unknown): Promise<string> {
+    const parsed = projectOptionsSchema.safeParse(raw);
+    if (job.target.kind !== "project" || job.artifact !== artifact || !parsed.success)
+      throw new CatalogError("UNSUPPORTED_JOB", "Audio job does not name a project window");
+    const owner = this.owners.project;
+    if (!owner || owner.renderer.implementationId !== parsed.data.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned project audio renderer is unavailable", {}, true);
+    const plan = this.projectPlan({
+      projectId: job.target.projectId,
+      revisionId: job.target.revisionId,
+      ...parsed.data,
+    });
+    signal.throwIfAborted();
+    const output = this.owners.cache.reserve({ kind: "project", projectId: job.target.projectId });
+    try {
+      const receipt = projectReceiptSchema.safeParse(
+        await owner.renderer.render({ ...plan, output: output.path }, signal),
+      );
+      signal.throwIfAborted();
+      if (!receipt.success) invalid("Malformed project audio receipt");
+      const value = receipt.data;
+      const sampleRange = plan.window.manifest.sampleRange;
+      if (
+        value.file !== output.path ||
+        value.frames !== sampleRange.end - sampleRange.start ||
+        value.clippedSamples > value.frames * 2
+      )
+        invalid("Project audio receipt differs from its pinned sample window");
+      const clips = new Map(
+        [...plan.window.audio()]
+          .filter((clip) => clip.source.kind === "range")
+          .map((clip) => [clip.clipId, clip]),
+      );
+      for (const missing of value.unavailable) {
+        const clip = clips.get(missing.clipId);
+        if (!clip) invalid("Project audio receipt names an unselected or repeated clip");
+        let through = clip.sampleRange.start;
+        for (const gap of missing.ranges) {
+          if (gap.start < through || gap.end <= gap.start || gap.end > clip.sampleRange.end)
+            invalid("Project audio unavailable samples exceed their clip");
+          through = gap.end;
+        }
+        clips.delete(missing.clipId);
+      }
+      if (clips.size) invalid("Project audio receipt omitted a selected clip");
+      checkWave(value);
+      const cached = await this.owners.cache.publish(output.id);
+      signal.throwIfAborted();
+      if (cached.bytes !== value.bytes) invalid("Published audio size differs from its receipt");
+      return JSON.stringify({
+        ...value,
+        ...parsed.data,
+        projectId: job.target.projectId,
+        revisionId: job.target.revisionId,
+        mediaType: "audio/wav",
+        layout: "stereo",
+        sampleRange,
+        cacheId: output.id,
+      } satisfies ProjectAudioArtifact);
+    } catch (error) {
+      this.owners.cache.remove(output.id);
+      throw error;
+    }
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
     let raw: unknown;
@@ -161,6 +370,7 @@ export class MediaAudioInspection {
     } catch {
       throw new CatalogError("UNSUPPORTED_JOB", "Invalid audio job input");
     }
+    if (job.target.kind === "project") return this.executeProject({ job, signal }, raw);
     const parsed = optionsSchema.safeParse(raw);
     if (
       job.target.kind !== "asset" ||
@@ -223,7 +433,9 @@ export class MediaAudioInspection {
 }
 
 /** Verify bounded RIFF metadata against the receipt without loading full extraction samples. */
-function checkWave(value: SourceAudioResult) {
+function checkWave(
+  value: Pick<SourceAudioResult, "file" | "bytes" | "sampleRate" | "channels" | "frames">,
+) {
   const fd = openSync(value.file, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
   try {
     const stat = fstatSync(fd);

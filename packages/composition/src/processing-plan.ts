@@ -4,7 +4,12 @@ import type { ProcessingTap } from "./execution-window.js";
 import type { ValidatedComposition } from "./model.js";
 import { processingKey } from "./processing.js";
 import { compareRoutingSiblings } from "./routing.js";
-import { processingTargetSchema, processingStepSchema, type ProcessingTarget } from "./schema.js";
+import {
+  processingTargetSchema,
+  processingStepSchema,
+  processorRegistry,
+  type ProcessingTarget,
+} from "./schema.js";
 
 export const processingInstructionSchema = z
   .object({
@@ -54,12 +59,19 @@ export function processingPlanner(model: ValidatedComposition) {
   return (
     clips: readonly ValidatedComposition["clips"][number][],
     tap: ProcessingTap = { target: { kind: "output" }, point: { kind: "processed" } },
+    component?: "audio",
   ): ProcessingInstruction[] => {
     const output = entries.get(processingKey(tap.target));
     if (!output)
       throw new CompositionError("INVALID_COMPOSITION", "Unknown processing tap target", {
         target: tap.target,
       });
+    if (component && output.mediaKind !== "output" && output.mediaKind !== component)
+      throw new CompositionError(
+        "INVALID_COMPOSITION",
+        "Audio inspection requires an audio target",
+        { target: tap.target },
+      );
     const point = tap.point;
     const last =
       point.kind === "after-step" ? output.steps.findIndex((step) => step.id === point.stepId) : -1;
@@ -92,6 +104,15 @@ export function processingPlanner(model: ValidatedComposition) {
         if (a.target.kind === "output" || b.target.kind === "output") return 0;
         return compareRoutingSiblings({ ...a.target, node: a }, { ...b.target, node: b });
       });
+    const steps = (entry: Entry) => {
+      const selected =
+        entry === output && point.kind !== "processed"
+          ? entry.steps.slice(0, point.kind === "dry" ? 0 : last + 1)
+          : entry.steps;
+      return component
+        ? selected.filter((step) => processorRegistry[step.processor.type].mediaKind === component)
+        : selected;
+    };
     const result: ProcessingInstruction[] = [];
     const pending = [{ entry: output, visited: false }];
     while (pending.length) {
@@ -102,10 +123,7 @@ export function processingPlanner(model: ValidatedComposition) {
           target: entry.target,
           mediaKind: entry.mediaKind,
           inputs: inputs.map((child) => child.target),
-          steps:
-            entry === output && point.kind !== "processed"
-              ? entry.steps.slice(0, point.kind === "dry" ? 0 : last + 1)
-              : entry.steps,
+          steps: steps(entry),
         });
       else {
         pending.push({ entry, visited: true });

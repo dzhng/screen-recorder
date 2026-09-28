@@ -1,14 +1,13 @@
 import { z } from "zod";
+import { rangeSchema } from "@screenrec/composition";
+import { AssetStore } from "./assets.js";
 import {
-  createCompiler,
-  isMediaClip,
-  processingCapabilities,
-  type ProcessorImplementations,
-  rangeSchema,
-  requireWindowReady,
-  validateComposition,
-} from "@screenrec/composition";
-import { AssetStore, compositionAsset } from "./assets.js";
+  projectWindow,
+  projectCapabilities,
+  type CompositionWindow,
+  type CompositionAssetBinding,
+} from "./project-window.js";
+export type { CompositionWindow, CompositionAssetBinding } from "./project-window.js";
 import { CatalogError } from "./catalog.js";
 import { ProjectStore } from "./projects.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
@@ -22,13 +21,6 @@ export type ProjectPreviewInput = {
   range?: { startUs: number; endUs: number } | undefined;
   /** Internal retained intent binding; public requests omit this field. */
   implementationId?: string | undefined;
-};
-export type CompositionWindow = ReturnType<ReturnType<typeof createCompiler>["window"]>;
-export type CompositionAssetBinding = {
-  assetId: string;
-  streamId: string;
-  path: string;
-  originUs: number;
 };
 export type CompositionMovie = Omit<RenderedMovie, "audio"> & {
   audio?: { frames: number; sampleRate: number; channels: number };
@@ -63,7 +55,6 @@ const optionsSchema = z
 
 /** Immutable composition admission and publication under the shared queue and disposable cache. */
 export class ProjectPreviewInspection {
-  private readonly processors: ProcessorImplementations;
   constructor(
     private readonly projects: ProjectStore,
     private readonly assets: AssetStore,
@@ -73,11 +64,10 @@ export class ProjectPreviewInspection {
   ) {
     if (!renderer.implementationId)
       throw new Error("A composition renderer implementation is required");
-    this.processors = { gain: renderer.implementationId };
   }
 
   capabilities() {
-    return processingCapabilities(this.processors);
+    return projectCapabilities(this.renderer.implementationId);
   }
 
   pin(input: ProjectPreviewInput): PinnedProjectPreview {
@@ -147,54 +137,7 @@ export class ProjectPreviewInspection {
   }
 
   private plan(input: ProjectPreviewInput) {
-    const revision = this.projects.revision(input.projectId, input.revisionId);
-    const ids = [
-      ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
-    ];
-    const metadata = new Map(ids.map((id) => [id, this.assets.get(id)]));
-    const model = validateComposition(
-      revision.document,
-      [...metadata.values()].map(compositionAsset),
-      this.projects.contexts(revision.document),
-    );
-    const parsed = rangeSchema.safeParse(input.range ?? { startUs: 0, endUs: model.durationUs });
-    if (!parsed.success || parsed.data.endUs > model.durationUs)
-      throw new CatalogError(
-        "INVALID_PARAMS",
-        "Preview requires a nonempty range within the pinned project",
-      );
-    const window = createCompiler(model, revision.id).window({
-      range: parsed.data,
-      rendition: { sampleRate: 48000, channels: 2 },
-      tap: { target: { kind: "output" }, point: { kind: "processed" } },
-    });
-    const gainTargets = new Set(
-      window.manifest.processing
-        .filter((node) => node.mediaKind === "audio" || node.mediaKind === "output")
-        .map((node) => JSON.stringify(node.target)),
-    );
-    const requirements = window.manifest.requirements.map((requirement) => ({
-      ...requirement,
-      implementationId:
-        requirement.kind === "executor"
-          ? this.renderer.implementationId
-          : requirement.kind === "processor" && gainTargets.has(JSON.stringify(requirement.target))
-            ? (this.processors[requirement.processor.type] ?? null)
-            : null,
-    }));
-    const bound = { ...window, manifest: { ...window.manifest, requirements } };
-    requireWindowReady(bound.manifest);
-    const bindings = new Map<string, CompositionAssetBinding>();
-    for (const source of bound.manifest.sources) {
-      const asset = metadata.get(source.assetId)!;
-      bindings.set(JSON.stringify([asset.id, source.streamId]), {
-        assetId: asset.id,
-        streamId: source.streamId,
-        path: this.assets.path(asset.id),
-        originUs: asset.originUs,
-      });
-    }
-    return { window: bound, assets: [...bindings.values()] };
+    return projectWindow(this.projects, this.assets, input, this.renderer.implementationId);
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {

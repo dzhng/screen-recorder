@@ -1,0 +1,18 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey
+
+(node:18757) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18758) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18769) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  10 passed (10)
+      Tests  140 passed (140)
+   Start at  00:30:36
+   Duration  3.74s (tests 81%, transform 9%, import 9%)
+
+    Isolate  10 workers spawned · ~64ms startup each (spawn + environment, per file)
+             at least ~254ms faster with isolate: false — reuses workers across files instead of one per file
+

@@ -184,45 +184,50 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       })
       .sort((a, b) => a.trackRank - b.trackRank || compare(a.range.start, b.range.start));
   }
+  function window(input: unknown, audioOnly: boolean) {
+    const parsed = executionWindowRequestSchema.safeParse(input);
+    if (!parsed.success) throw new CompositionError("INVALID_COMPOSITION", parsed.error.message);
+    const request = parsed.data;
+    const clips = contributors(request.range, request.rendition.sampleRate).filter(
+      (value) => !audioOnly || value.track.kind === "audio",
+    );
+    const target = request.tap.target;
+    if (
+      target.kind === "clip" &&
+      !clips.some((value) => value.clip.id === target.id) &&
+      model.clips.some((value) => value.clip.id === target.id && value.track.kind === "audio")
+    )
+      throw new CompositionError(
+        "NOT_READY",
+        "Audio clip tap has no output samples in the requested window",
+      );
+    const plan = processing(clips, request.tap, audioOnly ? "audio" : undefined);
+    const selected = new Set(
+      plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
+    );
+    const inputs = clips.filter((value) => selected.has(value.clip.id));
+    return executionWindow(
+      revisionId,
+      model.document.canvas,
+      request,
+      inputs,
+      plan,
+      contexts,
+      compileSchedules(
+        clock,
+        intervalIndex(inputs, (clip) => clip.range, renderOrder),
+        contexts,
+      ),
+      audioOnly ? "audio" : undefined,
+    );
+  }
   return {
     ...compileSchedules(clock, query, contexts),
     processing(input: Range) {
       const range = checkedRange(input);
       return processing(contributors(range));
     },
-    window(input: unknown) {
-      const parsed = executionWindowRequestSchema.safeParse(input);
-      if (!parsed.success) throw new CompositionError("INVALID_COMPOSITION", parsed.error.message);
-      const request = parsed.data;
-      const clips = contributors(request.range, request.rendition.sampleRate);
-      const target = request.tap.target;
-      if (
-        target.kind === "clip" &&
-        !clips.some((value) => value.clip.id === target.id) &&
-        model.clips.some((value) => value.clip.id === target.id && value.track.kind === "audio")
-      )
-        throw new CompositionError(
-          "NOT_READY",
-          "Audio clip tap has no output samples in the requested window",
-        );
-      const plan = processing(clips, request.tap);
-      const selected = new Set(
-        plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
-      );
-      const inputs = clips.filter((value) => selected.has(value.clip.id));
-      return executionWindow(
-        revisionId,
-        model.document.canvas,
-        request,
-        inputs,
-        plan,
-        contexts,
-        compileSchedules(
-          clock,
-          intervalIndex(inputs, (clip) => clip.range, renderOrder),
-          contexts,
-        ),
-      );
-    },
+    window: (input: unknown) => window(input, false),
+    audioWindow: (input: unknown) => window(input, true),
   };
 }

@@ -1,0 +1,37 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-journey
+
+(node:22697) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/project-audio.test.ts (6 tests | 1 failed | 5 skipped) 164ms
+   × project audio taps bind only their descendants and target-owned processing, with absolute sample clocks 163ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/project-audio.test.ts > project audio taps bind only their descendants and target-owned processing, with absolute sample clocks
+AssertionError: expected [ 'track:1', 'picture' ] to deeply equal [ 'track:1' ]
+
+- Expected
++ Received
+
+  [
+    "track:1",
++   "picture",
+  ]
+
+ ❯ packages/core/src/project-audio.test.ts:247:61
+    245|       expect(ready.published!.audio.sampleRange).toEqual({ start: 15, …
+    246|       const request = requests.at(-1)!;
+    247|       expect(request.assets.map((asset) => asset.streamId)).toEqual(["…
+       |                                                             ^
+    248|       expect([...request.window.frames()]).toEqual([]);
+    249|       expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  00:33:11
+   Duration  520ms (transform 42%, tests 37%, import 20%, worker 1%)
+
