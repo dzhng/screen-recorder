@@ -7,7 +7,12 @@ import { RevisionStore } from "./library.js";
 import { JobQueue, recordingJobTargets } from "./jobs.js";
 import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
-import { TranscriptStore, recordingTranscriptOwner, type SpeechTranscriber } from "./transcript.js";
+import {
+  TranscriptStore,
+  recordingTranscriptOwner,
+  recordingTranscriptIdentity,
+  type SpeechTranscriber,
+} from "./transcript.js";
 import { TranscriptProcessing, type TranscriptionModels } from "./transcript-processing.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -834,4 +839,31 @@ test("cleanup reclaims abandoned generations but keeps published and retained on
       )
       .get(),
   ).toEqual({ n: 0 });
+});
+
+test("current decoder work does not reuse a prior recording recipe or erase its generation", async () => {
+  const f = await fixture();
+  const recordingId = await transcribed(f);
+  const previous = f.transcript.status(recordingId);
+  const metadata = previous.published!.transcript;
+  const original = f.transcripts.wordRecords(recordingTranscriptIdentity(metadata), { limit: 100 });
+  // Model a persisted installation before decoder execution was part of the recipe.
+  const oldInput = `transcript-v1:${modelDigest}`;
+  f.store.catalog.prepare("UPDATE jobs SET input=? WHERE jobId=?").run(oldInput, previous.jobId);
+  f.store.catalog
+    .prepare("UPDATE artifacts SET input=? WHERE targetId=? AND artifact='transcript'")
+    .run(oldInput, recordingId);
+  expect(f.transcript.status(recordingId).state).toBe("not_requested");
+  f.transcript.prepare(recordingId);
+  await f.jobs.idle();
+  const current = f.transcript.status(recordingId);
+  expect(current.state).toBe("ready");
+  expect(current.jobId).not.toBe(previous.jobId);
+  expect(current.published!.transcript.generation).not.toBe(metadata.generation);
+  expect(f.requests).toHaveLength(2);
+  await f.transcript.cleanup(new AbortController().signal);
+  expect(f.transcripts.wordRecords(recordingTranscriptIdentity(metadata), { limit: 100 })).toEqual(
+    original,
+  );
+  expect(metadata.engine.policy).toBe("transcript-v1");
 });

@@ -67,7 +67,7 @@ export type AudioOptions = {
   sourceEvidence: SourceEvidenceMetadata;
 };
 const artifact = "audio";
-const policy = "audio-excerpt-v1";
+export const audioExcerptPolicy = "audio-excerpt-v2";
 
 function validateTrack(track: AudioInput["track"]): void {
   if (!["narration", "system", "mix"].includes(track))
@@ -190,7 +190,7 @@ export abstract class AudioInspection<
     validateTrack(input.track);
     return this.admit(context, this.backend.source(context), (evidence) => {
       const options: AudioOptions = {
-        policy,
+        policy: audioExcerptPolicy,
         range: { startUs: input.range.startUs, endUs: input.range.endUs },
         track: input.track,
         sourceEvidence: evidence,
@@ -223,7 +223,7 @@ export async function renderAudio<Artifact extends MaterializedAudio>(
   signal: AbortSignal,
 ): Promise<Artifact> {
   try {
-    if (options.policy !== policy)
+    if (options.policy !== audioExcerptPolicy)
       throw new CatalogError("UNSUPPORTED_JOB", "Audio inspector cannot execute this job");
     const { spans, tracks, missingRoles } = planAudioExcerpt(
       {

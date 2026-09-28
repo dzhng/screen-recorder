@@ -23,7 +23,7 @@ import { renderPlan, type RenderSpan, type TimelineRevision } from "./timeline.j
  * so one number describes "what this product shows you rather than gives you".
  * The human video export asks for the `source` rendition and keeps every captured pixel.
  */
-export const previewPolicy = Object.freeze({ id: "movie-preview-v1", maxLongEdge: 1600 });
+export const previewPolicy = Object.freeze({ id: "movie-preview-v2", maxLongEdge: 1600 });
 export type PreviewRendition = "preview" | "source";
 export type PreviewInput = { recordingId: string; revisionId?: string | undefined };
 /** What any preview request carries, whichever media it names. */

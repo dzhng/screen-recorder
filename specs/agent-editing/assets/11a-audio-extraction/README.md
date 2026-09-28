@@ -68,3 +68,6 @@ built native binary. The separately frozen native run is recorded in
 
 Repeated poll entries in retained reports are run-length encoded without reordering;
 `originalReportSha256` identifies each uncompressed report.
+
+[Decoder execution identities](../11a-audio-execution-pins/README.md) keep new work
+separate from prior cached output without invalidating portable transcript metadata.

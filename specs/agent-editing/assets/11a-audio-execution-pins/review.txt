@@ -1,0 +1,2126 @@
+2026-09-28T08:27:53.902474Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T08:27:53.902557Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /private/tmp/screenrec-source-audio-inspection
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e720-aea2-7bc0-9348-875fc487a02f
+--------
+user
+current changes
+2026-09-28T08:27:54.221913Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T08:27:54.221935Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+exec
+/bin/zsh -lc 'pwd; git status --short; find .. -name AGENTS.md -o -name AGENTS.override.md' in /private/tmp/screenrec-source-audio-inspection
+exec
+/bin/zsh -lc 'cat AGENTS.md; cat .agents/skills/code-review/SKILL.md; git diff --stat; git diff --cached --stat' in /private/tmp/screenrec-source-audio-inspection
+2026-09-28T08:28:12.402634Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e720-aea2-7bc0-9348-875fc487a02f turn_id=01a0e720-af2d-7e60-a4df-57a473bf9f6d item_id="exec-d5a90001-520f-4e5a-8393-39cca849c843"
+ succeeded in 0ms:
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+ packages/core/src/asset-transcript.test.ts         | 29 ++++++++++++++++++
+ packages/core/src/audio.ts                         |  2 +-
+ packages/core/src/preview.ts                       |  2 +-
+ packages/core/src/transcript-processing.ts         |  5 +++-
+ packages/core/src/transcript.test.ts               | 34 +++++++++++++++++++++-
+ .../assets/11a-audio-extraction/README.md          |  3 ++
+ 6 files changed, 71 insertions(+), 4 deletions(-)
+
+exec
+/bin/zsh -lc 'git diff; find . -name AGENTS.md -o -name AGENTS.override.md; find specs/agent-editing/assets/11a-audio-execution-pins -type f; cat .agents/skills/write-tests/SKILL.md' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+diff --git a/packages/core/src/asset-transcript.test.ts b/packages/core/src/asset-transcript.test.ts
+index 8d25758..1e3c515 100644
+--- a/packages/core/src/asset-transcript.test.ts
++++ b/packages/core/src/asset-transcript.test.ts
+@@ -294,3 +294,32 @@ test("a new model digest creates new immutable work while cleanup retains the ea
+       .map((word) => word.text),
+   ).toEqual(["track:2"]);
+ });
++
++test("current decoder work separates source recipes while retained evidence stays readable", async () => {
++  const f = await fixture();
++  f.processing.prepareSource(f.selection);
++  await expect.poll(() => f.processing.sourceStatus(f.selection).state).toBe("ready");
++  const previous = f.processing.sourceStatus(f.selection);
++  const metadata = previous.published!.transcript;
++  const original = f.transcripts.wordRecords(metadata, { limit: 100 });
++  const row = f.catalog.catalog
++    .prepare("SELECT input FROM jobs WHERE jobId=?")
++    .get(previous.jobId) as { input: string };
++  const oldRecipe = JSON.parse(row.input);
++  delete oldRecipe.decoderExecution;
++  const oldInput = JSON.stringify(oldRecipe);
++  f.catalog.catalog.prepare("UPDATE jobs SET input=? WHERE jobId=?").run(oldInput, previous.jobId);
++  f.catalog.catalog
++    .prepare("UPDATE artifacts SET input=? WHERE targetId=? AND artifact='transcript'")
++    .run(oldInput, f.asset.id);
++  expect(f.processing.sourceStatus(f.selection).state).toBe("not_requested");
++  f.processing.prepareSource(f.selection);
++  await expect.poll(() => f.processing.sourceStatus(f.selection).state).toBe("ready");
++  const current = f.processing.sourceStatus(f.selection);
++  expect(current.jobId).not.toBe(previous.jobId);
++  expect(current.published!.transcript.generation).not.toBe(metadata.generation);
++  expect(f.requests).toHaveLength(2);
++  await f.processing.cleanup(new AbortController().signal);
++  expect(f.transcripts.wordRecords(metadata, { limit: 100 })).toEqual(original);
++  expect(metadata.engine.policy).toBe("transcript-v1");
++});
+diff --git a/packages/core/src/audio.ts b/packages/core/src/audio.ts
+index dd13ef5..a9f8a63 100644
+--- a/packages/core/src/audio.ts
++++ b/packages/core/src/audio.ts
+@@ -67,7 +67,7 @@ export type AudioOptions = {
+   sourceEvidence: SourceEvidenceMetadata;
+ };
+ const artifact = "audio";
+-const policy = "audio-excerpt-v1";
++const policy = "audio-excerpt-v2";
+
+ function validateTrack(track: AudioInput["track"]): void {
+   if (!["narration", "system", "mix"].includes(track))
+diff --git a/packages/core/src/preview.ts b/packages/core/src/preview.ts
+index b374cc3..18eb2f0 100644
+--- a/packages/core/src/preview.ts
++++ b/packages/core/src/preview.ts
+@@ -23,7 +23,7 @@ import { renderPlan, type RenderSpan, type TimelineRevision } from "./timeline.j
+  * so one number describes "what this product shows you rather than gives you".
+  * The human video export asks for the `source` rendition and keeps every captured pixel.
+  */
+-export const previewPolicy = Object.freeze({ id: "movie-preview-v1", maxLongEdge: 1600 });
++export const previewPolicy = Object.freeze({ id: "movie-preview-v2", maxLongEdge: 1600 });
+ export type PreviewRendition = "preview" | "source";
+ export type PreviewInput = { recordingId: string; revisionId?: string | undefined };
+ /** What any preview request carries, whichever media it names. */
+diff --git a/packages/core/src/transcript-processing.ts b/packages/core/src/transcript-processing.ts
+index d7e5831..d974f7e 100644
+--- a/packages/core/src/transcript-processing.ts
++++ b/packages/core/src/transcript-processing.ts
+@@ -25,6 +25,8 @@ import {
+ import { TranscriptRead, transcriptContinuation } from "./transcript-read.js";
+
+ const artifact = "transcript";
++// Native PCM decoding is an execution input, separate from portable transcript schema policy.
++const decoderExecution = "native-audio-v2";
+
+ /** The model owner as transcription sees it: readiness, the verified file list and its pins. */
+ export type TranscriptionModels = Pick<
+@@ -120,7 +122,7 @@ export class TranscriptProcessing {
+
+   /** Job identity; a different model digest is a different transcript, never a retry of this one. */
+   private get input() {
+-    return `${transcriptPolicy}:${this.models.modelDigest}`;
++    return `${transcriptPolicy}:${decoderExecution}:${this.models.modelDigest}`;
+   }
+
+   private identity(recordingId: string) {
+@@ -248,6 +250,7 @@ export class TranscriptProcessing {
+         modelDigest: this.models.modelDigest,
+         pins: this.models.pins,
+         policy: transcriptPolicy,
++        decoderExecution,
+       }),
+     };
+   }
+diff --git a/packages/core/src/transcript.test.ts b/packages/core/src/transcript.test.ts
+index 64f1b77..c85cb2a 100644
+--- a/packages/core/src/transcript.test.ts
++++ b/packages/core/src/transcript.test.ts
+@@ -7,7 +7,12 @@ import { RevisionStore } from "./library.js";
+ import { JobQueue, recordingJobTargets } from "./jobs.js";
+ import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
+ import { SourceProcessing } from "./processing.js";
+-import { TranscriptStore, recordingTranscriptOwner, type SpeechTranscriber } from "./transcript.js";
++import {
++  TranscriptStore,
++  recordingTranscriptOwner,
++  recordingTranscriptIdentity,
++  type SpeechTranscriber,
++} from "./transcript.js";
+ import { TranscriptProcessing, type TranscriptionModels } from "./transcript-processing.js";
+
+ const cleanup: (() => Promise<void>)[] = [];
+@@ -835,3 +840,30 @@ test("cleanup reclaims abandoned generations but keeps published and retained on
+       .get(),
+   ).toEqual({ n: 0 });
+ });
++
++test("current decoder work does not reuse a prior recording recipe or erase its generation", async () => {
++  const f = await fixture();
++  const recordingId = await transcribed(f);
++  const previous = f.transcript.status(recordingId);
++  const metadata = previous.published!.transcript;
++  const original = f.transcripts.wordRecords(recordingTranscriptIdentity(metadata), { limit: 100 });
++  // Model a persisted installation before decoder execution was part of the recipe.
++  const oldInput = `transcript-v1:${modelDigest}`;
++  f.store.catalog.prepare("UPDATE jobs SET input=? WHERE jobId=?").run(oldInput, previous.jobId);
++  f.store.catalog
++    .prepare("UPDATE artifacts SET input=? WHERE targetId=? AND artifact='transcript'")
++    .run(oldInput, recordingId);
++  expect(f.transcript.status(recordingId).state).toBe("not_requested");
++  f.transcript.prepare(recordingId);
++  await f.jobs.idle();
++  const current = f.transcript.status(recordingId);
++  expect(current.state).toBe("ready");
++  expect(current.jobId).not.toBe(previous.jobId);
++  expect(current.published!.transcript.generation).not.toBe(metadata.generation);
++  expect(f.requests).toHaveLength(2);
++  await f.transcript.cleanup(new AbortController().signal);
++  expect(f.transcripts.wordRecords(recordingTranscriptIdentity(metadata), { limit: 100 })).toEqual(
++    original,
++  );
++  expect(metadata.engine.policy).toBe("transcript-v1");
++});
+diff --git a/specs/agent-editing/assets/11a-audio-extraction/README.md b/specs/agent-editing/assets/11a-audio-extraction/README.md
+index 2f237e0..bee1170 100644
+--- a/specs/agent-editing/assets/11a-audio-extraction/README.md
++++ b/specs/agent-editing/assets/11a-audio-extraction/README.md
+@@ -68,3 +68,6 @@ built native binary. The separately frozen native run is recorded in
+
+ Repeated poll entries in retained reports are run-length encoded without reordering;
+ `originalReportSha256` identifies each uncompressed report.
++
++[Decoder execution identities](../11a-audio-execution-pins/README.md) keep new work
++separate from prior cached output without invalidating portable transcript metadata.
+./AGENTS.md
+specs/agent-editing/assets/11a-audio-execution-pins/tests.txt
+specs/agent-editing/assets/11a-audio-execution-pins/choices.md
+specs/agent-editing/assets/11a-audio-execution-pins/README.md
+specs/agent-editing/assets/11a-audio-execution-pins/types.txt
+specs/agent-editing/assets/11a-audio-execution-pins/red.txt
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T08:28:16.747651Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e720-aea2-7bc0-9348-875fc487a02f turn_id=01a0e720-af2d-7e60-a4df-57a473bf9f6d item_id="exec-cd914319-5f5f-4332-b8fc-2bfb6bac22fa"
+exec
+/bin/zsh -lc 'cat specs/agent-editing/assets/11a-audio-execution-pins/{README.md,choices.md}; cat package.json; cat packages/core/package.json; cat packages/core/src/transcript-processing.ts' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+# Audio decoder execution identities
+
+A decoder change affects admission and bounded work even where samples remain
+unchanged. Legacy WAV excerpts and movie previews therefore use new recipe policies.
+Transcription includes the decoder execution identity in recording and selected-asset
+job inputs, independently of model digest and portable transcript schema policy.
+
+Portable `transcript-v1` metadata stays valid. Existing published or retained generations
+remain readable; the current recipe admits new work without erasing the old result.
+The tests seed historical job/artifact recipe keys around genuinely ingested fixtures,
+then verify distinct new jobs/generations, fresh transcriber execution, and unchanged
+old-generation words after cleanup. Removing decoder identity from both paths yields
+`ready` instead of new work (`red.txt`). Portable page, transcript, audio, and preview
+suites pass (`tests.txt`); no fresh native model inference is claimed.
+
+The service's source/project audio and project movie implementation IDs are integrated
+by their service owner. Visual source evidence and project transcript projection
+policies stay unchanged: the former does not use this decoder, and the latter already
+pins its source transcript generation. This pass adds no new cache owner or schema.
+# Decisions for integration
+
+- Version decoder execution separately from portable transcript representation.
+  Bumping the serialized transcript policy would also reject retained portable
+  metadata through its schema literal; that is unrelated to decoder execution.
+- Include the same decoder identity in both recording and asset transcription
+  recipes, so a changed decoder cannot reuse or retry under the former recipe.
+- Preserve prior immutable generations and their readable words. Current recipe
+  selection changes; this is not destructive invalidation of user evidence.
+- Advance existing legacy excerpt/preview pins rather than add a parallel recipe
+  mechanism. The service owner advances project/source renderer identities.
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+{
+  "name": "@screenrec/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./timeline": {
+      "types": "./dist/timeline.d.ts",
+      "default": "./dist/timeline.js"
+    },
+    "./library": {
+      "types": "./dist/library.d.ts",
+      "default": "./dist/library.js"
+    },
+    "./jobs": {
+      "types": "./dist/jobs.d.ts",
+      "default": "./dist/jobs.js"
+    },
+    "./evidence": {
+      "types": "./dist/evidence.d.ts",
+      "default": "./dist/evidence.js"
+    },
+    "./processing": {
+      "types": "./dist/processing.d.ts",
+      "default": "./dist/processing.js"
+    },
+    "./cache": {
+      "types": "./dist/cache.d.ts",
+      "default": "./dist/cache.js"
+    },
+    "./frames": {
+      "types": "./dist/frames.d.ts",
+      "default": "./dist/frames.js"
+    },
+    "./audio": {
+      "types": "./dist/audio.d.ts",
+      "default": "./dist/audio.js"
+    },
+    "./scenes": {
+      "types": "./dist/scenes.d.ts",
+      "default": "./dist/scenes.js"
+    },
+    "./trails": {
+      "types": "./dist/trails.d.ts",
+      "default": "./dist/trails.js"
+    },
+    "./visual-cache": {
+      "types": "./dist/visual-cache.d.ts",
+      "default": "./dist/visual-cache.js"
+    },
+    "./scene-evidence": {
+      "types": "./dist/scene-evidence.d.ts",
+      "default": "./dist/scene-evidence.js"
+    },
+    "./scene-processing": {
+      "types": "./dist/scene-processing.d.ts",
+      "default": "./dist/scene-processing.js"
+    },
+    "./frame-materialization": {
+      "types": "./dist/frame-materialization.d.ts",
+      "default": "./dist/frame-materialization.js"
+    },
+    "./selection": {
+      "types": "./dist/selection.d.ts",
+      "default": "./dist/selection.js"
+    },
+    "./screenshot-index": {
+      "types": "./dist/screenshot-index.d.ts",
+      "default": "./dist/screenshot-index.js"
+    },
+    "./index-processing": {
+      "types": "./dist/index-processing.d.ts",
+      "default": "./dist/index-processing.js"
+    },
+    "./storage": {
+      "types": "./dist/storage.d.ts",
+      "default": "./dist/storage.js"
+    },
+    "./package-manifest": {
+      "types": "./dist/package-manifest.d.ts",
+      "default": "./dist/package-manifest.js"
+    },
+    "./evidence-pages": {
+      "types": "./dist/evidence-pages.d.ts",
+      "default": "./dist/evidence-pages.js"
+    },
+    "./scene-pages": {
+      "types": "./dist/scene-pages.d.ts",
+      "default": "./dist/scene-pages.js"
+    },
+    "./index-pages": {
+      "types": "./dist/index-pages.d.ts",
+      "default": "./dist/index-pages.js"
+    },
+    "./presentation-evidence": {
+      "types": "./dist/presentation-evidence.d.ts",
+      "default": "./dist/presentation-evidence.js"
+    },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "default": "./dist/preview.js"
+    },
+    "./pointer-schedule": {
+      "types": "./dist/pointer-schedule.d.ts",
+      "default": "./dist/pointer-schedule.js"
+    },
+    "./package-archive": {
+      "types": "./dist/package-archive.d.ts",
+      "default": "./dist/package-archive.js"
+    },
+    "./files": {
+      "types": "./dist/files.d.ts",
+      "default": "./dist/files.js"
+    },
+    "./index-read": {
+      "types": "./dist/index-read.d.ts",
+      "default": "./dist/index-read.js"
+    },
+    "./event-pages": {
+      "types": "./dist/event-pages.d.ts",
+      "default": "./dist/event-pages.js"
+    },
+    "./retained-image": {
+      "types": "./dist/retained-image.d.ts",
+      "default": "./dist/retained-image.js"
+    },
+    "./raw-cursor": {
+      "types": "./dist/raw-cursor.d.ts",
+      "default": "./dist/raw-cursor.js"
+    },
+    "./ordered-pages": {
+      "types": "./dist/ordered-pages.d.ts",
+      "default": "./dist/ordered-pages.js"
+    },
+    "./evidence-read": {
+      "types": "./dist/evidence-read.d.ts",
+      "default": "./dist/evidence-read.js"
+    },
+    "./timeline-inspection": {
+      "types": "./dist/timeline-inspection.d.ts",
+      "default": "./dist/timeline-inspection.js"
+    },
+    "./derivative-inspection": {
+      "types": "./dist/derivative-inspection.d.ts",
+      "default": "./dist/derivative-inspection.js"
+    },
+    "./speech-models": {
+      "types": "./dist/speech-models.d.ts",
+      "default": "./dist/speech-models.js"
+    },
+    "./word-kind": {
+      "types": "./dist/word-kind.d.ts",
+      "default": "./dist/word-kind.js"
+    },
+    "./transcript": {
+      "types": "./dist/transcript.d.ts",
+      "default": "./dist/transcript.js"
+    },
+    "./transcript-read": {
+      "types": "./dist/transcript-read.d.ts",
+      "default": "./dist/transcript-read.js"
+    },
+    "./transcript-pages": {
+      "types": "./dist/transcript-pages.d.ts",
+      "default": "./dist/transcript-pages.js"
+    },
+    "./transcript-processing": {
+      "types": "./dist/transcript-processing.d.ts",
+      "default": "./dist/transcript-processing.js"
+    },
+    "./catalog": {
+      "types": "./dist/catalog.d.ts",
+      "default": "./dist/catalog.js"
+    },
+    "./assets": {
+      "types": "./dist/assets.d.ts",
+      "default": "./dist/assets.js"
+    },
+    "./projects": {
+      "types": "./dist/projects.d.ts",
+      "default": "./dist/projects.js"
+    },
+    "./project-preview": {
+      "types": "./dist/project-preview.d.ts",
+      "default": "./dist/project-preview.js"
+    },
+    "./acquisitions": {
+      "types": "./dist/acquisitions.d.ts",
+      "default": "./dist/acquisitions.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.check.json",
+    "test": "vitest run --maxWorkers=4"
+  },
+  "dependencies": {
+    "@screenrec/composition": "workspace:*",
+    "zod": "4.6.5"
+  }
+}
+import { setImmediate } from "node:timers/promises";
+import { isDeepStrictEqual } from "node:util";
+import type { AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
+import { join } from "node:path";
+import { isSettled, type Recording, type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
+import type { JobExecution, JobQueue } from "./jobs.js";
+import { planAudioTracks } from "./audio.js";
+import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
+import { sourceArtifact, sourcePolicy, type SourceProcessing } from "./processing.js";
+import type { TimeRange } from "./timeline.js";
+import type { SpeechModels } from "./speech-models.js";
+import {
+  transcriptPolicy,
+  recordingTranscript,
+  type SpeechTranscriber,
+  type RecordingTranscriptMetadata,
+  type TranscriptStore,
+  type TranscriptIdentity,
+  type TranscriptSource,
+  type TranscriptMetadata,
+} from "./transcript.js";
+import { TranscriptRead, transcriptContinuation } from "./transcript-read.js";
+
+const artifact = "transcript";
+// Native PCM decoding is an execution input, separate from portable transcript schema policy.
+const decoderExecution = "native-audio-v2";
+
+/** The model owner as transcription sees it: readiness, the verified file list and its pins. */
+export type TranscriptionModels = Pick<
+  SpeechModels,
+  "status" | "nativeRequest" | "modelDigest" | "pins"
+>;
+
+type ReadInput = {
+  recordingId: string;
+  revisionId?: string | undefined;
+  cursor?: unknown;
+  limit?: number | undefined;
+};
+
+type RecordingDomain = {
+  store: RevisionStore;
+  source: Pick<SourceProcessing, "status" | "prepare">;
+  evidence: SourceAudioRead;
+  home: string;
+  retained?: ((recordingId: string, generation: string) => boolean) | undefined;
+};
+type AssetDomain = { assets: AssetStore; acquisitions: AcquisitionStore };
+export type TranscriptProcessingOptions = {
+  jobs: JobQueue;
+  transcripts: TranscriptStore;
+  models: TranscriptionModels;
+  transcribe: SpeechTranscriber;
+  recording?: RecordingDomain;
+  asset?: AssetDomain;
+};
+function selectedAudio(domain: AssetDomain, selection: SourceSelection) {
+  const selected = selectSource(domain.assets, domain.acquisitions, selection);
+  if (selected.stream.kind !== "audio")
+    throw new CatalogError("UNSUPPORTED_MEDIA", "Transcription requires an audio stream");
+  return selected;
+}
+function sourceDescriptor(selected: ReturnType<typeof selectedAudio>): TranscriptSource {
+  return {
+    kind: "asset",
+    streamId: selected.selection.streamId,
+    ...(selected.selection.acquisitionId === undefined
+      ? {}
+      : { acquisitionId: selected.selection.acquisitionId }),
+    supportDigest: selected.supportDigest,
+    durationUs: selected.durationUs,
+  };
+}
+export function assetTranscriptOwner(assets: AssetStore, acquisitions: AcquisitionStore) {
+  return (identity: TranscriptIdentity, source: TranscriptSource): void => {
+    if (
+      identity.owner.kind !== "asset" ||
+      source.kind !== "asset" ||
+      identity.sourceId !== identity.owner.assetId
+    )
+      throw new CatalogError("INVALID_EVIDENCE", "Asset transcript requires an asset source");
+    const selected = selectedAudio(
+      { assets, acquisitions },
+      {
+        assetId: identity.owner.assetId,
+        streamId: source.streamId,
+        ...(source.acquisitionId === undefined ? {} : { acquisitionId: source.acquisitionId }),
+      },
+    );
+    if (!isDeepStrictEqual(sourceDescriptor(selected), source))
+      throw new CatalogError("ARTIFACT_CHANGED", "Transcript source support changed");
+  };
+}
+
+/** Source transcripts share one queue, model owner and raw indexer across actual source domains. */
+export class TranscriptProcessing {
+  private readonly jobs: JobQueue;
+  private readonly transcripts: TranscriptStore;
+  private readonly models: TranscriptionModels;
+  private readonly transcribe: SpeechTranscriber;
+  constructor(private readonly options: TranscriptProcessingOptions) {
+    ({
+      jobs: this.jobs,
+      transcripts: this.transcripts,
+      models: this.models,
+      transcribe: this.transcribe,
+    } = options);
+  }
+  private get recording() {
+    if (!this.options.recording)
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording transcription is unavailable");
+    return this.options.recording;
+  }
+  private get asset() {
+    if (!this.options.asset)
+      throw new CatalogError("UNSUPPORTED_JOB", "Asset transcription is unavailable");
+    return this.options.asset;
+  }
+
+  /** Job identity; a different model digest is a different transcript, never a retry of this one. */
+  private get input() {
+    return `${transcriptPolicy}:${decoderExecution}:${this.models.modelDigest}`;
+  }
+
+  private identity(recordingId: string) {
+    return {
+      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
+      artifact,
+      input: this.input,
+    };
+  }
+
+  /** Planning with no spans reads only the header and whether narration was ever acquired. */
+  private narration(recording: Recording, evidence: SourceEvidenceMetadata, spans: TimeRange[]) {
+    return planAudioTracks(
+      {
+        recordingId: recording.recordingId,
+        sourceId: recording.sourceId,
+        sourceEvidence: evidence,
+        spans,
+        track: "narration",
+      },
+      this.recording.evidence,
+      (role) =>
+        join(this.recording.home, "recordings", recording.recordingId, "source", `${role}.mov`),
+    ).tracks[0];
+  }
+
+  status(recordingId: string) {
+    const recording = this.recording.store.get(recordingId);
+    const identity = { recordingId, sourceId: recording.sourceId, sourceRevisionId: "r0" };
+    const blocked = (
+      state: string,
+      reason: string | null,
+      retryable: boolean,
+      dependencies: {
+        artifact: "source";
+        state: string;
+        reason: string | null;
+        retryable: boolean;
+        jobId: string | null;
+      }[] = [],
+    ) => ({ ...identity, state, reason, retryable, jobId: null, published: null, dependencies });
+    if (!isSettled(recording.state))
+      return blocked("not_requested", "capture_not_finalized", false);
+    if (recording.state === "canceled" || recording.sourceDurationUs === null)
+      return blocked("unavailable", "no_usable_video", false);
+    const source = this.recording.source.status(recordingId);
+    if (!source.published)
+      return blocked(source.state, source.reason, source.retryable, [
+        {
+          artifact: "source",
+          state: source.state,
+          reason: source.reason,
+          retryable: source.retryable,
+          jobId: source.jobId,
+        },
+      ]);
+    if (!this.narration(recording, source.published.evidence, []))
+      return blocked("unavailable", "no_narration", false);
+    const status = this.jobs.status(this.identity(recordingId));
+    // A published or attempted transcript stays visible; only starting one needs prepared models.
+    if (status.state === "not_requested" && this.models.status().state !== "ready")
+      return blocked("unavailable", "model_not_prepared", true);
+    return {
+      ...identity,
+      state: status.state as string,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      published: status.published
+        ? {
+            generation: status.published.generation,
+            transcript: JSON.parse(status.published.result) as RecordingTranscriptMetadata,
+          }
+        : null,
+      dependencies: [],
+    };
+  }
+
+  prepare(recordingId: string): void {
+    this.recording.source.prepare(recordingId);
+    const status = this.status(recordingId);
+    if (status.state === "not_requested" && status.reason === null && !status.dependencies.length)
+      this.jobs.submit({ ...this.identity(recordingId), lane: "heavy" });
+  }
+
+  /** Background admission waits for prepared models and a published source, one take at a time. */
+  resume(): void {
+    if (!this.options.recording || this.models.status().state !== "ready") return;
+    this.jobs.backfill(
+      { artifact, input: this.input, lane: "heavy" },
+      { artifact: sourceArtifact, input: sourcePolicy },
+    );
+  }
+
+  retry(recordingId: string) {
+    this.prepare(recordingId);
+    const status = this.status(recordingId);
+    if (!status.jobId)
+      throw new CatalogError(
+        status.reason === "model_not_prepared"
+          ? "MODEL_NOT_PREPARED"
+          : status.state === "unavailable"
+            ? "UNAVAILABLE"
+            : "NOT_READY",
+        status.reason ?? "Transcript is not ready to start",
+        { state: status.state, reason: status.reason, dependencies: status.dependencies },
+        status.retryable,
+      );
+    if (
+      ["failed", "unavailable", "canceled"].includes(this.jobs.job(status.jobId).state) &&
+      this.models.status().state !== "ready"
+    )
+      throw new CatalogError("MODEL_NOT_PREPARED", "Speech models are not prepared", {}, true);
+    this.jobs.retry(status.jobId);
+    return this.status(recordingId);
+  }
+
+  private sourceIdentity(selected: ReturnType<typeof selectedAudio>) {
+    return {
+      target: { kind: "asset" as const, assetId: selected.selection.assetId },
+      artifact,
+      input: JSON.stringify({
+        selection: selected.selection,
+        source: sourceDescriptor(selected),
+        modelDigest: this.models.modelDigest,
+        pins: this.models.pins,
+        policy: transcriptPolicy,
+        decoderExecution,
+      }),
+    };
+  }
+
+  sourceStatus(selection: SourceSelection) {
+    const selected = selectedAudio(this.asset, selection);
+    const status = this.jobs.status(this.sourceIdentity(selected));
+    const models = this.models.status();
+    const reason = !selected.track.available.length
+      ? "no_audio"
+      : status.state === "not_requested" && models.state !== "ready"
+        ? "model_not_prepared"
+        : null;
+    return {
+      ...selected.selection,
+      state: reason ? "unavailable" : status.state,
+      reason: reason ?? status.reason,
+      retryable: reason ? reason === "model_not_prepared" : status.retryable,
+      jobId: reason ? null : status.jobId,
+      published:
+        reason || !status.published
+          ? null
+          : {
+              generation: status.published.generation,
+              transcript: JSON.parse(status.published.result) as TranscriptMetadata,
+            },
+      models,
+      dependencies: [],
+    };
+  }
+
+  prepareSource(selection: SourceSelection): void {
+    const status = this.sourceStatus(selection);
+    if (status.state !== "not_requested" || status.reason !== null) return;
+    this.jobs.submit(
+      () => ({ ...this.sourceIdentity(selectedAudio(this.asset, selection)), lane: "heavy" }),
+      (job) => {
+        const owner = { kind: "job" as const, id: job.jobId };
+        this.asset.assets.retain(owner, [selection.assetId]);
+        if (selection.acquisitionId !== undefined)
+          this.asset.acquisitions.retain(owner, [selection.acquisitionId]);
+      },
+    );
+  }
+
+  publishedSource(selection: SourceSelection) {
+    this.prepareSource(selection);
+    return this.sourceStatus(selection);
+  }
+
+  retrySource(selection: SourceSelection) {
+    this.prepareSource(selection);
+    const status = this.sourceStatus(selection);
+    if (!status.jobId)
+      throw new CatalogError(
+        status.reason === "model_not_prepared" ? "MODEL_NOT_PREPARED" : "UNAVAILABLE",
+        status.reason ?? "Source transcript is unavailable",
+        {},
+        status.retryable,
+      );
+    if (
+      ["failed", "unavailable", "canceled"].includes(this.jobs.job(status.jobId).state) &&
+      this.models.status().state !== "ready"
+    )
+      throw new CatalogError("MODEL_NOT_PREPARED", "Speech models are not prepared", {}, true);
+    this.jobs.retry(status.jobId);
+    return this.sourceStatus(selection);
+  }
+
+  private cleanupAsset(assetId: string, signal: AbortSignal) {
+    const owner = { kind: "asset" as const, assetId };
+    return this.transcripts.reclaim(
+      owner,
+      (generation) => this.jobs.retainsAttempt(owner, artifact, generation),
+      signal,
+    );
+  }
+
+  private async executeSource({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind !== "asset" || job.artifact !== artifact)
+      throw new CatalogError("UNSUPPORTED_JOB", "Transcript processor cannot execute this job");
+    const selection = sourceSelectionSchema.parse(JSON.parse(job.input).selection);
+    const selected = selectedAudio(this.asset, selection);
+    if (
+      job.target.assetId !== selection.assetId ||
+      job.input !== this.sourceIdentity(selected).input
+    )
+      throw new CatalogError("ARTIFACT_CHANGED", "Transcript source or model inputs changed");
+    if (!selected.track.available.length) throw new CatalogError("UNAVAILABLE", "no_audio");
+    if (this.models.status().state !== "ready")
+      throw new CatalogError("MODEL_NOT_PREPARED", "Speech models are not prepared", {}, true);
+    await this.cleanupAsset(selection.assetId, signal);
+    return JSON.stringify(
+      await this.transcribeSource(
+        {
+          owner: { kind: "asset", assetId: selection.assetId },
+          sourceId: selection.assetId,
+          generation: job.attemptId,
+        },
+        sourceDescriptor(selected),
+        selected.track,
+        signal,
+      ),
+    );
+  }
+
+  private async transcribeSource(
+    identity: TranscriptIdentity,
+    source: TranscriptSource,
+    track: Parameters<SpeechTranscriber>[0]["track"],
+    signal: AbortSignal,
+  ) {
+    signal.throwIfAborted();
+    const output = await this.transcripts.reserve(identity);
+    try {
+      const request = { models: this.models.nativeRequest(), track, output };
+      const receipt = await this.transcribe(request, signal);
+      signal.throwIfAborted();
+      const metadata = await this.transcripts.ingest({
+        identity,
+        source,
+        request,
+        receipt,
+        pins: { ...this.models.pins, modelDigest: this.models.modelDigest },
+        signal,
+      });
+      signal.throwIfAborted();
+      return metadata;
+    } catch (error) {
+      await this.transcripts.remove(identity);
+      throw error;
+    }
+  }
+
+  /** Resolves the revision once and the published generation a continuation must still name. */
+  private resolve(input: ReadInput) {
+    const cursor = input.cursor === undefined ? undefined : transcriptContinuation(input.cursor);
+    if (
+      cursor &&
+      (cursor.recordingId !== input.recordingId ||
+        (input.revisionId !== undefined && input.revisionId !== cursor.revisionId))
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Transcript continuation belongs to another recording or revision",
+      );
+    const revision = this.recording.store.revision(
+      input.recordingId,
+      input.revisionId ?? cursor?.revisionId,
+    );
+    this.prepare(input.recordingId);
+    const status = this.status(input.recordingId);
+    if (!status.published) {
+      if (cursor)
+        throw new CatalogError("ARTIFACT_CHANGED", "Transcript generation is no longer published");
+      return { status: { ...status, revisionId: revision.id, page: null } };
+    }
+    const transcript = status.published.transcript;
+    return {
+      reference: {
+        recordingId: input.recordingId,
+        sourceId: transcript.sourceId,
+        revisionId: revision.id,
+        generation: transcript.generation,
+        state: "ready" as const,
+      },
+      transcript,
+      read: new TranscriptRead(this.transcripts, transcript, revision),
+    };
+  }
+
+  get(input: ReadInput & { range?: TimeRange | undefined }) {
+    const target = this.resolve(input);
+    if (target.status) return target.status;
+    const page = target.read.page(input);
+    return { ...target.reference, page: { transcript: target.transcript, ...page } };
+  }
+
+  search(input: ReadInput & { text: string }) {
+    const target = this.resolve(input);
+    if (target.status) return target.status;
+    const page = target.read.search(input);
+    return { ...target.reference, page: { transcript: target.transcript, ...page } };
+  }
+
+  async cleanup(signal: AbortSignal): Promise<void> {
+    if (this.options.recording)
+      await this.recording.store.forEachRecording(signal, ({ recordingId }) =>
+        this.cleanupRecording(recordingId, signal),
+      );
+    if (this.options.asset) {
+      let afterSequence = 0;
+      let failure: unknown;
+      for (;;) {
+        signal.throwIfAborted();
+        const page = this.asset.assets.list({ afterSequence, limit: 100 });
+        for (const asset of page.assets) {
+          try {
+            await this.cleanupAsset(asset.id, signal);
+          } catch (error) {
+            signal.throwIfAborted();
+            failure ??= error;
+          }
+        }
+        if (!page.nextCursor) break;
+        afterSequence = page.nextCursor.afterSequence;
+        await setImmediate(undefined, { signal });
+      }
+      if (failure) throw failure;
+    }
+  }
+
+  private cleanupRecording(recordingId: string, signal: AbortSignal) {
+    return this.transcripts.reclaim(
+      { kind: "recording", recordingId },
+      (generation) =>
+        this.jobs.retainsAttempt(
+          { kind: "recording", recordingId: recordingId },
+          artifact,
+          generation,
+        ) || !!this.recording.retained?.(recordingId, generation),
+      signal,
+    );
+  }
+
+  async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind === "asset") return this.executeSource({ job, signal });
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    if (job.artifact !== artifact || job.target.revisionId !== "r0" || job.input !== this.input)
+      throw new CatalogError("UNSUPPORTED_JOB", "Transcript processor cannot execute this job");
+    const recording = this.recording.store.get(job.target.recordingId);
+    if (
+      !isSettled(recording.state) ||
+      recording.state === "canceled" ||
+      recording.sourceDurationUs === null
+    )
+      throw new CatalogError("UNAVAILABLE", "no_usable_video");
+    const source = this.recording.source.status(job.target.recordingId).published;
+    if (!source) throw new CatalogError("NOT_READY", "Source evidence is not published", {}, true);
+    const track = this.narration(recording, source.evidence, [
+      { startUs: 0, endUs: recording.sourceDurationUs },
+    ]);
+    if (!track?.available.length) throw new CatalogError("UNAVAILABLE", "no_narration");
+    if (this.models.status().state !== "ready")
+      throw new CatalogError("MODEL_NOT_PREPARED", "Speech models are not prepared", {}, true);
+    await this.cleanupRecording(job.target.recordingId, signal);
+    signal.throwIfAborted();
+    const identity = {
+      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
+      sourceId: recording.sourceId,
+      generation: job.attemptId,
+    };
+    return JSON.stringify(
+      recordingTranscript(
+        await this.transcribeSource(
+          identity,
+          {
+            kind: "recording",
+            sourceGeneration: source.evidence.generation,
+            durationUs: recording.sourceDurationUs,
+          },
+          {
+            source: track.source,
+            sourceOffsetUs: track.sourceOffsetUs,
+            available: track.available,
+          },
+          signal,
+        ),
+      ),
+    );
+  }
+}
+
+2026-09-28T08:28:23.153937Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e720-aea2-7bc0-9348-875fc487a02f turn_id=01a0e720-af2d-7e60-a4df-57a473bf9f6d item_id="exec-eff3383a-8a10-4889-ba13-c1a89f6a9acd"
+2026-09-28T08:28:24.673028Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e720-aea2-7bc0-9348-875fc487a02f turn_id=01a0e720-af2d-7e60-a4df-57a473bf9f6d item_id="exec-0a2c03ba-df97-4b30-b829-60fe4f4fe7f6"
+ succeeded in 22386ms:
+../screenrec-project-preview/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/AGENTS.md
+../screenrec-video-execution/AGENTS.md
+../screenrec-video-execution/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-transcript-seek/AGENTS.md
+../screenrec-processing-routing/AGENTS.md
+../screenrec-editing-baseline-fixes/AGENTS.md
+../worldarena-viewer/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-project-deletion/AGENTS.md
+../screenrec-editing-fixtures/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-extraction/AGENTS.md
+../screenrec-acquisition-journey/AGENTS.md
+../screenrec-acquisition-journey/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-acquisition-journey/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-exports/AGENTS.md
+../screenrec-project-exports/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-exports/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../duet-agent-model-refresh-inline-red/AGENTS.md
+../screenrec-editing-speech/AGENTS.md
+../duet-agent-model-refresh-release/AGENTS.md
+../screenrec-evidence-owners/AGENTS.md
+../screenrec-render-oracle-fix/AGENTS.md
+../screenrec-editing-audio-reader/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-consumers/AGENTS.md
+../screenrec-project-evidence-journey/AGENTS.md
+../screenrec-compiled-picture-build/checkouts/FluidAudio/AGENTS.md
+../screenrec-editing-render-reproduction/AGENTS.md
+../claude-501/-Users-david-dev-battlegame/0a556383-ccc8-4760-8b46-2e8d260b1265/scratchpad/pmndrs-math/AGENTS.md
+../screenrec-composition-compiler/AGENTS.md
+../screenrec-composition-compiler/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../agent-refresh-baseline-src/AGENTS.md
+../screenrec-editing-jobs/AGENTS.md
+../screenrec-source-audio-inspection/AGENTS.md
+../screenrec-selected-stream-transcription/AGENTS.md
+../screenrec-selected-stream-transcription/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-evidence-paging/AGENTS.md
+../screenrec-editing-composition/AGENTS.md
+../screenrec-import-mutation/AGENTS.md
+../screenrec-asset-transcript-processing/AGENTS.md
+../screenrec-stretch-evidence-review/AGENTS.md
+../duet-agent-model-refresh-final-selections/AGENTS.md
+../worldarena-capture/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-window-pcm/AGENTS.md
+../screenrec-source-window-pcm/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-occurrence-window-selection/AGENTS.md
+../screenrec-audio-execution/AGENTS.md
+../screenrec-audio-execution/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-editing-voice/AGENTS.md
+../screenrec-transcript-ownership/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-visuals/AGENTS.md
+../screenrec-editing-assets/AGENTS.md
+../screenrec-editing-assets/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-editing-assets/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../duet-agent-model-refresh-artifact29/AGENTS.md
+../screenrec-source-transcript-reads/AGENTS.md
+../duet-agent-model-refresh/AGENTS.md
+../duet-agent-model-refresh-overlap/AGENTS.md
+../worldarena-voting/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-range-projection/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/AGENTS.md
+../worldarena-runner/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-transcript-journey/AGENTS.md
+../screenrec-editing-stretch/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/AGENTS.md
+
+exec
+/bin/zsh -lc "rg 'audio-excerpt-v1|movie-preview-v1|transcript-v1:' packages apps --glob '"'!**/dist/**'"'; sed -n '1,200p' packages/core/src/preview.ts; sed -n '190,350p' packages/core/src/audio.ts; cat specs/agent-editing/assets/11a-audio-execution-pins/{tests.txt,types.txt,red.txt}; head -60 specs/recording-for-ai/README.md; sed -n '125,158p' .agents/skills/code-review/SKILL.md" in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+packages/core/src/transcript.test.ts:  const oldInput = `transcript-v1:${modelDigest}`;
+apps/macos/tests/package-public-audio.mjs:      { policy: "audio-excerpt-v1", ...request, sourceEvidence },
+import { evidenceRecordingId } from "./evidence.js";
+import { join } from "node:path";
+import { type RevisionStore } from "./library.js";
+import { CatalogError } from "./catalog.js";
+import type { JobExecution, JobQueue } from "./jobs.js";
+import {
+  DerivativeInspection,
+  LibraryDerivatives,
+  type DerivativeBackend,
+  type DerivativeContext,
+  type DerivativeSubmission,
+} from "./derivative-inspection.js";
+import type { DerivedCache } from "./cache.js";
+import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
+import type { SourceProcessing } from "./processing.js";
+import { planAudioTracks, type AudioTrackPlan, type NativeAudio } from "./audio.js";
+import { renderPlan, type RenderSpan, type TimelineRevision } from "./timeline.js";
+
+/**
+ * A preview auditions an edit, so it is rendered as a bounded rendition rather than at the
+ * capture's own resolution: on a Retina screen that is about a quarter of the pixels, and
+ * encoding is what preview time is spent on. The same bound the public image contract uses,
+ * so one number describes "what this product shows you rather than gives you".
+ * The human video export asks for the `source` rendition and keeps every captured pixel.
+ */
+export const previewPolicy = Object.freeze({ id: "movie-preview-v2", maxLongEdge: 1600 });
+export type PreviewRendition = "preview" | "source";
+export type PreviewInput = { recordingId: string; revisionId?: string | undefined };
+/** What any preview request carries, whichever media it names. */
+export type PreviewRequest = {
+  revisionId?: string | undefined;
+  sourceEvidence?: SourceEvidenceMetadata;
+  rendition?: PreviewRendition;
+};
+export type RenderedMovie = {
+  file: string;
+  mediaType: "video/mp4";
+  codec: "h264";
+  durationUs: number;
+  width: number;
+  height: number;
+  frameCount: number;
+  bytes: number;
+  audio?: {
+    codec?: "aac";
+    frames: number;
+    sampleRate: number;
+    channels: number;
+    tracks: NativeAudio["tracks"];
+  };
+};
+export type PreviewRenderer = (
+  request: {
+    source: string;
+    revision: TimelineRevision;
+    sourceEvidence: SourceEvidenceMetadata;
+    plan: readonly RenderSpan[];
+    tracks: readonly AudioTrackPlan[];
+    output: string;
+    /** The rendition's long-edge bound, or null to render at the source's own resolution. */
+    maxLongEdge: number | null;
+  },
+  signal: AbortSignal,
+) => Promise<RenderedMovie>;
+export type PreviewArtifact = RenderedMovie & {
+  /** What the movie was rendered under, so a client can tell a rendition from the capture. */
+  maxLongEdge: number | null;
+  cacheId: string;
+  recordingId: string;
+  sourceId: string;
+  revisionId: string;
+  sourceEvidence: SourceEvidenceMetadata;
+  missingRoles: ReturnType<typeof planAudioTracks>["missingRoles"];
+};
+const artifact = "preview";
+export type PreviewOptions = {
+  policy: string;
+  rendition: PreviewRendition;
+  sourceEvidence: SourceEvidenceMetadata;
+};
+/** The rendition is part of the job identity, so the two never share one cached movie. */
+const boundFor = (rendition: PreviewRendition) =>
+  rendition === "preview" ? previewPolicy.maxLongEdge : null;
+
+/**
+ * What a preview is, wherever its media lives: one pinned rendition of one revision, admitted only
+ * once the source evidence it is aimed by is ready. A library preview renders this person's own
+ * recording; a package preview renders the copy inside an archive they were handed. Only where the
+ * work is submitted differs, which is the one thing a backend supplies.
+ */
+export abstract class PreviewInspectionBase<
+  Target extends object,
+  Artifact,
+> extends DerivativeInspection<Target, Target & PreviewRequest, "preview", Artifact> {
+  constructor(backend: DerivativeBackend<Target>) {
+    super(backend, "preview");
+  }
+
+  protected abstract submit(
+    context: DerivativeContext<Target>,
+    options: PreviewOptions,
+  ): DerivativeSubmission<Artifact>;
+
+  request(input: Target & PreviewRequest) {
+    const context = this.backend.resolve(input);
+    const source = input.sourceEvidence
+      ? {
+          state: "ready" as const,
+          reason: null,
+          retryable: false,
+          jobId: null,
+          evidence: input.sourceEvidence,
+        }
+      : this.backend.source(context);
+    return this.admit(context, source, (evidence) => {
+      if (
+        evidenceRecordingId(evidence) !== context.recordingId ||
+        evidence.sourceId !== context.sourceId
+      )
+        throw new CatalogError("INVALID_EVIDENCE", "Preview evidence belongs to another source");
+      return this.submit(context, {
+        policy: previewPolicy.id,
+        rendition: input.rendition ?? "preview",
+        sourceEvidence: evidence,
+      });
+    });
+  }
+}
+
+/**
+ * Whether a renderer answered with the movie that was asked for. A rendition that ignored its
+ * bound, or that came back as something other than the pinned edit, is refused rather than
+ * published: this is what stands between a native receipt and somebody's library.
+ */
+export function checkRenderedPreview(
+  movie: Omit<RenderedMovie, "audio">,
+  expected: { file: string; durationUs: number; maxLongEdge: number | null },
+): void {
+  if (
+    movie.file !== expected.file ||
+    movie.mediaType !== "video/mp4" ||
+    movie.codec !== "h264" ||
+    movie.durationUs !== expected.durationUs ||
+    ![movie.width, movie.height, movie.frameCount, movie.bytes].every(
+      (value) => Number.isSafeInteger(value) && value > 0,
+    )
+  )
+    throw new CatalogError("INVALID_RESPONSE", "Renderer returned an unrelated preview");
+  // The movie's own dimensions are the receipt: a bounded rendition is whatever the source scaled
+  // down to, but it cannot be larger than what was asked for, nor an odd size H.264 cannot encode.
+  if (
+    expected.maxLongEdge !== null &&
+    (Math.max(movie.width, movie.height) > expected.maxLongEdge ||
+      movie.width % 2 !== 0 ||
+      movie.height % 2 !== 0)
+  )
+    throw new CatalogError(
+      "INVALID_RESPONSE",
+      `Preview is ${movie.width}x${movie.height}, not the rendition bounded to ${expected.maxLongEdge}`,
+    );
+}
+
+/** The long edge a rendition renders to, or null for the capture's own resolution. */
+export const previewBoundFor = boundFor;
+
+/** One pinned derivative under the existing job/cache authorities. The renderer owns
+ * native execution and must leave its complete output in the reserved cache file. */
+export class PreviewInspection extends PreviewInspectionBase<
+  { recordingId: string },
+  PreviewArtifact
+> {
+  private readonly library: LibraryDerivatives;
+  constructor(
+    private readonly store: RevisionStore,
+    jobs: JobQueue,
+    private readonly cache: DerivedCache,
+    private readonly evidence: SourceAudioRead,
+    processing: SourceProcessing,
+    private readonly home: string,
+    private readonly render: PreviewRenderer,
+  ) {
+    const library = new LibraryDerivatives(store, jobs, cache, processing);
+    super(library);
+    this.library = library;
+  }
+
+  /** Exports pass the source evidence their intent already pinned, and the full rendition. */
+  protected submit(context: DerivativeContext<{ recordingId: string }>, options: PreviewOptions) {
+    return this.library.submit<PreviewArtifact>(
+      {
+        target: {
+          kind: "recording" as const,
+          recordingId: context.recordingId,
+          revisionId: context.revision.id,
+        },
+
+        artifact,
+        input: JSON.stringify(options),
+      },
+      "heavy",
+    validateTrack(input.track);
+    return this.admit(context, this.backend.source(context), (evidence) => {
+      const options: AudioOptions = {
+        policy,
+        range: { startUs: input.range.startUs, endUs: input.range.endUs },
+        track: input.track,
+        sourceEvidence: evidence,
+      };
+      // Reject absent roles before occupying a heavy worker slot.
+      this.plan(context, options);
+      return this.submit(context, options);
+    });
+  }
+}
+
+/** Native sample validation and output cleanup are identical for both storage backends. */
+export async function renderAudio<Artifact extends MaterializedAudio>(
+  options: AudioOptions,
+  context: {
+    recordingId: string;
+    sourceId: string;
+    revision: TimelineRevision;
+    output: {
+      file: string;
+      publish(audio: MaterializedAudio): Promise<Artifact>;
+      discard(cause: unknown): Promise<void>;
+    };
+  },
+  dependencies: {
+    evidence: SourceAudioRead;
+    resolveSource: (role: AudioRole) => string;
+    decode: AudioDecoder;
+  },
+  signal: AbortSignal,
+): Promise<Artifact> {
+  try {
+    if (options.policy !== policy)
+      throw new CatalogError("UNSUPPORTED_JOB", "Audio inspector cannot execute this job");
+    const { spans, tracks, missingRoles } = planAudioExcerpt(
+      {
+        ...options,
+        recordingId: context.recordingId,
+        sourceId: context.sourceId,
+        revision: context.revision,
+      },
+      dependencies.evidence,
+      dependencies.resolveSource,
+    );
+    signal.throwIfAborted();
+    const audio = await dependencies.decode({ tracks, spans, output: context.output.file }, signal);
+    signal.throwIfAborted();
+    const duration = options.range.endUs - options.range.startUs;
+    if (
+      audio.file !== context.output.file ||
+      audio.mediaType !== "audio/wav" ||
+      !Number.isSafeInteger(audio.sampleRate) ||
+      audio.sampleRate < 1 ||
+      audio.sampleRate > 192000 ||
+      !Number.isSafeInteger(audio.channels) ||
+      audio.channels < 1 ||
+      audio.channels > 2 ||
+      !Number.isSafeInteger(audio.frames) ||
+      audio.frames < 0 ||
+      !Number.isSafeInteger(audio.durationUs) ||
+      audio.durationUs < 0 ||
+      !Number.isSafeInteger(audio.bytes) ||
+      audio.bytes < 1 ||
+      audio.bytes > 48 * 1024 ** 2 ||
+      Math.abs(audio.durationUs - duration) > Math.ceil(1_000_000 / audio.sampleRate) ||
+      Math.abs(audio.durationUs - (audio.frames * 1_000_000) / audio.sampleRate) > 1 ||
+      audio.spans.length !== spans.length ||
+      audio.spans.some(
+        (span, index) =>
+          span.startUs !== spans[index]!.startUs || span.endUs !== spans[index]!.endUs,
+      ) ||
+      audio.tracks.length !== tracks.length ||
+      audio.tracks.some(
+        (track, index) =>
+          track.role !== tracks[index]!.role ||
+          track.gain !== (tracks.length === 1 ? 1 : 0.5) ||
+          !Number.isSafeInteger(track.sampleRate) ||
+          track.sampleRate < 1 ||
+          track.sampleRate > 192000 ||
+          !Number.isSafeInteger(track.channels) ||
+          track.channels < 1 ||
+          track.channels > 2 ||
+          track.unavailable.some(
+            (gap) =>
+              !Number.isSafeInteger(gap.startUs) ||
+              !Number.isSafeInteger(gap.endUs) ||
+              gap.startUs >= gap.endUs ||
+              !spans.some((span) => gap.startUs >= span.startUs && gap.endUs <= span.endUs),
+          ),
+      )
+    )
+      throw new CatalogError("INVALID_RESPONSE", "Decoder returned an unrelated audio excerpt");
+
+    const result = await context.output.publish({
+      ...audio,
+      recordingId: context.recordingId,
+      sourceId: context.sourceId,
+      revisionId: context.revision.id,
+      requestedPlaybackRange: options.range,
+      selectedTrack: options.track,
+      missingRoles,
+      sourceEvidence: options.sourceEvidence,
+    });
+    signal.throwIfAborted();
+    return result;
+  } catch (error) {
+    await context.output.discard(error);
+    throw error;
+  }
+}
+
+/** Library jobs and DerivedCache retain their durable recording ownership. */
+export class LibraryAudioInspection extends AudioInspection<
+  { recordingId: string },
+  AudioArtifact
+> {
+  private readonly library: LibraryDerivatives;
+  constructor(
+    private readonly store: RevisionStore,
+    jobs: JobQueue,
+    private readonly cache: DerivedCache,
+    private readonly evidence: SourceAudioRead,
+    processing: SourceProcessing,
+    private readonly home: string,
+    private readonly decode: AudioDecoder,
+  ) {
+    const library = new LibraryDerivatives(store, jobs, cache, processing);
+    super(library);
+    this.library = library;
+  }
+  private sourcePath(recordingId: string, role: AudioRole) {
+    return join(this.home, "recordings", recordingId, "source", `${role}.mov`);
+  }
+  protected plan(context: DerivativeContext<{ recordingId: string }>, options: AudioOptions) {
+    return planAudioExcerpt({ ...context, ...options }, this.evidence, (role) =>
+      this.sourcePath(context.recordingId, role),
+    );
+  }
+  protected submit(context: DerivativeContext<{ recordingId: string }>, options: AudioOptions) {
+    return this.library.submit<AudioArtifact>(
+      {
+        target: {
+          kind: "recording" as const,
+          recordingId: context.recordingId,
+          revisionId: context.revision.id,
+        },
+
+        artifact,
+        input: JSON.stringify(options),
+      },
+      "heavy",
+    );
+  }
+  async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind !== "recording")
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    if (job.artifact !== artifact)
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection
+
+(node:52409) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:52412) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:52411) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:52410) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:52414) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  5 passed (5)
+      Tests  45 passed (45)
+   Start at  01:27:18
+   Duration  1.36s (tests 74%, transform 19%, import 7%)
+
+$ tsc -p tsconfig.check.json
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection
+
+(node:52406) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:52405) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/transcript.test.ts (14 tests | 1 failed | 13 skipped) 57ms
+   × current decoder work does not reuse a prior recording recipe or erase its generation 56ms
+ ❯ packages/core/src/asset-transcript.test.ts (6 tests | 1 failed | 5 skipped) 100ms
+   × current decoder work separates source recipes while retained evidence stays readable 99ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/asset-transcript.test.ts > current decoder work separates source recipes while retained evidence stays readable
+AssertionError: expected 'ready' to be 'not_requested' // Object.is equality
+
+Expected: "not_requested"
+Received: "ready"
+
+ ❯ packages/core/src/asset-transcript.test.ts:312:56
+    310|   f.catalog.catalog.prepare("UPDATE artifacts SET input=? WHERE target…
+    311|     .run(oldInput, f.asset.id);
+    312|   expect(f.processing.sourceStatus(f.selection).state).toBe("not_reque…
+       |                                                        ^
+    313|   f.processing.prepareSource(f.selection);
+    314|   await expect.poll(() => f.processing.sourceStatus(f.selection).state…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/core/src/transcript.test.ts > current decoder work does not reuse a prior recording recipe or erase its generation
+AssertionError: expected 'ready' to be 'not_requested' // Object.is equality
+
+Expected: "not_requested"
+Received: "ready"
+
+ ❯ packages/core/src/transcript.test.ts:850:50
+    848|   f.store.catalog.prepare("UPDATE artifacts SET input=? WHERE targetId…
+    849|     .run(oldInput, recordingId);
+    850|   expect(f.transcript.status(recordingId).state).toBe("not_requested");
+       |                                                  ^
+    851|   f.transcript.prepare(recordingId);
+    852|   await f.jobs.idle();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 18 skipped (20)
+   Start at  01:27:18
+   Duration  446ms (transform 55%, tests 22%, import 22%, worker 1%)
+
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+2026-09-28T08:28:29.060943Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e720-aea2-7bc0-9348-875fc487a02f turn_id=01a0e720-af2d-7e60-a4df-57a473bf9f6d item_id="exec-e0b1f51f-bc1a-4b99-9ab2-9ece9e8bcde6"
+exec
+/bin/zsh -lc "rg -n -C 15 'audio-excerpt-v1' apps/macos/tests/package-public-audio.mjs; head -65 apps/macos/tests/package-public-audio.mjs; nl -ba .agents/skills/code-review/SKILL.md | sed -n '14,20p;153,159p'; node --version; ./node_modules/.bin/vitest run packages/core/src/transcript.test.ts packages/core/src/asset-transcript.test.ts packages/core/src/audio.test.ts packages/core/src/preview.test.ts --maxWorkers=4" in /private/tmp/screenrec-source-audio-inspection
+2026-09-28T08:28:38.003095Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e720-aea2-7bc0-9348-875fc487a02f turn_id=01a0e720-af2d-7e60-a4df-57a473bf9f6d item_id="exec-7cef9f57-1d38-4371-aab7-473a92fa6376"
+ succeeded in 2216ms:
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection
+
+(node:54886) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54889) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54888) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:54887) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  4 passed (4)
+      Tests  41 passed (41)
+   Start at  01:28:35
+   Duration  2.03s (tests 79%, transform 15%, import 5%)
+
+
+codex
+The policy bump breaks an existing public audio verification harness that still supplies the old policy. The four focused core test suites pass (41 tests), but do not cover that caller.
+
+Review comment:
+
+- [P2] Update the public audio harness to the new recipe policy — /private/tmp/screenrec-source-audio-inspection/packages/core/src/audio.ts:70-70
+  After rebuilding core, `publicAudio()` in `apps/macos/tests/package-public-audio.mjs:50–51` still calls `renderAudio()` with `audio-excerpt-v1`. Its policy guard now throws `UNSUPPORTED_JOB`, so the public package-audio verification aborts before testing audio output. Update that caller alongside this bump, preferably sharing the policy value as required by the [single-owner guidance](.agents/skills/code-review/SKILL.md#L153-L156).
+The policy bump breaks an existing public audio verification harness that still supplies the old policy. The four focused core test suites pass (41 tests), but do not cover that caller.
+
+Review comment:
+
+- [P2] Update the public audio harness to the new recipe policy — /private/tmp/screenrec-source-audio-inspection/packages/core/src/audio.ts:70-70
+  After rebuilding core, `publicAudio()` in `apps/macos/tests/package-public-audio.mjs:50–51` still calls `renderAudio()` with `audio-excerpt-v1`. Its policy guard now throws `UNSUPPORTED_JOB`, so the public package-audio verification aborts before testing audio output. Update that caller alongside this bump, preferably sharing the policy value as required by the [single-owner guidance](.agents/skills/code-review/SKILL.md#L153-L156).

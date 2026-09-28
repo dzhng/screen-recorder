@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 import { hash } from "node:crypto";
 import { readFile, writeFile, mkdtemp, rm, realpath, readdir } from "node:fs/promises";
 import { join, dirname } from "node:path";
-import { renderAudio } from "@screenrec/core/audio";
+import { renderAudio, audioExcerptPolicy } from "@screenrec/core/audio";
 import { FileSourceEvidence, readSourceMetadata } from "@screenrec/core/evidence-pages";
 import { mediaWorker } from "../../service/dist/worker.js";
 import { archiveFixture } from "./fixtures/retained-archive.mjs";
@@ -48,7 +48,7 @@ export async function publicAudio(root, output, executable, producedArchive) {
       (value) => value.id === (request.revisionId ?? context.snapshot.revisionId),
     );
     const audio = await renderAudio(
-      { policy: "audio-excerpt-v1", ...request, sourceEvidence },
+      { policy: audioExcerptPolicy, ...request, sourceEvidence },
       {
         ...context.snapshot,
         revision,

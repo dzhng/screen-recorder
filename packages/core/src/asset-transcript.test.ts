@@ -294,3 +294,32 @@ test("a new model digest creates new immutable work while cleanup retains the ea
       .map((word) => word.text),
   ).toEqual(["track:2"]);
 });
+
+test("current decoder work separates source recipes while retained evidence stays readable", async () => {
+  const f = await fixture();
+  f.processing.prepareSource(f.selection);
+  await expect.poll(() => f.processing.sourceStatus(f.selection).state).toBe("ready");
+  const previous = f.processing.sourceStatus(f.selection);
+  const metadata = previous.published!.transcript;
+  const original = f.transcripts.wordRecords(metadata, { limit: 100 });
+  const row = f.catalog.catalog
+    .prepare("SELECT input FROM jobs WHERE jobId=?")
+    .get(previous.jobId) as { input: string };
+  const oldRecipe = JSON.parse(row.input);
+  delete oldRecipe.decoderExecution;
+  const oldInput = JSON.stringify(oldRecipe);
+  f.catalog.catalog.prepare("UPDATE jobs SET input=? WHERE jobId=?").run(oldInput, previous.jobId);
+  f.catalog.catalog
+    .prepare("UPDATE artifacts SET input=? WHERE targetId=? AND artifact='transcript'")
+    .run(oldInput, f.asset.id);
+  expect(f.processing.sourceStatus(f.selection).state).toBe("not_requested");
+  f.processing.prepareSource(f.selection);
+  await expect.poll(() => f.processing.sourceStatus(f.selection).state).toBe("ready");
+  const current = f.processing.sourceStatus(f.selection);
+  expect(current.jobId).not.toBe(previous.jobId);
+  expect(current.published!.transcript.generation).not.toBe(metadata.generation);
+  expect(f.requests).toHaveLength(2);
+  await f.processing.cleanup(new AbortController().signal);
+  expect(f.transcripts.wordRecords(metadata, { limit: 100 })).toEqual(original);
+  expect(metadata.engine.policy).toBe("transcript-v1");
+});

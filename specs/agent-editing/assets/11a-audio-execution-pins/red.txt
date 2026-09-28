@@ -1,0 +1,52 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection
+
+(node:52406) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:52405) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/transcript.test.ts (14 tests | 1 failed | 13 skipped) 57ms
+   × current decoder work does not reuse a prior recording recipe or erase its generation 56ms
+ ❯ packages/core/src/asset-transcript.test.ts (6 tests | 1 failed | 5 skipped) 100ms
+   × current decoder work separates source recipes while retained evidence stays readable 99ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/asset-transcript.test.ts > current decoder work separates source recipes while retained evidence stays readable
+AssertionError: expected 'ready' to be 'not_requested' // Object.is equality
+
+Expected: "not_requested"
+Received: "ready"
+
+ ❯ packages/core/src/asset-transcript.test.ts:312:56
+    310|   f.catalog.catalog.prepare("UPDATE artifacts SET input=? WHERE target…
+    311|     .run(oldInput, f.asset.id);
+    312|   expect(f.processing.sourceStatus(f.selection).state).toBe("not_reque…
+       |                                                        ^
+    313|   f.processing.prepareSource(f.selection);
+    314|   await expect.poll(() => f.processing.sourceStatus(f.selection).state…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/core/src/transcript.test.ts > current decoder work does not reuse a prior recording recipe or erase its generation
+AssertionError: expected 'ready' to be 'not_requested' // Object.is equality
+
+Expected: "not_requested"
+Received: "ready"
+
+ ❯ packages/core/src/transcript.test.ts:850:50
+    848|   f.store.catalog.prepare("UPDATE artifacts SET input=? WHERE targetId…
+    849|     .run(oldInput, recordingId);
+    850|   expect(f.transcript.status(recordingId).state).toBe("not_requested");
+       |                                                  ^
+    851|   f.transcript.prepare(recordingId);
+    852|   await f.jobs.idle();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 18 skipped (20)
+   Start at  01:27:18
+   Duration  446ms (transform 55%, tests 22%, import 22%, worker 1%)
+

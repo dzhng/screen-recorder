@@ -1,0 +1,19 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection
+
+(node:55493) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55491) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55495) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55492) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:55494) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  5 passed (5)
+      Tests  45 passed (45)
+   Start at  01:29:17
+   Duration  2.01s (tests 74%, transform 18%, import 7%)
+

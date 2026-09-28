@@ -25,6 +25,8 @@ import {
 import { TranscriptRead, transcriptContinuation } from "./transcript-read.js";
 
 const artifact = "transcript";
+// Native PCM decoding is an execution input, separate from portable transcript schema policy.
+const decoderExecution = "native-audio-v2";
 
 /** The model owner as transcription sees it: readiness, the verified file list and its pins. */
 export type TranscriptionModels = Pick<
@@ -118,9 +120,9 @@ export class TranscriptProcessing {
     return this.options.asset;
   }
 
-  /** Job identity; a different model digest is a different transcript, never a retry of this one. */
+  /** Changed model or decoder execution identifies new work, never a retry of an old recipe. */
   private get input() {
-    return `${transcriptPolicy}:${this.models.modelDigest}`;
+    return `${transcriptPolicy}:${decoderExecution}:${this.models.modelDigest}`;
   }
 
   private identity(recordingId: string) {
@@ -248,6 +250,7 @@ export class TranscriptProcessing {
         modelDigest: this.models.modelDigest,
         pins: this.models.pins,
         policy: transcriptPolicy,
+        decoderExecution,
       }),
     };
   }
