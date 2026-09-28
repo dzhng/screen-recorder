@@ -18,7 +18,7 @@ worker recorded in the report; they make no audio claim.
 movie channel difference is 240.** Mean RGB differences are 0.528–4.658, within the
 inherited membership/layout gate of 12. Full/ranged means are 0.396–1.331 with a
 maximum channel difference of 37. That gate only supports frame membership and
-layout, not strict encoded-color acceptance. No cause has been established and no
+layout, not strict encoded-color acceptance. No individual encoding/decoding cause has been established and no
 threshold was relaxed. `details.png` shows complete enlarged PNG/movie frame pairs;
 `edge-metrics.json` retains differing-pixel extents. The complete contact sheet and
 all individual captures were inspected in a fresh, unprimed visual review.
@@ -38,3 +38,8 @@ Root integration on the combined worker reproduces all 39 public PNGs byte for
 byte, with 166 composition and 20 retained-index tests passing and targeted builds
 green. `root-integration.json` records the worker and exact outputs. The visible
 encoded artifacts remain a required investigation, not an accepted color tolerance.
+
+[Writer-boundary diagnosis](writer/README.md) now shows actual pre-append pixels
+match direct PNGs within one channel value, with identical full/range writer input.
+Profile-aware movie decoding still exposes edge differences; encoding/conversion
+quality remains open independently of the compiled zoom geometry.

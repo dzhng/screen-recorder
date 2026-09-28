@@ -123,6 +123,8 @@ The [zoom evidence](../assets/16-zoom/README.md) retains 39 exact public PNG che
 review. Root reproduces all 39 PNGs exactly; fresh visual review confirms movie
 edge fringes and darker gray, leaving encoded acceptance open. Direct PNG versus encoded movie maximum
 channel error reaches **240** despite passing the inherited mean-RGB membership
-criterion; encoded color/edge parity remains unresolved, with no established cause.
+criterion; encoded color/edge parity remains unresolved. The [writer probe](../assets/16-zoom/writer/README.md)
+localizes these differences after matching pre-append pixels, without selecting an
+encoding/decoding cause or production quality profile.
 Full/range movie membership and exact preview/export bytes do not establish strict
 color parity. This scoped zoom pass does not close full slice 16.

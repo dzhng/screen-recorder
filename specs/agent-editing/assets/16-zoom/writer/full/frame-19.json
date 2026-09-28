@@ -1,0 +1,154 @@
+{
+  "activeBytes" : 10240,
+  "attachments" : {
+    "nonpropagate" : {
+
+    },
+    "propagate" : {
+      "CGColorSpace" : {
+        "components" : 3,
+        "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "model" : 1,
+        "name" : "kCGColorSpaceCoreMedia709"
+      },
+      "CVImageBufferColorPrimaries" : "ITU_R_709_2",
+      "CVImageBufferTransferFunction" : "ITU_R_709_2",
+      "CVImageBufferYCbCrMatrix" : "ITU_R_709_2",
+      "HorizontalDisparityAdjustment" : 0
+    }
+  },
+  "frame" : {
+    "index" : 19,
+    "layers" : [
+      {
+        "assetId" : "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+        "availability" : "available",
+        "clipId" : "clip:e8ff304516c0eaabf4ddc424383ac55e9107d14308fe52e50567633efa349325:1",
+        "height" : 64,
+        "kind" : "image",
+        "streamId" : "image:0",
+        "trackId" : "track:e8ff304516c0eaabf4ddc424383ac55e9107d14308fe52e50567633efa349325:0",
+        "width" : 40
+      }
+    ],
+    "sampleAtUs" : 2375000,
+    "visibleRange" : {
+      "endUs" : 2500000,
+      "startUs" : 2375000
+    },
+    "visual" : [
+      {
+        "inputs" : [
+
+        ],
+        "operations" : [
+          {
+            "height" : 63,
+            "kind" : "clamp",
+            "width" : 39,
+            "x" : 0.5,
+            "y" : 0.5
+          },
+          {
+            "kind" : "affine",
+            "matrix" : [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind" : "affine",
+            "matrix" : [
+              0.81640625,
+              0,
+              0,
+              0.81640625,
+              3.671875,
+              5.875
+            ]
+          },
+          {
+            "height" : 64,
+            "kind" : "coverage",
+            "points" : [
+              {
+                "x" : 3.671875,
+                "y" : 5.875
+              },
+              {
+                "x" : 36.328125,
+                "y" : 5.875
+              },
+              {
+                "x" : 36.328125,
+                "y" : 58.125
+              },
+              {
+                "x" : 3.671875,
+                "y" : 58.125
+              }
+            ],
+            "width" : 40
+          }
+        ],
+        "target" : {
+          "id" : "clip:e8ff304516c0eaabf4ddc424383ac55e9107d14308fe52e50567633efa349325:1",
+          "kind" : "clip"
+        }
+      },
+      {
+        "inputs" : [
+          {
+            "id" : "clip:e8ff304516c0eaabf4ddc424383ac55e9107d14308fe52e50567633efa349325:1",
+            "kind" : "clip"
+          }
+        ],
+        "operations" : [
+
+        ],
+        "target" : {
+          "id" : "track:e8ff304516c0eaabf4ddc424383ac55e9107d14308fe52e50567633efa349325:0",
+          "kind" : "track"
+        }
+      },
+      {
+        "inputs" : [
+          {
+            "id" : "track:e8ff304516c0eaabf4ddc424383ac55e9107d14308fe52e50567633efa349325:0",
+            "kind" : "track"
+          }
+        ],
+        "operations" : [
+
+        ],
+        "target" : {
+          "kind" : "output"
+        }
+      }
+    ]
+  },
+  "height" : 64,
+  "pictures" : [
+    {
+      "assetId" : "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+      "clipId" : "clip:e8ff304516c0eaabf4ddc424383ac55e9107d14308fe52e50567633efa349325:1",
+      "kind" : "image",
+      "status" : "available",
+      "streamId" : "image:0"
+    }
+  ],
+  "pixelFormat" : 1111970369,
+  "range" : {
+    "endUs" : 3000000,
+    "startUs" : 0
+  },
+  "sha256" : "d8e87a95e232b0f16474e85ec35e1f1855555a4285244c2d9e60c9729679e4ff",
+  "stride" : 192,
+  "width" : 40,
+  "writerDurationUs" : 125000,
+  "writerPTSUs" : 2375000
+}

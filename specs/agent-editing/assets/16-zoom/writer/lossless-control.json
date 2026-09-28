@@ -1,0 +1,143 @@
+{
+  "scope": "Uncompressed normalized-sRGB display control, not a production encoding profile",
+  "checks": [
+    {
+      "index": 0,
+      "exactNormalizedWriter": true,
+      "maxVsDirectPng": 0
+    },
+    {
+      "index": 1,
+      "exactNormalizedWriter": true,
+      "maxVsDirectPng": 0
+    },
+    {
+      "index": 2,
+      "exactNormalizedWriter": true,
+      "maxVsDirectPng": 0
+    },
+    {
+      "index": 3,
+      "exactNormalizedWriter": true,
+      "maxVsDirectPng": 0
+    },
+    {
+      "index": 4,
+      "exactNormalizedWriter": true,
+      "maxVsDirectPng": 0
+    },
+    {
+      "index": 5,
+      "exactNormalizedWriter": true,
+      "maxVsDirectPng": 1
+    },
+    {
+      "index": 6,
+      "exactNormalizedWriter": true,
+      "maxVsDirectPng": 0
+    },
+    {
+      "index": 7,
+      "exactNormalizedWriter": true,
+      "maxVsDirectPng": 0
+    }
+  ],
+  "decoderReceipts": [
+    {
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "file": "/tmp/screenrec-zoom-lossless-control/000.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "index": 0,
+      "requestedUs": 0,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "actualValue": "0",
+      "actualTimescale": 16384,
+      "width": 40
+    },
+    {
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "file": "/tmp/screenrec-zoom-lossless-control/001.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "index": 1,
+      "requestedUs": 125000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "actualValue": "2048",
+      "actualTimescale": 16384,
+      "width": 40
+    },
+    {
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "file": "/tmp/screenrec-zoom-lossless-control/002.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "index": 2,
+      "requestedUs": 250000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "actualValue": "4096",
+      "actualTimescale": 16384,
+      "width": 40
+    },
+    {
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "file": "/tmp/screenrec-zoom-lossless-control/003.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "index": 3,
+      "requestedUs": 375000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "actualValue": "6144",
+      "actualTimescale": 16384,
+      "width": 40
+    },
+    {
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "file": "/tmp/screenrec-zoom-lossless-control/004.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "index": 4,
+      "requestedUs": 500000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "actualValue": "8192",
+      "actualTimescale": 16384,
+      "width": 40
+    },
+    {
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "file": "/tmp/screenrec-zoom-lossless-control/005.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "index": 5,
+      "requestedUs": 625000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "actualValue": "10240",
+      "actualTimescale": 16384,
+      "width": 40
+    },
+    {
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "file": "/tmp/screenrec-zoom-lossless-control/006.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "index": 6,
+      "requestedUs": 750000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "actualValue": "12288",
+      "actualTimescale": 16384,
+      "width": 40
+    },
+    {
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "file": "/tmp/screenrec-zoom-lossless-control/007.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "index": 7,
+      "requestedUs": 875000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "actualValue": "14336",
+      "actualTimescale": 16384,
+      "width": 40
+    }
+  ]
+}

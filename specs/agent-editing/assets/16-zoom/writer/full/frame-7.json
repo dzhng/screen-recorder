@@ -1,0 +1,58 @@
+{
+  "activeBytes" : 10240,
+  "attachments" : {
+    "nonpropagate" : {
+
+    },
+    "propagate" : {
+      "CGColorSpace" : {
+        "components" : 3,
+        "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "model" : 1,
+        "name" : "kCGColorSpaceCoreMedia709"
+      },
+      "CVImageBufferColorPrimaries" : "ITU_R_709_2",
+      "CVImageBufferTransferFunction" : "ITU_R_709_2",
+      "CVImageBufferYCbCrMatrix" : "ITU_R_709_2",
+      "HorizontalDisparityAdjustment" : 0
+    }
+  },
+  "frame" : {
+    "index" : 7,
+    "layers" : [
+
+    ],
+    "sampleAtUs" : 875000,
+    "visibleRange" : {
+      "endUs" : 1000000,
+      "startUs" : 875000
+    },
+    "visual" : [
+      {
+        "inputs" : [
+
+        ],
+        "operations" : [
+
+        ],
+        "target" : {
+          "kind" : "output"
+        }
+      }
+    ]
+  },
+  "height" : 64,
+  "pictures" : [
+
+  ],
+  "pixelFormat" : 1111970369,
+  "range" : {
+    "endUs" : 3000000,
+    "startUs" : 0
+  },
+  "sha256" : "9f0471f012050a35f39127c5cf0915c455af47f057205976420d0ad561597ec7",
+  "stride" : 192,
+  "width" : 40,
+  "writerDurationUs" : 125000,
+  "writerPTSUs" : 875000
+}
