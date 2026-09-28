@@ -1,0 +1,116 @@
+{
+  "passed": true,
+  "legacyBytesExact": true,
+  "originUs": 1000000,
+  "rows": [
+    {
+      "offset": 0,
+      "startUs": 2000000,
+      "endUs": 3000000,
+      "gap": {
+        "spanIndex": 0,
+        "start": {
+          "value": "35840",
+          "timescale": 15360
+        },
+        "end": {
+          "value": "40960",
+          "timescale": 15360
+        },
+        "empty": true,
+        "actualSourceUs": null
+      },
+      "emptyThrough": {
+        "value": "40960",
+        "timescale": 15360
+      },
+      "records": 21
+    },
+    {
+      "offset": 2000000,
+      "startUs": 0,
+      "endUs": 1000000,
+      "gap": {
+        "spanIndex": 0,
+        "start": {
+          "value": "16000000",
+          "timescale": 48000000
+        },
+        "end": {
+          "value": "32000000",
+          "timescale": 48000000
+        },
+        "empty": true,
+        "actualSourceUs": null
+      },
+      "emptyThrough": {
+        "value": "32000000",
+        "timescale": 48000000
+      },
+      "records": 21
+    },
+    {
+      "offset": -1000000,
+      "startUs": 3000000,
+      "endUs": 4000000,
+      "gap": {
+        "spanIndex": 0,
+        "start": {
+          "value": "160000000",
+          "timescale": 48000000
+        },
+        "end": {
+          "value": "176000000",
+          "timescale": 48000000
+        },
+        "empty": true,
+        "actualSourceUs": null
+      },
+      "emptyThrough": {
+        "value": "176000000",
+        "timescale": 48000000
+      },
+      "records": 21
+    },
+    {
+      "limit": "bytes",
+      "error": {
+        "code": "LIMIT_EXCEEDED",
+        "details": {},
+        "message": "Presentation evidence exceeds its byte budget.",
+        "retryable": false
+      }
+    },
+    {
+      "limit": "records",
+      "error": {
+        "code": "LIMIT_EXCEEDED",
+        "details": {},
+        "message": "Presentation evidence exceeds its record budget.",
+        "retryable": false
+      }
+    },
+    {
+      "limit": "decode",
+      "error": {
+        "code": "LIMIT_EXCEEDED",
+        "details": {},
+        "message": "Presentation decode exceeds its sample budget.",
+        "retryable": false
+      }
+    },
+    {
+      "precisionRefusal": {
+        "code": "UNAVAILABLE",
+        "details": {},
+        "message": "Presentation clock translation is negative or loses exact precision.",
+        "retryable": false
+      },
+      "unpublished": true
+    },
+    {
+      "cancellation": true,
+      "unpublished": true
+    }
+  ]
+}

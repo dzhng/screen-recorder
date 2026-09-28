@@ -64,14 +64,14 @@ async function fixture(
 }
 test("exact support accepts held PTS before a cut while still membership stays strict", async () => {
   const f = await fixture();
-  const source = await PresentationEvidence.open(f.receipt, revision, signal());
+  const source = await PresentationEvidence.open(f.receipt, revision.spans, signal());
   cleanups.push(() => source.close());
   const cursor = source.cursor(signal());
-  const held = await cursor.at(0, 750_000);
+  const { record: held } = await cursor.at(0, 750_000);
   expect(held.empty).toBe(false);
   if (held.empty) throw new Error("Expected held picture");
   expect(held.actualSourceUs).toBe(0);
-  expect((await cursor.at(0, 1_000_000)).actualSourceUs).toBe(1_000_000);
+  expect((await cursor.at(0, 1_000_000)).record.actualSourceUs).toBe(1_000_000);
   await expect(cursor.at(0, 1_250_000)).rejects.toMatchObject({ code: "INVALID_RANGE" });
   await expect(
     observeVisualSamples(
@@ -118,23 +118,23 @@ test("fractional boundaries use exact integer arithmetic, including clock values
       ],
       pinned,
     );
-    const source = await PresentationEvidence.open(f.receipt, pinned, signal());
+    const source = await PresentationEvidence.open(f.receipt, pinned.spans, signal());
     cleanups.push(() => source.close());
     const cursor = source.cursor(signal());
-    expect((await cursor.at(0, below)).actualSourceUs).toBe(0);
-    expect((await cursor.at(0, below + 1)).actualSourceUs).toBe(actual);
+    expect((await cursor.at(0, below)).record.actualSourceUs).toBe(0);
+    expect((await cursor.at(0, below + 1)).record.actualSourceUs).toBe(actual);
   }
 });
 
 test("independent cursors progress monotonically and honor close, cancellation and mutation", async () => {
   const f = await fixture();
-  const source = await PresentationEvidence.open(f.receipt, revision, signal());
+  const source = await PresentationEvidence.open(f.receipt, revision.spans, signal());
   cleanups.push(() => source.close());
   const lifetime = new AbortController(),
     current = source.cursor(lifetime.signal),
     prior = source.cursor(signal());
-  expect((await current.at(0, 1_100_000)).actualSourceUs).toBe(1_000_000);
-  expect((await prior.at(0, 800_000)).actualSourceUs).toBe(0);
+  expect((await current.at(0, 1_100_000)).record.actualSourceUs).toBe(1_000_000);
+  expect((await prior.at(0, 800_000)).record.actualSourceUs).toBe(0);
   await expect(current.at(0, 800_000)).rejects.toMatchObject({ code: "INVALID_RANGE" });
   lifetime.abort();
   await expect(current.at(0, 1_200_000)).rejects.toMatchObject({ name: "AbortError" });
@@ -153,7 +153,9 @@ test("admission rejects gaps, overlaps, false pictures and missing tail coverage
     [{ ...frame(750_000, 1_250_000, 0, 0), rgbBase64: "bad" }],
   ]) {
     const f = await fixture(records);
-    await expect(PresentationEvidence.open(f.receipt, revision, signal())).rejects.toMatchObject({
+    await expect(
+      PresentationEvidence.open(f.receipt, revision.spans, signal()),
+    ).rejects.toMatchObject({
       code: "INVALID_EVIDENCE",
     });
   }
@@ -163,7 +165,7 @@ test("admission rejects gaps, overlaps, false pictures and missing tail coverage
     await expect(
       PresentationEvidence.open(
         { ...f.receipt, bytes: Buffer.byteLength(body) },
-        revision,
+        revision.spans,
         signal(),
       ),
     ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
@@ -186,10 +188,63 @@ test("retained spans skip deleted time while proving complete explicit empty sup
     ],
     pinned,
   );
-  const source = await PresentationEvidence.open(f.receipt, pinned, signal());
+  const source = await PresentationEvidence.open(f.receipt, pinned.spans, signal());
   cleanups.push(() => source.close());
   const cursor = source.cursor(signal());
   await expect(cursor.at(0, 100_000)).rejects.toMatchObject({ code: "INVALID_RANGE" });
-  expect(await cursor.at(1, 2_000_000)).toMatchObject({ empty: true, actualSourceUs: null });
+  expect(await cursor.at(1, 2_000_000)).toMatchObject({
+    record: { empty: true, actualSourceUs: null },
+  });
   await expect(cursor.at(0, 0)).rejects.toMatchObject({ code: "INVALID_RANGE" });
+});
+
+test("history cursor preserves exact physical-empty reset boundaries even when queries skip gaps", async () => {
+  const pinned = createOriginalRevision(2_000_000, "history");
+  const rows = [
+    frame(0, 400_000, 0, 0),
+    {
+      spanIndex: 0,
+      start: time(400_000),
+      end: { value: "1200001", timescale: 3_000_000 },
+      empty: true,
+    },
+    {
+      ...frame(400_001, 2_000_000, 400_001, 255),
+      start: { value: "1200001", timescale: 3_000_000 },
+      sampleTime: { value: "1200001", timescale: 3_000_000 },
+      actualSourceUs: 400_000,
+    },
+  ];
+  const f = await fixture(rows, pinned);
+  const source = await PresentationEvidence.open(f.receipt, pinned.spans, signal());
+  cleanups.push(() => source.close());
+  const direct = await source.cursor(signal()).at(0, 1_500_000);
+  expect(direct.emptyThrough).toEqual({ value: "1200001", timescale: 3_000_000 });
+  expect(direct.record).toMatchObject({ empty: false, actualSourceUs: 400_000 });
+  const cursor = source.cursor(signal());
+  expect(await cursor.at(0, 400_000)).toMatchObject({
+    record: { empty: true },
+    emptyThrough: null,
+  });
+  expect((await cursor.at(0, 400_001)).emptyThrough).toEqual(direct.emptyThrough);
+  // Opening the whole source history, rather than a trimmed edit, retains that same reset context.
+  expect((await source.cursor(signal()).at(0, 1_900_000)).emptyThrough).toEqual(
+    direct.emptyThrough,
+  );
+});
+
+test("presentation admission bounds bytes and records before accepting history", async () => {
+  const f = await fixture();
+  for (const limits of [
+    { maxBytes: f.receipt.bytes - 1, maxRecords: 2 },
+    { maxBytes: f.receipt.bytes, maxRecords: 1 },
+  ])
+    await expect(
+      PresentationEvidence.open(f.receipt, revision.spans, signal(), limits),
+    ).rejects.toMatchObject({ code: "LIMIT_EXCEEDED" });
+  const aborted = new AbortController();
+  aborted.abort();
+  await expect(
+    PresentationEvidence.open(f.receipt, revision.spans, aborted.signal),
+  ).rejects.toMatchObject({ name: "AbortError" });
 });

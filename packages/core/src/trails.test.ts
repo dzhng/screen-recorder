@@ -439,7 +439,7 @@ async function withPresentation(
       records: records.length,
       bytes: Buffer.byteLength(body),
     },
-    revision,
+    revision.spans,
     signal(),
   );
   try {
@@ -586,6 +586,7 @@ test("movie schedule keeps a pointer hidden through A-B-A until a fresh cursor o
       const receipt = await writePointerSchedule(
         {
           presentation,
+          revisionId: revision.id,
           evidence: f.evidence,
           identity: f.identity,
           output,
@@ -621,6 +622,7 @@ async function scheduled(
   const receipt = await writePointerSchedule(
     {
       presentation,
+      revisionId: "scheduled-fixture",
       evidence: f.evidence,
       identity: f.identity,
       output,

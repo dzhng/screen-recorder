@@ -312,13 +312,14 @@ test(
             assert.equal(response.ok, true, JSON.stringify(response));
             const presentation = await PresentationEvidence.open(
               response.data,
-              revision,
+              revision.spans,
               preparationSignal,
             );
             try {
               return await writePointerSchedule(
                 {
                   presentation,
+                  revisionId: revision.id,
                   evidence: sourceEvidence,
                   identity: request.sourceEvidence,
                   output: join(directory, "pointer.jsonl"),

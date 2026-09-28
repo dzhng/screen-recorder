@@ -131,6 +131,39 @@ export class CaptureSourceRead {
       coverage,
     };
   }
+  /** Pointer history keeps the acquisition clock, independently of an edited clip range.
+   * assetUs = captureUs + sourceToAssetOffsetUs; containerUs = assetUs + originUs. */
+  presentation(selection: SourceSelection) {
+    const context = this.resolve(selection, "cursor");
+    if (!context.evidence || context.coverage.some((item) => item.state !== "ready"))
+      throw new CatalogError("UNAVAILABLE", "Pointer history requires captured-video authority", {
+        coverage: context.coverage,
+      });
+    const selected = selectSource(this.assets, this.acquisitions, selection);
+    const clockOffsetUs = context.sourceToAssetOffsetUs - selected.track.sourceOffsetUs;
+    const span = {
+      startUs: selected.stream.bounds.startUs - context.sourceToAssetOffsetUs,
+      endUs: selected.stream.bounds.endUs - context.sourceToAssetOffsetUs,
+    };
+    if (
+      !Number.isSafeInteger(clockOffsetUs) ||
+      !Number.isSafeInteger(span.startUs) ||
+      !Number.isSafeInteger(span.endUs) ||
+      span.startUs < 0 ||
+      span.endUs <= span.startUs
+    )
+      throw new CatalogError(
+        "INVALID_EVIDENCE",
+        "Capture presentation clock exceeds its valid source history",
+      );
+    return {
+      source: selected.track.source,
+      streamId: selection.streamId,
+      clockOffsetUs,
+      spans: [span],
+      evidence: context.evidence,
+    };
+  }
   /** undefined means bounded work exhausted; null means this source window is complete. */
   next(
     context: CaptureContext,

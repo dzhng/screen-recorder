@@ -70,7 +70,7 @@ export class PresentationPointer {
   }
   at(spanIndex: number, sourceUs: number) {
     return this.exclusive(async () =>
-      this.inspect(await this.current.at(spanIndex, sourceUs), sourceUs),
+      this.inspect((await this.current.at(spanIndex, sourceUs)).record, sourceUs),
     );
   }
   /** Exact event membership stays separate from the integer observation-query cutoff. */
@@ -105,7 +105,7 @@ export class PresentationPointer {
         record,
         pointer: null,
       };
-    const kept = this.source.revision.spans[spanIndex]!;
+    const kept = this.source.spans[spanIndex]!;
     const plan = await planVisualTrail(
       { kept, requestedSourceUs: sourceUs, trailUs: 0 },
       {
@@ -117,7 +117,7 @@ export class PresentationPointer {
           ? { presentationClock: { at: eventTime, sampleTime: record.sampleTime } }
           : {}),
         readScene: async (at) => {
-          const previous = await this.prior.at(spanIndex, at);
+          const { record: previous } = await this.prior.at(spanIndex, at);
           return previous.empty
             ? { scene: null }
             : {

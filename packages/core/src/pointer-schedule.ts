@@ -18,6 +18,7 @@ import {
 } from "./presentation-time.js";
 
 type ScheduleInput = {
+  revisionId: string;
   presentation: PresentationEvidence;
   evidence: SourceTrailRead & Pick<SourceEvidenceReader, "exportRecords">;
   identity: EvidenceIdentity;
@@ -69,11 +70,11 @@ export async function writePointerSchedule(input: ScheduleInput, signal: AbortSi
       recordingId: evidenceRecordingId(input.identity),
       sourceId: input.identity.sourceId,
       sourceGeneration: input.identity.generation,
-      revisionId: source.revision.id,
+      revisionId: input.revisionId,
       sourceWidth: source.receipt.sourceWidth,
       sourceHeight: source.receipt.sourceHeight,
-      durationUs: source.revision.durationUs,
-      spanCount: source.revision.spans.length,
+      durationUs: source.receipt.durationUs,
+      spanCount: source.spans.length,
       trailPolicy: trailPolicy.id,
       scenePolicy: scenePolicy.id,
     };
@@ -116,7 +117,7 @@ async function* pointerStates(
       yield { at: record.start, kind: "presentation", record };
   }
   async function* observations(index: "cursor" | "geometry" | "pauses"): AsyncGenerator<Event> {
-    for (const [spanIndex, range] of presentation.revision.spans.entries()) {
+    for (const [spanIndex, range] of presentation.spans.entries()) {
       signal.throwIfAborted();
       for (const page of evidence.exportRecords(identity, index, range)) {
         for (const row of page) {
@@ -145,7 +146,7 @@ async function* pointerStates(
   let geometryEpoch: number | undefined;
   let previousPointer: CursorPoint | null = null,
     previousSpan = -1;
-  const end = microsecondTime(presentation.revision.spans.at(-1)!.endUs);
+  const end = microsecondTime(presentation.spans.at(-1)!.endUs);
   const advanceReset = (
     at: PresentationTime,
     reason: PointerResetFloor["reason"],
@@ -182,7 +183,7 @@ async function* pointerStates(
             advanceReset(next.start, "kept_start");
             geometryEpoch = evidence.timedGeometryAt(
               identity,
-              presentation.revision.spans[next.spanIndex]!.startUs,
+              presentation.spans[next.spanIndex]!.startUs,
             )?.epoch;
           } else if (current.empty || next.empty) advanceReset(next.start, "empty_presentation");
           else if (compareVisualRasters(current, next).boundary) advanceReset(next.start, "scene");

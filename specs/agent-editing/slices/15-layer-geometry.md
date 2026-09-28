@@ -188,3 +188,10 @@ Checkpoint 1 now has [authoring/compiler evidence](../assets/15-pointer-contract
 registry-owned scope/acquisition compatibility, atomic replacement rules, complete
 backward geometry references and pure-edit identity retention. Execution remains
 unbound; exact source-history preparation and native replay are the next checkpoint.
+
+The exact-history prerequisite for checkpoint 2 has
+[focused evidence](../assets/15-pointer-history/README.md): selected-track history
+uses the existing physical presentation owner, explicit acquisition clock mapping,
+and exact empty-end floors across skipped records. Queue/cache lifetime ownership,
+actual observation/trail preparation and native replay remain open; pointer is
+still unavailable for execution.

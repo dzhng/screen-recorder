@@ -1,3 +1,4 @@
+import { CaptureSourceRead } from "./capture-source-read.js";
 import { selectSource } from "./source-selection.js";
 import { ProjectStore } from "./projects.js";
 import { compositionAsset } from "./assets.js";
@@ -79,6 +80,9 @@ async function fixture() {
           id: "track:1",
           kind,
           codec: "fixture",
+          ...(kind === "video"
+            ? { width: 16, height: 16, orientedWidth: 16, orientedHeight: 16 }
+            : {}),
           decodable: true,
           startUs: 0,
           endUs: 100,
@@ -462,4 +466,36 @@ test("adoption retains explicit completion independently of selected-stream supp
     { startUs: 100, endUs: 140 },
     { startUs: 160, endUs: 200 },
   ]);
+});
+
+test("pointer history derives the capture clock and full selected stream at the acquisition owner", async () => {
+  const f = await fixture(),
+    intent = await f.admit();
+  const acquisition = await f.importer.executeImport(
+    intent.acquisitionId,
+    "history",
+    f.native,
+    signal(),
+  );
+  const capture = new CaptureSourceRead(f.assets, f.acquisitions, f.evidence);
+  const video = acquisition.bindings.find((binding) => binding.sourceRoles.includes("video"))!;
+  const selection = {
+    assetId: video.assetId,
+    streamId: video.streamId,
+    acquisitionId: acquisition.id,
+  };
+  expect(capture.presentation(selection)).toEqual({
+    source: f.assets.path(video.assetId),
+    streamId: "track:1",
+    clockOffsetUs: 0,
+    spans: [{ startUs: 100, endUs: 200 }],
+    evidence: acquisition.evidence,
+  });
+  expect(() => capture.presentation({ assetId: video.assetId, streamId: video.streamId })).toThrow(
+    /captured-video authority/,
+  );
+  const audio = acquisition.bindings.find((binding) => binding.sourceRoles.includes("narration"))!;
+  expect(() =>
+    capture.presentation({ ...selection, assetId: audio.assetId, streamId: audio.streamId }),
+  ).toThrow(/captured-video authority/);
 });

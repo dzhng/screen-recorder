@@ -46,17 +46,54 @@ private struct PresentationRecord: Encodable {
 /// One sequential decode, one bounded JSONL record at a time. Only the final receipt
 /// crosses the worker pipe. Consumers can index/read the stream without loading it whole.
 public enum PresentationEvidence {
+    public static let maximumRecords = 1_000_000
+    public static let maximumDecodedSamples = 1_000_000
     public static func write(
-        source: URL, plan: [VideoRenderSpan], output: URL, maxBytes: Int
+        source: URL, plan: [VideoRenderSpan], output: URL, maxBytes: Int,
+        streamId: String? = nil, clockOffsetUs: Int64 = 0,
+        maxRecords: Int = maximumRecords, maxDecodedSamples: Int = maximumDecodedSamples
     ) async throws -> PresentationEvidenceReceipt {
         let duration = try PresentationSource.duration(of: plan)
-        guard maxBytes > 0, maxBytes <= 9_007_199_254_740_991 else {
-            throw NativeFailure("INVALID_REQUEST", "Evidence requires a positive safe byte budget.")
+        guard maxBytes > 0, maxBytes <= 9_007_199_254_740_991,
+            maxRecords > 0, maxRecords <= maximumRecords,
+            maxDecodedSamples > 0, maxDecodedSamples <= maximumDecodedSamples,
+            clockOffsetUs >= -TimeSpan.maximumMicroseconds,
+            clockOffsetUs <= TimeSpan.maximumMicroseconds
+        else {
+            throw NativeFailure(
+                "INVALID_REQUEST",
+                "Evidence requires bounded positive budgets and a safe clock offset.")
         }
         let destination = try NewFile(at: output.path, assembledAs: "evidence.jsonl")
         defer { destination.discard() }
-        let presentation = try await PresentationSource(source: source, plan: plan)
-        let fd = open(destination.url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)
+        // container PTS = requested history-clock time + clockOffsetUs.
+        // The capture mapping owner supplies the offset; this writer only translates the clock.
+        func container(_ value: Int64) throws -> Int64 {
+            let (result, overflow) = value.addingReportingOverflow(clockOffsetUs)
+            guard !overflow, result >= -TimeSpan.maximumMicroseconds,
+                result <= TimeSpan.maximumMicroseconds
+            else {
+                throw NativeFailure(
+                    "INVALID_REQUEST", "Presentation clock offset exceeds precision.")
+            }
+            return result
+        }
+        let presentation = try await PresentationSource(
+            source: source, streamId: streamId,
+            startUs: nil, endUs: try container(plan.last!.source.endUs))
+        let offset = time(microseconds: clockOffsetUs)
+        func history(_ value: CMTime) throws -> CMTime {
+            if clockOffsetUs == 0 { return value }
+            let result = CMTimeSubtract(value, offset)
+            guard result.isNumeric, !result.flags.contains(.hasBeenRounded), result >= .zero else {
+                throw NativeFailure(
+                    "UNAVAILABLE",
+                    "Presentation clock translation is negative or loses exact precision.")
+            }
+            return result
+        }
+        let fd = open(
+            destination.url.path, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)
         guard fd >= 0 else {
             throw NativeFailure.decodeFailed("Cannot open evidence output.")
         }
@@ -84,11 +121,17 @@ public enum PresentationEvidence {
         // every span still writes its own exact timing and consumes the byte budget.
         var thumbnail: (buffer: CVPixelBuffer, width: Int, height: Int, rgb: String)?
         for (spanIndex, span) in plan.enumerated() {
-            var at = time(microseconds: span.source.startUs)
-            let end = time(microseconds: span.source.endUs)
+            var at = time(microseconds: try container(span.source.startUs))
+            let end = time(microseconds: try container(span.source.endUs))
             while at < end {
+                try Task.checkCancellation()
+                guard count < maxRecords else {
+                    throw NativeFailure(
+                        "LIMIT_EXCEEDED", "Presentation evidence exceeds its record budget.")
+                }
                 let next = try autoreleasepool {
-                    let selected = try presentation.selection(at: at, end: end)
+                    let selected = try presentation.selection(
+                        at: at, end: end, maximumDecodedSamples: maxDecodedSamples)
                     guard selected.end > at else {
                         throw NativeFailure(
                             "UNAVAILABLE", "Presentation evidence made no progress.")
@@ -100,17 +143,20 @@ public enum PresentationEvidence {
                                 agedFromUs: 0, crop: nil, maxLongEdge: 64)
                             thumbnail = (
                                 buffer, image.width, image.height,
-                                image.rgb(context: context).base64EncodedString())
+                                image.rgb(context: context).base64EncodedString()
+                            )
                         }
                     } else {
                         thumbnail = nil
                     }
+                    let selectedHistoryTime = try selected.sampleTime.map(history)
                     try append(
                         PresentationRecord(
-                            spanIndex: spanIndex, start: PresentationTime(at),
-                            end: PresentationTime(selected.end), empty: selected.buffer == nil,
-                            sampleTime: selected.sampleTime.map(PresentationTime.init),
-                            actualSourceUs: selected.sampleTime.map(microseconds),
+                            spanIndex: spanIndex, start: PresentationTime(try history(at)),
+                            end: PresentationTime(try history(selected.end)),
+                            empty: selected.buffer == nil,
+                            sampleTime: selectedHistoryTime.map(PresentationTime.init),
+                            actualSourceUs: selectedHistoryTime.map(microseconds),
                             width: thumbnail?.width, height: thumbnail?.height,
                             rgbBase64: thumbnail?.rgb))
                     return selected.end

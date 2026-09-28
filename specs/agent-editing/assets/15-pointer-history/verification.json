@@ -1,0 +1,79 @@
+{
+  "scope": "exact presentation-history prerequisite; pointer execution unavailable",
+  "base": "8d1c741",
+  "worker": {
+    "path": "/tmp/screenrec-pointer-history-native",
+    "sha256": "987dae364b8acd481f1ae8fc8aa3b8ea8db800f959c84fa33ce5d0bcd9cdcca6",
+    "baselinePath": "/tmp/screenrec-pointer-contract-native",
+    "baselineSha256": "46e823a5fca14970c4848d06007b21bc70b433f832bad14035b70b45f0fa43f0"
+  },
+  "gates": {
+    "core": {
+      "passed": 598,
+      "skipped": 1
+    },
+    "focusedCoreService": {
+      "passed": 57,
+      "skipped": 2
+    },
+    "nativeMoviePointerEvidence": {
+      "passed": 28
+    },
+    "nativeFrameTests": "exit 0",
+    "buildTypes": "core/service and dependencies pass",
+    "localCompositionResolution": "/private/tmp/screenrec-editing-speech/packages/composition",
+    "nativeHistory": "native.json"
+  },
+  "negativeControls": [
+    {
+      "mutation": "discard completed empty-end floor",
+      "result": "fractional skipped-gap test fails; restored green"
+    },
+    {
+      "mutation": "select first instead of second track",
+      "result": "expected 32px selected width, got 64px; restored green"
+    },
+    {
+      "mutation": "reverse explicit clock offset sign",
+      "result": "UNAVAILABLE: retained time has no proven track support; restored green"
+    },
+    {
+      "limits": [
+        "bytes",
+        "records",
+        "decoded samples"
+      ],
+      "result": "LIMIT_EXCEEDED with no published/staging output"
+    },
+    {
+      "cancellation": "native wire request",
+      "result": "canceled without published/staging output"
+    },
+    {
+      "mutation": "unprotected CoreMedia subtraction on a 3003-timescale movie shifted1\u00b5s",
+      "result": "pre-fix worker published four rounded records; fixed worker refuses UNAVAILABLE and leaves no output"
+    }
+  ],
+  "reproduce": "SCREENREC_NATIVE=/tmp/screenrec-pointer-history-native SCREENREC_BASELINE_NATIVE=/tmp/screenrec-pointer-contract-native SCREENREC_COMPOSITION_CANCEL_TEST=/tmp/screenrec-geometry-build/debug/ScreenRecorderCompositionVideoTests node packages/test-harness/editing/presentation-history.mjs <fresh-output-directory>",
+  "open": [
+    "queue/cache lifetime",
+    "capture observation and trail preparation",
+    "native pointer prefix replay",
+    "matched-time pointer visual acceptance",
+    "public readiness binding"
+  ],
+  "review": {
+    "independent": "Codex review /tmp/screenrec-history-review.log",
+    "findings": [
+      {
+        "severity": "P2",
+        "issue": "CMTimeSubtract silently rounds incompatible timescales",
+        "resolution": "reject hasBeenRounded; real3003-timescale media regression and pre-fix negative control"
+      }
+    ],
+    "independentlyVerified": "39 focused tests and core/service type checks",
+    "nativeReviewerLimit": "Both baseline and candidate had identical decoder startup failures in reviewer sandbox; normal tool execution passed native gates",
+    "shape": "one existing selection/reader owner; legacy revision only at request boundary",
+    "docs": "linked slice evidence and clock/budget choices"
+  }
+}

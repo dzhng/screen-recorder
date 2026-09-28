@@ -77,7 +77,7 @@ export function createRevision(
   });
 }
 export type RenderSpan = Readonly<{ source: TimeRange; playback: TimeRange }>;
-export function renderPlan(revision: TimelineRevision): readonly RenderSpan[] {
+export function renderPlan(revision: Pick<TimelineRevision, "spans">): readonly RenderSpan[] {
   let atUs = 0;
   return revision.spans.map((source) => {
     const playback = { startUs: atUs, endUs: atUs + (source.endUs - source.startUs) };

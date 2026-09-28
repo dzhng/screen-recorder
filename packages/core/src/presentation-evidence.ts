@@ -9,9 +9,29 @@ import {
 } from "./presentation-time.js";
 import { isAbsolute } from "node:path";
 import { CatalogError } from "./catalog.js";
-import { renderPlan, type TimelineRevision } from "./timeline.js";
+import { renderPlan, type TimeRange } from "./timeline.js";
 
 const recordBytes = 65_536;
+export type PresentationLimits = {
+  maxBytes: number;
+  maxRecords: number;
+  maxDecodedSamples: number;
+};
+export const presentationLimits: Readonly<PresentationLimits> = Object.freeze({
+  maxBytes: 1024 ** 3,
+  maxRecords: 1_000_000,
+  maxDecodedSamples: 1_000_000,
+});
+const historySchema = z
+  .array(z.strictObject({ startUs: z.int().nonnegative(), endUs: z.int().positive() }))
+  .min(1)
+  .max(10_000)
+  .refine((spans) =>
+    spans.every(
+      (span, i) => span.startUs < span.endUs && (i === 0 || spans[i - 1]!.endUs < span.startUs),
+    ),
+  );
+
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const interval = { spanIndex: integer, start: timeSchema, end: timeSchema };
 const pictureSchema = z.strictObject({
@@ -58,11 +78,32 @@ export class PresentationEvidence {
     private readonly file: FileHandle,
     private readonly stat: BigIntStats,
     readonly receipt: Readonly<PresentationReceipt>,
-    readonly revision: TimelineRevision,
+    readonly spans: readonly Readonly<TimeRange>[],
   ) {}
-  static async open(receipt: PresentationReceipt, revision: TimelineRevision, signal: AbortSignal) {
+  static async open(
+    receipt: PresentationReceipt,
+    spans: readonly TimeRange[],
+    signal: AbortSignal,
+    limits: Pick<PresentationLimits, "maxBytes" | "maxRecords"> = presentationLimits,
+  ) {
     const metadata = Object.freeze(parse(receiptSchema, receipt));
     signal.throwIfAborted();
+    if (
+      !Number.isSafeInteger(limits.maxBytes) ||
+      limits.maxBytes < 1 ||
+      !Number.isSafeInteger(limits.maxRecords) ||
+      limits.maxRecords < 1 ||
+      metadata.bytes > limits.maxBytes ||
+      metadata.records > limits.maxRecords
+    )
+      throw new CatalogError(
+        "LIMIT_EXCEEDED",
+        "Presentation evidence exceeds its admission budget",
+      );
+    const pinned = Object.freeze(parse(historySchema, spans).map((span) => Object.freeze(span)));
+    const duration = renderPlan({ spans: pinned }).at(-1)!.playback.endUs;
+    if (!Number.isSafeInteger(duration) || duration !== metadata.durationUs)
+      invalid("Presentation duration differs from history spans");
     const file = await open(
       metadata.file,
       constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
@@ -71,10 +112,6 @@ export class PresentationEvidence {
       const stat = await file.stat({ bigint: true });
       if (!stat.isFile() || stat.size !== BigInt(metadata.bytes))
         invalid("Presentation receipt does not match its file");
-      const pinned = Object.freeze({
-        ...revision,
-        spans: Object.freeze(revision.spans.map((span) => Object.freeze({ ...span }))),
-      });
       const source = new PresentationEvidence(file, stat, metadata, pinned);
       // Admission validates the complete stream without retaining an index or its rasters.
       const validation = source.records(signal);
@@ -147,14 +184,13 @@ export class PresentationEvidence {
     let header = false,
       spanIndex = 0,
       count = 0;
-    const plan = renderPlan(this.revision);
+    const plan = renderPlan({ spans: this.spans });
     let through = micros(plan[0]!.source.startUs);
     let previous: PresentationPicture | null = null;
     for await (const value of this.lines(signal)) {
       if (!header) {
         const h = parse(headerSchema, value);
         if (
-          h.durationUs !== this.revision.durationUs ||
           h.spanCount !== plan.length ||
           h.sourceWidth !== this.receipt.sourceWidth ||
           h.sourceHeight !== this.receipt.sourceHeight ||
@@ -221,8 +257,15 @@ export class PresentationEvidence {
     let lastSpan = -1,
       lastUs = -1;
     let running = false;
+    let emptyThrough: z.infer<typeof timeSchema> | null = null;
     return {
-      at: async (spanIndex: number, sourceUs: number): Promise<PresentationRecord> => {
+      at: async (
+        spanIndex: number,
+        sourceUs: number,
+      ): Promise<{
+        record: PresentationRecord;
+        emptyThrough: z.infer<typeof timeSchema> | null;
+      }> => {
         if (running)
           throw new CatalogError(
             "INVALID_RANGE",
@@ -231,7 +274,7 @@ export class PresentationEvidence {
         running = true;
         try {
           await this.check(signal);
-          const span = this.revision.spans[spanIndex];
+          const span = this.spans[spanIndex];
           if (
             !Number.isSafeInteger(spanIndex) ||
             !Number.isSafeInteger(sourceUs) ||
@@ -246,6 +289,7 @@ export class PresentationEvidence {
           const at = micros(sourceUs);
           while (!current || current.spanIndex < spanIndex || compare(current.end, at) <= 0) {
             signal.throwIfAborted();
+            if (current?.empty) emptyThrough = current.end;
             const next = await iterator.next();
             if (next.done) invalid("No presentation supports the requested moment");
             current = next.value;
@@ -254,7 +298,7 @@ export class PresentationEvidence {
             invalid("No presentation supports the requested moment");
           lastSpan = spanIndex;
           lastUs = sourceUs;
-          return current;
+          return { record: current, emptyThrough };
         } finally {
           running = false;
         }

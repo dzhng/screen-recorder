@@ -7,6 +7,7 @@ import type { AudioTrackPlan } from "@screenrec/core/audio";
 import type { PreviewRenderer, RenderedMovie } from "@screenrec/core/preview";
 import {
   PresentationEvidence,
+  presentationLimits,
   type PresentationReceipt,
 } from "@screenrec/core/presentation-evidence";
 import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
@@ -168,19 +169,20 @@ export function previewRenderer(
               source: request.source,
               plan: request.plan,
               output: join(attempt, "presentation.jsonl"),
-              maxBytes: 1024 ** 3,
+              ...presentationLimits,
             },
             { signal, timeoutMs: renderDeadlineMs(request.plan) },
           );
           const presentation = await PresentationEvidence.open(
             nativeResult(response) as PresentationReceipt,
-            request.revision,
+            request.revision.spans,
             signal,
           );
           try {
             return await writePointerSchedule(
               {
                 presentation,
+                revisionId: request.revision.id,
                 evidence,
                 identity: request.sourceEvidence,
                 output: join(attempt, "pointer.jsonl"),
