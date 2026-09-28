@@ -1,0 +1,18 @@
+{
+  "model": "gpt-6-luna",
+  "reasoning": "medium",
+  "freshContext": true,
+  "setupHome": "/tmp/screenrec-layer-skill-vfxr7r",
+  "serviceStopped": true,
+  "skillSHA256": "85be71ad3aad15657cb88070a2c2571f7395cd0b7b2b150a40bd5c1feb11b27c",
+  "runtime": {
+    "skills/screenrec/SKILL.md": "85be71ad3aad15657cb88070a2c2571f7395cd0b7b2b150a40bd5c1feb11b27c",
+    "apps/cli/dist/main.js": "c742bbe69710844f692451eb44dd6672179413207a1f7b034d78cf4d71508bbd",
+    "apps/service/dist/project-service.js": "cacfe35f2e896826bd57c1798255ee3bbd86e8b42cbbaf990c51c22d1c70f1b6",
+    "packages/core/dist/frame-inspection.js": "d5ecb619ef7eaad70a7ec09bf456800978962807fc51fac5bb70f307b99b911f",
+    "packages/core/dist/project-window.js": "3165bb43c5f4458f39f5366998cb8885b9784533ffe168184a19bd805d271b93",
+    "packages/protocol/dist/operations.js": "d422093850c488594d25b1917f09bdc276bc85e7e6d08f980e43c65ebbbfbf75"
+  },
+  "workerSHA256": "27a7b97869cce53631e8ea7730bb82484b203553da6a23beed94bcf2f211c61d",
+  "scope": "Actual public CLI authoring/delivery; final pixels and unchanged WAV verified; private execution-coordinate exposure identified for correction; no listening claim."
+}

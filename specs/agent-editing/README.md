@@ -38,8 +38,9 @@ Current pickup and priority:
    passes combined-worker admission, layer, source-orientation and existing public
    picture/index preservation gates. Immutable probe state and pixel recipes have
    new identities. [Public presenter/stack journeys](assets/15-layer-public/README.md)
-   pass; next verify fresh skill use and remaining edit-operation journeys, then
-   integrate pointer geometry. The broader final-output profile remains open.
+   pass. [Fresh skill use](assets/15-layer-skill/README.md) produces correct final
+   media but exposes private execution-coordinate leakage in frame receipts; fix
+   that boundary, then finish edit-operation journeys and pointer geometry. The broader final-output profile remains open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue

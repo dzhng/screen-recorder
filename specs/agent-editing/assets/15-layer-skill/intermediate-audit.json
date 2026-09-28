@@ -1,0 +1,132 @@
+{
+  "output-frame": {
+    "passed": true,
+    "verdict": {
+      "compared": 14666,
+      "total": 15360,
+      "maximumError": 0,
+      "shapes": [
+        {
+          "channel": 0,
+          "actual": {
+            "count": 748,
+            "center": [
+              71.57352941176471,
+              125.63235294117646
+            ],
+            "bounds": [
+              61,
+              102,
+              82,
+              145
+            ]
+          },
+          "expected": {
+            "count": 748,
+            "center": [
+              71.57352941176471,
+              125.63235294117646
+            ],
+            "bounds": [
+              61,
+              102,
+              82,
+              145
+            ]
+          }
+        },
+        {
+          "channel": 1,
+          "actual": {
+            "count": 748,
+            "center": [
+              71.57352941176471,
+              125.63235294117646
+            ],
+            "bounds": [
+              61,
+              102,
+              82,
+              145
+            ]
+          },
+          "expected": {
+            "count": 748,
+            "center": [
+              71.57352941176471,
+              125.63235294117646
+            ],
+            "bounds": [
+              61,
+              102,
+              82,
+              145
+            ]
+          }
+        },
+        {
+          "channel": 2,
+          "actual": {
+            "count": 748,
+            "center": [
+              71.57352941176471,
+              125.63235294117646
+            ],
+            "bounds": [
+              61,
+              102,
+              82,
+              145
+            ]
+          },
+          "expected": {
+            "count": 748,
+            "center": [
+              71.57352941176471,
+              125.63235294117646
+            ],
+            "bounds": [
+              61,
+              102,
+              82,
+              145
+            ]
+          }
+        },
+        {
+          "channel": 3,
+          "actual": {
+            "count": 15360,
+            "center": [
+              48,
+              80
+            ],
+            "bounds": [
+              0,
+              0,
+              95,
+              159
+            ]
+          },
+          "expected": {
+            "count": 15360,
+            "center": [
+              48,
+              80
+            ],
+            "bounds": [
+              0,
+              0,
+              95,
+              159
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "output-frame-corrected": {
+    "passed": false,
+    "error": "Interior pixel (60,13) channel 0: 34 != 0"
+  }
+}

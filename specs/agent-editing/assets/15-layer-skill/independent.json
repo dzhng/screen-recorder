@@ -1,0 +1,141 @@
+{
+  "voiceClipUnchanged": true,
+  "fullWavBytesEqual": true,
+  "wavSha256": "53c6ea94c89ea1567e864cd98b9587391e231a378cf2ed2f103f0b4a78ccb9bb",
+  "finalMovie": {
+    "width": 96,
+    "height": 160,
+    "durationUs": 1000000,
+    "frames": 10,
+    "fps": "10/1",
+    "sha256": "beca2d6adb38e35c371271d1e0e7e32afc4709c4663b22250e93b901ee9105ad"
+  },
+  "finalPicture": {
+    "final-frame.png": {
+      "passed": true,
+      "verdict": {
+        "compared": 14666,
+        "total": 15360,
+        "maximumError": 0,
+        "shapes": [
+          {
+            "channel": 0,
+            "actual": {
+              "count": 748,
+              "center": [
+                71.57352941176471,
+                125.63235294117646
+              ],
+              "bounds": [
+                61,
+                102,
+                82,
+                145
+              ]
+            },
+            "expected": {
+              "count": 748,
+              "center": [
+                71.57352941176471,
+                125.63235294117646
+              ],
+              "bounds": [
+                61,
+                102,
+                82,
+                145
+              ]
+            }
+          },
+          {
+            "channel": 1,
+            "actual": {
+              "count": 748,
+              "center": [
+                71.57352941176471,
+                125.63235294117646
+              ],
+              "bounds": [
+                61,
+                102,
+                82,
+                145
+              ]
+            },
+            "expected": {
+              "count": 748,
+              "center": [
+                71.57352941176471,
+                125.63235294117646
+              ],
+              "bounds": [
+                61,
+                102,
+                82,
+                145
+              ]
+            }
+          },
+          {
+            "channel": 2,
+            "actual": {
+              "count": 748,
+              "center": [
+                71.57352941176471,
+                125.63235294117646
+              ],
+              "bounds": [
+                61,
+                102,
+                82,
+                145
+              ]
+            },
+            "expected": {
+              "count": 748,
+              "center": [
+                71.57352941176471,
+                125.63235294117646
+              ],
+              "bounds": [
+                61,
+                102,
+                82,
+                145
+              ]
+            }
+          },
+          {
+            "channel": 3,
+            "actual": {
+              "count": 15360,
+              "center": [
+                48,
+                80
+              ],
+              "bounds": [
+                0,
+                0,
+                95,
+                159
+              ]
+            },
+            "expected": {
+              "count": 15360,
+              "center": [
+                48,
+                80
+              ],
+              "bounds": [
+                0,
+                0,
+                95,
+                159
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}
