@@ -1,0 +1,9 @@
+Independent Codex CLI review, uncommitted scope.
+
+Initial finding accepted: MCP adapter was excluded from the service/CLI RSS assertion. Added a separately asserted adapter RSS bound and aggregate production-tree measurements.
+
+Final review:
+No actionable defects were identified in the three new harness files. Syntax checks passed; the full native integration journey was not run because SCREENREC_NATIVE was not configured.
+No actionable defects were identified in the three new harness files. Syntax checks passed; the full native integration journey was not run because SCREENREC_NATIVE was not configured.
+
+Actual native integration is performed by the journey, not by the reviewer.

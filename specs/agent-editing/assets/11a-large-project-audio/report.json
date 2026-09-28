@@ -1,0 +1,793 @@
+{
+  "passed": true,
+  "checks": {
+    "negativeControls": [
+      "one-frame-shift",
+      "channel-swap",
+      "second-source-omission",
+      "physical-excluded-poison"
+    ],
+    "originalsUnchangedNoModels": true
+  },
+  "memory": {
+    "samples": 2080,
+    "nativePeakRssBytes": 38731776,
+    "serviceCliPeakRssBytes": 482525184,
+    "harnessTreePeakRssBytes": 805912576,
+    "mcpPeakRssBytes": 101089280,
+    "productionTreePeakRssBytes": 567361536
+  },
+  "boundary": "Real ALAC/native/shared service/public CLI and MCP; independent authored PCM oracle. Sampled RSS, not instantaneous peak or broad stress acceptance.",
+  "nativeSha256": "3daf3c17dc5e093c46486c9ac074e042f52bad716209a1500f4fcd3c83e57b7b",
+  "maskedProject": {
+    "boundary": "Synthetic capture journals around admitted actual ALAC bytes; no physical capture claim. Real 44.1-to-48 kHz conversion and public processed clip taps.",
+    "originals": [
+      {
+        "path": "/tmp/large-project-run3/clean.mov",
+        "sha256": "fcb3d890af4c5349e49993fc60d5f20c7a049de68fe2d76ce428319f2a12dc6a"
+      },
+      {
+        "path": "/tmp/large-project-run3/poison.mov",
+        "sha256": "5fc18e10f8c130b0e68c840bc209d2ccb3ceafad2419f8af475f168210267fe1"
+      }
+    ],
+    "receipts": [
+      {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-project-large-3FPP40/library/cache/derived/5074e8f9-2776-4090-87c5-c978d5581198.cache",
+        "bytes": 388096,
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 48000,
+        "peak": 0.168280228972435,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 26148864,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:3ac66eb034b315b4549d79a3f3e9bd1f6afa2b9179774f4d90af7a5489132ce8:1",
+            "ranges": [
+              {
+                "start": 19200,
+                "end": 28800
+              }
+            ]
+          }
+        ],
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:3ac66eb034b315b4549d79a3f3e9bd1f6afa2b9179774f4d90af7a5489132ce8:1"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-audio-v2",
+        "projectId": "76c5c4c5-3cdc-45aa-b708-f00c02775553",
+        "revisionId": "cdf406e3-40b9-485f-a9ea-370db42b0db9",
+        "mediaType": "audio/wav",
+        "layout": "stereo",
+        "sampleRange": {
+          "start": 0,
+          "end": 48000
+        },
+        "cacheId": "5074e8f9-2776-4090-87c5-c978d5581198"
+      },
+      {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-project-large-3FPP40/library/cache/derived/90ab9be6-0529-41cc-b0df-21227c1fceee.cache",
+        "bytes": 388096,
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 48000,
+        "peak": 0.168280228972435,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 26247168,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:3ac66eb034b315b4549d79a3f3e9bd1f6afa2b9179774f4d90af7a5489132ce8:4",
+            "ranges": [
+              {
+                "start": 19200,
+                "end": 28800
+              }
+            ]
+          }
+        ],
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:3ac66eb034b315b4549d79a3f3e9bd1f6afa2b9179774f4d90af7a5489132ce8:4"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-audio-v2",
+        "projectId": "76c5c4c5-3cdc-45aa-b708-f00c02775553",
+        "revisionId": "cdf406e3-40b9-485f-a9ea-370db42b0db9",
+        "mediaType": "audio/wav",
+        "layout": "stereo",
+        "sampleRange": {
+          "start": 0,
+          "end": 48000
+        },
+        "cacheId": "90ab9be6-0529-41cc-b0df-21227c1fceee"
+      },
+      {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-project-large-3FPP40/library/cache/derived/4a14fa26-a2d2-47e8-98bf-9b7aaea7752b.cache",
+        "bytes": 388096,
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 48000,
+        "peak": 0.49229520559310913,
+        "clippedSamples": 0,
+        "maximumBlockFrames": 8192,
+        "peakResidentBytes": 25804800,
+        "decoderContext": {
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000,
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "clip:3ac66eb034b315b4549d79a3f3e9bd1f6afa2b9179774f4d90af7a5489132ce8:7",
+            "ranges": []
+          }
+        ],
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "tap": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:3ac66eb034b315b4549d79a3f3e9bd1f6afa2b9179774f4d90af7a5489132ce8:7"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-audio-v2",
+        "projectId": "76c5c4c5-3cdc-45aa-b708-f00c02775553",
+        "revisionId": "cdf406e3-40b9-485f-a9ea-370db42b0db9",
+        "mediaType": "audio/wav",
+        "layout": "stereo",
+        "sampleRange": {
+          "start": 0,
+          "end": 48000
+        },
+        "cacheId": "4a14fa26-a2d2-47e8-98bf-9b7aaea7752b"
+      }
+    ],
+    "maskedPcmEqual": true,
+    "physicalPoisonDiffers": true
+  },
+  "originals": [
+    {
+      "path": "/tmp/large-project-run3/source-0.mov",
+      "sha256": "5b74adb3a15c726974cde8719c0f4f5f3d5c55236c7a22787e05ac49e9089577",
+      "decoded": {
+        "sha256": "9830e9380060b7df8f441c183e2dcde1f80f26d044e7058a06a9c71c9ae8c3ff",
+        "frames": 2928000
+      }
+    },
+    {
+      "path": "/tmp/large-project-run3/source-1.mov",
+      "sha256": "29c1f56596d2e12f38eca3a1d67d21dd02c09461c42a2765e35d38bab27a0a7d",
+      "decoded": {
+        "sha256": "2883cdd459dcc67703a09303a30f37719297bdf7e7e0ce3ddf8c010f2c59a2fe",
+        "frames": 2928000
+      }
+    }
+  ],
+  "selection": {
+    "projectId": "36e206e5-7b7b-46fd-979e-7b5774945592",
+    "revisionId": "3cb69a79-1f04-41a7-8cd4-94c04d2e857b"
+  },
+  "authored": {
+    "clips": 100,
+    "tracks": 2,
+    "seconds": 3000,
+    "sourcePhaseUs": [
+      0,
+      250000
+    ],
+    "trackGain": [
+      0.5,
+      0.25
+    ],
+    "outputGain": 2
+  },
+  "extractionMs": 198414.109875,
+  "excerpts": [
+    {
+      "start": 0,
+      "frames": 4096
+    },
+    {
+      "start": 2879990,
+      "frames": 4096
+    },
+    {
+      "start": 143995904,
+      "frames": 4096
+    }
+  ],
+  "transferMs": 16626.175749999995,
+  "large": {
+    "nativeReceipt": {
+      "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-project-large-3FPP40/library/cache/derived/ad81e13c-491d-444b-84d7-02df8a9552c1.cache",
+      "bytes": 1152004096,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 144000000,
+      "peak": 0.3349609375,
+      "clippedSamples": 0,
+      "maximumBlockFrames": 8192,
+      "peakResidentBytes": 38764544,
+      "decoderContext": {
+        "policy": "bounded-current-retained-run",
+        "sampleRate": 48000,
+        "maximumPrerollFrames": 0,
+        "maximumTailFrames": 0
+      },
+      "unavailable": [
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:1",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:2",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:3",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:4",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:5",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:6",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:7",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:8",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:9",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:10",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:11",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:12",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:13",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:14",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:15",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:16",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:17",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:18",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:19",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:20",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:21",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:22",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:23",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:24",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:25",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:26",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:27",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:28",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:29",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:30",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:31",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:32",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:33",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:34",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:35",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:36",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:37",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:38",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:39",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:40",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:41",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:42",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:43",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:44",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:45",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:46",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:47",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:48",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:49",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:50",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:53",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:54",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:55",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:56",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:57",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:58",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:59",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:60",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:61",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:62",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:63",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:64",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:65",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:66",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:67",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:68",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:69",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:70",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:71",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:72",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:73",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:74",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:75",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:76",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:77",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:78",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:79",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:80",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:81",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:82",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:83",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:84",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:85",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:86",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:87",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:88",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:89",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:90",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:91",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:92",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:93",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:94",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:95",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:96",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:97",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:98",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:99",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:100",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:101",
+          "ranges": []
+        },
+        {
+          "clipId": "clip:ef5c4b8b93fdcc9aa7b6756abcc870e512f2d41723bd3c758546fdfa59235c67:102",
+          "ranges": []
+        }
+      ],
+      "range": {
+        "startUs": 0,
+        "endUs": 3000000000
+      },
+      "tap": {
+        "target": {
+          "kind": "output"
+        },
+        "point": {
+          "kind": "processed"
+        }
+      },
+      "implementationId": "native-composition-audio-v2",
+      "projectId": "36e206e5-7b7b-46fd-979e-7b5774945592",
+      "revisionId": "3cb69a79-1f04-41a7-8cd4-94c04d2e857b",
+      "mediaType": "audio/wav",
+      "layout": "stereo",
+      "sampleRange": {
+        "start": 0,
+        "end": 144000000
+      },
+      "cacheId": "ad81e13c-491d-444b-84d7-02df8a9552c1"
+    },
+    "bytes": 1152004096,
+    "frames": 144000000,
+    "wavSha256": "87e770be2217c33956104eeea1f19c801a7960da71e5ae0df0dc98b27c188d54",
+    "pcmSha256": "a00cd0c226ac046cf0e96ae83d813a0afa0ac78ffa4218e69b2473fbbc3f3901",
+    "expectedPcmSha256": "a00cd0c226ac046cf0e96ae83d813a0afa0ac78ffa4218e69b2473fbbc3f3901",
+    "range": {
+      "startUs": 2998999333,
+      "endUs": 2999999777
+    },
+    "start": 143951967,
+    "end": 143999989
+  },
+  "traceCounts": [
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "state": "running",
+      "count": 2
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "state": "running",
+      "count": 1
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "state": "ready",
+      "count": 4
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "state": null,
+      "count": 2
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "state": null,
+      "count": 2
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "state": null,
+      "count": 2
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "processing",
+      "count": 773
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "count": 5
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "state": "ready",
+      "count": 3
+    },
+    {
+      "operation": "artifact.close",
+      "transport": "mcp",
+      "state": null,
+      "count": 6
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "state": "running",
+      "count": 2
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "state": null,
+      "count": 2
+    },
+    {
+      "operation": "artifact.read",
+      "transport": "mcp",
+      "state": null,
+      "count": 4
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "state": "absent",
+      "count": 1
+    }
+  ],
+  "retainedArtifactHashes": {
+    "poison.mov": "5fc18e10f8c130b0e68c840bc209d2ccb3ceafad2419f8af475f168210267fe1",
+    "clean.mov": "fcb3d890af4c5349e49993fc60d5f20c7a049de68fe2d76ce428319f2a12dc6a",
+    "source-0.mov": "5b74adb3a15c726974cde8719c0f4f5f3d5c55236c7a22787e05ac49e9089577",
+    "source-1.mov": "29c1f56596d2e12f38eca3a1d67d21dd02c09461c42a2765e35d38bab27a0a7d",
+    "late-range.wav": "d6526925bb7f270a9c8ad08d3f086a714cfb68853364098a06739f9b805857c5",
+    "masked-1.wav": "429d2beaaeb588bfb60aa37c6476af361f3cf3bcdbb72cd346cae44e3dbf7f5f",
+    "masked-0.wav": "429d2beaaeb588bfb60aa37c6476af361f3cf3bcdbb72cd346cae44e3dbf7f5f",
+    "masked-2.wav": "7549572f132315570fbd0182cdf4b72b8f2a167ef878d3ff357904302e903eed"
+  },
+  "cleanup": {
+    "sessionExitCode": 0,
+    "scratchHomeAbsent": true
+  }
+}

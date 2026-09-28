@@ -1,0 +1,29 @@
+{
+  "passed": false,
+  "nativeSha256": "3daf3c17dc5e093c46486c9ac074e042f52bad716209a1500f4fcd3c83e57b7b",
+  "memory": {
+    "samples": 1319,
+    "nativePeakRssBytes": 34455552,
+    "serviceCliPeakRssBytes": 196657152,
+    "harnessTreePeakRssBytes": 531415040
+  },
+  "error": {
+    "message": "artifact.read: {\"ok\":false,\"error\":{\"code\":\"ARTIFACT_EXPIRED\",\"message\":\"Derivative delivery has expired or closed\",\"retryable\":true,\"details\":{}},\"id\":\"28c758cd-ad54-470f-a567-5f1c32a29407\"}\n\nfalse !== true\n",
+    "stack": "AssertionError [ERR_ASSERTION]: artifact.read: {\"ok\":false,\"error\":{\"code\":\"ARTIFACT_EXPIRED\",\"message\":\"Derivative delivery has expired or closed\",\"retryable\":true,\"details\":{}},\"id\":\"28c758cd-ad54-470f-a567-5f1c32a29407\"}\n\nfalse !== true\n\n    at JourneyService.call (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/source-evidence-fixture.mjs:110:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async readBytes (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-project-large.mjs:27:100)\n    at async file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-project-large.mjs:65:19"
+  },
+  "extractionMs": 133960.971375,
+  "excerpts": [
+    {
+      "start": 0,
+      "frames": 4096
+    },
+    {
+      "start": 2879990,
+      "frames": 4096
+    },
+    {
+      "start": 143995904,
+      "frames": 4096
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "passed": false,
+  "nativeSha256": "3daf3c17dc5e093c46486c9ac074e042f52bad716209a1500f4fcd3c83e57b7b",
+  "memory": {
+    "samples": 1760,
+    "nativePeakRssBytes": 38223872,
+    "serviceCliPeakRssBytes": 212451328,
+    "harnessTreePeakRssBytes": 572260352
+  },
+  "error": {
+    "message": "project audio: deadline",
+    "stack": "AssertionError [ERR_ASSERTION]: project audio: deadline\n    at poll (file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/source-evidence-fixture.mjs:23:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///private/tmp/screenrec-project-evidence-journey/packages/test-harness/editing/audio-project-large.mjs:209:13"
+  }
+}
