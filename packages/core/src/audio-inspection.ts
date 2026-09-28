@@ -89,6 +89,25 @@ export class MediaAudioInspection {
         "INVALID_RANGE",
         "Audio range must lie within the selected source duration",
       );
+    const stream = this.owners.assets
+      .get(source.selection.assetId)
+      .streams.find((value) => value.id === source.selection.streamId)!;
+    // Native admission owns unsupported formats. Known PCM dimensions permit early size refusal.
+    if (
+      stream.sampleRate !== undefined &&
+      Number.isSafeInteger(stream.sampleRate) &&
+      stream.sampleRate > 0 &&
+      stream.channels !== undefined
+    ) {
+      const rate = BigInt(stream.sampleRate);
+      const frames =
+        (BigInt(parsed.data.endUs) * rate) / 1_000_000n -
+        (BigInt(parsed.data.startUs) * rate) / 1_000_000n;
+      const minimumBytes = frames * BigInt(stream.channels) * 4n + 44n;
+      if (minimumBytes > BigInt(Number.MAX_SAFE_INTEGER))
+        throw new CatalogError("LIMIT_EXCEEDED", "Audio derivative size exceeds safe accounting");
+      this.owners.cache.checkCapacity(Number(minimumBytes));
+    }
     return {
       source,
       options: {

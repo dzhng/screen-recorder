@@ -64,7 +64,7 @@ const renderer: SourceAudioRenderer = {
     };
   },
 };
-async function fixture(render = renderer) {
+async function fixture(render = renderer, budget?: number, durationUs = 1000000) {
   const home = await mkdtemp("/tmp/source-audio-inspection-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
@@ -80,8 +80,8 @@ async function fixture(render = renderer) {
       codec: "pcm",
       decodable: true,
       startUs: 100000,
-      endUs: 1000000,
-      segments: [{ startUs: 100000, endUs: 1000000, empty: false }],
+      endUs: durationUs,
+      segments: [{ startUs: 100000, endUs: durationUs, empty: false }],
       sampleRate: 48000,
       channels: 2,
     })),
@@ -99,10 +99,15 @@ async function fixture(render = renderer) {
       ],
     }),
   );
-  const cache = new DerivedCache(catalog, home, (owner) => {
-    if (owner.kind !== "asset") throw new Error("Expected asset");
-    assets.get(owner.assetId);
-  });
+  const cache = new DerivedCache(
+    catalog,
+    home,
+    (owner) => {
+      if (owner.kind !== "asset") throw new Error("Expected asset");
+      assets.get(owner.assetId);
+    },
+    budget,
+  );
   await cache.reconcile();
   let inspection!: MediaAudioInspection;
   let pinHook = () => {};
@@ -312,4 +317,48 @@ test("a failed dependency retain rolls back the job and earlier asset retain tog
     count: 0,
   });
   expect(f.acquisitions.get("mask").bindings[0]!.streamId).toBe("a");
+});
+
+test("source WAV capacity is checked before queue admission using absolute floor samples", async () => {
+  let calls = 0;
+  const f = await fixture(
+    {
+      ...renderer,
+      async render(request, signal) {
+        calls++;
+        return renderer.render(request, signal);
+      },
+    },
+    52,
+  );
+  // floor(1042 * .048) - floor(1020 * .048) = 50 - 48 = 2 frames, not floor(22 * .048).
+  expect(() =>
+    f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1042 } }),
+  ).toThrow("exceeds cache budget");
+  expect(calls).toBe(0);
+  expect(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM jobs").get()).toEqual({ n: 0 });
+  const status = f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1041 } });
+  await f.jobs.idle();
+  expect(
+    f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1041 } }).state,
+  ).toBe("ready");
+  expect(status.jobId).toBeTruthy();
+  expect(calls).toBe(1);
+});
+
+test("long source capacity arithmetic rejects before rendering without losing high-clock precision", async () => {
+  const f = await fixture(renderer, 44, Number.MAX_SAFE_INTEGER);
+  expect(() => f.inspection.request(f.selection)).toThrow("exceeds cache budget");
+  // Number multiplication loses this frame; absolute integer sample clocks retain it.
+  expect(() =>
+    f.inspection.request({
+      ...f.selection,
+      range: { startUs: 9007199254740958, endUs: 9007199254740959 },
+    }),
+  ).toThrow("exceeds cache budget");
+  const small = f.inspection.request({
+    ...f.selection,
+    range: { startUs: 9007199254740959, endUs: 9007199254740960 },
+  });
+  expect(small.jobId).toBeTruthy();
 });

@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 src/audio-inspection.test.ts -t "capacity is checked"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:66854) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-inspection.test.ts (7 tests | 1 failed | 6 skipped) 37ms
+   × source WAV capacity is checked before queue admission using absolute floor samples 37ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-inspection.test.ts > source WAV capacity is checked before queue admission using absolute floor samples
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/audio-inspection.test.ts:337:5
+    335|   expect(() =>
+    336|     f.inspection.request({ ...f.selection, range: { startUs: 1020, end…
+    337|   ).toThrow("exceeds cache budget");
+       |     ^
+    338|   expect(calls).toBe(0);
+    339|   expect(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM jobs").g…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  23:57:21
+   Duration  310ms (transform 59%, import 25%, tests 15%, worker 1%)
+
+error: script "test" exited with code 1

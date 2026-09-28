@@ -9,6 +9,10 @@ import {
   linkSync,
   mkdirSync,
   lstatSync,
+  openSync,
+  closeSync,
+  ftruncateSync,
+  writeSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
@@ -21,7 +25,7 @@ afterEach(() =>
     .reverse()
     .forEach((run) => run()),
 );
-async function fixture(budget = 8) {
+async function fixture(budget: number | null = 8) {
   const home = mkdtempSync(join(tmpdir(), "derived-cache-"));
   const store = new RevisionStore(join(home, "library.sqlite"), {
     now: () => "",
@@ -35,7 +39,7 @@ async function fixture(budget = 8) {
     () => store.close(),
   );
   store.allocate();
-  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), budget);
+  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), budget ?? undefined);
   await cache.reconcile();
   const removeFiles: RemoveCacheFiles = async ({ ids, root }) => {
     const directory = join(home, "cache", "derived");
@@ -345,4 +349,44 @@ test("failed file removal retains cache ownership for retry", async () => {
   expect(
     store.catalog.prepare("SELECT id FROM derived_cache WHERE id=?").get(output.id),
   ).toBeUndefined();
+});
+
+test("the default cache publishes and reads a sparse artifact larger than one GiB", async () => {
+  const { cache } = await fixture(null);
+  const pending = cache.reserve({ kind: "recording", recordingId: "recording-1" });
+  const bytes = 1024 ** 3 + 4096;
+  const fd = openSync(pending.path, "wx");
+  try {
+    ftruncateSync(fd, bytes);
+    writeSync(fd, Buffer.from("tail"), 0, 4, bytes - 4);
+  } finally {
+    closeSync(fd);
+  }
+  const published = await cache.publish(pending.id);
+  expect(published.bytes).toBe(bytes);
+  const handle = cache.acquire(published.id)!;
+  try {
+    const tail = Buffer.alloc(4);
+    expect(handle.read(tail, bytes - 4)).toBe(4);
+    expect(tail.toString()).toBe("tail");
+  } finally {
+    handle.release();
+  }
+});
+
+test("capacity checks neither reserve bytes nor evict held files", async () => {
+  const { cache } = await fixture(4);
+  const file = await add(cache, "held");
+  const held = cache.acquire(file.id)!;
+  try {
+    cache.checkCapacity(4);
+    expect(cache.bytes).toBe(4);
+    expect(() => cache.checkCapacity(5)).toThrow("exceeds cache budget");
+    for (const size of [-1, 0.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1])
+      expect(() => cache.checkCapacity(size)).toThrow("Invalid derivative size");
+    await expect(add(cache, "next")).rejects.toThrow("active readers");
+    expect(read(cache, file.id)).toBe("held");
+  } finally {
+    held.release();
+  }
 });

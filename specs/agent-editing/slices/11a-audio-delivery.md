@@ -49,12 +49,14 @@ those processors are verified. Existing raw audio and movie gates remain green.
 
 ## Open full-extraction capacity gate
 
-The selected-source owner uses the existing cache policy. Its default 1 GiB budget
-rejects a 48 kHz stereo float WAV after roughly 47 minutes, below the native RIFF
-capacity, and the cache currently checks size at publication. Resolve shared
-capacity/preflight/delivery behavior before accepting full extraction in this slice;
-do not duplicate the cache's private budget or silently raise it. The focused
-[source-owner pass](../assets/11a-source-audio-owner/README.md) does not close this gate.
+The shared cache now defaults to 4 GiB, enough for the native sink's supported RIFF
+capacity. Its shared intrinsic-size check runs before selected-source rendering when
+native rate/channel metadata is available, and again against actual publication bytes.
+This check is not a reservation: active leases can still cause retryable publication
+pressure, and unfinished outputs can temporarily consume disk beyond the published budget.
+The [capacity pass](../assets/11a-cache-capacity/README.md) proves real sparse publication
+above 1 GiB and bounded reading, not a native render of that size. A real full native
+WAV above 1 GiB and project-tap preflight remain required before closing this gate.
 
 ## Failure boundary and discretion
 

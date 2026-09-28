@@ -1,0 +1,37 @@
+$ vitest run --maxWorkers=4 src/audio-inspection.test.ts -t "high-clock precision"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:67888) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-inspection.test.ts (7 tests | 1 failed | 6 skipped) 32ms
+   × long source capacity arithmetic rejects before rendering without losing high-clock precision 32ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-inspection.test.ts > long source capacity arithmetic rejects before rendering without losing high-clock precision
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ src/audio-inspection.test.ts:358:5
+    356|       range: { startUs: 9007199254740958, endUs: 9007199254740959 },
+    357|     }),
+    358|   ).toThrow("exceeds cache budget");
+       |     ^
+    359|   const small = f.inspection.request({
+    360|     ...f.selection,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  23:57:53
+   Duration  315ms (transform 57%, import 29%, tests 13%, worker 1%)
+
+error: script "test" exited with code 1

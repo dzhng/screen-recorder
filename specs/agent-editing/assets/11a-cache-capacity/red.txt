@@ -1,0 +1,31 @@
+$ vitest run --maxWorkers=4 src/cache.test.ts -t "default cache publishes"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:59165) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/cache.test.ts (16 tests | 1 failed | 15 skipped) 10ms
+   × the default cache publishes and reads a sparse artifact larger than one GiB 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/cache.test.ts > the default cache publishes and reads a sparse artifact larger than one GiB
+Error: Derivative exceeds cache budget
+ ❯ DerivedCache.admit src/cache.ts:162:15
+    160|         throw new CatalogError("INVALID_CACHE", "Derivative must be an…
+    161|       if (stat.size > this.budget)
+    162|         throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds c…
+       |               ^
+    163|       await this.makeRoom(stat.size);
+    164|       if (!this.row(id)) throw new CatalogError("INVALID_CACHE", "Cach…
+ ❯ src/cache.ts:143:53
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 skipped (16)
+   Start at  23:52:43
+   Duration  207ms (transform 48%, import 43%, tests 7%, worker 2%)
+
+error: script "test" exited with code 1

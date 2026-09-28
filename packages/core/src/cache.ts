@@ -45,7 +45,7 @@ export class DerivedCache {
     private readonly store: Catalog,
     home: string,
     private readonly assertAvailable: (owner: JobOwner) => void,
-    private readonly budget = 1024 ** 3,
+    private readonly budget = 4 * 1024 ** 3,
   ) {
     if (!Number.isSafeInteger(budget) || budget < 1) throw new RangeError("Invalid cache budget");
     const base = realpathSync(home);
@@ -67,6 +67,13 @@ export class DerivedCache {
       id TEXT PRIMARY KEY, ownerKind TEXT NOT NULL, ownerId TEXT NOT NULL, bytes INTEGER, touched INTEGER NOT NULL, device INTEGER, inode INTEGER
     ); CREATE INDEX IF NOT EXISTS derived_cache_lru ON derived_cache(touched,id);
     CREATE INDEX IF NOT EXISTS derived_cache_owner ON derived_cache(ownerKind,ownerId,id);`);
+  }
+  /** Checks intrinsic size only; publication still admits against live reader/eviction pressure. */
+  checkCapacity(minimumBytes: number): void {
+    if (!Number.isSafeInteger(minimumBytes) || minimumBytes < 0)
+      throw new RangeError("Invalid derivative size");
+    if (minimumBytes > this.budget)
+      throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds cache budget");
   }
   get bytes(): number {
     return (
@@ -158,8 +165,7 @@ export class DerivedCache {
       const stat = fstatSync(fd);
       if (!stat.isFile() || stat.nlink !== 1)
         throw new CatalogError("INVALID_CACHE", "Derivative must be an independent regular file");
-      if (stat.size > this.budget)
-        throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds cache budget");
+      this.checkCapacity(stat.size);
       await this.makeRoom(stat.size);
       if (!this.row(id)) throw new CatalogError("INVALID_CACHE", "Cache reservation was removed");
       this.assertAvailable(ownerFromIdentity(row.ownerKind, row.ownerId));

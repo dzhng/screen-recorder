@@ -1,0 +1,2362 @@
+2026-09-28T06:56:14.445885Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T06:56:14.445951Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /private/tmp/screenrec-source-audio-inspection
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e6cc-c450-7af2-904f-8737f7cb1f89
+--------
+user
+current changes
+exec
+/bin/zsh -lc 'pwd; git status --short; find .. -name AGENTS.md -o -name AGENTS.override.md; cat .agents/skills/code-review/SKILL.md' in /private/tmp/screenrec-source-audio-inspection
+exec
+/bin/zsh -lc 'cat AGENTS.md; cat .agents/skills/code-review/SKILL.md; cat .agents/skills/write-tests/SKILL.md; git diff --stat; find packages specs -name AGENTS.md -o -name AGENTS.override.md' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+ packages/core/src/audio-inspection.test.ts       | 55 +++++++++++++++++++++---
+ packages/core/src/audio-inspection.ts            | 19 ++++++++
+ packages/core/src/cache.test.ts                  | 48 ++++++++++++++++++++-
+ packages/core/src/cache.ts                       | 12 ++++--
+ specs/agent-editing/slices/11a-audio-delivery.md | 14 +++---
+ 5 files changed, 130 insertions(+), 18 deletions(-)
+
+2026-09-28T06:56:36.394671Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6cc-c450-7af2-904f-8737f7cb1f89 turn_id=01a0e6cc-c4fa-72a1-922d-0d093a06bbc0 item_id="exec-006717ea-1f8c-429d-9d99-3cdb8b328935"
+exec
+/bin/zsh -lc 'git diff; cat packages/core/src/cache.ts; cat packages/core/src/audio-inspection.ts' in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+diff --git a/packages/core/src/audio-inspection.test.ts b/packages/core/src/audio-inspection.test.ts
+index 1be4002..7fcca1f 100644
+--- a/packages/core/src/audio-inspection.test.ts
++++ b/packages/core/src/audio-inspection.test.ts
+@@ -64,7 +64,7 @@ const renderer: SourceAudioRenderer = {
+     };
+   },
+ };
+-async function fixture(render = renderer) {
++async function fixture(render = renderer, budget?: number, durationUs = 1000000) {
+   const home = await mkdtemp("/tmp/source-audio-inspection-");
+   const catalog = new Catalog(join(home, "catalog.sqlite"));
+   const assets = new AssetStore(catalog, home);
+@@ -80,8 +80,8 @@ async function fixture(render = renderer) {
+       codec: "pcm",
+       decodable: true,
+       startUs: 100000,
+-      endUs: 1000000,
+-      segments: [{ startUs: 100000, endUs: 1000000, empty: false }],
++      endUs: durationUs,
++      segments: [{ startUs: 100000, endUs: durationUs, empty: false }],
+       sampleRate: 48000,
+       channels: 2,
+     })),
+@@ -99,10 +99,15 @@ async function fixture(render = renderer) {
+       ],
+     }),
+   );
+-  const cache = new DerivedCache(catalog, home, (owner) => {
+-    if (owner.kind !== "asset") throw new Error("Expected asset");
+-    assets.get(owner.assetId);
+-  });
++  const cache = new DerivedCache(
++    catalog,
++    home,
++    (owner) => {
++      if (owner.kind !== "asset") throw new Error("Expected asset");
++      assets.get(owner.assetId);
++    },
++    budget,
++  );
+   await cache.reconcile();
+   let inspection!: MediaAudioInspection;
+   let pinHook = () => {};
+@@ -313,3 +318,39 @@ test("a failed dependency retain rolls back the job and earlier asset retain tog
+   });
+   expect(f.acquisitions.get("mask").bindings[0]!.streamId).toBe("a");
+ });
++
++test("source WAV capacity is checked before queue admission using absolute floor samples", async () => {
++  let calls = 0;
++  const f = await fixture(
++    {
++      ...renderer,
++      async render(request, signal) {
++        calls++;
++        return renderer.render(request, signal);
++      },
++    },
++    52,
++  );
++  // floor(1042 * .048) - floor(1020 * .048) = 50 - 48 = 2 frames, not floor(22 * .048).
++  expect(() =>
++    f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1042 } }),
++  ).toThrow("exceeds cache budget");
++  expect(calls).toBe(0);
++  expect(f.catalog.catalog.prepare("SELECT COUNT(*) AS n FROM jobs").get()).toEqual({ n: 0 });
++  const status = f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1041 } });
++  await f.jobs.idle();
++  expect(
++    f.inspection.request({ ...f.selection, range: { startUs: 1020, endUs: 1041 } }).state,
++  ).toBe("ready");
++  expect(status.jobId).toBeTruthy();
++  expect(calls).toBe(1);
++});
++
++test("long source capacity arithmetic rejects before rendering without losing high-clock precision", async () => {
++  const f = await fixture(renderer, undefined, Number.MAX_SAFE_INTEGER);
++  expect(() => f.inspection.request(f.selection)).toThrow("exceeds cache budget");
++  const startUs = Number.MAX_SAFE_INTEGER - 1;
++  // Absolute products exceed safe Number precision; both boundaries still map to the same frame.
++  const small = f.inspection.request({ ...f.selection, range: { startUs, endUs: startUs + 1 } });
++  expect(small.jobId).toBeTruthy();
++});
+diff --git a/packages/core/src/audio-inspection.ts b/packages/core/src/audio-inspection.ts
+index f674b01..ffd9a58 100644
+--- a/packages/core/src/audio-inspection.ts
++++ b/packages/core/src/audio-inspection.ts
+@@ -89,6 +89,25 @@ export class MediaAudioInspection {
+         "INVALID_RANGE",
+         "Audio range must lie within the selected source duration",
+       );
++    const stream = this.owners.assets
++      .get(source.selection.assetId)
++      .streams.find((value) => value.id === source.selection.streamId)!;
++    // Native admission owns unsupported formats. Known PCM dimensions permit early size refusal.
++    if (
++      stream.sampleRate !== undefined &&
++      Number.isSafeInteger(stream.sampleRate) &&
++      stream.sampleRate > 0 &&
++      stream.channels !== undefined
++    ) {
++      const rate = BigInt(stream.sampleRate);
++      const frames =
++        (BigInt(parsed.data.endUs) * rate) / 1_000_000n -
++        (BigInt(parsed.data.startUs) * rate) / 1_000_000n;
++      const minimumBytes = frames * BigInt(stream.channels) * 4n + 44n;
++      if (minimumBytes > BigInt(Number.MAX_SAFE_INTEGER))
++        throw new CatalogError("LIMIT_EXCEEDED", "Audio derivative size exceeds safe accounting");
++      this.owners.cache.checkCapacity(Number(minimumBytes));
++    }
+     return {
+       source,
+       options: {
+diff --git a/packages/core/src/cache.test.ts b/packages/core/src/cache.test.ts
+index dd09deb..9cdda47 100644
+--- a/packages/core/src/cache.test.ts
++++ b/packages/core/src/cache.test.ts
+@@ -9,6 +9,10 @@ import {
+   linkSync,
+   mkdirSync,
+   lstatSync,
++  openSync,
++  closeSync,
++  ftruncateSync,
++  writeSync,
+ } from "node:fs";
+ import { tmpdir } from "node:os";
+ import { basename, join } from "node:path";
+@@ -21,7 +25,7 @@ afterEach(() =>
+     .reverse()
+     .forEach((run) => run()),
+ );
+-async function fixture(budget = 8) {
++async function fixture(budget: number | null = 8) {
+   const home = mkdtempSync(join(tmpdir(), "derived-cache-"));
+   const store = new RevisionStore(join(home, "library.sqlite"), {
+     now: () => "",
+@@ -35,7 +39,7 @@ async function fixture(budget = 8) {
+     () => store.close(),
+   );
+   store.allocate();
+-  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), budget);
++  const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store), budget ?? undefined);
+   await cache.reconcile();
+   const removeFiles: RemoveCacheFiles = async ({ ids, root }) => {
+     const directory = join(home, "cache", "derived");
+@@ -346,3 +350,43 @@ test("failed file removal retains cache ownership for retry", async () => {
+     store.catalog.prepare("SELECT id FROM derived_cache WHERE id=?").get(output.id),
+   ).toBeUndefined();
+ });
++
++test("the default cache publishes and reads a sparse artifact larger than one GiB", async () => {
++  const { cache } = await fixture(null);
++  const pending = cache.reserve({ kind: "recording", recordingId: "recording-1" });
++  const bytes = 1024 ** 3 + 4096;
++  const fd = openSync(pending.path, "wx");
++  try {
++    ftruncateSync(fd, bytes);
++    writeSync(fd, Buffer.from("tail"), 0, 4, bytes - 4);
++  } finally {
++    closeSync(fd);
++  }
++  const published = await cache.publish(pending.id);
++  expect(published.bytes).toBe(bytes);
++  const handle = cache.acquire(published.id)!;
++  try {
++    const tail = Buffer.alloc(4);
++    expect(handle.read(tail, bytes - 4)).toBe(4);
++    expect(tail.toString()).toBe("tail");
++  } finally {
++    handle.release();
++  }
++});
++
++test("capacity checks neither reserve bytes nor evict held files", async () => {
++  const { cache } = await fixture(4);
++  const file = await add(cache, "held");
++  const held = cache.acquire(file.id)!;
++  try {
++    cache.checkCapacity(4);
++    expect(cache.bytes).toBe(4);
++    expect(() => cache.checkCapacity(5)).toThrow("exceeds cache budget");
++    for (const size of [-1, 0.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1])
++      expect(() => cache.checkCapacity(size)).toThrow("Invalid derivative size");
++    await expect(add(cache, "next")).rejects.toThrow("active readers");
++    expect(read(cache, file.id)).toBe("held");
++  } finally {
++    held.release();
++  }
++});
+diff --git a/packages/core/src/cache.ts b/packages/core/src/cache.ts
+index 183484c..e1609b7 100644
+--- a/packages/core/src/cache.ts
++++ b/packages/core/src/cache.ts
+@@ -45,7 +45,7 @@ export class DerivedCache {
+     private readonly store: Catalog,
+     home: string,
+     private readonly assertAvailable: (owner: JobOwner) => void,
+-    private readonly budget = 1024 ** 3,
++    private readonly budget = 4 * 1024 ** 3,
+   ) {
+     if (!Number.isSafeInteger(budget) || budget < 1) throw new RangeError("Invalid cache budget");
+     const base = realpathSync(home);
+@@ -68,6 +68,13 @@ export class DerivedCache {
+     ); CREATE INDEX IF NOT EXISTS derived_cache_lru ON derived_cache(touched,id);
+     CREATE INDEX IF NOT EXISTS derived_cache_owner ON derived_cache(ownerKind,ownerId,id);`);
+   }
++  /** Checks intrinsic size only; publication still admits against live reader/eviction pressure. */
++  checkCapacity(minimumBytes: number): void {
++    if (!Number.isSafeInteger(minimumBytes) || minimumBytes < 0)
++      throw new RangeError("Invalid derivative size");
++    if (minimumBytes > this.budget)
++      throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds cache budget");
++  }
+   get bytes(): number {
+     return (
+       this.store.catalog
+@@ -158,8 +165,7 @@ export class DerivedCache {
+       const stat = fstatSync(fd);
+       if (!stat.isFile() || stat.nlink !== 1)
+         throw new CatalogError("INVALID_CACHE", "Derivative must be an independent regular file");
+-      if (stat.size > this.budget)
+-        throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds cache budget");
++      this.checkCapacity(stat.size);
+       await this.makeRoom(stat.size);
+       if (!this.row(id)) throw new CatalogError("INVALID_CACHE", "Cache reservation was removed");
+       this.assertAvailable(ownerFromIdentity(row.ownerKind, row.ownerId));
+diff --git a/specs/agent-editing/slices/11a-audio-delivery.md b/specs/agent-editing/slices/11a-audio-delivery.md
+index 6c6e2a9..0ec62e8 100644
+--- a/specs/agent-editing/slices/11a-audio-delivery.md
++++ b/specs/agent-editing/slices/11a-audio-delivery.md
+@@ -49,12 +49,14 @@ those processors are verified. Existing raw audio and movie gates remain green.
+ 
+ ## Open full-extraction capacity gate
+ 
+-The selected-source owner uses the existing cache policy. Its default 1 GiB budget
+-rejects a 48 kHz stereo float WAV after roughly 47 minutes, below the native RIFF
+-capacity, and the cache currently checks size at publication. Resolve shared
+-capacity/preflight/delivery behavior before accepting full extraction in this slice;
+-do not duplicate the cache's private budget or silently raise it. The focused
+-[source-owner pass](../assets/11a-source-audio-owner/README.md) does not close this gate.
++The shared cache now defaults to 4 GiB, enough for the native sink's supported RIFF
++capacity. Its shared intrinsic-size check runs before selected-source rendering when
++native rate/channel metadata is available, and again against actual publication bytes.
++This check is not a reservation: active leases can still cause retryable publication
++pressure, and unfinished outputs can temporarily consume disk beyond the published budget.
++The [capacity pass](../assets/11a-cache-capacity/README.md) proves real sparse publication
++above 1 GiB and bounded reading, not a native render of that size. A real full native
++WAV above 1 GiB and project-tap preflight remain required before closing this gate.
+ 
+ ## Failure boundary and discretion
+ 
+import { setImmediate } from "node:timers/promises";
+import { randomUUID } from "node:crypto";
+import {
+  closeSync,
+  constants,
+  fstatSync,
+  lstatSync,
+  mkdirSync,
+  openSync,
+  opendirSync,
+  realpathSync,
+  unlinkSync,
+} from "node:fs";
+import { basename, dirname, join } from "node:path";
+import { openedFile, retainedFileRead, type OpenedFile, type RetainedRead } from "./files.js";
+import { type RevisionStore } from "./library.js";
+import { CatalogError, type Catalog } from "./catalog.js";
+import { ownerIdentity, ownerFromIdentity, type JobOwner } from "./jobs.js";
+
+type Row = {
+  id: string;
+  ownerKind: JobOwner["kind"];
+  ownerId: string;
+  bytes: number | null;
+  touched: number;
+  device: number | null;
+  inode: number | null;
+};
+export type CacheFile = Readonly<{ id: string; path: string; bytes: number }>;
+export type DirectoryIdentity = Readonly<{ dev: string; ino: string }>;
+export type RemoveCacheFiles = (batch: { ids: string[]; root: DirectoryIdentity }) => Promise<void>;
+const filename = /^[0-9a-f-]{36}\.cache$/;
+const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
+
+/** Disposable files only. Publication and LRU accounting share the library catalog; source and
+ * retained evidence never enter this directory. One service owns this instance and catalog. */
+export class DerivedCache {
+  private readonly root: string;
+  private ready = false;
+  private publication: Promise<unknown> = Promise.resolve();
+  private reconciling: Promise<void> | undefined;
+  private readonly held = new Map<string, number>();
+  private readonly directories: { path: string; dev: bigint; ino: bigint }[] = [];
+  constructor(
+    private readonly store: Catalog,
+    home: string,
+    private readonly assertAvailable: (owner: JobOwner) => void,
+    private readonly budget = 4 * 1024 ** 3,
+  ) {
+    if (!Number.isSafeInteger(budget) || budget < 1) throw new RangeError("Invalid cache budget");
+    const base = realpathSync(home);
+    let path = base;
+    for (const name of ["cache", "derived"]) {
+      path = join(path, name);
+      try {
+        mkdirSync(path);
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+      }
+      const stat = lstatSync(path, { bigint: true });
+      if (!stat.isDirectory())
+        throw new CatalogError("INVALID_CACHE", "Cache directory must not be a link");
+      this.directories.push({ path, dev: stat.dev, ino: stat.ino });
+    }
+    this.root = path;
+    store.catalog.exec(`CREATE TABLE IF NOT EXISTS derived_cache (
+      id TEXT PRIMARY KEY, ownerKind TEXT NOT NULL, ownerId TEXT NOT NULL, bytes INTEGER, touched INTEGER NOT NULL, device INTEGER, inode INTEGER
+    ); CREATE INDEX IF NOT EXISTS derived_cache_lru ON derived_cache(touched,id);
+    CREATE INDEX IF NOT EXISTS derived_cache_owner ON derived_cache(ownerKind,ownerId,id);`);
+  }
+  /** Checks intrinsic size only; publication still admits against live reader/eviction pressure. */
+  checkCapacity(minimumBytes: number): void {
+    if (!Number.isSafeInteger(minimumBytes) || minimumBytes < 0)
+      throw new RangeError("Invalid derivative size");
+    if (minimumBytes > this.budget)
+      throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds cache budget");
+  }
+  get bytes(): number {
+    return (
+      this.store.catalog
+        .prepare("SELECT COALESCE(SUM(bytes),0) AS bytes FROM derived_cache")
+        .get() as { bytes: number }
+    ).bytes;
+  }
+  /** Refuses to continue once a cache directory was replaced or became a link while in use. */
+  checkRoot(): void {
+    for (const directory of this.directories) {
+      const stat = lstatSync(directory.path, { bigint: true });
+      if (!stat.isDirectory() || stat.dev !== directory.dev || stat.ino !== directory.ino)
+        throw new CatalogError("INVALID_CACHE", "Cache directory changed while in use");
+    }
+  }
+  private path(id: string): string {
+    if (!filename.test(`${id}.cache`))
+      throw new CatalogError("INVALID_CACHE", "Invalid cache identity");
+    return join(this.root, `${id}.cache`);
+  }
+  /** Files remain attributable while reserved, failed, or marked for deletion. */
+  *usageFiles(owner: JobOwner): Generator<string> {
+    this.checkRoot();
+    let after = "";
+    for (;;) {
+      const rows = this.store.catalog
+        .prepare(
+          "SELECT id FROM derived_cache WHERE ownerKind=? AND ownerId=? AND id>? ORDER BY id LIMIT 100",
+        )
+        .all(...ownerIdentity(owner), after) as { id: string }[];
+      if (!rows.length) return;
+      for (const row of rows) {
+        this.checkRoot();
+        yield this.path(row.id);
+      }
+      after = rows.at(-1)!.id;
+    }
+  }
+  /** Only this owner interprets its filenames. Unreserved files have no owner attribution. */
+  ownerForFile(path: string): JobOwner | null {
+    if (dirname(path) !== this.root || !filename.test(basename(path))) return null;
+    this.checkRoot();
+    const row = this.row(basename(path).slice(0, -".cache".length));
+    return row ? ownerFromIdentity(row.ownerKind, row.ownerId) : null;
+  }
+  private row(id: string): Row | undefined {
+    return this.store.catalog.prepare("SELECT * FROM derived_cache WHERE id=?").get(id) as
+      | Row
+      | undefined;
+  }
+  private tick(): number {
+    return (
+      this.store.catalog
+        .prepare("SELECT COALESCE(MAX(touched),0)+1 AS value FROM derived_cache")
+        .get() as { value: number }
+    ).value;
+  }
+  private requireReady(): void {
+    if (!this.ready)
+      throw new CatalogError("NOT_READY", "Cache reconciliation is pending", {}, true);
+  }
+  reserve(owner: JobOwner): Readonly<{ id: string; path: string }> {
+    this.requireReady();
+    this.checkRoot();
+    this.assertAvailable(owner);
+    const id = randomUUID();
+    this.store.catalog
+      .prepare("INSERT INTO derived_cache(id,ownerKind,ownerId,touched) VALUES (?,?,?,?)")
+      .run(id, ...ownerIdentity(owner), this.tick());
+    return { id, path: this.path(id) };
+  }
+  publish(id: string): Promise<CacheFile> {
+    const result = this.publication.then(() => this.admit(id));
+    this.publication = result.catch(() => {});
+    return result;
+  }
+  private async admit(id: string): Promise<CacheFile> {
+    this.requireReady();
+    this.checkRoot();
+    const row = this.row(id);
+    if (!row) throw new CatalogError("INVALID_CACHE", "No cache reservation exists");
+    const path = this.path(id);
+    let fd: number | undefined;
+    try {
+      this.assertAvailable(ownerFromIdentity(row.ownerKind, row.ownerId));
+      if (row.bytes !== null) return { id, path, bytes: row.bytes };
+      fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+      const stat = fstatSync(fd);
+      if (!stat.isFile() || stat.nlink !== 1)
+        throw new CatalogError("INVALID_CACHE", "Derivative must be an independent regular file");
+      this.checkCapacity(stat.size);
+      await this.makeRoom(stat.size);
+      if (!this.row(id)) throw new CatalogError("INVALID_CACHE", "Cache reservation was removed");
+      this.assertAvailable(ownerFromIdentity(row.ownerKind, row.ownerId));
+      this.store.catalog
+        .prepare("UPDATE derived_cache SET bytes=?,device=?,inode=?,touched=? WHERE id=?")
+        .run(stat.size, stat.dev, stat.ino, this.tick(), id);
+      return { id, path, bytes: stat.size };
+    } catch (error) {
+      this.removeFile(id);
+      throw error;
+    } finally {
+      if (fd !== undefined) closeSync(fd);
+    }
+  }
+  acquire(id: string): RetainedRead | null {
+    this.requireReady();
+    return this.open(id, true)?.read ?? null;
+  }
+  /** Lends the same validated descriptor to a native child until its actual operation settles. */
+  async withDescriptor<T>(
+    id: string,
+    consume: (file: Readonly<{ fd: number; bytes: number }>) => Promise<T>,
+  ): Promise<T> {
+    this.requireReady();
+    const opened = this.open(id, true);
+    if (!opened)
+      throw new CatalogError("ARTIFACT_EXPIRED", "Derivative is no longer available", {}, true);
+    try {
+      return await consume({ fd: opened.file.fd, bytes: opened.read.bytes });
+    } finally {
+      opened.read.release();
+    }
+  }
+  private open(id: string, touch: boolean): { file: OpenedFile; read: RetainedRead } | null {
+    this.checkRoot();
+    const row = this.row(id);
+    if (!row || row.bytes === null) return null;
+    if (touch) this.assertAvailable(ownerFromIdentity(row.ownerKind, row.ownerId));
+    let fd: number;
+    try {
+      fd = openSync(
+        this.path(id),
+        constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
+      );
+    } catch (error) {
+      if (missing(error) || (error as NodeJS.ErrnoException).code === "ELOOP") {
+        this.removeFile(id);
+        return null;
+      }
+      throw error;
+    }
+    const stat = fstatSync(fd);
+    if (
+      !stat.isFile() ||
+      stat.nlink !== 1 ||
+      stat.size !== row.bytes ||
+      stat.dev !== row.device ||
+      stat.ino !== row.inode
+    ) {
+      closeSync(fd);
+      this.removeFile(id);
+      return null;
+    }
+    if (touch)
+      this.store.catalog
+        .prepare("UPDATE derived_cache SET touched=? WHERE id=?")
+        .run(this.tick(), id);
+    this.held.set(id, (this.held.get(id) ?? 0) + 1);
+    const file = openedFile(fd, () => {
+      const count = this.held.get(id)! - 1;
+      if (count) this.held.set(id, count);
+      else this.held.delete(id);
+    });
+    return { file, read: retainedFileRead(file, row.bytes) };
+  }
+  remove(id: string): void {
+    this.requireReady();
+    this.removeFile(id);
+  }
+  /** Call after owner admission is fenced and producers/readers have settled. Publication and
+   * purge share one order, so an already-queued admission cannot recreate a removed reservation. */
+  purgeOwner(owner: JobOwner, removeFiles: RemoveCacheFiles): Promise<void> {
+    const result = this.publication.then(async () => {
+      this.requireReady();
+      for (;;) {
+        const rows = this.store.catalog
+          .prepare(
+            "SELECT id FROM derived_cache WHERE ownerKind=? AND ownerId=? ORDER BY id LIMIT 64",
+          )
+          .all(...ownerIdentity(owner)) as { id: string }[];
+        if (!rows.length) return;
+        this.checkRoot();
+        for (const row of rows)
+          if (this.held.has(row.id))
+            throw new CatalogError("CACHE_BUSY", "Derivative is being read", {}, true);
+        const root = this.directories.at(-1)!;
+        await removeFiles({
+          ids: rows.map((row) => row.id),
+          root: { dev: root.dev.toString(), ino: root.ino.toString() },
+        });
+        this.store.transaction(() => {
+          for (const row of rows)
+            this.store.catalog
+              .prepare("DELETE FROM derived_cache WHERE id=? AND ownerKind=? AND ownerId=?")
+              .run(row.id, ...ownerIdentity(owner));
+        });
+        await setImmediate();
+      }
+    });
+    this.publication = result.catch(() => {});
+    return result;
+  }
+  private removeFile(id: string): void {
+    this.checkRoot();
+    if (this.held.has(id))
+      throw new CatalogError("CACHE_BUSY", "Derivative is being read", {}, true);
+    if (!this.row(id)) return;
+    try {
+      unlinkSync(this.path(id));
+    } catch (error) {
+      if (!missing(error)) throw error;
+    }
+    this.store.catalog.prepare("DELETE FROM derived_cache WHERE id=?").run(id);
+  }
+  private async makeRoom(extra: number): Promise<void> {
+    let touched = -1,
+      id = "";
+    let work = 0;
+    let bytes = this.bytes;
+    const cutoff = this.tick();
+    while (bytes + extra > this.budget) {
+      const row = this.store.catalog
+        .prepare(`SELECT * FROM derived_cache WHERE bytes IS NOT NULL
+        AND touched<? AND (touched>? OR (touched=? AND id>?)) ORDER BY touched,id LIMIT 1`)
+        .get(cutoff, touched, touched, id) as Row | undefined;
+      if (!row)
+        throw new CatalogError("CACHE_BUSY", "Cache budget is held by active readers", {}, true);
+      touched = row.touched;
+      id = row.id;
+      if (!this.held.has(id)) {
+        this.removeFile(id);
+        bytes -= row.bytes!;
+      }
+      if (++work % 64 === 0) {
+        await setImmediate();
+        bytes = this.bytes;
+      }
+    }
+  }
+  /** Startup runs before producers/readers. Keyset iteration and directory streaming keep memory
+   * independent of cache size; interrupted reservations and untracked derivative files are disposable. */
+  reconcile(signal?: AbortSignal): Promise<void> {
+    if (this.ready) return Promise.resolve();
+    if (this.reconciling) return this.reconciling;
+    this.reconciling = this.scan(signal).finally(() => {
+      this.reconciling = undefined;
+    });
+    return this.reconciling;
+  }
+  private async scan(signal?: AbortSignal): Promise<void> {
+    let work = 0;
+    const checkpoint = async () => {
+      signal?.throwIfAborted();
+      if (++work % 64 === 0) await setImmediate(undefined, { signal });
+    };
+    let after = "";
+    for (;;) {
+      await checkpoint();
+      const row = this.store.catalog
+        .prepare("SELECT * FROM derived_cache WHERE id>? ORDER BY id LIMIT 1")
+        .get(after) as Row | undefined;
+      if (!row) break;
+      after = row.id;
+      if (row.bytes === null) this.removeFile(row.id);
+      else this.open(row.id, false)?.read.release();
+    }
+    this.checkRoot();
+    const directory = opendirSync(this.root);
+    try {
+      for (let entry = directory.readSync(); entry; entry = directory.readSync()) {
+        await checkpoint();
+        this.checkRoot();
+        if (filename.test(entry.name) && !this.row(entry.name.slice(0, -6)))
+          unlinkSync(join(this.root, entry.name));
+      }
+    } finally {
+      directory.closeSync();
+    }
+    // A lowered budget may require many evictions after restart; yield between each one.
+    let bytes = this.bytes;
+    while (bytes > this.budget) {
+      await checkpoint();
+      const row = this.store.catalog
+        .prepare("SELECT * FROM derived_cache WHERE bytes IS NOT NULL ORDER BY touched,id LIMIT 1")
+        .get() as Row;
+      this.removeFile(row.id);
+      bytes -= row.bytes!;
+    }
+    signal?.throwIfAborted();
+    this.ready = true;
+  }
+}
+
+/** Recording integration policy; project/asset services supply their own domain checks. */
+export function recordingCacheOwnerCheck(store: RevisionStore): (owner: JobOwner) => void {
+  return (owner) => {
+    if (owner.kind !== "recording")
+      throw new CatalogError("INVALID_REQUEST", "Expected a recording cache owner");
+    store.get(owner.recordingId);
+  };
+}
+import { constants, openSync, closeSync, fstatSync, readSync } from "node:fs";
+import { isDeepStrictEqual } from "node:util";
+import { z } from "zod";
+import { rangeSchema } from "@screenrec/composition";
+import type { AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import type { JobExecution, JobQueue } from "./jobs.js";
+import type { DerivedCache } from "./cache.js";
+import { CatalogError } from "./catalog.js";
+import { submitCachedDerivative } from "./cached-derivative.js";
+import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
+import type { TimeRange } from "./timeline.js";
+
+const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+const receiptSchema = z.object({
+  file: z.string(),
+  mediaType: z.literal("audio/wav"),
+  bytes: integer.positive(),
+  sampleRate: integer.min(1).max(192000),
+  channels: z.union([z.literal(1), z.literal(2)]),
+  layout: z.enum(["mono", "stereo"]),
+  range: rangeSchema,
+  sampleRange: z.object({ start: integer, end: integer }),
+  frames: integer,
+  decodedFrames: integer,
+  unavailable: z.array(rangeSchema),
+});
+export type SourceAudioResult = z.infer<typeof receiptSchema>;
+export type SourceAudioInput = SourceSelection & { range?: TimeRange | undefined };
+export type SourceAudioRenderer = {
+  implementationId: string;
+  render(
+    request: { source: ReturnType<typeof selectSource>["track"]; range: TimeRange; output: string },
+    signal: AbortSignal,
+  ): Promise<unknown>;
+};
+export type SourceAudioArtifact = SourceAudioResult &
+  SourceSelection & {
+    cacheId: string;
+    supportDigest: string;
+    implementationId: string;
+  };
+const optionsSchema = z.strictObject({
+  selection: sourceSelectionSchema,
+  range: rangeSchema,
+  supportDigest: z.string(),
+  implementationId: z.string().min(1),
+});
+const artifact = "audio";
+function invalid(message: string): never {
+  throw new CatalogError("INVALID_RESPONSE", message);
+}
+const sample = (us: number, rate: number) => Number((BigInt(us) * BigInt(rate)) / 1_000_000n);
+function unavailable(range: TimeRange, support: readonly TimeRange[]) {
+  const gaps: TimeRange[] = [];
+  let at = range.startUs;
+  for (const part of support) {
+    if (part.endUs <= at) continue;
+    if (part.startUs >= range.endUs) break;
+    if (part.startUs > at) gaps.push({ startUs: at, endUs: part.startUs });
+    at = Math.min(range.endUs, part.endUs);
+  }
+  if (at < range.endUs) gaps.push({ startUs: at, endUs: range.endUs });
+  return gaps;
+}
+
+/** Selected-source audio shares queue/cache delivery without inventing a recording revision. */
+export class MediaAudioInspection {
+  constructor(
+    private readonly owners: {
+      assets: AssetStore;
+      acquisitions: AcquisitionStore;
+      jobs: JobQueue;
+      cache: DerivedCache;
+      sourceRenderer: SourceAudioRenderer;
+    },
+  ) {
+    if (!owners.sourceRenderer.implementationId)
+      throw new Error("Audio renderer needs an implementation identity");
+  }
+  private plan(input: SourceAudioInput) {
+    const { range, ...selection } = input;
+    const source = selectSource(this.owners.assets, this.owners.acquisitions, selection);
+    if (source.stream.kind !== "audio")
+      throw new CatalogError("UNSUPPORTED_MEDIA", "Audio inspection requires an audio stream");
+    const parsed = rangeSchema.safeParse(range === undefined ? source.stream.bounds : range);
+    if (!parsed.success || parsed.data.endUs > source.durationUs)
+      throw new CatalogError(
+        "INVALID_RANGE",
+        "Audio range must lie within the selected source duration",
+      );
+    const stream = this.owners.assets
+      .get(source.selection.assetId)
+      .streams.find((value) => value.id === source.selection.streamId)!;
+    // Native admission owns unsupported formats. Known PCM dimensions permit early size refusal.
+    if (
+      stream.sampleRate !== undefined &&
+      Number.isSafeInteger(stream.sampleRate) &&
+      stream.sampleRate > 0 &&
+      stream.channels !== undefined
+    ) {
+      const rate = BigInt(stream.sampleRate);
+      const frames =
+        (BigInt(parsed.data.endUs) * rate) / 1_000_000n -
+        (BigInt(parsed.data.startUs) * rate) / 1_000_000n;
+      const minimumBytes = frames * BigInt(stream.channels) * 4n + 44n;
+      if (minimumBytes > BigInt(Number.MAX_SAFE_INTEGER))
+        throw new CatalogError("LIMIT_EXCEEDED", "Audio derivative size exceeds safe accounting");
+      this.owners.cache.checkCapacity(Number(minimumBytes));
+    }
+    return {
+      source,
+      options: {
+        selection: source.selection,
+        range: parsed.data,
+        supportDigest: source.supportDigest,
+        implementationId: this.owners.sourceRenderer.implementationId,
+      },
+    };
+  }
+  request(input: SourceAudioInput) {
+    const { options } = this.plan(input);
+    const { assets, acquisitions, jobs, cache } = this.owners;
+    const status = submitCachedDerivative<SourceAudioArtifact>(
+      jobs,
+      cache,
+      {
+        target: { kind: "asset", assetId: options.selection.assetId },
+        artifact,
+        input: JSON.stringify(options),
+      },
+      "heavy",
+      (job) => {
+        const owner = { kind: "job" as const, id: job.jobId };
+        assets.retain(owner, [options.selection.assetId]);
+        if (options.selection.acquisitionId)
+          acquisitions.retain(owner, [options.selection.acquisitionId]);
+      },
+    );
+    return {
+      ...options.selection,
+      range: options.range,
+      state: status.state,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      published: status.published
+        ? { generation: status.published.generation, audio: status.published.value }
+        : null,
+    };
+  }
+  retry(input: SourceAudioInput) {
+    const current = this.request(input);
+    if (current.jobId) this.owners.jobs.retry(current.jobId);
+    return this.request(input);
+  }
+  async execute({ job, signal }: JobExecution): Promise<string> {
+    let raw: unknown;
+    try {
+      raw = JSON.parse(job.input);
+    } catch {
+      throw new CatalogError("UNSUPPORTED_JOB", "Invalid audio job input");
+    }
+    const parsed = optionsSchema.safeParse(raw);
+    if (
+      job.target.kind !== "asset" ||
+      job.artifact !== artifact ||
+      !parsed.success ||
+      parsed.data.selection.assetId !== job.target.assetId
+    )
+      throw new CatalogError("UNSUPPORTED_JOB", "Audio job does not name a selected asset stream");
+    const options = parsed.data;
+    if (options.implementationId !== this.owners.sourceRenderer.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned audio renderer is unavailable", {}, true);
+    const { source } = this.plan({ ...options.selection, range: options.range });
+    if (source.supportDigest !== options.supportDigest)
+      throw new CatalogError("ARTIFACT_CHANGED", "Selected source support changed");
+    signal.throwIfAborted();
+    const output = this.owners.cache.reserve({ kind: "asset", assetId: options.selection.assetId });
+    try {
+      const receipt = receiptSchema.safeParse(
+        await this.owners.sourceRenderer.render(
+          { source: source.track, range: options.range, output: output.path },
+          signal,
+        ),
+      );
+      signal.throwIfAborted();
+      if (!receipt.success) invalid("Malformed source audio receipt");
+      const value = receipt.data;
+      const metadata = this.owners.assets
+        .get(options.selection.assetId)
+        .streams.find((stream) => stream.id === options.selection.streamId)!;
+      const first = sample(options.range.startUs, value.sampleRate),
+        last = sample(options.range.endUs, value.sampleRate);
+      if (
+        value.file !== output.path ||
+        !isDeepStrictEqual(value.range, options.range) ||
+        value.sampleRange.start !== first ||
+        value.sampleRange.end !== last ||
+        value.frames !== last - first ||
+        value.layout !== (value.channels === 1 ? "mono" : "stereo") ||
+        (metadata.sampleRate !== undefined && metadata.sampleRate !== value.sampleRate) ||
+        (metadata.channels !== undefined && metadata.channels !== value.channels) ||
+        !isDeepStrictEqual(value.unavailable, unavailable(options.range, source.track.available))
+      )
+        invalid("Source audio receipt differs from its selected stream or sample window");
+      checkWave(value);
+      const cached = await this.owners.cache.publish(output.id);
+      signal.throwIfAborted();
+      if (cached.bytes !== value.bytes) invalid("Published audio size differs from its receipt");
+      return JSON.stringify({
+        ...value,
+        ...options.selection,
+        supportDigest: options.supportDigest,
+        implementationId: options.implementationId,
+        cacheId: output.id,
+      } satisfies SourceAudioArtifact);
+    } catch (error) {
+      this.owners.cache.remove(output.id);
+      throw error;
+    }
+  }
+}
+
+/** Verify bounded RIFF metadata against the receipt without loading full extraction samples. */
+function checkWave(value: SourceAudioResult) {
+  const fd = openSync(value.file, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+  try {
+    const stat = fstatSync(fd);
+    if (!stat.isFile() || stat.size !== value.bytes)
+      invalid("Audio output is not the reported regular file");
+    const read = (at: number, size: number) => {
+      const bytes = Buffer.alloc(size);
+      if (readSync(fd, bytes, 0, size, at) !== size) invalid("Truncated WAV metadata");
+      return bytes;
+    };
+    const header = read(0, 12);
+    if (
+      header.toString("ascii", 0, 4) !== "RIFF" ||
+      header.toString("ascii", 8, 12) !== "WAVE" ||
+      header.readUInt32LE(4) + 8 !== stat.size
+    )
+      invalid("Audio output is not a complete RIFF WAVE");
+    let at = 12,
+      format = false,
+      data = false,
+      chunks = 0;
+    while (at < stat.size) {
+      if (++chunks > 128 || at + 8 > stat.size) invalid("WAV chunk metadata exceeds its bounds");
+      const chunk = read(at, 8),
+        name = chunk.toString("ascii", 0, 4),
+        size = chunk.readUInt32LE(4);
+      at += 8;
+      if (at + size + (size % 2) > stat.size) invalid("WAV chunk exceeds the file");
+      if (name === "fmt ") {
+        if (format || size < 16) invalid("WAV format is missing or repeated");
+        const fmt = read(at, 16);
+        if (
+          fmt.readUInt16LE(0) !== 3 ||
+          fmt.readUInt16LE(2) !== value.channels ||
+          fmt.readUInt32LE(4) !== value.sampleRate ||
+          fmt.readUInt32LE(8) !== value.sampleRate * value.channels * 4 ||
+          fmt.readUInt16LE(12) !== value.channels * 4 ||
+          fmt.readUInt16LE(14) !== 32
+        )
+          invalid("WAV format differs from the native receipt");
+        format = true;
+      } else if (name === "data") {
+        if (data || BigInt(size) !== BigInt(value.frames) * BigInt(value.channels) * 4n)
+          invalid("WAV sample count differs from its receipt");
+        data = true;
+      }
+      at += size + (size % 2);
+    }
+    if (!format || !data) invalid("WAV format or samples are missing");
+  } finally {
+    closeSync(fd);
+  }
+}
+
+ succeeded in 18878ms:
+../screenrec-project-preview/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-media-gateway-release/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-media-gateway-release/AGENTS.md
+../screenrec-video-execution/AGENTS.md
+../screenrec-video-execution/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-transcript-seek/AGENTS.md
+../screenrec-processing-routing/AGENTS.md
+../screenrec-editing-baseline-fixes/AGENTS.md
+../worldarena-viewer/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-project-deletion/AGENTS.md
+../screenrec-editing-fixtures/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-extraction/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-extraction/AGENTS.md
+../screenrec-acquisition-journey/AGENTS.md
+../screenrec-acquisition-journey/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-acquisition-journey/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-exports/AGENTS.md
+../screenrec-project-exports/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-exports/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../duet-agent-model-refresh-inline-red/AGENTS.md
+../screenrec-editing-speech/AGENTS.md
+../duet-agent-model-refresh-release/AGENTS.md
+../screenrec-evidence-owners/AGENTS.md
+../screenrec-render-oracle-fix/AGENTS.md
+../screenrec-editing-audio-reader/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-consumers/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-consumers/AGENTS.md
+../screenrec-project-evidence-journey/AGENTS.md
+../screenrec-editing-render-reproduction/AGENTS.md
+../claude-501/-Users-david-dev-battlegame/0a556383-ccc8-4760-8b46-2e8d260b1265/scratchpad/pmndrs-math/AGENTS.md
+../screenrec-composition-compiler/AGENTS.md
+../screenrec-composition-compiler/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../agent-refresh-baseline-src/AGENTS.md
+../screenrec-editing-jobs/AGENTS.md
+../screenrec-source-audio-inspection/AGENTS.md
+../screenrec-selected-stream-transcription/AGENTS.md
+../screenrec-selected-stream-transcription/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-project-evidence-paging/AGENTS.md
+../screenrec-editing-composition/AGENTS.md
+../screenrec-import-mutation/AGENTS.md
+../screenrec-asset-transcript-processing/AGENTS.md
+../screenrec-stretch-evidence-review/AGENTS.md
+../duet-agent-model-refresh-final-selections/AGENTS.md
+../worldarena-capture/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-window-pcm/AGENTS.md
+../screenrec-source-window-pcm/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-occurrence-window-selection/AGENTS.md
+../screenrec-audio-execution/AGENTS.md
+../screenrec-audio-execution/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-editing-voice/AGENTS.md
+../screenrec-transcript-ownership/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-visuals/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-visuals/AGENTS.md
+../screenrec-editing-assets/AGENTS.md
+../screenrec-editing-assets/apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+../screenrec-editing-assets/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+../duet-agent-model-refresh-artifact29/AGENTS.md
+../screenrec-source-transcript-reads/AGENTS.md
+../duet-agent-model-refresh/AGENTS.md
+../duet-agent-model-refresh-overlap/AGENTS.md
+../worldarena-voting/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-range-projection/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-gateway-release/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-gateway-release/AGENTS.md
+../worldarena-runner/node_modules/.bun/next@16.3.6+74272e1f45fd41da/node_modules/next/AGENTS.md
+../screenrec-source-transcript-journey/AGENTS.md
+../screenrec-editing-stretch/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/competitive-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/sales-coach/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/social-media-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/people-researcher/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/data-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/brand-designer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/website-builder/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/product-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/seo-specialist/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/landing-page-builder/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/performance-marketer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/support-agent/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/sales-development-rep/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/writer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/account-researcher/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/hr-generalist/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/code-reviewer/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/community-manager/AGENTS.md
+../duet-model-refresh-api-prerequisite/packages/official-agents-seed/content/agents/operations-analyst/AGENTS.md
+../duet-model-refresh-api-prerequisite/AGENTS.md
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+
+2026-09-28T06:56:40.590941Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6cc-c450-7af2-904f-8737f7cb1f89 turn_id=01a0e6cc-c4fa-72a1-922d-0d093a06bbc0 item_id="exec-310f6bc1-4784-488e-a215-94f8d0bcea3b"
+2026-09-28T06:56:40.590979Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6cc-c450-7af2-904f-8737f7cb1f89 turn_id=01a0e6cc-c4fa-72a1-922d-0d093a06bbc0 item_id="exec-20f40811-441c-42ee-bf5a-752123d43f24"
+exec
+/bin/zsh -lc "cat package.json; cat packages/core/package.json; cat specs/agent-editing/assets/11a-cache-capacity/*; cat specs/recording-for-ai/README.md | head -70; sed -n '175,260p' .agents/skills/code-review/SKILL.md; rg -n 'channels:|sampleRate:' packages/core/src/assets.ts packages/*/src/*schema*; git ls-files '*AGENTS*'; ls -la specs/agent-editing/assets/11a-cache-capacity" in /private/tmp/screenrec-source-audio-inspection
+ succeeded in 0ms:
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+{
+  "name": "@screenrec/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./timeline": {
+      "types": "./dist/timeline.d.ts",
+      "default": "./dist/timeline.js"
+    },
+    "./library": {
+      "types": "./dist/library.d.ts",
+      "default": "./dist/library.js"
+    },
+    "./jobs": {
+      "types": "./dist/jobs.d.ts",
+      "default": "./dist/jobs.js"
+    },
+    "./evidence": {
+      "types": "./dist/evidence.d.ts",
+      "default": "./dist/evidence.js"
+    },
+    "./processing": {
+      "types": "./dist/processing.d.ts",
+      "default": "./dist/processing.js"
+    },
+    "./cache": {
+      "types": "./dist/cache.d.ts",
+      "default": "./dist/cache.js"
+    },
+    "./frames": {
+      "types": "./dist/frames.d.ts",
+      "default": "./dist/frames.js"
+    },
+    "./audio": {
+      "types": "./dist/audio.d.ts",
+      "default": "./dist/audio.js"
+    },
+    "./scenes": {
+      "types": "./dist/scenes.d.ts",
+      "default": "./dist/scenes.js"
+    },
+    "./trails": {
+      "types": "./dist/trails.d.ts",
+      "default": "./dist/trails.js"
+    },
+    "./visual-cache": {
+      "types": "./dist/visual-cache.d.ts",
+      "default": "./dist/visual-cache.js"
+    },
+    "./scene-evidence": {
+      "types": "./dist/scene-evidence.d.ts",
+      "default": "./dist/scene-evidence.js"
+    },
+    "./scene-processing": {
+      "types": "./dist/scene-processing.d.ts",
+      "default": "./dist/scene-processing.js"
+    },
+    "./frame-materialization": {
+      "types": "./dist/frame-materialization.d.ts",
+      "default": "./dist/frame-materialization.js"
+    },
+    "./selection": {
+      "types": "./dist/selection.d.ts",
+      "default": "./dist/selection.js"
+    },
+    "./screenshot-index": {
+      "types": "./dist/screenshot-index.d.ts",
+      "default": "./dist/screenshot-index.js"
+    },
+    "./index-processing": {
+      "types": "./dist/index-processing.d.ts",
+      "default": "./dist/index-processing.js"
+    },
+    "./storage": {
+      "types": "./dist/storage.d.ts",
+      "default": "./dist/storage.js"
+    },
+    "./package-manifest": {
+      "types": "./dist/package-manifest.d.ts",
+      "default": "./dist/package-manifest.js"
+    },
+    "./evidence-pages": {
+      "types": "./dist/evidence-pages.d.ts",
+      "default": "./dist/evidence-pages.js"
+    },
+    "./scene-pages": {
+      "types": "./dist/scene-pages.d.ts",
+      "default": "./dist/scene-pages.js"
+    },
+    "./index-pages": {
+      "types": "./dist/index-pages.d.ts",
+      "default": "./dist/index-pages.js"
+    },
+    "./presentation-evidence": {
+      "types": "./dist/presentation-evidence.d.ts",
+      "default": "./dist/presentation-evidence.js"
+    },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "default": "./dist/preview.js"
+    },
+    "./pointer-schedule": {
+      "types": "./dist/pointer-schedule.d.ts",
+      "default": "./dist/pointer-schedule.js"
+    },
+    "./package-archive": {
+      "types": "./dist/package-archive.d.ts",
+      "default": "./dist/package-archive.js"
+    },
+    "./files": {
+      "types": "./dist/files.d.ts",
+      "default": "./dist/files.js"
+    },
+    "./index-read": {
+      "types": "./dist/index-read.d.ts",
+      "default": "./dist/index-read.js"
+    },
+    "./event-pages": {
+      "types": "./dist/event-pages.d.ts",
+      "default": "./dist/event-pages.js"
+    },
+    "./retained-image": {
+      "types": "./dist/retained-image.d.ts",
+      "default": "./dist/retained-image.js"
+    },
+    "./raw-cursor": {
+      "types": "./dist/raw-cursor.d.ts",
+      "default": "./dist/raw-cursor.js"
+    },
+    "./ordered-pages": {
+      "types": "./dist/ordered-pages.d.ts",
+      "default": "./dist/ordered-pages.js"
+    },
+    "./evidence-read": {
+      "types": "./dist/evidence-read.d.ts",
+      "default": "./dist/evidence-read.js"
+    },
+    "./timeline-inspection": {
+      "types": "./dist/timeline-inspection.d.ts",
+      "default": "./dist/timeline-inspection.js"
+    },
+    "./derivative-inspection": {
+      "types": "./dist/derivative-inspection.d.ts",
+      "default": "./dist/derivative-inspection.js"
+    },
+    "./speech-models": {
+      "types": "./dist/speech-models.d.ts",
+      "default": "./dist/speech-models.js"
+    },
+    "./word-kind": {
+      "types": "./dist/word-kind.d.ts",
+      "default": "./dist/word-kind.js"
+    },
+    "./transcript": {
+      "types": "./dist/transcript.d.ts",
+      "default": "./dist/transcript.js"
+    },
+    "./transcript-read": {
+      "types": "./dist/transcript-read.d.ts",
+      "default": "./dist/transcript-read.js"
+    },
+    "./transcript-pages": {
+      "types": "./dist/transcript-pages.d.ts",
+      "default": "./dist/transcript-pages.js"
+    },
+    "./transcript-processing": {
+      "types": "./dist/transcript-processing.d.ts",
+      "default": "./dist/transcript-processing.js"
+    },
+    "./catalog": {
+      "types": "./dist/catalog.d.ts",
+      "default": "./dist/catalog.js"
+    },
+    "./assets": {
+      "types": "./dist/assets.d.ts",
+      "default": "./dist/assets.js"
+    },
+    "./projects": {
+      "types": "./dist/projects.d.ts",
+      "default": "./dist/projects.js"
+    },
+    "./project-preview": {
+      "types": "./dist/project-preview.d.ts",
+      "default": "./dist/project-preview.js"
+    },
+    "./acquisitions": {
+      "types": "./dist/acquisitions.d.ts",
+      "default": "./dist/acquisitions.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.check.json",
+    "test": "vitest run --maxWorkers=4"
+  },
+  "dependencies": {
+    "@screenrec/composition": "workspace:*",
+    "zod": "4.6.5"
+  }
+}
+$ vitest run --maxWorkers=4 src/cache.test.ts -t "default cache publishes"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:59165) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/cache.test.ts (16 tests | 1 failed | 15 skipped) 10ms
+   × the default cache publishes and reads a sparse artifact larger than one GiB 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/cache.test.ts > the default cache publishes and reads a sparse artifact larger than one GiB
+Error: Derivative exceeds cache budget
+ ❯ DerivedCache.admit src/cache.ts:162:15
+    160|         throw new CatalogError("INVALID_CACHE", "Derivative must be an…
+    161|       if (stat.size > this.budget)
+    162|         throw new CatalogError("LIMIT_EXCEEDED", "Derivative exceeds c…
+       |               ^
+    163|       await this.makeRoom(stat.size);
+    164|       if (!this.row(id)) throw new CatalogError("INVALID_CACHE", "Cach…
+ ❯ src/cache.ts:143:53
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 skipped (16)
+   Start at  23:52:43
+   Duration  207ms (transform 48%, import 43%, tests 7%, worker 2%)
+
+error: script "test" exited with code 1
+$ vitest run --maxWorkers=4 src/cache.test.ts src/audio-inspection.test.ts src/audio.test.ts src/project-preview.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:65450) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65451) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65449) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65452) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  4 passed (4)
+      Tests  45 passed (45)
+   Start at  23:56:12
+   Duration  1.35s (tests 84%, transform 12%, import 5%)
+
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
+outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
+it fixed three real defects, the worst of which let a cut of one word silently delete the next.
+
+Needing this person rather than a check:
+
+- **System audio:** a take with something playing, which a check must not make this Mac do,
+  and with it the A/V timing measurement that needs both tracks against a known event
+  ([01](slices/01-native-capture.md)).
+- **A region take:** proving where one landed means recording whatever is on the screen, and a
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+packages/core/src/assets.ts:35:  sampleRate: z.number().positive().finite().optional(),
+packages/core/src/assets.ts:36:  channels: positive.optional(),
+AGENTS.md
+total 16
+drwxr-xr-x@  4 david  wheel   128 Sep 27 23:56 .
+drwxr-xr-x@ 73 david  wheel  2336 Sep 27 23:56 ..
+-rw-r--r--@  1 david  wheel  1387 Sep 27 23:56 red.txt
+-rw-r--r--@  1 david  wheel  1008 Sep 27 23:56 tests.txt
+
+2026-09-28T06:56:46.558016Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6cc-c450-7af2-904f-8737f7cb1f89 turn_id=01a0e6cc-c4fa-72a1-922d-0d093a06bbc0 item_id="exec-fdeb83e8-9bb9-4a55-ac72-4cf90f9d085e"
+exec
+/bin/zsh -lc 'bun run --cwd packages/core test src/cache.test.ts src/audio-inspection.test.ts src/audio.test.ts src/project-preview.test.ts' in /private/tmp/screenrec-source-audio-inspection
+2026-09-28T06:56:55.574482Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6cc-c450-7af2-904f-8737f7cb1f89 turn_id=01a0e6cc-c4fa-72a1-922d-0d093a06bbc0 item_id="exec-06e3410e-90ae-44d3-a551-1e86714c5e93"
+ succeeded in 1544ms:
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:66409) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66412) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66410) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:66411) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  4 passed (4)
+      Tests  45 passed (45)
+   Start at  23:56:54
+   Duration  1.49s (tests 84%, transform 11%, import 5%)
+
+
+exec
+/bin/zsh -lc "sed -n '1,65p' packages/core/src/assets.ts; cat packages/core/src/source-selection.ts; rg -n '44|UInt32.max|sampleRate|sampleRange' helpers -g '*Audio*' | head -60; sed -n '135,180p' .agents/skills/code-review/SKILL.md; git diff --cached --stat" in /private/tmp/screenrec-source-audio-inspection
+2026-09-28T06:56:55.657019Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6cc-c450-7af2-904f-8737f7cb1f89 turn_id=01a0e6cc-c4fa-72a1-922d-0d093a06bbc0 item_id="exec-54a79c8b-200b-41a4-99d7-7108ec497a6a"
+ succeeded in 0ms:
+import { ResourceReferences, type ResourceOwner } from "./references.js";
+import type { Asset as CompositionAsset } from "@screenrec/composition";
+import { randomUUID } from "node:crypto";
+import { constants } from "node:fs";
+import { mkdir, open, link, unlink, opendir, rm, lstat } from "node:fs/promises";
+import { extname, isAbsolute, join } from "node:path";
+import { z } from "zod";
+import { Catalog, CatalogError } from "./catalog.js";
+import { copyImportedFile, fileIdentity, type IdentifiedFile } from "./files.js";
+
+const integer = z.number().int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
+const positive = integer.positive();
+const segment = z.object({
+  startUs: integer,
+  endUs: integer,
+  empty: z.boolean(),
+  mediaStartUs: integer.optional(),
+  mediaDurationUs: integer.nonnegative().optional(),
+});
+const stream = z.object({
+  id: z.string().min(1),
+  kind: z.enum(["image", "video", "audio", "unsupported"]),
+  codec: z.string(),
+  decodable: z.boolean(),
+  startUs: integer.optional(),
+  endUs: integer.optional(),
+  segments: z.array(segment).max(100_000).optional(),
+  width: positive.optional(),
+  height: positive.optional(),
+  orientedWidth: positive.optional(),
+  orientedHeight: positive.optional(),
+  transform: z.array(z.number().finite()).length(6).optional(),
+  orientation: integer.min(1).max(8).optional(),
+  hasAlpha: z.boolean().optional(),
+  sampleRate: z.number().positive().finite().optional(),
+  channels: positive.optional(),
+  channelLayoutTag: integer.nonnegative().optional(),
+  colorPrimaries: z.string().optional(),
+  transferFunction: z.string().optional(),
+  ycbcrMatrix: z.string().optional(),
+  samples: z
+    .object({
+      count: integer.nonnegative(),
+      firstPtsUs: integer,
+      lastPtsUs: integer,
+      minDurationUs: integer.nonnegative(),
+      maxDurationUs: integer.nonnegative(),
+    })
+    .optional(),
+});
+export const mediaProbeSchema = z.object({
+  originUs: integer,
+  streams: z.array(stream).min(1).max(256),
+});
+export type MediaProbe = z.infer<typeof mediaProbeSchema>;
+export type Asset = MediaProbe & { id: string; bytes: number; createdAt: string; fileName: string };
+export type AssetSummary = Pick<Asset, "id" | "bytes" | "createdAt" | "fileName"> & {
+  mediaKinds: MediaProbe["streams"][number]["kind"][];
+  streamCount: number;
+};
+export type AssetProvenance = { kind: "import" | "capture" | "generated"; source?: string };
+export type ImportIntent = {
+  importId: string;
+  requestId: string;
+  path: string;
+import { createHash } from "node:crypto";
+import type { z } from "zod";
+import { mediaClipSchema, sourceAvailability } from "@screenrec/composition";
+import { compositionAsset, type AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import { CatalogError } from "./catalog.js";
+
+export const sourceSelectionSchema = mediaClipSchema.pick({
+  assetId: true,
+  streamId: true,
+  acquisitionId: true,
+});
+export type SourceSelection = z.infer<typeof sourceSelectionSchema>;
+
+/** Resolve immutable source inputs without inventing a recording or a project timeline. */
+export function selectSource(
+  assets: AssetStore,
+  acquisitions: AcquisitionStore,
+  input: SourceSelection,
+) {
+  const selection = sourceSelectionSchema.parse(input);
+  const asset = assets.get(selection.assetId);
+  const stream = compositionAsset(asset).streams.find((value) => value.id === selection.streamId);
+  if (!stream || stream.kind === "image")
+    throw new CatalogError(
+      "UNSUPPORTED_MEDIA",
+      "Source inspection requires a decodable timed stream",
+      selection,
+    );
+  const acquisition =
+    selection.acquisitionId === undefined ? undefined : acquisitions.get(selection.acquisitionId);
+  const binding = acquisition?.bindings.find(
+    (value) => value.assetId === asset.id && value.streamId === stream.id,
+  );
+  if (acquisition && !binding)
+    throw new CatalogError(
+      "INVALID_PARAMS",
+      "Acquisition does not bind the selected asset and stream",
+      selection,
+    );
+  const available = sourceAvailability(stream.available, binding?.available);
+  const supportDigest = createHash("sha256").update(JSON.stringify(available)).digest("hex");
+  return {
+    selection,
+    stream,
+    durationUs: stream.bounds.endUs,
+    supportDigest,
+    track: {
+      source: assets.path(asset.id),
+      streamId: stream.id,
+      sourceOffsetUs: -asset.originUs,
+      available,
+    },
+  };
+}
+helpers/mac/Sources/ScreenRecorderAudio/SourceAudio.swift:8:    public let sampleRate: Int
+helpers/mac/Sources/ScreenRecorderAudio/SourceAudio.swift:16:    public let sampleRange: Samples
+helpers/mac/Sources/ScreenRecorderAudio/SourceAudio.swift:31:            sampleRate: stream.format.sampleRate, channels: stream.format.channels,
+helpers/mac/Sources/ScreenRecorderAudio/SourceAudio.swift:33:            sampleRange: .init(
+helpers/mac/Sources/ScreenRecorderAudio/SourceAudio.swift:34:                start: try ExactTime(Int128(range.startUs)).sample(stream.format.sampleRate),
+helpers/mac/Sources/ScreenRecorderAudio/SourceAudio.swift:35:                end: try ExactTime(Int128(range.endUs)).sample(stream.format.sampleRate)),
+helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift:14:            file: request.output.path, mediaType: "audio/wav", sampleRate: stream.format.sampleRate,
+helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift:24:            sampleRate: stream.format.sampleRate, frames: stream.frames,
+helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift:40:    init(sampleRate: Int, frames: Int64, channels: Int, output: URL, sources: [URL]) throws {
+helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift:43:        guard frames >= 0, Int128(frames) * Int128(channels) * 4 <= Int128(UInt32.max) - 4096 else {
+helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift:49:                sampleRate: Double(sampleRate), channels: AVAudioChannelCount(channels),
+helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift:82:    public let sampleRate: Int
+helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift:90:    public let sampleRate: Int
+helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift:94:        self.init(role: role, gain: source.gain, sampleRate: source.sampleRate,
+helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift:98:        role: AudioRole, gain: Double, sampleRate: Int, channels: Int, unavailable: [TimeSpan]
+helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift:102:        self.sampleRate = sampleRate
+helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift:108:/// `frames` and `sampleRate` are what the file actually holds; `durationUs` is derived from them
+helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift:114:    public let sampleRate: Int
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:8:    public let sampleRate: Int
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:52:    /// `sampleRate` defaults to the highest rate among the tracks, so nothing is resampled down
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:54:    public static func open(tracks: [AudioTrackPlan], spans: [TimeSpan], sampleRate: Int? = nil)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:61:        if let sampleRate, !(1...AudioLimits.maximumSampleRate).contains(sampleRate) {
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:62:            throw NativeFailure("INVALID_REQUEST", "Output rate \(sampleRate) Hz is out of bounds.")
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:68:        return try AudioPCMStream(sources: opened, spans: spans, sampleRate: sampleRate)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:72:    public static func open(source: AudioSourceSelection, spans: [TimeSpan], sampleRate: Int? = nil)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:77:        if let sampleRate, !(1...AudioLimits.maximumSampleRate).contains(sampleRate) {
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:81:            spans: spans, sampleRate: sampleRate)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:89:        return try AudioPCMStream(sources: [track], spans: [range], sampleRate: nil, sourceWindow: true)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:98:    private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?, sourceWindow: Bool = false) throws {
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:99:        let sampleRate = sampleRate ?? sources.map(\.sampleRate).max()!
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:112:        let layout = try sourceWindow ? ExcerptLayout(window: spans[0], sampleRate: sampleRate) : ExcerptLayout(spans: spans, sampleRate: sampleRate)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:142:                            let origin = try ExactTime(Int128(run.startUs - track.sourceOffsetUs)).sample(sampleRate, nearest: true)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:143:                            let skip = try ExactTime(Int128(interval.startUs)).sample(sampleRate) - ExactTime(Int128(run.startUs)).sample(sampleRate)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:144:                            let limit = try ExactTime(Int128(run.endUs - track.sourceOffsetUs)).sample(sampleRate, ceil: true)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:145:                            decodeRange = (CMTime(value: origin + skip, timescale: CMTimeScale(sampleRate)), CMTime(value: limit, timescale: CMTimeScale(sampleRate)))
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:155:                    gain: Double(gain), sampleRate: track.sampleRate,
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:159:            sampleRate: sampleRate, channels: channels, layout: channels == 1 ? .mono : .stereo)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:203:                                    outputRate: format.sampleRate, owed: interval.end - interval.start, end: range.end)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:207:                                    outputRate: format.sampleRate, owed: interval.end - interval.start)
+helpers/mac/Sources/ScreenRecorderAudio/CompositionAudioPlan.swift:36:        let sampleRange: Samples
+helpers/mac/Sources/ScreenRecorderAudio/CompositionAudioPlan.swift:45:        let sampleRange: Samples
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:13:    let sampleRate: Int
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:67:        let sampleRate = Int(stream.mSampleRate.rounded())
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:69:        guard (1...AudioLimits.maximumSampleRate).contains(sampleRate),
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:74:                "Source \(source.lastPathComponent) reports \(sampleRate) Hz and \(channels) channels, outside the excerpt bounds."
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:87:            track: audio, sampleRate: sampleRate, channels: channels,
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:151:                commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:154:                commonFormat: .pcmFormatFloat32, sampleRate: Double(outputRate),
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:161:                "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz."
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:168:            start, timescale: CMTimeScale(source.sampleRate),
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:172:            end, timescale: CMTimeScale(source.sampleRate),
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:177:        let covered = Int128(max(0, last - first)) * Int128(outputRate) / Int128(source.sampleRate)
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:269:            commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:291:                    AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:330:                        CMTimeSubtract(time, stamp), timescale: CMTimeScale(source.sampleRate),
+helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift:359:                stamp, CMTime(value: Int64(last), timescale: CMTimeScale(source.sampleRate)))
+helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift:6:    public let sampleRate: Int
+helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift:16:        let sampleRate: Int
+helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift:59:            guard compiled.sampleRange.valid,
+helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift:60:                compiled.sampleRange.start == (try range.startUs.subtract(offset).sample(rate)),
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+
+codex
+No actionable correctness issues were found in the staged, unstaged, or untracked changes. All 45 tests across the cache, audio inspection, audio, and project preview suites passed.
+No actionable correctness issues were found in the staged, unstaged, or untracked changes. All 45 tests across the cache, audio inspection, audio, and project preview suites passed.
