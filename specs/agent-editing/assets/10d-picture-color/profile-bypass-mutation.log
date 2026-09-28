@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ undefined
+- 'iec61966-2-1'
+
+    at file:///private/tmp/screenrec-project-evidence-paging/packages/test-harness/editing/picture-color.mjs:139:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: 'iec61966-2-1',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

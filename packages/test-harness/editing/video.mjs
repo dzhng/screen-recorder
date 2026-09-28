@@ -7,7 +7,7 @@ import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createCompiler, validateComposition } from "../../composition/dist/index.js";
 import { compositionAsset } from "../../core/dist/assets.js";
-import { classify, mask } from "./render-membership.mjs";
+import { classify, corpusReferences } from "./render-membership.mjs";
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const args = process.argv.slice(2);
 assert.deepEqual(args.slice(0, 2), ["--case", "repeat-reorder"]);
@@ -33,12 +33,8 @@ function ff(args) {
 }
 const json = async (path) => JSON.parse(await readFile(path));
 const save = (path, value) => writeFile(path, JSON.stringify(value, null, 2) + "\n");
-const refs = [{ id: "black", mask: new Uint8Array(160 * 128) }];
-for (const [id, w, h, count] of [
-  ["a", 160, 96, 8],
-  ["b", 96, 128, 10],
-]) {
-  const raw = ff([
+const refs = corpusReferences((id) =>
+  ff([
     "-i",
     join(corpus, id + ".mov"),
     "-map",
@@ -50,19 +46,8 @@ for (const [id, w, h, count] of [
     "-f",
     "rawvideo",
     "pipe:1",
-  ]);
-  for (let index = 0; index < count; index++) {
-    const frame = Buffer.alloc(bytes);
-    for (let y = 0; y < h; y++)
-      raw.copy(
-        frame,
-        ((y + (128 - h) / 2) * 160 + (160 - w) / 2) * 3,
-        (index * h + y) * w * 3,
-        (index * h + y + 1) * w * 3,
-      );
-    refs.push({ id: id.toUpperCase() + index, mask: mask(frame) });
-  }
-}
+  ]),
+);
 const files = new Map();
 async function asset(file) {
   if (files.has(file)) return files.get(file);

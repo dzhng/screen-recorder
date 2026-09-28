@@ -1,0 +1,3 @@
+Independent Codex review, session 01a0e72f-74fa-73d0-80b1-cd38c6aa85a2:
+
+No actionable defects found in the independent reference, timing/profile/membership checks, metric reporting, or shared-mask extraction. Static checks confirmed retained evidence consistency and mask equivalence; native runtime checks were not rerun. Fresh visual acceptance was pending at code-review time; the later fresh visual verdict is recorded separately.

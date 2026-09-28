@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { classify, mask } from "./render-membership.mjs";
+import { classify, corpusReferences } from "./render-membership.mjs";
 
 // Consume the independently asserted every-frame movie corpus, including physical empty edits,
 // repeated/reordered clips, global picture phase, holds, retiming and acquisition masks.
@@ -48,24 +48,9 @@ const raw = (path) =>
   ]);
 const json = async (path) => JSON.parse(await readFile(path));
 const hash = (data) => createHash("sha256").update(data).digest("hex");
-const refs = [{ id: "black", mask: new Uint8Array(160 * 128) }];
-for (const [id, width, height, count] of [
-  ["a", 160, 96, 8],
-  ["b", 96, 128, 10],
-]) {
-  const pixels = raw(join(root, "specs/agent-editing/assets/00-corpus", id + ".mov"));
-  for (let n = 0; n < count; n++) {
-    const canvas = Buffer.alloc(160 * 128 * 3);
-    for (let y = 0; y < height; y++)
-      pixels.copy(
-        canvas,
-        ((y + (128 - height) / 2) * 160 + (160 - width) / 2) * 3,
-        (n * height + y) * width * 3,
-        (n * height + y + 1) * width * 3,
-      );
-    refs.push({ id: id.toUpperCase() + n, mask: mask(canvas) });
-  }
-}
+const refs = corpusReferences((id) =>
+  raw(join(root, "specs/agent-editing/assets/00-corpus", id + ".mov")),
+);
 const results = [];
 const report = await json(join(rendered, "report.json"));
 const scenarios = caseName

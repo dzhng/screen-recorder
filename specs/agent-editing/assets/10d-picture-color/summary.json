@@ -1,0 +1,11 @@
+{
+  "cases": 18,
+  "pictures": 386,
+  "mixedProfileMAE": 3.784457687166457,
+  "commonProfileMAE": 0.532437627484426,
+  "maxCommonProfileMAE": 1.2423590820309376,
+  "maxCommonProfileDiffRatio32": 4.8828125e-05,
+  "profiles": [
+    "kCGColorSpaceCoreMedia709"
+  ]
+}

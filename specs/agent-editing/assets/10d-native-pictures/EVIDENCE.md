@@ -1,9 +1,10 @@
 # Direct compiled pictures — native checkpoint
 
 This checkpoint verifies native execution, not the public frame/cache/delivery
-journey. Fresh visual critique remains **pending**; the contact sheets are inputs
-to that gate, not an accepted visual verdict. Selected-source stills, screenshot
-indexes and the remaining event categories are outside this checkpoint.
+journey. The original mixed-profile sheets are rejected comparison evidence; the
+[corrected reference](../10d-picture-color/EVIDENCE.md) records the limited fresh
+visual verdict. Selected-source stills, screenshot indexes and the remaining event
+categories are outside this checkpoint.
 
 ## Ownership and timing
 
@@ -67,7 +68,11 @@ claim H.264 byte/pixel determinism under concurrent system load.
 
 ## Visual review inputs
 
-All scenario sheets are in `visual/`. Each pair is demanded PNG on the left and
+The original `visual/` sheets are retained as a **rejected color comparison**: the
+contact-sheet operation combined different transfer encodings without preserving
+their independent profiles. The [common-profile comparison](../10d-picture-color/EVIDENCE.md)
+owns the corrected reference and its limited fresh-review verdict. No production pixels
+changed. In these original sheets, each pair is demanded PNG on the left and
 movie-decoded PNG on the right, four pairs per row, chronological reading order;
 unused cells are black. Red upper-left and green lower-right corner landmarks,
 readable picture labels and centered letterboxing provide an asymmetric target.

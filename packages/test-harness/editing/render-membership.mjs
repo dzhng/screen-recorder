@@ -20,3 +20,26 @@ export function classify(rgb, references) {
     .sort((a, b) => a.differingPixels - b.differingPixels);
   return { ...distances[0], runnerUp: distances[1] };
 }
+
+// The fixed asymmetric corpus is shared by movie and direct-picture gates.
+export function corpusReferences(readFrames) {
+  const refs = [{ id: "black", mask: new Uint8Array(160 * 128) }];
+  for (const [id, width, height, count] of [
+    ["a", 160, 96, 8],
+    ["b", 96, 128, 10],
+  ]) {
+    const pixels = readFrames(id);
+    for (let n = 0; n < count; n++) {
+      const canvas = Buffer.alloc(160 * 128 * 3);
+      for (let y = 0; y < height; y++)
+        pixels.copy(
+          canvas,
+          ((y + (128 - height) / 2) * 160 + (160 - width) / 2) * 3,
+          (n * height + y) * width * 3,
+          (n * height + y + 1) * width * 3,
+        );
+      refs.push({ id: id.toUpperCase() + n, mask: mask(canvas) });
+    }
+  }
+  return refs;
+}
