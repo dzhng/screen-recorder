@@ -136,6 +136,27 @@ try {
   }
   report.comparison = { maximum, changed };
   assert.equal(maximum, 0, "Canvas edges changed the composed artwork");
+  const full = await run(
+    "ffmpeg",
+    [
+      "-v",
+      "error",
+      "-i",
+      join(out, "padding-8.png"),
+      "-pix_fmt",
+      "rgb24",
+      "-f",
+      "rawvideo",
+      "pipe:1",
+    ],
+    { encoding: "buffer" },
+  );
+  assert.equal(full.stdout.length, pixels.length);
+  let sourceMaximum = 0;
+  for (let i = 0; i < pixels.length; i++)
+    sourceMaximum = Math.max(sourceMaximum, Math.abs(full.stdout[i] - pixels[i]));
+  report.sourceMaximum = sourceMaximum;
+  assert.ok(sourceMaximum <= 4, "Identity composition changed source pixels, including its edges");
   report.passed = true;
 } finally {
   await service.stop();

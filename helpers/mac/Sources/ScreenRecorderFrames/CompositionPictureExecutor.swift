@@ -532,7 +532,9 @@ public final class CompositionPictureExecutor {
                     $0.isFinite && abs($0) <= Double(TimeSpan.maximumMicroseconds)
                 }), width > 0, height > 0
             else { throw Self.invalid("Invalid sampling clamp primitive.") }
-            return image.clamped(to: CGRect(x: x, y: y, width: width, height: height))
+            // Compiled bounds name sample centers; Core Image clamps pixel cells.
+            return image.clamped(
+                to: CGRect(x: x - 0.5, y: y - 0.5, width: width + 1, height: height + 1))
         case "coverage":
             guard let points = operation.points, points.count == 4,
                 points.allSatisfy({ $0.x.isFinite && $0.y.isFinite }),

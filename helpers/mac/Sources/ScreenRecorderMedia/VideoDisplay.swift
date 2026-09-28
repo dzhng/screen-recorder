@@ -38,13 +38,8 @@ public func orientedVideoImage(_ buffer: CVPixelBuffer, transform: CGAffineTrans
 
 /// Display-coordinate orientation shared by still delivery and full-canvas rendering.
 public func orientedVideoImage(_ decoded: CIImage, transform: CGAffineTransform) -> CIImage {
-    let left = decoded.extent.minX + 0.5
-    let bottom = decoded.extent.minY + 0.5
-    // A one-pixel axis still needs a nonempty clamp domain at its sole sample center.
-    let right = max(left.nextUp, decoded.extent.maxX - 0.5)
-    let top = max(bottom.nextUp, decoded.extent.maxY - 0.5)
-    let sampling = CGRect(x: left, y: bottom, width: right - left, height: top - bottom)
-    let bounded = decoded.clamped(to: sampling).cropped(to: decoded.extent)
+    // Preserve whole boundary pixels before orientation rather than cropping to their centers.
+    let bounded = decoded.clampedToExtent().cropped(to: decoded.extent)
     return orient(bounded, transform: transform).image
 }
 

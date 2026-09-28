@@ -1,0 +1,277 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.delete",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.delete",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "pictures": [
+    {
+      "padding": 0,
+      "file": "/tmp/screenrec-source-edge-green/padding-0.png",
+      "receipt": {
+        "projectId": "35df373b-8b3f-4ca3-a35c-729db653ef19",
+        "revisionId": "e951600b-44df-4836-8ee4-9f1189d167cd",
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v11",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "b545868f-84b2-4b73-b5c9-3d95a8c3722f",
+        "published": {
+          "generation": 1,
+          "frame": {
+            "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/composed-border-TsFQGc/library/cache/derived/3952dafb-b84f-4cf0-ae82-9930920a770b.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "bytes": 2737,
+            "profile": "h264-rec709",
+            "frame": {
+              "index": 0,
+              "sampleAtUs": 0,
+              "visibleRange": {
+                "startUs": 0,
+                "endUs": 33333
+              },
+              "layers": [
+                {
+                  "kind": "image",
+                  "clipId": "clip:4688f53f4e51fdf3003ee775d40595c96a9b2870a9d0c5f18cec971fba634914:1",
+                  "trackId": "track:4688f53f4e51fdf3003ee775d40595c96a9b2870a9d0c5f18cec971fba634914:0",
+                  "assetId": "5588206b7da6768db775f1f49bf94fc242b633e2b68b8cd8bdee4f457552cdc4",
+                  "streamId": "image:0",
+                  "availability": "available",
+                  "width": 80,
+                  "height": 64
+                }
+              ]
+            },
+            "decodedSamples": 0,
+            "readerOpens": 1,
+            "decodedImages": 1,
+            "pictures": [
+              {
+                "kind": "image",
+                "clipId": "clip:4688f53f4e51fdf3003ee775d40595c96a9b2870a9d0c5f18cec971fba634914:1",
+                "assetId": "5588206b7da6768db775f1f49bf94fc242b633e2b68b8cd8bdee4f457552cdc4",
+                "streamId": "image:0",
+                "status": "available"
+              }
+            ],
+            "atUs": 0,
+            "maxLongEdge": 1600,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v11",
+            "projectId": "35df373b-8b3f-4ca3-a35c-729db653ef19",
+            "revisionId": "e951600b-44df-4836-8ee4-9f1189d167cd",
+            "cacheId": "3952dafb-b84f-4cf0-ae82-9930920a770b"
+          }
+        },
+        "delivery": {
+          "token": "15c027f0-8c35-4c46-b1fb-ed27d322f61e",
+          "bytes": 2737,
+          "expiresAt": 1790631336170
+        },
+        "output": "/tmp/screenrec-source-edge-green/padding-0.png"
+      },
+      "sha256": "8c838e0bc43ae2d9e0f9bed0e861bb3fd7d7a716bf8376a1beffd731863044c1"
+    },
+    {
+      "padding": 8,
+      "file": "/tmp/screenrec-source-edge-green/padding-8.png",
+      "receipt": {
+        "projectId": "c2df95b9-c5e7-491b-acb7-8b0ae15536de",
+        "revisionId": "db1c9a3a-8da4-4ed8-914e-d61bbe607a34",
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v11",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "ca402101-5377-4bc1-acb1-8dff463185f9",
+        "published": {
+          "generation": 1,
+          "frame": {
+            "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/composed-border-TsFQGc/library/cache/derived/cd57857b-1fc7-443f-9fe1-f37a194fab94.cache",
+            "mediaType": "image/png",
+            "width": 80,
+            "height": 64,
+            "sourceWidth": 80,
+            "sourceHeight": 64,
+            "bytes": 4393,
+            "profile": "h264-rec709",
+            "frame": {
+              "index": 0,
+              "sampleAtUs": 0,
+              "visibleRange": {
+                "startUs": 0,
+                "endUs": 33333
+              },
+              "layers": [
+                {
+                  "kind": "image",
+                  "clipId": "clip:5cbd81b65b7f172a0f6b1529da35bd9cf9005fc849734f5a9002f5ddd42fcd7a:1",
+                  "trackId": "track:5cbd81b65b7f172a0f6b1529da35bd9cf9005fc849734f5a9002f5ddd42fcd7a:0",
+                  "assetId": "5588206b7da6768db775f1f49bf94fc242b633e2b68b8cd8bdee4f457552cdc4",
+                  "streamId": "image:0",
+                  "availability": "available",
+                  "width": 80,
+                  "height": 64
+                }
+              ]
+            },
+            "decodedSamples": 0,
+            "readerOpens": 1,
+            "decodedImages": 1,
+            "pictures": [
+              {
+                "kind": "image",
+                "clipId": "clip:5cbd81b65b7f172a0f6b1529da35bd9cf9005fc849734f5a9002f5ddd42fcd7a:1",
+                "assetId": "5588206b7da6768db775f1f49bf94fc242b633e2b68b8cd8bdee4f457552cdc4",
+                "streamId": "image:0",
+                "status": "available"
+              }
+            ],
+            "atUs": 0,
+            "maxLongEdge": 1600,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v11",
+            "projectId": "c2df95b9-c5e7-491b-acb7-8b0ae15536de",
+            "revisionId": "db1c9a3a-8da4-4ed8-914e-d61bbe607a34",
+            "cacheId": "cd57857b-1fc7-443f-9fe1-f37a194fab94"
+          }
+        },
+        "delivery": {
+          "token": "db0fa0f9-9e57-4b2f-9f1f-689ee8f6c149",
+          "bytes": 4393,
+          "expiresAt": 1790631339903
+        },
+        "output": "/tmp/screenrec-source-edge-green/padding-8.png"
+      },
+      "sha256": "b481aac5ef4a8628a83ecba0b548aea48edf8540268a66bd7d8650c63df70dcc"
+    }
+  ],
+  "workerSha256": "645f42a75e02cadea778ee3dd2e02f0bfbd9c0f67db73ed07d0876fdd078a801",
+  "comparison": {
+    "maximum": 0,
+    "changed": 0
+  },
+  "sourceMaximum": 1,
+  "logs": [
+    "(node:68634) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+  ]
+}

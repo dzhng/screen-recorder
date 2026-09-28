@@ -2196,3 +2196,12 @@ existing lifetime owner.
 - **Sound, high confidence:** Preserve the original sampler implementation identity
   in retained publication inputs. Validate its source selection and policy without
   relabeling historical analysis as the recipient's current implementation.
+
+## Native sampling bounds
+
+- **Sound — high confidence:** Keep selection geometry expressed as pixel centers
+  in the compiler and translate to Core Image pixel-cell rectangles at the native
+  API boundary. Source orientation also retains whole pixel cells. This preserves
+  source edges instead of blending away their outer halves; it introduces no new
+  authoring choice, processor, or shared geometry owner. Advance all affected
+  picture/movie and source-evidence cache recipes together.

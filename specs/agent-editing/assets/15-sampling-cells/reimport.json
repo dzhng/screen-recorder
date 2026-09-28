@@ -1,0 +1,30 @@
+[
+  {
+    "atUs": 0,
+    "maxRGB": 2,
+    "meanRGB": 0.17495707947530864,
+    "interiorMaxRGB": 2,
+    "fractionOver4": 0.0
+  },
+  {
+    "atUs": 333333,
+    "maxRGB": 2,
+    "meanRGB": 0.17669319058641975,
+    "interiorMaxRGB": 2,
+    "fractionOver4": 0.0
+  },
+  {
+    "atUs": 666667,
+    "maxRGB": 2,
+    "meanRGB": 0.17669013631687241,
+    "interiorMaxRGB": 2,
+    "fractionOver4": 0.0
+  },
+  {
+    "atUs": 966667,
+    "maxRGB": 2,
+    "meanRGB": 0.176655574845679,
+    "interiorMaxRGB": 2,
+    "fractionOver4": 0.0
+  }
+]

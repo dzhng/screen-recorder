@@ -296,7 +296,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       asset: {
         assets,
         acquisitions,
-        implementationId: "native-source-scenes-v2",
+        implementationId: "native-source-scenes-v3",
         retained: (assetId, generation) =>
           indexes?.retainsSourceScenes(assetId, generation) ?? false,
         sample: async (request, signal) =>
@@ -354,7 +354,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
           ),
       },
       sourceRenderer: {
-        implementationId: "native-source-picture-v3",
+        implementationId: "native-source-picture-v4",
         render: async (request, signal) =>
           withRenderedFile(
             worker,

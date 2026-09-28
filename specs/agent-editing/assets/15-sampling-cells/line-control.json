@@ -1,0 +1,22 @@
+{
+  "row23Exact": true,
+  "allAbovePresenterExact": true,
+  "presenterRect": {
+    "x": 88,
+    "y": 24,
+    "width": 32,
+    "height": 56
+  },
+  "sourceLandmark": {
+    "x": [
+      48,
+      56
+    ],
+    "y": [
+      4,
+      12
+    ]
+  },
+  "sourceScale": 2,
+  "sourceYOffset": 16
+}

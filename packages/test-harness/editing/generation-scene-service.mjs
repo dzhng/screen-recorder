@@ -3,7 +3,7 @@ import { registerHooks } from "node:module";
 
 // Simulate a release's recipe identity in one child process; never alter product files or rows.
 const target = new URL("../../../apps/service/dist/project-service.js", import.meta.url).href;
-const before = 'implementationId: "native-source-scenes-v2"';
+const before = 'implementationId: "native-source-scenes-v3"';
 const after = 'implementationId: "native-source-scenes-generation-journey"';
 let replaced = false;
 registerHooks({

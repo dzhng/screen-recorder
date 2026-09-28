@@ -1,0 +1,37 @@
+{
+  "nativeLayers": {
+    "cases": 50,
+    "taps": 94
+  },
+  "publicLayers": {
+    "passed": true,
+    "checkNames": [
+      "wrongTapRejected",
+      "noncommutingPairsDifferent",
+      "processedSplit",
+      "independentSplitProcessing",
+      "processedDuplicate",
+      "processedMove",
+      "processedTrim",
+      "restartedLayout",
+      "lifetime"
+    ],
+    "frames": 20
+  },
+  "pointer": {
+    "passed": true,
+    "cases": 6
+  },
+  "nativeTests": {
+    "passed": 7,
+    "failed": 0
+  },
+  "build": "passed",
+  "workerSha256": "645f42a75e02cadea778ee3dd2e02f0bfbd9c0f67db73ed07d0876fdd078a801",
+  "review": "No actionable defects; reviewer native build unavailable; root native build/tests passed",
+  "visual": "Independent limited-context review: all124 native captures,321 public captures(184 exact-hash unique),6source images,8ProRes frames; no remaining actionable defect; original marker-line finding resolved by screen-only control",
+  "packageJourney": {
+    "passed": true,
+    "checks": 18
+  }
+}
