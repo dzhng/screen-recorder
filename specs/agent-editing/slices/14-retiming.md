@@ -6,6 +6,8 @@ Status: not started. Dependencies: [09](./09-first-preview.md), [10](./10-projec
 
 Linked and independent audio/video retiming works through public editing and rendering, using the accepted stretch implementation.
 
+Shared preparation prerequisite: [14a](./14a-prepared-audio.md).
+
 ## Seam and ownership
 
 Composition retime operations resolve durations/attachments; shared jobs prepare exact-identity stretched derivatives; native consumes independent plans. Adopt the frozen recipe accepted by slices 13 and 13a without a new audio timeline.

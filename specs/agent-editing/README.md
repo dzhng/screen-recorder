@@ -223,6 +223,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
 - [ ] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
+- [ ] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)
 - [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)

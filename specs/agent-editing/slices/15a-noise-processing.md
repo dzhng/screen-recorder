@@ -7,6 +7,8 @@ Status: not started. Dependencies: [03c](./03c-processing-stacks.md), [08](./08-
 Optional noise reduction is an ordinary typed, reorderable, bypassable processor
 using the same revision, preparation, inspection, preview and export paths.
 
+Shared preparation prerequisite: [14a](./14a-prepared-audio.md).
+
 ## Seam and ownership
 
 Adopt the frozen 12c implementation through the composition registry/compiler and
