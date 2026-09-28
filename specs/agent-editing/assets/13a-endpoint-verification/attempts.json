@@ -1,0 +1,42 @@
+[
+  {
+    "attempt": "initial-invocation",
+    "verdict": "invalid",
+    "reason": "Array.map passed extra arguments to path.resolve; repaired before processing."
+  },
+  {
+    "attempt": "v1-preidentity-reference",
+    "verdict": "invalid",
+    "reason": "Current corrected hash gate rejected historical unit-speed PCM; reused matching identity-bypass cohort instead. No historical files changed."
+  },
+  {
+    "attempt": "v2",
+    "verdict": "keep",
+    "result": "32 isolated endpoint pairs match;18 admission boundary cases agree;100ms120Hz four-rate pitch maximum0.415287%."
+  },
+  {
+    "attempt": "10ms-expansion",
+    "verdict": "inconclusive",
+    "result": "All four120Hz outputs render;pitch unavailable with0\u20131 crossings;not quality accepted."
+  },
+  {
+    "attempt": "final-confirmation",
+    "verdict": "keep",
+    "result": "Integrated staged short cohort plus one-frame identity controls;same frozen recipe and prior matching hashes;32 real-speech joins verify isolation/count/context. Listening open."
+  },
+  {
+    "attempt": "plot-v1",
+    "verdict": "discard",
+    "reason": "Shared waveform amplitude range clipped a tone endpoint overshoot; final range derives from maximum across cohort."
+  },
+  {
+    "attempt": "plot-review",
+    "verdict": "revised",
+    "reason": "Added endpoint peak headroom and explicit per-file boundary label; dashed tail distinguishes overlapping traces."
+  },
+  {
+    "attempt": "plot-identity-mutation",
+    "verdict": "fixed",
+    "reason": "Conflicting duplicate trusted identities initially overwrote an earlier row. Explicit conflict refusal now goes red, then unchanged valid full cohort renders green."
+  }
+]

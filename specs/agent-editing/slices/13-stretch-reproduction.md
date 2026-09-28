@@ -5,7 +5,8 @@ Status: numerical reproduction implemented; quality gate NOT accepted. Dependenc
 The [frozen experiment](../assets/13-stretch/README.md) establishes pitch, exact
 retained sample counts and excluded-source isolation. Native tail/endpoint
 handling and speech/listening acceptance remain open; slice 14 must not adopt
-the diagnostic crop. Independent visual critique is also pending. The bounded
+the diagnostic crop. Candidate visual evidence and real-speech auditions are
+tracked in [13a](./13a-stretch-endpoints.md); independent listening remains open. The bounded
 context experiment rejected a universal padding/latency crop;
 [13a](./13a-stretch-endpoints.md) owns endpoint treatment before integration.
 

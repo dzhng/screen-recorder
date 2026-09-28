@@ -1,0 +1,62 @@
+{
+  "evidenceSha256": "b7b6cbe40b58758fb3274e1e4b6168250560175b13e40213e5f094fada1cfe82",
+  "plotterSha256": "d1dbebec3d9b5e5d9580851f930bb41e89a0acd821b2c19c109ed9a11fa52851",
+  "matplotlib": "3.10.8",
+  "numpy": "2.3.5",
+  "verifiedPCM": 137,
+  "joinReportSha256": "425dc5b346e1a4bddacdb0bbeb2cecd0d3540214259d89cac44251e1c9b20a96",
+  "plots": [
+    {
+      "path": "endpoint-phase-0.png",
+      "sha256": "f7d77ce02d62d512cc34b7c469e75b136bf24c1e0acd672e74a57c5cf2fa9e51"
+    },
+    {
+      "path": "endpoint-phase-1.png",
+      "sha256": "d9b999bc19dcbb9976dfd821a6465360eea2cba4716cba55aeec4456ae30b09e"
+    },
+    {
+      "path": "endpoint-phase-17.png",
+      "sha256": "e97b54969ffe4a8ddc52d5a49079651b8e2cf5475a4aecbb8a942a63842941ed"
+    },
+    {
+      "path": "endpoint-phase-137.png",
+      "sha256": "90430d19c65e6327b2adcaf1b46b4d347dc1582fb73b60c975bb50cde7ff6d99"
+    },
+    {
+      "path": "tone-shared-scale.png",
+      "sha256": "d888182c65bbf0bc0ce592f1e4d48c29dee81b93db14ad0cfac69da6dfcaf053"
+    },
+    {
+      "path": "phrase-0-joins.png",
+      "sha256": "1a6d469899db444a5e0d0d7c8d2fe29f6b9e7001c63ef9695be3fa3f2ab57e3b"
+    },
+    {
+      "path": "phrase-3-joins.png",
+      "sha256": "5cfeafe2c458f9a6ecd7643e3b2b30bd47ef88bef8d2a57d1152a04f9b6f2f1a"
+    },
+    {
+      "path": "phrase-6-joins.png",
+      "sha256": "79a5d1fc7dc1d828914d7edf37112ce65e478fae406aef3c266f4b68e8e8e761"
+    },
+    {
+      "path": "phrase-9-joins.png",
+      "sha256": "8f4b6ef3805afa56e3cf96f83271e9c72cfb5693f026d94172d663d86c1bf555"
+    },
+    {
+      "path": "phrase-12-joins.png",
+      "sha256": "bb9ff04d4e715550d1d0e5e5c005a23441392f58fb57fea1f7a963f8f0683a2e"
+    },
+    {
+      "path": "phrase-18-joins.png",
+      "sha256": "12c3a4e37e69464c35c5ddc431314c1e27c739f3c9d66c5fe7ea87c52895a469"
+    },
+    {
+      "path": "phrase-21-joins.png",
+      "sha256": "bb6b1abc68b513307f657f881429c4163e4b82d1da7cb76dbaceeee1617d0fa7"
+    },
+    {
+      "path": "clean-whole-utterance-joins.png",
+      "sha256": "c30eeb92b56d3a00ebbb6c43be1bd1a672635881c4b6359f7813c726bc99f019"
+    }
+  ]
+}

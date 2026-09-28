@@ -1,0 +1,1203 @@
+{
+  "protocol": 1,
+  "recipeEvidenceSha256": "b7b6cbe40b58758fb3274e1e4b6168250560175b13e40213e5f094fada1cfe82",
+  "runnerSha256": "8cd5cbe86840ac7b2d13298d2cfadbddbd70850dc2551ca7f19221cb79f78610",
+  "boundaryAuthority": "Manual outer phrase-edge marks, ±25ms visual uncertainty; ASR-derived word names. No independent complete word spans or protected neighbor labels.",
+  "guardUs": 25000,
+  "sourceClockOriginUs": 48675,
+  "contextFrames": 12000,
+  "ffmpeg": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "sources": [
+    {
+      "id": "narration",
+      "path": "fixtures/narrated-workbench/narration.mov",
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+      "pcmSha256": "709926c25800c09d5ffd2e2d0599ce3be8b1a0e4ed058ec632d2f4d4cce27860",
+      "frames": 6430720
+    },
+    {
+      "id": "clean",
+      "path": "specs/agent-editing/assets/12c-clean-reference/1272-128104-0000.flac",
+      "sha256": "4e25e22555cd16e90edb0a3b49fdcf1fe652b2a1250ab643634db33895c75b41",
+      "pcmSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "frames": 281040
+    }
+  ],
+  "selections": [
+    {
+      "id": "phrase-0",
+      "source": "narration",
+      "frames": [
+        62400,
+        269760
+      ],
+      "markedFileUs": [
+        1325000,
+        5595000
+      ],
+      "firstWord": "Okay,",
+      "lastWord": "workbench.",
+      "authority": "Manual outer phrase-edge marks, ±25ms visual uncertainty; ASR-derived word names. No independent complete word spans or protected neighbor labels."
+    },
+    {
+      "id": "phrase-3",
+      "source": "narration",
+      "frames": [
+        643200,
+        672240
+      ],
+      "markedFileUs": [
+        13425000,
+        13980000
+      ],
+      "firstWord": "and",
+      "lastWord": "E2.",
+      "authority": "Manual outer phrase-edge marks, ±25ms visual uncertainty; ASR-derived word names. No independent complete word spans or protected neighbor labels."
+    },
+    {
+      "id": "phrase-6",
+      "source": "narration",
+      "frames": [
+        1383600,
+        1451520
+      ],
+      "markedFileUs": [
+        28850000,
+        30215000
+      ],
+      "firstWord": "Yeah,",
+      "lastWord": "pointer.",
+      "authority": "Manual outer phrase-edge marks, ±25ms visual uncertainty; ASR-derived word names. No independent complete word spans or protected neighbor labels."
+    },
+    {
+      "id": "phrase-9",
+      "source": "narration",
+      "frames": [
+        2063040,
+        2235456
+      ],
+      "markedFileUs": [
+        43005000,
+        46547000
+      ],
+      "firstWord": "let",
+      "lastWord": "narrate,",
+      "authority": "Manual outer phrase-edge marks, ±25ms visual uncertainty; ASR-derived word names. No independent complete word spans or protected neighbor labels."
+    },
+    {
+      "id": "phrase-12",
+      "source": "narration",
+      "frames": [
+        2594640,
+        2617200
+      ],
+      "markedFileUs": [
+        54080000,
+        54500000
+      ],
+      "firstWord": "uh",
+      "lastWord": "uh",
+      "authority": "Manual outer phrase-edge marks, ±25ms visual uncertainty; ASR-derived word names. No independent complete word spans or protected neighbor labels."
+    },
+    {
+      "id": "phrase-18",
+      "source": "narration",
+      "frames": [
+        4986960,
+        5018880
+      ],
+      "markedFileUs": [
+        103920000,
+        104535000
+      ],
+      "firstWord": "Return",
+      "lastWord": "it.",
+      "authority": "Manual outer phrase-edge marks, ±25ms visual uncertainty; ASR-derived word names. No independent complete word spans or protected neighbor labels."
+    },
+    {
+      "id": "phrase-21",
+      "source": "narration",
+      "frames": [
+        5797440,
+        5848080
+      ],
+      "markedFileUs": [
+        120805000,
+        121810000
+      ],
+      "firstWord": "easier",
+      "lastWord": "spot.",
+      "authority": "Manual outer phrase-edge marks, ±25ms visual uncertainty; ASR-derived word names. No independent complete word spans or protected neighbor labels."
+    },
+    {
+      "id": "clean-whole-utterance",
+      "source": "clean",
+      "frames": [
+        0,
+        281040
+      ],
+      "firstWord": "MISTER",
+      "lastWord": "GOSPEL",
+      "authority": "Whole-file utterance transcript, no word timing; no external neighbor context"
+    }
+  ],
+  "results": [
+    {
+      "id": "phrase-0",
+      "speed": 0.8,
+      "sourceFrames": [
+        62400,
+        269760
+      ],
+      "selectedSha256": "3d750a624bca4e7925d07223a5ed860b4c6bd32ab0cf22ca3b9ef99cdbfab131",
+      "outputFrames": 259200,
+      "outputSha256": "a23b154288b9996c40e7534ac70e50ae038ce8249fdd184736c4ab5a19d6a0d6",
+      "contextSha256": "cbd152e0aa8968d76d5952a3c153f6b3670eee5145f3b0090c8d7f1c83f344e1",
+      "wavSha256": "f57d6da07433f57b4f83ef1bfc0f3ba9482dcc9252b27a64c10c7523ed2ea965",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-0-0.8-context.wav",
+      "joins": [
+        12000,
+        271200
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 259200,
+        "renderSeconds": 0.0591712,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-0",
+      "speed": 0.9,
+      "sourceFrames": [
+        62400,
+        269760
+      ],
+      "selectedSha256": "3d750a624bca4e7925d07223a5ed860b4c6bd32ab0cf22ca3b9ef99cdbfab131",
+      "outputFrames": 230400,
+      "outputSha256": "53d0cfd4aa6bedbb616cc7745aba92227f912c8d9c632ce0f954333cc47b3f8f",
+      "contextSha256": "9af5e67c49b82ab2a9745d92977e251f7986c509cb64c1ee25b5512ecc6d8a52",
+      "wavSha256": "85e5a833a7022db2c11cff1664379d5cddcc352d0d926beb6ab0e905f290d2cc",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-0-0.9-context.wav",
+      "joins": [
+        12000,
+        242400
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 230400,
+        "renderSeconds": 0.0502211,
+        "identityBypass": false,
+        "speed": 0.9,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-0",
+      "speed": 1,
+      "sourceFrames": [
+        62400,
+        269760
+      ],
+      "selectedSha256": "3d750a624bca4e7925d07223a5ed860b4c6bd32ab0cf22ca3b9ef99cdbfab131",
+      "outputFrames": 207360,
+      "outputSha256": "3d750a624bca4e7925d07223a5ed860b4c6bd32ab0cf22ca3b9ef99cdbfab131",
+      "contextSha256": "07ed95fba1fd01a79a11436626a27d0651e1617e9aa1d2bb1c99f08a67fc4a0f",
+      "wavSha256": "afb2a082d6712beef71dae54a89060710e62f9ee0db6e69c5e4eae029cf5bb0c",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-0-1-context.wav",
+      "joins": [
+        12000,
+        219360
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 207360,
+        "renderSeconds": 0.000023833,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-0",
+      "speed": 1.25,
+      "sourceFrames": [
+        62400,
+        269760
+      ],
+      "selectedSha256": "3d750a624bca4e7925d07223a5ed860b4c6bd32ab0cf22ca3b9ef99cdbfab131",
+      "outputFrames": 165888,
+      "outputSha256": "2777d881214430e7de2234e21ca3d6e48dcfd65864047820bb615e75961bc376",
+      "contextSha256": "13e7bac594bee8035c7bd447871af9d3f518b453f38ed48e7510e58147481b8d",
+      "wavSha256": "0a3e837ea9f1ca4493640d29f595df59528e826e9d31ddf00a05e1dbfb126e67",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-0-1.25-context.wav",
+      "joins": [
+        12000,
+        177888
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 165888,
+        "renderSeconds": 0.0376199,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-3",
+      "speed": 0.8,
+      "sourceFrames": [
+        643200,
+        672240
+      ],
+      "selectedSha256": "1623b575dde0d916e39657b4c6b7ab91bf4d9289570a6a9174fd4533b6278810",
+      "outputFrames": 36300,
+      "outputSha256": "2a98636047f0b7fa0d06b7be8e210d9693412dd5a927e8221d89c294d7ba62a4",
+      "contextSha256": "22106fa91a1dc42bcf3020830c088765271973c6d2feeb6c2cff8d6b8ac03daf",
+      "wavSha256": "a8ab962ed4d9f26c140de44ccbd67d33a7b042b2b756aaf107f7e656111d5c5d",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-3-0.8-context.wav",
+      "joins": [
+        12000,
+        48300
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 36300,
+        "renderSeconds": 0.00825354,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-3",
+      "speed": 0.9,
+      "sourceFrames": [
+        643200,
+        672240
+      ],
+      "selectedSha256": "1623b575dde0d916e39657b4c6b7ab91bf4d9289570a6a9174fd4533b6278810",
+      "outputFrames": 32266,
+      "outputSha256": "d25967acc5aed73b3e6b50c6371af764b2c5ba89c4dbc7ad2cc783cda8982328",
+      "contextSha256": "717ef60ffdc599f624583e26a50531894491ef3f3dcb1eba4e6f29f28c5a56f6",
+      "wavSha256": "9799353842ed65d79366fffd5ab416f90446b2693815ce8bf59ca8cc810532b2",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-3-0.9-context.wav",
+      "joins": [
+        12000,
+        44266
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 32266,
+        "renderSeconds": 0.006432,
+        "identityBypass": false,
+        "speed": 0.900019,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-3",
+      "speed": 1,
+      "sourceFrames": [
+        643200,
+        672240
+      ],
+      "selectedSha256": "1623b575dde0d916e39657b4c6b7ab91bf4d9289570a6a9174fd4533b6278810",
+      "outputFrames": 29040,
+      "outputSha256": "1623b575dde0d916e39657b4c6b7ab91bf4d9289570a6a9174fd4533b6278810",
+      "contextSha256": "05b0f4da401a2dc1da079984f2b2ca82669d58de528833bd06c85859d792c878",
+      "wavSha256": "7d53f210b89cb714683554e9daf0ec892280564944fdf8090431ab23f76723fb",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-3-1-context.wav",
+      "joins": [
+        12000,
+        41040
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 29040,
+        "renderSeconds": 0.000008292,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-3",
+      "speed": 1.25,
+      "sourceFrames": [
+        643200,
+        672240
+      ],
+      "selectedSha256": "1623b575dde0d916e39657b4c6b7ab91bf4d9289570a6a9174fd4533b6278810",
+      "outputFrames": 23232,
+      "outputSha256": "f627662059f2c68c22d2a7a2af233e247a8aa54f4aa64a882ecfabba2965a8db",
+      "contextSha256": "60ddd729517a55cc5f0ade7844c67714e1878579d515bba4d69af67d358fcdef",
+      "wavSha256": "faa3ed75ebb5b105b1209e59ceac00bed2a0b616537ac45b62eb5eedc000466a",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-3-1.25-context.wav",
+      "joins": [
+        12000,
+        35232
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 23232,
+        "renderSeconds": 0.00593112,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-6",
+      "speed": 0.8,
+      "sourceFrames": [
+        1383600,
+        1451520
+      ],
+      "selectedSha256": "ba4f3896a96a1ad43254610fdebcbd96825537517ef5e4e8421834e780446df1",
+      "outputFrames": 84900,
+      "outputSha256": "3970993df970f7e68949e067f8d8e54f29f50edd6b6011944ae28956807b8a6e",
+      "contextSha256": "70b130aac170924ac3339545c18f2f2c149cf4b047340362ae76c93690bab4d3",
+      "wavSha256": "b000da1a90eab5369577e85a30a07c1355293fd4b743dfaa13eaacd255629efd",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-6-0.8-context.wav",
+      "joins": [
+        12000,
+        96900
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 84900,
+        "renderSeconds": 0.0188601,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-6",
+      "speed": 0.9,
+      "sourceFrames": [
+        1383600,
+        1451520
+      ],
+      "selectedSha256": "ba4f3896a96a1ad43254610fdebcbd96825537517ef5e4e8421834e780446df1",
+      "outputFrames": 75466,
+      "outputSha256": "d3de8d0a7f81851174223d666b03d4121fce451025e1b1d404587cf4e0130590",
+      "contextSha256": "3774bc4090a13512551c59abbb7ab73bd5705fa29bcd1d25211599cc17b9f96b",
+      "wavSha256": "94f577f20e6766800c4fc5a9f7c41b9ba361d68213615bbbe7713199266f65a1",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-6-0.9-context.wav",
+      "joins": [
+        12000,
+        87466
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 75466,
+        "renderSeconds": 0.0136566,
+        "identityBypass": false,
+        "speed": 0.900008,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-6",
+      "speed": 1,
+      "sourceFrames": [
+        1383600,
+        1451520
+      ],
+      "selectedSha256": "ba4f3896a96a1ad43254610fdebcbd96825537517ef5e4e8421834e780446df1",
+      "outputFrames": 67920,
+      "outputSha256": "ba4f3896a96a1ad43254610fdebcbd96825537517ef5e4e8421834e780446df1",
+      "contextSha256": "1f0e15a5338606be84917e2b396822cbff83c6992d4e415ab53d073bff9a848e",
+      "wavSha256": "9bd44fa7333ee963a7417698c1b30ac58db7c0c2d4171bc90955fe9484f37b78",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-6-1-context.wav",
+      "joins": [
+        12000,
+        79920
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 67920,
+        "renderSeconds": 0.000009125,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-6",
+      "speed": 1.25,
+      "sourceFrames": [
+        1383600,
+        1451520
+      ],
+      "selectedSha256": "ba4f3896a96a1ad43254610fdebcbd96825537517ef5e4e8421834e780446df1",
+      "outputFrames": 54336,
+      "outputSha256": "13598b6a93e7ce5999a39f2d1b19f7ab0f2c3d0e386735e9a456124d4c6366a5",
+      "contextSha256": "76fcab427357bb67401f862b4d4b810cc5dc051758120d124d2d8d2bcf600bf9",
+      "wavSha256": "4180ce10effdaf12add3ea37400aacd7e8b9ca17701499fb6aed81cab694466b",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-6-1.25-context.wav",
+      "joins": [
+        12000,
+        66336
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 54336,
+        "renderSeconds": 0.0108456,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-9",
+      "speed": 0.8,
+      "sourceFrames": [
+        2063040,
+        2235456
+      ],
+      "selectedSha256": "12a105016dc5b623ecdba342e43f1a28b884a7b808bbfeaf0d6dec9b609088ed",
+      "outputFrames": 215520,
+      "outputSha256": "908c11a6daec29fef12744d5b320d326183242a6804a591385d46f4aaa50189c",
+      "contextSha256": "b7660c65e5280ac08c9bcfe82f15504ce1da3d38c6864d844ea0c9b38ab299ff",
+      "wavSha256": "02826f1be822310d49486f89d09045a690a9216743f5c311811ce1b8eed843de",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-9-0.8-context.wav",
+      "joins": [
+        12000,
+        227520
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 215520,
+        "renderSeconds": 0.0526608,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-9",
+      "speed": 0.9,
+      "sourceFrames": [
+        2063040,
+        2235456
+      ],
+      "selectedSha256": "12a105016dc5b623ecdba342e43f1a28b884a7b808bbfeaf0d6dec9b609088ed",
+      "outputFrames": 191573,
+      "outputSha256": "fb668c41d59da6bfda095a59adb703b5d2f28535c7ab0ddbbcfca0984f48eafc",
+      "contextSha256": "c7d20765cc622e218869d91fd9e789c895e9c4c08fdfa772e911deba5d381532",
+      "wavSha256": "31b5c5ba55afaa6a0b9b002b00321a979d12d503ba77f1f25965df965b352190",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-9-0.9-context.wav",
+      "joins": [
+        12000,
+        203573
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 191573,
+        "renderSeconds": 0.0450095,
+        "identityBypass": false,
+        "speed": 0.900002,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-9",
+      "speed": 1,
+      "sourceFrames": [
+        2063040,
+        2235456
+      ],
+      "selectedSha256": "12a105016dc5b623ecdba342e43f1a28b884a7b808bbfeaf0d6dec9b609088ed",
+      "outputFrames": 172416,
+      "outputSha256": "12a105016dc5b623ecdba342e43f1a28b884a7b808bbfeaf0d6dec9b609088ed",
+      "contextSha256": "7af677edb6407fb0ee19e42cead9a9e9c702aa6f0e024fc6913c64771e079950",
+      "wavSha256": "7795fc1a2a35f3833a60a125b2aa0faa1c310843be7f23f9020f33b4ba26fcaf",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-9-1-context.wav",
+      "joins": [
+        12000,
+        184416
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 172416,
+        "renderSeconds": 0.0000265,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-9",
+      "speed": 1.25,
+      "sourceFrames": [
+        2063040,
+        2235456
+      ],
+      "selectedSha256": "12a105016dc5b623ecdba342e43f1a28b884a7b808bbfeaf0d6dec9b609088ed",
+      "outputFrames": 137932,
+      "outputSha256": "9043e0283aaf6e28bcda3a4171b1bf38e5bec11588ae9365e86a4162f13eb274",
+      "contextSha256": "3fd526349c759dcb70d98980bb9ec0564d2312d34a1ab16cac968a985e6dbac6",
+      "wavSha256": "6c62064b3ced0d2246dbf9ac17c1718a337bacf69a1e86e602c7cc6a9539a5a7",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-9-1.25-context.wav",
+      "joins": [
+        12000,
+        149932
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 137932,
+        "renderSeconds": 0.0331035,
+        "identityBypass": false,
+        "speed": 1.25001,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-12",
+      "speed": 0.8,
+      "sourceFrames": [
+        2594640,
+        2617200
+      ],
+      "selectedSha256": "3100901cc1c43110c133b9d3359d8d592864f0401ff1dfae46b8565dcbf4745a",
+      "outputFrames": 28200,
+      "outputSha256": "25dbea573ac81033b84af5e466d6b2435d708b1f6b66938719e1d9aab80384e0",
+      "contextSha256": "1fb0a64821a547aae5218d64e85589ac2fca3fa9c33266cb337958bef0af04a7",
+      "wavSha256": "efa059d15d4f504b7b98fd6eb315678bb026526fd56986e93a950661f549d1a7",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-12-0.8-context.wav",
+      "joins": [
+        12000,
+        40200
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 28200,
+        "renderSeconds": 0.00620021,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-12",
+      "speed": 0.9,
+      "sourceFrames": [
+        2594640,
+        2617200
+      ],
+      "selectedSha256": "3100901cc1c43110c133b9d3359d8d592864f0401ff1dfae46b8565dcbf4745a",
+      "outputFrames": 25066,
+      "outputSha256": "5b105af5bba01ecda0dab9e9e9c7771f2d2689392efb60e3c21aed3ef408661f",
+      "contextSha256": "ba5352300f96c8560be1387e7baa2015f9c5effc245571dbe85363f96c8c8458",
+      "wavSha256": "40ad4a6f886a4c7bb4e3326aa8658243fc93aeeda92bddf4389f2aa0afbe1c71",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-12-0.9-context.wav",
+      "joins": [
+        12000,
+        37066
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 25066,
+        "renderSeconds": 0.00517513,
+        "identityBypass": false,
+        "speed": 0.900024,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-12",
+      "speed": 1,
+      "sourceFrames": [
+        2594640,
+        2617200
+      ],
+      "selectedSha256": "3100901cc1c43110c133b9d3359d8d592864f0401ff1dfae46b8565dcbf4745a",
+      "outputFrames": 22560,
+      "outputSha256": "3100901cc1c43110c133b9d3359d8d592864f0401ff1dfae46b8565dcbf4745a",
+      "contextSha256": "9f72146fa89458c3480b2490cbd421b0e90cbeeeab38481de762a50819f2bc4b",
+      "wavSha256": "9125b7daab11029830610f00fc8f221e36bdffb9cff6e78278b28fbb06584bfc",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-12-1-context.wav",
+      "joins": [
+        12000,
+        34560
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 22560,
+        "renderSeconds": 0.000004625,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-12",
+      "speed": 1.25,
+      "sourceFrames": [
+        2594640,
+        2617200
+      ],
+      "selectedSha256": "3100901cc1c43110c133b9d3359d8d592864f0401ff1dfae46b8565dcbf4745a",
+      "outputFrames": 18048,
+      "outputSha256": "0747b015bcee026809047fad2b203d34cfc5788498bf5f25a33e592fce753f6c",
+      "contextSha256": "6efdcf42540573d112642b12b2ba817dbe36a86ea4e1787ad00439fecc80db95",
+      "wavSha256": "d17a251c107d7a50638aacf835995aed77fc4b8473bad794f20ebaf4dea4462f",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-12-1.25-context.wav",
+      "joins": [
+        12000,
+        30048
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 18048,
+        "renderSeconds": 0.00469096,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-18",
+      "speed": 0.8,
+      "sourceFrames": [
+        4986960,
+        5018880
+      ],
+      "selectedSha256": "14ed5fe63d0bed0e79ec373a0d03289bc63f4da5d036e2cfccba13c1a1f76f25",
+      "outputFrames": 39900,
+      "outputSha256": "217eb2e3b5d77a92259f7e93c7b1075dba349519b80f9c11dffd0a63f470f945",
+      "contextSha256": "fc4528ea87c36a3ee555b651afde716abcb555724ab6911c3dead5f1695b7035",
+      "wavSha256": "686893f3c59b0378b9efd702c471a5941298b7ab100370f15c542b27ecec5b3a",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-18-0.8-context.wav",
+      "joins": [
+        12000,
+        51900
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 39900,
+        "renderSeconds": 0.00897025,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-18",
+      "speed": 0.9,
+      "sourceFrames": [
+        4986960,
+        5018880
+      ],
+      "selectedSha256": "14ed5fe63d0bed0e79ec373a0d03289bc63f4da5d036e2cfccba13c1a1f76f25",
+      "outputFrames": 35466,
+      "outputSha256": "e770ed4188f2f45c09a2f2d6128b9d3dfcc72dcf28af745f3c0cf4ddce801649",
+      "contextSha256": "38e7003f6a3ef99fadf720faa19a41e0e36ce6b34443306ba455cb1114d4c598",
+      "wavSha256": "2787f2f41df90c9063e23be4f892fe31fdf7491c47e28a216f279065b3c65bc8",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-18-0.9-context.wav",
+      "joins": [
+        12000,
+        47466
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 35466,
+        "renderSeconds": 0.00718829,
+        "identityBypass": false,
+        "speed": 0.900017,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-18",
+      "speed": 1,
+      "sourceFrames": [
+        4986960,
+        5018880
+      ],
+      "selectedSha256": "14ed5fe63d0bed0e79ec373a0d03289bc63f4da5d036e2cfccba13c1a1f76f25",
+      "outputFrames": 31920,
+      "outputSha256": "14ed5fe63d0bed0e79ec373a0d03289bc63f4da5d036e2cfccba13c1a1f76f25",
+      "contextSha256": "546fb8eb78c2cc3fd495b0aa4b7f7e1e02badc4d94a150ff48d0285e4ac16f41",
+      "wavSha256": "a8249cda7fbdf15035dc0e15c27ae3fa95080cc60aaa1223cb6421e720d920e4",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-18-1-context.wav",
+      "joins": [
+        12000,
+        43920
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 31920,
+        "renderSeconds": 0.000004583,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-18",
+      "speed": 1.25,
+      "sourceFrames": [
+        4986960,
+        5018880
+      ],
+      "selectedSha256": "14ed5fe63d0bed0e79ec373a0d03289bc63f4da5d036e2cfccba13c1a1f76f25",
+      "outputFrames": 25536,
+      "outputSha256": "0306e7b16a7040eb1f6f3b47c1e48155c6883d763eaf702706f41e7974b18210",
+      "contextSha256": "f4e720f30cb8edbeb8cc21a107056d923ca28f0f01759923f2e67d8732241117",
+      "wavSha256": "9054ffdad82420866b20af9f8b5b1187d8a9bc2b808b6715658269ffc972e19c",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-18-1.25-context.wav",
+      "joins": [
+        12000,
+        37536
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 25536,
+        "renderSeconds": 0.00580688,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-21",
+      "speed": 0.8,
+      "sourceFrames": [
+        5797440,
+        5848080
+      ],
+      "selectedSha256": "984c8f0d8957976c45aaf1228ec0e87527708171d31621a6993b8240ba985c79",
+      "outputFrames": 63300,
+      "outputSha256": "66eecec3113b6afc65c0a744c9c3081e0632adb38c8d46f975b26952f9a8b8f8",
+      "contextSha256": "4aa9155db79130ce50d1169033bbcf6da1a6dc1e8ff5db296b80d6138619b581",
+      "wavSha256": "cf6fd0e9c02e8a63a4d46e586096849bf1ca00eb7aaf649d0c0aa306dfc9c40e",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-21-0.8-context.wav",
+      "joins": [
+        12000,
+        75300
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 63300,
+        "renderSeconds": 0.0129577,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-21",
+      "speed": 0.9,
+      "sourceFrames": [
+        5797440,
+        5848080
+      ],
+      "selectedSha256": "984c8f0d8957976c45aaf1228ec0e87527708171d31621a6993b8240ba985c79",
+      "outputFrames": 56266,
+      "outputSha256": "726155425c4d1f7148e33fe1e750acc6bfdd01d1809cb44651a2edbb76f06892",
+      "contextSha256": "f54d21c65e7fad6f0430f7fa98f0f072063c8520fbdffcd564bdf66f588157e7",
+      "wavSha256": "049215ccac75c9ecede294a717752c43f4b65c16ba411ff9ca829c10758b6bf7",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-21-0.9-context.wav",
+      "joins": [
+        12000,
+        68266
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 56266,
+        "renderSeconds": 0.0123763,
+        "identityBypass": false,
+        "speed": 0.900011,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-21",
+      "speed": 1,
+      "sourceFrames": [
+        5797440,
+        5848080
+      ],
+      "selectedSha256": "984c8f0d8957976c45aaf1228ec0e87527708171d31621a6993b8240ba985c79",
+      "outputFrames": 50640,
+      "outputSha256": "984c8f0d8957976c45aaf1228ec0e87527708171d31621a6993b8240ba985c79",
+      "contextSha256": "5ff76ee2ce00aae2b72d3d37c9a27bf05b667e72eb64bd95fa9595aa618cd28c",
+      "wavSha256": "9bcaec8d38a70148a5243608d8c42e1b4d21778ec12c19dd6a6739115a93b044",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-21-1-context.wav",
+      "joins": [
+        12000,
+        62640
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 50640,
+        "renderSeconds": 0.000007291,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "phrase-21",
+      "speed": 1.25,
+      "sourceFrames": [
+        5797440,
+        5848080
+      ],
+      "selectedSha256": "984c8f0d8957976c45aaf1228ec0e87527708171d31621a6993b8240ba985c79",
+      "outputFrames": 40512,
+      "outputSha256": "56e433da403d2e7ebd3b5987898da58498348fe9bfc535afb063bb15f0215fcb",
+      "contextSha256": "6876d28ea4f9e519d0618799ded059e9e1c21013ce02a5062866c26645a84994",
+      "wavSha256": "a6e5d2697d6f47dd07e6de58832274a2ec35786e63e049679f6336c8fb035b8d",
+      "file": "/tmp/screenrec-stretch-joins-verified/phrase-21-1.25-context.wav",
+      "joins": [
+        12000,
+        52512
+      ],
+      "prefixFrames": 12000,
+      "suffixFrames": 12000,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 40512,
+        "renderSeconds": 0.0125571,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "clean-whole-utterance",
+      "speed": 0.8,
+      "sourceFrames": [
+        0,
+        281040
+      ],
+      "selectedSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "outputFrames": 351300,
+      "outputSha256": "bc31db47ff9e7b72b22944785c902e94eb1e8f99a944e0628babf43eb446c3a8",
+      "contextSha256": "bc31db47ff9e7b72b22944785c902e94eb1e8f99a944e0628babf43eb446c3a8",
+      "wavSha256": "b4995aa544b8723a4f5f241250ca620b05c4664618360e2c62acdad7b1f1c727",
+      "file": "/tmp/screenrec-stretch-joins-verified/clean-whole-utterance-0.8-context.wav",
+      "joins": [
+        0,
+        351300
+      ],
+      "prefixFrames": 0,
+      "suffixFrames": 0,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 351300,
+        "renderSeconds": 0.0795032,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "clean-whole-utterance",
+      "speed": 0.9,
+      "sourceFrames": [
+        0,
+        281040
+      ],
+      "selectedSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "outputFrames": 312266,
+      "outputSha256": "13439b9778e1a1d157020bd1209ff9dc77efda75d6ee2627e7b7e8cc104dedd8",
+      "contextSha256": "13439b9778e1a1d157020bd1209ff9dc77efda75d6ee2627e7b7e8cc104dedd8",
+      "wavSha256": "5214953592dfc13c3b418793d422f03ab5d7b971472fa469369e264d2aad56b4",
+      "file": "/tmp/screenrec-stretch-joins-verified/clean-whole-utterance-0.9-context.wav",
+      "joins": [
+        0,
+        312266
+      ],
+      "prefixFrames": 0,
+      "suffixFrames": 0,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 312266,
+        "renderSeconds": 0.0824616,
+        "identityBypass": false,
+        "speed": 0.900002,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "clean-whole-utterance",
+      "speed": 1,
+      "sourceFrames": [
+        0,
+        281040
+      ],
+      "selectedSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "outputFrames": 281040,
+      "outputSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "contextSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "wavSha256": "be13acab3320dd92085f1959fe9b2f15e43df5acb95840c37ededa29c2ad8c48",
+      "file": "/tmp/screenrec-stretch-joins-verified/clean-whole-utterance-1-context.wav",
+      "joins": [
+        0,
+        281040
+      ],
+      "prefixFrames": 0,
+      "suffixFrames": 0,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 281040,
+        "renderSeconds": 0.000032375,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "id": "clean-whole-utterance",
+      "speed": 1.25,
+      "sourceFrames": [
+        0,
+        281040
+      ],
+      "selectedSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "outputFrames": 224832,
+      "outputSha256": "9607287678cfb147dcf129959b77d28e433081bd5ff72c92248e15b890cd859b",
+      "contextSha256": "9607287678cfb147dcf129959b77d28e433081bd5ff72c92248e15b890cd859b",
+      "wavSha256": "5d95283a3f8f99e2de89b470c87670374a67710c503714d88d79c6280e957a88",
+      "file": "/tmp/screenrec-stretch-joins-verified/clean-whole-utterance-1.25-context.wav",
+      "joins": [
+        0,
+        224832
+      ],
+      "prefixFrames": 0,
+      "suffixFrames": 0,
+      "sourcePoisonIdentical": true,
+      "untouchedNeighborsIdentical": true,
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 224832,
+        "renderSeconds": 0.0555937,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      }
+    }
+  ],
+  "listening": "UNVERIFIED; these are labeled auditions, not protected-word acceptance"
+}

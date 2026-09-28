@@ -1,0 +1,19 @@
+{
+  "sourceBaseCommit": "96bf07f18ba98305e603a40602b8d47503ddd19e",
+  "recoveredIsolatedPairs": 32,
+  "hashVerifiedUniquePCM": 137,
+  "boundaryAdmissionCases": 18,
+  "oneFrameIdentityCases": 2,
+  "realSpeechSelections": 8,
+  "realSpeechRateRenders": 32,
+  "retainedRepresentativeWAVs": 9,
+  "plots": 13,
+  "measurementTestsPassed": 5,
+  "pitch120Hz100msMaximumErrorPercent": 0.4152870837757616,
+  "pitch120Hz10ms": "unavailable at all four rates; not a pitch pass, including identity",
+  "codeReview": "terminal clean; reviewer plot execution sandbox-blocked; primary complete run passed",
+  "visualReview": "independent complete-set qualitative evidence review; residual limitations retained",
+  "listening": "OPEN",
+  "independentProtectedWordLabels": "OPEN",
+  "productionAdoption": false
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/test-harness/editing/stretch-endpoint-plots.py", line 17, in <module>
+    assert row["path"] not in trusted or trusted[row["path"]] == row["sha256"], "Conflicting PCM identities"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Conflicting PCM identities

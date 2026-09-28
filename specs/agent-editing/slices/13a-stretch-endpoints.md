@@ -1,6 +1,6 @@
 # 13a — Preserve selected speech at stretch endpoints
 
-Status: Signalsmith numerical candidate reproduced; listening, protected-word joins, short-input treatment and independent visual review remain OPEN. Dependencies: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) integrates stretching.
+Status: Signalsmith numerical candidate reproduced; full-support plots, request-specific admission and guarded real-speech auditions prepared. Independent listening, protected whole-word labels and accepted short-speech treatment remain OPEN. Dependencies: the numerical reproduction in [13](./13-stretch-reproduction.md). This gate must pass before [14](./14-retiming.md) integrates stretching.
 
 The [pinned Signalsmith experiment](../assets/13a-signalsmith/README.md) passes
 the measured count/pitch/source-isolation cases with explicit upstream endpoint
@@ -14,8 +14,12 @@ output and isolated endpoint impulses are now measured; short-tone acceptance
 requires an available estimate below the unchanged 1% pitch-error limit.
 Corrected runs reproduce all original exact output hashes. Deliberate support,
 octave and silent-output mutations fail, then the restored measurement tests pass.
-Listening, protected-word joins, short-speech policy and visual acceptance remain
-open; the original frozen reports/media are retained as historical evidence.
+The [endpoint verification pass](../assets/13a-endpoint-verification/README.md)
+recovers hash-verified isolated outputs, tests admission boundaries separately
+from pitch quality, and prepares real-speech joins with explicitly authored guards.
+Its whole-utterance control has transcript provenance but no word times.
+Listening, independently protected whole-word joins and short-speech acceptance
+remain open; original reports/media remain historical evidence.
 
 ## Contract and seam
 
@@ -41,12 +45,12 @@ Reproduce with a fresh scratch directory:
 node packages/test-harness/editing/stretch-endpoints.mjs /tmp/stretch-endpoints-fresh
 ```
 
-The next experiment compares explicit endpoint-preparation mechanisms against
-these fixed inputs. Candidate implementation and bounded algorithm selection are
-delegated; new source material, changed project duration, hidden speech truncation,
-and silent quality-threshold relaxation are not. Test the existing FFmpeg candidate
-as an alternate mechanism if native cannot meet the complete contract. Record its
-distribution implications before selection.
+The current numerical candidate is the pinned Signalsmith exact recipe. Next judge
+the [real-speech auditions](../assets/13a-endpoint-verification/README.md) and add
+independent protected whole-word labels at both joins. Request admission must use
+the actual selected/output counts and recipe, separate from quality acceptance.
+The short-window probe does not authorize automatic window switching or a global
+minimum duration. Keep the fixed pitch gate and selected-source contract.
 
 ## Acceptance
 

@@ -1,0 +1,2543 @@
+{
+  "protocol": 1,
+  "correctedReportSha256": "0c721f245b1e1ff70cdd2eb409520185ed9c05b407a74b55f6c135342141dce7",
+  "cppSha256": "edefb8f3aac5cea1fb6118b1bca0dd1475ac47b0252103bdca348d1cfb802bc0",
+  "runnerSha256": "58feda71f36d04bda3de8c962d39004165aab76bbde9d06c23dc338ff114b1b0",
+  "dependency": {
+    "purpose": "Research-only frozen headers; not linked into the product",
+    "stretch": {
+      "url": "https://github.com/Signalsmith-Audio/signalsmith-stretch",
+      "commit": "a670068d9aeb64913331d5cc29337b19a457a7df",
+      "version": "1.3.2"
+    },
+    "linear": {
+      "url": "https://github.com/Signalsmith-Audio/linear",
+      "commit": "de55e6a50ffcf6f8f43f649692d94691c7025151",
+      "tag": "0.6.4"
+    },
+    "licenses": [
+      "LICENSE-stretch.txt",
+      "LICENSE-linear.txt"
+    ],
+    "backend": "Portable built-in FFT; no platform backend macro",
+    "files": [
+      {
+        "path": "signalsmith-stretch.h",
+        "sha256": "1188667959ac19dd40c0a6abbce694e44705615ec4f0e8db8af0f1cfb4c5dea7"
+      },
+      {
+        "path": "LICENSE-stretch.txt",
+        "sha256": "ee2ef82481ffb445ecdd4b3a4c1f82c0cddb2da8fe39d8e8dc384fffb3e7f06f"
+      },
+      {
+        "path": "LICENSE-linear.txt",
+        "sha256": "072b5e9eb5b22880bdf6256324654cf3ce53dba828edb911921121e1be09d9c3"
+      },
+      {
+        "path": "signalsmith-linear/stft.h",
+        "sha256": "7422ff5ddc2a017dc0587dcce99ce5ba30a2414bc2996081f6b00d56905d9b8c"
+      },
+      {
+        "path": "signalsmith-linear/fft.h",
+        "sha256": "fb55f69ac14cdbac66b9c76053069ff63bc36d18af20d8c028b9acc0aad6516a"
+      },
+      {
+        "path": "signalsmith-linear/linear.h",
+        "sha256": "9e777fe14653d496f5e0678fe4b9d8b01a0909bb2130bf4757a21ccad7292a02"
+      },
+      {
+        "path": "signalsmith-linear/platform/fft-linear.h",
+        "sha256": "7c2ed61df7895af7b1a37f1073f833abdc971953277ece58128c9c7b4ca6cef2"
+      }
+    ]
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "executableSha256": "ea80efe48f60ce187202226715f5a84fa6f213592f6380f6e10238d7ee5924f9",
+  "loaded": [
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0.f32",
+      "sha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0-0.8-exact.f32",
+      "sha256": "76c8782659414bc7d66570f0cf3b3af8299e071f258ae577e4d85cc92dded51c",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0-0.8-tail.f32",
+      "sha256": "83318059444955e5ea85fbbcb4063d4170f792b089d5d6c3cb6f8fad0efe791d",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-leading-input.f32",
+      "sha256": "c52ccd81d322a94ef1d81c94afb4e23f4d022c30d464d22a6c935018856661ea",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-leading-exact.f32",
+      "sha256": "eb10c24327a747799a1141cc137ee495f3f7495c2d18487316e39daab14f7171",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-leading-tail.f32",
+      "sha256": "fcc6864cf375f804a93259e54da34f715f985500860b44b9f9ff98d922bf98ca",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-trailing-input.f32",
+      "sha256": "5b10c85d6113ebfbb0289a4a9ba65e45bdc84857dc4a24128239928dea87b0b8",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-trailing-exact.f32",
+      "sha256": "f7d9bd51c1c3bf582121db2a3400c43e7338d4f4c3c310f2ef35fad89aa5b4bb",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-trailing-tail.f32",
+      "sha256": "1667c986594df12f4694272404cb4f488113bc84f44a976f0690b82cc64c3b6f",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0.f32",
+      "sha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0-0.9-exact.f32",
+      "sha256": "ac8179db746b0160c5f3b1a31dd7d08c2bd0b442509ebe9b5bbd00aa573b1cfe",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0-0.9-tail.f32",
+      "sha256": "0019d277ac6f83390b9270bf624b3a5a6cd72b26606148dd4a48a7cefad6eade",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-leading-input.f32",
+      "sha256": "c52ccd81d322a94ef1d81c94afb4e23f4d022c30d464d22a6c935018856661ea",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-leading-exact.f32",
+      "sha256": "e277d48d52639ef770da72af31fc4b0099cfedb053427fd046b6719d6a2a041f",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-leading-tail.f32",
+      "sha256": "36622aecb6c6cae08fe9a7ffce140b74b1288355e92a186d01ce7125229b34ce",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-trailing-input.f32",
+      "sha256": "5b10c85d6113ebfbb0289a4a9ba65e45bdc84857dc4a24128239928dea87b0b8",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-trailing-exact.f32",
+      "sha256": "39007f4c02f789090038baf09375c0aaee66d9de8d0e25b8726dc1eefeb8d3c9",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-trailing-tail.f32",
+      "sha256": "da5f0eac43926588c322549ab8e11d43c495fe3c3f111203e67d75949bb2f447",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0.f32",
+      "sha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0-1-exact.f32",
+      "sha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0-1-tail.f32",
+      "sha256": "b4bc3b5d1cee9abba7d245186d8fa76ae05611ce963be5465ddbbc6adeef1dd0",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-leading-input.f32",
+      "sha256": "c52ccd81d322a94ef1d81c94afb4e23f4d022c30d464d22a6c935018856661ea",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-leading-exact.f32",
+      "sha256": "c52ccd81d322a94ef1d81c94afb4e23f4d022c30d464d22a6c935018856661ea",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-leading-tail.f32",
+      "sha256": "09ea5aaaaa14a997bc523ed6ab980fe65792cc48e4029bc2f552944366168092",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-trailing-input.f32",
+      "sha256": "5b10c85d6113ebfbb0289a4a9ba65e45bdc84857dc4a24128239928dea87b0b8",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-trailing-exact.f32",
+      "sha256": "5b10c85d6113ebfbb0289a4a9ba65e45bdc84857dc4a24128239928dea87b0b8",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-trailing-tail.f32",
+      "sha256": "249556df0d209db7a4be6df62a55f7eb2529386644afa43b06430b72a3c020d1",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0.f32",
+      "sha256": "d03217b6311abee3b0bc5d1c2b1f88322795f005c88f157de7d6788cd8f107e5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0-1.25-exact.f32",
+      "sha256": "2c5157fa3b75756f248c40150469c408fa3022fe16c33bf3cf6f3b358fe00b8f",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-0-1.25-tail.f32",
+      "sha256": "907665bf434f9fb58b7b802e15e104d81fd2a9d5bc7dfa55c490eca3501098c5",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-leading-input.f32",
+      "sha256": "c52ccd81d322a94ef1d81c94afb4e23f4d022c30d464d22a6c935018856661ea",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-leading-exact.f32",
+      "sha256": "16c5be96d5505d2851712c1dfa839634385c06a5da4ceb0da7499aadc63f21a4",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-leading-tail.f32",
+      "sha256": "8a5a67821332525dac73268c5d7c49eedb01b821c44a16f450934ec36cd9c947",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-trailing-input.f32",
+      "sha256": "5b10c85d6113ebfbb0289a4a9ba65e45bdc84857dc4a24128239928dea87b0b8",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-trailing-exact.f32",
+      "sha256": "e123dfcbad946b960b75b62488a34fe267bb4a8c916c21ae5f6f85445858b57a",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-trailing-tail.f32",
+      "sha256": "5a0a5c109750f32233f9b9f96a32342485547ba179c47f316b91f4dda1801394",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1.f32",
+      "sha256": "49819fcd8cdb458b23242941492e9bcfd408266fd665dcbb4a2c1a46f546184c",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1-0.8-exact.f32",
+      "sha256": "21a90cc92d63ebeeb8a52de52a1b2fcfe940d5e9a930cefdffe1d680a931ab59",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1-0.8-tail.f32",
+      "sha256": "c11c75df172a17da3d3559e536e330998fa114fa33a527dda092493a2f6bc923",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-leading-input.f32",
+      "sha256": "802c21f3d13ee5267276616164498ece3606a6cfa5e96867b7d42af757addc8d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-leading-exact.f32",
+      "sha256": "1cd3e6a3a8bda7998f8c60c838390c4de6bb4a11555d2168a946ad62b150e3f5",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-leading-tail.f32",
+      "sha256": "9775e167597f5edc742262f8f644d1784811ce9ed0e43de93db758c4107a7a75",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-trailing-input.f32",
+      "sha256": "f4d7998317cb1202edf69533c250971a57f7e817d54aabcc8942d0e883f18ce5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-trailing-exact.f32",
+      "sha256": "d3b0356d727c363d333103cb9922d4ea00c9299cfcee03135f4a8d5ad9f4ab8e",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-trailing-tail.f32",
+      "sha256": "d1371964d5e8095b7bd569950e96385c40e9feb3fff38eb1b23d4152c9fe0baa",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1.f32",
+      "sha256": "49819fcd8cdb458b23242941492e9bcfd408266fd665dcbb4a2c1a46f546184c",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1-0.9-exact.f32",
+      "sha256": "f8c8b8461bc1654765e6d68462b6f4322a3e4abb9106876d91ac6b2006bdf8e4",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1-0.9-tail.f32",
+      "sha256": "c17cb95c0709bb5f8b75bc166bc69be9a2ff4ba0a849ac3b4effedb2ecd46663",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-leading-input.f32",
+      "sha256": "802c21f3d13ee5267276616164498ece3606a6cfa5e96867b7d42af757addc8d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-leading-exact.f32",
+      "sha256": "eacb15dee5b3142c58f943e95be2a0a2a134a2350b97fd5ecf226f2824c1ac1c",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-leading-tail.f32",
+      "sha256": "8347c077e7353ac4d3a5d5f480b12cd9e81fa12492cae3d622958fad7e058e99",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-trailing-input.f32",
+      "sha256": "f4d7998317cb1202edf69533c250971a57f7e817d54aabcc8942d0e883f18ce5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-trailing-exact.f32",
+      "sha256": "e637bd85f6796087b145ece99be5bdace01c9e7ab23d3241105d98c853887a69",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-trailing-tail.f32",
+      "sha256": "1da1d40ca49472100f9112cb1105b28f22bca8e5bd8adaad7bdf1e6693bf653e",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1.f32",
+      "sha256": "49819fcd8cdb458b23242941492e9bcfd408266fd665dcbb4a2c1a46f546184c",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1-1-exact.f32",
+      "sha256": "49819fcd8cdb458b23242941492e9bcfd408266fd665dcbb4a2c1a46f546184c",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1-1-tail.f32",
+      "sha256": "eb93cd01236dfc2cc3825ccf8ae4ff7b65401e44cad3465167eb6f9076854e46",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-leading-input.f32",
+      "sha256": "802c21f3d13ee5267276616164498ece3606a6cfa5e96867b7d42af757addc8d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-leading-exact.f32",
+      "sha256": "802c21f3d13ee5267276616164498ece3606a6cfa5e96867b7d42af757addc8d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-leading-tail.f32",
+      "sha256": "1c9915e364919ac9f066860f66e6451d9b504af9c9b72d8c1177cbd09de3647f",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-trailing-input.f32",
+      "sha256": "f4d7998317cb1202edf69533c250971a57f7e817d54aabcc8942d0e883f18ce5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-trailing-exact.f32",
+      "sha256": "f4d7998317cb1202edf69533c250971a57f7e817d54aabcc8942d0e883f18ce5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-trailing-tail.f32",
+      "sha256": "78ba3fe7f6cb21f90af0424af031018facb6f05406f3b66bc2e9febba8c744e8",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1.f32",
+      "sha256": "49819fcd8cdb458b23242941492e9bcfd408266fd665dcbb4a2c1a46f546184c",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1-1.25-exact.f32",
+      "sha256": "5bdc281e630a361fdc8a5488be3b4fbe411d884634e0c50d866290bfeadbd883",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-1-1.25-tail.f32",
+      "sha256": "a963c06560e15f992fe53271680f9dac3dba416b2881438ade6953586f1e5546",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-leading-input.f32",
+      "sha256": "802c21f3d13ee5267276616164498ece3606a6cfa5e96867b7d42af757addc8d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-leading-exact.f32",
+      "sha256": "b668d533f7e888fbca7090785da1da08867c59c602b9e2495dca7ef783d3c27b",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-leading-tail.f32",
+      "sha256": "471db4f33fcae9dfa726e337ef5da48517a21e2cdae25e5991dd37f4a82febc5",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-trailing-input.f32",
+      "sha256": "f4d7998317cb1202edf69533c250971a57f7e817d54aabcc8942d0e883f18ce5",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-trailing-exact.f32",
+      "sha256": "670257978d2b0d1c0c61fcd945996d5dc820054b6b78b507a21fb9b6e509347a",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-trailing-tail.f32",
+      "sha256": "f23f7d03ce74f039a3e5a1ae1186763e9e3bcca4f159a7fddb57cdc78a1edbdf",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17.f32",
+      "sha256": "0e2f794b5bf2166177069813a28eb362b560766a6739f54a43d0996518c302bb",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17-0.8-exact.f32",
+      "sha256": "7d9a81c0e2bb794a4d4527c5704f24c6b03300317792ff9a222379c6d0b5e2df",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17-0.8-tail.f32",
+      "sha256": "465ca0358681f6c200e18d80ba1d90b5ec72f3867f707568d6463f5aa0ee66b3",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-leading-input.f32",
+      "sha256": "61e632b7f59b44e4131ad7910f4faed7ee62ed91abdeed228fdc826fde94bca2",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-leading-exact.f32",
+      "sha256": "e67d92276e7f7ccd329385fd18a626c744bce846b286cc0f3ba774b4f6cc523c",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-leading-tail.f32",
+      "sha256": "a1d8a979b2d7f06113813c7ef5455eed85de3994ca70f09af9425813e611e602",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-trailing-input.f32",
+      "sha256": "e1d8b9f5bde5257ee72c7f7cd6ab87d5b95c57d17aeb0715de0a0df42632f1f9",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-trailing-exact.f32",
+      "sha256": "4b8ff5e5c015147033abd77bd5bc891c9be9ebfdb02a85d606535e4cec517c72",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-trailing-tail.f32",
+      "sha256": "6f3a0eb7f1c48d2cd6c542efdc6e8722b97de184e668df3b2fe1648647c95e2e",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17.f32",
+      "sha256": "0e2f794b5bf2166177069813a28eb362b560766a6739f54a43d0996518c302bb",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17-0.9-exact.f32",
+      "sha256": "df33cd8ded7a85758db43397ee368a3032cae3f229ea2f195bd2dc013033ff4c",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17-0.9-tail.f32",
+      "sha256": "d8f224ca93947998d384be8afa12ca6e31a7e5a7f8ec3a271dfb9668b85d52ca",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-leading-input.f32",
+      "sha256": "61e632b7f59b44e4131ad7910f4faed7ee62ed91abdeed228fdc826fde94bca2",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-leading-exact.f32",
+      "sha256": "5a870268d8da83b02f8ce28fb49a0a159e0d9016b191364749b591fef8086d27",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-leading-tail.f32",
+      "sha256": "c9c2169132169ceb328dcac8fb6fde4a907fa228c2d05e8114e78ecedc432c56",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-trailing-input.f32",
+      "sha256": "e1d8b9f5bde5257ee72c7f7cd6ab87d5b95c57d17aeb0715de0a0df42632f1f9",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-trailing-exact.f32",
+      "sha256": "f71f285ab3a2df36aa93f9d77f5d1b2407184ebe97b86ef0afc899daa6038d8e",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-trailing-tail.f32",
+      "sha256": "70d3bb9d531bacf461eb70972375f085635c43f0beb022ef34acedf5975a19a7",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17.f32",
+      "sha256": "0e2f794b5bf2166177069813a28eb362b560766a6739f54a43d0996518c302bb",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17-1-exact.f32",
+      "sha256": "0e2f794b5bf2166177069813a28eb362b560766a6739f54a43d0996518c302bb",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17-1-tail.f32",
+      "sha256": "fca6d1253d10340fe6d550a14cdf63ab4da7029d05c7ee1554282c09ee099f8a",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-leading-input.f32",
+      "sha256": "61e632b7f59b44e4131ad7910f4faed7ee62ed91abdeed228fdc826fde94bca2",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-leading-exact.f32",
+      "sha256": "61e632b7f59b44e4131ad7910f4faed7ee62ed91abdeed228fdc826fde94bca2",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-leading-tail.f32",
+      "sha256": "fbe0f7a6dab232f2e9e20885ddf88f90f7eaee5219a41d7062bc398ba597ab0e",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-trailing-input.f32",
+      "sha256": "e1d8b9f5bde5257ee72c7f7cd6ab87d5b95c57d17aeb0715de0a0df42632f1f9",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-trailing-exact.f32",
+      "sha256": "e1d8b9f5bde5257ee72c7f7cd6ab87d5b95c57d17aeb0715de0a0df42632f1f9",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-trailing-tail.f32",
+      "sha256": "8b60c14b1146feec678f668ee33ea39849960be5b7295297fba1e32238698172",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17.f32",
+      "sha256": "0e2f794b5bf2166177069813a28eb362b560766a6739f54a43d0996518c302bb",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17-1.25-exact.f32",
+      "sha256": "c5a92465ecf00871462bde8bb414c8dc97cc40adff725b0979e2cbc73a4cd457",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-17-1.25-tail.f32",
+      "sha256": "57097a4f9d6084391323e07ecb1875d4a92b6a774bc96df9934b64a39119fc39",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-leading-input.f32",
+      "sha256": "61e632b7f59b44e4131ad7910f4faed7ee62ed91abdeed228fdc826fde94bca2",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-leading-exact.f32",
+      "sha256": "a567131e69d3c4c36d021f3de9274b6dbc686645dba12de8a1b2e1218fe81b2a",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-leading-tail.f32",
+      "sha256": "1e19d70da817d226ffd84338b5037fbf38096aee865ac9c6237f9c415e4cd9b0",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-trailing-input.f32",
+      "sha256": "e1d8b9f5bde5257ee72c7f7cd6ab87d5b95c57d17aeb0715de0a0df42632f1f9",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-trailing-exact.f32",
+      "sha256": "92a6a0c5ccfb2105656b4b58503687af07c9137e5a8e4dc977e5e79616d20123",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-trailing-tail.f32",
+      "sha256": "3075ca1ad850ec3dfd9288004eefa62e030296b3862b8c9f4400fb844d457caf",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137.f32",
+      "sha256": "31b74c0b8d86d2c5c45be735dee95dcb071df2577725d0d178ce2f34f11e9919",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137-0.8-exact.f32",
+      "sha256": "da0df89208bf88bcf7b6aee391fe26e562a707d74fd0a65ac6b6d4af3ee9a732",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137-0.8-tail.f32",
+      "sha256": "ed8c8c52ae660b3a160540471fe7e98dd4b3d85a51995ad0f8d4b9a33a337268",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-leading-input.f32",
+      "sha256": "45625f2d094ef3924260193c02a886be77bb6c256e4d10a111ca8dcabd61a8d3",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-leading-exact.f32",
+      "sha256": "4b6c977d5076883e405f2fa7ae3366da8a27e5bce4f8d109eb45e4fc82a28db8",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-leading-tail.f32",
+      "sha256": "94f35ca44cfcdf1fc9caf9d0591e942ea368d2e6ac8d96d4e551cec11dc4973f",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-trailing-input.f32",
+      "sha256": "9bbfed9386bc39b71d551a9dc03a07fe95adf6fb8bce812b18090216f27e083d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-trailing-exact.f32",
+      "sha256": "95e0399e176c53ca56165a0c7f8ecedf54da454582f42fd89277eb22e1691b91",
+      "frames": 90000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-trailing-tail.f32",
+      "sha256": "bfca95b195b9dcaa681b7c447c72795927201c717882bb28e5ad570bb790ae15",
+      "frames": 95760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137.f32",
+      "sha256": "31b74c0b8d86d2c5c45be735dee95dcb071df2577725d0d178ce2f34f11e9919",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137-0.9-exact.f32",
+      "sha256": "ee04d83792f7fb3d7a30da3b0b2a3926c059fe29091536e8ef4b7d64e5edd32c",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137-0.9-tail.f32",
+      "sha256": "dbd68c9eee0103b2d79e1acfdedd0e9f7908765659c0cfa43afe1c2d105103e2",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-leading-input.f32",
+      "sha256": "45625f2d094ef3924260193c02a886be77bb6c256e4d10a111ca8dcabd61a8d3",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-leading-exact.f32",
+      "sha256": "e7b6fdb03ad8d6370f8f7b386fe9486d5c89cd5e8f344dfe50b6714481523769",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-leading-tail.f32",
+      "sha256": "d146d7efebefc7be92eca0fdae097d94421cacebeff0cf5e8d7841ccd1602ebf",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-trailing-input.f32",
+      "sha256": "9bbfed9386bc39b71d551a9dc03a07fe95adf6fb8bce812b18090216f27e083d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-trailing-exact.f32",
+      "sha256": "c7298d6ccfd546dc2f7f118c7568c1bfae3cb10d2517d431c96a16328e3e1552",
+      "frames": 80000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-trailing-tail.f32",
+      "sha256": "476a96bbc17e670565c8437d607ed3c9a71f8c526f97dbe95c05114300519a7b",
+      "frames": 85760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137.f32",
+      "sha256": "31b74c0b8d86d2c5c45be735dee95dcb071df2577725d0d178ce2f34f11e9919",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137-1-exact.f32",
+      "sha256": "31b74c0b8d86d2c5c45be735dee95dcb071df2577725d0d178ce2f34f11e9919",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137-1-tail.f32",
+      "sha256": "062751db25e9ec70fc1ffa96830249290a6642c10103d9adf21394d6c4d6a9fe",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-leading-input.f32",
+      "sha256": "45625f2d094ef3924260193c02a886be77bb6c256e4d10a111ca8dcabd61a8d3",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-leading-exact.f32",
+      "sha256": "45625f2d094ef3924260193c02a886be77bb6c256e4d10a111ca8dcabd61a8d3",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-leading-tail.f32",
+      "sha256": "b403e49f29e5e35bd00db9da5e2348d8fa7fc52d3b5b8a0324fbb09ad3f7221d",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-trailing-input.f32",
+      "sha256": "9bbfed9386bc39b71d551a9dc03a07fe95adf6fb8bce812b18090216f27e083d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-trailing-exact.f32",
+      "sha256": "9bbfed9386bc39b71d551a9dc03a07fe95adf6fb8bce812b18090216f27e083d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-trailing-tail.f32",
+      "sha256": "81b26e416fbeabdffe69b2f01047f5700f977a7f3dd828ada8ddafca97847b28",
+      "frames": 77760
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137.f32",
+      "sha256": "31b74c0b8d86d2c5c45be735dee95dcb071df2577725d0d178ce2f34f11e9919",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137-1.25-exact.f32",
+      "sha256": "d776656059864a4cdd1003e5e269c23252b3d4de55107177f54d96239e33f5f7",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/endpoints-137-1.25-tail.f32",
+      "sha256": "80e56abee0c3039aa9242516d0cf26dcccf5b5a26772f87b61b7e80d538d157c",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-leading-input.f32",
+      "sha256": "45625f2d094ef3924260193c02a886be77bb6c256e4d10a111ca8dcabd61a8d3",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-leading-exact.f32",
+      "sha256": "b26fa1f94dea1ebda4a67e06d68c4be7789b7561b8a5f0c02edaf562cceb2aff",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-leading-tail.f32",
+      "sha256": "cf074d91cced9279e977dbe3974683d30a6d83e068ca7be1fae2b0bc930b9b39",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-trailing-input.f32",
+      "sha256": "9bbfed9386bc39b71d551a9dc03a07fe95adf6fb8bce812b18090216f27e083d",
+      "frames": 72000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-trailing-exact.f32",
+      "sha256": "ec5167ad6eccd8e98857fb86511c88fc00a377d0ce05141e47d20a098682cd4c",
+      "frames": 57600
+    },
+    {
+      "path": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-trailing-tail.f32",
+      "sha256": "caf9e40c7235e3ad95997cc019e21a13df1386c8117dbd8168aebb65fc8a4afc",
+      "frames": 63360
+    },
+    {
+      "path": "/tmp/screenrec-stretch-frozen/tone-input.f32",
+      "sha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "frames": 144000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/tone-0.8-exact.f32",
+      "sha256": "35d07d4a2b9408dd386ff37b845b66a7e9acd5a5918b78f2923b6d07f9435205",
+      "frames": 180000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-frozen/tone-input.f32",
+      "sha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "frames": 144000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/tone-0.9-exact.f32",
+      "sha256": "1927cd32563116a5102cb643f716690001f71d756600c868d47afac020cb7332",
+      "frames": 160000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-frozen/tone-input.f32",
+      "sha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "frames": 144000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/tone-1-exact.f32",
+      "sha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "frames": 144000
+    },
+    {
+      "path": "/tmp/screenrec-stretch-frozen/tone-input.f32",
+      "sha256": "99e29021fa1bf0bad86928e034801fab9f9a1ba3b0a5ed29a62743033eee8294",
+      "frames": 144000
+    },
+    {
+      "path": "/tmp/screenrec-signalsmith-identity/tone-1.25-exact.f32",
+      "sha256": "b616ee393c8bb39481456102536dd30df6dedc7d60ac62b07ca6a625540d610c",
+      "frames": 115200
+    }
+  ],
+  "endpoints": [
+    {
+      "phase": 0,
+      "speed": 0.8,
+      "wanted": 90000,
+      "side": "leading",
+      "sourceFrame": 0,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 0,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 90000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 5595,
+        "aboveThresholdSamples": 5543,
+        "peak": 0.8321861028671265,
+        "peakFrame": 0,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 0,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 92880
+        },
+        "firstAboveThreshold": -1440,
+        "lastAboveThreshold": 5595,
+        "aboveThresholdSamples": 6964,
+        "peak": 0.8321384191513062,
+        "peakFrame": 0,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 0.8,
+      "wanted": 90000,
+      "side": "trailing",
+      "sourceFrame": 71999,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.8-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 89998.75,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 90000
+        },
+        "firstAboveThreshold": 83520,
+        "lastAboveThreshold": 89999,
+        "aboveThresholdSamples": 6382,
+        "peak": 0.5963855981826782,
+        "peakFrame": 89982,
+        "offsetFrames": -16.75
+      },
+      "tailSupport": {
+        "nominal": 89998.75,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 92880
+        },
+        "firstAboveThreshold": 83520,
+        "lastAboveThreshold": 92879,
+        "aboveThresholdSamples": 9262,
+        "peak": 0.5162787437438965,
+        "peakFrame": 90716,
+        "offsetFrames": 717.25
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 0.9,
+      "wanted": 80000,
+      "side": "leading",
+      "sourceFrame": 0,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 0,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 80000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 5716,
+        "aboveThresholdSamples": 5643,
+        "peak": 0.8081405162811279,
+        "peakFrame": 0,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 0,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 82880
+        },
+        "firstAboveThreshold": -1440,
+        "lastAboveThreshold": 5716,
+        "aboveThresholdSamples": 7072,
+        "peak": 0.8081204295158386,
+        "peakFrame": 0,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 0.9,
+      "wanted": 80000,
+      "side": "trailing",
+      "sourceFrame": 71999,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-0.9-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 79998.88888888889,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 80000
+        },
+        "firstAboveThreshold": 74880,
+        "lastAboveThreshold": 79999,
+        "aboveThresholdSamples": 5107,
+        "peak": 0.5991769433021545,
+        "peakFrame": 79990,
+        "offsetFrames": -8.888888888890506
+      },
+      "tailSupport": {
+        "nominal": 79998.88888888889,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 82880
+        },
+        "firstAboveThreshold": 74880,
+        "lastAboveThreshold": 82879,
+        "aboveThresholdSamples": 7985,
+        "peak": 0.4489227533340454,
+        "peakFrame": 80634,
+        "offsetFrames": 635.1111111111095
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 1,
+      "wanted": 72000,
+      "side": "leading",
+      "sourceFrame": 0,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 0,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 72000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 0,
+        "aboveThresholdSamples": 1,
+        "peak": 0.800000011920929,
+        "peakFrame": 0,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 0,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 74880
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 0,
+        "aboveThresholdSamples": 1,
+        "peak": 0.7842936515808105,
+        "peakFrame": 0,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 1,
+      "wanted": 72000,
+      "side": "trailing",
+      "sourceFrame": 71999,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 71999,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 72000
+        },
+        "firstAboveThreshold": 71999,
+        "lastAboveThreshold": 71999,
+        "aboveThresholdSamples": 1,
+        "peak": 0.800000011920929,
+        "peakFrame": 71999,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 71999,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 74880
+        },
+        "firstAboveThreshold": 70560,
+        "lastAboveThreshold": 74879,
+        "aboveThresholdSamples": 4319,
+        "peak": 0.6679927706718445,
+        "peakFrame": 71999,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 1.25,
+      "wanted": 57600,
+      "side": "leading",
+      "sourceFrame": 0,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 0,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 57600
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 3964,
+        "aboveThresholdSamples": 3755,
+        "peak": 0.7287378907203674,
+        "peakFrame": 0,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 0,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 60480
+        },
+        "firstAboveThreshold": -1440,
+        "lastAboveThreshold": 3964,
+        "aboveThresholdSamples": 5150,
+        "peak": 0.7287378907203674,
+        "peakFrame": 0,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 0,
+      "speed": 1.25,
+      "wanted": 57600,
+      "side": "trailing",
+      "sourceFrame": 71999,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-0-1.25-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 57599.2,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 57600
+        },
+        "firstAboveThreshold": 53280,
+        "lastAboveThreshold": 57599,
+        "aboveThresholdSamples": 4319,
+        "peak": 0.15980324149131775,
+        "peakFrame": 57599,
+        "offsetFrames": -0.19999999999708962
+      },
+      "tailSupport": {
+        "nominal": 57599.2,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 60480
+        },
+        "firstAboveThreshold": 53280,
+        "lastAboveThreshold": 60479,
+        "aboveThresholdSamples": 7200,
+        "peak": 0.4643273651599884,
+        "peakFrame": 57599,
+        "offsetFrames": -0.19999999999708962
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 0.8,
+      "wanted": 90000,
+      "side": "leading",
+      "sourceFrame": 1,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 1.25,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 90000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 5752,
+        "peak": 0.8068628311157227,
+        "peakFrame": 1,
+        "offsetFrames": -0.25
+      },
+      "tailSupport": {
+        "nominal": 1.25,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 92880
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 8640,
+        "peak": 0.7493591904640198,
+        "peakFrame": 1,
+        "offsetFrames": -0.25
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 0.8,
+      "wanted": 90000,
+      "side": "trailing",
+      "sourceFrame": 71998,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.8-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 89997.5,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 90000
+        },
+        "firstAboveThreshold": 83520,
+        "lastAboveThreshold": 89999,
+        "aboveThresholdSamples": 6371,
+        "peak": 0.767035722732544,
+        "peakFrame": 89981,
+        "offsetFrames": -16.5
+      },
+      "tailSupport": {
+        "nominal": 89997.5,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 92880
+        },
+        "firstAboveThreshold": 83520,
+        "lastAboveThreshold": 92879,
+        "aboveThresholdSamples": 9251,
+        "peak": 0.5084618926048279,
+        "peakFrame": 90714,
+        "offsetFrames": 716.5
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 0.9,
+      "wanted": 80000,
+      "side": "leading",
+      "sourceFrame": 1,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 1.1111111111111112,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 80000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 5493,
+        "peak": 0.8201324343681335,
+        "peakFrame": 1,
+        "offsetFrames": -0.11111111111111116
+      },
+      "tailSupport": {
+        "nominal": 1.1111111111111112,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 82880
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 8374,
+        "peak": 0.791896402835846,
+        "peakFrame": 1,
+        "offsetFrames": -0.11111111111111116
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 0.9,
+      "wanted": 80000,
+      "side": "trailing",
+      "sourceFrame": 71998,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-0.9-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 79997.77777777778,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 80000
+        },
+        "firstAboveThreshold": 74880,
+        "lastAboveThreshold": 79999,
+        "aboveThresholdSamples": 5118,
+        "peak": 0.621687114238739,
+        "peakFrame": 79989,
+        "offsetFrames": -8.777777777781012
+      },
+      "tailSupport": {
+        "nominal": 79997.77777777778,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 82880
+        },
+        "firstAboveThreshold": 74880,
+        "lastAboveThreshold": 82879,
+        "aboveThresholdSamples": 7997,
+        "peak": 0.42166897654533386,
+        "peakFrame": 80632,
+        "offsetFrames": 634.222222222219
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 1,
+      "wanted": 72000,
+      "side": "leading",
+      "sourceFrame": 1,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 1,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 72000
+        },
+        "firstAboveThreshold": 1,
+        "lastAboveThreshold": 1,
+        "aboveThresholdSamples": 1,
+        "peak": 0.800000011920929,
+        "peakFrame": 1,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 1,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 74880
+        },
+        "firstAboveThreshold": 1,
+        "lastAboveThreshold": 1,
+        "aboveThresholdSamples": 1,
+        "peak": 0.7843316793441772,
+        "peakFrame": 1,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 1,
+      "wanted": 72000,
+      "side": "trailing",
+      "sourceFrame": 71998,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 71998,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 72000
+        },
+        "firstAboveThreshold": 71998,
+        "lastAboveThreshold": 71998,
+        "aboveThresholdSamples": 1,
+        "peak": 0.800000011920929,
+        "peakFrame": 71998,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 71998,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 74880
+        },
+        "firstAboveThreshold": 70560,
+        "lastAboveThreshold": 74879,
+        "aboveThresholdSamples": 4320,
+        "peak": 0.6624605059623718,
+        "peakFrame": 71998,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 1.25,
+      "wanted": 57600,
+      "side": "leading",
+      "sourceFrame": 1,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 0.8,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 57600
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 4319,
+        "aboveThresholdSamples": 4315,
+        "peak": 0.6330286860466003,
+        "peakFrame": 1,
+        "offsetFrames": 0.19999999999999996
+      },
+      "tailSupport": {
+        "nominal": 0.8,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 60480
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 4319,
+        "aboveThresholdSamples": 7200,
+        "peak": 0.6817342638969421,
+        "peakFrame": 1,
+        "offsetFrames": 0.19999999999999996
+      }
+    },
+    {
+      "phase": 1,
+      "speed": 1.25,
+      "wanted": 57600,
+      "side": "trailing",
+      "sourceFrame": 71998,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-1-1.25-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 57598.4,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 57600
+        },
+        "firstAboveThreshold": 53280,
+        "lastAboveThreshold": 57599,
+        "aboveThresholdSamples": 4319,
+        "peak": 0.5291075706481934,
+        "peakFrame": 57599,
+        "offsetFrames": 0.5999999999985448
+      },
+      "tailSupport": {
+        "nominal": 57598.4,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 60480
+        },
+        "firstAboveThreshold": 53280,
+        "lastAboveThreshold": 60479,
+        "aboveThresholdSamples": 7200,
+        "peak": 0.4534483850002289,
+        "peakFrame": 57599,
+        "offsetFrames": 0.5999999999985448
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 0.8,
+      "wanted": 90000,
+      "side": "leading",
+      "sourceFrame": 17,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 21.25,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 90000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 5752,
+        "peak": 0.7563315033912659,
+        "peakFrame": 21,
+        "offsetFrames": -0.25
+      },
+      "tailSupport": {
+        "nominal": 21.25,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 92880
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 8640,
+        "peak": 0.752051055431366,
+        "peakFrame": 21,
+        "offsetFrames": -0.25
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 0.8,
+      "wanted": 90000,
+      "side": "trailing",
+      "sourceFrame": 71982,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.8-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 89977.5,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 90000
+        },
+        "firstAboveThreshold": 83520,
+        "lastAboveThreshold": 89999,
+        "aboveThresholdSamples": 6378,
+        "peak": 0.6482948064804077,
+        "peakFrame": 89962,
+        "offsetFrames": -15.5
+      },
+      "tailSupport": {
+        "nominal": 89977.5,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 92880
+        },
+        "firstAboveThreshold": 83520,
+        "lastAboveThreshold": 92879,
+        "aboveThresholdSamples": 9258,
+        "peak": 0.42701423168182373,
+        "peakFrame": 90681,
+        "offsetFrames": 703.5
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 0.9,
+      "wanted": 80000,
+      "side": "leading",
+      "sourceFrame": 17,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 18.88888888888889,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 80000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 5758,
+        "aboveThresholdSamples": 5626,
+        "peak": 0.789693295955658,
+        "peakFrame": 19,
+        "offsetFrames": 0.11111111111111072
+      },
+      "tailSupport": {
+        "nominal": 18.88888888888889,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 82880
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 5758,
+        "aboveThresholdSamples": 8505,
+        "peak": 0.7920148968696594,
+        "peakFrame": 19,
+        "offsetFrames": 0.11111111111111072
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 0.9,
+      "wanted": 80000,
+      "side": "trailing",
+      "sourceFrame": 71982,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-0.9-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 79980,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 80000
+        },
+        "firstAboveThreshold": 74880,
+        "lastAboveThreshold": 79999,
+        "aboveThresholdSamples": 5115,
+        "peak": 0.49924224615097046,
+        "peakFrame": 79970,
+        "offsetFrames": -10
+      },
+      "tailSupport": {
+        "nominal": 79980,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 82880
+        },
+        "firstAboveThreshold": 74880,
+        "lastAboveThreshold": 82879,
+        "aboveThresholdSamples": 7994,
+        "peak": 0.4845642149448395,
+        "peakFrame": 80599,
+        "offsetFrames": 619
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 1,
+      "wanted": 72000,
+      "side": "leading",
+      "sourceFrame": 17,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 17,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 72000
+        },
+        "firstAboveThreshold": 17,
+        "lastAboveThreshold": 17,
+        "aboveThresholdSamples": 1,
+        "peak": 0.800000011920929,
+        "peakFrame": 17,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 17,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 74880
+        },
+        "firstAboveThreshold": 17,
+        "lastAboveThreshold": 17,
+        "aboveThresholdSamples": 1,
+        "peak": 0.7849292159080505,
+        "peakFrame": 17,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 1,
+      "wanted": 72000,
+      "side": "trailing",
+      "sourceFrame": 71982,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 71982,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 72000
+        },
+        "firstAboveThreshold": 71982,
+        "lastAboveThreshold": 71982,
+        "aboveThresholdSamples": 1,
+        "peak": 0.800000011920929,
+        "peakFrame": 71982,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 71982,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 74880
+        },
+        "firstAboveThreshold": 70560,
+        "lastAboveThreshold": 74879,
+        "aboveThresholdSamples": 4320,
+        "peak": 0.6739731431007385,
+        "peakFrame": 71982,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 1.25,
+      "wanted": 57600,
+      "side": "leading",
+      "sourceFrame": 17,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 13.6,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 57600
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 4319,
+        "aboveThresholdSamples": 4317,
+        "peak": 0.5445922613143921,
+        "peakFrame": 14,
+        "offsetFrames": 0.40000000000000036
+      },
+      "tailSupport": {
+        "nominal": 13.6,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 60480
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 4319,
+        "aboveThresholdSamples": 7200,
+        "peak": 0.5523332357406616,
+        "peakFrame": 14,
+        "offsetFrames": 0.40000000000000036
+      }
+    },
+    {
+      "phase": 17,
+      "speed": 1.25,
+      "wanted": 57600,
+      "side": "trailing",
+      "sourceFrame": 71982,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-17-1.25-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 57585.6,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 57600
+        },
+        "firstAboveThreshold": 53280,
+        "lastAboveThreshold": 57599,
+        "aboveThresholdSamples": 4320,
+        "peak": 0.5681401491165161,
+        "peakFrame": 57586,
+        "offsetFrames": 0.4000000000014552
+      },
+      "tailSupport": {
+        "nominal": 57585.6,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 60480
+        },
+        "firstAboveThreshold": 53280,
+        "lastAboveThreshold": 60479,
+        "aboveThresholdSamples": 7200,
+        "peak": 0.5677932500839233,
+        "peakFrame": 57586,
+        "offsetFrames": 0.4000000000014552
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 0.8,
+      "wanted": 90000,
+      "side": "leading",
+      "sourceFrame": 137,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 171.25,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 90000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 5727,
+        "peak": 0.7768494486808777,
+        "peakFrame": 171,
+        "offsetFrames": -0.25
+      },
+      "tailSupport": {
+        "nominal": 171.25,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 92880
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 8608,
+        "peak": 0.776369571685791,
+        "peakFrame": 171,
+        "offsetFrames": -0.25
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 0.8,
+      "wanted": 90000,
+      "side": "trailing",
+      "sourceFrame": 71862,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.8-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 89827.5,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 90000
+        },
+        "firstAboveThreshold": 83520,
+        "lastAboveThreshold": 89999,
+        "aboveThresholdSamples": 6461,
+        "peak": 0.6094542145729065,
+        "peakFrame": 89815,
+        "offsetFrames": -12.5
+      },
+      "tailSupport": {
+        "nominal": 89827.5,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 92880
+        },
+        "firstAboveThreshold": 83520,
+        "lastAboveThreshold": 92879,
+        "aboveThresholdSamples": 9340,
+        "peak": 0.3432689607143402,
+        "peakFrame": 89815,
+        "offsetFrames": -12.5
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 0.9,
+      "wanted": 80000,
+      "side": "leading",
+      "sourceFrame": 137,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 152.22222222222223,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 80000
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 5635,
+        "peak": 0.763249933719635,
+        "peakFrame": 152,
+        "offsetFrames": -0.22222222222222854
+      },
+      "tailSupport": {
+        "nominal": 152.22222222222223,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 82880
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 5759,
+        "aboveThresholdSamples": 8521,
+        "peak": 0.7627545595169067,
+        "peakFrame": 152,
+        "offsetFrames": -0.22222222222222854
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 0.9,
+      "wanted": 80000,
+      "side": "trailing",
+      "sourceFrame": 71862,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-0.9-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 79846.66666666667,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 80000
+        },
+        "firstAboveThreshold": 74880,
+        "lastAboveThreshold": 79999,
+        "aboveThresholdSamples": 5120,
+        "peak": 0.7296023368835449,
+        "peakFrame": 79814,
+        "offsetFrames": -32.66666666667152
+      },
+      "tailSupport": {
+        "nominal": 79846.66666666667,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 82880
+        },
+        "firstAboveThreshold": 74880,
+        "lastAboveThreshold": 82879,
+        "aboveThresholdSamples": 8000,
+        "peak": 0.4503931999206543,
+        "peakFrame": 79814,
+        "offsetFrames": -32.66666666667152
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 1,
+      "wanted": 72000,
+      "side": "leading",
+      "sourceFrame": 137,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 137,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 72000
+        },
+        "firstAboveThreshold": 137,
+        "lastAboveThreshold": 137,
+        "aboveThresholdSamples": 1,
+        "peak": 0.800000011920929,
+        "peakFrame": 137,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 137,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 74880
+        },
+        "firstAboveThreshold": 137,
+        "lastAboveThreshold": 137,
+        "aboveThresholdSamples": 1,
+        "peak": 0.7888639569282532,
+        "peakFrame": 137,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 1,
+      "wanted": 72000,
+      "side": "trailing",
+      "sourceFrame": 71862,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 71862,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 72000
+        },
+        "firstAboveThreshold": 71862,
+        "lastAboveThreshold": 71862,
+        "aboveThresholdSamples": 1,
+        "peak": 0.800000011920929,
+        "peakFrame": 71862,
+        "offsetFrames": 0
+      },
+      "tailSupport": {
+        "nominal": 71862,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 74880
+        },
+        "firstAboveThreshold": 70560,
+        "lastAboveThreshold": 74879,
+        "aboveThresholdSamples": 4320,
+        "peak": 0.7009766697883606,
+        "peakFrame": 71862,
+        "offsetFrames": 0
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 1.25,
+      "wanted": 57600,
+      "side": "leading",
+      "sourceFrame": 137,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-leading-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-leading-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-leading-tail.f32",
+      "exactSupport": {
+        "nominal": 109.6,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 57600
+        },
+        "firstAboveThreshold": 0,
+        "lastAboveThreshold": 4319,
+        "aboveThresholdSamples": 4317,
+        "peak": 0.556584358215332,
+        "peakFrame": 110,
+        "offsetFrames": 0.4000000000000057
+      },
+      "tailSupport": {
+        "nominal": 109.6,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 60480
+        },
+        "firstAboveThreshold": -2880,
+        "lastAboveThreshold": 4319,
+        "aboveThresholdSamples": 7200,
+        "peak": 0.557610809803009,
+        "peakFrame": 110,
+        "offsetFrames": 0.4000000000000057
+      }
+    },
+    {
+      "phase": 137,
+      "speed": 1.25,
+      "wanted": 57600,
+      "side": "trailing",
+      "sourceFrame": 71862,
+      "input": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-trailing-input.f32",
+      "exact": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-trailing-exact.f32",
+      "tail": "/tmp/screenrec-stretch-endpoint-verified/endpoints-137-1.25-trailing-tail.f32",
+      "exactSupport": {
+        "nominal": 57489.6,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": 0,
+          "endFrame": 57600
+        },
+        "firstAboveThreshold": 53280,
+        "lastAboveThreshold": 57599,
+        "aboveThresholdSamples": 4319,
+        "peak": 0.5757230520248413,
+        "peakFrame": 57490,
+        "offsetFrames": 0.4000000000014552
+      },
+      "tailSupport": {
+        "nominal": 57489.6,
+        "threshold": 1e-7,
+        "scannedRange": {
+          "startFrame": -2880,
+          "endFrame": 60480
+        },
+        "firstAboveThreshold": 53280,
+        "lastAboveThreshold": 60479,
+        "aboveThresholdSamples": 7200,
+        "peak": 0.5778875946998596,
+        "peakFrame": 57490,
+        "offsetFrames": 0.4000000000014552
+      }
+    }
+  ],
+  "tones": [
+    {
+      "speed": 0.8,
+      "input": "/tmp/screenrec-stretch-frozen/tone-input.f32",
+      "exact": "/tmp/screenrec-signalsmith-identity/tone-0.8-exact.f32",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 825,
+        "minimumCrossings": 101,
+        "measuredRange": {
+          "startFrame": 45001,
+          "endFrame": 135000
+        },
+        "status": "measured",
+        "hz": 440.00007487447374,
+        "errorPercent": 0.000017016925846213837
+      }
+    },
+    {
+      "speed": 0.9,
+      "input": "/tmp/screenrec-stretch-frozen/tone-input.f32",
+      "exact": "/tmp/screenrec-signalsmith-identity/tone-0.9-exact.f32",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 733,
+        "minimumCrossings": 101,
+        "measuredRange": {
+          "startFrame": 40001,
+          "endFrame": 120000
+        },
+        "status": "measured",
+        "hz": 439.99994757819235,
+        "errorPercent": 0.000011914047193251065
+      }
+    },
+    {
+      "speed": 1,
+      "input": "/tmp/screenrec-stretch-frozen/tone-input.f32",
+      "exact": "/tmp/screenrec-signalsmith-identity/tone-1-exact.f32",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 659,
+        "minimumCrossings": 101,
+        "measuredRange": {
+          "startFrame": 36001,
+          "endFrame": 108000
+        },
+        "status": "measured",
+        "hz": 440.0000004584029,
+        "errorPercent": 1.0418248486132597e-7
+      }
+    },
+    {
+      "speed": 1.25,
+      "input": "/tmp/screenrec-stretch-frozen/tone-input.f32",
+      "exact": "/tmp/screenrec-signalsmith-identity/tone-1.25-exact.f32",
+      "pitch": {
+        "expectedHz": 440,
+        "crossingCount": 528,
+        "minimumCrossings": 101,
+        "measuredRange": {
+          "startFrame": 28801,
+          "endFrame": 86400
+        },
+        "status": "measured",
+        "hz": 439.9999858611829,
+        "errorPercent": 0.000003213367527621358
+      }
+    }
+  ],
+  "admission": [
+    {
+      "block": 5760,
+      "speed": 0.8,
+      "selectedFrames": 5183,
+      "outputFrames": 6478,
+      "seekLength": 5184,
+      "accepted": false
+    },
+    {
+      "block": 5760,
+      "speed": 0.8,
+      "selectedFrames": 5184,
+      "outputFrames": 6480,
+      "seekLength": 5184,
+      "accepted": true
+    },
+    {
+      "block": 5760,
+      "speed": 0.8,
+      "selectedFrames": 5185,
+      "outputFrames": 6481,
+      "seekLength": 5184,
+      "accepted": true
+    },
+    {
+      "block": 5760,
+      "speed": 0.9,
+      "selectedFrames": 5471,
+      "outputFrames": 6078,
+      "seekLength": 5472,
+      "accepted": false
+    },
+    {
+      "block": 5760,
+      "speed": 0.9,
+      "selectedFrames": 5472,
+      "outputFrames": 6080,
+      "seekLength": 5472,
+      "accepted": true
+    },
+    {
+      "block": 5760,
+      "speed": 0.9,
+      "selectedFrames": 5473,
+      "outputFrames": 6081,
+      "seekLength": 5472,
+      "accepted": true
+    },
+    {
+      "block": 5760,
+      "speed": 1.25,
+      "selectedFrames": 6479,
+      "outputFrames": 5183,
+      "seekLength": 6480,
+      "accepted": false
+    },
+    {
+      "block": 5760,
+      "speed": 1.25,
+      "selectedFrames": 6480,
+      "outputFrames": 5184,
+      "seekLength": 6480,
+      "accepted": true
+    },
+    {
+      "block": 5760,
+      "speed": 1.25,
+      "selectedFrames": 6481,
+      "outputFrames": 5184,
+      "seekLength": 6480,
+      "accepted": true
+    },
+    {
+      "block": 256,
+      "speed": 0.8,
+      "selectedFrames": 229,
+      "outputFrames": 286,
+      "seekLength": 230,
+      "accepted": false
+    },
+    {
+      "block": 256,
+      "speed": 0.8,
+      "selectedFrames": 230,
+      "outputFrames": 287,
+      "seekLength": 230,
+      "accepted": true
+    },
+    {
+      "block": 256,
+      "speed": 0.8,
+      "selectedFrames": 231,
+      "outputFrames": 288,
+      "seekLength": 230,
+      "accepted": true
+    },
+    {
+      "block": 256,
+      "speed": 0.9,
+      "selectedFrames": 242,
+      "outputFrames": 268,
+      "seekLength": 243,
+      "accepted": false
+    },
+    {
+      "block": 256,
+      "speed": 0.9,
+      "selectedFrames": 243,
+      "outputFrames": 270,
+      "seekLength": 243,
+      "accepted": true
+    },
+    {
+      "block": 256,
+      "speed": 0.9,
+      "selectedFrames": 244,
+      "outputFrames": 271,
+      "seekLength": 243,
+      "accepted": true
+    },
+    {
+      "block": 256,
+      "speed": 1.25,
+      "selectedFrames": 287,
+      "outputFrames": 229,
+      "seekLength": 288,
+      "accepted": false
+    },
+    {
+      "block": 256,
+      "speed": 1.25,
+      "selectedFrames": 288,
+      "outputFrames": 230,
+      "seekLength": 288,
+      "accepted": true
+    },
+    {
+      "block": 256,
+      "speed": 1.25,
+      "selectedFrames": 289,
+      "outputFrames": 231,
+      "seekLength": 288,
+      "accepted": true
+    }
+  ],
+  "shortPitch": [
+    {
+      "block": 256,
+      "speed": 0.8,
+      "selectedFrames": 4800,
+      "outputFrames": 6000,
+      "inputSha256": "a10c1cdcf761703f8c722564f5ae538b4345f074ba23673f924bb78eedb3dd52",
+      "outputSha256": "152f956edc9a6d8804f034bc23a65a6bf67cdae59981825c9229c8297bd57843",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 6000,
+        "renderSeconds": 0.00113842,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "pitch": {
+        "expectedHz": 120,
+        "crossingCount": 8,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 1501,
+          "endFrame": 4500
+        },
+        "status": "measured",
+        "hz": 119.50165549946908,
+        "errorPercent": 0.4152870837757616
+      },
+      "pitchGatePassed": true
+    },
+    {
+      "block": 256,
+      "speed": 0.9,
+      "selectedFrames": 4800,
+      "outputFrames": 5333,
+      "inputSha256": "a10c1cdcf761703f8c722564f5ae538b4345f074ba23673f924bb78eedb3dd52",
+      "outputSha256": "7447bac7651c9157ddca55d835287de17a0d17c2228f0ee3dc92780d50973ef9",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 5333,
+        "renderSeconds": 0.000690709,
+        "identityBypass": false,
+        "speed": 0.900056,
+        "mode": "exact"
+      },
+      "pitch": {
+        "expectedHz": 120,
+        "crossingCount": 7,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 1334,
+          "endFrame": 3999
+        },
+        "status": "measured",
+        "hz": 119.60336332782813,
+        "errorPercent": 0.33053056014321625
+      },
+      "pitchGatePassed": true
+    },
+    {
+      "block": 256,
+      "speed": 1,
+      "selectedFrames": 4800,
+      "outputFrames": 4800,
+      "inputSha256": "a10c1cdcf761703f8c722564f5ae538b4345f074ba23673f924bb78eedb3dd52",
+      "outputSha256": "a10c1cdcf761703f8c722564f5ae538b4345f074ba23673f924bb78eedb3dd52",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 4800,
+        "renderSeconds": 9.17e-7,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "pitch": {
+        "expectedHz": 120,
+        "crossingCount": 6,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 1201,
+          "endFrame": 3600
+        },
+        "status": "measured",
+        "hz": 120,
+        "errorPercent": 0
+      },
+      "pitchGatePassed": true
+    },
+    {
+      "block": 256,
+      "speed": 1.25,
+      "selectedFrames": 4800,
+      "outputFrames": 3840,
+      "inputSha256": "a10c1cdcf761703f8c722564f5ae538b4345f074ba23673f924bb78eedb3dd52",
+      "outputSha256": "f17cdd637aa6148d0a1bb5520dcd0e0157fb258bb0d7cc5bbc5d7f0a10f7fd15",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 3840,
+        "renderSeconds": 0.000620417,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "pitch": {
+        "expectedHz": 120,
+        "crossingCount": 5,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 961,
+          "endFrame": 2880
+        },
+        "status": "measured",
+        "hz": 119.99394778816215,
+        "errorPercent": 0.005043509864877116
+      },
+      "pitchGatePassed": true
+    },
+    {
+      "block": 256,
+      "speed": 0.8,
+      "selectedFrames": 480,
+      "outputFrames": 600,
+      "inputSha256": "64b654aba74027a376336b147af8dae02d39c40601af158b0ca2ec09c3569932",
+      "outputSha256": "4053ae43ff8e3faf06a48c99e246c32013503c553605cb6de7af106ac77f06e0",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 600,
+        "renderSeconds": 0.000109458,
+        "identityBypass": false,
+        "speed": 0.8,
+        "mode": "exact"
+      },
+      "pitch": {
+        "expectedHz": 120,
+        "crossingCount": 1,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 151,
+          "endFrame": 450
+        },
+        "status": "unavailable",
+        "reason": "Insufficient positive zero crossings"
+      },
+      "pitchGatePassed": false
+    },
+    {
+      "block": 256,
+      "speed": 0.9,
+      "selectedFrames": 480,
+      "outputFrames": 533,
+      "inputSha256": "64b654aba74027a376336b147af8dae02d39c40601af158b0ca2ec09c3569932",
+      "outputSha256": "e4d57c3f7485f55015c55e264b9c4c7a1d230be9b11cb80b495fa8c139751996",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 533,
+        "renderSeconds": 0.000136583,
+        "identityBypass": false,
+        "speed": 0.900563,
+        "mode": "exact"
+      },
+      "pitch": {
+        "expectedHz": 120,
+        "crossingCount": 0,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 134,
+          "endFrame": 399
+        },
+        "status": "unavailable",
+        "reason": "Insufficient positive zero crossings"
+      },
+      "pitchGatePassed": false
+    },
+    {
+      "block": 256,
+      "speed": 1,
+      "selectedFrames": 480,
+      "outputFrames": 480,
+      "inputSha256": "64b654aba74027a376336b147af8dae02d39c40601af158b0ca2ec09c3569932",
+      "outputSha256": "64b654aba74027a376336b147af8dae02d39c40601af158b0ca2ec09c3569932",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 480,
+        "renderSeconds": 1.25e-7,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      },
+      "pitch": {
+        "expectedHz": 120,
+        "crossingCount": 0,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 121,
+          "endFrame": 360
+        },
+        "status": "unavailable",
+        "reason": "Insufficient positive zero crossings"
+      },
+      "pitchGatePassed": false
+    },
+    {
+      "block": 256,
+      "speed": 1.25,
+      "selectedFrames": 480,
+      "outputFrames": 384,
+      "inputSha256": "64b654aba74027a376336b147af8dae02d39c40601af158b0ca2ec09c3569932",
+      "outputSha256": "f5bc0e96e5f2a1d032e7d1c632c7a133d7e6b6bfb9e596e37b8a46ca882928a6",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 384,
+        "renderSeconds": 0.000090375,
+        "identityBypass": false,
+        "speed": 1.25,
+        "mode": "exact"
+      },
+      "pitch": {
+        "expectedHz": 120,
+        "crossingCount": 0,
+        "minimumCrossings": 3,
+        "measuredRange": {
+          "startFrame": 97,
+          "endFrame": 288
+        },
+        "status": "unavailable",
+        "reason": "Insufficient positive zero crossings"
+      },
+      "pitchGatePassed": false
+    }
+  ],
+  "listening": "UNVERIFIED",
+  "identity": [
+    {
+      "block": 5760,
+      "selectedFrames": 1,
+      "outputFrames": 1,
+      "sha256": "55b51bbfa89c63511da11a52068292b17b6644163afdaf734beee7bcaf33b6e3",
+      "metadata": {
+        "inputLatency": 2880,
+        "outputLatency": 2880,
+        "blockSamples": 5760,
+        "intervalSamples": 1440,
+        "frames": 1,
+        "renderSeconds": 8.3e-8,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    },
+    {
+      "block": 256,
+      "selectedFrames": 1,
+      "outputFrames": 1,
+      "sha256": "55b51bbfa89c63511da11a52068292b17b6644163afdaf734beee7bcaf33b6e3",
+      "metadata": {
+        "inputLatency": 128,
+        "outputLatency": 128,
+        "blockSamples": 256,
+        "intervalSamples": 64,
+        "frames": 1,
+        "renderSeconds": 8.3e-8,
+        "identityBypass": true,
+        "speed": 1,
+        "mode": "exact"
+      }
+    }
+  ]
+}
