@@ -55,3 +55,8 @@ The [controlled chroma comparison](chroma/README.md) separates subsampling from
 compression: RGB/YUV 4:4:4 roundtrips stay within two levels, while 4:2:0 alone
 reaches 79–122 without any encoder. This is a reason to distinguish codec loss
 from incorrect geometry; it does not select a production quality profile.
+
+A [matched native encoder cohort](codec/README.md) reproduces baseline decoded
+pixels, finds little benefit from 40 Mbps on these samples, and verifies a ProRes
+reference within two RGB levels with fresh visual review. Its decode-path alpha
+difference and untested realistic workloads prevent production promotion.

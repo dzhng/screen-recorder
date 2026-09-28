@@ -1,0 +1,154 @@
+{
+  "variant": "ProRes4444 MOV",
+  "scope": "Same24preappendRGBbuffers/timestamps/declaredcolor as matchedH264 writer",
+  "checks": [
+    {
+      "index": 0,
+      "max": 1,
+      "mean": 0.04544270833333333,
+      "fractionOver4": 0.0
+    },
+    {
+      "index": 1,
+      "max": 2,
+      "mean": 0.08151041666666667,
+      "fractionOver4": 0.0
+    },
+    {
+      "index": 2,
+      "max": 1,
+      "mean": 0.1015625,
+      "fractionOver4": 0.0
+    },
+    {
+      "index": 3,
+      "max": 2,
+      "mean": 0.14700520833333333,
+      "fractionOver4": 0.0
+    },
+    {
+      "index": 4,
+      "max": 1,
+      "mean": 0.16666666666666666,
+      "fractionOver4": 0.0
+    },
+    {
+      "index": 5,
+      "max": 2,
+      "mean": 0.15065104166666668,
+      "fractionOver4": 0.0
+    },
+    {
+      "index": 6,
+      "max": 1,
+      "mean": 0.12942708333333333,
+      "fractionOver4": 0.0
+    },
+    {
+      "index": 7,
+      "max": 2,
+      "mean": 0.143359375,
+      "fractionOver4": 0.0
+    }
+  ],
+  "receipts": [
+    {
+      "actualValue": "2000000",
+      "requestedUs": 2000000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "width": 40,
+      "actualTimescale": 1000000,
+      "index": 0,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "file": "/tmp/screenrec-frozen-writer-cohort/prores/000.png",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    },
+    {
+      "actualValue": "2125000",
+      "requestedUs": 2125000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "width": 40,
+      "actualTimescale": 1000000,
+      "index": 1,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "file": "/tmp/screenrec-frozen-writer-cohort/prores/001.png",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    },
+    {
+      "actualValue": "2250000",
+      "requestedUs": 2250000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "width": 40,
+      "actualTimescale": 1000000,
+      "index": 2,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "file": "/tmp/screenrec-frozen-writer-cohort/prores/002.png",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    },
+    {
+      "actualValue": "2375000",
+      "requestedUs": 2375000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "width": 40,
+      "actualTimescale": 1000000,
+      "index": 3,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "file": "/tmp/screenrec-frozen-writer-cohort/prores/003.png",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    },
+    {
+      "actualValue": "2500000",
+      "requestedUs": 2500000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "width": 40,
+      "actualTimescale": 1000000,
+      "index": 4,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "file": "/tmp/screenrec-frozen-writer-cohort/prores/004.png",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    },
+    {
+      "actualValue": "2625000",
+      "requestedUs": 2625000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "width": 40,
+      "actualTimescale": 1000000,
+      "index": 5,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "file": "/tmp/screenrec-frozen-writer-cohort/prores/005.png",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    },
+    {
+      "actualValue": "2750000",
+      "requestedUs": 2750000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "width": 40,
+      "actualTimescale": 1000000,
+      "index": 6,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "file": "/tmp/screenrec-frozen-writer-cohort/prores/006.png",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    },
+    {
+      "actualValue": "2875000",
+      "requestedUs": 2875000,
+      "height": 64,
+      "sourceProfile": "kCGColorSpaceCoreMedia709",
+      "width": 40,
+      "actualTimescale": 1000000,
+      "index": 7,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "file": "/tmp/screenrec-frozen-writer-cohort/prores/007.png",
+      "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+    }
+  ],
+  "movieBytes": 28679,
+  "baselineMovieBytes": 4855
+}

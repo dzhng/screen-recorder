@@ -1,0 +1,368 @@
+{
+  "input": "../full retained24preappendBGRA buffers and original writerPTS/durations",
+  "baselineDecodedExact": true,
+  "baselineDecodedSha256": "def86f256e0ba776c3d06d23780ed5afa55cc37c5c9efa2d8639b7777b8206b1",
+  "baselineMovieBytes": 4855,
+  "baselineSamples": [
+    {
+      "max": 182,
+      "mean": 2.0243489583333334,
+      "differentChannels": 1092
+    },
+    {
+      "max": 149,
+      "mean": 1.9231770833333333,
+      "differentChannels": 1608
+    },
+    {
+      "max": 185,
+      "mean": 2.1802083333333333,
+      "differentChannels": 2011
+    },
+    {
+      "max": 163,
+      "mean": 2.9329427083333335,
+      "differentChannels": 2702
+    },
+    {
+      "max": 186,
+      "mean": 2.1653645833333335,
+      "differentChannels": 2125
+    },
+    {
+      "max": 105,
+      "mean": 1.101953125,
+      "differentChannels": 2417
+    },
+    {
+      "max": 119,
+      "mean": 1.4447916666666667,
+      "differentChannels": 2682
+    },
+    {
+      "max": 73,
+      "mean": 0.9244791666666666,
+      "differentChannels": 2576
+    }
+  ],
+  "prores": {
+    "variant": "ProRes4444 MOV",
+    "scope": "Same24preappendRGBbuffers/timestamps/declaredcolor as matchedH264 writer",
+    "checks": [
+      {
+        "index": 0,
+        "max": 1,
+        "mean": 0.04544270833333333,
+        "fractionOver4": 0.0
+      },
+      {
+        "index": 1,
+        "max": 2,
+        "mean": 0.08151041666666667,
+        "fractionOver4": 0.0
+      },
+      {
+        "index": 2,
+        "max": 1,
+        "mean": 0.1015625,
+        "fractionOver4": 0.0
+      },
+      {
+        "index": 3,
+        "max": 2,
+        "mean": 0.14700520833333333,
+        "fractionOver4": 0.0
+      },
+      {
+        "index": 4,
+        "max": 1,
+        "mean": 0.16666666666666666,
+        "fractionOver4": 0.0
+      },
+      {
+        "index": 5,
+        "max": 2,
+        "mean": 0.15065104166666668,
+        "fractionOver4": 0.0
+      },
+      {
+        "index": 6,
+        "max": 1,
+        "mean": 0.12942708333333333,
+        "fractionOver4": 0.0
+      },
+      {
+        "index": 7,
+        "max": 2,
+        "mean": 0.143359375,
+        "fractionOver4": 0.0
+      }
+    ],
+    "receipts": [
+      {
+        "actualValue": "2000000",
+        "requestedUs": 2000000,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "width": 40,
+        "actualTimescale": 1000000,
+        "index": 0,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "file": "/tmp/screenrec-frozen-writer-cohort/prores/000.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+      },
+      {
+        "actualValue": "2125000",
+        "requestedUs": 2125000,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "width": 40,
+        "actualTimescale": 1000000,
+        "index": 1,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "file": "/tmp/screenrec-frozen-writer-cohort/prores/001.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+      },
+      {
+        "actualValue": "2250000",
+        "requestedUs": 2250000,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "width": 40,
+        "actualTimescale": 1000000,
+        "index": 2,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "file": "/tmp/screenrec-frozen-writer-cohort/prores/002.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+      },
+      {
+        "actualValue": "2375000",
+        "requestedUs": 2375000,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "width": 40,
+        "actualTimescale": 1000000,
+        "index": 3,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "file": "/tmp/screenrec-frozen-writer-cohort/prores/003.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+      },
+      {
+        "actualValue": "2500000",
+        "requestedUs": 2500000,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "width": 40,
+        "actualTimescale": 1000000,
+        "index": 4,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "file": "/tmp/screenrec-frozen-writer-cohort/prores/004.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+      },
+      {
+        "actualValue": "2625000",
+        "requestedUs": 2625000,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "width": 40,
+        "actualTimescale": 1000000,
+        "index": 5,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "file": "/tmp/screenrec-frozen-writer-cohort/prores/005.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+      },
+      {
+        "actualValue": "2750000",
+        "requestedUs": 2750000,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "width": 40,
+        "actualTimescale": 1000000,
+        "index": 6,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "file": "/tmp/screenrec-frozen-writer-cohort/prores/006.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+      },
+      {
+        "actualValue": "2875000",
+        "requestedUs": 2875000,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "width": 40,
+        "actualTimescale": 1000000,
+        "index": 7,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "file": "/tmp/screenrec-frozen-writer-cohort/prores/007.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+      }
+    ],
+    "movieBytes": 28679,
+    "baselineMovieBytes": 4855
+  },
+  "h26440mbps": {
+    "variant": "H264 requested40Mbps",
+    "checks": [
+      {
+        "index": 0,
+        "max": 183,
+        "mean": 2.0438802083333334,
+        "fractionOver4": 0.04544270833333333
+      },
+      {
+        "index": 1,
+        "max": 149,
+        "mean": 1.8861979166666667,
+        "fractionOver4": 0.05234375
+      },
+      {
+        "index": 2,
+        "max": 184,
+        "mean": 2.1321614583333335,
+        "fractionOver4": 0.049609375
+      },
+      {
+        "index": 3,
+        "max": 165,
+        "mean": 2.9348958333333335,
+        "fractionOver4": 0.07799479166666666
+      },
+      {
+        "index": 4,
+        "max": 185,
+        "mean": 2.209244791666667,
+        "fractionOver4": 0.04895833333333333
+      },
+      {
+        "index": 5,
+        "max": 106,
+        "mean": 1.1022135416666667,
+        "fractionOver4": 0.026432291666666666
+      },
+      {
+        "index": 6,
+        "max": 118,
+        "mean": 1.39765625,
+        "fractionOver4": 0.03359375
+      },
+      {
+        "index": 7,
+        "max": 73,
+        "mean": 0.90546875,
+        "fractionOver4": 0.019140625
+      }
+    ],
+    "receipts": [
+      {
+        "actualTimescale": 1000000,
+        "height": 64,
+        "index": 0,
+        "requestedUs": 2000000,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "actualValue": "2000000",
+        "width": 40,
+        "file": "/tmp/screenrec-frozen-writer-cohort/h26440mbps/000.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      {
+        "actualTimescale": 1000000,
+        "height": 64,
+        "index": 1,
+        "requestedUs": 2125000,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "actualValue": "2125000",
+        "width": 40,
+        "file": "/tmp/screenrec-frozen-writer-cohort/h26440mbps/001.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      {
+        "actualTimescale": 1000000,
+        "height": 64,
+        "index": 2,
+        "requestedUs": 2250000,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "actualValue": "2250000",
+        "width": 40,
+        "file": "/tmp/screenrec-frozen-writer-cohort/h26440mbps/002.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      {
+        "actualTimescale": 1000000,
+        "height": 64,
+        "index": 3,
+        "requestedUs": 2375000,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "actualValue": "2375000",
+        "width": 40,
+        "file": "/tmp/screenrec-frozen-writer-cohort/h26440mbps/003.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      {
+        "actualTimescale": 1000000,
+        "height": 64,
+        "index": 4,
+        "requestedUs": 2500000,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "actualValue": "2500000",
+        "width": 40,
+        "file": "/tmp/screenrec-frozen-writer-cohort/h26440mbps/004.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      {
+        "actualTimescale": 1000000,
+        "height": 64,
+        "index": 5,
+        "requestedUs": 2625000,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "actualValue": "2625000",
+        "width": 40,
+        "file": "/tmp/screenrec-frozen-writer-cohort/h26440mbps/005.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      {
+        "actualTimescale": 1000000,
+        "height": 64,
+        "index": 6,
+        "requestedUs": 2750000,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "actualValue": "2750000",
+        "width": 40,
+        "file": "/tmp/screenrec-frozen-writer-cohort/h26440mbps/006.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      {
+        "actualTimescale": 1000000,
+        "height": 64,
+        "index": 7,
+        "requestedUs": 2875000,
+        "sourceProfile": "kCGColorSpaceCoreMedia709",
+        "actualValue": "2875000",
+        "width": 40,
+        "file": "/tmp/screenrec-frozen-writer-cohort/h26440mbps/007.png",
+        "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+        "outputProfile": "kCGColorSpaceSRGB"
+      }
+    ],
+    "movieBytes": 5133
+  },
+  "sourceSha256": "5b147bf19d1934de7a058b5b025a79401cd116bf1ac8adeb90a6adf0001e5aec",
+  "binarySha256": "0e6e79e0d90f2140b9eebb60677a900de03e0373c5940e821702e9dc52a367f6",
+  "productionProfileChanged": false,
+  "decodedAlpha": {
+    "prores": {
+      "254": 20480
+    },
+    "h26440mbps": {
+      "255": 20480
+    }
+  },
+  "proresFfmpegAlpha": {
+    "255": 61440
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "originals": [
+    "reference-0.png",
+    "default-0.png",
+    "prores-0.png",
+    "highrate-0.png",
+    "reference-1.png",
+    "default-1.png",
+    "prores-1.png",
+    "highrate-1.png",
+    "reference-2.png",
+    "default-2.png",
+    "prores-2.png",
+    "highrate-2.png",
+    "reference-3.png",
+    "default-3.png",
+    "prores-3.png",
+    "highrate-3.png",
+    "reference-4.png",
+    "default-4.png",
+    "prores-4.png",
+    "highrate-4.png",
+    "reference-5.png",
+    "default-5.png",
+    "prores-5.png",
+    "highrate-5.png",
+    "reference-6.png",
+    "default-6.png",
+    "prores-6.png",
+    "highrate-6.png",
+    "reference-7.png",
+    "default-7.png",
+    "prores-7.png",
+    "highrate-7.png"
+  ],
+  "sheets": [
+    "sheet-0.png",
+    "sheet-1.png",
+    "sheet-2.png",
+    "sheet-3.png"
+  ],
+  "display": "All sheet frames composited onto black and enlarged4xnearest; originals retained"
+}
