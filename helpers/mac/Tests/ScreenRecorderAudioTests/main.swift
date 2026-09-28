@@ -101,6 +101,16 @@ precondition(
     ], "A lone available track plays at unity gain with nothing unavailable, got \(single.tracks)")
 print("PASS single span of narration is 24000 frames of its own samples at unity gain")
 
+let (touchingSupport, _) = try await excerpt(
+    "touching-support", tracks: [plan(.narration, narration, available: [
+        TimeSpan(startUs: -100, endUs: 1_200_013),
+        TimeSpan(startUs: 1_200_013, endUs: 2_000_000),
+    ])], spans: [TimeSpan(startUs: 1_000_000, endUs: 1_500_000)])
+let touchingBytes = try Data(contentsOf: URL(fileURLWithPath: touchingSupport.file))
+let continuousBytes = try Data(contentsOf: URL(fileURLWithPath: single.file))
+precondition(touchingBytes == continuousBytes,
+    "Touching signed availability must preserve the continuous excerpt's exact WAV bytes")
+
 /// One planned track of a converted excerpt, stated from the fixture that produced it.
 struct PlannedTone {
     let tone: FixtureTone
@@ -922,8 +932,7 @@ let rejected: [String: (String, NativeFailure?)] = await [
                 TimeSpan(startUs: Int64($0) * 20, endUs: Int64($0) * 20 + 10)
             })
     ),
-    // Acquisition evidence is held to the shape of the retained spans it is intersected with, so a
-    // malformed claim is refused rather than quietly reordered into one.
+    // Availability is ordered and non-overlapping; touching intervals describe continuous capture.
     "reversed available interval": (
         "INVALID_RANGE",
         reject(
@@ -936,7 +945,7 @@ let rejected: [String: (String, NativeFailure?)] = await [
             [plan(.narration, narration, available: [TimeSpan(startUs: 500_000, endUs: 500_000)])],
             valid)
     ),
-    "touching available intervals": (
+    "overlapping available intervals": (
         "INVALID_RANGE",
         reject(
             [
@@ -944,7 +953,7 @@ let rejected: [String: (String, NativeFailure?)] = await [
                     .narration, narration,
                     available: [
                         TimeSpan(startUs: 0, endUs: 1_000_000),
-                        TimeSpan(startUs: 1_000_000, endUs: 2_000_000),
+                        TimeSpan(startUs: 999_999, endUs: 2_000_000),
                     ])
             ], valid)
     ),

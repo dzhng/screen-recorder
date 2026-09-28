@@ -1,0 +1,30 @@
+✖ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (3696.415875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3747.428834
+
+✖ failing tests:
+
+test at helpers/mac/Tests/source-audio.test.mjs:15:1
+✖ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (3696.415875ms)
+  AssertionError [ERR_ASSERTION]: {"error":{"code":"INVALID_RANGE","details":{},"message":"Available interval [100006,200000) is not strictly after [13,100006).","retryable":false},"id":"source","ok":false}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/source-audio.test.mjs:54:14)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1234,3 +1234,14 @@ trim and stretch replacements keep their single-interval behavior.
   MCP supplies its bounded JSON text. Both consume the same cached bytes and close
   the delivery lease. The plan left model presentation open; text preserves exact
   numbers for agents without base64 decoding or another download mechanism.
+
+## Continuous audio support
+
+- **Sound; high confidence — Joining availability declarations does not join edits.**
+  When capture is available from 0–1 seconds and again from 1–2 seconds, audio
+  reads those declarations as one continuous interval before decoding. A gap of
+  even one microsecond remains excluded, and overlapping declarations still
+  refuse. The plan permitted adjacent source support but left decoder boundaries
+  implicit. Only caller support is joined: physical container segment boundaries
+  and recording edit joins retain their established meaning. Existing accepted
+  recipes are unchanged, so this does not invalidate cached execution results.

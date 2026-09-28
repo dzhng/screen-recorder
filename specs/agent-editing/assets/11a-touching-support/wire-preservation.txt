@@ -1,0 +1,16 @@
+✔ audio worker writes a concatenated excerpt and survives invalid requests (270.938958ms)
+✔ a thousand fractional spans keep the duration the plan asked for (280.559041ms)
+✔ audio worker writes WAVE bytes to an opaque derivative path (240.96275ms)
+✔ audio decode failure permits explicit retry while invalid plans remain terminal (18.5645ms)
+✔ AAC source priming is removed before offset placement in streamed PCM (275.274917ms)
+✔ midstream source failure leaves no completed WAVE or staging output (105.771625ms)
+✔ selected source pictures preserve explicit streams, physical sample clocks and excluded support (1823.583375ms)
+✔ selected scene grids retain exact clocks and reset across physical and acquisition sub-grid holes (1856.999875ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1895.379667

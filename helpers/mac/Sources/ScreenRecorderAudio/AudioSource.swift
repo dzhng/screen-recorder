@@ -86,12 +86,23 @@ struct SourceTrack {
                 startUs: microseconds($0.asset.start) + sourceOffsetUs,
                 endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + sourceOffsetUs)
         }
+        // Adjacent declarations describe continuous capture, so they must not restart decoding.
+        // Even a one-microsecond hole remains a real exclusion; physical segment edges stay intact.
+        var continuous: [TimeSpan] = []
+        for interval in available {
+            if let previous = continuous.last, previous.endUs == interval.startUs {
+                continuous[continuous.count - 1] = TimeSpan(
+                    startUs: previous.startUs, endUs: interval.endUs)
+            } else {
+                continuous.append(interval)
+            }
+        }
         return SourceTrack(
             sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
             track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,
             // Physical occupancy is not acquisition evidence. Recording callers supply acquired
             // intervals here; composition execution additionally intersects its retained domains.
-            available: TimeSpan.intersection(available, occupied))
+            available: TimeSpan.intersection(continuous, occupied))
     }
 
     private static func validateWindowFormats(_ descriptions: [CMAudioFormatDescription]) throws {

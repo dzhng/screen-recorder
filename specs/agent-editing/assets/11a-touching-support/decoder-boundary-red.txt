@@ -1,0 +1,99 @@
+✖ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (4336.2625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4403.416375
+
+✖ failing tests:
+
+test at helpers/mac/Tests/source-audio.test.mjs:15:1
+✖ source WAV wire delivery retains native fixture samples and refuses ambiguous selection (4336.2625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    Buffer(356896) [Uint8Array] [
+      82,
+      73,
+      70,
+      70,
+  ...
+      62,
+  +   0,
+  +   0,
+  +   0,
+  +   63,
+  +   10,
+  +   215,
+  +   35,
+  +   62,
+      143,
+      194,
+      245,
+      190,
+      205,
+  ...
+      0,
+  -   0,
+  -   0,
+  -   0,
+  -   0,
+  -   0,
+  -   0,
+  -   0,
+  -   0,
+      143,
+      194,
+      245,
+      62,
+      215,
+  ...
+      190,
+  -   236,
+  -   81,
+  -   184,
+  -   189,
+  -   225,
+  -   122,
+  -   148,
+  -   190,
+      143,
+      194,
+      117,
+      189,
+      0,
+  ...
+      189,
+  +   92,
+  +   143,
+  +   194,
+  +   62,
+      0,
+      0,
+      0,
+      0,
+      0,
+  ...
+      0,
+  +   0,
+  +   0,
+  +   0,
+  +   0
+    ]
+  
+      at TestContext.<anonymous> (file:///Users/david/dev/screen-recorder/helpers/mac/Tests/source-audio.test.mjs:56:14)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: <Buffer 52 49 46 46 18 72 05 00 57 41 56 45 66 6d 74 20 10 00 00 00 03 00 02 00 44 ac 00 00 20 62 05 00 08 00 20 00 46 4c 4c 52 cc 0f 00 00 00 00 00 00 00 00 ... 356846 more bytes>,
+    expected: <Buffer 52 49 46 46 18 72 05 00 57 41 56 45 66 6d 74 20 10 00 00 00 03 00 02 00 44 ac 00 00 20 62 05 00 08 00 20 00 46 4c 4c 52 cc 0f 00 00 00 00 00 00 00 00 ... 356846 more bytes>,
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

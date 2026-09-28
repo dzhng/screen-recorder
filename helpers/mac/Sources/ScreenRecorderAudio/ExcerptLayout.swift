@@ -142,10 +142,10 @@ enum ExcerptValidation {
                     "Available interval [\(interval.startUs),\(interval.endUs)) is not a valid half-open range."
                 )
             }
-            if let previous, interval.startUs <= previous.endUs {
+            if let previous, interval.startUs < previous.endUs {
                 throw NativeFailure(
                     "INVALID_RANGE",
-                    "Available interval [\(interval.startUs),\(interval.endUs)) is not strictly after [\(previous.startUs),\(previous.endUs))."
+                    "Available interval [\(interval.startUs),\(interval.endUs)) overlaps or precedes [\(previous.startUs),\(previous.endUs))."
                 )
             }
             previous = interval

@@ -44,6 +44,36 @@ test("source WAV wire delivery retains native fixture samples and refuses ambigu
         readFileSync(params.output),
         readFileSync(join(directory, `full-${rate}.wav`)),
       );
+      const touching = structuredClone(params);
+      touching.output = join(directory, `touching-${rate}.wav`);
+      touching.source.available = params.source.available.flatMap(({ startUs, endUs }) => {
+        const seam = startUs + Math.floor((endUs - startUs) / 2);
+        return [
+          { startUs, endUs: seam },
+          { startUs: seam, endUs },
+        ];
+      });
+      const joined = execute(touching);
+      assert.equal(joined.ok, true, JSON.stringify(joined));
+      assert.deepEqual(joined.data, { ...reply.data, file: touching.output });
+      assert.deepEqual(readFileSync(touching.output), readFileSync(params.output));
+      const overlap = structuredClone(touching);
+      overlap.output = join(directory, `overlap-${rate}.wav`);
+      overlap.source.available[1].startUs--;
+      assert.equal(execute(overlap).error.code, "INVALID_RANGE");
+      const hole = structuredClone(touching);
+      hole.output = join(directory, `hole-${rate}.wav`);
+      hole.source.available[1].startUs++;
+      const missing = execute(hole);
+      assert.equal(missing.ok, true, JSON.stringify(missing));
+      assert.ok(
+        missing.data.unavailable.some(
+          (span) =>
+            span.startUs === touching.source.available[0].endUs &&
+            span.endUs === touching.source.available[0].endUs + 1,
+        ),
+        "A real one-microsecond gap must remain unavailable",
+      );
       assert.equal(execute(params).error.code, "INVALID_OUTPUT");
       const ambiguous = structuredClone(params);
       delete ambiguous.source.streamId;

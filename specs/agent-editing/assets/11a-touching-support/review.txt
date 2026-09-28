@@ -1,0 +1,1593 @@
+2026-09-28T10:05:21.077325Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T10:05:21.077822Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/dev/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e779-e713-7553-867e-27428f10f33a
+--------
+user
+current changes
+exec
+/bin/zsh -lc 'git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md' in /Users/david/dev/screen-recorder
+2026-09-28T10:05:26.659242Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e779-e713-7553-867e-27428f10f33a turn_id=01a0e779-e7ad-77e3-b628-247e7af9f337 item_id="exec-867ffc17-ea31-466f-883b-663528a89bcf"
+ succeeded in 0ms:
+ M helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift
+ M helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift
+ M helpers/mac/Tests/ScreenRecorderAudioTests/main.swift
+ M helpers/mac/Tests/source-audio.test.mjs
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+
+exec
+/bin/zsh -lc "find helpers -name AGENTS.md -o -name AGENTS.override.md; git diff --stat; git diff -- helpers/mac/Sources; cat .agents/skills/write-tests/SKILL.md; sed -n '125,160p' .agents/skills/code-review/SKILL.md" in /Users/david/dev/screen-recorder
+ succeeded in 47ms:
+helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+ .../Sources/ScreenRecorderAudio/AudioSource.swift  | 13 +++++++++-
+ .../ScreenRecorderAudio/ExcerptLayout.swift        |  4 +--
+ .../mac/Tests/ScreenRecorderAudioTests/main.swift  | 17 +++++++++---
+ helpers/mac/Tests/source-audio.test.mjs            | 30 ++++++++++++++++++++++
+ 4 files changed, 57 insertions(+), 7 deletions(-)
+diff --git a/helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift b/helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift
+index 7f20fb5..2d3d0a4 100644
+--- a/helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift
++++ b/helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift
+@@ -86,12 +86,23 @@ struct SourceTrack {
+                 startUs: microseconds($0.asset.start) + sourceOffsetUs,
+                 endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + sourceOffsetUs)
+         }
++        // Adjacent declarations describe continuous capture, so they must not restart decoding.
++        // Even a one-microsecond hole remains a real exclusion; physical segment edges stay intact.
++        var continuous: [TimeSpan] = []
++        for interval in available {
++            if let previous = continuous.last, previous.endUs == interval.startUs {
++                continuous[continuous.count - 1] = TimeSpan(
++                    startUs: previous.startUs, endUs: interval.endUs)
++            } else {
++                continuous.append(interval)
++            }
++        }
+         return SourceTrack(
+             sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
+             track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,
+             // Physical occupancy is not acquisition evidence. Recording callers supply acquired
+             // intervals here; composition execution additionally intersects its retained domains.
+-            available: TimeSpan.intersection(available, occupied))
++            available: TimeSpan.intersection(continuous, occupied))
+     }
+ 
+     private static func validateWindowFormats(_ descriptions: [CMAudioFormatDescription]) throws {
+diff --git a/helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift b/helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift
+index 8859bb5..c48f2d1 100644
+--- a/helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift
++++ b/helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift
+@@ -142,10 +142,10 @@ enum ExcerptValidation {
+                     "Available interval [\(interval.startUs),\(interval.endUs)) is not a valid half-open range."
+                 )
+             }
+-            if let previous, interval.startUs <= previous.endUs {
++            if let previous, interval.startUs < previous.endUs {
+                 throw NativeFailure(
+                     "INVALID_RANGE",
+-                    "Available interval [\(interval.startUs),\(interval.endUs)) is not strictly after [\(previous.startUs),\(previous.endUs))."
++                    "Available interval [\(interval.startUs),\(interval.endUs)) overlaps or precedes [\(previous.startUs),\(previous.endUs))."
+                 )
+             }
+             previous = interval
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+
+2026-09-28T10:05:31.614966Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e779-e713-7553-867e-27428f10f33a turn_id=01a0e779-e7ad-77e3-b628-247e7af9f337 item_id="exec-547f9277-afa9-4aad-9e2c-9f08f6f436dc"
+exec
+/bin/zsh -lc 'git diff -- helpers/mac/Tests; cat helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift; cat helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift' in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+diff --git a/helpers/mac/Tests/ScreenRecorderAudioTests/main.swift b/helpers/mac/Tests/ScreenRecorderAudioTests/main.swift
+index 55f98b4..ecfe0dd 100644
+--- a/helpers/mac/Tests/ScreenRecorderAudioTests/main.swift
++++ b/helpers/mac/Tests/ScreenRecorderAudioTests/main.swift
+@@ -101,6 +101,16 @@ precondition(
+     ], "A lone available track plays at unity gain with nothing unavailable, got \(single.tracks)")
+ print("PASS single span of narration is 24000 frames of its own samples at unity gain")
+ 
++let (touchingSupport, _) = try await excerpt(
++    "touching-support", tracks: [plan(.narration, narration, available: [
++        TimeSpan(startUs: -100, endUs: 1_200_013),
++        TimeSpan(startUs: 1_200_013, endUs: 2_000_000),
++    ])], spans: [TimeSpan(startUs: 1_000_000, endUs: 1_500_000)])
++let touchingBytes = try Data(contentsOf: URL(fileURLWithPath: touchingSupport.file))
++let continuousBytes = try Data(contentsOf: URL(fileURLWithPath: single.file))
++precondition(touchingBytes == continuousBytes,
++    "Touching signed availability must preserve the continuous excerpt's exact WAV bytes")
++
+ /// One planned track of a converted excerpt, stated from the fixture that produced it.
+ struct PlannedTone {
+     let tone: FixtureTone
+@@ -922,8 +932,7 @@ let rejected: [String: (String, NativeFailure?)] = await [
+                 TimeSpan(startUs: Int64($0) * 20, endUs: Int64($0) * 20 + 10)
+             })
+     ),
+-    // Acquisition evidence is held to the shape of the retained spans it is intersected with, so a
+-    // malformed claim is refused rather than quietly reordered into one.
++    // Availability is ordered and non-overlapping; touching intervals describe continuous capture.
+     "reversed available interval": (
+         "INVALID_RANGE",
+         reject(
+@@ -936,7 +945,7 @@ let rejected: [String: (String, NativeFailure?)] = await [
+             [plan(.narration, narration, available: [TimeSpan(startUs: 500_000, endUs: 500_000)])],
+             valid)
+     ),
+-    "touching available intervals": (
++    "overlapping available intervals": (
+         "INVALID_RANGE",
+         reject(
+             [
+@@ -944,7 +953,7 @@ let rejected: [String: (String, NativeFailure?)] = await [
+                     .narration, narration,
+                     available: [
+                         TimeSpan(startUs: 0, endUs: 1_000_000),
+-                        TimeSpan(startUs: 1_000_000, endUs: 2_000_000),
++                        TimeSpan(startUs: 999_999, endUs: 2_000_000),
+                     ])
+             ], valid)
+     ),
+diff --git a/helpers/mac/Tests/source-audio.test.mjs b/helpers/mac/Tests/source-audio.test.mjs
+index 94bd99a..1c57a4a 100644
+--- a/helpers/mac/Tests/source-audio.test.mjs
++++ b/helpers/mac/Tests/source-audio.test.mjs
+@@ -44,6 +44,36 @@ test("source WAV wire delivery retains native fixture samples and refuses ambigu
+         readFileSync(params.output),
+         readFileSync(join(directory, `full-${rate}.wav`)),
+       );
++      const touching = structuredClone(params);
++      touching.output = join(directory, `touching-${rate}.wav`);
++      touching.source.available = params.source.available.flatMap(({ startUs, endUs }) => {
++        const seam = startUs + Math.floor((endUs - startUs) / 2);
++        return [
++          { startUs, endUs: seam },
++          { startUs: seam, endUs },
++        ];
++      });
++      const joined = execute(touching);
++      assert.equal(joined.ok, true, JSON.stringify(joined));
++      assert.deepEqual(joined.data, { ...reply.data, file: touching.output });
++      assert.deepEqual(readFileSync(touching.output), readFileSync(params.output));
++      const overlap = structuredClone(touching);
++      overlap.output = join(directory, `overlap-${rate}.wav`);
++      overlap.source.available[1].startUs--;
++      assert.equal(execute(overlap).error.code, "INVALID_RANGE");
++      const hole = structuredClone(touching);
++      hole.output = join(directory, `hole-${rate}.wav`);
++      hole.source.available[1].startUs++;
++      const missing = execute(hole);
++      assert.equal(missing.ok, true, JSON.stringify(missing));
++      assert.ok(
++        missing.data.unavailable.some(
++          (span) =>
++            span.startUs === touching.source.available[0].endUs &&
++            span.endUs === touching.source.available[0].endUs + 1,
++        ),
++        "A real one-microsecond gap must remain unavailable",
++      );
+       assert.equal(execute(params).error.code, "INVALID_OUTPUT");
+       const ambiguous = structuredClone(params);
+       delete ambiguous.source.streamId;
+@preconcurrency import AVFoundation
+import Foundation
+import ScreenRecorderMedia
+
+/// One source stream, opened once. Caller-supplied source-clock support is intersected with
+/// occupied container segments; the offset maps between those two clocks.
+struct SourceTrack {
+    let sourceOffsetUs: Int64
+    let url: URL
+    let input: MediaInput
+    let asset: AVURLAsset
+    let track: AVAssetTrack
+    let sampleRate: Int
+    let packetFrames: Int
+    let channels: Int
+    let available: [TimeSpan]
+
+    static func open(selection: AudioSourceSelection, strictWindowFormat: Bool = false) async throws -> SourceTrack {
+        try await open(source: selection.source, streamId: selection.streamId,
+            sourceOffsetUs: selection.sourceOffsetUs, available: selection.available, strictWindowFormat: strictWindowFormat)
+    }
+
+    static func open(
+        source path: String, streamId: String?, sourceOffsetUs: Int64,
+        available: [TimeSpan], strictWindowFormat: Bool = false
+    ) async throws -> SourceTrack {
+        let source = URL(fileURLWithPath: path)
+        guard FileManager.default.fileExists(atPath: source.path) else {
+            throw NativeFailure.decodeFailed("No source media at \(source.path).")
+        }
+        let input = try MediaInput(url: source)
+        let asset = input.asset
+        let audio: AVAssetTrack
+        let stream: AudioStreamBasicDescription
+        let segments: [SourceSegment]
+        do {
+            let tracks = try await asset.loadTracks(withMediaType: .audio)
+            guard streamId != nil || tracks.count == 1 else {
+                throw NativeFailure("INVALID_REQUEST", "An omitted stream ID requires exactly one audio stream.")
+            }
+            guard
+                let track = tracks.first(where: {
+                    streamId == nil || streamId == "track:\($0.trackID)"
+                })
+            else {
+                throw NativeFailure.decodeFailed(
+                    "Source has no matching audio track: \(source.path).")
+            }
+            let descriptions = try await track.load(.formatDescriptions)
+            if strictWindowFormat { try Self.validateWindowFormats(descriptions) }
+            guard let description = descriptions.first,
+                let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
+            else {
+                throw NativeFailure.decodeFailed(
+                    "Source audio format is unreadable: \(source.path).")
+            }
+            audio = track
+            stream = basic
+            segments = SourceSegment.occupied(of: try await track.load(.segments))
+        } catch let failure as NativeFailure {
+            if let detail = input.failure { throw detail }
+            throw failure
+        } catch {
+            if let detail = input.failure { throw detail }
+            throw NativeFailure.decodeFailed(
+                "Cannot open \(source.path): \(error.localizedDescription)")
+        }
+        let sampleRate = Int(stream.mSampleRate.rounded())
+        let channels = Int(stream.mChannelsPerFrame)
+        guard (1...32_768).contains(stream.mFramesPerPacket) else {
+            throw NativeFailure("UNSUPPORTED_FORMAT", "Audio decoding requires a fixed packet size of at most 32768 native frames.")
+        }
+        guard (1...AudioLimits.maximumSampleRate).contains(sampleRate),
+            (1...AudioLimits.maximumChannels).contains(channels)
+        else {
+            throw NativeFailure(
+                "LIMIT_EXCEEDED",
+                "Source \(source.lastPathComponent) reports \(sampleRate) Hz and \(channels) channels, outside the excerpt bounds."
+            )
+        }
+        // Empty edits hold no sample. AVFoundation would read them back as silence, which is
+        // indistinguishable from recorded quiet, so absence is decided from the container's own
+        // occupied segments rather than from the samples it is willing to produce.
+        let occupied = segments.map {
+            TimeSpan(
+                startUs: microseconds($0.asset.start) + sourceOffsetUs,
+                endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + sourceOffsetUs)
+        }
+        // Adjacent declarations describe continuous capture, so they must not restart decoding.
+        // Even a one-microsecond hole remains a real exclusion; physical segment edges stay intact.
+        var continuous: [TimeSpan] = []
+        for interval in available {
+            if let previous = continuous.last, previous.endUs == interval.startUs {
+                continuous[continuous.count - 1] = TimeSpan(
+                    startUs: previous.startUs, endUs: interval.endUs)
+            } else {
+                continuous.append(interval)
+            }
+        }
+        return SourceTrack(
+            sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
+            track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,
+            // Physical occupancy is not acquisition evidence. Recording callers supply acquired
+            // intervals here; composition execution additionally intersects its retained domains.
+            available: TimeSpan.intersection(continuous, occupied))
+    }
+
+    private static func validateWindowFormats(_ descriptions: [CMAudioFormatDescription]) throws {
+        var signature: [Double]?
+        for description in descriptions {
+            guard let value = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee,
+                value.mSampleRate.isFinite, value.mSampleRate.rounded() == value.mSampleRate,
+                (1...Double(AudioLimits.maximumSampleRate)).contains(value.mSampleRate),
+                value.mChannelsPerFrame == 1 || value.mChannelsPerFrame == 2
+            else { throw NativeFailure("UNSUPPORTED_FORMAT", "Source windows require an integral native rate and mono or stereo audio.") }
+            let current = [value.mSampleRate, Double(value.mChannelsPerFrame)]
+            guard signature == nil || signature == current else {
+                throw NativeFailure("UNSUPPORTED_FORMAT", "Source format changes within the stream.")
+            }
+            signature = current
+            guard let layout = CMAudioFormatDescriptionGetChannelLayout(description, sizeOut: nil) else { continue }
+            let tag = layout.pointee.mChannelLayoutTag
+            let channels = value.mChannelsPerFrame
+            var conventional = tag == (channels == 1 ? kAudioChannelLayoutTag_Mono : kAudioChannelLayoutTag_Stereo)
+            if tag == kAudioChannelLayoutTag_UseChannelBitmap {
+                conventional = layout.pointee.mChannelBitmap == (channels == 1 ? AudioChannelBitmap.bit_Center : AudioChannelBitmap.bit_Left.union(.bit_Right))
+            } else if tag == kAudioChannelLayoutTag_UseChannelDescriptions, layout.pointee.mNumberChannelDescriptions == channels {
+                let pointer = UnsafeRawPointer(layout).advanced(by: MemoryLayout<AudioChannelLayout>.offset(of: \.mChannelDescriptions)!).assumingMemoryBound(to: AudioChannelDescription.self)
+                conventional = channels == 1
+                    ? [kAudioChannelLabel_Mono, kAudioChannelLabel_Center].contains(pointer[0].mChannelLabel)
+                    : pointer[0].mChannelLabel == kAudioChannelLabel_Left && pointer[1].mChannelLabel == kAudioChannelLabel_Right
+            }
+            guard conventional else { throw NativeFailure("UNSUPPORTED_FORMAT", "Source channel layout is not conventional mono or stereo.") }
+        }
+    }
+
+}
+
+final class ConvertedAudioInterval {
+    private let sourceInput: MediaInput
+    private let converter: AVAudioConverter
+    private let input: ConversionInput
+    private let converted: AVAudioPCMBuffer
+    private let channels: Int
+    private var offset = 0
+    private var exhausted = false
+    private var paddingFrames: Int
+
+    convenience init(
+        source: SourceTrack, decoder: AudioSourceReader, interval: TimeSpan,
+        outputRate: Int, owed: Int64
+    ) throws {
+        try self.init(
+            source: source, decoder: decoder,
+            start: time(microseconds: interval.startUs - source.sourceOffsetUs),
+            outputRate: outputRate, owed: owed)
+    }
+
+    init(
+        source: SourceTrack, decoder: AudioSourceReader, start: CMTime,
+        outputRate: Int, owed: Int64, end limit: CMTime? = nil
+    ) throws {
+        sourceInput = source.input
+        guard
+            let sourceFormat = AVAudioFormat(
+                commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
+                channels: AVAudioChannelCount(source.channels), interleaved: true),
+            let excerptFormat = AVAudioFormat(
+                commonFormat: .pcmFormatFloat32, sampleRate: Double(outputRate),
+                channels: AVAudioChannelCount(source.channels), interleaved: true),
+            // Both sides carry this file's own channel count, so the converter changes rate only and
+            // the explicit map below places the channels; a remix matrix would restate the gains.
+            let converter = AVAudioConverter(from: sourceFormat, to: excerptFormat)
+        else {
+            throw NativeFailure.decodeFailed(
+                "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz."
+            )
+        }
+        // Cumulative layout rounding owns the duration, including a last frame rounded up.
+        let requestedEnd = CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate)))
+        let end = limit.map { min($0, requestedEnd) } ?? requestedEnd
+        let first = CMTimeConvertScale(
+            start, timescale: CMTimeScale(source.sampleRate),
+            method: .roundHalfAwayFromZero
+        ).value
+        let last = CMTimeConvertScale(
+            end, timescale: CMTimeScale(source.sampleRate),
+            method: .roundTowardPositiveInfinity
+        ).value
+        // Native selection and cumulative output use different integer clocks. Only their
+        // arithmetic shortfall may be zero-extended, and only after the reader reaches end.
+        let covered = Int128(max(0, last - first)) * Int128(outputRate) / Int128(source.sampleRate)
+        paddingFrames = Int(max(0, Int128(owed) - covered))
+        try decoder.begin(at: start, end: end)
+        let openedInput = ConversionInput(reader: decoder)
+        guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)
+        else { throw NativeFailure.decodeFailed("Cannot allocate audio conversion buffer.") }
+        self.converter = converter
+        self.input = openedInput
+        self.converted = converted
+        self.channels = source.channels
+    }
+
+    func mix(
+        into samples: inout [Float], at destination: Int, frames: Int,
+        gain: Float, channelMap: [Int]
+    ) throws {
+        var written = 0
+        while written < frames {
+            if offset == Int(converted.frameLength) {
+                if exhausted, frames - written <= paddingFrames, input.reachedSelectionEnd {
+                    paddingFrames -= frames - written
+                    return
+                }
+                guard !exhausted else {
+                    if let detail = sourceInput.failure {
+                        throw detail
+                    }
+                    throw NativeFailure.decodeFailed(
+                        "Audio interval ended before its quantized output boundary.")
+                }
+                var failure: NSError?
+                let input = self.input
+                let outcome = converter.convert(to: converted, error: &failure) { _, status in
+                    input.next(status)
+                }
+                if let error = input.failure { throw error }
+                if outcome == .endOfStream, converted.frameLength == 0,
+                    frames - written <= paddingFrames, input.reachedSelectionEnd
+                {
+                    paddingFrames -= frames - written
+                    exhausted = true
+                    return
+                }
+                guard outcome != .error, !input.readerFailed,
+                    converted.frameLength > 0
+                else {
+                    if let detail = sourceInput.failure {
+                        throw detail
+                    }
+                    throw NativeFailure.decodeFailed(
+                        "Audio conversion made no progress: \(failure?.localizedDescription ?? "short decoded coverage")"
+                    )
+                }
+                exhausted = outcome == .endOfStream
+                offset = 0
+            }
+            let count = min(frames - written, Int(converted.frameLength) - offset)
+            let decoded = converted.floatChannelData![0]
+            samples.withUnsafeMutableBufferPointer { output in
+                for channel in channelMap.indices {
+                    let sourceChannel = channelMap[channel]
+                    var frame = 0
+                    while frame < count {
+                        output[(destination + written + frame) * channelMap.count + channel] +=
+                            gain * decoded[(offset + frame) * channels + sourceChannel]
+                        frame += 1
+                    }
+                }
+            }
+            offset += count
+            written += count
+        }
+    }
+}
+
+/// Decodes ordered intervals with one bounded sample buffer. Conversion remains interval-local:
+/// excluded samples can be decoded while skipping forward, but never enter a resampling filter.
+final class AudioSourceReader {
+    private let source: SourceTrack
+    private var reader: AVAssetReader?
+    private var output: AVAssetReaderTrackOutput?
+    private var pending: CMSampleBuffer?
+    private let format: AVAudioFormat
+    private var position = CMTime.zero
+    private var end = CMTime.zero
+    private var intervalStart = CMTime.zero
+    private var reopened = false
+    private var requireContinuation = false
+    private(set) var decodedFrames: Int64 = 0
+    var failed: Bool { reader?.status == .failed }
+    var reachedSelectionEnd: Bool { position >= end }
+
+    init(source: SourceTrack) {
+        self.source = source
+        self.format = AVAudioFormat(
+            commonFormat: .pcmFormatFloat32, sampleRate: Double(source.sampleRate),
+            channels: AVAudioChannelCount(source.channels), interleaved: true)!
+    }
+
+    deinit { reader?.cancelReading() }
+
+    func begin(at start: CMTime, end: CMTime) throws {
+        // Seeking across a long hole must not decode the excluded recording. Nearby intervals
+        // amortize reader setup; at most one second of discarded audio is scanned per join.
+        if reader == nil || CMTimeGetSeconds(CMTimeSubtract(start, self.end)) > 1 {
+            try open(at: start)
+        }
+        self.position = start
+        self.end = end
+        intervalStart = start
+        reopened = false
+        requireContinuation = false
+    }
+
+    static func decodeStart(at start: CMTime, packetFrames: Int, sampleRate: Int) -> CMTime {
+        let context = CMTime(value: Int64(packetFrames) * 2,
+            timescale: CMTimeScale(sampleRate))
+        // Negative presentation origins are valid; keep their requested seek rather than
+        // advancing it to zero. Nonnegative seeks retain bounded packet lookbehind.
+        return min(start, max(.zero, CMTimeSubtract(start, context)))
+    }
+
+    private func open(at start: CMTime) throws {
+        reader?.cancelReading()
+        pending = nil
+        let opened: AVAssetReader
+        do { opened = try AVAssetReader(asset: source.asset) } catch {
+            if let detail = source.input.failure { throw detail }
+            throw NativeFailure.decodeFailed(
+                "Cannot read \(source.url.path): \(error.localizedDescription)")
+        }
+        // Seeking inside the last compressed packet can refuse or omit its PCM. Two packet
+        // widths include the preceding packet even when start lies inside a packet. next()
+        // discards this bounded context before any selected samples reach the converter.
+        let decodeStart = Self.decodeStart(at: start,
+            packetFrames: source.packetFrames, sampleRate: source.sampleRate)
+        opened.timeRange = CMTimeRange(start: decodeStart, duration: .positiveInfinity)
+        let output = AVAssetReaderTrackOutput(
+            track: source.track,
+            outputSettings: [
+                AVFormatIDKey: kAudioFormatLinearPCM, AVSampleRateKey: source.sampleRate,
+                AVNumberOfChannelsKey: source.channels, AVLinearPCMBitDepthKey: 32,
+                AVLinearPCMIsFloatKey: true, AVLinearPCMIsBigEndianKey: false,
+                AVLinearPCMIsNonInterleaved: false,
+            ])
+        output.alwaysCopiesSampleData = false
+        guard opened.canAdd(output) else {
+            throw NativeFailure.decodeFailed("Cannot decode audio track.")
+        }
+        opened.add(output)
+        guard opened.startReading() else {
+            if let detail = source.input.failure { throw detail }
+            throw NativeFailure.decodeFailed("Cannot start audio reader.")
+        }
+        self.reader = opened
+        self.output = output
+    }
+
+    func next() throws -> AVAudioPCMBuffer? {
+        guard position < end else { return nil }
+        while true {
+            try Task.checkCancellation()
+            if pending == nil {
+                pending = output?.copyNextSampleBuffer()
+                if let pending { decodedFrames += Int64(CMSampleBufferGetNumSamples(pending)) }
+            }
+            guard let sample = pending else {
+                if let detail = source.input.failure { throw detail }
+                if failed { throw NativeFailure.decodeFailed("Audio reader failed.") }
+                // A completed AAC reader can stop before its declared end while a seek still
+                // returns the real tail. Retry only once, at the exact next sample, never padding.
+                if reader?.status == .completed, !reopened, position > intervalStart, position < end {
+                    reopened = true
+                    requireContinuation = true
+                    try open(at: position)
+                    continue
+                }
+                return nil
+            }
+            let frames = CMSampleBufferGetNumSamples(sample)
+            let stamp = CMSampleBufferGetPresentationTimeStamp(sample)
+            func frame(_ time: CMTime, rounding: CMTimeRoundingMethod) -> Int {
+                Int(
+                    CMTimeConvertScale(
+                        CMTimeSubtract(time, stamp), timescale: CMTimeScale(source.sampleRate),
+                        method: rounding
+                    ).value)
+            }
+            let first = max(0, frame(position, rounding: .roundHalfAwayFromZero))
+            // Keep the source frame intersecting the quantized end, as AVAssetReader's
+            // timeRange does. Rounding it down can leave a rate converter one frame short.
+            let last = min(frames, frame(end, rounding: .roundTowardPositiveInfinity))
+            if first >= frames {
+                pending = nil
+                continue
+            }
+            if last <= first { return nil }
+            if requireContinuation {
+                let resumed = CMTimeAdd(stamp,
+                    CMTime(value: Int64(first), timescale: CMTimeScale(source.sampleRate)))
+                guard resumed == position else {
+                    throw NativeFailure.decodeFailed("Recovered audio skipped an unread source interval.")
+                }
+                requireContinuation = false
+            }
+            var list = AudioBufferList()
+            var block: CMBlockBuffer?
+            guard frames > 0, frames <= 65_536,
+                CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
+                    sample, bufferListSizeNeededOut: nil, bufferListOut: &list,
+                    bufferListSize: MemoryLayout<AudioBufferList>.size, blockBufferAllocator: nil,
+                    blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block) == noErr,
+                let decoded = list.mBuffers.mData?.assumingMemoryBound(to: Float.self),
+                let buffer = AVAudioPCMBuffer(
+                    pcmFormat: format, frameCapacity: AVAudioFrameCount(last - first))
+            else { throw NativeFailure.decodeFailed("Cannot read decoded audio buffer.") }
+            buffer.frameLength = AVAudioFrameCount(last - first)
+            buffer.floatChannelData![0].update(
+                from: decoded + first * source.channels,
+                count: (last - first) * source.channels)
+            position = CMTimeAdd(
+                stamp, CMTime(value: Int64(last), timescale: CMTimeScale(source.sampleRate)))
+            // Keep this packet until the next request: cumulative output rounding can make
+            // successive intervals legitimately share a boundary source sample.
+            return buffer
+        }
+    }
+}
+
+/// A fresh converter sees only one selected interval and an explicit end-of-stream flush.
+/// Its input callback runs synchronously inside convert; no other thread advances this reader.
+private final class ConversionInput: @unchecked Sendable {
+    private let reader: AudioSourceReader
+    private var supplied: AVAudioPCMBuffer?
+    private(set) var failure: Error?
+    var readerFailed: Bool { reader.failed }
+    var reachedSelectionEnd: Bool { reader.reachedSelectionEnd }
+
+    init(reader: AudioSourceReader) { self.reader = reader }
+
+    func next(_ status: UnsafeMutablePointer<AVAudioConverterInputStatus>) -> AVAudioPCMBuffer? {
+        do {
+            let buffer = try autoreleasepool { try reader.next() }
+            guard let buffer else {
+                status.pointee = .endOfStream
+                return nil
+            }
+            supplied = buffer
+            status.pointee = .haveData
+            return buffer
+        } catch {
+            failure = error
+            status.pointee = .endOfStream
+            return nil
+        }
+    }
+}
+import Foundation
+import ScreenRecorderMedia
+
+/// Where each requested span lands in the concatenated output, and how long its join ramps are.
+/// Every boundary is quantised from the cumulative playback microseconds that precede it, not from
+/// the sum of the spans' own rounded lengths: rounding each span on its own loses up to a frame per
+/// span, which a thousand fractional spans turn into a visibly short excerpt. Resolving from the
+/// running total instead keeps the error of the whole excerpt, and of every boundary inside it,
+/// within half a frame of the requested playback time.
+struct ExcerptLayout {
+    let spans: [TimeSpan]
+    let sampleRate: Int
+    /// `spans.count + 1` playback microsecond boundaries; entry `i` is how much playback time the
+    /// spans before span `i` hold, and the last entry is the excerpt's requested duration.
+    let playedUs: [Int64]
+    /// `spans.count + 1` frame boundaries, each quantised from the matching `playedUs`.
+    let starts: [Int64]
+    let sourceOriginFrame: Int64?
+
+    init(spans: [TimeSpan], sampleRate: Int) {
+        sourceOriginFrame = nil
+        self.spans = spans
+        self.sampleRate = sampleRate
+        var played: [Int64] = [0]
+        for span in spans { played.append(played.last! + (span.endUs - span.startUs)) }
+        playedUs = played
+        starts = played.map { Self.frames(ofUs: $0, at: sampleRate) }
+    }
+
+    init(window: TimeSpan, sampleRate: Int) throws {
+        spans = [window]
+        self.sampleRate = sampleRate
+        let start = try ExactTime(Int128(window.startUs)).sample(sampleRate)
+        let end = try ExactTime(Int128(window.endUs)).sample(sampleRate)
+        sourceOriginFrame = start
+        playedUs = [0, window.endUs - window.startUs]
+        starts = [0, end - start]
+    }
+
+    var totalFrames: Int64 { starts.last! }
+
+    var durationUs: Int64 {
+        (totalFrames / Int64(sampleRate)) * 1_000_000
+            + ((totalFrames % Int64(sampleRate)) * 1_000_000 + Int64(sampleRate) / 2)
+            / Int64(sampleRate)
+    }
+
+    /// The output frame holding recording source time `us`, which must lie inside span `index`.
+    /// Quantised from the same cumulative playback timeline as the span boundaries, so material
+    /// inside a span cannot land a frame away from where that span was placed.
+    func frame(ofUs us: Int64, inSpan index: Int) throws -> Int64 {
+        if let sourceOriginFrame {
+            // Selected windows use the same absolute floor clock as composition output.
+            return try ExactTime(Int128(us)).sample(sampleRate) - sourceOriginFrame
+        }
+        return Self.frames(ofUs: playedUs[index] + (us - spans[index].startUs), at: sampleRate)
+    }
+
+    /// Ramp length at a join. Half of a short span, so a fade-out and a fade-in inside the same
+    /// span never overlap and the span keeps its full length.
+    func rampFrames(ofSpan index: Int) -> Int64 {
+        min(
+            Self.frames(ofUs: AudioLimits.joinRampUs, at: sampleRate),
+            (starts[index + 1] - starts[index]) / 2)
+    }
+
+    static func frames(ofUs us: Int64, at sampleRate: Int) -> Int64 {
+        (us / 1_000_000) * Int64(sampleRate)
+            + ((us % 1_000_000) * Int64(sampleRate) + 500_000) / 1_000_000
+    }
+}
+
+enum ExcerptValidation {
+    /// Rejects everything the excerpt owner cannot execute honestly, before any media is opened.
+    static func check(
+        tracks: [AudioTrackPlan], spans: [TimeSpan], maximumDurationUs: Int64,
+        maximumSpans: Int = AudioLimits.maximumSpans,
+        maximumAvailableIntervals: Int = AudioLimits.maximumAvailableIntervals
+    ) throws {
+        try check(tracks: tracks, maximumAvailableIntervals: maximumAvailableIntervals)
+        try check(spans: spans, maximumDurationUs: maximumDurationUs, maximumSpans: maximumSpans)
+    }
+
+    static func check(spans: [TimeSpan], maximumDurationUs: Int64, maximumSpans: Int) throws {
+        guard !spans.isEmpty else {
+            throw NativeFailure("INVALID_RANGE", "An excerpt needs at least one retained span.")
+        }
+        guard spans.count <= maximumSpans else {
+            throw NativeFailure(
+                "LIMIT_EXCEEDED",
+                "Excerpt has \(spans.count) spans, over the \(maximumSpans) span limit.")
+        }
+        guard TimeSpan.areRetained(spans) else {
+            throw NativeFailure(
+                "INVALID_RANGE", "Excerpt spans must be ascending, non-touching safe ranges.")
+        }
+        let total = spans.reduce(0) { $0 + $1.endUs - $1.startUs }
+        guard total <= maximumDurationUs else {
+            throw NativeFailure(
+                "LIMIT_EXCEEDED",
+                "Excerpt spans total \(total) microseconds, over the \(maximumDurationUs) microsecond limit."
+            )
+        }
+    }
+
+    /// Rejects track plans that cannot be read honestly, before any media is opened.
+    static func check(tracks: [AudioTrackPlan], maximumAvailableIntervals: Int) throws {
+        guard !tracks.isEmpty else {
+            throw NativeFailure("INVALID_REQUEST", "An excerpt reads at least one planned track.")
+        }
+        // Capture stores one file per role, so uniqueness is also what bounds the plan's size.
+        guard Set(tracks.map(\.role)).count == tracks.count else {
+            throw NativeFailure(
+                "INVALID_REQUEST", "Each track role may appear once in an excerpt plan.")
+        }
+        for track in tracks {
+            try check(source: track.selection, maximumIntervals: maximumAvailableIntervals)
+        }
+    }
+
+    static func check(source track: AudioSourceSelection, maximumIntervals: Int) throws {
+        guard track.source.hasPrefix("/"), !track.source.contains("\0") else {
+            throw NativeFailure("INVALID_REQUEST", "Audio source paths must be absolute and contain no NUL.")
+        }
+        guard track.sourceOffsetUs >= -TimeSpan.maximumMicroseconds,
+            track.sourceOffsetUs <= TimeSpan.maximumMicroseconds else {
+            throw NativeFailure("INVALID_RANGE", "Source offset is not a safe microsecond value.")
+        }
+        guard track.available.count <= maximumIntervals else {
+            throw NativeFailure(
+                "LIMIT_EXCEEDED",
+                "Source lists \(track.available.count) available intervals, over the \(maximumIntervals) interval limit."
+            )
+        }
+        var previous: TimeSpan?
+        for interval in track.available {
+            guard interval.startUs >= -TimeSpan.maximumMicroseconds,
+                interval.endUs <= TimeSpan.maximumMicroseconds, interval.endUs > interval.startUs
+            else {
+                throw NativeFailure(
+                    "INVALID_RANGE",
+                    "Available interval [\(interval.startUs),\(interval.endUs)) is not a valid half-open range."
+                )
+            }
+            if let previous, interval.startUs < previous.endUs {
+                throw NativeFailure(
+                    "INVALID_RANGE",
+                    "Available interval [\(interval.startUs),\(interval.endUs)) overlaps or precedes [\(previous.startUs),\(previous.endUs))."
+                )
+            }
+            previous = interval
+        }
+    }
+}
+
+2026-09-28T10:05:35.026842Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e779-e713-7553-867e-27428f10f33a turn_id=01a0e779-e7ad-77e3-b628-247e7af9f337 item_id="exec-0dce2ebb-774c-4cbf-9f8c-bc9819898763"
+exec
+/bin/zsh -lc "cat helpers/mac/Tests/source-audio.test.mjs | head -45; cat helpers/mac/package.json 2>/dev/null; cat package.json; rg -n 'SourceTrack.open|func intersection|check\\(source:' helpers/mac/Sources; head -60 specs/recording-for-ai/README.md; sed -n '110,130p' .agents/skills/code-review/SKILL.md" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync, readdirSync, truncateSync, existsSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { test } from "node:test";
+
+const native =
+  process.env.SCREENREC_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
+const fixture =
+  process.env.SCREENREC_SOURCE_AUDIO_FIXTURE ??
+  fileURLToPath(new URL("../.build/debug/ScreenRecorderSourceAudioTests", import.meta.url));
+test("source WAV wire delivery retains native fixture samples and refuses ambiguous selection", () => {
+  const directory = mkdtempSync(join(tmpdir(), "source-audio-wire-"));
+  try {
+    const proof = spawnSync(fixture, [], {
+      env: { ...process.env, SCREENREC_SOURCE_AUDIO_EVIDENCE: directory },
+      encoding: "utf8",
+      timeout: 120000,
+    });
+    assert.equal(proof.status, 0, proof.stdout + proof.stderr);
+    for (const rate of [44100, 48000]) {
+      const params = JSON.parse(readFileSync(join(directory, `request-${rate}.json`), "utf8"));
+      const execute = (value) => {
+        const result = spawnSync(native, [], {
+          input:
+            JSON.stringify({ id: "source", operation: "media.sourceAudio", params: value }) + "\n",
+          encoding: "utf8",
+          timeout: 30000,
+        });
+        assert.equal(result.status, 0, result.stderr);
+        return JSON.parse(result.stdout);
+      };
+      const reply = execute(params);
+      assert.equal(reply.ok, true, JSON.stringify(reply));
+      assert.equal(reply.data.sampleRate, rate);
+      assert.equal(reply.data.channels, 2);
+      assert.equal(reply.data.layout, "stereo");
+      assert.equal(reply.data.frames, rate);
+      assert.deepEqual(reply.data.sampleRange, { start: 0, end: rate });
+      assert.deepEqual(
+        readFileSync(params.output),
+        readFileSync(join(directory, `full-${rate}.wav`)),
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+helpers/mac/Sources/ScreenRecorderMedia/TimeSpan.swift:31:    public func intersection(_ other: TimeSpan) -> TimeSpan? {
+helpers/mac/Sources/ScreenRecorderMedia/TimeSpan.swift:38:    public static func intersection(_ first: [TimeSpan], _ second: [TimeSpan]) -> [TimeSpan] {
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:66:            opened.append(try await SourceTrack.open(selection: track.selection))
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:74:        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:80:        return try await AudioPCMStream(sources: [SourceTrack.open(selection: source)],
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:86:        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:88:        let track = try await SourceTrack.open(selection: source, strictWindowFormat: true)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:94:        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift:95:        return try await SourceTrack.open(selection: source).available
+helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift:298:                source = try await SourceTrack.open(
+helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift:117:            try check(source: track.selection, maximumIntervals: maximumAvailableIntervals)
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+
+2026-09-28T10:05:41.263818Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e779-e713-7553-867e-27428f10f33a turn_id=01a0e779-e7ad-77e3-b628-247e7af9f337 item_id="exec-78758e23-9620-4aa0-a99f-67b6f9c420ac"
+exec
+/bin/zsh -lc 'swift build --package-path helpers/mac --skip-update >/tmp/screenrec-review-build.log 2>&1 && helpers/mac/.build/debug/ScreenRecorderAudioTests >/tmp/screenrec-review-audio.log 2>&1 && node --test helpers/mac/Tests/source-audio.test.mjs' in /Users/david/dev/screen-recorder
+2026-09-28T10:05:52.619487Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e779-e713-7553-867e-27428f10f33a turn_id=01a0e779-e7ad-77e3-b628-247e7af9f337 item_id="exec-6195d329-3ddb-4e7c-814e-bff2a0c9a049"
+ exited 1 in 6384ms:
+exec
+/bin/zsh -lc "cat helpers/mac/Sources/ScreenRecorderMedia/TimeSpan.swift | head -95; sed -n '270,320p' helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift; sed -n '40,110p' helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift; git diff --check; find . -maxdepth 2 -name AGENTS.override.md" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+import Foundation
+
+/// A half-open interval of integer microseconds. Recording source time, playback time and
+/// acquisition evidence all use it; the field that holds one names its timeline.
+public struct TimeSpan: Codable, Sendable, Equatable {
+    public let startUs: Int64
+    public let endUs: Int64
+
+    public init(startUs: Int64, endUs: Int64) {
+        self.startUs = startUs
+        self.endUs = endUs
+    }
+
+    /// Safe integer microseconds on both sides of the wire.
+    public static let maximumMicroseconds: Int64 = 9_007_199_254_740_991
+
+    /// Whether `spans` can be a revision's retained source spans: non-empty safe ranges, ascending,
+    /// and never touching, because adjacent retained spans are one span. Accepting a touching pair
+    /// would make renderers ramp or cut at a join that does not exist.
+    public static func areRetained(_ spans: [TimeSpan]) -> Bool {
+        areAvailable(spans) && zip(spans, spans.dropFirst()).allSatisfy { $0.endUs < $1.startUs }
+    }
+
+    /// Availability can be split at metadata boundaries without missing any time at the join.
+    public static func areAvailable(_ spans: [TimeSpan]) -> Bool {
+        spans.allSatisfy {
+            $0.startUs >= 0 && $0.endUs > $0.startUs && $0.endUs <= maximumMicroseconds
+        } && zip(spans, spans.dropFirst()).allSatisfy { $0.endUs <= $1.startUs }
+    }
+
+    public func intersection(_ other: TimeSpan) -> TimeSpan? {
+        let start = max(startUs, other.startUs)
+        let end = min(endUs, other.endUs)
+        return end > start ? TimeSpan(startUs: start, endUs: end) : nil
+    }
+
+    /// The time both lists hold. Both must be ascending and disjoint; the result is too.
+    public static func intersection(_ first: [TimeSpan], _ second: [TimeSpan]) -> [TimeSpan] {
+        var overlap: [TimeSpan] = []
+        var left = 0
+        var right = 0
+        while left < first.count, right < second.count {
+            if let shared = first[left].intersection(second[right]) { overlap.append(shared) }
+            if first[left].endUs < second[right].endUs { left += 1 } else { right += 1 }
+        }
+        return overlap
+    }
+
+    /// The parts of this span `covering` leaves uncovered. `covering` must be ascending and
+    /// disjoint.
+    public func subtracting(_ covering: [TimeSpan]) -> [TimeSpan] {
+        var missing: [TimeSpan] = []
+        var cursor = startUs
+        for covered in covering {
+            if covered.startUs > cursor {
+                missing.append(TimeSpan(startUs: cursor, endUs: covered.startUs))
+            }
+            cursor = max(cursor, covered.endUs)
+        }
+        if cursor < endUs { missing.append(TimeSpan(startUs: cursor, endUs: endUs)) }
+        return missing
+    }
+
+    /// Whether `next`, which starts no earlier, continues this span. Converting timestamps to
+    /// microseconds can open a one-microsecond seam between contiguous samples; any larger hole is
+    /// a real gap that must stay visible.
+    public func isContinued(by next: TimeSpan) -> Bool { next.startUs <= endUs + 1 }
+
+    /// This span extended through `next`.
+    public func merged(with next: TimeSpan) -> TimeSpan {
+        TimeSpan(startUs: min(startUs, next.startUs), endUs: max(endUs, next.endUs))
+    }
+}
+                    clip.source.range == nil, clip.context.isEmpty
+                else {
+                    throw invalid("Authored silence has no media identity.")
+                }
+                continue
+            }
+            guard clip.source.kind == "range", let assetId = clip.source.assetId,
+                let streamId = clip.source.streamId, let range = clip.source.range,
+                let asset = assets[[assetId, streamId]]?.first,
+                asset.path.hasPrefix("/"), !asset.path.contains("\0"),
+                asset.originUs >= -TimeSpan.maximumMicroseconds,
+                asset.originUs <= TimeSpan.maximumMicroseconds
+            else {
+                throw invalid("A range clip requires its resolved absolute asset stream.")
+            }
+            let duration = try range.endUs.subtract(range.startUs)
+            let placementDuration = try clip.placement.endUs.subtract(clip.placement.startUs)
+            guard duration.numerator > 0, placementDuration.numerator > 0 else {
+                throw invalid("Source and placement ranges must be positive.")
+            }
+            guard duration.equals(placementDuration) else {
+                throw NativeFailure("NOT_READY", "Rate-changing audio requires prepared retiming.")
+            }
+            let offset = try range.startUs.subtract(clip.placement.startUs)
+            let source: SourceTrack
+            if let existing = opened[[assetId, streamId]] {
+                source = existing
+            } else {
+                source = try await SourceTrack.open(
+                    source: asset.path, streamId: streamId,
+                    sourceOffsetUs: -asset.originUs,
+                    available: [TimeSpan(startUs: 0, endUs: TimeSpan.maximumMicroseconds)])
+                opened[[assetId, streamId]] = source
+            }
+            guard source.channels <= 2 else {
+                throw NativeFailure(
+                    "UNSUPPORTED_FORMAT", "Audio needs an explicit map for more than two channels.")
+            }
+            let contexts = try retainedContexts(clip.context, source: source, offset: offset)
+            let occupied = contexts.map(\.project)
+            var readable: [Plan.Samples] = []
+            var cursor = 0
+            for available in clip.available {
+                while cursor < occupied.count && occupied[cursor].end <= available.start {
+                    cursor += 1
+                }
+                var index = cursor
+                while index < occupied.count && occupied[index].start < available.end {
+                    let first = max(available.start, occupied[index].start)
+                    let last = min(available.end, occupied[index].end)
+                    if first < last { readable.append(.init(start: first, end: last)) }
+    private let layout: ExcerptLayout
+    private let intervals: [[Interval]]
+    private let gain: Float
+    private var consumed = false
+
+    private struct Interval {
+        let source: TimeSpan
+        let start: Int64
+        let end: Int64
+        let decodeRange: (start: CMTime, end: CMTime)?
+    }
+
+    /// `sampleRate` defaults to the highest rate among the tracks, so nothing is resampled down
+    /// unless the consumer names the rate it needs.
+    public static func open(tracks: [AudioTrackPlan], spans: [TimeSpan], sampleRate: Int? = nil)
+        async throws -> AudioPCMStream
+    {
+        try ExcerptValidation.check(
+            tracks: tracks, spans: spans, maximumDurationUs: TimeSpan.maximumMicroseconds,
+            maximumSpans: AudioLimits.maximumRetainedSpans,
+            maximumAvailableIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        if let sampleRate, !(1...AudioLimits.maximumSampleRate).contains(sampleRate) {
+            throw NativeFailure("INVALID_REQUEST", "Output rate \(sampleRate) Hz is out of bounds.")
+        }
+        var opened: [SourceTrack] = []
+        for track in tracks {
+            opened.append(try await SourceTrack.open(selection: track.selection))
+        }
+        return try AudioPCMStream(sources: opened, spans: spans, sampleRate: sampleRate)
+    }
+
+    /// A selected immutable source uses the same interval layout/conversion as recording mixes.
+    public static func open(source: AudioSourceSelection, spans: [TimeSpan], sampleRate: Int? = nil)
+        async throws -> AudioPCMStream {
+        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        try ExcerptValidation.check(spans: spans, maximumDurationUs: TimeSpan.maximumMicroseconds,
+            maximumSpans: AudioLimits.maximumRetainedSpans)
+        if let sampleRate, !(1...AudioLimits.maximumSampleRate).contains(sampleRate) {
+            throw NativeFailure("INVALID_REQUEST", "Output rate is out of bounds.")
+        }
+        return try await AudioPCMStream(sources: [SourceTrack.open(selection: source)],
+            spans: spans, sampleRate: sampleRate)
+    }
+
+    /// One source-clock window retains the full support-run origin for repeatable sample selection.
+    public static func open(source: AudioSourceSelection, range: TimeSpan) async throws -> AudioPCMStream {
+        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        try ExcerptValidation.check(spans: [range], maximumDurationUs: TimeSpan.maximumMicroseconds, maximumSpans: 1)
+        let track = try await SourceTrack.open(selection: source, strictWindowFormat: true)
+        return try AudioPCMStream(sources: [track], spans: [range], sampleRate: nil, sourceWindow: true)
+    }
+
+    /// Physical occupancy intersected with the caller's selected acquisition support.
+    public static func readableIntervals(of source: AudioSourceSelection) async throws -> [TimeSpan] {
+        try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
+        return try await SourceTrack.open(selection: source).available
+    }
+
+    private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?, sourceWindow: Bool = false) throws {
+        let sampleRate = sampleRate ?? sources.map(\.sampleRate).max()!
+        let channels = sources.map(\.channels).max()!
+        guard channels <= 2 else {
+            throw NativeFailure(
+                "UNSUPPORTED_FORMAT", "Retained audio supports mono or stereo output.")
+        }
+        let maps = try sources.map { source in
+            if source.channels == channels { return Array(0..<channels) }
+            if source.channels == 1 && channels == 2 { return [0, 0] }
+            throw NativeFailure(
+                "UNSUPPORTED_FORMAT",
+                "Cannot map acquired audio channels without inventing a layout.")
+
+2026-09-28T10:05:52.824035Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e779-e713-7553-867e-27428f10f33a turn_id=01a0e779-e7ad-77e3-b628-247e7af9f337 item_id="exec-460a1e99-82cf-4816-8452-72cf80ac7905"
+exec
+/bin/zsh -lc 'tail -5 /tmp/screenrec-review-build.log; tail -5 /tmp/screenrec-review-audio.log' in /Users/david/dev/screen-recorder
+ exited 1 in 0ms:
+      | `- error: failed to build module 'Swift'; this SDK is not supported by the compiler (the SDK is built with 'Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.2 clang-2100.0.123.2)', while this compiler is 'Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)'). Please select a toolchain which matches the SDK.
+    2 | // swift-compiler-version: Apple Swift version 6.3.2 effective-5.10 (swiftlang-6.3.2.1.2 clang-2100.0.123.2)
+    3 | // swift-module-flags: -target arm64e-apple-macosx26.5 -target-variant arm64e-apple-ios26.5-macabi -enable-objc-interop -enable-library-evolution -module-link-name swiftCore -parse-stdlib -swift-version 5 -O -library-level api -enforce-exclusivity=unchecked -target-min-inlining-version min -enable-experimental-concise-pound-file -disable-objc-attr-requires-foundation-module -enable-experimental-feature NoncopyableGenerics2 -enable-experimental-feature SuppressedAssociatedTypes -enable-experimental-feature SE427NoInferenceOnExtension -enable-experimental-feature NonescapableTypes -enable-experimental-feature LifetimeDependence -enable-experimental-feature InoutLifetimeDependence -enable-experimental-feature LifetimeDependenceMutableAccessors -enable-experimental-feature MemberImportVisibility -enable-experimental-feature TypedThrows -enable-experimental-feature Macros -enable-experimental-feature FreestandingMacros -enable-experimental-feature BitwiseCopyable -enable-experimental-feature Extern -enable-experimental-feature AllowUnsafeAttribute -enable-experimental-feature ValueGenerics -enable-experimental-feature AddressableParameters -enable-experimental-feature AddressableTypes -user-module-version 6.3.2.1.3 -module-name Swift
+error: ExitCode(rawValue: 1)
+[0/1] Planning build
+tail: /tmp/screenrec-review-audio.log: No such file or directory
+
+2026-09-28T10:05:56.793764Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e779-e713-7553-867e-27428f10f33a turn_id=01a0e779-e7ad-77e3-b628-247e7af9f337 item_id="exec-71204734-8589-4835-9560-37a80f0fdf04"
+codex
+No actionable defects found. The changes accept and merge touching availability intervals while preserving gaps and rejecting overlaps. Tests could not run because the installed Swift compiler and SDK versions are incompatible.
+No actionable defects found. The changes accept and merge touching availability intervals while preserving gaps and rejecting overlaps. Tests could not run because the installed Swift compiler and SDK versions are incompatible.

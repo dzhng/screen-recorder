@@ -128,3 +128,9 @@ cancellation/retry and deletion. Audio encoders stage inside the existing locked
 render attempt; only completed WAVs enter the cache. This prevents abandoned
 encoder staging from escaping startup cleanup. The [integration pass](../assets/11a-capture-routing/README.md)
 separates process-lifetime checks from decoded-media conformance.
+
+## Continuous availability preservation
+
+[Touching-support evidence](../assets/11a-touching-support/README.md) verifies that
+adjacent source availability declarations produce exactly the same WAV as their
+union, without erasing real gaps or relaxing recording cut validation.
