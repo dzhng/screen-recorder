@@ -1,0 +1,30 @@
+{
+  "parent": "12-alignment float32 frozen control",
+  "change": "model/inputs float16 instead of float32; all audio/text/model/evaluator fixed",
+  "hypotheses": [
+    {
+      "id": "half-precision",
+      "prediction": "peak RSS <= 4 GiB; matched-edge errors do not exceed original absolute errors",
+      "cost": "one full 134-second recording inference, deadline900s",
+      "status": "next"
+    },
+    {
+      "id": "loading-peak",
+      "prediction": "if precision alone fails, inspect model load versus inference memory before choosing offload/chunking",
+      "status": "conditional diagnosis only; not scheduled"
+    }
+  ],
+  "gates": {
+    "peakResidentBytesMax": 4294967296,
+    "medianErrorMsMax": 100,
+    "p95ErrorMsMax": 250,
+    "matchedEdges": 15,
+    "nonRegression": "no marked edge absolute error greater than frozen parent; full original-word correspondence checked"
+  },
+  "repairAllowance": 1,
+  "promotion": "none until timing, quality and independent listening gates pass; numerical memory result is diagnostic",
+  "baselineRerun": false,
+  "runtimeClaim": "No speed comparison; concurrent independent native verification may affect wall time",
+  "candidateRunnerSha256": "25c06832ddac53f7080520887e10642df36047629ec3ea7b924c54c6af3b53b3",
+  "command": "offline sandbox /tmp/screenrec-speech-align-venv/bin/python /tmp/screenrec-alignment-float16.py --model /tmp/screenrec-speech-align-model --audio /tmp/screenrec-speech-verbatim-input.wav --transcript specs/agent-editing/assets/12-speech/transcript.json --out /tmp/screenrec-alignment-float16-result"
+}

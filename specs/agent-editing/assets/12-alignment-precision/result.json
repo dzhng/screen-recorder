@@ -1,0 +1,1535 @@
+{
+  "duration": 133.9733125,
+  "words": [
+    {
+      "word": "Okay",
+      "start": 1.52,
+      "end": 1.68
+    },
+    {
+      "word": "so",
+      "start": 1.68,
+      "end": 1.84
+    },
+    {
+      "word": "this",
+      "start": 1.84,
+      "end": 2.08
+    },
+    {
+      "word": "is",
+      "start": 2.08,
+      "end": 2.24
+    },
+    {
+      "word": "the",
+      "start": 2.24,
+      "end": 2.56
+    },
+    {
+      "word": "recorder",
+      "start": 3.36,
+      "end": 4.16
+    },
+    {
+      "word": "workbench",
+      "start": 4.48,
+      "end": 5.04
+    },
+    {
+      "word": "First",
+      "start": 6.8,
+      "end": 7.12
+    },
+    {
+      "word": "I'm",
+      "start": 7.12,
+      "end": 7.2
+    },
+    {
+      "word": "going",
+      "start": 7.2,
+      "end": 7.36
+    },
+    {
+      "word": "to",
+      "start": 7.36,
+      "end": 7.68
+    },
+    {
+      "word": "draw",
+      "start": 7.68,
+      "end": 7.68
+    },
+    {
+      "word": "a",
+      "start": 7.68,
+      "end": 7.68
+    },
+    {
+      "word": "circle",
+      "start": 7.68,
+      "end": 8.32
+    },
+    {
+      "word": "around",
+      "start": 8.4,
+      "end": 8.64
+    },
+    {
+      "word": "C3",
+      "start": 8.72,
+      "end": 9.52
+    },
+    {
+      "word": "and",
+      "start": 10.56,
+      "end": 10.56
+    },
+    {
+      "word": "I'm",
+      "start": 10.56,
+      "end": 10.64
+    },
+    {
+      "word": "going",
+      "start": 10.64,
+      "end": 10.8
+    },
+    {
+      "word": "to",
+      "start": 10.8,
+      "end": 10.88
+    },
+    {
+      "word": "draw",
+      "start": 10.88,
+      "end": 11.2
+    },
+    {
+      "word": "a",
+      "start": 11.2,
+      "end": 11.28
+    },
+    {
+      "word": "wave",
+      "start": 11.28,
+      "end": 11.68
+    },
+    {
+      "word": "between",
+      "start": 11.68,
+      "end": 12.0
+    },
+    {
+      "word": "D9",
+      "start": 12.16,
+      "end": 12.48
+    },
+    {
+      "word": "and",
+      "start": 13.44,
+      "end": 13.52
+    },
+    {
+      "word": "E2",
+      "start": 13.6,
+      "end": 14.0
+    },
+    {
+      "word": "Alright",
+      "start": 15.36,
+      "end": 15.52
+    },
+    {
+      "word": "so",
+      "start": 15.6,
+      "end": 15.76
+    },
+    {
+      "word": "to",
+      "start": 15.92,
+      "end": 16.0
+    },
+    {
+      "word": "the",
+      "start": 16.0,
+      "end": 16.08
+    },
+    {
+      "word": "next",
+      "start": 16.08,
+      "end": 16.48
+    },
+    {
+      "word": "one",
+      "start": 16.48,
+      "end": 16.8
+    },
+    {
+      "word": "we're",
+      "start": 17.44,
+      "end": 17.6
+    },
+    {
+      "word": "going",
+      "start": 17.6,
+      "end": 17.68
+    },
+    {
+      "word": "to",
+      "start": 17.68,
+      "end": 17.76
+    },
+    {
+      "word": "do",
+      "start": 17.84,
+      "end": 18.0
+    },
+    {
+      "word": "the",
+      "start": 18.08,
+      "end": 18.48
+    },
+    {
+      "word": "disappearing",
+      "start": 20.16,
+      "end": 20.8
+    },
+    {
+      "word": "submenu",
+      "start": 20.8,
+      "end": 21.36
+    },
+    {
+      "word": "So",
+      "start": 22.4,
+      "end": 22.56
+    },
+    {
+      "word": "let's",
+      "start": 22.56,
+      "end": 22.72
+    },
+    {
+      "word": "hover",
+      "start": 22.72,
+      "end": 23.04
+    },
+    {
+      "word": "over",
+      "start": 23.04,
+      "end": 23.28
+    },
+    {
+      "word": "the",
+      "start": 23.28,
+      "end": 23.36
+    },
+    {
+      "word": "products",
+      "start": 23.52,
+      "end": 24.16
+    },
+    {
+      "word": "and",
+      "start": 24.88,
+      "end": 24.96
+    },
+    {
+      "word": "move",
+      "start": 25.04,
+      "end": 25.2
+    },
+    {
+      "word": "down",
+      "start": 25.28,
+      "end": 25.84
+    },
+    {
+      "word": "to",
+      "start": 25.92,
+      "end": 26.0
+    },
+    {
+      "word": "the",
+      "start": 26.0,
+      "end": 26.0
+    },
+    {
+      "word": "menu",
+      "start": 26.0,
+      "end": 26.4
+    },
+    {
+      "word": "There's",
+      "start": 26.56,
+      "end": 26.72
+    },
+    {
+      "word": "actually",
+      "start": 26.72,
+      "end": 27.04
+    },
+    {
+      "word": "a",
+      "start": 27.04,
+      "end": 27.04
+    },
+    {
+      "word": "bug",
+      "start": 27.04,
+      "end": 27.28
+    },
+    {
+      "word": "here",
+      "start": 27.28,
+      "end": 27.52
+    },
+    {
+      "word": "Yeah",
+      "start": 28.8,
+      "end": 29.04
+    },
+    {
+      "word": "it",
+      "start": 29.04,
+      "end": 29.04
+    },
+    {
+      "word": "disappears",
+      "start": 29.04,
+      "end": 29.6
+    },
+    {
+      "word": "as",
+      "start": 29.6,
+      "end": 29.6
+    },
+    {
+      "word": "a",
+      "start": 29.6,
+      "end": 29.68
+    },
+    {
+      "word": "pointer",
+      "start": 29.68,
+      "end": 30.24
+    },
+    {
+      "word": "Yeah",
+      "start": 31.12,
+      "end": 31.28
+    },
+    {
+      "word": "so",
+      "start": 31.28,
+      "end": 31.52
+    },
+    {
+      "word": "that's",
+      "start": 31.52,
+      "end": 31.6
+    },
+    {
+      "word": "an",
+      "start": 31.6,
+      "end": 31.68
+    },
+    {
+      "word": "intentional",
+      "start": 31.68,
+      "end": 32.24
+    },
+    {
+      "word": "fixture",
+      "start": 32.24,
+      "end": 32.56
+    },
+    {
+      "word": "bug",
+      "start": 32.64,
+      "end": 32.96
+    },
+    {
+      "word": "So",
+      "start": 33.76,
+      "end": 33.92
+    },
+    {
+      "word": "you",
+      "start": 33.92,
+      "end": 34.0
+    },
+    {
+      "word": "can",
+      "start": 34.0,
+      "end": 34.08
+    },
+    {
+      "word": "see",
+      "start": 34.08,
+      "end": 34.32
+    },
+    {
+      "word": "there's",
+      "start": 34.32,
+      "end": 34.56
+    },
+    {
+      "word": "a",
+      "start": 34.56,
+      "end": 34.72
+    },
+    {
+      "word": "bug",
+      "start": 34.8,
+      "end": 34.96
+    },
+    {
+      "word": "here",
+      "start": 35.04,
+      "end": 35.28
+    },
+    {
+      "word": "Then",
+      "start": 36.16,
+      "end": 36.24
+    },
+    {
+      "word": "the",
+      "start": 36.24,
+      "end": 36.4
+    },
+    {
+      "word": "visual",
+      "start": 36.4,
+      "end": 36.72
+    },
+    {
+      "word": "token",
+      "start": 36.72,
+      "end": 37.28
+    },
+    {
+      "word": "I",
+      "start": 37.28,
+      "end": 37.44
+    },
+    {
+      "word": "click",
+      "start": 37.52,
+      "end": 37.76
+    },
+    {
+      "word": "change",
+      "start": 37.76,
+      "end": 38.08
+    },
+    {
+      "word": "token",
+      "start": 38.08,
+      "end": 38.4
+    },
+    {
+      "word": "and",
+      "start": 38.4,
+      "end": 38.8
+    },
+    {
+      "word": "yep",
+      "start": 39.2,
+      "end": 39.36
+    },
+    {
+      "word": "it",
+      "start": 39.36,
+      "end": 39.52
+    },
+    {
+      "word": "changed",
+      "start": 39.52,
+      "end": 39.76
+    },
+    {
+      "word": "the",
+      "start": 39.76,
+      "end": 39.84
+    },
+    {
+      "word": "token",
+      "start": 39.84,
+      "end": 40.24
+    },
+    {
+      "word": "And",
+      "start": 41.6,
+      "end": 42.16
+    },
+    {
+      "word": "let",
+      "start": 43.04,
+      "end": 43.12
+    },
+    {
+      "word": "me",
+      "start": 43.12,
+      "end": 43.2
+    },
+    {
+      "word": "just",
+      "start": 43.2,
+      "end": 43.36
+    },
+    {
+      "word": "go",
+      "start": 43.36,
+      "end": 43.6
+    },
+    {
+      "word": "skip",
+      "start": 43.6,
+      "end": 43.92
+    },
+    {
+      "word": "down",
+      "start": 44.0,
+      "end": 44.24
+    },
+    {
+      "word": "to",
+      "start": 44.4,
+      "end": 44.8
+    },
+    {
+      "word": "six",
+      "start": 45.2,
+      "end": 45.76
+    },
+    {
+      "word": "scroll",
+      "start": 45.76,
+      "end": 46.08
+    },
+    {
+      "word": "and",
+      "start": 46.08,
+      "end": 46.08
+    },
+    {
+      "word": "narrate",
+      "start": 46.08,
+      "end": 46.64
+    },
+    {
+      "word": "with",
+      "start": 47.84,
+      "end": 48.0
+    },
+    {
+      "word": "a",
+      "start": 48.0,
+      "end": 48.08
+    },
+    {
+      "word": "long",
+      "start": 48.08,
+      "end": 48.24
+    },
+    {
+      "word": "page",
+      "start": 48.24,
+      "end": 48.48
+    },
+    {
+      "word": "with",
+      "start": 48.48,
+      "end": 48.64
+    },
+    {
+      "word": "clear",
+      "start": 48.64,
+      "end": 48.8
+    },
+    {
+      "word": "waypoints",
+      "start": 48.8,
+      "end": 49.6
+    },
+    {
+      "word": "So",
+      "start": 50.8,
+      "end": 50.96
+    },
+    {
+      "word": "let's",
+      "start": 50.96,
+      "end": 51.12
+    },
+    {
+      "word": "do",
+      "start": 51.12,
+      "end": 51.28
+    },
+    {
+      "word": "the",
+      "start": 51.28,
+      "end": 51.52
+    },
+    {
+      "word": "first",
+      "start": 52.0,
+      "end": 52.32
+    },
+    {
+      "word": "paragraph",
+      "start": 52.32,
+      "end": 52.88
+    },
+    {
+      "word": "uh",
+      "start": 54.08,
+      "end": 54.48
+    },
+    {
+      "word": "this",
+      "start": 55.2,
+      "end": 55.36
+    },
+    {
+      "word": "page",
+      "start": 55.36,
+      "end": 55.76
+    },
+    {
+      "word": "is",
+      "start": 55.76,
+      "end": 55.92
+    },
+    {
+      "word": "a",
+      "start": 55.92,
+      "end": 56.0
+    },
+    {
+      "word": "recording",
+      "start": 56.0,
+      "end": 56.32
+    },
+    {
+      "word": "fixture",
+      "start": 56.32,
+      "end": 56.88
+    },
+    {
+      "word": "Its",
+      "start": 57.68,
+      "end": 58.16
+    },
+    {
+      "word": "landmark",
+      "start": 58.24,
+      "end": 58.72
+    },
+    {
+      "word": "makes",
+      "start": 58.8,
+      "end": 59.04
+    },
+    {
+      "word": "it",
+      "start": 59.04,
+      "end": 59.12
+    },
+    {
+      "word": "possible",
+      "start": 59.2,
+      "end": 59.52
+    },
+    {
+      "word": "to",
+      "start": 59.52,
+      "end": 59.52
+    },
+    {
+      "word": "describe",
+      "start": 59.52,
+      "end": 60.0
+    },
+    {
+      "word": "what",
+      "start": 60.0,
+      "end": 60.16
+    },
+    {
+      "word": "pointer",
+      "start": 60.24,
+      "end": 60.56
+    },
+    {
+      "word": "moved",
+      "start": 60.56,
+      "end": 60.88
+    },
+    {
+      "word": "and",
+      "start": 60.88,
+      "end": 61.04
+    },
+    {
+      "word": "which",
+      "start": 61.04,
+      "end": 61.2
+    },
+    {
+      "word": "part",
+      "start": 61.28,
+      "end": 61.44
+    },
+    {
+      "word": "of",
+      "start": 61.44,
+      "end": 61.52
+    },
+    {
+      "word": "the",
+      "start": 61.52,
+      "end": 61.52
+    },
+    {
+      "word": "page",
+      "start": 61.52,
+      "end": 61.84
+    },
+    {
+      "word": "was",
+      "start": 61.84,
+      "end": 62.0
+    },
+    {
+      "word": "visible",
+      "start": 62.0,
+      "end": 62.48
+    },
+    {
+      "word": "Scroll",
+      "start": 63.36,
+      "end": 63.84
+    },
+    {
+      "word": "slowly",
+      "start": 63.84,
+      "end": 63.92
+    },
+    {
+      "word": "to",
+      "start": 64.0,
+      "end": 64.08
+    },
+    {
+      "word": "reach",
+      "start": 64.08,
+      "end": 64.4
+    },
+    {
+      "word": "to",
+      "start": 64.8,
+      "end": 64.88
+    },
+    {
+      "word": "read",
+      "start": 64.96,
+      "end": 65.2
+    },
+    {
+      "word": "each",
+      "start": 65.2,
+      "end": 65.52
+    },
+    {
+      "word": "section",
+      "start": 65.6,
+      "end": 66.08
+    },
+    {
+      "word": "And",
+      "start": 67.6,
+      "end": 67.84
+    },
+    {
+      "word": "then",
+      "start": 67.84,
+      "end": 68.0
+    },
+    {
+      "word": "for",
+      "start": 68.08,
+      "end": 68.32
+    },
+    {
+      "word": "the",
+      "start": 68.32,
+      "end": 68.4
+    },
+    {
+      "word": "second",
+      "start": 68.4,
+      "end": 68.72
+    },
+    {
+      "word": "section",
+      "start": 68.72,
+      "end": 69.2
+    },
+    {
+      "word": "a",
+      "start": 69.92,
+      "end": 70.0
+    },
+    {
+      "word": "sentence",
+      "start": 70.0,
+      "end": 70.4
+    },
+    {
+      "word": "to",
+      "start": 70.4,
+      "end": 70.48
+    },
+    {
+      "word": "identify",
+      "start": 70.48,
+      "end": 71.04
+    },
+    {
+      "word": "the",
+      "start": 72.4,
+      "end": 72.56
+    },
+    {
+      "word": "sample",
+      "start": 72.56,
+      "end": 72.96
+    },
+    {
+      "word": "offer",
+      "start": 73.04,
+      "end": 73.36
+    },
+    {
+      "word": "says",
+      "start": 73.36,
+      "end": 73.76
+    },
+    {
+      "word": "this",
+      "start": 73.76,
+      "end": 73.92
+    },
+    {
+      "word": "is",
+      "start": 73.92,
+      "end": 74.08
+    },
+    {
+      "word": "free",
+      "start": 74.08,
+      "end": 74.4
+    },
+    {
+      "word": "You",
+      "start": 74.72,
+      "end": 74.88
+    },
+    {
+      "word": "can",
+      "start": 74.88,
+      "end": 75.04
+    },
+    {
+      "word": "mention",
+      "start": 75.12,
+      "end": 75.44
+    },
+    {
+      "word": "the",
+      "start": 75.44,
+      "end": 75.6
+    },
+    {
+      "word": "sentence",
+      "start": 75.68,
+      "end": 76.24
+    },
+    {
+      "word": "in",
+      "start": 76.24,
+      "end": 76.4
+    },
+    {
+      "word": "your",
+      "start": 76.48,
+      "end": 76.56
+    },
+    {
+      "word": "narration",
+      "start": 76.64,
+      "end": 77.04
+    },
+    {
+      "word": "and",
+      "start": 77.68,
+      "end": 77.84
+    },
+    {
+      "word": "ask",
+      "start": 77.84,
+      "end": 78.16
+    },
+    {
+      "word": "an",
+      "start": 78.16,
+      "end": 78.24
+    },
+    {
+      "word": "external",
+      "start": 78.24,
+      "end": 78.72
+    },
+    {
+      "word": "agent",
+      "start": 78.72,
+      "end": 79.12
+    },
+    {
+      "word": "to",
+      "start": 79.12,
+      "end": 79.2
+    },
+    {
+      "word": "find",
+      "start": 79.28,
+      "end": 79.44
+    },
+    {
+      "word": "the",
+      "start": 79.44,
+      "end": 79.52
+    },
+    {
+      "word": "spoken",
+      "start": 79.52,
+      "end": 79.92
+    },
+    {
+      "word": "phrase",
+      "start": 80.0,
+      "end": 80.32
+    },
+    {
+      "word": "from",
+      "start": 80.32,
+      "end": 80.8
+    },
+    {
+      "word": "the",
+      "start": 81.2,
+      "end": 81.36
+    },
+    {
+      "word": "recorded",
+      "start": 81.36,
+      "end": 81.84
+    },
+    {
+      "word": "devi",
+      "start": 81.84,
+      "end": 82.16
+    },
+    {
+      "word": "the",
+      "start": 82.48,
+      "end": 82.56
+    },
+    {
+      "word": "recorded",
+      "start": 82.88,
+      "end": 83.12
+    },
+    {
+      "word": "evidence",
+      "start": 83.12,
+      "end": 83.68
+    },
+    {
+      "word": "Three",
+      "start": 84.88,
+      "end": 85.28
+    },
+    {
+      "word": "at",
+      "start": 85.36,
+      "end": 85.44
+    },
+    {
+      "word": "moment",
+      "start": 85.52,
+      "end": 85.84
+    },
+    {
+      "word": "pause",
+      "start": 85.92,
+      "end": 86.4
+    },
+    {
+      "word": "stop",
+      "start": 86.96,
+      "end": 87.2
+    },
+    {
+      "word": "scrolling",
+      "start": 87.2,
+      "end": 87.6
+    },
+    {
+      "word": "here",
+      "start": 87.6,
+      "end": 87.92
+    },
+    {
+      "word": "point",
+      "start": 88.56,
+      "end": 88.8
+    },
+    {
+      "word": "at",
+      "start": 88.8,
+      "end": 88.96
+    },
+    {
+      "word": "the",
+      "start": 88.96,
+      "end": 88.96
+    },
+    {
+      "word": "number",
+      "start": 88.96,
+      "end": 89.36
+    },
+    {
+      "word": "marker",
+      "start": 89.36,
+      "end": 89.92
+    },
+    {
+      "word": "move",
+      "start": 90.48,
+      "end": 90.64
+    },
+    {
+      "word": "away",
+      "start": 90.64,
+      "end": 91.12
+    },
+    {
+      "word": "return",
+      "start": 91.12,
+      "end": 91.44
+    },
+    {
+      "word": "to",
+      "start": 91.52,
+      "end": 91.68
+    },
+    {
+      "word": "it",
+      "start": 91.68,
+      "end": 91.84
+    },
+    {
+      "word": "Stationary",
+      "start": 92.24,
+      "end": 92.72
+    },
+    {
+      "word": "background",
+      "start": 92.8,
+      "end": 93.2
+    },
+    {
+      "word": "with",
+      "start": 93.2,
+      "end": 93.28
+    },
+    {
+      "word": "the",
+      "start": 93.28,
+      "end": 93.36
+    },
+    {
+      "word": "active",
+      "start": 93.36,
+      "end": 93.68
+    },
+    {
+      "word": "pointer",
+      "start": 93.68,
+      "end": 94.08
+    },
+    {
+      "word": "helps",
+      "start": 94.08,
+      "end": 94.4
+    },
+    {
+      "word": "separate",
+      "start": 94.4,
+      "end": 94.72
+    },
+    {
+      "word": "gesture",
+      "start": 94.72,
+      "end": 95.28
+    },
+    {
+      "word": "from",
+      "start": 95.36,
+      "end": 95.68
+    },
+    {
+      "word": "scene",
+      "start": 96.24,
+      "end": 96.56
+    },
+    {
+      "word": "change",
+      "start": 96.56,
+      "end": 97.04
+    },
+    {
+      "word": "Okay",
+      "start": 97.84,
+      "end": 97.92
+    },
+    {
+      "word": "so",
+      "start": 98.08,
+      "end": 98.24
+    },
+    {
+      "word": "let's",
+      "start": 98.72,
+      "end": 98.8
+    },
+    {
+      "word": "move",
+      "start": 98.88,
+      "end": 98.96
+    },
+    {
+      "word": "away",
+      "start": 99.04,
+      "end": 99.52
+    },
+    {
+      "word": "return",
+      "start": 99.6,
+      "end": 99.84
+    },
+    {
+      "word": "to",
+      "start": 100.0,
+      "end": 100.16
+    },
+    {
+      "word": "it",
+      "start": 100.16,
+      "end": 100.24
+    },
+    {
+      "word": "Because",
+      "start": 100.48,
+      "end": 100.64
+    },
+    {
+      "word": "I'm",
+      "start": 100.64,
+      "end": 100.72
+    },
+    {
+      "word": "just",
+      "start": 100.72,
+      "end": 100.96
+    },
+    {
+      "word": "doing",
+      "start": 100.96,
+      "end": 101.04
+    },
+    {
+      "word": "my",
+      "start": 101.12,
+      "end": 101.2
+    },
+    {
+      "word": "pointer",
+      "start": 101.2,
+      "end": 101.6
+    },
+    {
+      "word": "moving",
+      "start": 101.68,
+      "end": 101.92
+    },
+    {
+      "word": "away",
+      "start": 102.0,
+      "end": 102.32
+    },
+    {
+      "word": "Return",
+      "start": 103.36,
+      "end": 104.16
+    },
+    {
+      "word": "to",
+      "start": 104.24,
+      "end": 104.4
+    },
+    {
+      "word": "it",
+      "start": 104.4,
+      "end": 104.56
+    },
+    {
+      "word": "End",
+      "start": 105.6,
+      "end": 105.76
+    },
+    {
+      "word": "the",
+      "start": 105.76,
+      "end": 105.92
+    },
+    {
+      "word": "route",
+      "start": 105.92,
+      "end": 106.32
+    },
+    {
+      "word": "You",
+      "start": 107.04,
+      "end": 107.12
+    },
+    {
+      "word": "have",
+      "start": 107.12,
+      "end": 107.28
+    },
+    {
+      "word": "reached",
+      "start": 107.28,
+      "end": 107.6
+    },
+    {
+      "word": "the",
+      "start": 107.6,
+      "end": 107.6
+    },
+    {
+      "word": "final",
+      "start": 107.68,
+      "end": 108.0
+    },
+    {
+      "word": "waypoint",
+      "start": 108.0,
+      "end": 108.64
+    },
+    {
+      "word": "Scroll",
+      "start": 109.28,
+      "end": 109.6
+    },
+    {
+      "word": "back",
+      "start": 109.6,
+      "end": 110.0
+    },
+    {
+      "word": "to",
+      "start": 110.32,
+      "end": 110.32
+    },
+    {
+      "word": "the",
+      "start": 110.32,
+      "end": 110.56
+    },
+    {
+      "word": "reference",
+      "start": 110.8,
+      "end": 111.6
+    },
+    {
+      "word": "grid",
+      "start": 111.76,
+      "end": 112.08
+    },
+    {
+      "word": "to",
+      "start": 112.16,
+      "end": 112.16
+    },
+    {
+      "word": "repeat",
+      "start": 112.4,
+      "end": 112.56
+    },
+    {
+      "word": "the",
+      "start": 112.56,
+      "end": 112.64
+    },
+    {
+      "word": "same",
+      "start": 112.64,
+      "end": 112.96
+    },
+    {
+      "word": "route",
+      "start": 112.96,
+      "end": 113.28
+    },
+    {
+      "word": "The",
+      "start": 114.56,
+      "end": 114.64
+    },
+    {
+      "word": "top",
+      "start": 114.72,
+      "end": 115.04
+    },
+    {
+      "word": "and",
+      "start": 115.28,
+      "end": 115.44
+    },
+    {
+      "word": "bottom",
+      "start": 115.44,
+      "end": 115.68
+    },
+    {
+      "word": "landmarks",
+      "start": 115.68,
+      "end": 116.16
+    },
+    {
+      "word": "have",
+      "start": 116.24,
+      "end": 116.32
+    },
+    {
+      "word": "different",
+      "start": 116.32,
+      "end": 116.64
+    },
+    {
+      "word": "labels",
+      "start": 116.64,
+      "end": 117.12
+    },
+    {
+      "word": "and",
+      "start": 117.12,
+      "end": 117.2
+    },
+    {
+      "word": "colors",
+      "start": 117.28,
+      "end": 117.68
+    },
+    {
+      "word": "so",
+      "start": 117.68,
+      "end": 117.76
+    },
+    {
+      "word": "a",
+      "start": 117.76,
+      "end": 118.08
+    },
+    {
+      "word": "flipped",
+      "start": 118.08,
+      "end": 118.08
+    },
+    {
+      "word": "or",
+      "start": 118.08,
+      "end": 118.24
+    },
+    {
+      "word": "misplaced",
+      "start": 118.24,
+      "end": 118.8
+    },
+    {
+      "word": "image",
+      "start": 118.8,
+      "end": 119.2
+    },
+    {
+      "word": "is",
+      "start": 119.28,
+      "end": 119.84
+    },
+    {
+      "word": "easier",
+      "start": 120.96,
+      "end": 121.28
+    },
+    {
+      "word": "to",
+      "start": 121.28,
+      "end": 121.36
+    },
+    {
+      "word": "spot",
+      "start": 121.36,
+      "end": 121.76
+    },
+    {
+      "word": "Okay",
+      "start": 123.2,
+      "end": 123.36
+    },
+    {
+      "word": "so",
+      "start": 123.44,
+      "end": 123.92
+    },
+    {
+      "word": "let's",
+      "start": 124.4,
+      "end": 124.56
+    },
+    {
+      "word": "go",
+      "start": 124.56,
+      "end": 124.72
+    },
+    {
+      "word": "back",
+      "start": 124.8,
+      "end": 124.96
+    },
+    {
+      "word": "to",
+      "start": 125.04,
+      "end": 125.12
+    },
+    {
+      "word": "the",
+      "start": 125.12,
+      "end": 125.12
+    },
+    {
+      "word": "reference",
+      "start": 125.2,
+      "end": 125.52
+    },
+    {
+      "word": "grid",
+      "start": 125.52,
+      "end": 125.76
+    },
+    {
+      "word": "I've",
+      "start": 125.76,
+      "end": 125.92
+    },
+    {
+      "word": "clicked",
+      "start": 126.08,
+      "end": 126.24
+    },
+    {
+      "word": "on",
+      "start": 126.24,
+      "end": 126.4
+    },
+    {
+      "word": "this",
+      "start": 126.4,
+      "end": 126.56
+    },
+    {
+      "word": "button",
+      "start": 126.56,
+      "end": 126.88
+    },
+    {
+      "word": "here",
+      "start": 126.96,
+      "end": 127.2
+    },
+    {
+      "word": "and",
+      "start": 127.2,
+      "end": 127.28
+    },
+    {
+      "word": "now",
+      "start": 127.36,
+      "end": 127.6
+    },
+    {
+      "word": "I'm",
+      "start": 127.6,
+      "end": 127.68
+    },
+    {
+      "word": "back",
+      "start": 127.68,
+      "end": 127.92
+    },
+    {
+      "word": "to",
+      "start": 127.92,
+      "end": 128.0
+    },
+    {
+      "word": "the",
+      "start": 128.0,
+      "end": 128.08
+    },
+    {
+      "word": "reference",
+      "start": 128.08,
+      "end": 128.32
+    },
+    {
+      "word": "grid",
+      "start": 128.32,
+      "end": 128.64
+    },
+    {
+      "word": "Okay",
+      "start": 129.6,
+      "end": 129.84
+    },
+    {
+      "word": "that's",
+      "start": 130.0,
+      "end": 130.16
+    },
+    {
+      "word": "it",
+      "start": 130.16,
+      "end": 130.32
+    }
+  ]
+}

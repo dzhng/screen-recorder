@@ -1,0 +1,140 @@
+{
+  "parentResidentBytes": 6099189760,
+  "candidateResidentBytes": 3574104064,
+  "memoryGatePass": true,
+  "score": {
+    "matched": 15,
+    "medianErrorMs": 35,
+    "p95ErrorMs": 556.5,
+    "meetsTiming": false
+  },
+  "allOriginalWordsRetained": 306,
+  "changedWordCount": 1,
+  "edges": [
+    {
+      "id": "w0",
+      "side": "start",
+      "controlErrorMs": 195,
+      "candidateErrorMs": 195,
+      "regressed": false
+    },
+    {
+      "id": "w6",
+      "side": "end",
+      "controlErrorMs": -555,
+      "candidateErrorMs": -555,
+      "regressed": false
+    },
+    {
+      "id": "w25",
+      "side": "start",
+      "controlErrorMs": 15,
+      "candidateErrorMs": 15,
+      "regressed": false
+    },
+    {
+      "id": "w26",
+      "side": "end",
+      "controlErrorMs": 20,
+      "candidateErrorMs": 20,
+      "regressed": false
+    },
+    {
+      "id": "w57",
+      "side": "start",
+      "controlErrorMs": -50,
+      "candidateErrorMs": -50,
+      "regressed": false
+    },
+    {
+      "id": "w62",
+      "side": "end",
+      "controlErrorMs": 25,
+      "candidateErrorMs": 25,
+      "regressed": false
+    },
+    {
+      "id": "w93",
+      "side": "start",
+      "controlErrorMs": 35,
+      "candidateErrorMs": 35,
+      "regressed": false
+    },
+    {
+      "id": "w103",
+      "side": "end",
+      "controlErrorMs": 93,
+      "candidateErrorMs": 93,
+      "regressed": false
+    },
+    {
+      "id": "w117",
+      "side": "start",
+      "controlErrorMs": 0,
+      "candidateErrorMs": 0,
+      "regressed": false
+    },
+    {
+      "id": "w117",
+      "side": "end",
+      "controlErrorMs": -20,
+      "candidateErrorMs": -20,
+      "regressed": false
+    },
+    {
+      "id": "w160",
+      "side": "start",
+      "controlErrorMs": 25,
+      "candidateErrorMs": 25,
+      "regressed": false
+    },
+    {
+      "id": "w237",
+      "side": "start",
+      "controlErrorMs": -560,
+      "candidateErrorMs": -560,
+      "regressed": false
+    },
+    {
+      "id": "w239",
+      "side": "end",
+      "controlErrorMs": 25,
+      "candidateErrorMs": 25,
+      "regressed": false
+    },
+    {
+      "id": "w277",
+      "side": "start",
+      "controlErrorMs": 155,
+      "candidateErrorMs": 155,
+      "regressed": false
+    },
+    {
+      "id": "w279",
+      "side": "end",
+      "controlErrorMs": -50,
+      "candidateErrorMs": -50,
+      "regressed": false
+    }
+  ],
+  "changedWords": [
+    {
+      "ordinal": 18,
+      "word": "going",
+      "control": {
+        "start": 10.72,
+        "end": 10.8
+      },
+      "candidate": {
+        "start": 10.64,
+        "end": 10.8
+      }
+    }
+  ],
+  "nonRegressionPass": true,
+  "settings": {
+    "device": "mps",
+    "dtype": "float16",
+    "language": "English"
+  }
+}

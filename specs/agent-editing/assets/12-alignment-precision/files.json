@@ -1,0 +1,52 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 3269,
+    "sha256": "3b48782e4f1cd4a71aca0c5a38fa21fdc5efb3d3f796e358c6ea09060b8b69b8"
+  },
+  {
+    "path": "alignment-float16.py",
+    "bytes": 3425,
+    "sha256": "25c06832ddac53f7080520887e10642df36047629ec3ea7b924c54c6af3b53b3"
+  },
+  {
+    "path": "attempt.json",
+    "bytes": 310,
+    "sha256": "bdc56343687cae30e51f6be2d18ba5fb2bdf452d392fff587d1cbffe8e756865"
+  },
+  {
+    "path": "comparison.json",
+    "bytes": 2720,
+    "sha256": "d728fa6fc35115e62f52fbfdd4576d8da302a1aa86c0fceca18cb9a5e1ca155a"
+  },
+  {
+    "path": "contract.json",
+    "bytes": 1580,
+    "sha256": "b28d9a21f2ddd474648e56b7b6ba564395c7edf03a67a3015e727f4e7b3a199d"
+  },
+  {
+    "path": "manifest.json",
+    "bytes": 3337,
+    "sha256": "ce76cd24daa5e0eeb3005b1522a0dbbeefc05e4d23f4a27e6c8d8c81b91de477"
+  },
+  {
+    "path": "process.txt",
+    "bytes": 1563,
+    "sha256": "5d676fc2ce1bc71632948ed6203705880dcf77e0a8f48c03a3a2330729d4488a"
+  },
+  {
+    "path": "result.json",
+    "bytes": 23389,
+    "sha256": "0955d2cb4704868ba0ae1674c1d496f31fceec792a2332b0eb06ced967a53a91"
+  },
+  {
+    "path": "review.json",
+    "bytes": 672,
+    "sha256": "a3383f4b36083a5d8123dcb5bd197de545a891ceb11b093b89d9c3065e8eff1c"
+  },
+  {
+    "path": "score.json",
+    "bytes": 2366,
+    "sha256": "83284c3b350ce76cbeb3d076bbe659378cf5fd01d64cbd73bbd9ae9e37d56d81"
+  }
+]

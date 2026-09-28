@@ -92,7 +92,9 @@ Compact evidence ledger:
 - [Verbatim speech](assets/12-verbatim/README.md) and
   [forced alignment](assets/12-alignment/README.md) fail their timing/memory gates.
   The [text-only diagnostic](assets/12-alignment-text-coverage/README.md) fixes one
-  onset but still fails p95/memory; independent workbench evidence and listening remain open.
+  onset but still fails p95/memory. [Half-precision alignment](assets/12-alignment-precision/README.md)
+  passes the resident-memory gate with unchanged marked errors, but one unmarked
+  edge moves; independent boundary evidence and listening remain open.
   [Conventional denoise](assets/12c-denoise-timing/README.md) and
   [learned denoise](assets/12c-rnnoise-timing/README.md) have measured compensation
   and state sensitivity. Both reject independent resets for a pure split;

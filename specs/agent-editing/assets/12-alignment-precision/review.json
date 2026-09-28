@@ -1,0 +1,6 @@
+{
+  "shape": "No production changes, new dependency or model. Existing alignment runner/scorer reused; retained candidate differs only in model precision and recorded dtype.",
+  "diff": "Original input/model/runtime identities matched; all306 words checked in order, all15 marked edges compared, single unmarked onset shift retained. Scorer thresholds and labels unchanged.",
+  "docs": "Resident set and OS footprint separated; timing failure and collateral uncertainty remain explicit; no production promotion or speed claim. One completed attempt, no repairs.",
+  "choice": "Diagnostic dtype parameter is bounded experiment discretion; no production policy selected."
+}

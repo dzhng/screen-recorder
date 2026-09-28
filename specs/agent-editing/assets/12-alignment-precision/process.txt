@@ -1,0 +1,29 @@
+
+Loading weights:   0%|          | 0/708 [00:00<?, ?it/s]
+Loading weights:  13%|█▎        | 89/708 [00:00<00:00, 818.78it/s]
+Loading weights:  24%|██▍       | 171/708 [00:00<00:01, 490.86it/s]
+Loading weights:  32%|███▏      | 227/708 [00:00<00:01, 473.90it/s]
+Loading weights:  39%|███▉      | 278/708 [00:00<00:01, 406.03it/s]
+Loading weights:  45%|████▌     | 321/708 [00:00<00:00, 409.14it/s]
+Loading weights:  51%|█████▏    | 364/708 [00:00<00:00, 375.93it/s]
+Loading weights:  57%|█████▋    | 403/708 [00:02<00:04, 66.74it/s]
+Loading weights: 100%|██████████| 708/708 [00:02<00:00, 255.46it/s]
+{"state": "complete", "words": 306, "loadSeconds": 6.152716625016183, "alignSeconds": 2.5864617499755695}
+       21.91 real         8.67 user        12.96 sys
+          3574104064  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              240730  page reclaims
+              107383  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                7618  voluntary context switches
+              373345  involuntary context switches
+         58563676578  instructions retired
+         54084859729  cycles elapsed
+          5349705864  peak memory footprint

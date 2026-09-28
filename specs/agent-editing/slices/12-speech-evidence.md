@@ -44,3 +44,9 @@ User feedback changing the named contract or judged variable requires updating t
 [Wider workbench context](../assets/12-boundary-context/README.md) now includes both
 alternative endpoints and the unchanged mark. Its metadata-dependent time readout
 and missing audible word identity remain explicit; no label or threshold changed.
+
+[The precision diagnostic](../assets/12-alignment-precision/README.md) reduces peak
+resident memory to 3,574,104,064 bytes using float16 with the original frozen text.
+All marked errors are unchanged and timing still fails; one unmarked onset moves
+80 ms. This is a provisional numerical candidate, not production or listening
+acceptance. The larger OS footprint remains separately reported.

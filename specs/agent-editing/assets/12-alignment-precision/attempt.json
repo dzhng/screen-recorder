@@ -1,0 +1,12 @@
+{
+  "attempts": 1,
+  "repairs": 0,
+  "exitCode": 0,
+  "deadlineSeconds": 900,
+  "wallSeconds": 21.91,
+  "state": "complete",
+  "productionPromotion": false,
+  "baselineReused": true,
+  "network": "denied by sandbox-exec",
+  "next": "Independent boundary/listening verification before combining or promotion"
+}
