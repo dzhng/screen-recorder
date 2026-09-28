@@ -1,6 +1,6 @@
 # 08 — Independent audio mixing
 
-Status: native execution pass in progress; [evidence](../assets/08-audio/README.md) verifies compiled mixing and selected-run resampling parity/isolation. Fractional affine phase, broader media conformance, public jobs and listening remain open. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
+Status: native constant-gain execution and tested fractional unit-rate mapping pass; later09/11a public jobs, taps and large PCM delivery supply their scoped integration gates. [Current reconciliation](../assets/08-current-acceptance/README.md) records the combined-worker rerun. Broader composition codec/rate/segment-origin conformance, long-project drift and real-narration listening remain open. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
 
 ## Contract
 
@@ -42,4 +42,5 @@ Consume compiler-owned [selected resampling context](../processing.md#selected-r
 Do not infer neighboring editorial continuity or read asset-wide filter input.
 Prove impulses outside selection, source acquisition and ancestor support cannot
 affect retained output, while pure splits and late windows preserve samples.
-Unknown fractional phase remains explicit NOT_READY until independently proven.
+The tested unit-rate fractional mappings are verified; unknown rate-changing
+phase still requires prepared retiming and must not be inferred from those checks.

@@ -1,0 +1,8 @@
+{
+  "commit": "65baf08e",
+  "workerSha256": "2b40350219d91abdb79d0872d2fa34aff64be0d60a711cacf3724d06749c0db2",
+  "reportSha256": "647e24851022dd959c0b6b6149dae0d893fb857f1b1d8abfc8ee6dfd4a41cbef",
+  "checks": 15,
+  "command": "SCREENREC_NATIVE=/tmp/screenrec-project-image-integrated-native node packages/test-harness/editing/audio-mix.mjs --case music-and-replacement",
+  "setupCorrection": "An initial invocation supplied unsupported --out and failed before media execution; corrected invocation above passed."
+}
