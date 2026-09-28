@@ -1,3 +1,4 @@
+import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
@@ -163,7 +164,7 @@ try {
       frames,
       range,
       canvas: document.canvas,
-      profile: "h264-rec709",
+      settings: resolveOutputSettings(),
       processing: nativeProcessing(window.processing()),
       assets: bindings,
     };
@@ -317,16 +318,17 @@ try {
       frames: cancelFrames,
       range: cancelRange,
       canvas: empty.canvas,
-      profile: "h264-rec709",
+      settings: resolveOutputSettings(),
       processing: nativeProcessing(cancelWindow.processing()),
       assets: [],
       audio: { range: { start: 0, end: 4800000 }, clips: [] },
     }),
   );
-  const cancellation = run(join(dirname(native), "ScreenRecorderCompositionVideoTests"), [
-    cancelRequest,
-    "media.renderCompositionMovie",
-  ])
+  const cancellation = run(
+    process.env.SCREENREC_COMPOSITION_VIDEO_TESTS ??
+      join(dirname(native), "ScreenRecorderCompositionVideoTests"),
+    [cancelRequest, "media.renderCompositionMovie"],
+  )
     .toString()
     .trim();
   assert(cancellation.startsWith("PASS"));

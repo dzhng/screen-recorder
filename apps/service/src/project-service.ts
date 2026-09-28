@@ -1,4 +1,5 @@
 import { selectSource } from "@screenrec/core/source-selection";
+import { outputCapabilities } from "@screenrec/composition";
 import { ProjectPackages } from "./project-packages.js";
 import { writeFile } from "node:fs/promises";
 import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
@@ -798,6 +799,16 @@ export async function startProjectService(options: { home: string; worker?: Medi
                 operation.params.projectId,
                 operation.params.revisionId,
                 operation.params.target,
+              ),
+            };
+          case "output.capabilities":
+            return {
+              ok: true,
+              data: outputCapabilities(
+                nativeResult(await worker("media.outputCapabilities", {})) as Record<
+                  string,
+                  unknown
+                >,
               ),
             };
           case "processing.capabilities":

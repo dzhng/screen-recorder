@@ -2338,3 +2338,24 @@ The reach: the shorthand keeps existing dry-outside-window and integer-key rules
 it adds no hidden end key, second clock or rounding policy. Verdict: sound, because
 ordinary processing remains the complete expressive path and receipts describe
 exactly what executes. Confidence: medium.
+## Output settings functional checkpoint
+
+- **Sound, high confidence — keep authored replay identity separate from encoder settings.**
+  An export requested with a preset stores both the request and its resolved values.
+  Repeating that export ID reuses those values even if defaults change later; a new
+  export can resolve the new preset. Empty settings preserve the existing request
+  identity. Render caching uses resolved values so equivalent requests share work.
+- **Sound, high confidence — preserve the internal audio clock while exposing output format.**
+  A request for44.1kHz mono AAC still mixes the composition at its existing48kHz
+  stereo clock, then asks the encoder for the chosen output format. This avoids
+  changing edit/gain sample ownership just to change delivery format. Both internal
+  and encoded formats are reported; public tests check track duration and layout.
+- **Sound, high confidence — verify the encoded header before publication.**
+  A requested H.264 profile/explicit level must match the actual sequence parameter
+  set. Echoing the request cannot prove encoder behavior. Auto level reports the
+  encoder-selected level. This adds a bounded metadata read, not a second renderer.
+- **Provisional, medium confidence — candidate bitrate presets await quality evidence.**
+  Compact/balanced/sharp currently select3/8/20Mbps as research candidates. Public
+  control tests prove these requests execute and remain overridable; they do not
+  establish a balanced quality policy. Keep this checkpoint unintegrated until the
+  real text/motion/pointer comparison selects or replaces those values.

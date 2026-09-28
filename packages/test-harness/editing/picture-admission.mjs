@@ -1,3 +1,4 @@
+import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
@@ -302,11 +303,14 @@ assert.deepEqual(await readFile(bypass.data.file), await readFile(recovered.data
 const moviePixels = [];
 for (const disabledPointer of [false, true]) {
   const range = { startUs: 0, endUs: 100000 };
-  const { frame, ...params } = sourceFrame(1, disabledPointer, range);
+  const { frame, canvas: movieCanvas, processing, assets } = sourceFrame(1, disabledPointer, range);
   const frames = join(out, `pointer-${disabledPointer}.jsonl`);
   await writeFile(frames, JSON.stringify(frame) + "\n");
   const rendered = call("media.renderCompositionVideo", {
-    ...params,
+    canvas: movieCanvas,
+    processing,
+    assets,
+    settings: resolveOutputSettings(),
     frames,
     range,
     output: join(out, `pointer-${disabledPointer}.mp4`),

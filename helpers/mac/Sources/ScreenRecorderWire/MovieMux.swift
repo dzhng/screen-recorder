@@ -7,12 +7,15 @@ import ScreenRecorderMedia
 /// Copies already-rendered H.264 samples and consumes a bounded PCM source.
 /// Both writer inputs finish before the caller may publish this attempt's file.
 enum MovieMux {
-    static func write(video: URL, audio: any AudioPCMSource, durationUs: Int64, output: URL)
+    static func write(
+        video: URL, audio: any AudioPCMSource, durationUs: Int64, output: URL,
+        settings: OutputSettings.Audio? = nil
+    )
         async throws
     {
         let inputs = try await Inputs(
             video: video, rate: audio.format.sampleRate, channels: audio.format.channels,
-            output: output)
+            output: output, settings: settings)
         do {
             // The input actor shares the first failure promptly with the other pump.
             async let pictures: Void = inputs.copyVideo()
@@ -37,7 +40,10 @@ enum MovieMux {
         let channels: Int
         private var firstFailure: NativeFailure?
 
-        init(video: URL, rate: Int, channels: Int, output: URL) async throws {
+        init(
+            video: URL, rate: Int, channels: Int, output: URL,
+            settings outputSettings: OutputSettings.Audio?
+        ) async throws {
             let asset = AVURLAsset(url: video)
             guard let track = try await asset.loadTracks(withMediaType: .video).first,
                 let description = try await track.load(.formatDescriptions).first
@@ -54,14 +60,16 @@ enum MovieMux {
             let videoScale = try await track.load(.naturalTimeScale)
             try clock.include(videoScale)
             try clock.include(Int32(rate))
+            try clock.include(Int32(outputSettings?.sampleRate ?? rate))
             writer.movieTimeScale = clock.timescale
             picture = AVAssetWriterInput(
                 mediaType: .video, outputSettings: nil, sourceFormatHint: description)
             picture.mediaTimeScale = videoScale
-            let settings: [String: Any] = [
-                AVFormatIDKey: kAudioFormatMPEG4AAC, AVSampleRateKey: rate,
-                AVNumberOfChannelsKey: channels, AVEncoderBitRateKey: channels * 96_000,
-            ]
+            let settings: [String: Any] =
+                try outputSettings?.dictionary() ?? [
+                    AVFormatIDKey: kAudioFormatMPEG4AAC, AVSampleRateKey: rate,
+                    AVNumberOfChannelsKey: channels, AVEncoderBitRateKey: channels * 96_000,
+                ]
             guard writer.canApply(outputSettings: settings, forMediaType: .audio) else {
                 throw NativeFailure(
                     "UNSUPPORTED_FORMAT", "AAC cannot encode the resolved PCM format.")

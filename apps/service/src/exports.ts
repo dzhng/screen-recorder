@@ -1,3 +1,4 @@
+import { normalizeOutputRequest, type OutputSettingsInput } from "@screenrec/composition";
 import { ResourceReferences, resourceKinds } from "@screenrec/core/references";
 import { resourceIdentity } from "@screenrec/core/project-package";
 import type { ProjectPackages, PinnedProjectPackage } from "./project-packages.js";
@@ -23,19 +24,9 @@ import type {
 } from "@screenrec/core/project-preview";
 import type { SourceEvidenceMetadata } from "@screenrec/core/evidence";
 import type { SourceProcessing } from "@screenrec/core/processing";
-import type {
-  PreviewInspection,
-  PreviewArtifact,
-} from "@screenrec/core/preview";
-import {
-  Publication,
-  publicationDeadlineMs,
-  type PublicationReceipt,
-} from "./publication.js";
-import {
-  provisionPackageWorkspace,
-  removePackageWorkspace,
-} from "./package-workspace.js";
+import type { PreviewInspection, PreviewArtifact } from "@screenrec/core/preview";
+import { Publication, publicationDeadlineMs, type PublicationReceipt } from "./publication.js";
+import { provisionPackageWorkspace, removePackageWorkspace } from "./package-workspace.js";
 import {
   assemblePackage,
   checkWorkspace,
@@ -48,6 +39,7 @@ import type { MediaWorker } from "./worker.js";
 
 type Request = {
   exportId: string;
+  settings?: OutputSettingsInput | undefined;
   revisionId?: string | undefined;
   directory: string;
   leaf: string;
@@ -122,8 +114,7 @@ type Lifecycle = {
 const stagingPending = (row: Pick<Lifecycle, "staging" | "stagingCleared">) =>
   !!row.staging && !row.stagingCleared;
 /** Private obligations remain: staging beside the destination or package assembly workspaces. */
-const cleanupPending = (row: Lifecycle) =>
-  !!row.assembly || stagingPending(row);
+const cleanupPending = (row: Lifecycle) => !!row.assembly || stagingPending(row);
 // Partial indexes and page filters need these predicates in SQL; each mirrors its TS twin above.
 const stagingPendingSql = "(staging IS NOT NULL AND stagingCleared=0)";
 const cleanupPendingSql = `(assembly IS NOT NULL OR ${stagingPendingSql})`;
@@ -167,7 +158,11 @@ export class MediaExports {
         package: PackageOwners;
         files: Pick<ManagedFiles, "recordingDirectory">;
       };
-      project?: { store: ProjectStore; preview: ProjectPreviewInspection; package?: ProjectPackages };
+      project?: {
+        store: ProjectStore;
+        preview: ProjectPreviewInspection;
+        package?: ProjectPackages;
+      };
     },
   ) {
     this.references = new ResourceReferences(owners.catalog);
@@ -202,11 +197,14 @@ export class MediaExports {
   }
   private projectPackage() {
     const packages = this.project().package;
-    if (!packages) throw new CatalogError("NOT_READY", "Project packages are unavailable in this service");
+    if (!packages)
+      throw new CatalogError("NOT_READY", "Project packages are unavailable in this service");
     return packages;
   }
   private packageDirectory(intent: Pick<Intent, "targetKind" | "targetId">, signal?: AbortSignal) {
-    return intent.targetKind === "project" ? this.projectPackage().exportDirectory() : this.recording().files.recordingDirectory(intent.targetId, signal);
+    return intent.targetKind === "project"
+      ? this.projectPackage().exportDirectory()
+      : this.recording().files.recordingDirectory(intent.targetId, signal);
   }
   private owner(intent: Pick<Intent, "targetKind" | "targetId">): ExportOwner {
     return intent.targetKind === "recording"
@@ -214,8 +212,7 @@ export class MediaExports {
       : { kind: "project", projectId: intent.targetId };
   }
   private assertOwner(intent: Pick<Intent, "targetKind" | "targetId">) {
-    if (intent.targetKind === "recording")
-      this.recording().store.get(intent.targetId);
+    if (intent.targetKind === "recording") this.recording().store.get(intent.targetId);
     else this.project().store.get(intent.targetId);
   }
   private deleting(owner: ExportOwner) {
@@ -249,9 +246,7 @@ export class MediaExports {
       destination: JSON.parse(row.destination),
       staging: row.staging ? JSON.parse(row.staging) : null,
       preview: row.preview ? JSON.parse(row.preview) : null,
-      sourceEvidence: row.sourceEvidence
-        ? JSON.parse(row.sourceEvidence)
-        : null,
+      sourceEvidence: row.sourceEvidence ? JSON.parse(row.sourceEvidence) : null,
       receipt: row.receipt ? JSON.parse(row.receipt) : null,
     };
   }
@@ -265,23 +260,14 @@ export class MediaExports {
   }
   private requireActive(intent: Intent): void {
     if (intent.abandoning)
-      throw new CatalogError(
-        "EXPORT_ABANDONING",
-        "Export cleanup is pending; retry abandonment",
-        {
-          exportId: intent.exportId,
-        },
-      );
+      throw new CatalogError("EXPORT_ABANDONING", "Export cleanup is pending; retry abandonment", {
+        exportId: intent.exportId,
+      });
   }
 
   abandon(exportId: string): Promise<void> {
     if (this.closed)
-      throw new CatalogError(
-        "SERVICE_STOPPED",
-        "Export cleanup is closed",
-        {},
-        true,
-      );
+      throw new CatalogError("SERVICE_STOPPED", "Export cleanup is closed", {}, true);
     this.owners.catalog.catalog
       .prepare("UPDATE export_intents SET abandoning=1 WHERE exportId=?")
       .run(exportId);
@@ -291,10 +277,7 @@ export class MediaExports {
   async close(): Promise<void> {
     this.closed = true;
     this.lifetime.abort();
-    await Promise.allSettled([
-      ...this.creating.keys(),
-      ...this.retiring.values(),
-    ]);
+    await Promise.allSettled([...this.creating.keys(), ...this.retiring.values()]);
   }
 
   private identity(intent: Intent) {
@@ -346,8 +329,7 @@ export class MediaExports {
         } catch (error) {
           if (
             error instanceof CatalogError &&
-            (error.code === "LIMIT_EXCEEDED" ||
-              error.code === "SERVICE_STOPPED")
+            (error.code === "LIMIT_EXCEEDED" || error.code === "SERVICE_STOPPED")
           )
             break;
           errors.push(error);
@@ -381,10 +363,7 @@ export class MediaExports {
       if (read) {
         try {
           if (read.bytes !== intent.preview.bytes)
-            throw new CatalogError(
-              "INVALID_CACHE",
-              "Pinned preview size changed",
-            );
+            throw new CatalogError("INVALID_CACHE", "Pinned preview size changed");
           return true;
         } finally {
           read.release();
@@ -397,10 +376,7 @@ export class MediaExports {
     const intent = this.require(job.input);
     this.requireActive(intent);
     if (job.artifact !== artifact || !this.matches(job, intent))
-      throw new CatalogError(
-        "INVALID_JOB",
-        "Export job does not match its pinned intent",
-      );
+      throw new CatalogError("INVALID_JOB", "Export job does not match its pinned intent");
     if (this.hasPreparedInput(intent)) return { state: "ready" };
     let ready;
     if (intent.targetKind === "project") {
@@ -411,13 +387,10 @@ export class MediaExports {
       if (!intent.sourceEvidence) {
         this.recording().processing.prepare(intent.targetId);
         const source = this.recording().processing.status(intent.targetId);
-        if (source.state !== "ready" || !source.published)
-          return this.dependency(source);
+        if (source.state !== "ready" || !source.published) return this.dependency(source);
         intent.sourceEvidence = source.published.evidence;
         this.owners.catalog.catalog
-          .prepare(
-            "UPDATE export_intents SET sourceEvidence=? WHERE exportId=?",
-          )
+          .prepare("UPDATE export_intents SET sourceEvidence=? WHERE exportId=?")
           .run(JSON.stringify(intent.sourceEvidence), intent.exportId);
       }
       if (intent.kind === "processed-package") return this.admitPackage(intent);
@@ -428,8 +401,7 @@ export class MediaExports {
         rendition: "source",
       });
     }
-    if (ready.state !== "ready" || !ready.published)
-      return this.dependency(ready);
+    if (ready.state !== "ready" || !ready.published) return this.dependency(ready);
     intent.preview = {
       cacheId: ready.published.preview.cacheId,
       bytes: ready.published.preview.bytes,
@@ -470,17 +442,10 @@ export class MediaExports {
   private admitPackage(intent: Intent): ReturnType<JobAdmission> {
     const owners = this.recording().package;
     const source = intent.sourceEvidence;
-    if (!source)
-      throw new CatalogError(
-        "INVALID_EVIDENCE",
-        "Package source is not selected",
-      );
+    if (!source) throw new CatalogError("INVALID_EVIDENCE", "Package source is not selected");
     intent.packageEvidence ??= { scenes: null, index: null, transcript: null };
     // Acquired narration, never a caller flag, makes the transcript required.
-    if (
-      owners.source.hasAudio(source, "narration") &&
-      !intent.packageEvidence.transcript
-    ) {
+    if (owners.source.hasAudio(source, "narration") && !intent.packageEvidence.transcript) {
       owners.transcript.prepare(intent.targetId);
       const transcript = owners.transcript.status(intent.targetId);
       // Unprepared models start no job, so there is nothing to wait on; the caller must act.
@@ -498,16 +463,14 @@ export class MediaExports {
               { dependency: transcript.jobId },
               transcript.retryable,
             );
-      if (transcript.state !== "ready" || !transcript.published)
-        return this.dependency(transcript);
+      if (transcript.state !== "ready" || !transcript.published) return this.dependency(transcript);
       intent.packageEvidence.transcript = transcript.published.transcript;
       this.savePackageEvidence(intent);
     }
     if (!intent.packageEvidence.scenes) {
       owners.scenes.prepare(intent.targetId);
       const scenes = owners.scenes.status(intent.targetId);
-      if (scenes.state !== "ready" || !scenes.published)
-        return this.dependency(scenes);
+      if (scenes.state !== "ready" || !scenes.published) return this.dependency(scenes);
       intent.packageEvidence.scenes = scenes.published.evidence;
       this.savePackageEvidence(intent);
     }
@@ -517,8 +480,7 @@ export class MediaExports {
         revisionId: intent.snapshot.revisionId,
         evidence: { source, scenes: intent.packageEvidence.scenes },
       });
-      if (index.state !== "ready" || !index.published)
-        return this.dependency(index);
+      if (index.state !== "ready" || !index.published) return this.dependency(index);
       intent.packageEvidence.index = index.published.evidence;
       this.savePackageEvidence(intent);
     }
@@ -527,33 +489,21 @@ export class MediaExports {
   private saveAssembly(intent: Intent) {
     this.owners.catalog.catalog
       .prepare("UPDATE export_intents SET assembly=? WHERE exportId=?")
-      .run(
-        intent.assembly ? JSON.stringify(intent.assembly) : null,
-        intent.exportId,
-      );
+      .run(intent.assembly ? JSON.stringify(intent.assembly) : null, intent.exportId);
   }
   private async cleanupAssembly(intent: Intent): Promise<void> {
     const reservation = intent.assembly;
     if (!reservation) return;
-    let parent:
-      Awaited<ReturnType<ManagedFiles["recordingDirectory"]>> | undefined;
+    let parent: Awaited<ReturnType<ManagedFiles["recordingDirectory"]>> | undefined;
     try {
       parent = await this.packageDirectory(intent);
       if (
         parent.identity.dev !== reservation.parent.dev ||
         parent.identity.ino !== reservation.parent.ino
       )
-        throw new CatalogError(
-          "INVALID_STORAGE",
-          "Assembly parent changed",
-        );
+        throw new CatalogError("INVALID_STORAGE", "Assembly parent changed");
       for (const child of [reservation.input, reservation.zip])
-        await removePackageWorkspace(
-          parent,
-          child.name,
-          child.identity,
-          this.owners.worker,
-        );
+        await removePackageWorkspace(parent, child.name, child.identity, this.owners.worker);
       intent.assembly = null;
       this.saveAssembly(intent);
     } catch (error) {
@@ -576,12 +526,12 @@ export class MediaExports {
       index = intent.packageEvidence?.index,
       transcript = intent.packageEvidence?.transcript ?? null;
     if (
-      owners && (!source || !scenes || !index || (!transcript && owners.source.hasAudio(source, "narration")))
+      owners &&
+      (!source || !scenes || !index || (!transcript && owners.source.hasAudio(source, "narration")))
     )
       throw new JobDependencyLost("Package evidence is not admitted");
     const parent = await this.packageDirectory(intent, signal);
-    const workspaces: Awaited<ReturnType<typeof provisionPackageWorkspace>>[] =
-      [];
+    const workspaces: Awaited<ReturnType<typeof provisionPackageWorkspace>>[] = [];
     let archive: Awaited<ReturnType<typeof assemblePackage>> | undefined;
     try {
       signal.throwIfAborted();
@@ -594,14 +544,10 @@ export class MediaExports {
       };
       this.saveAssembly(intent);
       for (const kind of ["input", "zip"] as const) {
-        const workspace = await provisionPackageWorkspace(
-          parent,
-          this.owners.worker,
-          {
-            name: intent.assembly[kind].name,
-            signal,
-          },
-        );
+        const workspace = await provisionPackageWorkspace(parent, this.owners.worker, {
+          name: intent.assembly[kind].name,
+          signal,
+        });
         workspaces.push(workspace);
         intent.assembly[kind].identity = workspace.identity;
         this.saveAssembly(intent);
@@ -610,10 +556,25 @@ export class MediaExports {
         zip = workspaces[1]!;
       archive = owners
         ? await assemblePackage(
-            { snapshot: intent.snapshot as Snapshot, source: source!, scenes: scenes!, index: index!, transcript },
-            { ...owners, store: this.recording().store, worker: this.owners.worker }, parent, input, zip, signal,
+            {
+              snapshot: intent.snapshot as Snapshot,
+              source: source!,
+              scenes: scenes!,
+              index: index!,
+              transcript,
+            },
+            { ...owners, store: this.recording().store, worker: this.owners.worker },
+            parent,
+            input,
+            zip,
+            signal,
           )
-        : await this.projectPackage().assemble(intent.snapshot as PinnedProjectPackage, input, zip, signal);
+        : await this.projectPackage().assemble(
+            intent.snapshot as PinnedProjectPackage,
+            input,
+            zip,
+            signal,
+          );
       intent.assembly.bytes = archive.receipt.bytes;
       this.saveAssembly(intent);
       await checkWorkspace(input);
@@ -623,9 +584,7 @@ export class MediaExports {
       try {
         await archive?.close();
       } finally {
-        await Promise.all(
-          workspaces.map((workspace) => workspace.handle.close()),
-        );
+        await Promise.all(workspaces.map((workspace) => workspace.handle.close()));
         await parent.handle.close();
       }
     }
@@ -648,35 +607,21 @@ export class MediaExports {
         status.retryable,
       );
     if (!status.jobId)
-      throw new CatalogError(
-        "INVALID_STATE",
-        "Waiting export dependency has no job identity",
-      );
+      throw new CatalogError("INVALID_STATE", "Waiting export dependency has no job identity");
     return { state: "waiting", dependency: status.jobId };
   }
   create(request: Request) {
-    const pending = this.prepareIntent(request).finally(() =>
-      this.creating.delete(pending),
-    );
+    const pending = this.prepareIntent(request).finally(() => this.creating.delete(pending));
     this.creating.set(pending, request.exportId);
     return pending;
   }
   private requireAdmission(exportId: string): void {
     if (this.closed)
-      throw new CatalogError(
-        "SERVICE_STOPPED",
-        "Export admission is closed",
-        {},
-        true,
-      );
+      throw new CatalogError("SERVICE_STOPPED", "Export admission is closed", {}, true);
     if (this.retiring.has(exportId))
-      throw new CatalogError(
-        "EXPORT_ABANDONING",
-        "Export cleanup is pending; retry abandonment",
-        {
-          exportId,
-        },
-      );
+      throw new CatalogError("EXPORT_ABANDONING", "Export cleanup is pending; retry abandonment", {
+        exportId,
+      });
   }
   private async prepareIntent(request: Request) {
     this.requireAdmission(request.exportId);
@@ -692,8 +637,10 @@ export class MediaExports {
         "Export needs a UUID identity and destination filename",
       );
     const targetKind = "projectId" in request ? "project" : "recording";
-    const targetId =
-      "projectId" in request ? request.projectId : request.recordingId;
+    const targetId = "projectId" in request ? request.projectId : request.recordingId;
+    if (request.settings && (targetKind !== "project" || request.kind !== "video"))
+      throw new CatalogError("INVALID_PARAMS", "Output settings require a project video export");
+    const settingsRequest = normalizeOutputRequest(request.settings);
     const key = JSON.stringify([
       request.kind,
       targetKind,
@@ -701,14 +648,12 @@ export class MediaExports {
       request.revisionId ?? null,
       request.directory,
       request.leaf,
+      ...(Object.keys(settingsRequest).length ? [settingsRequest] : []),
     ]);
     const existing = this.find(request.exportId);
     if (existing) {
       if (existing.request !== key)
-        throw new CatalogError(
-          "REQUEST_CONFLICT",
-          "Export identity names a different request",
-        );
+        throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
       this.requireActive(existing);
       this.assertOwner(existing);
       if (!existing.receipt)
@@ -723,13 +668,11 @@ export class MediaExports {
         ? request.kind === "processed-package"
           ? this.projectPackage().pin(targetId, request.revisionId)
           : this.project().preview.pin({
-            projectId: targetId,
-            revisionId: request.revisionId,
-          })
-        : this.recording().store.pinPackageSnapshot(
-            targetId,
-            request.revisionId,
-          ).snapshot;
+              projectId: targetId,
+              revisionId: request.revisionId,
+              settings: request.settings,
+            })
+        : this.recording().store.pinPackageSnapshot(targetId, request.revisionId).snapshot;
     const selected = await this.owners.files.externalDirectory(
       request.directory,
       this.lifetime.signal,
@@ -742,17 +685,12 @@ export class MediaExports {
       const existing = this.find(request.exportId);
       if (existing) {
         if (existing.request !== key)
-          throw new CatalogError(
-            "REQUEST_CONFLICT",
-            "Export identity names a different request",
-          );
+          throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
         this.requireActive(existing);
         return existing;
       }
       const pending = this.owners.catalog.catalog
-        .prepare(
-          `SELECT COUNT(*) AS count FROM export_intents WHERE ${admittedSql}`,
-        )
+        .prepare(`SELECT COUNT(*) AS count FROM export_intents WHERE ${admittedSql}`)
         .get() as { count: number };
       if (pending.count >= 32)
         throw new CatalogError(
@@ -779,15 +717,14 @@ export class MediaExports {
         this.projectPackage().checkPinned(pinned);
         for (const resource of pinned.resources) {
           const identity = resourceIdentity(resource);
-          this.references.retain(identity.kind, { kind: "export", id: request.exportId }, [identity.id]);
+          this.references.retain(identity.kind, { kind: "export", id: request.exportId }, [
+            identity.id,
+          ]);
         }
       }
       const admitted = this.require(request.exportId);
       if (admitted.request !== key)
-        throw new CatalogError(
-          "REQUEST_CONFLICT",
-          "Export identity names a different request",
-        );
+        throw new CatalogError("REQUEST_CONFLICT", "Export identity names a different request");
       return admitted;
     });
     this.owners.jobs.submitDeferred({
@@ -815,25 +752,16 @@ export class MediaExports {
       unfinishedOnly = input.unfinishedOnly ?? false,
       limit = input.limit ?? 100;
     if (recordingId !== null && projectId !== null)
-      throw new CatalogError(
-        "INVALID_PARAMS",
-        "Choose one export owner filter",
-      );
+      throw new CatalogError("INVALID_PARAMS", "Choose one export owner filter");
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > 1000)
-      throw new CatalogError(
-        "INVALID_PARAMS",
-        "Export page limit must be1–1000",
-      );
+      throw new CatalogError("INVALID_PARAMS", "Export page limit must be1–1000");
     if (
       input.cursor &&
       (input.cursor.recordingId !== recordingId ||
         input.cursor.projectId !== projectId ||
         input.cursor.unfinishedOnly !== unfinishedOnly)
     )
-      throw new CatalogError(
-        "INVALID_CURSOR",
-        "Export cursor does not match filters",
-      );
+      throw new CatalogError("INVALID_CURSOR", "Export cursor does not match filters");
     const owner: ExportOwner | undefined =
       recordingId !== null
         ? { kind: "recording", recordingId }
@@ -865,23 +793,13 @@ export class MediaExports {
     })[];
     const exports = rows
       .slice(0, limit)
-      .map(
-        ({
-          exportId,
-          targetKind,
-          targetId,
-          kind,
-          revisionId,
-          state,
-          ...lifecycle
-        }) => ({
-          exportId,
-          ...this.ownerFields({ targetKind, targetId }),
-          kind,
-          revisionId,
-          ...summarize(lifecycle, state),
-        }),
-      );
+      .map(({ exportId, targetKind, targetId, kind, revisionId, state, ...lifecycle }) => ({
+        exportId,
+        ...this.ownerFields({ targetKind, targetId }),
+        kind,
+        revisionId,
+        ...summarize(lifecycle, state),
+      }));
     return {
       exports,
       nextCursor:
@@ -901,9 +819,7 @@ export class MediaExports {
     const job = this.owners.jobs.status(this.identity(intent));
     const current = job.jobId ? this.owners.jobs.job(job.jobId) : null;
     const recovery = current
-      ? this.owners.jobs.status(
-          this.recoveryIdentity(intent, current.attemptId),
-        )
+      ? this.owners.jobs.status(this.recoveryIdentity(intent, current.attemptId))
       : null;
     return {
       exportId,
@@ -919,19 +835,14 @@ export class MediaExports {
         leaf: intent.destination.leaf,
       },
       receipt: intent.receipt,
-      output: intent.receipt
-        ? join(intent.destination.directory, intent.destination.leaf)
-        : null,
+      output: intent.receipt ? join(intent.destination.directory, intent.destination.leaf) : null,
       jobId: job.jobId,
       reason: intent.receipt ? null : job.reason,
       retryable: !intent.receipt && job.retryable,
     };
   }
   /** Private staging remains attributed to its owner even when it lives beside an external destination. */
-  async usage(
-    owner: ExportOwner | undefined,
-    signal: AbortSignal,
-  ): Promise<number> {
+  async usage(owner: ExportOwner | undefined, signal: AbortSignal): Promise<number> {
     let after = "",
       bytes = 0;
     const query = this.owners.catalog.catalog.prepare(
@@ -940,9 +851,7 @@ export class MediaExports {
     for (;;) {
       signal.throwIfAborted();
       const row = (
-        owner === undefined
-          ? query.get(after)
-          : query.get(...ownerIdentity(owner), after)
+        owner === undefined ? query.get(after) : query.get(...ownerIdentity(owner), after)
       ) as { exportId: string } | undefined;
       if (!row) return bytes;
       after = row.exportId;
@@ -960,8 +869,7 @@ export class MediaExports {
         signal.throwIfAborted();
         // Retirement can remove staging during a live observation, and a destination that is gone
         // or replaced holds nothing this library can measure. A substituted entry stays an error.
-        if ((await this.stagingPresence(intent, signal)) === "present")
-          throw error;
+        if ((await this.stagingPresence(intent, signal)) === "present") throw error;
         observed = 0;
       }
       if (!Number.isSafeInteger(bytes + observed))
@@ -978,23 +886,29 @@ export class MediaExports {
     this.assertOwner(intent);
     // An acknowledged commit never becomes a second export because the user moved/deleted it.
     if (intent.receipt)
-      return cleanupPending(intent)
-        ? this.recover(exportId)
-        : this.status(exportId);
+      return cleanupPending(intent) ? this.recover(exportId) : this.status(exportId);
     if (intent.targetKind === "project" && !this.hasPreparedInput(intent)) {
       const pinned = intent.snapshot as PinnedProjectPreview;
       const repairable = (job: Job) => {
         if (job.state !== "failed" || !job.retryable) return false;
         if (job.errorCode === "NOT_READY")
           return job.errorDetails?.implementationId === pinned.implementationId;
-        if (job.errorCode !== "DEPENDENCY_FAILED" || typeof job.errorDetails?.dependency !== "string")
+        if (
+          job.errorCode !== "DEPENDENCY_FAILED" ||
+          typeof job.errorDetails?.dependency !== "string"
+        )
           return false;
-        return this.owners.jobs.job(job.errorDetails.dependency).artifact === "pointer-presentation";
+        return (
+          this.owners.jobs.job(job.errorDetails.dependency).artifact === "pointer-presentation"
+        );
       };
       const prior = this.owners.jobs.status(this.identity(intent));
       if (prior.jobId) {
         let failure = this.owners.jobs.job(prior.jobId);
-        if (failure.errorCode === "DEPENDENCY_FAILED" && typeof failure.errorDetails?.dependency === "string")
+        if (
+          failure.errorCode === "DEPENDENCY_FAILED" &&
+          typeof failure.errorDetails?.dependency === "string"
+        )
           failure = this.owners.jobs.job(failure.errorDetails.dependency);
         if (repairable(failure)) {
           const current = this.project().preview.request(pinned);
@@ -1057,10 +971,7 @@ export class MediaExports {
           destination: intent.destination.identity,
         },
         timeoutMs: publicationDeadlineMs(
-          intent.receipt?.bytes ??
-            intent.assembly?.bytes ??
-            intent.preview?.bytes ??
-            0,
+          intent.receipt?.bytes ?? intent.assembly?.bytes ?? intent.preview?.bytes ?? 0,
         ),
       },
     );
@@ -1093,8 +1004,7 @@ export class MediaExports {
     signal: AbortSignal,
   ) {
     this.recordCommit(intent, receipt);
-    if (!signal.aborted)
-      await this.retireStaging(intent, publication, "acknowledge");
+    if (!signal.aborted) await this.retireStaging(intent, publication, "acknowledge");
   }
   private markStagingCleared(exportId: string) {
     this.owners.catalog.catalog
@@ -1104,26 +1014,22 @@ export class MediaExports {
   private recordCommit(intent: Intent, receipt: PublicationReceipt) {
     // This write is allowed during deletion/cancellation: the file already exists outside the library.
     this.owners.catalog.transaction(() => {
-      this.owners.catalog.catalog.prepare("UPDATE export_intents SET receipt=? WHERE exportId=?").run(JSON.stringify(receipt), intent.exportId);
-      for (const kind of resourceKinds) this.references.release(kind, { kind: "export", id: intent.exportId });
+      this.owners.catalog.catalog
+        .prepare("UPDATE export_intents SET receipt=? WHERE exportId=?")
+        .run(JSON.stringify(receipt), intent.exportId);
+      for (const kind of resourceKinds)
+        this.references.release(kind, { kind: "export", id: intent.exportId });
     });
     intent.receipt = receipt;
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.artifact === recoveryArtifact)
-      return this.reconcile({ job, signal });
+    if (job.artifact === recoveryArtifact) return this.reconcile({ job, signal });
     if (job.artifact !== artifact)
-      throw new CatalogError(
-        "UNSUPPORTED_JOB",
-        "Media exporter cannot execute this job",
-      );
+      throw new CatalogError("UNSUPPORTED_JOB", "Media exporter cannot execute this job");
     const intent = this.require(job.input);
     this.requireActive(intent);
     if (!this.matches(job, intent))
-      throw new CatalogError(
-        "INVALID_JOB",
-        "Export job does not match its pinned intent",
-      );
+      throw new CatalogError("INVALID_JOB", "Export job does not match its pinned intent");
     if (intent.receipt) {
       await this.cleanupAssembly(intent);
       return JSON.stringify(intent.receipt);
@@ -1145,46 +1051,28 @@ export class MediaExports {
           });
         } else {
           try {
-            if (!intent.preview)
-              throw new JobDependencyLost("Preview is not admitted");
+            if (!intent.preview) throw new JobDependencyLost("Preview is not admitted");
             const preview = intent.preview;
-            await this.owners.cache.withDescriptor(
-              preview.cacheId,
-              async (source) => {
-                if (source.bytes !== preview.bytes)
-                  throw new CatalogError(
-                    "INVALID_CACHE",
-                    "Pinned preview size changed",
-                  );
-                await publication.prepare(
-                  source,
-                  intent.destination.leaf,
-                  source.bytes,
-                  { signal },
-                );
-              },
-            );
+            await this.owners.cache.withDescriptor(preview.cacheId, async (source) => {
+              if (source.bytes !== preview.bytes)
+                throw new CatalogError("INVALID_CACHE", "Pinned preview size changed");
+              await publication.prepare(source, intent.destination.leaf, source.bytes, { signal });
+            });
           } catch (error) {
             if (
               error instanceof JobDependencyLost ||
-              (error instanceof CatalogError &&
-                error.code === "ARTIFACT_EXPIRED")
+              (error instanceof CatalogError && error.code === "ARTIFACT_EXPIRED")
             ) {
               this.owners.catalog.catalog
-                .prepare(
-                  "UPDATE export_intents SET preview=NULL WHERE exportId=?",
-                )
+                .prepare("UPDATE export_intents SET preview=NULL WHERE exportId=?")
                 .run(intent.exportId);
-              throw new JobDependencyLost(
-                "Preview disappeared before preparation",
-              );
+              throw new JobDependencyLost("Preview disappeared before preparation");
             }
             throw error;
           }
         }
         observed = await publication.commit({ signal });
-      } else if (observed.state === "missing")
-        observed = await publication.commit({ signal });
+      } else if (observed.state === "missing") observed = await publication.commit({ signal });
       if (observed.state !== "committed" || !observed.receipt)
         throw new CatalogError(
           "DESTINATION_CHANGED",
@@ -1206,19 +1094,12 @@ export class MediaExports {
     if (!cleanupPending(intent)) return this.status(exportId);
     const original = this.owners.jobs.status(this.identity(intent));
     if (!original.jobId)
-      throw new CatalogError(
-        "INVALID_JOB",
-        "Staged export has no publication job",
-      );
+      throw new CatalogError("INVALID_JOB", "Staged export has no publication job");
     const job = this.owners.jobs.submit({
-      ...this.recoveryIdentity(
-        intent,
-        this.owners.jobs.job(original.jobId).attemptId,
-      ),
+      ...this.recoveryIdentity(intent, this.owners.jobs.job(original.jobId).attemptId),
       lane: "heavy",
     });
-    if (job.state === "ready")
-      this.owners.jobs.regenerate(job.jobId, job.generation);
+    if (job.state === "ready") this.owners.jobs.regenerate(job.jobId, job.generation);
     else this.owners.jobs.retry(job.jobId);
     return this.status(exportId);
   }
@@ -1228,10 +1109,7 @@ export class MediaExports {
     const intent = this.require(exportId);
     this.requireActive(intent);
     if (!this.matches(job, intent))
-      throw new CatalogError(
-        "INVALID_JOB",
-        "Recovery does not match the pinned export",
-      );
+      throw new CatalogError("INVALID_JOB", "Recovery does not match the pinned export");
     signal.throwIfAborted();
     await this.cleanupAssembly(intent);
     if (!stagingPending(intent)) return JSON.stringify({ observation: null });
@@ -1269,10 +1147,7 @@ export class MediaExports {
 
   async retireOwner(owner: ExportOwner, signal?: AbortSignal) {
     if (!this.deleting(owner))
-      throw new CatalogError(
-        "INVALID_STATE",
-        "Owner deletion must be marked first",
-      );
+      throw new CatalogError("INVALID_STATE", "Owner deletion must be marked first");
     let after = "",
       firstFailure: unknown;
     for (;;) {
@@ -1281,8 +1156,7 @@ export class MediaExports {
         .prepare(
           "SELECT exportId FROM export_intents WHERE targetKind=? AND targetId=? AND exportId>? ORDER BY exportId LIMIT 1",
         )
-        .get(...ownerIdentity(owner), after) as
-        { exportId: string } | undefined;
+        .get(...ownerIdentity(owner), after) as { exportId: string } | undefined;
       if (!row) break;
       after = row.exportId;
       try {
@@ -1301,12 +1175,7 @@ export class MediaExports {
       .then(() => this.remove(exportId))
       .catch((error) => {
         if (error instanceof CatalogError)
-          throw new CatalogError(
-            error.code,
-            error.message,
-            { ...error.details, exportId },
-            true,
-          );
+          throw new CatalogError(error.code, error.message, { ...error.details, exportId }, true);
         throw new CatalogError(
           "EXPORT_CLEANUP_FAILED",
           `Export cleanup could not finish: ${error instanceof Error ? error.message : String(error)}`,
@@ -1322,17 +1191,14 @@ export class MediaExports {
   private async remove(exportId: string): Promise<void> {
     // Destination admission can precede the intent row; absence is final only after those calls drain.
     await Promise.allSettled(
-      [...this.creating]
-        .filter(([, id]) => id === exportId)
-        .map(([pending]) => pending),
+      [...this.creating].filter(([, id]) => id === exportId).map(([pending]) => pending),
     );
     let intent = this.find(exportId);
     if (!intent) return;
     const jobId = this.owners.jobs.status(this.identity(intent)).jobId;
     if (jobId) await this.owners.jobs.drainJob(jobId);
     // The durable intent fence stops every recovery identity before any drain begins.
-    const recoveryJobs = this.owners.catalog.catalog
-      .prepare(`SELECT jobId,input FROM jobs
+    const recoveryJobs = this.owners.catalog.catalog.prepare(`SELECT jobId,input FROM jobs
       WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input>? AND input<? ORDER BY input LIMIT 1`);
     let after = `${exportId}/`;
     for (;;) {
@@ -1353,15 +1219,10 @@ export class MediaExports {
     // A late commit may have updated the receipt while the canceled executor drained.
     intent = this.require(exportId);
     if (!intent.abandoning && !this.deleting(this.owner(intent)))
-      throw new CatalogError(
-        "INVALID_STATE",
-        "Export must be fenced before retirement",
-      );
+      throw new CatalogError("INVALID_STATE", "Export must be fenced before retirement");
     // Retired staging needs no destination access. Otherwise a destination that is gone or
     // replaced has nothing of this export's to clean, and a job may have allocated unregistered staging.
-    const mayHaveStaging = intent.staging
-      ? !intent.stagingCleared
-      : jobId !== null;
+    const mayHaveStaging = intent.staging ? !intent.stagingCleared : jobId !== null;
     if (mayHaveStaging && (await this.stagingPresence(intent)) === "present") {
       const publication = await this.open(intent);
       try {
@@ -1375,8 +1236,11 @@ export class MediaExports {
     if (jobId) this.owners.jobs.forgetJob(jobId);
     // A crash after job retirement is harmless: the still-fenced intent resumes private absence checking.
     this.owners.catalog.transaction(() => {
-      this.owners.catalog.catalog.prepare("DELETE FROM export_intents WHERE exportId=?").run(exportId);
-      for (const kind of resourceKinds) this.references.release(kind, { kind: "export", id: exportId });
+      this.owners.catalog.catalog
+        .prepare("DELETE FROM export_intents WHERE exportId=?")
+        .run(exportId);
+      for (const kind of resourceKinds)
+        this.references.release(kind, { kind: "export", id: exportId });
     });
   }
 }

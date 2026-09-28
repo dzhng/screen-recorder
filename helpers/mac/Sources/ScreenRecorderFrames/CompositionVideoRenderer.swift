@@ -9,20 +9,28 @@ public enum CompositionVideoRenderer {
         public let frames: String
         public let range: TimeSpan
         let canvas: CompositionPictureExecutor.Canvas
-        let profile: String
+        public let settings: OutputSettings
         public let processing: [CompositionProcessing]
         public let assets: [CompositionAsset]
         let pointers: PreparedPointersReceipt?
+        public func validateOutput(hasAudio: Bool) throws {
+            try canvas.validate()
+            try settings.validate(
+                width: canvas.width, height: canvas.height,
+                frameRate: Double(canvas.fps.numerator) / Double(canvas.fps.denominator),
+                hasAudio: hasAudio)
+        }
         public func replacingOutput(_ path: String) -> Self {
             Self(
-                output: path, frames: frames, range: range, canvas: canvas, profile: profile,
+                output: path, frames: frames, range: range, canvas: canvas, settings: settings,
                 processing: processing, assets: assets, pointers: pointers)
         }
     }
     public struct Result: Encodable {
         let file: String
         let mediaType = "video/mp4"
-        let profile = "h264-rec709"
+        let settings: OutputSettings
+        public let encodedVideo: OutputSettings.EncodedVideo
         public let durationUs: Int64
         public let width: Int
         public let height: Int
@@ -43,31 +51,22 @@ public enum CompositionVideoRenderer {
     ) async throws
         -> Result
     {
-        guard request.profile == "h264-rec709" else {
-            throw unsupported("Unknown video export profile.")
-        }
         let canvas = request.canvas
         guard request.range.startUs >= 0, request.range.endUs > request.range.startUs,
             request.range.endUs <= TimeSpan.maximumMicroseconds
         else {
             throw invalid("Video requires a positive range.")
         }
+        try request.validateOutput(hasAudio: false)
         let pictures = try CompositionPictureExecutor(
             canvas: canvas, bindings: request.assets, pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "video.mp4")
         defer { output.discard() }
         let writer = try AVAssetWriter(outputURL: output.url, fileType: .mp4)
         defer { if writer.status == .writing { writer.cancelWriting() } }
-        let settings: [String: Any] = [
-            AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: canvas.width,
-            AVVideoHeightKey: canvas.height,
-            AVVideoCompressionPropertiesKey: [AVVideoAllowFrameReorderingKey: false],
-            AVVideoColorPropertiesKey: [
-                AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_709_2,
-                AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_709_2,
-                AVVideoYCbCrMatrixKey: AVVideoYCbCrMatrix_ITU_R_709_2,
-            ],
-        ]
+        let settings = try request.settings.videoDictionary(
+            width: canvas.width, height: canvas.height,
+            frameRate: Double(canvas.fps.numerator) / Double(canvas.fps.denominator))
         guard writer.canApply(outputSettings: settings, forMediaType: .video) else {
             throw unsupported("Video profile cannot encode this canvas.")
         }
@@ -160,9 +159,12 @@ public enum CompositionVideoRenderer {
         guard writer.status == .completed else {
             throw writer.error ?? invalid("Video writer did not complete.")
         }
+        let encodedVideo = try await request.settings.inspectVideo(output.url)
         let bytes = try output.publish()
         return Result(
-            file: request.output, durationUs: through - request.range.startUs, width: canvas.width,
+            file: request.output, settings: request.settings, encodedVideo: encodedVideo,
+            durationUs: through - request.range.startUs,
+            width: canvas.width,
             height: canvas.height, frames: frames, rasterizedFrames: pictures.rasterized,
             pointerRasterizations: pictures.pointerRasterizations,
             decodedImages: pictures.decodedImages, decodedSamples: pictures.decodedSamples,

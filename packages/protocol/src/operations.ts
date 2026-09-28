@@ -1,4 +1,5 @@
 import {
+  outputSettingsSchema,
   compositionSchema,
   mediaClipSchema,
   editOperationSchema,
@@ -105,6 +106,7 @@ const previewParams = z.union([
   project
     .extend({
       revisionId: id.optional(),
+      settings: outputSettingsSchema.optional(),
       range: range
         .refine(({ startUs, endUs }) => endUs > startUs, {
           message: "Preview range must be positive",
@@ -290,6 +292,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Read one target's authored ordered processing stack at a pinned revision; this does not execute processors.",
     ),
   z
+    .object({ operation: z.literal("output.capabilities"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Discover project movie encoding controls, editable presets, backend capabilities and unsupported combinations. Internal mixing is 48000 Hz stereo; encoded AAC rate/layout is independently selectable. Requested bitrate is not measured file bitrate.",
+    ),
+  z
     .object({ operation: z.literal("processing.capabilities"), params: z.object({}).strict() })
     .strict()
     .describe(
@@ -380,7 +388,11 @@ export const operationSchema = z.discriminatedUnion("operation", [
           .extend({ ...exportDestination, kind: z.enum(["video", "processed-package"]) })
           .strict(),
         project
-          .extend({ ...exportDestination, kind: z.enum(["video", "processed-package"]) })
+          .extend({
+            ...exportDestination,
+            kind: z.enum(["video", "processed-package"]),
+            settings: outputSettingsSchema.optional(),
+          })
           .strict(),
       ]),
     })

@@ -10,15 +10,24 @@ enum CompositionMovieOperation {
         let range: CompositionAudioPlan.Samples
         let clips: [CompositionAudioPlan.Clip]
     }
+    struct EncodedAudio: Encodable {
+        let sampleRate: Int
+        let channels: Int
+        let durationValue: Int64
+        let durationTimescale: Int32
+    }
     struct Result: Encodable {
         let file: String
         let mediaType = "video/mp4"
         let codec = "h264"
+        let settings: OutputSettings
+        let encodedVideo: OutputSettings.EncodedVideo
         let durationUs: Int64
         let width: Int
         let height: Int
         let frameCount: Int
         let audio: CompositionAudioReport?
+        let encodedAudio: EncodedAudio?
         let bytes: Int
     }
     static func execute(_ params: [String: Any]) async throws -> Result {
@@ -38,6 +47,7 @@ enum CompositionMovieOperation {
             throw NativeFailure(
                 "INVALID_REQUEST", "Audio and video windows must share one project range.")
         }
+        try request.validateOutput(hasAudio: schedule.range.start != schedule.range.end)
         let audio: CompositionAudio.Stream?
         if schedule.range.start == schedule.range.end {
             guard schedule.clips.isEmpty else {
@@ -61,9 +71,29 @@ enum CompositionMovieOperation {
             request.replacingOutput(video.path), nextFrame: records.next)
         if let audio {
             try await MovieMux.write(
-                video: video, audio: audio, durationUs: rendered.durationUs, output: output.url)
+                video: video, audio: audio, durationUs: rendered.durationUs, output: output.url,
+                settings: request.settings.audio)
         }
-        let duration = try await AVURLAsset(url: output.url).load(.duration)
+        let movie = AVURLAsset(url: output.url)
+        let duration = try await movie.load(.duration)
+        var encodedAudio: EncodedAudio?
+        if let track = try await movie.loadTracks(withMediaType: .audio).first,
+            let description = try await track.load(.formatDescriptions).first,
+            let asbd = CMAudioFormatDescriptionGetStreamBasicDescription(description)
+        {
+            let rate = Int(asbd.pointee.mSampleRate)
+            let channels = Int(asbd.pointee.mChannelsPerFrame)
+            guard rate == request.settings.audio.sampleRate,
+                channels == request.settings.audio.channels
+            else {
+                throw NativeFailure.decodeFailed(
+                    "Encoder changed requested AAC sample rate or layout")
+            }
+            let span = try await track.load(.timeRange)
+            encodedAudio = EncodedAudio(
+                sampleRate: rate, channels: channels, durationValue: span.duration.value,
+                durationTimescale: span.duration.timescale)
+        }
         guard
             CMTimeCompare(duration, CMTime(value: rendered.durationUs, timescale: 1_000_000)) == 0
         else {
@@ -72,8 +102,9 @@ enum CompositionMovieOperation {
         try Task.checkCancellation()
         let bytes = try output.publish()
         return Result(
-            file: request.output, durationUs: rendered.durationUs,
+            file: request.output, settings: request.settings, encodedVideo: rendered.encodedVideo,
+            durationUs: rendered.durationUs,
             width: rendered.width, height: rendered.height, frameCount: rendered.frames,
-            audio: audio?.report, bytes: bytes)
+            audio: audio?.report, encodedAudio: encodedAudio, bytes: bytes)
     }
 }

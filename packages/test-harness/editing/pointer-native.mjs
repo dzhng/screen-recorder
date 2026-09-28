@@ -1,3 +1,4 @@
+import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import { pointerCases } from "./pointer-cases.mjs";
 import assert from "node:assert/strict";
@@ -531,7 +532,7 @@ try {
       frames,
       range,
       canvas,
-      profile: "h264-rec709",
+      settings: resolveOutputSettings(),
       processing: nativeProcessing(window.processing()),
       assets: requests.get("identity").assets,
       pointers,
@@ -696,7 +697,7 @@ try {
     frames: holdFrames,
     range: { startUs: 0, endUs: 2000000 },
     canvas,
-    profile: "h264-rec709",
+    settings: resolveOutputSettings(),
     processing: nativeProcessing(holdWindow.processing()),
     assets: requests.get("identity").assets,
     pointers: holdPointers,
@@ -723,7 +724,7 @@ try {
     frames: holdFrames,
     range: { startUs: 0, endUs: 2000000 },
     canvas,
-    profile: "h264-rec709",
+    settings: resolveOutputSettings(),
     processing: nativeProcessing(holdWindow.processing()),
     assets: requests.get("identity").assets,
     pointers: {

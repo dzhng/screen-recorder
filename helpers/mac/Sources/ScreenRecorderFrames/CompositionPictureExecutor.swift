@@ -15,6 +15,16 @@ public final class CompositionPictureExecutor {
         let height: Int
         let fps: FPS
         let background: String
+        func validate() throws {
+            guard width > 0, height > 0, width <= 8192, height <= 8192,
+                width.isMultiple(of: 2), height.isMultiple(of: 2),
+                fps.numerator > 0, fps.denominator > 0
+            else {
+                throw NativeFailure(
+                    "INVALID_REQUEST",
+                    "Pictures require even canvas dimensions up to 8192 and a positive frame rate.")
+            }
+        }
     }
     public struct Frame: Codable {
         struct Layer: Codable {
@@ -142,13 +152,7 @@ public final class CompositionPictureExecutor {
         throws
     {
         self.preparedPointers = try pointers.map(PreparedPointers.init)
-        guard canvas.width > 0, canvas.height > 0, canvas.width <= 8192, canvas.height <= 8192,
-            canvas.width.isMultiple(of: 2), canvas.height.isMultiple(of: 2),
-            canvas.fps.numerator > 0, canvas.fps.denominator > 0
-        else {
-            throw Self.invalid(
-                "Pictures require even canvas dimensions up to 8192 and a positive frame rate.")
-        }
+        try canvas.validate()
         var assets: [String: CompositionAsset] = [:]
         for asset in bindings {
             let key = asset.assetId + "\u{0}" + asset.streamId

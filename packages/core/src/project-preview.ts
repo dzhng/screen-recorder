@@ -1,5 +1,12 @@
 import { z } from "zod";
-import { rangeSchema } from "@screenrec/composition";
+import { isDeepStrictEqual } from "node:util";
+import {
+  resolveOutputSettings,
+  resolvedOutputSettingsSchema,
+  type OutputSettings,
+  type OutputSettingsInput,
+  rangeSchema,
+} from "@screenrec/composition";
 import { AssetStore } from "./assets.js";
 import {
   projectWindow,
@@ -20,10 +27,13 @@ export type ProjectPreviewInput = {
   projectId: string;
   revisionId?: string | undefined;
   range?: { startUs: number; endUs: number } | undefined;
+  settings?: OutputSettingsInput | undefined;
   /** Internal retained intent binding; public requests omit this field. */
   implementationId?: string | undefined;
 };
 export type CompositionMovie = Omit<RenderedMovie, "audio"> & {
+  settings: OutputSettings;
+  encodedVideo: { profile: OutputSettings["video"]["profile"]; level: string };
   audio?: { frames: number; sampleRate: number; channels: number };
 };
 export type ProjectMovieRenderer = ProjectRenderSupport & {
@@ -33,6 +43,7 @@ export type ProjectMovieRenderer = ProjectRenderSupport & {
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
       output: string;
+      settings: OutputSettings;
     },
     signal: AbortSignal,
   ): Promise<CompositionMovie>;
@@ -41,14 +52,14 @@ export type PinnedProjectPreview = {
   projectId: string;
   revisionId: string;
   range: { startUs: number; endUs: number };
-  profile: "h264-rec709";
+  settings: OutputSettings;
   implementationId: string;
 };
 export type ProjectPreviewArtifact = CompositionMovie & PinnedProjectPreview & { cacheId: string };
 const optionsSchema = z
   .object({
     range: rangeSchema,
-    profile: z.literal("h264-rec709"),
+    settings: resolvedOutputSettingsSchema,
     implementationId: z.string().min(1),
   })
   .strict();
@@ -73,11 +84,31 @@ export class ProjectPreviewInspection {
   pin(input: ProjectPreviewInput): PinnedProjectPreview {
     if (input.implementationId !== undefined) this.requireImplementation(input.implementationId);
     const plan = this.plan(input);
+    let settings: OutputSettings;
+    try {
+      settings = resolveOutputSettings(input.settings);
+    } catch (error) {
+      if (error instanceof z.ZodError)
+        throw new CatalogError(
+          "INVALID_PARAMS",
+          error.issues.map((issue) => issue.message).join("; "),
+        );
+      throw error;
+    }
+    const fps = plan.window.manifest.canvas.fps;
+    if (
+      settings.video.nonDroppableFrameRate !== null &&
+      settings.video.nonDroppableFrameRate > fps.numerator / fps.denominator
+    )
+      throw new CatalogError(
+        "INVALID_PARAMS",
+        "Non-droppable frame rate exceeds composition frame rate",
+      );
     return {
       projectId: input.projectId,
       revisionId: plan.window.manifest.revisionId,
       range: plan.window.manifest.range,
-      profile: "h264-rec709",
+      settings,
       implementationId: this.renderer.implementationId,
     };
   }
@@ -86,7 +117,7 @@ export class ProjectPreviewInspection {
     const plan = this.plan(pinned);
     const options = {
       range: pinned.range,
-      profile: pinned.profile,
+      settings: pinned.settings,
       implementationId: pinned.implementationId,
     };
     const status = submitCachedDerivative<ProjectPreviewArtifact>(
@@ -108,6 +139,7 @@ export class ProjectPreviewInspection {
       projectId: input.projectId,
       revisionId: pinned.revisionId,
       range: options.range,
+      settings: options.settings,
       state: status.state,
       reason: status.reason,
       retryable: status.retryable,
@@ -128,6 +160,7 @@ export class ProjectPreviewInspection {
       projectId: current.projectId,
       revisionId: current.revisionId,
       range: current.range,
+      settings: current.settings,
     });
   }
 
@@ -170,11 +203,22 @@ export class ProjectPreviewInspection {
     signal.throwIfAborted();
     const output = this.cache.reserve({ kind: "project", projectId: job.target.projectId });
     try {
-      const render = () => this.renderer.render({ ...plan, output: output.path }, signal);
+      const render = () =>
+        this.renderer.render(
+          { ...plan, settings: options.data.settings, output: output.path },
+          signal,
+        );
       const movie = this.renderer.pointers
         ? await this.renderer.pointers.withReady(plan.pointerSources, render)
         : await render();
       signal.throwIfAborted();
+      if (
+        !isDeepStrictEqual(
+          resolvedOutputSettingsSchema.parse(movie.settings),
+          options.data.settings,
+        )
+      )
+        throw new CatalogError("INVALID_RESPONSE", "Renderer changed the pinned output settings");
       checkRenderedPreview(movie, {
         file: output.path,
         durationUs: options.data.range.endUs - options.data.range.startUs,

@@ -1,3 +1,4 @@
+import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
@@ -319,7 +320,7 @@ for (const [width, height] of [
           canvas,
           processing: nativeProcessing(window.processing()),
           assets: movieBindings,
-          profile: "h264-rec709",
+          settings: resolveOutputSettings(),
         };
         const mixed = call("media.mixCompositionAudio", {
           ...audio,

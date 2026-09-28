@@ -21,13 +21,18 @@ function gate() {
 }
 const renderer: ProjectMovieRenderer = {
   implementationId: "fixture-movie-v1",
-  async render({ window, assets, output }, signal) {
+  async render({ window, assets, output, settings }, signal) {
     signal.throwIfAborted();
     const frames = [...window.frames()];
     const bytes = Buffer.from(JSON.stringify({ manifest: window.manifest, frames, assets }));
     await writeFile(output, bytes, { flag: "wx" });
     return {
       file: output,
+      settings,
+      encodedVideo: {
+        profile: settings.video.profile,
+        level: settings.video.level === "auto" ? "3.1" : settings.video.level,
+      },
       mediaType: "video/mp4",
       codec: "h264",
       durationUs: window.manifest.range.endUs - window.manifest.range.startUs,
@@ -402,3 +407,23 @@ test.each(["bytes", "width", "durationUs"] as const)(
     expect(await readdir(join(f.home, "cache", "derived"))).toEqual([]);
   },
 );
+
+test("equivalent settings reuse the movie while meaningful changes pin distinct work", async () => {
+  const f = await fixture();
+  const a = f.preview.request({ projectId: f.projectId });
+  const b = f.preview.request({ projectId: f.projectId, settings: a.settings });
+  expect(b.jobId).toBe(a.jobId);
+  const changed = f.preview.request({
+    projectId: f.projectId,
+    settings: { video: { keyframeInterval: 15 } },
+  });
+  expect(changed.jobId).not.toBe(a.jobId);
+  await f.jobs.idle();
+  expect(f.preview.request({ projectId: f.projectId }).published?.preview.settings).toEqual(
+    a.settings,
+  );
+  expect(
+    f.preview.request({ projectId: f.projectId, settings: changed.settings }).published?.preview
+      .settings.video.keyframeInterval,
+  ).toBe(15);
+});

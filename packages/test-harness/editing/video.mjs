@@ -1,3 +1,4 @@
+import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -136,7 +137,7 @@ async function compile(
       frames: join(directory, "frames.jsonl"),
       range,
       canvas: document.canvas,
-      profile: "h264-rec709",
+      settings: resolveOutputSettings(),
       processing: nativeProcessing(compiled.processing()),
       assets: unique(bindings, (b) => b.assetId + b.streamId),
     },
@@ -550,7 +551,11 @@ await rejected(
   { canvas: { ...base.canvas, background: "#00000000" } },
   "NOT_READY",
 );
-await rejected("unknown-profile", { profile: "mystery" }, "NOT_READY");
+await rejected(
+  "unknown-profile",
+  { settings: { ...base.settings, video: { ...base.settings.video, profile: "mystery" } } },
+  "UNSUPPORTED_FORMAT",
+);
 await rejected(
   "missing-stream",
   { assets: base.assets.map((a) => ({ ...a, streamId: "track:999" })) },
@@ -750,9 +755,11 @@ if (!args.includes("--temporal-only")) {
   const cancelRequest = await json(join(out, "held-600s/request.json"));
   cancelRequest.output = join(cancellationDirectory, "video.mp4");
   await save(join(cancellationDirectory, "request.json"), cancelRequest);
-  cancellation = run(join(root, "helpers/mac/.build/debug/ScreenRecorderCompositionVideoTests"), [
-    join(cancellationDirectory, "request.json"),
-  ])
+  cancellation = run(
+    process.env.SCREENREC_COMPOSITION_VIDEO_TESTS ??
+      join(root, "helpers/mac/.build/debug/ScreenRecorderCompositionVideoTests"),
+    [join(cancellationDirectory, "request.json")],
+  )
     .toString()
     .trim();
   assert.deepEqual((await readdir(cancellationDirectory)).sort(), ["request.json"]);

@@ -87,3 +87,13 @@ export type { ScalarCurve } from "./schema.js";
 export type { CompiledScalarCurve } from "./curve.js";
 export type { ScalarKernel, SampleScalarPiece, SampleScalarProgram } from "./scalar-program.js";
 export type { CompiledProcessingInstruction } from "./temporal-processing.js";
+
+export {
+  outputSettingsSchema,
+  resolvedOutputSettingsSchema,
+  resolveOutputSettings,
+  normalizeOutputRequest,
+  outputPresets,
+} from "./output-settings.js";
+export type { OutputSettings, OutputSettingsInput } from "./output-settings.js";
+export { outputCapabilities } from "./output-settings.js";

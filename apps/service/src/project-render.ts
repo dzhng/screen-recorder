@@ -55,7 +55,7 @@ export function projectPointerHistoryRenderer(
 }
 async function pointerFile(
   owners: PointerOwners | undefined,
-  request: Parameters<ProjectMovieRenderer["render"]>[0],
+  request: Pick<Parameters<ProjectMovieRenderer["render"]>[0], "window" | "model">,
   directory: string,
   signal: AbortSignal,
 ) {
@@ -85,7 +85,7 @@ export function projectMovieRenderer(
   pointers?: PointerOwners,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v11",
+    implementationId: "native-composition-movie-v12",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -124,7 +124,7 @@ export function projectMovieRenderer(
               frames,
               range: manifest.range,
               canvas: manifest.canvas,
-              profile: "h264-rec709",
+              settings: request.settings,
               processing: nativeProcessing(request.window.processing()),
               assets: request.assets,
               audio: { range: manifest.sampleRange, clips: [...request.window.audio()] },
