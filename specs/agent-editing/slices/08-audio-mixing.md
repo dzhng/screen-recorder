@@ -1,6 +1,6 @@
 # 08 — Independent audio mixing
 
-Status: not started. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
+Status: native execution pass in progress; [evidence](../assets/08-audio/README.md) verifies compiled mixing and selected-run resampling parity/isolation. Fractional affine phase, broader media conformance, public jobs and listening remain open. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
 
 ## Contract
 

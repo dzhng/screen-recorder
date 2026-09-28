@@ -1,0 +1,21 @@
+{
+  "case": "music-and-replacement",
+  "nativeProductionEntry": true,
+  "liveMediaJourney": false,
+  "checks": [
+    "empty project produces exactly 48000 stereo silent frames",
+    "mono duplication, stereo identity, overlap and clip/track/group/output gain exact at every sample; no ramps",
+    "adding authored silence preserves all levels exactly",
+    "48k pure split and non-sample-aligned late window preserve full mix samples",
+    "audio replacement changes decoded PCM while video compiler schedule is identical",
+    "acquisition gaps remain silent and explicitly unavailable",
+    "44.1k mono resamples to exact 48k stereo duration with expected interior tone",
+    "out-of-range float samples preserved with explicit peak/clipping report",
+    "retiming and unknown request fields rejected explicitly"
+  ],
+  "resampling": {
+    "interiorError": 0.00002158532925307377,
+    "lateWindowMaximumDifference": 0.01021111011505127,
+    "phaseAcceptance": false
+  }
+}

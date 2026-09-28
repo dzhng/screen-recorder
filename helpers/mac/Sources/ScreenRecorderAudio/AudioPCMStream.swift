@@ -63,7 +63,7 @@ public final class AudioPCMStream: AudioPCMSource {
         for track in tracks {
             opened.append(try await SourceTrack.open(plan: track))
         }
-        return try AudioPCMStream(sources: opened, spans: spans, sampleRate: sampleRate)
+        return try AudioPCMStream(sources: opened, roles: tracks.map(\.role), spans: spans, sampleRate: sampleRate)
     }
 
     /// Where one planned track can be read, in recording source time: its acquisition evidence
@@ -75,7 +75,7 @@ public final class AudioPCMStream: AudioPCMSource {
         return try await SourceTrack.open(plan: track).available
     }
 
-    private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?) throws {
+    private init(sources: [SourceTrack], roles: [AudioRole], spans: [TimeSpan], sampleRate: Int?) throws {
         let sampleRate = sampleRate ?? sources.map(\.sampleRate).max()!
         let channels = sources.map(\.channels).max()!
         guard channels <= 2 else {
@@ -93,7 +93,7 @@ public final class AudioPCMStream: AudioPCMSource {
         let gain: Float = sources.count == 1 ? 1 : 0.5
         var intervals: [[Interval]] = []
         var reports: [AudioTrackReport] = []
-        for track in sources {
+        for (trackIndex, track) in sources.enumerated() {
             var readableIntervals: [Interval] = []
             var unavailable: [TimeSpan] = []
             var availableIndex = 0
@@ -123,7 +123,7 @@ public final class AudioPCMStream: AudioPCMSource {
             intervals.append(readableIntervals)
             reports.append(
                 AudioTrackReport(
-                    role: track.plan.role, gain: Double(gain), sampleRate: track.sampleRate,
+                    role: roles[trackIndex], gain: Double(gain), sampleRate: track.sampleRate,
                     channels: track.channels, unavailable: unavailable))
         }
         self.format = AudioPCMFormat(

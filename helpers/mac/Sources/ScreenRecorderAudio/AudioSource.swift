@@ -2,11 +2,10 @@
 import Foundation
 import ScreenRecorderMedia
 
-/// One planned source file, opened once. `available` states, in recording source time, where this
-/// excerpt may read: where the caller's acquisition evidence and the file's own occupied edit-list
-/// segments, shifted by the plan's offset, agree.
+/// One source stream, opened once. Caller-supplied source-clock support is intersected with
+/// occupied container segments; the offset maps between those two clocks.
 struct SourceTrack {
-    let plan: AudioTrackPlan
+    let sourceOffsetUs: Int64
     let url: URL
     let input: MediaInput
     let asset: AVURLAsset
@@ -16,7 +15,13 @@ struct SourceTrack {
     let available: [TimeSpan]
 
     static func open(plan: AudioTrackPlan) async throws -> SourceTrack {
-        let source = URL(fileURLWithPath: plan.source)
+        try await open(source: plan.source, streamId: nil,
+            sourceOffsetUs: plan.sourceOffsetUs, available: plan.available)
+    }
+
+    static func open(source path: String, streamId: String?, sourceOffsetUs: Int64,
+        available: [TimeSpan]) async throws -> SourceTrack {
+        let source = URL(fileURLWithPath: path)
         guard FileManager.default.fileExists(atPath: source.path) else {
             throw NativeFailure.decodeFailed("No source media at \(source.path).")
         }
@@ -26,8 +31,9 @@ struct SourceTrack {
         let stream: AudioStreamBasicDescription
         let segments: [SourceSegment]
         do {
-            guard let track = try await asset.loadTracks(withMediaType: .audio).first else {
-                throw NativeFailure.decodeFailed("Source has no audio track: \(source.path).")
+            let tracks = try await asset.loadTracks(withMediaType: .audio)
+            guard let track = tracks.first(where: { streamId == nil || streamId == "track:\($0.trackID)" }) else {
+                throw NativeFailure.decodeFailed("Source has no matching audio track: \(source.path).")
             }
             guard let description = try await track.load(.formatDescriptions).first,
                 let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
@@ -61,16 +67,15 @@ struct SourceTrack {
         // occupied segments rather than from the samples it is willing to produce.
         let occupied = segments.map {
             TimeSpan(
-                startUs: microseconds($0.asset.start) + plan.sourceOffsetUs,
-                endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + plan.sourceOffsetUs)
+                startUs: microseconds($0.asset.start) + sourceOffsetUs,
+                endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + sourceOffsetUs)
         }
         return SourceTrack(
-            plan: plan, url: input.url, input: input, asset: asset,
+            sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
             track: audio, sampleRate: sampleRate, channels: channels,
-            // A container cannot testify that acquisition happened: it will decode padding for a
-            // hole the caller knows nothing was captured over. Only where the caller's evidence and
-            // the file agree is material read; everywhere else is reported unavailable and silent.
-            available: TimeSpan.intersection(plan.available, occupied))
+            // Physical occupancy is not acquisition evidence. Recording callers supply acquired
+            // intervals here; composition execution additionally intersects its retained domains.
+            available: TimeSpan.intersection(available, occupied))
     }
 
 }
@@ -84,10 +89,17 @@ final class ConvertedAudioInterval {
     private var offset = 0
     private var exhausted = false
 
-    init(
+    convenience init(
         source: SourceTrack, decoder: AudioSourceReader, interval: TimeSpan,
         outputRate: Int, owed: Int64
     ) throws {
+        try self.init(source: source, decoder: decoder,
+            start: time(microseconds: interval.startUs - source.sourceOffsetUs),
+            outputRate: outputRate, owed: owed)
+    }
+
+    init(source: SourceTrack, decoder: AudioSourceReader, start: CMTime,
+        outputRate: Int, owed: Int64, end limit: CMTime? = nil) throws {
         sourceInput = source.input
         guard
             let sourceFormat = AVAudioFormat(
@@ -103,9 +115,9 @@ final class ConvertedAudioInterval {
             throw NativeFailure.decodeFailed(
                 "Cannot convert \(source.sampleRate) Hz \(source.channels) channel \(source.url.lastPathComponent) to \(outputRate) Hz.")
         }
-        let start = time(microseconds: interval.startUs - source.plan.sourceOffsetUs)
         // Cumulative layout rounding owns the duration, including a last frame rounded up.
-        let end = CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate)))
+        let requestedEnd = CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate)))
+        let end = limit.map { min($0, requestedEnd) } ?? requestedEnd
         try decoder.begin(at: start, end: end)
         let openedInput = ConversionInput(reader: decoder)
         guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)
@@ -150,11 +162,15 @@ final class ConvertedAudioInterval {
             }
             let count = min(frames - written, Int(converted.frameLength) - offset)
             let decoded = converted.floatChannelData![0]
-            for frame in 0..<count {
-                let base = (destination + written + frame) * channelMap.count
-                for (channel, sourceChannel) in channelMap.enumerated() {
-                    samples[base + channel] +=
-                        gain * decoded[(offset + frame) * channels + sourceChannel]
+            samples.withUnsafeMutableBufferPointer { output in
+                for channel in channelMap.indices {
+                    let sourceChannel = channelMap[channel]
+                    var frame = 0
+                    while frame < count {
+                        output[(destination + written + frame) * channelMap.count + channel] +=
+                            gain * decoded[(offset + frame) * channels + sourceChannel]
+                        frame += 1
+                    }
                 }
             }
             offset += count

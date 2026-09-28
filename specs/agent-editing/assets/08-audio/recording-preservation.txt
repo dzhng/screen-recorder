@@ -1,0 +1,16 @@
+PASS single span of narration is 24000 frames of its own samples at unity gain
+PASS disjoint spans concatenate sample-exactly and never read the removed region
+PASS positive and negative source offsets map recording time onto each track's own timeline
+PASS a single track keeps unity gain and two tracks sum at half gain each
+PASS join ramps are linear, clamp to half a short span, and never shorten the excerpt
+PASS empty edits are reported unavailable while recorded silence stays available
+PASS the output takes the widest planned format and a mono track feeds both channels
+PASS an upsampled mix holds every frame of every span, worst deviation 0.0008086711 and edge share 0.0788578
+PASS a span quantised past its own microseconds still owes every frame, worst deviation 0.0004826784 and edge share 0.12443065
+PASS unequal rates convert into the wider one, worst deviation 0.0005939752 and edge share 0.14880425
+PASS each interval either side of an acquisition hole is converted whole, worst deviation 6.79791e-05 and edge share 0.042814918
+PASS mono and stereo map through and a layout with no honest mapping is refused
+PASS spans that are not whole frames neither accumulate drift nor lose their playback time
+PASS acquisition evidence decides absence, and the container cannot relabel a hole as silence
+PASS the excerpt bound accepts exactly 30 seconds and refuses 30.000001
+PASS 27 invalid requests are refused and the source media is unchanged

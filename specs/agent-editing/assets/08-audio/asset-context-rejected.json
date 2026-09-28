@@ -1,0 +1,33 @@
+{
+  "case": "music-and-replacement",
+  "nativeProductionEntry": true,
+  "liveMediaJourney": false,
+  "checks": [
+    "empty project produces exactly 48000 stereo silent frames",
+    "mono duplication, stereo identity, overlap and clip/track/group/output gain exact at every sample; no ramps",
+    "adding authored silence preserves all levels exactly",
+    "48k pure split and non-sample-aligned late window preserve full mix samples",
+    "audio replacement changes decoded PCM while video compiler schedule is identical",
+    "acquisition gaps remain silent and explicitly unavailable",
+    "44.1k mono resamples to exact 48k stereo duration with expected interior tone",
+    "rational-time abrupt true cut preserves selected source samples with no extra sample or hidden ramp",
+    "128 one-second edits produce exactly6144000 frames with bounded block delivery; fractional phase rejects explicitly",
+    "out-of-range float samples preserved with explicit peak/clipping report",
+    "retiming and unknown request fields rejected explicitly",
+    "cancelled native process publishes no partial output; fresh worker can restart"
+  ],
+  "resampling": {
+    "decoderContext": {
+      "maximumPrerollFrames": 1125,
+      "maximumTailFrames": 1024,
+      "policy": "bounded-immutable-source",
+      "sampleRate": 48000
+    },
+    "lastInfluencedFrame": 16,
+    "interiorError": 0.00002158532925307377,
+    "lateWindowMaximumDifference": 0,
+    "phaseAcceptance": true,
+    "excludedImpulsePeak": 0.0885651633143425,
+    "exclusionAcceptance": false
+  }
+}

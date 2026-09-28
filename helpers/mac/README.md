@@ -225,10 +225,18 @@ sequential decode and publishes bounded JSONL records. Cuts that retain the same
 reuse its thumbnail, while each interval retains its exact timing record. Thumbnail retention is
 bounded to the current sample and clears on empty edits.
 
-Audio reads only where the caller's acquisition evidence and the file's own occupied segments
+Recording excerpts read only where the caller's acquisition evidence and the file's own occupied segments
 agree; everywhere else is reported unavailable and silent, because a container decodes padding for
 holes nothing was captured over. Joins between retained spans get short ramps, and every span
 boundary is quantized from cumulative playback time so rounding never accumulates across spans.
+
+Composition audio consumes the composition compiler's independent sample schedule
+and ordered processing tree. Its source decoder selects an actual admitted stream;
+it does not assign recording roles. Parents process summed child PCM, and empty or
+bypassed stacks add no gain policy or join fades. Unavailable regions remain
+explicit in the receipt. The [execution evidence](../../specs/agent-editing/assets/08-audio/README.md)
+owns current conformance and the bounded source-resampling context decision; this
+native boundary does not itself make public rendering ready.
 
 ## Speech
 
