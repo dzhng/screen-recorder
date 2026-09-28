@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project and selected-source pictures pass; retained-index integration remains open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained source indexes pass; project indexes remain open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -89,16 +89,16 @@ Source clocks, sample support, acquisition exclusion and source-only references 
 verified; [public routing](../assets/10d-source-routing/README.md) and actual
 source delivery also pass. Raw still-image source
 requests remain explicitly unsupported under 10d/06, without inventing timed media.
-Scene/interruption events are verified below; project-cut events and retained
-index generalization remain required follow-up.
+Scene/interruption events and retained source indexes are verified below; project
+cut events and project-index projection remain required follow-up.
 
 ## Retained scene-store prerequisite
 
 The [scene ownership checkpoint](../assets/10d-scene-ownership/README.md) separates
 asset/stream/context identity from actual recording/package views while retaining
 the canonical chunk and generation owners. Sampling, preparation and projected scene events are verified in the checkpoints
-below. Retained screenshot selection/index generalization remains open; a
-completed store generation alone does not establish index readiness.
+below. A completed store generation alone does not establish index readiness;
+the public source-index journey verifies selection, materialization and delivery.
 
 ## Selected-source public delivery checkpoint
 
@@ -107,8 +107,7 @@ covers actual CLI/MCP PNG delivery, mixed batches, retained acquisition authorit
 physical gaps and cancellation/retry. Exact color-managed pixels preserve the
 reviewed native reference set. Public custom video-mask admission is not covered:
 the existing acquisition importer exposes physical video support, while narrower
-mask verification remains native/core only. Raw still images and retained source
-index generalization remain open.
+mask verification remains native/core only. Raw still-image admission and project-index projection remain open.
 
 [Product skill use](../assets/10d-frame-skill/README.md) passes a fresh weakest-model
 run against the frozen source/project picture runtime. The agent distinguishes
@@ -124,13 +123,14 @@ use the shared queue and retain their selected dependencies. [Core scene event r
 merge exact boundaries into repeated project occurrences and preserve source
 stillness/gap context. [Public scene journeys](../assets/10d-public-scenes/README.md)
 now verify actual preparation, source/project event reads and capture preservation.
-Retained screenshot selection and project-cut semantics remain next.
+Retained source indexes are verified below; project-index projection and project
+cut implementation remain next.
 
 
 [Retained screenshot ownership](../assets/10d-index-ownership/README.md) now admits
 real selected-source PNG/coverage records through the existing store and leases,
-while preserving recording/package serialization. Source selection/materialization
-and project frame-phase mapping remain required before public index readiness.
+while preserving recording/package serialization. Source selection/materialization is verified below; project frame-phase mapping
+remains required before project index readiness.
 
 [Fresh scene skill use](../assets/10d-scene-skill/README.md) verifies whole-project
 occurrence coverage and explicit canceled-dependency recovery. It does not close
@@ -141,13 +141,12 @@ evidence establishes why source selection must inspect short supported islands.
 
 [Source index selection](../assets/10d-source-index-selection/README.md) now plans
 bounded raw-picture requests from observed scene sides and support edges, and
-retains verified demanded no-picture provenance. Shared-queue materialization and
-final coverage generation remain required before public source index readiness.
+retains verified demanded no-picture provenance. Shared-queue materialization and final public coverage are verified below.
 
 [Retained source index jobs](../assets/10d-source-index-jobs/README.md) now publish
 source images and coverage using the shared queue/readers. Exact queued scene
-retention, terminal retry/cancellation and real native preparation pass. Public
-source index delivery and project frame-phase projection remain the next gates.
+retention, terminal retry/cancellation and real native preparation pass. Public source index delivery is verified below; project frame-phase projection
+remains the next gate.
 
 ## Source index public routing checkpoint
 

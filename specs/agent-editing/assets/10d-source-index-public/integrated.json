@@ -1,0 +1,90 @@
+{
+  "passed": true,
+  "scope": "Public CLI/MCP source indexes using actual native scene/frame workers; controlled probe admission cases labeled separately",
+  "checks": {
+    "canceledSceneRetry": true,
+    "batchErrors": true,
+    "coverageFilterBinding": true,
+    "canceledFrameRetry": true,
+    "physicalShortIsland": {
+      "nativeRequests": [
+        [
+          0,
+          200000,
+          400000,
+          600000,
+          799999
+        ]
+      ],
+      "selectedRequests": [
+        50000,
+        99999,
+        600000,
+        799999
+      ]
+    },
+    "retainedAcquisition": {
+      "scope": "Synthetic capture journal around real native video",
+      "acquisitionId": "12a4b580-b2a5-47ed-b4b8-39cc3daa265e",
+      "donorRemoved": true
+    },
+    "projectHistoryAndDeletionIndependence": true,
+    "importedDonorRemoved": true,
+    "restart": true
+  },
+  "negativeControls": {
+    "duplicateBatchImageRejected": true,
+    "swappedBatchImagesRejected": true,
+    "falselySampledIslandRejected": true,
+    "falselySampledEmptyRejected": true,
+    "missingEmptyObservationRejected": true
+  },
+  "controlledCacheLoss": {
+    "scope": "Scratch service stopped; only derived-cache files removed",
+    "files": 20
+  },
+  "controlledProbeAdmission": [
+    {
+      "name": "declared-empty-support",
+      "selection": {
+        "assetId": "85ae8a4850387d47b94b17c194eafa229fdcabbbecf01b76fe85cd26c6204c09",
+        "streamId": "track:1"
+      },
+      "scope": "Native decoding with controlled declared probe support",
+      "result": {
+        "assetId": "85ae8a4850387d47b94b17c194eafa229fdcabbbecf01b76fe85cd26c6204c09",
+        "streamId": "track:1",
+        "state": "unavailable",
+        "reason": "no_video",
+        "retryable": false,
+        "jobId": null,
+        "published": null,
+        "dependencies": [
+          {
+            "artifact": "source-scenes",
+            "assetId": "85ae8a4850387d47b94b17c194eafa229fdcabbbecf01b76fe85cd26c6204c09",
+            "streamId": "track:1",
+            "state": "unavailable",
+            "jobId": null,
+            "reason": "no_video",
+            "retryable": false,
+            "published": null
+          }
+        ],
+        "page": null
+      }
+    },
+    {
+      "name": "declared-empty-edit",
+      "selection": {
+        "assetId": "2c9b36ed0985adeb136a934cbba67e8c818bec418437119f5e543c3928fb3d6f",
+        "streamId": "track:1"
+      },
+      "scope": "Native scene/frame outcomes with controlled declared probe support",
+      "generation": "2570b87b-af71-42dd-a7a5-07e147c0f5c4"
+    }
+  ],
+  "sourceCommit": "5eb35e1",
+  "workerSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "fullReport": "/tmp/screenrec-source-index-root-final/report.json"
+}

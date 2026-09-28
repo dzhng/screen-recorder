@@ -65,3 +65,12 @@ controls add no production feature or persistent schema.
 The final independent review found no actionable issues. It rechecked the saved
 coverage against the oracle and rejected additional incorrect-reason mutations;
 the reviewer did not rerun the native journey.
+
+## Integrated confirmation
+
+The [root rerun](integrated.json) passes the same actual CLI/MCP/native journey
+after integrating the production routes, batch adapter and reviewed harness.
+All five corruption controls still reject their mutations. Three actual native
+[recording-package preservation cases](integrated-recording-packages.txt) also
+pass on the same frozen worker. These checks use Catalog 10 and source picture
+implementation v2; future renderer changes require their own confirmation.

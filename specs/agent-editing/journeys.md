@@ -43,9 +43,10 @@ raw and processed bucket measurements. [Capture interruptions](assets/10c-public
 public continuation and terminal-provenance checks. [Acoustic images/spectrograms](assets/11-public-acoustic-images/README.md) pass
 actual public delivery and numerical/pixel oracles. [Source/project scenes](assets/10d-public-scenes/README.md)
 pass authored physical-clock, mixed-event ordering, repeated/retimed occurrence
-and cancellation/retry checks. Project-cut events, retained screenshot indexes,
-processors beyond constant gain and subjective
-listening remain pending. Rows below
+and cancellation/retry checks. [Retained source screenshot indexes](assets/10d-source-index-public/README.md)
+pass actual CLI/MCP/native delivery and recovery, with controlled empty-admission
+cases labeled separately. Project-cut events, project screenshot indexes,
+processors beyond constant gain and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |
