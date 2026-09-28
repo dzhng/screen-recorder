@@ -33,6 +33,11 @@ Meet or explicitly fail the proposed budgets in verification.md. Bounded query m
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
 
+Exercise large histories of retired asset jobs against the
+[job-reference lifetime contract in cutover](./23-cutover.md): forgetting drained
+jobs must not accumulate stale references, while active/retryable retained work
+continues to protect its immutable sources.
+
 ## Failure boundary and discretion
 
 Profile a failed budget and reslice the owning index/decoder/job seam. Do not add unbounded caches, endless retries or a second render path. Report hardware-specific measurements rather than universal claims.

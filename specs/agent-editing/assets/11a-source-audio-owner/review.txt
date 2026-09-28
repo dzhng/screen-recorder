@@ -1,0 +1,6 @@
+Command: codex review --uncommitted
+Exit: 0
+
+codex
+No actionable defects were identified in the staged, unstaged, or untracked changes. All five audio-inspection tests and the core TypeScript check passed.
+No actionable defects were identified in the staged, unstaged, or untracked changes. All five audio-inspection tests and the core TypeScript check passed.

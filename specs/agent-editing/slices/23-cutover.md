@@ -34,6 +34,13 @@ Judge **preserved source presentation**, using existing source/pointer landmark 
 
 For human review use [preview-shots](../../../.agents/skills/preview-shots/SKILL.md), allow about five minutes while progressing independent work, then decide from evidence and close the shots if there is no response. Missing listening/capture evidence remains unverified; silence is not a pass.
 
+Retired asset jobs must release their asset/acquisition references in the same
+domain transaction that forgets the drained job. Existing asset transcript/audio
+jobs retain these references while their durable job identity permits retry;
+`JobQueue.forgetJob` does not itself own that resource-reference policy. Preserve
+active attempts and retained retry identities, and prove forgotten jobs cannot
+leave permanent references that block asset cleanup.
+
 ## Failure boundary and discretion
 
 If a consumer still needs the old timeline owner, finish its port before declaring cutover. A behavior failure is repaired at its owner, not bypassed with an adapter. Missing prior physical acceptance remains pending, never upgraded to pass.

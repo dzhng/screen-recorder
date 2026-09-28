@@ -1,0 +1,73 @@
+$ vitest run --maxWorkers=4 src/audio-inspection.test.ts -t "malformed native"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:43433) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-inspection.test.ts (4 tests | 1 failed | 3 skipped) 158ms
+   × malformed native receipts and WAV files cannot publish and repeated reads do not loop 158ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-inspection.test.ts > malformed native receipts and WAV files cannot publish and repeated reads do not loop
+AssertionError: header: expected { …(8) } to match object { state: 'failed', published: null }
+(8 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "published": null,
+-   "state": "failed",
++   "published": {
++     "audio": {
++       "assetId": "a52acc5e404378c03c6bb2cdc70d04621c0e68b2ca952cb350b9a41c14b63396",
++       "bytes": 76844,
++       "cacheId": "0695481f-fe23-4259-99f7-d909bd7ed430",
++       "channels": 2,
++       "decodedFrames": 9600,
++       "file": "/private/tmp/source-audio-inspection-OOADZO/cache/derived/0695481f-fe23-4259-99f7-d909bd7ed430.cache",
++       "frames": 9600,
++       "implementationId": "fixture-wav",
++       "layout": "stereo",
++       "mediaType": "audio/wav",
++       "range": {
++         "endUs": 200000,
++         "startUs": 0,
++       },
++       "sampleRange": {
++         "end": 9600,
++         "start": 0,
++       },
++       "sampleRate": 48000,
++       "streamId": "a",
++       "supportDigest": "96ab19f594e1fc116edd88999036e89f7bc145e7d0f9ba0814185e6d83326aa8",
++       "unavailable": [
++         {
++           "endUs": 100000,
++           "startUs": 0,
++         },
++       ],
++     },
++     "generation": 1,
++   },
++   "state": "ready",
+  }
+
+ ❯ src/audio-inspection.test.ts:255:49
+    253|     f.inspection.request(input);
+    254|     await f.jobs.idle();
+    255|     expect(f.inspection.request(input), defect).toMatchObject({
+       |                                                 ^
+    256|       state: "failed",
+    257|       published: null,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  23:40:26
+   Duration  369ms (tests 50%, transform 34%, import 15%, worker 1%)
+
+error: script "test" exited with code 1

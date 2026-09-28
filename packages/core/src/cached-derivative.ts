@@ -8,8 +8,9 @@ export function submitCachedDerivative<Value extends { cacheId: string }>(
   cache: DerivedCache,
   identity: Pick<Job, "target" | "artifact" | "input">,
   lane: JobLane,
+  admitted?: (job: Job) => void,
 ) {
-  jobs.submit({ ...identity, lane });
+  jobs.submit({ ...identity, lane }, admitted);
   let status = jobs.status(identity);
   if (status.published) {
     const read = cache.acquire((JSON.parse(status.published.result) as Value).cacheId);

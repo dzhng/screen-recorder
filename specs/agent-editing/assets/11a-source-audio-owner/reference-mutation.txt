@@ -1,0 +1,42 @@
+$ vitest run --maxWorkers=4 src/audio-inspection.test.ts -t "source WAV jobs"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-audio-inspection/packages/core
+
+(node:43722) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/audio-inspection.test.ts (4 tests | 1 failed | 3 skipped) 34ms
+   × source WAV jobs pin selection/support, retain actual job references and regenerate evicted delivery 33ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/audio-inspection.test.ts > source WAV jobs pin selection/support, retain actual job references and regenerate evicted delivery
+AssertionError: expected [] to deeply equal [ { kind: 'job', …(1) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "id": "d5f7848b-ffa5-4572-950b-48a378c2e6c6",
+-     "kind": "job",
+-   },
+- ]
++ []
+
+ ❯ src/audio-inspection.test.ts:162:43
+    160|   expect(first.range).toEqual({ startUs: 100000, endUs: 1000000 });
+    161|   expect(f.inspection.request(selection).jobId).toBe(first.jobId);
+    162|   expect(f.assets.references(f.asset.id)).toEqual([{ kind: "job", id: …
+       |                                           ^
+    163|   expect(f.acquisitions.references("mask")).toEqual([{ kind: "job", id…
+    164|   await f.jobs.idle();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  23:40:35
+   Duration  241ms (transform 56%, import 25%, tests 18%, worker 1%)
+
+error: script "test" exited with code 1

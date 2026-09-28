@@ -47,6 +47,15 @@ Known impulses and excluded-source poison must obey the existing sample boundari
 Current constant gain executes; future retime/denoise conformance stays open until
 those processors are verified. Existing raw audio and movie gates remain green.
 
+## Open full-extraction capacity gate
+
+The selected-source owner uses the existing cache policy. Its default 1 GiB budget
+rejects a 48 kHz stereo float WAV after roughly 47 minutes, below the native RIFF
+capacity, and the cache currently checks size at publication. Resolve shared
+capacity/preflight/delivery behavior before accepting full extraction in this slice;
+do not duplicate the cache's private budget or silently raise it. The focused
+[source-owner pass](../assets/11a-source-audio-owner/README.md) does not close this gate.
+
 ## Failure boundary and discretion
 
 If inspection and preview disagree, fix their shared owner. Do not normalize levels,
