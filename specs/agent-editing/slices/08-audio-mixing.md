@@ -53,3 +53,7 @@ mixed-rate, segment-origin or listening acceptance.
 [Simultaneous44.1/48kHz evidence](../assets/08-mixed-rates/README.md) now proves
 actual overlapping resampling/mixing, exact fractional windows and pure splits.
 Other codec/segment combinations and listening remain open.
+
+[AAC/MP3 overlap](../assets/08-compressed-mix/README.md) matches selected-source
+decode and the tested fractional full/range slice. Encoded endpoints, other rate
+combinations, physical segments and real-narration listening remain open.

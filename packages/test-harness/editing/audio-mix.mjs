@@ -266,6 +266,48 @@ try {
   evidence.checks.push(
     "AIFF mono and ALAC stereo overlap preserves every WAV reference sample, fractional range and pure split",
   );
+  const compressed = [];
+  for (const [source, name, extension, codec, channels] of [
+    [a, "voice-aac", "m4a", "aac", 1],
+    [b, "music-mp3", "mp3", "libmp3lame", 2],
+  ]) {
+    const path = join(scratch, `${name}.${extension}`);
+    const encoded = spawnSync("ffmpeg", ["-nostdin", "-v", "error", "-i",
+      source.binding.path, "-c:a", codec, "-b:a", "192k", path],
+      { encoding: "utf8", timeout: 30000 });
+    assert.equal(encoded.status, 0, encoded.stderr || String(encoded.error));
+    const probe = call("media.probe", { path });
+    const stream = probe.streams.find((value) => value.kind === "audio");
+    const available = [{ startUs: stream.startUs, endUs: stream.endUs }];
+    const converted = {
+      binding: { assetId: name, streamId: stream.id, path, originUs: probe.originUs },
+      asset: { id: name, streams: [{ id: stream.id, kind: "audio",
+        bounds: available[0], available }] },
+    };
+    sources.push(converted);
+    const decoded = call("media.sourceAudio", {
+      source: { source: path, streamId: stream.id, sourceOffsetUs: -probe.originUs, available },
+      range: { startUs: 0, endUs: 1000000 }, output: join(scratch, `${name}-decoded.wav`),
+    });
+    assert.equal(decoded.frames, 48000);
+    compressed.push({ source: converted, pcm: wave(decoded.file, true, channels), channels });
+  }
+  const compressedDoc = { ...empty,
+    tracks: compressed.map((_, i) => ({ id: `compressed-${i}`, kind: "audio", order: i })),
+    clips: compressed.map((value, i) => clip(`compressed-${i}`, value.source,
+      `compressed-${i}`, 0, 1000000)),
+  };
+  const compressedMix = render(compressedDoc).samples;
+  for (let i = 0; i < compressedMix.length; i++)
+    assert.equal(compressedMix[i], Math.fround(compressed[0].pcm[Math.floor(i / 2)]
+      + compressed[1].pcm[i]), `compressed overlap sample ${i}`);
+  const compressedRange = { startUs: 123457, endUs: 812349 };
+  const compressedWindow = render(compressedDoc, compressedRange).samples;
+  const compressedExpected = compressedMix.slice(
+    Math.floor(compressedRange.startUs * 48000 / 1000000) * 2,
+    Math.floor(compressedRange.endUs * 48000 / 1000000) * 2);
+  assert.deepEqual(compressedWindow, compressedExpected);
+  evidence.checks.push("AAC mono and MP3 stereo mix matches selected-source decode and fractional range");
   const withSilence = structuredClone(document);
   withSilence.tracks.push({ id: "silent-track", kind: "audio", order: 2 });
   withSilence.clips.push({
