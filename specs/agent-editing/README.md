@@ -5,6 +5,8 @@ The [product CLI skill](../../skills/screenrec/SKILL.md) documents current publi
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
 [Ordered processing](processing.md) owns the accepted one-stack-per-target API.
+[Reference-style audit](assets/reference-style/README.md) maps the user’s new video
+example to the plan; foreground cutouts remain a pending scope decision.
 
 ## Next Agent Prompt
 
