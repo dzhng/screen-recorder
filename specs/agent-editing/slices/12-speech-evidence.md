@@ -40,3 +40,7 @@ Delegated: Candidate order after the baseline and measurement tooling. Any new m
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
+
+[Wider workbench context](../assets/12-boundary-context/README.md) now includes both
+alternative endpoints and the unchanged mark. Its metadata-dependent time readout
+and missing audible word identity remain explicit; no label or threshold changed.

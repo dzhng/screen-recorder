@@ -67,8 +67,9 @@ correction. Visual envelopes alone cannot satisfy listening or word identity.
 
 Full audible filler inventory, protected words, editorial repetition intent and
 new-cut joins remain unverified. No speaker playback occurred. The historical
-narrator audition approves only its original cut, not this trial. No new visual
-panel or visual acceptance is claimed here. Do not use this development recording
+narrator audition approves only its original cut, not this trial. The later [wider boundary context](../12-boundary-context/README.md) includes both
+predicted ends and the unchanged mark; it does not establish lexical or listening
+acceptance. Do not use this development recording
 to claim generalization, a memory improvement, or faster inference.
 
 ## Reproduction and review

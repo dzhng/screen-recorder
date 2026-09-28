@@ -1,0 +1,32 @@
+{
+  "narration": "/Users/david/dev/screen-recorder/fixtures/narrated-workbench/narration.mov",
+  "transcript": "specs/agent-editing/assets/12-speech/transcript.json",
+  "usPerPixel": 2666.6666666666665,
+  "windowMs": 2400,
+  "sheets": 1,
+  "perSheet": 2,
+  "phrases": 24,
+  "words": 306,
+  "boundaries": [
+    {
+      "sheet": 0,
+      "row": 0,
+      "id": "w0",
+      "text": "Okay,",
+      "side": "start",
+      "reportedUs": 1168675,
+      "phrase": 0,
+      "markedOffsetMs": null
+    },
+    {
+      "sheet": 0,
+      "row": 1,
+      "id": "w6",
+      "text": "workbench.",
+      "side": "end",
+      "reportedUs": 5648675,
+      "phrase": 0,
+      "markedOffsetMs": null
+    }
+  ]
+}

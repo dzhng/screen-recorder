@@ -1,0 +1,53 @@
+{
+  "original": {
+    "rangeUs": [
+      5198675,
+      6098675
+    ],
+    "usPerPixel": 1000,
+    "points": [
+      {
+        "sourceUs": 5088675,
+        "visible": false,
+        "x": -110.0
+      },
+      {
+        "sourceUs": 5108675,
+        "visible": false,
+        "x": -90.0
+      },
+      {
+        "sourceUs": 5643675,
+        "visible": true,
+        "x": 445.0
+      }
+    ]
+  },
+  "wide": {
+    "rangeUs": [
+      4448675,
+      6848675
+    ],
+    "usPerPixel": 2666.6666666666665,
+    "points": [
+      {
+        "sourceUs": 5088675,
+        "visible": true,
+        "x": 240.0
+      },
+      {
+        "sourceUs": 5108675,
+        "visible": true,
+        "x": 247.5
+      },
+      {
+        "sourceUs": 5643675,
+        "visible": true,
+        "x": 448.125
+      }
+    ]
+  },
+  "originalLabelsSha256": "23e893cae933ca9c9a0947b40cd09c26143c7de845cad57ecfe333e2582e96ad",
+  "harnessSha256": "2bd45640d4c1b77c6209af9be79bd63e7dd75949f72b699a261fcb2d3f240f89",
+  "candidatePNGsha256": "1771679f2fe17e75d4eaf1c93a467154c01d22137e0a1b4b816385aabea27025"
+}
