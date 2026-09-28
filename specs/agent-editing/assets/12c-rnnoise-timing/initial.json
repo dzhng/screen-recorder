@@ -1,0 +1,50 @@
+[
+  {
+    "n": 48000,
+    "at": 0,
+    "rawCount": 48960,
+    "rawPeak": 960,
+    "rawPeakValue": 0.004115281160920858,
+    "rawLag": 960,
+    "selectedCount": 48000,
+    "selectedPeak": 0,
+    "selectedPeakValue": 0.004115281160920858,
+    "timingPass": true
+  },
+  {
+    "n": 48000,
+    "at": 4800,
+    "rawCount": 48960,
+    "rawPeak": 5760,
+    "rawPeakValue": 0.004115281160920858,
+    "rawLag": 960,
+    "selectedCount": 48000,
+    "selectedPeak": 4800,
+    "selectedPeakValue": 0.004115281160920858,
+    "timingPass": true
+  },
+  {
+    "n": 48000,
+    "at": 47999,
+    "rawCount": 48960,
+    "rawPeak": 48959,
+    "rawPeakValue": 0.004201252479106188,
+    "rawLag": 960,
+    "selectedCount": 48000,
+    "selectedPeak": 47999,
+    "selectedPeakValue": 0.004201252479106188,
+    "timingPass": true
+  },
+  {
+    "n": 17,
+    "at": 16,
+    "rawCount": 1440,
+    "rawPeak": 976,
+    "rawPeakValue": 0.003340655704960227,
+    "rawLag": 960,
+    "selectedCount": 17,
+    "selectedPeak": 16,
+    "selectedPeakValue": 0.003340655704960227,
+    "timingPass": true
+  }
+]

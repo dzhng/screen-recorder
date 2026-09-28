@@ -1,0 +1,346 @@
+{
+  "sampleRate": 48000,
+  "declaredDelayFrames": 960,
+  "impulses": [
+    {
+      "inputFrames": 48000,
+      "inputAt": 0,
+      "inputAmplitude": 0.5,
+      "rawFrames": 48960,
+      "rawPeak": {
+        "at": 960,
+        "value": 0.004115281160920858
+      },
+      "selectedFrames": 48000,
+      "selectedPeak": {
+        "at": 0,
+        "value": 0.004115281160920858
+      },
+      "oneFrameSkipNegativeControl": {
+        "at": 480,
+        "value": 0.004115281160920858
+      }
+    },
+    {
+      "inputFrames": 48000,
+      "inputAt": 4800,
+      "inputAmplitude": 0.5,
+      "rawFrames": 48960,
+      "rawPeak": {
+        "at": 5760,
+        "value": 0.004115281160920858
+      },
+      "selectedFrames": 48000,
+      "selectedPeak": {
+        "at": 4800,
+        "value": 0.004115281160920858
+      },
+      "oneFrameSkipNegativeControl": {
+        "at": 5280,
+        "value": 0.004115281160920858
+      }
+    },
+    {
+      "inputFrames": 48000,
+      "inputAt": 47999,
+      "inputAmplitude": 0.5,
+      "rawFrames": 48960,
+      "rawPeak": {
+        "at": 48959,
+        "value": 0.004201252479106188
+      },
+      "selectedFrames": 48000,
+      "selectedPeak": {
+        "at": 47999,
+        "value": 0.004201252479106188
+      },
+      "oneFrameSkipNegativeControl": {
+        "at": 47779,
+        "value": 4.918345730686724e-10
+      }
+    },
+    {
+      "inputFrames": 17,
+      "inputAt": 16,
+      "inputAmplitude": 0.5,
+      "rawFrames": 1440,
+      "rawPeak": {
+        "at": 976,
+        "value": 0.003340655704960227
+      },
+      "selectedFrames": 17,
+      "selectedPeak": {
+        "at": 16,
+        "value": 0.003340655704960227
+      },
+      "oneFrameSkipNegativeControl": {
+        "at": 16,
+        "value": -9.567934888821128e-09
+      }
+    },
+    {
+      "inputFrames": 1,
+      "inputAt": 0,
+      "inputAmplitude": 0.5,
+      "rawFrames": 1440,
+      "rawPeak": {
+        "at": 960,
+        "value": 0.004115281160920858
+      },
+      "selectedFrames": 1,
+      "selectedPeak": {
+        "at": 0,
+        "value": 0.004115281160920858
+      },
+      "oneFrameSkipNegativeControl": {
+        "at": 0,
+        "value": -1.6882373971016662e-11
+      }
+    },
+    {
+      "inputFrames": 479,
+      "inputAt": 478,
+      "inputAmplitude": 0.5,
+      "rawFrames": 1440,
+      "rawPeak": {
+        "at": 1438,
+        "value": 0.004102297127246857
+      },
+      "selectedFrames": 479,
+      "selectedPeak": {
+        "at": 478,
+        "value": 0.004102297127246857
+      },
+      "oneFrameSkipNegativeControl": {
+        "at": 258,
+        "value": 4.772558348520306e-09
+      }
+    }
+  ],
+  "speechQuality": "unverified; no listening",
+  "productionAdoption": false,
+  "longer-tail": {
+    "exactSelectedPcm": true
+  },
+  "repeat": {
+    "exactSelectedPcm": true
+  },
+  "speech": {
+    "frames": 240000,
+    "outputFrames": 240000,
+    "noTailNegativeControlFrames": 239040,
+    "inputPeak": {
+      "at": 79343,
+      "value": 0.0879649817943573
+    },
+    "outputPeak": {
+      "at": 80941,
+      "value": 0.07989281415939331
+    }
+  },
+  "identity": {
+    "runnerSha256": "6acd5fd97ec458e1ca0509aa85009a815d89494be65011963704f572c1f72f95",
+    "processorSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+    "driverSha256": "9b6c83bb61a1a8b1ae945900187cb8c282f637fc103e0852be1d690ebab674a7",
+    "speechSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+    "ffmpegSha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c"
+  },
+  "decode": [
+    "/opt/homebrew/bin/ffmpeg",
+    "-nostdin",
+    "-v",
+    "error",
+    "-i",
+    "specs/agent-editing/assets/18-voice/context.wav",
+    "-map",
+    "0:a:0",
+    "-ar",
+    "48000",
+    "-ac",
+    "1",
+    "-c:a",
+    "pcm_f32le",
+    "-f",
+    "f32le",
+    "pipe:1"
+  ],
+  "commands": [
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-48000-0-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-48000-0-raw.f32",
+      "2"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-48000-4800-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-48000-4800-raw.f32",
+      "2"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-48000-47999-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-48000-47999-raw.f32",
+      "2"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-17-16-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-17-16-raw.f32",
+      "2"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-1-0-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-1-0-raw.f32",
+      "2"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-479-478-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/impulse-479-478-raw.f32",
+      "2"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/speech-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/speech-raw.f32",
+      "2"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/speech-longer-tail-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/speech-longer-tail-raw.f32",
+      "4"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/speech-repeat-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/speech-repeat-raw.f32",
+      "2"
+    ],
+    [
+      "/usr/bin/sandbox-exec",
+      "-p",
+      "(version 1)(allow default)(deny network*)",
+      "/tmp/screenrec-rnnoise-api",
+      "/tmp/screenrec-rnnoise-api-confirm/speech-no-tail-input.f32",
+      "/tmp/screenrec-rnnoise-api-confirm/speech-no-tail-raw.f32",
+      "0"
+    ]
+  ],
+  "elapsedSeconds": 0.43796712497714907,
+  "outputs": {
+    "impulse-1-0-input.f32": {
+      "bytes": 4,
+      "sha256": "d99e58435243d9fef9c88273b8d553b4fba4d0baf8009d29eae74fa99e0d9f57"
+    },
+    "impulse-1-0-raw.f32": {
+      "bytes": 5760,
+      "sha256": "cd89741b587b9e373e5149c9693e7966647824d2b3f36f79837a18c4304e3189"
+    },
+    "impulse-17-16-input.f32": {
+      "bytes": 68,
+      "sha256": "668ea4134adfe7f3b9f034708ec39f8a39f8f9f21884e9f1cdeac365f7ffbca9"
+    },
+    "impulse-17-16-raw.f32": {
+      "bytes": 5760,
+      "sha256": "56d5b8b6bdd47d7a8e87665ec1e1733d90ca402218eea9a2b93c2ecbeb9206eb"
+    },
+    "impulse-479-478-input.f32": {
+      "bytes": 1916,
+      "sha256": "c07ea84c02b2f6d3dba1e26dfd621de181ec390ee30390137b4835514702df7f"
+    },
+    "impulse-479-478-raw.f32": {
+      "bytes": 5760,
+      "sha256": "486f708b293153a28a454f23bd4ac6111c4ae8934a9e3a1a35f8a07369a40acb"
+    },
+    "impulse-48000-0-input.f32": {
+      "bytes": 192000,
+      "sha256": "37d7a6d273b17e9efd3d862d2ab12e187c61fad6681be5bb312bdc1716794d63"
+    },
+    "impulse-48000-0-raw.f32": {
+      "bytes": 195840,
+      "sha256": "b447abd1276b416bbbc20007d5273e2c65c6a94fefa5c5988534f53987a27aef"
+    },
+    "impulse-48000-47999-input.f32": {
+      "bytes": 192000,
+      "sha256": "ab65bc0a3d8608573722c1256e82807f972c38d449197b890a32e505b9057879"
+    },
+    "impulse-48000-47999-raw.f32": {
+      "bytes": 195840,
+      "sha256": "d2fd04f69c7a182d610202bc8984f9459d18c62ba57f06970037c0b00fd4335a"
+    },
+    "impulse-48000-4800-input.f32": {
+      "bytes": 192000,
+      "sha256": "fe5348dadce49af173b77f97f98cde203af6f44b4952b8c8b385f9a40c289789"
+    },
+    "impulse-48000-4800-raw.f32": {
+      "bytes": 195840,
+      "sha256": "137433528b8debf82134918b0981a52d64a419cf494ab3bd353bc5dda179d499"
+    },
+    "speech-input.f32": {
+      "bytes": 960000,
+      "sha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769"
+    },
+    "speech-longer-tail-input.f32": {
+      "bytes": 960000,
+      "sha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769"
+    },
+    "speech-longer-tail-raw.f32": {
+      "bytes": 967680,
+      "sha256": "6822a2f19ea2ea13d64d1014632a054d3d0a8edcf43e9eefc90c1a81f1b9db09"
+    },
+    "speech-no-tail-input.f32": {
+      "bytes": 960000,
+      "sha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769"
+    },
+    "speech-no-tail-raw.f32": {
+      "bytes": 960000,
+      "sha256": "008fb76efc96cd1279848ce4d134a6b87305b44e3630af2ad11d3631ebbcb9b9"
+    },
+    "speech-raw.f32": {
+      "bytes": 963840,
+      "sha256": "6a1b4e8b2963b8a34d65bfa0b7443b1e6dc837dbee5156f9b65c3f4f45a3cb9b"
+    },
+    "speech-repeat-input.f32": {
+      "bytes": 960000,
+      "sha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769"
+    },
+    "speech-repeat-raw.f32": {
+      "bytes": 963840,
+      "sha256": "6a1b4e8b2963b8a34d65bfa0b7443b1e6dc837dbee5156f9b65c3f4f45a3cb9b"
+    },
+    "speech-selected.f32": {
+      "bytes": 960000,
+      "sha256": "59fb92e6c1359fc905e6f9f1b144c3d9eb807337e1f7f97404a9b6af40bbff94"
+    }
+  }
+}

@@ -66,3 +66,17 @@ Focused shape/diff/docs review keeps preparation and inference in research tooli
 with no production dependency. Independent review found no actionable defects and
 verified retained output hashes and sample counts; it did not repeat model
 inference or listening (`/tmp/screenrec-rnnoise-review.log`).
+
+## Next API timing hypothesis
+
+The pinned `rnnoise_process_frame` uses the previous analysis window and a second
+explicit delayed spectrum. Test the source-derived two-frame (960-sample) latency
+hypothesis against the one-frame skip in the example. A separate float adapter
+will process the public frame API, preserve partial input with zeros, and append
+two zero frames; the evaluator will retain exactly the selected count after the
+declared 960-sample offset. Do not find the offset by fitting observed peaks.
+Start with first/interior/last impulses and a very short selection. Count success
+alone cannot establish preserved speech or justify adopting this wrapper.
+
+[Frame API confirmation](../12c-rnnoise-timing/README.md) now tests that hypothesis
+with negative controls; speech quality and adoption remain open.
