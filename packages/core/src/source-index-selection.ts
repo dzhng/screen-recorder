@@ -27,7 +27,7 @@ export type SourceIndexRequest = { requestedSourceUs: number; support: TimeRange
 );
 
 export async function* sourceIndexChunks(
-  records: SceneEvidenceStore,
+  records: Pick<SceneEvidenceStore, "sourcePage">,
   identity: SceneEvidenceMetadata,
   signal: AbortSignal,
 ): AsyncGenerator<SourceSceneChunk> {

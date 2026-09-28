@@ -1,20 +1,25 @@
+import { SourceIndexStillness, sourceIndexPoints } from "./source-index-equality.js";
+import { z } from "zod";
+import { sourceSceneClockSchema } from "./source-scene-chunks.js";
 import { isDeepStrictEqual } from "node:util";
-import type { AssetStore } from "./assets.js";
-import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
-import { selectSource, type SourceSelection } from "./source-selection.js";
+import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
 import {
+  portableSceneMetadataSchema,
   sourceSceneDescriptor,
   type SceneEvidenceMetadata,
   type SceneEvidenceStore,
 } from "./scene-evidence.js";
-import type {
-  SourceFrameArtifact,
-  SourceFrameUnavailable,
-  MediaFrameInspection,
+import {
+  sourceFrameUnavailableSchema,
+  retainedSourceFrameSchema,
+  validateSourceFrameGeometry,
+  type SourceFrameArtifact,
+  type SourceFrameUnavailable,
+  type MediaFrameInspection,
 } from "./frame-inspection.js";
 import type { IndexDomain } from "./screenshot-index.js";
-import type { SourceIndexReason } from "./source-index-selection.js";
+import { sourceIndexPolicy, type SourceIndexReason } from "./source-index-selection.js";
 import type { TimeRange } from "./timeline.js";
 import { validateSceneSampleClock, type SourceVisualPoint } from "./source-scenes.js";
 export type SourceIndexIdentity = SourceSelection & {
@@ -49,18 +54,98 @@ export type SourceIndexRecords = {
   frame: Omit<SourceFrameArtifact, "cacheId">;
   coverage: SourceIndexCoverage;
 };
+const portableTime = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+const portableRange = z
+  .strictObject({ startUs: portableTime, endUs: portableTime })
+  .refine((r) => r.endUs > r.startUs);
+export const portableSourceIndexMetadataSchema = sourceSelectionSchema
+  .extend({
+    generation: z.string().min(1).max(256),
+    scenes: portableSceneMetadataSchema,
+    selectionPolicy: z.literal(sourceIndexPolicy.id),
+    implementationId: z.string().min(1).max(256),
+    maxLongEdge: z.int().min(1).max(8192),
+    durationUs: portableTime,
+    candidateCount: portableTime.max(25000),
+    coverageCount: portableTime.max(25000),
+    bytes: portableTime,
+  })
+  .strict();
+export const portableSourceIndexRecordSchema = z.discriminatedUnion("kind", [
+  z.strictObject({
+    kind: z.literal("entry"),
+    candidate: z.strictObject({
+      ordinal: portableTime,
+      requestedSourceUs: portableTime,
+      support: portableRange,
+      reasons: z
+        .array(
+          z.union([
+            z.strictObject({
+              kind: z.enum(["first", "last", "availability", "coverage"]),
+              eventSourceUs: portableTime,
+            }),
+            z.strictObject({
+              kind: z.literal("scene"),
+              side: z.enum(["before", "after"]),
+              observedSourceUs: portableTime,
+              sample: sourceSceneClockSchema,
+              originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+            }),
+          ]),
+        )
+        .max(10000),
+    }),
+    frame: retainedSourceFrameSchema,
+  }),
+  z.strictObject({
+    kind: z.literal("coverage"),
+    coverage: z.union([
+      z.strictObject({
+        source: portableRange,
+        ordinal: portableTime,
+        state: z.literal("available"),
+        equality: z.enum(["sampled", "unproven"]),
+      }),
+      z.strictObject({
+        source: portableRange,
+        ordinal: z.null(),
+        state: z.literal("unavailable"),
+        basis: z.literal("support"),
+      }),
+      z.strictObject({
+        source: portableRange,
+        ordinal: z.null(),
+        state: z.literal("unavailable"),
+        basis: z.literal("observation"),
+        equality: z.literal("unproven"),
+        observation: z.discriminatedUnion("kind", [
+          z.strictObject({ kind: z.literal("frame"), frame: sourceFrameUnavailableSchema }),
+          z.strictObject({
+            kind: z.literal("scene"),
+            point: z.strictObject({
+              requestedSourceUs: portableTime,
+              status: z.literal("unavailable"),
+              reason: z.enum(["outside_support", "empty_edit"]),
+              continuousFromPrevious: z.literal(false),
+            }),
+          }),
+        ]),
+      }),
+    ]),
+  }),
+]);
 const invalid = (message: string): never => {
   throw new CatalogError("INVALID_EVIDENCE", message);
 };
 /** Raw source index receipts use real asset/stream identity and never pretend to be a recording revision. */
 export function sourceIndexDomain(
-  assets: AssetStore,
-  acquisitions: AcquisitionStore,
-  scenes: SceneEvidenceStore,
-  frames: Pick<MediaFrameInspection, "sourceUnavailable">,
+  source: (selection: SourceSelection) => ReturnType<typeof selectSource>,
+  scenes: Pick<SceneEvidenceStore, "metadata" | "sourcePage" | "sourceWindowPage">,
+  frames: Pick<MediaFrameInspection, "sourceUnavailable"> | null,
 ): IndexDomain<SourceIndexRecords> {
   function selected(identity: SourceIndexIdentity) {
-    return selectSource(assets, acquisitions, {
+    return source({
       assetId: identity.assetId,
       streamId: identity.streamId,
       ...(identity.acquisitionId === undefined ? {} : { acquisitionId: identity.acquisitionId }),
@@ -80,7 +165,7 @@ export function sourceIndexDomain(
     }),
     begin(identity) {
       const source = selected(identity);
-      const metadata = scenes.sourcePage({ identity: identity.scenes, limit: 1 }).metadata;
+      const metadata = scenes.metadata(identity.scenes);
       if (
         source.stream.kind !== "video" ||
         metadata.owner.kind !== "asset" ||
@@ -99,6 +184,9 @@ export function sourceIndexDomain(
     },
     candidate(identity, candidate, frame, path) {
       const source = selected(identity);
+      if (source.stream.kind !== "video")
+        throw new CatalogError("INVALID_EVIDENCE", "Source index requires video geometry");
+      validateSourceFrameGeometry(frame, source.stream, identity.maxLongEdge);
       if (
         !Number.isSafeInteger(candidate.requestedSourceUs) ||
         !source.track.available.some(
@@ -125,7 +213,7 @@ export function sourceIndexDomain(
         -source.track.sourceOffsetUs,
       );
     },
-    coverage(identity, candidate, coverage) {
+    coverage(identity, candidate, coverage, admission) {
       if (coverage.state === "available") {
         if (
           !candidate ||
@@ -166,18 +254,23 @@ export function sourceIndexDomain(
               invalid("Unavailable observation is not in the pinned scene evidence");
           } else {
             const frame = observation.frame;
+            const source = selected(identity);
             if (
-              !isDeepStrictEqual(frame.selection, selected(identity).selection) ||
+              !sourceFrameUnavailableSchema.safeParse(frame).success ||
+              !isDeepStrictEqual(frame.selection, source.selection) ||
+              frame.supportDigest !== source.supportDigest ||
               frame.implementationId !== identity.implementationId ||
               frame.maxLongEdge !== identity.maxLongEdge ||
-              !isDeepStrictEqual(
-                frame,
-                frames.sourceUnavailable({
-                  ...frame.selection,
-                  atUs: frame.atUs,
-                  maxLongEdge: frame.maxLongEdge,
-                }),
-              )
+              (admission === "produced" &&
+                (!frames ||
+                  !isDeepStrictEqual(
+                    frame,
+                    frames.sourceUnavailable({
+                      ...frame.selection,
+                      atUs: frame.atUs,
+                      maxLongEdge: frame.maxLongEdge,
+                    }),
+                  )))
             )
               invalid("Unavailable picture observation does not match the selected source request");
           }
@@ -203,6 +296,21 @@ export function sourceIndexDomain(
     },
     finish(identity) {
       selected(identity);
+    },
+    retained(identity, signal) {
+      const proof = new SourceIndexStillness(sourceIndexPoints(scenes, identity, signal));
+      return {
+        async coverage(frame, coverage) {
+          const equality = await proof.equality(frame, coverage.source);
+          if (
+            coverage.state === "available" &&
+            coverage.equality === "sampled" &&
+            equality !== "sampled"
+          )
+            invalid("Sampled source coverage lacks retained stillness evidence");
+        },
+        close: () => proof.close(),
+      };
     },
     isDeleting: () => false,
   };

@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import type { z } from "zod";
 import { mediaClipSchema, sourceAvailability } from "@screenrec/composition";
-import { compositionAsset, type AssetStore } from "./assets.js";
+import { compositionAsset, type Asset, type AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
 
@@ -20,6 +20,23 @@ export function selectSource(
 ) {
   const selection = sourceSelectionSchema.parse(input);
   const asset = assets.get(selection.assetId);
+  const acquisition =
+    selection.acquisitionId === undefined ? undefined : acquisitions.get(selection.acquisitionId);
+  return selectSourceMetadata(asset, assets.path(asset.id), acquisition, selection);
+}
+
+/** Identical selection rules apply to immutable admitted metadata before catalog publication. */
+export function selectSourceMetadata(
+  asset: Asset,
+  path: string,
+  acquisition:
+    | { id: string; bindings: ReturnType<AcquisitionStore["get"]>["bindings"] }
+    | undefined,
+  input: SourceSelection,
+) {
+  const selection = sourceSelectionSchema.parse(input);
+  if (asset.id !== selection.assetId || acquisition?.id !== selection.acquisitionId)
+    throw new CatalogError("INVALID_PARAMS", "Source metadata differs from selection");
   const stream = compositionAsset(asset).streams.find((value) => value.id === selection.streamId);
   if (!stream || stream.kind === "image")
     throw new CatalogError(
@@ -27,8 +44,6 @@ export function selectSource(
       "Source inspection requires a decodable timed stream",
       selection,
     );
-  const acquisition =
-    selection.acquisitionId === undefined ? undefined : acquisitions.get(selection.acquisitionId);
   const binding = acquisition?.bindings.find(
     (value) => value.assetId === asset.id && value.streamId === stream.id,
   );
@@ -46,7 +61,7 @@ export function selectSource(
     durationUs: stream.bounds.endUs,
     supportDigest,
     track: {
-      source: assets.path(asset.id),
+      source: path,
       streamId: stream.id,
       sourceOffsetUs: -asset.originUs,
       available,

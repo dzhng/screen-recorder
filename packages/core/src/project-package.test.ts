@@ -71,6 +71,7 @@ test("portable manifest validates complete history bytes, undo targets, paths an
       },
     ],
     undo: [],
+    references: [],
   };
   const text = JSON.stringify(snapshot.revisions[0]);
   const path = "revisions/0.json";

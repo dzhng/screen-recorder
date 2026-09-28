@@ -44,11 +44,16 @@ async function fixture() {
   let index = new ScreenshotIndexStore(
     catalog,
     home,
-    projectIndexDomain(projects, assets, acquisitions, scenes, { implementationId: "picture-test" }),
+    projectIndexDomain(projects, assets, acquisitions, scenes, {
+      implementationId: "picture-test",
+    }),
   );
   const identity = (generation = "index"): ProjectIndexIdentity => ({
-    ...projectIndexPlan(projectComposition(projects, assets, { projectId }), {}, { implementationId: "picture-test" })
-      .identity,
+    ...projectIndexPlan(
+      projectComposition(projects, assets, { projectId }),
+      {},
+      { implementationId: "picture-test" },
+    ).identity,
     generation,
     scenes: [],
   });
@@ -560,4 +565,35 @@ test("publication rejects a delivered picture whose visibility was left entirely
     equality: "unproven",
   });
   await expect(f.index.finish(identity)).rejects.toThrow("sampled coverage");
+});
+
+test("historical index validation preserves its renderer while new execution requires the current renderer", async () => {
+  const f = await fixture();
+  addSilence(f);
+  const identity = f.identity();
+  f.index.begin(identity);
+  const first = await append(f, identity, 0, 0);
+  const domain = projectIndexDomain(f.projects, f.assets, f.acquisitions, f.scenes, {
+    implementationId: "new-picture-renderer",
+  });
+  expect(() => domain.begin(identity, "produced")).toThrow("Pinned picture renderer");
+  expect(domain.begin(identity, "retained")).toBe(1000000);
+  expect(() =>
+    domain.candidate(identity, first.candidate, first.frame, first.frame.file, null),
+  ).not.toThrow();
+  expect(() =>
+    domain.candidate(
+      identity,
+      first.candidate,
+      {
+        ...first.frame,
+        implementationId: "new-picture-renderer",
+      },
+      first.frame.file,
+      null,
+    ),
+  ).toThrow("another request");
+  expect(() =>
+    domain.begin({ ...identity, selectionPolicy: "unknown-policy" }, "retained"),
+  ).toThrow("selection identity");
 });

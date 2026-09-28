@@ -1,3 +1,4 @@
+import { selectSource } from "./source-selection.js";
 import type { CompiledFrame } from "@screenrec/composition";
 import { afterEach } from "vitest";
 import { randomUUID } from "node:crypto";
@@ -273,12 +274,18 @@ export async function fixture(
     retained = new ScreenshotIndexStore(
       catalog,
       home,
-      sourceIndexDomain(assets, acquisitions, records, frames),
+      sourceIndexDomain(
+        (selection) => selectSource(assets, acquisitions, selection),
+        records,
+        frames,
+      ),
     );
     projectRetained = new ScreenshotIndexStore(
       catalog,
       home,
-      projectIndexDomain(projects, assets, acquisitions, records, { implementationId: projectRendererId }),
+      projectIndexDomain(projects, assets, acquisitions, records, {
+        implementationId: projectRendererId,
+      }),
     );
     index = new IndexProcessing({
       jobs,

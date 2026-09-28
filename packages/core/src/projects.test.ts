@@ -362,6 +362,7 @@ test("portable adoption retains media used only by a past revision and restores 
     expectedRevisionId: placed.revision.id,
     operations: [{ operation: "remove", clipIds: [placed.edit.labels.voice], ripple: "none" }],
   });
+  donor.assets.retain({ kind: "revision", id: created.revision.id }, [asset.id]);
   const staged = await receiver.assets.stagePortable(
     donor.assets.portable(asset.id),
     donor.assets.path(asset.id),
@@ -377,9 +378,18 @@ test("portable adoption retains media used only by a past revision and restores 
   );
   await staged.close();
   expect(adopted.revision.document.clips).toEqual([]);
-  expect(receiver.assets.references(asset.id)).toEqual([
-    { kind: "revision", id: adopted.revisionIds[placed.revision.id] },
-  ]);
+  expect(
+    receiver.assets
+      .references(asset.id)
+      .map((owner) => owner.id)
+      .sort(),
+  ).toEqual(
+    [adopted.revisionIds[placed.revision.id], adopted.revisionIds[created.revision.id]].sort(),
+  );
+  expect(receiver.store.snapshot(adopted.project.projectId).references).toContainEqual({
+    revisionId: adopted.revisionIds[created.revision.id],
+    resources: [{ kind: "asset", id: asset.id }],
+  });
   await rm(source);
   await rm(donor.assets.path(asset.id));
   const undone = receiver.store.undo(adopted.project.projectId, {

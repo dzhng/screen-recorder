@@ -32,7 +32,7 @@ import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
-import type { Job, JobAdmission, JobExecution, JobQueue } from "./jobs.js";
+import type { Job, JobAdmission, JobExecution, JobQueue, RetainedArtifact } from "./jobs.js";
 import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 import type { SceneProcessing } from "./scene-processing.js";
@@ -330,6 +330,69 @@ export class IndexProcessing {
     return JSON.stringify(
       pointers ? await pointers.withReady(plan.pointerSources, materialize) : await materialize(),
     );
+  }
+  portableSource(metadata: ScreenshotIndexMetadata<SourceIndexRecords>) {
+    const publication = this.jobs.retainedArtifact(
+      { kind: "asset", assetId: metadata.assetId },
+      artifact,
+      metadata.generation,
+    );
+    if (publication && !isDeepStrictEqual(JSON.parse(publication.result), metadata))
+      throw new CatalogError(
+        "INVALID_STORAGE",
+        "Screenshot index publication differs from retained rows",
+      );
+    return publication
+      ? {
+          generation: publication.generation,
+          attemptId: publication.attemptId,
+          input: publication.input,
+        }
+      : null;
+  }
+  adoptSourcePublication(
+    metadata: ScreenshotIndexMetadata<SourceIndexRecords>,
+    publication: Pick<RetainedArtifact, "generation" | "attemptId" | "input"> | null,
+  ) {
+    if (!publication) return;
+    let saved: SourceIndexInput;
+    try {
+      saved = JSON.parse(publication.input) as SourceIndexInput;
+    } catch {
+      throw new CatalogError("INVALID_PACKAGE", "Invalid screenshot index recipe");
+    }
+    const scenePublication = this.asset.scenes.portablePublication(metadata.scenes);
+    const scenes = scenePublication
+      ? (JSON.parse(scenePublication.result) as SceneEvidenceMetadata)
+      : saved?.scenes;
+    if (!isDeepStrictEqual(scenes, metadata.scenes))
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Screenshot index scene recipe differs from retained evidence",
+      );
+    const input: SourceIndexInput = {
+      assetId: metadata.assetId,
+      streamId: metadata.streamId,
+      ...(metadata.acquisitionId === undefined ? {} : { acquisitionId: metadata.acquisitionId }),
+      scenes,
+      selectionPolicy: metadata.selectionPolicy,
+      implementationId: metadata.implementationId,
+      maxLongEdge: metadata.maxLongEdge,
+    };
+    if (
+      publication.attemptId !== metadata.generation ||
+      publication.input !== encodeIndexRecord(input)
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Retained screenshot index recipe differs from metadata",
+      );
+    this.jobs.adoptArtifact({
+      ...publication,
+      target: { kind: "asset", assetId: metadata.assetId },
+      artifact,
+      result: JSON.stringify(this.asset.index.metadata(metadata)),
+    });
   }
   private sourceRecipe(
     selection: SourceSelection,

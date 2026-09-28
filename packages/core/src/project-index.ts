@@ -127,7 +127,10 @@ export function projectIndexDomain(
       active = {
         key,
         composition,
-        plan: projectIndexPlan(composition, identity, support),
+        plan: projectIndexPlan(composition, identity, {
+          ...support,
+          implementationId: identity.implementationId,
+        }),
       };
     }
     return active;
@@ -144,8 +147,8 @@ export function projectIndexDomain(
       selectionPolicy: identity.selectionPolicy,
       scenes: identity.scenes,
     }),
-    begin(identity) {
-      if (identity.implementationId !== support.implementationId)
+    begin(identity, admission) {
+      if (admission === "produced" && identity.implementationId !== support.implementationId)
         throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
       if (!identity.generation || identity.selectionPolicy !== projectIndexPolicy.id)
         invalid("Project index selection identity is unavailable");
@@ -168,7 +171,7 @@ export function projectIndexDomain(
         if (seen.has(key) || !bindings.has(key))
           invalid("Project index scene dependency is duplicated or outside its tap");
         seen.add(key);
-        const retained = scenes.sourcePage({ identity: dependency, limit: 1 }).metadata;
+        const retained = scenes.metadata(dependency);
         if (
           !isDeepStrictEqual(retained, dependency) ||
           !isDeepStrictEqual(
@@ -209,7 +212,7 @@ export function projectIndexDomain(
             range: { startUs: candidate.sampleAtUs, endUs: candidate.sampleAtUs + 1 },
             tap: identity.tap,
           },
-          support,
+          { ...support, implementationId: identity.implementationId },
           "video",
         ),
         path,

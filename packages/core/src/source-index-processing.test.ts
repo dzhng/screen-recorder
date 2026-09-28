@@ -1,3 +1,4 @@
+import { portableSourceIndexMetadataSchema } from "./source-index.js";
 import { expect, test } from "vitest";
 import { readFile } from "node:fs/promises";
 import { CatalogError } from "./catalog.js";
@@ -13,6 +14,20 @@ test("shared jobs publish source PNGs and exact gap coverage with bounded canoni
   expect(result.state).toBe("ready");
   expect(result.page).toBeTruthy();
   const first = result.page!;
+  const publication = f.index.portableSource(first.metadata)!;
+  expect(() =>
+    f.index.adoptSourcePublication(
+      portableSourceIndexMetadataSchema.parse(first.metadata),
+      publication,
+    ),
+  ).not.toThrow();
+  expect(() =>
+    f.index.adoptSourcePublication(first.metadata, {
+      ...publication,
+      input: JSON.stringify(JSON.parse(publication.input), null, 2),
+    }),
+  ).toThrow("recipe differs");
+
   expect(first.entries[0]!.candidate.requestedSourceUs).toBe(200000);
   expect(first.metadata.candidateCount).toBe(4);
   const continuation = f.index.getSource({ ...f.selection, cursor: first.nextCursor!, limit: 1 });

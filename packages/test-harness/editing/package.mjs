@@ -42,11 +42,11 @@ const run = promisify(execFile),
 const report = {
   passed: false,
   scope:
-    "actual CLI/MCP/native project package relocation with retained acquisition, source-scene and real source-transcript generations; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
+    "actual CLI/MCP/native project package relocation with retained acquisition, source-scene, source screenshot-index and real source-transcript generations; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
   checks: {},
   trace: [],
   remaining: [
-    "screenshot-index generations",
+    "project screenshot-index generations",
     "prepared 15a outputs and fonts",
     "fresh autonomous skill journey",
   ],
@@ -156,7 +156,8 @@ try {
   await start(donor);
   const a = await asset("a.mov"),
     b = await asset("b.mov"),
-    reference = await asset("b-audio.wav");
+    reference = await asset("b-audio.wav"),
+    revisionOnly = await asset("a-audio.wav");
   const speech = await asset(
     "narration.mov",
     new URL("../../../fixtures/narrated-workbench/narration.mov", import.meta.url).pathname,
@@ -250,6 +251,27 @@ try {
     (value) => value.state === "ready",
   );
 
+  const indexParams = {
+    assetId: captureBinding.assetId,
+    streamId: captureBinding.streamId,
+    acquisitionId: acquisition.id,
+  };
+  const donorIndex = await poll(
+    () => call("index.get", { ...indexParams, limit: 100 }, { transport: "mcp" }),
+    (value) => value.state === "ready",
+  );
+  assert.equal(donorIndex.page.nextCursor, null);
+  assert.ok(donorIndex.page.entries.length);
+  const indexReference = { ...indexParams, generation: donorIndex.generation };
+  const donorCoverage = await call("index.coverage", { ...indexReference, limit: 100 });
+  assert.equal(donorCoverage.nextCursor, null);
+  const indexHashes = [];
+  for (const entry of donorIndex.page.entries) {
+    const output = join(out, `donor-index-${entry.candidate.ordinal}.png`);
+    await call("index.frame", { ...indexReference, ordinal: entry.candidate.ordinal }, { output });
+    indexHashes.push(hash(await readFile(output)));
+  }
+
   // The generation producer is not ready. This explicit fixture only tests owned reference closure.
   service.assets.retain({ kind: "asset", id: b.id }, [reference.id]);
   service.assets.retain({ kind: "asset", id: reference.id }, [speech.id]);
@@ -271,6 +293,7 @@ try {
     },
   });
   const projectId = created.project.projectId;
+  service.assets.retain({ kind: "revision", id: created.revision.id }, [revisionOnly.id]);
   const first = await call("edit.apply", {
     projectId,
     requestId: "first",
@@ -319,6 +342,21 @@ try {
   );
   const packagePath = join(out, "relocated.zip");
   await rename(exported.output, packagePath);
+  const localAdmission = await call("package.open", { path: packagePath });
+  const localReady = await poll(
+    () => call("package.status", { admissionId: localAdmission.id }),
+    (value) => value.state === "ready",
+  );
+  const localAdoption = await poll(
+    () =>
+      call("package.adopt", {
+        packageHandle: localReady.packageHandle,
+        requestId: "adopt-existing-evidence",
+      }),
+    (value) => value.state === "ready",
+  );
+  assert.notEqual(localAdoption.result.projectId, projectId);
+  await call("package.close", { admissionId: localAdmission.id });
   const corrupt = join(out, "corrupt.zip"),
     missing = join(out, "missing.zip");
   await run("/usr/bin/python3", [
@@ -425,6 +463,13 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   await rm(packagePath);
   await close();
   await start(receiver);
+  assert.equal((await call("asset.get", { assetId: revisionOnly.id })).id, revisionOnly.id);
+  const adoptedHistory = await call("revision.history", { projectId: adopted.project.projectId });
+  assert.ok(
+    service.assets
+      .references(revisionOnly.id)
+      .some((owner) => owner.kind === "revision" && owner.id === adoptedHistory.revisions[0].id),
+  );
   const adoptedAcquisition = await call(
     "acquisition.get",
     { acquisitionId: acquisition.id },
@@ -442,6 +487,33 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   assert.equal(adoptedEvents.state, "ready");
   assert.deepEqual(adoptedEvents.page.rows, originalEvents.page.rows);
 
+  const adoptedIndex = await call(
+    "index.get",
+    { ...indexParams, limit: 100 },
+    { transport: "mcp" },
+  );
+  assert.equal(adoptedIndex.state, "ready");
+  assert.equal(adoptedIndex.generation, donorIndex.generation);
+  const normalizeIndex = (page) => ({
+    ...page,
+    entries: page.entries.map((entry) => ({
+      ...entry,
+      frame: { ...entry.frame, file: "retained.png" },
+    })),
+  });
+  assert.deepEqual(normalizeIndex(adoptedIndex.page), normalizeIndex(donorIndex.page));
+  assert.deepEqual(await call("index.coverage", { ...indexReference, limit: 100 }), donorCoverage);
+  for (const entry of adoptedIndex.page.entries) {
+    const output = join(out, `adopted-index-${entry.candidate.ordinal}.png`);
+    await call("index.frame", { ...indexReference, ordinal: entry.candidate.ordinal }, { output });
+    assert.equal(hash(await readFile(output)), indexHashes[entry.candidate.ordinal]);
+  }
+  report.sourceIndex = {
+    generation: donorIndex.generation,
+    metadata: donorIndex.page.metadata,
+    imageHashes: indexHashes,
+  };
+
   assert.equal((await call("model.status", {}, { transport: "mcp" })).state, "absent");
   const adoptedTranscript = await call("transcript.get", transcriptParams);
   assert.equal(adoptedTranscript.state, "ready");
@@ -457,9 +529,9 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   const actualAssets = (await call("asset.list", {}, { transport: "mcp" })).assets;
   assert.deepEqual(
     actualAssets.map((item) => item.id).sort(),
-    [a.id, b.id, reference.id, speech.id].sort(),
+    [a.id, b.id, reference.id, speech.id, revisionOnly.id].sort(),
   );
-  for (const original of [a, b, reference, speech])
+  for (const original of [a, b, reference, speech, revisionOnly])
     assert.equal(hash(await readFile(service.assets.path(original.id))), original.id);
   assert.deepEqual(
     (await call("revision.history", { projectId: adopted.project.projectId })).revisions.map(
@@ -545,6 +617,9 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     exactNormalizedEvidenceRetained: true,
     retainedSceneEventsReadyWithoutPreparation: true,
     realTranscriptReadyWithModelsAbsent: true,
+    sourceIndexPixelsRowsCoverageRetained: true,
+    existingProducedEvidenceAdoption: true,
+    revisionOnlyReferenceRestored: true,
     transcriptRawBytesAndWordsRetained: true,
     adoptedLibraryRestartedBeforeInspection: true,
     exactJournalRetained: true,

@@ -6,11 +6,20 @@ export const resourceKinds = [
   "scene-generation",
   "transcript-generation",
   "prepared-audio",
+  "index-generation",
 ] as const;
 export type ResourceKind = (typeof resourceKinds)[number];
 export type ResourceReference = { kind: ResourceKind; id: string };
 export type ResourceOwner = {
-  kind: "asset" | "acquisition" | "project" | "revision" | "job" | "job-input" | "export";
+  kind:
+    | "asset"
+    | "acquisition"
+    | "project"
+    | "revision"
+    | "job"
+    | "job-input"
+    | "export"
+    | "index-generation";
   id: string;
 };
 

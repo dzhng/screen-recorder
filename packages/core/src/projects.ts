@@ -1,4 +1,4 @@
-import { ResourceReferences } from "./references.js";
+import { ResourceReferences, resourceKinds, type ResourceReference } from "./references.js";
 import { archiveLimits } from "./package-archive.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { createHash, randomUUID } from "node:crypto";
@@ -34,7 +34,19 @@ export type ProjectSnapshot = {
   project: Project;
   revisions: ProjectRevision[];
   undo: string[];
+  references: { revisionId: string; resources: ResourceReference[] }[];
 };
+export const projectSnapshotReferencesSchema = z
+  .array(
+    z.strictObject({
+      revisionId: z.string().min(1),
+      resources: z
+        .array(z.strictObject({ kind: z.enum(resourceKinds), id: z.string().min(1).max(2048) }))
+        .max(25000),
+    }),
+  )
+  .max(archiveLimits.history)
+  .refine((values) => values.reduce((sum, value) => sum + value.resources.length, 0) <= 25000);
 const projectSnapshotSchema = z.strictObject({
   project: z.strictObject({
     projectId: z.string().min(1),
@@ -56,6 +68,7 @@ const projectSnapshotSchema = z.strictObject({
     .min(1)
     .max(archiveLimits.history),
   undo: z.array(z.string().min(1)).max(archiveLimits.history),
+  references: projectSnapshotReferencesSchema,
 });
 /** Untrusted snapshots must retain a complete ordered history and a valid undo stack. */
 export function validateProjectSnapshot(value: unknown): ProjectSnapshot {
@@ -77,6 +90,17 @@ export function validateProjectSnapshot(value: unknown): ProjectSnapshot {
     snapshot.undo.some((id) => !ids.has(id))
   )
     throw new CatalogError("INVALID_PACKAGE", "Project head or undo target is missing");
+  const owners = new Set<string>();
+  for (const reference of snapshot.references) {
+    if (!ids.has(reference.revisionId) || owners.has(reference.revisionId))
+      throw new CatalogError("INVALID_PACKAGE", "Revision dependency owner is missing or repeated");
+    owners.add(reference.revisionId);
+    const resources = new Set(
+      reference.resources.map((value) => JSON.stringify([value.kind, value.id])),
+    );
+    if (resources.size !== reference.resources.length)
+      throw new CatalogError("INVALID_PACKAGE", "Revision dependency is repeated");
+  }
   return snapshot;
 }
 export type ProjectEditResult = { revision: ProjectRevision; edit: EditBatchResult };
@@ -426,7 +450,18 @@ export class ProjectStore {
       .map((row) => row.targetId as string);
     if (undo.length > archiveLimits.history)
       throw new CatalogError("LIMIT_EXCEEDED", "Project undo exceeds the portable snapshot limit");
-    return { project, revisions: history.revisions, undo };
+    let edges = 0;
+    const references = history.revisions.map((revision) => {
+      const resources = this.references.dependencies({ kind: "revision", id: revision.id });
+      edges += resources.length;
+      if (edges > 25000)
+        throw new CatalogError(
+          "LIMIT_EXCEEDED",
+          "Project revision dependencies exceed package budget",
+        );
+      return { revisionId: revision.id, resources };
+    });
+    return { project, revisions: history.revisions, undo, references };
   }
   /** Dependencies publish in this transaction, so neither half of adoption becomes visible alone. */
   adopt(
@@ -491,6 +526,13 @@ export class ProjectStore {
           JSON.stringify(result),
         );
       for (const revision of revisions) this.insertRevision(revision);
+      for (const dependency of snapshot.references)
+        for (const resource of dependency.resources)
+          this.references.retain(
+            resource.kind,
+            { kind: "revision", id: revisionIds[dependency.revisionId]! },
+            [resource.id],
+          );
       for (const id of snapshot.undo) this.pushUndo(projectId, revisionIds[id]!);
       return result;
     });

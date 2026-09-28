@@ -33,7 +33,7 @@ export function observedSceneBoundary(
 
 const integer = z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
 const time = integer.nonnegative();
-const clock = z.strictObject({
+export const sourceSceneClockSchema = z.strictObject({
   value: z
     .string()
     .regex(/^-?\d+$/)
@@ -56,7 +56,7 @@ const coverage = z.discriminatedUnion("status", [
     requestedSourceUs: time,
     status: z.literal("available"),
     actualSourceUs: integer,
-    sample: clock,
+    sample: sourceSceneClockSchema,
     width: time.positive().max(64),
     height: time.positive().max(64),
     continuousFromPrevious: z.boolean(),
@@ -64,8 +64,8 @@ const coverage = z.discriminatedUnion("status", [
   }),
 ]);
 const comparison = z.strictObject({
-  previous: clock,
-  current: clock,
+  previous: sourceSceneClockSchema,
+  current: sourceSceneClockSchema,
   actualSourceUs: integer,
   changedPixelFraction: z.number().min(0).max(1),
   changedCellFraction: z.number().min(0).max(1),

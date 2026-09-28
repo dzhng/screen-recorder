@@ -1,6 +1,13 @@
+import { ResourceReferences } from "./references.js";
 import { ownerIdentity, type JobOwner } from "./jobs.js";
 import { evidenceRecordingId } from "./evidence.js";
-import { retainedFileRead } from "./files.js";
+import {
+  copyImportedFile,
+  hashFile,
+  fileIdentity,
+  retainedFileRead,
+  type IdentifiedFile,
+} from "./files.js";
 import { openRetainedImage } from "./retained-image.js";
 import {
   ScreenshotIndexReader,
@@ -9,8 +16,10 @@ import {
   type IndexCoverage,
 } from "./screenshot-index-read.js";
 import { createHash } from "node:crypto";
-import { lstatSync, mkdirSync, realpathSync, rmdirSync, unlinkSync } from "node:fs";
-import { join } from "node:path";
+import { fstatSync, lstatSync, mkdirSync, realpathSync, rmdirSync, unlinkSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { open } from "node:fs/promises";
+import { constants } from "node:fs";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";
 import { type RevisionStore } from "./library.js";
@@ -57,10 +66,23 @@ export type ScreenshotIndexEntry<D extends IndexRecords = RecordingIndexRecords>
   coverageCount: number;
 };
 export type IndexOwner = Extract<JobOwner, { kind: "recording" | "asset" | "project" }>;
+export type PortableIndexRecord<D extends IndexRecords> =
+  | {
+      kind: "entry";
+      candidate: D["candidate"];
+      frame: D["frame"];
+      source: IdentifiedFile;
+      sha256: string;
+    }
+  | { kind: "coverage"; coverage: D["coverage"] };
+export function indexGenerationResource(owner: IndexOwner, generation: string): string {
+  return JSON.stringify([...ownerIdentity(owner), generation]);
+}
+export type IndexAdmission = "produced" | "retained";
 export type IndexDomain<D extends IndexRecords> = {
   owner(identity: D["identity"]): IndexOwner;
   pin(identity: D["identity"]): D["identity"];
-  begin(identity: D["identity"]): number;
+  begin(identity: D["identity"], admission: IndexAdmission): number;
   candidate(
     identity: D["identity"],
     candidate: D["candidate"],
@@ -72,10 +94,18 @@ export type IndexDomain<D extends IndexRecords> = {
     identity: D["identity"],
     candidate: D["candidate"] | null,
     coverage: D["coverage"],
+    admission: IndexAdmission,
   ): { startUs: number; endUs: number };
   merge(before: D["coverage"], next: D["coverage"]): D["coverage"] | null;
   finishEntry?(identity: D["identity"], candidate: D["candidate"], coverageCount: number): void;
   finish(identity: D["identity"], candidateCount: number): void;
+  retained?(
+    identity: D["identity"],
+    signal: AbortSignal,
+  ): {
+    coverage(frame: D["frame"] | undefined, coverage: D["coverage"]): Promise<void>;
+    close(): Promise<unknown>;
+  };
   isDeleting(owner: IndexOwner): boolean;
 };
 type Generation = {
@@ -281,6 +311,7 @@ export class ScreenshotIndexStore<
 > extends ScreenshotIndexReader<D> {
   private readonly home: string;
   private readonly device: number;
+  private readonly references: ResourceReferences;
   hasGenerations(owner: JobOwner): boolean {
     return Boolean(
       this.store.catalog
@@ -290,12 +321,72 @@ export class ScreenshotIndexStore<
         .get(...ownerIdentity(owner)),
     );
   }
+  /** Startup runs before queue admission, including owners absent from the asset/project catalog. */
+  async recoverPending(ownerKind: IndexOwner["kind"], signal: AbortSignal): Promise<void> {
+    let cursor = 0;
+    const failures: unknown[] = [];
+    for (;;) {
+      signal.throwIfAborted();
+      const rows = this.store.catalog
+        .prepare(
+          "SELECT rowid AS cursor,identity FROM screenshot_index_generations WHERE ownerKind=? AND state!='complete' AND rowid>? ORDER BY rowid LIMIT 100",
+        )
+        .all(ownerKind, cursor) as { cursor: number; identity: string }[];
+      for (const row of rows) {
+        signal.throwIfAborted();
+        try {
+          await this.remove(JSON.parse(row.identity) as D["identity"]);
+        } catch (error) {
+          if (!failures.length) failures.push(error);
+        }
+        cursor = row.cursor;
+      }
+      if (rows.length < 100) break;
+      await setImmediate();
+    }
+    if (failures.length)
+      throw new AggregateError(failures, "Pending screenshot index recovery failed");
+  }
+  /** Pin metadata only; archive jobs enumerate and hash retained payloads afterward. */
+  portableGenerations(owner: IndexOwner, limit = 25000): ScreenshotIndexMetadata<D>[] {
+    const rows = this.store.catalog
+      .prepare(
+        "SELECT * FROM screenshot_index_generations WHERE ownerKind=? AND ownerId=? ORDER BY generation LIMIT ?",
+      )
+      .all(...ownerIdentity(owner), limit + 1) as Generation[];
+    if (rows.length > limit)
+      throw new CatalogError("LIMIT_EXCEEDED", "Retained index inventory exceeds its limit");
+    if (rows.some((row) => row.state !== "complete"))
+      throw new CatalogError(
+        "PROCESSING_BUSY",
+        "Screenshot index generation is incomplete",
+        {},
+        true,
+      );
+    return rows.map((row) => metadata<D>(row));
+  }
+  portableImage(identity: D["identity"], ordinal: number): IdentifiedFile {
+    const row = this.row(identity, "complete"),
+      entry = this.entry(identity, ordinal);
+    const directory = this.checkedDirectory(identity, row);
+    const file = this.openImage(directory, row, entry).file;
+    try {
+      return {
+        path: join(directory, `${ordinal}.png`),
+        bytes: entry.bytes,
+        identity: fileIdentity(fstatSync(file.fd, { bigint: true })),
+      };
+    } finally {
+      file.close();
+    }
+  }
   constructor(
     private readonly store: Catalog,
     home: string,
     private readonly domain: IndexDomain<D>,
   ) {
     super();
+    this.references = new ResourceReferences(store);
     this.home = realpathSync(home);
     this.device = lstatSync(this.home).dev;
     store.catalog.exec(`CREATE TABLE IF NOT EXISTS screenshot_index_generations (
@@ -332,25 +423,30 @@ export class ScreenshotIndexStore<
       );
     return row;
   }
-  private directory(identity: D["identity"], create = false): string {
+  private directory(identity: D["identity"], create = false, exclusive = false): string {
     const owner = this.domain.owner(identity),
       [kind, id] = ownerIdentity(owner);
     if (!/^[a-zA-Z0-9_-]+$/.test(id) || !identity.generation) invalid("Invalid index identity");
     const home = lstatSync(this.home);
     if (!home.isDirectory() || home.dev !== this.device) invalid("Retained index home changed");
     let path = this.home;
-    for (const segment of [
+    const parts = [
       ...(kind === "recording"
         ? ["recordings", id, "evidence", "index"]
         : ["evidence", "index", kind, id]),
       createHash("sha256").update(identity.generation).digest("hex"),
-    ]) {
+    ];
+    for (const [partIndex, segment] of parts.entries()) {
       path = join(path, segment);
       if (create) {
         try {
           mkdirSync(path);
         } catch (error) {
-          if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+          if (
+            (error as NodeJS.ErrnoException).code !== "EEXIST" ||
+            (exclusive && partIndex === parts.length - 1)
+          )
+            throw error;
         }
       }
       const stat = lstatSync(path);
@@ -376,9 +472,289 @@ export class ScreenshotIndexStore<
       modified: entry.modified,
     });
   }
+  /** Files and structural rows are staged first; ownership becomes visible only in the caller's transaction. */
+  async stagePortable(
+    expected: ScreenshotIndexMetadata<D>,
+    records: AsyncIterable<PortableIndexRecord<D>>,
+    signal: AbortSignal,
+    validation: IndexDomain<D>,
+  ) {
+    for (const count of [
+      expected.durationUs,
+      expected.candidateCount,
+      expected.coverageCount,
+      expected.bytes,
+    ])
+      if (!integer(count))
+        throw new CatalogError("INVALID_PACKAGE", "Invalid retained index counts");
+    if (expected.candidateCount > 25000 || expected.coverageCount > 25000)
+      throw new CatalogError("LIMIT_EXCEEDED", "Retained index exceeds package row budget");
+    const identity = this.domain.pin(expected),
+      key = this.key(identity);
+    const prior = this.store.catalog
+      .prepare(`SELECT * FROM screenshot_index_generations WHERE ${where}`)
+      .get(...key) as Generation | undefined;
+    if (prior && (prior.state !== "complete" || !isDeepStrictEqual(metadata<D>(prior), expected)))
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Retained index identity conflicts with local generation",
+      );
+    let owned = false;
+    const close = async () => {
+      if (!owned) return;
+      const row = this.store.catalog
+        .prepare(`SELECT state FROM screenshot_index_generations WHERE ${where}`)
+        .get(...key);
+      if (row?.state !== "complete") await this.remove(identity);
+    };
+    try {
+      if (!prior) {
+        this.store.catalog
+          .prepare(
+            "INSERT INTO screenshot_index_generations(ownerKind,ownerId,generation,identity,state,durationUs) VALUES(?,?,?,?,'staging',?)",
+          )
+          .run(...key, encodeIndexRecord(identity), expected.durationUs);
+        try {
+          const path = this.directory(identity, true, true),
+            stat = lstatSync(path);
+          owned = true;
+          this.store.catalog
+            .prepare(`UPDATE screenshot_index_generations SET device=?,inode=? WHERE ${where}`)
+            .run(stat.dev, stat.ino, ...key);
+        } catch (error) {
+          if (!owned)
+            this.store.catalog
+              .prepare(`DELETE FROM screenshot_index_generations WHERE ${where}`)
+              .run(...key);
+          throw error;
+        }
+      }
+      let candidates = 0,
+        coverageCount = 0,
+        bytes = 0;
+      for await (const record of records) {
+        signal.throwIfAborted();
+        const row = this.row(identity, prior ? "complete" : "staging");
+        if (record.kind === "entry") {
+          if (
+            coverageCount ||
+            record.candidate.ordinal !== candidates ||
+            candidates >= expected.candidateCount ||
+            record.frame.file !== `${candidates}.png` ||
+            !/^[a-f0-9]{64}$/.test(record.sha256)
+          )
+            throw new CatalogError(
+              "INVALID_PACKAGE",
+              "Retained index entry ordering or file identity is invalid",
+            );
+          const path = join(this.checkedDirectory(identity, row), `${candidates}.png`),
+            frame = { ...record.frame, file: path };
+          if (prior) {
+            const old = this.entry(identity, candidates);
+            if (
+              !isDeepStrictEqual(JSON.parse(old.candidate), record.candidate) ||
+              !isDeepStrictEqual(JSON.parse(old.frame), frame)
+            )
+              throw new CatalogError(
+                "INVALID_PACKAGE",
+                "Retained index entry conflicts with local evidence",
+              );
+            const file = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW);
+            try {
+              if ((await hashFile(file, frame.bytes, signal)).sha256 !== record.sha256)
+                throw new CatalogError(
+                  "INVALID_PACKAGE",
+                  "Retained index PNG conflicts with local bytes",
+                );
+            } finally {
+              await file.close();
+            }
+          } else {
+            const copied = await copyImportedFile(
+              record.source.path,
+              path,
+              signal,
+              record.source,
+              32 * 1024 * 1024,
+            );
+            if (copied.bytes !== frame.bytes || copied.sha256 !== record.sha256)
+              throw new CatalogError(
+                "INVALID_PACKAGE",
+                "Retained index PNG differs from inventory",
+              );
+            const retained = openRetainedImage(path, frame),
+              stat = retained.stat;
+            retained.file.close();
+            this.store.catalog
+              .prepare("INSERT INTO screenshot_index_entries VALUES(?,?,?,?,?,?,?,?,?,?,0)")
+              .run(
+                ...key,
+                candidates,
+                encodeIndexRecord(record.candidate),
+                encodeIndexRecord(frame),
+                stat.size,
+                stat.dev,
+                stat.ino,
+                stat.mtimeMs,
+              );
+            this.store.catalog
+              .prepare(
+                `UPDATE screenshot_index_generations SET candidateCount=candidateCount+1,bytes=bytes+? WHERE ${where}`,
+              )
+              .run(stat.size, ...key);
+          }
+          candidates++;
+          bytes += frame.bytes;
+        } else {
+          const coverage = record.coverage;
+          if (
+            candidates !== expected.candidateCount ||
+            coverageCount >= expected.coverageCount ||
+            (coverage.ordinal !== null &&
+              (!integer(coverage.ordinal) || coverage.ordinal >= candidates))
+          )
+            throw new CatalogError(
+              "INVALID_PACKAGE",
+              "Retained index coverage ordering is invalid",
+            );
+          if (prior) {
+            const old = this.store.catalog
+              .prepare(
+                `SELECT content FROM screenshot_index_coverage WHERE ${where} AND sequence=?`,
+              )
+              .get(...key, coverageCount);
+            if (!old || !isDeepStrictEqual(JSON.parse(old.content as string), coverage))
+              throw new CatalogError(
+                "INVALID_PACKAGE",
+                "Retained index coverage conflicts with local evidence",
+              );
+          } else {
+            this.store.catalog
+              .prepare("INSERT INTO screenshot_index_coverage VALUES(?,?,?,?,?,?)")
+              .run(...key, coverageCount, coverage.ordinal, encodeIndexRecord(coverage));
+            this.store.catalog
+              .prepare(
+                `UPDATE screenshot_index_generations SET coverageCount=coverageCount+1 WHERE ${where}`,
+              )
+              .run(...key);
+            this.store.catalog
+              .prepare(
+                `UPDATE screenshot_index_entries SET coverageCount=coverageCount+1 WHERE ${where} AND ordinal=?`,
+              )
+              .run(...key, coverage.ordinal);
+          }
+          coverageCount++;
+        }
+        await setImmediate();
+      }
+      if (
+        candidates !== expected.candidateCount ||
+        coverageCount !== expected.coverageCount ||
+        bytes !== expected.bytes
+      )
+        throw new CatalogError("INVALID_PACKAGE", "Retained index inventory differs from metadata");
+      if (!prior) {
+        let directory = this.directory(identity);
+        for (;;) {
+          const handle = await open(directory, constants.O_RDONLY | constants.O_NOFOLLOW);
+          try {
+            await handle.sync();
+          } finally {
+            await handle.close();
+          }
+          if (directory === this.home) break;
+          directory = dirname(directory);
+        }
+      }
+      await this.validateRetained(identity, validation, signal);
+      return {
+        metadata: expected,
+        close,
+        publish: () => {
+          signal.throwIfAborted();
+          this.row(identity, prior ? "complete" : "staging");
+          if (this.domain.begin(identity, "retained") !== expected.durationUs)
+            invalid("Retained index owner changed before publication");
+          if (!prior)
+            this.store.catalog
+              .prepare(
+                `UPDATE screenshot_index_generations SET state='complete',throughUs=durationUs WHERE ${where}`,
+              )
+              .run(...key);
+        },
+      };
+    } catch (error) {
+      await close();
+      throw error;
+    }
+  }
+  private async validateRetained(
+    identity: D["identity"],
+    domain: IndexDomain<D>,
+    signal: AbortSignal,
+  ): Promise<void> {
+    const row = this.row(identity),
+      directory = this.checkedDirectory(identity, row);
+    if (domain.begin(identity, "retained") !== row.durationUs)
+      invalid("Retained index duration differs from its owner");
+    const retained = domain.retained?.(identity, signal);
+    try {
+      let previous: D["candidate"] | null = null;
+      for (let ordinal = 0; ordinal < row.candidateCount; ordinal++) {
+        signal.throwIfAborted();
+        const entry = this.entry(identity, ordinal),
+          candidate = JSON.parse(entry.candidate) as D["candidate"];
+        domain.candidate(
+          identity,
+          candidate,
+          JSON.parse(entry.frame),
+          join(directory, `${ordinal}.png`),
+          previous,
+        );
+        domain.finishEntry?.(identity, candidate, entry.coverageCount);
+        this.openImage(directory, row, entry).file.close();
+        previous = candidate;
+        if (ordinal % 100 === 99) await setImmediate(undefined, { signal });
+      }
+      let through = 0;
+      for (let sequence = 0; sequence < row.coverageCount; sequence++) {
+        signal.throwIfAborted();
+        const stored = this.store.catalog
+          .prepare(`SELECT content FROM screenshot_index_coverage WHERE ${where} AND sequence=?`)
+          .get(...this.key(identity), sequence);
+        if (!stored) invalid("Retained index coverage is missing");
+        const coverage = JSON.parse(stored.content as string) as D["coverage"],
+          candidate =
+            coverage.ordinal === null
+              ? null
+              : (JSON.parse(this.entry(identity, coverage.ordinal).candidate) as D["candidate"]),
+          extent = domain.coverage(identity, candidate, coverage, "retained");
+        if (
+          !integer(extent.startUs) ||
+          !integer(extent.endUs) ||
+          extent.startUs !== through ||
+          extent.endUs <= through ||
+          extent.endUs > row.durationUs
+        )
+          invalid("Retained index coverage must progress contiguously inside its span");
+        await retained?.coverage(
+          coverage.ordinal === null
+            ? undefined
+            : JSON.parse(this.entry(identity, coverage.ordinal).frame),
+          coverage,
+        );
+        through = extent.endUs;
+        if (sequence % 100 === 99) await setImmediate(undefined, { signal });
+      }
+      if (through !== row.durationUs) invalid("Retained index coverage is incomplete");
+      domain.finish(identity, row.candidateCount);
+    } finally {
+      await retained?.close();
+    }
+  }
   begin(identity: D["identity"]): void {
     const encoded = encodeIndexRecord(this.domain.pin(identity));
-    const durationUs = this.domain.begin(identity);
+    const durationUs = this.domain.begin(identity, "produced");
     this.store.catalog
       .prepare(
         "INSERT INTO screenshot_index_generations(ownerKind,ownerId,generation,identity,state,durationUs) VALUES(?,?,?,?,'building',?)",
@@ -443,7 +819,7 @@ export class ScreenshotIndexStore<
         coverage.ordinal === null
           ? null
           : (JSON.parse(this.entry(identity, coverage.ordinal).candidate) as D["candidate"]);
-      const extent = this.domain.coverage(identity, candidate, coverage);
+      const extent = this.domain.coverage(identity, candidate, coverage, "produced");
       if (
         !integer(extent.startUs) ||
         !integer(extent.endUs) ||
@@ -581,8 +957,15 @@ export class ScreenshotIndexStore<
       .run(...this.key(identity));
     let directory: string | undefined;
     try {
-      directory =
-        row.device === null ? this.directory(identity) : this.checkedDirectory(identity, row);
+      if (row.device === null) {
+        // A crash before exclusive directory admission provides no authority to delete an existing path.
+        this.directory(identity);
+        throw new CatalogError(
+          "INVALID_STORAGE",
+          "Unadmitted screenshot index directory requires inspection",
+        );
+      }
+      directory = this.checkedDirectory(identity, row);
     } catch (error) {
       if (!missing(error)) throw error;
     }
@@ -662,7 +1045,14 @@ export class ScreenshotIndexStore<
         signal?.throwIfAborted();
         const identity = JSON.parse(row.identity) as D["identity"];
         try {
-          if (!keep(identity)) await this.remove(identity);
+          if (
+            !keep(identity) &&
+            !this.references.has(
+              "index-generation",
+              indexGenerationResource(owner, identity.generation),
+            )
+          )
+            await this.remove(identity);
         } catch (error) {
           failureCount++;
           firstFailure ??= error;

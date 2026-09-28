@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { MediaFrameInspection } from "./frame-inspection.js";
@@ -12,7 +12,11 @@ import { AcquisitionStore } from "./acquisitions.js";
 import { SceneEvidenceStore, assetSceneOwner, sourceSceneDescriptor } from "./scene-evidence.js";
 import { SelectedSourceSceneAnalysis, sourceScenePolicy } from "./source-scenes.js";
 import { selectSource } from "./source-selection.js";
-import { ScreenshotIndexStore, recordingIndexDomain } from "./screenshot-index.js";
+import {
+  ScreenshotIndexStore,
+  recordingIndexDomain,
+  type PortableIndexRecord,
+} from "./screenshot-index.js";
 import {
   sourceIndexDomain,
   type SourceIndexIdentity,
@@ -53,6 +57,8 @@ async function fixture(emptyAt?: number, allEmpty = false) {
         segments: [{ startUs: 200000, endUs: 1000000, empty: allEmpty }],
         width: 1,
         height: 1,
+        orientedWidth: 1,
+        orientedHeight: 1,
       },
     ],
   }));
@@ -121,7 +127,11 @@ async function fixture(emptyAt?: number, allEmpty = false) {
   let index = new ScreenshotIndexStore(
     catalog,
     home,
-    sourceIndexDomain(assets, acquisitions, scenes, noFrameRequests),
+    sourceIndexDomain(
+      (selection) => selectSource(assets, acquisitions, selection),
+      scenes,
+      noFrameRequests,
+    ),
   );
   cleanup.push(async () => {
     catalog.close();
@@ -169,9 +179,15 @@ async function fixture(emptyAt?: number, allEmpty = false) {
     home,
     input,
     identity,
-    assets,
-    acquisitions,
-    scenes,
+    get assets() {
+      return assets;
+    },
+    get acquisitions() {
+      return acquisitions;
+    },
+    get scenes() {
+      return scenes;
+    },
     candidate,
     append,
     get index() {
@@ -189,7 +205,11 @@ async function fixture(emptyAt?: number, allEmpty = false) {
       index = new ScreenshotIndexStore(
         catalog,
         home,
-        sourceIndexDomain(assets, acquisitions, scenes, noFrameRequests),
+        sourceIndexDomain(
+          (selection) => selectSource(assets, acquisitions, selection),
+          scenes,
+          noFrameRequests,
+        ),
       );
     },
   };
@@ -441,7 +461,11 @@ test("demanded empty-picture coverage retains verified provenance after the job 
     const index = new ScreenshotIndexStore(
       f.catalog,
       f.home,
-      sourceIndexDomain(f.assets, f.acquisitions, f.scenes, frames),
+      sourceIndexDomain(
+        (selection) => selectSource(f.assets, f.acquisitions, selection),
+        f.scenes,
+        frames,
+      ),
     );
     index.begin(f.identity);
     index.appendCoverage(f.identity, {
@@ -467,10 +491,217 @@ test("demanded empty-picture coverage retains verified provenance after the job 
     index.appendCoverage(f.identity, coverage);
     await index.finish(f.identity);
     jobs.forgetJob(pending.jobId!);
+    const retained = sourceIndexDomain(
+      (selection) => selectSource(f.assets, f.acquisitions, selection),
+      f.scenes,
+      noFrameRequests,
+    );
+    expect(retained.coverage(f.identity, null, coverage, "retained")).toEqual(coverage.source);
+    for (const changed of [
+      { attemptId: "invented" },
+      { supportDigest: "0".repeat(64) },
+      { selection: { ...frame.selection, assetId: "0".repeat(64) } },
+      { observation: { ...frame.observation, requestedSourceUs: frame.atUs + 1 } },
+      { implementationId: "another-renderer" },
+    ]) {
+      expect(() =>
+        retained.coverage(
+          f.identity,
+          null,
+          {
+            ...coverage,
+            observation: { kind: "frame", frame: { ...frame, ...changed } },
+          },
+          "retained",
+        ),
+      ).toThrow("does not match");
+    }
     expected = { ...coverage, sequence: 1 };
   } finally {
     await jobs.close();
   }
   f.reopen();
   expect(f.index.coveragePage({ identity: f.identity }).coverage[1]).toEqual(expected);
+});
+
+test("portable source index stages real PNGs, publishes atomically, replays, and recovers unpublished generations", async () => {
+  const donor = await fixture(400000),
+    receiver = await fixture(400000);
+  donor.index.begin(donor.identity);
+  await donor.append();
+  donor.index.appendCoverage(donor.identity, {
+    ordinal: null,
+    state: "unavailable",
+    basis: "support",
+    source: { startUs: 0, endUs: 200000 },
+  });
+  donor.index.appendCoverage(donor.identity, {
+    ordinal: 0,
+    state: "available",
+    equality: "unproven",
+    source: { startUs: 200000, endUs: 1000000 },
+  });
+  const metadata = await donor.index.finish(donor.identity);
+  const entry = donor.index.readEntry(donor.identity, 0),
+    coverage = donor.index.coveragePage({ identity: donor.identity }).coverage,
+    source = donor.index.portableImage(donor.identity, 0),
+    sha256 = createHash("sha256")
+      .update(await readFile(source.path))
+      .digest("hex");
+  async function* records(): AsyncGenerator<PortableIndexRecord<SourceIndexRecords>> {
+    yield {
+      kind: "entry",
+      candidate: entry.candidate,
+      frame: { ...entry.frame, file: "0.png" },
+      source,
+      sha256,
+    };
+    for (const { sequence: _sequence, ...value } of coverage)
+      yield { kind: "coverage", coverage: value };
+  }
+  const validation = () =>
+    sourceIndexDomain(
+      (selection) => selectSource(receiver.assets, receiver.acquisitions, selection),
+      receiver.scenes,
+      null,
+    );
+  const signal = new AbortController().signal;
+  const staged = await receiver.index.stagePortable(metadata, records(), signal, validation());
+  expect(() => receiver.index.page({ identity: donor.identity })).toThrow("not complete");
+  expect(() =>
+    receiver.catalog.transaction(() => {
+      staged.publish();
+      throw new Error("publication rollback");
+    }),
+  ).toThrow("publication rollback");
+  expect(() => receiver.index.page({ identity: donor.identity })).toThrow("not complete");
+  receiver.catalog.transaction(() => staged.publish());
+  await staged.close();
+  receiver.reopen();
+  const restored = receiver.index.readEntry(donor.identity, 0);
+  expect(restored.candidate).toEqual(entry.candidate);
+  expect(restored.frame.file).not.toBe(entry.frame.file);
+  expect(await readFile(restored.frame.file)).toEqual(await readFile(entry.frame.file));
+  expect(receiver.index.coveragePage({ identity: donor.identity }).coverage).toEqual(coverage);
+  const replay = await receiver.index.stagePortable(metadata, records(), signal, validation());
+  receiver.catalog.transaction(() => replay.publish());
+  await replay.close();
+  await expect(
+    receiver.index.stagePortable(
+      { ...metadata, implementationId: "collision" },
+      records(),
+      signal,
+      validation(),
+    ),
+  ).rejects.toThrow("conflicts");
+  const canceled = new AbortController();
+  async function* cancelRecords(): AsyncGenerator<PortableIndexRecord<SourceIndexRecords>> {
+    for await (const value of records()) {
+      yield value;
+      canceled.abort();
+    }
+  }
+  await expect(
+    receiver.index.stagePortable(
+      { ...metadata, generation: "canceled" },
+      cancelRecords(),
+      canceled.signal,
+      validation(),
+    ),
+  ).rejects.toThrow();
+  expect(receiver.index.portableGenerations({ kind: "asset", assetId: metadata.assetId })).toEqual([
+    metadata,
+  ]);
+  async function* corruptRecords(): AsyncGenerator<PortableIndexRecord<SourceIndexRecords>> {
+    for await (const value of records())
+      yield value.kind === "entry" ? { ...value, sha256: "0".repeat(64) } : value;
+  }
+  await expect(
+    receiver.index.stagePortable(
+      { ...metadata, generation: "corrupt" },
+      corruptRecords(),
+      signal,
+      validation(),
+    ),
+  ).rejects.toThrow("differs from inventory");
+  expect(receiver.index.portableGenerations({ kind: "asset", assetId: metadata.assetId })).toEqual([
+    metadata,
+  ]);
+  async function* wrongGeometry(): AsyncGenerator<PortableIndexRecord<SourceIndexRecords>> {
+    for await (const value of records())
+      yield value.kind === "entry"
+        ? { ...value, frame: { ...value.frame, sourceWidth: value.frame.sourceWidth + 1 } }
+        : value;
+  }
+  await expect(
+    receiver.index.stagePortable(
+      { ...metadata, generation: "geometry" },
+      wrongGeometry(),
+      signal,
+      validation(),
+    ),
+  ).rejects.toThrow("geometry");
+  async function* inventedEquality(): AsyncGenerator<PortableIndexRecord<SourceIndexRecords>> {
+    for await (const value of records())
+      yield value.kind === "coverage" && value.coverage.state === "available"
+        ? { ...value, coverage: { ...value.coverage, equality: "sampled" } }
+        : value;
+  }
+  await expect(
+    receiver.index.stagePortable(
+      { ...metadata, generation: "equality" },
+      inventedEquality(),
+      signal,
+      validation(),
+    ),
+  ).rejects.toThrow("stillness evidence");
+  const pendingIdentity = { ...metadata, generation: "pending" };
+  await receiver.index.stagePortable(pendingIdentity, records(), signal, validation());
+  receiver.reopen();
+  await receiver.index.recoverPending("asset", signal);
+  expect(receiver.index.portableGenerations({ kind: "asset", assetId: metadata.assetId })).toEqual([
+    metadata,
+  ]);
+  expect(() => receiver.index.page({ identity: pendingIdentity })).toThrow("does not match");
+});
+
+test("retained index validation yields to a real cancellation timer before publication", async () => {
+  const f = await fixture(undefined, true),
+    controller = new AbortController();
+  const domain = sourceIndexDomain(
+    (selection) => selectSource(f.assets, f.acquisitions, selection),
+    f.scenes,
+    null,
+  );
+  const expected = {
+    ...f.identity,
+    generation: "timer-canceled",
+    durationUs: 1000000,
+    candidateCount: 0,
+    coverageCount: 200,
+    bytes: 0,
+  };
+  async function* records(): AsyncGenerator<PortableIndexRecord<SourceIndexRecords>> {
+    for (let index = 0; index < 200; index++)
+      yield {
+        kind: "coverage",
+        coverage: {
+          ordinal: null,
+          state: "unavailable",
+          basis: "support",
+          source: { startUs: index * 5000, endUs: (index + 1) * 5000 },
+        },
+      };
+  }
+  await expect(
+    f.index.stagePortable(expected, records(), controller.signal, {
+      ...domain,
+      retained(identity, signal) {
+        setTimeout(() => controller.abort(), 0);
+        return domain.retained!(identity, signal);
+      },
+    }),
+  ).rejects.toThrow();
+  expect(controller.signal.aborted).toBe(true);
+  expect(f.index.portableGenerations({ kind: "asset", assetId: f.identity.assetId })).toEqual([]);
 });

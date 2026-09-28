@@ -1,3 +1,4 @@
+import { selectSource } from "@screenrec/core/source-selection";
 import { ProjectPackages } from "./project-packages.js";
 import { writeFile } from "node:fs/promises";
 import { AcousticInspection } from "@screenrec/core/acoustic-inspection";
@@ -371,6 +372,17 @@ export async function startProjectService(options: { home: string; worker?: Medi
       library,
       projectIndexDomain(projects, assets, acquisitions, sceneRecords, projectPictures),
     );
+    const sourceIndex = new ScreenshotIndexStore<SourceIndexRecords>(
+      catalog,
+      library,
+      sourceIndexDomain(
+        (selection) => selectSource(assets, acquisitions, selection),
+        sceneRecords,
+        mediaFrames,
+      ),
+    );
+    await sourceIndex.recoverPending("asset", new AbortController().signal);
+    await projectIndex.recoverPending("project", new AbortController().signal);
     indexes = new IndexProcessing({
       jobs: queue,
       project: {
@@ -388,11 +400,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         catalog,
         assets,
         acquisitions,
-        index: new ScreenshotIndexStore<SourceIndexRecords>(
-          catalog,
-          library,
-          sourceIndexDomain(assets, acquisitions, sceneRecords, mediaFrames),
-        ),
+        index: sourceIndex,
         scenes,
         records: sceneRecords,
         frames: mediaFrames,
@@ -434,26 +442,19 @@ export async function startProjectService(options: { home: string; worker?: Medi
       scenes,
       transcriptRecords: transcriptStore,
       transcripts,
+      indexRecords: sourceIndex,
+      indexes,
       directory: library,
       projects,
       assets,
       jobs: queue,
       worker,
       delivery,
-      assertPortable(projectId, assetIds) {
-        const project = { kind: "project" as const, projectId };
-        if (
-          projectIndex.hasGenerations(project) ||
-          assetIds.some((assetId) => {
-            const asset = { kind: "asset" as const, assetId };
-            return (
-              projectIndex.hasGenerations(asset)
-            );
-          })
-        )
+      assertPortable(projectId) {
+        if (projectIndex.hasGenerations({ kind: "project", projectId }))
           throw new CatalogError(
             "UNSUPPORTED_PACKAGE_DEPENDENCY",
-            "Portable evidence-generation adoption is not yet implemented",
+            "Project screenshot index adoption is not yet implemented",
           );
       },
     });

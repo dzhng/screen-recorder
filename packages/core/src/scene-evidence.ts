@@ -300,9 +300,10 @@ export abstract class SceneEvidenceReader {
   sourcePage(request: ScenePageRequest) {
     return this.chunkPage<SourceSceneChunk>(request, "asset");
   }
-  private chunkPage<T extends SceneChunkReport | SourceSceneChunk>(
+  protected chunkPage<T extends SceneChunkReport | SourceSceneChunk>(
     { identity, afterStartUs, limit = 100 }: ScenePageRequest,
     kind: SceneSource["kind"],
+    stagedMetadata?: SceneEvidenceMetadata,
   ): { metadata: SceneEvidenceMetadata; chunks: T[]; nextStartUs: number | null } {
     if (
       !integer(limit) ||
@@ -311,7 +312,7 @@ export abstract class SceneEvidenceReader {
       (afterStartUs !== undefined && !integer(afterStartUs))
     )
       throw new CatalogError("INVALID_PARAMS", "Invalid scene page limit or cursor");
-    const metadata = this.readMetadata(identity);
+    const metadata = stagedMetadata ?? this.readMetadata(identity);
     if (metadata.source.kind !== kind)
       invalid(`Scene page requires a ${kind === "recording" ? "recording" : "asset"} source`);
     const rows = this.readChunks(identity, afterStartUs ?? -1, limit + 1);
@@ -451,8 +452,23 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
         !isDeepStrictEqual(metadata(ready), expected)
       )
         invalid("Scene inventory is incomplete or differs from metadata");
+      const stagedMetadata = (identity: SceneEvidenceIdentity) => {
+        if (!isDeepStrictEqual(key(identity), key(expected)))
+          invalid("Staged scene read names another generation");
+        const row = this.get(expected);
+        if (!row || row.complete === -1 || !isDeepStrictEqual(metadata(row), expected))
+          invalid("Staged scene evidence is no longer retained");
+        return expected;
+      };
       return {
         close,
+        read: {
+          metadata: stagedMetadata,
+          sourcePage: (request: ScenePageRequest) =>
+            this.chunkPage<SourceSceneChunk>(request, "asset", stagedMetadata(request.identity)),
+          sourceWindowPage: (request: Parameters<SceneEvidenceStore["sourceWindowPage"]>[0]) =>
+            this.sourceWindow(request, stagedMetadata(request.identity)),
+        },
         publish: () => {
           signal.throwIfAborted();
           this.validateOwner(expected, expected.source);
@@ -581,6 +597,9 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       return metadata(row);
     });
   }
+  metadata(identity: SceneEvidenceIdentity): SceneEvidenceMetadata {
+    return this.readMetadata(identity);
+  }
   protected readMetadata(identity: SceneEvidenceIdentity): SceneEvidenceMetadata {
     const row = this.get(identity);
     if (row?.complete !== 1) invalid("Scene evidence is not complete");
@@ -599,18 +618,23 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
     return rows.map((row) => JSON.parse(row.content));
   }
   /** Include the chunk containing the window start, so stillness retains its earlier measured origin. */
-  sourceWindowPage({
-    identity,
-    range,
-    afterStartUs,
-    limit = 1,
-  }: {
+  sourceWindowPage(request: {
     identity: SceneEvidenceIdentity;
     range: TimeRange;
     afterStartUs?: number;
     limit?: number;
   }) {
-    const metadata = this.readMetadata(identity);
+    return this.sourceWindow(request, this.readMetadata(request.identity));
+  }
+  private sourceWindow(
+    {
+      identity,
+      range,
+      afterStartUs,
+      limit = 1,
+    }: Parameters<SceneEvidenceStore["sourceWindowPage"]>[0],
+    metadata: SceneEvidenceMetadata,
+  ) {
     if (metadata.source.kind !== "asset") invalid("Scene coverage requires an asset source");
     if (
       !integer(range.startUs) ||

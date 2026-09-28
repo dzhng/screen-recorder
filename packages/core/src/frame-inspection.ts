@@ -188,6 +188,19 @@ export type SourceFrameUnavailable = z.infer<typeof sourceOptionsSchema> &
   Pick<Job, "jobId" | "attemptId" | "reason"> & {
     observation: { requestedSourceUs: number; status: "unavailable"; reason: "empty_edit" };
   };
+/** Retained no-picture evidence keeps donor attempt identity without requiring a local execution. */
+export const sourceFrameUnavailableSchema = sourceOptionsSchema
+  .extend({
+    jobId: z.uuid(),
+    attemptId: z.uuid(),
+    reason: z.string().max(4096).nullable(),
+    observation: z.strictObject({
+      requestedSourceUs: time,
+      status: z.literal("unavailable"),
+      reason: z.literal("empty_edit"),
+    }),
+  })
+  .refine((value) => value.observation.requestedSourceUs === value.atUs);
 export type MediaFrameInput = SourceFrameInput | SourceImageInput | ProjectFrameInput;
 export type SourceFrameRenderer = {
   implementationId: string;
@@ -210,6 +223,31 @@ export type SourceFrameArtifact = z.infer<typeof sourceReceiptSchema> &
     implementationId: string;
     cacheId: string;
   };
+
+export function validateSourceFrameGeometry(
+  value: Pick<SourceFrameArtifact, "sourceWidth" | "sourceHeight" | "width" | "height">,
+  source: { width: number; height: number },
+  maxLongEdge: number,
+): void {
+  if (
+    value.sourceWidth !== Math.round(source.width) ||
+    value.sourceHeight !== Math.round(source.height) ||
+    value.width > value.sourceWidth ||
+    value.height > value.sourceHeight ||
+    Math.max(value.width, value.height) > maxLongEdge
+  )
+    throw new CatalogError("INVALID_RESPONSE", "Source picture receipt changed its geometry");
+}
+
+export const retainedSourceFrameSchema = sourceReceiptSchema
+  .extend({
+    ...sourceSelectionSchema.shape,
+    atUs: time,
+    maxLongEdge: sourceOptionsSchema.shape.maxLongEdge,
+    supportDigest: sourceOptionsSchema.shape.supportDigest,
+    implementationId: z.string().min(1).max(256),
+  })
+  .strict();
 
 /** A demanded picture uses the movie's global schedule and shared derivative lifetime. */
 export class MediaFrameInspection {
@@ -531,17 +569,20 @@ export class MediaFrameInspection {
         sample.originUs !== plan.asset.originUs ||
         rounded - BigInt(sample.originUs) !== BigInt(value.actualSourceUs) ||
         start * 1000000n > at * scale ||
-        end * 1000000n <= at * endScale ||
-        value.sourceWidth !== Math.round(metadata.orientedWidth ?? metadata.width!) ||
-        value.sourceHeight !== Math.round(metadata.orientedHeight ?? metadata.height!) ||
-        value.width > value.sourceWidth ||
-        value.height > value.sourceHeight ||
-        Math.max(value.width, value.height) > plan.options.maxLongEdge
+        end * 1000000n <= at * endScale
       )
         throw new CatalogError(
           "INVALID_RESPONSE",
           "Source picture receipt changed its selection or physical clock",
         );
+      validateSourceFrameGeometry(
+        value,
+        {
+          width: metadata.orientedWidth ?? metadata.width!,
+          height: metadata.orientedHeight ?? metadata.height!,
+        },
+        plan.options.maxLongEdge,
+      );
       return {
         ...value,
         ...plan.options.selection,
