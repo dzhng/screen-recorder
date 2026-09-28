@@ -71,7 +71,9 @@ fails independent reset-per-clip state, including exact repeated-run evidence.
 the candidates’ attenuation/reference-distortion tradeoff with exact repeatability.
 [Independent clean speech and a matched-level control](../assets/12c-clean-reference/README.md)
 now separate input-level sensitivity from the earlier recording-specific change.
-Next verify protected phonemes and listening, then
+The user [prefers the learned audition](../assets/12c-matched-noise/audition/README.md)
+on the original-recording cohort. Carry that frozen RNNoise recipe forward; next
+verify protected phonemes, joins and broader listening, then
 freeze a state policy that preserves pure splits while excluding removed input.
 Neither measured noise attenuation nor surviving impulse peaks closes listening,
 protected-phoneme, retimed/combined-input or production integration acceptance.

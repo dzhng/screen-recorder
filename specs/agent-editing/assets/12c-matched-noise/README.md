@@ -3,8 +3,9 @@
 The frozen learned and conventional processors make different tradeoffs on the
 same inputs. RNNoise suppresses the noise-only control strongly, but its output
 also differs much more from the original reference. The fixed conventional recipe
-changes the reference less and barely attenuates this added noise. Neither is
-accepted as an editorial default or a protected-speech solution.
+changes the reference less and barely attenuates this added noise. The user prefers the learned result in the [listening comparison](audition/README.md),
+so RNNoise leads the next experiments. Neither is yet accepted as a production
+default or a protected-speech solution.
 
 The [plan](plan.json) fixes a five-second retained real narration extract, decoded
 once to mono 48 kHz float PCM. This reference includes its original ambience; it

@@ -1,0 +1,9 @@
+{
+  "date": "2026-09-28",
+  "question": "Compared with the original reference and noisy input, which denoised clip keeps your speech most natural? Optional missing-consonant, pumping, metallic or echo feedback.",
+  "answer": "Learned filter sounds better",
+  "cohort": "original recording + known stationary hum/hiss; five-second constant-RMS audition copies",
+  "leadingCandidate": "frozen RNNoise frame API recipe",
+  "scope": "Preference for this cohort only; no separate protected-phoneme or edit-join acceptance",
+  "auditionManifestSha256": "9e0bfb658b829535c233f7de8fb7a5ad5a3ee925927eebc7eee81157927880f8"
+}
