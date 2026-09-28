@@ -1,0 +1,143 @@
+{
+  "returnedSourceRows": 1,
+  "sourceReads": [
+    {
+      "sourceId": "daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560",
+      "generation": "ed2f119e-a472-4d9c-a9ee-0f2642896ff6",
+      "query": {
+        "upper": {
+          "key": [
+            4800000,
+            0
+          ],
+          "inclusive": false
+        },
+        "reverse": true,
+        "limit": 1
+      },
+      "rows": 1
+    },
+    {
+      "sourceId": "daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560",
+      "generation": "ed2f119e-a472-4d9c-a9ee-0f2642896ff6",
+      "query": {
+        "lower": {
+          "key": [
+            4800000,
+            0
+          ],
+          "inclusive": true
+        },
+        "upper": {
+          "key": [
+            5000000,
+            0
+          ],
+          "inclusive": false
+        },
+        "limit": 2
+      },
+      "rows": 0
+    }
+  ],
+  "late": {
+    "projectId": "5888ed40-f859-4584-b134-4665ccf83df3",
+    "revisionId": "e4df0ca9-bbf8-4176-bb01-b49e93052f54",
+    "state": "ready",
+    "dependencies": [
+      {
+        "selection": {
+          "assetId": "daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560",
+          "streamId": "track:1"
+        },
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560"
+          },
+          "sourceId": "daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560",
+          "generation": "ed2f119e-a472-4d9c-a9ee-0f2642896ff6",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "b0ec508458d36d26bd84187ea60834b5126a1f774645080019f9379f6fd19060",
+            "durationUs": 12500000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v1",
+            "kindPolicy": "word-kind-v1"
+          },
+          "track": {
+            "source": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-evidence-TIImqi/library/assets/daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560.mov",
+            "streamId": "track:1",
+            "sourceOffsetUs": -250000
+          },
+          "segmentCount": 2,
+          "wordCount": 25,
+          "gapCount": 1,
+          "maxWordUs": 1120000,
+          "raw": {
+            "bytes": 9366,
+            "sha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "ff454924-f0c4-471f-8506-834ce174ed61"
+      }
+    ],
+    "page": {
+      "rows": [
+        {
+          "type": "word",
+          "id": "w6",
+          "ordinal": 6,
+          "text": "workbench.",
+          "kind": "speech",
+          "confidence": 0.9607422,
+          "segment": 0,
+          "sourceRange": {
+            "startUs": 4320000,
+            "endUs": 5360000
+          },
+          "partial": false,
+          "clipId": "clip:d606b0f1c1538ecd72ea4f684f59f89d720f6f34fbcb47fbbf8c979fb90b4aa1:37",
+          "assetId": "daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560",
+          "streamId": "track:1",
+          "trackId": "track:d606b0f1c1538ecd72ea4f684f59f89d720f6f34fbcb47fbbf8c979fb90b4aa1:13",
+          "trackRank": 6,
+          "generation": "ed2f119e-a472-4d9c-a9ee-0f2642896ff6",
+          "fragments": [
+            {
+              "source": {
+                "startUs": 4320000,
+                "endUs": 5360000
+              },
+              "project": {
+                "startUs": 172320000,
+                "endUs": 173360000
+              }
+            }
+          ]
+        }
+      ],
+      "nextCursor": {
+        "projectId": "5888ed40-f859-4584-b134-4665ccf83df3",
+        "revisionId": "e4df0ca9-bbf8-4176-bb01-b49e93052f54",
+        "manifestId": "9431906f-252d-4d67-a513-21a9ef1e0fc4",
+        "checkpointId": "f4f2d3ea-c486-4bb1-8a18-3a26ae74802e",
+        "queryDigest": "8375d1561edc46c0fe98cb3525b1ca8c677ea85d7aaf84bd9b17a5efa2bcb245"
+      }
+    }
+  }
+}

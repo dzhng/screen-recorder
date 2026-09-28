@@ -1,0 +1,67 @@
+{
+  "sources": [
+    {
+      "name": "first",
+      "sha256": "daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 6000000
+        },
+        {
+          "startUs": 6500000,
+          "endUs": 12500000
+        }
+      ],
+      "rawFile": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10b-native-selection/selected/first-physical-selected.jsonl",
+      "rawSha256": "ea174ed0c0d5b8d9a957ee8818bc0a53d0374fdff959907fd0cba1cec6d437ac",
+      "receiptFile": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10b-native-selection/selected/first-physical-selected-response.json"
+    },
+    {
+      "name": "second",
+      "sha256": "99ca5c7294bd4ffa9c0d310752bc0f6105044e16e1466ffc0cbc9296038f1020",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 6000000
+        },
+        {
+          "startUs": 6500000,
+          "endUs": 12500000
+        }
+      ],
+      "rawFile": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10b-native-selection/selected/second-physical-selected.jsonl",
+      "rawSha256": "4b2b70c69897dfb8530d1911eb09ccf5f9d6d1a5985bb7ef22b326e198edf1f5",
+      "receiptFile": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10b-native-selection/selected/second-physical-selected-response.json"
+    },
+    {
+      "name": "first",
+      "sha256": "daf5eb7386883d0374798687d52b7360bd9e40647ffa149fddfcc3ecd5a12560",
+      "streamId": "track:1",
+      "sourceOffsetUs": -250000,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 2000000
+        },
+        {
+          "startUs": 3000000,
+          "endUs": 6000000
+        },
+        {
+          "startUs": 6500000,
+          "endUs": 12000000
+        }
+      ],
+      "rawFile": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10b-native-selection/selected/first-acquired-selected.jsonl",
+      "rawSha256": "87de3965e7b174f5c6826973bb1e2d09e9039c06f8a41f51b293ee786a14bcc6",
+      "receiptFile": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10b-native-selection/selected/first-acquired-selected-response.json"
+    }
+  ],
+  "readsFile": "/tmp/screenrec-bounded-phrase-live/source-reads.jsonl",
+  "observationsFile": "/tmp/screenrec-bounded-phrase-live/frozen-calls.json"
+}

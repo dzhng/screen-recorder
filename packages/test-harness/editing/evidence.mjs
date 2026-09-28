@@ -3,7 +3,15 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { copyModels, hash, JourneyService, poll, root, run } from "./source-evidence-fixture.mjs";
+import {
+  acquisitionDonor,
+  copyModels,
+  hash,
+  JourneyService,
+  poll,
+  root,
+  run,
+} from "./source-evidence-fixture.mjs";
 
 const { values } = parseArgs({
   options: { fixture: { type: "string", default: "repeated-speech" }, out: { type: "string" } },
@@ -23,6 +31,7 @@ const report = {
   pending: ["capture events/cursor", "generation invalidation owner gate"],
 };
 const configFile = join(out, "frozen-config.json");
+const readsFile = join(out, "source-reads.jsonl");
 const service = new JourneyService(
   home,
   report,
@@ -79,7 +88,23 @@ try {
       };
     }),
   );
-  await save("frozen-config.json", { sources, observationsFile: join(out, "frozen-calls.json") });
+  const acquiredRaw = join(frozen, "first-acquired-selected.jsonl");
+  const acquiredSource = {
+    ...sources[0],
+    available: [
+      { startUs: 0, endUs: 2000000 },
+      { startUs: 3000000, endUs: 6000000 },
+      { startUs: 6500000, endUs: 12000000 },
+    ],
+    rawFile: acquiredRaw,
+    rawSha256: hash(await readFile(acquiredRaw)),
+    receiptFile: join(frozen, "first-acquired-selected-response.json"),
+  };
+  await save("frozen-config.json", {
+    sources: [...sources, acquiredSource],
+    readsFile,
+    observationsFile: join(out, "frozen-calls.json"),
+  });
   await service.start();
   const {
     params: { models },
@@ -96,6 +121,27 @@ try {
       `import ${name}`,
     );
   }
+  const donor = join(home, "masked-donor");
+  const journalHash = await acquisitionDonor(donor, join(out, "first.mov"), [
+    { startUs: 250000, endUs: 2250000 },
+    { startUs: 3250000, endUs: 12250000 },
+  ]);
+  const acquiring = await call("acquisition.import", { requestId: "masked-context", path: donor });
+  const acquiredJob = await poll(
+    () => call("job.get", { jobId: acquiring.jobId }),
+    (value) => value.state === "ready",
+    "captured source context",
+  );
+  const context = await call(
+    "acquisition.get",
+    { acquisitionId: acquiredJob.target.acquisitionId },
+    { transport: "mcp" },
+  );
+  assert.equal(context.journal.sha256, journalHash);
+  const binding = context.bindings.find((value) => value.sourceRoles.includes("narration"));
+  assert.equal(binding.assetId, sources[0].sha256);
+  assert.equal(binding.streamId, sources[0].streamId);
+  await rm(donor, { recursive: true });
   const project = await call("project.create", {
     requestId: "repeated-speech",
     title: "Frozen transcript occurrence journey",
@@ -377,6 +423,8 @@ try {
   const firstPage = await call("transcript.get", { projectId, revisionId, limit: 1 });
   const savedCursor = firstPage.page.nextCursor;
   assert.ok(savedCursor);
+  const masked = place("masked", 0, "captured", 0, 6000000, 20000000);
+  masked.clip.acquisitionId = context.id;
   const advanced = await call("edit.apply", {
     projectId,
     requestId: "partial-and-gap",
@@ -393,6 +441,12 @@ try {
       place("before-partial", 0, "blocked", 1120000, 1440000, 15000000),
       place("middle-partial", 0, "blocked", 1920000, 2080000, 15320000),
       place("after-partial", 0, "blocked", 1600000, 1920000, 15480000),
+      { operation: "track.add", label: "captured", track: { kind: "audio", order: 5 } },
+      masked,
+      { operation: "track.add", label: "scan", track: { kind: "audio", order: 6 } },
+      ...Array.from({ length: 24 }, (_, i) =>
+        place(`scan-${i}`, 0, "scan", 0, 6000000, 30000000 + i * 6000000),
+      ),
       place("physical-gap", 0, "more", 5360000, 7380000, 7000000),
     ],
   });
@@ -404,6 +458,113 @@ try {
     ["workbench First", [advanced.edit.labels.gapped]],
   ])
     assert.deepEqual(await search({ revisionId: advanced.revision.id, text, trackIds }), []);
+  assert.deepEqual(await search({ revisionId, text: "the recorder" }), [
+    match(expectedRows.slice(11, 13)),
+  ]);
+  const capturedRows = await poll(
+    () =>
+      call("transcript.get", {
+        projectId,
+        revisionId: advanced.revision.id,
+        trackIds: [advanced.edit.labels.captured],
+        limit: 1000,
+      }),
+    (value) => value.state === "ready",
+    "capture-masked project rows",
+  );
+  assert.deepEqual(
+    capturedRows.page.rows.filter((row) => row.type === "word").map((row) => row.text),
+    ["Okay,", "so", "this", "is", "the", "Recorder", "Workbench."],
+  );
+  assert.ok(capturedRows.page.rows.every((row) => row.acquisitionId === context.id));
+  const hole = capturedRows.page.rows.find((row) => row.type === "gap");
+  assert.deepEqual(hole.fragments, [
+    {
+      source: { startUs: 2000000, endUs: 3000000 },
+      project: { startUs: 22000000, endUs: 23000000 },
+    },
+  ]);
+  assert.deepEqual(
+    await search({
+      revisionId: advanced.revision.id,
+      text: "the Recorder",
+      trackIds: [advanced.edit.labels.captured],
+    }),
+    [],
+  );
+  assert.deepEqual(
+    (
+      await search({
+        revisionId: advanced.revision.id,
+        text: "Recorder Workbench",
+        trackIds: [advanced.edit.labels.captured],
+      })
+    ).map((entry) => entry.words.map((word) => word.text)),
+    [["Recorder", "Workbench."]],
+  );
+  const noMatchQuery = {
+    projectId,
+    revisionId: advanced.revision.id,
+    text: "absent phrase",
+    trackIds: [advanced.edit.labels.scan],
+    limit: 1,
+  };
+  const emptyContinuation = await poll(
+    () => call("transcript.search", noMatchQuery),
+    (value) => value.state === "ready",
+    "bounded empty search",
+  );
+  assert.deepEqual(emptyContinuation.page.entries, []);
+  assert.ok(
+    emptyContinuation.page.nextCursor,
+    "A long no-match scan must yield a bounded continuation",
+  );
+  assert.deepEqual(
+    await search({ ...noMatchQuery, cursor: emptyContinuation.page.nextCursor }, 1),
+    [],
+  );
+  await writeFile(readsFile, "");
+  const late = await poll(
+    () =>
+      call("transcript.get", {
+        projectId,
+        revisionId: advanced.revision.id,
+        trackIds: [advanced.edit.labels.scan],
+        range: { startUs: 172800000, endUs: 173000000 },
+        limit: 1,
+      }),
+    (value) => value.state === "ready",
+    "late occurrence window",
+  );
+  assert.deepEqual(late.page.rows, [
+    {
+      ...expectedWord("retimed", 0, 6, 172320000, 173360000),
+      clipId: advanced.edit.labels["scan-23"],
+      trackId: advanced.edit.labels.scan,
+      trackRank: 6,
+    },
+  ]);
+  const sourceReads = (await readFile(readsFile, "utf8"))
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map(JSON.parse);
+  assert.ok(sourceReads.length > 0);
+  assert.ok(
+    sourceReads.every((read) => read.sourceId === sources[0].sha256),
+    "A selected late track must not expand other transcripts",
+  );
+  const returnedSourceRows = sourceReads.reduce((sum, read) => sum + read.rows, 0);
+  assert.ok(
+    returnedSourceRows <= 8,
+    `Late one-word window expanded ${returnedSourceRows} source rows`,
+  );
+  await save("late-source-reads.json", { returnedSourceRows, sourceReads, late });
+  report.checks.boundedInspection = {
+    emptyContinuation: true,
+    lateSourceRows: returnedSourceRows,
+    unrelatedTranscriptsUnread: true,
+  };
   report.checks.phrases = {
     publicBothTransports: true,
     exactIndependentMatches: true,
@@ -413,6 +574,7 @@ try {
     partialWordBarrier: true,
     authoredGapBarrier: true,
     physicalGapBarrier: true,
+    acquisitionGapBarrier: true,
     limits: [1, 2, 500],
     changedTextAndDomainRefused: true,
   };
@@ -515,6 +677,7 @@ try {
     clipped,
     partial,
     gap,
+    capturedRows,
     continuedRows,
   });
   report.checks.paging = {
@@ -526,7 +689,7 @@ try {
   const frozenCalls = JSON.parse(await readFile(join(out, "frozen-calls.json"), "utf8"));
   assert.deepEqual(
     frozenCalls.calls.map((call) => call.sourceSha256).sort(),
-    sources.map((source) => source.sha256).sort(),
+    [...sources, acquiredSource].map((source) => source.sha256).sort(),
   );
   report.checks.onlySelectedSourcesPrepared = true;
   assert.equal(hash(await readFile(narration)), report.originalNarrationSha256);

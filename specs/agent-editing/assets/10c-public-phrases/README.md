@@ -14,9 +14,9 @@ reuse refuse. Historical continuations are drained after advancing the head and
 restarting, checking the pinned revision on every page.
 
 The same invocation preserves the full paging journey and its independent row
-oracle. It does not claim public acquired-gap phrase coverage, forced empty
-continuations or bounded late-read instrumentation; core gates cover those
-mechanisms, and public expansion remains open before 10c closes.
+oracle. The subsequent [bounded-query journey](../10c-public-bounds/README.md) adds public
+acquired-gap phrases, empty continuations and late-read observation; those claims
+come from that later evidence, not this original run.
 
 ## Review and sensitivity
 

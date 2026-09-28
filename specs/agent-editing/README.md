@@ -17,8 +17,9 @@ available public operations only; the installed app has not switched engines.
 Continue [10c occurrence queries](slices/10c-occurrence-queries.md): core and
 public transcript paging/track-local phrase search are verified through the
 [combined journey](assets/10c-public-phrases/README.md). Event/cursor source and
-project domains are the current core pickup; public acquired-gap phrases, forced
-empty continuations and late-read instrumentation remain acceptance work.
+project domains are the current core pickup. The [expanded live journey](assets/10c-public-bounds/README.md)
+now also verifies explicit acquisition-gap phrases, empty continuations and bounded
+late reads. Generation invalidation and cache-owner eviction retain separate core gates.
 The [product skill check](assets/10c-project-skill/README.md) passes with a fresh
 agent using only the skill and advertised CLI.
 

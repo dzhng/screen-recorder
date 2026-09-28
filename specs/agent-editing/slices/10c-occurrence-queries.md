@@ -1,6 +1,6 @@
 # 10c — Bounded occurrence evidence and phrase search
 
-Status: in progress. Pure selection, core transcript paging and public routing are verified; public phrase search is verified; event/cursor domains and remaining live coverage are open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Pure selection, core transcript paging and public routing are verified; public phrase search and bounded/acquisition-gap journeys are verified; event/cursor domains remain open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -114,5 +114,5 @@ Public phrase acceptance is recorded below; project event/cursor inspection rema
 actual public routing, independent phrase oracles and historical continuation.
 The [fresh-agent skill check](../assets/10c-project-skill/README.md) validates use
 without implementation instructions. Core capture events/cursor domains are next;
-public acquired-gap phrase coverage, forced empty pages and late-read telemetry
-remain required before this slice closes.
+[expanded live coverage](../assets/10c-public-bounds/README.md) now verifies acquired
+gaps, empty continuation and bounded late reads. Event/cursor domains remain open.

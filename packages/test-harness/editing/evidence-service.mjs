@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile, realpath, writeFile } from "node:fs/promises";
+import { appendFileSync } from "node:fs";
+import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
 import { join } from "node:path";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
@@ -8,6 +10,22 @@ import { parakeetModel } from "../../core/dist/speech-models.js";
 
 // Only ASR output is frozen. Public admission, native probing and shared transcript ingestion are real.
 const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));
+if (fixture.readsFile) {
+  const wordRecords = TranscriptStore.prototype.wordRecords;
+  TranscriptStore.prototype.wordRecords = function (identity, query) {
+    const rows = wordRecords.call(this, identity, query);
+    appendFileSync(
+      fixture.readsFile,
+      JSON.stringify({
+        sourceId: identity.sourceId,
+        generation: identity.generation,
+        query,
+        rows: rows.length,
+      }) + "\n",
+    );
+    return rows;
+  };
+}
 const native = mediaWorker();
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const observations = [];
@@ -22,7 +40,10 @@ const worker = async (operation, params, options) => {
   ]);
   const sha256 = hash(await readFile(params.track.source));
   const expected = fixture.sources.find(
-    (source) => source.sha256 === sha256 && source.streamId === params.track.streamId,
+    (source) =>
+      source.sha256 === sha256 &&
+      source.streamId === params.track.streamId &&
+      JSON.stringify(source.available) === JSON.stringify(params.track.available),
   );
   assert.ok(expected, "Frozen ASR received an unregistered byte source or stream");
   assert.equal(params.track.sourceOffsetUs, expected.sourceOffsetUs);

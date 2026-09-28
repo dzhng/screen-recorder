@@ -1,0 +1,1984 @@
+2026-09-28T07:30:43.715724Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T07:30:43.715781Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+2026-09-28T07:30:43.864963Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T07:30:43.864984Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/dev/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e6ec-5759-73f1-89d5-4751cec8e556
+--------
+user
+<task>Review only changed evidence.mjs and evidence-service.mjs public transcript journeys. Check the new explicit acquisition-gap phrase oracle, bounded empty search continuation, late-source read observation and threshold, and whether fixture support selection stays faithful to frozen ASR references. Telemetry must observe real reads without substituting output. Report actionable defects read-only.</task>
+exec
+/bin/zsh -lc 'pwd; git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md; find .. -name AGENTS.override.md -print' in /Users/david/dev/screen-recorder
+exec
+/bin/zsh -lc "git diff -- packages/test-harness/editing/evidence{,-service}.mjs; find packages -name 'AGENTS*' -print; cat .agents/skills/write-tests/SKILL.md" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+diff --git a/packages/test-harness/editing/evidence-service.mjs b/packages/test-harness/editing/evidence-service.mjs
+index 56c42d4..ba56b3d 100644
+--- a/packages/test-harness/editing/evidence-service.mjs
++++ b/packages/test-harness/editing/evidence-service.mjs
+@@ -1,6 +1,8 @@
+ import assert from "node:assert/strict";
+ import { createHash } from "node:crypto";
+ import { readFile, realpath, writeFile } from "node:fs/promises";
++import { appendFileSync } from "node:fs";
++import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
+ import { join } from "node:path";
+ import { startProjectService } from "../../../apps/service/dist/project-service.js";
+ import { mediaWorker } from "../../../apps/service/dist/worker.js";
+@@ -8,6 +10,22 @@ import { parakeetModel } from "../../core/dist/speech-models.js";
+ 
+ // Only ASR output is frozen. Public admission, native probing and shared transcript ingestion are real.
+ const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));
++if (fixture.readsFile) {
++  const wordRecords = TranscriptStore.prototype.wordRecords;
++  TranscriptStore.prototype.wordRecords = function (identity, query) {
++    const rows = wordRecords.call(this, identity, query);
++    appendFileSync(
++      fixture.readsFile,
++      JSON.stringify({
++        sourceId: identity.sourceId,
++        generation: identity.generation,
++        query,
++        rows: rows.length,
++      }) + "\n",
++    );
++    return rows;
++  };
++}
+ const native = mediaWorker();
+ const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+ const observations = [];
+@@ -22,7 +40,10 @@ const worker = async (operation, params, options) => {
+   ]);
+   const sha256 = hash(await readFile(params.track.source));
+   const expected = fixture.sources.find(
+-    (source) => source.sha256 === sha256 && source.streamId === params.track.streamId,
++    (source) =>
++      source.sha256 === sha256 &&
++      source.streamId === params.track.streamId &&
++      JSON.stringify(source.available) === JSON.stringify(params.track.available),
+   );
+   assert.ok(expected, "Frozen ASR received an unregistered byte source or stream");
+   assert.equal(params.track.sourceOffsetUs, expected.sourceOffsetUs);
+diff --git a/packages/test-harness/editing/evidence.mjs b/packages/test-harness/editing/evidence.mjs
+index cd4be95..2c1399d 100644
+--- a/packages/test-harness/editing/evidence.mjs
++++ b/packages/test-harness/editing/evidence.mjs
+@@ -3,7 +3,15 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+ import { tmpdir } from "node:os";
+ import { join, resolve } from "node:path";
+ import { parseArgs } from "node:util";
+-import { copyModels, hash, JourneyService, poll, root, run } from "./source-evidence-fixture.mjs";
++import {
++  acquisitionDonor,
++  copyModels,
++  hash,
++  JourneyService,
++  poll,
++  root,
++  run,
++} from "./source-evidence-fixture.mjs";
+ 
+ const { values } = parseArgs({
+   options: { fixture: { type: "string", default: "repeated-speech" }, out: { type: "string" } },
+@@ -23,6 +31,7 @@ const report = {
+   pending: ["capture events/cursor", "generation invalidation owner gate"],
+ };
+ const configFile = join(out, "frozen-config.json");
++const readsFile = join(out, "source-reads.jsonl");
+ const service = new JourneyService(
+   home,
+   report,
+@@ -79,7 +88,23 @@ try {
+       };
+     }),
+   );
+-  await save("frozen-config.json", { sources, observationsFile: join(out, "frozen-calls.json") });
++  const acquiredRaw = join(frozen, "first-acquired-selected.jsonl");
++  const acquiredSource = {
++    ...sources[0],
++    available: [
++      { startUs: 0, endUs: 2000000 },
++      { startUs: 3000000, endUs: 6000000 },
++      { startUs: 6500000, endUs: 12000000 },
++    ],
++    rawFile: acquiredRaw,
++    rawSha256: hash(await readFile(acquiredRaw)),
++    receiptFile: join(frozen, "first-acquired-selected-response.json"),
++  };
++  await save("frozen-config.json", {
++    sources: [...sources, acquiredSource],
++    readsFile,
++    observationsFile: join(out, "frozen-calls.json"),
++  });
+   await service.start();
+   const {
+     params: { models },
+@@ -96,6 +121,27 @@ try {
+       `import ${name}`,
+     );
+   }
++  const donor = join(home, "masked-donor");
++  const journalHash = await acquisitionDonor(donor, join(out, "first.mov"), [
++    { startUs: 250000, endUs: 2250000 },
++    { startUs: 3250000, endUs: 12250000 },
++  ]);
++  const acquiring = await call("acquisition.import", { requestId: "masked-context", path: donor });
++  const acquiredJob = await poll(
++    () => call("job.get", { jobId: acquiring.jobId }),
++    (value) => value.state === "ready",
++    "captured source context",
++  );
++  const context = await call(
++    "acquisition.get",
++    { acquisitionId: acquiredJob.target.acquisitionId },
++    { transport: "mcp" },
++  );
++  assert.equal(context.journal.sha256, journalHash);
++  const binding = context.bindings.find((value) => value.sourceRoles.includes("narration"));
++  assert.equal(binding.assetId, sources[0].sha256);
++  assert.equal(binding.streamId, sources[0].streamId);
++  await rm(donor, { recursive: true });
+   const project = await call("project.create", {
+     requestId: "repeated-speech",
+     title: "Frozen transcript occurrence journey",
+@@ -377,6 +423,8 @@ try {
+   const firstPage = await call("transcript.get", { projectId, revisionId, limit: 1 });
+   const savedCursor = firstPage.page.nextCursor;
+   assert.ok(savedCursor);
++  const masked = place("masked", 0, "captured", 0, 6000000, 20000000);
++  masked.clip.acquisitionId = context.id;
+   const advanced = await call("edit.apply", {
+     projectId,
+     requestId: "partial-and-gap",
+@@ -393,6 +441,12 @@ try {
+       place("before-partial", 0, "blocked", 1120000, 1440000, 15000000),
+       place("middle-partial", 0, "blocked", 1920000, 2080000, 15320000),
+       place("after-partial", 0, "blocked", 1600000, 1920000, 15480000),
++      { operation: "track.add", label: "captured", track: { kind: "audio", order: 5 } },
++      masked,
++      { operation: "track.add", label: "scan", track: { kind: "audio", order: 6 } },
++      ...Array.from({ length: 24 }, (_, i) =>
++        place(`scan-${i}`, 0, "scan", 0, 6000000, 30000000 + i * 6000000),
++      ),
+       place("physical-gap", 0, "more", 5360000, 7380000, 7000000),
+     ],
+   });
+@@ -404,6 +458,113 @@ try {
+     ["workbench First", [advanced.edit.labels.gapped]],
+   ])
+     assert.deepEqual(await search({ revisionId: advanced.revision.id, text, trackIds }), []);
++  assert.deepEqual(await search({ revisionId, text: "the recorder" }), [
++    match(expectedRows.slice(11, 13)),
++  ]);
++  const capturedRows = await poll(
++    () =>
++      call("transcript.get", {
++        projectId,
++        revisionId: advanced.revision.id,
++        trackIds: [advanced.edit.labels.captured],
++        limit: 1000,
++      }),
++    (value) => value.state === "ready",
++    "capture-masked project rows",
++  );
++  assert.deepEqual(
++    capturedRows.page.rows.filter((row) => row.type === "word").map((row) => row.text),
++    ["Okay,", "so", "this", "is", "the", "Recorder", "Workbench."],
++  );
++  assert.ok(capturedRows.page.rows.every((row) => row.acquisitionId === context.id));
++  const hole = capturedRows.page.rows.find((row) => row.type === "gap");
++  assert.deepEqual(hole.fragments, [
++    {
++      source: { startUs: 2000000, endUs: 3000000 },
++      project: { startUs: 22000000, endUs: 23000000 },
++    },
++  ]);
++  assert.deepEqual(
++    await search({
++      revisionId: advanced.revision.id,
++      text: "the Recorder",
++      trackIds: [advanced.edit.labels.captured],
++    }),
++    [],
++  );
++  assert.deepEqual(
++    (
++      await search({
++        revisionId: advanced.revision.id,
++        text: "Recorder Workbench",
++        trackIds: [advanced.edit.labels.captured],
++      })
++    ).map((entry) => entry.words.map((word) => word.text)),
++    [["Recorder", "Workbench."]],
++  );
++  const noMatchQuery = {
++    projectId,
++    revisionId: advanced.revision.id,
++    text: "absent phrase",
++    trackIds: [advanced.edit.labels.scan],
++    limit: 1,
++  };
++  const emptyContinuation = await poll(
++    () => call("transcript.search", noMatchQuery),
++    (value) => value.state === "ready",
++    "bounded empty search",
++  );
++  assert.deepEqual(emptyContinuation.page.entries, []);
++  assert.ok(
++    emptyContinuation.page.nextCursor,
++    "A long no-match scan must yield a bounded continuation",
++  );
++  assert.deepEqual(
++    await search({ ...noMatchQuery, cursor: emptyContinuation.page.nextCursor }, 1),
++    [],
++  );
++  await writeFile(readsFile, "");
++  const late = await poll(
++    () =>
++      call("transcript.get", {
++        projectId,
++        revisionId: advanced.revision.id,
++        trackIds: [advanced.edit.labels.scan],
++        range: { startUs: 172800000, endUs: 173000000 },
++        limit: 1,
++      }),
++    (value) => value.state === "ready",
++    "late occurrence window",
++  );
++  assert.deepEqual(late.page.rows, [
++    {
++      ...expectedWord("retimed", 0, 6, 172320000, 173360000),
++      clipId: advanced.edit.labels["scan-23"],
++      trackId: advanced.edit.labels.scan,
++      trackRank: 6,
++    },
++  ]);
++  const sourceReads = (await readFile(readsFile, "utf8"))
++    .trim()
++    .split("\n")
++    .filter(Boolean)
++    .map(JSON.parse);
++  assert.ok(sourceReads.length > 0);
++  assert.ok(
++    sourceReads.every((read) => read.sourceId === sources[0].sha256),
++    "A selected late track must not expand other transcripts",
++  );
++  const returnedSourceRows = sourceReads.reduce((sum, read) => sum + read.rows, 0);
++  assert.ok(
++    returnedSourceRows <= 8,
++    `Late one-word window expanded ${returnedSourceRows} source rows`,
++  );
++  await save("late-source-reads.json", { returnedSourceRows, sourceReads, late });
++  report.checks.boundedInspection = {
++    emptyContinuation: true,
++    lateSourceRows: returnedSourceRows,
++    unrelatedTranscriptsUnread: true,
++  };
+   report.checks.phrases = {
+     publicBothTransports: true,
+     exactIndependentMatches: true,
+@@ -413,6 +574,7 @@ try {
+     partialWordBarrier: true,
+     authoredGapBarrier: true,
+     physicalGapBarrier: true,
++    acquisitionGapBarrier: true,
+     limits: [1, 2, 500],
+     changedTextAndDomainRefused: true,
+   };
+@@ -515,6 +677,7 @@ try {
+     clipped,
+     partial,
+     gap,
++    capturedRows,
+     continuedRows,
+   });
+   report.checks.paging = {
+@@ -526,7 +689,7 @@ try {
+   const frozenCalls = JSON.parse(await readFile(join(out, "frozen-calls.json"), "utf8"));
+   assert.deepEqual(
+     frozenCalls.calls.map((call) => call.sourceSha256).sort(),
+-    sources.map((source) => source.sha256).sort(),
++    [...sources, acquiredSource].map((source) => source.sha256).sort(),
+   );
+   report.checks.onlySelectedSourcesPrepared = true;
+   assert.equal(hash(await readFile(narration)), report.originalNarrationSha256);
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-28T07:31:04.895790Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-979b5c71-4b1d-4a1c-9656-68f31ded7113"
+exec
+/bin/zsh -lc "cat packages/test-harness/editing/evidence-service.mjs; sed -n '1,240p' packages/test-harness/editing/evidence.mjs; sed -n '290,430p' packages/test-harness/editing/evidence.mjs; cat packages/test-harness/editing/source-evidence-fixture.mjs" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readFile, realpath, writeFile } from "node:fs/promises";
+import { appendFileSync } from "node:fs";
+import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
+import { join } from "node:path";
+import { startProjectService } from "../../../apps/service/dist/project-service.js";
+import { mediaWorker } from "../../../apps/service/dist/worker.js";
+import { parakeetModel } from "../../core/dist/speech-models.js";
+
+// Only ASR output is frozen. Public admission, native probing and shared transcript ingestion are real.
+const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));
+if (fixture.readsFile) {
+  const wordRecords = TranscriptStore.prototype.wordRecords;
+  TranscriptStore.prototype.wordRecords = function (identity, query) {
+    const rows = wordRecords.call(this, identity, query);
+    appendFileSync(
+      fixture.readsFile,
+      JSON.stringify({
+        sourceId: identity.sourceId,
+        generation: identity.generation,
+        query,
+        rows: rows.length,
+      }) + "\n",
+    );
+    return rows;
+  };
+}
+const native = mediaWorker();
+const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+const observations = [];
+const worker = async (operation, params, options) => {
+  if (operation !== "speech.transcribe") return native(operation, params, options);
+  options.signal.throwIfAborted();
+  assert.deepEqual(Object.keys(params.track).sort(), [
+    "available",
+    "source",
+    "sourceOffsetUs",
+    "streamId",
+  ]);
+  const sha256 = hash(await readFile(params.track.source));
+  const expected = fixture.sources.find(
+    (source) =>
+      source.sha256 === sha256 &&
+      source.streamId === params.track.streamId &&
+      JSON.stringify(source.available) === JSON.stringify(params.track.available),
+  );
+  assert.ok(expected, "Frozen ASR received an unregistered byte source or stream");
+  assert.equal(params.track.sourceOffsetUs, expected.sourceOffsetUs);
+  assert.deepEqual(params.track.available, expected.available);
+  assert.deepEqual(params.models.files, parakeetModel.files);
+  assert.equal(
+    await realpath(params.models.directory),
+    await realpath(
+      join(
+        process.argv[2],
+        "library/models",
+        parakeetModel.name,
+        parakeetModel.revision,
+        parakeetModel.folderName,
+      ),
+    ),
+  );
+  const raw = await readFile(expected.rawFile);
+  assert.equal(hash(raw), expected.rawSha256);
+  const retained = JSON.parse(await readFile(expected.receiptFile, "utf8")).data;
+  assert.equal(retained.output.sha256, hash(raw));
+  assert.deepEqual(
+    retained.segments.map((segment) => segment.source),
+    expected.available,
+  );
+  await writeFile(params.output, raw);
+  options.signal.throwIfAborted();
+  observations.push({
+    sourceSha256: sha256,
+    streamId: params.track.streamId,
+    sourceOffsetUs: params.track.sourceOffsetUs,
+    available: params.track.available,
+    rawSha256: hash(raw),
+    output: params.output,
+  });
+  await writeFile(
+    fixture.observationsFile,
+    JSON.stringify(
+      {
+        boundary: "Frozen native ASR output; actual shared ingestion and public queries",
+        calls: observations,
+      },
+      null,
+      2,
+    ),
+  );
+  return {
+    ok: true,
+    data: { ...retained, output: { file: params.output, bytes: raw.length, sha256: hash(raw) } },
+  };
+};
+try {
+  const service = await startProjectService({ home: process.argv[2], worker });
+  let closing;
+  const close = () => (closing ??= service.close().then(() => process.disconnect()));
+  process.on("message", (message) => {
+    if (message === "close") void close();
+  });
+  process.on("disconnect", () => {
+    void close();
+  });
+  process.send({ socketPath: service.socketPath });
+} catch (error) {
+  process.send({ error: { code: error.code, message: error.message } });
+  process.disconnect();
+  process.exitCode = 1;
+}
+import assert from "node:assert/strict";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { parseArgs } from "node:util";
+import {
+  acquisitionDonor,
+  copyModels,
+  hash,
+  JourneyService,
+  poll,
+  root,
+  run,
+} from "./source-evidence-fixture.mjs";
+
+const { values } = parseArgs({
+  options: { fixture: { type: "string", default: "repeated-speech" }, out: { type: "string" } },
+});
+assert.equal(values.fixture, "repeated-speech");
+assert.ok(process.env.SCREENREC_NATIVE, "Set an isolated frozen native worker");
+const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "project-evidence-"));
+await mkdir(out, { recursive: true });
+const home = await mkdtemp(join(tmpdir(), "sr-evidence-"));
+const frozen = join(root, "specs/agent-editing/assets/10b-native-selection/selected");
+const report = {
+  passed: false,
+  boundary:
+    "Actual CLI/MCP/service/media admission and transcript ingestion; native ASR output is frozen, not newly inferred",
+  trace: [],
+  checks: {},
+  pending: ["capture events/cursor", "generation invalidation owner gate"],
+};
+const configFile = join(out, "frozen-config.json");
+const readsFile = join(out, "source-reads.jsonl");
+const service = new JourneyService(
+  home,
+  report,
+  configFile,
+  new URL("./evidence-service.mjs", import.meta.url),
+);
+const call = service.call.bind(service);
+const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, null, 2) + "\n");
+try {
+  await run(
+    "swiftc",
+    [
+      "-parse-as-library",
+      join(root, "packages/test-harness/editing/selected-audio-fixture.swift"),
+      "-o",
+      join(out, "fixture"),
+    ],
+    { timeout: 120000 },
+  );
+  const narration = join(root, "fixtures/narrated-workbench/narration.mov");
+  report.originalNarrationSha256 = hash(await readFile(narration));
+  await run(
+    "ffmpeg",
+    [
+      "-v",
+      "error",
+      "-nostdin",
+      "-i",
+      narration,
+      "-map",
+      "0:a:0",
+      "-c:a",
+      "pcm_f32le",
+      join(out, "narration.wav"),
+    ],
+    { timeout: 30000 },
+  );
+  await run(join(out, "fixture"), [join(out, "narration.wav"), out], { timeout: 30000 });
+  const sources = await Promise.all(
+    ["first", "second"].map(async (name) => {
+      const rawFile = join(frozen, `${name}-physical-selected.jsonl`);
+      return {
+        name,
+        sha256: hash(await readFile(join(out, `${name}.mov`))),
+        streamId: "track:1",
+        sourceOffsetUs: -250000,
+        available: [
+          { startUs: 0, endUs: 6000000 },
+          { startUs: 6500000, endUs: 12500000 },
+        ],
+        rawFile,
+        rawSha256: hash(await readFile(rawFile)),
+        receiptFile: join(frozen, `${name}-physical-selected-response.json`),
+      };
+    }),
+  );
+  const acquiredRaw = join(frozen, "first-acquired-selected.jsonl");
+  const acquiredSource = {
+    ...sources[0],
+    available: [
+      { startUs: 0, endUs: 2000000 },
+      { startUs: 3000000, endUs: 6000000 },
+      { startUs: 6500000, endUs: 12000000 },
+    ],
+    rawFile: acquiredRaw,
+    rawSha256: hash(await readFile(acquiredRaw)),
+    receiptFile: join(frozen, "first-acquired-selected-response.json"),
+  };
+  await save("frozen-config.json", {
+    sources: [...sources, acquiredSource],
+    readsFile,
+    observationsFile: join(out, "frozen-calls.json"),
+  });
+  await service.start();
+  const {
+    params: { models },
+  } = JSON.parse(await readFile(join(frozen, "first-physical-selected-request.json"), "utf8"));
+  report.models = await copyModels(home, models);
+  for (const name of ["first", "second", "multi"]) {
+    const imported = await call("asset.import", {
+      requestId: `import-${name}`,
+      path: join(out, `${name}.mov`),
+    });
+    await poll(
+      () => call("job.get", { jobId: imported.jobId }),
+      (value) => value.state === "ready",
+      `import ${name}`,
+    );
+  }
+  const donor = join(home, "masked-donor");
+  const journalHash = await acquisitionDonor(donor, join(out, "first.mov"), [
+    { startUs: 250000, endUs: 2250000 },
+    { startUs: 3250000, endUs: 12250000 },
+  ]);
+  const acquiring = await call("acquisition.import", { requestId: "masked-context", path: donor });
+  const acquiredJob = await poll(
+    () => call("job.get", { jobId: acquiring.jobId }),
+    (value) => value.state === "ready",
+    "captured source context",
+  );
+  const context = await call(
+    "acquisition.get",
+    { acquisitionId: acquiredJob.target.acquisitionId },
+    { transport: "mcp" },
+  );
+  assert.equal(context.journal.sha256, journalHash);
+  const binding = context.bindings.find((value) => value.sourceRoles.includes("narration"));
+  assert.equal(binding.assetId, sources[0].sha256);
+  assert.equal(binding.streamId, sources[0].streamId);
+  await rm(donor, { recursive: true });
+  const project = await call("project.create", {
+    requestId: "repeated-speech",
+    title: "Frozen transcript occurrence journey",
+    canvas: {
+      width: 32,
+      height: 32,
+      fps: { numerator: 1, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  const projectId = project.project.projectId;
+  const place = (
+    label,
+    sourceIndex,
+    track,
+    startUs,
+    endUs,
+    atUs,
+    durationUs = endUs - startUs,
+  ) => ({
+    operation: "place",
+    label,
+    clip: {
+      trackId: { label: track },
+      assetId: sources[sourceIndex].sha256,
+      streamId: "track:1",
+      source: { kind: "range", range: { startUs, endUs } },
+      placement: { kind: "project", range: { startUs: atUs, endUs: atUs + durationUs } },
+    },
+  });
+  const edited = await call(
+    "edit.apply",
+    {
+      projectId,
+      requestId: "place-repeated-speech",
+      expectedRevisionId: project.revision.id,
+      operations: [
+        { operation: "track.add", label: "a", track: { kind: "audio", order: 0 } },
+        { operation: "track.add", label: "b", track: { kind: "audio", order: 1 } },
+        place("okay", 0, "a", 1120000, 1440000, 0),
+        place("so", 0, "a", 1600000, 1920000, 320000),
+        place("repeat", 0, "a", 1120000, 1440000, 640000),
+        place("is", 0, "a", 2240000, 2560000, 960000),
+        place("this", 0, "a", 1920000, 2240000, 1280000),
+        place("retimed", 0, "a", 0, 6000000, 3000000, 2000000),
+        place("simultaneous", 1, "b", 560000, 1200000, 0),
+      ],
+    },
+    { transport: "mcp" },
+  );
+  const revisionId = edited.revision.id;
+  const full = await poll(
+    () => call("transcript.get", { projectId, revisionId, limit: 1000 }),
+    (value) => value.state === "ready",
+    "project transcript",
+  );
+  assert.deepEqual(
+    full,
+    await call("transcript.get", { projectId, revisionId, limit: 1000 }, { transport: "mcp" }),
+  );
+  const fraction = (numerator, denominator) => {
+    let a = BigInt(numerator),
+      b = BigInt(denominator);
+    let x = a,
+      y = b;
+    while (y) [x, y] = [y, x % y];
+    a /= x;
+    b /= x;
+    return b === 1n ? Number(a) : { numerator: Number(a), denominator: Number(b) };
+  };
+  const sourceWords = await Promise.all(
+    sources.map(async (source) =>
+      (await readFile(source.rawFile, "utf8"))
+        .trim()
+        .split("\n")
+        .map(JSON.parse)
+        .flatMap((line) => line.words),
+    ),
+  );
+  const sourcePages = await Promise.all(
+    sources.map((source) =>
+      call("transcript.get", { assetId: source.sha256, streamId: source.streamId, limit: 1000 }),
+    ),
+  );
+  const expectedWord = (label, sourceIndex, ordinal, startUs, endUs) => {
+    const word = sourceWords[sourceIndex][ordinal];
+    return {
+      type: "word",
+      id: `w${ordinal}`,
+      ordinal,
+      text: word.text,
+      kind: "speech",
+      confidence: word.confidence,
+      segment: 0,
+      sourceRange: word.source,
+      partial: false,
+  const clipped = await poll(
+    () =>
+      call("transcript.get", {
+        projectId,
+        revisionId,
+        range: { startUs: 3400000, endUs: 3450000 },
+        limit: 2,
+      }),
+    (value) => value.state === "ready",
+    "narrow project window",
+  );
+  assert.deepEqual(
+    clipped.page.rows,
+    [expectedRows[7]],
+    "A query selects matching word rows and preserves their full editorial fragments",
+  );
+  for (const limit of [1, 2]) {
+    const rows = [],
+      cursors = new Set();
+    let cursor;
+    for (let pageNumber = 0; ; pageNumber++) {
+      assert.ok(pageNumber < 200, "Bounded project pagination must terminate");
+      const page = await call(
+        "transcript.get",
+        { projectId, revisionId, limit, ...(cursor ? { cursor } : {}) },
+        { transport: pageNumber % 2 ? "mcp" : "cli" },
+      );
+      assert.equal(page.state, "ready");
+      assert.ok(page.page.rows.length <= limit);
+      rows.push(...page.page.rows);
+      cursor = page.page.nextCursor;
+      if (!cursor) break;
+      const key = JSON.stringify(cursor);
+      assert.ok(!cursors.has(key), "Checkpoint must make progress");
+      cursors.add(key);
+    }
+    assert.deepEqual(rows, full.page.rows);
+  }
+  const match = (words) => ({
+    trackId: words[0].trackId,
+    trackRank: words[0].trackRank,
+    words,
+    projectRange: {
+      startUs: words[0].fragments[0].project.startUs,
+      endUs: words.at(-1).fragments.at(-1).project.endUs,
+    },
+  });
+  const expectedMatches = [
+    match([expectedRows[0], expectedRows[2]]),
+    match(expectedRows.slice(7, 9)),
+  ];
+  async function search(params, limit = 500, expectedRevisionId = params.revisionId) {
+    let page = await poll(
+      () => call("transcript.search", { projectId, ...params, limit }),
+      (value) => value.state === "ready",
+      "project phrase search",
+    );
+    const entries = [],
+      seen = new Set();
+    for (let number = 0; ; number++) {
+      assert.ok(number < 200, "Search checkpoints must terminate");
+      assert.equal(page.revisionId, expectedRevisionId);
+      assert.ok(page.page.entries.length <= limit);
+      entries.push(...page.page.entries);
+      const cursor = page.page.nextCursor;
+      if (!cursor) return entries;
+      const key = JSON.stringify(cursor);
+      assert.ok(!seen.has(key), "Search checkpoint must advance");
+      seen.add(key);
+      page = await call(
+        "transcript.search",
+        { projectId, ...params, cursor, limit },
+        { transport: number % 2 ? "cli" : "mcp" },
+      );
+      assert.equal(page.state, "ready");
+      assert.ok(page.page.entries.length <= limit);
+    }
+  }
+  for (const limit of [1, 2, 500])
+    assert.deepEqual(await search({ revisionId, text: "Okay so" }, limit), expectedMatches);
+  assert.deepEqual(await search({ revisionId, text: "is this" }), [
+    match([expectedRows[5], expectedRows[6]]),
+  ]);
+  assert.deepEqual(await search({ revisionId, text: "Okay let's" }), []);
+  assert.deepEqual(await search({ revisionId, text: "so" }), [
+    match([expectedRows[1]]),
+    match([expectedRows[2]]),
+    match([expectedRows[8]]),
+  ]);
+  assert.deepEqual(await search({ revisionId, text: "so", trackIds: [edited.edit.labels.b] }), [
+    match([expectedRows[1]]),
+  ]);
+  assert.deepEqual(
+    await search({ revisionId, text: "Okay so", trackIds: [edited.edit.labels.b] }),
+    [],
+  );
+  const firstSearch = await call("transcript.search", {
+    projectId,
+    revisionId,
+    text: "Okay so",
+    limit: 1,
+  });
+  const savedSearchCursor = firstSearch.page.nextCursor;
+  assert.ok(savedSearchCursor);
+  assert.equal(
+    (
+      await call(
+        "transcript.search",
+        {
+          projectId,
+          revisionId,
+          text: "Okay SO",
+          cursor: savedSearchCursor,
+        },
+        { error: true },
+      )
+    ).code,
+    "ARTIFACT_CHANGED",
+  );
+  assert.equal(
+    (
+      await call(
+        "transcript.get",
+        {
+          projectId,
+          revisionId,
+          cursor: savedSearchCursor,
+        },
+        { error: true },
+      )
+    ).code,
+    "ARTIFACT_CHANGED",
+  );
+  const firstPage = await call("transcript.get", { projectId, revisionId, limit: 1 });
+  const savedCursor = firstPage.page.nextCursor;
+  assert.ok(savedCursor);
+  const masked = place("masked", 0, "captured", 0, 6000000, 20000000);
+  masked.clip.acquisitionId = context.id;
+  const advanced = await call("edit.apply", {
+    projectId,
+    requestId: "partial-and-gap",
+import assert from "node:assert/strict";
+import { execFile, fork } from "node:child_process";
+import { createHash, randomUUID } from "node:crypto";
+import { once } from "node:events";
+import { constants } from "node:fs";
+import { copyFile, lstat, mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
+import { promisify } from "node:util";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { cliReply } from "./first-preview-transport.mjs";
+
+export const run = promisify(execFile);
+export const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+export const root = new URL("../../../", import.meta.url).pathname;
+export async function poll(read, done, label) {
+  const deadline = performance.now() + 180000;
+  for (;;) {
+    const value = await read();
+    if (done(value)) return value;
+    assert.ok(!["failed", "canceled"].includes(value.state), `${label}: ${JSON.stringify(value)}`);
+    assert.ok(performance.now() < deadline, `${label}: deadline`);
+    await delay(100);
+  }
+}
+
+/** Copies already prepared, hash-pinned files. No network fetch or preparation operation. */
+export async function copyModels(home, request) {
+  const { parakeetModel: manifest, SpeechModels } =
+    await import("../../../packages/core/dist/speech-models.js");
+  assert.deepEqual(request.files, manifest.files);
+  const models = new SpeechModels(join(home, "library"));
+  const target = join(home, "library/models", manifest.name, manifest.revision);
+  const receipt = { modelDigest: models.modelDigest, files: {} };
+  for (const file of manifest.files) {
+    const source = join(request.directory, file.path);
+    const destination = join(target, manifest.folderName, file.path);
+    assert.ok((await lstat(source)).isFile());
+    await mkdir(dirname(destination), { recursive: true });
+    await copyFile(source, destination, constants.COPYFILE_FICLONE);
+    const bytes = await readFile(destination);
+    assert.equal(bytes.length, file.bytes);
+    assert.equal(hash(bytes), file.sha256);
+    const stat = await lstat(destination, { bigint: true });
+    receipt.files[file.path] = { modifiedNs: String(stat.mtimeNs), inode: String(stat.ino) };
+  }
+  await writeFile(join(target, "receipt.json"), JSON.stringify(receipt));
+  assert.deepEqual(models.status(), { state: "ready" });
+  return { modelDigest: models.modelDigest, files: manifest.files };
+}
+
+/** Public transports around a scratch project service; barriers hold only real native replies. */
+export class JourneyService {
+  constructor(
+    home,
+    report,
+    evidence,
+    serviceModule = new URL("./source-acquisition-service.mjs", import.meta.url),
+  ) {
+    this.home = home;
+    this.serviceModule = serviceModule;
+    this.evidence = evidence;
+    this.report = report;
+    this.logs = [];
+    this.barriers = new Map();
+  }
+  async start() {
+    this.child = fork(this.serviceModule, [this.home, ...(this.evidence ? [this.evidence] : [])], {
+      stdio: ["ignore", "pipe", "pipe", "ipc"],
+    });
+    this.child.stdout.on("data", (b) => this.logs.push(b.toString()));
+    this.child.stderr.on("data", (b) => this.logs.push(b.toString()));
+    this.child.on("message", (m) => {
+      if (m.type) this.barriers.set(`${m.id}/${m.type}`, m);
+    });
+    const [ready] = await Promise.race([
+      once(this.child, "message"),
+      once(this.child, "exit").then(([code]) => {
+        throw new Error(`Service exited ${code}: ${this.logs.join("")}`);
+      }),
+      delay(30000, undefined, { ref: false }).then(() => {
+        throw new Error("Service startup deadline");
+      }),
+    ]);
+    assert.equal(ready.error, undefined, JSON.stringify(ready));
+    this.socketPath = ready.socketPath;
+    this.mcp = new Client({ name: "source-transcript-journey", version: "1" });
+    await this.mcp.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [join(root, "apps/cli/dist/main.js"), "mcp", "--socket", this.socketPath],
+        stderr: "pipe",
+      }),
+    );
+  }
+  async call(operation, params, { transport = "cli", error = false, output } = {}) {
+    const response =
+      transport === "mcp"
+        ? (await this.mcp.callTool({ name: operation, arguments: params })).structuredContent
+        : await cliReply([
+            join(root, "apps/cli/dist/main.js"),
+            operation,
+            "--socket",
+            this.socketPath,
+            "--params",
+            JSON.stringify(params),
+            ...(output ? ["--output", output] : []),
+          ]);
+    assert.equal(response?.ok, !error, `${operation}: ${JSON.stringify(response)}`);
+    this.report.trace.push({
+      operation,
+      transport,
+      ok: response.ok,
+      state: response.data?.state,
+      error: response.error,
+    });
+    return response.ok ? response.data : response.error;
+  }
+  async arm(operation) {
+    const id = randomUUID();
+    this.child.send({ type: "barrier.arm", id, operation, remaining: 1 });
+    await poll(
+      () => this.barriers.get(`${id}/barrier.armed`) ?? {},
+      (v) => v.type === "barrier.armed",
+      "arm",
+    );
+    return () =>
+      poll(
+        () => this.barriers.get(`${id}/barrier.hit`) ?? {},
+        (v) => v.nativeSucceeded,
+        "native reply",
+      );
+  }
+  async stop(crash = false) {
+    await this.mcp?.close();
+    this.mcp = undefined;
+    const child = this.child;
+    if (!child || child.exitCode !== null || child.signalCode !== null) return;
+    const exited = once(child, "exit");
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        child.kill("SIGKILL");
+        reject(new Error("Service shutdown deadline"));
+      }, 15000);
+      timer.unref();
+    });
+    if (crash) child.kill("SIGKILL");
+    else child.send("close");
+    try {
+      const [code, signal] = await Promise.race([exited, timeout]);
+      if (crash) assert.equal(signal, "SIGKILL");
+      else assert.equal(code, 0, this.logs.join(""));
+    } catch (error) {
+      await exited;
+      throw error;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+}
+
+/** Synthetic acquisition journals around real speech bytes; not a physical capture claim. */
+export async function acquisitionDonor(directory, narration, available) {
+  await mkdir(directory, { recursive: true });
+  await copyFile(
+    join(root, "fixtures/narrated-workbench/video.mov"),
+    join(directory, "video.mov"),
+    constants.COPYFILE_FICLONE,
+  );
+  await copyFile(narration, join(directory, "narration.mov"), constants.COPYFILE_FICLONE);
+  const records = [
+    {
+      event: "header",
+      data: {
+        schemaVersion: 1,
+        sessionID: `synthetic-source-journey-${randomUUID()}`,
+        source: { kind: "window", windowID: 7 },
+        width: 3120,
+        height: 1970,
+        microphone: true,
+        systemAudio: false,
+      },
+    },
+    { event: "origin", data: { hostUs: 1000000 } },
+    ...available.map((range) => ({ event: "audioSamples", data: { role: "narration", ...range } })),
+    { event: "finished", data: {} },
+    { event: "lifecycle", data: { state: "complete" } },
+  ];
+  const raw = records.map((r, i) => JSON.stringify({ ...r, sequence: i + 1 }) + "\n").join("");
+  await writeFile(join(directory, "capture.journal.jsonl"), raw);
+  return hash(raw);
+}
+
+2026-09-28T07:31:09.568935Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-ee380f27-32c5-4f82-8888-193ae11ef6b3"
+exec
+/bin/zsh -lc "rg -n 'wordRecords|scanBudget|budget|256' packages/core/src/*transcript*; cat specs/agent-editing/assets/10b-native-selection/selected/first-acquired-selected.jsonl; cat specs/agent-editing/assets/10b-native-selection/selected/first-acquired-selected-request.json; rg -n 'bounded|late|transcript|10b' specs/recording-for-ai/README.md | head -40; find . -name AGENTS.md -o -name AGENTS.override.md" in /Users/david/dev/screen-recorder
+2026-09-28T07:31:18.206698Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-40b0e582-dd7e-4598-be82-749cd3959a8e"
+ succeeded in 1533ms:
+./AGENTS.md
+./apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+./helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+
+exec
+/bin/zsh -lc "sed -n '260,410p' packages/core/src/transcript-read.ts; rg -n 'budget|scan|256|limit' packages/core/src/project-transcript*.ts; cat packages/test-harness/editing/selected-audio-fixture.swift; sed -n '230,286p' packages/test-harness/editing/evidence.mjs; sed -n '560,605p' packages/core/src/transcript.ts" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+class TranscriptTraversal {
+  constructor(
+    private readonly records: TranscriptRecords,
+    private readonly identity: TranscriptIdentity,
+  ) {}
+
+  page(spans: readonly TimeRange[], count: number, after: AfterRecord) {
+    const records: SourceRecord[] = [];
+    let more = false;
+    spans: for (const span of spans) {
+      // A later row starts after the last one, so it cannot fall in a span that ended by then.
+      if (after && span.endUs <= after.sourceUs) continue;
+      const words = this.spanWords(span, after, Math.min(batch, count + 1));
+      const gaps = this.spanGaps(span, after, Math.min(batch, count + 1));
+      let word = words.next();
+      let gap = gaps.next();
+      while (!word.done || !gap.done) {
+        if (records.length === count) {
+          more = true;
+          break spans;
+        }
+        const takeGap = word.done || (!gap.done && gap.value.startUs < word.value.startUs);
+        const row = takeGap ? gap.value! : word.value!;
+        records.push(row);
+        after = { sourceUs: row.startUs, ordinal: "ordinal" in row ? row.ordinal : null };
+        if (takeGap) gap = gaps.next();
+        else word = words.next();
+      }
+    }
+    return { records, more, after };
+  }
+
+  /** Admission guarantees disjoint words, so at most one predecessor can cover the window start. */
+  private *spanWords(
+    span: TimeRange,
+    after: { sourceUs: number; ordinal: number | null } | null,
+    fetch: number,
+  ) {
+    const prior = this.records.wordRecords(this.identity, {
+      upper: { key: [span.startUs, 0], inclusive: false },
+      reverse: true,
+      limit: 1,
+    })[0];
+    if (
+      prior &&
+      prior.endUs > span.startUs &&
+      (!after ||
+        prior.startUs > after.sourceUs ||
+        (prior.startUs === after.sourceUs &&
+          after.ordinal !== null &&
+          prior.ordinal > after.ordinal))
+    )
+      yield prior;
+    const window: PageBound = { key: [span.startUs, 0], inclusive: true };
+    const resume: PageBound | null = after
+      ? after.ordinal === null
+        ? { key: [after.sourceUs + 1, 0], inclusive: true }
+        : { key: [after.sourceUs, after.ordinal], inclusive: false }
+      : null;
+    let lower = resume && comparePageKeys(resume.key, window.key) >= 0 ? resume : window;
+    for (;;) {
+      const words = this.records.wordRecords(this.identity, {
+        lower,
+        upper: { key: [span.endUs, 0], inclusive: false },
+        limit: fetch,
+      });
+      for (const word of words) if (word.endUs > span.startUs) yield word;
+      if (words.length < fetch) return;
+      const last = words.at(-1)!;
+      lower = { key: [last.startUs, last.ordinal], inclusive: false };
+    }
+  }
+
+  /** Gaps are disjoint, so only the one starting at or before the span can already cover it. */
+  private *spanGaps(span: TimeRange, after: { sourceUs: number } | null, fetch: number) {
+    const prior = this.records.gapRecords(this.identity, {
+      upper: { key: [span.startUs], inclusive: true },
+      reverse: true,
+      limit: 1,
+    })[0];
+    if (prior && prior.endUs > span.startUs && (!after || prior.startUs > after.sourceUs))
+      yield prior;
+    let lower: PageBound = {
+      key: [Math.max(span.startUs, after?.sourceUs ?? 0)],
+      inclusive: false,
+    };
+    for (;;) {
+      const gaps = this.records.gapRecords(this.identity, {
+        lower,
+        upper: { key: [span.endUs], inclusive: false },
+        limit: fetch,
+      });
+      yield* gaps;
+      if (gaps.length < fetch) return;
+      lower = { key: [gaps.at(-1)!.startUs], inclusive: false };
+    }
+  }
+
+  search<T>(
+    terms: string[],
+    count: number,
+    after: { startUs: number; ordinal: number } | null,
+    project: (phrase: TranscriptWordRecord[]) => T | null,
+  ) {
+    let lower: PageBound | undefined = after
+      ? { key: [after.startUs, after.ordinal], inclusive: false }
+      : undefined;
+    const entries: T[] = [];
+    let examined = 0;
+    let last: TranscriptWordRecord | null = null;
+    for (;;) {
+      // Fetch enough lookahead that a phrase starting in this batch is complete.
+      const words = this.records.wordRecords(this.identity, {
+        ...(lower ? { lower } : {}),
+        limit: batch + terms.length - 1,
+      });
+      const starts = words.length < batch + terms.length - 1 ? words.length : batch;
+      for (let index = 0; index < starts; index++) {
+        if (entries.length === count || examined === searchBudget) return { entries, last };
+        examined++;
+        last = words[index]!;
+        const phrase = words.slice(index, index + terms.length);
+        if (
+          phrase.length !== terms.length ||
+          phrase.some((word, offset) => foldWord(word.text) !== terms[offset])
+        )
+          continue;
+        const entry = project(phrase);
+        if (entry) entries.push(entry);
+      }
+      if (starts < batch) return { entries, last: null };
+      lower = { key: [last!.startUs, last!.ordinal], inclusive: false };
+    }
+  }
+}
+
+const sourceReference = {
+  assetId: z.string().min(1),
+  streamId: z.string().min(1),
+  acquisitionId: z.string().min(1).nullable(),
+  generation: z.string().min(1),
+  supportDigest: z.string().min(1),
+  afterSourceUs: time,
+  afterOrdinal: time.nullable(),
+};
+const sourcePageCursor = z.strictObject({
+  ...sourceReference,
+  range: z.strictObject({ startUs: time, endUs: time }).nullable(),
+});
+const sourceSearchCursor = z.strictObject({
+  ...sourceReference,
+zsh:1: no matches found: packages/core/src/project-transcript*.ts
+@preconcurrency import AVFoundation
+import Foundation
+
+/// Two distinguishable parts of the retained real narration, with the same container clock.
+@main struct SelectedAudioFixture {
+    static func main() async throws {
+        let source = AVURLAsset(url: URL(fileURLWithPath: CommandLine.arguments[1]))
+        let audio = try await source.loadTracks(withMediaType: .audio).first!
+        let folder = URL(fileURLWithPath: CommandLine.arguments[2])
+        for (name, selections) in [("multi", [0, 50]), ("first", [0]), ("second", [50])] {
+            let composition = AVMutableComposition()
+            for (index, selection) in selections.enumerated() {
+                let track = composition.addMutableTrack(withMediaType: .audio,
+                    preferredTrackID: CMPersistentTrackID(index + 1))!
+                track.insertEmptyTimeRange(CMTimeRange(start: .zero, duration: CMTime(value: 1, timescale: 4)))
+                try track.insertTimeRange(CMTimeRange(start: CMTime(value: Int64(selection), timescale: 1),
+                    duration: CMTime(value: 6, timescale: 1)), of: audio, at: CMTime(value: 1, timescale: 4))
+                track.insertEmptyTimeRange(CMTimeRange(start: CMTime(value: 25, timescale: 4),
+                    duration: CMTime(value: 1, timescale: 2)))
+                try track.insertTimeRange(CMTimeRange(start: CMTime(value: Int64(selection + 6), timescale: 1),
+                    duration: CMTime(value: 6, timescale: 1)), of: audio, at: CMTime(value: 27, timescale: 4))
+            }
+            let export = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!
+            try await export.export(to: folder.appendingPathComponent(name + ".mov"), as: .mov)
+        }
+    }
+}
+    const word = sourceWords[sourceIndex][ordinal];
+    return {
+      type: "word",
+      id: `w${ordinal}`,
+      ordinal,
+      text: word.text,
+      kind: "speech",
+      confidence: word.confidence,
+      segment: 0,
+      sourceRange: word.source,
+      partial: false,
+      clipId: edited.edit.labels[label],
+      assetId: sources[sourceIndex].sha256,
+      streamId: "track:1",
+      trackId: edited.edit.labels[sourceIndex === 0 ? "a" : "b"],
+      trackRank: sourceIndex,
+      generation: sourcePages[sourceIndex].generation,
+      fragments: [{ source: word.source, project: { startUs, endUs } }],
+    };
+  };
+  const expectedRows = [
+    expectedWord("okay", 0, 0, 0, 320000),
+    expectedWord("simultaneous", 1, 0, 0, 240000),
+    expectedWord("so", 0, 1, 320000, 640000),
+    expectedWord("simultaneous", 1, 1, 320000, 640000),
+    expectedWord("repeat", 0, 0, 640000, 960000),
+    expectedWord("is", 0, 3, 960000, 1280000),
+    expectedWord("this", 0, 2, 1280000, 1600000),
+    ...sourceWords[0]
+      .slice(0, 7)
+      .map((word, ordinal) =>
+        expectedWord(
+          "retimed",
+          0,
+          ordinal,
+          fraction(9000000 + word.source.startUs, 3),
+          fraction(9000000 + word.source.endUs, 3),
+        ),
+      ),
+  ];
+  assert.deepEqual(
+    full.page.rows,
+    expectedRows,
+    "Every occurrence must match the independent frozen-word and authored-placement oracle",
+  );
+  const filtered = await poll(
+    () =>
+      call("transcript.get", {
+        projectId,
+        revisionId,
+        trackIds: [edited.edit.labels.b],
+        limit: 1000,
+      }),
+    (value) => value.state === "ready",
+    "track-filtered rows",
+  );
+  assert.deepEqual(
+      );
+    });
+  }
+
+  wordRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptWordRecord[] {
+    const rows = this.records("transcript_words", ["startUs", "ordinal"], identity, query) as (Omit<
+      TranscriptWordRecord,
+      "instant"
+    > & { instant: number })[];
+    return rows.map(({ instant, ...word }) => ({ ...word, instant: instant === 1 }));
+  }
+
+  gapRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptGapRecord[] {
+    return this.records("transcript_gaps", ["startUs"], identity, query) as TranscriptGapRecord[];
+  }
+
+  segmentRecords(
+    identity: TranscriptIdentity,
+    query: TranscriptRecordQuery,
+  ): TranscriptSegmentRecord[] {
+    return this.records(
+      "transcript_segments",
+      ["ordinal"],
+      identity,
+      query,
+    ) as TranscriptSegmentRecord[];
+  }
+
+  private records(
+    table: "transcript_words" | "transcript_gaps" | "transcript_segments",
+    keys: readonly string[],
+    identity: TranscriptIdentity,
+    query: TranscriptRecordQuery,
+  ): unknown[] {
+    const columns = {
+      transcript_words: "ordinal,text,kind,startUs,endUs,instant,confidence,segment",
+      transcript_gaps: "startUs,endUs,reason",
+      transcript_segments: "ordinal,startUs,endUs,state,reason",
+    }[table];
+    const clauses = [where];
+    const args: (string | number)[] = [...ownerIdentity(identity.owner), identity.generation];
+    const tuple = keys.length === 1 ? keys[0]! : `(${keys.join(",")})`;
+    for (const [bound, operator] of [
+      [query.lower, ">"],
+      [query.upper, "<"],
+    ] as const) {
+
+2026-09-28T07:31:27.510272Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-ca37b55e-6008-44ef-ae51-48e48da3898f"
+2026-09-28T07:31:29.525661Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-50cc6036-451f-4ee8-928a-4b9680514d0b"
+ succeeded in 39074ms:
+exec
+/bin/zsh -lc "rg -n 'TranscriptIdentity|sourceId' packages/core/src/transcript.ts | head -30; rg -n 'searchBudget|wordRecords|page\\(' apps/service/src/*transcript*; sed -n '110,160p' packages/core/src/transcript.ts; ls packages/core/dist/transcript.js; rg -n 'sourceId|ownerIdentity' packages/core/dist/transcript.js | head" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+60:export type TranscriptIdentity = Readonly<{
+62:  sourceId: string;
+80:export type TranscriptMetadata = TranscriptIdentity &
+85:export type RecordingTranscriptIdentity = Readonly<{
+87:  sourceId: string;
+91:export type RecordingTranscriptMetadata = RecordingTranscriptIdentity &
+96:export function recordingTranscriptIdentity(
+97:  value: RecordingTranscriptIdentity,
+98:): TranscriptIdentity {
+101:    sourceId: value.sourceId,
+117:  return (identity: TranscriptIdentity, source: TranscriptSource): void => {
+123:      recording.sourceId !== identity.sourceId ||
+154:  wordRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptWordRecord[];
+155:  gapRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptGapRecord[];
+214:  sourceId: string;
+233:      identity: TranscriptIdentity,
+239:        ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,
+292:  async reserve(identity: TranscriptIdentity): Promise<string> {
+302:    identity: TranscriptIdentity;
+310:    const { owner, sourceId, generation } = identity;
+319:        (sourceId !== ownerId || source.streamId !== request.track.streamId))
+377:        `INSERT INTO transcript_generations(ownerKind,ownerId,sourceId,generation,source,engine,track,segmentCount,state)
+383:        sourceId,
+564:  wordRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptWordRecord[] {
+572:  gapRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptGapRecord[] {
+577:    identity: TranscriptIdentity,
+591:    identity: TranscriptIdentity,
+621:  async remove(identity: Pick<TranscriptIdentity, "owner" | "generation">, signal?: AbortSignal) {
+713:    sourceId: row.sourceId,
+118:    const page = target.read.page(input);
+    ...details,
+    recordingId: owner.recordingId,
+    sourceGeneration: source.sourceGeneration,
+    narration: { source: track.source, sourceOffsetUs: track.sourceOffsetUs },
+  };
+}
+export function recordingTranscriptOwner(store: RevisionStore) {
+  return (identity: TranscriptIdentity, source: TranscriptSource): void => {
+    if (identity.owner.kind !== "recording" || source.kind !== "recording")
+      throw new CatalogError("INVALID_EVIDENCE", "Recording transcript requires a recording owner");
+    const recording = store.get(identity.owner.recordingId);
+    if (
+      !store.isAvailable(recording.recordingId) ||
+      recording.sourceId !== identity.sourceId ||
+      recording.sourceDurationUs === null ||
+      recording.sourceDurationUs !== source.durationUs
+    )
+      throw new CatalogError("UNAVAILABLE", "Recording no longer accepts this transcript source");
+  };
+}
+export type GapReason = "not_acquired" | "too_short";
+export type TranscriptWordRecord = {
+  ordinal: number;
+  text: string;
+  kind: WordKind;
+  startUs: number;
+  endUs: number;
+  /** The engine emitted a zero-width word; it is stored as one microsecond so ranges stay half-open. */
+  instant: boolean;
+  confidence: number | null;
+  segment: number;
+};
+export type TranscriptGapRecord = { startUs: number; endUs: number; reason: GapReason };
+/** One readable source interval as the engine saw it. */
+export type TranscriptSegmentRecord = {
+  ordinal: number;
+  startUs: number;
+  endUs: number;
+  state: "transcribed" | "skipped";
+  reason: "too_short" | null;
+};
+/** Words are ordered by [startUs, ordinal] (the same order as ordinal); gaps by [startUs]; segments by [ordinal]. */
+export type TranscriptRecordQuery = Omit<PageQuery, "index">;
+export type TranscriptRecords = {
+  wordRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptWordRecord[];
+  gapRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptGapRecord[];
+};
+
+const maxBytes = 268_435_456;
+const lineBytes = 67_108_864;
+const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+packages/core/dist/transcript.js
+9:import { ownerIdentity } from "./jobs.js";
+15:        sourceId: value.sourceId,
+36:            recording.sourceId !== identity.sourceId ||
+102:        ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,
+162:        const { owner, sourceId, generation } = identity;
+163:        const [ownerKind, ownerId] = ownerIdentity(owner);
+170:                (sourceId !== ownerId || source.streamId !== request.track.streamId)))
+219:            .prepare(`INSERT INTO transcript_generations(ownerKind,ownerId,sourceId,generation,source,engine,track,segmentCount,state)
+221:            .run(ownerKind, ownerId, sourceId, component(generation), JSON.stringify(source), JSON.stringify(engine), JSON.stringify(track), receipt.segments.length);
+367:        const args = [...ownerIdentity(identity.owner), identity.generation];
+
+2026-09-28T07:31:34.247997Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-9e3678aa-1566-44fc-a35f-381351fa280f"
+exec
+/bin/zsh -lc "rg -n 'searchBudget|class Project|project.*page|source.read|\\.page\\(' packages/core/src/transcript-read.ts; sed -n '500,880p' packages/core/src/transcript-read.ts" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+75:const searchBudget = 10_000;
+159:    const { records, more, after } = this.traversal().page(
+378:        if (entries.length === count || examined === searchBudget) return { entries, last };
+477:    const { records, more, after } = this.traversal.page(
+    });
+    return {
+      rows,
+      nextCursor:
+        more && after
+          ? ({
+              ...this.reference,
+              range,
+              afterSourceUs: after.sourceUs,
+              afterOrdinal: after.ordinal,
+            } satisfies SourceTranscriptPageCursor)
+          : null,
+    };
+  }
+
+  search(input: { text: string; cursor?: unknown; limit?: number | undefined }) {
+    const count = limit(input.limit, 100, 500);
+    const terms = transcriptSearchTerms(input.text);
+    const cursor = this.continuation(
+      input.cursor === undefined ? undefined : parse(sourceSearchCursor, input.cursor),
+    );
+    if (cursor && cursor.text !== input.text)
+      throw new CatalogError("ARTIFACT_CHANGED", "Transcript continuation searched other text");
+    const { entries, last } = this.traversal.search(
+      terms,
+      count,
+      cursor ? { startUs: cursor.afterSourceUs, ordinal: cursor.afterOrdinal } : null,
+      (phrase): SourceTranscriptSearchEntry | null => {
+        if (phrase.some((word) => word.segment !== phrase[0]!.segment)) return null;
+        return {
+          wordIds: phrase.map((word) => wordId(word.ordinal)),
+          sourceRange: {
+            startUs: phrase[0]!.startUs,
+            endUs: Math.max(...phrase.map((word) => word.endUs)),
+          },
+        };
+      },
+    );
+    return {
+      entries,
+      nextCursor: last
+        ? ({
+            ...this.reference,
+            text: input.text,
+            afterSourceUs: last.startUs,
+            afterOrdinal: last.ordinal,
+          } satisfies SourceTranscriptSearchCursor)
+        : null,
+    };
+  }
+}
+
+export function transcriptSearchTerms(text: string) {
+  if (typeof text !== "string" || text.length < 1 || text.length > 200)
+    throw new CatalogError("INVALID_PARAMS", "Search text must be 1 to 200 characters");
+  const terms = text.split(/\s+/).map(foldWord).filter(Boolean);
+  if (!terms.length) throw new CatalogError("INVALID_PARAMS", "Search text contains no words");
+  return terms;
+}
+
+2026-09-28T07:31:39.195283Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-0a69f80a-d703-45c4-96e4-ef1ae1b4e538"
+exec
+/bin/zsh -lc "rg -n 'searchBudget|bounded|class ProjectTranscript|phraseBudget' packages apps/service/src; sed -n '590,700p' packages/test-harness/editing/evidence.mjs; git status --short; env | grep SCREENREC" in /Users/david/dev/screen-recorder
+2026-09-28T07:31:43.285447Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-69becfdd-a016-4d93-94a3-d3351b0bc28f"
+ exited 1 in 127ms:
+ M packages/test-harness/editing/evidence-service.mjs
+ M packages/test-harness/editing/evidence.mjs
+
+exec
+/bin/zsh -lc "rg -l 'class ProjectTranscript|searchBudget|examined' packages/composition/src packages/core/src apps/service/src | head -30; rg -n 'budget|examined|wordRecords|sourcePage|\\.page\\(' packages/core/src/project-evidence.ts packages/core/src/project* 2>/dev/null" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+packages/core/src/transcript-read.ts
+packages/core/src/project-evidence.ts:38:// Provisional inspection budgets; scale acceptance owns changes to these limits.
+packages/core/src/project-evidence.ts:518:    let budget = scanBudget;
+packages/core/src/project-evidence.ts:584:          if (budget-- <= 0) return false;
+packages/core/src/project-evidence.ts:589:            const page = new SourceTranscriptRead(this.options.records, transcript).page({
+packages/core/src/project-evidence.ts:622:        if (budget-- <= 0) return false;
+packages/core/src/project-evidence.ts:648:        if (budget <= 0) return false;
+packages/core/src/project-evidence.ts:652:        budget--;
+packages/core/src/project-evidence.ts:38:// Provisional inspection budgets; scale acceptance owns changes to these limits.
+packages/core/src/project-evidence.ts:518:    let budget = scanBudget;
+packages/core/src/project-evidence.ts:584:          if (budget-- <= 0) return false;
+packages/core/src/project-evidence.ts:589:            const page = new SourceTranscriptRead(this.options.records, transcript).page({
+packages/core/src/project-evidence.ts:622:        if (budget-- <= 0) return false;
+packages/core/src/project-evidence.ts:648:        if (budget <= 0) return false;
+packages/core/src/project-evidence.ts:652:        budget--;
+packages/core/src/project-evidence.test.ts:56:    wordRecords(identity, query) {
+packages/core/src/project-evidence.test.ts:57:      const rows = records.wordRecords(identity, query);
+
+2026-09-28T07:31:50.546483Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-421f3c98-fb7a-4b4e-9e57-b0106c387bc4"
+exec
+/bin/zsh -lc "sed -n '34,49p' packages/core/src/project-evidence.ts; sed -n '510,670p' packages/core/src/project-evidence.ts; sed -n '430,470p' packages/test-harness/editing/evidence.mjs; sed -n '90,140p' packages/core/src/project-evidence.test.ts; cat package.json | head -65" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+import { foldWord } from "./word-kind.js";
+
+const artifact = "project.evidence";
+const policy = "project-transcript-v1";
+// Provisional inspection budgets; scale acceptance owns changes to these limits.
+const maximumBytes = 8 * 1024 * 1024;
+const scanBudget = 128;
+const cursorSchema = z.strictObject({
+  projectId: z.string(),
+  revisionId: z.string(),
+  manifestId: z.uuid(),
+  checkpointId: z.uuid(),
+  queryDigest: z.string().regex(/^[a-f0-9]{64}$/),
+});
+export type ProjectEvidenceCursor = z.infer<typeof cursorSchema>;
+export type ProjectEvidenceInput = {
+    plan: ReturnType<ProjectEvidenceInspection["plan"]>,
+    state: Checkpoint,
+    limit: number,
+  ) {
+    const occurrences = new Map(plan.occurrences.map((clip) => [clip.clipId, clip]));
+    const dependencies = new Map(
+      manifest.dependencies.map((dependency) => [selectionKey(dependency.selection), dependency]),
+    );
+    let budget = scanBudget;
+    const common = (clip: SourceWindowOccurrence, transcript: TranscriptMetadata | null) => ({
+      clipId: clip.clipId,
+      assetId: clip.assetId,
+      streamId: clip.streamId,
+      ...(clip.acquisitionId === undefined ? {} : { acquisitionId: clip.acquisitionId }),
+      trackId: clip.trackId,
+      trackRank: clip.trackRank,
+      generation: transcript?.generation ?? null,
+    });
+    const candidate = (row: ProjectTranscriptRow, ordinal: number): Candidate => ({
+      row,
+      key: {
+        projectStartUs: row.fragments[0]!.project.startUs,
+        trackRank: row.trackRank,
+        clipId: row.clipId,
+        sourceOrdinal: ordinal,
+        eventKind: row.type,
+      },
+    });
+    const project = (
+      clip: SourceWindowOccurrence,
+      transcript: TranscriptMetadata,
+      row: SourceTranscriptRow,
+    ): Candidate | null => {
+      const instant = row.type === "word" && row.instant;
+      const point = instant ? plan.projection.point(clip.clipId, row.sourceRange.startUs) : null;
+      const projected = instant ? null : plan.projection.clip(clip.clipId, row.sourceRange);
+      const fragments = point
+        ? [
+            {
+              source: { start: point.source, end: point.source },
+              project: { start: point.project, end: point.project },
+            },
+          ]
+        : projected?.fragments;
+      if (
+        !fragments?.some(({ project: fragment }) =>
+          instant
+            ? compare(fragment.start, fromTime(plan.query.range.startUs)) >= 0 &&
+              compare(fragment.start, fromTime(plan.query.range.endUs)) < 0
+            : compare(fragment.end, fromTime(plan.query.range.startUs)) > 0 &&
+              compare(fragment.start, fromTime(plan.query.range.endUs)) < 0,
+        )
+      )
+        return null;
+      return candidate(
+        {
+          ...row,
+          ...common(clip, transcript),
+          partial: projected?.completeness === "partial",
+          fragments: fragments.map((fragment) => ({
+            source: range(fragment.source),
+            project: range(fragment.project),
+          })),
+        },
+        row.type === "word" ? row.ordinal : -1,
+      );
+    };
+    const fill = (index: number): boolean => {
+      const track = state.tracks[index]!,
+        clips = manifest.tracks[index]!.clipIds;
+      while (track.clip < clips.length) {
+        const clip = occurrences.get(clips[track.clip]!)!;
+        const transcript = dependencies.get(selectionKey(clip))!.transcript;
+        if (!track.pending && !track.done) {
+          if (budget-- <= 0) return false;
+          if (!transcript || !clip.fragments.length) track.done = true;
+          else {
+            const first = clip.fragments[0]!.source,
+              last = clip.fragments.at(-1)!.source;
+            const page = new SourceTranscriptRead(this.options.records, transcript).page({
+              range: { startUs: floor(first.start), endUs: ceil(last.end) },
+              ...(track.cursor === null ? {} : { cursor: track.cursor }),
+              limit: 1,
+            });
+            track.cursor = page.nextCursor;
+            track.done = page.nextCursor === null;
+            const row = page.rows[0];
+            if (row) track.pending = project(clip, transcript, row);
+            if (!track.pending && !track.done) continue;
+          }
+        }
+        const gap = clip.unavailable[track.gap];
+        const gapCandidate = gap
+          ? candidate(
+              {
+                ...common(clip, transcript),
+                type: "gap",
+                reason: "not_acquired",
+                sourceRange: range(gap.source),
+                partial: false,
+                fragments: [{ source: range(gap.source), project: range(gap.project) }],
+              },
+              -1,
+            )
+          : null;
+        if (gapCandidate || track.pending) {
+          const gapFirst =
+            gapCandidate && (!track.pending || compareKey(gapCandidate.key, track.pending.key) < 0);
+          track.head = gapFirst ? gapCandidate : track.pending;
+          track.headKind = gapFirst ? "gap" : "source";
+          return true;
+        }
+        if (budget-- <= 0) return false;
+        const nextClip = clips[track.clip + 1];
+        if (nextClip && compare(clip.project.end, occurrences.get(nextClip)!.project.start) !== 0)
+          track.suffix = [];
+        track.clip++;
+        track.gap = 0;
+        track.cursor = null;
+        track.done = false;
+        track.pending = null;
+      }
+      track.head = null;
+      track.headKind = null;
+      return true;
+    };
+    const terms =
+      manifest.query.text === undefined ? null : transcriptSearchTerms(manifest.query.text);
+    const consume = (track: TrackState) => {
+      if (track.headKind === "gap") track.gap++;
+      else track.pending = null;
+      track.head = null;
+      track.headKind = null;
+    };
+    const fillNext = (index: number): boolean => {
+      if (!terms) return fill(index);
+      const track = state.tracks[index]!;
+      for (;;) {
+        if (budget <= 0) return false;
+        if (!fill(index)) return false;
+        const head = track.head;
+        if (!head) return true;
+        budget--;
+        consume(track);
+        if (head.row.type !== "word" || head.row.partial) {
+          track.suffix = [];
+          continue;
+        }
+        track.suffix.push({ key: head.key, row: head.row });
+        if (track.suffix.length > terms.length) track.suffix.shift();
+        if (
+          track.suffix.length !== terms.length ||
+          track.suffix.some((value, i) => foldWord(value.row.text) !== terms[i])
+        )
+          continue;
+        const words = track.suffix.map(({ row }) => row);
+        track.match = {
+          key: track.suffix[0]!.key,
+          entry: {
+            trackId: head.row.trackId,
+            trackRank: head.row.trackRank,
+    requestId: "partial-and-gap",
+    expectedRevisionId: revisionId,
+    operations: [
+      { operation: "track.add", label: "more", track: { kind: "audio", order: 2 } },
+      place("partial", 0, "more", 1120000, 1300000, 6000000),
+      place("partial-so", 0, "more", 1600000, 1920000, 6180000),
+      { operation: "track.add", label: "gapped", track: { kind: "audio", order: 3 } },
+      place("gap-okay", 0, "gapped", 1120000, 1440000, 9000000),
+      place("gap-so", 0, "gapped", 1600000, 1920000, 9500000),
+      place("words-across-hole", 0, "gapped", 4320000, 7380000, 11000000),
+      { operation: "track.add", label: "blocked", track: { kind: "audio", order: 4 } },
+      place("before-partial", 0, "blocked", 1120000, 1440000, 15000000),
+      place("middle-partial", 0, "blocked", 1920000, 2080000, 15320000),
+      place("after-partial", 0, "blocked", 1600000, 1920000, 15480000),
+      { operation: "track.add", label: "captured", track: { kind: "audio", order: 5 } },
+      masked,
+      { operation: "track.add", label: "scan", track: { kind: "audio", order: 6 } },
+      ...Array.from({ length: 24 }, (_, i) =>
+        place(`scan-${i}`, 0, "scan", 0, 6000000, 30000000 + i * 6000000),
+      ),
+      place("physical-gap", 0, "more", 5360000, 7380000, 7000000),
+    ],
+  });
+  assert.notEqual(advanced.revision.id, revisionId);
+  for (const [text, trackIds] of [
+    ["Okay so", [advanced.edit.labels.more]],
+    ["Okay so", [advanced.edit.labels.gapped]],
+    ["Okay so", [advanced.edit.labels.blocked]],
+    ["workbench First", [advanced.edit.labels.gapped]],
+  ])
+    assert.deepEqual(await search({ revisionId: advanced.revision.id, text, trackIds }), []);
+  assert.deepEqual(await search({ revisionId, text: "the recorder" }), [
+    match(expectedRows.slice(11, 13)),
+  ]);
+  const capturedRows = await poll(
+    () =>
+      call("transcript.get", {
+        projectId,
+        revisionId: advanced.revision.id,
+        trackIds: [advanced.edit.labels.captured],
+        limit: 1000,
+        }
+        if (target.kind === "project")
+          return {
+            ...target,
+            revisionId: projects.revision(target.projectId, target.revisionId).id,
+          };
+        throw new Error("Wrong job owner");
+      },
+      isAvailable: (target) => target.kind !== "project" || !projects.isDeleting(target.projectId),
+      isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
+      isCapturing: () => false,
+    },
+    execute: (execution) =>
+      execution.job.artifact === "transcript"
+        ? transcripts.execute(execution)
+        : evidence.execute(execution),
+  });
+  transcripts = new TranscriptProcessing({
+    jobs,
+    transcripts: records,
+    models,
+    asset: { assets, acquisitions },
+    transcribe: async (request) => {
+      const available =
+        request.track.streamId === "narrow"
+          ? request.track.available.map((source) => ({
+              startUs: source.startUs + 100,
+              endUs: source.endUs - 100,
+            }))
+          : request.track.available;
+      const transcribed = available.map((source, ordinal) => ({
+        ordinal,
+        source,
+        state: "transcribed" as const,
+        words:
+          request.track.streamId === "empty"
+            ? []
+            : [100, 400, 800]
+                .filter((start) => start >= source.startUs && start + 100 <= source.endUs)
+                .map((start, i) => ({
+                  text: ["one", "two", "three"][i]!,
+                  source: { startUs: start, endUs: start + 100 },
+                  confidence: 0.9,
+                })),
+      }));
+      const lines =
+        request.track.streamId === "short"
+          ? transcribed.map((line) => ({
+              ...line,
+              state: "skipped" as const,
+              reason: "too_short" as const,
+{
+  "name": "screen-recorder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "oxlint apps packages scripts helpers",
+    "format": "oxfmt --write apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "format:check": "oxfmt --check apps packages scripts helpers package.json turbo.json tsconfig.base.json",
+    "lab:bootstrap": "node packages/test-harness/dist/bootstrap.js",
+    "lab:client-image": "node packages/test-harness/dist/client-image.js",
+    "lab:timeline": "node packages/test-harness/dist/timeline.js",
+    "lab:speech-eval": "node scripts/speech-eval.mjs",
+    "lab:speech-boundaries": "node packages/test-harness/speech-boundaries.mjs",
+    "lab:workbench": "bun run --cwd apps/workbench dev",
+    "lab:capture": "node scripts/native-capture-probe.mjs",
+    "lab:recovery": "node apps/macos/tests/recovery-lab.mjs",
+    "lab:av-sync": "node packages/test-harness/av-sync.mjs",
+    "lab:cursor-geometry": "node scripts/cursor-geometry-lab.mjs",
+    "screenrec": "node apps/cli/dist/main.js",
+    "install:personal": "bun run build && node scripts/install-personal.mjs",
+    "signing-identity": "node scripts/signing-identity.mjs",
+    "lab:index": "bun run --cwd packages/test-harness lab:index",
+    "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
+    "lab:storage": "bun run --cwd packages/test-harness lab:storage",
+    "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
+    "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.4",
+    "oxfmt": "0.68.0",
+    "oxlint": "1.83.0",
+    "turbo": "2.10.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "packageManager": "bun@1.3.14"
+}
+
+2026-09-28T07:31:56.349956Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e6ec-5759-73f1-89d5-4751cec8e556 turn_id=01a0e6ec-582b-7bb1-a244-0bd64eba3f3a item_id="exec-2cb2b274-a32c-488a-8c10-b8889afa79ca"
+codex
+No actionable defects found in the scoped changes. The acquisition-gap oracle, empty-search continuation, and late-read checks are consistent with the production paths; telemetry preserves actual read results, and fixture selection matches frozen support intervals. Review was static; the native journey was not executed.
+No actionable defects found in the scoped changes. The acquisition-gap oracle, empty-search continuation, and late-read checks are consistent with the production paths; telemetry preserves actual read results, and fixture selection matches frozen support intervals. Review was static; the native journey was not executed.
