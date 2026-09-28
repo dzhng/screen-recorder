@@ -56,3 +56,18 @@ media and live-route gates remain unchanged.
 Root integration repeats all 92 composition tests, composition/core builds, core
 type checking and the independent probe successfully. The only merge conflict
 was the append-only choices ledger; both reviewed decisions were retained.
+
+The selected-context follow-on passes 95 composition tests and the pure probe.
+Pure splits retain their whole source domain; trims, removals, acquisition and
+ancestor holes shrink it. Track/source/clock/pitch changes stop joining. Late
+windows receive the relevant whole domains, and result mutation cannot change
+later compilation. These are schedule assertions, not decoded audio evidence.
+
+The motivating native experiment found asset-wide filter context could restore
+split/window parity while leaking an excluded impulse (peak 0.0885651633). That
+approach is rejected. Slice 08 must establish parity and isolation together using
+the compiler's retained domains, including unresolved fractional phase cases.
+
+Independent Codex review found no actionable regressions and reran the 95-test
+suite plus TypeScript checking. Removing availability-domain restriction and pitch
+separation falsifies the new boundary tests.

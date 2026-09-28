@@ -36,3 +36,10 @@ Delegated: Buffer size/resampler configuration after measured conformance. Hidde
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
+
+
+Consume compiler-owned [selected resampling context](../processing.md#selected-resampling-context).
+Do not infer neighboring editorial continuity or read asset-wide filter input.
+Prove impulses outside selection, source acquisition and ancestor support cannot
+affect retained output, while pure splits and late windows preserve samples.
+Unknown fractional phase remains explicit NOT_READY until independently proven.

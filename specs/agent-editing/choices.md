@@ -636,3 +636,16 @@ trim and stretch replacements keep their single-interval behavior.
   key. The existing format gate advances and refuses older databases without
   changing their bytes; it does not migrate or reset the user's installed library.
   This follows the agreed fresh-library cutover and keeps one writable catalog.
+## Selected resampling context — 2026-09-27
+
+- **Sound; high confidence — Resampling context comes from current retained media.**
+  Splitting a continuous clip must keep the same samples, but removing source material
+  must prevent that material from entering a resampling filter. Reading a fixed margin
+  from the whole asset preserved split phase experimentally but leaked an excluded
+  impulse into kept output, contrary to the frozen reader's selection contract.
+  The compiler now derives maximal adjacent same-track/source/affine-clock runs,
+  bounded by source and ancestor availability. Their exact source bounds travel with
+  compiled audio. Pure splits leave the retained union unchanged; real cuts shrink it.
+  These are derived execution inputs, not authored continuity groups or persistent IDs.
+  Native execution may pad synthetically outside a domain, but may not feed real
+  neighboring samples into the filter. Post-resampling gain changes do not split a run.

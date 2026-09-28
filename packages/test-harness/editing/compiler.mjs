@@ -94,6 +94,37 @@ assert.deepEqual(
   ]),
   full.map((frame) => [frame.sampleAtUs, frame.layers[0].sourceUs]),
 );
+const originalAudioContext = [{ startUs: 500000, endUs: 1500000 }];
+assert.deepEqual(
+  [...after.audio({ startUs: 0, endUs: 700000 })].map((segment) => segment.context),
+  [originalAudioContext, originalAudioContext],
+);
+assert.deepEqual(
+  [...after.audio({ startUs: 600001, endUs: 650001 })][0].context,
+  originalAudioContext,
+);
+const removed = applyBatch(
+  document,
+  [
+    {
+      operation: "remove",
+      clipIds: ["audio"],
+      ranges: [{ startUs: 140000, endUs: 210000 }],
+      scope: "selected",
+      ripple: "none",
+    },
+  ],
+  { assets, namespace: "remove-context" },
+);
+assert.deepEqual(
+  [
+    ...createCompiler(validateComposition(removed.document, assets), "removed").audio({
+      startUs: 0,
+      endUs: 700000,
+    }),
+  ].map((segment) => segment.context),
+  [[{ startUs: 500000, endUs: 700000 }], [{ startUs: 800000, endUs: 1500000 }]],
+);
 for (const sampleRate of [44100, 48000]) {
   const segments = [...after.audio({ startUs: 50001, endUs: 650009 }, sampleRate)];
   assert.equal(segments[0].sampleRange.start, Math.floor((50001 * sampleRate) / 1000000));
@@ -304,6 +335,7 @@ console.log(
       strictStreamRecords: true,
       leadingPicturePreserved: true,
       availabilityProvenance: true,
+      retainedResamplingContext: true,
       independentReorderedAV: true,
       nestedWindowRestriction: true,
       sourceRateMetadata: [44100, 48000],

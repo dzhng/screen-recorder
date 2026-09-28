@@ -77,3 +77,10 @@ exact anchor support before source intersection; anchor absence takes precedence
 in compiled records. Slice 07 may resolve source-unavailable to an explicit empty
 edit only through physical source proof. Unknown source gaps and unavailable
 ancestors remain unavailable. Native code must not recreate anchor semantics.
+
+
+The follow-on selected-resampling contract is derived by the compiler under
+[processing.md](../processing.md#selected-resampling-context). Pure conformance
+proves retained-domain equality across splits and exclusion after edits and
+availability holes. Slice 08 owns actual filter support, phase and decoded poison
+isolation; this addition makes no new native-readiness claim.

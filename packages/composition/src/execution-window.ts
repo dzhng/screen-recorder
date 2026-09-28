@@ -3,6 +3,7 @@ import { CompositionError } from "./errors.js";
 import { type CompiledAudio, type CompiledFrame } from "./compiled-records.js";
 import { type ValidatedComposition } from "./model.js";
 import { processingInstructionSchema, type ProcessingInstruction } from "./processing-plan.js";
+import type { audioContexts } from "./audio-context.js";
 import { compare, fromTime, toTime } from "./rational.js";
 import {
   compositionSchema,
@@ -41,6 +42,7 @@ const source = z
     source: mediaClipSchema.shape.source,
     placement: selectionRangeSchema,
     pitch: z.enum(["preserve", "follow"]).optional(),
+    context: z.array(selectionRangeSchema).readonly().optional(),
   })
   .strict();
 export const executionWindowManifestSchema = z
@@ -97,6 +99,7 @@ export function executionWindow(
   request: z.infer<typeof executionWindowRequestSchema>,
   clips: ValidatedComposition["clips"],
   processing: ProcessingInstruction[],
+  contexts: ReturnType<typeof audioContexts>,
   schedules: {
     frames(range: z.infer<typeof rangeSchema>): Generator<CompiledFrame>;
     audio(range: z.infer<typeof rangeSchema>, sampleRate: number): Generator<CompiledAudio>;
@@ -127,7 +130,9 @@ export function executionWindow(
       streamId: clip.streamId,
       source: clip.source,
       placement: { startUs: toTime(value.range.start), endUs: toTime(value.range.end) },
-      ...(value.track.kind === "audio" ? { pitch: clip.pitch ?? "preserve" } : {}),
+      ...(value.track.kind === "audio"
+        ? { pitch: clip.pitch ?? "preserve", context: contexts(value, request.range) }
+        : {}),
     });
     if (value.track.kind === "audio" && value.rate && compare(value.rate, fromTime(1)) !== 0) {
       const sample = (at: typeof value.range.start) =>

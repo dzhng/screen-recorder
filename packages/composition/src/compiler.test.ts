@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import {
   createCompiler,
+  applyBatch,
   validateComposition,
   type Composition,
   requireWindowReady,
@@ -104,6 +105,10 @@ test("audio windows clip absolute sample bounds without restarting source mappin
     {
       clipId: "voice",
       trackId: "a",
+      context: [
+        { startUs: 500000, endUs: 600000 },
+        { startUs: 700000, endUs: 1500000 },
+      ],
       sampleRange: { start: 480, end: 48480 },
       placement: { startUs: 10001, endUs: 1010001 },
       source: {
@@ -123,6 +128,7 @@ test("audio windows clip absolute sample bounds without restarting source mappin
   expect(short.sampleRange).toEqual({ start: 9600, end: 14400 });
   expect(short.placement).toEqual({ startUs: 10001, endUs: 1010001 });
   expect(short.available).toEqual([{ start: 10080, end: 14400 }]);
+  expect(short.context).toEqual([{ startUs: 700000, endUs: 1500000 }]);
 });
 
 test("processing instructions apply ordered steps after each combined child result", () => {
@@ -351,6 +357,7 @@ test("window identity pins source mapping, rendition and unresolved retiming acr
   expect(first.manifest.sources).toEqual([
     {
       clipId: "speech",
+      context: [{ startUs: 500000, endUs: 1500000 }],
       assetId: "source",
       streamId: "audio",
       source: input.clips[0]!.source,
@@ -619,4 +626,251 @@ test("compiled availability distinguishes source gaps from unavailable ancestors
       ["direct", "available"],
     ],
   ]);
+});
+
+test("resampling context preserves pure splits but shrinks with the current selection", () => {
+  const input = structuredClone(document);
+  input.tracks = [{ id: "a", kind: "audio", order: 0 }];
+  input.clips = [
+    {
+      id: "voice",
+      trackId: "a",
+      assetId: "asset",
+      streamId: "audio",
+      source: { kind: "range", range: { startUs: 500000, endUs: 1500000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    },
+  ];
+  const media = [
+    {
+      id: "asset",
+      streams: [
+        {
+          id: "audio",
+          kind: "audio",
+          bounds: { startUs: 0, endUs: 2000000 },
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    },
+  ];
+  const split = applyBatch(
+    input,
+    [{ operation: "split", clipIds: ["voice"], atUs: 123457, scope: "selected" }],
+    { assets: media, namespace: "context" },
+  );
+  const compiler = createCompiler(validateComposition(split.document, media), "split");
+  expect(
+    [...compiler.audio({ startUs: 0, endUs: 1000000 })].map((segment) => segment.context),
+  ).toEqual([[{ startUs: 500000, endUs: 1500000 }], [{ startUs: 500000, endUs: 1500000 }]]);
+  expect([...compiler.audio({ startUs: 700001, endUs: 800001 })][0]!.context).toEqual([
+    { startUs: 500000, endUs: 1500000 },
+  ]);
+  const changedGain = applyBatch(
+    split.document,
+    [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: "voice" },
+        steps: [{ enabled: true, processor: { type: "gain", gain: 0.25 } }],
+      },
+    ],
+    { assets: media, namespace: "gain-context" },
+  );
+  expect(
+    [
+      ...createCompiler(validateComposition(changedGain.document, media), "gain").audio({
+        startUs: 0,
+        endUs: 1000000,
+      }),
+    ].map((segment) => segment.context),
+  ).toEqual([[{ startUs: 500000, endUs: 1500000 }], [{ startUs: 500000, endUs: 1500000 }]]);
+  const cut = applyBatch(
+    input,
+    [
+      {
+        operation: "remove",
+        clipIds: ["voice"],
+        ranges: [{ startUs: 200000, endUs: 300000 }],
+        scope: "selected",
+        ripple: "none",
+      },
+    ],
+    { assets: media, namespace: "cut-context" },
+  );
+  expect(
+    [
+      ...createCompiler(validateComposition(cut.document, media), "cut").audio({
+        startUs: 0,
+        endUs: 1000000,
+      }),
+    ].map((segment) => segment.context),
+  ).toEqual([[{ startUs: 500000, endUs: 700000 }], [{ startUs: 800000, endUs: 1500000 }]]);
+  const trimmed = applyBatch(
+    input,
+    [
+      {
+        operation: "trim",
+        clipId: "voice",
+        range: { startUs: 200000, endUs: 1000000 },
+        scope: "selected",
+        ripple: "none",
+      },
+    ],
+    { assets: media, namespace: "trim-context" },
+  );
+  expect(
+    [
+      ...createCompiler(validateComposition(trimmed.document, media), "trim").audio({
+        startUs: 200000,
+        endUs: 1000000,
+      }),
+    ][0]!.context,
+  ).toEqual([{ startUs: 700000, endUs: 1500000 }]);
+});
+
+test("resampling domains exclude source and ancestor holes and never borrow a parallel track", () => {
+  const input = structuredClone(document);
+  input.tracks = [
+    { id: "parent", kind: "video", order: 0 },
+    { id: "attached", kind: "audio", order: 0 },
+    { id: "parallel", kind: "audio", order: 1 },
+  ];
+  input.clips = [
+    {
+      id: "parent",
+      trackId: "parent",
+      assetId: "parent",
+      streamId: "s",
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    },
+    {
+      id: "attached",
+      trackId: "attached",
+      assetId: "audio",
+      streamId: "s",
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "content", clipId: "parent", sourceRange: { startUs: 0, endUs: 1000000 } },
+    },
+    {
+      id: "parallel",
+      trackId: "parallel",
+      assetId: "audio",
+      streamId: "s",
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    },
+  ];
+  const media = [
+    {
+      id: "parent",
+      streams: [
+        {
+          id: "s",
+          kind: "video",
+          bounds: { startUs: 0, endUs: 1000000 },
+          available: [
+            { startUs: 0, endUs: 200000 },
+            { startUs: 400000, endUs: 1000000 },
+          ],
+        },
+      ],
+    },
+    {
+      id: "audio",
+      streams: [
+        {
+          id: "s",
+          kind: "audio",
+          bounds: { startUs: 0, endUs: 1000000 },
+          available: [
+            { startUs: 0, endUs: 300000 },
+            { startUs: 500000, endUs: 1000000 },
+          ],
+        },
+      ],
+    },
+  ];
+  const compiler = createCompiler(validateComposition(input, media), "holes");
+  expect(
+    [...compiler.audio({ startUs: 0, endUs: 1000000 })].map((segment) => [
+      segment.clipId,
+      segment.context,
+    ]),
+  ).toEqual([
+    [
+      "attached",
+      [
+        { startUs: 0, endUs: 200000 },
+        { startUs: 500000, endUs: 1000000 },
+      ],
+    ],
+    [
+      "parallel",
+      [
+        { startUs: 0, endUs: 300000 },
+        { startUs: 500000, endUs: 1000000 },
+      ],
+    ],
+  ]);
+  const late = [...compiler.audio({ startUs: 600001, endUs: 700001 })];
+  expect(late.map((segment) => segment.context)).toEqual([
+    [{ startUs: 500000, endUs: 1000000 }],
+    [{ startUs: 500000, endUs: 1000000 }],
+  ]);
+  Reflect.set(late[0]!.context[0]!, "startUs", 0);
+  expect([...compiler.audio({ startUs: 600001, endUs: 700001 })][0]!.context).toEqual([
+    { startUs: 500000, endUs: 1000000 },
+  ]);
+});
+
+test("resampling runs break on source, clock, pitch or placement changes", () => {
+  const media = ["one", "two"].map((id) => ({
+    id,
+    streams: ["a", "b"].map((id) => ({
+      id,
+      kind: "audio",
+      bounds: { startUs: 0, endUs: 1000000 },
+      available: [{ startUs: 0, endUs: 1000000 }],
+    })),
+  }));
+  for (const variant of ["asset", "stream", "rate", "pitch", "source-gap", "project-gap"]) {
+    const input = structuredClone(document);
+    input.tracks = [{ id: "t", kind: "audio", order: 0 }];
+    const sourceStart = variant === "source-gap" ? 200000 : 100000;
+    const sourceEnd = variant === "rate" || variant === "source-gap" ? 300000 : 200000;
+    const projectStart = variant === "project-gap" ? 200000 : 100000;
+    input.clips = [
+      {
+        id: "left",
+        trackId: "t",
+        assetId: "one",
+        streamId: "a",
+        source: { kind: "range", range: { startUs: 0, endUs: 100000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 100000 } },
+      },
+      {
+        id: "right",
+        trackId: "t",
+        assetId: variant === "asset" ? "two" : "one",
+        streamId: variant === "stream" ? "b" : "a",
+        source: { kind: "range", range: { startUs: sourceStart, endUs: sourceEnd } },
+        placement: {
+          kind: "project",
+          range: { startUs: projectStart, endUs: projectStart + 100000 },
+        },
+        pitch: variant === "pitch" ? "follow" : "preserve",
+      },
+    ];
+    expect(
+      [
+        ...createCompiler(validateComposition(input, media), variant).audio({
+          startUs: 0,
+          endUs: 400000,
+        }),
+      ].map((segment) => segment.context),
+      variant,
+    ).toEqual([[{ startUs: 0, endUs: 100000 }], [{ startUs: sourceStart, endUs: sourceEnd }]]);
+  }
 });

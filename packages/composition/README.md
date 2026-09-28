@@ -92,3 +92,8 @@ The [compiler slice](../../specs/agent-editing/slices/05-compiler.md) records pu
 conformance and names the downstream native/media acceptance owners. Streamed
 records derive their types from [strict schemas](src/compiled-records.ts), so worker
 adoption cannot silently add a second timing or processing policy.
+
+Resampling context is derived from current retained support, so splitting a clip
+does not reset its filter domain and removing material cannot leave hidden input.
+The [contract](../../specs/agent-editing/processing.md#selected-resampling-context)
+separates compiler domain ownership from native filter and phase verification.

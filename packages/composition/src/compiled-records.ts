@@ -37,6 +37,7 @@ export const compiledAudioSchema = z
     trackId: id,
     sampleRange,
     placement: selectionRangeSchema,
+    context: z.array(selectionRangeSchema).readonly(),
     source: z.discriminatedUnion("kind", [
       z.object({ kind: z.literal("silence") }).strict(),
       z

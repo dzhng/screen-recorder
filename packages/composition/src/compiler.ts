@@ -1,3 +1,4 @@
+import { audioContexts } from "./audio-context.js";
 import type { CompiledFrame, CompiledAudio } from "./compiled-records.js";
 import { executionWindow, executionWindowRequestSchema } from "./execution-window.js";
 import { processingPlanner } from "./processing-plan.js";
@@ -78,6 +79,7 @@ function frameClock(fps: Fraction) {
 function compileSchedules(
   clock: ReturnType<typeof frameClock>,
   query: ReturnType<typeof intervalIndex>,
+  contexts: ReturnType<typeof audioContexts>,
 ) {
   return {
     *audio(input: Range, sampleRate = 48000): Generator<CompiledAudio> {
@@ -121,6 +123,7 @@ function compileSchedules(
           sampleRange: { start, end },
           placement: { startUs: toTime(value.range.start), endUs: toTime(value.range.end) },
           source,
+          context: contexts(value, range),
           pitch: isMediaClip(clip) ? (clip.pitch ?? "preserve") : "preserve",
           available,
         };
@@ -177,6 +180,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
   const query = intervalIndex(model.clips);
   const processing = processingPlanner(model);
   const clock = frameClock(model.document.canvas.fps);
+  const contexts = audioContexts(model);
   function contributors(range: Range) {
     const leading = clock.indexAt(BigInt(range.startUs));
     const candidates = new Map(
@@ -197,7 +201,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       .sort((a, b) => a.trackRank - b.trackRank || compare(a.range.start, b.range.start));
   }
   return {
-    ...compileSchedules(clock, query),
+    ...compileSchedules(clock, query, contexts),
     processing(input: Range) {
       const range = checkedRange(input);
       return processing(contributors(range));
@@ -218,7 +222,8 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         request,
         inputs,
         plan,
-        compileSchedules(clock, intervalIndex(inputs)),
+        contexts,
+        compileSchedules(clock, intervalIndex(inputs), contexts),
       );
     },
   };

@@ -161,3 +161,22 @@ Retain raw outputs and separately labeled loudness-matched auditions; a lower
 noise floor or ASR agreement alone is not naturalness proof. Include post-retime
 speech and combined overlapping inputs, since those are the real stack inputs.
 Denoising and adding room tone remain independent agent choices.
+
+### Selected resampling context
+
+Resampling filter input is restricted to current retained source support. The
+compiler derives maximal runs contiguous in both source and project time on the
+same track, with the same asset, stream, rate and pitch policy. Source acquisition
+and ancestor availability holes break runs. Clip IDs and post-resampling gain do
+not: a pure split preserves the domain, while a trim or removal changes it. No
+persisted lineage or original-selection envelope survives an edit.
+
+Compiled audio `context` contains the exact source-clock ranges for relevant runs,
+without clipping their bounds to the requested output window. The manifest carries
+the same context for dependency identity. Native resampling intersects these
+domains with proven occupied source segments; excluded PCM must never enter the
+filter, even if decoding must seek through it. Synthetic edge padding is permitted.
+Existing exact source/placement mappings own phase; context adds no editorial clock.
+This permission is specific to resampling, not context for authored DSP steps.
+Slice 08 must prove split/window parity, boundary isolation and fractional-phase
+readiness through real decoded samples; compiler domain conformance alone does not.
