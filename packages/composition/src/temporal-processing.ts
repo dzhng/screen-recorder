@@ -97,12 +97,24 @@ export function temporalProcessing(model: ValidatedComposition) {
     },
     geometry(step: ProcessingStep, target: ProcessingTarget, at: number): Geometry | null {
       if (step.processor.type !== "geometry") return null;
-      const { scale, ...rest } = step.processor;
-      if (!scale)
-        return step.window && program(step, target, "window", 1)?.sample(at) == null ? null : rest;
-      const x = scalar(step, target, "scale.x", scale.x, at),
-        y = scalar(step, target, "scale.y", scale.y, at);
-      return x === null || y === null ? null : { ...rest, scale: { x, y } };
+      const { scale, rect, rotationDeg, ...rest } = step.processor;
+      const resolved = Object.fromEntries(
+        Object.entries(processingScalars(step.processor)).map(([slot, value]) => [
+          slot,
+          scalar(step, target, slot, value, at),
+        ]),
+      );
+      if (
+        Object.values(resolved).some((value) => value === null) ||
+        (step.window && program(step, target, "window", 1)?.sample(at) == null)
+      )
+        return null;
+      return {
+        ...rest,
+        ...(scale ? { scale: { x: resolved["scale.x"]!, y: resolved["scale.y"]! } } : {}),
+        ...(rect ? { rect: { ...rect, x: resolved["rect.x"]!, y: resolved["rect.y"]! } } : {}),
+        ...(rotationDeg !== undefined ? { rotationDeg: resolved.rotationDeg! } : {}),
+      };
     },
     boundaries(plan: readonly ProcessingInstruction[]): Rational[] {
       const points = plan

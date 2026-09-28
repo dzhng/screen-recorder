@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity authoring, scoped native delivery, tap-aware retained-index boundaries and fresh visual review verified. Animated geometry, gain, transitions and remaining full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
+Status: opacity and scale/position/rotation have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Remaining geometry parameters, gain, transitions, convenience commands and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
 
 ## Contract
 
@@ -84,8 +84,8 @@ Picture compilation resolves opacity at the existing global picture timestamp an
 emits the unchanged numeric opacity primitive. Native performs no authoring-curve
 interpretation, no new frame clock and no duration-sized sample arrays. Native
 integration must prove delivered frame/full-preview/range parity and update recipe
-identities before advertising this vertical as ready. Gain and animated geometry
-remain subsequent consumers; this pass does not close full slice 16.
+identities before advertising this vertical as ready. Geometry consumers below
+share this timing owner; gain remains unfinished.
 
 
 The [opacity evidence](../assets/16-opacity/README.md) retains exact public PNG
@@ -98,8 +98,7 @@ gain, transitions and full-slice journeys stay open.
 
 ## Animated zoom vertical
 
-Geometry scale x/y accepts the same typed number-or-Curve values as opacity;
-crop, rectangle, rotation and pivot remain numeric in this pass. Scalar slots
+Geometry scale x/y accepts the same typed number-or-Curve values as opacity. Scalar slots
 share one step clock, activation window and retained evaluation range. Validation,
 edit restriction and temporal-boundary discovery consume the same closed slots;
 there is no generic user-facing parameter-path language. Scale retains the existing
@@ -114,8 +113,8 @@ metadata carries geometry's type/identity only, while numeric matrices and cover
 primitives carry execution. The shared native-boundary projection and recipe IDs
 advance together. This pass's public `keyframes.mjs --case moved-split-zoom` journey
 must prove actual zoom, exact static controls, movement, split/trim, window activation
-and full/range preview/export correspondence. Position/rotation/gain curves and
-convenience commands remain explicit unfinished consumers in full slice 16.
+and full/range preview/export correspondence. Position and rotation use the same
+owner below; gain and convenience commands remain unfinished.
 
 
 The [zoom evidence](../assets/16-zoom/README.md) retains 39 exact public PNG checks,
@@ -128,3 +127,19 @@ localizes these differences after matching pre-append pixels, without selecting 
 encoding/decoding cause or production quality profile.
 Full/range movie membership and exact preview/export bytes do not establish strict
 color parity. This scoped zoom pass does not close full slice 16.
+
+## Animated position and rotation vertical
+
+Rectangle x/y and clockwise rotation accept the same number-or-Curve contract as
+scale. Their existing units, pivot and transform order remain authoritative; there
+is no additional translation object. Each scalar uses the same step window and
+retained clock, but keeps its own curve program. Full-curve values must stay finite,
+and sampled geometry still passes the numeric compiler's existing precision checks.
+Rectangle dimensions, crop and pivot remain numeric in this checkpoint. Gain,
+transitions and convenience edits stay open.
+
+[Public pose evidence](../assets/16-pose/README.md) retains exact animated/static
+frames and move/split/trim/window preservation, plus independent pivot/angle
+landmarks that reject a deliberately swapped coordinate. Encoded edge/color limits
+remain explicit. Fresh scoped geometry review and independent code review pass;
+movie edge/color artifacts stay unresolved.

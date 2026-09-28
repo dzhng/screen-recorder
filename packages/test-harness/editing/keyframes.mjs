@@ -8,7 +8,8 @@ import { parseArgs } from "node:util";
 import { fileURLToPath } from "node:url";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
-assert.equal(values.case, "moved-split-zoom");
+assert.ok(["moved-split-zoom", "moved-split-pose"].includes(values.case));
+const pose = values.case === "moved-split-pose";
 assert.ok(values.out && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out);
 assert.ok(!existsSync(out));
@@ -16,6 +17,7 @@ await mkdir(out);
 const home = await mkdtemp(join(tmpdir(), "zoom-public-"));
 const report = {
   passed: false,
+  case: values.case,
   trace: [],
   pictures: [],
   checks: {},
@@ -88,6 +90,43 @@ try {
       { at: fraction(1), value: 1.5, interpolation: "linear" },
     ],
   };
+  const linear = (first, last) => ({
+    keys: [
+      { at: fraction(0), value: first, interpolation: "linear" },
+      { at: fraction(1), value: last, interpolation: "linear" },
+    ],
+  });
+  const geometry = (t) => {
+    const e = t === undefined ? undefined : 3 * t * t - 2 * t * t * t;
+    const value = e === undefined ? scale : (1 - e) * 0.5 + e * 1.5;
+    return {
+      type: "geometry",
+      scale: { x: value, y: value },
+      ...(pose
+        ? {
+            rect: {
+              x: t === undefined ? linear(-8, 8) : (1 - t) * -8 + t * 8,
+              y: t === undefined ? linear(4, -4) : (1 - t) * 4 + t * -4,
+              width: 40,
+              height: 64,
+            },
+            rotationDeg:
+              e === undefined
+                ? {
+                    keys: [
+                      {
+                        at: fraction(0),
+                        value: -30,
+                        interpolation: { cubic: [1 / 3, 0, 2 / 3, 1] },
+                      },
+                      { at: fraction(1), value: 30, interpolation: "linear" },
+                    ],
+                  }
+                : (1 - e) * -30 + e * 30,
+          }
+        : {}),
+    };
+  };
   const authored = await edit([
     { operation: "track.add", label: "track", track: { kind: "video", order: 0 } },
     {
@@ -104,7 +143,7 @@ try {
     {
       operation: "processing.set",
       target: { kind: "clip", id: ref("clip") },
-      steps: [{ label: "zoom", processor: { type: "geometry", scale: { x: scale, y: scale } } }],
+      steps: [{ label: "zoom", processor: geometry() }],
     },
   ]);
   const clipId = authored.edit.labels.clip,
@@ -116,14 +155,12 @@ try {
     );
   const controls = [];
   for (let i = 0; i < 8; i++) {
-    const t = i / 8,
-      e = 3 * t * t - 2 * t * t * t,
-      value = (1 - e) * 0.5 + e * 1.5;
+    const t = i / 8;
     const control = await edit([
       {
         operation: "processing.set",
         target: { kind: "clip", id: clipId },
-        steps: [{ id: stepId, processor: { type: "geometry", scale: { x: value, y: value } } }],
+        steps: [{ id: stepId, processor: geometry(t) }],
       },
     ]);
     controls.push(
@@ -132,7 +169,11 @@ try {
         "constant-" + i,
       ),
     );
-    assert.equal(controls[i].sha256, original[i].sha256, "Analytic static zoom control differs");
+    assert.equal(
+      controls[i].sha256,
+      original[i].sha256,
+      "Analytic static geometry control differs",
+    );
   }
   const restored = await call("edit.restore", {
     projectId,

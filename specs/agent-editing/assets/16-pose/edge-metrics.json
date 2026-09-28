@@ -1,0 +1,58 @@
+[
+  {
+    "frame": 0,
+    "movieChangedPixels": 620,
+    "moviePixelsAbove32": 80,
+    "movieMax": 253,
+    "poseVsZoomChangedPixels": 472
+  },
+  {
+    "frame": 1,
+    "movieChangedPixels": 825,
+    "moviePixelsAbove32": 100,
+    "movieMax": 238,
+    "poseVsZoomChangedPixels": 514
+  },
+  {
+    "frame": 2,
+    "movieChangedPixels": 909,
+    "moviePixelsAbove32": 117,
+    "movieMax": 238,
+    "poseVsZoomChangedPixels": 640
+  },
+  {
+    "frame": 3,
+    "movieChangedPixels": 1209,
+    "moviePixelsAbove32": 143,
+    "movieMax": 237,
+    "poseVsZoomChangedPixels": 744
+  },
+  {
+    "frame": 4,
+    "movieChangedPixels": 1255,
+    "moviePixelsAbove32": 0,
+    "movieMax": 25,
+    "poseVsZoomChangedPixels": 0
+  },
+  {
+    "frame": 5,
+    "movieChangedPixels": 1176,
+    "moviePixelsAbove32": 89,
+    "movieMax": 212,
+    "poseVsZoomChangedPixels": 635
+  },
+  {
+    "frame": 6,
+    "movieChangedPixels": 1070,
+    "moviePixelsAbove32": 75,
+    "movieMax": 208,
+    "poseVsZoomChangedPixels": 752
+  },
+  {
+    "frame": 7,
+    "movieChangedPixels": 1086,
+    "moviePixelsAbove32": 94,
+    "movieMax": 222,
+    "poseVsZoomChangedPixels": 929
+  }
+]

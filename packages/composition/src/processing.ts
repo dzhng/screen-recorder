@@ -40,8 +40,12 @@ export function processingScalars(
   processor: ProcessingStep["processor"],
 ): Record<string, number | ScalarCurve> {
   if (processor.type === "opacity") return { opacity: processor.opacity };
-  if (processor.type === "geometry" && processor.scale)
-    return { "scale.x": processor.scale.x, "scale.y": processor.scale.y };
+  if (processor.type === "geometry")
+    return {
+      ...(processor.scale ? { "scale.x": processor.scale.x, "scale.y": processor.scale.y } : {}),
+      ...(processor.rect ? { "rect.x": processor.rect.x, "rect.y": processor.rect.y } : {}),
+      ...(processor.rotationDeg !== undefined ? { rotationDeg: processor.rotationDeg } : {}),
+    };
   return {};
 }
 

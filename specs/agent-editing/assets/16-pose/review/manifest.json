@@ -1,0 +1,297 @@
+{
+  "originals": [
+    "zoom-0.png",
+    "zoom-1.png",
+    "zoom-2.png",
+    "zoom-3.png",
+    "zoom-4.png",
+    "zoom-5.png",
+    "zoom-6.png",
+    "zoom-7.png",
+    "constant-0.png",
+    "constant-1.png",
+    "constant-2.png",
+    "constant-3.png",
+    "constant-4.png",
+    "constant-5.png",
+    "constant-6.png",
+    "constant-7.png",
+    "moved-0.png",
+    "moved-1.png",
+    "moved-2.png",
+    "moved-3.png",
+    "moved-4.png",
+    "moved-5.png",
+    "moved-6.png",
+    "moved-7.png",
+    "split-0.png",
+    "split-1.png",
+    "split-2.png",
+    "split-3.png",
+    "split-4.png",
+    "split-5.png",
+    "split-6.png",
+    "split-7.png",
+    "trim-4.png",
+    "trim-5.png",
+    "trim-6.png",
+    "trim-7.png",
+    "window-0.png",
+    "window-1.png",
+    "window-2.png",
+    "movie-0.png",
+    "movie-1.png",
+    "movie-2.png",
+    "movie-3.png",
+    "movie-4.png",
+    "movie-5.png",
+    "movie-6.png",
+    "movie-7.png"
+  ],
+  "crops": [
+    "review/zoom-0.png",
+    "review/zoom-1.png",
+    "review/zoom-2.png",
+    "review/zoom-3.png",
+    "review/zoom-4.png",
+    "review/zoom-5.png",
+    "review/zoom-6.png",
+    "review/zoom-7.png",
+    "review/constant-0.png",
+    "review/constant-1.png",
+    "review/constant-2.png",
+    "review/constant-3.png",
+    "review/constant-4.png",
+    "review/constant-5.png",
+    "review/constant-6.png",
+    "review/constant-7.png",
+    "review/moved-0.png",
+    "review/moved-1.png",
+    "review/moved-2.png",
+    "review/moved-3.png",
+    "review/moved-4.png",
+    "review/moved-5.png",
+    "review/moved-6.png",
+    "review/moved-7.png",
+    "review/split-0.png",
+    "review/split-1.png",
+    "review/split-2.png",
+    "review/split-3.png",
+    "review/split-4.png",
+    "review/split-5.png",
+    "review/split-6.png",
+    "review/split-7.png",
+    "review/trim-4.png",
+    "review/trim-5.png",
+    "review/trim-6.png",
+    "review/trim-7.png",
+    "review/window-0.png",
+    "review/window-1.png",
+    "review/window-2.png",
+    "review/movie-0.png",
+    "review/movie-1.png",
+    "review/movie-2.png",
+    "review/movie-3.png",
+    "review/movie-4.png",
+    "review/movie-5.png",
+    "review/movie-6.png",
+    "review/movie-7.png"
+  ],
+  "sheets": [
+    "sheet-0.png",
+    "sheet-1.png",
+    "sheet-2.png",
+    "sheet-3.png"
+  ],
+  "scope": "All39publicframes and8decodedmovieframes, complete-frame4x nearest-neighbor crops",
+  "captures": [
+    {
+      "file": "zoom-0.png",
+      "projectAtUs": 0
+    },
+    {
+      "file": "zoom-1.png",
+      "projectAtUs": 125000
+    },
+    {
+      "file": "zoom-2.png",
+      "projectAtUs": 250000
+    },
+    {
+      "file": "zoom-3.png",
+      "projectAtUs": 375000
+    },
+    {
+      "file": "zoom-4.png",
+      "projectAtUs": 500000
+    },
+    {
+      "file": "zoom-5.png",
+      "projectAtUs": 625000
+    },
+    {
+      "file": "zoom-6.png",
+      "projectAtUs": 750000
+    },
+    {
+      "file": "zoom-7.png",
+      "projectAtUs": 875000
+    },
+    {
+      "file": "constant-0.png",
+      "projectAtUs": 0
+    },
+    {
+      "file": "constant-1.png",
+      "projectAtUs": 125000
+    },
+    {
+      "file": "constant-2.png",
+      "projectAtUs": 250000
+    },
+    {
+      "file": "constant-3.png",
+      "projectAtUs": 375000
+    },
+    {
+      "file": "constant-4.png",
+      "projectAtUs": 500000
+    },
+    {
+      "file": "constant-5.png",
+      "projectAtUs": 625000
+    },
+    {
+      "file": "constant-6.png",
+      "projectAtUs": 750000
+    },
+    {
+      "file": "constant-7.png",
+      "projectAtUs": 875000
+    },
+    {
+      "file": "moved-0.png",
+      "projectAtUs": 2000000
+    },
+    {
+      "file": "moved-1.png",
+      "projectAtUs": 2125000
+    },
+    {
+      "file": "moved-2.png",
+      "projectAtUs": 2250000
+    },
+    {
+      "file": "moved-3.png",
+      "projectAtUs": 2375000
+    },
+    {
+      "file": "moved-4.png",
+      "projectAtUs": 2500000
+    },
+    {
+      "file": "moved-5.png",
+      "projectAtUs": 2625000
+    },
+    {
+      "file": "moved-6.png",
+      "projectAtUs": 2750000
+    },
+    {
+      "file": "moved-7.png",
+      "projectAtUs": 2875000
+    },
+    {
+      "file": "split-0.png",
+      "projectAtUs": 2000000
+    },
+    {
+      "file": "split-1.png",
+      "projectAtUs": 2125000
+    },
+    {
+      "file": "split-2.png",
+      "projectAtUs": 2250000
+    },
+    {
+      "file": "split-3.png",
+      "projectAtUs": 2375000
+    },
+    {
+      "file": "split-4.png",
+      "projectAtUs": 2500000
+    },
+    {
+      "file": "split-5.png",
+      "projectAtUs": 2625000
+    },
+    {
+      "file": "split-6.png",
+      "projectAtUs": 2750000
+    },
+    {
+      "file": "split-7.png",
+      "projectAtUs": 2875000
+    },
+    {
+      "file": "trim-4.png",
+      "projectAtUs": 2500000
+    },
+    {
+      "file": "trim-5.png",
+      "projectAtUs": 2625000
+    },
+    {
+      "file": "trim-6.png",
+      "projectAtUs": 2750000
+    },
+    {
+      "file": "trim-7.png",
+      "projectAtUs": 2875000
+    },
+    {
+      "file": "window-0.png",
+      "projectAtUs": 2000000
+    },
+    {
+      "file": "window-1.png",
+      "projectAtUs": 2125000
+    },
+    {
+      "file": "window-2.png",
+      "projectAtUs": 2250000
+    },
+    {
+      "file": "movie-0.png",
+      "projectAtUs": 2000000
+    },
+    {
+      "file": "movie-1.png",
+      "projectAtUs": 2125000
+    },
+    {
+      "file": "movie-2.png",
+      "projectAtUs": 2250000
+    },
+    {
+      "file": "movie-3.png",
+      "projectAtUs": 2375000
+    },
+    {
+      "file": "movie-4.png",
+      "projectAtUs": 2500000
+    },
+    {
+      "file": "movie-5.png",
+      "projectAtUs": 2625000
+    },
+    {
+      "file": "movie-6.png",
+      "projectAtUs": 2750000
+    },
+    {
+      "file": "movie-7.png",
+      "projectAtUs": 2875000
+    }
+  ]
+}

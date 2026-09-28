@@ -2112,3 +2112,19 @@ existing lifetime owner.
 - **Sound, high confidence:** Package export assembly has its own private managed
   root, separate from temporary opened-package handles. Restart recovery can clean
   expired opened ZIPs without deleting work retained by a durable export intent.
+
+## Slice 16 — Animated position and rotation
+
+- **Sound, high confidence:** Keep animated position in the existing rectangle's
+  x/y fields and animate the existing clockwise angle. For a presenter moving
+  right while rotating, the agent supplies curves in those same fields instead
+  of a second translation object whose order could disagree with the rectangle.
+  The plan named position animation without naming another representation; this
+  preserves the established static placement and transform order. Future geometry
+  consumers inherit one position owner and the same per-step clock.
+- **Sound, medium confidence:** Deliver position/rotation before animating crop,
+  rectangle size or pivot. A moving presenter gains a verified trajectory without
+  pretending size-bound validation and changing crop support were exercised.
+  The plan allowed reviewable passes without fixing their grouping. This is a
+  checkpoint boundary only: remaining scalar consumers and full slice16 acceptance
+  remain open and continue under their original contracts.

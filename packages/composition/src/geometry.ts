@@ -5,15 +5,15 @@ const coordinate = z.number().finite();
 const size = z.number().finite().positive();
 const point = z.object({ x: coordinate, y: coordinate }).strict();
 const rectangle = z.object({ x: coordinate, y: coordinate, width: size, height: size }).strict();
-export function geometrySchemaWithScale<T extends z.ZodType>(scalar: T) {
+export function geometrySchemaWithMotion<T extends z.ZodType>(scalar: T) {
   return z
     .object({
       type: z.literal("geometry"),
       crop: rectangle.optional(),
-      rect: rectangle.optional(),
+      rect: z.object({ x: scalar, y: scalar, width: size, height: size }).strict().optional(),
       fit: z.enum(["contain", "cover", "stretch"]).optional(),
       scale: z.object({ x: scalar, y: scalar }).strict().optional(),
-      rotationDeg: coordinate.optional(),
+      rotationDeg: scalar.optional(),
       pivot: z
         .object({ x: z.number().min(0).max(1), y: z.number().min(0).max(1) })
         .strict()
@@ -21,7 +21,7 @@ export function geometrySchemaWithScale<T extends z.ZodType>(scalar: T) {
     })
     .strict();
 }
-export const geometrySchema = geometrySchemaWithScale(coordinate);
+export const geometrySchema = geometrySchemaWithMotion(coordinate);
 export type Geometry = z.infer<typeof geometrySchema>;
 export type ImageDomain = { width: number; height: number };
 export type Affine = [number, number, number, number, number, number];

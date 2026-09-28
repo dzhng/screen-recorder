@@ -1,7 +1,13 @@
 import { expect, test } from "vitest";
-import { applyBatch, createCompiler, validateComposition, type Composition } from "./index.js";
+import {
+  applyBatch,
+  createCompiler,
+  validateComposition,
+  type Composition,
+  type ScalarCurve,
+} from "./index.js";
 const fraction = (numerator: number, denominator = 1) => ({ numerator, denominator });
-const curve = (first: number, last: number) => ({
+const curve = (first: number, last: number): { keys: ScalarCurve["keys"][number][] } => ({
   keys: [
     { at: fraction(0), value: first, interpolation: "linear" as const },
     { at: fraction(1), value: last, interpolation: "linear" as const },
@@ -230,4 +236,125 @@ test("output geometry uses project-time curves after the flattened child picture
   const fixed = structuredClone(doc);
   fixed.processing[0]!.steps[0]!.processor = { type: "geometry", scale: { x: 1.5, y: 1 } };
   expect(operations(doc, 500000, 500001)).toEqual(operations(fixed, 500000, 500001));
+});
+
+test("animated position and rotation share timing while retaining independent values", () => {
+  const doc = structuredClone(document);
+  doc.processing[0]!.steps[0]!.processor = {
+    type: "geometry",
+    rect: { x: curve(-8, 16), y: curve(12, -4), width: 48, height: 32 },
+    rotationDeg: curve(-45, 135),
+    scale: { x: curve(0.5, 1.5), y: 1 },
+  };
+  const rendered = operations(doc);
+  for (let i = 0; i < 8; i++) {
+    const t = i / 8,
+      fixed = structuredClone(doc);
+    fixed.processing[0]!.steps[0]!.processor = {
+      type: "geometry",
+      rect: { x: (1 - t) * -8 + t * 16, y: (1 - t) * 12 + t * -4, width: 48, height: 32 },
+      rotationDeg: (1 - t) * -45 + t * 135,
+      scale: { x: (1 - t) * 0.5 + t * 1.5, y: 1 },
+    };
+    expect(rendered[i]).toEqual(operations(fixed, i * 125000, i * 125000 + 1)[0]);
+  }
+  expect(operations(edit(doc, [{ operation: "split", clipIds: ["c"], atUs: 375001 }]))).toEqual(
+    rendered,
+  );
+});
+
+test("position-only windows, curve boundaries and edits use the original normalized clock", () => {
+  const doc = structuredClone(document),
+    x = curve(-8, 8);
+  x.keys.splice(1, 0, { at: fraction(1, 4), value: 3, interpolation: "hold" });
+  doc.processing[0]!.steps[0]!.processor = {
+    type: "geometry",
+    rect: { x, y: curve(4, -4), width: 64, height: 48 },
+    rotationDeg: curve(-30, 30),
+  };
+  expect(compile(doc).processingBoundaries()).toEqual([0, 250000, 1000000]);
+  const before = operations(doc);
+  const moved = edit(doc, [{ operation: "move", clipIds: ["c"], atUs: 2000000, ripple: "none" }]);
+  expect(operations(moved, 2000000, 3000000)).toEqual(before);
+  const split = edit(doc, [{ operation: "split", clipIds: ["c"], atUs: 375001 }]);
+  expect(operations(split)).toEqual(before);
+  const right = split.clips.find((clip) => clip.id !== "c")!;
+  const trimmed = edit(
+    split,
+    [
+      {
+        operation: "trim",
+        clipId: right.id,
+        range: { startUs: 500000, endUs: 900000 },
+        ripple: "none",
+      },
+    ],
+    "trim-pose",
+  );
+  expect(operations(trimmed, 500000, 900000)).toEqual(operations(doc, 500000, 900000));
+  const slowed = edit(doc, [
+    { operation: "retime", clipIds: ["c"], durationUs: 2000000, ripple: "none" },
+  ]);
+  expect(operations(slowed, 0, 2000000).filter((_, i) => i % 2 === 0)).toEqual(before);
+  doc.processing[0]!.steps[0]!.window = {
+    kind: "clip",
+    clipId: "c",
+    start: fraction(1, 4),
+    end: fraction(3, 4),
+  };
+  const dry = structuredClone(doc);
+  dry.processing = [];
+  expect(operations(doc)[0]).toEqual(operations(dry)[0]);
+  expect(operations(doc)[4]).toEqual(before[4]);
+  expect(operations(doc)[6]).toEqual(operations(dry)[6]);
+});
+
+test.each(["x", "y", "rotationDeg"])(
+  "%s curve validates the entire function before execution",
+  (slot) => {
+    const doc = structuredClone(document);
+    const overflow = {
+      keys: [
+        {
+          at: fraction(0),
+          value: 1,
+          interpolation: {
+            cubic: [0, Number.MAX_VALUE, 1, Number.MAX_VALUE] as [number, number, number, number],
+          },
+        },
+        { at: fraction(1), value: 3, interpolation: "linear" as const },
+      ],
+    };
+    doc.processing[0]!.steps[0]!.processor =
+      slot === "rotationDeg"
+        ? { type: "geometry", rotationDeg: overflow }
+        : { type: "geometry", rect: { x: 0, y: 0, width: 64, height: 48, [slot]: overflow } };
+    expect(() => validateComposition(doc, assets)).toThrow(/parameter bounds/);
+  },
+);
+
+test("animated top-left pivot follows authored x/y and clockwise angle in raster coordinates", () => {
+  const doc = structuredClone(document);
+  doc.processing[0]!.steps[0]!.processor = {
+    type: "geometry",
+    rect: { x: curve(4, 12), y: curve(6, 14), width: 64, height: 48 },
+    rotationDeg: curve(0, 180),
+    pivot: { x: 0, y: 0 },
+  };
+  for (let i = 0; i < 8; i++) {
+    const row = operations(doc, i * 125000, i * 125000 + 1)[0]!;
+    for (const distance of [0, 8]) {
+      let x = distance,
+        y = 48;
+      for (const op of row)
+        if (op.kind === "affine") {
+          const [a, b, c, d, tx, ty] = op.matrix;
+          [x, y] = [a * x + c * y + tx, b * x + d * y + ty];
+        }
+      const t = i / 8,
+        angle = t * Math.PI;
+      expect(x).toBeCloseTo(4 + 8 * t + distance * Math.cos(angle), 10);
+      expect(y).toBeCloseTo(48 - (6 + 8 * t + distance * Math.sin(angle)), 10);
+    }
+  }
 });
