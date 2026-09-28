@@ -502,3 +502,29 @@ trim and stretch replacements keep their single-interval behavior.
   silently attenuate the mix. Decibel conveniences convert at the shared boundary.
 - **Verdict:** sound; consistent with the existing linear-gain contract.
 - **Confidence:** high.
+
+## Durable project request and asset ownership
+
+- **When:** 04 core store checkpoint.
+- **Choice:** A request ID is unique across mutation kinds within one project;
+  creation requests have their own catalog-wide namespace. Reusing an edit ID
+  for undo therefore conflicts instead of accidentally replaying another action.
+  Validated arguments are compared with sorted object keys while preserving list
+  order, so reordered JSON fields replay but reordered processing steps do not.
+- **Gap:** The transaction contract required replay/conflict without fixing the
+  namespace across operation names.
+- **Reach:** CLI and MCP will share exact receipts, including labels and copied
+  processing IDs. Failed requests publish no receipt and can be corrected/retried.
+- **Verdict:** sound; fewer ambiguous retry cases than operation-local ID reuse.
+- **Confidence:** high.
+
+- **When:** 04 core store checkpoint.
+- **Choice:** Every immutable revision directly retains its media dependencies.
+  Removing a clip from today's edit does not free the media still needed by undo.
+  Project deletion must explicitly retire those references in its lifecycle pass.
+- **Gap:** The plan required historical retention but left the concrete owner key
+  open. Revisions use globally unique IDs because asset reference owners have one ID.
+- **Reach:** Undo, old previews and later portable packages can follow one owner
+  graph instead of reconstructing what prior edits used.
+- **Verdict:** sound; ownership matches immutable revision lifetime.
+- **Confidence:** high.

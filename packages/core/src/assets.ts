@@ -1,3 +1,4 @@
+import type { Asset as CompositionAsset } from "@screenrec/composition";
 import { createHash, randomUUID } from "node:crypto";
 import { constants } from "node:fs";
 import { mkdir, open, link, unlink, opendir, rm, lstat } from "node:fs/promises";
@@ -496,4 +497,34 @@ export class AssetStore {
       });
     }
   }
+}
+
+/** Probe times already share the asset origin; preserve occupied gaps without zeroing each stream. */
+export function compositionAsset(asset: Asset): CompositionAsset {
+  return {
+    id: asset.id,
+    streams: asset.streams.flatMap((stream): CompositionAsset["streams"] => {
+      if (!stream.decodable || stream.kind === "unsupported") return [];
+      if (stream.kind === "image") return [{ id: stream.id, kind: "image" }];
+      const available: { startUs: number; endUs: number }[] = [];
+      for (const segment of [...stream.segments!]
+        .filter((s) => !s.empty)
+        .sort((a, b) => a.startUs - b.startUs)) {
+        const startUs = Math.max(stream.startUs!, segment.startUs),
+          endUs = Math.min(stream.endUs!, segment.endUs);
+        if (startUs >= endUs) continue;
+        const last = available.at(-1);
+        if (last && startUs <= last.endUs) last.endUs = Math.max(last.endUs, endUs);
+        else available.push({ startUs, endUs });
+      }
+      return [
+        {
+          id: stream.id,
+          kind: stream.kind,
+          bounds: { startUs: stream.startUs!, endUs: stream.endUs! },
+          available,
+        },
+      ];
+    }),
+  };
 }

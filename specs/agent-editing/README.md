@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits underway. Updated 2026-09-27.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits and stack authoring verified; durable projects underway. Updated 2026-09-27.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
@@ -14,8 +14,9 @@ Implement the full local agent-operated editor. Read [contracts](contracts.md),
 are accepted for the pure reducer, including the linked-replacement integration
 probe. [03b routing](slices/03b-processing-targets.md) is accepted for the pure
 model, and [03c ordered stacks](slices/03c-processing-stacks.md) is accepted for
-constant-gain authoring/lifecycle. Continue the core transaction owner in
-[04 durable projects](slices/04-projects.md), preserving the accepted
+constant-gain authoring/lifecycle. The core transaction owner in
+[04 durable projects](slices/04-projects.md) is verified; next wire its shared
+protocol/service commands and live CLI/MCP state journeys, then deletion lifecycle. Preserve the accepted
 [03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Compilation [05](slices/05-compiler.md) is the next independent execution seam;
 the first public editing checkpoint remains [09](slices/09-first-preview.md).
 
@@ -64,6 +65,8 @@ Current evidence:
   12,000-group iterative validation probe pass; no native processing claim.
 - [03c stacks](assets/03c-stacks/README.md): 78 tests and get/set/lifecycle probes
   pass. Constant gain is authored but native execution is not yet available.
+- [04 project store](assets/04-project-store/README.md): 90 focused core tests,
+  type checking/build and independent review pass; live public journeys pending.
 - [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.

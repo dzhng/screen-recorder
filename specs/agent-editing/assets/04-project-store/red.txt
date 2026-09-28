@@ -1,0 +1,29 @@
+$ vitest run --maxWorkers=4 src/projects.test.ts
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/core
+
+(node:51568) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/projects.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/projects.test.ts [ src/projects.test.ts ]
+Error: Cannot find module './projects.js' imported from /Users/david/dev/screen-recorder/packages/core/src/projects.test.ts
+ ❯ src/projects.test.ts:7:1
+      5| import { Catalog } from "./catalog.js";
+      6| import { AssetStore } from "./assets.js";
+      7| import { ProjectStore } from "./projects.js";
+       | ^
+      8| const cleanup: (() => Promise<void>)[] = [];
+      9| afterEach(async () => { for (const run of cleanup.splice(0).reverse())…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  17:53:05
+   Duration  1.29s (worker 99%, environment 1%)
+
+error: script "test" exited with code 1

@@ -76,6 +76,7 @@
       "name": "@screenrec/core",
       "version": "0.0.0",
       "dependencies": {
+        "@screenrec/composition": "workspace:*",
         "zod": "4.6.5",
       },
     },
