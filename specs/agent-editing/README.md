@@ -89,6 +89,9 @@ Evidence boundaries to preserve:
   12/12b (speech labels/timing and cleanup), 12c/15a (denoise state/quality), 13a
   (stretch speech/listening), 18/19 (voice identity/delivery/joins), and 20/21
   (physical camera/capture). Numerical success does not establish listening quality.
+  The [matched speech alternative](assets/12-verbatim/README.md) fails completeness
+  and p95 timing; next speech work is separate forced alignment on frozen text,
+  while independent audible labels and joins remain open.
 
 Keep sources intact, use isolated homes and frozen native binaries, and never
 change test thresholds to hide failures. No history migration, editing GUI,

@@ -84,9 +84,9 @@ neighbor words/ranges and both joins separately. The repeated-phrase cut is a
 comparison candidate, not an accepted editorial decision. No speaker playback
 was performed in this pass.
 
-Then expand the independent inventory to cover ASR omissions, measure full
-precision/recall, and run the documented local verbatim/alignment branch on the
-same frozen source. Existing [verbatim research](../../../recording-for-ai/assets/speech/verbatim-alternative.md)
-retains its failed quality gates and model-use restrictions; this pass neither
-repeats that engine nor adopts it. Forced alignment of supplied text cannot
-supply missing semantic labels. No processing recipe is accepted for slice 12b.
+Expand the independent inventory to cover ASR omissions and measure full
+precision/recall. The [matched real-narration verbatim comparison](../12-verbatim/README.md)
+records the alternative on this same corpus; it remains research-only and fails
+the unchanged timing/completeness gate. The next numerical experiment is separate
+forced alignment on the frozen baseline text. Forced alignment cannot supply
+missing semantic labels. No processing recipe is accepted for slice 12b.

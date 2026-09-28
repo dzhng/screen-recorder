@@ -1,0 +1,21 @@
+{
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "marksSha256": "23e893cae933ca9c9a0947b40cd09c26143c7de845cad57ecfe333e2582e96ad",
+  "labelsSha256": "d6b4188e7a461a36e937e3018fb4e707233a986561c4fe02636fe88416c61faf",
+  "rawResultSha256": "a44c428b52ce1eee4d161cc09250f6dbf8bd673e8522b00dee345fa0568b387f",
+  "rawResultPath": "/tmp/screenrec-speech-verbatim-run/result.json",
+  "modelRevision": "f4334f6e8193f2691212d49b20fa12d370e13896",
+  "runtimeRevision": "0f5f694d0e3f568b5095020857e1a41542a64479",
+  "ffmpegVersion": "ffmpeg version 8.1.2 Copyright (c) 2000-2026 the FFmpeg developers",
+  "candidate": "crisperwhisper-verbatim-mps-float16",
+  "matchedSubsetOnly": true,
+  "verdict": "discard as production winner; informative timing diagnostic",
+  "unmatchedReasons": {
+    "w0:start": "spelling variant; exact frozen word normalizer does not match",
+    "w26:end": "split alphabetic/number word representation; exact frozen word normalizer does not match"
+  },
+  "performance": "single cold process on shared host; peak RSS exceeds 4 GiB target",
+  "outputs": "Restricted research transcript stays outside repository",
+  "repairs": 0,
+  "listening": "not performed"
+}

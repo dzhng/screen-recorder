@@ -1410,3 +1410,19 @@ The native plotting operation receives bounded waveform or spectral measurements
   keeps each reader's consumed position, and the project checkpoint uses the same
   bounded merge owner. Preparing a different scene generation invalidates the
   old continuation rather than mixing evidence from different runs.
+
+## Speech alternative research — 2026-09-28
+
+- **Sound, medium confidence — keep the frozen exact-word matcher for this comparison.**
+  When an alternative spells a word differently or splits it into two tokens, the
+  existing scorer reports an unmatched edge. Treating those as successful matches
+  would change the evaluator after seeing the candidate. Keep the failure visible
+  and explain its cause separately; a future general token-alignment evaluator
+  needs its own frozen protocol. The plan left representation differences open.
+  This constrains score comparison, not what the app will eventually transcribe.
+- **Sound, high confidence — keep research-restricted transcripts out of product evidence.**
+  The alternative's license covers generated words as well as weights. Store its
+  full research output in scratch and commit hashes, aggregate measurements and
+  reproducible probes. This lets later work audit the experiment without silently
+  making the model or its outputs part of operational app behavior. The plan
+  required license evidence but did not specify artifact placement.

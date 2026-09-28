@@ -1,0 +1,122 @@
+{
+  "scope": "Research diagnostic, no production adoption or listening acceptance",
+  "audioSha256": "f73deb0d323d65d937953973bbe75523b3fe7642035ec68bf10be77321ace853",
+  "runnerSha256": "be7633d94c9767333e7453ee8ab6608297f5aa599eac3e231a786b7a3422f3a8",
+  "modelFiles": [
+    {
+      "path": ".gitattributes",
+      "bytes": 1519,
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+    },
+    {
+      "path": "LICENSE.md",
+      "bytes": 17784,
+      "sha256": "42f43bf4dc72ef422f91f6ca143f4514e21a68b353940d99091c1addcd0aee79"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10974,
+      "sha256": "ddc82a301a1b59035eefcc1a8b2ec90d56257104df7365b00493c58135a6b029"
+    },
+    {
+      "path": "added_tokens.json",
+      "bytes": 35275,
+      "sha256": "54e87fd086baa530e05082c11feacf9df5439453c5fae279611f3099ec844dc5"
+    },
+    {
+      "path": "config.json",
+      "bytes": 1345,
+      "sha256": "efd226b2b7a57109ef2ecdde8f9ccc95d44ee5f9057847d1478af9315c5834bd"
+    },
+    {
+      "path": "generation_config.json",
+      "bytes": 3865,
+      "sha256": "07cc1f4e95f03c10f47939f69579efbe19e3ccd1ce901bb01b32600038618a88"
+    },
+    {
+      "path": "merges.txt",
+      "bytes": 493869,
+      "sha256": "2df2990a395e35e8dfbc7511e08c12d56018d8d04691e0133e5d63b21e154dc6"
+    },
+    {
+      "path": "model.safetensors",
+      "bytes": 3086843114,
+      "sha256": "f097f853b6992e66fcae802a15770a8242670351198d68dad577db3209fe3fcc"
+    },
+    {
+      "path": "normalizer.json",
+      "bytes": 52666,
+      "sha256": "bf1c507dc8724ca9cf9903640dacfb69dae2f00edee4f21ceba106a7392f26dd"
+    },
+    {
+      "path": "preprocessor_config.json",
+      "bytes": 356,
+      "sha256": "994838f1fa6462c8b9b3c90edada831f11f3dd8b4664634e18f4694d005c9dbf"
+    },
+    {
+      "path": "special_tokens_map.json",
+      "bytes": 2194,
+      "sha256": "e67ae3a0aaa99abcd9f187138e12db1f65c16a14761c50ef10eef2c174a7a691"
+    },
+    {
+      "path": "tokenizer.json",
+      "bytes": 3936954,
+      "sha256": "567da8c8a5b7df02555deecfcb3a7f6acd315844dc5e2fde883fe7ced8467317"
+    },
+    {
+      "path": "tokenizer_config.json",
+      "bytes": 288127,
+      "sha256": "5fa089926c8c2535c622d09a5992fb57c63cbc3514e18cf40bc535bee2a23827"
+    },
+    {
+      "path": "vocab.json",
+      "bytes": 835550,
+      "sha256": "8f680bba319e01a653d2e8a5dbc17a9157179e0576e6ce74ce0c06356c6e24f9"
+    }
+  ],
+  "runtime": {
+    "soundfile": "0.14.0",
+    "packaging": "26.3",
+    "accelerate": "1.15.0",
+    "charset-normalizer": "3.5.1",
+    "requests": "2.34.2",
+    "hf-xet": "1.6.0",
+    "transformers": "4.49.0",
+    "networkx": "3.6.1",
+    "torch": "2.14.0",
+    "numpy": "2.4.6",
+    "crisperwhisper": "2.0.3",
+    "sympy": "1.14.0",
+    "huggingface_hub": "0.36.2",
+    "safetensors": "0.8.0",
+    "filelock": "4.0.5",
+    "tqdm": "4.70.1",
+    "setuptools": "84.0.0",
+    "tokenizers": "0.21.4",
+    "urllib3": "2.8.0",
+    "pycparser": "3.0",
+    "soxr": "1.1.0",
+    "mpmath": "1.3.0",
+    "PyYAML": "6.0.3",
+    "fsspec": "2026.9.0",
+    "cffi": "2.1.1",
+    "certifi": "2026.7.22",
+    "Jinja2": "3.1.6",
+    "MarkupSafe": "3.0.3",
+    "typing_extensions": "4.16.0",
+    "psutil": "7.2.2",
+    "regex": "2026.9.10",
+    "idna": "3.20"
+  },
+  "settings": {
+    "backend": "transformers",
+    "device": "mps",
+    "compute_type": "float16",
+    "language": "en",
+    "mode": "verbatim",
+    "word_timestamps": true
+  },
+  "loadSeconds": 18.31127716699848,
+  "transcribeSeconds": 44.75595662504202,
+  "peakResidentBytes": 6535315456
+}
