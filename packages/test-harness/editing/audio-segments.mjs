@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { nativeProcessing } from '../../../apps/service/dist/native-processing.js';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -52,7 +53,7 @@ for (const rate of [44100, 48000]) {
     const window = createCompiler(model, 'segments').window({ range, rendition: { sampleRate: 48000, channels: 2 }, tap: { target: { kind: 'output' }, point: { kind: 'processed' } } });
     const result = native('media.mixCompositionAudio', {
       output: join(outputDirectory, `${rate}-${sequence}.wav`), range: window.manifest.sampleRange,
-      clips: [...window.audio()], processing: window.manifest.processing,
+      clips: [...window.audio()], processing: nativeProcessing(window.manifest.processing),
       assets: [{ assetId: asset.id, streamId: source.streamId, path, originUs: -source.sourceOffsetUs }],
     });
     const bytes = pcm(result.file);

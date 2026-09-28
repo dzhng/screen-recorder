@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity authoring/compiler and scoped native delivery verified; retained-index integration and independent visual review remain open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
+Status: opacity authoring, scoped native delivery, tap-aware retained-index boundaries and fresh visual review verified. Animated geometry, gain, transitions and remaining full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md).
 
 ## Contract
 
@@ -54,7 +54,7 @@ User feedback changing the named contract or judged variable requires updating t
 
 ## First delivered vertical: opacity timing
 
-The next pass adds opacity curves and optional step `window` through the existing
+The verified opacity vertical adds opacity curves and optional step `window` through the existing
 processing stack lifecycle. `opacity` accepts a number or the contracted Curve.
 A clip without an explicit window uses normalized clip time; nonclip curves use
 project microseconds. Content and normalized windows must reference their own
@@ -90,8 +90,8 @@ remain subsequent consumers; this pass does not close full slice 16.
 
 The [opacity evidence](../assets/16-opacity/README.md) retains exact public PNG
 controls/split preservation, scoped movie comparisons, static-layer preservation,
-failed attempts and reviews. Review's retained-index consumer finding is assigned
-to root integration: the new boundary method must feed tap-aware selection and
-advance its policy before this vertical is accepted publicly. The service/native
-projection is shared with direct worker harnesses; no authoring easing is sent
-for native reinterpretation.
+failed attempts and reviews. [Retained-index integration](../assets/16-opacity-index/README.md)
+now proves tap-aware boundary selection, direct/retained PNG equality and fresh
+visual review. The service/native projection is shared with direct worker harnesses;
+no authoring easing is sent for native reinterpretation. Animated geometry, gain,
+transitions and remaining full-slice journeys are next.

@@ -1,0 +1,33 @@
+{
+  "workerSha256": "2946c6e499e717b040e5bd05875a3f56b01852c2f9f0e2ed7c61e6c6335a17b7",
+  "passed": true,
+  "originalPicturesExact": 24,
+  "coreIndexTests": 28,
+  "compositionTests": 158,
+  "audioMixChecks": 19,
+  "files": {
+    "README.md": "72ccf58beabbbe66cd7248218cecc94d37197aed6c34bb649a71a514edb6f734",
+    "audio-mix.gz": "aa3f00df5003537b5d052329071ca1d3bc98223c9de0479593a3dd90d5c7fcf0",
+    "audio-segments.gz": "84098de931273dde32cfb07ea5dfde29323876e7d935f292c443cf5e64aeb7f8",
+    "comparison.png": "6ca67622ce87e833a7afcf4e9c71679da948f90ffd7a991ecd51b07d552f456a",
+    "incorrect-tap-control.gz": "f407a44a67992524a661bd886e14bb4fddadc0e23af42ce28bf6367e025ef64d",
+    "index-green.gz": "cb475fbfc07a74fa0f796cc79d51dc8f903b4019c6ac4781b80c03bea901e640",
+    "index-red.gz": "5e6418f207716cef3c8c538096b376748cc161b62522d6ee67e9de8c7cf4c760",
+    "public.gz": "34d4d1c60d3d89775369c246adcda24bcaafc26e1518807400f161d4ae7bb7ad",
+    "review.gz": "f26864195e61640be0767df3112a8ea2f107463be206318041122256d2ad83d4",
+    "window-125000.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-250000.png": "33a159538fd51e2d27294a70e69654ae5b2bd5460532cace1e3a5d4530689cd9",
+    "window-375000.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-index-0.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-index-1.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-index-2.png": "33a159538fd51e2d27294a70e69654ae5b2bd5460532cace1e3a5d4530689cd9",
+    "window-index-3.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-index-4.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-index-direct-0.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-index-direct-1.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-index-direct-2.png": "33a159538fd51e2d27294a70e69654ae5b2bd5460532cace1e3a5d4530689cd9",
+    "window-index-direct-3.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-index-direct-4.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+    "window-unity-output.png": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+  }
+}

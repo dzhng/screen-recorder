@@ -72,6 +72,7 @@ export async function materializeProjectIndex(
     model: plan.model,
     revisionId: identity.revisionId,
     processing: plan.processing,
+    tap: identity.tap,
     signal,
     scenes(occurrence, range) {
       const scene = dependencies.get(sourceSelectionKey(occurrence));

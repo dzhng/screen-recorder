@@ -37,7 +37,7 @@ Current pickup and priority:
    journeys, preserving cache-ready reads and explicit retries.
    [Combined worker checks](assets/15-pointer-integration/README.md) retain scoped
    geometry and non-pointer preservation; full color/profile acceptance stays open.
-2. Continue08 remaining codec/rate conformance and narration listening;
+2. Continue 08 remaining codec/rate conformance and narration listening;
    [physical-segment composition](assets/08-physical-segments/README.md) now passes
    exact full/range/split checks after the converter buffer-state fix.
    [Thirty-minute A/V timing](assets/08-av-drift/README.md) passes public export
@@ -47,7 +47,9 @@ Current pickup and priority:
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue
    other dependency-ready slices; these priorities do not remove later scope.
    [Scalar curve compilation](slices/16a-curve-primitives.md) is verified; persisted
-   animation, native execution and public keyframe journeys remain in16.
+   [opacity animation and retained inspection](assets/16-opacity-index/README.md)
+   now pass their public vertical; animated geometry, gain and remaining keyframe
+   journeys stay in 16.
 
 Compact evidence ledger:
 

@@ -243,6 +243,54 @@ try {
     encodedGate:
       "existing image fixture meanRGB<=12 membership/layout tolerance; not byte-exact color conformance",
   };
+  const windowBase = await call("edit.restore", {
+    projectId, requestId: randomUUID(), expectedRevisionId: split.revision.id,
+    targetRevisionId: authored.revision.id,
+  });
+  const unity = await call("edit.apply", {
+    projectId, requestId: randomUUID(), expectedRevisionId: windowBase.id,
+    operations: [{ operation: "processing.set", target: { kind: "clip", id: clipId },
+      steps: [{ id: stepId, processor: { type: "opacity", opacity: 1 } }] }],
+  });
+  const dryOutput = await picture({ projectId, revisionId: unity.revision.id, atUs: 125000 },
+    "window-unity-output");
+  const windowed = await call("edit.apply", {
+    projectId, requestId: randomUUID(), expectedRevisionId: unity.revision.id,
+    operations: [{ operation: "processing.set", target: { kind: "clip", id: clipId }, steps: [{
+      id: stepId, processor: { type: "opacity", opacity: 0 },
+      window: { kind: "project", range: { startUs: 200001, endUs: 300001 } },
+    }] }],
+  });
+  const windowSelection = { projectId, revisionId: windowed.revision.id };
+  const dryTap = { target: { kind: "clip", id: clipId }, point: { kind: "dry" } };
+  for (const atUs of [125000, 250000, 375000]) {
+    const processed = await picture({ ...windowSelection, atUs }, `window-${atUs}`);
+    assert.equal(processed.sha256, atUs === 250000 ? original[0].sha256 : dryOutput.sha256);
+    if (atUs === 250000) assert.notEqual(processed.sha256, dryOutput.sha256);
+  }
+  const retained = await poll(
+    () => call("index.get", { ...windowSelection, limit: 100 }, { transport: "mcp" }),
+    value => value.state === "ready", "windowed opacity index",
+  );
+  assert.deepEqual(retained.page.entries.map(entry => entry.candidate.sampleAtUs),
+    [0, 125000, 250000, 375000, 875000]);
+  const reference = Object.fromEntries(
+    ["projectId", "revisionId", "generation", "tap", "maxLongEdge"].map(key => [key, retained.page.metadata[key]]),
+  );
+  for (const entry of retained.page.entries) {
+    const file = join(out, `window-index-${entry.candidate.ordinal}.png`);
+    await call("index.frame", { ...reference, ordinal: entry.candidate.ordinal }, { output: file });
+    const direct = await picture({ ...windowSelection, atUs: entry.candidate.sampleAtUs },
+      `window-index-direct-${entry.candidate.ordinal}`);
+    assert.ok((await readFile(file)).equals(await readFile(direct.file)));
+  }
+  const dryIndex = await poll(
+    () => call("index.get", { ...windowSelection, tap: dryTap, limit: 100 }),
+    value => value.state === "ready", "dry opacity index",
+  );
+  assert.deepEqual(dryIndex.page.entries.map(entry => entry.candidate.sampleAtUs), [0, 875000]);
+  report.checks.activation = { range: { startUs: 200001, endUs: 300001 },
+    index: retained, dryIndex, directAndRetainedExact: true };
   report.passed = true;
   await call("project.delete", { projectId });
 } catch (error) {

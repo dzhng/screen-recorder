@@ -27,9 +27,8 @@ the prior integrated image/pointer worker. Reports and artifact hashes are in
 authoring-value decode, strict unused-field rejection and an incorrect restore
 reply assumption are retained separately from the passing run.
 
-Independent review found a typed authored-label schema error (fixed) and missing
-retained-index boundary consumption (root-owned integration still open). The
-native projection review found no actionable defects. The complete contact sheet
-and detail crops are prepared; unprimed visual review remains pending. Do not claim
-full public animation/index acceptance until that consumer and its recipe/policy
-integration are proven. Gain, animated geometry and transitions remain in slice 16.
+Independent review found a typed authored-label schema error (fixed) and a missing
+retained-index consumer, now resolved by the [integrated public boundary journey](../16-opacity-index/README.md).
+That integration also records the fresh unprimed visual review and combined-worker
+audio preservation. The native projection review found no actionable defects.
+Gain, animated geometry, transitions and full slice16 acceptance remain open.

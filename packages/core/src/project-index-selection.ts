@@ -11,6 +11,7 @@ import {
   toTime,
   type CompiledFrame,
   type ProcessingInstruction,
+  type ProcessingTap,
   type TimeValue,
   type ValidatedComposition,
 } from "@screenrec/composition";
@@ -21,7 +22,7 @@ import type { SceneSampleClock } from "./source-scenes.js";
 import type { TimeRange } from "./timeline.js";
 
 export const projectIndexPolicy = Object.freeze({
-  id: "project-picture-selection-v1",
+  id: "project-picture-selection-v2",
   coverageUs: selectionPolicy.coverageUs,
   maximumCandidates: 20000,
   maximumReasons: 100000,
@@ -41,6 +42,7 @@ export type ProjectIndexReason =
       originUs: number;
     }
   | { kind: "first" | "last" | "coverage"; projectAtUs: TimeValue }
+  | { kind: "processing"; projectAtUs: TimeValue; side: "before" | "after" }
   | {
       kind: "clip" | "availability";
       clipId: string;
@@ -55,6 +57,7 @@ export async function selectProjectIndex(input: {
   model: ValidatedComposition;
   revisionId: string;
   processing: readonly ProcessingInstruction[];
+  tap: ProcessingTap;
   /** The retained owner reads only the requested inverse window, including its chunk lookback. */
   scenes: (
     occurrence: SourceWindowOccurrence,
@@ -144,6 +147,12 @@ export async function selectProjectIndex(input: {
       for (const range of value.available)
         await boundary(toTime(range[edge]), { kind: "availability", clipId: value.clip.id, edge });
     }
+  }
+  for (const projectAtUs of compiler.processingBoundaries(input.tap)) {
+    await checkpoint();
+    const frames = compiler.frameBoundary(projectAtUs);
+    for (const side of ["before", "after"] as const)
+      add(frames[side], { kind: "processing", projectAtUs, side });
   }
   const projection = createSourceRangeProjection(model);
   for (const value of clips) {

@@ -75,7 +75,7 @@ async function select(
         tap,
       }).manifest.processing
     : [];
-  return selectProjectIndex({ model, processing, revisionId: "revision", scenes, signal });
+  return selectProjectIndex({ model, processing, tap, revisionId: "revision", scenes, signal });
 }
 test("project cadence and authored boundaries deduplicate images while retaining their reasons", async () => {
   const result = await select(fixture([clip("a", 0, 6000000), clip("b", 6000000, 12000000)]));
@@ -391,4 +391,29 @@ test("a source reader that never advances hits a terminal work limit and release
     },
   });
   expect(closed).toBe(true);
+});
+
+
+test("windowed opacity retains both neighboring pictures and respects the requested tap", async () => {
+  const f = fixture();
+  f.document.processing = [{
+    target: { kind: "output" },
+    steps: [{ id: "brief-hide", enabled: true,
+      processor: { type: "opacity", opacity: 0 },
+      window: { kind: "project", range: { startUs: 201234, endUs: 299999 } },
+    }],
+  }];
+  const result = await select(f);
+  expect(result.map(value => value.sampleAtUs)).toEqual([
+    0, 200000, 233333, 266666, 300000, 5000000, 10000000, 11966666,
+  ]);
+  expect(result.flatMap(value => value.reasons.filter(reason => reason.kind === "processing")))
+    .toEqual([
+      { kind: "processing", projectAtUs: 201234, side: "before" },
+      { kind: "processing", projectAtUs: 201234, side: "after" },
+      { kind: "processing", projectAtUs: 299999, side: "before" },
+      { kind: "processing", projectAtUs: 299999, side: "after" },
+    ]);
+  const dry = await select(f, () => null, { target: { kind: "output" }, point: { kind: "dry" } });
+  expect(dry.map(value => value.sampleAtUs)).toEqual([0, 5000000, 10000000, 11966666]);
 });
