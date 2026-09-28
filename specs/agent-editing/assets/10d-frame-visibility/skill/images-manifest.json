@@ -1,0 +1,107 @@
+[
+  {
+    "file": "boundaries-0-images/01.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "boundaries-0-images/03.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "file": "boundaries-0-images/04.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "file": "boundaries-0-images/06.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "boundaries-1-images/01.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "boundaries-1-images/02.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "boundaries-1-images/03.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "file": "boundaries-1-images/04.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "file": "boundaries-1-images/05.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "file": "boundaries-1-images/06.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "index-images/01.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "index-images/02.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "index-images/03.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "file": "index-images/04.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "file": "index-images/05.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "index-images/06.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "index-images/07.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "interior-1-images/01.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "interior-1-images/02.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "file": "interior-1-images/03.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "file": "interior-1-images/04.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  }
+]

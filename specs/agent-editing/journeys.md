@@ -53,8 +53,8 @@ stills, a full preview, unchanged WAV, independent-piece processing, and copied,
 moved and trimmed clip taps with exact source timestamps. [Moving-source conformance](assets/15-layer-edit-motion/README.md)
 now adds independently changing landmarks, nonaligned moves and whole/range movie checks.
 [Project screenshot indexes](assets/10d-project-index-public/README.md) pass native
-CLI/MCP media and lifecycle journeys; [fresh-agent interpretation](assets/10d-project-index-skill/README.md)
-remains incomplete because frame-range metadata is ambiguous. Speech/noise
+CLI/MCP media and lifecycle journeys; [fresh-agent interpretation](assets/10d-frame-visibility/skill/report.md)
+now correctly distinguishes authored boundaries, displayed frame intervals and gaps. Speech/noise
 processing, animation and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 

@@ -252,7 +252,9 @@ now pass with native pictures and retained coverage. Reclamation uses the existi
 store after job/delivery drain. [Fresh product-skill use](../assets/10d-project-index-skill/README.md)
 exposes competing one-microsecond request and full-frame visibility ranges; resolve
 that public metadata ambiguity through the compiler clock and repeat fresh use.
-These checks do not close custom exclusion masks, raw still admission or all 10d gates.
+[The visibility correction and fresh reinspection](../assets/10d-frame-visibility/README.md)
+now resolve that ambiguity with unchanged pixels. These checks do not close custom
+exclusion masks, raw still admission or all 10d gates.
 
 
 ## Public frame visibility

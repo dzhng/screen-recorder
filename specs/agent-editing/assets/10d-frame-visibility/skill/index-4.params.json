@@ -1,0 +1,21 @@
+{
+  "projectId": "8f077c2a-90b8-4239-b6d7-9b5858a276b4",
+  "revisionId": "8961ad2b-6d2b-4f39-9f4a-4bc1c214775e",
+  "maxLongEdge": 480,
+  "limit": 2,
+  "cursor": {
+    "projectId": "8f077c2a-90b8-4239-b6d7-9b5858a276b4",
+    "revisionId": "8961ad2b-6d2b-4f39-9f4a-4bc1c214775e",
+    "generation": "a41c2b4e-b53a-4088-a53b-f7071d3d0deb",
+    "tap": {
+      "target": {
+        "kind": "output"
+      },
+      "point": {
+        "kind": "processed"
+      }
+    },
+    "maxLongEdge": 480,
+    "afterOrdinal": 3
+  }
+}

@@ -1825,3 +1825,24 @@ existing lifetime owner.
   rendered. Native receipts still must match the demanded execution window before
   projection. Future consumers can compare direct pictures and storyboard
   coverage; the changed metadata has a new cache recipe identity.
+
+
+## Pointer sampling work bounds — 2026-09-28
+
+- **Sound, medium confidence — reread forward history for a backward request.**
+  If a clip jumps from source second ten back to second two, the sampler restarts
+  the existing forward history readers and reconstructs the earlier pointer state.
+  It retains the accumulated work count, so repeated jumps cannot bypass the
+  attempt limit. The plan required arbitrary source-time inspection and bounded
+  memory but did not choose between rereading and a new random-access event store.
+  Rereading keeps one history owner and avoids retaining all events. Highly
+  shuffled projects may reach the explicit limit; release-scale performance is
+  still a separate gate, not established by the focused tests.
+- **Sound, high confidence — bound repeated output work separately from source events.**
+  Holding one source picture for many output frames can request the same pointer
+  state repeatedly without advancing source history. Counting only source events
+  would leave that work unbounded. The sampler therefore also counts requested
+  output occurrences, including repeats. The plan required bounded preparation
+  but left the counters unspecified. Future preparation can refuse excessive work
+  explicitly instead of silently truncating overlays; resource thresholds remain
+  provisional until the scale slice measures them.

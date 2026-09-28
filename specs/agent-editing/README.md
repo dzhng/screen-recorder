@@ -37,9 +37,10 @@ Current pickup and priority:
    [Fresh skill use](assets/10d-project-index-skill/README.md) exposed competing
    frame-range meanings. [Public visibility](assets/10d-frame-visibility/README.md)
    now uses the compiler interval, with native validation intact and all 22 PNGs
-   unchanged. Fresh interpretation verification is running; retain its outcome
-   before closing that acceptance checkpoint.
-   Custom exclusion masks and raw still-image admission remain open.
+   unchanged. [Fresh interpretation](assets/10d-frame-visibility/skill/report.md)
+   now correctly distinguishes authored edges, displayed intervals and unknown gaps.
+   Next complete raw still-image inspection through the same frame owner; then
+   custom exclusion masks. Both remain open.
    Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
@@ -53,7 +54,8 @@ Current pickup and priority:
    reads the same layout, and all 62 public journey images remain unchanged.
    [Pointer authoring/compiler](assets/15-pointer-contract/README.md) is integrated;
    [exact source history](assets/15-pointer-history/README.md) is integrated.
-   Execution remains unavailable pending queued preparation and native replay. [Processed split, duplicate, move and trim](assets/15-layer-edits/README.md)
+   [Shared source-time sampling](assets/15-pointer-sampling/README.md) is integrated;
+   execution remains unavailable pending queued preparation and native replay. [Processed split, duplicate, move and trim](assets/15-layer-edits/README.md)
    pass their static media/tap checks. [Moving-source journeys](assets/15-layer-edit-motion/README.md)
    now verify fractional edits, full/range previews and exact protected audio.
    Finish pointer preparation and geometry. The broader

@@ -22,3 +22,6 @@ budgets. This prerequisite does not publish prepared overlay files or draw point
 pixels. The immediately following vertical pass must write a bounded attempt-local
 stream, retain source/cache lifetimes, validate enabled-step correspondence and
 replay compiler geometry through the shared native executor. Execution stays unbound.
+
+[Combined integration checks](integrated.txt) pass all 36 trail/history tests after
+merging the public frame-visibility change. Native execution remains a separate gate.

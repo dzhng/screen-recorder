@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "bytes": 1656,
-    "sha256": "b5a2759b66b4dfb939145c46600361df6f0fa47339b8e63abeb4904c000d66e5"
+    "bytes": 2121,
+    "sha256": "f191e2ff151fabaa96e7b4701367c87a9a549ca772a3af685d0ef64969f6d47d"
   },
   {
     "path": "core.txt",
@@ -33,6 +33,411 @@
     "path": "review.txt",
     "bytes": 117651,
     "sha256": "f6f011793da8b5a8c0a1c6ef9992e4de545f34eba1e9fc3924b90f8713953023"
+  },
+  {
+    "path": "skill/all-entries.json",
+    "bytes": 22980,
+    "sha256": "e9ea7e3f307f08de6fc9014d6ec6879752d597ef4e313f2e760b259f7baf3121"
+  },
+  {
+    "path": "skill/boundaries-0-images/01.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/boundaries-0-images/03.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "path": "skill/boundaries-0-images/04.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "path": "skill/boundaries-0-images/06.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/boundaries-0.json",
+    "bytes": 9991,
+    "sha256": "a57e9f6f2c387aa9eb9175214daf93a27f6c422c94c4d0bf568a7d4bf98dbb16"
+  },
+  {
+    "path": "skill/boundaries-0.params.json",
+    "bytes": 229,
+    "sha256": "8ccae5076fc86ee9e64c02d06c23e19d82b3089c5ddcc15a774ce4ec836a5734"
+  },
+  {
+    "path": "skill/boundaries-0.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/boundaries-1-images/01.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/boundaries-1-images/02.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/boundaries-1-images/03.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "path": "skill/boundaries-1-images/04.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "path": "skill/boundaries-1-images/05.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "path": "skill/boundaries-1-images/06.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/boundaries-1.json",
+    "bytes": 13643,
+    "sha256": "8dc14a9f09534c5a5adf1d340814c2421701f3eee7fb7cbdfad22260341ec40c"
+  },
+  {
+    "path": "skill/boundaries-1.params.json",
+    "bytes": 229,
+    "sha256": "8ccae5076fc86ee9e64c02d06c23e19d82b3089c5ddcc15a774ce4ec836a5734"
+  },
+  {
+    "path": "skill/boundaries-1.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/commands.jsonl",
+    "bytes": 4675,
+    "sha256": "11fc3d056af5b0201fc5b68c1b483e8c7e63df60d52b51e65d6972f2442b8bbb"
+  },
+  {
+    "path": "skill/coverage-0.json",
+    "bytes": 887,
+    "sha256": "ffa1c42fdf73b87f7a0f1e46a9025f18e1d084b917a1cd665da9cfcf2ee1c422"
+  },
+  {
+    "path": "skill/coverage-0.params.json",
+    "bytes": 314,
+    "sha256": "ec2cd5f160a5598b353108eb8955601380692f73e5bfbaa23ca8a372931b0b8a"
+  },
+  {
+    "path": "skill/coverage-0.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/coverage-1.json",
+    "bytes": 895,
+    "sha256": "af76b3ce37b2fa09b0407b4395acf280a77d89018b8bd54698af32d504be7fcc"
+  },
+  {
+    "path": "skill/coverage-1.params.json",
+    "bytes": 708,
+    "sha256": "c47fbaa8a3c876772460124d328ff91a21dc6d7ee70eff01f048555e3695c594"
+  },
+  {
+    "path": "skill/coverage-1.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/coverage-2.json",
+    "bytes": 895,
+    "sha256": "1816933b2ee324e38a8ddf6b8898d4d3f1fcbcab10c8e84b09b5efa2b98355fd"
+  },
+  {
+    "path": "skill/coverage-2.params.json",
+    "bytes": 708,
+    "sha256": "c2e82c649f69cd54d302aba0930b30c46a672560702600a5359be59534ccb934"
+  },
+  {
+    "path": "skill/coverage-2.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/coverage-3.json",
+    "bytes": 526,
+    "sha256": "9db34f9db4d138a7b5fa762d3f9f0114b9595a9335ad5b09aa82039d5d27c01e"
+  },
+  {
+    "path": "skill/coverage-3.params.json",
+    "bytes": 708,
+    "sha256": "7152000f9b738a8a1c0e6fe37faf4a054c1f9d281b5a133a0c33b09f0e87fd42"
+  },
+  {
+    "path": "skill/coverage-3.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/help.txt",
+    "bytes": 347328,
+    "sha256": "6b04d1f3b0a59a2c699e35ed63079579013831a69ab5b713356fcc4a747c5692"
+  },
+  {
+    "path": "skill/images-manifest.json",
+    "bytes": 3103,
+    "sha256": "d928a16b43c34894cc7fee8b3f0e0f295c518871d7b5f172c63ebca87e237dce"
+  },
+  {
+    "path": "skill/index-0.json",
+    "bytes": 706,
+    "sha256": "21bcbf802c4c67f264a8f9ab6f4b4c2bf221a8c5795438f532de8de6ffbf8600"
+  },
+  {
+    "path": "skill/index-0.params.json",
+    "bytes": 149,
+    "sha256": "211ff51afef1f1f63f0828b788e954998dac3f82dba23f46d6f6ebebf7ac4fc0"
+  },
+  {
+    "path": "skill/index-0.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/index-1.json",
+    "bytes": 497,
+    "sha256": "414ab29ec6f4c6f5c3be65b767e3fa18d0e27e1e06b94f709e7f40a3c3739ba2"
+  },
+  {
+    "path": "skill/index-1.params.json",
+    "bytes": 149,
+    "sha256": "211ff51afef1f1f63f0828b788e954998dac3f82dba23f46d6f6ebebf7ac4fc0"
+  },
+  {
+    "path": "skill/index-1.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/index-2.json",
+    "bytes": 5697,
+    "sha256": "9bd5d940ace0400d238ac4a07635601c0212bf1ab8414a3a4cf295edf482c2cf"
+  },
+  {
+    "path": "skill/index-2.params.json",
+    "bytes": 149,
+    "sha256": "211ff51afef1f1f63f0828b788e954998dac3f82dba23f46d6f6ebebf7ac4fc0"
+  },
+  {
+    "path": "skill/index-2.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/index-3.json",
+    "bytes": 6993,
+    "sha256": "8791fa60e1092948050ef942badb45a6ddd72eed3b10f8af4d4c88bc7ca6a105"
+  },
+  {
+    "path": "skill/index-3.params.json",
+    "bytes": 512,
+    "sha256": "0241953337a5d6cd64cde709e253bfa69ac1cb76d592180e31fa22c5f5c32943"
+  },
+  {
+    "path": "skill/index-3.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/index-4.json",
+    "bytes": 5436,
+    "sha256": "1d542fa79d97a15369203f9595f1c3834587a312cca69621ced29066a557cce3"
+  },
+  {
+    "path": "skill/index-4.params.json",
+    "bytes": 512,
+    "sha256": "d8e78b921f1443e495149cf59a7ef8c4c37df2fe276bc2e19cae6ca7ce15207e"
+  },
+  {
+    "path": "skill/index-4.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/index-5.json",
+    "bytes": 3427,
+    "sha256": "9c2283012df3e46dd991debca523bc07eb2533b8b574ecdd6c0fdbd69e8cada0"
+  },
+  {
+    "path": "skill/index-5.params.json",
+    "bytes": 512,
+    "sha256": "903814406c0a74dd124d1fd4f7b561dab9de7369fb343d45760a5bfc1a462f37"
+  },
+  {
+    "path": "skill/index-5.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/index-images/01.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/index-images/02.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/index-images/03.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "path": "skill/index-images/04.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "path": "skill/index-images/05.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/index-images/06.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/index-images/07.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/index-images.json",
+    "bytes": 17293,
+    "sha256": "afdf0ab150a79467b9fc5e987323f8d7c073cad2a8e37129d9553cfc89d16cf9"
+  },
+  {
+    "path": "skill/index-images.params.json",
+    "bytes": 369,
+    "sha256": "c51caa0f4aa935212cd89dc37c1b298d201c8c11c4a86e419cffad43351e2d33"
+  },
+  {
+    "path": "skill/index-images.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/inspection-commands.txt",
+    "bytes": 1126,
+    "sha256": "a0827d941ffc5096e5ab64dc899cd8eac64baa9509ac22aef7601ffc5382353c"
+  },
+  {
+    "path": "skill/interior-0.json",
+    "bytes": 1850,
+    "sha256": "9e113d31fed8fa7df7190a75420a54bcf5227dea861c252601afa1eda71ff412"
+  },
+  {
+    "path": "skill/interior-0.params.json",
+    "bytes": 203,
+    "sha256": "864e544aacd339209853800b31bfa86bcd548bf849317bd53838a3277ce6ab5c"
+  },
+  {
+    "path": "skill/interior-0.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/interior-1-images/01.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/interior-1-images/02.png",
+    "bytes": 1197,
+    "sha256": "1a61a34cf0615cc8251a3fffb5bff5be6d0df3d2384f66776a6e8a5ac315dc73"
+  },
+  {
+    "path": "skill/interior-1-images/03.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/interior-1-images/04.png",
+    "bytes": 968,
+    "sha256": "b689633c5db14972a8cf5c437268d5d86cd896c176116e438fb8d17272c2a137"
+  },
+  {
+    "path": "skill/interior-1.json",
+    "bytes": 8504,
+    "sha256": "ae08e510765bcbe5ae609895d0bb349a5fd468ea63ebb49f99dbb9a120c5aa01"
+  },
+  {
+    "path": "skill/interior-1.params.json",
+    "bytes": 203,
+    "sha256": "864e544aacd339209853800b31bfa86bcd548bf849317bd53838a3277ce6ab5c"
+  },
+  {
+    "path": "skill/interior-1.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/interior-console.txt",
+    "bytes": 1870,
+    "sha256": "34fad75b7d334778c7f73e75ff3aec0eb1ddb044893b38f97307ad1cf50444be"
+  },
+  {
+    "path": "skill/pagination-console.txt",
+    "bytes": 50170,
+    "sha256": "4bac45cdd7181a9ced03e3d801f58d7a4a265af44930ef0c22e86701eac02f52"
+  },
+  {
+    "path": "skill/query.py",
+    "bytes": 1007,
+    "sha256": "aaefd14cba491493418c949f86bed4fed737616a9acfcfb4c822365a2f77f11d"
+  },
+  {
+    "path": "skill/report.md",
+    "bytes": 6489,
+    "sha256": "ce54f2b78bd6bd974e1d452e1bb2a893fde79a875ecc158275be6d0e1fb7a600"
+  },
+  {
+    "path": "skill/revision.json",
+    "bytes": 1786,
+    "sha256": "f1bbbeda9006872b8ab4ad9bb55bbdea8ecf22eb17d0c14649638f3843e366f7"
+  },
+  {
+    "path": "skill/revision.params.json",
+    "bytes": 113,
+    "sha256": "7241d50a6105bbc421ebf927fc9a909d3df95656f2b4c8c55f22d2d4365d82f5"
+  },
+  {
+    "path": "skill/revision.stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "skill/selected-help.json",
+    "bytes": 42677,
+    "sha256": "2983f2a6b95a3e89ec89074e89e572d01522b3e25a309dbcc1c65e07f3543dcc"
+  },
+  {
+    "path": "skill/skill-input.md",
+    "bytes": 15197,
+    "sha256": "3b706e8388b4698fb93751b833f9c243a3faa692faed2795a6ffcad8abe47557"
+  },
+  {
+    "path": "skill-setup.json",
+    "bytes": 831,
+    "sha256": "7a1e7d35f6835a21b19a8844c1f7faebfbba1c34f21ed2f9e897dae43df6fe4d"
   },
   {
     "path": "types.txt",

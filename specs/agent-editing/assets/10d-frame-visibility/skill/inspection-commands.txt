@@ -1,0 +1,11 @@
+Bootstrap reads:
+cat /tmp/screenrec-index-skill-debv36/skill-input.md
+mkdir -p /tmp/screenrec-index-skill-debv36/agent-output
+node /Users/david/dev/screen-recorder/apps/cli/dist/main.js --help > /tmp/screenrec-index-skill-debv36/agent-output/help.txt 2>&1
+cat /tmp/screenrec-index-skill-debv36/agent-output/help.txt
+
+Public CLI operation argv and stdin paths are retained exhaustively in commands.jsonl. Each stdin file and response is saved separately. query.py records the exact execution and response-saving mechanism. Python snippets only filtered/aggregated those files, paged returned cursors, requested returned frame references, and computed PNG hashes.
+
+Visual inspection used view_image on index-images/01.png through 07.png; boundaries-1-images/02.png and 05.png; interior-1-images/01.png through 04.png. All paths were under this agent-output directory.
+
+Additional local operations copied the supplied skill to skill-input.md, calculated images-manifest.json with hashlib.sha256, and wrote this report and command note. The report enumerates all service operations and observations; no repo files were inspected.

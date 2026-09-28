@@ -21,5 +21,11 @@ No renderer, movie timing, source-picture identity or visual output changes.
 The project-picture recipe advances to v4 so cached metadata cannot masquerade
 as the new receipt. No compatibility adapter is introduced for unshipped metadata.
 
-Fresh product-skill verification is running independently; this checkpoint does
-not claim autonomous interpretation acceptance until that evidence is retained.
+[Fresh product-skill verification](skill/report.md) now correctly distinguishes
+authored 2.25/3.25-second clip edges from displayed 2.3/3.3-second changes. The
+agent fetched all entry and coverage pages, inspected delivered pictures, queried
+non-grid boundaries and additional interior times, and explicitly retained the
+remaining unproven intervals. Its exact skill, public help, commands, receipts and
+images are retained. No operation failed; pending preparation was polled. The
+scratch service was stopped afterward. This closes this interpretation checkpoint,
+not all of slice 10d or autonomous whole-editor acceptance.
