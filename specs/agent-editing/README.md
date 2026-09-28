@@ -8,138 +8,52 @@ the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
 
 ## Next Agent Prompt
 
-Implement the full local agent-operated editor. Read [contracts](contracts.md),
-[architecture](architecture.md), [verification](verification.md) and
-[research](research.md) and [processing](processing.md). Structural edits [03](slices/03-edits.md), exact boundaries [03a](slices/03a-exact-edit-boundaries.md),
-nested targets [03b](slices/03b-processing-targets.md), constant-gain stacks
-[03c](slices/03c-processing-stacks.md), and durable public project state/deletion
-[04](slices/04-projects.md) are verified at their declared boundaries.
+Implement the entire local agent-operated editor; the checklist below and each
+slice's acceptance gates remain the scope. Read [contracts](contracts.md),
+[architecture](architecture.md), [verification](verification.md),
+[journeys](journeys.md) and [processing](processing.md). The product skill describes
+available public operations only; the installed app has not switched engines.
 
-[05 compiler](slices/05-compiler.md) is verified, including partial pictures,
-strict records, availability provenance, retained audio sample origins and
-zero-sample processing membership. [07 video](slices/07-video-execution.md) is
-verified at its native scope, including bounded held-picture raster reuse and
-integrated decoded preservation. [08 audio](slices/08-audio-mixing.md) is integrated
-with fractional-phase PCM, selected-source isolation and split/window gates passing;
-broader media conformance, scale and listening remain open. [08a cache ownership](slices/08a-derived-cache.md)
-is verified at its owner seam; broader deadline failures remain under 24.
+Continue [10b source acquisition](slices/10b-source-acquisition.md). Capture adoption,
+immutable project context bindings, native selected-stream transcription and masked
+video are integrated. The actual CLI/MCP adoption/recovery/preview/export journey
+passes; a fresh agent also exported synchronized capture media through the product
+skill. Shared transcript storage now accepts real recording or asset owners, and
+source selection uses composition's same physical/acquisition intersection.
+Next integrate asset transcript preparation and bounded source reads/search/retry,
+then run the differing-context hole/partial-word journey. Do not close 10b on its
+storage or native prerequisites alone.
 
-[09 public preview/export](slices/09-first-preview.md) is verified through actual
-CLI/MCP and native execution: independent edits, processing, pinned preview/export,
-cancel/crash/recovery, abandonment and deletion. Fresh agents completed both
-preview and export using only the product skill and advertised schemas.
+After 10b, follow [10c occurrence queries](slices/10c-occurrence-queries.md),
+[10d direct frames](slices/10d-frame-inspection.md),
+[11a PCM delivery](slices/11a-audio-delivery.md) and
+[11 acoustic artifacts](slices/11-audio-inspection.md).
+[The inspection plan](assets/10-inspection-plan/README.md) explains these seams.
+Use the dependency graph to run independent work in parallel. Imported sources
+must never fabricate recording rows, narration roles or revisions. Preserve raw
+capture clocks and acquisition provenance separately from normalized file support.
 
-[10a exact range projection](slices/10a-source-range-projection.md) is integrated;
-its engine checks and the complete public preview/export preservation journey pass.
-Continue [10b source acquisition](slices/10b-source-acquisition.md): pure acquisition
-bindings are integrated (114 composition tests and downstream type checks pass).
-Native selected-stream transcription and masked-picture execution are integrated
-with retained native evidence; the combined worker builds. Capture adoption and durable project bindings now pass the [actual CLI/MCP journey](assets/10b-source-acquisition/README.md).
-Transcript ownership and shared source selection are integrated; finish asset
-transcript planning and public source reads;
-[integration evidence](assets/10b-acquisition-integration/README.md) separates
-functional acceptance from retained broad-suite deadlines. [The inspection plan](assets/10-inspection-plan/README.md)
-records the three-draft synthesis. Follow with bounded occurrence queries (10c),
-direct frames/index (10d), shared PCM delivery (11a) and acoustic artifacts (11). Current transcript owners assume
-recording roles; imports must not be represented by fake recording rows or invented
-narration roles. Preserve capture acquisition provenance separately from physical
-file occupancy. Source/model generation identity, partial words and all repeated
-occurrences are required; do not claim speech-timing quality from plumbing tests.
+Evidence boundaries to preserve:
 
-Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
-are integrated in the isolated service. Import identity and job admission commit
-together, and provenance is paginated separately from immutable metadata. Keep
-installed recording behavior isolated until the planned cutover.
+- [09 public preview/export](slices/09-first-preview.md) is verified. The complete
+  journey still passes after 10b integration, with all 19 reviewed images unchanged.
+- [10b integration evidence](assets/10b-acquisition-integration/README.md) records
+  405 passing core checks followed by broad-run deadlines and controlled passing
+  reruns. Do not restate this as one green final broad invocation. Scale remains 24.
+- [10b transcript storage](assets/10b-transcript-ownership/README.md) preserves the
+  306 retained native words and recording/package behavior; source planning and
+  public asset transcript reads remain the current work.
+- Risk gates remain open in 06 (broader encoding/color), 08 (audio conformance/scale),
+  12/12b (speech labels/timing and cleanup), 12c/15a (denoise state/quality), 13a
+  (stretch speech/listening), 18/19 (voice identity/delivery/joins), and 20/21
+  (physical camera/capture). Numerical success does not establish listening quality.
 
-Research gates remain open: [06](slices/06-render-reproduction.md) has an independently
-reviewed temporal mechanism and tested Rec.709 conversion; general encoding
-quality and broader color coverage remain open;
-[12](slices/12-speech-evidence.md) reproduces the failing timing baseline;
-[13a](slices/13a-stretch-endpoints.md) has corrected numerical support evidence but
-needs protected-word/listening and short-duration policy acceptance; and
-[18](slices/18-voice-reproduction.md) runs offline with a passing independent ASR word check, but still needs identity,
-delivery and join acceptance. Do not adopt numerical success as speech-quality proof. Noise reduction [12c](slices/12c-noise-reproduction.md) has a conventional
-[mechanism baseline](assets/12c-denoise-baseline/README.md);
-[state/endpoint probes](assets/12c-denoise-state/README.md) reject naive resets and
-show uncompensated latency. Quality/state gates remain open; it does not block the first preview. Camera
-[20](slices/20-camera-reproduction.md) is still unstarted.
-
-Current evidence:
-
-- [00 baseline](assets/00-baseline/manifest.json): corpus five checks, core 39;
-  native initial 53/55 with two performance timeouts retained as red evidence.
-  [Thumbnail](assets/00-baseline/thumbnail-fix/review.md) and
-  [audio](assets/00-baseline/audio-fix/review.md) fixes pass their affected gates
-  in the main worktree without changing thresholds. The separate 300-second
-  audio scale deadline remains open under [24](slices/24-scale.md).
-- [01 composition](assets/01-composition/review.md): build, type checks, 16 tests
-  and independent corpus probe pass. Commit `b1b08f3` owns the pure model.
-- [02 catalog](assets/02-catalog/review.md): shared connection extraction passes
-  67 library/job tests and service type checking.
-- [02 native probe](assets/02-probe/review.md): seven worker checks pass, including
-  stream offsets and B-frame edit lists. Asset admission is integrated in the
-  isolated service; installed production cutover remains pending.
-- [03a exact boundaries](assets/03a-boundaries/review.md): 19 composition tests
-  and corpus probe pass; split preservation is falsified by a rounding mutation.
-- [03 edits](assets/03-edits/integration/README.md): 69 tests and 420 padded-fit cases;
-  [ripple moves](assets/03-edits/ripple-move/review.md) retain 900 move cases,
-  756 retimed insertion cases,
-  595 retimed removal and
-  ripple cases each, plus 1,326 exact split cases pass; independent reviews caught and verified the
-  selected-member link fix.
-- [03b routing](assets/03b-routing/README.md): 73 tests, nested ordering and a
-  12,000-group iterative validation probe pass; no native processing claim.
-- [03c stacks](assets/03c-stacks/README.md): 78 tests and get/set/lifecycle probes
-  pass. Native constant-gain execution is covered by the subsequent audio/preview gates.
-- [04 project store](assets/04-project-store/README.md): 90 focused core tests,
-  type checking/build and independent review pass. [Public journeys](assets/04-public-projects/README.md)
-  verify stack/lifecycle state through CLI/MCP and native imports; [deletion](assets/04-project-deletion/README.md)
-  drains jobs and retires history without deleting original media. These are state/lifetime checks; rendered acceptance belongs to 09.
-- [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
-  Broad preservation is 515/516 under concurrent work; the unchanged storage
-  suite passes 13/13 in isolation. The concurrent deadline remains recorded.
-- [05 compiler](assets/05-compiler/README.md): 98 tests, integrated composition/core
-  builds, core typecheck and strict-record probe pass; no native readiness claim.
-- [07 video](assets/07-video/README.md): native timing, profile refusal, source-selection
-  and cancellation gates pass; resource and integrated decoded preservation pass.
-  Broader codec quality remains 06; public delivery remains 09.
-- [08 audio](assets/08-audio/README.md): integrated native PCM and fractional-phase
-  gates pass, including excluded-source isolation and long frame counts; broader
-  conformance, scale, public delivery and listening remain explicit.
-- [08a derived cache](assets/08a-derived-cache/README.md): owner isolation/lifecycle
-  checks, independent review and baseline controls pass; broad core deadlines remain explicitly red.
-- [09 public preview](assets/09-public-preview/README.md): service/protocol, CLI,
-  native preservation, blind skill and [live rendered journey](assets/09-first-preview/README.md)
-  checks pass. [Export integration](assets/09-export-integration/README.md) and
-  [live publication](assets/09-first-export/README.md) pass; [public abandonment](assets/09-first-export/README.md) and the
-  [blind export skill journey](assets/09-export-skill/README.md) pass.
-- [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
-  independent review accepts demonstrated timing. [Rec.709 evidence](assets/06-rec709/README.md)
-  verifies profile conversion on the tested frames; encoding loss remains explicit.
-  [Platform-rate temporal cases](assets/06-platform-temporal/README.md) also pass;
-  no production bitrate or broader quality claim is adopted.
-- [12 speech](assets/12-speech/README.md): 15 independent timing marks still fail
-  the existing gate; full semantic labels remain incomplete.
-- [13a support](assets/13a-support-review/README.md): corrected whole-output
-  measurements preserve candidate bytes; speech-quality acceptance remains open.
-- [18 voice](assets/18-voice/README.md): six offline generations, exact PCM splice
-  checks; [ASR word agreement](assets/18-voice-lexical/README.md) passes. The
-  user finds voice close but joins wrong and generated speech louder.
-  The alternative mode was rejected. [Room-tone auditions](assets/18-voice-roomtone/README.md)
-  use the closer voice with tighter cuts and extracted background sound.
-  The user finds the phrase ending fine; a [shorter entrance](assets/18-voice-phrase-lead/README.md)
-  removes another 120ms while preserving that ending sample-exact.
-  Context outside declared transitions stays exact; listening quality remains open.
-
-Keep old media intact and develop against isolated homes; the new library is
-fresh, with no history migration or compatibility engine. No voice model/runtime
-winner has been accepted. Complete speech labels and physical/listening acceptance
-remain explicit gates. Do not ask again about settled UI, creative policies,
-voice references or migration decisions.
-
-For each committed pass, update its slice evidence and this pickup, audit choices,
-and keep the product skill synchronized only with shipped public operations.
-Check only completed contracts below; the plan itself is not runtime proof.
+Keep sources intact, use isolated homes and frozen native binaries, and never
+change test thresholds to hide failures. No history migration, editing GUI,
+lip-sync model or mandatory creative approval is required. Each committed pass
+updates its slice evidence and this pickup, audits choices and synchronizes the
+product skill only with verified public operations. Full release acceptance and
+installed-app cutover remain later checkpoints, not consequences of green unit tests.
 
 ## Outcome and boundaries
 
