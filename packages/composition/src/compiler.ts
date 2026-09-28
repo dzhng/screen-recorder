@@ -152,7 +152,9 @@ function compileSchedules(
             trackId: clip.trackId,
             assetId: clip.assetId,
             streamId: clip.streamId,
-            sourceUs: floor(sourceTime(value, at)),
+            ...(value.stream!.kind === "image"
+              ? { kind: "image" as const }
+              : { kind: "video" as const, sourceUs: floor(sourceTime(value, at)) }),
             availability:
               anchor === undefined || compare(anchor.start, at) > 0
                 ? "anchor-unavailable"

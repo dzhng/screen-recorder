@@ -1,0 +1,16 @@
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/composition, @screenrec/core
+   • Running check-types in 2 packages
+   • Remote caching disabled, using shared worktree cache
+
+@screenrec/composition:build: cache hit, replaying logs b1040be404a24428
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/composition:check-types: cache miss, executing 39506fe8d2e248b4
+@screenrec/core:check-types: cache miss, executing ffdc5fc011a55899
+@screenrec/composition:check-types: $ tsc -p tsconfig.check.json
+@screenrec/core:check-types: $ tsc -p tsconfig.check.json
+
+ Tasks:    3 successful, 3 total
+Cached:    1 cached, 3 total
+  Time:    402ms

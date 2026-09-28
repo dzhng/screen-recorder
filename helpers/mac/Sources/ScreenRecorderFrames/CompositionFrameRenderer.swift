@@ -26,6 +26,7 @@ public enum CompositionFrameRenderer {
         let height: Int
         let sourceWidth: Int
         let sourceHeight: Int
+        let decodedImages: Int
         let decodedSamples: Int
         let readerOpens: Int
         let bytes: Int
@@ -70,6 +71,7 @@ public enum CompositionFrameRenderer {
             file: request.output, frame: frame, pictures: pictures.pictures,
             width: image.width, height: image.height,
             sourceWidth: request.canvas.width, sourceHeight: request.canvas.height,
-            decodedSamples: pictures.decodedSamples, readerOpens: pictures.opens, bytes: bytes)
+            decodedImages: pictures.decodedImages, decodedSamples: pictures.decodedSamples,
+            readerOpens: pictures.opens, bytes: bytes)
     }
 }

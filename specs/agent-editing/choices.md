@@ -1916,3 +1916,32 @@ existing lifetime owner.
   The plan requested deletion coverage without specifying that absent surface.
   The live journey verifies project/source independence and delivery closure;
   any future asset deletion must add its own explicit drain/revocation gate.
+
+## Project still-image composition — 2026-09-28
+
+- **Sound, medium confidence — retain images only while their binding contributes.**
+  If the same photograph appears in two overlapping clips, both reuse the same
+  decoded image. When neither clip is present, the executor releases that image;
+  a later repeat can decode it again. The plan required bounded rendering without
+  defining image residency. Keeping every photo for the whole movie would make
+  memory grow with project length. Active-source retention makes the bound depend
+  on simultaneous sources, matching the existing video executor. Still-image pixels
+  are charged once per binding even when several clips reuse them; video retains
+  its per-occurrence decoder accounting. The current pixel
+  allowance is provisional until release-scale measurement.
+- **Sound, high confidence — give compiled images an explicit timeless kind.**
+  A photograph placed for two seconds is visible during project time, but no
+  camera sampled it at source time zero. Compiled layers and returned picture
+  receipts distinguish images from videos; images omit source/sample clocks.
+  Existing authoring uses a hold at zero to select the whole image, so no new
+  editing operation or second timeline is added. The plan fixed timeless semantics
+  without fixing the compiled representation. Explicit kinds prevent consumers
+  from treating a sentinel number as evidence of an observed video frame.
+- **Sound, high confidence — refuse development catalogs missing the new retained provenance.**
+  A previously retained index contains picture receipts without image/video kind
+  and decoded-image counts. Reading those as today's schema would silently guess
+  provenance, while rendering them again would change retained-history semantics.
+  Catalog format 13 therefore refuses older development catalogs under the existing
+  no-migration rule. Renderer recipe changes independently invalidate disposable
+  frames and previews. This chooses a clean persisted contract over compatibility
+  inference; it does not change the user's original media files.

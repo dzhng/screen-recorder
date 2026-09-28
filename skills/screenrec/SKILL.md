@@ -15,7 +15,8 @@ non-destructive edits and verify the result.
    is missing and you are in the built source checkout, use
    `bun run screenrec --help`. If neither works, report the missing build or
    installation. Use the advertised operations; do not assume proposed editing
-   features exist.
+   features exist. For JSON files, use `--params - < request.json`. Reserve
+   `--output` for advertised media delivery; redirect stdout to save JSON metadata.
 2. Resolve the intended recording with the discovery operations, then inspect
    its state and revision. The latest recording may still be capturing or
    processing. Pin the recording ID and revision for subsequent reads.
@@ -90,7 +91,11 @@ are not processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
 
 For visual layout, change the canvas for the output aspect ratio and place overlapping
-footage on separately ordered video tracks. Use advertised geometry/opacity steps;
+footage on separately ordered video tracks. Place imported PNG/JPEG images with
+`source: { kind: "hold", atUs: 0 }` and a project placement duration; that zero
+selects the whole image, not a sampled instant. Images use the same geometry,
+opacity, target taps, previews, exports and retained project indexes as footage.
+Use advertised geometry/opacity steps;
 changing an inspection size does not change the edit. Geometry uses top-left pixels:
 the first clip geometry consumes the oriented source, later geometry and parent
 stacks consume a canvas-sized image. Read admitted source dimensions before cropping.
@@ -133,8 +138,7 @@ use assetId and streamId with optional maxLongEdge; omit atUs and acquisitionId.
 The delivered PNG is already upright; its receipt retains the source orientation.
 An image has no sample clock. Timed video requests use asset/stream identity,
 optional acquisition, and source time; do not add a recording or project revision.
-Frame batches remain timed; inspect multiple images individually. Raw image
-inspection does not imply project still-image compositing is available. Project requests use
+Frame batches remain timed; inspect multiple images individually. Project requests use
 project time and the inspected revision. The returned global project sample can
 precede the requested time; preserve its sample time, visible range and occurrence
 provenance instead of treating it as a wrong frame. `atUs` is the request instant;

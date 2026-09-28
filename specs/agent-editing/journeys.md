@@ -103,3 +103,10 @@ observations and invocation under the owning slice evidence. Report separately:
 and **listening/physical acceptance**. Tests that never exercise a required stage
 cannot close that stage. No tests change the installed user library, activate
 capture, play speakers or seize focus as an incidental test side effect.
+
+[Project images](assets/10d-project-image-public/README.md) add actual CLI/MCP
+PNG/JPEG insertion and overlap, image-over-video transparency, repeated placements,
+ordered crop/placement/opacity, dry taps, retained indexed PNGs, preview/export and
+cache/history/restart/deletion journeys. Timeless image identity is distinct from
+video sample provenance. Fresh product-skill use passes; combined renderer binding
+and verification remain required; this does not close animated processing or broad color/scale gates.

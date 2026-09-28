@@ -29,6 +29,7 @@ public enum CompositionVideoRenderer {
         public let frames: Int
         let rasterizedFrames: Int
         let pointerRasterizations: Int
+        let decodedImages: Int
         let decodedSamples: Int
         let readerOpens: Int
         let bytes: Int
@@ -164,7 +165,8 @@ public enum CompositionVideoRenderer {
             file: request.output, durationUs: through - request.range.startUs, width: canvas.width,
             height: canvas.height, frames: frames, rasterizedFrames: pictures.rasterized,
             pointerRasterizations: pictures.pointerRasterizations,
-            decodedSamples: pictures.decodedSamples, readerOpens: pictures.opens,
+            decodedImages: pictures.decodedImages, decodedSamples: pictures.decodedSamples,
+            readerOpens: pictures.opens,
             bytes: bytes, retainedSourceBuffersBound: pictures.maximumActiveSources)
     }
 

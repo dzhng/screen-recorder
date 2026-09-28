@@ -1,0 +1,215 @@
+{
+  "passed": true,
+  "worker": {
+    "path": "/tmp/screenrec-project-image-native",
+    "sha256": "d266b943c537a9cf3149da8c736aefe3a30579fcc68cb2eebda97d58a1562f9d"
+  },
+  "catalogFormat": 13,
+  "reportSha256": "8ed080af2b1c00d30f986515765095ba281e819101b5e15ac7c47a0794955449",
+  "checks": {
+    "placement": [
+      {
+        "atUs": 0,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:2"
+        ]
+      },
+      {
+        "atUs": 299999,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:2"
+        ]
+      },
+      {
+        "atUs": 300000,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:2",
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:4"
+        ]
+      },
+      {
+        "atUs": 599999,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:2",
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:4"
+        ]
+      },
+      {
+        "atUs": 600000,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:4"
+        ]
+      },
+      {
+        "atUs": 1199999,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:4"
+        ]
+      },
+      {
+        "atUs": 1200000,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:3",
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:4"
+        ]
+      },
+      {
+        "atUs": 1399999,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:3",
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:4"
+        ]
+      },
+      {
+        "atUs": 1400000,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:3"
+        ]
+      },
+      {
+        "atUs": 1999999,
+        "clips": [
+          "clip:8991f2264a911ffec24ba915c469a736a0557907f3cdbfa09c68467044ee6fad:3"
+        ]
+      }
+    ],
+    "orientation": {
+      "opaquePixels": 864,
+      "opaqueMaximum": 0
+    },
+    "movieMembership": [
+      {
+        "ordinal": 0,
+        "mae": 2.215625
+      },
+      {
+        "ordinal": 3,
+        "mae": 3.111458333333333
+      },
+      {
+        "ordinal": 6,
+        "mae": 1.4069010416666667
+      },
+      {
+        "ordinal": 12,
+        "mae": 2.683203125
+      },
+      {
+        "ordinal": 14,
+        "mae": 1.4760416666666667
+      },
+      {
+        "ordinal": 19,
+        "mae": 1.4565104166666667
+      }
+    ],
+    "lifecycle": {
+      "cacheRegeneration": true,
+      "historicalPixels": true,
+      "restart": true,
+      "indexRetained": true,
+      "deletionRevokesDelivery": true,
+      "sourceRetained": true,
+      "externalExportRetained": true
+    },
+    "processing": {
+      "firstRevision": "c9f12672-ec2b-45d3-ada6-a6c583c4abb0",
+      "reversedRevision": "66b4ae97-a8fe-44c2-8fc9-24d63c0accf3",
+      "orderedPixelsDiffer": true,
+      "dryUnchanged": true
+    },
+    "mixed": {
+      "partialPixels": 256,
+      "transparentPixels": 1440,
+      "transparentMaximum": 0,
+      "imageMaximum": 0,
+      "index": {
+        "projectId": "96b60ea9-be11-40ed-a08f-858c83ffa128",
+        "revisionId": "0b1b1ea8-c18e-4035-b805-d3864f397f16",
+        "generation": "62e41187-8ea4-47a4-82f7-a569490e8694",
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v5",
+        "maxLongEdge": 1600,
+        "selectionPolicy": "project-picture-selection-v1",
+        "scenes": [
+          {
+            "sourceId": "9bb55ed1ca59b97926966a92d97004375b8dedc639664787778e74f10dd66022",
+            "generation": "5651a946-2286-4bb7-a077-852c8d220002",
+            "policy": "rgb-spatial-change-v3-presentation-v1",
+            "sourceWidth": 40,
+            "sourceHeight": 64,
+            "chunkCount": 1,
+            "comparisonCount": 10,
+            "boundaryCount": 0,
+            "owner": {
+              "kind": "asset",
+              "assetId": "9bb55ed1ca59b97926966a92d97004375b8dedc639664787778e74f10dd66022"
+            },
+            "source": {
+              "kind": "asset",
+              "streamId": "track:1",
+              "originUs": 0,
+              "supportDigest": "5be1ed92523240ede4c71daf2d738c81f39595790cb2ce134cbd2e4f70d0d025",
+              "durationUs": 2000000
+            }
+          }
+        ],
+        "durationUs": 2000000,
+        "candidateCount": 6,
+        "coverageCount": 9,
+        "bytes": 1818
+      }
+    }
+  },
+  "pictures": 29,
+  "freshReviewedImagesUnchangedAfterBudgetFix": [
+    "regenerated.png",
+    "frame-1199999.png",
+    "restarted-history.png",
+    "frame-600000.png",
+    "frame-0.png",
+    "underlying-video.png",
+    "dry-card-reordered.png",
+    "index-direct-8.png",
+    "index-8.png",
+    "historical.png",
+    "index-9.png",
+    "index-direct-9.png",
+    "processed-order-b.png",
+    "processed-order-a.png",
+    "index-direct-2.png",
+    "index-2.png",
+    "frame-1999999.png",
+    "index-3.png",
+    "index-direct-3.png",
+    "index-direct-1.png",
+    "index-1.png",
+    "frame-1399999.png",
+    "frame-1200000.png",
+    "frame-599999.png",
+    "image-over-video.png",
+    "index-0.png",
+    "index-direct-0.png",
+    "index-direct-4.png",
+    "index-4.png",
+    "index-5.png",
+    "dry-card.png",
+    "index-direct-5.png",
+    "index-direct-7.png",
+    "index-7.png",
+    "index-6.png",
+    "index-direct-6.png",
+    "restarted-index.png",
+    "frame-1400000.png",
+    "frame-299999.png",
+    "frame-300000.png"
+  ],
+  "freshReviewedImagesUnchangedAfterUniqueBindingFix": true
+}

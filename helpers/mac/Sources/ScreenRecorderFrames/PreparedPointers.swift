@@ -131,7 +131,7 @@ final class PreparedPointers {
             }
             return row
         }
-        guard row.assetId == layer.assetId, row.streamId == layer.streamId,
+        guard layer.kind == "video", row.assetId == layer.assetId, row.streamId == layer.streamId,
             row.requestedSourceUs == layer.sourceUs
         else { throw invalid("Prepared pointer changed its selected source.") }
         if layer.availability != "available" {

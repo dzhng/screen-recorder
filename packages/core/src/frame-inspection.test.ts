@@ -29,29 +29,34 @@ const renderer: ProjectFrameRenderer = {
       height: window.manifest.canvas.height,
       sourceWidth: window.manifest.canvas.width,
       sourceHeight: window.manifest.canvas.height,
+      decodedImages: 0,
       decodedSamples: 1,
       readerOpens: 1,
       bytes: bytes.length,
-      pictures: frame.layers.map((layer) => ({
-        status: "available",
-        clipId: layer.clipId,
-        assetId: layer.assetId,
-        streamId: layer.streamId,
-        requestedSourceUs: layer.sourceUs,
-        actualSourceUs: layer.sourceUs,
-        sample: {
-          value: String(
-            layer.sourceUs +
-              assets.find(
-                (asset) => asset.assetId === layer.assetId && asset.streamId === layer.streamId,
-              )!.originUs,
-          ),
-          timescale: 1000000,
-          originUs: assets.find(
-            (asset) => asset.assetId === layer.assetId && asset.streamId === layer.streamId,
-          )!.originUs,
-        },
-      })),
+      pictures: frame.layers.map((layer) => {
+        if (layer.kind !== "video") throw new Error("Fixture requires timed video");
+        return {
+          kind: "video",
+          status: "available",
+          clipId: layer.clipId,
+          assetId: layer.assetId,
+          streamId: layer.streamId,
+          requestedSourceUs: layer.sourceUs,
+          actualSourceUs: layer.sourceUs,
+          sample: {
+            value: String(
+              layer.sourceUs +
+                assets.find(
+                  (asset) => asset.assetId === layer.assetId && asset.streamId === layer.streamId,
+                )!.originUs,
+            ),
+            timescale: 1000000,
+            originUs: assets.find(
+              (asset) => asset.assetId === layer.assetId && asset.streamId === layer.streamId,
+            )!.originUs,
+          },
+        };
+      }),
     };
   },
 };

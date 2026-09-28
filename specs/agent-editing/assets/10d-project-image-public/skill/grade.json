@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "model": "gpt-6-luna",
+  "productCodeReads": false,
+  "scratchServiceStopped": true,
+  "pictures": [
+    {
+      "fresh": "frame-output-04.png",
+      "reference": "frame-300000.png",
+      "sha256": "836f9b2a19958325b839af90aa1300e07f88c60cc44f919a05192fe195790093",
+      "identical": true
+    },
+    {
+      "fresh": "frame-output-15.png",
+      "reference": "frame-1400000.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+      "identical": true
+    },
+    {
+      "fresh": "frame-card-dry-04.png",
+      "reference": "dry-card.png",
+      "sha256": "59081b5caa1b30fc754a867f014d18302b8265fe42ed012f13f171eb870f5cb6",
+      "identical": true
+    }
+  ],
+  "scope": "Fresh product CLI use; source/project image identity, geometry/taps, retained index coverage and committed export. Initial CLI usage errors recovered without implementation access.",
+  "errorsRecovered": [
+    "--params file path changed to --params - with stdin",
+    "index.get --output removed; JSON redirected from stdout"
+  ]
+}

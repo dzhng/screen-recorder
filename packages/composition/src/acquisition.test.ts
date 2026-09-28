@@ -162,7 +162,10 @@ test("compiled PCM contexts and frame support use the same acquisition hole", ()
   ]);
   expect(
     [...compiler.frames(range(800000, 1200000))].map((frame) =>
-      frame.layers.map((layer) => [layer.sourceUs, layer.availability]),
+      frame.layers.map((layer) => [
+        layer.kind === "video" ? layer.sourceUs : undefined,
+        layer.availability,
+      ]),
     ),
   ).toEqual([
     [[800000, "available"]],

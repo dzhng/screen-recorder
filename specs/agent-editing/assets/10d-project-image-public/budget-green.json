@@ -1,0 +1,18 @@
+{
+  "worker": "/tmp/screenrec-project-image-budget-native",
+  "reply": {
+    "error": {
+      "code": "LIMIT_EXCEEDED",
+      "details": {},
+      "message": "Still-image decode exceeds 33554432 pixels.",
+      "retryable": false
+    },
+    "id": "budget",
+    "ok": false
+  },
+  "passed": true,
+  "peakResidentBytes": 23642112,
+  "firstPixels": 33554432,
+  "secondDeclaredPixels": 67108864,
+  "aggregateLimit": 67108864
+}

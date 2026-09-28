@@ -149,11 +149,14 @@ export async function fixture(
               height: 1,
               sourceWidth: window.manifest.canvas.width,
               sourceHeight: window.manifest.canvas.height,
+              decodedImages: 0,
               decodedSamples: frame.layers.length,
               readerOpens: frame.layers.length,
               frame,
               pictures: frame.layers.map((layer) => {
+                if (layer.kind !== "video") throw new Error("Fixture requires timed video");
                 const picture = {
+                  kind: "video",
                   clipId: layer.clipId,
                   assetId: layer.assetId,
                   streamId: layer.streamId,

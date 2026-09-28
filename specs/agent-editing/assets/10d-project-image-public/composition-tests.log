@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/composition
+
+
+ Test Files  12 passed (12)
+      Tests  141 passed (141)
+   Start at  10:11:34
+   Duration  1.50s (tests 42%, transform 30%, import 27%, worker 1%)

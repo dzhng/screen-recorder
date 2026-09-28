@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw PNG/JPEG inspection passes its native public journey, including fresh skill use and resized recovery review. Project still composition/indexing remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw PNG/JPEG inspection passes its native public journey, including fresh skill use and resized recovery review. Project still composition/indexing passes its native public journey and fresh skill use; combined renderer binding remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -60,9 +60,9 @@ Update slice Status and the README handoff after verified passes.
 
 ## Current pickup
 
-Complete project still composition and its retained indexes. Raw-image public
-frame delivery and fresh skill use already pass. Reuse the native still owner below, retain truthful timeless
-image provenance, and verify actual CLI/MCP media and lifecycle. The public timed
+Integrate the project still-image checkpoint with pointer readiness and the updated
+renderer identities, then verify the combined native paths. The native still owner
+now serves both raw and composited image delivery with timeless provenance. The public timed
 picture/index and acquired-gap checkpoints already pass; do not restart them as
 unimplemented features. Preserve their existing journeys when changing shared
 owners. Whole-slice closure still requires reconciling every acceptance item.
@@ -169,7 +169,8 @@ Source and project scene dependencies use normalized job-input references, kept
 through retryable failure and older active attempts until they drain. Successful
 retained PNG publication releases preparation inputs; readers use the stored
 generation's pins without requiring current scenes or renderer availability.
-Catalog format 12 refuses earlier development catalogs missing these semantics.
+Catalog format 13 refuses earlier development catalogs whose retained project
+pictures lack explicit image/video provenance and the decoded-image counter.
 
 The existing deletion owner reclaims retained project indexes after active work
 and delivery leases drain. There is no second cleanup worker. Public native
@@ -195,10 +196,8 @@ pixels, source-picture identity and movie windows are unchanged.
 PNG/JPEG metadata, orientation and bounded-decode owner. Image delivery carries
 identity, oriented dimensions and alpha without a fabricated sample clock. Import
 and raw rendering refuse incomplete images and animation consistently; the
-existing timed video frame path is preserved. This is internal preparation only:
-public source and project still rendering must consume this owner, preserve image
-identity through cache/delivery, and pass actual CLI/MCP/native journeys before
-advertising support. [Fresh fixture-scoped visual review](../assets/10d-still-image-native/visual-review.md)
+existing timed video frame path is preserved. Raw and composed picture delivery share this owner and preserve image identity
+through the existing cache/delivery lifecycle; their public gates are recorded below. [Fresh fixture-scoped visual review](../assets/10d-still-image-native/visual-review.md)
 passes; the root native integration journey also passes.
 
 ## Public acquisition-gap picture acceptance
@@ -226,6 +225,25 @@ restart, cancellation/interruption and explicit retry. It preserves the existing
 timed source journey. Images omit time and acquisition context; their metadata
 uses the existing frame cache/job/delivery owners without a source availability
 digest. Full-size bytes match the native fixtures accepted by fresh visual review.
-Fresh skill use and resized recovery visual review pass their fixture-scoped checks. Project image
-composition and project-index integration are the next required still-image gate;
-raw inspection does not advertise that behavior.
+Fresh raw-image skill use and resized recovery visual review pass their fixture-scoped checks.
+Project image composition and project-index integration have their own checkpoint
+below; raw inspection alone does not establish that behavior.
+
+## Project still-image checkpoint
+
+[Project image evidence](../assets/10d-project-image-public/README.md) verifies
+public PNG/JPEG insertion, overlap, repeated placement, image-over-video alpha,
+ordered geometry/opacity and dry inspection, retained indexes, preview/export,
+cache regeneration, historical reads, restart and project/source deletion lifetime.
+Compiled layers distinguish timeless images from timed video explicitly. Images
+retain asset/stream identity without inventing a physical sample or source time;
+the existing authoring hold at zero selects the whole image.
+
+ImageIO orientation and decoding remain shared with raw inspection. The existing
+picture compositor owns geometry, opacity and mixing; active image bindings share
+one decoded source and leave retention when inactive. Native admission reserves
+retained images and video metadata before opening another still. The aggregate
+pixel bound remains provisional; the regression proves pre-decode refusal, not
+release-scale memory acceptance. Public service recipe binding is coordinated with
+pointer readiness. [Fresh product-skill use](../assets/10d-project-image-public/skill/grade.md)
+passes the image composition/index/export workflow.

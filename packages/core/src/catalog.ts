@@ -4,7 +4,7 @@ import { DatabaseSync } from "node:sqlite";
  * Changes to existing shapes or required ownership records need a bump: old catalogs cannot
  * reconstruct missing semantic inputs and are refused, never migrated.
  */
-const catalogFormat = 12;
+const catalogFormat = 13;
 export class CatalogError extends Error {
   constructor(
     readonly code: string,

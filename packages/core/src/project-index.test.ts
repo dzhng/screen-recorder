@@ -168,12 +168,15 @@ async function append(
     height: 1,
     sourceWidth: 2,
     sourceHeight: 2,
+    decodedImages: 0,
     decodedSamples: compiled.layers.length,
     readerOpens: compiled.layers.length,
     atUs,
-    pictures: compiled.layers.map((layer) =>
-      layer.availability === "available"
+    pictures: compiled.layers.map((layer) => {
+      if (layer.kind !== "video") throw new Error("Fixture requires timed video");
+      return layer.availability === "available"
         ? {
+            kind: "video",
             status: "available",
             clipId: layer.clipId,
             assetId: layer.assetId,
@@ -183,14 +186,15 @@ async function append(
             sample: { value: String(layer.sourceUs), timescale: 1000000, originUs: 0 },
           }
         : {
+            kind: "video",
             status: "unavailable",
             clipId: layer.clipId,
             assetId: layer.assetId,
             streamId: layer.streamId,
             requestedSourceUs: layer.sourceUs,
             reason: "source-unavailable",
-          },
-    ),
+          };
+    }),
   };
   const frame: ProjectIndexRecords["frame"] = {
     ...raw,
@@ -514,7 +518,7 @@ test("pinned source scene generations validate at admission while published PNGs
   await expect(
     append(f, identity, 0, 0, (frame) => {
       const picture = frame.pictures[0]!;
-      if (picture.status === "available") picture.actualSourceUs = 1;
+      if (picture.kind === "video" && picture.status === "available") picture.actualSourceUs = 1;
     }),
   ).rejects.toThrow("source clock");
   const first = await append(f, identity, 0, 0);

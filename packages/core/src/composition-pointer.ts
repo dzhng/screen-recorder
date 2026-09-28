@@ -161,6 +161,8 @@ export async function prepareCompositionPointers(
         };
         let row: unknown = { ...base, status: "inactive" };
         if (layer) {
+          if (layer.kind !== "video")
+            throw new CatalogError("INVALID_EVIDENCE", "Pointer requires a timed video layer");
           const identity = {
             assetId: clip.assetId,
             streamId: clip.streamId,

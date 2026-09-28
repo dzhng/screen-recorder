@@ -25,7 +25,6 @@ const selectedPicture = {
   clipId: z.string().min(1),
   assetId: z.string().min(1),
   streamId: z.string().min(1),
-  requestedSourceUs: time,
 };
 const pictureDeliverySchema = z.object({
   file: z.string(),
@@ -44,19 +43,40 @@ const nativeProjectReceiptSchema = pictureDeliverySchema.extend({
   frame: compiledFrameSchema,
   decodedSamples: time,
   readerOpens: time,
+  decodedImages: time,
   pictures: z.array(
-    z.discriminatedUnion("status", [
-      z.object({ status: z.literal("unavailable"), ...selectedPicture, reason: z.string().min(1) }),
-      z.object({
-        status: z.literal("available"),
-        ...selectedPicture,
-        actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
-        sample: z.object({
-          value: z.string().regex(/^-?\d+$/),
-          timescale: z.int().positive(),
-          originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+    z.discriminatedUnion("kind", [
+      z
+        .strictObject({
+          kind: z.literal("image"),
+          ...selectedPicture,
+          status: z.enum(["available", "unavailable"]),
+          reason: z.string().min(1).optional(),
+        })
+        .refine((value) =>
+          value.status === "available" ? value.reason === undefined : value.reason !== undefined,
+        ),
+      z.discriminatedUnion("status", [
+        z.strictObject({
+          kind: z.literal("video"),
+          status: z.literal("unavailable"),
+          ...selectedPicture,
+          requestedSourceUs: time,
+          reason: z.string().min(1),
         }),
-      }),
+        z.strictObject({
+          kind: z.literal("video"),
+          status: z.literal("available"),
+          ...selectedPicture,
+          requestedSourceUs: time,
+          actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+          sample: z.object({
+            value: z.string().regex(/^-?\d+$/),
+            timescale: z.int().positive(),
+            originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+          }),
+        }),
+      ]),
     ]),
   ),
 });
@@ -715,7 +735,12 @@ function checkPictureReceipt(
         picture.clipId !== layer.clipId ||
         picture.assetId !== layer.assetId ||
         picture.streamId !== layer.streamId ||
-        picture.requestedSourceUs !== layer.sourceUs ||
+        picture.kind !== layer.kind ||
+        (picture.kind === "video" &&
+          layer.kind === "video" &&
+          picture.requestedSourceUs !== layer.sourceUs) ||
+        (layer.availability !== "available" &&
+          (picture.status !== "unavailable" || picture.reason !== layer.availability)) ||
         (layer.availability !== "available" && picture.status === "available")
       );
     })
@@ -724,6 +749,7 @@ function checkPictureReceipt(
   if (
     pictures.some(
       (picture) =>
+        picture.kind === "video" &&
         picture.status === "available" &&
         (roundedSampleUs(picture.sample) - BigInt(picture.sample.originUs) !==
           BigInt(picture.actualSourceUs) ||

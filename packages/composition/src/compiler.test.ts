@@ -64,7 +64,13 @@ test("range frames preserve the full project phase and source clock", () => {
         },
       })),
   );
-  expect(part.map((frame) => [frame.index, frame.sampleAtUs, frame.layers[0]?.sourceUs])).toEqual([
+  expect(
+    part.map((frame) => [
+      frame.index,
+      frame.sampleAtUs,
+      frame.layers[0]?.kind === "video" ? frame.layers[0].sourceUs : undefined,
+    ]),
+  ).toEqual([
     [1, 33366, 533366],
     [2, 66733, 566733],
     [3, 100100, 600100],
@@ -202,7 +208,11 @@ test("frame membership respects gaps, holds, nested ordering and half-open cuts"
   const compiler = createCompiler(validateComposition(input, media), "revision");
   expect(
     [...compiler.frames({ startUs: 100000, endUs: 300000 })].map((frame) =>
-      frame.layers.map((layer) => [layer.clipId, layer.sourceUs, layer.availability]),
+      frame.layers.map((layer) => [
+        layer.clipId,
+        layer.kind === "video" ? layer.sourceUs : undefined,
+        layer.availability,
+      ]),
     ),
   ).toEqual([
     [
@@ -237,7 +247,7 @@ test("two-hour requests are lazy and late repeated clips do not replay earlier f
       frame.index,
       frame.sampleAtUs,
       frame.layers[0]?.clipId,
-      frame.layers[0]?.sourceUs,
+      frame.layers[0]?.kind === "video" ? frame.layers[0].sourceUs : undefined,
     ]),
   ).toEqual([
     [215783, 7199959433, "repeat-7199", 1459433],
@@ -513,7 +523,7 @@ test("partial first frames retain their old source and exact visible coverage", 
       frame.sampleAtUs,
       frame.visibleRange,
       frame.layers[0]?.clipId,
-      frame.layers[0]?.sourceUs,
+      frame.layers[0]?.kind === "video" ? frame.layers[0].sourceUs : undefined,
     ]),
   ).toEqual([
     [1, 33366, { startUs: 50001, endUs: 66733 }, "old", 533366],

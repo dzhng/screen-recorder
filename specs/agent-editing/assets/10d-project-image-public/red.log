@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: frame-0: {"projectId":"e5c52528-948e-4850-9a20-8beb8581e6ae","revisionId":"60ed38dd-2a76-4a82-8e5d-7de0bd1a3785","atUs":0,"maxLongEdge":1600,"tap":{"target":{"kind":"output"},"point":{"kind":"processed"}},"implementationId":"native-composition-picture-v5","state":"failed","reason":"Invalid parameters: The data couldn’t be read because it is missing.","retryable":false,"jobId":"ff1d30b4-146f-445e-b544-8ba5d0f018a2","published":null,"delivery":null}
+    at poll (file:///Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs:22:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async picture (file:///Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/test-harness/editing/project-image-evidence.mjs:26:17)
+    at async file:///Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/test-harness/editing/project-image-evidence.mjs:67:5 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

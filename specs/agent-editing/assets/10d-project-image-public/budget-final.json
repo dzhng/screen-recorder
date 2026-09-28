@@ -1,0 +1,345 @@
+{
+  "worker": "/tmp/screenrec-project-image-native",
+  "reply": {
+    "error": {
+      "code": "LIMIT_EXCEEDED",
+      "details": {},
+      "message": "Still-image decode exceeds 33554432 pixels.",
+      "retryable": false
+    },
+    "id": "budget",
+    "ok": false
+  },
+  "passed": true,
+  "peakResidentBytes": 23511040,
+  "firstPixels": 33554432,
+  "secondDeclaredPixels": 67108864,
+  "aggregateLimit": 67108864,
+  "repeated": {
+    "reply": {
+      "data": {
+        "bytes": 268,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/image-budget-MnRtxg/result.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "first",
+              "availability": "available",
+              "clipId": "copy-0",
+              "height": 4096,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "copy-0",
+              "width": 8192
+            },
+            {
+              "assetId": "first",
+              "availability": "available",
+              "clipId": "copy-1",
+              "height": 4096,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "copy-1",
+              "width": 8192
+            },
+            {
+              "assetId": "first",
+              "availability": "available",
+              "clipId": "copy-2",
+              "height": 4096,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "copy-2",
+              "width": 8192
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 4095,
+                  "kind": "clamp",
+                  "width": 8191,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    0.0048828125,
+                    0,
+                    0,
+                    0.0048828125,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    22
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 22
+                    },
+                    {
+                      "x": 40,
+                      "y": 22
+                    },
+                    {
+                      "x": 40,
+                      "y": 42
+                    },
+                    {
+                      "x": 0,
+                      "y": 42
+                    }
+                  ],
+                  "width": 40
+                }
+              ],
+              "target": {
+                "id": "copy-0",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "copy-0",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "copy-0",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 4095,
+                  "kind": "clamp",
+                  "width": 8191,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    0.0048828125,
+                    0,
+                    0,
+                    0.0048828125,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    22
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 22
+                    },
+                    {
+                      "x": 40,
+                      "y": 22
+                    },
+                    {
+                      "x": 40,
+                      "y": 42
+                    },
+                    {
+                      "x": 0,
+                      "y": 42
+                    }
+                  ],
+                  "width": 40
+                }
+              ],
+              "target": {
+                "id": "copy-1",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "copy-1",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "copy-1",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 4095,
+                  "kind": "clamp",
+                  "width": 8191,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    0.0048828125,
+                    0,
+                    0,
+                    0.0048828125,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    22
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 22
+                    },
+                    {
+                      "x": 40,
+                      "y": 22
+                    },
+                    {
+                      "x": 40,
+                      "y": 42
+                    },
+                    {
+                      "x": 0,
+                      "y": 42
+                    }
+                  ],
+                  "width": 40
+                }
+              ],
+              "target": {
+                "id": "copy-2",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "copy-2",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "copy-2",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "copy-0",
+                  "kind": "track"
+                },
+                {
+                  "id": "copy-1",
+                  "kind": "track"
+                },
+                {
+                  "id": "copy-2",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "first",
+            "clipId": "copy-0",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "first",
+            "clipId": "copy-1",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "first",
+            "clipId": "copy-2",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 40,
+        "width": 40
+      },
+      "id": "budget",
+      "ok": true
+    },
+    "peakResidentBytes": 566640640
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "worker": "/tmp/screenrec-project-still-native-final",
+  "reply": {
+    "error": {
+      "code": "NOT_READY",
+      "details": {},
+      "message": "h264-rec709 profile limit decoded-source-pixels: frame 0 requests 100663296, bound 67108864; reduce simultaneous sources or processing surfaces.",
+      "retryable": false
+    },
+    "id": "budget",
+    "ok": false
+  },
+  "passed": false,
+  "peakResidentBytes": 23396352,
+  "firstPixels": 33554432,
+  "secondDeclaredPixels": 67108864,
+  "aggregateLimit": 67108864
+}

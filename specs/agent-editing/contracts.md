@@ -424,7 +424,10 @@ raw source evidence remains unchanged. Artifacts identify which target and step
 they represent, including whether later parent processing is excluded.
 
 Public picture receipts report sample/visibility timing, selected source layers and
-physical picture provenance. Renderer-private affine/mask instructions are not
+physical picture provenance for video. Timeless image layers name their image kind
+and asset/stream identity without a source time or physical sample. The authoring
+hold at zero selects the complete image, while placement determines its duration.
+Renderer-private affine/mask instructions are not
 authoring coordinates and do not belong in agent-facing receipts. Native
 publication verifies the complete compiled picture before returning its public
 evidence; agents inspect authored placement through the processing API.

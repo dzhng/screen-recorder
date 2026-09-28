@@ -1,0 +1,27 @@
+
+ RUN  v5.0.0 /Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/core
+
+(node:38289) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/library.test.ts (23 tests | 1 failed | 22 skipped) 582ms
+   × a catalog in another format, or unstamped with tables, is refused without migrating its data 581ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/library.test.ts > a catalog in another format, or unstamped with tables, is refused without migrating its data
+AssertionError: expected function to throw an error, but it didn't
+ ❯ src/library.test.ts:638:54
+    636|     other.close();
+    637|     const before = readFileSync(path);
+    638|     expect(() => new RevisionStore(path, providers)).toThrow(
+       |                                                      ^
+    639|       expect.objectContaining({ code: "UNSUPPORTED_CATALOG" }),
+    640|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 22 skipped (23)
+   Start at  10:38:58
+   Duration  724ms (tests 88%, transform 6%, import 5%)

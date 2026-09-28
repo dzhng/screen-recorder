@@ -22,7 +22,8 @@ public final class CompositionPictureExecutor {
             let trackId: String
             let assetId: String
             let streamId: String
-            let sourceUs: Int64
+            let kind: String
+            let sourceUs: Int64?
             let availability: String
             let width: Double
             let height: Double
@@ -61,6 +62,7 @@ public final class CompositionPictureExecutor {
         let originUs: Int64
     }
     public struct Picture: Encodable {
+        var kind = "video"
         let status: String
         var clipId: String? = nil
         var assetId: String? = nil
@@ -75,6 +77,7 @@ public final class CompositionPictureExecutor {
     private struct LayerKey: Equatable {
         let clipId: String
         let reader: Int
+        let binding: String
         let sampleTime: CMTime?
         let available: Bool
     }
@@ -123,6 +126,8 @@ public final class CompositionPictureExecutor {
         .workingFormat: CIFormat.RGBAh.rawValue,
     ])
     private var readers: [String: Reader] = [:]
+    private var stills: [String: StillImageSource] = [:]
+    private(set) var decodedImages = 0
     private var decoded = 0
     private(set) var opens = 0
     private(set) var maximumActiveSources = 0
@@ -165,6 +170,17 @@ public final class CompositionPictureExecutor {
             throw Self.invalid("Compiled picture graph exceeds execution bounds.")
         }
         let requiredMasks = try preflightSurfaces(frame)
+        let active = Set(frame.layers.map(\.clipId))
+        guard active.count == frame.layers.count else {
+            throw Self.invalid("Duplicate picture occurrence.")
+        }
+        let videoActive = Set(frame.layers.filter { $0.kind == "video" }.map(\.clipId))
+        for id in readers.keys where !videoActive.contains(id) {
+            decoded += readers.removeValue(forKey: id)!.source.decodedCount
+        }
+        let imageBindings = Set(
+            frame.layers.filter { $0.kind == "image" }.map { $0.assetId + "\u{0}" + $0.streamId })
+        stills = stills.filter { imageBindings.contains($0.key) }
         var media: [String: PresentationSource.Media] = [:]
         for reader in readers.values { media[reader.binding] = reader.source.media }
         var decodedPixels: Int64 = 0
@@ -174,6 +190,15 @@ public final class CompositionPictureExecutor {
             guard let asset = assets[key] else {
                 throw Self.invalid("Missing retained source binding.")
             }
+            if layer.kind == "image" {
+                guard layer.sourceUs == nil, asset.streamId == "image:0" else {
+                    throw Self.invalid("Still layers have image identity without a source clock.")
+                }
+                continue
+            }
+            guard layer.kind == "video", layer.sourceUs != nil else {
+                throw Self.invalid("Video layers require a source clock.")
+            }
             if media[key] == nil {
                 let prepared = try await PresentationSource.prepare(
                     source: URL(fileURLWithPath: asset.path), streamId: asset.streamId)
@@ -181,33 +206,88 @@ public final class CompositionPictureExecutor {
                 media[key] = prepared
             }
             decodedPixels += media[key]!.decodedPixels
-            try Self.requireBudget(
-                "decoded-source-pixels", requested: decodedPixels,
-                limit: Self.maximumDecodedPixels, frame: frame.index)
+        }
+        // Reserve retained images and every video's declared decode before opening a new image.
+        // ImageIO must reject an oversized header before allocating its pixels.
+        var reservedPixels =
+            decodedPixels
+            + stills.values.reduce(0) {
+                $0 + Int64($1.width) * Int64($1.height)
+            }
+        try Self.requireBudget(
+            "decoded-source-pixels", requested: reservedPixels,
+            limit: Self.maximumDecodedPixels, frame: frame.index)
+        for layer in frame.layers where layer.kind == "image" {
+            try Task.checkCancellation()
+            let key = layer.assetId + "\u{0}" + layer.streamId
+            if stills[key] == nil {
+                let remaining = Self.maximumDecodedPixels - reservedPixels
+                guard remaining > 0 else {
+                    throw NativeFailure(
+                        "LIMIT_EXCEEDED",
+                        "No decoded-source pixel budget remains for a still image.")
+                }
+                guard
+                    let still = try StillImageSource.open(
+                        URL(fileURLWithPath: assets[key]!.path), maximumPixels: remaining)
+                else {
+                    throw Self.invalid("Selected source is not a PNG or JPEG still image.")
+                }
+                stills[key] = still
+                reservedPixels += Int64(still.width) * Int64(still.height)
+                opens += 1
+                decodedImages += 1
+            }
         }
         coverageMasks = coverageMasks.filter { requiredMasks.contains($0.key) }
         let canvasRect = CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height)
         let transparent = CIImage(color: .clear).cropped(to: canvasRect)
-        let active = Set(frame.layers.map(\.clipId))
-        guard active.count == frame.layers.count else {
-            throw Self.invalid("Duplicate picture occurrence.")
-        }
-        for id in readers.keys where !active.contains(id) {
-            decoded += readers.removeValue(forKey: id)!.source.decodedCount
-        }
         var surfaces: [CompositionProcessing.Target: CIImage] = [:]
         var keys: [LayerKey] = []
         pictures = []
         for layer in frame.layers {
             try Task.checkCancellation()
-            guard layer.sourceUs >= 0, layer.sourceUs <= TimeSpan.maximumMicroseconds,
-                layer.width > 0, layer.height > 0, layer.width <= 32768, layer.height <= 32768
+            guard layer.width > 0, layer.height > 0, layer.width <= 32768, layer.height <= 32768
             else { throw Self.invalid("Invalid compiled layer.") }
             let binding = layer.assetId + "\u{0}" + layer.streamId
             guard let asset = assets[binding] else {
                 throw Self.invalid("Missing retained source binding.")
             }
-            let (at, overflow) = layer.sourceUs.addingReportingOverflow(asset.originUs)
+            switch layer.availability {
+            case "available", "source-unavailable", "anchor-unavailable": break
+            default: throw Self.invalid("Unknown compiled source availability.")
+            }
+            if layer.kind == "image" {
+                let still = stills[binding]!
+                guard Double(still.orientedWidth) == layer.width,
+                    Double(still.orientedHeight) == layer.height
+                else {
+                    throw Self.invalid("Compiled image dimensions disagree with oriented source.")
+                }
+                let available = layer.availability == "available"
+                pictures.append(
+                    Picture(
+                        kind: "image", status: available ? "available" : "unavailable",
+                        clipId: layer.clipId, assetId: layer.assetId, streamId: layer.streamId,
+                        reason: available ? nil : layer.availability))
+                keys.append(
+                    LayerKey(
+                        clipId: layer.clipId, reader: 0, binding: binding,
+                        sampleTime: nil, available: available))
+                surfaces[.init(kind: "clip", id: layer.clipId)] =
+                    available
+                    ? still.oriented
+                    : CIImage(color: .clear).cropped(
+                        to: CGRect(x: 0, y: 0, width: layer.width, height: layer.height))
+                maximumActiveSources = max(maximumActiveSources, readers.count + stills.count)
+                continue
+            }
+            guard let sourceUs = layer.sourceUs, sourceUs >= 0,
+                sourceUs <= TimeSpan.maximumMicroseconds
+            else {
+                throw Self.invalid("Invalid compiled video source clock.")
+            }
+            let (at, overflow) = sourceUs.addingReportingOverflow(asset.originUs)
             guard !overflow, at >= -TimeSpan.maximumMicroseconds, at <= TimeSpan.maximumMicroseconds
             else { throw Self.invalid("Source clock exceeds native precision.") }
             if let reader = readers[layer.clipId],
@@ -222,15 +302,11 @@ public final class CompositionPictureExecutor {
                 readers[layer.clipId] = Reader(
                     source: source, binding: binding, ordinal: opens, at: at)
             }
-            maximumActiveSources = max(maximumActiveSources, readers.count)
+            maximumActiveSources = max(maximumActiveSources, readers.count + stills.count)
             let reader = readers[layer.clipId]!
             reader.at = at
             let selected = try reader.source.selection(
                 at: time(microseconds: at), end: time(microseconds: at + 1))
-            switch layer.availability {
-            case "available", "source-unavailable", "anchor-unavailable": break
-            default: throw Self.invalid("Unknown compiled source availability.")
-            }
             var picture = Picture(
                 status: "unavailable", clipId: layer.clipId, assetId: layer.assetId,
                 streamId: layer.streamId, requestedSourceUs: layer.sourceUs,
@@ -262,7 +338,8 @@ public final class CompositionPictureExecutor {
             pictures.append(picture)
             keys.append(
                 LayerKey(
-                    clipId: layer.clipId, reader: reader.ordinal, sampleTime: selected.sampleTime,
+                    clipId: layer.clipId, reader: reader.ordinal, binding: binding,
+                    sampleTime: selected.sampleTime,
                     available: available))
             surfaces[.init(kind: "clip", id: layer.clipId)] = image
         }

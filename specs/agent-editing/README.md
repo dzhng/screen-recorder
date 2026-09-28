@@ -16,8 +16,9 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Finish [10d picture/index inspection](slices/10d-frame-inspection.md) by wiring
-   still images into project composition and retained indexes. Raw PNG/JPEG
+1. Integrate and verify the combined [10d picture/index](slices/10d-frame-inspection.md)
+   and pointer renderer bindings. [Project still composition/indexes](assets/10d-project-image-public/README.md)
+   now pass their native public journey and fresh skill use. Raw PNG/JPEG
    inspection passes its [public lifecycle and fresh skill checks](assets/10d-source-image-public/README.md).
    Source/project video pictures, scenes and retained indexes also pass their
    public journeys. [Compiler visibility](assets/10d-frame-visibility/README.md)
@@ -60,8 +61,9 @@ Compact evidence ledger:
   use public audio-context anchors; direct narrower video masks remain native/core-only.
   [Raw image inspection](assets/10d-source-image-public/README.md) passes its native
   CLI/MCP lifecycle journey with unchanged reviewed native pixels, fresh skill use
-  and resized recovery review. Project still composition/indexing
-  remains required. No new layer capability is implied by raw inspection.
+  and resized recovery review. [Project still composition/indexing](assets/10d-project-image-public/README.md)
+  passes its own public media/lifecycle and fresh skill gates; combined renderer
+  identity and preservation verification remain required.
 - [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
   project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),
   [acoustic images/lifecycle](assets/11-acoustic-lifecycle/README.md) and
