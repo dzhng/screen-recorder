@@ -16,53 +16,26 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Finish [10d picture/index inspection](slices/10d-frame-inspection.md). Source index
-   [ownership](assets/10d-index-ownership/README.md),
-   [selection](assets/10d-source-index-selection/README.md),
-   [queued preparation](assets/10d-source-index-jobs/README.md) and
-   [service delivery](assets/10d-source-index-service/README.md) are integrated.
-   [Actual native CLI/MCP journeys](assets/10d-source-index-public/README.md) and
-   [fresh product-skill use](assets/10d-source-index-skill/README.md) pass.
-   [Project cuts](assets/10c-project-cuts/README.md), [fresh cut skill use](assets/10c-cut-skill/README.md)
-   and [changed-generation inspection](assets/10c-public-generations/README.md)
-   complete [10c occurrence queries](slices/10c-occurrence-queries.md). The generation
-   gate simulates a recipe release; native scenes and frozen-ASR transcripts retain
-   separate evidence boundaries. Cache-owner eviction remains a core gate.
-   [Compiler frame-boundary selection](assets/10d-project-index-clock/README.md)
-   and [candidate selection](assets/10d-project-index-selection/README.md) are
-   integrated, along with the [retained project domain](assets/10d-project-index-domain/README.md).
-   [Queued materialization](assets/10d-project-index-processing/README.md) and
-   [public CLI/MCP/native journeys](assets/10d-project-index-public/README.md) now
-   pass, including retry, retained history and deletion.
-   [Fresh skill use](assets/10d-project-index-skill/README.md) exposed competing
-   frame-range meanings. [Public visibility](assets/10d-frame-visibility/README.md)
-   now uses the compiler interval, with native validation intact and all 22 PNGs
-   unchanged. [Fresh interpretation](assets/10d-frame-visibility/skill/report.md)
-   now correctly distinguishes authored edges, displayed intervals and unknown gaps.
-   [Public acquisition-gap pictures](assets/10d-acquisition-pictures/README.md)
-   now verify audio-anchored video across selected capture gaps, including
-   [combined native verification](assets/10d-inspection-integration/README.md). Raw still-image inspection and fresh skill use now pass. Next complete project
-   still-image composition and indexing; direct custom video-mask
-   admission is not provided by the current capture producer.
-   Retain the complete [10 umbrella](slices/10-project-evidence.md).
-2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
-   [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
-   integrated. [Compiler/native geometry](assets/15-layer-geometry/README.md) now
-   passes combined-worker admission, layer, source-orientation and existing public
-   picture/index preservation gates. Immutable probe state and pixel recipes have
-   new identities. [Public presenter/stack journeys](assets/15-layer-public/README.md)
-   pass. [Fresh skill use](assets/15-layer-skill/README.md) produces correct final
-   media. The public receipt now excludes private execution coordinates;
-   [fresh reinspection](assets/15-layer-skill/reinspection/report.md) correctly
-   reads the same layout, and all 62 public journey images remain unchanged.
-   [Pointer authoring/compiler](assets/15-pointer-contract/README.md) is integrated;
-   [exact source history](assets/15-pointer-history/README.md) is integrated.
-   [Shared source-time sampling](assets/15-pointer-sampling/README.md) is integrated;
-   [Queued preparation and native replay](assets/15-pointer-execution/README.md) now pass their scoped checks; public admission and renderer bindings remain unavailable. [Processed split, duplicate, move and trim](assets/15-layer-edits/README.md)
-   pass their static media/tap checks. [Moving-source journeys](assets/15-layer-edit-motion/README.md)
-   now verify fractional edits, full/range previews and exact protected audio.
-   [Combined verification](assets/15-pointer-integration/README.md) preserves source-image, acquisition and layer behavior. Finish public pointer admission and geometry. The broader
-   final-output profile remains open.
+1. Finish [10d picture/index inspection](slices/10d-frame-inspection.md) by wiring
+   still images into project composition and retained indexes. Raw PNG/JPEG
+   inspection passes its [public lifecycle and fresh skill checks](assets/10d-source-image-public/README.md).
+   Source/project video pictures, scenes and retained indexes also pass their
+   public journeys. [Compiler visibility](assets/10d-frame-visibility/README.md)
+   and [acquisition-gap pictures](assets/10d-acquisition-pictures/README.md) retain
+   their exact evidence boundaries; arbitrary direct video-mask admission is not
+   provided by the current capture producer. Keep the complete
+   [10 umbrella](slices/10-project-evidence.md) in scope.
+2. Finish [15 layers and geometry](slices/15-layer-geometry.md) public pointer
+   admission and renderer bindings. Static presenter/stack/edit behavior passes
+   [public journeys](assets/15-layer-public/README.md),
+   [fresh skill use](assets/15-layer-skill/README.md) and
+   [moving-source conformance](assets/15-layer-edit-motion/README.md).
+   Pointer authoring, shared source-time sampling, queued source histories and
+   [native prepared execution](assets/15-pointer-execution/README.md) are integrated;
+   public readiness remains unbound. Admit histories before heavy renders/indexes
+   through the existing queue, preserving cache-ready reads and explicit retries.
+   [Combined worker checks](assets/15-pointer-integration/README.md) retain scoped
+   geometry and non-pointer preservation; full color/profile acceptance stays open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue
