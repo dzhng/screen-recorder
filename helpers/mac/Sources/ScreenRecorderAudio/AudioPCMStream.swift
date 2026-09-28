@@ -18,9 +18,16 @@ public struct AudioPCMBlock: Sendable {
     public let samples: [Float]
 }
 
+/// A finite, backpressured PCM source. The sink finishes using each block before returning.
+/// Media producers own decoding and mixing; consumers choose the encoding.
+public protocol AudioPCMSource {
+    var format: AudioPCMFormat { get }
+    func consume(_ sink: (AudioPCMBlock) async throws -> Void) async throws
+}
+
 /// One finite consumption. No decoder advances while the asynchronous consumer holds a block.
 /// Consumers must finish using a block before returning rather than retaining an unbounded queue.
-public final class AudioPCMStream {
+public final class AudioPCMStream: AudioPCMSource {
     public static let maximumBlockFrames = 8_192
     public let format: AudioPCMFormat
     public let frames: Int64

@@ -4,10 +4,10 @@ import ScreenRecorderAudio
 import ScreenRecorderFrames
 import ScreenRecorderMedia
 
-/// Copies the already-rendered H.264 samples and consumes the sole retained PCM mixer.
+/// Copies already-rendered H.264 samples and consumes a bounded PCM source.
 /// Both writer inputs finish before the caller may publish this attempt's file.
 enum MovieMux {
-    static func write(video: URL, audio: AudioPCMStream, durationUs: Int64, output: URL)
+    static func write(video: URL, audio: any AudioPCMSource, durationUs: Int64, output: URL)
         async throws
     {
         let inputs = try await Inputs(

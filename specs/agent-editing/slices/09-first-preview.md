@@ -43,3 +43,14 @@ If this milestone needs unfinished captions, keyframes or voice models, the laye
 Delegated: Report layout and internal wiring to existing job APIs. No alternate preview engine or custom CLI parsing.
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
+
+
+### PCM assembly prerequisite
+
+`AudioPCMSource` exposes only format and bounded asynchronous consumption. The
+recording stream conforms without changing its mix, while MovieMux remains the
+sole compressed-video copy and AAC assembly owner. Composition audio can adopt
+that boundary directly; no legacy timeline adaptation or intermediate WAV decode
+is part of this seam. Production native preservation evidence is recorded under
+[09-pcm-mux](../assets/09-pcm-mux/README.md). This prerequisite does not complete
+the public preview/export journey.

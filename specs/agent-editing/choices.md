@@ -696,3 +696,12 @@ trim and stretch replacements keep their single-interval behavior.
   remains responsible for that recovery. The first native operation does not add a
   competing janitor. Public preview must use this shared lifetime to retain the
   same guarantees after process death.
+
+## Shared PCM mux input — 2026-09-27
+
+- **Sound; high confidence — PCM consumption is the shared assembly boundary.**
+  Recording and composition producers expose their format and bounded asynchronous
+  blocks through `AudioPCMSource`. MovieMux remains the sole H.264-copy/AAC clock
+  and assembly owner. The protocol does not carry recording roles, source paths,
+  editorial plans or publication metadata; producers retain those responsibilities.
+  Composition adoption requires no legacy timeline translation or intermediate WAV.
