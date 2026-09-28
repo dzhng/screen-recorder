@@ -355,21 +355,14 @@ export class MediaExports {
       )
       .get(recordingId, generation);
   }
-  admit(job: Job): ReturnType<JobAdmission> {
-    const intent = this.require(job.input);
-    this.requireActive(intent);
-    if (job.artifact !== artifact || !this.matches(job, intent))
-      throw new CatalogError(
-        "INVALID_JOB",
-        "Export job does not match its pinned intent",
-      );
+  private hasPreparedInput(intent: Intent): boolean {
     // A staged attempt may already have committed; reconcile before asking dependencies again.
     if (
       intent.receipt ||
       intent.assembly ||
       (intent.staging && (intent.preview || intent.packageEvidence?.index))
     )
-      return { state: "ready" };
+      return true;
     if (intent.preview) {
       const read = this.owners.cache.acquire(intent.preview.cacheId);
       if (read) {
@@ -379,12 +372,23 @@ export class MediaExports {
               "INVALID_CACHE",
               "Pinned preview size changed",
             );
-          return { state: "ready" };
+          return true;
         } finally {
           read.release();
         }
       }
     }
+    return false;
+  }
+  admit(job: Job): ReturnType<JobAdmission> {
+    const intent = this.require(job.input);
+    this.requireActive(intent);
+    if (job.artifact !== artifact || !this.matches(job, intent))
+      throw new CatalogError(
+        "INVALID_JOB",
+        "Export job does not match its pinned intent",
+      );
+    if (this.hasPreparedInput(intent)) return { state: "ready" };
     let ready;
     if (intent.targetKind === "project") {
       if (intent.kind !== "video")
@@ -975,34 +979,25 @@ export class MediaExports {
       return cleanupPending(intent)
         ? this.recover(exportId)
         : this.status(exportId);
-    if (intent.targetKind === "project") {
+    if (intent.targetKind === "project" && !this.hasPreparedInput(intent)) {
       const pinned = intent.snapshot as PinnedProjectPreview;
-      const previous = this.owners.jobs.status(this.identity(intent));
-      if (previous.jobId) {
-        let failure = this.owners.jobs.job(previous.jobId);
-        if (failure.state === "failed") {
-          if (
-            failure.errorCode === "DEPENDENCY_FAILED" &&
-            typeof failure.errorDetails?.dependency === "string"
-          )
-            failure = this.owners.jobs.job(failure.errorDetails.dependency);
-          // Only an explicit export retry repairs this availability failure. Polling and other
-          // failed prerequisites retain the shared queue's normal refusal policy.
-          if (
-            failure.errorCode === "NOT_READY" &&
-            failure.errorDetails?.implementationId === pinned.implementationId
-          ) {
-            const current = this.project().preview.request(pinned);
-            if (current.state === "failed" && current.jobId) {
-              const dependency = this.owners.jobs.job(current.jobId);
-              if (
-                dependency.errorCode === "NOT_READY" &&
-                dependency.errorDetails?.implementationId ===
-                  pinned.implementationId
-              )
-                this.project().preview.retry(pinned);
-            }
-          }
+      const repairable = (job: Job) => {
+        if (job.state !== "failed" || !job.retryable) return false;
+        if (job.errorCode === "NOT_READY")
+          return job.errorDetails?.implementationId === pinned.implementationId;
+        if (job.errorCode !== "DEPENDENCY_FAILED" || typeof job.errorDetails?.dependency !== "string")
+          return false;
+        return this.owners.jobs.job(job.errorDetails.dependency).artifact === "pointer-presentation";
+      };
+      const prior = this.owners.jobs.status(this.identity(intent));
+      if (prior.jobId) {
+        let failure = this.owners.jobs.job(prior.jobId);
+        if (failure.errorCode === "DEPENDENCY_FAILED" && typeof failure.errorDetails?.dependency === "string")
+          failure = this.owners.jobs.job(failure.errorDetails.dependency);
+        if (repairable(failure)) {
+          const current = this.project().preview.request(pinned);
+          if (current.jobId && repairable(this.owners.jobs.job(current.jobId)))
+            this.project().preview.retry(pinned);
         }
       }
     }

@@ -278,7 +278,7 @@ export async function fixture(
     projectRetained = new ScreenshotIndexStore(
       catalog,
       home,
-      projectIndexDomain(projects, assets, acquisitions, records, projectRendererId),
+      projectIndexDomain(projects, assets, acquisitions, records, { implementationId: projectRendererId }),
     );
     index = new IndexProcessing({
       jobs,
@@ -293,7 +293,6 @@ export async function fixture(
         records,
         frames,
         cache,
-        implementationId: projectRendererId,
       },
     });
   }

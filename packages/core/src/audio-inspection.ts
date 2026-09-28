@@ -253,12 +253,12 @@ export class MediaAudioInspection {
       cache,
       identity,
       "heavy",
-      (job) => {
+      { admitted: (job) => {
         const owner = { kind: "job" as const, id: job.jobId };
         assets.retain(owner, [options.selection.assetId]);
         if (options.selection.acquisitionId)
           acquisitions.retain(owner, [options.selection.acquisitionId]);
-      },
+      } },
     );
     return {
       ...options.selection,
@@ -311,7 +311,7 @@ export class MediaAudioInspection {
       owner.projects,
       this.owners.assets,
       input,
-      owner.renderer.implementationId,
+      owner.renderer,
       "audio",
     );
     const { sampleRange } = plan.window.manifest;

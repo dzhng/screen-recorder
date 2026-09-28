@@ -1945,3 +1945,33 @@ existing lifetime owner.
   no-migration rule. Renderer recipe changes independently invalidate disposable
   frames and previews. This chooses a clean persisted contract over compatibility
   inference; it does not change the user's original media files.
+
+## Public pointer admission and recovery
+
+- **Sound, medium confidence — cap synchronous dependency selection by metadata work.**
+  A long held clip should not require scanning every output frame just to start a
+  render. The compiler finds actual discrete samples inside exact available
+  intervals, with a provisional work ceiling and the existing source-count cap.
+  Exceeding these bounds refuses preparation; slice24 must measure useful capacity.
+- **Sound, high confidence — preserve source history while an index produces frames.**
+  An index occupies the heavy lane while its frame children run. If those children
+  queued heavy history work, neither could finish. Admit history first and retain
+  cache descriptors across the index producer. Lost prerequisites release the lane
+  for one existing queue readmission; repeated loss fails explicitly. The persisted
+  readmission flag prevents automatic recovery from gaining explicit child-retry authority.
+- **Sound, high confidence — use real transitions, not reads, to wake waiting parents.**
+  Creating a nested child or failing its admission can change a parent already
+  visited in the queue snapshot. Coalesce one later event turn for those changes.
+  Unchanged waiting/pressure and ordinary reads schedule nothing. Retained history
+  byte receipts reject impossible aggregate cache sizes before regeneration churn.
+- **Sound, high confidence — distinguish dependency repair from arbitrary rendering retry.**
+  Explicit export retry repairs failed pointer preparation or its returned pinned
+  renderer. Unrelated decoder failures retain the existing explicit preview-retry
+  policy, including a newer failure behind a stale parent error. Already prepared
+  cached/staged bytes use publication readiness and can finish without old renderer
+  availability. This extends the prerequisite flow without changing unrelated retry intent.
+- **Sound, high confidence — bind readiness to the actual preparation owner.**
+  Test or alternate renderers without pointer support cannot advertise executable
+  pointer steps. Production passes the validated composition in process; public
+  manifests gain no capture metadata. Joint image/pointer recipe identities prevent
+  reuse of incompatible disposable receipts; the image pass owns Catalog13.

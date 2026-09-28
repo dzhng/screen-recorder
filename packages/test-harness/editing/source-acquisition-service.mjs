@@ -14,6 +14,7 @@ let armed;
 let speechOrdinal = 0;
 let audioOrdinal = 0;
 let visualOrdinal = 0;
+let pictureOrdinal = 0;
 process.on("message", (message) => {
   if (message?.type === "barrier.arm") {
     if (armed) throw new Error("A native barrier is already armed");
@@ -71,6 +72,25 @@ const worker = async (operation, params, options) => {
     await writeFile(`${prefix}-request.json`, JSON.stringify(params, null, 2));
     await writeFile(`${prefix}-response.json`, JSON.stringify(result, null, 2));
     await copyFile(params.output, `${prefix}.jsonl`);
+  }
+  if (
+    process.argv[3] &&
+    [
+      "media.presentationEvidence",
+      "media.renderCompositionFrame",
+      "media.renderCompositionMovie",
+    ].includes(operation)
+  ) {
+    const directory = process.argv[3];
+    await mkdir(directory, { recursive: true });
+    const prefix = join(directory, `picture-${process.pid}-${pictureOrdinal++}`);
+    await writeFile(
+      `${prefix}.json`,
+      JSON.stringify({ operation, request: params, response: result }, null, 2),
+    );
+    if (params.pointers) await copyFile(params.pointers.file, `${prefix}-pointers.jsonl`);
+    if (params.frames) await copyFile(params.frames, `${prefix}-frames.jsonl`);
+    if (result.ok && result.data.file) await copyFile(result.data.file, `${prefix}-output`);
   }
   if (armed?.operation === operation && --armed.remaining === 0) {
     const fault = armed;

@@ -2,9 +2,18 @@ import { setImmediate } from "node:timers/promises";
 import { createHash, randomUUID } from "node:crypto";
 import { link, open, rm } from "node:fs/promises";
 import { dirname, isAbsolute, join } from "node:path";
-import { isMediaClip, type CompiledFrame, type ValidatedComposition } from "@screenrec/composition";
+import {
+  isMediaClip,
+  compare,
+  fromTime,
+  toTime,
+  type createCompiler,
+  type ProcessingInstruction,
+  type CompiledFrame,
+  type ValidatedComposition,
+} from "@screenrec/composition";
 import type { SourceEvidenceReader } from "./evidence-read.js";
-import type { SourceSelection } from "./source-selection.js";
+import { sourceSelectionKey, type SourceSelection } from "./source-selection.js";
 import type { PointerPreparation } from "./pointer-preparation.js";
 import {
   PresentationPointerHistory,
@@ -21,9 +30,90 @@ export const pointerPreparationLimits = Object.freeze({
   maxHistoryBytes: 1024 ** 3,
   maxFrames: 1_000_000,
   maxOperations: 10_000_000,
+  maxAdmissionWork: 100_000,
   rowBytes: 256 * 1024,
 });
 export type PreparedPointers = { file: string; bytes: number; records: number; sha256: string };
+/** Admit source history only if an enabled pointer can contribute to an actual sampled frame. */
+export function compositionPointerSources(input: {
+  model: ValidatedComposition;
+  compiler: Pick<ReturnType<typeof createCompiler>, "frameBoundary">;
+  processing: readonly ProcessingInstruction[];
+  range: { startUs: number; endUs: number };
+}): SourceSelection[] {
+  const selected = new Set<string>();
+  let work = 0;
+  const check = () => {
+    if (++work > pointerPreparationLimits.maxAdmissionWork)
+      throw new CatalogError("LIMIT_EXCEEDED", "Pointer admission exceeds metadata work budget", {
+        limitKind: "maxAdmissionWork",
+        maximum: pointerPreparationLimits.maxAdmissionWork,
+        observed: work,
+      });
+  };
+  for (const node of input.processing) {
+    check();
+    if (node.target.kind !== "clip") continue;
+    for (const step of node.steps) {
+      check();
+      if (step.enabled && step.processor.type === "pointer") {
+        selected.add(node.target.id);
+        break;
+      }
+    }
+  }
+  if (!selected.size || input.range.startUs === input.range.endUs) return [];
+  const boundary = input.compiler.frameBoundary(input.range.startUs);
+  const first =
+    boundary.after?.sampleAtUs === input.range.startUs ? boundary.after : boundary.before;
+  if (!first) return [];
+  const start = fromTime(first.sampleAtUs),
+    end = fromTime(input.range.endUs);
+  const sources = new Map<string, SourceSelection>();
+  for (const resolved of input.model.clips) {
+    check();
+    const clip = resolved.clip;
+    if (!selected.has(clip.id) || !isMediaClip(clip) || resolved.stream?.kind !== "video") continue;
+    if (!clip.acquisitionId)
+      throw new CatalogError("INVALID_EVIDENCE", "Pointer clip lacks capture authority");
+    let lo = 0,
+      hi = resolved.available.length;
+    while (lo < hi) {
+      check();
+      const mid = Math.floor((lo + hi) / 2);
+      if (compare(resolved.available[mid]!.end, start) <= 0) lo = mid + 1;
+      else hi = mid;
+    }
+    for (let index = lo; index < resolved.available.length; index++) {
+      check();
+      const span = resolved.available[index]!;
+      if (compare(span.start, end) >= 0) break;
+      const lower = compare(span.start, start) > 0 ? span.start : start;
+      const sample = input.compiler.frameBoundary(toTime(lower)).after;
+      if (
+        !sample ||
+        sample.sampleAtUs >= input.range.endUs ||
+        compare(fromTime(sample.sampleAtUs), span.end) >= 0
+      )
+        continue;
+      const selection = {
+        assetId: clip.assetId,
+        streamId: clip.streamId,
+        acquisitionId: clip.acquisitionId,
+      };
+      sources.set(sourceSelectionKey(selection), selection);
+      if (sources.size > pointerPreparationLimits.maxSources)
+        throw new CatalogError("LIMIT_EXCEEDED", "Pointer admission exceeds source lease budget", {
+          limitKind: "maxSources",
+          maximum: pointerPreparationLimits.maxSources,
+          observed: sources.size,
+        });
+      break;
+    }
+  }
+  return [...sources.values()];
+}
+
 type Held = Parameters<Parameters<PointerPreparation["withHistory"]>[2]>[0];
 
 /** Writes one bounded row per enabled pointer operation in raw compiler order.

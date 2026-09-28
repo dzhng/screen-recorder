@@ -1,0 +1,66 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-editing-speech
+
+(node:57297) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ packages/core/src/jobs.test.ts (63 tests | 2 failed | 61 skipped) 23ms
+   × nested terminal UNAVAILABLE admission settles parents without runnable work 14ms
+   × nested terminal LIMIT_EXCEEDED admission settles parents without runnable work 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/jobs.test.ts > nested terminal UNAVAILABLE admission settles parents without runnable work
+AssertionError: expected { jobId: 'run-3', …(11) } to match object { state: 'unavailable', …(2) }
+(12 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "errorCode": "UNAVAILABLE",
++   "errorCode": null,
+    "retryable": false,
+-   "state": "unavailable",
++   "state": "waiting",
+  }
+
+ ❯ packages/core/src/jobs.test.ts:2356:37
+    2354|     });
+    2355|     await queue.idle();
+    2356|     expect(queue.job(parent.jobId)).toMatchObject({
+       |                                     ^
+    2357|       state: code === "UNAVAILABLE" ? "unavailable" : "failed",
+    2358|       retryable: false,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/core/src/jobs.test.ts > nested terminal LIMIT_EXCEEDED admission settles parents without runnable work
+AssertionError: expected { jobId: 'run-3', …(11) } to match object { state: 'failed', …(2) }
+(12 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "errorCode": "LIMIT_EXCEEDED",
++   "errorCode": null,
+    "retryable": false,
+-   "state": "failed",
++   "state": "waiting",
+  }
+
+ ❯ packages/core/src/jobs.test.ts:2356:37
+    2354|     });
+    2355|     await queue.idle();
+    2356|     expect(queue.job(parent.jobId)).toMatchObject({
+       |                                     ^
+    2357|       state: code === "UNAVAILABLE" ? "unavailable" : "failed",
+    2358|       retryable: false,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 61 skipped (63)
+   Start at  10:57:39
+   Duration  172ms (transform 55%, import 25%, tests 19%, worker 1%)

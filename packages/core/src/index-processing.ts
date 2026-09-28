@@ -32,7 +32,7 @@ import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
-import type { JobExecution, JobQueue } from "./jobs.js";
+import type { Job, JobAdmission, JobExecution, JobQueue } from "./jobs.js";
 import type { SourceTrailRead, SourceEvidenceMetadata } from "./evidence.js";
 import type { SourceProcessing } from "./processing.js";
 import type { SceneProcessing } from "./scene-processing.js";
@@ -86,7 +86,6 @@ export type IndexProcessingOptions = {
   project?: MediaIndexOwners & {
     projects: ProjectStore;
     index: ScreenshotIndexStore<ProjectIndexRecords>;
-    implementationId: string;
   };
   recording?: {
     store: RevisionStore;
@@ -133,7 +132,7 @@ export class IndexProcessing {
     return projectIndexPlan(
       projectComposition(this.project.projects, this.project.assets, input),
       input,
-      this.project.implementationId,
+      this.project.frames.projectSupport,
     );
   }
   requestProject(input: ProjectIndexInput) {
@@ -169,7 +168,10 @@ export class IndexProcessing {
       artifact,
       input: encodeIndexRecord(recipe),
     };
-    this.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
+    const submit = plan.pointerSources.length
+      ? this.jobs.submitDeferred.bind(this.jobs)
+      : this.jobs.submit.bind(this.jobs);
+    submit({ ...identity, lane: "heavy" }, (job) => {
       encodeIndexRecord({ ...recipe, generation: job.attemptId });
       this.jobs.retainInputs(
         job.jobId,
@@ -194,6 +196,9 @@ export class IndexProcessing {
   }
   retryProject(input: ProjectIndexInput) {
     const status = this.requestProject(input);
+    if (!status.published)
+      for (const selection of this.projectPlan(input).pointerSources)
+        this.project.frames.projectSupport.pointers?.retry(selection);
     if (status.jobId) this.jobs.retry(status.jobId);
     else
       for (const dependency of status.dependencies)
@@ -284,6 +289,22 @@ export class IndexProcessing {
       signal,
     );
   }
+  admitProject(job: Job): ReturnType<JobAdmission> {
+    if (job.target.kind !== "project" || job.artifact !== artifact)
+      throw new CatalogError("UNSUPPORTED_JOB", "Index admission requires a project index");
+    const input = JSON.parse(job.input) as ProjectIndexRecipe;
+    if (input.implementationId !== this.project.frames.projectSupport.implementationId)
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned picture renderer is unavailable",
+        { implementationId: input.implementationId },
+        true,
+      );
+    const plan = this.projectPlan(input);
+    return (
+      this.project.frames.projectSupport.pointers?.admit(plan.pointerSources) ?? { state: "ready" }
+    );
+  }
   private async executeProject({ job, signal }: JobExecution) {
     if (job.target.kind !== "project" || job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Project index requires a project job");
@@ -297,14 +318,17 @@ export class IndexProcessing {
     )
       throw new CatalogError("ARTIFACT_CHANGED", "Project index recipe changed");
     await this.cleanupProject(input.projectId, signal);
-    return JSON.stringify(
-      await materializeProjectIndex(
+    const materialize = () =>
+      materializeProjectIndex(
         { ...identity, scenes, generation: job.attemptId },
         plan,
-        this.project,
-        job.generation > 1,
+        { ...this.project, jobs: this.jobs },
+        job.generation > 1 && !this.jobs.wasReadmitted(job.jobId),
         signal,
-      ),
+      );
+    const pointers = this.project.frames.projectSupport.pointers;
+    return JSON.stringify(
+      pointers ? await pointers.withReady(plan.pointerSources, materialize) : await materialize(),
     );
   }
   private sourceRecipe(

@@ -1,0 +1,28 @@
+(node:64939) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ staged project bytes retry after renderer replacement without rendering again (177.962959ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 279.080208
+
+✖ failing tests:
+
+test at apps/service/tests/project-export.mjs:630:2
+✖ staged project bytes retry after renderer replacement without rendering again (177.962959ms)
+  Error: Pinned preview implementation is not available
+      at ProjectPreviewInspection.requireImplementation (file:///private/tmp/screenrec-editing-speech/packages/core/dist/project-preview.js:104:19)
+      at ProjectPreviewInspection.pin (file:///private/tmp/screenrec-editing-speech/packages/core/dist/project-preview.js:37:18)
+      at ProjectPreviewInspection.request (file:///private/tmp/screenrec-editing-speech/packages/core/dist/project-preview.js:48:29)
+      at MediaExports.retry (file:///private/tmp/screenrec-editing-speech/apps/service/dist/exports.js:638:52)
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-editing-speech/apps/service/tests/project-export.mjs:648:19)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    code: 'NOT_READY',
+    details: { implementationId: 'project-owner-fixture-v1' },
+    retryable: true
+  }

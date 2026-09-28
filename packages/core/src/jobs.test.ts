@@ -1432,6 +1432,7 @@ test("a lost prerequisite readmits a deferred job once, and only an explicit ret
   };
   const readmitted = await lose(exporter.attemptId);
   expect(readmitted.attemptId).not.toBe(exporter.attemptId);
+  expect(queue.wasReadmitted(exporter.jobId)).toBe(true);
   expect(readmitted.state).toBe("running");
   expect(admissions).toBe(2);
   expect(await lose(readmitted.attemptId)).toMatchObject({
@@ -1442,6 +1443,7 @@ test("a lost prerequisite readmits a deferred job once, and only an explicit ret
   });
   expect(admissions).toBe(2);
   const retried = queue.retry(exporter.jobId);
+  expect(queue.wasReadmitted(exporter.jobId)).toBe(false);
   expect(await lose(retried.attemptId)).toMatchObject({ state: "running" });
 });
 
@@ -2196,7 +2198,7 @@ test("cache-loss readmission restores transient inputs transactionally and ready
     input: "pinned",
   };
   const admitted = (job: Job) => f.queue.retainInputs(job.jobId, "asset", ["source"]);
-  const first = submitCachedDerivative(f.queue, cache, request, "heavy", admitted);
+  const first = submitCachedDerivative(f.queue, cache, request, "heavy", { admitted });
   expect(f.queue.retainsInput("asset", "source")).toBe(true);
   const reserved = cache.reserve(request.target);
   writeFileSync(reserved.path, "prepared");
@@ -2205,10 +2207,12 @@ test("cache-loss readmission restores transient inputs transactionally and ready
   (await f.started(initial.attemptId)).finish(JSON.stringify({ cacheId: reserved.id }));
   await f.queue.idle();
   expect(f.queue.retainsInput("asset", "source")).toBe(false);
-  expect(submitCachedDerivative(f.queue, cache, request, "heavy", admitted).state).toBe("ready");
+  expect(submitCachedDerivative(f.queue, cache, request, "heavy", { admitted }).state).toBe(
+    "ready",
+  );
   expect(f.queue.retainsInput("asset", "source")).toBe(false);
   cache.remove(reserved.id);
-  const next = submitCachedDerivative(f.queue, cache, request, "heavy", admitted);
+  const next = submitCachedDerivative(f.queue, cache, request, "heavy", { admitted });
   expect(f.queue.retainsInput("asset", "source")).toBe(true);
   const replacement = f.queue.job(next.jobId!);
   expect(replacement.generation).toBe(2);
@@ -2242,3 +2246,122 @@ test("regeneration admission failure rolls back references, attempt and publishe
   });
   expect(f.queue.status(job).published?.result).toBe("published");
 });
+
+test("permanent admission size limits fail while transient queue pressure remains waiting", async () => {
+  const { store, queue } = fixture();
+  const recordingId = finished(store);
+  const request = {
+    target: { kind: "recording" as const, recordingId },
+    artifact: "admission-size",
+    lane: "heavy" as const,
+  };
+  const permanent = queue.submitDeferred({ ...request, input: "permanent" });
+  const pressure = queue.submitDeferred({ ...request, input: "pressure" });
+  let visits = 0;
+  queue.startAdmission((job) => {
+    visits++;
+    throw new CatalogError(
+      "LIMIT_EXCEEDED",
+      job.input,
+      { bound: 10, observed: 11 },
+      job.input === "pressure",
+    );
+  });
+  expect(queue.job(permanent.jobId)).toMatchObject({
+    state: "failed",
+    retryable: false,
+    errorCode: "LIMIT_EXCEEDED",
+  });
+  expect(queue.job(pressure.jobId)).toMatchObject({ state: "waiting" });
+  queue.schedule();
+  expect(queue.job(permanent.jobId).attemptId).toBe(permanent.attemptId);
+  expect(queue.job(pressure.jobId).attemptId).toBe(pressure.attemptId);
+  await queue.idle();
+  const afterEvent = visits;
+  for (let i = 0; i < 3; i++) {
+    queue.submitDeferred({ ...request, input: "pressure" });
+    queue.status(pressure);
+    await turn();
+  }
+  expect(visits).toBe(afterEvent);
+  await queue.idle();
+});
+
+test("nested deferred children start without an external wake or recursive admission", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const target = { kind: "recording" as const, recordingId };
+  const outer = queue.submitDeferred({ target, artifact: "outer", input: "pinned", lane: "heavy" });
+  let inner: Job | undefined, source: Job | undefined;
+  let depth = 0,
+    maximumDepth = 0;
+  queue.startAdmission((job) => {
+    depth++;
+    maximumDepth = Math.max(maximumDepth, depth);
+    try {
+      const dependency =
+        job.artifact === "outer"
+          ? (inner = queue.submitDeferred({
+              target,
+              artifact: "inner",
+              input: "pinned",
+              lane: "heavy",
+            }))
+          : (source = queue.submit({ target, artifact: "source", input: "pinned", lane: "heavy" }));
+      return dependency.state === "ready"
+        ? { state: "ready" }
+        : { state: "waiting", dependency: dependency.jobId };
+    } finally {
+      depth--;
+    }
+  });
+  await turn();
+  expect(source).toBeDefined();
+  (await started(source!.attemptId)).finish("history");
+  await turn();
+  (await started(inner!.attemptId)).finish("preview");
+  await turn();
+  (await started(outer.attemptId)).finish("export");
+  await queue.idle();
+  expect(queue.job(outer.jobId).state).toBe("ready");
+  expect(maximumDepth).toBe(1);
+});
+
+test.each(["UNAVAILABLE", "LIMIT_EXCEEDED"] as const)(
+  "nested terminal %s admission settles parents without runnable work",
+  async (code) => {
+    const { store, queue, attempts } = fixture();
+    const target = { kind: "recording" as const, recordingId: finished(store) };
+    const parent = queue.submitDeferred({
+      target,
+      artifact: "parent",
+      input: "fixed",
+      lane: "heavy",
+    });
+    let visits = 0;
+    queue.startAdmission((job) => {
+      visits++;
+      if (job.artifact === "child") throw new CatalogError(code, "Permanent source failure");
+      const child = queue.submitDeferred({
+        target,
+        artifact: "child",
+        input: "fixed",
+        lane: "heavy",
+      });
+      if (["unavailable", "failed"].includes(child.state))
+        throw new CatalogError(child.errorCode!, child.reason!, {}, child.retryable);
+      return { state: "waiting", dependency: child.jobId };
+    });
+    await queue.idle();
+    expect(queue.job(parent.jobId)).toMatchObject({
+      state: code === "UNAVAILABLE" ? "unavailable" : "failed",
+      retryable: false,
+      errorCode: code,
+    });
+    expect(attempts.size).toBe(0);
+    const settledVisits = visits;
+    await turn();
+    await turn();
+    expect(visits).toBe(settledVisits);
+  },
+);

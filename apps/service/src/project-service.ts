@@ -20,11 +20,13 @@ import { SourceTranscriptRead } from "@screenrec/core/transcript-read";
 import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisitions";
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { MediaExports } from "./exports.js";
+import { PointerPreparation } from "@screenrec/core/pointer-preparation";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
 import {
   projectMovieRenderer,
   projectAudioRenderer,
   projectFrameRenderer,
+  projectPointerHistoryRenderer,
 } from "./project-render.js";
 import { clearRenderWorkspace, withRenderedFile } from "./render.js";
 import { DerivativeDelivery } from "./delivery.js";
@@ -104,6 +106,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     const cache = new DerivedCache(catalog, library, (owner) => {
       if (owner.kind === "project") projects.get(owner.projectId);
       else if (owner.kind === "asset") assets.get(owner.assetId);
+      else if (owner.kind === "acquisition") acquisitions.get(owner.acquisitionId);
       else throw new CatalogError("NOT_FOUND", "Unsupported derived-file owner");
     });
     await cache.reconcile();
@@ -138,6 +141,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       isCapturing: () => false,
     };
     await acquisitionImports.recover(new AbortController().signal);
+    let pointers: PointerPreparation;
     let preview: ProjectPreviewInspection;
     let mediaFrames: MediaFrameInspection;
     let transcripts: TranscriptProcessing;
@@ -154,6 +158,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.artifact === "pointer-presentation") return pointers.execute({ job, signal });
         if (
           (job.target.kind === "asset" || job.target.kind === "project") &&
           job.artifact === "screenshot-index"
@@ -212,6 +217,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
       },
     });
     jobs = queue;
+    pointers = new PointerPreparation({
+      assets,
+      acquisitions,
+      evidence,
+      jobs: queue,
+      cache,
+      renderer: projectPointerHistoryRenderer(worker, workspace),
+    });
     transcripts = new TranscriptProcessing({
       jobs: queue,
       transcripts: transcriptStore,
@@ -314,9 +327,12 @@ export async function startProjectService(options: { home: string; worker?: Medi
       assets,
       queue,
       cache,
-      projectMovieRenderer(worker, workspace),
+      projectMovieRenderer(worker, workspace, { preparation: pointers, evidence }),
     );
-    const projectPictures = projectFrameRenderer(worker, workspace);
+    const projectPictures = projectFrameRenderer(worker, workspace, {
+      preparation: pointers,
+      evidence,
+    });
     mediaFrames = new MediaFrameInspection({
       assets,
       acquisitions,
@@ -349,13 +365,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     const projectIndex = new ScreenshotIndexStore<ProjectIndexRecords>(
       catalog,
       library,
-      projectIndexDomain(
-        projects,
-        assets,
-        acquisitions,
-        sceneRecords,
-        projectPictures.implementationId,
-      ),
+      projectIndexDomain(projects, assets, acquisitions, sceneRecords, projectPictures),
     );
     indexes = new IndexProcessing({
       jobs: queue,
@@ -369,7 +379,6 @@ export async function startProjectService(options: { home: string; worker?: Medi
         records: sceneRecords,
         frames: mediaFrames,
         cache,
-        implementationId: projectPictures.implementationId,
       },
       asset: {
         catalog,
@@ -424,7 +433,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
       project: { store: projects, preview },
     });
     exports = mediaExports;
-    queue.startAdmission((job) => mediaExports.admit(job));
+    queue.startAdmission((job) => {
+      if (job.target.kind === "project") {
+        if (job.artifact === "preview") return preview.admit(job);
+        if (job.artifact === "frame") return mediaFrames.admit(job);
+        if (job.artifact === "screenshot-index") return indexes.admitProject(job);
+      }
+      return mediaExports.admit(job);
+    });
     await transcripts.cleanup(modelLifetime.signal);
     await scenes.cleanup(modelLifetime.signal);
     await indexes.cleanup(modelLifetime.signal);

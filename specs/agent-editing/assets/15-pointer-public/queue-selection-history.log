@@ -1,0 +1,14 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-editing-speech
+
+(node:56664) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56663) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56665) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  3 passed (3)
+      Tests  72 passed (72)
+   Start at  10:57:24
+   Duration  4.48s (tests 90%, transform 7%, import 3%)

@@ -6,11 +6,12 @@ import {
   projectCapabilities,
   type CompositionWindow,
   type CompositionAssetBinding,
+  type ProjectRenderSupport,
 } from "./project-window.js";
 export type { CompositionWindow, CompositionAssetBinding } from "./project-window.js";
 import { CatalogError } from "./catalog.js";
 import { ProjectStore } from "./projects.js";
-import type { JobExecution, JobQueue } from "./jobs.js";
+import type { Job, JobAdmission, JobExecution, JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
 import { checkRenderedPreview, type RenderedMovie } from "./preview.js";
@@ -25,11 +26,10 @@ export type ProjectPreviewInput = {
 export type CompositionMovie = Omit<RenderedMovie, "audio"> & {
   audio?: { frames: number; sampleRate: number; channels: number };
 };
-export type ProjectMovieRenderer = {
-  /** Identifies the deployed executors and supported gain implementation; changing it creates new work. */
-  implementationId: string;
+export type ProjectMovieRenderer = ProjectRenderSupport & {
   render(
     request: {
+      model: import("@screenrec/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
       output: string;
@@ -67,7 +67,7 @@ export class ProjectPreviewInspection {
   }
 
   capabilities() {
-    return projectCapabilities(this.renderer.implementationId);
+    return projectCapabilities(this.renderer);
   }
 
   pin(input: ProjectPreviewInput): PinnedProjectPreview {
@@ -83,6 +83,7 @@ export class ProjectPreviewInspection {
   }
   request(input: ProjectPreviewInput) {
     const pinned = this.pin(input);
+    const plan = this.plan(pinned);
     const options = {
       range: pinned.range,
       profile: pinned.profile,
@@ -101,6 +102,7 @@ export class ProjectPreviewInspection {
         input: JSON.stringify(options),
       },
       "heavy",
+      { deferred: plan.pointerSources.length > 0 },
     );
     return {
       projectId: input.projectId,
@@ -118,6 +120,9 @@ export class ProjectPreviewInspection {
 
   retry(input: ProjectPreviewInput) {
     const current = this.request(input);
+    if (!current.published)
+      for (const selection of this.plan(input).pointerSources)
+        this.renderer.pointers?.retry(selection);
     if (current.jobId) this.jobs.retry(current.jobId);
     return this.request({
       projectId: current.projectId,
@@ -126,6 +131,18 @@ export class ProjectPreviewInspection {
     });
   }
 
+  admit(job: Job): ReturnType<JobAdmission> {
+    const options = optionsSchema.parse(JSON.parse(job.input));
+    this.requireImplementation(options.implementationId);
+    if (job.target.kind !== "project" || job.artifact !== "preview")
+      throw new CatalogError("UNSUPPORTED_JOB", "Preview admission requires a project job");
+    const plan = this.plan({
+      projectId: job.target.projectId,
+      revisionId: job.target.revisionId,
+      ...options,
+    });
+    return this.renderer.pointers?.admit(plan.pointerSources) ?? { state: "ready" };
+  }
   private requireImplementation(implementationId: string) {
     if (implementationId !== this.renderer.implementationId)
       throw new CatalogError(
@@ -137,7 +154,7 @@ export class ProjectPreviewInspection {
   }
 
   private plan(input: ProjectPreviewInput) {
-    return projectWindow(this.projects, this.assets, input, this.renderer.implementationId);
+    return projectWindow(this.projects, this.assets, input, this.renderer);
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
@@ -153,7 +170,10 @@ export class ProjectPreviewInspection {
     signal.throwIfAborted();
     const output = this.cache.reserve({ kind: "project", projectId: job.target.projectId });
     try {
-      const movie = await this.renderer.render({ ...plan, output: output.path }, signal);
+      const render = () => this.renderer.render({ ...plan, output: output.path }, signal);
+      const movie = this.renderer.pointers
+        ? await this.renderer.pointers.withReady(plan.pointerSources, render)
+        : await render();
       signal.throwIfAborted();
       checkRenderedPreview(movie, {
         file: output.path,

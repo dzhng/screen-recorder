@@ -162,6 +162,8 @@ async function fixture(
           segments: [{ startUs: 0, endUs: 1000000, empty: false }],
           width: 160,
           height: 96,
+          orientedWidth: 160,
+          orientedHeight: 96,
         },
       ],
     }));
@@ -623,4 +625,33 @@ test("stale export implementation absence does not retry a newer decode failure"
   await f.jobs.idle();
   assert.equal(f.exports.status(request.exportId).state, "failed");
   assert.equal(renders, 1);
+});
+
+ test("staged project bytes retry after renderer replacement without rendering again", async (t) => {
+  let rejectCommit = true, renders = 0;
+  const f = await fixture(t, {
+    render: async (request, signal, ordinary) => { renders++; return ordinary(request, signal); },
+    wrap: (worker) => async (operation, params, options) => {
+      if (operation === "publication.commit" && rejectCommit)
+        throw new CatalogError("FIXTURE_COMMIT_INTERRUPTED", "Staged before commit", {}, true);
+      return worker(operation, params, options);
+    },
+  });
+  const request = f.request();
+  await f.exports.create(request);
+  await until(() => f.exports.status(request.exportId).state === "failed");
+  await f.jobs.idle();
+  const preview = f.preview.request({ projectId: f.projectId }).published.preview;
+  f.cache.remove(preview.cacheId);
+  f.replaceRenderer("project-owner-fixture-v2");
+  rejectCommit = false;
+  await f.exports.retry(request.exportId);
+  const result = await until(() => {
+    const status = f.exports.status(request.exportId);
+    if (status.state === "failed") throw Error(JSON.stringify(status));
+    return status.state === "committed" && !status.cleanupPending && status;
+  });
+  assert.equal(renders, 1);
+  assert.equal(JSON.parse(await readFile(result.output, "utf8")).manifest.requirements[0].implementationId,
+    "project-owner-fixture-v1");
 });

@@ -44,10 +44,10 @@ async function fixture() {
   let index = new ScreenshotIndexStore(
     catalog,
     home,
-    projectIndexDomain(projects, assets, acquisitions, scenes, "picture-test"),
+    projectIndexDomain(projects, assets, acquisitions, scenes, { implementationId: "picture-test" }),
   );
   const identity = (generation = "index"): ProjectIndexIdentity => ({
-    ...projectIndexPlan(projectComposition(projects, assets, { projectId }), {}, "picture-test")
+    ...projectIndexPlan(projectComposition(projects, assets, { projectId }), {}, { implementationId: "picture-test" })
       .identity,
     generation,
     scenes: [],
@@ -89,7 +89,7 @@ async function fixture() {
       index = new ScreenshotIndexStore(
         catalog,
         home,
-        projectIndexDomain(projects, assets, acquisitions, scenes, renderer),
+        projectIndexDomain(projects, assets, acquisitions, scenes, { implementationId: renderer }),
       );
     },
   };
@@ -147,7 +147,7 @@ async function append(
   const candidate = { ...composition.compiler.frameBoundary(atUs).after!, ordinal, reasons: [] };
   const plan = composition.window(
     { range: { startUs: atUs, endUs: atUs + 1 }, tap: identity.tap },
-    identity.implementationId,
+    { implementationId: identity.implementationId },
     "video",
   );
   const file = f.index.outputPath(identity, ordinal);

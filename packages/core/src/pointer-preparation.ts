@@ -10,10 +10,11 @@ import {
   presentationLimits,
   type PresentationReceipt,
 } from "./presentation-evidence.js";
-import type { JobExecution, JobQueue } from "./jobs.js";
+import { JobDependencyLost, type JobAdmission, type JobExecution, type JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
 import { CatalogError } from "./catalog.js";
+import { pointerPreparationLimits } from "./composition-pointer.js";
 
 const recipeSchema = z.strictObject({
   selection: sourceSelectionSchema.extend({ acquisitionId: z.string().min(1) }),
@@ -98,11 +99,79 @@ export class PointerPreparation {
       this.owners.cache,
       this.identity(recipe),
       "heavy",
-      (job) => {
-        this.owners.jobs.retainInputs(job.jobId, "asset", [recipe.selection.assetId]);
-        this.owners.jobs.retainInputs(job.jobId, "acquisition", [recipe.selection.acquisitionId]);
+      {
+        admitted: (job) => {
+          this.owners.jobs.retainInputs(job.jobId, "asset", [recipe.selection.assetId]);
+          this.owners.jobs.retainInputs(job.jobId, "acquisition", [recipe.selection.acquisitionId]);
+        },
       },
     );
+  }
+  retry(selection: SourceSelection) {
+    const status = this.request(selection);
+    if (
+      status.jobId &&
+      status.retryable &&
+      !["queued", "processing", "ready"].includes(status.state)
+    )
+      this.owners.jobs.retry(status.jobId);
+  }
+  admit(selections: readonly SourceSelection[]): ReturnType<JobAdmission> {
+    // Retained job receipts still account for files evicted since publication.
+    let knownBytes = 0;
+    for (const selection of selections) {
+      const status = this.owners.jobs.status(this.identity(this.plan(selection).recipe));
+      if (status.published)
+        knownBytes += (JSON.parse(status.published.result) as Artifact).receipt.bytes;
+    }
+    this.owners.cache.checkCapacity(knownBytes);
+    if (knownBytes > pointerPreparationLimits.maxHistoryBytes)
+      throw new CatalogError(
+        "LIMIT_EXCEEDED",
+        "Pointer histories exceed aggregate admission budget",
+        {
+          limitKind: "maxHistoryBytes",
+          observed: knownBytes,
+          maximum: pointerPreparationLimits.maxHistoryBytes,
+        },
+      );
+    for (const selection of selections) {
+      const status = this.request(selection);
+      if (status.published) continue;
+      if (["failed", "unavailable", "not_requested"].includes(status.state))
+        throw new CatalogError(
+          status.state === "unavailable" ? "UNAVAILABLE" : "DEPENDENCY_FAILED",
+          status.reason ?? "Pointer history is unavailable",
+          { dependency: status.jobId },
+          status.retryable,
+        );
+      if (!status.jobId)
+        throw new CatalogError("INVALID_STATE", "Pointer history has no job identity");
+      return { state: "waiting", dependency: status.jobId };
+    }
+    return { state: "ready" };
+  }
+  /** Producer leases prevent a heavy index from waiting on a frame's evicted heavy history. */
+  async withReady<T>(
+    selections: readonly SourceSelection[],
+    consume: () => Promise<T>,
+  ): Promise<T> {
+    const leases = [];
+    try {
+      for (const selection of selections) {
+        const { recipe } = this.plan(selection);
+        const status = this.owners.jobs.status(this.identity(recipe));
+        if (!status.published)
+          throw new JobDependencyLost("Pointer history publication disappeared");
+        const artifact = JSON.parse(status.published.result) as Artifact;
+        const lease = this.owners.cache.acquire(artifact.cacheId);
+        if (!lease) throw new JobDependencyLost("Pointer history cache disappeared");
+        leases.push(lease);
+      }
+      return await consume();
+    } finally {
+      for (const lease of leases) lease.release();
+    }
   }
   async execute({ job, signal }: JobExecution) {
     const parsed = recipeSchema.safeParse(JSON.parse(job.input));
@@ -170,24 +239,31 @@ export class PointerPreparation {
   ) {
     const plan = this.plan(selection);
     const status = this.owners.jobs.status(this.identity(plan.recipe));
-    if (!status.published)
-      throw new CatalogError("NOT_READY", "Exact pointer history is not prepared", {}, true);
+    if (!status.published) throw new JobDependencyLost("Exact pointer history is not prepared");
     const artifact = JSON.parse(status.published.result) as Artifact;
-    return this.owners.cache.withDescriptor(artifact.cacheId, async (lease) => {
-      if (artifact.receipt.bytes !== lease.bytes)
-        throw new CatalogError("INVALID_EVIDENCE", "Pointer history changed its cache size");
-      const presentation = await PresentationEvidence.fromDescriptor(
-        artifact.receipt,
-        plan.history.spans,
-        lease.fd,
-        signal,
-        { ...presentationLimits, maxBytes },
-      );
-      try {
-        return await consume({ plan, presentation });
-      } finally {
-        await presentation.close();
-      }
-    });
+    let opened = false;
+    return this.owners.cache
+      .withDescriptor(artifact.cacheId, async (lease) => {
+        opened = true;
+        if (artifact.receipt.bytes !== lease.bytes)
+          throw new CatalogError("INVALID_EVIDENCE", "Pointer history changed its cache size");
+        const presentation = await PresentationEvidence.fromDescriptor(
+          artifact.receipt,
+          plan.history.spans,
+          lease.fd,
+          signal,
+          { ...presentationLimits, maxBytes },
+        );
+        try {
+          return await consume({ plan, presentation });
+        } finally {
+          await presentation.close();
+        }
+      })
+      .catch((error: unknown) => {
+        if (!opened && error instanceof CatalogError && error.code === "ARTIFACT_EXPIRED")
+          throw new JobDependencyLost("Pointer history cache disappeared");
+        throw error;
+      });
   }
 }

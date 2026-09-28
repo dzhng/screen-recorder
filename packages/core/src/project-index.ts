@@ -4,7 +4,8 @@ import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import type { ProjectStore } from "./projects.js";
 import { CatalogError } from "./catalog.js";
-import { projectComposition } from "./project-window.js";
+import { compositionPointerSources } from "./composition-pointer.js";
+import { projectComposition, type ProjectRenderSupport } from "./project-window.js";
 import {
   projectPictureOptionsSchema,
   validateRetainedProjectFrameReceipt,
@@ -40,18 +41,17 @@ export type ProjectIndexRecords = {
 export function projectIndexPlan(
   composition: ReturnType<typeof projectComposition>,
   input: Pick<ProjectFrameInput, "tap" | "maxLongEdge">,
-  implementationId: string,
+  support: ProjectRenderSupport,
 ) {
   const parsed = projectPictureOptionsSchema.safeParse({
     tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
     maxLongEdge: input.maxLongEdge ?? 1600,
-    implementationId,
+    implementationId: support.implementationId,
   });
   if (!parsed.success) throw new CatalogError("INVALID_PARAMS", "Invalid project picture options");
   const { model, compiler } = composition;
   const processing = model.durationUs
-    ? composition.window({ tap: parsed.data.tap }, implementationId, "video").window.manifest
-        .processing
+    ? composition.window({ tap: parsed.data.tap }, support, "video").window.manifest.processing
     : compiler.tapPlan(parsed.data.tap, "video");
   const selected = new Set(
     processing.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
@@ -84,6 +84,12 @@ export function projectIndexPlan(
     model,
     compiler,
     processing,
+    pointerSources: compositionPointerSources({
+      model,
+      compiler,
+      processing,
+      range: { startUs: 0, endUs: model.durationUs },
+    }),
     sources: [...bindings.values()],
   };
 }
@@ -97,7 +103,7 @@ export function projectIndexDomain(
   assets: AssetStore,
   acquisitions: AcquisitionStore,
   scenes: SceneEvidenceStore,
-  implementationId: string,
+  support: ProjectRenderSupport,
 ): IndexDomain<ProjectIndexRecords> {
   // One write context bounds residency and avoids rebuilding a full revision for every appended PNG.
   let active:
@@ -121,7 +127,7 @@ export function projectIndexDomain(
       active = {
         key,
         composition,
-        plan: projectIndexPlan(composition, identity, identity.implementationId),
+        plan: projectIndexPlan(composition, identity, support),
       };
     }
     return active;
@@ -139,7 +145,7 @@ export function projectIndexDomain(
       scenes: identity.scenes,
     }),
     begin(identity) {
-      if (identity.implementationId !== implementationId)
+      if (identity.implementationId !== support.implementationId)
         throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
       if (!identity.generation || identity.selectionPolicy !== projectIndexPolicy.id)
         invalid("Project index selection identity is unavailable");
@@ -203,7 +209,7 @@ export function projectIndexDomain(
             range: { startUs: candidate.sampleAtUs, endUs: candidate.sampleAtUs + 1 },
             tap: identity.tap,
           },
-          identity.implementationId,
+          support,
           "video",
         ),
         path,

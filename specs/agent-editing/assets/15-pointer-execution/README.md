@@ -87,3 +87,7 @@ The subsequent [actual writer-input localization](../06-pointer-writer/README.md
 compares active rows, color attachments and mapped timestamps on the pinned movie
 samples. It narrows the cause for that cohort while preserving both red diagnostics;
 no general colored-trail or codec acceptance follows from it.
+
+The later [public preparation checkpoint](../15-pointer-public/README.md) binds
+these primitives through CLI/MCP admission and records its distinct recovery,
+source-clock and pixel-preservation evidence.

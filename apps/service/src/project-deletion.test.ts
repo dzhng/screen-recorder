@@ -34,7 +34,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
   const index = new ScreenshotIndexStore(
     catalog,
     home,
-    projectIndexDomain(projects, assets, acquisitions, scenes, "deletion-test"),
+    projectIndexDomain(projects, assets, acquisitions, scenes, { implementationId: "deletion-test" }),
   );
   const started = deferred();
   const aborted = deferred();
@@ -113,7 +113,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
     const one = create("one"),
       two = create("two");
     const indexIdentity = (projectId: string, generation: string) => ({
-      ...projectIndexPlan(projectComposition(projects, assets, { projectId }), {}, "deletion-test")
+      ...projectIndexPlan(projectComposition(projects, assets, { projectId }), {}, { implementationId: "deletion-test" })
         .identity,
       generation,
       scenes: [],

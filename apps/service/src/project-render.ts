@@ -1,6 +1,6 @@
 import { constants } from "node:fs";
 import { copyFile, mkdir, open } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { CompositionMovie, ProjectMovieRenderer } from "@screenrec/core/project-preview";
 import type { ProjectFrameRenderer } from "@screenrec/core/frame-inspection";
@@ -8,10 +8,84 @@ import type { ProjectAudioRenderer } from "@screenrec/core/audio-inspection";
 import { withRenderAttempt, withRenderedFile } from "./render.js";
 import { renderWindowDeadlineMs, nativeResult, type MediaWorker } from "./worker.js";
 
-/** Compiled pictures and PCM share the existing attempt and final movie publication boundary. */
-export function projectMovieRenderer(worker: MediaWorker, workspace: string): ProjectMovieRenderer {
+import type {
+  PointerPreparation,
+  PointerHistoryRenderer,
+} from "@screenrec/core/pointer-preparation";
+import type { SourceEvidenceReader } from "@screenrec/core/evidence-read";
+import type { PresentationReceipt } from "@screenrec/core/presentation-evidence";
+import { prepareCompositionPointers } from "@screenrec/core/composition-pointer";
+import { renderPlan } from "@screenrec/core/timeline";
+type PointerOwners = { preparation: PointerPreparation; evidence: SourceEvidenceReader };
+export function projectPointerHistoryRenderer(
+  worker: MediaWorker,
+  workspace: string,
+): PointerHistoryRenderer {
   return {
-    implementationId: "native-composition-movie-v4",
+    implementationId: "native-pointer-presentation-v1",
+    render: async (request, signal) =>
+      (await withRenderedFile(
+        worker,
+        { attemptParent: workspace, output: request.output, filename: "presentation.jsonl" },
+        signal,
+        async (output, execute) =>
+          nativeResult(
+            await execute(
+              "media.presentationEvidence",
+              {
+                source: request.source,
+                streamId: request.streamId,
+                clockOffsetUs: request.clockOffsetUs,
+                plan: renderPlan({ spans: request.spans }),
+                output,
+                ...request.limits,
+              },
+              {
+                signal,
+                timeoutMs: renderWindowDeadlineMs({
+                  startUs: 0,
+                  endUs: request.spans.reduce((sum, span) => sum + span.endUs - span.startUs, 0),
+                }),
+              },
+            ),
+          ) as PresentationReceipt,
+      )) as PresentationReceipt,
+  };
+}
+async function pointerFile(
+  owners: PointerOwners | undefined,
+  request: Parameters<ProjectMovieRenderer["render"]>[0],
+  directory: string,
+  signal: AbortSignal,
+) {
+  if (
+    !owners ||
+    !request.window.manifest.processing.some((node) =>
+      node.steps.some((step) => step.enabled && step.processor.type === "pointer"),
+    )
+  )
+    return undefined;
+  return prepareCompositionPointers(
+    {
+      model: request.model,
+      frames: () => request.window.frames(),
+      output: join(directory, "pointers.jsonl"),
+      preparation: owners.preparation,
+      evidence: owners.evidence,
+    },
+    signal,
+  );
+}
+
+/** Compiled pictures and PCM share the existing attempt and final movie publication boundary. */
+export function projectMovieRenderer(
+  worker: MediaWorker,
+  workspace: string,
+  pointers?: PointerOwners,
+): ProjectMovieRenderer {
+  return {
+    implementationId: "native-composition-movie-v5",
+    ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
       const { manifest } = request.window;
@@ -20,6 +94,7 @@ export function projectMovieRenderer(worker: MediaWorker, workspace: string): Pr
         workspace,
         signal,
         async (directory, execute) => {
+          const prepared = await pointerFile(pointers, request, directory, signal);
           const frames = join(directory, "frames.jsonl");
           const handle = await open(frames, "wx", 0o600);
           let frameCount = 0;
@@ -44,6 +119,7 @@ export function projectMovieRenderer(worker: MediaWorker, workspace: string): Pr
             "media.renderCompositionMovie",
             {
               output: file,
+              ...(prepared ? { pointers: prepared } : {}),
               frames,
               range: manifest.range,
               canvas: manifest.canvas,
@@ -103,20 +179,28 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
   };
 }
 
-export function projectFrameRenderer(worker: MediaWorker, workspace: string): ProjectFrameRenderer {
+export function projectFrameRenderer(
+  worker: MediaWorker,
+  workspace: string,
+  pointers?: PointerOwners,
+): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v5",
-    render: async ({ window, assets, output, maxLongEdge }, signal) =>
-      withRenderedFile(
+    implementationId: "native-composition-picture-v6",
+    ...(pointers ? { pointers: pointers.preparation } : {}),
+    render: async (request, signal) => {
+      const { window, assets, output, maxLongEdge } = request;
+      return withRenderedFile(
         worker,
         { attemptParent: workspace, output, filename: "frame.png" },
         signal,
-        async (file, execute) =>
-          nativeResult(
+        async (file, execute) => {
+          const prepared = await pointerFile(pointers, request, dirname(file), signal);
+          return nativeResult(
             await execute(
               "media.renderCompositionFrame",
               {
                 output: file,
+                ...(prepared ? { pointers: prepared } : {}),
                 frame: window.frames().next().value,
                 canvas: window.manifest.canvas,
                 profile: "h264-rec709",
@@ -126,7 +210,9 @@ export function projectFrameRenderer(worker: MediaWorker, workspace: string): Pr
               },
               { signal },
             ),
-          ),
-      ),
+          );
+        },
+      );
+    },
   };
 }

@@ -273,7 +273,7 @@ export async function withRenderedMedia<T>(
  * the render workspace lock; only completed bytes enter the disposable cache. */
 export async function withRenderedFile(
   worker: MediaWorker,
-  request: { attemptParent: string; output: string; filename: "audio.wav" | "frame.png" },
+  request: { attemptParent: string; output: string; filename: "audio.wav" | "frame.png" | "presentation.jsonl" },
   signal: AbortSignal,
   produce: (output: string, worker: MediaWorker) => Promise<unknown>,
 ): Promise<unknown> {

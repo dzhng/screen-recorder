@@ -186,15 +186,13 @@ provisional until slice 24 measures release-scale behavior.
 
 Checkpoint 1 now has [authoring/compiler evidence](../assets/15-pointer-contract/README.md):
 registry-owned scope/acquisition compatibility, atomic replacement rules, complete
-backward geometry references and pure-edit identity retention. Exact source
-preparation and native replay are verified below; public execution remains unbound.
+backward geometry references and pure-edit identity retention. Later checkpoints below provide exact preparation, native replay and public admission.
 
 The exact-history prerequisite for checkpoint 2 has
 [focused evidence](../assets/15-pointer-history/README.md): selected-track history
 uses the existing physical presentation owner, explicit acquisition clock mapping,
-and exact empty-end floors across skipped records. The prepared-execution
-checkpoint below adds queue/cache lifetime ownership, observation/trail preparation
-and native replay. Public admission and readiness remain the current pickup.
+and exact empty-end floors across skipped records. Subsequent checkpoints below add queue/cache lifetime ownership, observation/trail
+preparation, native replay and public readiness.
 
 ## Moving-source edit checkpoint
 
@@ -212,7 +210,7 @@ performance or broader movie color/profile acceptance.
 [Source-time sampling evidence](../assets/15-pointer-sampling/README.md) pins the
 shared legacy/project event-reset owner and explicit trails at repeated, held and
 backward selected instants. Prepared native replay is verified below; public
-readiness/admission remains the next integration step.
+readiness/admission is verified by the public checkpoint below.
 
 ## Public pointer preparation admission
 
@@ -235,10 +233,27 @@ The renderer receives the existing validated composition model in process for
 immutable clip/acquisition authority. Public execution manifests do not gain
 capture fields merely for service wiring. Attempt-local prepared pointer streams
 remain separate from the original compiler graph and are validated before native
-replay. This is the next integration plan, not a claim that execution is enabled.
+replay. The public checkpoint below binds this preparation owner.
 
 The [prepared-execution checkpoint](../assets/15-pointer-execution/README.md)
 now connects queued exact history, bounded attempt streams and shared native prefix
 replay. Scoped sampled geometry and retention gates pass; strict legacy byte parity
 and colored encoded-trail diagnostics remain explicitly red under slice06. This
-checkpoint does not enable public readiness or close the wider slice15 journey.
+checkpoint does not by itself close the wider slice15 journey.
+
+## Public pointer checkpoint
+
+[Public preparation evidence](../assets/15-pointer-public/README.md) binds pointer
+execution across CLI/MCP frames, preview/export and retained indexes. Discrete
+contributing-frame admission, history leases, terminal dependency propagation and
+explicit retry use the existing queue. Dry/inactive absent-observation windows
+remain usable; active missing evidence is explicit. Cached/staged results do not
+require new source preparation or the former renderer. Export retries repair
+pointer preparation and renderer availability, preserving the separate explicit
+preview-retry policy for unrelated decoder failures.
+
+Reviewed PNG parity, pure split, hold, retime, repeat and full/range prepared-row
+checks pass. Thin encoded colored-trail and legacy byte diagnostics remain open
+under slice06; source-reset/physical-gap evidence remains at the shared sampler
+checkpoint. Release-scale capacity and fresh product-skill pointer authoring stay
+separate gates. No whole-slice15 acceptance follows from public admission alone.

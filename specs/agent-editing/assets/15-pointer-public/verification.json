@@ -1,0 +1,30 @@
+{
+  "worker": {
+    "path": "/tmp/screenrec-project-image-native",
+    "sha256": "d266b943c537a9cf3149da8c736aefe3a30579fcc68cb2eebda97d58a1562f9d"
+  },
+  "base": "77bf62428246d5ef9280ad80b97a3a6362729795",
+  "recipes": {
+    "picture": "native-composition-picture-v6",
+    "movie": "native-composition-movie-v5",
+    "history": "native-pointer-presentation-v1"
+  },
+  "catalogFormat": 13,
+  "moduleResolution": "/private/tmp/screenrec-editing-speech/packages/composition",
+  "distSha256": {
+    "packages/core/dist/composition-pointer.js": "6538f3b62d57c0e56cc3fefee99f2752dc5e9fbcfd6ee905a79d18bf421ca518",
+    "packages/core/dist/jobs.js": "c6deffa9cd99827a4653d955c0b44211e16cb492ca55bff1bad67bc8407a0891",
+    "apps/service/dist/project-service.js": "86691290c24ee955d60f1a360c85c456074d0f9b86d41ab1d0503b42fd99ebfc",
+    "apps/service/dist/project-render.js": "7e23108efdf7a957b6fe046f8e66af14199accf36d4366ff689b1a819a14464f",
+    "apps/service/dist/exports.js": "85f62faf812940c38593cd8580c0338392e77aadcf16cfaec52b5490a245087e"
+  },
+  "command": "SCREENREC_NATIVE=/tmp/screenrec-project-image-native node packages/test-harness/editing/pointer-public.mjs --out /tmp/screenrec-pointer-public-release",
+  "open": [
+    "slice06 strict legacy byte and encoded colored-trail diagnostics",
+    "slice24 release-scale memory/performance",
+    "fresh product skill pointer authoring journey"
+  ],
+  "publicGateGroups": 18,
+  "publicPassed": true,
+  "review": "Two confirmed findings corrected; final focused export review has no actionable findings"
+}

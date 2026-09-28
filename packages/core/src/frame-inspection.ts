@@ -10,7 +10,7 @@ import type { ProjectStore } from "./projects.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
 import { compositionAsset, type AssetStore } from "./assets.js";
-import type { JobQueue, JobExecution, JobOwner, Job } from "./jobs.js";
+import type { JobQueue, JobExecution, JobOwner, Job, JobAdmission } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import { CatalogError } from "./catalog.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
@@ -18,6 +18,7 @@ import {
   projectWindow,
   type CompositionWindow,
   type CompositionAssetBinding,
+  type ProjectRenderSupport,
 } from "./project-window.js";
 
 const time = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -96,10 +97,11 @@ export type ProjectFrameInput = {
   maxLongEdge?: number | undefined;
   tap?: ProcessingTap | undefined;
 };
-export type ProjectFrameRenderer = {
+export type ProjectFrameRenderer = ProjectRenderSupport & {
   implementationId: string;
   render(
     request: {
+      model: import("@screenrec/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
       output: string;
@@ -281,11 +283,13 @@ export class MediaFrameInspection {
         input: JSON.stringify(options),
       },
       "frame",
-      (job) => {
-        const owner = { kind: "job" as const, id: job.jobId };
-        assets.retain(owner, [options.selection.assetId]);
-        if ("acquisitionId" in options.selection && options.selection.acquisitionId)
-          acquisitions.retain(owner, [options.selection.acquisitionId]);
+      {
+        admitted: (job) => {
+          const owner = { kind: "job" as const, id: job.jobId };
+          assets.retain(owner, [options.selection.assetId]);
+          if ("acquisitionId" in options.selection && options.selection.acquisitionId)
+            acquisitions.retain(owner, [options.selection.acquisitionId]);
+        },
       },
     );
   }
@@ -567,14 +571,14 @@ export class MediaFrameInspection {
         range: { startUs: input.atUs, endUs: input.atUs + 1 },
         tap: options.data.tap,
       },
-      this.project.renderer.implementationId,
+      this.project.renderer,
       "video",
     );
     return { ...plan, options: options.data };
   }
 
   private requestProject(input: ProjectFrameInput) {
-    const { window, options } = this.planProject(input);
+    const { window, options, pointerSources } = this.planProject(input);
     const revisionId = window.manifest.revisionId;
     const status = submitCachedDerivative<ProjectFrameArtifact>(
       this.owners.jobs,
@@ -585,6 +589,7 @@ export class MediaFrameInspection {
         input: JSON.stringify(options),
       },
       "frame",
+      { deferred: pointerSources.length > 0 },
     );
     return {
       projectId: input.projectId,
@@ -627,12 +632,36 @@ export class MediaFrameInspection {
     | ReturnType<MediaFrameInspection["requestProject"]>;
   retry(input: MediaFrameInput) {
     const current = this.request(input);
+    if ("projectId" in input && !current.published)
+      for (const selection of this.planProject(input).pointerSources)
+        this.project.renderer.pointers?.retry(selection);
     if (current.jobId) this.owners.jobs.retry(current.jobId);
     return this.request(
       "projectId" in current
         ? { ...input, projectId: current.projectId, revisionId: current.revisionId }
         : input,
     );
+  }
+  get projectSupport(): ProjectRenderSupport {
+    return this.project.renderer;
+  }
+  admit(job: Job): ReturnType<JobAdmission> {
+    const options = optionsSchema.parse(JSON.parse(job.input));
+    if (options.implementationId !== this.project.renderer.implementationId)
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned picture renderer is unavailable",
+        { implementationId: options.implementationId },
+        true,
+      );
+    if (job.target.kind !== "project" || job.artifact !== "frame")
+      throw new CatalogError("UNSUPPORTED_JOB", "Picture admission requires a project job");
+    const plan = this.planProject({
+      projectId: job.target.projectId,
+      revisionId: job.target.revisionId,
+      ...options,
+    });
+    return this.project.renderer.pointers?.admit(plan.pointerSources) ?? { state: "ready" };
   }
   async execute(execution: JobExecution): Promise<string> {
     return execution.job.target.kind === "project"
@@ -654,10 +683,20 @@ export class MediaFrameInspection {
     });
     const projectId = job.target.projectId;
     return this.publish({ kind: "project", projectId }, signal, async (output) => {
-      const receipt = await this.project.renderer.render(
-        { window: plan.window, assets: plan.assets, output, maxLongEdge: plan.options.maxLongEdge },
-        signal,
-      );
+      const render = () =>
+        this.project.renderer.render(
+          {
+            model: plan.model,
+            window: plan.window,
+            assets: plan.assets,
+            output,
+            maxLongEdge: plan.options.maxLongEdge,
+          },
+          signal,
+        );
+      const receipt = this.project.renderer.pointers
+        ? await this.project.renderer.pointers.withReady(plan.pointerSources, render)
+        : await render();
       signal.throwIfAborted();
       const value = validateProjectFrameReceipt(receipt, plan, output, plan.options.maxLongEdge);
       return { ...value, ...plan.options, projectId, revisionId: plan.window.manifest.revisionId };

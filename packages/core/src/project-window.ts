@@ -11,6 +11,9 @@ import {
 import { AssetStore, compositionAsset } from "./assets.js";
 import { ProjectStore } from "./projects.js";
 import { CatalogError } from "./catalog.js";
+import type { PointerPreparation } from "./pointer-preparation.js";
+import { compositionPointerSources } from "./composition-pointer.js";
+export type ProjectRenderSupport = { implementationId: string; pointers?: PointerPreparation };
 
 export type CompositionWindow = ReturnType<ReturnType<typeof createCompiler>["window"]>;
 export type CompositionAssetBinding = {
@@ -20,12 +23,14 @@ export type CompositionAssetBinding = {
   originUs: number;
 };
 
-const implementations = (id: string): ProcessorImplementations => ({
-  geometry: id,
-  opacity: id,
-  gain: id,
+const implementations = (support: ProjectRenderSupport): ProcessorImplementations => ({
+  geometry: support.implementationId,
+  opacity: support.implementationId,
+  gain: support.implementationId,
+  ...(support.pointers ? { pointer: support.implementationId } : {}),
 });
-export const projectCapabilities = (id: string) => processingCapabilities(implementations(id));
+export const projectCapabilities = (support: ProjectRenderSupport) =>
+  processingCapabilities(implementations(support));
 
 /** One immutable revision context owns model validation, compiler timing and source bindings. */
 export function projectComposition(
@@ -52,7 +57,7 @@ export function projectComposition(
         range?: { startUs: number; endUs: number } | undefined;
         tap?: ProcessingTap | undefined;
       },
-      implementationId: string,
+      support: ProjectRenderSupport,
       component?: "audio" | "video",
     ) {
       const parsed = rangeSchema.safeParse(input.range ?? { startUs: 0, endUs: model.durationUs });
@@ -76,9 +81,9 @@ export function projectComposition(
         ...requirement,
         implementationId:
           requirement.kind === "executor"
-            ? implementationId
+            ? support.implementationId
             : requirement.kind === "processor"
-              ? (implementations(implementationId)[requirement.processor.type] ?? null)
+              ? (implementations(support)[requirement.processor.type] ?? null)
               : null,
       }));
       const bound = { ...window, manifest: { ...window.manifest, requirements } };
@@ -94,6 +99,13 @@ export function projectComposition(
         });
       }
       return {
+        model,
+        pointerSources: compositionPointerSources({
+          model,
+          compiler,
+          processing: bound.manifest.processing,
+          range: bound.manifest.range,
+        }),
         window: bound,
         assets: [...bindings.values()],
         durationUs: model.durationUs,
@@ -113,8 +125,8 @@ export function projectWindow(
     range?: { startUs: number; endUs: number } | undefined;
     tap?: ProcessingTap | undefined;
   },
-  implementationId: string,
+  support: ProjectRenderSupport,
   component?: "audio" | "video",
 ) {
-  return projectComposition(projects, assets, input).window(input, implementationId, component);
+  return projectComposition(projects, assets, input).window(input, support, component);
 }

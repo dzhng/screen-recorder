@@ -1,5 +1,6 @@
 import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./catalog.js";
+import { JobDependencyLost, type JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import type { MediaFrameInspection } from "./frame-inspection.js";
 import { waitForIndexFrame, retainIndexFrame } from "./index-frame.js";
@@ -45,6 +46,7 @@ export async function materializeProjectIndex(
     records: SceneEvidenceStore;
     frames: MediaFrameInspection;
     cache: DerivedCache;
+    jobs: JobQueue;
   },
   retryFrames: boolean,
   signal: AbortSignal,
@@ -107,7 +109,15 @@ export async function materializeProjectIndex(
         atUs: candidate.sampleAtUs,
       };
       const status = await waitForIndexFrame(
-        () => frames.request(input),
+        () => {
+          const status = frames.request(input);
+          if (status.jobId) {
+            const child = owners.jobs.job(status.jobId);
+            if (child.state === "waiting" && child.reason !== null)
+              throw new JobDependencyLost("Index frame lost its admitted pointer history");
+          }
+          return status;
+        },
         () => frames.retry(input),
         retryFrames,
         signal,

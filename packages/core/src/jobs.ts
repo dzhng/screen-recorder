@@ -312,6 +312,7 @@ export class JobQueue {
   private closed = false;
   private admission: JobAdmission | undefined;
   private admitting = false;
+  private admissionScheduled = false;
   private readonly onCapacity: (() => void) | undefined;
 
   constructor(options: {
@@ -518,8 +519,8 @@ export class JobQueue {
     return this.submitJob(request, false, admitted);
   }
 
-  submitDeferred(request: JobRequest): Job {
-    return this.submitJob(request, true);
+  submitDeferred(request: JobRequest, admitted?: (job: Job) => void): Job {
+    return this.submitJob(request, true, admitted);
   }
 
   private submitJob(
@@ -563,7 +564,10 @@ export class JobQueue {
       admitted?.(this.job(admittedId));
       return admittedId;
     });
-    if (created) this.resumeAdmission();
+    if (created) {
+      if (deferred && this.admitting) this.scheduleAdmission();
+      else this.resumeAdmission();
+    }
     this.runQueued();
     return this.job(jobId);
   }
@@ -642,6 +646,7 @@ export class JobQueue {
         Number(readmitted),
         current.jobId,
       );
+    if (deferred && this.admitting) this.scheduleAdmission();
   }
 
   /**
@@ -685,6 +690,16 @@ export class JobQueue {
       .get(jobId) as JobRow | undefined;
     if (!row) throw new CatalogError("NOT_FOUND", "Job does not exist", { jobId });
     return toJob(row);
+  }
+
+  /** Automatic dependency readmission must not acquire the authority of an explicit child retry. */
+  wasReadmitted(jobId: string): boolean {
+    this.job(jobId);
+    return !!(
+      this.store.catalog.prepare("SELECT readmitted FROM jobs WHERE jobId=?").get(jobId) as {
+        readmitted: number;
+      }
+    ).readmitted;
   }
 
   /** Readiness is for the exact pinned revision and inputs, never whichever job finished last. */
@@ -823,8 +838,11 @@ export class JobQueue {
   }
   /** Resolves once no attempt is in flight. Work still queued behind a lane or capture stays queued. */
   async idle(): Promise<void> {
-    while (this.attempts.size > 0)
-      await Promise.all([...this.attempts.values()].map((attempt) => attempt.done));
+    while (this.attempts.size > 0 || this.admissionScheduled) {
+      if (this.attempts.size > 0)
+        await Promise.all([...this.attempts.values()].map((attempt) => attempt.done));
+      else await setImmediate();
+    }
   }
 
   /** Aborts everything in flight and stops admitting starts. The catalog stays the store's to close. */
@@ -989,6 +1007,16 @@ export class JobQueue {
     this.resumeAdmission();
   }
 
+  /** New dependencies and terminal transitions need a later, nonrecursive admission snapshot. */
+  private scheduleAdmission(): void {
+    if (this.admissionScheduled || this.closed) return;
+    this.admissionScheduled = true;
+    void setImmediate().then(() => {
+      this.admissionScheduled = false;
+      this.resumeAdmission();
+    });
+  }
+
   /** One bounded event turn. Dependency submissions cannot recursively restart this scan. */
   resumeAdmission(): void {
     if (this.closed || this.admitting || !this.admission) return;
@@ -1004,6 +1032,7 @@ export class JobQueue {
         if (this.job(row.jobId).state !== "waiting") continue;
         if (this.targets.isDeleting(targetFrom(row))) {
           this.store.transaction(() => this.discard(row.jobId, `${row.targetKind}_unavailable`));
+          this.scheduleAdmission();
           continue;
         }
         try {
@@ -1021,9 +1050,11 @@ export class JobQueue {
               .run(++this.sequence, row.jobId);
           }
         } catch (error) {
-          if (error instanceof CatalogError && error.code === "LIMIT_EXCEEDED") continue;
+          if (error instanceof CatalogError && error.code === "LIMIT_EXCEEDED" && error.retryable)
+            continue;
           if (this.job(row.jobId).state !== "waiting") continue;
           this.store.transaction(() => this.fail(row.jobId, error));
+          this.scheduleAdmission();
         }
       }
     } finally {
@@ -1202,7 +1233,8 @@ export class JobQueue {
   }
 
   private capacityAvailable(): void {
-    this.resumeAdmission();
+    if (this.admitting) this.scheduleAdmission();
+    else this.resumeAdmission();
     this.runQueued();
     if (!this.closed) this.onCapacity?.();
   }
