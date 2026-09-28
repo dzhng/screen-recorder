@@ -17,6 +17,7 @@ export function retimeClips(
     validateComposition(
       { ...model.document, syncGroups: transformed.document.syncGroups },
       model.assets,
+      model.acquisitions,
     ),
     {
       kind: "resize",

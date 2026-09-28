@@ -56,6 +56,7 @@ export const mediaClipSchema = z
     ...clipFields,
     assetId: id,
     streamId: id,
+    acquisitionId: id.optional(),
     source: z.discriminatedUnion("kind", [
       z.object({ kind: z.literal("range"), range: selectionRangeSchema }).strict(),
       z.object({ kind: z.literal("hold"), atUs: time }).strict(),
@@ -78,6 +79,15 @@ export const streamSchema = z.discriminatedUnion("kind", [
     })
     .strict(),
 ]);
+export const acquisitionContextSchema = z
+  .object({
+    id,
+    bindings: z.array(
+      z.object({ assetId: id, streamId: id, available: z.array(rangeSchema) }).strict(),
+    ),
+  })
+  .strict();
+export type AcquisitionContext = z.infer<typeof acquisitionContextSchema>;
 export const assetSchema = z.object({ id, streams: z.array(streamSchema) }).strict();
 export const routingNodeSchema = z
   .object({

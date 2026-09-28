@@ -28,6 +28,7 @@ export function rippleMove(
   const linked = validateComposition(
     { ...model.document, syncGroups: transformed.document.syncGroups },
     model.assets,
+    model.acquisitions,
   );
   const removed = partitionClips(
     linked,
@@ -41,10 +42,10 @@ export function rippleMove(
     if (compare(range.start, originalAt) > 0) break;
     originalAt = add(originalAt, subtract(range.end, range.start));
   }
-  const stationary = validateComposition(removed.document, model.assets);
+  const stationary = validateComposition(removed.document, model.assets, model.acquisitions);
   const partitioned = splitRippleBoundary(stationary, originalAt, named, allocate);
   const shifted = rippleTimeline(
-    validateComposition(partitioned.document, model.assets),
+    validateComposition(partitioned.document, model.assets, model.acquisitions),
     {
       kind: "move",
       ranges: removed.removalRanges,

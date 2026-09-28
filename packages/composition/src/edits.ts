@@ -73,7 +73,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("replace"),
       clipId: reference,
       kind: z.enum(["audio", "video"]),
-      media: placedMedia.pick({ assetId: true, streamId: true, source: true }),
+      media: placedMedia.pick({ assetId: true, streamId: true, acquisitionId: true, source: true }),
       fit: z.enum(["exact", "trim", "stretch", "ripple", "hold", "silence"]).default("exact"),
       ripple: z
         .object({ trackIds: z.array(reference).min(1) })
@@ -270,7 +270,7 @@ function changes(before: Document, after: Document): EditChange[] {
 export function applyBatch(
   input: unknown,
   operations: unknown,
-  identityContext: { assets: unknown; namespace: string },
+  identityContext: { assets: unknown; acquisitions?: unknown; namespace: string },
 ): EditBatchResult {
   if (
     typeof identityContext.namespace !== "string" ||
@@ -280,7 +280,7 @@ export function applyBatch(
     invalid("Expected a nonempty identity namespace up to 256 characters");
   const parsed = z.array(editOperationSchema).max(1000).safeParse(operations);
   if (!parsed.success) invalid(parsed.error.message);
-  let model = validateComposition(input, identityContext.assets);
+  let model = validateComposition(input, identityContext.assets, identityContext.acquisitions);
   const initial = model.document;
   const identities = {
     clip: new Set(initial.clips.map((value) => value.id)),
@@ -387,6 +387,7 @@ export function applyBatch(
                     ),
                   },
                   model.assets,
+                  model.acquisitions,
                 )
               : model,
             clips([operation.clipId])[0]!,
@@ -404,7 +405,7 @@ export function applyBatch(
               invalid("Ripple replacement needs a source range with a duration");
             const source = operation.media.source.range;
             const resized = retimeClips(
-              validateComposition(next, model.assets),
+              validateComposition(next, model.assets, model.acquisitions),
               [resolve(operation.clipId, "clip")],
               { durationUs: source.endUs - source.startUs, pitch: operation.pitch ?? "preserve" },
               "selected",
@@ -485,7 +486,7 @@ export function applyBatch(
               clip.id === id ? { ...clip, placement: resolvedAnchor } : clip,
             ),
           };
-          const candidate = validateComposition(next, model.assets);
+          const candidate = validateComposition(next, model.assets, model.acquisitions);
           const oldRange = model.clips.find((value) => value.clip.id === id)!.range;
           const newRange = candidate.clips.find((value) => value.clip.id === id)!.range;
           if (
@@ -582,7 +583,7 @@ export function applyBatch(
           if (operation.ripple === "none") next = result.document;
           else {
             const shifted = rippleTimeline(
-              validateComposition(result.document, model.assets),
+              validateComposition(result.document, model.assets, model.acquisitions),
               { kind: "remove", ranges: result.removalRanges },
               operation.ripple.trackIds.map((id) => resolve(id, "track")),
             );
@@ -803,7 +804,7 @@ export function applyBatch(
           break;
         }
       }
-      model = validateComposition(next, model.assets);
+      model = validateComposition(next, model.assets, model.acquisitions);
       normalized.push({ operationIndex, changes: changes(before, model.document) });
     } catch (error) {
       if (error instanceof CompositionError)

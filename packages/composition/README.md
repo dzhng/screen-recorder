@@ -7,7 +7,15 @@ It accepts admitted stream metadata; it never opens media or a catalog. The
 Rendering and storage consume this model. The [reducer](src/edits.ts) applies
 ordered batches and reports their exact expansion without opening a catalog.
 
-`validateComposition(document, assets)` creates a detached, deeply frozen snapshot.
+`validateComposition(document, assets, acquisitions)` creates a detached, deeply frozen snapshot.
+Acquisition contexts constrain a particular occurrence without changing byte identity.
+An explicit clip binding intersects physical stream support with the context's acquired
+intervals before the ordinary mapping and ancestor intersection. Omission always means
+physical support; capture origins never select a context implicitly. The same resolved
+availability feeds evidence projection, pictures, PCM and resampling context, so a gap
+cannot disappear when switching inspectors. Split/trim/copy preserve the binding;
+replacement selects a complete new binding independently of processing preservation.
+The reducer carries the immutable context collection through each intermediate edit.
 Stored clip and project/content-anchor ranges accept reduced fractional microseconds
 when an edit requires them; whole values remain numbers. This preserves the source
 mapping when a retimed clip is split. Command coordinates and admitted source

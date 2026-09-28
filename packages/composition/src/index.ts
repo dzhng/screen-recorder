@@ -1,5 +1,6 @@
 export {
   assetSchema,
+  acquisitionContextSchema,
   streamSchema,
   compositionSchema,
   anchorSchema,
@@ -15,6 +16,7 @@ export {
 export type {
   Anchor,
   Asset,
+  AcquisitionContext,
   Clip,
   MediaClip,
   Composition,

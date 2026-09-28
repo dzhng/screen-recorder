@@ -2,6 +2,8 @@ import { validateProcessing } from "./processing.js";
 import { resolveRouting } from "./routing.js";
 import {
   assetSchema,
+  acquisitionContextSchema,
+  type AcquisitionContext,
   compositionSchema,
   anchorSchema,
   type Anchor,
@@ -43,6 +45,7 @@ type ResolvedClip = ResolvedPlacement & {
 export type ValidatedComposition = Readonly<{
   document: Immutable<Composition>;
   assets: readonly Immutable<Asset>[];
+  acquisitions: readonly Immutable<AcquisitionContext>[];
   clips: readonly Immutable<ResolvedClip>[];
   durationUs: number;
 }>;
@@ -207,13 +210,39 @@ export function validateSourceSelection(
 }
 
 /** Snapshot admitted stream metadata and authoring data; no media or catalog access. */
-export function validateComposition(input: unknown, assetInput: unknown): ValidatedComposition {
+export function validateComposition(
+  input: unknown,
+  assetInput: unknown,
+  acquisitionInput: unknown = [],
+): ValidatedComposition {
   const documentResult = compositionSchema.safeParse(input);
   const assetResult = assetSchema.array().safeParse(assetInput);
   if (!documentResult.success) invalid(documentResult.error.message);
   if (!assetResult.success) invalid(assetResult.error.message);
+  const acquisitionResult = acquisitionContextSchema.array().safeParse(acquisitionInput);
+  if (!acquisitionResult.success) invalid(acquisitionResult.error.message);
   const document = documentResult.data,
-    assets = assetResult.data;
+    assets = assetResult.data,
+    acquisitions = acquisitionResult.data;
+  const contexts = new Map<string, Map<string, Map<string, Range[]>>>();
+  for (const context of unique(acquisitions, "acquisition").values()) {
+    const bindings = new Map<string, Map<string, Range[]>>();
+    contexts.set(context.id, bindings);
+    for (const binding of context.bindings) {
+      let streams = bindings.get(binding.assetId);
+      if (!streams) bindings.set(binding.assetId, (streams = new Map()));
+      if (streams.has(binding.streamId))
+        invalid(
+          `Duplicate acquisition binding: ${context.id}/${binding.assetId}/${binding.streamId}`,
+        );
+      let through = 0;
+      for (const range of binding.available) {
+        if (range.startUs < through) invalid(`Invalid acquisition availability: ${context.id}`);
+        through = range.endUs;
+      }
+      streams.set(binding.streamId, binding.available);
+    }
+  }
   const assetMap = unique(assets, "asset"),
     tracks = unique(document.tracks, "track"),
     clips = unique(document.clips, "clip");
@@ -256,10 +285,18 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
     const track = tracks.get(clip.trackId);
     if (!track) invalid(`Unknown track: ${clip.trackId}`);
     let stream: Stream | null = null;
+    let acquisition: Range[] | undefined;
     if (isMediaClip(clip)) {
       const found = streams.get(clip.assetId)?.get(clip.streamId);
       if (!found) invalid(`Unknown source: ${clip.assetId}/${clip.streamId}`);
       stream = found;
+      if (clip.acquisitionId !== undefined) {
+        acquisition = contexts.get(clip.acquisitionId)?.get(clip.assetId)?.get(clip.streamId);
+        if (acquisition === undefined)
+          invalid(
+            `Unknown acquisition binding: ${clip.acquisitionId}/${clip.assetId}/${clip.streamId}`,
+          );
+      }
       if ((stream.kind === "audio" ? "audio" : "video") !== track.kind)
         invalid(`Stream/track kind mismatch: ${clip.id}`);
       if (clip.pitch !== undefined && stream.kind !== "audio")
@@ -281,16 +318,20 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
       rate,
     };
     let available: ExactRange[] = [anchor.range];
-    if (stream && stream.kind !== "image" && clip.source.kind !== "silence") {
+    if (stream && clip.source.kind !== "silence" && (stream.kind !== "image" || acquisition)) {
+      const physical = stream.kind === "image" ? undefined : stream.available.map(exact);
+      const support = acquisition
+        ? physical
+          ? intersectAll(physical, acquisition.map(exact))
+          : acquisition.map(exact)
+        : physical!;
       if (clip.source.kind === "hold") {
         const at = integer(clip.source.atUs);
-        available = stream.available.some((range) => contains(exact(range), at))
-          ? [anchor.range]
-          : [];
+        available = support.some((range) => contains(range, at)) ? [anchor.range] : [];
       } else {
         const selected = exact(clip.source.range);
-        available = stream.available.flatMap((range) => {
-          const kept = intersection(exact(range), selected);
+        available = support.flatMap((range) => {
+          const kept = intersection(range, selected);
           return kept
             ? [{ start: projectTime(result, kept.start), end: projectTime(result, kept.end) }]
             : [];
@@ -317,7 +358,7 @@ export function validateComposition(input: unknown, assetInput: unknown): Valida
     durationUs = Math.max(durationUs, ceil(clip.range.end));
   }
   validateProcessing(document);
-  return freeze({ document, assets, clips: ordered, durationUs });
+  return freeze({ document, assets, acquisitions, clips: ordered, durationUs });
 }
 
 /** Exact envelope plus source-available fragments; neither closes acquisition gaps. */

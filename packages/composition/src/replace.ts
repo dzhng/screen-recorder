@@ -9,7 +9,7 @@ export function replaceClip(
   model: ValidatedComposition,
   clipId: string,
   kind: "audio" | "video",
-  media: Pick<MediaClip, "assetId" | "streamId" | "source">,
+  media: Pick<MediaClip, "assetId" | "streamId" | "acquisitionId" | "source">,
   fit: "exact" | "trim" | "stretch" | "ripple" | "hold" | "silence",
   allocate: (kind: "clip" | "syncGroup" | "processingStep", copiedFrom?: string) => string,
   pitch?: "preserve" | "follow",
@@ -73,6 +73,7 @@ export function replaceClip(
   const replacement = {
     ...target.clip,
     ...media,
+    acquisitionId: media.acquisitionId,
     source,
     ...(kind === "audio" && (pitch !== undefined || fit === "stretch")
       ? { pitch: pitch ?? "preserve" }
@@ -82,6 +83,7 @@ export function replaceClip(
     !isMediaClip(target.clip) ||
     target.clip.assetId !== media.assetId ||
     target.clip.streamId !== media.streamId ||
+    target.clip.acquisitionId !== media.acquisitionId ||
     JSON.stringify(target.clip.source) !== JSON.stringify(source);
   const removed =
     changedSource || padding ? clipGraph(model).expand([clipId], false) : new Set<string>();

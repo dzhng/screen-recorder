@@ -194,7 +194,7 @@ export function insertGap(
   const at = fromTime(atUs);
   const partitioned = splitRippleBoundary(model, at, new Set(tracks), allocate);
   const result = rippleTimeline(
-    validateComposition(partitioned.document, model.assets),
+    validateComposition(partitioned.document, model.assets, model.acquisitions),
     { kind: "insert", at, duration },
     tracks,
   );
