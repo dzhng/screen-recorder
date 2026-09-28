@@ -164,5 +164,5 @@ export async function prepareLayersFixture(home, out) {
     bytes = narration();
   await writeFile(path, bytes);
   media.narration = { path, sha256: hash(bytes), pcm: bytes.subarray(44) };
-  return { media, pixelTool };
+  return { media, pixelTool, referenceTool };
 }

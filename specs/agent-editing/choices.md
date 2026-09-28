@@ -1791,3 +1791,22 @@ existing lifetime owner.
   left cursor shape and optional-selector behavior open. This keeps continuations
   compact and stable without embedding the potentially large scene list in every
   reference, while deletion still prevents new reads.
+
+## Moving-source edit verification — 2026-09-28
+
+- **Sound, high confidence — source membership needs changing independent landmarks.**
+  A moving clip copied onto a fractional timeline position can decode the wrong
+  source frame while a static picture still appears correct. The live edit gate
+  therefore uses independently authored, changing calibration marks and a physical
+  source-frame table, then applies the existing geometry oracle. It never derives
+  expected pixels from renderer receipts. The earlier plan named moving-source
+  conformance without choosing its oracle. All-intra calibration footage isolates
+  membership and geometry; it does not replace broader codec or deep-GOP gates.
+- **Sound, high confidence — empty encoded output has a black-pixel check, not a shape mask.**
+  Between clips the intended movie frame is opaque black. A decoded value of one
+  has no meaningful landmark, but a shape threshold derived from an all-zero
+  reference treats it as one. The new journey explicitly checks every RGB channel
+  against the existing two-code-value budget and alpha against 255 for these
+  authored-empty states; negative controls reject RGB three and alpha 254.
+  Nonempty frames retain unchanged landmark checks. The plan left blank codec
+  verification unspecified; this adds no wider color allowance or product behavior.

@@ -1,6 +1,6 @@
 # 15 — Layers, crop and pointer geometry
 
-Status: compiler/native geometry, [public static layer delivery](../assets/15-layer-public/README.md) and [processed edit delivery](../assets/15-layer-edits/README.md) verified for their named scopes; [native evidence](../assets/15-layer-geometry/README.md). Pointer adoption, moving-source conformance and wider visual/profile acceptance remain open. Dependencies: [09](./09-first-preview.md).
+Status: compiler/native geometry, [public static layer delivery](../assets/15-layer-public/README.md), [processed edit delivery](../assets/15-layer-edits/README.md) and [moving-source edit delivery](../assets/15-layer-edit-motion/README.md) verified for their named scopes; [native evidence](../assets/15-layer-geometry/README.md). Pointer adoption and wider visual/profile acceptance remain open. Dependencies: [09](./09-first-preview.md).
 
 ## Contract
 
@@ -195,3 +195,16 @@ uses the existing physical presentation owner, explicit acquisition clock mappin
 and exact empty-end floors across skipped records. Queue/cache lifetime ownership,
 actual observation/trail preparation and native replay remain open; pointer is
 still unavailable for execution.
+
+## Moving-source edit checkpoint
+
+[The live moving-footage journey](../assets/15-layer-edit-motion/README.md) now
+checks source membership and processed geometry after fractional split, copy,
+nonaligned move and trim. Its independent physical-frame landmarks expose timing
+errors that static images cannot; CLI/MCP stills and whole/range native previews
+pass, original content and the independent audio plane remain unchanged, and all
+62 reviewed static PNG hashes are preserved. Fresh full/crop visual review finds
+no unequal geometry or temporal sequence. Empty encoded frames retain an explicit
+black/opacity check under the existing pixel budget. This calibration checkpoint
+does not claim retimed speech/pitch/listening, pointer execution, deep-GOP scale
+performance or broader movie color/profile acceptance.

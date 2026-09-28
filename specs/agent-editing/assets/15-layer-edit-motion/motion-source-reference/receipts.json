@@ -1,0 +1,122 @@
+[
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/000.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 0,
+    "actualValue": "0",
+    "width": 64,
+    "requestedUs": 0,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/001.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 1,
+    "actualValue": "1024",
+    "width": 64,
+    "requestedUs": 100000,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/002.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 2,
+    "actualValue": "2048",
+    "width": 64,
+    "requestedUs": 200000,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/003.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 3,
+    "actualValue": "3072",
+    "width": 64,
+    "requestedUs": 300000,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/004.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 4,
+    "actualValue": "4096",
+    "width": 64,
+    "requestedUs": 400000,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/005.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 5,
+    "actualValue": "5120",
+    "width": 64,
+    "requestedUs": 500000,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/006.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 6,
+    "actualValue": "6144",
+    "width": 64,
+    "requestedUs": 600000,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/007.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 7,
+    "actualValue": "7168",
+    "width": 64,
+    "requestedUs": 700000,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/008.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 8,
+    "actualValue": "8192",
+    "width": 64,
+    "requestedUs": 800000,
+    "height": 48
+  },
+  {
+    "actualTimescale": 10240,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/motion-source-reference/009.png",
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 9,
+    "actualValue": "9216",
+    "width": 64,
+    "requestedUs": 900000,
+    "height": 48
+  }
+]

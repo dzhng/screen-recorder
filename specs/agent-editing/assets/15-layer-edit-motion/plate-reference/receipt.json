@@ -1,0 +1,22 @@
+{
+  "reference": {
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "index": 0,
+    "width": 16,
+    "actualTimescale": 1000,
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/plate-reference/000.png",
+    "requestedUs": 0,
+    "actualValue": "0",
+    "height": 16
+  },
+  "normalized": {
+    "sourceProfile": "kCGColorSpaceSRGB",
+    "width": 16,
+    "height": 16,
+    "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+    "opaque": true,
+    "outputProfile": "kCGColorSpaceSRGB"
+  }
+}

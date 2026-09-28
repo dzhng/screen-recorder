@@ -1,0 +1,22 @@
+{
+  "reference": {
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/presenter-reference/000.png",
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "index": 0,
+    "sourceProfile": "kCGColorSpaceCoreMedia709",
+    "actualValue": "0",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "actualTimescale": 1000,
+    "requestedUs": 0,
+    "width": 24,
+    "height": 40
+  },
+  "normalized": {
+    "height": 40,
+    "opaque": true,
+    "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+    "width": 24,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "sourceProfile": "kCGColorSpaceSRGB"
+  }
+}

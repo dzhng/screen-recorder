@@ -1,0 +1,22 @@
+{
+  "reference": {
+    "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+    "outputProfile": "kCGColorSpaceSRGB",
+    "height": 48,
+    "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/15-layer-edit-motion/screen-reference/000.png",
+    "width": 64,
+    "index": 0,
+    "actualTimescale": 1000,
+    "requestedUs": 0,
+    "actualValue": "0",
+    "sourceProfile": "kCGColorSpaceCoreMedia709"
+  },
+  "normalized": {
+    "height": 48,
+    "outputProfile": "kCGColorSpaceSRGB",
+    "opaque": true,
+    "width": 64,
+    "sourceProfile": "kCGColorSpaceSRGB",
+    "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "worker": {
+    "path": "/tmp/screenrec-pointer-history-native",
+    "sha256": "987dae364b8acd481f1ae8fc8aa3b8ea8db800f959c84fa33ce5d0bcd9cdcca6"
+  },
+  "live": {
+    "stillPairs": 39,
+    "wholePreviewFrames": 30,
+    "rangePreviewFrames": 3,
+    "cliMcpPngAndMovieBytesEqual": true,
+    "protectedNarrationExactPcm": true,
+    "originalClipAndSourceUnchanged": true,
+    "fractionalSplitExactPngParity": true,
+    "movieTimestampsAndDurations": true
+  },
+  "sourceOracle": {
+    "uniquePhysicalFrames": 10,
+    "fixture": "all-intra H.264 grayscale asymmetric calibration",
+    "membership": "authored timeline arithmetic, independently decoded source frames",
+    "geometry": "unchanged layers-oracle.mjs"
+  },
+  "negativeControls": {
+    "sourceOffset": {
+      "mutation": "Use the next independently decoded physical frame as the expected surface",
+      "exitCode": 1,
+      "error": "Interior pixel (31,19) channel 0: 14 != 0",
+      "restoredFinalRunPassed": true
+    },
+    "blankRgb3Rejected": true,
+    "blankAlpha254Rejected": true
+  },
+  "staticPreservation": {
+    "passed": true,
+    "reviewedPngHashesUnchanged": 62,
+    "projects": 18,
+    "previews": 8,
+    "reportSha256": "c40d54c5110bcc39265441cacdce7b579a92856e701e6ad135aa3d8ec72cdf1a"
+  },
+  "independentCodeReview": {
+    "verdict": "No actionable defects identified",
+    "verified": "Syntax checks and saved39 still/two movie oracles; did not rerun native journey"
+  },
+  "freshVisualReview": {
+    "sheets": 11,
+    "verdict": "No unequal geometry or temporal sequence; shared gray edge fringes",
+    "limitations": "Blank intent requires authored timeline checks"
+  },
+  "honestBoundaries": [
+    "No pointer execution",
+    "No retimed speech or pitch/listening claim",
+    "No wider movie color or deep-GOP performance claim",
+    "No desktop capture, UI launch, or playback"
+  ],
+  "metricsSummary": {
+    "mae": 0.43411,
+    "rmse": 1.59345,
+    "diffRatio16": 0.00091,
+    "diffRatio32": 0,
+    "diffRatio64": 0,
+    "pixelmatchRatio": 7e-05
+  }
+}

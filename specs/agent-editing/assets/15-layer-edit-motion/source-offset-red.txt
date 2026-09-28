@@ -1,0 +1,1 @@
+{"passed":false,"out":"/tmp/layer-edit-motion-source-offset-red","error":"Interior pixel (31,19) channel 0: 14 != 0"}
