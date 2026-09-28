@@ -36,6 +36,23 @@ const sourceTranscriptReference = {
   afterSourceUs: time,
 };
 const project = z.object({ projectId: id }).strict();
+const projectTranscriptParams = project
+  .extend({
+    revisionId: id.optional(),
+    range: range.optional(),
+    trackIds: z.array(id).optional(),
+    limit: z.int().min(1).max(1000).optional(),
+    cursor: z
+      .strictObject({
+        projectId: id,
+        revisionId: id,
+        manifestId: z.uuid(),
+        checkpointId: z.uuid(),
+        queryDigest: z.string().regex(/^[a-f0-9]{64}$/),
+      })
+      .optional(),
+  })
+  .strict();
 const projectEdit = project.extend({ requestId: id, expectedRevisionId: id });
 const exportDestination = {
   exportId: z.uuid(),
@@ -448,6 +465,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("transcript.get"),
       params: z.union([
+        projectTranscriptParams,
         ...transcriptPage(
           {
             revisionId: id.optional(),
@@ -474,7 +492,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a selected asset-stream source transcript, or the narration transcript of a recording/open package projected through a revision. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Returns readiness until complete, then source-ordered word and acquisition-gap rows. Asset ranges select source windows and mark intersected rows partial while preserving their full source range. Recording/package ranges select playback windows and include retained fragments. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range, plus revision for recording/package reads.",
+      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript, or the narration transcript of a recording/open package projected through a revision. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Asset ranges select source windows and mark intersected rows partial while preserving their full source range. Recording/package ranges select playback windows and include retained fragments. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range, plus revision for recording/package reads.",
     ),
   z
     .object({
@@ -505,10 +523,16 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Search a selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Source entries carry word IDs and source range; phrases cannot cross transcript segments. Recording/package entries also carry retained fragments; words cut from the revision never match. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
     ),
   z
-    .object({ operation: z.literal("transcript.retry"), params: sourceSelection })
+    .object({
+      operation: z.literal("transcript.retry"),
+      params: z.union([
+        sourceSelection,
+        projectTranscriptParams.omit({ cursor: true, limit: true }),
+      ]),
+    })
     .strict()
     .describe(
-      "Explicitly prepare or retry the selected asset-stream transcript without downloading models. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
+      "Explicitly prepare or retry the selected asset-stream transcript without downloading models. A project selector retries only its evidence manifest; source preparation failures must be retried with their returned asset-stream selection. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
     ),
   z
     .object({ operation: z.literal("model.status"), params: z.object({}).strict() })

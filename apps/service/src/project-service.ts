@@ -1,3 +1,4 @@
+import { ProjectEvidenceInspection } from "@screenrec/core/project-evidence";
 import { SpeechModels } from "@screenrec/core/speech-models";
 import { TranscriptStore, type SpeechTranscriptionReceipt } from "@screenrec/core/transcript";
 import { TranscriptProcessing, assetTranscriptOwner } from "@screenrec/core/transcript-processing";
@@ -113,6 +114,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     await acquisitionImports.recover(new AbortController().signal);
     let preview: ProjectPreviewInspection;
     let transcripts: TranscriptProcessing;
+    let projectEvidence: ProjectEvidenceInspection;
     const queue = new JobQueue({
       store: catalog,
       targets,
@@ -121,6 +123,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.target.kind === "project" && job.artifact === "project.evidence")
+          return projectEvidence.execute({ job, signal });
         if (job.artifact === "transcript") return transcripts.execute({ job, signal });
         if (job.artifact === "export-media" || job.artifact === "export-recovery")
           return exports!.execute({ job, signal });
@@ -167,6 +171,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
             timeoutMs: transcriptionDeadlineMs(request.track.available),
           }),
         ) as SpeechTranscriptionReceipt,
+    });
+    projectEvidence = new ProjectEvidenceInspection({
+      projects,
+      assets,
+      jobs: queue,
+      cache,
+      transcripts,
+      records: transcriptStore,
     });
     preview = new ProjectPreviewInspection(
       projects,
@@ -228,10 +240,17 @@ export async function startProjectService(options: { home: string; worker?: Medi
             return { ok: true, data: models.status() };
           }
           case "transcript.retry":
-            return { ok: true, data: transcripts.retrySource(operation.params) };
+            return {
+              ok: true,
+              data:
+                "projectId" in operation.params
+                  ? projectEvidence.retry(operation.params)
+                  : transcripts.retrySource(operation.params),
+            };
           case "transcript.get":
           case "transcript.search": {
             const params = operation.params;
+            if ("projectId" in params) return { ok: true, data: await projectEvidence.get(params) };
             if (!("assetId" in params))
               return operationError("NOT_READY", "This service reads selected asset transcripts");
             const selection = {

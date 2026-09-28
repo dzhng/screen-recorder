@@ -14,23 +14,21 @@ slice's acceptance gates remain the scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill describes
 available public operations only; the installed app has not switched engines.
 
-Continue [10c occurrence queries](slices/10c-occurrence-queries.md): one core
-query owner must merge source evidence in exact project order, preserve gaps and
-word partiality, and pin dependencies through bounded immutable cache checkpoints.
-The composition window/inverse/point prerequisite is integrated; project paging,
-track-local phrase search and event/cursor routes remain unimplemented on main.
+Continue [10c occurrence queries](slices/10c-occurrence-queries.md): core and
+public project transcript paging now share pinned manifests/checkpoints and exact
+occurrence mapping. Track-local phrase search and event/cursor reads remain open.
+The public paging journey has passed in isolation; integrate its reviewed harness
+and retained evidence next. See [routing evidence](assets/10c-public-routing/README.md).
 
-[10b source acquisition](slices/10b-source-acquisition.md) is verified. Its actual
-CLI/MCP/native journey covers selected-stream parity, cancellation/retry, donor
-deletion, differing masks over the same media, and genuine historical reads after
-advancing the project head and restarting. The 10b closure records exact agreement with the integrated runtime hashes.
+[10b source acquisition](slices/10b-source-acquisition.md) is verified, including
+actual native transcription, selected-stream parity, cancellation/retry and
+same-byte capture masks. Its historical test advances the head before restart.
+Project paging's frozen transcription fixture verifies projection and delivery,
+not a second native-inference run.
 
-The [bounded transcript seek](assets/10b-transcript-seek/README.md) correction is
-integrated: portable admission enforces the same nonoverlap invariant as ingestion,
-and late windows seek one predecessor rather than scanning a longest-word prefix.
-The [10c exact window prerequisite](assets/10c-occurrence-window/README.md) is also
-integrated; core occurrence manifests/read/search remain unimplemented. The [native source-window PCM prerequisite](assets/11a-native-source-window/README.md)
-is integrated; 11a core cached delivery proceeds independently of occurrence reads.
+[11a source WAV](slices/11a-audio-delivery.md) has native extraction and core cached
+admission integrated. Public delivery, shared full-extraction capacity/preflight,
+and project processing taps remain open.
 
 Alongside 10c, continue source WAV admission/cache/delivery and then shared project
 tap binding for 11a. Then follow [10d direct frames](slices/10d-frame-inspection.md),

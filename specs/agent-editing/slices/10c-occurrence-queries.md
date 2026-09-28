@@ -1,6 +1,6 @@
 # 10c — Bounded occurrence evidence and phrase search
 
-Status: in progress. Pure selection and core transcript paging are verified; public routing, phrase search and event/cursor evidence remain open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Pure selection, core transcript paging and public routing are verified; live harness integration, phrase search and event/cursor evidence remain open. Dependencies: [10a](./10a-source-range-projection.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -88,3 +88,13 @@ contexts reuse exact indexes without repeated whole-project work on continuation
 The linked evidence records provisional slice-24 limits, empty-project semantics,
 source-row scan bounds and the remaining checkpoint I/O cost. This is not public
 CLI/MCP acceptance and does not close phrase/event work.
+
+
+## Public routing checkpoint
+
+[Routing evidence](../assets/10c-public-routing/README.md) records the shared
+CLI/MCP schema, project job dispatch and service integration. Project retry
+rebuilds only the query manifest; source preparation failures retain explicit
+source retries. Retry accepts query selectors, not paging cursors or limits.
+The isolated public paging journey has passed; its reviewed harness/evidence is
+the next integration step. Phrase search and event/cursor reads remain open.

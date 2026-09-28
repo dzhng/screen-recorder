@@ -478,3 +478,43 @@ test("selected-source transcript reads report unprepared models without download
   expect(await f.call("model.status", {})).toMatchObject({ ok: true, data: { state: "absent" } });
   expect(requests.filter((operation) => operation === "speech.transcribe")).toEqual([]);
 });
+
+test("project transcript paging uses shared jobs and returns an empty historical revision", async () => {
+  const f = await setup(async (operation) => {
+    if (operation === "media.renderWorkspace") return { ok: true, data: { removed: true } };
+    throw new Error(`Empty transcript must not invoke native work: ${operation}`);
+  });
+  const created = await f.call("project.create", {
+    requestId: "empty-transcript",
+    canvas: {
+      width: 160,
+      height: 96,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const { project, revision } = created.data as {
+    project: { projectId: string };
+    revision: { id: string };
+  };
+  const params = { projectId: project.projectId, revisionId: revision.id, limit: 1 };
+  const pending = await f.call("transcript.get", params);
+  if (!pending.ok) throw new Error(JSON.stringify(pending));
+  const jobId = (pending.data as { jobId: string }).jobId;
+  await f.job(jobId, "ready");
+  expect(await f.call("transcript.get", params)).toMatchObject({
+    ok: true,
+    data: {
+      projectId: project.projectId,
+      revisionId: revision.id,
+      state: "ready",
+      dependencies: [],
+      page: { rows: [], nextCursor: null },
+    },
+  });
+  expect(await f.call("transcript.get", { projectId: "missing" })).toMatchObject({
+    ok: false,
+    error: { code: "NOT_FOUND" },
+  });
+});

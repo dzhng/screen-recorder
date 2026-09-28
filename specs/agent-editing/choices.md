@@ -978,3 +978,40 @@ trim and stretch replacements keep their single-interval behavior.
   silently remapping or rounding. The plan required supported-layout preservation
   without choosing the initial format set; extending that set needs real channel
   and sample-parity proof through the same producer.
+
+
+## Project transcript and source audio ownership
+
+- **Sound; medium confidence — Query checkpoints are disposable cached evidence.**
+  When an agent reads a long project one page at a time, the service saves its
+  source-generation pins and merge position in the existing derived-file cache.
+  If those files disappear, the old continuation refuses and the agent starts a
+  fresh read; it never silently resumes against different words. The plan required
+  bounded pinned reads but left their representation open. This avoids a permanent
+  read-session database; future inspection must preserve explicit invalidation.
+  Landed in the core paging/public routing pass.
+
+- **Sound; medium confidence — Keep a small revision context in memory.**
+  Consecutive pages reuse validated clip indexes for up to four recent revisions
+  instead of parsing the whole project again per page. Project existence and
+  evidence generations are still checked. The plan left this memory/performance
+  tradeoff open. The source/occurrence and serialized-checkpoint limits are
+  provisional scale gates; exceeding them refuses explicitly, and slice 24 must
+  judge realistic long projects. Landed in the core paging pass.
+
+- **Sound; high confidence — Retrying project evidence does not retry every source.**
+  A failed query can refer to many source recordings with different problems.
+  Project retry rebuilds its own manifest; a failed source is retried using the
+  returned source selection after diagnosis. The plan did not specify retry
+  fanout. This keeps expensive transcription intentional and makes dependency
+  failures visible. Paging cursors and limits are not accepted on this mutation.
+  Landed in the public routing pass.
+
+- **Sound; high confidence — Selected-source WAVs have an asset-domain owner.**
+  Extracting audio from an imported file retains that asset and its optional
+  acquisition context through the shared job/cache system. It does not manufacture
+  a recording or edit revision. The existing recording audio owner depends on
+  recording timelines, so the source owner is separate until consumer cutover.
+  The plan fixed role-free source semantics but left that implementation split
+  open. Project taps must join shared processing, and job-reference retirement
+  remains an explicit cutover requirement. Landed in the core source WAV pass.

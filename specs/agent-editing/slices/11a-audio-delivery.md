@@ -1,6 +1,6 @@
 # 11a — Shared source and project PCM delivery
 
-Status: in progress. Native source-window WAV delivery is integrated; core admission, public source/project routes and tap delivery remain open. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Native source-window WAV extraction and core cached admission are integrated; public source/project routes, full-extraction capacity and tap delivery remain open. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 

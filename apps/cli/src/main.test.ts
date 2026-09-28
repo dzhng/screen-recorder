@@ -109,6 +109,7 @@ function expectCallableContract(tools: AdvertisedTool[]) {
   expect(required("processing.status")).toEqual(["recordingId"]);
   expect(required("index.get")).toEqual([["recordingId"], ["packageHandle"]]);
   expect(required("transcript.get")).toEqual([
+    ["projectId"],
     ["recordingId"],
     ["packageHandle"],
     ["assetId", "streamId"],
@@ -118,7 +119,7 @@ function expectCallableContract(tools: AdvertisedTool[]) {
     ["packageHandle", "text"],
     ["assetId", "streamId", "text"],
   ]);
-  expect(required("transcript.retry")).toEqual(["assetId", "streamId"]);
+  expect(required("transcript.retry")).toEqual([["assetId", "streamId"], ["projectId"]]);
   expect(required("model.prepare")).toBeUndefined();
   expect(tools.filter((tool) => !tool.description).map((tool) => tool.name)).toEqual([]);
 }
