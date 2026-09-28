@@ -1,0 +1,102 @@
+{
+  "status": "passed",
+  "fixture": "linked-replacement",
+  "durationUs": 3000000,
+  "checks": [
+    "deterministic labels and identities",
+    "linked split through attachment",
+    "audio replacement preserves video",
+    "explicit ripple move preserves unequal offsets",
+    "selected duplication copies attachment without audio",
+    "one-to-many source-to-project mapping",
+    "attachment removal",
+    "operation-three rollback",
+    "input immutability",
+    "full deletion to empty project"
+  ],
+  "memberships": [
+    {
+      "atUs": 100000,
+      "occurrences": [
+        [
+          "video",
+          "a",
+          100000,
+          true
+        ]
+      ]
+    },
+    {
+      "atUs": 750000,
+      "occurrences": [
+        [
+          "audio",
+          "a",
+          750000,
+          true
+        ],
+        [
+          "overlay",
+          "b",
+          0,
+          true
+        ],
+        [
+          "video",
+          "a",
+          750000,
+          true
+        ]
+      ]
+    },
+    {
+      "atUs": 1375000,
+      "occurrences": [
+        [
+          "video",
+          "b",
+          0,
+          true
+        ]
+      ]
+    },
+    {
+      "atUs": 1500000,
+      "occurrences": []
+    },
+    {
+      "atUs": 2250000,
+      "occurrences": [
+        [
+          "audio",
+          "b",
+          250000,
+          true
+        ],
+        [
+          "overlay",
+          "b",
+          0,
+          true
+        ],
+        [
+          "video",
+          "a",
+          1250000,
+          true
+        ]
+      ]
+    },
+    {
+      "atUs": 2900000,
+      "occurrences": [
+        [
+          "video",
+          "a",
+          1900000,
+          true
+        ]
+      ]
+    }
+  ]
+}

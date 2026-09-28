@@ -10,17 +10,13 @@ the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
 
 Implement the full local agent-operated editor. Read [contracts](contracts.md),
 [architecture](architecture.md), [verification](verification.md) and
-[research](research.md). Continue [03 — edits](slices/03-edits.md): exact splitting,
-attachment partitioning, removal/trim, explicit removal ripple, non-ripple move
-with track destinations, detach/reanchor, duplication, retime, batch labels and
-insertion and ripple move pass. Interval-preserving replacement supports exact,
-trim and stretch fits; ripple replacement adopts the new source duration.
-Authored silence and hold/silence replacement expansion are verified. Next run
-the full linked-replacement harness and close the structural-edit slice. Preserve the accepted
+[research](research.md) and [processing](processing.md). Structural edits [03](slices/03-edits.md)
+are accepted for the pure reducer, including the linked-replacement integration
+probe. Start [03b routing](slices/03b-processing-targets.md), then
+[03c ordered stacks](slices/03c-processing-stacks.md), preserving the accepted
 [03a exact-boundary model](slices/03a-exact-edit-boundaries.md). Durable projects
-[04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow the
-completed reducer and [03b routing](slices/03b-processing-targets.md) →
-[03c stacks](slices/03c-processing-stacks.md); the first public editing checkpoint remains [09](slices/09-first-preview.md).
+[04](slices/04-projects.md) and compilation [05](slices/05-compiler.md) follow;
+the first public editing checkpoint remains [09](slices/09-first-preview.md).
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
 are integrated in the isolated service. Import identity and job admission commit
@@ -55,7 +51,7 @@ Current evidence:
   isolated service; installed production cutover remains pending.
 - [03a exact boundaries](assets/03a-boundaries/review.md): 19 composition tests
   and corpus probe pass; split preservation is falsified by a rounding mutation.
-- [03 edits](assets/03-edits/padding/review.md): 69 tests and 420 padded-fit cases;
+- [03 edits](assets/03-edits/integration/README.md): 69 tests and 420 padded-fit cases;
   [ripple moves](assets/03-edits/ripple-move/review.md) retain 900 move cases,
   756 retimed insertion cases,
   595 retimed removal and
@@ -160,7 +156,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [02a — Shared durable preparation targets](slices/02a-preparation-jobs.md)
 - [x] [02 — Immutable asset admission](slices/02-assets.md)
 - [x] [03a — Preserve exact edit boundaries](slices/03a-exact-edit-boundaries.md)
-- [ ] [03 — Structural edits and attachments](slices/03-edits.md)
+- [x] [03 — Structural edits and attachments](slices/03-edits.md)
 - [ ] [03b — Processing targets and nested routing](slices/03b-processing-targets.md)
 - [ ] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)
 - [ ] [04 — Durable projects and shared commands](slices/04-projects.md)

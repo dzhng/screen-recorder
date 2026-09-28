@@ -1,6 +1,6 @@
 # 03 — Structural edits and attachments
 
-Status: in progress; split/remove/trim, removal ripple, move, anchors, duplication, retime, insertion and ripple move verified. All structural operations and fitting policies are verified in the reducer; the full linked-replacement harness remains open. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
+Status: accepted for pure structural editing. [Integration evidence](../assets/03-edits/integration/README.md), 69 tests and prior focused reviews pass. Dependencies: [01](./01-composition.md), [03a](./03a-exact-edit-boundaries.md).
 
 ## Contract
 
@@ -106,6 +106,5 @@ interval through linked media/tail pieces and shares exact placement constructio
 with partitioning and transforms. Independent review verified the existing-group
 identity fix; 420 additional fits/retimes preserve their envelopes and source maps.
 
-Next run the full
-linked-replacement probe above. Public project storage and editing still depend
-on completion of this reducer slice. This slice is not accepted yet.
+The full [linked-replacement probe](../assets/03-edits/integration/README.md) passes.
+Processing lifecycle belongs to 03c; public storage and commands remain in 04.

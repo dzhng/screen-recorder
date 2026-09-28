@@ -1,0 +1,14 @@
+file:///Users/david/dev/screen-recorder/packages/composition/dist/edits.js:145
+    throw new CompositionError("INVALID_EDIT", message, details);
+          ^
+
+CompositionError: Overlapping clips on track: track:setup:0
+    at invalid (file:///Users/david/dev/screen-recorder/packages/composition/dist/edits.js:145:11)
+    at applyBatch (file:///Users/david/dev/screen-recorder/packages/composition/dist/edits.js:493:17)
+    at run (file:///private/tmp/screenrec-edits-no-ripple.mjs:38:5)
+    at file:///private/tmp/screenrec-edits-no-ripple.mjs:132:17 {
+  code: 'INVALID_EDIT',
+  details: { operationIndex: 0, cause: 'INVALID_COMPOSITION' }
+}
+
+Node.js v24.14.0
