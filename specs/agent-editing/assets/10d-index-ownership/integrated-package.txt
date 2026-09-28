@@ -1,0 +1,25 @@
+(node:15407) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ registry reserves before extraction, charges copied bytes, and closes without library rows (426.223875ms)
+✔ 64 GiB admission pool rejects two maximum sparse inputs before extraction and releases canceled queue work (82.735541ms)
+✔ four same-content resource owners stay independent and failed close retains its slot and charge (821.861166ms)
+✔ one handle makes more than 32 requests and bounded terminal receipts expire without resurrection (4778.680875ms)
+✔ failed validation cleans up, while an unconfirmed nonempty creation keeps its reservation until explicit retry (313.051042ms)
+✔ same-provenance library deletion and package close revoke only their own delivery namespaces (404.839875ms)
+(node:15738) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+screenrec-native: owning parent 1 exited; abandoning work
+✔ startup remains blocked by a killed owner's actual native child while library jobs continue (343.0665ms)
+✔ close fences delivery and drains an actual native media worker before removing its directory (688.103416ms)
+✔ correctly hashed malformed payload is admitted structurally and rejected by the shared lazy reader (225.578417ms)
+✔ default peak reservations block a fourth pending open but validated steady bytes allow it (465.287083ms)
+✔ failed context work can retry and canceled queued work never consumes execution (175.038959ms)
+✔ partial copy cancellation drains the actual worker before returning reservation and removing its tree (488.783ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9315.862125

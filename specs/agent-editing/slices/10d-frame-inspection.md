@@ -131,3 +131,7 @@ Retained screenshot selection and project-cut semantics remain next.
 real selected-source PNG/coverage records through the existing store and leases,
 while preserving recording/package serialization. Source selection/materialization
 and project frame-phase mapping remain required before public index readiness.
+
+[Fresh scene skill use](../assets/10d-scene-skill/README.md) verifies whole-project
+occurrence coverage and explicit canceled-dependency recovery. It does not close
+retained screenshot selection or visual detector-quality acceptance.

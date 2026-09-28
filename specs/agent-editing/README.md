@@ -24,12 +24,20 @@ mechanisms. [Retained scene indexes](assets/10d-source-scene-retention/README.md
 and [queued preparation](assets/10d-source-scene-preparation/README.md) are integrated.
 [Public source/project scene events](assets/10d-public-scenes/README.md) now pass
 actual preparation, physical clocks, repeated/retimed occurrences and recovery.
+[Fresh scene skill use](assets/10d-scene-skill/README.md) verifies complete project
+coverage and explicit prerequisite retry. [Screenshot ownership](assets/10d-index-ownership/README.md)
+now preserves source indexes and recording packages under Catalog 10.
 Finish retained screenshot selection/index delivery; project-cut semantics still
 need a concrete definition. [Public interruption](assets/10c-public-interruption/README.md)
 now passes actual CLI/MCP continuation and the combined-runtime journey.
 Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
 
-In parallel, finish [11 acoustic artifacts](slices/11-audio-inspection.md).
+In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md):
+compiler-owned crop/fit/transforms and native layered execution, with independent
+public presenter/stack-order journeys. The opaque-output profile and pointer
+presentation gates remain explicit; no new geometry capability is verified yet.
+
+Retain [11 acoustic artifacts](slices/11-audio-inspection.md).
 [Public waveform JSON](assets/11-waveform-public/README.md) verifies raw/processed
 measurements, all nested taps, automatic overview, history and dependency retry.
 [Blind waveform skill use](assets/11-waveform-skill/README.md) also passes.

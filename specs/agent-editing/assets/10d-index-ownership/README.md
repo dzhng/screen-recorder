@@ -58,3 +58,15 @@ retained-index and portable-index tests. Shape review keeps one storage/lease ow
 with domain-specific receipt validation; the source domain adds no scheduler or
 cache. The caller sweep includes JavaScript harnesses and direct SQL ownership
 queries. The source selector/producer remains the next separate checkpoint.
+
+
+Integrated root checks after Catalog 10 adoption: dependency build passes,
+55 retained/source/project-event tests pass, and the full actual-native service
+package registry suite passes all 12 tests. The logs are `integrated-core.txt`
+and `integrated-package.txt`. These strengthen the combined-runtime preservation
+claim; they do not make the still-unbuilt public source-index producer ready.
+
+The actual public scene journey also passes on the Catalog 10 runtime
+(`integrated-scenes.json`), and all seven dependency/type tasks pass
+(`integrated-types.txt`). Source/project scene delivery remains intact across this
+storage change; public screenshot-index selection remains separate.
