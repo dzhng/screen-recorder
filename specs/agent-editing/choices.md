@@ -1609,3 +1609,22 @@ preparation job or persistent reader lifetime. Slice 24 owns release-scale budge
   responses remain the independently labeled frozen fixture. The evidence proves
   consumer invalidation across a simulated release, not two shipped binaries,
   fresh ASR quality, cache eviction or a change to retry semantics.
+
+## Project retained-index selection policy — 2026-09-28
+
+- **Sound, medium confidence — sparse pictures describe observations, not an entire movie.**
+  For a long screen recording, select a picture every five seconds as well as
+  authored boundaries and both observed sides of scene changes. The existing source
+  cadence supplies a reasonable initial density; the plan did not choose project
+  density. Keep unknown intervals visibly unproven. A later policy may increase
+  density without changing edits; it must use a new selection identity. Source
+  stillness cannot omit samples because another layer or processing may change.
+- **Sound, high confidence — reuse picture taps and compiler timing.** An agent
+  asking for a track's processed storyboard gets the same target as a direct track
+  picture. Every selected time resolves through the compiler, and duplicate frame
+  requests share a picture while retaining why each was selected. The plan left
+  index scope unspecified; whole-project indexes with existing taps avoid another
+  filter language or clock. Empty projects return no images; audio-only projects
+  can still show their canvas. Processing windows will contribute their own timing
+  boundaries when their composition owner exists, rather than inspection guessing
+  anchor or interpolation rules.

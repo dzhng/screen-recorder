@@ -14,6 +14,11 @@ Composition owns Curve validation, easing and compilation. Native executes compi
 
 Add supported window/transition and Curve parameters to the same processing registry/get-set lifecycle at every target scope. Clip anchors follow existing content/normalized/project semantics; nonclip windows use project time. Prove exact full-function restriction across split/trim/padded replacement, dry output outside activation and no duration extension.
 
+Expose activation/transition boundaries and key times through composition to the
+[project retained-index selector](10d-frame-inspection.md#project-retained-index-selection-contract).
+Verify a short visual activation between periodic samples is represented, without
+a second anchor or curve evaluator in inspection.
+
 Implement hold/linear/cubic segments, clamped endpoints and duplicate-key rejection. Animate position/scale/rotation/opacity and gain. Preserve source-time keys for content anchors, normalized fractional keys for held/still clip anchors and project-time keys for fixed anchors. Split/trim by restricting the original function, including cubic control handles; boundary values alone are insufficient.
 
 Create this planned probe in this slice:

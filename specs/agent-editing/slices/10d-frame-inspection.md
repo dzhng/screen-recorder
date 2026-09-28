@@ -172,3 +172,42 @@ Project retained-index frame-phase projection remains open.
 selects neighbors through the compiler's existing integer-floor sample clock and
 shared visibility builder. This pure seam preserves movie/picture plans; project
 candidate policy, materialization and public retained-index delivery remain open.
+
+## Project retained-index selection contract
+
+Project indexes use the same video taps as direct picture inspection, defaulting
+to processed output. Identity pins the revision, normalized tap, image size,
+renderer, selection policy and exact source-scene generations. Whole-project
+selection is the first public contract; a tap supplies scope without a second
+independent track-filter language.
+
+Select first/last project frames, the existing five-second representative cadence,
+and compiler neighbors around authored clip and availability boundaries. Authored
+edges remain reasons even when continuous source mapping suppresses an editorial
+cut: separate clip stacks can still change the picture. Source changes contribute
+both actual observed request times through the occurrence projection owner; never
+invent the before side as event time minus one microsecond. Map and deduplicate
+through compiler frame identities, retaining all reasons. Holds and background
+periods retain authored/periodic candidates even without advancing source evidence.
+
+Render each selected candidate through project picture inspection. Source PNGs and
+source stillness cannot establish processed composite output or justify dropping
+periodic candidates. A missing source picture can still produce valid background
+or another layer. Mark only delivered frame visibility as sampled; intervening
+intervals remain unproven, with source/occurrence availability reported separately.
+An empty project has no candidates or coverage; an audio-only nonempty project can
+have background pictures. No fabricated one-microsecond request admits an empty
+project.
+
+The next pass is the bounded pure selector and exact timing/coverage tests. Then
+reuse the retained index domain, preparation queue and frame materializer for
+publication; retain multi-source scene dependencies through indexed job references
+and reclaim retained project indexes through the existing deletion owner after
+work drains and delivery leases are revoked. Public routing and real CLI/MCP/native
+journeys follow those owners. Selection/reason budgets refuse explicitly rather
+than truncate; slice 24 owns release-scale measurements.
+
+Processing is currently constant. When [16](16-keyframes.md) adds windows/curves,
+its composition temporal owner must supply their boundaries to this selector;
+inspection must not invent another anchor/curve interpreter. A short activation
+between periodic samples must get candidates before temporal processing is accepted.
