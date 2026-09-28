@@ -232,7 +232,16 @@ it("source capture continuations retain every reader head through both public op
       acquisitionId: "capture",
       sourceRange: { startUs: 0, endUs: 1000 },
       limit: 1,
-      cursor: { reference: "pinned", position },
+      cursor: {
+        reference: "pinned",
+        position:
+          operation === "timeline.events"
+            ? {
+                capture: position,
+                scene: { after: { actualSourceUs: 999, ordinal: 0 }, done: false },
+              }
+            : position,
+      },
     };
     expect(operationSchema.parse({ operation, params })).toEqual({ operation, params });
     expect(

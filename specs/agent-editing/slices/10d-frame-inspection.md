@@ -119,5 +119,6 @@ now preserves exact physical clocks and gaps between grid observations. Its
 separate presentation policy does not change recording nearest-sample evidence.
 [Retained asset chunks and actual-boundary indexing](../assets/10d-source-scene-retention/README.md)
 now preserve this policy through paging and restart. [Source preparation jobs](../assets/10d-source-scene-preparation/README.md)
-use the shared queue and retain their selected dependencies. Public scene readiness,
-scene projection and retained screenshot selection remain next.
+use the shared queue and retain their selected dependencies. [Core scene event readers](../assets/10d-scene-event-readers/README.md)
+merge exact boundaries into repeated project occurrences and preserve source
+stillness/gap context. Public scene readiness and retained screenshot selection remain next.

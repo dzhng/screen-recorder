@@ -1,14 +1,15 @@
 import { compare, fromTime, toTime, floor, ceil, type TimeValue } from "@screenrec/composition";
 import {
-  initialCapture,
-  CaptureSourceRead,
-  type CapturePosition,
-  type CaptureRow,
-} from "./capture-source-read.js";
+  initialSourceEvents,
+  SourceEvents,
+  sourceEventOrdinal,
+  type SourceEventPosition,
+  type SourceEventRow,
+} from "./source-events.js";
 import { compareKey, mergeHeads, type EvidenceKey } from "./evidence-merge.js";
 import type { EvidenceManifest, EvidencePlan, EvidenceCheckpoint } from "./project-evidence.js";
 import { sourceSelectionKey } from "./source-selection.js";
-export type ProjectCaptureRow = CaptureRow & {
+export type ProjectEventRow = SourceEventRow & {
   clipId: string;
   assetId: string;
   streamId: string;
@@ -18,32 +19,32 @@ export type ProjectCaptureRow = CaptureRow & {
   generation: string;
   projectAtUs: TimeValue;
 };
-type CaptureHead = { key: EvidenceKey; row: ProjectCaptureRow };
-export type ProjectCapturePosition = {
+type EventHead = { key: EvidenceKey; row: ProjectEventRow };
+export type ProjectEventPosition = {
   clip: number;
-  source: CapturePosition;
-  head: CaptureHead | null;
-  deferred: CaptureHead | null;
+  source: SourceEventPosition;
+  head: EventHead | null;
+  deferred: EventHead | null;
 };
-export const initialProjectCapture = (): ProjectCapturePosition => ({
+export const initialProjectEvents = (): ProjectEventPosition => ({
   clip: 0,
-  source: initialCapture(),
+  source: initialSourceEvents(),
   head: null,
   deferred: null,
 });
-export function mergeCapture(
+export function mergeEvents(
   manifest: EvidenceManifest,
   plan: EvidencePlan,
-  state: EvidenceCheckpoint<ProjectCapturePosition>,
+  state: EvidenceCheckpoint<ProjectEventPosition>,
   limit: number,
-  reader: CaptureSourceRead,
+  reader: SourceEvents,
 ) {
   const clips = new Map(plan.occurrences.map((clip) => [clip.clipId, clip]));
   const dependencies = new Map(
     manifest.dependencies.map((d) => [sourceSelectionKey(d.selection), d.capture!]),
   );
   const budget = { remaining: 128 };
-  const next = (index: number): CaptureHead | null | undefined => {
+  const next = (index: number): EventHead | null | undefined => {
     const position = state.tracks[index]!,
       ids = manifest.tracks[index]!.clipIds;
     while (position.clip < ids.length) {
@@ -65,7 +66,7 @@ export function mergeCapture(
       if (row === null) {
         budget.remaining--;
         position.clip++;
-        position.source = initialCapture();
+        position.source = initialSourceEvents();
         continue;
       }
       const ending = row.kind === "interruption";
@@ -88,7 +89,7 @@ export function mergeCapture(
           projectStartUs: projectAtUs,
           trackRank: clip.trackRank,
           clipId: clip.clipId,
-          sourceOrdinal: row.sourceSequence,
+          sourceOrdinal: sourceEventOrdinal(row),
           eventKind: row.kind,
         },
         row: {
@@ -99,7 +100,10 @@ export function mergeCapture(
           ...(clip.acquisitionId === undefined ? {} : { acquisitionId: clip.acquisitionId }),
           trackId: clip.trackId,
           trackRank: clip.trackRank,
-          generation: context.evidence!.generation,
+          generation:
+            row.kind === "scene"
+              ? context.scene!.evidence!.generation
+              : context.evidence!.generation,
           projectAtUs,
         },
       };
@@ -135,7 +139,7 @@ export function mergeCapture(
       return true;
     }
   };
-  const rows: ProjectCaptureRow[] = [];
+  const rows: ProjectEventRow[] = [];
   mergeHeads(
     state,
     manifest.tracks,

@@ -1,0 +1,5 @@
+Independent review: no core algorithm findings; 51 focused core tests and core types passed.
+Two P1 integration findings remain assigned to the parent service pass: (1) ProjectEvidenceInspection construction must pass events: SourceEvents instead of capture, and (2) source timeline.events dispatch must use SourceEvents.events so its returned cursor matches the nested capture+scene schema. This core commit is not a service-ready checkpoint until both are wired and the actual public capture journey reruns.
+Core preservation before internal checkpoint naming cleanup: 537 passed, one skipped. Affected final source/project/capture/retention tests: 51 passed. Composition: 121 passed. Protocol: 18 passed.
+Rounding scene source clocks to integer labels caused two exact source/project scene tests to fail; restored exact clocks pass.
+Shape: scene/capture share one source merge and one project heap/checkpoint owner; no second scheduler, source-projection arithmetic or synthetic capture metadata. The existing rational constructor owns fraction normalization.

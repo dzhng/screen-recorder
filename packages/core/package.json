@@ -223,6 +223,14 @@
     "./acoustic-image": {
       "types": "./dist/acoustic-image.d.ts",
       "default": "./dist/acoustic-image.js"
+    },
+    "./source-events": {
+      "types": "./dist/source-events.d.ts",
+      "default": "./dist/source-events.js"
+    },
+    "./scene-source-read": {
+      "types": "./dist/scene-source-read.d.ts",
+      "default": "./dist/scene-source-read.js"
     }
   },
   "scripts": {

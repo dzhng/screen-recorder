@@ -1,0 +1,7 @@
+(node:71559) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  4 passed (4)
+      Tests  51 passed (51)
+   Start at  04:56:19
+   Duration  9.41s (tests 92%, transform 6%, import 2%)

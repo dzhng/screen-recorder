@@ -1391,3 +1391,22 @@ The native plotting operation receives bounded waveform or spectral measurements
   for rendering and sends the path. The worker reads only a bounded regular file;
   cleanup removes it with the attempt. This fills the transport seam without
   raising global command limits or adding a second file-lifetime mechanism.
+
+## Scene inspection and occurrence projection
+
+- **Sound, medium confidence — preserve measured coverage context around a query.**
+  Asking about the middle of a still picture returns its retained observation
+  chunk, including the earlier measured stillness start. It does not claim the
+  stillness began when the agent asked, and it does not turn an unsampled gap
+  into known unchanged pixels. Sparse observations and physical source support
+  remain distinguishable.
+- **Sound, high confidence — physical scenes carry physical clocks, not invented capture events.**
+  Imported footage can have scene changes without any capture journal. Those
+  rows keep exact source sample time and their own ordinal; capture pause and
+  interruption rows keep their existing capture fields. One event merge projects
+  both through each clip occurrence and orders them by exact time.
+- **Sound, high confidence — event continuations carry both reader positions.**
+  A pause and a picture change can alternate across one-row pages. The cursor
+  keeps each reader's consumed position, and the project checkpoint uses the same
+  bounded merge owner. Preparing a different scene generation invalidates the
+  old continuation rather than mixing evidence from different runs.

@@ -30,27 +30,19 @@ import {
   type TranscriptPosition,
 } from "./project-transcript.js";
 import type { EvidenceKey } from "./evidence-merge.js";
-import {
-  CaptureSourceRead,
-  boundCaptureResponse,
-  type CaptureContext,
-  type CaptureDomain,
-} from "./capture-source-read.js";
-import {
-  initialProjectCapture,
-  mergeCapture,
-  type ProjectCapturePosition,
-} from "./project-capture.js";
+import { boundSourceEvidenceResponse, type CaptureDomain } from "./capture-source-read.js";
+import { initialProjectEvents, mergeEvents, type ProjectEventPosition } from "./project-events.js";
+import { SourceEvents, type SourceEventContext } from "./source-events.js";
 type ProjectCheckpoint =
   | (EvidenceCheckpoint<TranscriptPosition> & { kind: "transcript" })
-  | (EvidenceCheckpoint<ProjectCapturePosition> & { kind: "capture" });
-export type { ProjectCaptureRow } from "./project-capture.js";
+  | (EvidenceCheckpoint<ProjectEventPosition> & { kind: "events" });
+export type { ProjectEventRow } from "./project-events.js";
 export type { ProjectTranscriptRow, ProjectTranscriptMatch } from "./project-transcript.js";
 export type EvidencePlan = ReturnType<ProjectEvidenceInspection["plan"]>;
 
 const artifact = "project.evidence";
 const policy = (domain: Query["domain"]) =>
-  domain === "events" || domain === "cursor" ? "project-capture-v2" : "project-transcript-v1";
+  domain === "events" || domain === "cursor" ? "project-events-v1" : "project-transcript-v1";
 // Provisional inspection budgets; scale acceptance owns changes to these limits.
 const maximumBytes = 8 * 1024 * 1024;
 
@@ -81,7 +73,7 @@ type Query = {
   policy: string;
 };
 type Dependency = {
-  capture?: CaptureContext;
+  capture?: SourceEventContext;
   selection: SourceSelection;
   transcript: TranscriptMetadata | null;
   state: string;
@@ -124,7 +116,7 @@ export class ProjectEvidenceInspection {
       cache: DerivedCache;
       transcripts: TranscriptProcessing;
       records: TranscriptRecords;
-      capture?: CaptureSourceRead;
+      events?: SourceEvents;
     },
   ) {}
 
@@ -216,18 +208,23 @@ export class ProjectEvidenceInspection {
       .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
       .map(([, selection]) => {
         if (domain === "events" || domain === "cursor") {
-          if (!this.options.capture)
+          if (!this.options.events)
             throw new CatalogError("UNAVAILABLE", "Capture inspection is unavailable");
-          const capture = this.options.capture.resolve(selection, domain);
+          const capture = this.options.events.resolve(selection, domain, prepare);
           const ready = capture.coverage.some((value) => value.state === "ready");
           return {
             selection,
             transcript: null,
             capture,
-            state: ready ? "ready" : "unavailable",
+            state:
+              capture.scene && !["ready", "unavailable"].includes(capture.scene.state)
+                ? capture.scene.state
+                : ready
+                  ? "ready"
+                  : "unavailable",
             reason: ready ? null : capture.coverage[0]!.reason,
-            retryable: false,
-            jobId: null,
+            retryable: capture.scene?.retryable ?? false,
+            jobId: capture.scene?.jobId ?? null,
           };
         }
         const status = prepare
@@ -260,9 +257,11 @@ export class ProjectEvidenceInspection {
   request(input: QueryInput) {
     const plan = this.plan(input),
       dependencies = this.dependencies(plan.occurrences, true, plan.query.domain);
-    const pending = dependencies.filter(
-      (dependency) =>
-        !dependency.capture && !dependency.transcript && dependency.reason !== "no_audio",
+    const pending = dependencies.filter((dependency) =>
+      dependency.capture
+        ? !!dependency.capture.scene &&
+          !["ready", "unavailable"].includes(dependency.capture.scene.state)
+        : !dependency.transcript && dependency.reason !== "no_audio",
     );
     if (pending.length)
       return {
@@ -414,7 +413,7 @@ export class ProjectEvidenceInspection {
     return {
       ...result,
       coverage: "coverage" in result ? (result.coverage ?? null) : null,
-      page: result.page && { rows: result.page.capture, nextCursor: result.page.nextCursor },
+      page: result.page && { rows: result.page.events, nextCursor: result.page.nextCursor },
     };
   }
   async cursor(input: ProjectEvidenceInput) {
@@ -422,7 +421,7 @@ export class ProjectEvidenceInspection {
     return {
       ...result,
       coverage: "coverage" in result ? (result.coverage ?? null) : null,
-      page: result.page && { rows: result.page.capture, nextCursor: result.page.nextCursor },
+      page: result.page && { rows: result.page.events, nextCursor: result.page.nextCursor },
     };
   }
   private async read(input: QueryInput) {
@@ -450,7 +449,8 @@ export class ProjectEvidenceInspection {
     try {
       const status = cursor ? null : this.request(input);
       if (status && !status.published) {
-        if (input.domain === "events" || input.domain === "cursor") boundCaptureResponse(status);
+        if (input.domain === "events" || input.domain === "cursor")
+          boundSourceEvidenceResponse(status);
         return { ...status, page: null };
       }
       const manifestId = cursor?.manifestId ?? status!.published!.value.cacheId;
@@ -491,7 +491,7 @@ export class ProjectEvidenceInspection {
             initialized: 0,
             pendingTrack: null,
             ...(plan.query.domain === "events" || plan.query.domain === "cursor"
-              ? { kind: "capture" as const, tracks: manifest.tracks.map(initialProjectCapture) }
+              ? { kind: "events" as const, tracks: manifest.tracks.map(initialProjectEvents) }
               : { kind: "transcript" as const, tracks: manifest.tracks.map(initialTranscript) }),
             heap: [],
             last: null,
@@ -499,22 +499,22 @@ export class ProjectEvidenceInspection {
       if (state.manifestId !== manifestId || state.queryDigest !== manifest.queryDigest)
         throw changed();
       const merged =
-        state.kind === "capture"
+        state.kind === "events"
           ? {
               rows: [],
               entries: [],
-              capture: mergeCapture(manifest, plan, state, limit, this.options.capture!),
+              events: mergeEvents(manifest, plan, state, limit, this.options.events!),
             }
-          : { ...mergeTranscript(manifest, plan, state, limit, this.options.records), capture: [] };
-      if (state.kind === "capture")
-        boundCaptureResponse({
+          : { ...mergeTranscript(manifest, plan, state, limit, this.options.records), events: [] };
+      if (state.kind === "events")
+        boundSourceEvidenceResponse({
           projectId: input.projectId,
           revisionId: manifest.query.revisionId,
           state: "ready",
           dependencies: manifest.dependencies,
           coverage: { manifestId, ...(cursor ? {} : { occurrences: manifest.coverage }) },
           page: {
-            rows: merged.capture,
+            rows: merged.events,
             nextCursor: {
               projectId: input.projectId,
               revisionId: manifest.query.revisionId,

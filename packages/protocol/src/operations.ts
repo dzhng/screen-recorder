@@ -58,7 +58,13 @@ const capturePosition = z.strictObject({
   after: z.tuple([time, time]).nullable(),
   done: z.boolean(),
 });
-const sourceCaptureParams = (maximum: number) =>
+const captureHeads = z.strictObject({
+  cursor: capturePosition,
+  pause: capturePosition,
+  geometry: capturePosition,
+  interruption: capturePosition,
+});
+const sourceCaptureParams = (maximum: number, events = false) =>
   sourceSelection
     .extend({
       sourceRange: range.optional(),
@@ -66,12 +72,23 @@ const sourceCaptureParams = (maximum: number) =>
       cursor: z
         .strictObject({
           reference: id,
-          position: z.strictObject({
-            cursor: capturePosition,
-            pause: capturePosition,
-            geometry: capturePosition,
-            interruption: capturePosition,
-          }),
+          position: events
+            ? z.strictObject({
+                capture: captureHeads,
+                scene: z.strictObject({
+                  after: z
+                    .strictObject({
+                      actualSourceUs: z
+                        .int()
+                        .min(-Number.MAX_SAFE_INTEGER)
+                        .max(Number.MAX_SAFE_INTEGER),
+                      ordinal: time,
+                    })
+                    .nullable(),
+                  done: z.boolean(),
+                }),
+              })
+            : captureHeads,
         })
         .optional(),
     })
@@ -740,7 +757,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
           cursor: z.string().min(1).max(4096).optional(),
           limit: z.int().min(1).max(500).default(100),
         }).options,
-        sourceCaptureParams(500),
+        sourceCaptureParams(500, true),
       ]),
     })
     .strict()

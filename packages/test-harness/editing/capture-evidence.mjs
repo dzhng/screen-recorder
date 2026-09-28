@@ -877,7 +877,7 @@ try {
         "packages/protocol/dist/operations.js",
         "packages/core/dist/capture-source-read.js",
         "packages/core/dist/project-evidence.js",
-        "packages/core/dist/project-capture.js",
+        "packages/core/dist/project-events.js",
         "packages/core/dist/evidence-read.js",
         "packages/core/dist/evidence-merge.js",
         "packages/test-harness/editing/capture-evidence.mjs",

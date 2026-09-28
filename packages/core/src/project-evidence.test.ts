@@ -1,3 +1,7 @@
+import { SceneProcessing } from "./scene-processing.js";
+import { SourceSceneRead } from "./scene-source-read.js";
+import { SceneEvidenceStore, assetSceneOwner } from "./scene-evidence.js";
+import { SourceEvents } from "./source-events.js";
 import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -26,7 +30,7 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
-async function fixture({ durationUs = 1000, originUs = 500 } = {}) {
+async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {}) {
   const home = await mkdtemp("/tmp/project-evidence-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
@@ -150,7 +154,9 @@ async function fixture({ durationUs = 1000, originUs = 500 } = {}) {
       modelRevision: "revision",
     },
   };
-  let transcripts: TranscriptProcessing, evidence: ProjectEvidenceInspection;
+  let transcripts: TranscriptProcessing,
+    evidence: ProjectEvidenceInspection,
+    sceneProcessing: SceneProcessing;
   const jobs = new JobQueue({
     store: catalog,
     providers: { newId: randomUUID },
@@ -174,7 +180,9 @@ async function fixture({ durationUs = 1000, originUs = 500 } = {}) {
     execute: (execution) =>
       execution.job.artifact === "transcript"
         ? transcripts.execute(execution)
-        : evidence.execute(execution),
+        : execution.job.artifact === "source-scenes"
+          ? sceneProcessing.execute(execution)
+          : evidence.execute(execution),
   });
   transcripts = new TranscriptProcessing({
     jobs,
@@ -233,6 +241,65 @@ async function fixture({ durationUs = 1000, originUs = 500 } = {}) {
       };
     },
   });
+  const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
+  sceneProcessing = new SceneProcessing({
+    jobs,
+    evidence: sceneRecords,
+    asset: {
+      assets,
+      acquisitions,
+      implementationId: "fixture-scenes",
+      sample: async (request) => ({
+        assetId: asset.id,
+        streamId: request.asset.streamId,
+        originUs,
+        sourceWidth: 64,
+        sourceHeight: 48,
+        readerOpens: 1,
+        decodedSamples: request.atSourceUs.length,
+        samples: request.atSourceUs.map((at, i) => {
+          if (!request.available.some((r) => r.startUs <= at && r.endUs > at))
+            return {
+              requestedSourceUs: at,
+              status: "unavailable",
+              reason: "outside_support",
+              continuousFromPrevious: false,
+            };
+          return {
+            requestedSourceUs: at,
+            status: "available",
+            actualSourceUs: at,
+            sample: {
+              value: String((at + originUs) * 5 - (at ? 2 : 0)),
+              timescale: 5000000,
+              endValue: String((at + originUs + 1) * 5),
+              endTimescale: 5000000,
+            },
+            width: 1,
+            height: 1,
+            rgbBase64: Buffer.alloc(3, Math.floor(at / 200000) % 2 ? 255 : 0).toString("base64"),
+            continuousFromPrevious:
+              i > 0 &&
+              request.available.some(
+                (r) => r.startUs <= request.atSourceUs[i - 1]! && r.endUs > at,
+              ),
+          };
+        }),
+      }),
+    },
+  });
+  const sceneRead = new SourceSceneRead({
+    assets,
+    acquisitions,
+    processing: sceneProcessing,
+    records: sceneRecords,
+  });
+  const sourceEvents = new SourceEvents({
+    assets,
+    acquisitions,
+    capture: captureRead,
+    ...(scenes ? { scenes: sceneRead } : {}),
+  });
   evidence = new ProjectEvidenceInspection({
     projects,
     assets,
@@ -240,7 +307,7 @@ async function fixture({ durationUs = 1000, originUs = 500 } = {}) {
     cache,
     transcripts,
     records: observed,
-    capture: captureRead,
+    events: sourceEvents,
   });
   cleanup.push(async () => {
     await jobs.close();
@@ -277,6 +344,10 @@ async function fixture({ durationUs = 1000, originUs = 500 } = {}) {
     capture,
     captureRead,
     captureRecords,
+    sceneRecords,
+    sceneProcessing,
+    sceneRead,
+    sourceEvents,
     captureReads,
     catalog,
     assets,
@@ -1051,7 +1122,12 @@ test("capture cursor repeats every visual occurrence and masks unavailable sampl
     if (!page.nextCursor) break;
     cursor = page.nextCursor;
   }
-  expect(rows.map((row) => [row.projectAtUs, row.sourceAtUs, row.sourceSequence])).toEqual([
+  expect(
+    rows.map((row) => {
+      if (row.kind === "scene") throw new Error("Cursor domain returned scene");
+      return [row.projectAtUs, row.sourceAtUs, row.sourceSequence];
+    }),
+  ).toEqual([
     [100, 100, 1],
     [300, 300, 3],
     [1100, 100, 1],
@@ -1259,4 +1335,150 @@ test("capture replies refuse oversized observations before publishing an unusabl
   expect(
     (await f.evidence.cursor({ ...input, limit: 1 })).page!.rows.map((row) => row.projectAtUs),
   ).toEqual([0]);
+});
+
+async function eventPages(f: Awaited<ReturnType<typeof fixture>>, input: ProjectEvidenceInput) {
+  for (let n = 0; n < 8; n++) {
+    const result = await f.evidence.events(input);
+    if (result.page) break;
+    await f.jobs.idle();
+  }
+  const rows = [];
+  let cursor: unknown;
+  for (let n = 0; n < 1000; n++) {
+    const result = await f.evidence.events({ ...input, ...(cursor ? { cursor } : {}) });
+    if (!result.page) throw new Error("events not ready");
+    rows.push(...result.page.rows);
+    if (!result.page.nextCursor) return { rows, result };
+    cursor = result.page.nextCursor;
+  }
+  throw new Error("event pages did not progress");
+}
+test("source scene readiness is independent of capture context and exact scene clocks project through repeated retimes", async () => {
+  const f = await fixture({ durationUs: 1000000, originUs: 0, scenes: true });
+  const selection = { assetId: f.asset.id, streamId: "video" };
+  expect(f.sourceEvents.events(selection)).toMatchObject({ state: "not_ready", page: null });
+  await f.jobs.idle();
+  const source = f.sourceEvents.events(selection);
+  expect(source.context.coverage).toContainEqual({ kind: "scene", state: "ready", reason: null });
+  expect(source.context.coverage).toContainEqual({
+    kind: "pause",
+    state: "unavailable",
+    reason: "capture_context_missing",
+  });
+  expect(source.page!.rows.map((row) => row.sourceAtUs)).toEqual(
+    [999998, 1999998, 2999998, 3999998].map((numerator) => ({ numerator, denominator: 5 })),
+  );
+  expect(source.page!.rows.every((row) => !("captureAtUs" in row))).toBe(true);
+  const input = f.create([
+    { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+    clip(f.asset.id, "slow", "v", 0, 3000000, 0, 1000000, "video"),
+    clip(f.asset.id, "again", "v", 3000000, 4000000, 0, 1000000, "video"),
+  ]);
+  const one = await eventPages(f, { ...input, limit: 1 });
+  expect(one.rows.map((r) => r.projectAtUs)).toEqual(
+    [2999994, 5999994, 8999994, 11999994, 15999998, 16999998, 17999998, 18999998].map(
+      (numerator) => ({ numerator, denominator: 5 }),
+    ),
+  );
+  expect((await eventPages(f, { ...input, limit: 500 })).rows).toEqual(one.rows);
+  expect(new Set(one.rows.map((r) => r.clipId)).size).toBe(2);
+  expect(
+    (
+      await eventPages(f, { ...input, range: { startUs: 200000, endUs: 600000 }, limit: 1 })
+    ).rows.map((r) => r.projectAtUs),
+  ).toEqual([{ numerator: 2999994, denominator: 5 }]);
+});
+test("mixed capture and scene source pagination preserves exact ordering and pins generation", async () => {
+  const f = await fixture({ durationUs: 1000000, originUs: 0, scenes: true });
+  const captured = await f.capture([
+    { event: "pause", data: { atSourceUs: 200000, elapsedPauseUs: 50 } },
+    geometry(400000),
+  ]);
+  const selection = { assetId: f.asset.id, streamId: "video", acquisitionId: captured.id };
+  f.sourceEvents.events(selection);
+  await f.jobs.idle();
+  const first = f.sourceEvents.events({ ...selection, limit: 1 });
+  const rows = [...first.page!.rows];
+  let cursor = first.page!.nextCursor;
+  while (cursor) {
+    const page = f.sourceEvents.events({ ...selection, limit: 1, cursor }).page!;
+    rows.push(...page.rows);
+    cursor = page.nextCursor;
+  }
+  expect(rows.map((row) => row.kind)).toEqual([
+    "scene",
+    "pause",
+    "scene",
+    "geometry",
+    "scene",
+    "scene",
+  ]);
+  expect(rows).toEqual(f.sourceEvents.events({ ...selection, limit: 500 }).page!.rows);
+  const prepared = f.sceneProcessing.sourceStatus(selection);
+  f.jobs.regenerate(prepared.jobId!, f.jobs.job(prepared.jobId!).generation);
+  await f.jobs.idle();
+  expect(() =>
+    f.sourceEvents.events({ ...selection, limit: 1, cursor: first.page!.nextCursor }),
+  ).toThrow("changed");
+  const audio = f.sourceEvents.events({ ...selection, streamId: "speech" });
+  expect(audio.state).toBe("ready");
+  expect(audio.page!.rows.map((r) => r.kind)).toEqual(["pause"]);
+  expect(audio.context.coverage).toContainEqual({
+    kind: "scene",
+    state: "unavailable",
+    reason: "requires_video",
+  });
+});
+
+test("scene-only tied tracks preserve bounded empty-page progress and acquisition gaps", async () => {
+  const f = await fixture({ durationUs: 1000000, originUs: 0, scenes: true });
+  const context = await f.capture(
+    [],
+    [
+      { startUs: 0, endUs: 300000 },
+      { startUs: 600000, endUs: 1000000 },
+    ],
+  );
+  const selected = { assetId: f.asset.id, streamId: "video", acquisitionId: context.id };
+  f.sourceEvents.events(selected);
+  await f.jobs.idle();
+  const coverage = f.sceneRead.coverage(f.sceneRead.resolve(selected), {
+    startUs: 600000,
+    endUs: 900000,
+  });
+  expect(coverage.chunks[0]!.coverage).toContainEqual({
+    requestedSourceUs: 400000,
+    status: "unavailable",
+    reason: "outside_support",
+    continuousFromPrevious: false,
+  });
+  expect(coverage.chunks[0]!.coverage.find((p) => p.requestedSourceUs === 600000)).toMatchObject({
+    stillnessRunStartUs: 600000,
+    continuousFromPrevious: false,
+  });
+  const operations: EditOperation[] = [];
+  for (let i = 0; i < 129; i++) {
+    operations.push({ operation: "track.add", label: `v${i}`, track: { kind: "video", order: i } });
+    const placed = clip(f.asset.id, `c${i}`, `v${i}`, 0, 1000000, 0, 1000000, "video");
+    if (placed.operation !== "place") throw Error("fixture");
+    operations.push({ ...placed, clip: { ...placed.clip, acquisitionId: context.id } });
+  }
+  const input = f.create(operations);
+  for (let n = 0; n < 4; n++) {
+    await f.evidence.events({ ...input, limit: 1 });
+    await f.jobs.idle();
+  }
+  const first = await f.evidence.events({ ...input, limit: 1 });
+  expect(first.page!.rows).toEqual([]);
+  expect(first.page!.nextCursor).not.toBeNull();
+  const all = await eventPages(f, { ...input, limit: 500 });
+  expect(all.rows).toHaveLength(258);
+  expect(new Set(all.rows.map((r) => JSON.stringify(r.sourceAtUs)))).toEqual(
+    new Set([
+      JSON.stringify({ numerator: 999998, denominator: 5 }),
+      JSON.stringify({ numerator: 3999998, denominator: 5 }),
+    ]),
+  );
+  expect(first.coverage!.occurrences![0]!.unavailable).toEqual([{ startUs: 300000, endUs: 600000 }]);
 });

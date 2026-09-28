@@ -438,6 +438,47 @@ export class SceneEvidenceStore extends SceneEvidenceReader {
       .all(...key(identity), afterStartUs, limit) as { content: string }[];
     return rows.map((row) => JSON.parse(row.content));
   }
+  /** Include the chunk containing the window start, so stillness retains its earlier measured origin. */
+  sourceWindowPage({
+    identity,
+    range,
+    afterStartUs,
+    limit = 1,
+  }: {
+    identity: SceneEvidenceIdentity;
+    range: TimeRange;
+    afterStartUs?: number;
+    limit?: number;
+  }) {
+    const metadata = this.readMetadata(identity);
+    if (metadata.source.kind !== "asset") invalid("Scene coverage requires an asset source");
+    if (
+      !integer(range.startUs) ||
+      !integer(range.endUs) ||
+      range.startUs >= range.endUs ||
+      range.endUs > metadata.source.durationUs ||
+      !integer(limit) ||
+      limit < 1 ||
+      limit > 100 ||
+      (afterStartUs !== undefined && (!integer(afterStartUs) || afterStartUs >= range.endUs))
+    )
+      throw new CatalogError("INVALID_PARAMS", "Invalid scene coverage window");
+    const first = this.store.catalog
+      .prepare(
+        `SELECT startUs FROM scene_evidence_chunks WHERE ${where} AND startUs<=? ORDER BY startUs DESC LIMIT 1`,
+      )
+      .get(...key(identity), range.startUs) as { startUs: number };
+    const lower = Math.max(first.startUs, afterStartUs === undefined ? 0 : afterStartUs + 1);
+    const rows = this.store.catalog
+      .prepare(
+        `SELECT content FROM scene_evidence_chunks WHERE ${where} AND startUs>=? AND startUs<? ORDER BY startUs LIMIT ?`,
+      )
+      .all(...key(identity), lower, range.endUs, limit + 1) as { content: string }[];
+    const more = rows.length > limit;
+    if (more) rows.pop();
+    const chunks = rows.map((row) => JSON.parse(row.content) as SourceSceneChunk);
+    return { metadata, chunks, nextStartUs: more ? chunks.at(-1)!.range.startUs : null };
+  }
   boundaryPage({
     identity,
     range,

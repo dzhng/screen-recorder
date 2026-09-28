@@ -1,0 +1,81 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t scene
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:72214) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/project-evidence.test.ts (28 tests | 2 failed | 25 skipped) 475ms
+   × source scene readiness is independent of capture context and exact scene clocks project through repeated retimes 50ms
+   × scene-only tied tracks preserve bounded empty-page progress and acquisition gaps 377ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > source scene readiness is independent of capture context and exact scene clocks project through repeated retimes
+AssertionError: expected [ 200000, 400000, 600000, 800000 ] to deeply equal [ { numerator: 999998, …(1) }, …(3) ]
+
+- Expected
++ Received
+
+  [
+-   {
+-     "denominator": 5,
+-     "numerator": 999998,
+-   },
+-   {
+-     "denominator": 5,
+-     "numerator": 1999998,
+-   },
+-   {
+-     "denominator": 5,
+-     "numerator": 2999998,
+-   },
+-   {
+-     "denominator": 5,
+-     "numerator": 3999998,
+-   },
++   200000,
++   400000,
++   600000,
++   800000,
+  ]
+
+ ❯ src/project-evidence.test.ts:1369:58
+    1367|     reason: "capture_context_missing",
+    1368|   });
+    1369|   expect(source.page!.rows.map((row) => row.sourceAtUs)).toEqual(
+       |                                                          ^
+    1370|     [999998, 1999998, 2999998, 3999998].map((numerator) => ({ numerato…
+    1371|   );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/project-evidence.test.ts > scene-only tied tracks preserve bounded empty-page progress and acquisition gaps
+AssertionError: expected Set{ '200000', '800000' } to deeply equal Set{ …(2) }
+
+- Expected
++ Received
+
+  Set {
+-   "{\"numerator\":3999998,\"denominator\":5}",
+-   "{\"numerator\":999998,\"denominator\":5}",
++   "200000",
++   "800000",
+  }
+
+ ❯ src/project-evidence.test.ts:1477:70
+    1475|   const all = await eventPages(f, { ...input, limit: 500 });
+    1476|   expect(all.rows).toHaveLength(258);
+    1477|   expect(new Set(all.rows.map((r) => JSON.stringify(r.sourceAtUs)))).t…
+       |                                                                      ^
+    1478|     new Set([
+    1479|       JSON.stringify({ numerator: 999998, denominator: 5 }),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed | 25 skipped (28)
+   Start at  04:56:47
+   Duration  932ms (tests 55%, transform 34%, import 10%)
+
+error: script "test" exited with code 1

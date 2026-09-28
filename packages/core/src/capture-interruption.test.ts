@@ -1,3 +1,4 @@
+import { SourceEvents } from "./source-events.js";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
@@ -17,7 +18,7 @@ import { SpeechModels } from "./speech-models.js";
 import {
   ProjectEvidenceInspection,
   type ProjectEvidenceInput,
-  type ProjectCaptureRow,
+  type ProjectEventRow,
 } from "./project-evidence.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -73,7 +74,7 @@ async function fixture({
     assets,
     jobs,
     cache,
-    capture,
+    events: new SourceEvents({ assets, acquisitions, capture }),
     records: transcripts,
     transcripts: new TranscriptProcessing({
       jobs,
@@ -194,7 +195,7 @@ async function fixture({
     };
   }
   async function pages(input: ProjectEvidenceInput) {
-    const rows: ProjectCaptureRow[] = [];
+    const rows: ProjectEventRow[] = [];
     let cursor: unknown;
     let empty = 0,
       maxReads = 0;
@@ -373,7 +374,14 @@ test("adjacent clip endpoints merge next opening ties by existing clip ID order 
   ]);
   expect(project.labels.opening! < project.labels.ending!).toBe(true);
   const result = await f.pages({ ...project, limit: 1 });
-  expect(result.rows.map((r) => [r.projectAtUs, r.clipId, r.kind, r.sourceSequence])).toEqual([
+  expect(
+    result.rows.map((r) => [
+      r.projectAtUs,
+      r.clipId,
+      r.kind,
+      "sourceSequence" in r ? r.sourceSequence : null,
+    ]),
+  ).toEqual([
     ...[1, 2, 3].map((n) => [0, project.labels.ending, "pause", n]),
     ...[1, 2, 3].map((n) => [1000, project.labels.opening, "pause", n]),
     [1000, project.labels.ending, "interruption", 6],
@@ -399,7 +407,14 @@ test("reordered, repeated and rationally retimed capture endpoints retain exact 
     place(source.video, "earlier", 0, 1000, 0, 1000),
   ]);
   const result = await f.pages({ ...project, limit: 1 });
-  expect(result.rows.map((r) => [r.clipId, r.sourceAtUs, r.captureAtUs, r.projectAtUs])).toEqual([
+  expect(
+    result.rows.map((r) => [
+      r.clipId,
+      r.sourceAtUs,
+      "captureAtUs" in r ? r.captureAtUs : null,
+      r.projectAtUs,
+    ]),
+  ).toEqual([
     [project.labels.earlier, 500, 1000, 500],
     [project.labels.later, 500, 1000, { numerator: 3001, denominator: 2 }],
   ]);

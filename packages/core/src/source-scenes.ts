@@ -1,3 +1,4 @@
+import { rational } from "@screenrec/composition";
 import { isDeepStrictEqual } from "node:util";
 import type { CompositionAssetBinding } from "./project-window.js";
 import type { TimeRange } from "./timeline.js";
@@ -75,7 +76,7 @@ export function compareSceneSampleClocks(a: SceneSampleClock, b: SceneSampleCloc
 }
 export function sceneSampleSourceTime(sample: SceneSampleClock, originUs: number) {
   const { start, scale } = stamp(sample);
-  return { numerator: start * 1000000n - BigInt(originUs) * scale, denominator: scale };
+  return rational(start * 1000000n - BigInt(originUs) * scale, scale);
 }
 export function validateSceneSampleClock(
   sample: SceneSampleClock,

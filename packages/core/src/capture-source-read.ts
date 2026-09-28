@@ -9,11 +9,11 @@ import { CatalogError } from "./catalog.js";
 import { selectSource, type SourceSelection } from "./source-selection.js";
 
 // Leave headroom for transport envelopes beneath the public eight-MiB frame bound.
-export function boundCaptureResponse(value: unknown): void {
+export function boundSourceEvidenceResponse(value: unknown): void {
   if (Buffer.byteLength(JSON.stringify(value)) > 4 * 1024 * 1024)
     throw new CatalogError(
       "LIMIT_EXCEEDED",
-      "Capture evidence response exceeds 4MiB; narrow the range, tracks or page limit",
+      "Source evidence response exceeds 4MiB; narrow the range, tracks or page limit",
     );
 }
 export type CaptureSourceInput = SourceSelection & {
@@ -57,7 +57,7 @@ const sourcePositionSchema = z.strictObject({
   after: z.tuple([z.number().int().nonnegative(), z.number().int().nonnegative()]).nullable(),
   done: z.boolean(),
 });
-const positionSchema = z.strictObject({
+export const capturePositionSchema = z.strictObject({
   cursor: sourcePositionSchema,
   pause: sourcePositionSchema,
   geometry: sourcePositionSchema,
@@ -244,7 +244,7 @@ export class CaptureSourceRead {
     let position = initialCapture();
     if (input.cursor !== undefined) {
       const cursor = z
-        .strictObject({ reference: z.string(), position: positionSchema })
+        .strictObject({ reference: z.string(), position: capturePositionSchema })
         .safeParse(input.cursor);
       if (!cursor.success)
         throw new CatalogError("INVALID_PARAMS", "Invalid capture evidence cursor");
@@ -305,7 +305,7 @@ export class CaptureSourceRead {
           }
         : null,
     };
-    boundCaptureResponse(result);
+    boundSourceEvidenceResponse(result);
     return result;
   }
 }

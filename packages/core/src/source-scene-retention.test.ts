@@ -167,6 +167,16 @@ test("asset gaps and exact sample clocks survive chunk paging and reopening", as
       sample: { ...tail.comparisons[0]!.current, originUs: -250000 },
     },
   ]);
+  const window = f.evidence.sourceWindowPage({
+    identity: f.identity,
+    range: { startUs: 600001, endUs: 800000 },
+    limit: 1,
+  });
+  expect(window.chunks).toEqual([tail]);
+  expect(window.chunks[0]!.coverage[0]).toMatchObject({
+    requestedSourceUs: 400000,
+    stillnessRunStartUs: 400000,
+  });
   expect(() => f.evidence.page({ identity: f.identity })).toThrow("recording source");
 });
 

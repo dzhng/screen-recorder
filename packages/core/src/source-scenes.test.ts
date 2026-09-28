@@ -1,6 +1,8 @@
+import { toTime } from "@screenrec/composition";
 import { expect, test } from "vitest";
 import {
   SelectedSourceSceneAnalysis,
+  sceneSampleSourceTime,
   type SourceVisualPoint,
   type SourceVisualSampler,
 } from "./source-scenes.js";
@@ -266,4 +268,20 @@ test("touching availability spans preserve continuous comparison and stillness",
   const result = await a.analyze({ startUs: 0, endUs: 200000 }, new AbortController().signal);
   expect(result.comparisons.map((p) => p.actualSourceUs)).toEqual([200000]);
   expect(result.coverage.at(-1)).toMatchObject({ stillnessRunStartUs: 0 });
+});
+
+test("long physical timestamps reduce before safe public fraction conversion", () => {
+  expect(
+    toTime(
+      sceneSampleSourceTime(
+        {
+          value: "1000000000000000",
+          timescale: 1000000000,
+          endValue: "1000000000000001",
+          endTimescale: 1000000000,
+        },
+        0,
+      ),
+    ),
+  ).toBe(1000000000000);
 });
