@@ -1692,3 +1692,28 @@ acceptance of remaining edits, pointers or animation. Full export is tested thro
 the actual whole-revision API; fractional windows use preview. Committed external
 exports survive deletion while service-owned deliveries are revoked by their
 existing lifetime owner.
+
+## Source-attached pointer decisions — 2026-09-28
+
+- **Sound, medium confidence — trails follow capture history, including before a trim.**
+  If an agent selects a later portion of a capture with a visible trail, the trail
+  may include motion immediately before that selected portion. Looking back through
+  immutable source support preserves identical output after a pure split and avoids
+  inferring edit intent from history. A zero-duration trail requests only the current
+  pointer. The plan required source attachment and split invariance but did not pick
+  this history boundary; the explicit duration keeps the choice inspectable.
+- **Sound, high confidence — source context determines valid targets.** A clip names
+  one captured stream; a combined group may contain unrelated recordings and raw
+  B-roll. Require a pointer step on the acquisition-bound video clip rather than
+  guessing which group member owns it. Registry metadata drives both authoring
+  validation and discovery, including atomic incompatible replacement refusal.
+- **Sound, high confidence — reuse compiled geometry at every ordered position.**
+  A pointer drawn after dimming should remain bright, but it still belongs at the
+  cropped/rotated source location. Replay the already-compiled geometric prefix on
+  the new overlay, excluding prior opacity, then apply later steps to the combination.
+  This keeps arbitrary clip-stack placement without a second transform calculator.
+- **Sound, high confidence — make new trail duration explicit and retain existing defaults.**
+  Existing still/movie pointer behavior differs, so neither default can silently
+  represent both. The new processor requires source-time duration; legacy callers
+  retain their policies. Matched-time preservation checks respect the project's
+  established frame clock rather than adding hidden pointer-event frames.

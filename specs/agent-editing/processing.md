@@ -36,8 +36,10 @@ public discovery must distinguish authoring from execution support.
 Targets discriminate `{kind: "clip", id}`, `{kind: "track", id}`,
 `{kind: "group", id}` and `{kind: "output"}`. Clip/track/group resolve one media
 kind; output has audio and video components. Each typed output step processes its
-component while passing the other through. Unknown or incompatible processors
-reject even when disabled. No arbitrary filter strings or generic parameter-path
+component while passing the other through. Registry-declared target compatibility applies in addition to media kind. Unknown
+or incompatible processors reject even when disabled. Source-attached pointer
+presentation requires an explicitly acquisition-bound video clip, as defined in
+[slice 15](slices/15-layer-geometry.md#source-attached-pointer-contract). No arbitrary filter strings or generic parameter-path
 language. Gain is the first stateless audio variant; geometry, opacity and pointer
 presentation join through slice 15, curves through 16, verified denoise through
 15a. EQ/compression are potential extensions, not required shipped variants.

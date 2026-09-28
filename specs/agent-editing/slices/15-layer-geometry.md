@@ -128,3 +128,58 @@ same independent geometry oracle through actual CLI/MCP project editing,
 frame taps, bounded previews and full exports. Source removal and project lifetime
 checks exercise owned media rather than stale catalog rows. Pointer adoption and
 wider output profiles remain separate acceptance gates.
+
+## Source-attached pointer contract
+
+Pointer is an ordinary ordered clip processor `{type: "pointer", trailUs}`.
+The integer source-time duration is explicit, from zero through ten seconds;
+zero draws the current eligible pointer, positive values also draw history.
+Composition owns that authored limit and core's trail policy consumes it; scene
+analysis and execution work budgets stay with their existing core owners.
+
+Registry-owned target compatibility restricts pointer to video clips with an
+explicit acquisition binding. Missing acquisition rejects authoring and preserved
+replacement atomically, including disabled steps; explicit processing reset can
+remove the incompatible step. A present acquisition with unavailable cursor or
+geometry observations produces a readiness diagnostic, never invented evidence.
+Combined targets have no unique source authority and must reject this processor;
+do not silently distribute a parent step to children.
+
+Allow pointer at any clip-stack position. Its compiled operation references only
+backward indices of already-compiled geometric primitives, retaining rasterization
+boundaries and excluding previous opacity/pointer operations. Rasterize source-local
+pointer pixels, replay that same geometric prefix through the shared primitive
+executor, composite them at this step, then apply remaining operations normally.
+Opacity before pointer affects earlier imagery; opacity afterward affects both.
+No second native crop/fit/anchor interpreter or recursive overlay graph is allowed.
+
+History comes from immutable acquisition/stream support rather than a clip's
+trimmed source start. A trail can therefore include capture immediately before the
+portion selected for playback. Pure split/trim/move/duplicate preserve that source
+history; retime changes the sampled source instant and hold freezes its pointer
+and trail age. Pause, geometry, scene, unknown/outside cursor and physical gaps
+still reset history through the existing eligibility owner. Replacement resolves
+the replacement binding's history, never copies observations from the old source.
+
+Use the existing exact presentation-evidence writer and reader with explicit
+selected asset/stream and source-history bounds. Generalize first-track/legacy
+revision assumptions at that owner; do not fabricate recording revisions or use
+nearest-picture inspection. Exact intervals supply the compositor's actual sample
+and physical-gap reset floors. A continuity boolean between coarse scene probes
+cannot locate a short gap. Source-local glyph sizing then follows the same geometry;
+there is no independent thumbnail compensation.
+
+Implementation checkpoints remain separate: (1) schema/registry/compiler references
+and atomic compatibility tests, execution unbound; (2) queued exact preparation,
+shared native replay, provenance/cache identity and overlay allocation admission;
+(3) independent transformed masks, resets/emptiness, repeated/retimed/held uses,
+pure-edit invariance, actual CLI/MCP preview/export and fresh visual review.
+
+Preserve legacy API defaults and event schedules. Their stills default to two
+seconds while movies show pointer-only event states, so new projects require an
+explicit duration. Project output retains its fixed compiler frame clock. Compare
+legacy/project pointer state at identical compiler-selected source instants and
+physical sample support; do not claim whole-file identity across distinct schedules.
+Preparation must bound/cancel records, bytes, observations and output-occurrence
+work; exhausted or damaged evidence publishes nothing. Existing guards remain
+provisional until slice 24 measures release-scale behavior.
