@@ -9,7 +9,7 @@ import { RevisionStore } from "./library.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { FileSceneEvidence, writeSceneEvidencePages } from "./scene-pages.js";
-import { ScreenshotIndexStore } from "./screenshot-index.js";
+import { ScreenshotIndexStore, recordingIndexDomain } from "./screenshot-index.js";
 import { FileScreenshotIndex, writeScreenshotIndexPages } from "./index-pages.js";
 import { framePolicy } from "./frame-materialization.js";
 import { trailPolicy } from "./trails.js";
@@ -84,7 +84,7 @@ async function fixture(count = 260) {
     trailPolicy: trailPolicy.id,
     selectionPolicy: selectionPolicy.id,
   };
-  const index = new ScreenshotIndexStore(store, original);
+  const index = new ScreenshotIndexStore(store, original, recordingIndexDomain(store));
   index.begin(identity);
   for (let ordinal = 0; ordinal < count; ordinal++) {
     const at = ordinal * 2_000_000,

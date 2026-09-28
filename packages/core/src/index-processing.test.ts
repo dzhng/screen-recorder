@@ -8,7 +8,7 @@ import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceProcessing } from "./processing.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 import { SceneProcessing } from "./scene-processing.js";
-import { ScreenshotIndexStore } from "./screenshot-index.js";
+import { ScreenshotIndexStore, recordingIndexDomain } from "./screenshot-index.js";
 import { IndexProcessing } from "./index-processing.js";
 import type { FrameDecoder } from "./frame-materialization.js";
 import type { VisualSampler } from "./scenes.js";
@@ -29,7 +29,7 @@ async function fixture(beforeDecode?: (call: number) => Promise<void>, beforeSou
     source: new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
     scenes: new SceneEvidenceStore(store, recordingSceneOwner(store)),
   };
-  const retained = new ScreenshotIndexStore(store, home);
+  const retained = new ScreenshotIndexStore(store, home, recordingIndexDomain(store));
   let source: SourceProcessing, scenes: SceneProcessing, index: IndexProcessing;
   const jobs = new JobQueue({
     store,

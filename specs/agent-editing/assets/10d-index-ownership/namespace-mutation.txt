@@ -1,0 +1,66 @@
+$ vitest run --maxWorkers=4 src/source-index.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:2613) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-index.test.ts (3 tests | 2 failed) 170ms
+   × source support cannot be mislabeled unavailable and incomplete generations cannot become readable 50ms
+   × asset and recording indexes with equal IDs and attempts reclaim independently 42ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-index.test.ts > source support cannot be mislabeled unavailable and incomplete generations cannot become readable
+AssertionError: expected [ { ownerKind: 'recording', …(11) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "bytes": 68,
++     "candidateCount": 1,
++     "coverageCount": 0,
++     "device": 16777229,
++     "durationUs": 1000000,
++     "generation": "index",
++     "identity": "{\"assetId\":\"1beb6dbff81f8e9fd943092c8be12611c6dc42cca13eb1d61edbc37cfc0540a3\",\"streamId\":\"v\",\"generation\":\"index\",\"scenes\":{\"sourceId\":\"1beb6dbff81f8e9fd943092c8be12611c6dc42cca13eb1d61edbc37cfc0540a3\",\"generation\":\"scene\",\"policy\":\"rgb-spatial-change-v2-presentation-v1\",\"sourceWidth\":1,\"sourceHeight\":1,\"chunkCount\":1,\"comparisonCount\":0,\"boundaryCount\":0,\"owner\":{\"kind\":\"asset\",\"assetId\":\"1beb6dbff81f8e9fd943092c8be12611c6dc42cca13eb1d61edbc37cfc0540a3\"},\"source\":{\"kind\":\"asset\",\"streamId\":\"v\",\"originUs\":1250000,\"supportDigest\":\"9bb0df8d5504ba179d07eedb25432c325a49bf9d44d6022ecfdaa29d57c44250\",\"durationUs\":1000000}},\"selectionPolicy\":\"source-selection\",\"implementationId\":\"source-frame\",\"maxLongEdge\":1600}",
++     "inode": 318603146,
++     "ownerId": "1beb6dbff81f8e9fd943092c8be12611c6dc42cca13eb1d61edbc37cfc0540a3",
++     "ownerKind": "recording",
++     "state": "building",
++     "throughUs": 0,
++   },
++ ]
+
+ ❯ src/source-index.test.ts:245:89
+    243|   expect(() => f.index.page({ identity: f.identity })).toThrow("comple…
+    244|   await f.index.reclaim({ kind: "asset", assetId: f.identity.assetId }…
+    245|   expect(f.catalog.catalog.prepare("SELECT * FROM screenshot_index_gen…
+       |                                                                                         ^
+    246| });
+    247|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/source-index.test.ts > asset and recording indexes with equal IDs and attempts reclaim independently
+Error: UNIQUE constraint failed: screenshot_index_generations.ownerKind, screenshot_index_generations.ownerId, screenshot_index_generations.generation
+ ❯ ScreenshotIndexStore.begin src/screenshot-index.ts:365:8
+    363|         "INSERT INTO screenshot_index_generations(ownerKind,ownerId,ge…
+    364|       )
+    365|       .run(...this.key(identity), boundedJson(this.domain.pin(identity…
+       |        ^
+    366|     const path = this.directory(identity, true),
+    367|       stat = lstatSync(path);
+ ❯ src/source-index.test.ts:283:14
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  05:18:05
+   Duration  785ms (transform 53%, tests 26%, import 20%, worker 1%)
+
+error: script "test" exited with code 1

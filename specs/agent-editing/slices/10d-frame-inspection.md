@@ -125,3 +125,9 @@ merge exact boundaries into repeated project occurrences and preserve source
 stillness/gap context. [Public scene journeys](../assets/10d-public-scenes/README.md)
 now verify actual preparation, source/project event reads and capture preservation.
 Retained screenshot selection and project-cut semantics remain next.
+
+
+[Retained screenshot ownership](../assets/10d-index-ownership/README.md) now admits
+real selected-source PNG/coverage records through the existing store and leases,
+while preserving recording/package serialization. Source selection/materialization
+and project frame-phase mapping remain required before public index readiness.

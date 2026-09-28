@@ -9,7 +9,7 @@ import { SourceEvidenceStore, recordingEvidenceOwner } from "@screenrec/core/evi
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SceneEvidenceStore, recordingSceneOwner } from "@screenrec/core/scene-evidence";
 import { IndexProcessing } from "@screenrec/core/index-processing";
-import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { ScreenshotIndexStore, recordingIndexDomain } from "@screenrec/core/screenshot-index";
 import { PreviewInspection } from "@screenrec/core/preview";
 import { MediaExports } from "../../service/dist/exports.js";
 import { ManagedFiles } from "../../service/dist/managed-files.js";
@@ -23,7 +23,7 @@ let produced;
 async function exportFromLibrary({ store, home, recordingId, revisionId }) {
   const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
     sceneEvidence = new SceneEvidenceStore(store, recordingSceneOwner(store)),
-    indexEvidence = new ScreenshotIndexStore(store, home);
+    indexEvidence = new ScreenshotIndexStore(store, home, recordingIndexDomain(store));
   const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
   await cache.reconcile();
   let exports, processing, scenes, index, preview;

@@ -1453,3 +1453,34 @@ The native plotting operation receives bounded waveform or spectral measurements
   count. The plan requires isolation but leaves filter-tail handling open. This
   tests a reversible timing mechanism; it does not yet choose production context
   or establish preserved speech quality. Future state/quality gates can reject it.
+
+## Retained screenshot ownership
+
+- **Sound, high confidence — gaps carry no image reference.** An imported clip
+  can have unavailable physical intervals. Its retained index records that range
+  with no candidate ordinal, rather than pointing to the preceding picture and
+  suggesting the missing footage was visually unchanged.
+- **Sound, high confidence — share storage lifetime, specialize evidence meaning.**
+  Recording and source indexes use the same retained file checks, descriptor
+  lifetime, paging and cleanup. Their domain validators keep actual recording
+  revision receipts separate from asset/stream physical sample receipts. The
+  recording package representation stays unchanged; source metadata has neither
+  a fabricated recording ID nor a fabricated revision.
+- **Sound, high confidence — source index files live outside immutable asset bytes.**
+  Removing an index generation removes its retained PNGs and coverage, not the
+  imported media. Recording directories keep their existing ownership path so
+  established recording deletion and portable export semantics remain intact.
+
+- **Sound, high confidence — an unavailable sample is not a missing interval.**
+  A decoder can report no picture at one inspected time even within declared
+  source support. The index retains that exact unavailable observation and marks
+  its surrounding range as lacking a representative, with equality unproven.
+  Only support exclusion establishes a known missing source range. This preserves
+  useful evidence without upgrading one sample into a claim about every pixel.
+
+- **Sound, high confidence — index completion does not promise an image.**
+  If a selected video has no decodable supported pictures, its index can finish
+  describing that coverage with no image entries. A caller can see why there is
+  nothing to open instead of retrying an impossible image forever. This defines
+  source-index readiness; genuine recording indexes still require an image to
+  satisfy their existing portable package contract.

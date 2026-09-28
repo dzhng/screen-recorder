@@ -5,7 +5,7 @@ import { PreviewInspection } from "@screenrec/core/preview";
 import { clearRenderWorkspace, previewRenderer } from "./render.js";
 import { RecordingStorage } from "@screenrec/core/storage";
 import { IndexProcessing } from "@screenrec/core/index-processing";
-import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { ScreenshotIndexStore, recordingIndexDomain } from "@screenrec/core/screenshot-index";
 import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
@@ -212,7 +212,7 @@ async function main(): Promise<void> {
         nativeData<VisualObservations>("media.visualSamples", { source, kept, atSourceUs }, signal),
     );
     sceneEvidence = new SceneEvidenceStore(store, recordingSceneOwner(store));
-    indexEvidence = new ScreenshotIndexStore(store, home);
+    indexEvidence = new ScreenshotIndexStore(store, home, recordingIndexDomain(store));
     scenes = new SceneProcessing({
       jobs,
       evidence: sceneEvidence,

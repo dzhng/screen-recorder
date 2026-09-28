@@ -27,7 +27,7 @@ import {
   recordingSceneIdentity,
 } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
-import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { ScreenshotIndexStore, recordingIndexDomain } from "@screenrec/core/screenshot-index";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { FileSourceEvidence, writeSourceEvidencePages } from "@screenrec/core/evidence-pages";
 import { FileSceneEvidence, writeSceneEvidencePages } from "@screenrec/core/scene-pages";
@@ -420,7 +420,7 @@ export function registerRelocationTest({
         });
         const sourceEvidence = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
           sceneEvidence = new SceneEvidenceStore(store, recordingSceneOwner(store)),
-          index = new ScreenshotIndexStore(store, original);
+          index = new ScreenshotIndexStore(store, original, recordingIndexDomain(store));
         let processing, scenes, indexing;
         jobs = new JobQueue({
           store,

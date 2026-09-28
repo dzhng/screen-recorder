@@ -16,7 +16,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import { RevisionStore } from "./library.js";
-import { ScreenshotIndexStore } from "./screenshot-index.js";
+import { ScreenshotIndexStore, recordingIndexDomain } from "./screenshot-index.js";
 import type { SelectedCandidate } from "./selection.js";
 import type { MaterializedFrame } from "./frame-materialization.js";
 const stores: RevisionStore[] = [],
@@ -56,7 +56,7 @@ function fixture() {
     framePolicy: "frame-v2",
     trailPolicy: "trail-v1",
   };
-  const index = new ScreenshotIndexStore(catalog, home);
+  const index = new ScreenshotIndexStore(catalog, home, recordingIndexDomain(catalog));
   return { home, path, providers, catalog, identity, index };
 }
 const png = Buffer.from(
@@ -129,7 +129,7 @@ test("complete selected images and explicit coverage survive a catalog restart",
   f.catalog.close();
   const reopened = new RevisionStore(f.path, f.providers);
   stores.push(reopened);
-  const index = new ScreenshotIndexStore(reopened, f.home);
+  const index = new ScreenshotIndexStore(reopened, f.home, recordingIndexDomain(reopened));
   expect(index.page({ identity: f.identity })).toEqual({
     metadata,
     entries: [{ candidate: first.candidate, frame: first.frame, coverageCount: 1 }],
@@ -165,7 +165,7 @@ test("retained images remain readable and removable after a device number change
   f.catalog.close();
   const reopened = new RevisionStore(f.path, f.providers);
   stores.push(reopened);
-  const index = new ScreenshotIndexStore(reopened, f.home);
+  const index = new ScreenshotIndexStore(reopened, f.home, recordingIndexDomain(reopened));
   const lease = index.openRead(f.identity, 0);
   try {
     const bytes = Buffer.alloc(lease.bytes);
@@ -264,7 +264,7 @@ test("canceling final validation hides partial evidence and prevents late append
   controller.abort();
   await expect(finishing).rejects.toThrow();
   expect(() => f.index.page({ identity: f.identity })).toThrow("complete");
-  await f.index.reclaim(f.identity.recordingId, () => false);
+  await f.index.reclaim({ kind: "recording", recordingId: f.identity.recordingId }, () => false);
   expect(() => f.index.outputPath(f.identity, 0)).toThrow("identity");
 });
 test("an acquired read survives deletion while new reads fail", async () => {
@@ -313,7 +313,10 @@ test("retained evidence survives derived cache eviction and owner-directed recla
   f.index.begin(partial);
   const stray = f.index.outputPath(partial, 0);
   writeFileSync(stray, png);
-  await f.index.reclaim(f.identity.recordingId, (id) => id.generation === f.identity.generation);
+  await f.index.reclaim(
+    { kind: "recording", recordingId: f.identity.recordingId },
+    (id) => id.generation === f.identity.generation,
+  );
   expect(existsSync(stray)).toBe(false);
   expect(f.index.page({ identity: f.identity }).entries[0]?.frame.bytes).toBe(png.length);
 });
@@ -390,10 +393,10 @@ test("a substituted FIFO is rejected without blocking file validation", async ()
    return next(specifier,context);
  }});
  const { RevisionStore } = await import(${JSON.stringify(new URL("./library.ts", import.meta.url).href)});
- const { ScreenshotIndexStore } = await import(${JSON.stringify(new URL("./screenshot-index.ts", import.meta.url).href)});
+ const { ScreenshotIndexStore, recordingIndexDomain } = await import(${JSON.stringify(new URL("./screenshot-index.ts", import.meta.url).href)});
  const catalog=new RevisionStore(${JSON.stringify(f.path)});
  try {
-   new ScreenshotIndexStore(catalog,${JSON.stringify(f.home)}).openRead(${JSON.stringify(f.identity)},0);
+   new ScreenshotIndexStore(catalog,${JSON.stringify(f.home)},recordingIndexDomain(catalog)).openRead(${JSON.stringify(f.identity)},0);
    process.exitCode=1;
  } catch(error) {
    console.log(JSON.stringify({code:error.code,message:error.message}));
@@ -421,7 +424,9 @@ test("one damaged generation does not starve unrelated reclamation", async () =>
   const nextPath = f.index.outputPath(next, 0);
   writeFileSync(nextPath, png);
   writeFileSync(join(image.frame.file, "..", "unexpected.txt"), "foreign file");
-  const error = await f.index.reclaim(f.identity.recordingId, () => false).catch((error) => error);
+  const error = await f.index
+    .reclaim({ kind: "recording", recordingId: f.identity.recordingId }, () => false)
+    .catch((error) => error);
   expect(error).toBeInstanceOf(Error);
   expect(existsSync(nextPath)).toBe(false);
   expect(() => f.index.page({ identity: f.identity })).toThrow("complete");
@@ -525,11 +530,13 @@ test("forgetRecording removes all target generation metadata without removing fi
   const siblingPage = f.index.page({ identity: sibling.identity });
   const siblingCoverage = f.index.coveragePage({ identity: sibling.identity });
   const signal = new AbortController().signal;
-  await expect(f.index.forgetRecording(f.identity.recordingId, signal)).rejects.toMatchObject({
+  await expect(
+    f.index.forgetOwner({ kind: "recording", recordingId: f.identity.recordingId }, signal),
+  ).rejects.toMatchObject({
     code: "INVALID_STATE",
   });
   f.catalog.markDeleting(f.identity.recordingId);
-  await f.index.forgetRecording(f.identity.recordingId, signal);
+  await f.index.forgetOwner({ kind: "recording", recordingId: f.identity.recordingId }, signal);
   for (const table of [
     "screenshot_index_entries",
     "screenshot_index_coverage",
@@ -537,12 +544,12 @@ test("forgetRecording removes all target generation metadata without removing fi
   ]) {
     expect(
       f.catalog.catalog
-        .prepare(`SELECT * FROM ${table} WHERE recordingId=?`)
+        .prepare(`SELECT * FROM ${table} WHERE ownerKind='recording' AND ownerId=?`)
         .all(f.identity.recordingId),
     ).toEqual([]);
   }
   expect(f.index.page({ identity: sibling.identity })).toEqual(siblingPage);
   expect(f.index.coveragePage({ identity: sibling.identity })).toEqual(siblingCoverage);
   for (const { frame } of [ready, pending, retained]) expect(readFileSync(frame.file)).toEqual(png);
-  await f.index.forgetRecording(f.identity.recordingId, signal);
+  await f.index.forgetOwner({ kind: "recording", recordingId: f.identity.recordingId }, signal);
 });

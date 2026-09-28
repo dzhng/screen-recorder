@@ -7,7 +7,7 @@ import { test } from "node:test";
 import { callLocal } from "@screenrec/client";
 import { RevisionStore } from "@screenrec/core/library";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
+import { ScreenshotIndexStore, recordingIndexDomain } from "@screenrec/core/screenshot-index";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 const png = Buffer.from(
@@ -35,7 +35,7 @@ test(
     });
     const cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
     await cache.reconcile();
-    const index = new ScreenshotIndexStore(store, home);
+    const index = new ScreenshotIndexStore(store, home, recordingIndexDomain(store));
     async function seed(label) {
       const take = store.allocate().recording;
       store.ingestLifecycle(take.recordingId, {
@@ -174,7 +174,7 @@ test(
           "screenshot_index_generations",
         ])
           assert.deepEqual(
-            catalog.prepare(`SELECT * FROM ${table} WHERE recordingId=?`).all(target.recordingId),
+            catalog.prepare(`SELECT * FROM ${table} WHERE ${table === "recording_deletions" ? "recordingId=?" : "ownerKind='recording' AND ownerId=?"}`).all(target.recordingId),
             [],
           );
       } finally {

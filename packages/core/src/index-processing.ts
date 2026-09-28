@@ -309,7 +309,7 @@ export class IndexProcessing {
 
   private cleanupRecording(recordingId: string, signal: AbortSignal) {
     return this.index.reclaim(
-      recordingId,
+      { kind: "recording", recordingId },
       ({ generation }) =>
         this.jobs.retainsAttempt(
           { kind: "recording", recordingId: recordingId },

@@ -1,11 +1,13 @@
 import { CatalogError } from "./catalog.js";
 import type {
-  ScreenshotIndexIdentity,
+  IndexRecords,
+  RecordingIndexRecords,
   ScreenshotIndexMetadata,
   ScreenshotIndexEntry,
 } from "./screenshot-index.js";
-import type { SelectionCoverage } from "./selection.js";
-export type IndexCoverage = SelectionCoverage & { sequence: number };
+export type IndexCoverage<D extends IndexRecords = RecordingIndexRecords> = D["coverage"] & {
+  sequence: number;
+};
 export type EntryQuery = { after: number; through?: number; limit: number };
 export type CoverageQuery = EntryQuery & { ordinal?: number };
 const integer = (n: number) => Number.isSafeInteger(n) && n >= 0;
@@ -18,20 +20,20 @@ function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
 /** Entry and coverage continuation semantics shared by live and portable retained indexes. */
-export abstract class ScreenshotIndexReader {
-  metadata(identity: ScreenshotIndexIdentity): ScreenshotIndexMetadata {
+export abstract class ScreenshotIndexReader<D extends IndexRecords = RecordingIndexRecords> {
+  metadata(identity: D["identity"]): ScreenshotIndexMetadata<D> {
     return this.readMetadata(identity);
   }
-  protected abstract readMetadata(identity: ScreenshotIndexIdentity): ScreenshotIndexMetadata;
+  protected abstract readMetadata(identity: D["identity"]): ScreenshotIndexMetadata<D>;
   protected abstract entryRows(
-    identity: ScreenshotIndexIdentity,
+    identity: D["identity"],
     query: EntryQuery,
-  ): ScreenshotIndexEntry[];
+  ): ScreenshotIndexEntry<D>[];
   protected abstract coverageRows(
-    identity: ScreenshotIndexIdentity,
+    identity: D["identity"],
     query: CoverageQuery,
-  ): IndexCoverage[];
-  readEntry(identity: ScreenshotIndexIdentity, ordinal: number): ScreenshotIndexEntry {
+  ): IndexCoverage<D>[];
+  readEntry(identity: D["identity"], ordinal: number): ScreenshotIndexEntry<D> {
     if (!integer(ordinal))
       throw new CatalogError("INVALID_PARAMS", "Index ordinal must be a nonnegative integer");
     const row = this.entryRows(identity, { after: ordinal - 1, through: ordinal, limit: 1 })[0];
@@ -43,7 +45,7 @@ export abstract class ScreenshotIndexReader {
     afterOrdinal,
     limit,
   }: {
-    identity: ScreenshotIndexIdentity;
+    identity: D["identity"];
     afterOrdinal?: number;
     limit?: number;
   }) {
@@ -61,7 +63,7 @@ export abstract class ScreenshotIndexReader {
     candidateOrdinal,
     limit,
   }: {
-    identity: ScreenshotIndexIdentity;
+    identity: D["identity"];
     afterSequence?: number;
     candidateOrdinal?: number;
     limit?: number;
