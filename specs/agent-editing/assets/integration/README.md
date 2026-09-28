@@ -33,7 +33,7 @@ adoption or acceptance of an unmeasured perceptual claim.
 ## Compiled native video and audio phase metadata
 
 The integrated native build passes the [decoded video journey](compiled-video.json):
-14 timing scenarios, nine plan refusals and three declared-color refusals, including
+15 timing scenarios, nine plan refusals and three declared-color refusals, including
 exact matched old-renderer pixels for cuts and empty edits. This rerun deliberately
 omits resource checks; the native video slice retains its current resource gate.
 All 118 previously retained video artifact hashes match. This is the native entry,
@@ -43,3 +43,9 @@ The [integrated compiler suite](compiler-97.txt) passes all 97 tests after full-
 sample origins and zero-sample contributor filtering. Composition/core builds and
 the compiler phase probe pass. Native audio phase parity remains separately owned
 by slice 08.
+
+
+The [integrated native audio journey](compiled-audio.json) passes mixed-rate PCM,
+all gain scopes, current-retained-context isolation, fractional source selection,
+whole/split/window equality, exact long-output frame count and cancellation/restart.
+This still is native execution rather than public CLI/MCP media delivery.

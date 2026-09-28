@@ -705,3 +705,28 @@ trim and stretch replacements keep their single-interval behavior.
   and assembly owner. The protocol does not carry recording roles, source paths,
   editorial plans or publication metadata; producers retain those responsibilities.
   Composition adoption requires no legacy timeline translation or intermediate WAV.
+
+## Native audio phase and bounded raster reuse — 2026-09-27
+
+- **Sound; high confidence — Keep selected samples and exact project sample counts.**
+  A fractional cut uses the frozen decoder's nearest source start and upward-rounded
+  source end, while its project output uses the compiler's absolute sample bounds.
+  Those two clocks can leave a final output sample without a retained input sample.
+  Only that calculated deficit may receive synthetic zero, and only after the
+  decoder reaches the declared selection end; discarded real audio never fills it.
+  This resolves the endpoint policy left open by the plan without changing duration,
+  adding a gain ramp or weakening pure-split/window identity. Recording conversion's
+  existing policy remains unchanged.
+- **Sound; high confidence — Reuse an unchanged picture within one render attempt.**
+  A held picture may occupy thousands of output frames. Retaining one immutable
+  rendered buffer avoids drawing the identical picture repeatedly, while every
+  compiled frame keeps its own timestamp and duration. Reader identity, selected
+  source-sample time and background state distinguish reuse; future image-changing
+  processing must extend that identity or disable reuse. This is bounded temporary
+  memory inside the existing buffer limit, not another persistent cache.
+- **Sound; medium confidence — Bound the initial native audio admission explicitly.**
+  The first PCM worker admits at most 256 clip records and 10,000 processing nodes
+  per requested window, with an 8 MiB processing-buffer ceiling. Unsupported larger
+  windows refuse before execution instead of allocating an unbounded tree. These
+  are provisional worker limits, not project authoring limits or completion of the
+  long-project contract; slice 24 must resolve scalable streaming before release.

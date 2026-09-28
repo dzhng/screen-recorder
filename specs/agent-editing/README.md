@@ -18,16 +18,17 @@ nested targets [03b](slices/03b-processing-targets.md), constant-gain stacks
 [05 compiler](slices/05-compiler.md) is verified, including partial pictures,
 strict records, availability provenance, retained audio sample origins and
 zero-sample processing membership. [07 video](slices/07-video-execution.md) is
-integrated with decoded timing and old-renderer parity verified; integrate its
-reviewed bounded-raster performance follow-up next. Integrate [08 audio](slices/08-audio-mixing.md)
-after its fractional-phase PCM checks and review. [08a cache ownership](slices/08a-derived-cache.md)
+verified at its native scope, including bounded held-picture raster reuse and
+integrated decoded preservation. [08 audio](slices/08-audio-mixing.md) is integrated
+with fractional-phase PCM, selected-source isolation and split/window gates passing;
+broader media conformance, scale and listening remain open. [08a cache ownership](slices/08a-derived-cache.md)
 is verified at its owner seam; broader deadline failures remain under 24.
 
-Then implement [09 public preview/export](slices/09-first-preview.md). Its
+Continue [09 public preview/export](slices/09-first-preview.md). Its
 [cache retirement](assets/09-cache-retirement/README.md) and
 [shared render lifetime](assets/09-render-lifetime/README.md) are integrated.
-Use the existing PCM mux through its shared stream interface, then deliver project
-preview through the existing jobs/cache/delivery owners; adapt the same durable
+Native composition movie assembly and core preview admission are in parallel
+implementation worktrees; integrate after review, then deliver project preview through the existing jobs/cache/delivery owners; adapt the same durable
 export-intent/publication owner for project exports. Do not translate compositions
 into recording spans or count state journeys as rendered-media acceptance.
 
@@ -86,8 +87,11 @@ Current evidence:
 - [05 compiler](assets/05-compiler/README.md): 97 tests, integrated composition/core
   builds, core typecheck and strict-record probe pass; no native readiness claim.
 - [07 video](assets/07-video/README.md): native timing, profile refusal, source-selection
-  and cancellation gates pass; integrated decoded preservation passes. Resource follow-up
-  and public delivery remain separate gates.
+  and cancellation gates pass; resource and integrated decoded preservation pass.
+  Broader codec quality remains 06; public delivery remains 09.
+- [08 audio](assets/08-audio/README.md): integrated native PCM and fractional-phase
+  gates pass, including excluded-source isolation and long frame counts; broader
+  conformance, scale, public delivery and listening remain explicit.
 - [08a derived cache](assets/08a-derived-cache/README.md): owner isolation/lifecycle
   checks, independent review and baseline controls pass; broad core deadlines remain explicitly red.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;
@@ -194,7 +198,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [04 — Durable projects and shared commands](slices/04-projects.md)
 - [x] [05 — Compile bounded execution plans](slices/05-compiler.md)
 - [ ] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
-- [ ] [07 — Execute video plans](slices/07-video-execution.md)
+- [x] [07 — Execute video plans](slices/07-video-execution.md)
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [ ] [09 — First public preview and export](slices/09-first-preview.md)
