@@ -58,3 +58,8 @@ Final public confirmation preserves all 39 reviewed PNGs and eight reviewed deco
 movie pictures exactly; measured movie/range errors are also unchanged. No visual
 capture changed after the fresh review. Preview's four-sheet document was verified
 and closed after the nonblocking checkpoint; no human acceptance is claimed.
+
+Root integration reproduces all 39 public PNGs byte for byte, including the
+seven public invalid-curve refusals, with 182 composition tests and targeted builds
+passing. `root-integration.json` pins the worker and scoped checks. Encoded quality
+and remaining gain/transition work are not closed by this geometry checkpoint.

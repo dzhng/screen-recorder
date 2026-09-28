@@ -26,8 +26,8 @@ Current pickup and priority:
    Use the [remaining media audit](assets/15-acceptance-audit/README.md) to reconcile
    completed pointer lifecycle checks with the still-open delivery gates.
 2. Continue dependency-ready [keyframes](slices/16-keyframes.md) and
-   [portable projects](slices/22-portable-projects.md) in parallel: remaining geometry
-   scalars/gain and complete retained dependency ownership remain open. Caption work
+   [portable projects](slices/22-portable-projects.md) in parallel: gain/transition
+   execution and complete retained dependency ownership remain open. Caption work
    follows the shared animation/evidence contracts; no new segmentation scope is active.
 3. Advance 08 codec/rate and narration acceptance, then speech evidence/cleanup
    (12/12b), denoise quality/state (12c/15a), stretch endpoints/listening
@@ -45,7 +45,8 @@ Compact evidence ledger:
   rejects a flattened-source oracle and keeps encoded color acceptance open.
 - [Opacity/indexing](assets/16-opacity-index/README.md) and
   [zoom](assets/16-zoom/README.md) and [position/rotation](assets/16-pose/README.md)
-  frame/edit controls pass on the combined build;
+  frame/edit controls pass on the combined build. [Crop/size/pivot curves](assets/16-geometry/README.md)
+  also preserve all numeric geometry domains, including subnormal validation;
   neither closes full keyframes or encoded quality. [Portable archive relocation](assets/22-portable-projects/README.md)
   and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
   their respective checkpoints, retaining workflow failures and handoff-ID errors.
