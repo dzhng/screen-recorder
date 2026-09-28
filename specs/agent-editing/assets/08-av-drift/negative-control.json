@@ -1,0 +1,10 @@
+{
+  "deliberateVideoDelayUs": 100000,
+  "sameDecodedVideoPixels": true,
+  "sameDecodedAudioBytes": true,
+  "markersRejected": 120,
+  "maximumAllowedDriftUs": 33366.666666666664,
+  "minimumAbsoluteShiftedDriftUs": 100249.83333333331,
+  "maximumAbsoluteShiftedDriftUs": 133304.0,
+  "mutantMovieSha256": "e2e009c2b6add8843ee2b872f454902321e7c2fa790369f923d4997944b8777a"
+}

@@ -1,6 +1,6 @@
 # 08 — Independent audio mixing
 
-Status: native constant-gain execution and tested fractional unit-rate mapping pass; later09/11a public jobs, taps and large PCM delivery supply their scoped integration gates. [Current reconciliation](../assets/08-current-acceptance/README.md) records the combined-worker rerun. [Physical-segment composition](../assets/08-physical-segments/README.md) passes at44.1/48kHz after a converter buffer-state fix. Broader codec/rate conformance, long-project drift and real-narration listening remain open. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
+Status: native constant-gain execution and tested fractional unit-rate mapping pass; later09/11a public jobs, taps and large PCM delivery supply their scoped integration gates. [Current reconciliation](../assets/08-current-acceptance/README.md) records the combined-worker rerun. [Physical-segment composition](../assets/08-physical-segments/README.md) passes at 44.1/48kHz after a converter buffer-state fix. [Thirty-minute A/V drift](../assets/08-av-drift/README.md) passes actual public export with 120 fractional edits. Broader codec/rate conformance and real-narration listening remain open. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
 
 ## Contract
 
@@ -52,5 +52,7 @@ phase still requires prepared retiming and must not be inferred from those check
 [physical segment-origin composition](../assets/08-physical-segments/README.md)
 retain the measured format/rate coverage. The segment probe fixes a converter
 buffer-state defect while preserving full/range/split samples and excluded-input
-isolation; source and mixer regression suites pass. Broader rate/codec coverage,
-long-project A/V drift and real-narration listening remain open.
+isolation; source and mixer regression suites pass.
+[Long-project A/V timing](../assets/08-av-drift/README.md) is verified for the
+measured thirty-minute public export. Broader rate/codec coverage and real-narration
+listening remain open.

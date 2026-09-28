@@ -1,0 +1,2269 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "export.create",
+      "transport": "mcp",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    }
+  ],
+  "scope": "Public CLI/MCP export with decoded A/V markers; timing, not picture or speech quality",
+  "sourceSha256": "01b9f9ffd9f2ce8f085a99d0cfddb62dc952297876e0b56c0b204d3876360e17",
+  "workerSha256": "6cec4b732d3bf33405d1703927d9e786ad31d4ff180eab33e2e280095857602d",
+  "export": {
+    "exportId": "3055242d-0b7b-49af-92f6-e9b2b6bfa0b0",
+    "kind": "video",
+    "state": "committed",
+    "abandoning": false,
+    "cleanupPending": true,
+    "recovery": {
+      "state": "not_requested",
+      "jobId": null,
+      "reason": null,
+      "retryable": false,
+      "published": null
+    },
+    "projectId": "ef23c628-1752-42e9-a073-e8c5a829fc37",
+    "snapshot": {
+      "projectId": "ef23c628-1752-42e9-a073-e8c5a829fc37",
+      "revisionId": "1fee0811-ddbf-44f6-9dbf-8885655ff303",
+      "range": {
+        "startUs": 0,
+        "endUs": 1800044520
+      },
+      "profile": "h264-rec709",
+      "implementationId": "native-composition-movie-v5"
+    },
+    "destination": {
+      "directory": "/private/tmp/screenrec-av-drift-confirm",
+      "leaf": "long.mp4"
+    },
+    "receipt": {
+      "bytes": 2926720,
+      "destination": {
+        "dev": "16777229",
+        "ino": "321903430"
+      },
+      "file": {
+        "dev": "16777229",
+        "ino": "321917334"
+      },
+      "leaf": "long.mp4",
+      "sha256": "6f269cbc3075a606b5a9862d12ad69c4e4943bcc5257e1adca6eddc5d180b54f",
+      "stage": {
+        "dev": "16777229",
+        "ino": "321917301"
+      }
+    },
+    "output": "/private/tmp/screenrec-av-drift-confirm/long.mp4",
+    "jobId": "b38e26df-7b46-4de9-bc92-31503f58eb2b",
+    "reason": null,
+    "retryable": false
+  },
+  "audioDuration": {
+    "expectedAudioFrames": 86402136,
+    "declaredFrames": 86402136,
+    "decodedAudioFrames": 86403008,
+    "decoderTailPaddingFrames": 872
+  },
+  "timing": {
+    "expectedDurationUs": 1800044520,
+    "outputFrames": 53948,
+    "fps": {
+      "numerator": 30000,
+      "denominator": 1001
+    },
+    "maximumAllowedDriftUs": 33366.666666666664,
+    "maximumObservedDriftUs": 33303.99999988079,
+    "markers": [
+      {
+        "edit": 0,
+        "expectedUs": 250000,
+        "audioSample": 12000,
+        "peak": 0.8729553818702698,
+        "video": {
+          "startUs": 200200,
+          "endUs": 300299.6666666667,
+          "centerUs": 250249.83333333334
+        },
+        "driftUs": -249.83333333334303
+      },
+      {
+        "edit": 1,
+        "expectedUs": 15250371,
+        "audioSample": 732017,
+        "peak": 0.8611123561859131,
+        "video": {
+          "startUs": 15215200,
+          "endUs": 15315299.666666666,
+          "centerUs": 15265249.833333332
+        },
+        "driftUs": -14895.666666666046
+      },
+      {
+        "edit": 2,
+        "expectedUs": 30250742,
+        "audioSample": 1452035,
+        "peak": 0.8302685618400574,
+        "video": {
+          "startUs": 30230200,
+          "endUs": 30330299.666666668,
+          "centerUs": 30280249.833333336
+        },
+        "driftUs": -29520.66666666791
+      },
+      {
+        "edit": 3,
+        "expectedUs": 45251113,
+        "audioSample": 2172053,
+        "peak": 0.8021941184997559,
+        "video": {
+          "startUs": 45211833,
+          "endUs": 45311932.666666664,
+          "centerUs": 45261882.83333333
+        },
+        "driftUs": -10778.666666664183
+      },
+      {
+        "edit": 4,
+        "expectedUs": 60251484,
+        "audioSample": 2892071,
+        "peak": 0.8097903728485107,
+        "video": {
+          "startUs": 60226833,
+          "endUs": 60326932.666666664,
+          "centerUs": 60276882.83333333
+        },
+        "driftUs": -25403.666666664183
+      },
+      {
+        "edit": 5,
+        "expectedUs": 75251855,
+        "audioSample": 3612089,
+        "peak": 0.8530251979827881,
+        "video": {
+          "startUs": 75208466,
+          "endUs": 75308566.66666667,
+          "centerUs": 75258516.33333334
+        },
+        "driftUs": -6662.166666671634
+      },
+      {
+        "edit": 6,
+        "expectedUs": 90252226,
+        "audioSample": 4332106,
+        "peak": 0.8402774333953857,
+        "video": {
+          "startUs": 90223466,
+          "endUs": 90323566.66666667,
+          "centerUs": 90273516.33333334
+        },
+        "driftUs": -21308.0000000149
+      },
+      {
+        "edit": 7,
+        "expectedUs": 105252597,
+        "audioSample": 5052124,
+        "peak": 0.847043514251709,
+        "video": {
+          "startUs": 105205100,
+          "endUs": 105305199.66666667,
+          "centerUs": 105255149.83333334
+        },
+        "driftUs": -2566.500000014901
+      },
+      {
+        "edit": 8,
+        "expectedUs": 120252968,
+        "audioSample": 5772142,
+        "peak": 0.7337449193000793,
+        "video": {
+          "startUs": 120220100,
+          "endUs": 120320199.66666667,
+          "centerUs": 120270149.83333334
+        },
+        "driftUs": -17191.5000000149
+      },
+      {
+        "edit": 9,
+        "expectedUs": 135253339,
+        "audioSample": 6492160,
+        "peak": 0.8244401216506958,
+        "video": {
+          "startUs": 135235100,
+          "endUs": 135335199.66666666,
+          "centerUs": 135285149.8333333
+        },
+        "driftUs": -31816.499999970198
+      },
+      {
+        "edit": 10,
+        "expectedUs": 150253710,
+        "audioSample": 7212178,
+        "peak": 0.8646474480628967,
+        "video": {
+          "startUs": 150216733,
+          "endUs": 150316832.66666666,
+          "centerUs": 150266782.8333333
+        },
+        "driftUs": -13074.499999970198
+      },
+      {
+        "edit": 11,
+        "expectedUs": 165254081,
+        "audioSample": 7932195,
+        "peak": 0.8717615008354187,
+        "video": {
+          "startUs": 165231733,
+          "endUs": 165331832.66666666,
+          "centerUs": 165281782.8333333
+        },
+        "driftUs": -27720.333333313465
+      },
+      {
+        "edit": 12,
+        "expectedUs": 180254452,
+        "audioSample": 8652213,
+        "peak": 0.8345620632171631,
+        "video": {
+          "startUs": 180213366,
+          "endUs": 180313466.66666666,
+          "centerUs": 180263416.3333333
+        },
+        "driftUs": -8978.833333313465
+      },
+      {
+        "edit": 13,
+        "expectedUs": 195254823,
+        "audioSample": 9372231,
+        "peak": 0.8515591025352478,
+        "video": {
+          "startUs": 195228366,
+          "endUs": 195328466.66666666,
+          "centerUs": 195278416.3333333
+        },
+        "driftUs": -23603.833333313465
+      },
+      {
+        "edit": 14,
+        "expectedUs": 210255194,
+        "audioSample": 10092249,
+        "peak": 0.8392338752746582,
+        "video": {
+          "startUs": 210210000,
+          "endUs": 210310099.66666666,
+          "centerUs": 210260049.8333333
+        },
+        "driftUs": -4862.333333313465
+      },
+      {
+        "edit": 15,
+        "expectedUs": 225255565,
+        "audioSample": 10812267,
+        "peak": 0.8594710230827332,
+        "video": {
+          "startUs": 225225000,
+          "endUs": 225325099.66666666,
+          "centerUs": 225275049.8333333
+        },
+        "driftUs": -19487.333333313465
+      },
+      {
+        "edit": 16,
+        "expectedUs": 240255936,
+        "audioSample": 11532284,
+        "peak": 0.861786961555481,
+        "video": {
+          "startUs": 240206633,
+          "endUs": 240306732.66666666,
+          "centerUs": 240256682.8333333
+        },
+        "driftUs": -766.1666666567326
+      },
+      {
+        "edit": 17,
+        "expectedUs": 255256307,
+        "audioSample": 12252302,
+        "peak": 0.7703493237495422,
+        "video": {
+          "startUs": 255221633,
+          "endUs": 255321732.66666666,
+          "centerUs": 255271682.8333333
+        },
+        "driftUs": -15391.166666656733
+      },
+      {
+        "edit": 18,
+        "expectedUs": 270256678,
+        "audioSample": 12972320,
+        "peak": 0.8498110175132751,
+        "video": {
+          "startUs": 270236633,
+          "endUs": 270336732.6666667,
+          "centerUs": 270286682.8333334
+        },
+        "driftUs": -30016.166666686535
+      },
+      {
+        "edit": 19,
+        "expectedUs": 285257049,
+        "audioSample": 13692338,
+        "peak": 0.8463630676269531,
+        "video": {
+          "startUs": 285218266,
+          "endUs": 285318366.6666667,
+          "centerUs": 285268316.3333334
+        },
+        "driftUs": -11274.666666686535
+      },
+      {
+        "edit": 20,
+        "expectedUs": 300257420,
+        "audioSample": 14412356,
+        "peak": 0.8716764450073242,
+        "video": {
+          "startUs": 300233266,
+          "endUs": 300333366.6666667,
+          "centerUs": 300283316.3333334
+        },
+        "driftUs": -25899.666666686535
+      },
+      {
+        "edit": 21,
+        "expectedUs": 315257791,
+        "audioSample": 15132373,
+        "peak": 0.8590508699417114,
+        "video": {
+          "startUs": 315214900,
+          "endUs": 315314999.6666667,
+          "centerUs": 315264949.8333334
+        },
+        "driftUs": -7179.000000059605
+      },
+      {
+        "edit": 22,
+        "expectedUs": 330258162,
+        "audioSample": 15852391,
+        "peak": 0.8610057234764099,
+        "video": {
+          "startUs": 330229900,
+          "endUs": 330329999.6666667,
+          "centerUs": 330279949.8333334
+        },
+        "driftUs": -21804.000000059605
+      },
+      {
+        "edit": 23,
+        "expectedUs": 345258533,
+        "audioSample": 16572409,
+        "peak": 0.8314167857170105,
+        "video": {
+          "startUs": 345211533,
+          "endUs": 345311632.6666667,
+          "centerUs": 345261582.8333334
+        },
+        "driftUs": -3062.0000000596046
+      },
+      {
+        "edit": 24,
+        "expectedUs": 360258904,
+        "audioSample": 17292427,
+        "peak": 0.8670705556869507,
+        "video": {
+          "startUs": 360226533,
+          "endUs": 360326632.6666667,
+          "centerUs": 360276582.8333334
+        },
+        "driftUs": -17687.000000059605
+      },
+      {
+        "edit": 25,
+        "expectedUs": 375259275,
+        "audioSample": 18012445,
+        "peak": 0.8030860424041748,
+        "video": {
+          "startUs": 375241533,
+          "endUs": 375341632.6666667,
+          "centerUs": 375291582.8333334
+        },
+        "driftUs": -32312.000000059605
+      },
+      {
+        "edit": 26,
+        "expectedUs": 390259646,
+        "audioSample": 18732463,
+        "peak": 0.8391550183296204,
+        "video": {
+          "startUs": 390223166,
+          "endUs": 390323266.6666667,
+          "centerUs": 390273216.3333334
+        },
+        "driftUs": -13570.500000059605
+      },
+      {
+        "edit": 27,
+        "expectedUs": 405260017,
+        "audioSample": 19452480,
+        "peak": 0.8629477024078369,
+        "video": {
+          "startUs": 405238166,
+          "endUs": 405338266.6666667,
+          "centerUs": 405288216.3333334
+        },
+        "driftUs": -28216.33333337307
+      },
+      {
+        "edit": 28,
+        "expectedUs": 420260388,
+        "audioSample": 20172498,
+        "peak": 0.840539813041687,
+        "video": {
+          "startUs": 420219800,
+          "endUs": 420319899.6666667,
+          "centerUs": 420269849.8333334
+        },
+        "driftUs": -9474.83333337307
+      },
+      {
+        "edit": 29,
+        "expectedUs": 435260759,
+        "audioSample": 20892516,
+        "peak": 0.8834807276725769,
+        "video": {
+          "startUs": 435234800,
+          "endUs": 435334899.6666667,
+          "centerUs": 435284849.8333334
+        },
+        "driftUs": -24099.83333337307
+      },
+      {
+        "edit": 30,
+        "expectedUs": 450261130,
+        "audioSample": 21612534,
+        "peak": 0.8298569917678833,
+        "video": {
+          "startUs": 450216433,
+          "endUs": 450316532.6666667,
+          "centerUs": 450266482.8333334
+        },
+        "driftUs": -5357.83333337307
+      },
+      {
+        "edit": 31,
+        "expectedUs": 465261501,
+        "audioSample": 22332552,
+        "peak": 0.8507967591285706,
+        "video": {
+          "startUs": 465231433,
+          "endUs": 465331532.6666667,
+          "centerUs": 465281482.8333334
+        },
+        "driftUs": -19982.83333337307
+      },
+      {
+        "edit": 32,
+        "expectedUs": 480261872,
+        "audioSample": 23052569,
+        "peak": 0.838474690914154,
+        "video": {
+          "startUs": 480213066,
+          "endUs": 480313166.6666667,
+          "centerUs": 480263116.3333334
+        },
+        "driftUs": -1262.1666666865349
+      },
+      {
+        "edit": 33,
+        "expectedUs": 495262243,
+        "audioSample": 23772587,
+        "peak": 0.8528637290000916,
+        "video": {
+          "startUs": 495228066,
+          "endUs": 495328166.6666667,
+          "centerUs": 495278116.3333334
+        },
+        "driftUs": -15887.166666686535
+      },
+      {
+        "edit": 34,
+        "expectedUs": 510262614,
+        "audioSample": 24492605,
+        "peak": 0.8722710013389587,
+        "video": {
+          "startUs": 510243066,
+          "endUs": 510343166.6666667,
+          "centerUs": 510293116.3333334
+        },
+        "driftUs": -30512.166666686535
+      },
+      {
+        "edit": 35,
+        "expectedUs": 525262985,
+        "audioSample": 25212623,
+        "peak": 0.8614404201507568,
+        "video": {
+          "startUs": 525224700,
+          "endUs": 525324799.6666667,
+          "centerUs": 525274749.8333334
+        },
+        "driftUs": -11770.666666686535
+      },
+      {
+        "edit": 36,
+        "expectedUs": 540263356,
+        "audioSample": 25932641,
+        "peak": 0.8837154507637024,
+        "video": {
+          "startUs": 540239700,
+          "endUs": 540339799.6666666,
+          "centerUs": 540289749.8333333
+        },
+        "driftUs": -26395.66666662693
+      },
+      {
+        "edit": 37,
+        "expectedUs": 555263727,
+        "audioSample": 26652658,
+        "peak": 0.8687964677810669,
+        "video": {
+          "startUs": 555221333,
+          "endUs": 555321432.6666666,
+          "centerUs": 555271382.8333333
+        },
+        "driftUs": -7674.499999880791
+      },
+      {
+        "edit": 38,
+        "expectedUs": 570264098,
+        "audioSample": 27372676,
+        "peak": 0.856082558631897,
+        "video": {
+          "startUs": 570236333,
+          "endUs": 570336432.6666666,
+          "centerUs": 570286382.8333333
+        },
+        "driftUs": -22299.49999988079
+      },
+      {
+        "edit": 39,
+        "expectedUs": 585264469,
+        "audioSample": 28092694,
+        "peak": 0.8767198324203491,
+        "video": {
+          "startUs": 585217966,
+          "endUs": 585318066.6666666,
+          "centerUs": 585268016.3333333
+        },
+        "driftUs": -3557.9999998807907
+      },
+      {
+        "edit": 40,
+        "expectedUs": 600264840,
+        "audioSample": 28812712,
+        "peak": 0.8410722017288208,
+        "video": {
+          "startUs": 600232966,
+          "endUs": 600333066.6666666,
+          "centerUs": 600283016.3333333
+        },
+        "driftUs": -18182.99999988079
+      },
+      {
+        "edit": 41,
+        "expectedUs": 615265211,
+        "audioSample": 29532730,
+        "peak": 0.8625127077102661,
+        "video": {
+          "startUs": 615247966,
+          "endUs": 615348066.6666666,
+          "centerUs": 615298016.3333333
+        },
+        "driftUs": -32807.99999988079
+      },
+      {
+        "edit": 42,
+        "expectedUs": 630265582,
+        "audioSample": 30252747,
+        "peak": 0.8245634436607361,
+        "video": {
+          "startUs": 630229600,
+          "endUs": 630329699.6666666,
+          "centerUs": 630279649.8333333
+        },
+        "driftUs": -14087.33333325386
+      },
+      {
+        "edit": 43,
+        "expectedUs": 645265953,
+        "audioSample": 30972765,
+        "peak": 0.8630407452583313,
+        "video": {
+          "startUs": 645244600,
+          "endUs": 645344699.6666666,
+          "centerUs": 645294649.8333333
+        },
+        "driftUs": -28712.33333325386
+      },
+      {
+        "edit": 44,
+        "expectedUs": 660266324,
+        "audioSample": 31692783,
+        "peak": 0.8802961111068726,
+        "video": {
+          "startUs": 660226233,
+          "endUs": 660326332.6666666,
+          "centerUs": 660276282.8333333
+        },
+        "driftUs": -9970.33333325386
+      },
+      {
+        "edit": 45,
+        "expectedUs": 675266695,
+        "audioSample": 32412801,
+        "peak": 0.8566486835479736,
+        "video": {
+          "startUs": 675241233,
+          "endUs": 675341332.6666666,
+          "centerUs": 675291282.8333333
+        },
+        "driftUs": -24595.33333325386
+      },
+      {
+        "edit": 46,
+        "expectedUs": 690267066,
+        "audioSample": 33132819,
+        "peak": 0.8493825793266296,
+        "video": {
+          "startUs": 690222866,
+          "endUs": 690322966.6666666,
+          "centerUs": 690272916.3333333
+        },
+        "driftUs": -5853.8333332538605
+      },
+      {
+        "edit": 47,
+        "expectedUs": 705267437,
+        "audioSample": 33852836,
+        "peak": 0.860302746295929,
+        "video": {
+          "startUs": 705237866,
+          "endUs": 705337966.6666666,
+          "centerUs": 705287916.3333333
+        },
+        "driftUs": -20499.66666662693
+      },
+      {
+        "edit": 48,
+        "expectedUs": 720267808,
+        "audioSample": 34572854,
+        "peak": 0.8233765363693237,
+        "video": {
+          "startUs": 720219500,
+          "endUs": 720319599.6666666,
+          "centerUs": 720269549.8333333
+        },
+        "driftUs": -1758.1666666269302
+      },
+      {
+        "edit": 49,
+        "expectedUs": 735268179,
+        "audioSample": 35292872,
+        "peak": 0.8380948901176453,
+        "video": {
+          "startUs": 735234500,
+          "endUs": 735334599.6666666,
+          "centerUs": 735284549.8333333
+        },
+        "driftUs": -16383.16666662693
+      },
+      {
+        "edit": 50,
+        "expectedUs": 750268550,
+        "audioSample": 36012890,
+        "peak": 0.824613094329834,
+        "video": {
+          "startUs": 750249500,
+          "endUs": 750349599.6666666,
+          "centerUs": 750299549.8333333
+        },
+        "driftUs": -31008.16666662693
+      },
+      {
+        "edit": 51,
+        "expectedUs": 765268921,
+        "audioSample": 36732908,
+        "peak": 0.8492700457572937,
+        "video": {
+          "startUs": 765231133,
+          "endUs": 765331232.6666666,
+          "centerUs": 765281182.8333333
+        },
+        "driftUs": -12266.16666662693
+      },
+      {
+        "edit": 52,
+        "expectedUs": 780269292,
+        "audioSample": 37452926,
+        "peak": 0.824178159236908,
+        "video": {
+          "startUs": 780246133,
+          "endUs": 780346232.6666666,
+          "centerUs": 780296182.8333333
+        },
+        "driftUs": -26891.16666662693
+      },
+      {
+        "edit": 53,
+        "expectedUs": 795269663,
+        "audioSample": 38172943,
+        "peak": 0.8295095562934875,
+        "video": {
+          "startUs": 795227766,
+          "endUs": 795327866.6666666,
+          "centerUs": 795277816.3333333
+        },
+        "driftUs": -8170.499999880791
+      },
+      {
+        "edit": 54,
+        "expectedUs": 810270034,
+        "audioSample": 38892961,
+        "peak": 0.8599737286567688,
+        "video": {
+          "startUs": 810242766,
+          "endUs": 810342866.6666666,
+          "centerUs": 810292816.3333333
+        },
+        "driftUs": -22795.49999988079
+      },
+      {
+        "edit": 55,
+        "expectedUs": 825270405,
+        "audioSample": 39612979,
+        "peak": 0.8549409508705139,
+        "video": {
+          "startUs": 825224400,
+          "endUs": 825324499.6666666,
+          "centerUs": 825274449.8333333
+        },
+        "driftUs": -4053.9999998807907
+      },
+      {
+        "edit": 56,
+        "expectedUs": 840270776,
+        "audioSample": 40332997,
+        "peak": 0.855003833770752,
+        "video": {
+          "startUs": 840239400,
+          "endUs": 840339499.6666666,
+          "centerUs": 840289449.8333333
+        },
+        "driftUs": -18678.99999988079
+      },
+      {
+        "edit": 57,
+        "expectedUs": 855271147,
+        "audioSample": 41053015,
+        "peak": 0.86265629529953,
+        "video": {
+          "startUs": 855254400,
+          "endUs": 855354499.6666666,
+          "centerUs": 855304449.8333333
+        },
+        "driftUs": -33303.99999988079
+      },
+      {
+        "edit": 58,
+        "expectedUs": 870271518,
+        "audioSample": 41773032,
+        "peak": 0.862320065498352,
+        "video": {
+          "startUs": 870236033,
+          "endUs": 870336132.6666666,
+          "centerUs": 870286082.8333333
+        },
+        "driftUs": -14582.83333325386
+      },
+      {
+        "edit": 59,
+        "expectedUs": 885271889,
+        "audioSample": 42493050,
+        "peak": 0.8502282500267029,
+        "video": {
+          "startUs": 885251033,
+          "endUs": 885351132.6666666,
+          "centerUs": 885301082.8333333
+        },
+        "driftUs": -29207.83333325386
+      },
+      {
+        "edit": 60,
+        "expectedUs": 900272260,
+        "audioSample": 43213068,
+        "peak": 0.831986129283905,
+        "video": {
+          "startUs": 900232666,
+          "endUs": 900332766.6666666,
+          "centerUs": 900282716.3333333
+        },
+        "driftUs": -10466.33333325386
+      },
+      {
+        "edit": 61,
+        "expectedUs": 915272631,
+        "audioSample": 43933086,
+        "peak": 0.8696814775466919,
+        "video": {
+          "startUs": 915247666,
+          "endUs": 915347766.6666666,
+          "centerUs": 915297716.3333333
+        },
+        "driftUs": -25091.33333325386
+      },
+      {
+        "edit": 62,
+        "expectedUs": 930273002,
+        "audioSample": 44653104,
+        "peak": 0.8636514544487,
+        "video": {
+          "startUs": 930229300,
+          "endUs": 930329399.6666666,
+          "centerUs": 930279349.8333333
+        },
+        "driftUs": -6349.8333332538605
+      },
+      {
+        "edit": 63,
+        "expectedUs": 945273373,
+        "audioSample": 45373121,
+        "peak": 0.8540453314781189,
+        "video": {
+          "startUs": 945244300,
+          "endUs": 945344399.6666666,
+          "centerUs": 945294349.8333333
+        },
+        "driftUs": -20995.66666662693
+      },
+      {
+        "edit": 64,
+        "expectedUs": 960273744,
+        "audioSample": 46093139,
+        "peak": 0.8322557806968689,
+        "video": {
+          "startUs": 960225933,
+          "endUs": 960326032.6666666,
+          "centerUs": 960275982.8333333
+        },
+        "driftUs": -2253.6666666269302
+      },
+      {
+        "edit": 65,
+        "expectedUs": 975274115,
+        "audioSample": 46813157,
+        "peak": 0.8805894255638123,
+        "video": {
+          "startUs": 975240933,
+          "endUs": 975341032.6666666,
+          "centerUs": 975290982.8333333
+        },
+        "driftUs": -16878.66666662693
+      },
+      {
+        "edit": 66,
+        "expectedUs": 990274486,
+        "audioSample": 47533175,
+        "peak": 0.8001483082771301,
+        "video": {
+          "startUs": 990255933,
+          "endUs": 990356032.6666666,
+          "centerUs": 990305982.8333333
+        },
+        "driftUs": -31503.66666662693
+      },
+      {
+        "edit": 67,
+        "expectedUs": 1005274857,
+        "audioSample": 48253193,
+        "peak": 0.8526860475540161,
+        "video": {
+          "startUs": 1005237566,
+          "endUs": 1005337666.6666666,
+          "centerUs": 1005287616.3333333
+        },
+        "driftUs": -12762.16666662693
+      },
+      {
+        "edit": 68,
+        "expectedUs": 1020275228,
+        "audioSample": 48973210,
+        "peak": 0.8788407444953918,
+        "video": {
+          "startUs": 1020252566,
+          "endUs": 1020352666.6666666,
+          "centerUs": 1020302616.3333333
+        },
+        "driftUs": -27407.99999988079
+      },
+      {
+        "edit": 69,
+        "expectedUs": 1035275599,
+        "audioSample": 49693228,
+        "peak": 0.8637444376945496,
+        "video": {
+          "startUs": 1035234200.0000001,
+          "endUs": 1035334299.6666666,
+          "centerUs": 1035284249.8333334
+        },
+        "driftUs": -8666.5
+      },
+      {
+        "edit": 70,
+        "expectedUs": 1050275970,
+        "audioSample": 50413246,
+        "peak": 0.8603135943412781,
+        "video": {
+          "startUs": 1050249200,
+          "endUs": 1050349299.6666667,
+          "centerUs": 1050299249.8333334
+        },
+        "driftUs": -23291.5
+      },
+      {
+        "edit": 71,
+        "expectedUs": 1065276341,
+        "audioSample": 51133264,
+        "peak": 0.8511315584182739,
+        "video": {
+          "startUs": 1065230833.0000001,
+          "endUs": 1065330932.6666666,
+          "centerUs": 1065280882.8333334
+        },
+        "driftUs": -4549.5
+      },
+      {
+        "edit": 72,
+        "expectedUs": 1080276712,
+        "audioSample": 51853282,
+        "peak": 0.855846643447876,
+        "video": {
+          "startUs": 1080245833,
+          "endUs": 1080345932.6666667,
+          "centerUs": 1080295882.8333335
+        },
+        "driftUs": -19174.50000023842
+      },
+      {
+        "edit": 73,
+        "expectedUs": 1095277083,
+        "audioSample": 52573299,
+        "peak": 0.8535215258598328,
+        "video": {
+          "startUs": 1095227466,
+          "endUs": 1095327566.6666667,
+          "centerUs": 1095277516.3333335
+        },
+        "driftUs": -453.83333349227905
+      },
+      {
+        "edit": 74,
+        "expectedUs": 1110277454,
+        "audioSample": 53293317,
+        "peak": 0.8213692903518677,
+        "video": {
+          "startUs": 1110242466,
+          "endUs": 1110342566.6666667,
+          "centerUs": 1110292516.3333335
+        },
+        "driftUs": -15078.833333492279
+      },
+      {
+        "edit": 75,
+        "expectedUs": 1125277825,
+        "audioSample": 54013335,
+        "peak": 0.7780548930168152,
+        "video": {
+          "startUs": 1125257466,
+          "endUs": 1125357566.6666667,
+          "centerUs": 1125307516.3333335
+        },
+        "driftUs": -29703.83333349228
+      },
+      {
+        "edit": 76,
+        "expectedUs": 1140278196,
+        "audioSample": 54733353,
+        "peak": 0.8432950973510742,
+        "video": {
+          "startUs": 1140239100,
+          "endUs": 1140339199.6666667,
+          "centerUs": 1140289149.8333335
+        },
+        "driftUs": -10962.333333492279
+      },
+      {
+        "edit": 77,
+        "expectedUs": 1155278567,
+        "audioSample": 55453371,
+        "peak": 0.8700711131095886,
+        "video": {
+          "startUs": 1155254100,
+          "endUs": 1155354199.6666667,
+          "centerUs": 1155304149.8333335
+        },
+        "driftUs": -25587.33333349228
+      },
+      {
+        "edit": 78,
+        "expectedUs": 1170278938,
+        "audioSample": 56173389,
+        "peak": 0.8288254141807556,
+        "video": {
+          "startUs": 1170235733,
+          "endUs": 1170335832.6666667,
+          "centerUs": 1170285782.8333335
+        },
+        "driftUs": -6845.333333492279
+      },
+      {
+        "edit": 79,
+        "expectedUs": 1185279309,
+        "audioSample": 56893406,
+        "peak": 0.8781678676605225,
+        "video": {
+          "startUs": 1185250733,
+          "endUs": 1185350832.6666667,
+          "centerUs": 1185300782.8333335
+        },
+        "driftUs": -21491.16666674614
+      },
+      {
+        "edit": 80,
+        "expectedUs": 1200279680,
+        "audioSample": 57613424,
+        "peak": 0.8796819448471069,
+        "video": {
+          "startUs": 1200232366,
+          "endUs": 1200332466.6666667,
+          "centerUs": 1200282416.3333335
+        },
+        "driftUs": -2749.6666667461395
+      },
+      {
+        "edit": 81,
+        "expectedUs": 1215280051,
+        "audioSample": 58333442,
+        "peak": 0.8481975793838501,
+        "video": {
+          "startUs": 1215247366,
+          "endUs": 1215347466.6666667,
+          "centerUs": 1215297416.3333335
+        },
+        "driftUs": -17374.66666674614
+      },
+      {
+        "edit": 82,
+        "expectedUs": 1230280422,
+        "audioSample": 59053460,
+        "peak": 0.8758258819580078,
+        "video": {
+          "startUs": 1230262366,
+          "endUs": 1230362466.6666667,
+          "centerUs": 1230312416.3333335
+        },
+        "driftUs": -31999.66666674614
+      },
+      {
+        "edit": 83,
+        "expectedUs": 1245280793,
+        "audioSample": 59773478,
+        "peak": 0.8769387602806091,
+        "video": {
+          "startUs": 1245244000,
+          "endUs": 1245344099.6666667,
+          "centerUs": 1245294049.8333335
+        },
+        "driftUs": -13258.16666674614
+      },
+      {
+        "edit": 84,
+        "expectedUs": 1260281164,
+        "audioSample": 60493495,
+        "peak": 0.8294850587844849,
+        "video": {
+          "startUs": 1260259000,
+          "endUs": 1260359099.6666667,
+          "centerUs": 1260309049.8333335
+        },
+        "driftUs": -27904.00000023842
+      },
+      {
+        "edit": 85,
+        "expectedUs": 1275281535,
+        "audioSample": 61213513,
+        "peak": 0.816498339176178,
+        "video": {
+          "startUs": 1275240633,
+          "endUs": 1275340732.6666667,
+          "centerUs": 1275290682.8333335
+        },
+        "driftUs": -9162.000000238419
+      },
+      {
+        "edit": 86,
+        "expectedUs": 1290281906,
+        "audioSample": 61933531,
+        "peak": 0.8351472020149231,
+        "video": {
+          "startUs": 1290255633,
+          "endUs": 1290355732.6666667,
+          "centerUs": 1290305682.8333335
+        },
+        "driftUs": -23787.00000023842
+      },
+      {
+        "edit": 87,
+        "expectedUs": 1305282277,
+        "audioSample": 62653549,
+        "peak": 0.817552924156189,
+        "video": {
+          "startUs": 1305237266,
+          "endUs": 1305337366.6666667,
+          "centerUs": 1305287316.3333335
+        },
+        "driftUs": -5045.500000238419
+      },
+      {
+        "edit": 88,
+        "expectedUs": 1320282648,
+        "audioSample": 63373567,
+        "peak": 0.8247795701026917,
+        "video": {
+          "startUs": 1320252266,
+          "endUs": 1320352366.6666667,
+          "centerUs": 1320302316.3333335
+        },
+        "driftUs": -19670.50000023842
+      },
+      {
+        "edit": 89,
+        "expectedUs": 1335283019,
+        "audioSample": 64093584,
+        "peak": 0.8397674560546875,
+        "video": {
+          "startUs": 1335233900,
+          "endUs": 1335333999.6666667,
+          "centerUs": 1335283949.8333335
+        },
+        "driftUs": -949.833333492279
+      },
+      {
+        "edit": 90,
+        "expectedUs": 1350283390,
+        "audioSample": 64813602,
+        "peak": 0.8616382479667664,
+        "video": {
+          "startUs": 1350248900,
+          "endUs": 1350348999.6666667,
+          "centerUs": 1350298949.8333335
+        },
+        "driftUs": -15574.833333492279
+      },
+      {
+        "edit": 91,
+        "expectedUs": 1365283761,
+        "audioSample": 65533620,
+        "peak": 0.8537776470184326,
+        "video": {
+          "startUs": 1365263900,
+          "endUs": 1365363999.6666667,
+          "centerUs": 1365313949.8333335
+        },
+        "driftUs": -30199.83333349228
+      },
+      {
+        "edit": 92,
+        "expectedUs": 1380284132,
+        "audioSample": 66253638,
+        "peak": 0.856224536895752,
+        "video": {
+          "startUs": 1380245533,
+          "endUs": 1380345632.6666667,
+          "centerUs": 1380295582.8333335
+        },
+        "driftUs": -11457.833333492279
+      },
+      {
+        "edit": 93,
+        "expectedUs": 1395284503,
+        "audioSample": 66973656,
+        "peak": 0.8331111669540405,
+        "video": {
+          "startUs": 1395260533,
+          "endUs": 1395360632.6666667,
+          "centerUs": 1395310582.8333335
+        },
+        "driftUs": -26082.83333349228
+      },
+      {
+        "edit": 94,
+        "expectedUs": 1410284874,
+        "audioSample": 67693673,
+        "peak": 0.8825049996376038,
+        "video": {
+          "startUs": 1410242166,
+          "endUs": 1410342266.6666667,
+          "centerUs": 1410292216.3333335
+        },
+        "driftUs": -7362.1666667461395
+      },
+      {
+        "edit": 95,
+        "expectedUs": 1425285245,
+        "audioSample": 68413691,
+        "peak": 0.8662005066871643,
+        "video": {
+          "startUs": 1425257166,
+          "endUs": 1425357266.6666667,
+          "centerUs": 1425307216.3333335
+        },
+        "driftUs": -21987.16666674614
+      },
+      {
+        "edit": 96,
+        "expectedUs": 1440285616,
+        "audioSample": 69133709,
+        "peak": 0.8383629322052002,
+        "video": {
+          "startUs": 1440238800,
+          "endUs": 1440338899.6666667,
+          "centerUs": 1440288849.8333335
+        },
+        "driftUs": -3245.6666667461395
+      },
+      {
+        "edit": 97,
+        "expectedUs": 1455285987,
+        "audioSample": 69853727,
+        "peak": 0.8617575168609619,
+        "video": {
+          "startUs": 1455253800,
+          "endUs": 1455353899.6666667,
+          "centerUs": 1455303849.8333335
+        },
+        "driftUs": -17870.66666674614
+      },
+      {
+        "edit": 98,
+        "expectedUs": 1470286358,
+        "audioSample": 70573745,
+        "peak": 0.8613572120666504,
+        "video": {
+          "startUs": 1470268800,
+          "endUs": 1470368899.6666667,
+          "centerUs": 1470318849.8333335
+        },
+        "driftUs": -32495.66666674614
+      },
+      {
+        "edit": 99,
+        "expectedUs": 1485286729,
+        "audioSample": 71293762,
+        "peak": 0.8746135830879211,
+        "video": {
+          "startUs": 1485250433,
+          "endUs": 1485350532.6666667,
+          "centerUs": 1485300482.8333335
+        },
+        "driftUs": -13774.500000238419
+      },
+      {
+        "edit": 100,
+        "expectedUs": 1500287100,
+        "audioSample": 72013780,
+        "peak": 0.8003290891647339,
+        "video": {
+          "startUs": 1500265433,
+          "endUs": 1500365532.6666667,
+          "centerUs": 1500315482.8333335
+        },
+        "driftUs": -28399.50000023842
+      },
+      {
+        "edit": 101,
+        "expectedUs": 1515287471,
+        "audioSample": 72733798,
+        "peak": 0.7687698006629944,
+        "video": {
+          "startUs": 1515247066,
+          "endUs": 1515347166.6666667,
+          "centerUs": 1515297116.3333335
+        },
+        "driftUs": -9658.000000238419
+      },
+      {
+        "edit": 102,
+        "expectedUs": 1530287842,
+        "audioSample": 73453816,
+        "peak": 0.8072960376739502,
+        "video": {
+          "startUs": 1530262066,
+          "endUs": 1530362166.6666667,
+          "centerUs": 1530312116.3333335
+        },
+        "driftUs": -24283.00000023842
+      },
+      {
+        "edit": 103,
+        "expectedUs": 1545288213,
+        "audioSample": 74173834,
+        "peak": 0.8218779563903809,
+        "video": {
+          "startUs": 1545243700,
+          "endUs": 1545343799.6666667,
+          "centerUs": 1545293749.8333335
+        },
+        "driftUs": -5541.500000238419
+      },
+      {
+        "edit": 104,
+        "expectedUs": 1560288584,
+        "audioSample": 74893852,
+        "peak": 0.8749160170555115,
+        "video": {
+          "startUs": 1560258700,
+          "endUs": 1560358799.6666667,
+          "centerUs": 1560308749.8333335
+        },
+        "driftUs": -20166.50000023842
+      },
+      {
+        "edit": 105,
+        "expectedUs": 1575288955,
+        "audioSample": 75613869,
+        "peak": 0.8319364786148071,
+        "video": {
+          "startUs": 1575240333,
+          "endUs": 1575340432.6666667,
+          "centerUs": 1575290382.8333335
+        },
+        "driftUs": -1445.333333492279
+      },
+      {
+        "edit": 106,
+        "expectedUs": 1590289326,
+        "audioSample": 76333887,
+        "peak": 0.8691127896308899,
+        "video": {
+          "startUs": 1590255333,
+          "endUs": 1590355432.6666667,
+          "centerUs": 1590305382.8333335
+        },
+        "driftUs": -16070.333333492279
+      },
+      {
+        "edit": 107,
+        "expectedUs": 1605289697,
+        "audioSample": 77053905,
+        "peak": 0.8447466492652893,
+        "video": {
+          "startUs": 1605270333,
+          "endUs": 1605370432.6666667,
+          "centerUs": 1605320382.8333335
+        },
+        "driftUs": -30695.33333349228
+      },
+      {
+        "edit": 108,
+        "expectedUs": 1620290068,
+        "audioSample": 77773923,
+        "peak": 0.8670969605445862,
+        "video": {
+          "startUs": 1620251966,
+          "endUs": 1620352066.6666667,
+          "centerUs": 1620302016.3333335
+        },
+        "driftUs": -11953.833333492279
+      },
+      {
+        "edit": 109,
+        "expectedUs": 1635290439,
+        "audioSample": 78493941,
+        "peak": 0.8046334981918335,
+        "video": {
+          "startUs": 1635266966,
+          "endUs": 1635367066.6666667,
+          "centerUs": 1635317016.3333335
+        },
+        "driftUs": -26578.83333349228
+      },
+      {
+        "edit": 110,
+        "expectedUs": 1650290810,
+        "audioSample": 79213958,
+        "peak": 0.8487262725830078,
+        "video": {
+          "startUs": 1650248600,
+          "endUs": 1650348699.6666667,
+          "centerUs": 1650298649.8333335
+        },
+        "driftUs": -7858.1666667461395
+      },
+      {
+        "edit": 111,
+        "expectedUs": 1665291181,
+        "audioSample": 79933976,
+        "peak": 0.873628556728363,
+        "video": {
+          "startUs": 1665263600,
+          "endUs": 1665363699.6666667,
+          "centerUs": 1665313649.8333335
+        },
+        "driftUs": -22483.16666674614
+      },
+      {
+        "edit": 112,
+        "expectedUs": 1680291552,
+        "audioSample": 80653994,
+        "peak": 0.8598668575286865,
+        "video": {
+          "startUs": 1680245233,
+          "endUs": 1680345332.6666667,
+          "centerUs": 1680295282.8333335
+        },
+        "driftUs": -3741.1666667461395
+      },
+      {
+        "edit": 113,
+        "expectedUs": 1695291923,
+        "audioSample": 81374012,
+        "peak": 0.8586609959602356,
+        "video": {
+          "startUs": 1695260233,
+          "endUs": 1695360332.6666667,
+          "centerUs": 1695310282.8333335
+        },
+        "driftUs": -18366.16666674614
+      },
+      {
+        "edit": 114,
+        "expectedUs": 1710292294,
+        "audioSample": 82094030,
+        "peak": 0.8537939190864563,
+        "video": {
+          "startUs": 1710275233,
+          "endUs": 1710375332.6666667,
+          "centerUs": 1710325282.8333335
+        },
+        "driftUs": -32991.16666674614
+      },
+      {
+        "edit": 115,
+        "expectedUs": 1725292665,
+        "audioSample": 82814047,
+        "peak": 0.8796766996383667,
+        "video": {
+          "startUs": 1725256866,
+          "endUs": 1725356966.6666667,
+          "centerUs": 1725306916.3333335
+        },
+        "driftUs": -14270.500000238419
+      },
+      {
+        "edit": 116,
+        "expectedUs": 1740293036,
+        "audioSample": 83534065,
+        "peak": 0.8611359596252441,
+        "video": {
+          "startUs": 1740271866,
+          "endUs": 1740371966.6666667,
+          "centerUs": 1740321916.3333335
+        },
+        "driftUs": -28895.50000023842
+      },
+      {
+        "edit": 117,
+        "expectedUs": 1755293407,
+        "audioSample": 84254083,
+        "peak": 0.8304739594459534,
+        "video": {
+          "startUs": 1755253500,
+          "endUs": 1755353599.6666667,
+          "centerUs": 1755303549.8333335
+        },
+        "driftUs": -10154.000000238419
+      },
+      {
+        "edit": 118,
+        "expectedUs": 1770293778,
+        "audioSample": 84974101,
+        "peak": 0.8018535375595093,
+        "video": {
+          "startUs": 1770268500,
+          "endUs": 1770368599.6666667,
+          "centerUs": 1770318549.8333335
+        },
+        "driftUs": -24779.00000023842
+      },
+      {
+        "edit": 119,
+        "expectedUs": 1785294149,
+        "audioSample": 85694119,
+        "peak": 0.8098259568214417,
+        "video": {
+          "startUs": 1785250133,
+          "endUs": 1785350232.6666667,
+          "centerUs": 1785300182.8333335
+        },
+        "driftUs": -6037.000000238419
+      }
+    ]
+  }
+}

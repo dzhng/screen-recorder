@@ -33,9 +33,11 @@ Current pickup and priority:
    journeys, preserving cache-ready reads and explicit retries.
    [Combined worker checks](assets/15-pointer-integration/README.md) retain scoped
    geometry and non-pointer preservation; full color/profile acceptance stays open.
-2. Continue08 long-project A/V drift and remaining codec/rate conformance;
+2. Continue08 remaining codec/rate conformance and narration listening;
    [physical-segment composition](assets/08-physical-segments/README.md) now passes
    exact full/range/split checks after the converter buffer-state fix.
+   [Thirty-minute A/V timing](assets/08-av-drift/README.md) passes public export
+   across 120 fractional edits, with declared PCM length and AAC padding separated.
    Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue
