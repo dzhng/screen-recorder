@@ -22,6 +22,10 @@ node packages/test-harness/editing/webcam.mjs --case capture-to-project
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Production-entry parity with slice 20, existing capture/recovery suites, absent/denied/disconnected camera, repeated finalization and restart. Record one real screen/camera tutorial; prove independent audio/video replacement afterward and preserved raw source timing.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.

@@ -24,6 +24,10 @@ node packages/test-harness/editing/keyframes.mjs --case moved-split-zoom
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Conformance at exact endpoints and interior samples; no jump after split; moved/retimed content carries its animation; fixed anchors stay fixed. Match native execution to compiler samples. Inspect explicit gain ducking and fades without making the engine decide where ducking belongs.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.

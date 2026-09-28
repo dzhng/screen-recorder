@@ -202,6 +202,9 @@ or noise research blocks the first preview. Individual dependency lists are chec
   development boundary is removed in slice 23; no compatibility wrapper survives.
   Preview/export compile the same document. Generated/imported/captured assets
   share ownership and lifecycle.
+- [Live journeys](journeys.md) maps every discussed scenario to its first public
+  integration owner. Add journeys as paths land; pure probes do not count as live
+  CLI/MCP or delivered-media acceptance.
 - [Verification](verification.md) owns preservation, real-audio, scale and agent
   gates. Visual slices explicitly run compare-screenshots against references,
   then unprimed screenshot-critique as the last visual check. Non-blocking review

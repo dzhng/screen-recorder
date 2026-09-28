@@ -30,6 +30,10 @@ node packages/test-harness/editing/processing.mjs --case ordered-denoise --trans
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Production-entry matched-input parity must preserve the frozen recipe. A real
 noncommuting audio pair proves both orders execute, not merely serialize; bypass
 matches baseline. Prove protected speech, exact duration, compensated latency,

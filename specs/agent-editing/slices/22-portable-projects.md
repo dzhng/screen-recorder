@@ -29,6 +29,10 @@ node packages/test-harness/editing/package.mjs --case relocate-edit-undo
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Export, move package, remove external imports/donor project/model cache, then open/adopt/render/edit/undo with identical semantic output. Exercise interrupted extraction, corrupt/missing member, bounded-size rejection and canceled adoption. Existing generated speech plays offline; regeneration clearly reports missing prepared model.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.

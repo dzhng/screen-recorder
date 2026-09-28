@@ -24,6 +24,10 @@ node packages/test-harness/editing/layers.mjs --case presenter-and-screen
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Asymmetric landmarks and alpha regions land at expected pixels across two canvases. Crop/fit/rotation do not invert pointer coordinates. Whole-source identity transforms preserve existing pointer/movie evidence. Compare project frame, range preview and export geometry.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.

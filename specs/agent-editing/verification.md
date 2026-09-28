@@ -20,6 +20,14 @@ Each slice starts with `Status: not started`; replace it with actual results and
 unresolved gates when implementing. No document checkbox closes a physical or
 listening gate that did not run.
 
+## Incremental live journeys
+
+The [journey inventory](journeys.md) is mandatory coverage. Every capability slice
+adds its public CLI/MCP/service journey as soon as that execution path exists;
+25 integrates and reruns the complete workflow. Keep engine, live-state,
+live-media and listening/physical results separate. No skipped placeholder tests
+can turn an unavailable capability into passing journey coverage.
+
 ## Deterministic correctness
 
 - Use named clip/asset IDs and manually specified expected frame/tone membership

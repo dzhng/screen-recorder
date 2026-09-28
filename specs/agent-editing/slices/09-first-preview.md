@@ -22,6 +22,10 @@ node packages/test-harness/editing/first-preview.mjs --transport both
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Two imported clips, A–B–A, video replacement preserving A audio, audio replacement preserving B frames, undo, old-revision preview during new edits and successful local export. Compare production decoded frames/audio to frozen expectations. Crash/cancel a render/publication and verify no partial published artifact.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.

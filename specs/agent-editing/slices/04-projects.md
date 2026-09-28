@@ -24,6 +24,10 @@ node packages/test-harness/editing/projects.mjs --transport both
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Exercise competing writers, replay after restart/lost response, changed args with same ID, failure after several valid operations, stale state, no-op receipt, history pagination and dependency retention across undo. CLI/MCP normalized outcomes match. Preparing an asset then failing a batch leaves no project mutation.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.

@@ -24,6 +24,10 @@ node packages/test-harness/editing/acceptance.mjs --case tutorial --transport bo
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Verify the normalized edit result, protected words, accepted audio-quality gates, visual composition, requested text/captions, output geometry and package relocation/undo. The agent discovers schemas, handles a forced stale edit and a lost response, exports autonomously, and reports changes/provenance/verification limits. Run broad repository/native gates once at closeout and record independent review findings.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.

@@ -24,6 +24,10 @@ node packages/test-harness/editing/retiming.mjs --case linked-and-independent
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Production-entry parity with slice 13 on matched inputs, exact sample count, source/project mappings through repeat/split/retime, attachment timing, range/full consistency, long-run drift and cache invalidation. No DB transaction waits on stretching. Audition the accepted local-change cases.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.

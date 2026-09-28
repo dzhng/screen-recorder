@@ -22,6 +22,10 @@ node packages/test-harness/editing/speech-parity.mjs --reference specs/agent-edi
 
 ## Acceptance
 
+Add the scenarios assigned here in the [live journey inventory](../journeys.md)
+through actual public CLI/MCP and service paths. State-only checks do not replace
+delivered-media or listening/physical gates.
+
 Compare complete computed requests, transcript tokens/kinds, timings, generation behavior and target cleanup outcome to the frozen reproduction. Run through asset/project public reads and an explicit edit batch. Check model absent/preparing/failed/ready states, restart and no download during ordinary inspection.
 
 Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
