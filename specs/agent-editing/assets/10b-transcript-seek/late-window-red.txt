@@ -1,0 +1,30 @@
+$ vitest run --maxWorkers=4 src/source-transcript-read.test.ts -t "one long early"
+
+ RUN  v5.0.0 /private/tmp/screenrec-transcript-seek/packages/core
+
+(node:83509) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-transcript-read.test.ts (5 tests | 1 failed | 4 skipped) 321ms
+   × one long early word cannot make a late source window scan the short-word prefix 320ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-transcript-read.test.ts > one long early word cannot make a late source window scan the short-word prefix
+AssertionError: expected 10002 to be less than or equal to 2
+ ❯ src/source-transcript-read.test.ts:255:20
+    253|     { text: "needle", sourceRange: { startUs: 300_010, endUs: 300_015 …
+    254|   ]);
+    255|   expect(readRows).toBeLessThanOrEqual(2);
+       |                    ^
+    256|   expect(read.page({ range: { startUs: 100_000, endUs: 100_001 } }).ro…
+    257|     { text: "long", sourceRange: { startUs: 0, endUs: 200_000 }, parti…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  22:58:40
+   Duration  1.18s (transform 36%, tests 36%, import 26%, worker 2%)
+
+error: script "test" exited with code 1

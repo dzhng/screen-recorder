@@ -12,6 +12,6 @@ A proposed equal-start word fixture was rejected by the real ingestion invariant
 
 Removing the source segment boundary check produces the false `last first` match across the real stored acquisition gap, and the test fails. The check was restored before the final gate. A preliminary regex test used trailing punctuation that the established word-folding policy intentionally removes; the test now uses internal regex syntax to distinguish literal matching without changing that policy.
 
-The existing page traversal's lookback remains bounded by the generation's longest word. The late-window test measures a short-word corpus; it does not prove constant work for an adversarial transcript whose early longest word spans most of its duration. A predecessor-only optimization would need to reconcile portable-page overlap validation with the stronger ingestion invariant before replacing this shared behavior.
+The initial page traversal used a longest-word lookback. That limitation is resolved by the [bounded seek pass](../10b-transcript-seek/README.md), which aligns portable nonoverlap admission with ingestion before using a predecessor lookup.
 
 Independent Codex review found no actionable defects and independently passed core type checking and all targeted transcript tests. Shape review retained one traversal/scanning owner, with source and revision readers owning only their distinct identity/projection semantics. No new table, dependency, scheduler or storage format is introduced. Public routing integration remains the parent pass's responsibility.

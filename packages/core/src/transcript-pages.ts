@@ -349,7 +349,8 @@ async function validate(
   if (gap !== gaps.length) invalid("Transcript gaps differ from the source segments");
 
   let ordinal = 0,
-    maxWordUs = 0;
+    maxWordUs = 0,
+    previousEndUs = 0;
   for await (const word of all(
     (query) => transcript.wordRecords(recordingTranscriptIdentity(identity), query),
     (row) => [row.startUs, row.ordinal],
@@ -362,6 +363,8 @@ async function validate(
       word.endUs > segment.endUs
     )
       invalid("Transcript word lies outside its segment");
+    if (word.startUs < previousEndUs) invalid("Transcript words must not overlap");
+    previousEndUs = word.endUs;
     maxWordUs = Math.max(maxWordUs, word.endUs - word.startUs);
   }
   if (maxWordUs !== metadata.maxWordUs) invalid("Transcript word bound differs from metadata");

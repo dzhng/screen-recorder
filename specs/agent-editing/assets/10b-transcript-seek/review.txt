@@ -1,0 +1,6 @@
+Command: codex review --uncommitted
+Exit: 0
+
+codex
+The bounded predecessor lookup is consistent with the non-overlapping word invariant enforced by ingestion and portable admission. No actionable regressions were found; all 34 tests across five transcript-related test files passed.
+The bounded predecessor lookup is consistent with the non-overlapping word invariant enforced by ingestion and portable admission. No actionable regressions were found; all 34 tests across five transcript-related test files passed.

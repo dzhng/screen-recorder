@@ -108,11 +108,7 @@ export class TranscriptRead {
   ) {}
 
   private traversal() {
-    return new TranscriptTraversal(
-      this.records,
-      recordingTranscriptIdentity(this.metadata),
-      this.metadata.maxWordUs,
-    );
+    return new TranscriptTraversal(this.records, recordingTranscriptIdentity(this.metadata));
   }
 
   private reference() {
@@ -265,7 +261,6 @@ class TranscriptTraversal {
   constructor(
     private readonly records: TranscriptRecords,
     private readonly identity: TranscriptIdentity,
-    private readonly maxWordUs: number,
   ) {}
 
   page(spans: readonly TimeRange[], count: number, after: AfterRecord) {
@@ -294,18 +289,30 @@ class TranscriptTraversal {
     return { records, more, after };
   }
 
-  /** Words that intersect a retained source span; a word covering it may start up to maxWordUs earlier. */
+  /** Admission guarantees disjoint words, so at most one predecessor can cover the window start. */
   private *spanWords(span: TimeRange, after: { sourceUs: number; ordinal: number | null } | null) {
-    const window: PageBound = {
-      key: [Math.max(0, span.startUs - this.maxWordUs), 0],
-      inclusive: true,
-    };
+    const prior = this.records.wordRecords(this.identity, {
+      upper: { key: [span.startUs, 0], inclusive: false },
+      reverse: true,
+      limit: 1,
+    })[0];
+    if (
+      prior &&
+      prior.endUs > span.startUs &&
+      (!after ||
+        prior.startUs > after.sourceUs ||
+        (prior.startUs === after.sourceUs &&
+          after.ordinal !== null &&
+          prior.ordinal > after.ordinal))
+    )
+      yield prior;
+    const window: PageBound = { key: [span.startUs, 0], inclusive: true };
     const resume: PageBound | null = after
       ? after.ordinal === null
         ? { key: [after.sourceUs + 1, 0], inclusive: true }
         : { key: [after.sourceUs, after.ordinal], inclusive: false }
       : null;
-    let lower = resume && comparePageKeys(resume.key, window.key) > 0 ? resume : window;
+    let lower = resume && comparePageKeys(resume.key, window.key) >= 0 ? resume : window;
     for (;;) {
       const words = this.records.wordRecords(this.identity, {
         lower,
@@ -425,7 +432,7 @@ export class SourceTranscriptRead {
       generation: metadata.generation,
       supportDigest: metadata.source.supportDigest,
     };
-    this.traversal = new TranscriptTraversal(records, metadata, metadata.maxWordUs);
+    this.traversal = new TranscriptTraversal(records, metadata);
   }
 
   private continuation<T extends typeof this.reference>(cursor: T | undefined): T | undefined {

@@ -328,3 +328,49 @@ test("reopen refuses tampered transcript pages as an invalid package", async () 
     });
   }
 });
+
+test.each([false, true])(
+  "portable admission rejects overlapping words with valid descriptors (across pages: %s)",
+  async (split) => {
+    const f = await fixture();
+    await f.validate();
+    await f.tamper(f.source, "words", (rows) => {
+      rows[0]!.sourceRange.endUs = 1_450_000;
+    });
+    // Keep the edited projection consistent too: only nonoverlap admission may reject this input.
+    await f.tamper(f.edited, "rows", (rows) => {
+      const word = rows.find((row) => row.id === "w0");
+      if (!word) return;
+      word.sourceRange.endUs = 1_450_000;
+      word.fragments[0].source.endUs = 1_450_000;
+      word.fragments[0].playback.endUs = 1_450_000;
+    });
+    if (split) {
+      const path = join(f.source, "pages.json");
+      const manifest = JSON.parse(await readFile(path, "utf8"));
+      const descriptor = manifest.indexes.words[0];
+      const rows = JSON.parse(await readFile(join(f.source, descriptor.file), "utf8"));
+      const descriptors = [];
+      for (const [index, part] of [rows.slice(0, 1), rows.slice(1)].entries()) {
+        const file = index === 0 ? descriptor.file : "9999.json";
+        const body = Buffer.from(JSON.stringify(part));
+        await writeFile(join(f.source, file), body);
+        descriptors.push({
+          ...descriptor,
+          file,
+          rows: part.length,
+          bytes: body.length,
+          sha256: createHash("sha256").update(body).digest("hex"),
+          first: [part[0].sourceRange.startUs, part[0].ordinal],
+          last: [part.at(-1).sourceRange.startUs, part.at(-1).ordinal],
+        });
+      }
+      manifest.indexes.words = descriptors;
+      await writeFile(path, JSON.stringify(manifest));
+    }
+    await expect(f.validate()).rejects.toMatchObject({
+      code: "INVALID_PACKAGE",
+      message: "Transcript words must not overlap",
+    });
+  },
+);

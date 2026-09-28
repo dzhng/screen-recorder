@@ -237,3 +237,45 @@ test("late source windows stay bounded and no-match search yields resumable empt
     nextCursor: null,
   });
 });
+
+test("one long early word cannot make a late source window scan the short-word prefix", async () => {
+  const words = [
+    { text: "long", startUs: 0, endUs: 200_000 },
+    ...Array.from({ length: 10_003 }, (_, i) => ({
+      text: i === 10_001 ? "needle" : "hay",
+      startUs: 200_000 + i * 10,
+      endUs: 200_005 + i * 10,
+    })),
+  ];
+  const { store, metadata } = await fixture([{ startUs: 0, endUs: 300_030, words }], 300_030);
+  let readRows = 0;
+  const read = new SourceTranscriptRead(
+    {
+      wordRecords(identity, query) {
+        const rows = store.wordRecords(identity, query);
+        readRows += rows.length;
+        return rows;
+      },
+      gapRecords(identity, query) {
+        return store.gapRecords(identity, query);
+      },
+    },
+    metadata,
+  );
+  expect(read.page({ range: { startUs: 300_011, endUs: 300_013 } }).rows).toMatchObject([
+    { text: "needle", sourceRange: { startUs: 300_010, endUs: 300_015 }, partial: true },
+  ]);
+  expect(readRows).toBeLessThanOrEqual(2);
+  expect(read.page({ range: { startUs: 100_000, endUs: 100_001 } }).rows).toMatchObject([
+    { text: "long", sourceRange: { startUs: 0, endUs: 200_000 }, partial: true },
+  ]);
+  const first = read.page({ range: { startUs: 199_999, endUs: 200_015 }, limit: 1 });
+  expect(first.rows).toMatchObject([{ text: "long" }]);
+  expect(read.page({ cursor: first.nextCursor, limit: 1 }).rows).toMatchObject([
+    { ordinal: 1, text: "hay" },
+  ]);
+  const boundary = read.page({ range: { startUs: 0, endUs: 300_030 }, limit: 1 });
+  expect(read.page({ cursor: boundary.nextCursor, limit: 1 }).rows).toMatchObject([
+    { ordinal: 1, text: "hay" },
+  ]);
+});

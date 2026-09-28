@@ -1,0 +1,47 @@
+$ vitest run --maxWorkers=4 src/transcript-pages.test.ts -t "portable admission rejects overlapping"
+
+ RUN  v5.0.0 /private/tmp/screenrec-transcript-seek/packages/core
+
+(node:90304) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/transcript-pages.test.ts (4 tests | 2 failed | 2 skipped) 369ms
+   × portable admission rejects overlapping words with valid descriptors (across pages: false) 284ms
+   × portable admission rejects overlapping words with valid descriptors (across pages: true) 83ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/transcript-pages.test.ts > portable admission rejects overlapping words with valid descriptors (across pages: false)
+AssertionError: promise resolved "FileTranscript{ …(2) }" instead of rejecting
+
+[Vitest resolved-object dump omitted; assertions and failure summaries retained.]
+ ❯ src/transcript-pages.test.ts:371:31
+    369|       await writeFile(path, JSON.stringify(manifest));
+    370|     }
+    371|     await expect(f.validate()).rejects.toMatchObject({
+       |                               ^
+    372|       code: "INVALID_PACKAGE",
+    373|       message: "Transcript words must not overlap",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/transcript-pages.test.ts > portable admission rejects overlapping words with valid descriptors (across pages: true)
+AssertionError: promise resolved "FileTranscript{ …(2) }" instead of rejecting
+
+[Vitest resolved-object dump omitted; assertions and failure summaries retained.]
+ ❯ src/transcript-pages.test.ts:371:31
+    369|       await writeFile(path, JSON.stringify(manifest));
+    370|     }
+    371|     await expect(f.validate()).rejects.toMatchObject({
+       |                               ^
+    372|       code: "INVALID_PACKAGE",
+    373|       message: "Transcript words must not overlap",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 skipped (4)
+   Start at  23:01:48
+   Duration  1.64s (transform 53%, tests 26%, import 21%)
+
+error: script "test" exited with code 1
