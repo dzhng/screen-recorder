@@ -1,0 +1,84 @@
+Run 1: HARNESS failure. Probe barrier armed after asset deduplication, so no second native probe could occur.
+(node:98807) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: real native reply: deadline
+    at poll (file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:51:12)
+    at async file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:230:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0
+
+
+Run 2: HARNESS failure. JavaScript strict equality treated normalized JSON0 and -0 differently.
+(node:2150) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 0
+- -0
+
+    at file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:277:14 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: -0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0
+
+
+Run 3: HARNESS failure. Uncleared teardown timeout retained a global child reference and killed the restarted fixture service.
+(node:2756) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: job.get: {"id":"3383d817-de43-4950-9b53-2ed7e74941c8","ok":false,"error":{"code":"INVALID_RESPONSE","message":"Connection ended before the JSON line terminator","retryable":false,"details":{}}}
+
+false !== true
+
+    at call (file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:122:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async poll (file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:45:19)
+    at async adopt (file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:148:17)
+    at async file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:256:18 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0
+
+
+Run 6: HARNESS failure. New filesystem assertion lacked its lstat import; fixed before canonical run.
+(node:10008) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+ReferenceError: lstat is not defined
+    at file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:262:14
+
+Node.js v24.14.0

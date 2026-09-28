@@ -1,0 +1,22 @@
+(node:4357) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: edit.apply: {"ok":false,"error":{"code":"INTERNAL_ERROR","message":"Handler returned an invalid result","retryable":false,"details":{}},"id":"a97abe59-3b4c-4a01-b325-249e4dad577a"}
+
+false !== true
+
+    at call (file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:131:10)
+    at async replace (file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:409:20)
+    at async file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:424:20 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

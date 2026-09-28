@@ -1,0 +1,775 @@
+{
+  "scope": "Actual CLI/MCP capture adoption, immutable bindings and native preview/export; no transcript, listening or differing-mask acceptance",
+  "passed": true,
+  "checks": {
+    "recovery": {
+      "canceledAttempt": "015f4990-f6cb-4597-ae86-db1681be0443",
+      "retryAttempt": "6ace6ce7-3de5-45d9-a772-b5cad6ae7acf",
+      "interruptedAttempt": "6ace6ce7-3de5-45d9-a772-b5cad6ae7acf",
+      "restartedAttempt": "65bb2320-d316-4120-860e-48f5a75bc247",
+      "preCrashIndexed": true,
+      "preCrashAssetRetained": true,
+      "orphanStateRemoved": true,
+      "orphanAttemptFilesRemoved": true
+    },
+    "adoption": {
+      "contextA": {
+        "id": "8f769db0-fe83-4212-acad-25e15c26e6a2",
+        "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "8f769db0-fe83-4212-acad-25e15c26e6a2"
+          },
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "generation": "65bb2320-d316-4120-860e-48f5a75bc247",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 1488048,
+            "cursorSamples": 8039,
+            "displaySpaces": 1,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acq-jRtGU9/library/acquisitions/8f769db0-fe83-4212-acad-25e15c26e6a2/65bb2320-d316-4120-860e-48f5a75bc247/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 49814,
+            "geometryRecords": 5,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "source": {
+                "kind": "window",
+                "windowID": 188
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 134019623,
+            "lastSequence": 12842,
+            "originHostUs": 92388474388,
+            "pauseEvents": 0
+          }
+        },
+        "journal": {
+          "fileName": "65bb2320-d316-4120-860e-48f5a75bc247/source/capture.journal.jsonl",
+          "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+          "bytes": 2574002
+        },
+        "bindings": [
+          {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 134025574
+              }
+            ],
+            "sourceRoles": [
+              "video"
+            ],
+            "sourceToAssetOffsetUs": 0,
+            "supportBasis": "physical"
+          },
+          {
+            "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+            "streamId": "track:1",
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 133973333
+              }
+            ],
+            "sourceRoles": [
+              "narration"
+            ],
+            "sourceToAssetOffsetUs": -48675,
+            "supportBasis": "captured-audio"
+          }
+        ]
+      },
+      "contextB": {
+        "id": "aee53598-da05-4b5e-b261-14808bc0d6f6",
+        "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+        "evidence": {
+          "owner": {
+            "kind": "acquisition",
+            "acquisitionId": "aee53598-da05-4b5e-b261-14808bc0d6f6"
+          },
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "generation": "b88cf4e2-d577-48a3-adaf-67c418e5a276",
+          "receipt": {
+            "audioIntervals": 1,
+            "bytes": 1488048,
+            "cursorSamples": 8039,
+            "displaySpaces": 1,
+            "file": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-acq-jRtGU9/library/acquisitions/aee53598-da05-4b5e-b261-14808bc0d6f6/b88cf4e2-d577-48a3-adaf-67c418e5a276/source.jsonl",
+            "finished": true,
+            "firstCursorSourceUs": 49814,
+            "geometryRecords": 5,
+            "header": {
+              "height": 1970,
+              "microphone": true,
+              "schemaVersion": 1,
+              "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+              "source": {
+                "kind": "window",
+                "windowID": 188
+              },
+              "systemAudio": false,
+              "width": 3120
+            },
+            "incompleteTail": false,
+            "journal": "capture.journal.jsonl",
+            "lastCursorSourceUs": 134019623,
+            "lastSequence": 12842,
+            "originHostUs": 92388474388,
+            "pauseEvents": 0
+          }
+        },
+        "journal": {
+          "fileName": "b88cf4e2-d577-48a3-adaf-67c418e5a276/source/capture.journal.jsonl",
+          "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+          "bytes": 2574002
+        },
+        "bindings": [
+          {
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 134025574
+              }
+            ],
+            "sourceRoles": [
+              "video"
+            ],
+            "sourceToAssetOffsetUs": 0,
+            "supportBasis": "physical"
+          },
+          {
+            "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+            "streamId": "track:1",
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 133973333
+              }
+            ],
+            "sourceRoles": [
+              "narration"
+            ],
+            "sourceToAssetOffsetUs": -48675,
+            "supportBasis": "captured-audio"
+          }
+        ]
+      },
+      "sourceHashes": {
+        "capture.journal.jsonl": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+        "video.mov": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+        "narration.mov": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+      },
+      "donorRemoved": true,
+      "requestReplayWithoutDonor": true
+    },
+    "project": {
+      "projectId": "0291d75f-f7bc-48b6-a78c-e60cf9f79b76",
+      "revisionA": "1c699d3c-9cac-47c3-bbaa-6b025731fb1f",
+      "revisionB": "8b8d7b96-50e0-4665-9d91-0be3d067ec31",
+      "physicalRevision": "9b0b7640-2258-433c-85c9-6a24992239db",
+      "undoRevision": "eeb9fb79-d824-4d69-bed5-df3d1ba617d6",
+      "commonSourceClockRange": {
+        "startUs": 7048675,
+        "endUs": 9048675
+      },
+      "decoded": {
+        "video": "7c38e0645102752e0d7f398004a4c08d90a925d1a0bbe1a10425e6e2acb4dc45",
+        "audio": "797e3fbc879f92be104ad30bd3e26c35a39b7630378c456717bf91f362683a88",
+        "audioRms": 0.01609270910669876,
+        "videoBytes": 3840000,
+        "audioBytes": 769536
+      },
+      "threeSelectionsEqual": true,
+      "exportReceipt": {
+        "bytes": 45208,
+        "destination": {
+          "dev": "16777229",
+          "ino": "315429197"
+        },
+        "file": {
+          "dev": "16777229",
+          "ino": "315438996"
+        },
+        "leaf": "exported.mp4",
+        "sha256": "246aa4ddd92f469bbe04df3432102268235861935598a10f5c222751213b77bf",
+        "stage": {
+          "dev": "16777229",
+          "ino": "315438988"
+        }
+      },
+      "historicalAfterRestart": true
+    }
+  },
+  "trace": [
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "mcp",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "NOT_READY",
+        "message": "Acquisition import has not completed",
+        "retryable": false,
+        "details": {
+          "acquisitionId": "8f769db0-fe83-4212-acad-25e15c26e6a2"
+        }
+      }
+    },
+    {
+      "operation": "job.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Acquisition request ID already names another directory",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "export.create",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "revision.get",
+      "transport": "mcp",
+      "ok": true
+    }
+  ],
+  "runtime": {
+    "native": "/tmp/screenrec-acquisition-journey-native-a477c4e",
+    "nativeSha256": "611ee1097c95fa2eae4ef7c6a0cb11facc39d236c642b953e9ccf072f8f05137",
+    "modules": {
+      "apps/service/dist/project-service.js": "da3e8e59ed5ce9390bc089d3018218f86df361c8bafa042d4ee1474a532d70cf",
+      "packages/core/dist/acquisitions.js": "b43820608f648df0989f64c37a133bf0a27cefa617327fce5e91d06daaf6d723",
+      "packages/core/dist/catalog.js": "c5240cb1a16b15c089bea7de2d920c11e8fb9a9b5883515e4a26501bc5ce56ae",
+      "packages/core/dist/assets.js": "a2f0a4476da6263d96d1ac58b5d3c31c01ba3a8fa0c07319a4b4b4a137bd5462",
+      "packages/core/dist/files.js": "7674dfdd5de16e160d03daba2ab0670af98ac54873bec6d0a47856518e783b43",
+      "packages/core/dist/references.js": "f6c2965ecbfe26df516fd619dc4994c6a15da403f87df1bce7f131de4af6fcce",
+      "packages/core/dist/jobs.js": "debca5c7903de8c3332b4739562917626e29eb0066f17cea4fadf8b41a319f3e",
+      "packages/protocol/dist/operations.js": "fc4df4dba062960442d97f160585c4a4b780192d5660c78592b4ba621477f80e",
+      "apps/cli/dist/main.js": "b5eea3cc28a4540af9b5d3429e5e7dd29f27addd29d12e04582ec465bca875e1",
+      "packages/test-harness/editing/source-acquisition.mjs": "90f95558896f56e9835604e210d0206155163f6c479d1551532bae3b3b9f8b62",
+      "packages/test-harness/editing/source-acquisition-service.mjs": "0ef65f70a6e4da3c77f57f4df5a6c0f86331565b82ecd0de3ddebcc9edc609db",
+      "packages/core/dist/evidence.js": "e4802779b1ad2bc047ffe3d91db6eaa5cb54c77a45f712da0b7b6d6d71be9b6f",
+      "packages/core/dist/projects.js": "d89099943a155bf6b65721060053adaf8ec0dd1e7085bbd12f01011ea267863c",
+      "packages/core/dist/project-preview.js": "8a521afe29c3ed6b65e7802e90c8b36080bb6d4f403a08e54f728df239b4a72b",
+      "packages/composition/dist/model.js": "25801451018686356c4b57a588c111255c830cee08c6d1034dca075620783b96",
+      "packages/composition/dist/replace.js": "708580191407f63b5701632815c9d894cefe48838504447690d5d3974e4e6bc1",
+      "packages/composition/dist/compiler.js": "a02b7f62e775406b8111259fe65a68d91a9c792149c36ca5a5b78011d5b4f68c",
+      "packages/composition/dist/audio-context.js": "7881bc4dd061f64216b72e4510f9a6fe6d694167c896997bb71e6abcfa31205e"
+    }
+  }
+}

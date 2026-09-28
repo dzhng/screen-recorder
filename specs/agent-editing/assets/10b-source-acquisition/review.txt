@@ -1,0 +1,19 @@
+codex
+The harness can miss filesystem orphan-cleanup regressions and report successful process completion despite teardown failure. Review was static; no tests, capture, playback, or edits were performed.
+
+Full review comments:
+
+- [P2] Verify orphan files disappear before retrying — /private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:260-263
+  The startup-cleanup assertion checks only database rows. If recovery removes evidence rows and references but leaves the interrupted attempt directory, this check and the subsequent retry still pass; final scratch-home deletion then hides the leak. Assert that the interrupted attempt's journal/evidence directory is absent before retrying, so `orphanStateRemoved` actually covers filesystem cleanup.
+
+- [P2] Return a failing exit status when teardown fails — /private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:527-530
+  If the final service shutdown times out or exits unsuccessfully after the assertions pass, this catch records the failure but consumes it. The harness then prints `passed: false` and exits successfully, allowing an exit-status-based runner to accept a failed run. Preserve report writing and cleanup, but propagate the teardown failure or set a nonzero exit code.
+The harness can miss filesystem orphan-cleanup regressions and report successful process completion despite teardown failure. Review was static; no tests, capture, playback, or edits were performed.
+
+Full review comments:
+
+- [P2] Verify orphan files disappear before retrying — /private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:260-263
+  The startup-cleanup assertion checks only database rows. If recovery removes evidence rows and references but leaves the interrupted attempt directory, this check and the subsequent retry still pass; final scratch-home deletion then hides the leak. Assert that the interrupted attempt's journal/evidence directory is absent before retrying, so `orphanStateRemoved` actually covers filesystem cleanup.
+
+- [P2] Return a failing exit status when teardown fails — /private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:527-530
+  If the final service shutdown times out or exits unsuccessfully after the assertions pass, this catch records the failure but consumes it. The harness then prints `passed: false` and exits successfully, allowing an exit-status-based runner to accept a failed run. Preserve report writing and cleanup, but propagate the teardown failure or set a nonzero exit code.

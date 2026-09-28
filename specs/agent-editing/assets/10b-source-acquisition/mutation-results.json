@@ -1,0 +1,17 @@
+{
+  "orphan": {
+    "exitCode": 1,
+    "passed": false,
+    "error": {
+      "message": "Missing expected rejection.",
+      "stack": "AssertionError [ERR_ASSERTION]: Missing expected rejection.\n    at async file:///private/tmp/screenrec-acquisition-journey/packages/test-harness/editing/source-acquisition.mjs:274:3"
+    },
+    "shutdownError": null
+  },
+  "teardown": {
+    "exitCode": 1,
+    "passed": false,
+    "error": null,
+    "shutdownError": "intentional final teardown failure"
+  }
+}
