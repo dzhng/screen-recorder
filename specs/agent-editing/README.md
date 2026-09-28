@@ -15,16 +15,21 @@ nested targets [03b](slices/03b-processing-targets.md), constant-gain stacks
 [03c](slices/03c-processing-stacks.md), and durable public project state/deletion
 [04](slices/04-projects.md) are verified at their declared boundaries.
 
-[05 compiler](slices/05-compiler.md) is verified, including leading partial
-pictures, strict streamed records and source/ancestor availability provenance.
-Next integrate [07 video](slices/07-video-execution.md) and
-[08 audio](slices/08-audio-mixing.md) from their isolated implementation worktrees
-after review and decoded-media verification. [08a derived-file ownership](slices/08a-derived-cache.md)
-is verified at its owner seam, with broad-test deadline failures retained under 24.
-Project previews must reuse this cache; [project retirement](assets/09-cache-retirement/README.md) now purges it before releasing revision dependencies. Audio resampling still needs its
-bounded-context and fractional-phase gates settled; video is checking production
-parity, cancellation and resource bounds. Then wire the first public rendered
-editing checkpoint [09](slices/09-first-preview.md). State journeys do not close it.
+[05 compiler](slices/05-compiler.md) is verified, including partial pictures,
+strict records, availability provenance, retained audio sample origins and
+zero-sample processing membership. [07 video](slices/07-video-execution.md) is
+integrated with decoded timing and old-renderer parity verified; integrate its
+reviewed bounded-raster performance follow-up next. Integrate [08 audio](slices/08-audio-mixing.md)
+after its fractional-phase PCM checks and review. [08a cache ownership](slices/08a-derived-cache.md)
+is verified at its owner seam; broader deadline failures remain under 24.
+
+Then implement [09 public preview/export](slices/09-first-preview.md). Its
+[cache retirement](assets/09-cache-retirement/README.md) and
+[shared render lifetime](assets/09-render-lifetime/README.md) are integrated.
+Use the existing PCM mux through its shared stream interface, then deliver project
+preview through the existing jobs/cache/delivery owners; adapt the same durable
+export-intent/publication owner for project exports. Do not translate compositions
+into recording spans or count state journeys as rendered-media acceptance.
 
 Assets [02](slices/02-assets.md) and shared jobs [02a](slices/02a-preparation-jobs.md)
 are integrated in the isolated service. Import identity and job admission commit
@@ -78,8 +83,11 @@ Current evidence:
 - [Integration](assets/integration/README.md): native asset and CLI/MCP gates pass.
   Broad preservation is 515/516 under concurrent work; the unchanged storage
   suite passes 13/13 in isolation. The concurrent deadline remains recorded.
-- [05 compiler](assets/05-compiler/README.md): 95 tests, integrated composition/core
+- [05 compiler](assets/05-compiler/README.md): 97 tests, integrated composition/core
   builds, core typecheck and strict-record probe pass; no native readiness claim.
+- [07 video](assets/07-video/README.md): native timing, profile refusal, source-selection
+  and cancellation gates pass; integrated decoded preservation passes. Resource follow-up
+  and public delivery remain separate gates.
 - [08a derived cache](assets/08a-derived-cache/README.md): owner isolation/lifecycle
   checks, independent review and baseline controls pass; broad core deadlines remain explicitly red.
 - [06 render](assets/06-render/report.json): nine frozen cases and 70 output hashes;

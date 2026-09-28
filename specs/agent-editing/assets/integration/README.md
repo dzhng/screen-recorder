@@ -28,3 +28,18 @@ remain unfinished.
 Render, stretch, source-speech and generated-speech experiments retain their own
 quality gates. Integration of a frozen research artifact is not production
 adoption or acceptance of an unmeasured perceptual claim.
+
+
+## Compiled native video and audio phase metadata
+
+The integrated native build passes the [decoded video journey](compiled-video.json):
+14 timing scenarios, nine plan refusals and three declared-color refusals, including
+exact matched old-renderer pixels for cuts and empty edits. This rerun deliberately
+omits resource checks; the native video slice retains its current resource gate.
+All 118 previously retained video artifact hashes match. This is the native entry,
+not public preview/export delivery.
+
+The [integrated compiler suite](compiler-97.txt) passes all 97 tests after full-run
+sample origins and zero-sample contributor filtering. Composition/core builds and
+the compiler phase probe pass. Native audio phase parity remains separately owned
+by slice 08.

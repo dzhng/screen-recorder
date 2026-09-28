@@ -1,0 +1,13 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder/packages/composition
+
+
+ Test Files  5 passed (5)
+      Tests  97 passed (97)
+   Start at  19:31:11
+   Duration  13.33s (tests 55%, transform 29%, import 15%)
+
+  Transform  transforming modules took 3.33s · 29% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

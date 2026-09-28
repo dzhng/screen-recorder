@@ -678,3 +678,21 @@ trim and stretch replacements keep their single-interval behavior.
   Separating the render action keeps cancellation, child-process lifetime and
   publication fencing in one owner while allowing the old recording interpreter
   to be removed at cutover.
+
+## Native video execution — 2026-09-27
+
+- **Sound; high confidence — Stream compiled pictures under an explicit profile.**
+  The service supplies retained source bindings and a sealed frame-record file;
+  native reads one record at a time. A ten-minute movie does not require a whole
+  frame schedule in native memory or a second interpretation of editing commands.
+  The initial video profile is opaque H.264/Rec.709 using the reproduced encoder
+  settings. Declared HDR, wide-gamut and custom profiles refuse until an explicit
+  conversion is validated, rather than silently changing their appearance. The
+  plan delegated mechanisms but required measured fidelity; this binds the first
+  executable profile without claiming broader color or codec-quality acceptance.
+- **Sound; high confidence — Native cancellation and worker death have different owners.**
+  Cooperative cancellation removes the worker's staging before returning. A killed
+  process cannot run cleanup, so the service's existing locked attempt directory
+  remains responsible for that recovery. The first native operation does not add a
+  competing janitor. Public preview must use this shared lifetime to retain the
+  same guarantees after process death.
