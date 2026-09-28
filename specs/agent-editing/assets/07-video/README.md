@@ -1,6 +1,8 @@
 # Compiled video execution
 
-[Review disposition](review.md) records the resolved findings and remaining gate.
+[Initial review disposition](review.md) records the first checkpoint. The
+[bounded raster follow-up](raster-reuse/README.md) resolves the held-picture resource
+timeout with current decoded, memory, cancellation and measured-work evidence.
 
 The [native journey](../../../../packages/test-harness/editing/video.mjs) sends
 compiler records through the production worker, decodes its output independently,

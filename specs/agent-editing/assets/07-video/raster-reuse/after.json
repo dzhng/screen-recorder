@@ -1,0 +1,26 @@
+[
+  {
+    "method": "native",
+    "seconds": 3,
+    "elapsedSeconds": 3.102574500022456,
+    "secondsPerFrame": 0.05170957500037427,
+    "status": "completed",
+    "returncode": 0
+  },
+  {
+    "method": "native",
+    "seconds": 30,
+    "elapsedSeconds": 9.712558457977138,
+    "secondsPerFrame": 0.016187597429961897,
+    "status": "completed",
+    "returncode": 0
+  },
+  {
+    "method": "native",
+    "seconds": 600,
+    "elapsedSeconds": 114.5164460830274,
+    "secondsPerFrame": 0.009543037173585617,
+    "status": "completed",
+    "returncode": 0
+  }
+]

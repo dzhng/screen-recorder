@@ -1,0 +1,1 @@
+{"data":{"bytes":633294,"decodedSamples":1,"durationUs":600000000,"file":"\/tmp\/screenrec-video-perf-reuse\/native-600\/video.mp4","frames":12000,"height":128,"maximumSequentialAdvanceUs":1000000,"mediaType":"video\/mp4","pixelPoolAllocationThreshold":4,"profile":"h264-rec709","rasterizedFrames":1,"readerOpens":1,"retainedSourceBuffersBound":1,"width":160},"id":"perf","ok":true}

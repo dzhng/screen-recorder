@@ -1,0 +1,50 @@
+[
+  {
+    "method": "native",
+    "seconds": 3,
+    "elapsedSeconds": 2.062623583013192,
+    "secondsPerFrame": 0.03437705971688653,
+    "status": "completed",
+    "returncode": 0
+  },
+  {
+    "method": "reference",
+    "seconds": 3,
+    "elapsedSeconds": 2.059721833036747,
+    "secondsPerFrame": 0.03432869721727912,
+    "status": "completed",
+    "returncode": 0
+  },
+  {
+    "method": "native",
+    "seconds": 30,
+    "elapsedSeconds": 9.45643600000767,
+    "secondsPerFrame": 0.01576072666667945,
+    "status": "completed",
+    "returncode": 0
+  },
+  {
+    "method": "reference",
+    "seconds": 30,
+    "elapsedSeconds": 8.377000541018788,
+    "secondsPerFrame": 0.013961667568364646,
+    "status": "completed",
+    "returncode": 0
+  },
+  {
+    "method": "native",
+    "seconds": 600,
+    "elapsedSeconds": 180.64469466696028,
+    "secondsPerFrame": 0.015053724555580022,
+    "status": "timeout",
+    "returncode": -15
+  },
+  {
+    "method": "reference",
+    "seconds": 600,
+    "elapsedSeconds": 175.58599266700912,
+    "secondsPerFrame": 0.014632166055584093,
+    "status": "completed",
+    "returncode": 0
+  }
+]

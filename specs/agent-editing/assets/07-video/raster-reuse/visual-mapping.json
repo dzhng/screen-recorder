@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "scenario": "audio-replacement",
+    "frames": 32
+  },
+  {
+    "id": 2,
+    "scenario": "av-replacement",
+    "frames": 32
+  },
+  {
+    "id": 3,
+    "scenario": "empty-edit",
+    "frames": 25
+  },
+  {
+    "id": 4,
+    "scenario": "empty-edit-preview",
+    "frames": 14
+  },
+  {
+    "id": 5,
+    "scenario": "held-frame",
+    "frames": 10
+  },
+  {
+    "id": 6,
+    "scenario": "leading-partial-picture",
+    "frames": 2
+  },
+  {
+    "id": 7,
+    "scenario": "nonzero-preview",
+    "frames": 21
+  },
+  {
+    "id": 8,
+    "scenario": "raster-reuse-transitions",
+    "frames": 18
+  },
+  {
+    "id": 9,
+    "scenario": "repeat-reorder",
+    "frames": 35
+  },
+  {
+    "id": 10,
+    "scenario": "retimed-picture",
+    "frames": 20
+  },
+  {
+    "id": 11,
+    "scenario": "selected-second-stream",
+    "frames": 10
+  },
+  {
+    "id": 12,
+    "scenario": "sparse-forward-cuts",
+    "frames": 10
+  },
+  {
+    "id": 13,
+    "scenario": "sparse-forward-retime",
+    "frames": 10
+  },
+  {
+    "id": 14,
+    "scenario": "subframe-source",
+    "frames": 10
+  },
+  {
+    "id": 15,
+    "scenario": "vfr-held-tail",
+    "frames": 40
+  }
+]

@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "sha256": "e2746838817cf15dce9fbacbfd0d7051fb60818aec336003cde8e6e4e2c62f8f",
-    "bytes": 5476
+    "sha256": "f620d57fe86abd86b19abe32d90952372e3b904c5e93991b5eb4b51dbb631e6f",
+    "bytes": 5633
   },
   {
     "path": "cancellation.json",
@@ -308,6 +308,341 @@
     "path": "profile-parity.json",
     "sha256": "184d83a0aca7141be83c6be86870634fe8e1c4079c491e70477195871e096b75",
     "bytes": 1576
+  },
+  {
+    "path": "raster-reuse/README.md",
+    "sha256": "b2189830029c4cdd199457c307fd65157f27d32f85b1fccc47cd0e66620d0492",
+    "bytes": 4255
+  },
+  {
+    "path": "raster-reuse/after.json",
+    "sha256": "7a15a9a8eb655164add67f49b54e2a7a8c7f233a9ae50e62ee24bd7e345c84b8",
+    "bytes": 556
+  },
+  {
+    "path": "raster-reuse/before.json",
+    "sha256": "c2e554e22da1883256ed6ce0cafb297645637e88e1f8671e72cb51a8841a3e60",
+    "bytes": 1119
+  },
+  {
+    "path": "raster-reuse/disabled-reuse-red.json",
+    "sha256": "110c5326fbe8ec3bcc42c0c2ef524f672b3420b0b843e96d7f221a622ac09078",
+    "bytes": 356
+  },
+  {
+    "path": "raster-reuse/native-measurement.json",
+    "sha256": "56a249a6d9c7db90e3af299844e6da775d9bada57f588e627c0727fa532ff3ec",
+    "bytes": 21819
+  },
+  {
+    "path": "raster-reuse/native-sample.txt",
+    "sha256": "6204db114257091df74bb9a7477273ffba558546cf2c8078012d56440d9b97a3",
+    "bytes": 282588
+  },
+  {
+    "path": "raster-reuse/pixel-preservation.json",
+    "sha256": "d7a1cf76e926ff6ffff38ef4e67fe1797624c2f977fc1cff57327b7785871f5d",
+    "bytes": 1319
+  },
+  {
+    "path": "raster-reuse/reference-measurement.json",
+    "sha256": "67194021c6be3392bde5315f272afa3a1df31982a2be59331cda7a0cee401ecd",
+    "bytes": 21238
+  },
+  {
+    "path": "raster-reuse/reference-sample.txt",
+    "sha256": "19a698920fa0dc1cfd74375de77775c8f0d9e007f75731ab91da229f76692ffc",
+    "bytes": 283414
+  },
+  {
+    "path": "raster-reuse/reuse-measurement.json",
+    "sha256": "28bc4d953474c15ccd78d6b56369bdaf97414be63e24ba0ee2f4e35457a3a79d",
+    "bytes": 13135
+  },
+  {
+    "path": "raster-reuse/reuse-sample.txt",
+    "sha256": "6e8413429c7725a5a119c888314b25824a940dac1c35ff7dcb93c9809d8fd48a",
+    "bytes": 260879
+  },
+  {
+    "path": "raster-reuse/reuse-stdout.txt",
+    "sha256": "2fec22dfcaf0feac69a9d84799ce4d6a3a9baf684a849d5aafb24e2b7188012e",
+    "bytes": 383
+  },
+  {
+    "path": "raster-reuse/transition/frames.jsonl",
+    "sha256": "322fb3fbeb9b7a60f6ecbf4872a0211a7ddfbbc642a9c086c9d1ea1135773967",
+    "bytes": 3934
+  },
+  {
+    "path": "raster-reuse/transition/manifest.json",
+    "sha256": "54a5f4a59baf331441bc74e9a856f8cc805dc0155bac87ee5dd1410657d86eae",
+    "bytes": 3780
+  },
+  {
+    "path": "raster-reuse/transition/request.json",
+    "sha256": "fe1cc6629ebb297308261beb133c61db545eb3b9a9061b8e4417e4e6c188c064",
+    "bytes": 2688
+  },
+  {
+    "path": "raster-reuse/transition/shots/001.png",
+    "sha256": "fd9daed8a9f458bd497442a4ebd2932730195fd90e63615a160d7c4af080d585",
+    "bytes": 2388
+  },
+  {
+    "path": "raster-reuse/transition/shots/002.png",
+    "sha256": "54b4306dddf29079cca6ab31d93b07d7fc5e5e503ab6a7c56228bde3285d6c86",
+    "bytes": 2294
+  },
+  {
+    "path": "raster-reuse/transition/shots/003.png",
+    "sha256": "4de854577246dc5c512f28c65ab40610fccf7796e6c574661f0115cab4da555e",
+    "bytes": 2301
+  },
+  {
+    "path": "raster-reuse/transition/shots/004.png",
+    "sha256": "1633bdf04251042312e1c2ccf377bd398c88b1d723d1e4f81e9ecef4c2d431a6",
+    "bytes": 502
+  },
+  {
+    "path": "raster-reuse/transition/shots/005.png",
+    "sha256": "1633bdf04251042312e1c2ccf377bd398c88b1d723d1e4f81e9ecef4c2d431a6",
+    "bytes": 502
+  },
+  {
+    "path": "raster-reuse/transition/shots/006.png",
+    "sha256": "1633bdf04251042312e1c2ccf377bd398c88b1d723d1e4f81e9ecef4c2d431a6",
+    "bytes": 502
+  },
+  {
+    "path": "raster-reuse/transition/shots/007.png",
+    "sha256": "9a4995105b91691a67897790a2f46e09f4ff1a3aa214c37312b14674f7fd3a9c",
+    "bytes": 2341
+  },
+  {
+    "path": "raster-reuse/transition/shots/008.png",
+    "sha256": "453093fa5373ac569e453ca3707d42cf0b6f50ee745b76f37fdc2c6af0e51382",
+    "bytes": 2445
+  },
+  {
+    "path": "raster-reuse/transition/shots/009.png",
+    "sha256": "e477364dcde5965290daeea43590d22e95e7c00b6eb7270df316aa4cd2ca5ddf",
+    "bytes": 2486
+  },
+  {
+    "path": "raster-reuse/transition/shots/010.png",
+    "sha256": "ecb45026a6d6885649e341a9605f0f4f724a4f0432d1fa71c83eca78805bb256",
+    "bytes": 2541
+  },
+  {
+    "path": "raster-reuse/transition/shots/011.png",
+    "sha256": "a8067a1858eff327b8c6319fc53384685b80e0c7178baed486e1af9efee06194",
+    "bytes": 2440
+  },
+  {
+    "path": "raster-reuse/transition/shots/012.png",
+    "sha256": "3e6999287933ac4a587e3597619b04185b3f8644ed16a669d2c8986dd115147d",
+    "bytes": 2418
+  },
+  {
+    "path": "raster-reuse/transition/shots/013.png",
+    "sha256": "bc412eda41ac3bc51251387485b77d7244ed405503e0bd8e3299028ef0ef72a9",
+    "bytes": 2419
+  },
+  {
+    "path": "raster-reuse/transition/shots/014.png",
+    "sha256": "32de32f3c8abafbcba2ce27af64d091e5af152d6a33786c3ec5c223dc3ba360b",
+    "bytes": 2231
+  },
+  {
+    "path": "raster-reuse/transition/shots/015.png",
+    "sha256": "32de32f3c8abafbcba2ce27af64d091e5af152d6a33786c3ec5c223dc3ba360b",
+    "bytes": 2231
+  },
+  {
+    "path": "raster-reuse/transition/shots/016.png",
+    "sha256": "8b5f547737d87860ac69e874a3c308d0a4cb860675bf3ac8b061fe176087fab2",
+    "bytes": 2589
+  },
+  {
+    "path": "raster-reuse/transition/shots/017.png",
+    "sha256": "2d4efce9a3d762c3894b4a42a8d06b1ab6cf6698fc19f5eeb227f581a09acd52",
+    "bytes": 2514
+  },
+  {
+    "path": "raster-reuse/transition/shots/018.png",
+    "sha256": "6a8dc033d32ad88be05a909f720e7d9be8d189cb6f9d1c4b86f1839497d36043",
+    "bytes": 2457
+  },
+  {
+    "path": "raster-reuse/transition/video.mp4",
+    "sha256": "5e0913f2cfa4c1a51ffe5316c7bf6996d11e8fbca3a6bdd69e68f215f3bdd206",
+    "bytes": 4595
+  },
+  {
+    "path": "raster-reuse/verification.json",
+    "sha256": "30a017f29a32f568c540008d5a5934be566f7025ea381ba171b4a83808cecd24",
+    "bytes": 17444
+  },
+  {
+    "path": "raster-reuse/visual/01-counter.png",
+    "sha256": "dfa5aa350bd1185eb69d95b214a226834ac34f06d981d6f9f47974a4e9f3b02c",
+    "bytes": 30459
+  },
+  {
+    "path": "raster-reuse/visual/01-full.png",
+    "sha256": "8731ad0702f94884ce07fc276bf695485cd0165f07ea7142035fd186015f2d46",
+    "bytes": 39815
+  },
+  {
+    "path": "raster-reuse/visual/02-counter.png",
+    "sha256": "874932232d97e2ea1e277d447dcc1d8154ce4fd1305d28dac1acaa96f9d74b2b",
+    "bytes": 36554
+  },
+  {
+    "path": "raster-reuse/visual/02-full.png",
+    "sha256": "59983f9fb6904252115bf2b56f19871fceac243541170d6c4b19d937a499135f",
+    "bytes": 42901
+  },
+  {
+    "path": "raster-reuse/visual/03-counter.png",
+    "sha256": "71f416da70038ba6d355d74137c936915ceb697486078850406be1c31fc6137f",
+    "bytes": 20772
+  },
+  {
+    "path": "raster-reuse/visual/03-full.png",
+    "sha256": "edd59641ce585b439d61c246e49eb6906a5ac0f1702f017abf85efc1bf64fb2b",
+    "bytes": 24489
+  },
+  {
+    "path": "raster-reuse/visual/04-counter.png",
+    "sha256": "dd43b8c3084dd3f951660ef09715f120d0a81fd19a0740aac6a7a410377191d3",
+    "bytes": 7430
+  },
+  {
+    "path": "raster-reuse/visual/04-full.png",
+    "sha256": "90d94c3efc7a76085ea369f45f287fe0f57d80886e747ffaee83a6b8ae195229",
+    "bytes": 8872
+  },
+  {
+    "path": "raster-reuse/visual/05-counter.png",
+    "sha256": "250aa8e2926d8847f31facc9b2d5c7685fdc593023360fa1b13e56950a54abe8",
+    "bytes": 8171
+  },
+  {
+    "path": "raster-reuse/visual/05-full.png",
+    "sha256": "8383ffaec53166e7fb46abeedacf5bb4b81067fb03cd29750f75e1f1d83b8dd2",
+    "bytes": 10798
+  },
+  {
+    "path": "raster-reuse/visual/06-counter.png",
+    "sha256": "d752b5e4d5ad454ff6edf526c320f7d72471c5a1e66cb6d0687435010e9783ad",
+    "bytes": 3181
+  },
+  {
+    "path": "raster-reuse/visual/06-full.png",
+    "sha256": "9884b51a89b4d9afda78386730fb1dced1a9b9c802b96bfd24b278a666beab1d",
+    "bytes": 3334
+  },
+  {
+    "path": "raster-reuse/visual/07-counter.png",
+    "sha256": "ead4fd3598bb7d2a1f78d83e27f0b1c293ccaf46f4f0e78f488bbc2622d56221",
+    "bytes": 23990
+  },
+  {
+    "path": "raster-reuse/visual/07-full.png",
+    "sha256": "ca88f7459d51eeb8c467f8ac33179aaafad288f24383ae62893483b25d89df4e",
+    "bytes": 26427
+  },
+  {
+    "path": "raster-reuse/visual/08-counter.png",
+    "sha256": "f456fa2140910dbe6de9ed137945abdb1aea0e1a347bbef5f567027b9b9a15c3",
+    "bytes": 22873
+  },
+  {
+    "path": "raster-reuse/visual/08-full.png",
+    "sha256": "1cf12e61df6784a1b585218bcf129a0b44a2e9fb58c4c90f47babc79019ddbf5",
+    "bytes": 25730
+  },
+  {
+    "path": "raster-reuse/visual/09-counter.png",
+    "sha256": "57b0da894d81210ebeab157636605e838b0e068aff0f5458d2a43701b104f8b3",
+    "bytes": 36846
+  },
+  {
+    "path": "raster-reuse/visual/09-full.png",
+    "sha256": "e1b9b4126ab0c52aae39b157b9cf538765193c18a3b5f6d557ec10dc29af25ad",
+    "bytes": 41720
+  },
+  {
+    "path": "raster-reuse/visual/10-counter.png",
+    "sha256": "e8a8d0a0ac6184349b83a75394b89ba59c2bb9d9734f8b444c184d9a9ab86d47",
+    "bytes": 14842
+  },
+  {
+    "path": "raster-reuse/visual/10-full.png",
+    "sha256": "b4e5a445c1d959634a1afc72e9cb6869ca29c675c65366c237c1506e96633b03",
+    "bytes": 18826
+  },
+  {
+    "path": "raster-reuse/visual/11-counter.png",
+    "sha256": "aabf7d62004704764b3ffeb3aeafeba43864536a680b778beb30ade215460fb5",
+    "bytes": 13937
+  },
+  {
+    "path": "raster-reuse/visual/11-full.png",
+    "sha256": "348d9ef4ceb04d141a856d695c652e3c600ea0c7396398ae7c5378885de16df3",
+    "bytes": 13802
+  },
+  {
+    "path": "raster-reuse/visual/12-counter.png",
+    "sha256": "c1688831887226bdae53c3b79223302a249381031266096b21494321f7412039",
+    "bytes": 11369
+  },
+  {
+    "path": "raster-reuse/visual/12-full.png",
+    "sha256": "54acbbb27f6d7f414717ce9cb9eb86dfaef4f22e0217af1a1fa70f761b81183d",
+    "bytes": 14851
+  },
+  {
+    "path": "raster-reuse/visual/13-counter.png",
+    "sha256": "5cb74e3359fa7e25c081d7116fc387610f2b0661425aaf8c34d343c69be18295",
+    "bytes": 9158
+  },
+  {
+    "path": "raster-reuse/visual/13-full.png",
+    "sha256": "04dacacd3cdbfaf53488400c262fdcc1e2c16a20992eade027bd9a816cd82593",
+    "bytes": 11482
+  },
+  {
+    "path": "raster-reuse/visual/14-counter.png",
+    "sha256": "da7b7c4ace23cae0e009e9896d351e0919eae40876ef8ae4a45656cf80de4a24",
+    "bytes": 10590
+  },
+  {
+    "path": "raster-reuse/visual/14-full.png",
+    "sha256": "2d0d0b38634227c0588b26ddbf90010cd49fae7a632bd59aca76a5b257e67760",
+    "bytes": 13628
+  },
+  {
+    "path": "raster-reuse/visual/15-counter.png",
+    "sha256": "cd2c6bc01b5a41efe43ea0a1583979d23c5401685f001c4919c6eb4dc37495ac",
+    "bytes": 33555
+  },
+  {
+    "path": "raster-reuse/visual/15-full.png",
+    "sha256": "bb2cdb983304bb949341f87764d815ac5f007f4e23654561df09f4e2d21b5894",
+    "bytes": 44174
+  },
+  {
+    "path": "raster-reuse/visual-inspections.json",
+    "sha256": "1af0558cfe0575f07115379c8c20fa0168932c07f575cca48e970d2b90d1c0c4",
+    "bytes": 703
+  },
+  {
+    "path": "raster-reuse/visual-mapping.json",
+    "sha256": "7cdbfb5492c7dfa450a3cef212476dd5e85001972cbc872c26b5a4802a24b5bf",
+    "bytes": 1142
   },
   {
     "path": "resource-run.json",

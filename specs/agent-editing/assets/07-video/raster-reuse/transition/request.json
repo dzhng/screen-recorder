@@ -1,0 +1,134 @@
+{
+  "output": "/tmp/screenrec-video-reuse/raster-reuse-transitions/video.mp4",
+  "frames": "/tmp/screenrec-video-reuse/raster-reuse-transitions/frames.jsonl",
+  "range": {
+    "startUs": 0,
+    "endUs": 900000
+  },
+  "canvas": {
+    "width": 160,
+    "height": 128,
+    "fps": {
+      "numerator": 20,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "profile": "h264-rec709",
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "a"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "a-after-gap"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "b-same-time"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "stream-a"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "stream-b"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "a"
+        },
+        {
+          "kind": "clip",
+          "id": "a-after-gap"
+        },
+        {
+          "kind": "clip",
+          "id": "b-same-time"
+        },
+        {
+          "kind": "clip",
+          "id": "stream-a"
+        },
+        {
+          "kind": "clip",
+          "id": "stream-b"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "tagged-a.mov",
+      "streamId": "track:1",
+      "path": "/private/tmp/screenrec-video-execution/specs/agent-editing/assets/06-platform-temporal/tagged-a.mov",
+      "originUs": 0
+    },
+    {
+      "assetId": "tagged-b.mov",
+      "streamId": "track:1",
+      "path": "/private/tmp/screenrec-video-execution/specs/agent-editing/assets/06-platform-temporal/tagged-b.mov",
+      "originUs": 0
+    },
+    {
+      "assetId": "two-streams.mov",
+      "streamId": "track:1",
+      "path": "/tmp/screenrec-video-reuse/two-streams.mov",
+      "originUs": 0
+    },
+    {
+      "assetId": "two-streams.mov",
+      "streamId": "track:2",
+      "path": "/tmp/screenrec-video-reuse/two-streams.mov",
+      "originUs": 0
+    }
+  ]
+}

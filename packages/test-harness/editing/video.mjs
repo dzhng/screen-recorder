@@ -307,6 +307,37 @@ scenarios.push({
   },
   expected: { frameIDsOnFullProjectGrid: repeated(["B0", 4], ["B1", 4], ["B2", 2]) },
 });
+scenarios.push({
+  name: "raster-reuse-transitions",
+  original: {
+    pictures: [
+      picture("a", "tagged-a.mov", 0, 150000, 0, 150000),
+      picture("a-after-gap", "tagged-a.mov", 0, 150000, 300000, 450000),
+      picture("b-same-time", "tagged-b.mov", 0, 150000, 450000, 600000),
+      {
+        ...picture("stream-a", multi, 0, 150000, 600000, 750000),
+        localFile: multi,
+        streamId: multiProbe.data.streams[0].id,
+      },
+      {
+        ...picture("stream-b", multi, 0, 150000, 750000, 900000),
+        localFile: multi,
+        streamId: multiProbe.data.streams[1].id,
+      },
+    ],
+    range: { startUs: 0, endUs: 900000 },
+  },
+  expected: {
+    frameIDsOnFullProjectGrid: repeated(
+      ["A0", 3],
+      ["black", 3],
+      ["A0", 3],
+      ["B0", 3],
+      ["A0", 3],
+      ["B0", 3],
+    ),
+  },
+});
 const distant = join(out, "distant-source.mov");
 ff([
   "-stream_loop",
@@ -347,6 +378,7 @@ for (const { name, original, expected, fps } of scenarios) {
   await save(join(directory, "request.json"), request);
   const response = call("media.renderCompositionVideo", request);
   assert.equal(response.ok, true, `${name}: ${JSON.stringify(response)}`);
+  if (name === "raster-reuse-transitions") assert.equal(response.data.rasterizedFrames, 6);
   if (name.startsWith("sparse-forward"))
     assert.ok(
       response.data.decodedSamples < 100,
@@ -564,6 +596,7 @@ if (!args.includes("--temporal-only")) {
     assert.equal(response.ok, true, JSON.stringify(response));
     assert.equal(response.data.readerOpens, 1);
     assert.equal(response.data.decodedSamples, 1);
+    assert.equal(response.data.rasterizedFrames, 1);
     assert.equal(response.data.frames, seconds * 20);
     const counted = JSON.parse(
       run("ffprobe", [

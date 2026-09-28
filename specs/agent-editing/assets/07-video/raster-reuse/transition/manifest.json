@@ -1,0 +1,213 @@
+{
+  "revisionId": "fixture",
+  "range": {
+    "startUs": 0,
+    "endUs": 900000
+  },
+  "rendition": {
+    "sampleRate": 48000,
+    "channels": 2
+  },
+  "tap": {
+    "target": {
+      "kind": "output"
+    },
+    "point": {
+      "kind": "processed"
+    }
+  },
+  "canvas": {
+    "width": 160,
+    "height": 128,
+    "fps": {
+      "numerator": 20,
+      "denominator": 1
+    },
+    "background": "#000000ff"
+  },
+  "mediaKind": "output",
+  "sources": [
+    {
+      "clipId": "a",
+      "assetId": "tagged-a.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 150000
+        }
+      },
+      "placement": {
+        "startUs": 0,
+        "endUs": 150000
+      }
+    },
+    {
+      "clipId": "a-after-gap",
+      "assetId": "tagged-a.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 150000
+        }
+      },
+      "placement": {
+        "startUs": 300000,
+        "endUs": 450000
+      }
+    },
+    {
+      "clipId": "b-same-time",
+      "assetId": "tagged-b.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 150000
+        }
+      },
+      "placement": {
+        "startUs": 450000,
+        "endUs": 600000
+      }
+    },
+    {
+      "clipId": "stream-a",
+      "assetId": "two-streams.mov",
+      "streamId": "track:1",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 150000
+        }
+      },
+      "placement": {
+        "startUs": 600000,
+        "endUs": 750000
+      }
+    },
+    {
+      "clipId": "stream-b",
+      "assetId": "two-streams.mov",
+      "streamId": "track:2",
+      "source": {
+        "kind": "range",
+        "range": {
+          "startUs": 0,
+          "endUs": 150000
+        }
+      },
+      "placement": {
+        "startUs": 750000,
+        "endUs": 900000
+      }
+    }
+  ],
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "a"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "a-after-gap"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "b-same-time"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "stream-a"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "clip",
+        "id": "stream-b"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "video"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "a"
+        },
+        {
+          "kind": "clip",
+          "id": "a-after-gap"
+        },
+        {
+          "kind": "clip",
+          "id": "b-same-time"
+        },
+        {
+          "kind": "clip",
+          "id": "stream-a"
+        },
+        {
+          "kind": "clip",
+          "id": "stream-b"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "video"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "requirements": [
+    {
+      "kind": "executor",
+      "mediaKind": "audio",
+      "implementationId": null
+    },
+    {
+      "kind": "executor",
+      "mediaKind": "video",
+      "implementationId": null
+    }
+  ]
+}

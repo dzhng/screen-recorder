@@ -1,0 +1,72 @@
+[
+  {
+    "scenario": "audio-replacement",
+    "frames": 32,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "av-replacement",
+    "frames": 32,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "empty-edit",
+    "frames": 25,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "empty-edit-preview",
+    "frames": 14,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "held-frame",
+    "frames": 10,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "leading-partial-picture",
+    "frames": 2,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "nonzero-preview",
+    "frames": 21,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "repeat-reorder",
+    "frames": 35,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "retimed-picture",
+    "frames": 20,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "selected-second-stream",
+    "frames": 10,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "sparse-forward-cuts",
+    "frames": 10,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "sparse-forward-retime",
+    "frames": 10,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "subframe-source",
+    "frames": 10,
+    "equalDecodedPixels": true
+  },
+  {
+    "scenario": "vfr-held-tail",
+    "frames": 40,
+    "equalDecodedPixels": true
+  }
+]

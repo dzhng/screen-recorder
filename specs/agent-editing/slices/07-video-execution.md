@@ -1,6 +1,6 @@
 # 07 — Execute video plans
 
-Status: native functional checkpoint verified: 14 decoded temporal cases, source-color and boundary refusals, exact matched-profile parity, existing-renderer preservation, cancellation and fresh visual review pass. Independent code reviews are resolved. Earlier 12,000-frame bounded-memory evidence is retained, but the current full resource rerun exceeded its existing 180-second observation budget; slice remains open for that rerun. [Evidence](../assets/07-video/README.md). Dependencies: [02](./02-assets.md), [05](./05-compiler.md), [06](./06-render-reproduction.md).
+Status: native functional and resource checkpoint verified: 15 decoded temporal cases, source-color/boundary refusals, exact matched-profile parity, existing-renderer preservation and cancellation pass. Bounded immutable raster reuse removes repeated held-picture rendering; current 12,000-frame memory and unchanged 180-second deadline gates pass (separate follow-up 114.52s). Independent code review is resolved. Final fresh image-only review of all 30 sheets is resolved; prior 14 scenarios retain exact reviewed pixels. [Evidence](../assets/07-video/raster-reuse/README.md). Dependencies: [02](./02-assets.md), [05](./05-compiler.md), [06](./06-render-reproduction.md).
 
 ## Contract
 

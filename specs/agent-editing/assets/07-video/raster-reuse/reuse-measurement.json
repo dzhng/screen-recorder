@@ -1,0 +1,505 @@
+{
+  "method": "native",
+  "seconds": 600,
+  "elapsedSeconds": 114.5164460830274,
+  "secondsPerFrame": 0.009543037173585617,
+  "status": "completed",
+  "returncode": 0,
+  "observations": [
+    {
+      "elapsedSeconds": 0.02385100000537932,
+      "process": "0.3  11024   0:00.02 00:00",
+      "videoBytes": 0
+    },
+    {
+      "elapsedSeconds": 1.189286291017197,
+      "process": "15.4  28480   0:00.13 00:01",
+      "videoBytes": 0
+    },
+    {
+      "elapsedSeconds": 2.2053636659984477,
+      "process": "7.8  32576   0:00.21 00:02",
+      "videoBytes": 1250
+    },
+    {
+      "elapsedSeconds": 3.316949874977581,
+      "process": "11.9  32688   0:00.37 00:03",
+      "videoBytes": 5525
+    },
+    {
+      "elapsedSeconds": 4.386625249986537,
+      "process": "9.3  32736   0:00.52 00:04",
+      "videoBytes": 9609
+    },
+    {
+      "elapsedSeconds": 5.414572832989506,
+      "process": "12.9  32736   0:00.68 00:05",
+      "videoBytes": 14094
+    },
+    {
+      "elapsedSeconds": 6.468899958010297,
+      "process": "13.7  32640   0:00.82 00:07",
+      "videoBytes": 18103
+    },
+    {
+      "elapsedSeconds": 7.620319208013825,
+      "process": "13.8  32640   0:00.98 00:08",
+      "videoBytes": 22613
+    },
+    {
+      "elapsedSeconds": 8.663234375009779,
+      "process": "18.8  32672   0:01.14 00:09",
+      "videoBytes": 27653
+    },
+    {
+      "elapsedSeconds": 9.714157290989533,
+      "process": "23.1  32656   0:01.39 00:10",
+      "videoBytes": 34866
+    },
+    {
+      "elapsedSeconds": 10.809345666028094,
+      "process": "19.6  32656   0:01.54 00:11",
+      "videoBytes": 39176
+    },
+    {
+      "elapsedSeconds": 18.114782166027,
+      "process": "28.4  32832   0:03.05 00:18",
+      "videoBytes": 83986
+    },
+    {
+      "elapsedSeconds": 19.181125166011043,
+      "process": "16.0  32848   0:03.24 00:19",
+      "videoBytes": 89457
+    },
+    {
+      "elapsedSeconds": 20.32408791600028,
+      "process": "28.1  32880   0:03.55 00:20",
+      "videoBytes": 99238
+    },
+    {
+      "elapsedSeconds": 21.35927554097725,
+      "process": "21.7  32896   0:03.87 00:21",
+      "videoBytes": 109118
+    },
+    {
+      "elapsedSeconds": 22.446939582994673,
+      "process": "11.3  32928   0:04.08 00:23",
+      "videoBytes": 115014
+    },
+    {
+      "elapsedSeconds": 23.55746291601099,
+      "process": "27.3  32928   0:04.36 00:24",
+      "videoBytes": 123333
+    },
+    {
+      "elapsedSeconds": 24.599982083018404,
+      "process": "19.4  32928   0:04.52 00:25",
+      "videoBytes": 126631
+    },
+    {
+      "elapsedSeconds": 25.661301041021943,
+      "process": "14.3  32960   0:04.69 00:26",
+      "videoBytes": 131702
+    },
+    {
+      "elapsedSeconds": 26.85025645798305,
+      "process": "21.8  32992   0:05.00 00:27",
+      "videoBytes": 140446
+    },
+    {
+      "elapsedSeconds": 28.007859166013077,
+      "process": "35.4  30256   0:05.26 00:28",
+      "videoBytes": 147729
+    },
+    {
+      "elapsedSeconds": 29.099876083026174,
+      "process": "19.3  30336   0:05.50 00:29",
+      "videoBytes": 154561
+    },
+    {
+      "elapsedSeconds": 30.275802624993958,
+      "process": "28.3  30336   0:05.80 00:30",
+      "videoBytes": 162880
+    },
+    {
+      "elapsedSeconds": 31.401592749985866,
+      "process": "29.2  30336   0:06.10 00:31",
+      "videoBytes": 171649
+    },
+    {
+      "elapsedSeconds": 32.46943375002593,
+      "process": "20.8  30336   0:06.40 00:33",
+      "videoBytes": 181105
+    },
+    {
+      "elapsedSeconds": 33.551477166009136,
+      "process": "39.8  30496   0:06.73 00:34",
+      "videoBytes": 191726
+    },
+    {
+      "elapsedSeconds": 34.6449685000116,
+      "process": "26.4  30560   0:07.00 00:35",
+      "videoBytes": 199059
+    },
+    {
+      "elapsedSeconds": 35.70685891597532,
+      "process": "38.4  30576   0:07.29 00:36",
+      "videoBytes": 207728
+    },
+    {
+      "elapsedSeconds": 36.73477933299728,
+      "process": "20.4  30560   0:07.50 00:37",
+      "videoBytes": 214198
+    },
+    {
+      "elapsedSeconds": 37.80213695799466,
+      "process": "15.9  30576   0:07.71 00:38",
+      "videoBytes": 219904
+    },
+    {
+      "elapsedSeconds": 38.8984338750015,
+      "process": "14.5  30560   0:07.88 00:39",
+      "videoBytes": 224391
+    },
+    {
+      "elapsedSeconds": 39.97532658302225,
+      "process": "14.1  30560   0:08.08 00:40",
+      "videoBytes": 230037
+    },
+    {
+      "elapsedSeconds": 41.07729741599178,
+      "process": "8.8  30560   0:08.22 00:41",
+      "videoBytes": 233135
+    },
+    {
+      "elapsedSeconds": 42.148351832991466,
+      "process": "16.7  30560   0:08.42 00:42",
+      "videoBytes": 238606
+    },
+    {
+      "elapsedSeconds": 43.180225750023965,
+      "process": "16.6  30560   0:08.60 00:43",
+      "videoBytes": 243115
+    },
+    {
+      "elapsedSeconds": 44.28952037502313,
+      "process": "14.9  30560   0:08.76 00:44",
+      "videoBytes": 247275
+    },
+    {
+      "elapsedSeconds": 45.409501207992435,
+      "process": "14.9  30560   0:08.95 00:46",
+      "videoBytes": 252796
+    },
+    {
+      "elapsedSeconds": 46.51543479098473,
+      "process": "19.5  30560   0:09.15 00:47",
+      "videoBytes": 258542
+    },
+    {
+      "elapsedSeconds": 47.61472108302405,
+      "process": "19.8  30560   0:09.39 00:48",
+      "videoBytes": 265474
+    },
+    {
+      "elapsedSeconds": 48.775051500007976,
+      "process": "21.0  30560   0:09.56 00:49",
+      "videoBytes": 269759
+    },
+    {
+      "elapsedSeconds": 49.81954658299219,
+      "process": "15.1  30560   0:09.72 00:50",
+      "videoBytes": 273993
+    },
+    {
+      "elapsedSeconds": 50.909423333010636,
+      "process": "17.9  30560   0:09.90 00:51",
+      "videoBytes": 279314
+    },
+    {
+      "elapsedSeconds": 52.04192616598448,
+      "process": "11.6  30560   0:10.04 00:52",
+      "videoBytes": 282362
+    },
+    {
+      "elapsedSeconds": 53.1265342910192,
+      "process": "14.9  30560   0:10.22 00:53",
+      "videoBytes": 286897
+    },
+    {
+      "elapsedSeconds": 54.22994591598399,
+      "process": "13.0  30560   0:10.40 00:54",
+      "videoBytes": 292168
+    },
+    {
+      "elapsedSeconds": 55.35610604099929,
+      "process": "11.7  30576   0:10.54 00:55",
+      "videoBytes": 296065
+    },
+    {
+      "elapsedSeconds": 56.443995791021734,
+      "process": "11.5  30576   0:10.69 00:57",
+      "videoBytes": 299350
+    },
+    {
+      "elapsedSeconds": 57.57195462501841,
+      "process": "12.7  30560   0:10.85 00:58",
+      "videoBytes": 303735
+    },
+    {
+      "elapsedSeconds": 58.73693125002319,
+      "process": "13.2  30560   0:11.03 00:59",
+      "videoBytes": 308881
+    },
+    {
+      "elapsedSeconds": 59.83614733302966,
+      "process": "12.8  30560   0:11.21 01:00",
+      "videoBytes": 313365
+    },
+    {
+      "elapsedSeconds": 60.918849166017026,
+      "process": "17.5  30560   0:11.45 01:01",
+      "videoBytes": 320148
+    },
+    {
+      "elapsedSeconds": 62.023518625006545,
+      "process": "20.7  30560   0:11.63 01:02",
+      "videoBytes": 324782
+    },
+    {
+      "elapsedSeconds": 63.096990249992814,
+      "process": "17.5  27808   0:11.83 01:03",
+      "videoBytes": 330019
+    },
+    {
+      "elapsedSeconds": 64.18214254098712,
+      "process": "10.7  27648   0:11.96 01:04",
+      "videoBytes": 333044
+    },
+    {
+      "elapsedSeconds": 65.24098916602088,
+      "process": "24.6  27584   0:12.18 01:05",
+      "videoBytes": 339927
+    },
+    {
+      "elapsedSeconds": 66.28041316597955,
+      "process": "16.5  27584   0:12.38 01:06",
+      "videoBytes": 345748
+    },
+    {
+      "elapsedSeconds": 67.4278086249833,
+      "process": "9.7  27584   0:12.57 01:08",
+      "videoBytes": 350357
+    },
+    {
+      "elapsedSeconds": 68.57260033302009,
+      "process": "14.6  27584   0:12.74 01:09",
+      "videoBytes": 354542
+    },
+    {
+      "elapsedSeconds": 69.7228487500106,
+      "process": "8.2  27504   0:12.84 01:10",
+      "videoBytes": 357453
+    },
+    {
+      "elapsedSeconds": 70.85034316597739,
+      "process": "7.5  27504   0:12.93 01:11",
+      "videoBytes": 359239
+    },
+    {
+      "elapsedSeconds": 71.9538945829845,
+      "process": "9.1  27504   0:13.07 01:12",
+      "videoBytes": 363049
+    },
+    {
+      "elapsedSeconds": 72.9944301660289,
+      "process": "18.2  27504   0:13.28 01:13",
+      "videoBytes": 368995
+    },
+    {
+      "elapsedSeconds": 74.14509633299895,
+      "process": "19.5  27504   0:13.52 01:14",
+      "videoBytes": 376102
+    },
+    {
+      "elapsedSeconds": 75.17492891597794,
+      "process": "22.8  27504   0:13.73 01:15",
+      "videoBytes": 382985
+    },
+    {
+      "elapsedSeconds": 76.2689029580215,
+      "process": "25.6  27520   0:14.01 01:16",
+      "videoBytes": 392378
+    },
+    {
+      "elapsedSeconds": 77.30878558300901,
+      "process": "9.9  27504   0:14.13 01:17",
+      "videoBytes": 395288
+    },
+    {
+      "elapsedSeconds": 78.3293959160219,
+      "process": "21.8  27568   0:14.37 01:19",
+      "videoBytes": 401359
+    },
+    {
+      "elapsedSeconds": 79.62058091600193,
+      "process": "18.0  27568   0:14.55 01:20",
+      "videoBytes": 407725
+    },
+    {
+      "elapsedSeconds": 80.7403008749825,
+      "process": "11.9  27568   0:14.71 01:21",
+      "videoBytes": 411985
+    },
+    {
+      "elapsedSeconds": 81.89046154101379,
+      "process": "14.5  27568   0:14.89 01:22",
+      "videoBytes": 416544
+    },
+    {
+      "elapsedSeconds": 82.97711483301828,
+      "process": "12.2  27600   0:15.04 01:23",
+      "videoBytes": 420429
+    },
+    {
+      "elapsedSeconds": 84.0465637909947,
+      "process": "15.0  27600   0:15.24 01:24",
+      "videoBytes": 425925
+    },
+    {
+      "elapsedSeconds": 85.10964295797748,
+      "process": "27.3  27600   0:15.46 01:25",
+      "videoBytes": 432071
+    },
+    {
+      "elapsedSeconds": 86.15144637500634,
+      "process": "22.6  27600   0:15.76 01:26",
+      "videoBytes": 441451
+    },
+    {
+      "elapsedSeconds": 87.17191433301196,
+      "process": "31.3  27600   0:16.04 01:27",
+      "videoBytes": 449109
+    },
+    {
+      "elapsedSeconds": 88.27699683298124,
+      "process": "16.0  27600   0:16.22 01:28",
+      "videoBytes": 454130
+    },
+    {
+      "elapsedSeconds": 89.3096240410232,
+      "process": "17.5  27616   0:16.36 01:29",
+      "videoBytes": 457253
+    },
+    {
+      "elapsedSeconds": 90.34317700000247,
+      "process": "22.2  27616   0:16.50 01:30",
+      "videoBytes": 461412
+    },
+    {
+      "elapsedSeconds": 91.40166666597361,
+      "process": "28.7  27616   0:16.78 01:31",
+      "videoBytes": 469981
+    },
+    {
+      "elapsedSeconds": 92.49234995798906,
+      "process": "13.3  27616   0:16.90 01:33",
+      "videoBytes": 472929
+    },
+    {
+      "elapsedSeconds": 93.5283527909778,
+      "process": "16.6  27616   0:17.10 01:34",
+      "videoBytes": 478750
+    },
+    {
+      "elapsedSeconds": 94.56580754101742,
+      "process": "21.1  27616   0:17.32 01:35",
+      "videoBytes": 485658
+    },
+    {
+      "elapsedSeconds": 95.62470658298116,
+      "process": "20.1  27616   0:17.50 01:36",
+      "videoBytes": 490979
+    },
+    {
+      "elapsedSeconds": 96.6480795830139,
+      "process": "15.5  27616   0:17.70 01:37",
+      "videoBytes": 497861
+    },
+    {
+      "elapsedSeconds": 97.66390358301578,
+      "process": "15.5  27616   0:17.92 01:38",
+      "videoBytes": 504157
+    },
+    {
+      "elapsedSeconds": 98.83774925000034,
+      "process": "6.8  27616   0:18.05 01:39",
+      "videoBytes": 507817
+    },
+    {
+      "elapsedSeconds": 99.95231825002702,
+      "process": "15.3  27616   0:18.21 01:40",
+      "videoBytes": 512126
+    },
+    {
+      "elapsedSeconds": 101.06856533302926,
+      "process": "8.0  27600   0:18.32 01:41",
+      "videoBytes": 514013
+    },
+    {
+      "elapsedSeconds": 102.19322866603034,
+      "process": "6.2  27584   0:18.48 01:43",
+      "videoBytes": 518047
+    },
+    {
+      "elapsedSeconds": 103.6504579160246,
+      "process": "8.9  27584   0:18.62 01:44",
+      "videoBytes": 522282
+    },
+    {
+      "elapsedSeconds": 104.74387733300682,
+      "process": "11.0  27584   0:18.79 01:45",
+      "videoBytes": 527398
+    },
+    {
+      "elapsedSeconds": 105.84387441602303,
+      "process": "15.2  27584   0:18.92 01:46",
+      "videoBytes": 531283
+    },
+    {
+      "elapsedSeconds": 106.97281958302483,
+      "process": "10.9  27584   0:19.04 01:47",
+      "videoBytes": 534156
+    },
+    {
+      "elapsedSeconds": 108.01643358299043,
+      "process": "17.0  27632   0:19.21 01:48",
+      "videoBytes": 538565
+    },
+    {
+      "elapsedSeconds": 109.09643520799,
+      "process": "16.6  27632   0:19.37 01:49",
+      "videoBytes": 542550
+    },
+    {
+      "elapsedSeconds": 110.16427254100563,
+      "process": "17.0  27632   0:19.62 01:50",
+      "videoBytes": 549582
+    },
+    {
+      "elapsedSeconds": 111.31812495802296,
+      "process": "17.7  27632   0:19.82 01:51",
+      "videoBytes": 554417
+    },
+    {
+      "elapsedSeconds": 112.3558399999747,
+      "process": "17.0  27632   0:20.07 01:52",
+      "videoBytes": 562230
+    },
+    {
+      "elapsedSeconds": 113.4363887499785,
+      "process": "13.8  27616   0:20.25 01:54",
+      "videoBytes": 566870
+    }
+  ]
+}

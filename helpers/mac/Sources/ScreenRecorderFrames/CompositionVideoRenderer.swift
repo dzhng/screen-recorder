@@ -41,6 +41,10 @@ public enum CompositionVideoRenderer {
         let processing: [CompositionProcessing]
         public let assets: [CompositionAsset]
     }
+    private enum RasterKey: Equatable {
+        case background
+        case picture(reader: Int, sampleTime: CMTime)
+    }
     public struct Result: Encodable {
         let file: String
         let mediaType = "video/mp4"
@@ -49,6 +53,7 @@ public enum CompositionVideoRenderer {
         let width: Int
         let height: Int
         let frames: Int
+        let rasterizedFrames: Int
         let decodedSamples: Int
         let readerOpens: Int
         let bytes: Int
@@ -145,6 +150,8 @@ public enum CompositionVideoRenderer {
         var frames = 0
         var decoded = 0
         var opens = 0
+        var rasterized = 0
+        var retainedRaster: (key: RasterKey, buffer: CVPixelBuffer)?
         while let frame = try nextFrame() {
             try Task.checkCancellation()
             guard frame.index >= 0, frame.index <= TimeSpan.maximumMicroseconds,
@@ -159,6 +166,7 @@ public enum CompositionVideoRenderer {
                 throw unsupported("Layer composition is not implemented.")
             }
             var image = background
+            var rasterKey = RasterKey.background
             if let layer = frame.layers.first {
                 guard layer.sourceUs >= 0, layer.sourceUs <= TimeSpan.maximumMicroseconds,
                     layer.placement == "contain"
@@ -193,19 +201,27 @@ public enum CompositionVideoRenderer {
                         "UNAVAILABLE", "Compiled source availability is not proven.")
                 }
                 if let buffer = selected.buffer {
-                    image = contained(buffer, transform: source!.transform, canvas: canvas)
-                        .composited(
-                            over: background)
+                    guard let sampleTime = selected.sampleTime else {
+                        throw invalid("Selected picture has no physical sample time.")
+                    }
+                    rasterKey = .picture(reader: opens, sampleTime: sampleTime)
+                    if retainedRaster?.key != rasterKey {
+                        image = contained(buffer, transform: source!.transform, canvas: canvas)
+                            .composited(over: background)
+                    }
                 }
             }
             let deadline = ContinuousClock.now.advanced(by: .seconds(10))
             var destination: CVPixelBuffer?
+            let reused = retainedRaster?.key == rasterKey
             while destination == nil {
                 try Task.checkCancellation()
                 guard writer.status == .writing, ContinuousClock.now < deadline else {
                     throw NativeFailure.decodeFailed("Video writer stopped making progress.")
                 }
-                if video.isReadyForMoreMediaData, let pool = adaptor.pixelBufferPool {
+                if video.isReadyForMoreMediaData, reused {
+                    destination = retainedRaster!.buffer
+                } else if video.isReadyForMoreMediaData, let pool = adaptor.pixelBufferPool {
                     let status = CVPixelBufferPoolCreatePixelBufferWithAuxAttributes(
                         nil, pool,
                         [kCVPixelBufferPoolAllocationThresholdKey: 4] as CFDictionary, &destination)
@@ -216,23 +232,30 @@ public enum CompositionVideoRenderer {
                 }
                 if destination == nil { try await Task.sleep(for: .milliseconds(1)) }
             }
-            context.render(
-                image, to: destination!,
-                bounds: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height),
-                colorSpace: color)
-            CVBufferSetAttachment(
-                destination!, kCVImageBufferCGColorSpaceKey, color, .shouldPropagate)
-            CVBufferSetAttachment(
-                destination!, kCVImageBufferColorPrimariesKey,
-                kCVImageBufferColorPrimaries_ITU_R_709_2,
-                .shouldPropagate)
-            CVBufferSetAttachment(
-                destination!, kCVImageBufferTransferFunctionKey,
-                kCVImageBufferTransferFunction_ITU_R_709_2,
-                .shouldPropagate)
-            CVBufferSetAttachment(
-                destination!, kCVImageBufferYCbCrMatrixKey, kCVImageBufferYCbCrMatrix_ITU_R_709_2,
-                .shouldPropagate)
+            if !reused {
+                context.render(
+                    image, to: destination!,
+                    bounds: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height),
+                    colorSpace: color)
+                CVBufferSetAttachment(
+                    destination!, kCVImageBufferCGColorSpaceKey, color, .shouldPropagate)
+                CVBufferSetAttachment(
+                    destination!, kCVImageBufferColorPrimariesKey,
+                    kCVImageBufferColorPrimaries_ITU_R_709_2,
+                    .shouldPropagate)
+                CVBufferSetAttachment(
+                    destination!, kCVImageBufferTransferFunctionKey,
+                    kCVImageBufferTransferFunction_ITU_R_709_2,
+                    .shouldPropagate)
+                CVBufferSetAttachment(
+                    destination!, kCVImageBufferYCbCrMatrixKey,
+                    kCVImageBufferYCbCrMatrix_ITU_R_709_2,
+                    .shouldPropagate)
+                // Current supported visual inputs are static: one contained picture and canvas.
+                // Reuse only this immutable raster; every compiled interval still gets its own sample.
+                retainedRaster = (rasterKey, destination!)
+                rasterized += 1
+            }
             var format: CMVideoFormatDescription?
             var sample: CMSampleBuffer?
             var timing = CMSampleTimingInfo(
@@ -268,7 +291,8 @@ public enum CompositionVideoRenderer {
         let bytes = try output.publish()
         return Result(
             file: request.output, durationUs: through - request.range.startUs, width: canvas.width,
-            height: canvas.height, frames: frames, decodedSamples: decoded, readerOpens: opens,
+            height: canvas.height, frames: frames, rasterizedFrames: rasterized,
+            decodedSamples: decoded, readerOpens: opens,
             bytes: bytes)
     }
 
