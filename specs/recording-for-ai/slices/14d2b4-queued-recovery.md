@@ -6,7 +6,7 @@ package writing are delivered by [14d](14d-export-publication.md) and
 
 ## Recovery is work in the existing queue
 
-[RecordingExports](../../../apps/service/src/exports.ts) admits recovery-only jobs
+[MediaExports](../../../apps/service/src/exports.ts) admits recovery-only jobs
 through the same heavy lane as rendering, video export and transient package work.
 Startup and status do not open or hash publication files. The service calls the
 metadata-only admission pass after binding all owners and again on existing queue

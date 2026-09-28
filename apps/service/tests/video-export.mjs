@@ -37,7 +37,7 @@ import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { TranscriptStore } from "@screenrec/core/transcript";
 import { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import { Publication } from "../dist/publication.js";
-import { RecordingExports } from "../dist/exports.js";
+import { MediaExports } from "../dist/exports.js";
 import { RecordingDeletion } from "../dist/deletion.js";
 import { DerivativeDelivery } from "../dist/delivery.js";
 import { PackageInspection } from "../dist/packages.js";
@@ -153,7 +153,7 @@ async function fixture(
       if (recoverOnCapacity) recoveryErrors.push(...exports.resumeRecovery());
     },
     execute: (execution) =>
-      ["export-recording", "export-recovery"].includes(execution.job.artifact)
+      ["export-media", "export-recovery"].includes(execution.job.artifact)
         ? exports.execute(execution)
         : execution.job.artifact === "source-scenes"
           ? sceneOwner.execute(execution)
@@ -228,26 +228,33 @@ async function fixture(
     (recordingId, generation) => exports.retainsTranscript(recordingId, generation),
   );
   const files = new ManagedFiles(home, worker);
-  exports = new RecordingExports({
-    store,
+  exports = new MediaExports({
+    catalog: store,
     jobs,
     cache,
-    preview,
-    processing,
     worker,
     files,
-    package: {
-      scenes: sceneOwner,
-      index: indexOwner,
-      transcript: transcriptOwner,
-      source: evidence,
-      sceneEvidence,
-      indexEvidence,
-      transcriptEvidence,
+    recording: {
+      store,
+      preview,
+      processing,
+      files,
+      package: {
+        scenes: sceneOwner,
+        index: indexOwner,
+        transcript: transcriptOwner,
+        source: evidence,
+        sceneEvidence,
+        indexEvidence,
+        transcriptEvidence,
+      },
     },
   });
   const storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
-    exports.usage(recordingId, signal),
+    exports.usage(
+      recordingId === undefined ? undefined : { kind: "recording", recordingId },
+      signal,
+    ),
   );
   if (admission) jobs.startAdmission((job) => exports.admit(job));
   if (warm) processing.prepare(take.recordingId);
@@ -1189,7 +1196,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(
       f.jobs.status({
         target: { kind: "recording", recordingId: f.take.recordingId, revisionId: "r0" },
-        artifact: "export-recording",
+        artifact: "export-media",
         input: exportId,
       }).published,
       null,
@@ -1220,7 +1227,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(
       f.jobs.status({
         target: { kind: "recording", recordingId: f.take.recordingId, revisionId: "r0" },
-        artifact: "export-recording",
+        artifact: "export-media",
         input: exportId,
       }).published,
       null,
@@ -1570,7 +1577,7 @@ if (process.argv[2] === "crash-owner") {
     assert.equal(
       f.jobs.status({
         target: { kind: "recording", recordingId: f.take.recordingId, revisionId: "r0" },
-        artifact: "export-recording",
+        artifact: "export-media",
         input: exportId,
       }).published,
       null,

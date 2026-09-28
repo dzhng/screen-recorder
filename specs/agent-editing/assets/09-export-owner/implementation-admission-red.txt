@@ -1,0 +1,28 @@
+(node:74761) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ canceled export refuses missing old implementation after eviction (348.132625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 634.203375
+
+✖ failing tests:
+
+test at apps/service/tests/project-export.mjs:230:3
+✖ canceled export refuses missing old implementation after eviction (348.132625ms)
+  Error: This job cannot be retried
+      at file:///private/tmp/screenrec-project-exports/packages/core/dist/jobs.js:394:23
+      at Catalog.transaction (file:///private/tmp/screenrec-project-exports/packages/core/dist/catalog.js:44:28)
+      at JobQueue.retry (file:///private/tmp/screenrec-project-exports/packages/core/dist/jobs.js:384:36)
+      at MediaExports.retry (file:///private/tmp/screenrec-project-exports/apps/service/dist/exports.js:590:26)
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-project-exports/apps/service/tests/project-export.mjs:272:23)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    code: 'UNAVAILABLE',
+    details: { state: 'failed', reason: 'Pinned preview implementation is not available', errorCode: 'NOT_READY' },
+    retryable: false
+  }

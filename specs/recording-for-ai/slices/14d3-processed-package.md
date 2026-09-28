@@ -36,7 +36,7 @@ archive remains intact. Next pickup is the remaining parent acceptance gates.
 ## One lifecycle, two outputs
 
 Video and processed-package requests use one
-[RecordingExports owner](../../../apps/service/src/exports.ts), durable intent table
+[MediaExports owner](../../../apps/service/src/exports.ts), durable intent table
 and JobQueue. The kind belongs to request identity: replay preserves it and a
 changed-kind replay conflicts. Both producer dependencies are required composition;
 there is no development-only unsupported-package path or third export choice.

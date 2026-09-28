@@ -11,7 +11,7 @@ import { SceneEvidenceStore } from "@screenrec/core/scene-evidence";
 import { IndexProcessing } from "@screenrec/core/index-processing";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { PreviewInspection } from "@screenrec/core/preview";
-import { RecordingExports } from "../../service/dist/exports.js";
+import { MediaExports } from "../../service/dist/exports.js";
 import { ManagedFiles } from "../../service/dist/managed-files.js";
 import { mediaWorker } from "../../service/dist/worker.js";
 import { registerRelocationTest } from "./package-relocation.mjs";
@@ -32,7 +32,7 @@ async function exportFromLibrary({ store, home, recordingId, revisionId }) {
     targets: recordingJobTargets(store),
     providers: { newId: randomUUID },
     execute: (execution) => {
-      if (["export-recording", "export-recovery"].includes(execution.job.artifact))
+      if (["export-media", "export-recovery"].includes(execution.job.artifact))
         return exports.execute(execution);
       return {
         "source-evidence": processing,
@@ -79,15 +79,20 @@ async function exportFromLibrary({ store, home, recordingId, revisionId }) {
   preview = new PreviewInspection(store, jobs, cache, source, processing, home, (request, signal) =>
     run("media.renderMovie", request, signal),
   );
-  exports = new RecordingExports({
-    store,
+  const files = new ManagedFiles(home, worker);
+  exports = new MediaExports({
+    catalog: store,
     jobs,
     cache,
-    preview,
-    processing,
     worker,
-    files: new ManagedFiles(home, worker),
-    package: { source, scenes, index, sceneEvidence, indexEvidence },
+    files,
+    recording: {
+      store,
+      preview,
+      processing,
+      files,
+      package: { source, scenes, index, sceneEvidence, indexEvidence },
+    },
   });
   jobs.startAdmission((job) => exports.admit(job));
   try {
@@ -128,5 +133,5 @@ registerRelocationTest({
     return { ...result, productionPackageExport: true };
   },
   evidenceScope:
-    "Shared RecordingExports complete no-narration producer; relocated actual ZIP public CLI/MCP frames after original library removal; generated source with cursor/geometry/pause/scene/cut/system audio",
+    "Shared MediaExports complete no-narration producer; relocated actual ZIP public CLI/MCP frames after original library removal; generated source with cursor/geometry/pause/scene/cut/system audio",
 });

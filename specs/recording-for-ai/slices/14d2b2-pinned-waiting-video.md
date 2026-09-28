@@ -5,7 +5,7 @@ recovery sweep or menu capability is claimed.
 
 ## Pin intent before waiting, evidence before rendering
 
-[RecordingExports](../../../apps/service/src/exports.ts) pins revision and history
+[MediaExports](../../../apps/service/src/exports.ts) pins revision and history
 when the request arrives, before asynchronous destination validation or dependency
 waiting. Its deferred job requests the existing source and preview owners; neither
 polling nor repeated requests retries failed dependencies. The service must install

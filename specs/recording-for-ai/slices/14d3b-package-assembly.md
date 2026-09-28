@@ -8,7 +8,7 @@ transcript prerequisite; an absent engine never becomes no narration.
 
 ## One consumed lifecycle
 
-Use RecordingExports and its existing intent, deferred admission, recovery,
+Use MediaExports and its existing intent, deferred admission, recovery,
 cancellation, storage, abandonment and recording-deletion contracts. Pin source,
 scene and screenshot-index generations before dependent work can change the latest
 selection. Give IndexProcessing explicit pinned inputs and connect retention to the

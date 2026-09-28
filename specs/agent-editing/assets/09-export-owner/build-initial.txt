@@ -1,0 +1,124 @@
+$ turbo build
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/composition, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running build in 9 packages
+   • Remote caching disabled, using shared worktree cache
+
+@screenrec/composition:build: cache miss, executing 8ba017b3e7c6c27c
+@screenrec/workbench:build: cache hit, replaying logs 55795c27be9c09bf
+@screenrec/workbench:build: $ node --check server.mjs && node --check public/app.js
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/protocol:build: cache miss, executing 0cc17573020f0345
+@screenrec/core:build: cache miss, executing d291d9669ddf11fb
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:build: cache miss, executing 6f9d8aba730541bc
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/test-harness:build: cache miss, executing 402d2f2339a697f4
+@screenrec/service:build: cache miss, executing 71906562a0f43385
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/test-harness:build: $ tsc -p tsconfig.json
+@screenrec/cli:build: cache miss, executing ef9cf8f7a7fa2fd2
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/macos:build: cache bypass, force executing 3aaf7e908ad3af01
+@screenrec/macos:build: $ node ../../scripts/build-macos.mjs
+@screenrec/macos:build: Fetching https://github.com/FluidInference/FluidAudio.git from cache
+@screenrec/macos:build: Fetched https://github.com/FluidInference/FluidAudio.git from cache (0.48s)
+@screenrec/macos:build: Computing version for https://github.com/FluidInference/FluidAudio.git
+@screenrec/macos:build: Computed https://github.com/FluidInference/FluidAudio.git at 0.15.7 (1.14s)
+@screenrec/macos:build: Creating working copy for https://github.com/FluidInference/FluidAudio.git
+@screenrec/macos:build: Working copy of https://github.com/FluidInference/FluidAudio.git resolved at 0.15.7
+@screenrec/macos:build: Fetching binary artifact https://github.com/FluidInference/text-processing-rs/releases/download/v0.3.0/NemoTextProcessing.xcframework.zip from cache
+@screenrec/macos:build: Fetched https://github.com/FluidInference/text-processing-rs/releases/download/v0.3.0/NemoTextProcessing.xcframework.zip from cache (1.38s)
+@screenrec/macos:build: Building for production...
+@screenrec/macos:build: [0/33] Write sources
+@screenrec/macos:build: [14/33] Copying luxtts_en_us_g2p_aux.json
+@screenrec/macos:build: [14/33] Copying luxtts_en_us_lexicon.tsv.zz
+@screenrec/macos:build: [16/33] Write swift-version--1AB21518FC5DEDBE.txt
+@screenrec/macos:build: [17/34] Compiling MachTaskSelfWrapper MachTaskSelf.c
+@screenrec/macos:build: [18/34] Compiling FastClusterWrapper FastClusterWrapper.cpp
+@screenrec/macos:build: [20/35] Compiling ScreenRecorderMedia CompositionAsset.swift
+@screenrec/macos:build: [21/38] Compiling ScreenRecorderFrames CompositionVideoRenderer.swift
+@screenrec/macos:build: [22/39] Compiling ScreenRecorderAudio AudioExcerpts.swift
+@screenrec/macos:build: [23/41] Compiling ScreenRecorderCompositionAudioTests main.swift
+@screenrec/macos:build: [23/41] Write Objects.LinkFileList
+@screenrec/macos:build: [24/41] Linking ScreenRecorderCompositionAudioTests
+@screenrec/macos:build: [26/41] Compiling ScreenRecorderCapture CaptureClock.swift
+@screenrec/macos:build: [27/41] Compiling ScreenRecorderAudioTests FixtureAudio.swift
+@screenrec/macos:build: [27/41] Write Objects.LinkFileList
+@screenrec/macos:build: [28/41] Linking ScreenRecorderAudioTests
+@screenrec/macos:build: [30/41] Compiling ScreenRecorderFrameTests DescriptorLifetimeTests.swift
+@screenrec/macos:build: [30/41] Write Objects.LinkFileList
+@screenrec/macos:build: [31/41] Linking ScreenRecorderFrameTests
+@screenrec/macos:build: [33/41] Compiling FluidAudio CanaryConfig.swift
+@screenrec/macos:build: [34/42] Compiling ScreenRecorderSpeech NarrationTranscript.swift
+@screenrec/macos:build: [35/44] Compiling ScreenRecorderSpeechTests main.swift
+@screenrec/macos:build: [35/44] Write Objects.LinkFileList
+@screenrec/macos:build: [36/44] Linking ScreenRecorderSpeechTests
+@screenrec/macos:build: [38/44] Compiling ScreenRecorderWire ArchiveAssembly.swift
+@screenrec/macos:build: [39/47] Compiling ScreenRecorderNative ParentLifetime.swift
+@screenrec/macos:build: [39/47] Write Objects.LinkFileList
+@screenrec/macos:build: [41/47] Compiling ScreenRecorderCompositionVideoTests main.swift
+@screenrec/macos:build: [41/47] Write Objects.LinkFileList
+@screenrec/macos:build: [42/47] Linking screenrec-native
+@screenrec/macos:build: [43/47] Linking ScreenRecorderCompositionVideoTests
+@screenrec/macos:build: [45/47] Compiling ScreenRecorderCaptureTests CaptureClockTests.swift
+@screenrec/macos:build: [45/47] Write Objects.LinkFileList
+@screenrec/macos:build: [46/47] Linking ScreenRecorderCaptureTests
+@screenrec/macos:build: Build complete! (170.41s)
+@screenrec/macos:build: Fetching https://github.com/FluidInference/FluidAudio.git from cache
+@screenrec/macos:build: Fetched https://github.com/FluidInference/FluidAudio.git from cache (0.06s)
+@screenrec/macos:build: Creating working copy for https://github.com/FluidInference/FluidAudio.git
+@screenrec/macos:build: Working copy of https://github.com/FluidInference/FluidAudio.git resolved at 0.15.7
+@screenrec/macos:build: Fetching binary artifact https://github.com/FluidInference/text-processing-rs/releases/download/v0.3.0/NemoTextProcessing.xcframework.zip from cache
+@screenrec/macos:build: Fetched https://github.com/FluidInference/text-processing-rs/releases/download/v0.3.0/NemoTextProcessing.xcframework.zip from cache (1.82s)
+@screenrec/macos:build: Building for production...
+@screenrec/macos:build: [0/10] Write sources
+@screenrec/macos:build: [5/10] Write swift-version--1AB21518FC5DEDBE.txt
+@screenrec/macos:build: [7/12] Compiling ScreenRecorderControls ControlsMenu.swift
+@screenrec/macos:build: [8/13] Compiling ScreenRecorderControlsTests ExportTests.swift
+@screenrec/macos:build: [8/13] Write Objects.LinkFileList
+@screenrec/macos:build: [9/13] Linking ScreenRecorderControlsTests
+@screenrec/macos:build: [11/13] Compiling ScreenRecorderMedia CompositionAsset.swift
+@screenrec/macos:build: [12/14] Compiling ScreenRecorderCapture CaptureClock.swift
+@screenrec/macos:build: [13/15] Compiling ScreenRecorder CaptureController.swift
+@screenrec/macos:build: [13/15] Write Objects.LinkFileList
+@screenrec/macos:build: [14/15] Linking ScreenRecorder
+@screenrec/macos:build: Build complete! (81.09s)
+@screenrec/macos:build: 2 | import { RecordingExports } from "./exports.js";
+@screenrec/macos:build:              ^
+@screenrec/macos:build: error: No matching export in "../service/dist/exports.js" for import "RecordingExports"
+@screenrec/macos:build:     at /private/tmp/screenrec-project-exports/apps/service/dist/main.js:2:10
+@screenrec/macos:build: node:internal/errors:985
+@screenrec/macos:build:   const err = new Error(message);
+@screenrec/macos:build:               ^
+@screenrec/macos:build: 
+@screenrec/macos:build: Error: Command failed: bun build /private/tmp/screenrec-project-exports/apps/service/dist/main.js --target=node --outfile /private/tmp/screenrec-project-exports/dist/ScreenRecorder.app/Contents/Resources/service/main.mjs
+@screenrec/macos:build:     at genericNodeError (node:internal/errors:985:15)
+@screenrec/macos:build:     at wrappedFn (node:internal/errors:539:14)
+@screenrec/macos:build:     at checkExecSyncError (node:child_process:925:11)
+@screenrec/macos:build:     at execFileSync (node:child_process:961:15)
+@screenrec/macos:build:     at file:///private/tmp/screenrec-project-exports/scripts/build-macos.mjs:45:3
+@screenrec/macos:build:     at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+@screenrec/macos:build:     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+@screenrec/macos:build:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+@screenrec/macos:build:   status: 1,
+@screenrec/macos:build:   signal: null,
+@screenrec/macos:build:   output: [ null, null, null ],
+@screenrec/macos:build:   pid: 39576,
+@screenrec/macos:build:   stdout: null,
+@screenrec/macos:build:   stderr: null
+@screenrec/macos:build: }
+@screenrec/macos:build: 
+@screenrec/macos:build: Node.js v24.14.0
+@screenrec/macos:build: error: script "build" exited with code 1
+@screenrec/macos#build:  ERROR  command (/private/tmp/screenrec-project-exports/apps/macos) /Users/david/.bun/bin/bun run build exited (1)
+
+ Tasks:    8 successful, 9 total
+Cached:    1 cached, 9 total
+  Time:    4m16.825s 
+Failed:    @screenrec/macos#build
+
+ ERROR  run failed: command  exited (1)
+error: script "build" exited with code 1

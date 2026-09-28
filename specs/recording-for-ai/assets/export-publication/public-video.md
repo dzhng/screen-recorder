@@ -63,7 +63,7 @@ proof; the fresh build supplies the reported result.
 
 Independent Codex review reported the cache-startup ordering bug above. Its actual
 bundled regression goes red before the fix and green after it. Local shape review
-keeps all publication policy in RecordingExports/Publication, with thin shared
+keeps all publication policy in MediaExports/Publication, with thin shared
 operation dispatch and no new scheduler or export table. Documentation points to
 those owners, and the choices ledger records lifecycle and output-path semantics.
  This does not close physical menu interaction, power-loss durability,

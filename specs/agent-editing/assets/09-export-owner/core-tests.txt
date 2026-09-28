@@ -1,0 +1,16 @@
+$ vitest run --maxWorkers=4 src/project-preview.test.ts src/projects.test.ts src/cache-owners.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-exports/packages/core
+
+(node:86838) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:86837) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:86836) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  3 passed (3)
+      Tests  16 passed (16)
+   Start at  20:28:21
+   Duration  6.66s (tests 71%, transform 20%, import 9%)
+

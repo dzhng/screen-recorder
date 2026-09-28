@@ -20,6 +20,8 @@ export type ProjectPreviewInput = {
   projectId: string;
   revisionId?: string | undefined;
   range?: { startUs: number; endUs: number } | undefined;
+  /** Internal retained intent binding; public requests omit this field. */
+  implementationId?: string | undefined;
 };
 export type CompositionWindow = ReturnType<ReturnType<typeof createCompiler>["window"]>;
 export type CompositionAssetBinding = {
@@ -43,14 +45,14 @@ export type ProjectMovieRenderer = {
     signal: AbortSignal,
   ): Promise<CompositionMovie>;
 };
-export type ProjectPreviewArtifact = CompositionMovie & {
+export type PinnedProjectPreview = {
   projectId: string;
   revisionId: string;
   range: { startUs: number; endUs: number };
   profile: "h264-rec709";
   implementationId: string;
-  cacheId: string;
 };
+export type ProjectPreviewArtifact = CompositionMovie & PinnedProjectPreview & { cacheId: string };
 const optionsSchema = z
   .object({
     range: rangeSchema,
@@ -78,12 +80,23 @@ export class ProjectPreviewInspection {
     return processingCapabilities(this.processors);
   }
 
-  request(input: ProjectPreviewInput) {
+  pin(input: ProjectPreviewInput): PinnedProjectPreview {
+    if (input.implementationId !== undefined) this.requireImplementation(input.implementationId);
     const plan = this.plan(input);
-    const options = {
+    return {
+      projectId: input.projectId,
+      revisionId: plan.window.manifest.revisionId,
       range: plan.window.manifest.range,
-      profile: "h264-rec709" as const,
+      profile: "h264-rec709",
       implementationId: this.renderer.implementationId,
+    };
+  }
+  request(input: ProjectPreviewInput) {
+    const pinned = this.pin(input);
+    const options = {
+      range: pinned.range,
+      profile: pinned.profile,
+      implementationId: pinned.implementationId,
     };
     const status = submitCachedDerivative<ProjectPreviewArtifact>(
       this.jobs,
@@ -92,7 +105,7 @@ export class ProjectPreviewInspection {
         target: {
           kind: "project",
           projectId: input.projectId,
-          revisionId: plan.window.manifest.revisionId,
+          revisionId: pinned.revisionId,
         },
         artifact: "preview",
         input: JSON.stringify(options),
@@ -101,7 +114,7 @@ export class ProjectPreviewInspection {
     );
     return {
       projectId: input.projectId,
-      revisionId: plan.window.manifest.revisionId,
+      revisionId: pinned.revisionId,
       range: options.range,
       state: status.state,
       reason: status.reason,
@@ -121,6 +134,16 @@ export class ProjectPreviewInspection {
       revisionId: current.revisionId,
       range: current.range,
     });
+  }
+
+  private requireImplementation(implementationId: string) {
+    if (implementationId !== this.renderer.implementationId)
+      throw new CatalogError(
+        "NOT_READY",
+        "Pinned preview implementation is not available",
+        { implementationId },
+        true,
+      );
   }
 
   private plan(input: ProjectPreviewInput) {
@@ -175,13 +198,9 @@ export class ProjectPreviewInspection {
 
   async execute({ job, signal }: JobExecution): Promise<string> {
     const options = optionsSchema.safeParse(JSON.parse(job.input));
-    if (
-      job.target.kind !== "project" ||
-      job.artifact !== "preview" ||
-      !options.success ||
-      options.data.implementationId !== this.renderer.implementationId
-    )
+    if (job.target.kind !== "project" || job.artifact !== "preview" || !options.success)
       throw new CatalogError("UNSUPPORTED_JOB", "Composition preview cannot execute this job");
+    this.requireImplementation(options.data.implementationId);
     const plan = this.plan({
       projectId: job.target.projectId,
       revisionId: job.target.revisionId,

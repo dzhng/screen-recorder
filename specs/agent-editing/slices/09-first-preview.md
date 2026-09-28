@@ -1,6 +1,6 @@
 # 09 — First public preview and export
 
-Status: native assembly, core admission and [public preview](../assets/09-public-preview/README.md) are integrated through the existing owners. [Live rendered CLI/MCP journeys](../assets/09-first-preview/README.md) pass; durable project exports remain open. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
+Status: native assembly, core admission and [public preview](../assets/09-public-preview/README.md) are integrated through the existing owners. [Live rendered CLI/MCP journeys](../assets/09-first-preview/README.md) pass. [Shared export ownership](../assets/09-export-owner/README.md) is verified at the owner/native-publication boundary; public project export acceptance remains open. Dependencies: [04](./04-projects.md), [07](./07-video-execution.md), [08](./08-audio-mixing.md), [08a](./08a-derived-cache.md).
 
 ## Contract
 

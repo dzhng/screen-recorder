@@ -1,5 +1,5 @@
 import { LibraryTimelineInspection } from "./timeline-inspection.js";
-import { RecordingExports } from "./exports.js";
+import { MediaExports } from "./exports.js";
 import { PackageInspection } from "./packages.js";
 import { PreviewInspection } from "@screenrec/core/preview";
 import { clearRenderWorkspace, previewRenderer } from "./render.js";
@@ -83,7 +83,7 @@ async function main(): Promise<void> {
   let audio: LibraryAudioInspection;
   let preview: PreviewInspection;
   let files: ManagedFiles;
-  let exports: RecordingExports | undefined;
+  let exports: MediaExports | undefined;
   let delivery: DerivativeDelivery | undefined;
   let cache: DerivedCache;
   let storage: RecordingStorage | undefined;
@@ -117,7 +117,10 @@ async function main(): Promise<void> {
     evidence = new SourceEvidenceStore(store);
     cache = new DerivedCache(store, home, recordingCacheOwnerCheck(store));
     storage = new RecordingStorage(store, cache, home, (recordingId, signal) =>
-      exports!.usage(recordingId, signal),
+      exports!.usage(
+        recordingId === undefined ? undefined : { kind: "recording", recordingId },
+        signal,
+      ),
     );
     cacheReady = cache.reconcile(cleanupLifetime.signal).catch((error) => {
       cacheFailure = error;
@@ -133,7 +136,7 @@ async function main(): Promise<void> {
         if (execution.job.artifact === "export-recovery") return exports!.execute(execution);
         if (execution.job.artifact === "transcript") return transcripts.execute(execution);
         if (
-          execution.job.artifact === "export-recording" ||
+          execution.job.artifact === "export-media" ||
           execution.job.artifact === "frame" ||
           execution.job.artifact === "audio" ||
           execution.job.artifact === "preview" ||
@@ -142,7 +145,7 @@ async function main(): Promise<void> {
         ) {
           await cacheReady;
           if (cacheFailure) throw cacheFailure;
-          if (execution.job.artifact === "export-recording") return exports!.execute(execution);
+          if (execution.job.artifact === "export-media") return exports!.execute(execution);
           if (execution.job.artifact === "preview") return preview.execute(execution);
           if (execution.job.artifact === "source-scenes") return scenes.execute(execution);
           if (execution.job.artifact === "screenshot-index") return index.execute(execution);
@@ -254,22 +257,26 @@ async function main(): Promise<void> {
       previewRenderer(worker, renderWorkspace, evidence),
     );
     files = new ManagedFiles(home, worker);
-    exports = new RecordingExports({
-      store,
+    exports = new MediaExports({
+      catalog: store,
       jobs,
       cache,
-      preview,
-      processing,
       worker,
       files,
-      package: {
-        source: evidence,
-        scenes,
-        index,
-        transcript: transcripts,
-        sceneEvidence,
-        indexEvidence,
-        transcriptEvidence: transcriptStore,
+      recording: {
+        store,
+        preview,
+        processing,
+        files,
+        package: {
+          source: evidence,
+          scenes,
+          index,
+          transcript: transcripts,
+          sceneEvidence,
+          indexEvidence,
+          transcriptEvidence: transcriptStore,
+        },
       },
     });
     void cacheReady.then(() => {

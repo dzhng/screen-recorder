@@ -1,0 +1,121 @@
+(node:52135) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ export discovery pages pinned summaries without admitting work and binds cursor filters (288.032ms)
+(node:52157) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ explicit recovery refreshes a negative observation when the same committed file returns (377.888666ms)
+✔ abandonment drains and forgets recovery identities without touching neighboring intents (359.910125ms)
+(node:52205) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ canceling recovery keeps its lane until close and preserves an actually observed commit (384.725625ms)
+✔ publication uses its known-byte budget instead of the worker's unrelated short default (528.987584ms)
+✖ startup admission is bounded and capacity events discover the remaining recovery backlog (2427.483417ms)
+✔ recovery failures are isolated and explicit retry observes absence without publishing (1052.475125ms)
+✔ an acknowledged export leaves only its file and never needs the destination again (286.497708ms)
+✔ recording deletion needs no removed, moved or replaced export destination (445.522208ms)
+✔ a lost staging retirement after commit is confirmed absent by explicit recovery (318.989666ms)
+(node:52671) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ startup recovery waits for the shared heavy lane and ignores failed source dependencies (388.430416ms)
+✔ late commit releases source evidence but abandonment capacity waits for confirmed retirement (321.049666ms)
+✔ failed abandonment keeps its fence and pins until verified staging can retire (307.17625ms)
+(node:52787) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ abandonment resumes after actual process death following private retirement (397.599042ms)
+✔ abandonment fences retries and recording deletion joins its drain after external commit (318.035166ms)
+✔ abandonment releases a failed export without deleting its recording or external collision (378.807916ms)
+✔ failed source readiness is reported without export polling retrying it (290.426625ms)
+✔ canceled intents keep exact-retry pins within a bounded uncommitted allowance (1079.596ms)
+✔ cache eviction after promotion returns the settled exporter to admission and rebuilds its pinned preview (476.203959ms)
+✔ canceled export retains its selected source through newer evidence cleanup and retry then releases it (469.542542ms)
+✔ waiting export pins revision before source readiness and admits dependencies without a lane (285.938167ms)
+✔ ready preview exports its pinned bytes and real recording deletion forgets private export metadata (327.694542ms)
+✔ a committed export remains authoritative when cancellation discards its late job result (263.185958ms)
+✔ deletion drains the exporter and its validated cache descriptor before removing private bytes (292.530917ms)
+(node:53207) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death between external commit and catalog acknowledgement reconciles without republishing (455.609833ms)
+✔ committed history survives external removal or replacement without silently exporting again (347.0015ms)
+✔ concurrent request replay shares one intent and conflicting reuse is rejected (348.580792ms)
+✔ lost retirement acknowledgement resumes real recording deletion after the staging directory is gone (412.460209ms)
+(node:53385) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death after catalog commit finishes private acknowledgement on recovery (511.201ms)
+(node:53402) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ actual owner death before staging identity registration leaves only an empty recoverable directory (440.092916ms)
+✔ canceled queued export retries its original revision after preview eviction and regeneration (549.166958ms)
+(node:53442) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ interrupted allocation refuses nonempty substituted staging and keeps deletion pending (451.679708ms)
+✔ managed source directories cannot be selected as allegedly external exports (294.940917ms)
+✔ native death during receipt writing leaves unprepared evidence that the same intent can retry (963.726875ms)
+✔ native death after canonical receipt publication retains that exact payload for retry (798.783833ms)
+✔ recording deletion removes a receipt interrupted before its canonical publication (909.276667ms)
+✔ one unsafe export staging entry does not prevent retiring independent intents of the same recording (462.970041ms)
+✔ an unreadable unrelated destination never prevents deleting owned private export data (400.903125ms)
+✔ storage totals include failed private exports and exclude the committed external movie (553.774208ms)
+✔ storage reconciles retired staging but rejects a substituted private directory (375.668375ms)
+✔ storage shutdown aborts and drains an export observation before catalog teardown (383.4815ms)
+✔ committed storage excludes the movie before acknowledgement and skips cleared destinations (428.625583ms)
+✔ abandonment drains in-flight destination admissions before confirming absence (79.574333ms)
+✔ export kind is persisted and incompatible replay cannot change video intent (316.3275ms)
+✔ complete no-narration package uses the shared intent and reopens independent retained evidence (1057.990958ms)
+✔ package request pins revision and source-scene generations across newer cleanup (1333.530625ms)
+✔ committed package retains counted private cleanup until explicit retry and never republishes (1163.074125ms)
+✔ narrated package pins its transcript and reopens with the library's transcript reads (1456.070209ms)
+✔ narrated package keeps its selected transcript generation across regeneration and cleanup (1312.067833ms)
+✔ narrated export fails retryably until models are prepared, then waits for transcription (1244.856958ms)
+✔ failed package scene prerequisite is not restarted by polling or export retry (1045.146042ms)
+✔ canceled package retains its exact index across regeneration and retries those bytes (2266.154375ms)
+(node:56014) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ package actual owner death at create retains recoverable workspace identity (1337.973958ms)
+(node:56095) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ package actual owner death at copy retains recoverable workspace identity (1458.278541ms)
+(node:56172) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ package actual owner death at write retains recoverable workspace identity (1336.441084ms)
+(node:56248) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ package actual owner death at commit retains recoverable workspace identity (1251.1125ms)
+(node:56335) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ package actual owner death at cleanup retains recoverable workspace identity (1149.223458ms)
+(node:56377) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ surviving package writer fences actual recording deletion after service SIGKILL (1261.783791ms)
+✔ package input locator substitution blocks publication and cleanup until owned identity returns (763.472584ms)
+✔ source changes during descriptor copy cannot produce a complete package (1033.172584ms)
+✔ normalized source payload must still match its pinned generation byte receipt (725.20525ms)
+✔ shutdown fences and drains export destination admission before catalog closure (28.659583ms)
+✖ bundled startup admits a persisted waiter only after its ready preview cache is reconciled (30003.249375ms)
+ℹ tests 63
+ℹ suites 0
+ℹ pass 61
+ℹ fail 1
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 133102.069666
+
+✖ failing tests:
+
+test at apps/service/tests/video-export.mjs:701:3
+✖ startup admission is bounded and capacity events discover the remaining recovery backlog (2427.483417ms)
+  Error: Cannot run /Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native: spawn /Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native ENOENT
+      at nativeResult (file:///private/tmp/screenrec-project-exports/apps/service/dist/worker.js:22:15)
+      at ManagedFiles.externalDirectory (file:///private/tmp/screenrec-project-exports/apps/service/dist/managed-files.js:28:30)
+      at async MediaExports.prepareIntent (file:///private/tmp/screenrec-project-exports/apps/service/dist/exports.js:454:26)
+      at async TestContext.<anonymous> (file:///private/tmp/screenrec-project-exports/apps/service/tests/video-export.mjs:707:7)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    code: 'MEDIA_WORKER_UNAVAILABLE',
+    details: {},
+    retryable: false
+  }
+
+test at apps/service/tests/video-export.mjs:3145:3
+✖ bundled startup admits a persisted waiter only after its ready preview cache is reconciled (30003.249375ms)
+  'test timed out after 30000ms'

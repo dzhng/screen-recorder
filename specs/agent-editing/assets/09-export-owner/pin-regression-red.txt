@@ -1,0 +1,52 @@
+(node:69267) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ canceled export refuses missing old implementation after eviction (242.289833ms)
+✖ an evicted admitted preview regenerates through the same dependency job before publishing (201.070333ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 527.900125
+
+✖ failing tests:
+
+test at apps/service/tests/project-export.mjs:230:3
+✖ canceled export refuses missing old implementation after eviction (242.289833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'committed'
+  - 'failed'
+  
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-project-exports/apps/service/tests/project-export.mjs:268:14)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'committed',
+    expected: 'failed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at apps/service/tests/project-export.mjs:287:1
+✖ an evicted admitted preview regenerates through the same dependency job before publishing (201.070333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '21ea05d6-fe3e-46f2-a8ee-028b86f8131c'
+  - 'e1c0f51b-150d-4b52-94aa-107822a18f82'
+  
+      at TestContext.<anonymous> (file:///private/tmp/screenrec-project-exports/apps/service/tests/project-export.mjs:320:10)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '21ea05d6-fe3e-46f2-a8ee-028b86f8131c',
+    expected: 'e1c0f51b-150d-4b52-94aa-107822a18f82',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

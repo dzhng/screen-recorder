@@ -5,7 +5,7 @@ in progress. [Queued startup recovery](14d2b4-queued-recovery.md) is implemented
 
 ## Durable fence, shared retirement
 
-[RecordingExports](../../../apps/service/src/exports.ts) marks an intent as abandoning
+[MediaExports](../../../apps/service/src/exports.ts) marks an intent as abandoning
 before awaiting anything. If destination validation is still running before an
 intent exists, the same retirement owner fences and drains those matching
 admissions before reporting absence. See the [admission race proof](../assets/export-publication/admission-abandon.md).

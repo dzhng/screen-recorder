@@ -1,0 +1,12 @@
+(node:65419) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ startup admission is bounded and capacity events discover the remaining recovery backlog (11058.185917ms)
+✔ bundled startup admits a persisted waiter only after its ready preview cache is reconciled (1986.273917ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13221.785917

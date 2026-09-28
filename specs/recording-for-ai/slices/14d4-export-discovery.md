@@ -6,7 +6,7 @@ abandon an unfinished export after a real bundled-service restart.
 
 Native application release requires rediscovery of persisted export IDs. A lost
 window or process must not hide a failed request, an unfinished export or private
-cleanup behind completed history. The existing RecordingExports owner provides a
+cleanup behind completed history. The existing MediaExports owner provides a
 read-only summary page; status remains the detailed lifecycle authority. Discovery
 never retries, admits, reconciles or recreates an intent.
 

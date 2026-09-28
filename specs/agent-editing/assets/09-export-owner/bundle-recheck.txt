@@ -1,0 +1,18 @@
+[0/1] Planning build
+Building for production...
+[0/8] Write swift-version--1AB21518FC5DEDBE.txt
+Build complete! (1.30s)
+[0/1] Planning build
+Building for production...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+Build complete! (0.42s)
+Bundled 196 modules in 27ms
+
+  main.mjs  1.29 MB  (entry point)
+
+Bundled 269 modules in 38ms
+
+  main.mjs  1.1 MB  (entry point)
+
+/private/tmp/screenrec-project-exports/dist/ScreenRecorder.app: replacing existing signature
+Built /private/tmp/screenrec-project-exports/dist/ScreenRecorder.app
