@@ -147,3 +147,8 @@ shares capture/physical support with composition. The [asset planner](../assets/
 [source reader](../assets/10b-source-transcript-read/README.md) and
 [service routing](../assets/10b-source-routing/README.md) are integrated. Actual
 native CLI/MCP and differing-mask preview acceptance is still in progress.
+
+The [product skill source-transcript check](../assets/10b-transcript-skill/README.md)
+uses a fresh agent against actual CLI/native inference. It verifies import, explicit
+stream selection, recognized words and source phrase search, with the fixture-path
+setup correction and listening limitation retained.

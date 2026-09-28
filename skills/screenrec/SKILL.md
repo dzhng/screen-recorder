@@ -59,8 +59,18 @@ on those clips. Omitting it uses physical file support. For synchronized placeme
 convert each asset timestamp back to capture time by subtracting that binding's
 `sourceToAssetOffsetUs`; do not independently zero every stream. Replacing media
 selects a new complete binding: omitted acquisition means physical support even
-when processing is kept. Source transcript reads for arbitrary assets remain
-unavailable until the connected service advertises and implements them.
+when processing is kept.
+
+For imported speech, select the returned `assetId` and audio `streamId` explicitly
+when requesting a source transcript; include `acquisitionId` only when you intend
+its capture gaps. These ranges are normalized file timestamps, not project time.
+Keep the complete returned cursor when paging or searching; changing selection or
+generation requires a fresh read. Reads can prepare transcription with ready local
+models but never download models. Inspect model readiness and use explicit model
+preparation when needed; diagnose failed/canceled work before explicit transcript
+retry. A source phrase cannot cross an inference segment. Source words do not yet
+identify every repeated or retimed occurrence in a managed project; use the
+advertised project evidence operations only when the connected service supports them.
 
 Read the target stack, then set its entire ordered list through `edit.apply`.
 Keep step IDs when changing order, settings or bypass; omit them when copying to

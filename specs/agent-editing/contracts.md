@@ -158,7 +158,7 @@ same unavailable intervals. Contexts retain raw provenance independently of dono
 projects. Split/trim/copy retain the binding; media replacement supplies a new
 binding, with omitted acquisition selecting physical support. Mismatched explicit
 bindings reject atomically. [10b](slices/10b-source-acquisition.md) owns adoption and
-this schema change; it is not claimed implemented by the current physical-only model.
+this schema change.
 
 `projectToSource` identifies all active visual/audio occurrences; `sourceToProject`
 returns all occurrences, with clip IDs. Source evidence remains source-scoped.
