@@ -1,0 +1,15 @@
+{
+  "setup": "Isolated harness worktree, root-built service/CLI/native explicitly supplied; setup symlinks excluded from commit",
+  "hashes": {
+    "apps/service/dist/project-service.js": "f6417810aa82d087170ddf840afdcbcda607eb632f1c49d7e93cab1afe8e906e",
+    "apps/service/dist/exports.js": "b17df0fb6ca7df13a2d83d5ae89b3da3c673f405a83b2fddf2546716d9496844",
+    "apps/service/dist/project-render.js": "805232906ebd6e8876a53a58da3c98df7d2747dbb9db4168b88de79ee4c5adfc",
+    "apps/service/dist/worker.js": "d34e4caa92a828ab4abdd0d97182b67be5155bdc2ce45dcffe1717a7655f4568",
+    "apps/cli/dist/main.js": "b5eea3cc28a4540af9b5d3429e5e7dd29f27addd29d12e04582ec465bca875e1",
+    "packages/protocol/dist/operations.js": "8263a63b82439ce9e2dc26f7974dff4627fa79a47060c330134fe17fc9316f74",
+    "packages/composition/dist/compiler.js": "8d05b8e615f0cb92c47d117f4fe1cafd462cb44c0cfb7b41c6d2a81251723917",
+    "packages/composition/dist/execution-window.js": "cbbea94060359acb91d6a06b234149578233a29da4e2f33834e707fb0f317098",
+    "packages/core/dist/project-preview.js": "92405b12500ab4b811fa43a41181a56f74c4544b50d82512151bc0c17a9835be",
+    "helpers/mac/.build/debug/screenrec-native": "fae5e9122b1805b6c03fad000c1c27db4705222763aecb02049f63e1826df655"
+  }
+}

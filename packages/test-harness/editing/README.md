@@ -33,5 +33,8 @@ decoded content. The tests prove repeatability with the installed toolchain.
 
 The [first-preview journey](first-preview.mjs) imports the retained corpus and
 exercises actual CLI/MCP delivery, independent replacements, processing routes,
-range phase and render lifecycle recovery. Its [evidence](../../../specs/agent-editing/assets/09-first-preview/README.md)
-separates decoded-media checks from visual review and pending export work.
+range phase and render lifecycle recovery. The shared [export journey](first-export.mjs)
+checks pinned publication and recovery through those same public transports.
+[Preview evidence](../../../specs/agent-editing/assets/09-first-preview/README.md)
+and [export evidence](../../../specs/agent-editing/assets/09-first-export/README.md)
+separate decoded-media checks, visual review and explicitly controlled faults.

@@ -9,6 +9,7 @@ import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { exportJourney } from "./first-export.mjs";
 import { cliReply } from "./first-preview-transport.mjs";
 import { mask, classify } from "./render-membership.mjs";
 import {
@@ -35,20 +36,25 @@ const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = {
   transport: "actual CLI child and MCP stdio",
   rendering: "production native worker",
-  scope: "preview-only; slice 09 export and final visual acceptance remain separate",
+  scope: "public project preview and video export; visual acceptance remains separate",
   passed: false,
-  pending: ["project export/publication journey", "fresh visual critique"],
+  pending: ["fresh visual critique"],
   checks: {},
   trace: [],
 };
 let service, socketPath, mcp, head, projectId;
 const serviceLog = [];
 const rendered = new Map();
+const faults = new Map();
 async function startService() {
   const deadline = performance.now() + 30000;
   for (;;) {
     service = fork(new URL("./first-preview-service.mjs", import.meta.url), [home], {
       stdio: ["ignore", "pipe", "pipe", "ipc"],
+    });
+    service.on("message", (message) => {
+      if (message.type === "fault.armed" || message.type === "fault.hit")
+        faults.set(`${message.id}/${message.type}`, message);
     });
     service.stdout.on("data", (bytes) => serviceLog.push(bytes.toString()));
     service.stderr.on("data", (bytes) => serviceLog.push(bytes.toString()));
@@ -86,6 +92,32 @@ async function startService() {
       stderr: "pipe",
     }),
   );
+}
+async function armFault(point) {
+  const id = `${point}-${faults.size}`;
+  service.send({ type: "fault.arm", id, point });
+  await poll(
+    () => faults.get(`${id}/fault.armed`) ?? {},
+    (value) => value.type === "fault.armed",
+    "arm publication barrier",
+  );
+  return () =>
+    poll(
+      () => faults.get(`${id}/fault.hit`) ?? {},
+      (value) => value.type === "fault.hit",
+      `observe ${point}`,
+    );
+}
+async function crashService() {
+  const exited = once(service, "exit");
+  service.kill("SIGKILL");
+  const [code, signal] = await exited;
+  assert.equal(code, null);
+  assert.equal(signal, "SIGKILL");
+  await mcp.close();
+  mcp = undefined;
+  await startService();
+  return { code, signal };
 }
 async function call(operation, params, { transport = "cli", output, error = false } = {}) {
   let response;
@@ -459,12 +491,7 @@ async function lifecycle(refs, fullAudio) {
     report.pending.push("render crash/recovery: job completed before running state was observable");
     return;
   }
-  const exited = once(service, "exit");
-  service.kill("SIGKILL");
-  await exited;
-  await mcp.close();
-  mcp = undefined;
-  await startService();
+  await crashService();
   const interrupted = await call("job.get", { jobId: crashing.jobId });
   assert.equal(interrupted.state, "failed");
   assert.equal(interrupted.errorCode, "JOB_INTERRUPTED");
@@ -734,6 +761,19 @@ try {
     removedA: assertTone(insertion.samples, 440, 0, 2),
   };
   await lifecycle(refs, insertion.samples);
+  report.checks.exports = {};
+  const exports = await exportJourney({
+    out,
+    projectId,
+    revisionId: head,
+    previewFile: insertedPreview.file,
+    armFault,
+    crashService,
+    evidence: report.checks.exports,
+    call,
+    poll,
+    advance: () => edit("advance-after-export", [gain({ kind: "output" }, 0.25)]),
+  });
   const tokenToRevoke = (await mcpPreview()).delivery.token;
   await call("project.delete", { projectId });
   assert.equal(
@@ -748,6 +788,7 @@ try {
   );
   for (const [name, digest] of Object.entries(originalHashes))
     assert.equal(hash(await readFile(join(corpus, name))), digest, `Original changed: ${name}`);
+  report.checks.externalAfterDeletion = await exports.afterDeletion();
   report.checks.deletionAndOriginals = originalHashes;
   for (const [name, result] of rendered) {
     const count =

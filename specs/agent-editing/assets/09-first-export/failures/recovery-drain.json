@@ -1,0 +1,1623 @@
+{
+  "transport": "actual CLI child and MCP stdio",
+  "rendering": "production native worker",
+  "scope": "preview-only; slice 09 export and final visual acceptance remain separate",
+  "passed": false,
+  "pending": [
+    "project export/publication journey",
+    "fresh visual critique"
+  ],
+  "checks": {
+    "baseline": {
+      "frames": [
+        {
+          "atUs": 0,
+          "projectUs": 0,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 100000,
+          "projectUs": 100000,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 200000,
+          "projectUs": 200000,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 300000,
+          "projectUs": 300000,
+          "id": "A1",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 400000,
+          "projectUs": 400000,
+          "id": "A1",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 500000,
+          "projectUs": 500000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 600000,
+          "projectUs": 600000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 700000,
+          "projectUs": 700000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 800000,
+          "projectUs": 800000,
+          "id": "A3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 900000,
+          "projectUs": 900000,
+          "id": "A3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1000000,
+          "projectUs": 1000000,
+          "id": "B0",
+          "differingPixels": 2
+        },
+        {
+          "atUs": 1100000,
+          "projectUs": 1100000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1200000,
+          "projectUs": 1200000,
+          "id": "B1",
+          "differingPixels": 6
+        },
+        {
+          "atUs": 1300000,
+          "projectUs": 1300000,
+          "id": "B1",
+          "differingPixels": 5
+        },
+        {
+          "atUs": 1400000,
+          "projectUs": 1400000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1500000,
+          "projectUs": 1500000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1600000,
+          "projectUs": 1600000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1700000,
+          "projectUs": 1700000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1800000,
+          "projectUs": 1800000,
+          "id": "B4",
+          "differingPixels": 3
+        },
+        {
+          "atUs": 1900000,
+          "projectUs": 1900000,
+          "id": "B4",
+          "differingPixels": 3
+        },
+        {
+          "atUs": 2000000,
+          "projectUs": 2000000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2100000,
+          "projectUs": 2100000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2200000,
+          "projectUs": 2200000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2300000,
+          "projectUs": 2300000,
+          "id": "A5",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2400000,
+          "projectUs": 2400000,
+          "id": "A5",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2500000,
+          "projectUs": 2500000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2600000,
+          "projectUs": 2600000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2700000,
+          "projectUs": 2700000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2800000,
+          "projectUs": 2800000,
+          "id": "A7",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2900000,
+          "projectUs": 2900000,
+          "id": "A7",
+          "differingPixels": 0
+        }
+      ],
+      "tones": [
+        0.12207986834704396,
+        0.12204094379497808,
+        0.12208690372460083
+      ],
+      "impulses": [
+        {
+          "expectedFrame": 24000,
+          "frame": 24000,
+          "peak": 0.7046040296554565
+        },
+        {
+          "expectedFrame": 72000,
+          "frame": 72000,
+          "peak": 0.7100393772125244
+        },
+        {
+          "expectedFrame": 120000,
+          "frame": 120000,
+          "peak": 0.7097007036209106
+        }
+      ]
+    },
+    "videoReplacement": {
+      "frames": [
+        {
+          "atUs": 0,
+          "projectUs": 0,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 100000,
+          "projectUs": 100000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 200000,
+          "projectUs": 200000,
+          "id": "B1",
+          "differingPixels": 12
+        },
+        {
+          "atUs": 300000,
+          "projectUs": 300000,
+          "id": "B1",
+          "differingPixels": 12
+        },
+        {
+          "atUs": 400000,
+          "projectUs": 400000,
+          "id": "B2",
+          "differingPixels": 7
+        },
+        {
+          "atUs": 500000,
+          "projectUs": 500000,
+          "id": "B2",
+          "differingPixels": 2
+        },
+        {
+          "atUs": 600000,
+          "projectUs": 600000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 700000,
+          "projectUs": 700000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 800000,
+          "projectUs": 800000,
+          "id": "B4",
+          "differingPixels": 3
+        },
+        {
+          "atUs": 900000,
+          "projectUs": 900000,
+          "id": "B4",
+          "differingPixels": 3
+        },
+        {
+          "atUs": 1000000,
+          "projectUs": 1000000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1100000,
+          "projectUs": 1100000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1200000,
+          "projectUs": 1200000,
+          "id": "B1",
+          "differingPixels": 4
+        },
+        {
+          "atUs": 1300000,
+          "projectUs": 1300000,
+          "id": "B1",
+          "differingPixels": 5
+        },
+        {
+          "atUs": 1400000,
+          "projectUs": 1400000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1500000,
+          "projectUs": 1500000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1600000,
+          "projectUs": 1600000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1700000,
+          "projectUs": 1700000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1800000,
+          "projectUs": 1800000,
+          "id": "B4",
+          "differingPixels": 1
+        },
+        {
+          "atUs": 1900000,
+          "projectUs": 1900000,
+          "id": "B4",
+          "differingPixels": 1
+        },
+        {
+          "atUs": 2000000,
+          "projectUs": 2000000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2100000,
+          "projectUs": 2100000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2200000,
+          "projectUs": 2200000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2300000,
+          "projectUs": 2300000,
+          "id": "A5",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2400000,
+          "projectUs": 2400000,
+          "id": "A5",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2500000,
+          "projectUs": 2500000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2600000,
+          "projectUs": 2600000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2700000,
+          "projectUs": 2700000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2800000,
+          "projectUs": 2800000,
+          "id": "A7",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2900000,
+          "projectUs": 2900000,
+          "id": "A7",
+          "differingPixels": 0
+        }
+      ],
+      "audioRmsDifference": 0
+    },
+    "audioReplacement": {
+      "removedA": [
+        0.00012406302548797623,
+        0.00013144262351011532,
+        0.0001248223567733077
+      ],
+      "tones": [
+        0.12206070183136199,
+        0.12205938389622709,
+        0.12195592205950312
+      ],
+      "frames": [
+        {
+          "atUs": 0,
+          "projectUs": 0,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 100000,
+          "projectUs": 100000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 200000,
+          "projectUs": 200000,
+          "id": "B1",
+          "differingPixels": 12
+        },
+        {
+          "atUs": 300000,
+          "projectUs": 300000,
+          "id": "B1",
+          "differingPixels": 12
+        },
+        {
+          "atUs": 400000,
+          "projectUs": 400000,
+          "id": "B2",
+          "differingPixels": 7
+        },
+        {
+          "atUs": 500000,
+          "projectUs": 500000,
+          "id": "B2",
+          "differingPixels": 2
+        },
+        {
+          "atUs": 600000,
+          "projectUs": 600000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 700000,
+          "projectUs": 700000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 800000,
+          "projectUs": 800000,
+          "id": "B4",
+          "differingPixels": 3
+        },
+        {
+          "atUs": 900000,
+          "projectUs": 900000,
+          "id": "B4",
+          "differingPixels": 3
+        },
+        {
+          "atUs": 1000000,
+          "projectUs": 1000000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1100000,
+          "projectUs": 1100000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1200000,
+          "projectUs": 1200000,
+          "id": "B1",
+          "differingPixels": 4
+        },
+        {
+          "atUs": 1300000,
+          "projectUs": 1300000,
+          "id": "B1",
+          "differingPixels": 5
+        },
+        {
+          "atUs": 1400000,
+          "projectUs": 1400000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1500000,
+          "projectUs": 1500000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1600000,
+          "projectUs": 1600000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1700000,
+          "projectUs": 1700000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1800000,
+          "projectUs": 1800000,
+          "id": "B4",
+          "differingPixels": 1
+        },
+        {
+          "atUs": 1900000,
+          "projectUs": 1900000,
+          "id": "B4",
+          "differingPixels": 1
+        },
+        {
+          "atUs": 2000000,
+          "projectUs": 2000000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2100000,
+          "projectUs": 2100000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2200000,
+          "projectUs": 2200000,
+          "id": "A4",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2300000,
+          "projectUs": 2300000,
+          "id": "A5",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2400000,
+          "projectUs": 2400000,
+          "id": "A5",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2500000,
+          "projectUs": 2500000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2600000,
+          "projectUs": 2600000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2700000,
+          "projectUs": 2700000,
+          "id": "A6",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2800000,
+          "projectUs": 2800000,
+          "id": "A7",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 2900000,
+          "projectUs": 2900000,
+          "id": "A7",
+          "differingPixels": 0
+        }
+      ]
+    },
+    "music": {
+      "protectedA": [
+        0.12205646604104595,
+        0.1220743347696848,
+        0.12203277554077434
+      ],
+      "explicitB": [
+        0.030506916319180122,
+        0.030510020444201126,
+        0.03049825698329887
+      ]
+    },
+    "undoAndHistorical": true,
+    "projectTimeRange": {
+      "impulses": [
+        {
+          "expectedFrame": 21600,
+          "frame": 21600,
+          "peak": 0.7115293145179749
+        },
+        {
+          "expectedFrame": 69600,
+          "frame": 69600,
+          "peak": 0.7095633745193481
+        }
+      ],
+      "frames": [
+        {
+          "atUs": 0,
+          "projectUs": 50001,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 49999,
+          "projectUs": 100000,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 149999,
+          "projectUs": 200000,
+          "id": "A0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 249999,
+          "projectUs": 300000,
+          "id": "A1",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 349999,
+          "projectUs": 400000,
+          "id": "A1",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 449999,
+          "projectUs": 500000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 549999,
+          "projectUs": 600000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 649999,
+          "projectUs": 700000,
+          "id": "A2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 749999,
+          "projectUs": 800000,
+          "id": "A3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 849999,
+          "projectUs": 900000,
+          "id": "A3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 949999,
+          "projectUs": 1000000,
+          "id": "B0",
+          "differingPixels": 2
+        },
+        {
+          "atUs": 1049999,
+          "projectUs": 1100000,
+          "id": "B0",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1149999,
+          "projectUs": 1200000,
+          "id": "B1",
+          "differingPixels": 6
+        },
+        {
+          "atUs": 1249999,
+          "projectUs": 1300000,
+          "id": "B1",
+          "differingPixels": 5
+        },
+        {
+          "atUs": 1349999,
+          "projectUs": 1400000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1449999,
+          "projectUs": 1500000,
+          "id": "B2",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1549999,
+          "projectUs": 1600000,
+          "id": "B3",
+          "differingPixels": 0
+        },
+        {
+          "atUs": 1649999,
+          "projectUs": 1700000,
+          "id": "B3",
+          "differingPixels": 0
+        }
+      ],
+      "audioInteriorRmsDifference": 0.0006762597894269574,
+      "rangeRgbMae": 0
+    },
+    "allGainScopes": {
+      "gains": [
+        0.8,
+        0.5,
+        0.75,
+        0.8,
+        0.5
+      ],
+      "tones": [
+        0.01465310801715686,
+        0.014653506911061176,
+        0.014643170240915104
+      ]
+    },
+    "processedTrackInsertion": {
+      "ownStack": [],
+      "retainedA": [
+        0.01465310801715686,
+        0.014653506911061176
+      ],
+      "newB": 0.018319792854989296,
+      "removedA": 0.000019186014300063587
+    },
+    "cancellation": {
+      "audio": {
+        "difference": 0.00013168044827184845,
+        "levels": [
+          0.014643367407945602,
+          0.018307441665901068,
+          7.99699777916769e-7
+        ],
+        "impulses": [
+          {
+            "expectedFrame": 19200,
+            "frame": 19200,
+            "peak": 0.07328042387962341
+          },
+          {
+            "expectedFrame": 67200,
+            "frame": 67200,
+            "peak": 0.07281053811311722
+          }
+        ]
+      },
+      "observedState": "running",
+      "unpublished": true,
+      "retryDecoded": true
+    },
+    "crashRecovery": {
+      "audio": {
+        "difference": 0.00012183543005256649,
+        "levels": [
+          0.014647946920724558,
+          0.01824204507948199,
+          5.814943758992618e-7
+        ],
+        "impulses": [
+          {
+            "expectedFrame": 9600,
+            "frame": 9600,
+            "peak": 0.07881945371627808
+          },
+          {
+            "expectedFrame": 57600,
+            "frame": 57600,
+            "peak": 0.07979302108287811
+          },
+          {
+            "expectedFrame": 93600,
+            "frame": 93600,
+            "peak": 0.10095256567001343
+          }
+        ]
+      },
+      "observedState": "running",
+      "signal": "SIGKILL",
+      "unpublished": true,
+      "retryDecoded": true
+    }
+  },
+  "trace": [
+    {
+      "transport": "cli",
+      "operation": "asset.import",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "transport": "mcp",
+      "operation": "asset.get",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "asset.import",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "transport": "mcp",
+      "operation": "asset.get",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "project.create",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "mcp",
+      "operation": "artifact.read",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_EXPIRED",
+        "message": "Derivative delivery has expired or closed",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3203caa2-3e81-4b02-a911-c4233482b836"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3203caa2-3e81-4b02-a911-c4233482b836"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3203caa2-3e81-4b02-a911-c4233482b836"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3203caa2-3e81-4b02-a911-c4233482b836"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "3203caa2-3e81-4b02-a911-c4233482b836"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3203caa2-3e81-4b02-a911-c4233482b836"
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "d926df00-ce51-4914-b2bb-2bd1bad96419"
+    },
+    {
+      "transport": "mcp",
+      "operation": "edit.undo",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "889fc382-5829-4334-88d0-89af9a3215a9"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "889fc382-5829-4334-88d0-89af9a3215a9"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "889fc382-5829-4334-88d0-89af9a3215a9"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "889fc382-5829-4334-88d0-89af9a3215a9"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "889fc382-5829-4334-88d0-89af9a3215a9"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "889fc382-5829-4334-88d0-89af9a3215a9"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "889fc382-5829-4334-88d0-89af9a3215a9"
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.restore",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "f4f78cb9-769f-40db-8493-8e7497bd6043"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "f4f78cb9-769f-40db-8493-8e7497bd6043"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "f4f78cb9-769f-40db-8493-8e7497bd6043"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "f4f78cb9-769f-40db-8493-8e7497bd6043"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "f4f78cb9-769f-40db-8493-8e7497bd6043"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "mcp",
+      "operation": "artifact.read",
+      "ok": true
+    },
+    {
+      "transport": "mcp",
+      "operation": "artifact.read",
+      "ok": true
+    },
+    {
+      "transport": "mcp",
+      "operation": "artifact.close",
+      "ok": true
+    },
+    {
+      "transport": "mcp",
+      "operation": "artifact.read",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_EXPIRED",
+        "message": "Derivative delivery has expired or closed",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "3203caa2-3e81-4b02-a911-c4233482b836"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "26232786-9453-4e4e-9d44-92cde43fb85d"
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.restore",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "acf80ebe-afc3-4faf-b87a-8a238f8aac29"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "acf80ebe-afc3-4faf-b87a-8a238f8aac29"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "acf80ebe-afc3-4faf-b87a-8a238f8aac29"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "acf80ebe-afc3-4faf-b87a-8a238f8aac29"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "acf80ebe-afc3-4faf-b87a-8a238f8aac29"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "acf80ebe-afc3-4faf-b87a-8a238f8aac29"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "acf80ebe-afc3-4faf-b87a-8a238f8aac29"
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": true
+    },
+    {
+      "transport": "mcp",
+      "operation": "processing.get",
+      "ok": true,
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "mcp",
+      "operation": "job.get",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "mcp",
+      "operation": "job.cancel",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "not_requested",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.retry",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "mcp",
+      "operation": "job.get",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "failed",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.retry",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "1a6011c3-bf52-4341-bc1c-8576b6bb8724"
+    },
+    {
+      "transport": "cli",
+      "operation": "export.create",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "edit.apply",
+      "ok": true
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.create",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.create",
+      "ok": false,
+      "error": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Export identity names a different request",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.status",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.list",
+      "ok": true
+    },
+    {
+      "transport": "cli",
+      "operation": "export.retry",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.create",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "export.cancel",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "transport": "cli",
+      "operation": "export.recover",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "transport": "cli",
+      "operation": "export.status",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.retry",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.status",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.status",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.status",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.create",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "export.status",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "job.get",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.recover",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.status",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.create",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "export.status",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "cli",
+      "operation": "export.cancel",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.recover",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.status",
+      "ok": true,
+      "state": "canceled"
+    }
+  ],
+  "channelParity": {
+    "baseline.mp4": 0,
+    "video-replaced.mp4": 0,
+    "audio-replaced.mp4": 0,
+    "undo.mp4": 0,
+    "music.mp4": 0,
+    "historical-video.mp4": 0,
+    "range.mp4": 0,
+    "all-scopes.mp4": 0,
+    "processed-track-insertion.mp4": 0,
+    "cancel-retry.mp4": 0,
+    "crash-retry.mp4": 0
+  },
+  "error": {
+    "name": "AssertionError",
+    "message": "commit after explicit retry: {\"exportId\":\"5d621a7b-1f8a-44bd-a810-dd470fae8469\",\"kind\":\"video\",\"state\":\"canceled\",\"abandoning\":false,\"cleanupPending\":true,\"recovery\":{\"state\":\"queued\",\"jobId\":\"24d4cda0-e7df-4aa2-9626-1bb3a0eaa83b\",\"reason\":null,\"retryable\":false,\"published\":null},\"projectId\":\"7262ddf1-1a67-47f2-aac6-3b4bb91e217b\",\"snapshot\":{\"projectId\":\"7262ddf1-1a67-47f2-aac6-3b4bb91e217b\",\"revisionId\":\"1a6011c3-bf52-4341-bc1c-8576b6bb8724\",\"range\":{\"startUs\":0,\"endUs\":3000000},\"profile\":\"h264-rec709\",\"implementationId\":\"native-composition-movie-v1\"},\"destination\":{\"directory\":\"/private/tmp/screenrec-first-export-live4/exports\",\"leaf\":\"cancel-after-commit.mp4\"},\"receipt\":null,\"output\":null,\"jobId\":\"92bdff14-696e-4d33-8e1b-792674a2b26b\",\"reason\":\"canceled\",\"retryable\":true}",
+    "stack": "AssertionError [ERR_ASSERTION]: commit after explicit retry: {\"exportId\":\"5d621a7b-1f8a-44bd-a810-dd470fae8469\",\"kind\":\"video\",\"state\":\"canceled\",\"abandoning\":false,\"cleanupPending\":true,\"recovery\":{\"state\":\"queued\",\"jobId\":\"24d4cda0-e7df-4aa2-9626-1bb3a0eaa83b\",\"reason\":null,\"retryable\":false,\"published\":null},\"projectId\":\"7262ddf1-1a67-47f2-aac6-3b4bb91e217b\",\"snapshot\":{\"projectId\":\"7262ddf1-1a67-47f2-aac6-3b4bb91e217b\",\"revisionId\":\"1a6011c3-bf52-4341-bc1c-8576b6bb8724\",\"range\":{\"startUs\":0,\"endUs\":3000000},\"profile\":\"h264-rec709\",\"implementationId\":\"native-composition-movie-v1\"},\"destination\":{\"directory\":\"/private/tmp/screenrec-first-export-live4/exports\",\"leaf\":\"cancel-after-commit.mp4\"},\"receipt\":null,\"output\":null,\"jobId\":\"92bdff14-696e-4d33-8e1b-792674a2b26b\",\"reason\":\"canceled\",\"retryable\":true}\n    at poll (file:///private/tmp/screenrec-composition-compiler/packages/test-harness/editing/first-preview.mjs:158:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async exportJourney (file:///private/tmp/screenrec-composition-compiler/packages/test-harness/editing/first-export.mjs:174:23)\n    at async file:///private/tmp/screenrec-composition-compiler/packages/test-harness/editing/first-preview.mjs:764:19"
+  },
+  "serviceExit": {
+    "code": 0,
+    "signal": null
+  }
+}

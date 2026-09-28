@@ -1,6 +1,46 @@
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
+import { mediaWorker } from "../../../apps/service/dist/worker.js";
+
+// One-shot fixture barriers control commit entry and reply timing. All bytes and publication
+// receipts come from the production native worker; ordinary requests pass through.
+const native = mediaWorker();
+let armed,
+  holding = false;
+process.on("message", (message) => {
+  if (message?.type === "fault.arm") {
+    if (armed || holding) throw new Error("A publication fault is already armed");
+    armed = message;
+    process.send({ type: "fault.armed", id: message.id });
+  }
+});
+async function hold(fault, signal, result) {
+  await new Promise((resolve) => {
+    const done = () => {
+      signal?.removeEventListener("abort", done);
+      holding = false;
+      resolve();
+    };
+    holding = true;
+    signal?.addEventListener("abort", done, { once: true });
+    process.send({ type: "fault.hit", id: fault.id, point: fault.point, result });
+    if (signal?.aborted) done();
+  });
+}
+const worker = async (operation, params, options) => {
+  const fault = operation === "publication.commit" ? armed : undefined;
+  if (!fault) return native(operation, params, options);
+  armed = undefined;
+  if (fault.point === "before-commit") await hold(fault, options?.signal);
+  const result = await native(operation, params, options);
+  if (fault.point === "after-commit") {
+    if (!result.ok || result.data?.state !== "committed")
+      throw new Error(`Expected real committed publication: ${JSON.stringify(result)}`);
+    await hold(fault, options?.signal, result);
+  }
+  return result;
+};
 try {
-  const service = await startProjectService({ home: process.argv[2] });
+  const service = await startProjectService({ home: process.argv[2], worker });
   let closing;
   const close = () =>
     (closing ??= (async () => {

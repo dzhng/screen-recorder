@@ -1,0 +1,116 @@
+[
+  {
+    "name": "all-scopes-contact.png",
+    "before": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "after": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "identical": true
+  },
+  {
+    "name": "audio-replaced-contact.png",
+    "before": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "after": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "identical": true
+  },
+  {
+    "name": "audio-replaced-frame-0-zoom.png",
+    "before": "8bb3a8285511958fb5c219d8fbbc8bdbbbaaa87f20be28b82661425087aaa140",
+    "after": "8bb3a8285511958fb5c219d8fbbc8bdbbbaaa87f20be28b82661425087aaa140",
+    "identical": true
+  },
+  {
+    "name": "baseline-contact.png",
+    "before": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "after": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "identical": true
+  },
+  {
+    "name": "baseline-frame-0-zoom.png",
+    "before": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "after": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "identical": true
+  },
+  {
+    "name": "baseline-frame-10-zoom.png",
+    "before": "ad193029f7a077f2b669b6844a17defd77e378edd5bf36afc1bad71e015236f2",
+    "after": "ad193029f7a077f2b669b6844a17defd77e378edd5bf36afc1bad71e015236f2",
+    "identical": true
+  },
+  {
+    "name": "baseline-frame-20-zoom.png",
+    "before": "8e05fe47c659cdba68c39b353e657a4128d03571bb11f06444125e4070f73ea2",
+    "after": "8e05fe47c659cdba68c39b353e657a4128d03571bb11f06444125e4070f73ea2",
+    "identical": true
+  },
+  {
+    "name": "cancel-retry-contact.png",
+    "before": "9d778fb75ef34a1e20429341e324daa8b4f3a43ac42d24fb74ee5f2476bdf031",
+    "after": "9d778fb75ef34a1e20429341e324daa8b4f3a43ac42d24fb74ee5f2476bdf031",
+    "identical": true
+  },
+  {
+    "name": "crash-retry-contact.png",
+    "before": "91a87361743f6deb97347568ac4947198a8b8cc2b9fc0c754131259bf7e18069",
+    "after": "91a87361743f6deb97347568ac4947198a8b8cc2b9fc0c754131259bf7e18069",
+    "identical": true
+  },
+  {
+    "name": "historical-video-contact.png",
+    "before": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "after": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "identical": true
+  },
+  {
+    "name": "music-contact.png",
+    "before": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "after": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "identical": true
+  },
+  {
+    "name": "music-frame-0-zoom.png",
+    "before": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "after": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "identical": true
+  },
+  {
+    "name": "processed-track-insertion-contact.png",
+    "before": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "after": "bf818a77299fd585c9818a5f5caf6731fc22229e7c89ceda8214c0fbff6c0b36",
+    "identical": true
+  },
+  {
+    "name": "range-contact.png",
+    "before": "eae51443781572ddd57bcbbda5c0d08d8947567a26c195f00e2a69aaa3884684",
+    "after": "eae51443781572ddd57bcbbda5c0d08d8947567a26c195f00e2a69aaa3884684",
+    "identical": true
+  },
+  {
+    "name": "range-frame-0-zoom.png",
+    "before": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "after": "301f5675d169611a855697db02342eea3328bfb811cbae9e1210472d78d1c421",
+    "identical": true
+  },
+  {
+    "name": "range-frame-17-zoom.png",
+    "before": "4fddc1b3e4d414835f8a325c186c39cd2964e8f9b62f5ce7299bec5d0bd41c90",
+    "after": "4fddc1b3e4d414835f8a325c186c39cd2964e8f9b62f5ce7299bec5d0bd41c90",
+    "identical": true
+  },
+  {
+    "name": "undo-contact.png",
+    "before": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "after": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "identical": true
+  },
+  {
+    "name": "video-replaced-contact.png",
+    "before": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "after": "f3665fd528d4966b55048735b85d1ac9b34f4b0fa1b78115f088dd182158b734",
+    "identical": true
+  },
+  {
+    "name": "video-replaced-frame-0-zoom.png",
+    "before": "8bb3a8285511958fb5c219d8fbbc8bdbbbaaa87f20be28b82661425087aaa140",
+    "after": "8bb3a8285511958fb5c219d8fbbc8bdbbbaaa87f20be28b82661425087aaa140",
+    "identical": true
+  }
+]
