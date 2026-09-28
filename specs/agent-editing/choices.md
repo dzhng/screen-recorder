@@ -1115,3 +1115,47 @@ trim and stretch replacements keep their single-interval behavior.
   requested visible interval, 75,001–75,002. The plan required global timing but
   left point-query representation open. This lets stills reuse exact movie
   scheduling without creating a second nearest-frame rule.
+
+## Native media execution decisions
+
+- **Sound; medium confidence — AAC comparisons permit bounded seek-dependent float differences.**
+  The same old decoder produces slightly different floating samples when reading
+  an AAC file from the beginning versus seeking near its end; packet-aligned
+  retries do not remove that difference. The native output is not changed.
+  Comparison now requires exact counts, clocks, channels and endpoint samples,
+  plus both RMS and maximum error below one 16-bit quantization step. Lossless
+  formats and unchanged successful old/new ranged output stay byte exact.
+  This corrects an overbroad test contract based on retained negative controls;
+  it does not excuse missing samples or establish perceptual quality.
+  Evidence: [AAC comparison audit](assets/11a-audio-extraction/README.md).
+
+- **Sound; medium confidence — Decoder lookbehind is bounded by declared packet size.**
+  A seek inside the last compressed packet can miss real samples. The shared
+  reader includes two packet widths before the selected time and discards that
+  context before conversion. It may reopen once after real progress at the exact
+  next unread sample, then refuses another shortage. Unknown or oversized packet
+  metadata refuses; signed requested starts must never be advanced to zero.
+  The plan left recovery mechanics unspecified. Broader format admission and
+  resource limits remain slice-24 work; this is not a universal codec guarantee.
+
+- **Sound; high confidence — Execution revisions are separate from portable transcript format.**
+  Replacing the native decoder changes new audio, movie and transcription job
+  identities. A saved transcript remains readable under its existing format and
+  generation; changing the format version merely to force fresh inference would
+  break retained packages. The plan left this invalidation seam unspecified.
+  New current work uses the revised execution key while old retained artifacts
+  keep their provenance. Evidence: [execution pins](assets/11a-audio-execution-pins/README.md).
+
+- **Sound; high confidence — Still receipts distinguish requested pictures from physical samples.**
+  The compiler may request a time inside a source picture. The receipt keeps the
+  requested time and exact native sample value/timescale/origin, with a separately
+  rounded convenience timestamp. It distinguishes an empty canvas, excluded
+  acquisition support and an actual empty media edit. The plan required traceable
+  timing but left the native representation open; retaining both clocks prevents
+  a rounded label from becoming a false exact boundary.
+
+- **Sound; high confidence — Still delivery sizing follows the completed movie canvas.**
+  The picture is oriented and composed once using the movie executor, then reduced
+  to the requested image delivery size. Resizing inputs before composition would
+  create a second framing path. The existing profile and image-size limits apply;
+  profile color conformance remains independently verified.

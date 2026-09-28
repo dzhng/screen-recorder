@@ -1,0 +1,11 @@
+Fresh reviewer /root/picture_visual_review, fork:none, saw only paired PNG sheets/crops and a neutral request to assess identity, orientation, framing, missing content, transitions and legibility. It inspected all nine files with view_image.
+
+Selected second stream: matching B00/B01/B02 identities, portrait framing, side bars and corner markers; right images visibly darker green, slight text/marker softness and halos.
+Leading partial picture: matching A00, aligned landscape framing/bars/markers; right image darker blue.
+Acquisition occurrences: matching gaps, return to A02 and later sequences; no one-sided blank or boundary mismatch. Right images darker.
+Repeat/reorder: matching A04/A05/A00/A01, gap and B00/B01/B02; matching landscape/portrait framing. Right images darker.
+VFR held tail: matching labels, repeated A01 and final A07, matching framing; right backgrounds darker and marker colors slightly different.
+
+Confidence high for sampled content/framing; material visible color/brightness discrepancy across all sets. Still sheets cannot prove timing between sampled frames.
+
+Root inspection agrees that the color difference is visible. Acceptance remains pending investigation of actual output color versus contact-sheet color management; no geometric defect was found in these samples.
