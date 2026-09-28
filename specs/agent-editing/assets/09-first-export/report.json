@@ -812,35 +812,35 @@
     },
     "exports": {
       "request": {
-        "projectId": "ff4ca74c-a690-4f90-b75e-ec0c578c2660",
+        "projectId": "b5dd2c5a-20ed-41d4-9b4d-c6c29c4da3ff",
         "kind": "video",
-        "exportId": "488aaa46-db16-47c6-9d30-78a14d303762",
-        "directory": "/private/tmp/screenrec-first-export-live5/exports",
+        "exportId": "86b5033f-3dfe-417f-9b08-8dd9dd92075e",
+        "directory": "/private/tmp/screenrec-first-export-live6/exports",
         "leaf": "pinned.mp4"
       },
-      "pinnedRevisionId": "daf33729-363b-46cc-a15e-707fba232698",
+      "pinnedRevisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121",
       "receipt": {
         "bytes": 19852,
         "destination": {
           "dev": "16777229",
-          "ino": "314739556"
+          "ino": "314747717"
         },
         "file": {
           "dev": "16777229",
-          "ino": "314739566"
+          "ino": "314747730"
         },
         "leaf": "pinned.mp4",
-        "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+        "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
         "stage": {
           "dev": "16777229",
-          "ino": "314739563"
+          "ino": "314747727"
         }
       },
       "file": {
-        "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+        "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
         "bytes": 19852,
         "dev": 16777229,
-        "ino": 314739566
+        "ino": 314747730
       },
       "exactPreviewBytes": true,
       "cancellation": {
@@ -850,12 +850,12 @@
           "point": "before-commit"
         },
         "request": {
-          "projectId": "ff4ca74c-a690-4f90-b75e-ec0c578c2660",
+          "projectId": "b5dd2c5a-20ed-41d4-9b4d-c6c29c4da3ff",
           "kind": "video",
-          "exportId": "164dcd13-6674-400d-afda-39313c950f46",
-          "directory": "/private/tmp/screenrec-first-export-live5/exports",
+          "exportId": "b7680c5e-7b70-4124-8002-5d9355424030",
+          "directory": "/private/tmp/screenrec-first-export-live6/exports",
           "leaf": "cancel-retry.mp4",
-          "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+          "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
         },
         "canceledState": "canceled",
         "absentBeforeCommitAndAfterDrain": true,
@@ -863,34 +863,34 @@
           "bytes": 19852,
           "destination": {
             "dev": "16777229",
-            "ino": "314739556"
+            "ino": "314747717"
           },
           "file": {
             "dev": "16777229",
-            "ino": "314739589"
+            "ino": "314747759"
           },
           "leaf": "cancel-retry.mp4",
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "stage": {
             "dev": "16777229",
-            "ino": "314739586"
+            "ino": "314747756"
           }
         },
         "file": {
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "bytes": 19852,
           "dev": 16777229,
-          "ino": 314739589
+          "ino": 314747759
         }
       },
       "crashAfterCommit": {
         "request": {
-          "projectId": "ff4ca74c-a690-4f90-b75e-ec0c578c2660",
+          "projectId": "b5dd2c5a-20ed-41d4-9b4d-c6c29c4da3ff",
           "kind": "video",
-          "exportId": "b15f2ba8-c9e2-4858-b7b9-ac1d8114e04e",
-          "directory": "/private/tmp/screenrec-first-export-live5/exports",
+          "exportId": "011fa39f-548c-45db-977b-6e1be40ef773",
+          "directory": "/private/tmp/screenrec-first-export-live6/exports",
           "leaf": "crash-after-commit.mp4",
-          "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+          "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
         },
         "observer": {
           "type": "fault.hit",
@@ -905,27 +905,27 @@
         },
         "unacknowledged": true,
         "preparedReceipt": {
-          "file": {
-            "ino": "314739623",
-            "dev": "16777229"
-          },
-          "stage": {
-            "ino": "314739620",
-            "dev": "16777229"
-          },
-          "destination": {
-            "ino": "314739556",
-            "dev": "16777229"
-          },
           "leaf": "crash-after-commit.mp4",
+          "stage": {
+            "ino": "314747800",
+            "dev": "16777229"
+          },
           "bytes": 19852,
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c"
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
+          "destination": {
+            "ino": "314747717",
+            "dev": "16777229"
+          },
+          "file": {
+            "ino": "314747808",
+            "dev": "16777229"
+          }
         },
         "file": {
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "bytes": 19852,
           "dev": 16777229,
-          "ino": 314739623
+          "ino": 314747808
         },
         "exit": {
           "code": null,
@@ -935,28 +935,28 @@
           "bytes": 19852,
           "destination": {
             "dev": "16777229",
-            "ino": "314739556"
+            "ino": "314747717"
           },
           "file": {
             "dev": "16777229",
-            "ino": "314739623"
+            "ino": "314747808"
           },
           "leaf": "crash-after-commit.mp4",
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "stage": {
             "dev": "16777229",
-            "ino": "314739620"
+            "ino": "314747800"
           }
         }
       },
       "cancelAfterCommit": {
         "request": {
-          "projectId": "ff4ca74c-a690-4f90-b75e-ec0c578c2660",
+          "projectId": "b5dd2c5a-20ed-41d4-9b4d-c6c29c4da3ff",
           "kind": "video",
-          "exportId": "4584e126-cf8e-43e3-88c2-f44d85921eb5",
-          "directory": "/private/tmp/screenrec-first-export-live5/exports",
+          "exportId": "70e3df5a-46fb-4c19-91e6-4561ce50ea54",
+          "directory": "/private/tmp/screenrec-first-export-live6/exports",
           "leaf": "cancel-after-commit.mp4",
-          "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+          "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
         },
         "observer": {
           "type": "fault.hit",
@@ -971,88 +971,104 @@
         },
         "unacknowledged": true,
         "preparedReceipt": {
-          "file": {
-            "dev": "16777229",
-            "ino": "314739661"
-          },
-          "stage": {
-            "dev": "16777229",
-            "ino": "314739657"
-          },
+          "bytes": 19852,
           "destination": {
             "dev": "16777229",
-            "ino": "314739556"
+            "ino": "314747717"
           },
-          "leaf": "cancel-after-commit.mp4",
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
-          "bytes": 19852
+          "stage": {
+            "ino": "314747858",
+            "dev": "16777229"
+          },
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
+          "file": {
+            "dev": "16777229",
+            "ino": "314747872"
+          },
+          "leaf": "cancel-after-commit.mp4"
         },
         "file": {
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "bytes": 19852,
           "dev": 16777229,
-          "ino": 314739661
+          "ino": 314747872
         },
         "recoveredReceipt": {
           "bytes": 19852,
           "destination": {
             "dev": "16777229",
-            "ino": "314739556"
+            "ino": "314747717"
           },
           "file": {
             "dev": "16777229",
-            "ino": "314739661"
+            "ino": "314747872"
           },
           "leaf": "cancel-after-commit.mp4",
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "stage": {
             "dev": "16777229",
-            "ino": "314739657"
+            "ino": "314747858"
           }
         }
       },
       "pagination": [
-        "164dcd13-6674-400d-afda-39313c950f46",
-        "4584e126-cf8e-43e3-88c2-f44d85921eb5",
-        "488aaa46-db16-47c6-9d30-78a14d303762",
-        "b15f2ba8-c9e2-4858-b7b9-ac1d8114e04e"
-      ]
+        "011fa39f-548c-45db-977b-6e1be40ef773",
+        "70e3df5a-46fb-4c19-91e6-4561ce50ea54",
+        "86b5033f-3dfe-417f-9b08-8dd9dd92075e",
+        "b7680c5e-7b70-4124-8002-5d9355424030"
+      ],
+      "abandonment": {
+        "exportId": "86b5033f-3dfe-417f-9b08-8dd9dd92075e",
+        "statusCode": "NOT_FOUND",
+        "remainingIds": [
+          "011fa39f-548c-45db-977b-6e1be40ef773",
+          "70e3df5a-46fb-4c19-91e6-4561ce50ea54",
+          "b7680c5e-7b70-4124-8002-5d9355424030"
+        ],
+        "preservedFile": {
+          "path": "/private/tmp/screenrec-first-export-live6/exports/pinned.mp4",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
+          "bytes": 19852,
+          "dev": 16777229,
+          "ino": 314747730
+        }
+      }
     },
     "externalAfterDeletion": [
       {
-        "path": "/private/tmp/screenrec-first-export-live5/exports/pinned.mp4",
+        "path": "/private/tmp/screenrec-first-export-live6/exports/pinned.mp4",
         "file": {
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "bytes": 19852,
           "dev": 16777229,
-          "ino": 314739566
+          "ino": 314747730
         }
       },
       {
-        "path": "/private/tmp/screenrec-first-export-live5/exports/cancel-retry.mp4",
+        "path": "/private/tmp/screenrec-first-export-live6/exports/cancel-retry.mp4",
         "file": {
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "bytes": 19852,
           "dev": 16777229,
-          "ino": 314739589
+          "ino": 314747759
         }
       },
       {
-        "path": "/private/tmp/screenrec-first-export-live5/exports/crash-after-commit.mp4",
+        "path": "/private/tmp/screenrec-first-export-live6/exports/crash-after-commit.mp4",
         "file": {
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "bytes": 19852,
           "dev": 16777229,
-          "ino": 314739623
+          "ino": 314747808
         }
       },
       {
-        "path": "/private/tmp/screenrec-first-export-live5/exports/cancel-after-commit.mp4",
+        "path": "/private/tmp/screenrec-first-export-live6/exports/cancel-after-commit.mp4",
         "file": {
-          "sha256": "7e638e93628fb794601da52c4760d49cf2bdbaa711262bde68cd7a4d0babb88c",
+          "sha256": "9839cb6dfffd6b22a443a18738e17097273138445a53ee2f465ec30d37defd4c",
           "bytes": 19852,
           "dev": 16777229,
-          "ino": 314739661
+          "ino": 314747872
         }
       }
     ],
@@ -1113,28 +1129,63 @@
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "mcp",
@@ -1157,35 +1208,84 @@
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "c034e46b-8dde-40a5-ad29-463ff3b3e7c2"
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "c034e46b-8dde-40a5-ad29-463ff3b3e7c2"
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "c034e46b-8dde-40a5-ad29-463ff3b3e7c2"
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "c034e46b-8dde-40a5-ad29-463ff3b3e7c2"
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "c034e46b-8dde-40a5-ad29-463ff3b3e7c2"
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
     },
     {
       "transport": "cli",
@@ -1197,28 +1297,42 @@
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "29a65b96-ff4a-4f4b-a6a1-981f08b61bc1"
+      "revisionId": "4875e9f3-6ea6-4bb7-b794-aac52ee25a8a"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "29a65b96-ff4a-4f4b-a6a1-981f08b61bc1"
+      "revisionId": "4875e9f3-6ea6-4bb7-b794-aac52ee25a8a"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "29a65b96-ff4a-4f4b-a6a1-981f08b61bc1"
+      "revisionId": "4875e9f3-6ea6-4bb7-b794-aac52ee25a8a"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "4875e9f3-6ea6-4bb7-b794-aac52ee25a8a"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "4875e9f3-6ea6-4bb7-b794-aac52ee25a8a"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "29a65b96-ff4a-4f4b-a6a1-981f08b61bc1"
+      "revisionId": "4875e9f3-6ea6-4bb7-b794-aac52ee25a8a"
     },
     {
       "transport": "mcp",
@@ -1230,28 +1344,42 @@
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "18baa5c0-51b8-490c-95ea-6dfec59b6b82"
+      "revisionId": "2e261211-870d-483f-90fe-f01bc3389867"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "18baa5c0-51b8-490c-95ea-6dfec59b6b82"
+      "revisionId": "2e261211-870d-483f-90fe-f01bc3389867"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "18baa5c0-51b8-490c-95ea-6dfec59b6b82"
+      "revisionId": "2e261211-870d-483f-90fe-f01bc3389867"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "2e261211-870d-483f-90fe-f01bc3389867"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "2e261211-870d-483f-90fe-f01bc3389867"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "18baa5c0-51b8-490c-95ea-6dfec59b6b82"
+      "revisionId": "2e261211-870d-483f-90fe-f01bc3389867"
     },
     {
       "transport": "cli",
@@ -1268,42 +1396,49 @@
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "7d1c34ee-053f-424b-a8ac-307a4d908744"
+      "revisionId": "25443171-3eec-406b-be35-d42ce9332998"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "7d1c34ee-053f-424b-a8ac-307a4d908744"
+      "revisionId": "25443171-3eec-406b-be35-d42ce9332998"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "7d1c34ee-053f-424b-a8ac-307a4d908744"
+      "revisionId": "25443171-3eec-406b-be35-d42ce9332998"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "7d1c34ee-053f-424b-a8ac-307a4d908744"
+      "revisionId": "25443171-3eec-406b-be35-d42ce9332998"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "25443171-3eec-406b-be35-d42ce9332998"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "7d1c34ee-053f-424b-a8ac-307a4d908744"
+      "revisionId": "25443171-3eec-406b-be35-d42ce9332998"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "mcp",
@@ -1336,42 +1471,42 @@
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "c034e46b-8dde-40a5-ad29-463ff3b3e7c2"
+      "revisionId": "9d386f0f-fc07-4e4f-a077-b9266e915a60"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "f9df355b-8964-4a90-b3d4-7e69ee8973c9"
+      "revisionId": "8cbed706-c221-4f2e-a074-c7125e25c1ec"
     },
     {
       "transport": "cli",
@@ -1388,56 +1523,42 @@
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "8a10d055-4423-41ce-8433-30afa11b961b"
+      "revisionId": "772fcd6f-5092-4ec0-91df-b97d29e0b21d"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "8a10d055-4423-41ce-8433-30afa11b961b"
+      "revisionId": "772fcd6f-5092-4ec0-91df-b97d29e0b21d"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "8a10d055-4423-41ce-8433-30afa11b961b"
+      "revisionId": "772fcd6f-5092-4ec0-91df-b97d29e0b21d"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "8a10d055-4423-41ce-8433-30afa11b961b"
+      "revisionId": "772fcd6f-5092-4ec0-91df-b97d29e0b21d"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "8a10d055-4423-41ce-8433-30afa11b961b"
-    },
-    {
-      "transport": "cli",
-      "operation": "preview.get",
-      "ok": true,
-      "state": "processing",
-      "revisionId": "8a10d055-4423-41ce-8433-30afa11b961b"
-    },
-    {
-      "transport": "cli",
-      "operation": "preview.get",
-      "ok": true,
-      "state": "processing",
-      "revisionId": "8a10d055-4423-41ce-8433-30afa11b961b"
+      "revisionId": "772fcd6f-5092-4ec0-91df-b97d29e0b21d"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "8a10d055-4423-41ce-8433-30afa11b961b"
+      "revisionId": "772fcd6f-5092-4ec0-91df-b97d29e0b21d"
     },
     {
       "transport": "cli",
@@ -1448,49 +1569,56 @@
       "transport": "mcp",
       "operation": "processing.get",
       "ok": true,
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "mcp",
@@ -1515,49 +1643,70 @@
       "operation": "preview.get",
       "ok": true,
       "state": "not_requested",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "mcp",
       "operation": "preview.retry",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "mcp",
@@ -1576,42 +1725,77 @@
       "operation": "preview.get",
       "ok": true,
       "state": "failed",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "mcp",
       "operation": "preview.retry",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
+    },
+    {
+      "transport": "cli",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "daf33729-363b-46cc-a15e-707fba232698"
+      "revisionId": "d6c3316e-b53c-460e-a074-39a74c5b6121"
     },
     {
       "transport": "cli",
@@ -1716,6 +1900,12 @@
       "transport": "mcp",
       "operation": "export.status",
       "ok": true,
+      "state": "running"
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.status",
+      "ok": true,
       "state": "committed"
     },
     {
@@ -1811,207 +2001,314 @@
       "ok": true
     },
     {
+      "transport": "cli",
+      "operation": "export.abandon",
+      "ok": true
+    },
+    {
       "transport": "mcp",
-      "operation": "preview.get",
-      "ok": true,
-      "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "operation": "export.status",
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Export intent does not exist",
+        "retryable": false,
+        "details": {
+          "exportId": "86b5033f-3dfe-417f-9b08-8dd9dd92075e"
+        }
+      }
+    },
+    {
+      "transport": "mcp",
+      "operation": "export.list",
+      "ok": true
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "processing",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
+    },
+    {
+      "transport": "mcp",
+      "operation": "preview.get",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "mcp",
       "operation": "preview.get",
       "ok": true,
       "state": "ready",
-      "revisionId": "f2d5f044-7cb2-4ed8-b62c-b317528de052"
+      "revisionId": "1a905bb0-e4ac-459b-a343-33cb6f3b5e1a"
     },
     {
       "transport": "cli",

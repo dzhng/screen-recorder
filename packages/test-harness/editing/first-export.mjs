@@ -226,6 +226,29 @@ export async function exportJourney({
     ].sort(),
   );
   evidence.pagination = discovered;
+  const abandoned = await call("export.abandon", { exportId: request.exportId });
+  assert.equal(abandoned.abandoned, true);
+  assert.equal(
+    (await call("export.status", { exportId: request.exportId }, { transport: "mcp", error: true }))
+      .code,
+    "NOT_FOUND",
+  );
+  const remaining = await call("export.list", { projectId }, { transport: "mcp" });
+  assert.deepEqual(
+    remaining.exports.map((value) => value.exportId),
+    discovered.filter((id) => id !== request.exportId),
+  );
+  assert.deepEqual(
+    await external(committed.output),
+    file,
+    "Abandonment changed committed external bytes",
+  );
+  evidence.abandonment = {
+    exportId: request.exportId,
+    statusCode: "NOT_FOUND",
+    remainingIds: remaining.exports.map((value) => value.exportId),
+    preservedFile: { path: committed.output, ...file },
+  };
   return {
     async afterDeletion() {
       for (const item of kept)

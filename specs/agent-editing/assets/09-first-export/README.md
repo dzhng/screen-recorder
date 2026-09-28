@@ -10,8 +10,10 @@ channels, processed gain chain, inserted narration and retained impulses.
 An omitted revision is pinned before a later edit. Replaying the same export
 identity through the other transport retains that revision; changed arguments
 conflict. Discovery traverses all four intents with one-item pages, passing each
-returned cursor unchanged between CLI and MCP. Retry and project deletion retain
-external hashes and inode identities.
+returned cursor unchanged between CLI and MCP. Public abandonment then removes
+one committed intent from status and filtered discovery while retaining its
+external file. Retry, abandonment and subsequent project deletion retain external
+hashes and inode identities.
 
 ## Controlled interruption evidence
 
