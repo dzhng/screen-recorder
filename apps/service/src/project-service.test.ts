@@ -536,12 +536,10 @@ test("selected-source audio publishes verified WAV bytes through artifact delive
     "524946462800000057415645666d7420100000000300010080bb000000ee02000400200064617461040000000000803e",
     "hex",
   );
-  let renderWorkspace: string | undefined;
+  let renderAttempt: string | undefined;
   const f = await setup(async (operation, params) => {
     if (operation === "storage.clearRenderWorkspace") {
-      if (renderWorkspace)
-        for (const child of await readdir(renderWorkspace))
-          await rm(join(renderWorkspace, child), { recursive: true, force: true });
+      if (renderAttempt && params.parent) await rm(renderAttempt, { recursive: true, force: true });
       return { ok: true, data: { removed: true } };
     }
     if (operation === "media.probe")
@@ -565,7 +563,7 @@ test("selected-source audio publishes verified WAV bytes through artifact delive
         },
       };
     if (operation !== "media.sourceAudio") throw new Error(operation);
-    renderWorkspace = dirname(dirname(params.output as string));
+    renderAttempt = dirname(params.output as string);
     expect(params.source).toMatchObject({
       streamId: "audio:1",
       available: [{ startUs: 0, endUs: 1000000 }],

@@ -1159,3 +1159,20 @@ trim and stretch replacements keep their single-interval behavior.
   to the requested image delivery size. Resizing inputs before composition would
   create a second framing path. The existing profile and image-size limits apply;
   profile color conformance remains independently verified.
+
+- **Sound; high confidence — Concurrent renders keep shared root authority and exclusive attempt authority.**
+  A movie and a still may render at once into separate child directories. Each
+  child retains a shared lock on the render root and an exclusive lock on its own
+  directory. Restart cleanup needs exclusive root authority, so it cannot erase
+  an orphan worker's output. Attempt cleanup uses open directory descriptors,
+  not a path that another operation can replace. The plan left concurrent
+  temporary-file ownership open; this extends the existing render owner without
+  adding a separate cleanup service. Landed in the concurrent-render pass.
+
+- **Sound; high confidence — Visual comparison converts each image from its actual color profile.**
+  A PNG and a decoded movie frame can contain the same scene but declare different
+  transfer curves. Placing their raw values beside one another can manufacture a
+  brightness difference. The independent reference converts the movie's actual
+  embedded profile to the PNG's sRGB space before comparison. The plan required
+  visual parity without specifying reference conversion; no production pixels
+  or acceptance tolerances change. Broader color fidelity remains a separate gate.

@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: picture ready: {"projectId":"ec205f5e-038f-4e99-8920-9f1b8264c7e0","revisionId":"27b725de-a012-4182-8d1d-3f448d81fb2a","atUs":0,"maxLongEdge":1600,"tap":{"target":{"kind":"output"},"point":{"kind":"processed"}},"implementationId":"native-composition-picture-v1","state":"failed","reason":"The operation could not be completed","retryable":true,"jobId":"8c940884-24e3-4af4-aba6-ffc21731d227","published":null,"delivery":null}
+    at poll (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs:22:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async delivered (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/frame-evidence.mjs:93:17)
+    at async file:///Users/david/dev/screen-recorder/packages/test-harness/editing/frame-evidence.mjs:332:19 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

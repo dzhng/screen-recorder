@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public/source/index integration remains open; fresh visual review found a color/brightness discrepancy that is being investigated. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project pictures pass; selected-source/index integration remains open. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -68,8 +68,9 @@ covers this pure planning prerequisite, not delivered-image acceptance.
 The [core demanded-picture lifecycle](../assets/10d-project-frame-core/README.md)
 now pins requests and checks native receipt identity under the shared job/cache
 owners. Its controlled-renderer tests do not establish native or public acceptance.
-Concurrent frame and movie staging must share safe workspace lifetime before
-the service route is integrated.
+Concurrent frame and movie staging share safe workspace lifetime. The
+[public project-picture journey](../assets/10d-public-project-frames/README.md)
+verifies actual delivery and retained-source rendering after project deletion.
 ## Native checkpoint
 
 Demanded PNGs and movies share one compiled-picture execution owner, including
@@ -77,5 +78,5 @@ selected-stream physical membership, support masking, orientation and the canvas
 raster. Delivery bounds apply after that raster. Receipts preserve compiler time
 separately from the actual physical sample and distinguish unavailable pictures
 from an empty canvas. The [native checkpoint evidence](../assets/10d-native-pictures/EVIDENCE.md)
-records the executed gates and the still-pending fresh visual review. This does
+records the executed gates and links the corrected common-profile visual review. This does
 not close the public delivery, selected-source or retained-index gates above.

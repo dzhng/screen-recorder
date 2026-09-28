@@ -3,14 +3,15 @@ import { copyFile, mkdir, open } from "node:fs/promises";
 import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { CompositionMovie, ProjectMovieRenderer } from "@screenrec/core/project-preview";
+import type { ProjectFrameRenderer } from "@screenrec/core/project-frames";
 import type { ProjectAudioRenderer } from "@screenrec/core/audio-inspection";
-import { withRenderAttempt, withRenderedAudio } from "./render.js";
+import { withRenderAttempt, withRenderedFile } from "./render.js";
 import { renderWindowDeadlineMs, nativeResult, type MediaWorker } from "./worker.js";
 
 /** Compiled pictures and PCM share the existing attempt and final movie publication boundary. */
 export function projectMovieRenderer(worker: MediaWorker, workspace: string): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v1",
+    implementationId: "native-composition-movie-v2",
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
       const { manifest } = request.window;
@@ -78,11 +79,11 @@ export function projectMovieRenderer(worker: MediaWorker, workspace: string): Pr
 
 export function projectAudioRenderer(worker: MediaWorker, workspace: string): ProjectAudioRenderer {
   return {
-    implementationId: "native-composition-audio-v1",
+    implementationId: "native-composition-audio-v2",
     render: async ({ window, assets, output }, signal) =>
-      withRenderedAudio(
+      withRenderedFile(
         worker,
-        { attemptParent: workspace, output },
+        { attemptParent: workspace, output, filename: "audio.wav" },
         signal,
         async (file, execute) =>
           nativeResult(
@@ -96,6 +97,34 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
                 assets,
               },
               { signal, timeoutMs: renderWindowDeadlineMs(window.manifest.range) },
+            ),
+          ),
+      ),
+  };
+}
+
+export function projectFrameRenderer(worker: MediaWorker, workspace: string): ProjectFrameRenderer {
+  return {
+    implementationId: "native-composition-picture-v1",
+    render: async ({ window, assets, output, maxLongEdge }, signal) =>
+      withRenderedFile(
+        worker,
+        { attemptParent: workspace, output, filename: "frame.png" },
+        signal,
+        async (file, execute) =>
+          nativeResult(
+            await execute(
+              "media.renderCompositionFrame",
+              {
+                output: file,
+                frame: window.frames().next().value,
+                canvas: window.manifest.canvas,
+                profile: "h264-rec709",
+                processing: window.manifest.processing,
+                assets,
+                maxLongEdge,
+              },
+              { signal },
             ),
           ),
       ),

@@ -1,0 +1,1800 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "NOT_READY",
+        "message": "Native execution and preparation are not bound to this window",
+        "retryable": false,
+        "details": {
+          "requirements": [
+            {
+              "kind": "retime",
+              "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:2",
+              "sampleCount": 86400,
+              "pitch": "preserve",
+              "implementationId": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "frame.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.delete",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "checks": {
+    "unavailableAudioDoesNotBlockPictures": true,
+    "pictures": [
+      {
+        "atUs": 0,
+        "sampleAtUs": 0,
+        "expected": "A0",
+        "observed": {
+          "id": "A0",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A6",
+            "differingPixels": 28
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/da7699db-cc3d-439b-9637-a975c4367833.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 0,
+            "sampleAtUs": 0,
+            "visibleRange": {
+              "startUs": 0,
+              "endUs": 1
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 0,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3336,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 0,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "da7699db-cc3d-439b-9637-a975c4367833"
+        },
+        "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+        "cli": "00-cli.png",
+        "mcp": "01-mcp.png"
+      },
+      {
+        "atUs": 20,
+        "sampleAtUs": 0,
+        "expected": "A0",
+        "observed": {
+          "id": "A0",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A6",
+            "differingPixels": 28
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/f003466a-f67a-4bdc-b309-dd6a9c2d135e.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 0,
+            "sampleAtUs": 0,
+            "visibleRange": {
+              "startUs": 20,
+              "endUs": 21
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 0,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3336,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 20,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "f003466a-f67a-4bdc-b309-dd6a9c2d135e"
+        },
+        "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+        "cli": "02-cli.png",
+        "mcp": "03-mcp.png"
+      },
+      {
+        "atUs": 50001,
+        "sampleAtUs": 0,
+        "expected": "A0",
+        "observed": {
+          "id": "A0",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A6",
+            "differingPixels": 28
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/ca409d93-e261-49f1-94e1-ab2707c616bd.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 0,
+            "sampleAtUs": 0,
+            "visibleRange": {
+              "startUs": 50001,
+              "endUs": 50002
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 0,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3336,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 50001,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "ca409d93-e261-49f1-94e1-ab2707c616bd"
+        },
+        "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+        "cli": "04-cli.png",
+        "mcp": "05-mcp.png"
+      },
+      {
+        "atUs": 249999,
+        "sampleAtUs": 200000,
+        "expected": "A0",
+        "observed": {
+          "id": "A0",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A6",
+            "differingPixels": 28
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/814ceedf-6db7-4e18-a981-b2ed456dfde5.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 2,
+            "sampleAtUs": 200000,
+            "visibleRange": {
+              "startUs": 249999,
+              "endUs": 250000
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 200000,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3336,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 200000,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 249999,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "814ceedf-6db7-4e18-a981-b2ed456dfde5"
+        },
+        "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+        "cli": "06-cli.png",
+        "mcp": "07-mcp.png"
+      },
+      {
+        "atUs": 499999,
+        "sampleAtUs": 400000,
+        "expected": "A1",
+        "observed": {
+          "id": "A1",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A2",
+            "differingPixels": 56
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/28b672e6-5641-41d4-89f2-08fb03874def.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 4,
+            "sampleAtUs": 400000,
+            "visibleRange": {
+              "startUs": 499999,
+              "endUs": 500000
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 400000,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3070,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 400000,
+            "actualSourceUs": 250000,
+            "sample": {
+              "value": "4096",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 499999,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "28b672e6-5641-41d4-89f2-08fb03874def"
+        },
+        "sha256": "6911eca2667bb2daccc9e1e02547e473fe7a51b249630c0b118fff8de97cbcf0",
+        "cli": "08-cli.png",
+        "mcp": "09-mcp.png"
+      },
+      {
+        "atUs": 500001,
+        "sampleAtUs": 500000,
+        "expected": "B1",
+        "observed": {
+          "id": "B1",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "B2",
+            "differingPixels": 56
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/15698411-84db-41e6-9917-a23c193ad14b.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 5,
+            "sampleAtUs": 500000,
+            "visibleRange": {
+              "startUs": 500001,
+              "endUs": 500002
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:4",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+                "streamId": "track:1",
+                "sourceUs": 200000,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 2993,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:4",
+            "assetId": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+            "streamId": "track:1",
+            "requestedSourceUs": 200000,
+            "actualSourceUs": 200000,
+            "sample": {
+              "value": "2048",
+              "timescale": 10240,
+              "originUs": 0
+            }
+          },
+          "atUs": 500001,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "15698411-84db-41e6-9917-a23c193ad14b"
+        },
+        "sha256": "06beac3a4e501a5101306612ce720ad4c0743a9e264921e940e5ce9244eb21ac",
+        "cli": "10-cli.png",
+        "mcp": "11-mcp.png"
+      },
+      {
+        "atUs": 899999,
+        "sampleAtUs": 800000,
+        "expected": "B2",
+        "observed": {
+          "id": "B2",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "B3",
+            "differingPixels": 32
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/5f1f75a0-bd32-4d40-9ed0-cc5e3d7cae21.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 8,
+            "sampleAtUs": 800000,
+            "visibleRange": {
+              "startUs": 899999,
+              "endUs": 900000
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:4",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+                "streamId": "track:1",
+                "sourceUs": 500000,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3241,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:4",
+            "assetId": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607",
+            "streamId": "track:1",
+            "requestedSourceUs": 500000,
+            "actualSourceUs": 400000,
+            "sample": {
+              "value": "4096",
+              "timescale": 10240,
+              "originUs": 0
+            }
+          },
+          "atUs": 899999,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "5f1f75a0-bd32-4d40-9ed0-cc5e3d7cae21"
+        },
+        "sha256": "d5c118c769816848938f04df1b071eb8fe725bd93d1f43915f2d0a666f68c161",
+        "cli": "12-cli.png",
+        "mcp": "13-mcp.png"
+      },
+      {
+        "atUs": 950000,
+        "sampleAtUs": 900000,
+        "expected": "black",
+        "observed": {
+          "id": "black",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A1",
+            "differingPixels": 188
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/ed648652-89ae-4dfe-9d41-efb46c10614d.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 9,
+            "sampleAtUs": 900000,
+            "visibleRange": {
+              "startUs": 950000,
+              "endUs": 950001
+            },
+            "layers": []
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 0,
+          "readerOpens": 0,
+          "bytes": 724,
+          "picture": {
+            "status": "background"
+          },
+          "atUs": 950000,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "ed648652-89ae-4dfe-9d41-efb46c10614d"
+        },
+        "sha256": "0558bbbca614fd16513e6308978bfadd6a00643e8689eb227dd80749f82a4668",
+        "cli": "14-cli.png",
+        "mcp": "15-mcp.png"
+      },
+      {
+        "atUs": 1000000,
+        "sampleAtUs": 1000000,
+        "expected": "A0",
+        "observed": {
+          "id": "A0",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A6",
+            "differingPixels": 28
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/69cff81b-c16d-43e7-8cab-4b93307216c0.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 10,
+            "sampleAtUs": 1000000,
+            "visibleRange": {
+              "startUs": 1000000,
+              "endUs": 1000001
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:5",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 0,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3336,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:5",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 1000000,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "69cff81b-c16d-43e7-8cab-4b93307216c0"
+        },
+        "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f",
+        "cli": "16-cli.png",
+        "mcp": "17-mcp.png"
+      },
+      {
+        "atUs": 1499999,
+        "sampleAtUs": 1400000,
+        "expected": "A1",
+        "observed": {
+          "id": "A1",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A2",
+            "differingPixels": 56
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/8581a2de-1b21-4df7-93fc-a541449bd802.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 14,
+            "sampleAtUs": 1400000,
+            "visibleRange": {
+              "startUs": 1499999,
+              "endUs": 1500000
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:5",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 400000,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3070,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:5",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 400000,
+            "actualSourceUs": 250000,
+            "sample": {
+              "value": "4096",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 1499999,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "8581a2de-1b21-4df7-93fc-a541449bd802"
+        },
+        "sha256": "6911eca2667bb2daccc9e1e02547e473fe7a51b249630c0b118fff8de97cbcf0",
+        "cli": "18-cli.png",
+        "mcp": "19-mcp.png"
+      },
+      {
+        "atUs": 1500001,
+        "sampleAtUs": 1500000,
+        "expected": "A3",
+        "observed": {
+          "id": "A3",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A5",
+            "differingPixels": 28
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/25613414-dddd-4948-9f22-6d9bc87c3e41.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 15,
+            "sampleAtUs": 1500000,
+            "visibleRange": {
+              "startUs": 1500001,
+              "endUs": 1500002
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:6",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 750000,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3269,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:6",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 750000,
+            "actualSourceUs": 750000,
+            "sample": {
+              "value": "12288",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 1500001,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "25613414-dddd-4948-9f22-6d9bc87c3e41"
+        },
+        "sha256": "8730d9bf5a9946ad3d44ee5f136fe169ec2a4e2ac5de86092a1073aca053c0c0",
+        "cli": "20-cli.png",
+        "mcp": "21-mcp.png"
+      },
+      {
+        "atUs": 1799999,
+        "sampleAtUs": 1700000,
+        "expected": "A3",
+        "observed": {
+          "id": "A3",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A5",
+            "differingPixels": 28
+          }
+        },
+        "receipt": {
+          "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/3018a4e5-9184-4b44-bc2d-88ed322c9772.cache",
+          "mediaType": "image/png",
+          "profile": "h264-rec709",
+          "frame": {
+            "index": 17,
+            "sampleAtUs": 1700000,
+            "visibleRange": {
+              "startUs": 1799999,
+              "endUs": 1800000
+            },
+            "layers": [
+              {
+                "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:6",
+                "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                "streamId": "track:1",
+                "sourceUs": 750000,
+                "availability": "available",
+                "placement": "contain"
+              }
+            ]
+          },
+          "width": 160,
+          "height": 128,
+          "sourceWidth": 160,
+          "sourceHeight": 128,
+          "decodedSamples": 1,
+          "readerOpens": 1,
+          "bytes": 3269,
+          "picture": {
+            "status": "available",
+            "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:6",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 750000,
+            "actualSourceUs": 750000,
+            "sample": {
+              "value": "12288",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          "atUs": 1799999,
+          "maxLongEdge": 1600,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v1",
+          "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+          "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+          "cacheId": "3018a4e5-9184-4b44-bc2d-88ed322c9772"
+        },
+        "sha256": "8730d9bf5a9946ad3d44ee5f136fe169ec2a4e2ac5de86092a1073aca053c0c0",
+        "cli": "22-cli.png",
+        "mcp": "23-mcp.png"
+      }
+    ],
+    "batch": {
+      "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+      "items": [
+        {
+          "ok": true,
+          "data": {
+            "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+            "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+            "atUs": 0,
+            "maxLongEdge": 1600,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v1",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "79295b15-86b9-4db9-a835-2e437d08ddd2",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/da7699db-cc3d-439b-9637-a975c4367833.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 0,
+                  "sampleAtUs": 0,
+                  "visibleRange": {
+                    "startUs": 0,
+                    "endUs": 1
+                  },
+                  "layers": [
+                    {
+                      "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                      "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 0,
+                      "availability": "available",
+                      "placement": "contain"
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3336,
+                "picture": {
+                  "status": "available",
+                  "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                  "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "originUs": 0
+                  }
+                },
+                "atUs": 0,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v1",
+                "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+                "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+                "cacheId": "da7699db-cc3d-439b-9637-a975c4367833"
+              }
+            },
+            "delivery": {
+              "token": "f445eb83-face-45a5-89d9-96c083ebaede",
+              "bytes": 3336,
+              "expiresAt": 1790586419293
+            },
+            "output": "/tmp/screenrec-public-frame-retained-restored/batch/01.png"
+          },
+          "atUs": 0
+        },
+        {
+          "ok": false,
+          "error": {
+            "code": "INVALID_PARAMS",
+            "message": "Rendering requires a nonempty range within the pinned project",
+            "retryable": false,
+            "details": {}
+          },
+          "atUs": 1800000
+        },
+        {
+          "ok": true,
+          "data": {
+            "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+            "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+            "atUs": 0,
+            "maxLongEdge": 1600,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v1",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "79295b15-86b9-4db9-a835-2e437d08ddd2",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/sr-frame-evidence-g7MgRq/library/cache/derived/da7699db-cc3d-439b-9637-a975c4367833.cache",
+                "mediaType": "image/png",
+                "profile": "h264-rec709",
+                "frame": {
+                  "index": 0,
+                  "sampleAtUs": 0,
+                  "visibleRange": {
+                    "startUs": 0,
+                    "endUs": 1
+                  },
+                  "layers": [
+                    {
+                      "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                      "trackId": "track:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:0",
+                      "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                      "streamId": "track:1",
+                      "sourceUs": 0,
+                      "availability": "available",
+                      "placement": "contain"
+                    }
+                  ]
+                },
+                "width": 160,
+                "height": 128,
+                "sourceWidth": 160,
+                "sourceHeight": 128,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 3336,
+                "picture": {
+                  "status": "available",
+                  "clipId": "clip:40ab7e962fb8e06a55956487c5f808f5440a0f02c43b70a6cdf090cd771d029b:3",
+                  "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "originUs": 0
+                  }
+                },
+                "atUs": 0,
+                "maxLongEdge": 1600,
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "implementationId": "native-composition-picture-v1",
+                "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+                "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e",
+                "cacheId": "da7699db-cc3d-439b-9637-a975c4367833"
+              }
+            },
+            "delivery": {
+              "token": "7825ca84-38d2-4c20-93aa-c813662e34ce",
+              "bytes": 3336,
+              "expiresAt": 1790586419296
+            },
+            "output": "/tmp/screenrec-public-frame-retained-restored/batch/03.png"
+          },
+          "atUs": 0
+        }
+      ],
+      "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9"
+    },
+    "mcpBatch": true,
+    "history": {
+      "old": "c6a31213-c2ae-488f-903e-79f45268000e",
+      "head": "5b004fc6-a989-421f-b97a-080e06ef6c1a",
+      "sameOldPng": true
+    },
+    "cancelRetry": true,
+    "originals": true,
+    "deletionPreservesSources": [
+      {
+        "expected": "A0",
+        "observed": {
+          "id": "A0",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "A6",
+            "differingPixels": 28
+          }
+        },
+        "sha256": "5789f1ca720b9d3a5cea0a66f9c25197cc7c6cede768116bc2acdf9669dd340f"
+      },
+      {
+        "expected": "B1",
+        "observed": {
+          "id": "B1",
+          "differingPixels": 0,
+          "runnerUp": {
+            "id": "B2",
+            "differingPixels": 56
+          }
+        },
+        "sha256": "06beac3a4e501a5101306612ce720ad4c0743a9e264921e940e5ce9244eb21ac"
+      }
+    ]
+  },
+  "pending": [
+    "Selected-source still delivery and retained screenshot indexes",
+    "Acquisition-mask public picture journey and fresh visual review of public artifacts"
+  ],
+  "nativeSha256": "3daf3c17dc5e093c46486c9ac074e042f52bad716209a1500f4fcd3c83e57b7b",
+  "project": {
+    "projectId": "f6e69866-217e-4d5d-880b-ad7e2eedb3e9",
+    "revisionId": "c6a31213-c2ae-488f-903e-79f45268000e"
+  }
+}

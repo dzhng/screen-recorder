@@ -1,3 +1,4 @@
+import { ProjectFrameInspection } from "@screenrec/core/project-frames";
 import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
 import { ProjectEvidenceInspection } from "@screenrec/core/project-evidence";
@@ -9,8 +10,12 @@ import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisiti
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { MediaExports } from "./exports.js";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
-import { projectMovieRenderer, projectAudioRenderer } from "./project-render.js";
-import { clearRenderWorkspace, withRenderedAudio } from "./render.js";
+import {
+  projectMovieRenderer,
+  projectAudioRenderer,
+  projectFrameRenderer,
+} from "./project-render.js";
+import { clearRenderWorkspace, withRenderedFile } from "./render.js";
 import { DerivativeDelivery } from "./delivery.js";
 import { DerivedCache } from "@screenrec/core/cache";
 import { ManagedFiles } from "./managed-files.js";
@@ -122,6 +127,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     };
     await acquisitionImports.recover(new AbortController().signal);
     let preview: ProjectPreviewInspection;
+    let projectFrames: ProjectFrameInspection;
     let transcripts: TranscriptProcessing;
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
@@ -133,6 +139,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.target.kind === "project" && job.artifact === "frame")
+          return projectFrames.execute({ job, signal });
         if (
           (job.target.kind === "asset" || job.target.kind === "project") &&
           job.artifact === "audio"
@@ -194,11 +202,11 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       project: { projects, renderer: projectAudioRenderer(worker, workspace) },
       sourceRenderer: {
-        implementationId: "native-source-audio-v1",
+        implementationId: "native-source-audio-v2",
         render: async (request, signal) =>
-          withRenderedAudio(
+          withRenderedFile(
             worker,
-            { attemptParent: workspace, output: request.output },
+            { attemptParent: workspace, output: request.output, filename: "audio.wav" },
             signal,
             async (output, execute) =>
               nativeResult(
@@ -230,6 +238,21 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       projectMovieRenderer(worker, workspace),
     );
+    projectFrames = new ProjectFrameInspection(
+      projects,
+      assets,
+      queue,
+      cache,
+      projectFrameRenderer(worker, workspace),
+    );
+    const frameDelivery = (status: ReturnType<ProjectFrameInspection["request"]>) => ({
+      ...status,
+      delivery: status.published
+        ? delivery.open({ kind: "project", id: status.projectId }, () =>
+            cache.acquire(status.published!.frame.cacheId),
+          )
+        : null,
+    });
     const mediaExports = new MediaExports({
       catalog,
       jobs: queue,
@@ -343,6 +366,48 @@ export async function startProjectService(options: { home: string; worker?: Medi
               "NOT_READY",
               "This service inspects asset and project capture evidence",
             );
+          }
+          case "frame.get":
+          case "frame.retry": {
+            const params = operation.params;
+            if (!("projectId" in params))
+              return operationError("NOT_READY", "This service renders project pictures");
+            return {
+              ok: true,
+              data: frameDelivery(
+                projectFrames[operation.operation === "frame.get" ? "request" : "retry"](params),
+              ),
+            };
+          }
+          case "frame.batch": {
+            const params = operation.params;
+            if (!("projectId" in params))
+              return operationError("NOT_READY", "This service renders project pictures");
+            const revisionId = projects.revision(params.projectId, params.revisionId).id;
+            return {
+              ok: true,
+              data: {
+                projectId: params.projectId,
+                revisionId,
+                items: params.atUs.map((atUs) => {
+                  try {
+                    return {
+                      atUs,
+                      ok: true,
+                      data: frameDelivery(
+                        projectFrames.request({
+                          ...params,
+                          revisionId,
+                          atUs,
+                        }),
+                      ),
+                    };
+                  } catch (error) {
+                    return { atUs, ...operationFailure(error) };
+                  }
+                }),
+              },
+            };
           }
           case "audio.get":
           case "audio.retry": {

@@ -1,0 +1,1019 @@
+2026-09-28T09:06:27.099466Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-28T09:06:27.099556Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/dev/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0e743-fa6f-7b73-8925-a85ae52efec5
+--------
+user
+<task>Review only the source-preservation correction in packages/test-harness/editing/frame-evidence.mjs, after project.delete. Prior review found catalog metadata insufficient. Assess whether the new independent fresh-project rendered-byte assertions prove the claim and identify actionable defects. Read-only, do not edit. Scope excludes the already reviewed production routes.</task>
+exec
+/bin/zsh -lc 'cat .agents/skills/code-review/SKILL.md; cat .agents/skills/write-tests/SKILL.md; git status --short; git diff -- packages/test-harness/editing/frame-evidence.mjs; find .. -name AGENTS.md -o -name AGENTS.override.md' in /Users/david/dev/screen-recorder
+exec
+/bin/zsh -lc "pwd; rg --files -g 'AGENTS*' -g '*instructions*' packages specs . | head -60; cat AGENTS.md; nl -ba packages/test-harness/editing/frame-evidence.mjs" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+/Users/david/dev/screen-recorder
+./AGENTS.md
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+     1	import assert from "node:assert/strict";
+     2	import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+     3	import { join, resolve } from "node:path";
+     4	import { tmpdir } from "node:os";
+     5	import { parseArgs } from "node:util";
+     6	import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
+     7	import { mask, classify } from "./render-membership.mjs";
+     8	
+     9	const { values } = parseArgs({
+    10	  options: {
+    11	    out: { type: "string" },
+    12	    fixture: { type: "string", default: "repeated-picture" },
+    13	  },
+    14	});
+    15	assert.equal(values.fixture, "repeated-picture");
+    16	assert.ok(process.env.SCREENREC_NATIVE, "Freeze a native worker before this journey");
+    17	const out = values.out ? resolve(values.out) : await mkdtemp(join(tmpdir(), "frame-evidence-"));
+    18	await mkdir(out, { recursive: true });
+    19	const home = await mkdtemp(join(tmpdir(), "sr-frame-evidence-"));
+    20	const report = {
+    21	  passed: false,
+    22	  trace: [],
+    23	  checks: {},
+    24	  pending: [
+    25	    "Selected-source still delivery and retained screenshot indexes",
+    26	    "Acquisition-mask public picture journey and fresh visual review of public artifacts",
+    27	  ],
+    28	};
+    29	const service = new JourneyService(home, report);
+    30	const call = service.call.bind(service);
+    31	const corpus = join(root, "specs/agent-editing/assets/00-corpus");
+    32	async function rgb(path) {
+    33	  const { stdout } = await run(
+    34	    "ffmpeg",
+    35	    [
+    36	      "-v",
+    37	      "error",
+    38	      "-nostdin",
+    39	      "-i",
+    40	      path,
+    41	      "-map",
+    42	      "0:v:0",
+    43	      "-fps_mode",
+    44	      "passthrough",
+    45	      "-pix_fmt",
+    46	      "rgb24",
+    47	      "-f",
+    48	      "rawvideo",
+    49	      "pipe:1",
+    50	    ],
+    51	    { encoding: "buffer", timeout: 60000, maxBuffer: 32 * 1024 ** 2 },
+    52	  );
+    53	  return stdout;
+    54	}
+    55	const refs = [{ id: "black", mask: new Uint8Array(160 * 128) }];
+    56	async function prepareReferences() {
+    57	  for (const [name, width, height, count] of [
+    58	    ["a", 160, 96, 8],
+    59	    ["b", 96, 128, 10],
+    60	  ]) {
+    61	    const pixels = await rgb(join(corpus, name + ".mov"));
+    62	    assert.equal(pixels.length, width * height * 3 * count);
+    63	    for (let n = 0; n < count; n++) {
+    64	      const padded = Buffer.alloc(160 * 128 * 3);
+    65	      for (let y = 0; y < height; y++)
+    66	        pixels.copy(
+    67	          padded,
+    68	          ((y + (128 - height) / 2) * 160 + (160 - width) / 2) * 3,
+    69	          (n * height + y) * width * 3,
+    70	          (n * height + y + 1) * width * 3,
+    71	        );
+    72	      refs.push({ id: name.toUpperCase() + n, mask: mask(padded) });
+    73	    }
+    74	  }
+    75	}
+    76	
+    77	const expectations = [
+    78	  [0, 0, "A0", "first", 0],
+    79	  [20, 0, "A0", "first", 0],
+    80	  [50001, 0, "A0", "first", 0],
+    81	  [249999, 200000, "A0", "first", 200000],
+    82	  [499999, 400000, "A1", "first", 400000],
+    83	  [500001, 500000, "B1", "second", 200000],
+    84	  [899999, 800000, "B2", "second", 500000],
+    85	  [950000, 900000, "black", null, null],
+    86	  [1000000, 1000000, "A0", "repeat", 0],
+    87	  [1499999, 1400000, "A1", "repeat", 400000],
+    88	  [1500001, 1500000, "A3", "hold", 750000],
+    89	  [1799999, 1700000, "A3", "hold", 750000],
+    90	];
+    91	let serial = 0;
+    92	async function delivered(params, transport) {
+    93	  const ready = await poll(
+    94	    () => call("frame.get", params, { transport: "mcp" }),
+    95	    (value) => value.state === "ready",
+    96	    "picture ready",
+    97	  );
+    98	  const name = String(serial++).padStart(2, "0") + "-" + transport + ".png";
+    99	  let data, bytes;
+   100	  if (transport === "cli") {
+   101	    data = await call("frame.get", params, { output: join(out, name) });
+   102	    bytes = await readFile(join(out, name));
+   103	  } else {
+   104	    const result = await service.mcp.callTool({ name: "frame.get", arguments: params });
+   105	    assert.equal(result.structuredContent.ok, true);
+   106	    const images = result.content.filter((part) => part.type === "image");
+   107	    assert.equal(images.length, 1);
+   108	    assert.equal(images[0].mimeType, "image/png");
+   109	    bytes = Buffer.from(images[0].data, "base64");
+   110	    await writeFile(join(out, name), bytes);
+   111	    data = result.structuredContent.data;
+   112	  }
+   113	  assert.equal(data.revisionId, ready.revisionId);
+   114	  assert.equal(data.published.frame.bytes, bytes.length);
+   115	  return { data, bytes, name };
+   116	}
+   117	try {
+   118	  await prepareReferences();
+   119	  report.nativeSha256 = hash(await readFile(process.env.SCREENREC_NATIVE));
+   120	  await service.start();
+   121	  const media = {};
+   122	  for (const name of ["a", "b"]) {
+   123	    const path = join(corpus, name + ".mov");
+   124	    const sha256 = hash(await readFile(path));
+   125	    const imported = await call("asset.import", { requestId: name, path });
+   126	    await poll(
+   127	      () => call("job.get", { jobId: imported.jobId }),
+   128	      (v) => v.state === "ready",
+   129	      "import",
+   130	    );
+   131	    const asset = await call("asset.get", { assetId: sha256 });
+   132	    media[name] = {
+   133	      assetId: asset.id,
+   134	      streamId: asset.streams.find((s) => s.kind === "video").id,
+   135	      audioStreamId: asset.streams.find((s) => s.kind === "audio").id,
+   136	      sha256,
+   137	    };
+   138	  }
+   139	  const created = await call("project.create", {
+   140	    requestId: "pictures",
+   141	    canvas: {
+   142	      width: 160,
+   143	      height: 128,
+   144	      fps: { numerator: 10, denominator: 1 },
+   145	      background: "#000000ff",
+   146	    },
+   147	  });
+   148	  const projectId = created.project.projectId;
+   149	  const place = (label, mediaName, source, startUs, endUs) => ({
+   150	    operation: "place",
+   151	    label,
+   152	    clip: {
+   153	      trackId: { label: "picture" },
+   154	      assetId: media[mediaName].assetId,
+   155	      streamId: media[mediaName].streamId,
+   156	      source,
+   157	      placement: { kind: "project", range: { startUs, endUs } },
+   158	    },
+   159	  });
+   160	  const edited = await call("edit.apply", {
+   161	    projectId,
+   162	    requestId: "place",
+   163	    expectedRevisionId: created.revision.id,
+   164	    operations: [
+   165	      { operation: "track.add", track: { kind: "video", order: 0 }, label: "picture" },
+   166	      { operation: "track.add", track: { kind: "audio", order: 1 }, label: "voice" },
+   167	      {
+   168	        operation: "place",
+   169	        label: "retimed-voice",
+   170	        clip: {
+   171	          trackId: { label: "voice" },
+   172	          assetId: media.a.assetId,
+   173	          streamId: media.a.audioStreamId,
+   174	          source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+   175	          placement: { kind: "project", range: { startUs: 0, endUs: 1800000 } },
+   176	        },
+   177	      },
+   178	
+   179	      place("first", "a", { kind: "range", range: { startUs: 0, endUs: 500000 } }, 0, 500000),
+   180	      place(
+   181	        "second",
+   182	        "b",
+   183	        { kind: "range", range: { startUs: 200000, endUs: 600000 } },
+   184	        500000,
+   185	        900000,
+   186	      ),
+   187	      place(
+   188	        "repeat",
+   189	        "a",
+   190	        { kind: "range", range: { startUs: 0, endUs: 500000 } },
+   191	        1000000,
+   192	        1500000,
+   193	      ),
+   194	      place("hold", "a", { kind: "hold", atUs: 750000 }, 1500000, 1800000),
+   195	    ],
+   196	  });
+   197	  const revisionId = edited.revision.id;
+   198	  report.project = { projectId, revisionId };
+   199	  assert.equal(
+   200	    (await call("preview.get", { projectId, revisionId }, { error: true })).code,
+   201	    "NOT_READY",
+   202	  );
+   203	  report.checks.unavailableAudioDoesNotBlockPictures = true;
+   204	
+   205	  report.checks.pictures = [];
+   206	  let firstBytes;
+   207	  for (const [atUs, sampleAtUs, id, label, sourceUs] of expectations) {
+   208	    const params = { projectId, revisionId, atUs };
+   209	    const cli = await delivered(params, "cli"),
+   210	      mcp = await delivered(params, "mcp");
+   211	    assert.ok(cli.bytes.equals(mcp.bytes), "CLI and inline MCP PNG differ");
+   212	    const receipt = cli.data.published.frame;
+   213	    assert.equal(receipt.frame.sampleAtUs, sampleAtUs);
+   214	    assert.deepEqual(receipt.frame.visibleRange, { startUs: atUs, endUs: atUs + 1 });
+   215	    assert.equal(receipt.width, 160);
+   216	    assert.equal(receipt.height, 128);
+   217	    if (label === null) assert.equal(receipt.picture.status, "background");
+   218	    else {
+   219	      assert.equal(receipt.picture.status, "available");
+   220	      assert.equal(receipt.picture.clipId, edited.edit.labels[label]);
+   221	      assert.equal(receipt.picture.requestedSourceUs, sourceUs);
+   222	    }
+   223	    const pixels = await rgb(join(out, cli.name));
+   224	    assert.equal(pixels.length, 160 * 128 * 3);
+   225	    const observed = classify(pixels, refs);
+   226	    assert.equal(observed.id, id);
+   227	    assert.ok(
+   228	      observed.differingPixels < observed.runnerUp.differingPixels,
+   229	      "Membership must be distinguishable from the next source picture",
+   230	    );
+   231	    report.checks.pictures.push({
+   232	      atUs,
+   233	      sampleAtUs,
+   234	      expected: id,
+   235	      observed,
+   236	      receipt,
+   237	      sha256: hash(cli.bytes),
+   238	      cli: cli.name,
+   239	      mcp: mcp.name,
+   240	    });
+   241	    firstBytes ??= cli.bytes;
+   242	  }
+   243	  const batch = await call(
+   244	    "frame.batch",
+   245	    { projectId, revisionId, atUs: [0, 1800000, 0] },
+   246	    { output: join(out, "batch") },
+   247	  );
+   248	  assert.deepEqual(
+   249	    batch.items.map((item) => item.ok),
+   250	    [true, false, true],
+   251	  );
+   252	  assert.equal(batch.items[1].error.code, "INVALID_PARAMS");
+   253	  for (const index of [0, 2])
+   254	    assert.ok((await readFile(batch.items[index].data.output)).equals(firstBytes));
+   255	  report.checks.batch = batch;
+   256	  const mcpBatch = await service.mcp.callTool({
+   257	    name: "frame.batch",
+   258	    arguments: { projectId, revisionId, atUs: [0, 1800000, 0] },
+   259	  });
+   260	  assert.equal(mcpBatch.structuredContent.ok, true);
+   261	  assert.deepEqual(
+   262	    mcpBatch.structuredContent.data.items.map((item) => item.ok),
+   263	    [true, false, true],
+   264	  );
+   265	  const batchImages = mcpBatch.content.filter((part) => part.type === "image");
+   266	  assert.equal(batchImages.length, 2);
+   267	  for (const image of batchImages) assert.ok(Buffer.from(image.data, "base64").equals(firstBytes));
+   268	  report.checks.mcpBatch = true;
+   269	
+   270	  const changed = await call("edit.apply", {
+   271	    projectId,
+   272	    requestId: "head",
+   273	    expectedRevisionId: revisionId,
+   274	    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+   275	  });
+   276	  await service.stop();
+   277	  await service.start();
+   278	  const historical = await delivered({ projectId, revisionId, atUs: 0 }, "cli");
+   279	  assert.ok(historical.bytes.equals(firstBytes));
+   280	  const current = await delivered({ projectId, atUs: 0 }, "mcp");
+   281	  assert.equal(current.data.revisionId, changed.revision.id);
+   282	  assert.equal(current.data.published.frame.width, 320);
+   283	  report.checks.history = { old: revisionId, head: changed.revision.id, sameOldPng: true };
+   284	  const hit = await service.arm("media.renderCompositionFrame");
+   285	  const pending = await call("frame.get", { projectId, revisionId, atUs: 33333 });
+   286	  await hit();
+   287	  await call("job.cancel", { jobId: pending.jobId });
+   288	  await poll(
+   289	    () => call("job.get", { jobId: pending.jobId }),
+   290	    (v) => v.state === "canceled",
+   291	    "canceled picture",
+   292	  );
+   293	  await call("frame.retry", { projectId, revisionId, atUs: 33333 });
+   294	  const retried = await delivered({ projectId, revisionId, atUs: 33333 }, "cli");
+   295	  assert.equal(retried.data.published.frame.frame.sampleAtUs, 0);
+   296	  report.checks.cancelRetry = true;
+   297	  for (const name of ["a", "b"])
+   298	    assert.equal(hash(await readFile(join(corpus, name + ".mov"))), media[name].sha256);
+   299	  report.checks.originals = true;
+   300	  assert.equal((await call("project.delete", { projectId }, { transport: "mcp" })).deleted, true);
+   301	  assert.equal(
+   302	    (await call("frame.get", { projectId, atUs: 0 }, { error: true })).code,
+   303	    "NOT_FOUND",
+   304	  );
+   305	  for (const name of ["a", "b"])
+   306	    assert.equal(
+   307	      (await call("asset.get", { assetId: media[name].assetId })).id,
+   308	      media[name].assetId,
+   309	    );
+   310	  // A new project cannot reuse a deleted project's cached picture artifacts.
+   311	  // Render both retained assets to verify owned media, not just catalog rows.
+   312	  const retained = await call("project.create", {
+   313	    requestId: "retained-pictures",
+   314	    canvas: {
+   315	      width: 160,
+   316	      height: 128,
+   317	      fps: { numerator: 10, denominator: 1 },
+   318	      background: "#000000ff",
+   319	    },
+   320	  });
+   321	  const retainedEdit = await call("edit.apply", {
+   322	    projectId: retained.project.projectId,
+   323	    expectedRevisionId: retained.revision.id,
+   324	    requestId: "retained-place",
+   325	    operations: [
+   326	      { operation: "track.add", track: { kind: "video", order: 0 }, label: "picture" },
+   327	      place("retained-a", "a", { kind: "hold", atUs: 0 }, 0, 500000),
+   328	      place("retained-b", "b", { kind: "hold", atUs: 200000 }, 500000, 1000000),
+   329	    ],
+   330	  });
+   331	  report.checks.deletionPreservesSources = [];
+   332	  for (const [atUs, expected] of [
+   333	    [0, "A0"],
+   334	    [500000, "B1"],
+   335	  ]) {
+   336	    const frame = await delivered(
+   337	      {
+   338	        projectId: retained.project.projectId,
+   339	        revisionId: retainedEdit.revision.id,
+   340	        atUs,
+   341	      },
+   342	      "cli",
+   343	    );
+   344	    const observed = classify(await rgb(join(out, frame.name)), refs);
+   345	    assert.equal(observed.id, expected);
+   346	    assert.ok(observed.differingPixels < observed.runnerUp.differingPixels);
+   347	    const previous = report.checks.pictures.find((picture) => picture.expected === expected);
+   348	    assert.equal(hash(frame.bytes), previous.sha256);
+   349	    report.checks.deletionPreservesSources.push({ expected, observed, sha256: hash(frame.bytes) });
+   350	  }
+   351	  report.passed = true;
+   352	} catch (error) {
+   353	  report.error = { message: String(error), stack: error.stack };
+   354	  throw error;
+   355	} finally {
+   356	  try {
+   357	    await service.stop();
+   358	  } catch (error) {
+   359	    report.passed = false;
+   360	    report.cleanupError = String(error);
+   361	    throw error;
+   362	  } finally {
+   363	    try {
+   364	      await writeFile(join(out, "service.log"), service.logs.join(""));
+   365	      await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
+   366	    } finally {
+   367	      await rm(home, { recursive: true, force: true });
+   368	    }
+   369	  }
+   370	}
+   371	console.log(JSON.stringify({ passed: true, out }));
+
+2026-09-28T09:06:47.839334Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e743-fa6f-7b73-8925-a85ae52efec5 turn_id=01a0e743-fb68-7e31-aa0d-dde1c892518f item_id="exec-540352e1-a430-40b9-a4c8-a9393d2c6117"
+exec
+/bin/zsh -lc "cat specs/recording-for-ai/README.md | head -70; cat packages/test-harness/editing/render-membership.mjs; sed -n '1,230p' packages/test-harness/editing/source-evidence-fixture.mjs; rg -n 'sourcePath|owned|assetPath|mediaPath|cache|renderCompositionFrame' apps/service/src/project-render.ts; rg -n 'deletionPreservesSources|retained-pictures|source.preser' specs/agent-editing" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+selective inspection after the initial transcript read.
+Settings now shows the package-defined app version; [07a](slices/07a-settings-window.md)
+records the build and visual verification. Remaining pickup is unchanged.
+
+[08](slices/08-transcript-processing.md) is closed, including its real-narration gate: word
+boundaries miss the 100 ms median target at 135 ms and are reported as missed, twelve of fifteen
+outside the speech and three inside it ([evidence](assets/speech/boundaries/README.md)). Measuring
+it fixed three real defects, the worst of which let a cut of one word silently delete the next.
+
+Needing this person rather than a check:
+
+- **System audio:** a take with something playing, which a check must not make this Mac do,
+  and with it the A/V timing measurement that needs both tracks against a known event
+  ([01](slices/01-native-capture.md)).
+- **A region take:** proving where one landed means recording whatever is on the screen, and a
+export const codecChannelTolerance = 4;
+
+export function mask(rgb) {
+  const output = new Uint8Array(160 * 128);
+  for (let i = 0; i < output.length; i++)
+    output[i] = Math.min(rgb[i * 3], rgb[i * 3 + 1], rgb[i * 3 + 2]) > 200 ? 1 : 0;
+  return output;
+}
+export function classify(rgb, references) {
+  const actual = mask(rgb);
+  const distances = references
+    // A glyph-free colored frame is not a gap. Lossy black uses the same channel
+    // tolerance as this corpus's declared-color check, rather than exact bytes.
+    .filter(({ id }) => id !== "black" || rgb.every((channel) => channel <= codecChannelTolerance))
+    .map(({ id, mask }) => {
+      let differingPixels = 0;
+      for (let i = 0; i < mask.length; i++) differingPixels += actual[i] !== mask[i] ? 1 : 0;
+      return { id, differingPixels };
+    })
+    .sort((a, b) => a.differingPixels - b.differingPixels);
+  return { ...distances[0], runnerUp: distances[1] };
+}
+
+// The fixed asymmetric corpus is shared by movie and direct-picture gates.
+export function corpusReferences(readFrames) {
+  const refs = [{ id: "black", mask: new Uint8Array(160 * 128) }];
+  for (const [id, width, height, count] of [
+    ["a", 160, 96, 8],
+    ["b", 96, 128, 10],
+  ]) {
+    const pixels = readFrames(id);
+    for (let n = 0; n < count; n++) {
+      const canvas = Buffer.alloc(160 * 128 * 3);
+      for (let y = 0; y < height; y++)
+        pixels.copy(
+          canvas,
+          ((y + (128 - height) / 2) * 160 + (160 - width) / 2) * 3,
+          (n * height + y) * width * 3,
+          (n * height + y + 1) * width * 3,
+        );
+      refs.push({ id: id.toUpperCase() + n, mask: mask(canvas) });
+    }
+  }
+  return refs;
+}
+import assert from "node:assert/strict";
+import { execFile, fork } from "node:child_process";
+import { createHash, randomUUID } from "node:crypto";
+import { once } from "node:events";
+import { constants } from "node:fs";
+import { copyFile, lstat, mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
+import { promisify } from "node:util";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { cliReply } from "./first-preview-transport.mjs";
+
+export const run = promisify(execFile);
+export const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+export const root = new URL("../../../", import.meta.url).pathname;
+export async function poll(read, done, label) {
+  const deadline = performance.now() + 180000;
+  for (;;) {
+    const value = await read();
+    if (done(value)) return value;
+    assert.ok(!["failed", "canceled"].includes(value.state), `${label}: ${JSON.stringify(value)}`);
+    assert.ok(performance.now() < deadline, `${label}: deadline`);
+    await delay(100);
+  }
+}
+
+/** Copies already prepared, hash-pinned files. No network fetch or preparation operation. */
+export async function copyModels(home, request) {
+  const { parakeetModel: manifest, SpeechModels } =
+    await import("../../../packages/core/dist/speech-models.js");
+  assert.deepEqual(request.files, manifest.files);
+  const models = new SpeechModels(join(home, "library"));
+  const target = join(home, "library/models", manifest.name, manifest.revision);
+  const receipt = { modelDigest: models.modelDigest, files: {} };
+  for (const file of manifest.files) {
+    const source = join(request.directory, file.path);
+    const destination = join(target, manifest.folderName, file.path);
+    assert.ok((await lstat(source)).isFile());
+    await mkdir(dirname(destination), { recursive: true });
+    await copyFile(source, destination, constants.COPYFILE_FICLONE);
+    const bytes = await readFile(destination);
+    assert.equal(bytes.length, file.bytes);
+    assert.equal(hash(bytes), file.sha256);
+    const stat = await lstat(destination, { bigint: true });
+    receipt.files[file.path] = { modifiedNs: String(stat.mtimeNs), inode: String(stat.ino) };
+  }
+  await writeFile(join(target, "receipt.json"), JSON.stringify(receipt));
+  assert.deepEqual(models.status(), { state: "ready" });
+  return { modelDigest: models.modelDigest, files: manifest.files };
+}
+
+/** Public transports around a scratch project service; barriers hold only real native replies. */
+export class JourneyService {
+  constructor(
+    home,
+    report,
+    evidence,
+    serviceModule = new URL("./source-acquisition-service.mjs", import.meta.url),
+  ) {
+    this.home = home;
+    this.serviceModule = serviceModule;
+    this.evidence = evidence;
+    this.report = report;
+    this.logs = [];
+    this.barriers = new Map();
+  }
+  async start() {
+    this.child = fork(this.serviceModule, [this.home, ...(this.evidence ? [this.evidence] : [])], {
+      stdio: ["ignore", "pipe", "pipe", "ipc"],
+    });
+    this.child.stdout.on("data", (b) => this.logs.push(b.toString()));
+    this.child.stderr.on("data", (b) => this.logs.push(b.toString()));
+    this.child.on("message", (m) => {
+      if (m.type) this.barriers.set(`${m.id}/${m.type}`, m);
+    });
+    const [ready] = await Promise.race([
+      once(this.child, "message"),
+      once(this.child, "exit").then(([code]) => {
+        throw new Error(`Service exited ${code}: ${this.logs.join("")}`);
+      }),
+      delay(30000, undefined, { ref: false }).then(() => {
+        throw new Error("Service startup deadline");
+      }),
+    ]);
+    assert.equal(ready.error, undefined, JSON.stringify(ready));
+    this.socketPath = ready.socketPath;
+    this.mcp = new Client({ name: "source-transcript-journey", version: "1" });
+    await this.mcp.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [join(root, "apps/cli/dist/main.js"), "mcp", "--socket", this.socketPath],
+        stderr: "pipe",
+      }),
+    );
+  }
+  async call(operation, params, { transport = "cli", error = false, output } = {}) {
+    const response =
+      transport === "mcp"
+        ? (await this.mcp.callTool({ name: operation, arguments: params })).structuredContent
+        : await cliReply([
+            join(root, "apps/cli/dist/main.js"),
+            operation,
+            "--socket",
+            this.socketPath,
+            "--params",
+            JSON.stringify(params),
+            ...(output ? ["--output", output] : []),
+          ]);
+    assert.equal(response?.ok, !error, `${operation}: ${JSON.stringify(response)}`);
+    this.report.trace.push({
+      operation,
+      transport,
+      ok: response.ok,
+      state: response.data?.state,
+      error: response.error,
+    });
+    return response.ok ? response.data : response.error;
+  }
+  async arm(operation) {
+    const id = randomUUID();
+    this.child.send({ type: "barrier.arm", id, operation, remaining: 1 });
+    await poll(
+      () => this.barriers.get(`${id}/barrier.armed`) ?? {},
+      (v) => v.type === "barrier.armed",
+      "arm",
+    );
+    return () =>
+      poll(
+        () => this.barriers.get(`${id}/barrier.hit`) ?? {},
+        (v) => v.nativeSucceeded,
+        "native reply",
+      );
+  }
+  async stop(crash = false) {
+    await this.mcp?.close();
+    this.mcp = undefined;
+    const child = this.child;
+    if (!child || child.exitCode !== null || child.signalCode !== null) return;
+    const exited = once(child, "exit");
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        child.kill("SIGKILL");
+        reject(new Error("Service shutdown deadline"));
+      }, 15000);
+      timer.unref();
+    });
+    if (crash) child.kill("SIGKILL");
+    else child.send("close");
+    try {
+      const [code, signal] = await Promise.race([exited, timeout]);
+      if (crash) assert.equal(signal, "SIGKILL");
+      else assert.equal(code, 0, this.logs.join(""));
+    } catch (error) {
+      await exited;
+      throw error;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+}
+
+/** Synthetic acquisition journals around real speech bytes; not a physical capture claim. */
+export async function acquisitionDonor(directory, narration, available) {
+  await mkdir(directory, { recursive: true });
+  await copyFile(
+    join(root, "fixtures/narrated-workbench/video.mov"),
+    join(directory, "video.mov"),
+    constants.COPYFILE_FICLONE,
+  );
+  await copyFile(narration, join(directory, "narration.mov"), constants.COPYFILE_FICLONE);
+  const records = [
+    {
+      event: "header",
+      data: {
+        schemaVersion: 1,
+        sessionID: `synthetic-source-journey-${randomUUID()}`,
+        source: { kind: "window", windowID: 7 },
+        width: 3120,
+        height: 1970,
+        microphone: true,
+        systemAudio: false,
+      },
+    },
+    { event: "origin", data: { hostUs: 1000000 } },
+    ...available.map((range) => ({ event: "audioSamples", data: { role: "narration", ...range } })),
+    { event: "finished", data: {} },
+    { event: "lifecycle", data: { state: "complete" } },
+  ];
+  const raw = records.map((r, i) => JSON.stringify({ ...r, sequence: i + 1 }) + "\n").join("");
+  await writeFile(join(directory, "capture.journal.jsonl"), raw);
+  return hash(raw);
+}
+117:              "media.renderCompositionFrame",
+specs/agent-editing/slices/15a-noise-processing.md:56:editorial defaults, source preservation and audible quality are not. Update status,
+specs/agent-editing/assets/10d-public-project-frames/independent-review.log:726:  report.checks.deletionPreservesSources = true;
+specs/agent-editing/assets/10d-public-project-frames/independent-review.log:2406:  report.checks.deletionPreservesSources = true;
+specs/agent-editing/assets/10d-public-project-frames/independent-review.log:3028:No lost/duplicated pagination rows over repeated and reordered takes, tied timestamps, empty pages with continuation and changing generations. Search distinguishes source text from assembled playback text. An overlapping-speech fixture cannot form a phrase from words on different tracks; test contiguous cross-clip phrases, explicit gaps and partial-word interruption. Return all occurrences with distinct clip IDs; retimed words use the compiler's mapping. Single-source preservation cases keep their meaning. Project frame delivery uses the compiler/executors and shared artifact lifecycle established in slice 09. This slice owns its public frame requests alongside projected evidence and context; verify delivered frame membership/timing against the same project preview. Full audio and acoustic artifacts belong to slice 11.
+specs/agent-editing/assets/10d-public-project-frames/independent-review.log:3727:   310	  report.checks.deletionPreservesSources = true;
+specs/agent-editing/assets/10d-public-project-frames/independent-review.log:3816:The independent membership expectations, actual CLI/MCP delivery, and historical-revision checks are coherent, but the source-preservation claim exceeds its assertions. Syntax and diff checks passed; the native journey and audio-exclusion mutation were not independently rerun.
+specs/agent-editing/assets/10d-public-project-frames/independent-review.log:3821:  If deletion removes or corrupts imported media while leaving asset rows intact, this check still reports `deletionPreservesSources: true`: `asset.get` only reads catalog metadata. The earlier hashes cover the external corpus files, before deletion, rather than the library copies. Verify the retained media after deletion, either by hashing those copies or rendering them through a fresh project without cached derivatives.
+specs/agent-editing/assets/10d-public-project-frames/independent-review.log:3822:The independent membership expectations, actual CLI/MCP delivery, and historical-revision checks are coherent, but the source-preservation claim exceeds its assertions. Syntax and diff checks passed; the native journey and audio-exclusion mutation were not independently rerun.
+specs/agent-editing/assets/10d-public-project-frames/independent-review.log:3827:  If deletion removes or corrupts imported media while leaving asset rows intact, this check still reports `deletionPreservesSources: true`: `asset.get` only reads catalog metadata. The earlier hashes cover the external corpus files, before deletion, rather than the library copies. Verify the retained media after deletion, either by hashing those copies or rendering them through a fresh project without cached derivatives.
+specs/agent-editing/assets/10d-public-project-frames/report.json:1950:    "deletionPreservesSources": [
+specs/agent-editing/assets/10d-public-project-frames/deletion-mutation.json:1878:    "deletionPreservesSources": []
+specs/agent-editing/slices/10-project-evidence.md:27:No lost/duplicated pagination rows over repeated and reordered takes, tied timestamps, empty pages with continuation and changing generations. Search distinguishes source text from assembled playback text. An overlapping-speech fixture cannot form a phrase from words on different tracks; test contiguous cross-clip phrases, explicit gaps and partial-word interruption. Return all occurrences with distinct clip IDs; retimed words use the compiler's mapping. Single-source preservation cases keep their meaning. Project frame delivery uses the compiler/executors and shared artifact lifecycle established in slice 09. This slice owns its public frame requests alongside projected evidence and context; verify delivered frame membership/timing against the same project preview. Full audio and acoustic artifacts belong to slice 11.
+specs/agent-editing/assets/06-platform-temporal/report.json:10525:    "Full captured-source preservation and production-entry-point parity remain adoption gates.",
+specs/agent-editing/assets/06-render/report.json:10521:    "Full captured-source preservation and production-entry-point parity remain adoption gates.",
+
+2026-09-28T09:06:53.426421Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e743-fa6f-7b73-8925-a85ae52efec5 turn_id=01a0e743-fb68-7e31-aa0d-dde1c892518f item_id="exec-9618edc9-3100-4712-8476-d496c6418781"
+exec
+/bin/zsh -lc "sed -n '1,200p' apps/service/src/project-render.ts; rg -n 'mediaPath|sourcePath|original|asset.*path' packages/core/src/*render* packages/core/src/*composition* apps/service/src/project-service.ts; cat specs/agent-editing/slices/10d-frame-inspection.md | tail -65; ls specs/agent-editing/assets/10d-public-project-frames; tail -35 specs/agent-editing/assets/10d-public-project-frames/deletion-mutation.json; find packages -name AGENTS.md -o -name AGENTS.override.md" in /Users/david/dev/screen-recorder
+ succeeded in 0ms:
+import { constants } from "node:fs";
+import { copyFile, mkdir, open } from "node:fs/promises";
+import { join } from "node:path";
+import { CatalogError } from "@screenrec/core/catalog";
+import type { CompositionMovie, ProjectMovieRenderer } from "@screenrec/core/project-preview";
+import type { ProjectFrameRenderer } from "@screenrec/core/project-frames";
+import type { ProjectAudioRenderer } from "@screenrec/core/audio-inspection";
+import { withRenderAttempt, withRenderedFile } from "./render.js";
+import { renderWindowDeadlineMs, nativeResult, type MediaWorker } from "./worker.js";
+
+/** Compiled pictures and PCM share the existing attempt and final movie publication boundary. */
+export function projectMovieRenderer(worker: MediaWorker, workspace: string): ProjectMovieRenderer {
+  return {
+    implementationId: "native-composition-movie-v2",
+    async render(request, signal) {
+      await mkdir(workspace, { recursive: true, mode: 0o700 });
+      const { manifest } = request.window;
+      return withRenderAttempt(
+        worker,
+        workspace,
+        signal,
+        async (directory, execute) => {
+          const frames = join(directory, "frames.jsonl");
+          const handle = await open(frames, "wx", 0o600);
+          let frameCount = 0;
+          try {
+            let batch = "";
+            for (const frame of request.window.frames()) {
+              signal.throwIfAborted();
+              batch += JSON.stringify(frame) + "\n";
+              frameCount++;
+              if (Buffer.byteLength(batch) >= 64 * 1024) {
+                await handle.writeFile(batch);
+                batch = "";
+              }
+            }
+            if (batch) await handle.writeFile(batch);
+          } finally {
+            await handle.close();
+          }
+          signal.throwIfAborted();
+          const file = join(directory, "movie.mp4");
+          const response = await execute(
+            "media.renderCompositionMovie",
+            {
+              output: file,
+              frames,
+              range: manifest.range,
+              canvas: manifest.canvas,
+              profile: "h264-rec709",
+              processing: manifest.processing,
+              assets: request.assets,
+              audio: { range: manifest.sampleRange, clips: [...request.window.audio()] },
+            },
+            {
+              signal,
+              // Video rendering and PCM/AAC assembly each get the retained playback duration.
+              // Sparse source seeks do not budget discarded recording prefixes.
+              timeoutMs: renderWindowDeadlineMs(manifest.range),
+            },
+          );
+          signal.throwIfAborted();
+          const movie = nativeResult(response) as CompositionMovie;
+          if (movie.file !== file || movie.frameCount !== frameCount)
+            throw new CatalogError(
+              "INVALID_RESPONSE",
+              "Movie receipt changed the compiled frame stream",
+            );
+          return movie;
+        },
+        async (movie) => {
+          await copyFile(movie.file, request.output, constants.COPYFILE_EXCL);
+          return { ...movie, file: request.output };
+        },
+      );
+    },
+  };
+}
+
+export function projectAudioRenderer(worker: MediaWorker, workspace: string): ProjectAudioRenderer {
+  return {
+    implementationId: "native-composition-audio-v2",
+    render: async ({ window, assets, output }, signal) =>
+      withRenderedFile(
+        worker,
+        { attemptParent: workspace, output, filename: "audio.wav" },
+        signal,
+        async (file, execute) =>
+          nativeResult(
+            await execute(
+              "media.mixCompositionAudio",
+              {
+                output: file,
+                range: window.manifest.sampleRange,
+                clips: [...window.audio()],
+                processing: window.manifest.processing,
+                assets,
+              },
+              { signal, timeoutMs: renderWindowDeadlineMs(window.manifest.range) },
+            ),
+          ),
+      ),
+  };
+}
+
+export function projectFrameRenderer(worker: MediaWorker, workspace: string): ProjectFrameRenderer {
+  return {
+    implementationId: "native-composition-picture-v1",
+    render: async ({ window, assets, output, maxLongEdge }, signal) =>
+      withRenderedFile(
+        worker,
+        { attemptParent: workspace, output, filename: "frame.png" },
+        signal,
+        async (file, execute) =>
+          nativeResult(
+            await execute(
+              "media.renderCompositionFrame",
+              {
+                output: file,
+                frame: window.frames().next().value,
+                canvas: window.manifest.canvas,
+                profile: "h264-rec709",
+                processing: window.manifest.processing,
+                assets,
+                maxLongEdge,
+              },
+              { signal },
+            ),
+          ),
+      ),
+  };
+}
+zsh:1: no matches found: packages/core/src/*render*
+Retained screenshot selection/index keeps its existing lifecycle and bounded
+readers; project coverage uses the occurrence-query owner. Jobs, cache, delivery
+and deletion remain the shared owners from 09.
+
+## Work and review surface
+
+Extend existing frame/index registry operations with flat source/project selectors.
+Return declared sampling/visible times and exact context pins. Source indexes remain
+raw-source evidence; a processed project frame is explicitly distinguished. Gaps,
+holds, unavailable acquisition and repeated uses retain their identities.
+
+```sh
+node packages/test-harness/editing/frame-evidence.mjs --fixture repeated-picture
+```
+
+## Acceptance
+
+Delivered still membership/timing matches verified preview/export for boundary,
+interior, held and leading partial pictures, repeated/reordered sources and selected
+acquisition gaps. Use asymmetric landmarks to verify orientation/framing. Test
+paging/index coverage, source-generation changes, eviction, cancellation, deletion
+and cross-transport delivery. Unsupported processors/profiles refuse consistently
+with preview. Existing recording/package frame/index gates remain green.
+
+## Visual acceptance
+
+Judge picture membership and framing in contact sheets and boundary crops, not
+new styling. Compare against the named preview/corpus using compare-screenshots;
+run a fresh unprimed screenshot-critique as the final visual check. Retain hashes,
+shots and verdicts. Human review is non-blocking under the spec's standing review
+procedure; no listening or broader codec-quality claim follows from stills.
+
+## Failure boundary and discretion
+
+Do not create a second layer/transform interpreter or bypass source availability.
+Unimplemented pointer/geometry features remain their named later gates.
+
+Delegated: extraction of the coherent native picture executor and index storage
+representation. Sampling, capability, identity and single-owner rules are fixed.
+Update slice Status and the README handoff after verified passes.
+
+
+## Picture planning checkpoint
+
+The compiler now selects the video plane through the same contributor, processing
+and execution-window owners used by movies and audio inspection. A narrow request
+inside a frame retains that frame's global sample timestamp; unrelated audio
+retiming and audio processing do not block the picture. [Focused evidence](../assets/10d-picture-window/README.md)
+covers this pure planning prerequisite, not delivered-image acceptance.
+
+The [core demanded-picture lifecycle](../assets/10d-project-frame-core/README.md)
+now pins requests and checks native receipt identity under the shared job/cache
+owners. Its controlled-renderer tests do not establish native or public acceptance.
+Concurrent frame and movie staging share safe workspace lifetime. The
+[public project-picture journey](../assets/10d-public-project-frames/README.md)
+verifies actual delivery and retained-source rendering after project deletion.
+## Native checkpoint
+
+Demanded PNGs and movies share one compiled-picture execution owner, including
+selected-stream physical membership, support masking, orientation and the canvas
+raster. Delivery bounds apply after that raster. Receipts preserve compiler time
+separately from the actual physical sample and distinguish unavailable pictures
+from an empty canvas. The [native checkpoint evidence](../assets/10d-native-pictures/EVIDENCE.md)
+records the executed gates and links the corrected common-profile visual review. This does
+not close the public delivery, selected-source or retained-index gates above.
+00-cli.png
+01-mcp.png
+02-cli.png
+03-mcp.png
+04-cli.png
+05-mcp.png
+06-cli.png
+07-mcp.png
+08-cli.png
+09-mcp.png
+10-cli.png
+11-mcp.png
+12-cli.png
+13-mcp.png
+14-cli.png
+15-mcp.png
+16-cli.png
+17-mcp.png
+18-cli.png
+19-mcp.png
+20-cli.png
+21-mcp.png
+22-cli.png
+23-mcp.png
+24-cli.png
+25-mcp.png
+26-cli.png
+27-cli.png
+28-cli.png
+README.md
+deletion-mutation.json
+deletion-mutation.log
+independent-review.log
+preview-integration.json
+preview-visual-identity.json
+report.json
+screenrec-frame-integration-types.log
+screenrec-frame-native-lifetime-tests.log
+screenrec-frame-service-final.log
+screenrec-project-frame-cli-tests.log
+source-audio-integration.json
+              "token": "2a78c824-3ac1-454b-bd27-cc9e6c667f97",
+              "bytes": 3336,
+              "expiresAt": 1790586356410
+            },
+            "output": "/tmp/screenrec-public-frame-deletion-mutant/batch/03.png"
+          },
+          "atUs": 0
+        }
+      ],
+      "projectId": "f7ed2dd8-f500-449b-9154-0c907a2ee59e"
+    },
+    "mcpBatch": true,
+    "history": {
+      "old": "346de86d-c4d9-4846-8a63-40b93b8cdd34",
+      "head": "dc11d420-8dc2-4989-9774-609601f5da41",
+      "sameOldPng": true
+    },
+    "cancelRetry": true,
+    "originals": true,
+    "deletionPreservesSources": []
+  },
+  "pending": [
+    "Selected-source still delivery and retained screenshot indexes",
+    "Acquisition-mask public picture journey and fresh visual review of public artifacts"
+  ],
+  "nativeSha256": "3daf3c17dc5e093c46486c9ac074e042f52bad716209a1500f4fcd3c83e57b7b",
+  "project": {
+    "projectId": "f7ed2dd8-f500-449b-9154-0c907a2ee59e",
+    "revisionId": "346de86d-c4d9-4846-8a63-40b93b8cdd34"
+  },
+  "error": {
+    "message": "AssertionError [ERR_ASSERTION]: picture ready: {\"projectId\":\"ec205f5e-038f-4e99-8920-9f1b8264c7e0\",\"revisionId\":\"27b725de-a012-4182-8d1d-3f448d81fb2a\",\"atUs\":0,\"maxLongEdge\":1600,\"tap\":{\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}},\"implementationId\":\"native-composition-picture-v1\",\"state\":\"failed\",\"reason\":\"The operation could not be completed\",\"retryable\":true,\"jobId\":\"8c940884-24e3-4af4-aba6-ffc21731d227\",\"published\":null,\"delivery\":null}",
+    "stack": "AssertionError [ERR_ASSERTION]: picture ready: {\"projectId\":\"ec205f5e-038f-4e99-8920-9f1b8264c7e0\",\"revisionId\":\"27b725de-a012-4182-8d1d-3f448d81fb2a\",\"atUs\":0,\"maxLongEdge\":1600,\"tap\":{\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}},\"implementationId\":\"native-composition-picture-v1\",\"state\":\"failed\",\"reason\":\"The operation could not be completed\",\"retryable\":true,\"jobId\":\"8c940884-24e3-4af4-aba6-ffc21731d227\",\"published\":null,\"delivery\":null}\n    at poll (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs:22:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async delivered (file:///Users/david/dev/screen-recorder/packages/test-harness/editing/frame-evidence.mjs:93:17)\n    at async file:///Users/david/dev/screen-recorder/packages/test-harness/editing/frame-evidence.mjs:332:19"
+  }
+}
+
+2026-09-28T09:07:00.120961Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e743-fa6f-7b73-8925-a85ae52efec5 turn_id=01a0e743-fb68-7e31-aa0d-dde1c892518f item_id="exec-a47e1e68-4a30-4650-8ef5-ebb86b1f91ad"
+exec
+/bin/zsh -lc "cat specs/agent-editing/assets/10d-public-project-frames/README.md; rg -n 'assets:|mediaPath|assetPath|projectId|identity' packages/core/src/project-frames.ts | head -50; rg -n 'path:|sourcePath|original' apps/service/src/project-service.ts | head -45; node --check packages/test-harness/editing/frame-evidence.mjs" in /Users/david/dev/screen-recorder
+ succeeded in 11ms:
+2026-09-28T09:07:06.524680Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0e743-fa6f-7b73-8925-a85ae52efec5 turn_id=01a0e743-fb68-7e31-aa0d-dde1c892518f item_id="exec-c099a9e2-1c8d-40ca-a783-486e74e7c214"
+codex
+The fresh project renders both retained assets, checks independently expected picture identities, and compares PNG hashes against pre-deletion results rather than relying on catalog metadata or deleted-project artifacts. No actionable defects found within scope. Syntax validation passed; the native journey was not independently rerun.
+The fresh project renders both retained assets, checks independently expected picture identities, and compares PNG hashes against pre-deletion results rather than relying on catalog metadata or deleted-project artifacts. No actionable defects found within scope. Syntax validation passed; the native journey was not independently rerun.

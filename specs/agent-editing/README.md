@@ -20,8 +20,9 @@ search and capture cursor/pause/geometry occurrence queries are verified. Captur
 scene/cut/interruption categories remain explicitly unsupported and require
 reconciliation before closing 10c. [10d direct frames](slices/10d-frame-inspection.md) is now the active implementation
 branch: picture-only compilation and core revision/cache lifecycle are committed;
-native still extraction is integrated; color-managed visual review, concurrent
-staging and public delivery are next. Retain the full
+native still extraction, common-profile visual comparison and concurrent staging
+are integrated. [Public project pictures](assets/10d-public-project-frames/README.md)
+pass actual CLI/MCP delivery; selected-source frames and retained indexes are next. Retain the full
 [10 evidence](slices/10-project-evidence.md) umbrella requirements.
 
 Source and project audio share jobs, cached delivery and locked render attempts.
@@ -29,8 +30,8 @@ The [public tap journey](assets/11a-public-project-taps/wired-render/README.md)
 passes all nested dry/after-step/processed taps with byte-identical WAV outputs.
 [Actual source extraction above 1 GiB](assets/11a-audio-extraction/README.md) and
 the bounded AAC tail correction are integrated. Signed-start preservation and core
-execution pins are also committed; the root service pins/concurrent staging still
-need their final combined-runtime rerun. Same-old-binary evidence proves a pre-existing tiny AAC
+execution pins and concurrent staging pass the final combined-runtime source WAV,
+preview/export and project-picture journeys. Same-old-binary evidence proves a pre-existing tiny AAC
 full-versus-seek float difference; the final journey uses explicit AAC-only RMS
 and maximum error bounds while keeping exact counts/clocks/endpoints and lossless
 byte parity. Do not shorten support or pad missing decoded speech to hide failures.

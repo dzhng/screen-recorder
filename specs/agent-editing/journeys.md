@@ -36,7 +36,8 @@ also pass live CLI/MCP delivery against frozen source transcripts.
 [Capture cursor/pause/geometry queries](assets/10c-public-capture/README.md),
 [project audio taps](assets/11a-public-project-taps/wired-render/README.md) and
 [large source WAV delivery](assets/11a-audio-extraction/README.md) now have actual
-public journeys. Scene/cut/interruption categories, processors beyond constant
+public journeys. [Project stills](assets/10d-public-project-frames/README.md)
+verify delivered picture membership and retained media after project deletion. Scene/cut/interruption categories, processors beyond constant
 gain and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 

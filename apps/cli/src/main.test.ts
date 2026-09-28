@@ -128,6 +128,13 @@ function expectCallableContract(tools: AdvertisedTool[]) {
     ["assetId", "streamId"],
   ]);
   expect(required("audio.retry")).toEqual(required("audio.get"));
+  expect(required("frame.get")).toEqual([
+    ["projectId", "atUs"],
+    ["recordingId", "atUs"],
+    ["packageHandle", "atUs"],
+  ]);
+  expect(required("frame.retry")).toEqual(required("frame.get"));
+  expect(required("frame.batch")).toEqual(required("frame.get"));
   expect(required("timeline.events")).toEqual([
     ["projectId"],
     ["recordingId"],
@@ -444,11 +451,13 @@ it("does not replay a mutation when the discovered service loses its response", 
 });
 
 it.each([
-  { operation: "frame.batch", reference: "atUs" },
-  { operation: "index.frames", reference: "ordinal" },
+  { operation: "frame.batch", reference: "atUs", scope: "recording" },
+  { operation: "frame.batch", reference: "atUs", scope: "project" },
+  { operation: "index.frames", reference: "ordinal", scope: "recording" },
 ] as const)(
-  "$operation adapters retain partial failures, drain leases and never overwrite outputs",
-  async ({ operation, reference }) => {
+  "$operation $scope adapters retain partial failures, drain leases and never overwrite outputs",
+  async ({ operation, reference, scope }) => {
+    const target = scope === "project" ? { projectId: "project" } : { recordingId: "take" };
     const home = await mkdtemp("/tmp/scr-batch-client-");
     cleanup.push(() => rm(home, { recursive: true, force: true }));
     const closed: string[] = [];
@@ -487,7 +496,7 @@ it.each([
         return {
           ok: true,
           data: {
-            recordingId: "take",
+            ...target,
             revisionId: "r0",
             ...selectedIdentity,
             items: (collideFile ? ["first", "second", "third"] : ["first", "second"]).map(
@@ -508,8 +517,12 @@ it.each([
     cleanup.push(() => listener.close());
     const params =
       reference === "ordinal"
-        ? { recordingId: "take", ...selectedIdentity, ordinals: requested.slice(0, 2) }
-        : { recordingId: "take", clean: true, atUs: requested.slice(0, 2) };
+        ? { ...target, ...selectedIdentity, ordinals: requested.slice(0, 2) }
+        : {
+            ...target,
+            ...(scope === "recording" ? { clean: true } : {}),
+            atUs: requested.slice(0, 2),
+          };
     const output = join(home, "frames");
     const run = async (destination = output) =>
       JSON.parse(
@@ -540,7 +553,7 @@ it.each([
     expect(first.data.items.map((item: Record<string, unknown>) => item[reference])).toEqual(
       requested.slice(0, 2),
     );
-    expect(first.data).toMatchObject(selectedIdentity);
+    expect(first.data).toMatchObject({ ...target, ...selectedIdentity });
     expect(await readFile(first.data.items[1].data.output)).toEqual(bytes);
     expect(closed).toEqual(["first", "second"]);
     const collision = await run();

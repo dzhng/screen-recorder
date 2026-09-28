@@ -215,8 +215,24 @@ export async function mediaFile(
 
 const targetedBatch = <T extends z.ZodRawShape>(fields: T) =>
   z.union([
-    z.object({ ...fields, recordingId: z.string(), packageHandle: z.never().optional() }),
-    z.object({ ...fields, packageHandle: z.string(), recordingId: z.never().optional() }),
+    z.object({
+      ...fields,
+      projectId: z.string(),
+      recordingId: z.never().optional(),
+      packageHandle: z.never().optional(),
+    }),
+    z.object({
+      ...fields,
+      recordingId: z.string(),
+      packageHandle: z.never().optional(),
+      projectId: z.never().optional(),
+    }),
+    z.object({
+      ...fields,
+      packageHandle: z.string(),
+      recordingId: z.never().optional(),
+      projectId: z.never().optional(),
+    }),
   ]);
 const indexBatchResponse = targetedBatch({
   revisionId: z.string(),
