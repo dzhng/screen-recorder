@@ -1,0 +1,899 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Acquisition does not bind the selected asset and stream",
+        "retryable": false,
+        "details": {
+          "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+          "streamId": "track:1",
+          "acquisitionId": "5eab3fa2-48f8-4079-8460-5669bff057e0"
+        }
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "mcp",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_requested"
+    },
+    {
+      "operation": "frame.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "absent"
+    }
+  ],
+  "checks": {
+    "boundedDelivery": true,
+    "explicitTracksAndPhysicalGap": true,
+    "retainedAcquisition": {
+      "id": "5eab3fa2-48f8-4079-8460-5669bff057e0",
+      "donorDeleted": true,
+      "restarted": true,
+      "supportBasis": "physical",
+      "customVideoMaskAdmission": false
+    },
+    "mixedBatchCliAndMcp": true,
+    "cancelRetry": true
+  },
+  "frames": [
+    {
+      "name": "track1",
+      "selection": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1"
+      },
+      "sha256": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-MHJrkP/library/cache/derived/76a1ed4d-347c-4d7e-9e45-3d36106001db.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "bytes": 405,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v3",
+        "cacheId": "76a1ed4d-347c-4d7e-9e45-3d36106001db"
+      }
+    },
+    {
+      "name": "track2",
+      "selection": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:2"
+      },
+      "sha256": "f5559a2028199be2f55af6dab8a0910f891c16bd1617909331383640f16f3dda",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-MHJrkP/library/cache/derived/6dbb80bb-2275-478c-a942-2e7773849e54.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "bytes": 415,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:2",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v3",
+        "cacheId": "6dbb80bb-2275-478c-a942-2e7773849e54"
+      }
+    },
+    {
+      "name": "acquired",
+      "selection": {
+        "assetId": "24cd4d851caf13c310b2f52eebf952503602af5745d36060ac57401b17274208",
+        "streamId": "track:1",
+        "acquisitionId": "5eab3fa2-48f8-4079-8460-5669bff057e0"
+      },
+      "sha256": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-MHJrkP/library/cache/derived/b3474cd7-c5d6-404d-88cc-60163139cf1d.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "bytes": 405,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "assetId": "24cd4d851caf13c310b2f52eebf952503602af5745d36060ac57401b17274208",
+        "streamId": "track:1",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "acquisitionId": "5eab3fa2-48f8-4079-8460-5669bff057e0",
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v3",
+        "cacheId": "b3474cd7-c5d6-404d-88cc-60163139cf1d"
+      }
+    }
+  ],
+  "batches": [
+    {
+      "items": [
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 150000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v3",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "192293ef-e99f-4527-93b4-75ed2122e4dc",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-MHJrkP/library/cache/derived/6dbb80bb-2275-478c-a942-2e7773849e54.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "bytes": 415,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 150000,
+                "actualSourceUs": 100000,
+                "sample": {
+                  "value": "13824",
+                  "timescale": 10240,
+                  "endValue": "14848",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 150000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v3",
+                "cacheId": "6dbb80bb-2275-478c-a942-2e7773849e54"
+              }
+            },
+            "delivery": {
+              "token": "687e64c9-cf22-4431-9549-ac9edb7423dc",
+              "bytes": 415,
+              "expiresAt": 1790614233993
+            },
+            "output": "/tmp/source-video-preservation-public/batch/01.png"
+          },
+          "atUs": 150000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 450000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v3",
+            "state": "unavailable",
+            "reason": "physical_gap",
+            "retryable": false,
+            "jobId": null,
+            "published": null,
+            "delivery": null
+          },
+          "atUs": 450000
+        },
+        {
+          "ok": false,
+          "error": {
+            "code": "INVALID_RANGE",
+            "message": "Picture time must lie within the source duration",
+            "retryable": false,
+            "details": {}
+          },
+          "atUs": 1000000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 950000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v3",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "5c30f8de-4835-434a-a4e1-d35b299ccc7a",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-MHJrkP/library/cache/derived/3d4179cc-0fd3-465d-8fba-6ad919f48264.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "bytes": 415,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 950000,
+                "actualSourceUs": 900000,
+                "sample": {
+                  "value": "22016",
+                  "timescale": 10240,
+                  "endValue": "23040",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 950000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v3",
+                "cacheId": "3d4179cc-0fd3-465d-8fba-6ad919f48264"
+              }
+            },
+            "delivery": {
+              "token": "59b266d7-63e5-406e-8346-e4b11f0ccc33",
+              "bytes": 415,
+              "expiresAt": 1790614233995
+            },
+            "output": "/tmp/source-video-preservation-public/batch/04.png"
+          },
+          "atUs": 950000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 150000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v3",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "192293ef-e99f-4527-93b4-75ed2122e4dc",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-MHJrkP/library/cache/derived/6dbb80bb-2275-478c-a942-2e7773849e54.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "bytes": 415,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 150000,
+                "actualSourceUs": 100000,
+                "sample": {
+                  "value": "13824",
+                  "timescale": 10240,
+                  "endValue": "14848",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 150000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v3",
+                "cacheId": "6dbb80bb-2275-478c-a942-2e7773849e54"
+              }
+            },
+            "delivery": {
+              "token": "f1b82a70-41b5-45fd-b816-15b75c05c493",
+              "bytes": 415,
+              "expiresAt": 1790614233997
+            },
+            "output": "/tmp/source-video-preservation-public/batch/05.png"
+          },
+          "atUs": 150000
+        }
+      ],
+      "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+      "streamId": "track:2"
+    }
+  ],
+  "imageProfiles": [
+    {
+      "file": "/tmp/source-video-preservation-public/track1-cli.png",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "height": 48,
+      "opaque": true,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "height": 48,
+      "width": 64,
+      "opaque": true,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/track2-cli.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 64
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "height": 48,
+      "width": 64,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/bounded-cli.png",
+      "width": 32,
+      "opaque": true,
+      "height": 24,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/frame-5.png",
+      "width": 32,
+      "height": 24,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/acquired-cli.png",
+      "opaque": true,
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "width": 64
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/retained-cli.png",
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 64
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 64,
+      "height": 48
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/batch/01.png",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "width": 64
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/batch/04.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/batch/05.png",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "opaque": true,
+      "width": 64
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "opaque": true,
+      "width": 64,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/retried-cli.png",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 64
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "opaque": true,
+      "width": 64,
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    }
+  ],
+  "pictureComparisons": [
+    {
+      "file": "/tmp/source-video-preservation-public/track1-cli.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/track2-cli.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/bounded-cli.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/frame-5.png",
+      "kind": "reviewed native bounded picture",
+      "width": 32,
+      "height": 24,
+      "rgbaSha256": "59ae7687330b6026f7af4f2327303eb743170a4e1e0e3713f10c9052092f799e",
+      "referenceRgbaSha256": "59ae7687330b6026f7af4f2327303eb743170a4e1e0e3713f10c9052092f799e"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/acquired-cli.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/retained-cli.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/batch/01.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/batch/04.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/batch/05.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/source-video-preservation-public/retried-cli.png",
+      "reference": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    }
+  ],
+  "originals": [
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/source.mov",
+      "sha256": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc"
+    },
+    {
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-frames/visual/first.mov",
+      "sha256": "b52fe7b878b9a206f59276f9093fb6e6cbde458997b0f51bd3b58f9e7b5dab10"
+    }
+  ]
+}

@@ -128,8 +128,13 @@ revision while polling. Explicit acoustic retry recovers its prerequisites;
 ordinary reads do not restart canceled or failed work.
 
 For picture inspection, choose a raw source stream or a pinned project before
-requesting frames. Source requests use asset/stream identity, optional acquisition,
-and source time; do not add a recording or project revision. Project requests use
+requesting frames. Read the admitted stream kind first. For a raw PNG/JPEG image,
+use assetId and streamId with optional maxLongEdge; omit atUs and acquisitionId.
+The delivered PNG is already upright; its receipt retains the source orientation.
+An image has no sample clock. Timed video requests use asset/stream identity,
+optional acquisition, and source time; do not add a recording or project revision.
+Frame batches remain timed; inspect multiple images individually. Raw image
+inspection does not imply project still-image compositing is available. Project requests use
 project time and the inspected revision. The returned global project sample can
 precede the requested time; preserve its sample time, visible range and occurrence
 provenance instead of treating it as a wrong frame. `atUs` is the request instant;

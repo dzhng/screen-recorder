@@ -85,9 +85,10 @@ Compact evidence ledger:
   [typed no-picture delivery](assets/10d-source-empty-observation/README.md) pass
   their named gates. [Acquisition-gap project pictures](assets/10d-acquisition-pictures/README.md)
   use public audio-context anchors; direct narrower video masks remain native/core-only.
-  [Native still preparation](assets/10d-still-image-native/README.md) passes behavior
-  checks and fixture-scoped fresh visual review; public source/project integration
-  remains pending. No new layer capability is implied by those picture checks.
+  [Raw image inspection](assets/10d-source-image-public/README.md) passes its native
+  CLI/MCP lifecycle journey with unchanged reviewed native pixels; fresh skill use
+  and resized recovery review remain pending. Project still composition/indexing
+  remains required. No new layer capability is implied by raw inspection.
 - [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
   project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),
   [acoustic images/lifecycle](assets/11-acoustic-lifecycle/README.md) and

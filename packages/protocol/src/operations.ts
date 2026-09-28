@@ -159,6 +159,10 @@ const frameParams = z.union([
   projectFrameParams,
   ...inspection(frameFields).options,
   sourceFrameParams,
+  sourceSelection
+    .omit({ acquisitionId: true })
+    .extend({ maxLongEdge: frameFields.maxLongEdge })
+    .strict(),
 ]);
 
 const audioRange = range.refine(({ startUs, endUs }) => endUs > startUs, {
@@ -749,7 +753,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Recording/package selectors request a frame at edited playback time with an observed pointer and two-second trail by default. Use clean:true for no overlay or trailUs:0 for pointer only. Pin the returned revision when polling.",
+      "Request a raw PNG/JPEG image with assetId, streamId and optional maxLongEdge; omit atUs and acquisitionId for images. The delivered PNG is upright; its receipt retains source orientation and has no sample clock. Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Recording/package selectors request a frame at edited playback time with an observed pointer and two-second trail by default. Use clean:true for no overlay or trailUs:0 for pointer only. Pin the returned revision when polling.",
     ),
   z
     .object({ operation: z.literal("frame.retry"), params: frameParams })

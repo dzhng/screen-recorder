@@ -9,7 +9,7 @@ import {
 import type { ProjectStore } from "./projects.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
-import type { AssetStore } from "./assets.js";
+import { compositionAsset, type AssetStore } from "./assets.js";
 import type { JobQueue, JobExecution, JobOwner, Job } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import { CatalogError } from "./catalog.js";
@@ -27,21 +27,23 @@ const selectedPicture = {
   streamId: z.string().min(1),
   requestedSourceUs: time,
 };
-const nativeProjectReceiptSchema = z.object({
+const pictureDeliverySchema = z.object({
   file: z.string(),
   mediaType: z.literal("image/png"),
-  profile: z.literal("h264-rec709"),
-  frame: compiledFrameSchema,
   width: z.int().positive(),
   height: z.int().positive(),
   sourceWidth: z.int().positive(),
   sourceHeight: z.int().positive(),
-  decodedSamples: time,
-  readerOpens: time,
   bytes: z
     .int()
     .positive()
     .max(32 * 1024 * 1024),
+});
+const nativeProjectReceiptSchema = pictureDeliverySchema.extend({
+  profile: z.literal("h264-rec709"),
+  frame: compiledFrameSchema,
+  decodedSamples: time,
+  readerOpens: time,
   pictures: z.array(
     z.discriminatedUnion("status", [
       z.object({ status: z.literal("unavailable"), ...selectedPicture, reason: z.string().min(1) }),
@@ -100,33 +102,71 @@ const sourceOptionsSchema = z.strictObject({
   supportDigest: z.string().regex(/^[a-f0-9]{64}$/),
   implementationId: z.string().min(1),
 });
-const sourceReceiptSchema = projectReceiptSchema
-  .omit({ profile: true, frame: true, pictures: true })
+const sourceReceiptSchema = pictureDeliverySchema.extend({
+  decodedSamples: time,
+  readerOpens: time,
+  assetId: z.string().min(1),
+  streamId: z.string().min(1),
+  requestedSourceUs: time,
+  actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+  sample: z.object({
+    value: z
+      .string()
+      .max(21)
+      .regex(/^-?\d+$/),
+    timescale: z.int().positive(),
+    endValue: z
+      .string()
+      .max(21)
+      .regex(/^-?\d+$/),
+    endTimescale: z.int().positive(),
+    originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+  }),
+});
+const sourceImageSelectionSchema = sourceSelectionSchema.omit({ acquisitionId: true });
+const imageOptionsSchema = z.strictObject({
+  kind: z.literal("image"),
+  selection: sourceImageSelectionSchema,
+  maxLongEdge: z.int().min(1).max(8192),
+  implementationId: z.string().min(1),
+});
+const imageReceiptSchema = pictureDeliverySchema.extend({
+  kind: z.literal("image"),
+  ...sourceImageSelectionSchema.shape,
+  orientation: z.int().min(1).max(8),
+  hasAlpha: z.boolean(),
+  decodedImages: z.literal(1),
+  readerOpens: z.literal(1),
+});
+const imageInputSchema = sourceImageSelectionSchema
   .extend({
-    assetId: z.string().min(1),
-    streamId: z.string().min(1),
-    requestedSourceUs: time,
-    actualSourceUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
-    sample: z.object({
-      value: z
-        .string()
-        .max(21)
-        .regex(/^-?\d+$/),
-      timescale: z.int().positive(),
-      endValue: z
-        .string()
-        .max(21)
-        .regex(/^-?\d+$/),
-      endTimescale: z.int().positive(),
-      originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
-    }),
-  });
+    maxLongEdge: imageOptionsSchema.shape.maxLongEdge.optional(),
+  })
+  .strict();
+export type SourceImageInput = z.infer<typeof imageInputSchema>;
+export type SourceImageRenderer = {
+  implementationId: string;
+  render(
+    request: {
+      asset: Pick<CompositionAssetBinding, "assetId" | "streamId" | "path">;
+      maxLongEdge: number;
+      output: string;
+    },
+    signal: AbortSignal,
+  ): Promise<unknown>;
+};
+export type SourceImageArtifact = z.infer<typeof imageReceiptSchema> & {
+  maxLongEdge: number;
+  implementationId: string;
+  cacheId: string;
+};
+
 export type SourceFrameInput = SourceSelection & { atUs: number; maxLongEdge?: number | undefined };
 export type SourceFrameUnavailable = z.infer<typeof sourceOptionsSchema> &
   Pick<Job, "jobId" | "attemptId" | "reason"> & {
     observation: { requestedSourceUs: number; status: "unavailable"; reason: "empty_edit" };
   };
-export type MediaFrameInput = SourceFrameInput | ProjectFrameInput;
+export type MediaFrameInput = SourceFrameInput | SourceImageInput | ProjectFrameInput;
 export type SourceFrameRenderer = {
   implementationId: string;
   render(
@@ -158,11 +198,13 @@ export class MediaFrameInspection {
       jobs: JobQueue;
       cache: DerivedCache;
       sourceRenderer: SourceFrameRenderer;
+      imageRenderer?: SourceImageRenderer;
       project?: { projects: ProjectStore; renderer: ProjectFrameRenderer };
     },
   ) {
     if (
       !owners.sourceRenderer.implementationId ||
+      (owners.imageRenderer && !owners.imageRenderer.implementationId) ||
       (owners.project && !owners.project.renderer.implementationId)
     )
       throw new Error("Picture renderer needs an implementation identity");
@@ -171,6 +213,78 @@ export class MediaFrameInspection {
     if (!this.owners.project)
       throw new CatalogError("UNSUPPORTED_JOB", "Project pictures are unavailable");
     return this.owners.project;
+  }
+
+  private imagePlan(input: SourceImageInput) {
+    // Input keys are checked separately so an image cannot acquire a timed selection by accident.
+    const parsedInput = imageInputSchema.safeParse(input);
+    if (!parsedInput.success)
+      throw new CatalogError(
+        "INVALID_PARAMS",
+        "Still images accept assetId, streamId and maxLongEdge only",
+      );
+    const asset = this.owners.assets.get(input.assetId);
+    const stream = compositionAsset(asset).streams.find((value) => value.id === input.streamId);
+    if (!stream || stream.kind !== "image")
+      throw new CatalogError(
+        "INVALID_PARAMS",
+        "A timeless picture requires an image stream; video requires atUs",
+      );
+    const renderer = this.owners.imageRenderer;
+    if (!renderer)
+      throw new CatalogError("UNSUPPORTED_JOB", "Still-image pictures are unavailable");
+    const metadata = asset.streams.find((value) => value.id === stream.id)!;
+    const options = imageOptionsSchema.parse({
+      kind: "image",
+      selection: { assetId: asset.id, streamId: stream.id },
+      maxLongEdge: input.maxLongEdge ?? 1600,
+      implementationId: renderer.implementationId,
+    });
+    return {
+      options,
+      metadata,
+      stream,
+      renderer,
+      asset: { assetId: asset.id, streamId: stream.id, path: this.owners.assets.path(asset.id) },
+    };
+  }
+  private sourceDerivative<T extends { cacheId: string }>(
+    options: z.infer<typeof sourceOptionsSchema> | z.infer<typeof imageOptionsSchema>,
+  ) {
+    const { assets, acquisitions, jobs, cache } = this.owners;
+    return submitCachedDerivative<T>(
+      jobs,
+      cache,
+      {
+        target: { kind: "asset", assetId: options.selection.assetId },
+        artifact: "frame",
+        input: JSON.stringify(options),
+      },
+      "frame",
+      (job) => {
+        const owner = { kind: "job" as const, id: job.jobId };
+        assets.retain(owner, [options.selection.assetId]);
+        if ("acquisitionId" in options.selection && options.selection.acquisitionId)
+          acquisitions.retain(owner, [options.selection.acquisitionId]);
+      },
+    );
+  }
+  private requestImage(input: SourceImageInput) {
+    const { options } = this.imagePlan(input);
+    const status = this.sourceDerivative<SourceImageArtifact>(options);
+    return {
+      ...options.selection,
+      kind: options.kind,
+      maxLongEdge: options.maxLongEdge,
+      implementationId: options.implementationId,
+      state: status.state,
+      reason: status.reason,
+      retryable: status.retryable,
+      jobId: status.jobId,
+      published: status.published
+        ? { generation: status.published.generation, frame: status.published.value }
+        : null,
+    };
   }
 
   sourcePlan(input: SourceFrameInput) {
@@ -207,7 +321,6 @@ export class MediaFrameInspection {
   }
   private requestSource(input: SourceFrameInput) {
     const { options, reason } = this.sourcePlan(input);
-    const { assets, acquisitions, jobs, cache } = this.owners;
     const status = reason
       ? {
           state: "unavailable" as const,
@@ -216,22 +329,7 @@ export class MediaFrameInspection {
           jobId: null,
           published: null,
         }
-      : submitCachedDerivative<SourceFrameArtifact>(
-          jobs,
-          cache,
-          {
-            target: { kind: "asset", assetId: options.selection.assetId },
-            artifact: "frame",
-            input: JSON.stringify(options),
-          },
-          "frame",
-          (job) => {
-            const owner = { kind: "job" as const, id: job.jobId };
-            assets.retain(owner, [options.selection.assetId]);
-            if (options.selection.acquisitionId)
-              acquisitions.retain(owner, [options.selection.acquisitionId]);
-          },
-        );
+      : this.sourceDerivative<SourceFrameArtifact>(options);
     return {
       ...options.selection,
       atUs: options.atUs,
@@ -300,6 +398,57 @@ export class MediaFrameInspection {
       this.owners.cache.remove(output.id);
       throw error;
     }
+  }
+  private async executeImage({ job, signal }: JobExecution) {
+    const parsed = imageOptionsSchema.safeParse(JSON.parse(job.input));
+    if (
+      job.target.kind !== "asset" ||
+      job.artifact !== "frame" ||
+      !parsed.success ||
+      parsed.data.selection.assetId !== job.target.assetId
+    )
+      throw new CatalogError("UNSUPPORTED_JOB", "Picture job does not name a still image");
+    const plan = this.imagePlan({ ...parsed.data.selection, maxLongEdge: parsed.data.maxLongEdge });
+    if (plan.options.implementationId !== parsed.data.implementationId)
+      throw new CatalogError("NOT_READY", "Pinned image renderer is unavailable", {}, true);
+    return this.publish(job.target, signal, async (output) => {
+      const receipt = imageReceiptSchema.safeParse(
+        await plan.renderer.render(
+          {
+            asset: plan.asset,
+            output,
+            maxLongEdge: plan.options.maxLongEdge,
+          },
+          signal,
+        ),
+      );
+      if (!receipt.success)
+        throw new CatalogError("INVALID_RESPONSE", "Malformed still-image receipt");
+      const value = receipt.data;
+      const scale = Math.min(
+        1,
+        plan.options.maxLongEdge / Math.max(plan.stream.width, plan.stream.height),
+      );
+      if (
+        value.assetId !== plan.asset.assetId ||
+        value.streamId !== plan.asset.streamId ||
+        value.sourceWidth !== plan.stream.width ||
+        value.sourceHeight !== plan.stream.height ||
+        value.width !== Math.max(1, Math.round(plan.stream.width * scale)) ||
+        value.height !== Math.max(1, Math.round(plan.stream.height * scale)) ||
+        value.orientation !== plan.metadata.orientation ||
+        value.hasAlpha !== plan.metadata.hasAlpha
+      )
+        throw new CatalogError(
+          "INVALID_RESPONSE",
+          "Still-image receipt changed its identity or dimensions",
+        );
+      return {
+        ...value,
+        maxLongEdge: plan.options.maxLongEdge,
+        implementationId: plan.options.implementationId,
+      };
+    });
   }
   private async executeSource({ job, signal }: JobExecution) {
     const parsed = sourceOptionsSchema.safeParse(JSON.parse(job.input));
@@ -432,20 +581,28 @@ export class MediaFrameInspection {
   }
 
   request(input: SourceFrameInput): ReturnType<MediaFrameInspection["requestSource"]>;
+  request(input: SourceImageInput): ReturnType<MediaFrameInspection["requestImage"]>;
   request(input: ProjectFrameInput): ReturnType<MediaFrameInspection["requestProject"]>;
   request(
     input: MediaFrameInput,
   ):
+    | ReturnType<MediaFrameInspection["requestImage"]>
     | ReturnType<MediaFrameInspection["requestSource"]>
     | ReturnType<MediaFrameInspection["requestProject"]>;
   request(input: MediaFrameInput) {
-    return "projectId" in input ? this.requestProject(input) : this.requestSource(input);
+    return "projectId" in input
+      ? this.requestProject(input)
+      : "atUs" in input
+        ? this.requestSource(input)
+        : this.requestImage(input);
   }
   retry(input: SourceFrameInput): ReturnType<MediaFrameInspection["requestSource"]>;
+  retry(input: SourceImageInput): ReturnType<MediaFrameInspection["requestImage"]>;
   retry(input: ProjectFrameInput): ReturnType<MediaFrameInspection["requestProject"]>;
   retry(
     input: MediaFrameInput,
   ):
+    | ReturnType<MediaFrameInspection["requestImage"]>
     | ReturnType<MediaFrameInspection["requestSource"]>
     | ReturnType<MediaFrameInspection["requestProject"]>;
   retry(input: MediaFrameInput) {
@@ -460,7 +617,9 @@ export class MediaFrameInspection {
   async execute(execution: JobExecution): Promise<string> {
     return execution.job.target.kind === "project"
       ? this.executeProject(execution)
-      : this.executeSource(execution);
+      : JSON.parse(execution.job.input).kind === "image"
+        ? this.executeImage(execution)
+        : this.executeSource(execution);
   }
   private async executeProject({ job, signal }: JobExecution): Promise<string> {
     const parsed = optionsSchema.safeParse(JSON.parse(job.input));

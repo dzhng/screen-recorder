@@ -1,0 +1,1632 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "artifact.read",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "artifact.close",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "artifact.read",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_EXPIRED",
+        "message": "Derivative delivery has expired or closed",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "artifact.close",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "artifact.read",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "ARTIFACT_EXPIRED",
+        "message": "Derivative delivery has expired or closed",
+        "retryable": true,
+        "details": {}
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "mcp",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_requested"
+    },
+    {
+      "operation": "frame.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "frame.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.delete",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "UNSUPPORTED_MEDIA",
+        "message": "Source inspection requires a decodable timed stream",
+        "retryable": false,
+        "details": {
+          "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+          "streamId": "image:0"
+        }
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Parameters do not match the operation schema.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "A timeless picture requires an image stream; video requires atUs",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "A timeless picture requires an image stream; video requires atUs",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Parameters do not match the operation schema.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Parameters do not match the operation schema.",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "pictures": [
+    {
+      "name": "png-1",
+      "selection": {
+        "assetId": "c22686998b3cf2f836f9c35bb281e3248ef38b652141591075f18d760823fe97",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/0b2708f4-0741-426a-a773-7e9442f0b18d.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 40,
+        "sourceWidth": 64,
+        "sourceHeight": 40,
+        "bytes": 329,
+        "kind": "image",
+        "assetId": "c22686998b3cf2f836f9c35bb281e3248ef38b652141591075f18d760823fe97",
+        "streamId": "image:0",
+        "orientation": 1,
+        "hasAlpha": true,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "0b2708f4-0741-426a-a773-7e9442f0b18d"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/png-1-cli.png",
+      "sha256": "0c6b78bd6f1ef24e20f2c1cd4a8854511a7fb0be74d6f1a84c5308e7eb5b6b8d",
+      "maximumError": 0,
+      "normalization": {
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "width": 64,
+        "height": 40,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": false,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "name": "png-2",
+      "selection": {
+        "assetId": "4c393c40dc38452c1d44ef4283bd7f60f787576517bdacf6be924d208d9536e0",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/7804107a-6c9a-4fda-a91c-3e3dc4b161bd.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 40,
+        "sourceWidth": 64,
+        "sourceHeight": 40,
+        "bytes": 335,
+        "kind": "image",
+        "assetId": "4c393c40dc38452c1d44ef4283bd7f60f787576517bdacf6be924d208d9536e0",
+        "streamId": "image:0",
+        "orientation": 2,
+        "hasAlpha": true,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "7804107a-6c9a-4fda-a91c-3e3dc4b161bd"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/png-2-cli.png",
+      "sha256": "51e2a14ba83fcda0093cec58635d0b4d2c58dc302f18a3109b2ae5f1553e0986",
+      "maximumError": 0,
+      "normalization": {
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": false,
+        "height": 40,
+        "width": 64,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "name": "png-3",
+      "selection": {
+        "assetId": "506c76fdb3556a334a15a5420d861fa56933ba17d3bbf3a61b072a04eae743b7",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/9c816954-6b40-45aa-89ac-fd57365a7b01.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 40,
+        "sourceWidth": 64,
+        "sourceHeight": 40,
+        "bytes": 338,
+        "kind": "image",
+        "assetId": "506c76fdb3556a334a15a5420d861fa56933ba17d3bbf3a61b072a04eae743b7",
+        "streamId": "image:0",
+        "orientation": 3,
+        "hasAlpha": true,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "9c816954-6b40-45aa-89ac-fd57365a7b01"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/png-3-cli.png",
+      "sha256": "38951fad1a0e0c9cb4cd745e8ffc2cbebb0b7275c494ab683c35f7de8bfa0d74",
+      "maximumError": 0,
+      "normalization": {
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 64,
+        "height": 40,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "opaque": false
+      }
+    },
+    {
+      "name": "png-4",
+      "selection": {
+        "assetId": "c2ae6e1149bfc6157a80105a807052ba4524741cc5da11354bcd236afe95cea9",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/8f9eadc7-aec5-4cf9-b26f-5b6701cceba7.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 40,
+        "sourceWidth": 64,
+        "sourceHeight": 40,
+        "bytes": 338,
+        "kind": "image",
+        "assetId": "c2ae6e1149bfc6157a80105a807052ba4524741cc5da11354bcd236afe95cea9",
+        "streamId": "image:0",
+        "orientation": 4,
+        "hasAlpha": true,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "8f9eadc7-aec5-4cf9-b26f-5b6701cceba7"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/png-4-cli.png",
+      "sha256": "77089150c0ccab57e95420e56f4ad056890083db7058465d1b94ea83b38268dd",
+      "maximumError": 0,
+      "normalization": {
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "opaque": false,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "height": 40,
+        "width": 64,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "name": "png-5",
+      "selection": {
+        "assetId": "82cc1876c01ca084f770e521bbb7a9d466ee97bda0cd8ee45237ba1ec4309c5b",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/a699691c-4ccb-43f1-8432-28dcffa86e7f.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 372,
+        "kind": "image",
+        "assetId": "82cc1876c01ca084f770e521bbb7a9d466ee97bda0cd8ee45237ba1ec4309c5b",
+        "streamId": "image:0",
+        "orientation": 5,
+        "hasAlpha": true,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "a699691c-4ccb-43f1-8432-28dcffa86e7f"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/png-5-cli.png",
+      "sha256": "edf4e9a412601bfc24fb0ea5e9f55a82bf1a0aefa11c12aae4f4029a104ee414",
+      "maximumError": 0,
+      "normalization": {
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 40,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": false
+      }
+    },
+    {
+      "name": "png-6",
+      "selection": {
+        "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/79449bca-cf84-46c8-94f5-f6aba8c835e0.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 320,
+        "kind": "image",
+        "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+        "streamId": "image:0",
+        "orientation": 6,
+        "hasAlpha": true,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "79449bca-cf84-46c8-94f5-f6aba8c835e0"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/png-6-cli.png",
+      "sha256": "998730f61d8ea937ca13db03a4de877f54813c3d3014ad83ceb1e15eb729b9ad",
+      "maximumError": 0,
+      "normalization": {
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": false,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "width": 40
+      }
+    },
+    {
+      "name": "png-7",
+      "selection": {
+        "assetId": "5d7feb85d02bfa5405e9056548a825e7b04e01207b42769e1187913e28c32129",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/b1c4e7cc-e4bd-49b2-b1bc-8970a9033df6.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 357,
+        "kind": "image",
+        "assetId": "5d7feb85d02bfa5405e9056548a825e7b04e01207b42769e1187913e28c32129",
+        "streamId": "image:0",
+        "orientation": 7,
+        "hasAlpha": true,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "b1c4e7cc-e4bd-49b2-b1bc-8970a9033df6"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/png-7-cli.png",
+      "sha256": "2bbdd91d8a8b9728d00a9545e862489250f88ed7f595225f2125b4f7b4ac9638",
+      "maximumError": 0,
+      "normalization": {
+        "opaque": false,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 40,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "height": 64
+      }
+    },
+    {
+      "name": "png-8",
+      "selection": {
+        "assetId": "d011ba1386d76bb1f900fe1b5a0093f1723d927d3197bf0a0d12388ccc7e15ac",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/56c9c9d0-7e58-4e04-a2ba-a396250c5302.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 340,
+        "kind": "image",
+        "assetId": "d011ba1386d76bb1f900fe1b5a0093f1723d927d3197bf0a0d12388ccc7e15ac",
+        "streamId": "image:0",
+        "orientation": 8,
+        "hasAlpha": true,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "56c9c9d0-7e58-4e04-a2ba-a396250c5302"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/png-8-cli.png",
+      "sha256": "2b83c4f39e549132ba30c003d1f86bf5ec94a71f159f0bd7d592327ffe4e8c57",
+      "maximumError": 0,
+      "normalization": {
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 40,
+        "opaque": false,
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "name": "jpeg-1",
+      "selection": {
+        "assetId": "48e125c4d15fd095ca0229bf32d24830561bf60df46a4cfa10b63e113ada1165",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/3dfe03fd-2bfb-49e8-a3af-f39e1896b24b.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 40,
+        "sourceWidth": 64,
+        "sourceHeight": 40,
+        "bytes": 331,
+        "kind": "image",
+        "assetId": "48e125c4d15fd095ca0229bf32d24830561bf60df46a4cfa10b63e113ada1165",
+        "streamId": "image:0",
+        "orientation": 1,
+        "hasAlpha": false,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "3dfe03fd-2bfb-49e8-a3af-f39e1896b24b"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/jpeg-1-cli.png",
+      "sha256": "46658b69b4fdfab461fbf2ae68da26c9ff7b79198af44932adbd3945349746d6",
+      "maximumError": 1,
+      "normalization": {
+        "opaque": true,
+        "height": 40,
+        "width": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "name": "jpeg-2",
+      "selection": {
+        "assetId": "8cc9d696228045442ae3a6fe6aa746b506c7a6f52645d12602f1d1501000d00c",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/d49be37c-66e2-46b0-9d2c-5955b58cad1f.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 40,
+        "sourceWidth": 64,
+        "sourceHeight": 40,
+        "bytes": 324,
+        "kind": "image",
+        "assetId": "8cc9d696228045442ae3a6fe6aa746b506c7a6f52645d12602f1d1501000d00c",
+        "streamId": "image:0",
+        "orientation": 2,
+        "hasAlpha": false,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "d49be37c-66e2-46b0-9d2c-5955b58cad1f"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/jpeg-2-cli.png",
+      "sha256": "e383c0a1d11b97328c588a3ed3b996d5aebd3a7bd16d89b02dbe4ede9dd0be20",
+      "maximumError": 1,
+      "normalization": {
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true,
+        "height": 40
+      }
+    },
+    {
+      "name": "jpeg-3",
+      "selection": {
+        "assetId": "9c57ba5536467d28e1bc18d2961974a098868d0e0a6886176a4e4d9930ad7612",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/4d7f048c-76f9-4117-b884-460a30b8a6a9.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 40,
+        "sourceWidth": 64,
+        "sourceHeight": 40,
+        "bytes": 347,
+        "kind": "image",
+        "assetId": "9c57ba5536467d28e1bc18d2961974a098868d0e0a6886176a4e4d9930ad7612",
+        "streamId": "image:0",
+        "orientation": 3,
+        "hasAlpha": false,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "4d7f048c-76f9-4117-b884-460a30b8a6a9"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/jpeg-3-cli.png",
+      "sha256": "2ac7ee37760b4c31ae4a4544b7b0593a1443d3c5015aaade8f0f9e13a9d2a11a",
+      "maximumError": 1,
+      "normalization": {
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "opaque": true,
+        "width": 64,
+        "height": 40,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "name": "jpeg-4",
+      "selection": {
+        "assetId": "5b41b606e73884a52381137c9589d064ccb5ffdb0730f13d9e0556b518ec4c0e",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/903cae11-82c4-4a95-b470-09b38fd97131.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 40,
+        "sourceWidth": 64,
+        "sourceHeight": 40,
+        "bytes": 341,
+        "kind": "image",
+        "assetId": "5b41b606e73884a52381137c9589d064ccb5ffdb0730f13d9e0556b518ec4c0e",
+        "streamId": "image:0",
+        "orientation": 4,
+        "hasAlpha": false,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "903cae11-82c4-4a95-b470-09b38fd97131"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/jpeg-4-cli.png",
+      "sha256": "630eb6ee470bffd45d8942a4e97f83d5aa1630f85a30a96e541703fe86961622",
+      "maximumError": 1,
+      "normalization": {
+        "width": 64,
+        "height": 40,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "opaque": true
+      }
+    },
+    {
+      "name": "jpeg-5",
+      "selection": {
+        "assetId": "e6d181b945c64f8fe659297ffffcadf4e3e57414802e254afbbe8ca8a508a687",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/345e4854-f333-4935-be64-47d0a39f679b.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 344,
+        "kind": "image",
+        "assetId": "e6d181b945c64f8fe659297ffffcadf4e3e57414802e254afbbe8ca8a508a687",
+        "streamId": "image:0",
+        "orientation": 5,
+        "hasAlpha": false,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "345e4854-f333-4935-be64-47d0a39f679b"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/jpeg-5-cli.png",
+      "sha256": "7ddfeb3791bd48580358739ce84bb775d2706913e566bb609571d6abdc059db1",
+      "maximumError": 1,
+      "normalization": {
+        "width": 40,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "height": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true
+      }
+    },
+    {
+      "name": "jpeg-6",
+      "selection": {
+        "assetId": "0a5475485b314d29c24fa5da2e7fc343b994710c5c36778b43db31e4688988bc",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/4168befe-f94f-4fc6-8007-ca150267531e.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 349,
+        "kind": "image",
+        "assetId": "0a5475485b314d29c24fa5da2e7fc343b994710c5c36778b43db31e4688988bc",
+        "streamId": "image:0",
+        "orientation": 6,
+        "hasAlpha": false,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "4168befe-f94f-4fc6-8007-ca150267531e"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/jpeg-6-cli.png",
+      "sha256": "1b1e83a7b13b8984968c21b0136158a9b8fabd267a3c2d86e634c36e085df3ef",
+      "maximumError": 1,
+      "normalization": {
+        "width": 40,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "opaque": true,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "height": 64,
+        "outputProfile": "kCGColorSpaceSRGB"
+      }
+    },
+    {
+      "name": "jpeg-7",
+      "selection": {
+        "assetId": "81be0f46534731244f58af8aad14255f28b2eb707bb3f6158623c6016a862bf0",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/1c629331-3bf8-4a0c-bd87-7312822148eb.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 341,
+        "kind": "image",
+        "assetId": "81be0f46534731244f58af8aad14255f28b2eb707bb3f6158623c6016a862bf0",
+        "streamId": "image:0",
+        "orientation": 7,
+        "hasAlpha": false,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "1c629331-3bf8-4a0c-bd87-7312822148eb"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/jpeg-7-cli.png",
+      "sha256": "10f7c54cec75d6dc8592f97bc37fcfc29b751a33eeb6c193c261ff610b3d9db6",
+      "maximumError": 1,
+      "normalization": {
+        "width": 40,
+        "height": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true
+      }
+    },
+    {
+      "name": "jpeg-8",
+      "selection": {
+        "assetId": "45c71cefd47a469c2cdfc68bef86c397f9e320e523ce4082e3b4e5d6baadade3",
+        "streamId": "image:0"
+      },
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-image-public-MkMH1z/library/cache/derived/6a68c15a-0099-4195-a96a-84a6bb34f8cf.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 337,
+        "kind": "image",
+        "assetId": "45c71cefd47a469c2cdfc68bef86c397f9e320e523ce4082e3b4e5d6baadade3",
+        "streamId": "image:0",
+        "orientation": 8,
+        "hasAlpha": false,
+        "decodedImages": 1,
+        "readerOpens": 1,
+        "maxLongEdge": 1600,
+        "implementationId": "native-source-image-v1",
+        "cacheId": "6a68c15a-0099-4195-a96a-84a6bb34f8cf"
+      },
+      "generation": 1,
+      "file": "/private/tmp/screenrec-project-evidence-paging/specs/agent-editing/assets/10d-source-image-public/jpeg-8-cli.png",
+      "sha256": "7d2de0cb746af0fc6a6a0fb185d00244b7d590b6ee31c934cc691f9597424179",
+      "maximumError": 1,
+      "normalization": {
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 40,
+        "opaque": true,
+        "height": 64
+      }
+    }
+  ],
+  "checks": {
+    "bounded": {
+      "width": 11,
+      "height": 17,
+      "byteEqualNativePrerequisite": true
+    },
+    "explicitDeliveryClose": true,
+    "cacheRegeneration": true,
+    "restart": {
+      "originalsRemoved": true,
+      "generationUnchanged": true,
+      "staleDeliveryExpired": true
+    },
+    "cancel": {
+      "nativeReplyHeld": true,
+      "retrySameJob": true,
+      "ready": true
+    },
+    "crash": {
+      "nativeReplyHeld": true,
+      "retrySameJob": true,
+      "ready": true
+    },
+    "projectDeletion": {
+      "rawImagePreserved": true,
+      "assetDeletionPublicSurface": false
+    },
+    "invalidSelectorsAndTimedVideoPreservation": true
+  },
+  "worker": {
+    "path": "/tmp/screenrec-still-image-native",
+    "sha256": "111f48db6aeee473017ac568208e615c1475b7fcd275ad59ee1d968e966aed8c"
+  }
+}

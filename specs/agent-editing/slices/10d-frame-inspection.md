@@ -1,6 +1,6 @@
 # 10d — Direct project frames and retained screenshot inspection
 
-Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw still-image inspection remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
+Status: in progress; compiler/core picture planning and native extraction are implemented. Public project/source pictures and retained indexes pass their native journeys and fresh inspection checks; raw PNG/JPEG inspection passes its native public journey, with fresh skill use and resized review pending. Project still composition/indexing remains open. Public selected-acquisition gaps are verified through audio-anchored video; direct custom video-mask admission is outside the current capture producer. Corrected common-profile references pass limited fresh visual review. Dependencies: [09](./09-first-preview.md), [10b](./10b-source-acquisition.md), [10c](./10c-occurrence-queries.md).
 
 ## Contract
 
@@ -215,3 +215,16 @@ was broader than that contract. Direct narrower video-source masks remain
 native/core-only: public admission uses physical video support. Any future public
 captured-video support producer belongs to 10b and needs authoritative acquisition
 evidence; no arbitrary mask-authoring API is inferred by 10d.
+
+
+## Raw still-image public checkpoint
+
+[Public raw image evidence](../assets/10d-source-image-public/README.md) verifies
+image import, timeless CLI/MCP picture delivery, cache reuse/regeneration,
+restart, cancellation/interruption and explicit retry. It preserves the existing
+timed source journey. Images omit time and acquisition context; their metadata
+uses the existing frame cache/job/delivery owners without a source availability
+digest. Full-size bytes match the native fixtures accepted by fresh visual review.
+Fresh skill use and resized recovery visual review remain pending. Project image
+composition and project-index integration are the next required still-image gate;
+raw inspection does not advertise that behavior.

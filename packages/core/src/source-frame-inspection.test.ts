@@ -1,13 +1,17 @@
 import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
-import { MediaFrameInspection, type SourceFrameRenderer } from "./frame-inspection.js";
+import {
+  MediaFrameInspection,
+  type SourceFrameRenderer,
+  type SourceImageRenderer,
+} from "./frame-inspection.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
@@ -43,7 +47,7 @@ const renderer: SourceFrameRenderer = {
     };
   },
 };
-async function fixture(render = renderer) {
+async function fixture(render = renderer, imageRenderer?: SourceImageRenderer) {
   const home = await mkdtemp("/tmp/source-frame-core-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home),
@@ -114,6 +118,7 @@ async function fixture(render = renderer) {
     acquisitions,
     jobs,
     cache,
+    ...(imageRenderer ? { imageRenderer } : {}),
     sourceRenderer: {
       ...render,
       async render(request, signal) {
@@ -321,3 +326,137 @@ test.each(["UNAVAILABLE", "NATIVE_DECODE_FAILED", "UNSUPPORTED_MEDIA", "INVALID_
     expect(f.calls).toHaveLength(1);
   },
 );
+
+// Receipt doubles exercise ownership; actual PNG pixels are covered by the public native journey.
+const imageRenderer = {
+  implementationId: "fixture-image",
+  async render({ asset, output }, signal) {
+    signal.throwIfAborted();
+    await writeFile(output, "picture", { flag: "wx" });
+    return {
+      kind: "image",
+      file: output,
+      mediaType: "image/png",
+      ...asset,
+      width: 40,
+      height: 64,
+      sourceWidth: 40,
+      sourceHeight: 64,
+      orientation: 6,
+      hasAlpha: true,
+      decodedImages: 1,
+      readerOpens: 1,
+      bytes: 7,
+    };
+  },
+} satisfies SourceImageRenderer;
+async function imageFixture(render: SourceImageRenderer = imageRenderer) {
+  const f = await fixture(renderer, render);
+  const path = join(f.home, "image.png");
+  await writeFile(path, "immutable image");
+  const asset = await f.assets.import(path, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [
+      {
+        id: "image:0",
+        kind: "image",
+        codec: "public.png",
+        decodable: true,
+        width: 64,
+        height: 40,
+        orientedWidth: 40,
+        orientedHeight: 64,
+        orientation: 6,
+        hasAlpha: true,
+      },
+    ],
+  }));
+  return { ...f, image: asset, imageRequest: { assetId: asset.id, streamId: "image:0" } };
+}
+test("timeless images share retained frame jobs, cache reuse and eviction without a video clock", async () => {
+  const f = await imageFixture();
+  const pending = f.frames.request(f.imageRequest);
+  expect(f.assets.references(f.image.id)).toContainEqual({ kind: "job", id: pending.jobId });
+  await f.jobs.idle();
+  const ready = f.frames.request(f.imageRequest);
+  expect(ready.state).toBe("ready");
+  expect(ready.published!.frame).toMatchObject({
+    kind: "image",
+    assetId: f.image.id,
+    streamId: "image:0",
+    orientation: 6,
+    width: 40,
+    height: 64,
+  });
+  for (const value of [ready, ready.published!.frame])
+    for (const key of [
+      "atUs",
+      "sample",
+      "originUs",
+      "supportDigest",
+      "requestedSourceUs",
+      "actualSourceUs",
+    ])
+      expect(value).not.toHaveProperty(key);
+  expect(f.frames.request(f.imageRequest).published!.generation).toBe(ready.published!.generation);
+  f.cache.remove(ready.published!.frame.cacheId);
+  expect(f.frames.request(f.imageRequest).published).toBeNull();
+  await f.jobs.idle();
+  expect(f.frames.request(f.imageRequest).published!.generation).not.toBe(
+    ready.published!.generation,
+  );
+});
+
+test("images reject timed/acquisition selectors and mismatched native image identity before publication", async () => {
+  const f = await imageFixture({
+    ...imageRenderer,
+    async render(request, signal) {
+      return { ...(await imageRenderer.render(request, signal)), orientation: 1 };
+    },
+  });
+  expect(() => f.frames.request({ ...f.imageRequest, atUs: 0 })).toThrow(/timed stream/);
+  expect(() => f.frames.request({ ...f.imageRequest, acquisitionId: "mask" })).toThrow(
+    /accept assetId/,
+  );
+  expect(() => f.frames.request({ assetId: f.asset.id, streamId: "track:1" })).toThrow(
+    /video requires atUs/,
+  );
+  expect(() => f.frames.request({ ...f.imageRequest, streamId: "missing" })).toThrow(
+    /image stream/,
+  );
+  expect(f.assets.references(f.image.id)).toEqual([]);
+  f.frames.request(f.imageRequest);
+  await f.jobs.idle();
+  const failed = f.frames.request(f.imageRequest);
+  expect(failed.state).toBe("failed");
+  expect(failed.published).toBeNull();
+  expect(f.jobs.job(failed.jobId!).errorCode).toBe("INVALID_RESPONSE");
+  expect(await readdir(join(f.home, "cache/derived"))).toEqual([]);
+});
+
+test("image reads do not retry failed work; explicit retry reuses the pinned frame job", async () => {
+  let failure = true;
+  const f = await imageFixture({
+    ...imageRenderer,
+    async render(request, signal) {
+      if (failure)
+        throw new CatalogError("DECODE_FAILED", "fixture transient decode failure", {}, true);
+      return imageRenderer.render(request, signal);
+    },
+  });
+  const initial = f.frames.request(f.imageRequest);
+  await f.jobs.idle();
+  expect(f.frames.request(f.imageRequest)).toMatchObject({
+    state: "failed",
+    retryable: true,
+    jobId: initial.jobId,
+    published: null,
+  });
+  failure = false;
+  expect(f.frames.request(f.imageRequest).state).toBe("failed");
+  f.frames.retry(f.imageRequest);
+  await f.jobs.idle();
+  const ready = f.frames.request(f.imageRequest);
+  expect(ready).toMatchObject({ state: "ready", jobId: initial.jobId });
+  expect(await readFile(ready.published!.frame.file, "utf8")).toBe("picture");
+});

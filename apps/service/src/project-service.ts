@@ -323,6 +323,17 @@ export async function startProjectService(options: { home: string; worker?: Medi
       jobs: queue,
       cache,
       project: { projects, renderer: projectPictures },
+      imageRenderer: {
+        implementationId: "native-source-image-v1",
+        render: async (request, signal) =>
+          withRenderedFile(
+            worker,
+            { attemptParent: workspace, output: request.output, filename: "frame.png" },
+            signal,
+            async (output, execute) =>
+              nativeResult(await execute("media.sourceImage", { ...request, output }, { signal })),
+          ),
+      },
       sourceRenderer: {
         implementationId: "native-source-picture-v3",
         render: async (request, signal) =>

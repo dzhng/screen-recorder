@@ -1,0 +1,34 @@
+$ vitest run --maxWorkers=4 src/source-frame-inspection.test.ts -t "images reject"
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:85620) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-frame-inspection.test.ts (17 tests | 1 failed | 16 skipped) 83ms
+   × images reject timed/acquisition selectors and mismatched native image identity before publication 83ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-frame-inspection.test.ts > images reject timed/acquisition selectors and mismatched native image identity before publication
+AssertionError: expected 'ready' to be 'failed' // Object.is equality
+
+Expected: "failed"
+Received: "ready"
+
+ ❯ src/source-frame-inspection.test.ts:431:24
+    429|   await f.jobs.idle();
+    430|   const failed = f.frames.request(f.imageRequest);
+    431|   expect(failed.state).toBe("failed");
+       |                        ^
+    432|   expect(failed.published).toBeNull();
+    433|   expect(f.jobs.job(failed.jobId!).errorCode).toBe("INVALID_RESPONSE");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 skipped (17)
+   Start at  09:49:44
+   Duration  483ms (transform 55%, import 23%, tests 21%, worker 1%)
+
+error: script "test" exited with code 1

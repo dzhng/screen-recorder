@@ -1896,3 +1896,23 @@ existing lifetime owner.
   treats that declared gap as transparent after the existing physical-source checks,
   and retains the ancestor reason. This completes the earlier unsupported execution
   path without letting a decoder invent evidence that the parent was available.
+
+## Public raw image inspection — 2026-09-28
+
+- **Sound, high confidence — omit time to request a still image; validate the actual stream.**
+  An agent inspecting a photograph supplies its asset and stream, while an agent
+  inspecting video also supplies a source time. The service checks the admitted
+  stream instead of accepting either shape for any media. Image time/acquisition
+  context is refused, and timed batches stay timed. The public design requested
+  omission of time; the remaining choice was whether to ignore incompatible
+  fields. Refusal prevents a caller from mistaking a photograph for evidence of
+  a requested instant. The returned PNG is upright; retained orientation describes
+  the source, so the skill explicitly warns against interpreting it as output rotation.
+- **Sound, high confidence — isolate raw image lifetime from a referencing project.**
+  Deleting an edit that used a photograph must not invalidate a separately admitted
+  original or its raw inspection. Raw image jobs and delivered PNGs therefore use
+  the existing asset-owned references, cache and leases. Project deletion is the
+  available public deletion surface; no asset-delete API is invented for a test.
+  The plan requested deletion coverage without specifying that absent surface.
+  The live journey verifies project/source independence and delivery closure;
+  any future asset deletion must add its own explicit drain/revocation gate.
