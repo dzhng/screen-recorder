@@ -1,0 +1,48 @@
+$ vitest run --maxWorkers=4 src/source-transcript-read.test.ts -t "source search folds"
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-transcript-reads/packages/core
+
+(node:71421) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-transcript-read.test.ts (4 tests | 1 failed | 3 skipped) 139ms
+   × source search folds literal words, pages matches and refuses phrases across acquisition segments 137ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-transcript-read.test.ts > source search folds literal words, pages matches and refuses phrases across acquisition segments
+AssertionError: expected [ { wordIds: [ 'w2', 'w3' ], …(1) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "sourceRange": {
++       "endUs": 750,
++       "startUs": 400,
++     },
++     "wordIds": [
++       "w2",
++       "w3",
++     ],
++   },
++ ]
+
+ ❯ src/source-transcript-read.test.ts:145:55
+    143|     { wordIds: ["w0", "w1"], sourceRange: { startUs: 100, endUs: 300 }…
+    144|   ]);
+    145|   expect(read.search({ text: "last first" }).entries).toEqual([]);
+       |                                                       ^
+    146|   expect(read.search({ text: "h.*llo" }).entries).toEqual([]);
+    147|   const first = read.search({ text: "hello", limit: 1 });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  22:51:15
+   Duration  794ms (transform 44%, import 31%, tests 24%, worker 1%)
+
+error: script "test" exited with code 1

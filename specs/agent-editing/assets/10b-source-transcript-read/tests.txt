@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 /private/tmp/screenrec-source-transcript-reads/packages/core
+
+
+ Test Files  4 passed (4)
+      Tests  26 passed (26)
+   Start at  22:53:28
+   Duration  6.20s (tests 88%, transform 7%, import 4%)
+
