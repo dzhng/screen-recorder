@@ -1,0 +1,40 @@
+$ vitest run --maxWorkers=4 src/source-index-selection.test.ts
+
+ RUN  v5.0.0 /private/tmp/screenrec-project-evidence-paging/packages/core
+
+(node:27584) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ src/source-index-selection.test.ts (7 tests | 1 failed) 5ms
+   × scene sides select observed old/new samples instead of two requests in the new held frame 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-index-selection.test.ts > scene sides select observed old/new samples instead of two requests in the new held frame
+AssertionError: expected [ 399999, 400000 ] to deeply equal [ 200000, 400000 ]
+
+- Expected
++ Received
+
+  [
+-   200000,
++   399999,
+    400000,
+  ]
+
+ ❯ src/source-index-selection.test.ts:80:49
+     78|   );
+     79|   const sides = rows.filter((r) => r.reasons.some((reason) => reason.k…
+     80|   expect(sides.map((r) => r.requestedSourceUs)).toEqual([200000, 40000…
+       |                                                 ^
+     81|   expect(sides.map((r) => r.reasons.find((reason) => reason.kind === "…
+     82|     { kind: "scene", side: "before", observedSourceUs: 400000, sample:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  05:46:32
+   Duration  171ms (transform 66%, import 29%, tests 4%, worker 1%)
+
+error: script "test" exited with code 1

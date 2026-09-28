@@ -1,0 +1,324 @@
+{
+  "probeSupport": "Deliberately coarse full video interval; native decoding determines whether an observed point has an image",
+  "nativeSha256": "bf51eb6d20be033a2da2f06cadbf16e2213a352dfe10e7e40d347e61a6a7204e",
+  "inputSha256": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+  "calls": 2,
+  "outputs": [
+    {
+      "selection": {
+        "assetId": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+        "streamId": "track:1"
+      },
+      "requests": [
+        {
+          "request": {
+            "kind": "picture",
+            "requestedSourceUs": 0,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 0
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 0
+              }
+            ]
+          },
+          "physical": {
+            "file": "/private/tmp/source-scene-native-job-I7tfW0/cache/derived/7ce98b1f-ccbb-4b54-8c21-c8f187f139b8.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "bytes": 3619,
+            "assetId": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "12800",
+              "timescale": 10240,
+              "endValue": "13824",
+              "endTimescale": 10240,
+              "originUs": 1250000
+            },
+            "atUs": 0,
+            "maxLongEdge": 1600,
+            "supportDigest": "34d1c6f0a7686206be2c00957858a9e64300c555e74f05c6ae3ea2e227c4ca5d",
+            "implementationId": "native-source-picture-v2",
+            "cacheId": "7ce98b1f-ccbb-4b54-8c21-c8f187f139b8"
+          },
+          "sha256": "8cc6b787ee571f49d4f31f2b593f1b91b3779913a2e52ac54c0e18ed3403cae9"
+        },
+        {
+          "kind": "unavailable",
+          "requestedSourceUs": 400000,
+          "support": {
+            "startUs": 0,
+            "endUs": 850000
+          },
+          "observation": {
+            "requestedSourceUs": 400000,
+            "status": "unavailable",
+            "reason": "empty_edit",
+            "continuousFromPrevious": false
+          }
+        },
+        {
+          "request": {
+            "kind": "picture",
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "physical": {
+            "file": "/private/tmp/source-scene-native-job-I7tfW0/cache/derived/e9e02e08-e08c-442e-9021-3b0c46909019.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "bytes": 3783,
+            "assetId": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+            "streamId": "track:1",
+            "requestedSourceUs": 600000,
+            "actualSourceUs": 550000,
+            "sample": {
+              "value": "18432",
+              "timescale": 10240,
+              "endValue": "19456",
+              "endTimescale": 10240,
+              "originUs": 1250000
+            },
+            "atUs": 600000,
+            "maxLongEdge": 1600,
+            "supportDigest": "34d1c6f0a7686206be2c00957858a9e64300c555e74f05c6ae3ea2e227c4ca5d",
+            "implementationId": "native-source-picture-v2",
+            "cacheId": "e9e02e08-e08c-442e-9021-3b0c46909019"
+          },
+          "sha256": "4941b55bd4a7dc1be6bc1c803ad9727fdf9d3d5468c057fd10045b8ebf009c52"
+        },
+        {
+          "request": {
+            "kind": "picture",
+            "requestedSourceUs": 849999,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 850000
+              }
+            ]
+          },
+          "physical": {
+            "file": "/private/tmp/source-scene-native-job-I7tfW0/cache/derived/84d76167-830d-4cd7-8c9c-372e40e022c4.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "bytes": 3886,
+            "assetId": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+            "streamId": "track:1",
+            "requestedSourceUs": 849999,
+            "actualSourceUs": 750000,
+            "sample": {
+              "value": "20480",
+              "timescale": 10240,
+              "endValue": "21504",
+              "endTimescale": 10240,
+              "originUs": 1250000
+            },
+            "atUs": 849999,
+            "maxLongEdge": 1600,
+            "supportDigest": "34d1c6f0a7686206be2c00957858a9e64300c555e74f05c6ae3ea2e227c4ca5d",
+            "implementationId": "native-source-picture-v2",
+            "cacheId": "84d76167-830d-4cd7-8c9c-372e40e022c4"
+          },
+          "sha256": "5f547596267ca3539a508ca77f3169c0c4f03bd966b381e87c907f181316410b"
+        }
+      ]
+    },
+    {
+      "selection": {
+        "assetId": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+        "streamId": "track:2"
+      },
+      "requests": [
+        {
+          "request": {
+            "kind": "picture",
+            "requestedSourceUs": 0,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "first",
+                "eventSourceUs": 0
+              },
+              {
+                "kind": "availability",
+                "eventSourceUs": 0
+              }
+            ]
+          },
+          "physical": {
+            "file": "/private/tmp/source-scene-native-job-I7tfW0/cache/derived/2e315841-9e7d-4bfd-aab2-9dcbd1b2b2c6.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "bytes": 277,
+            "assetId": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+            "streamId": "track:2",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "12800",
+              "timescale": 10240,
+              "endValue": "13824",
+              "endTimescale": 10240,
+              "originUs": 1250000
+            },
+            "atUs": 0,
+            "maxLongEdge": 1600,
+            "supportDigest": "34d1c6f0a7686206be2c00957858a9e64300c555e74f05c6ae3ea2e227c4ca5d",
+            "implementationId": "native-source-picture-v2",
+            "cacheId": "2e315841-9e7d-4bfd-aab2-9dcbd1b2b2c6"
+          },
+          "sha256": "3d825920d33b5d0d4010e85c39d941dce003a16f5f53960c0d2b9a56cb2356e9"
+        },
+        {
+          "kind": "unavailable",
+          "requestedSourceUs": 400000,
+          "support": {
+            "startUs": 0,
+            "endUs": 850000
+          },
+          "observation": {
+            "requestedSourceUs": 400000,
+            "status": "unavailable",
+            "reason": "empty_edit",
+            "continuousFromPrevious": false
+          }
+        },
+        {
+          "request": {
+            "kind": "picture",
+            "requestedSourceUs": 600000,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "availability",
+                "eventSourceUs": 600000
+              }
+            ]
+          },
+          "physical": {
+            "file": "/private/tmp/source-scene-native-job-I7tfW0/cache/derived/0af34eca-f48f-46b0-be87-1d25d3a05126.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "bytes": 277,
+            "assetId": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+            "streamId": "track:2",
+            "requestedSourceUs": 600000,
+            "actualSourceUs": 550000,
+            "sample": {
+              "value": "18432",
+              "timescale": 10240,
+              "endValue": "19456",
+              "endTimescale": 10240,
+              "originUs": 1250000
+            },
+            "atUs": 600000,
+            "maxLongEdge": 1600,
+            "supportDigest": "34d1c6f0a7686206be2c00957858a9e64300c555e74f05c6ae3ea2e227c4ca5d",
+            "implementationId": "native-source-picture-v2",
+            "cacheId": "0af34eca-f48f-46b0-be87-1d25d3a05126"
+          },
+          "sha256": "3d825920d33b5d0d4010e85c39d941dce003a16f5f53960c0d2b9a56cb2356e9"
+        },
+        {
+          "request": {
+            "kind": "picture",
+            "requestedSourceUs": 849999,
+            "support": {
+              "startUs": 0,
+              "endUs": 850000
+            },
+            "reasons": [
+              {
+                "kind": "last",
+                "eventSourceUs": 850000
+              }
+            ]
+          },
+          "physical": {
+            "file": "/private/tmp/source-scene-native-job-I7tfW0/cache/derived/8a638065-4702-4db3-b69c-3fd3310a4081.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "bytes": 277,
+            "assetId": "fb40e791ca4b58afcd072e04fda116ce671b8553a7669e7935dc5063c0c89c04",
+            "streamId": "track:2",
+            "requestedSourceUs": 849999,
+            "actualSourceUs": 750000,
+            "sample": {
+              "value": "20480",
+              "timescale": 10240,
+              "endValue": "21504",
+              "endTimescale": 10240,
+              "originUs": 1250000
+            },
+            "atUs": 849999,
+            "maxLongEdge": 1600,
+            "supportDigest": "34d1c6f0a7686206be2c00957858a9e64300c555e74f05c6ae3ea2e227c4ca5d",
+            "implementationId": "native-source-picture-v2",
+            "cacheId": "8a638065-4702-4db3-b69c-3fd3310a4081"
+          },
+          "sha256": "3d825920d33b5d0d4010e85c39d941dce003a16f5f53960c0d2b9a56cb2356e9"
+        }
+      ]
+    }
+  ]
+}

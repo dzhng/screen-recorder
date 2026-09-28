@@ -1,0 +1,164 @@
+import { CatalogError } from "./catalog.js";
+import { setImmediate } from "node:timers/promises";
+import type { SceneEvidenceStore, SceneEvidenceMetadata } from "./scene-evidence.js";
+import type { SourceSceneChunk } from "./source-scene-chunks.js";
+import { compareSceneSampleClocks, type SceneSampleClock } from "./source-scenes.js";
+import type { TimeRange } from "./timeline.js";
+import { selectionPolicy } from "./selection.js";
+
+/** Raw pictures have no cursor overlay; presentation samples, not nearest frames, anchor changes. */
+export const sourceIndexPolicy = {
+  id: "source-presentation-selection-v1",
+  coverageUs: selectionPolicy.coverageUs,
+};
+export type SourceIndexReason =
+  | { kind: "first" | "last" | "availability" | "coverage"; eventSourceUs: number }
+  | {
+      kind: "scene";
+      side: "before" | "after";
+      observedSourceUs: number;
+      sample: SceneSampleClock;
+      originUs: number;
+    };
+type Point = SourceSceneChunk["coverage"][number];
+export type SourceIndexRequest = { requestedSourceUs: number; support: TimeRange } & (
+  | { kind: "picture"; reasons: SourceIndexReason[] }
+  | { kind: "unavailable"; observation: Extract<Point, { status: "unavailable" }> }
+);
+
+export async function* sourceIndexChunks(
+  records: SceneEvidenceStore,
+  identity: SceneEvidenceMetadata,
+  signal: AbortSignal,
+): AsyncGenerator<SourceSceneChunk> {
+  let afterStartUs: number | undefined;
+  for (;;) {
+    signal.throwIfAborted();
+    const page = records.sourcePage({
+      identity,
+      limit: 1,
+      ...(afterStartUs === undefined ? {} : { afterStartUs }),
+    });
+    yield* page.chunks;
+    if (page.nextStartUs === null) return;
+    afterStartUs = page.nextStartUs;
+    await setImmediate();
+  }
+}
+
+/** Keeps only one observation of lookback so a newly observed change can retain both known sides. */
+export async function* selectSourceIndex(
+  support: readonly TimeRange[],
+  chunks: AsyncIterable<SourceSceneChunk> | Iterable<SourceSceneChunk>,
+  signal?: AbortSignal,
+): AsyncGenerator<SourceIndexRequest> {
+  const pending = new Map<number, SourceIndexRequest>();
+  let edgeIndex = 0,
+    endEdge = false,
+    supportIndex = 0;
+  let previous: Point | undefined, previousSupport: TimeRange | undefined;
+  let through = -1,
+    lastRequest = -Infinity,
+    representativeRun: number | undefined;
+  function add(at: number, range: TimeRange, reason: SourceIndexReason) {
+    let request = pending.get(at);
+    if (!request) {
+      if (pending.size >= selectionPolicy.maximumPendingCandidates)
+        throw new CatalogError(
+          "LIMIT_EXCEEDED",
+          "Too many source screenshot requests between observations",
+        );
+      request = { kind: "picture", requestedSourceUs: at, support: range, reasons: [] };
+      pending.set(at, request);
+    }
+    if (request.kind === "picture") request.reasons.push(reason);
+    if (at > lastRequest) {
+      lastRequest = at;
+      representativeRun = undefined;
+    }
+  }
+  function edges(throughUs: number) {
+    while (support[edgeIndex]) {
+      const range = support[edgeIndex]!;
+      const at = endEdge ? range.endUs - 1 : range.startUs;
+      if (at > throughUs) return;
+      add(at, range, {
+        kind: endEdge ? "last" : "first",
+        eventSourceUs: endEdge ? range.endUs : at,
+      });
+      if (endEdge) edgeIndex++;
+      endEdge = !endEdge;
+    }
+  }
+  function* flush(before: number) {
+    for (const at of [...pending.keys()].sort((a, b) => a - b)) {
+      if (at >= before) return;
+      yield pending.get(at)!;
+      pending.delete(at);
+    }
+  }
+  for await (const chunk of chunks) {
+    signal?.throwIfAborted();
+    for (const point of chunk.coverage) {
+      signal?.throwIfAborted();
+      const at = point.requestedSourceUs;
+      if (at <= through) continue;
+      edges(at);
+      while (support[supportIndex] && support[supportIndex]!.endUs <= at) supportIndex++;
+      const possible = support[supportIndex];
+      const range = possible && possible.startUs <= at ? possible : undefined;
+      if (range) {
+        if (point.status === "unavailable") {
+          if (pending.has(at) || previousSupport !== range || previous?.status !== "unavailable")
+            pending.set(at, {
+              kind: "unavailable",
+              requestedSourceUs: at,
+              support: range,
+              observation: point,
+            });
+          representativeRun = undefined;
+        } else {
+          const before =
+            previousSupport === range && previous?.status === "available" ? previous : undefined;
+          if (!before || !point.continuousFromPrevious)
+            add(at, range, { kind: "availability", eventSourceUs: at });
+          const boundary =
+            before &&
+            point.continuousFromPrevious &&
+            compareSceneSampleClocks(before.sample, point.sample) !== 0
+              ? chunk.comparisons.find(
+                  (pair) =>
+                    pair.boundary &&
+                    compareSceneSampleClocks(pair.previous, before.sample) === 0 &&
+                    compareSceneSampleClocks(pair.current, point.sample) === 0,
+                )
+              : undefined;
+          if (boundary) {
+            const reason = {
+              kind: "scene" as const,
+              observedSourceUs: at,
+              sample: boundary.current,
+              originUs: chunk.originUs,
+            };
+            add(before!.requestedSourceUs, range, { ...reason, side: "before" });
+            add(at, range, { ...reason, side: "after" });
+          }
+          if (
+            at - lastRequest >= sourceIndexPolicy.coverageUs &&
+            representativeRun !== point.stillnessRunStartUs
+          )
+            add(at, range, { kind: "coverage", eventSourceUs: at });
+          if (lastRequest === at) representativeRun = point.stillnessRunStartUs;
+        }
+      }
+      // The next scene comparison can still select this point as its known earlier side.
+      yield* flush(previous?.requestedSourceUs ?? -Infinity);
+      previous = point;
+      previousSupport = range;
+      through = at;
+    }
+  }
+  signal?.throwIfAborted();
+  edges(Infinity);
+  yield* flush(Infinity);
+}

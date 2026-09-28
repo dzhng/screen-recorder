@@ -1,8 +1,12 @@
+import { randomUUID } from "node:crypto";
+import { JobQueue } from "./jobs.js";
+import { DerivedCache } from "./cache.js";
+import { MediaFrameInspection } from "./frame-inspection.js";
 import { RevisionStore } from "./library.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { Catalog } from "./catalog.js";
+import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { SceneEvidenceStore, assetSceneOwner, sourceSceneDescriptor } from "./scene-evidence.js";
@@ -14,6 +18,11 @@ import {
   type SourceIndexIdentity,
   type SourceIndexRecords,
 } from "./source-index.js";
+const noFrameRequests = {
+  sourceUnavailable(): never {
+    throw new Error("No demanded frames in this fixture");
+  },
+};
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const f of cleanup.splice(0).reverse()) await f();
@@ -112,7 +121,7 @@ async function fixture(emptyAt?: number, allEmpty = false) {
   let index = new ScreenshotIndexStore(
     catalog,
     home,
-    sourceIndexDomain(assets, acquisitions, scenes),
+    sourceIndexDomain(assets, acquisitions, scenes, noFrameRequests),
   );
   cleanup.push(async () => {
     catalog.close();
@@ -160,6 +169,9 @@ async function fixture(emptyAt?: number, allEmpty = false) {
     home,
     input,
     identity,
+    assets,
+    acquisitions,
+    scenes,
     candidate,
     append,
     get index() {
@@ -177,7 +189,7 @@ async function fixture(emptyAt?: number, allEmpty = false) {
       index = new ScreenshotIndexStore(
         catalog,
         home,
-        sourceIndexDomain(assets, acquisitions, scenes),
+        sourceIndexDomain(assets, acquisitions, scenes, noFrameRequests),
       );
     },
   };
@@ -329,16 +341,22 @@ test("a pinned unavailable observation is retained without claiming neighboring 
     equality: "unproven" as const,
     source: { startUs: 400000, endUs: 600000 },
     observation: {
-      requestedSourceUs: 400000,
-      status: "unavailable" as const,
-      reason: "empty_edit" as const,
-      continuousFromPrevious: false as const,
+      kind: "scene" as const,
+      point: {
+        requestedSourceUs: 400000,
+        status: "unavailable" as const,
+        reason: "empty_edit" as const,
+        continuousFromPrevious: false as const,
+      },
     },
   };
   expect(() =>
     f.index.appendCoverage(f.identity, {
       ...coverage,
-      observation: { ...coverage.observation, requestedSourceUs: 500000 },
+      observation: {
+        ...coverage.observation,
+        point: { ...coverage.observation.point, requestedSourceUs: 500000 },
+      },
     }),
   ).toThrow("pinned scene");
   f.index.appendCoverage(f.identity, coverage);
@@ -378,4 +396,81 @@ test("complete source coverage with no available pictures remains readable witho
     { ...coverage, sequence: 0 },
   ]);
   expect(() => f.index.openRead(f.identity, 0)).toThrow("does not exist");
+});
+
+test("demanded empty-picture coverage retains verified provenance after the job is forgotten", async () => {
+  const f = await fixture();
+  const cache = new DerivedCache(f.catalog, f.home, (owner) => {
+    if (owner.kind !== "asset") throw new Error("asset only");
+    f.assets.get(owner.assetId);
+  });
+  await cache.reconcile();
+  let frames!: MediaFrameInspection;
+  const jobs = new JobQueue({
+    store: f.catalog,
+    providers: { newId: randomUUID },
+    targets: {
+      pin: (t) => {
+        if (t.kind !== "asset") throw new Error("asset only");
+        return t;
+      },
+      isAvailable: () => true,
+      isDeleting: () => false,
+      isCapturing: () => false,
+    },
+    execute: (e) => frames.execute(e),
+  });
+  let expected: unknown;
+  try {
+    frames = new MediaFrameInspection({
+      assets: f.assets,
+      acquisitions: f.acquisitions,
+      jobs,
+      cache,
+      sourceRenderer: {
+        implementationId: f.identity.implementationId,
+        async render() {
+          throw new CatalogError("SOURCE_PICTURE_UNAVAILABLE", "No physical sample");
+        },
+      },
+    });
+    const request = { assetId: f.identity.assetId, streamId: f.identity.streamId, atUs: 400000 };
+    const pending = frames.request(request);
+    await jobs.idle();
+    const frame = frames.sourceUnavailable(request);
+    const index = new ScreenshotIndexStore(
+      f.catalog,
+      f.home,
+      sourceIndexDomain(f.assets, f.acquisitions, f.scenes, frames),
+    );
+    index.begin(f.identity);
+    index.appendCoverage(f.identity, {
+      ordinal: null,
+      state: "unavailable",
+      basis: "support",
+      source: { startUs: 0, endUs: 200000 },
+    });
+    const coverage = {
+      ordinal: null,
+      state: "unavailable" as const,
+      basis: "observation" as const,
+      equality: "unproven" as const,
+      source: { startUs: 200000, endUs: 1000000 },
+      observation: { kind: "frame" as const, frame },
+    };
+    expect(() =>
+      index.appendCoverage(f.identity, {
+        ...coverage,
+        observation: { kind: "frame", frame: { ...frame, attemptId: "invented" } },
+      }),
+    ).toThrow("does not match");
+    index.appendCoverage(f.identity, coverage);
+    await index.finish(f.identity);
+    jobs.forgetJob(pending.jobId!);
+    expected = { ...coverage, sequence: 1 };
+  } finally {
+    await jobs.close();
+  }
+  f.reopen();
+  expect(f.index.coveragePage({ identity: f.identity }).coverage[1]).toEqual(expected);
 });

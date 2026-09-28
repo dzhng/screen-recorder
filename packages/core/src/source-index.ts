@@ -8,9 +8,13 @@ import {
   type SceneEvidenceMetadata,
   type SceneEvidenceStore,
 } from "./scene-evidence.js";
-import type { SourceFrameArtifact } from "./frame-inspection.js";
+import type {
+  SourceFrameArtifact,
+  SourceFrameUnavailable,
+  MediaFrameInspection,
+} from "./frame-inspection.js";
 import type { IndexDomain } from "./screenshot-index.js";
-import type { SelectionReason } from "./selection.js";
+import type { SourceIndexReason } from "./source-index-selection.js";
 import type { TimeRange } from "./timeline.js";
 import { validateSceneSampleClock, type SourceVisualPoint } from "./source-scenes.js";
 export type SourceIndexIdentity = SourceSelection & {
@@ -24,7 +28,7 @@ export type SourceIndexCandidate = {
   ordinal: number;
   requestedSourceUs: number;
   support: TimeRange;
-  reasons: SelectionReason[];
+  reasons: SourceIndexReason[];
 };
 export type SourceIndexCoverage = { source: TimeRange } & (
   | { ordinal: number; state: "available"; equality: "sampled" | "unproven" }
@@ -34,7 +38,9 @@ export type SourceIndexCoverage = { source: TimeRange } & (
       state: "unavailable";
       basis: "observation";
       equality: "unproven";
-      observation: Extract<SourceVisualPoint, { status: "unavailable" }>;
+      observation:
+        | { kind: "scene"; point: Extract<SourceVisualPoint, { status: "unavailable" }> }
+        | { kind: "frame"; frame: SourceFrameUnavailable };
     }
 );
 export type SourceIndexRecords = {
@@ -51,6 +57,7 @@ export function sourceIndexDomain(
   assets: AssetStore,
   acquisitions: AcquisitionStore,
   scenes: SceneEvidenceStore,
+  frames: Pick<MediaFrameInspection, "sourceUnavailable">,
 ): IndexDomain<SourceIndexRecords> {
   function selected(identity: SourceIndexIdentity) {
     return selectSource(assets, acquisitions, {
@@ -136,24 +143,44 @@ export function sourceIndexDomain(
           )
             invalid("Support exclusion overlaps available footage");
         } else {
-          const at = coverage.observation.requestedSourceUs;
+          const observation = coverage.observation;
+          const at =
+            observation.kind === "scene"
+              ? observation.point.requestedSourceUs
+              : observation.frame.atUs;
           if (
             !Number.isSafeInteger(at) ||
             at < coverage.source.startUs ||
             at >= coverage.source.endUs
           )
             invalid("Unavailable observation lies outside its index coverage");
-          const page = scenes.sourceWindowPage({
-            identity: identity.scenes,
-            range: { startUs: at, endUs: at + 1 },
-            limit: 1,
-          });
-          if (
-            !page.chunks[0]!.coverage.some((point) =>
-              isDeepStrictEqual(point, coverage.observation),
+          if (observation.kind === "scene") {
+            const page = scenes.sourceWindowPage({
+              identity: identity.scenes,
+              range: { startUs: at, endUs: at + 1 },
+              limit: 1,
+            });
+            if (
+              !page.chunks[0]!.coverage.some((point) => isDeepStrictEqual(point, observation.point))
             )
-          )
-            invalid("Unavailable observation is not in the pinned scene evidence");
+              invalid("Unavailable observation is not in the pinned scene evidence");
+          } else {
+            const frame = observation.frame;
+            if (
+              !isDeepStrictEqual(frame.selection, selected(identity).selection) ||
+              frame.implementationId !== identity.implementationId ||
+              frame.maxLongEdge !== identity.maxLongEdge ||
+              !isDeepStrictEqual(
+                frame,
+                frames.sourceUnavailable({
+                  ...frame.selection,
+                  atUs: frame.atUs,
+                  maxLongEdge: frame.maxLongEdge,
+                }),
+              )
+            )
+              invalid("Unavailable picture observation does not match the selected source request");
+          }
         }
       }
       return coverage.source;

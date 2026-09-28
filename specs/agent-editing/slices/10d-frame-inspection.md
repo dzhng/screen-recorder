@@ -138,3 +138,8 @@ retained screenshot selection or visual detector-quality acceptance.
 [Physical no-picture observations](../assets/10d-source-empty-observation/README.md)
 distinguish actual empty samples from ordinary decoder failures. Native support-edge
 evidence establishes why source selection must inspect short supported islands.
+
+[Source index selection](../assets/10d-source-index-selection/README.md) now plans
+bounded raw-picture requests from observed scene sides and support edges, and
+retains verified demanded no-picture provenance. Shared-queue materialization and
+final coverage generation remain required before public source index readiness.

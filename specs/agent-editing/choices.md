@@ -1505,3 +1505,15 @@ The native plotting operation receives bounded waveform or spectral measurements
   The plan names a learned comparison but leaves its first adapter unspecified.
   This separates a library's noise reduction from whether a wrapper preserves
   the user's selected duration; it selects no production processor.
+- **Sound, high confidence — raw-source sampling has its own policy.**
+  Recording screenshots combine an edited playback span with cursor overlays;
+  an imported source picture has neither. The source selector therefore walks
+  physical observations directly while reusing the retained image store and job
+  queue. This avoids treating missing cursor evidence as motion or inventing a
+  stationary cursor just to make a shared recording state machine fit.
+- **Sound, high confidence — scene reasons distinguish sampling time from picture time.**
+  If the picture changes at 250ms and the next observation is at 400ms, the index
+  requests the previous observed old picture and the newly observed picture. Its
+  reason records the actual physical sample clock and the 400ms observation
+  separately. Requesting 399.999ms would show the new picture twice and imply
+  knowledge of an unseen semantic cut that the samples do not establish.
