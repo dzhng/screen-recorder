@@ -6,7 +6,7 @@ import { z } from "zod";
 import { callLocal, resolveServiceSocket, type ServiceSelection } from "@screenrec/client";
 import { ARTIFACT_CHUNK_BYTES, resultSchema, type OperationResponse } from "@screenrec/protocol";
 
-export class MediaDeliveryError extends Error {
+export class ArtifactDeliveryError extends Error {
   constructor(
     readonly code: string,
     message: string,
@@ -27,6 +27,7 @@ const ready = z.object({
     z.object({ frame: z.object({ mediaType: z.literal("image/png") }) }),
     z.object({ audio: z.object({ mediaType: z.literal("audio/wav") }) }),
     z.object({ preview: z.object({ mediaType: z.literal("video/mp4") }) }),
+    z.object({ waveform: z.object({ mediaType: z.literal("application/json") }) }),
   ]),
 });
 const chunk = z.object({
@@ -36,35 +37,37 @@ const chunk = z.object({
   eof: z.boolean(),
 });
 
-type MediaType = "image/png" | "audio/wav" | "video/mp4";
-type MediaInfo = { bytes: number; mediaType: MediaType };
+type ArtifactType = "image/png" | "audio/wav" | "video/mp4" | "application/json";
+type ArtifactInfo = { bytes: number; mediaType: ArtifactType };
 
 /** One transport validator for buffered model content and streamed playable files. */
-async function consumeMedia<T>(
+async function consumeArtifact<T>(
   selection: ServiceSelection,
   result: OperationResponse,
-  consume: (info: MediaInfo, chunks: AsyncIterable<Buffer>) => Promise<T>,
+  consume: (info: ArtifactInfo, chunks: AsyncIterable<Buffer>) => Promise<T>,
 ): Promise<T | null> {
   if (!result.ok) return null;
   const data = result.data as { state?: unknown } | null;
   if (!data || data.state !== "ready") return null;
   const parsed = ready.safeParse(data);
   if (!parsed.success)
-    throw new MediaDeliveryError("INVALID_RESPONSE", "Ready media has no valid delivery");
+    throw new ArtifactDeliveryError("INVALID_RESPONSE", "Ready artifact has no valid delivery");
   const { token, bytes } = parsed.data.delivery;
   let expiresAt = parsed.data.delivery.expiresAt;
-  const mediaType: MediaType =
+  const mediaType: ArtifactType =
     "frame" in parsed.data.published
       ? "image/png"
       : "audio" in parsed.data.published
         ? "audio/wav"
-        : "video/mp4";
+        : "waveform" in parsed.data.published
+          ? "application/json"
+          : "video/mp4";
   const socket = await resolveServiceSocket(selection);
   async function* chunks() {
     let offset = 0;
     while (offset < bytes) {
       if (Date.now() >= expiresAt)
-        throw new MediaDeliveryError("ARTIFACT_EXPIRED", "Media delivery expired", true);
+        throw new ArtifactDeliveryError("ARTIFACT_EXPIRED", "Media delivery expired", true);
       if (expiresAt - Date.now() < 5000) {
         const renewal = await callLocal(
           socket,
@@ -72,7 +75,7 @@ async function consumeMedia<T>(
           selection.signal ? { signal: selection.signal } : {},
         );
         if (!renewal.ok)
-          throw new MediaDeliveryError(
+          throw new ArtifactDeliveryError(
             renewal.error.code,
             renewal.error.message,
             renewal.error.retryable,
@@ -84,7 +87,7 @@ async function consumeMedia<T>(
           renewed.data.bytes !== bytes ||
           renewed.data.expiresAt <= expiresAt
         )
-          throw new MediaDeliveryError(
+          throw new ArtifactDeliveryError(
             "INVALID_RESPONSE",
             "Media renewal changed its identity or failed to extend the lease",
           );
@@ -100,14 +103,14 @@ async function consumeMedia<T>(
         selection.signal ? { signal: selection.signal } : {},
       );
       if (!response.ok)
-        throw new MediaDeliveryError(
+        throw new ArtifactDeliveryError(
           response.error.code,
           response.error.message,
           response.error.retryable,
         );
       const parsedChunk = chunk.safeParse(response.data);
       if (!parsedChunk.success)
-        throw new MediaDeliveryError("INVALID_RESPONSE", "Malformed media chunk");
+        throw new ArtifactDeliveryError("INVALID_RESPONSE", "Malformed media chunk");
       const part = parsedChunk.data;
       const decoded = Buffer.from(part.data, "base64");
       if (
@@ -119,7 +122,7 @@ async function consumeMedia<T>(
         part.eof !== (part.nextOffset === bytes) ||
         decoded.toString("base64") !== part.data
       )
-        throw new MediaDeliveryError(
+        throw new ArtifactDeliveryError(
           "INVALID_RESPONSE",
           "Media chunk does not advance within the delivery",
         );
@@ -139,10 +142,10 @@ async function consumeMedia<T>(
   }
 }
 
-export async function mediaBytes(
+export async function artifactBytes(
   selection: ServiceSelection,
   result: OperationResponse,
-): Promise<{ bytes: Buffer; mediaType: "image/png" | "audio/wav" } | null> {
+): Promise<{ bytes: Buffer; mediaType: "image/png" | "audio/wav" | "application/json" } | null> {
   const parsed = result.ok ? ready.safeParse(result.data) : null;
   // Large audio remains a renewable artifact for MCP callers instead of becoming one huge message.
   if (
@@ -151,16 +154,21 @@ export async function mediaBytes(
     parsed.data.delivery.bytes > 48 * 1024 ** 2
   )
     return null;
-  return consumeMedia(selection, result, async ({ bytes, mediaType }, chunks) => {
+  return consumeArtifact(selection, result, async ({ bytes, mediaType }, chunks) => {
     if (mediaType === "video/mp4")
-      throw new MediaDeliveryError(
+      throw new ArtifactDeliveryError(
         "INVALID_REQUEST",
         "Playable previews must be streamed to a file",
       );
     if (mediaType === "image/png" && bytes > 32 * 1024 ** 2)
-      throw new MediaDeliveryError(
+      throw new ArtifactDeliveryError(
         "LIMIT_EXCEEDED",
         "Image exceeds its buffered delivery byte limit",
+      );
+    if (mediaType === "application/json" && bytes > 4 * 1024 ** 2)
+      throw new ArtifactDeliveryError(
+        "LIMIT_EXCEEDED",
+        "JSON evidence exceeds its buffered delivery byte limit",
       );
     const output = Buffer.alloc(bytes);
     let offset = 0;
@@ -168,23 +176,31 @@ export async function mediaBytes(
       chunk.copy(output, offset);
       offset += chunk.length;
     }
+    if (mediaType === "application/json") {
+      try {
+        JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(output));
+      } catch {
+        throw new ArtifactDeliveryError("INVALID_RESPONSE", "Evidence is not valid UTF-8 JSON");
+      }
+    }
     return { bytes: output, mediaType };
   });
 }
 
 /** Publish only the complete file, without replacing a caller's existing destination. */
-export async function mediaFile(
+export async function artifactFile(
   selection: ServiceSelection,
   result: OperationResponse,
   destination?: string,
-): Promise<(MediaInfo & { output: string }) | null> {
+): Promise<(ArtifactInfo & { output: string }) | null> {
   let ownedDirectory: string | undefined;
   try {
-    return await consumeMedia(selection, result, async (info, chunks) => {
+    return await consumeArtifact(selection, result, async (info, chunks) => {
       const names = {
         "image/png": "frame.png",
         "audio/wav": "excerpt.wav",
         "video/mp4": "preview.mp4",
+        "application/json": "waveform.json",
       };
       const output = destination
         ? resolve(destination)
@@ -268,7 +284,7 @@ export async function consumeBatch(
   result: OperationResponse,
   reference: keyof typeof batchResponse,
   consume: (
-    media: NonNullable<Awaited<ReturnType<typeof mediaBytes>>>,
+    media: NonNullable<Awaited<ReturnType<typeof artifactBytes>>>,
     index: number,
   ) => Promise<Record<string, unknown>>,
   errorDetails: (error: unknown) => Extract<OperationResponse, { ok: false }>["error"],
@@ -276,12 +292,15 @@ export async function consumeBatch(
   if (!result.ok) return result;
   const parsed = batchResponse[reference].safeParse(result.data);
   if (!parsed.success)
-    throw new MediaDeliveryError("INVALID_RESPONSE", "Batch response does not match its request");
+    throw new ArtifactDeliveryError(
+      "INVALID_RESPONSE",
+      "Batch response does not match its request",
+    );
   const batch = parsed.data;
   const items = [];
   for (const [index, item] of batch.items.entries()) {
     try {
-      const media = await mediaBytes(selection, { ...item, id: result.id });
+      const media = await artifactBytes(selection, { ...item, id: result.id });
       items.push(
         media && item.ok
           ? {

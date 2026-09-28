@@ -1,0 +1,1735 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "LIMIT_EXCEEDED",
+        "message": "Waveform request exceeds 4096 buckets; increase bucketFrames or narrow the sample window",
+        "retryable": false,
+        "details": {
+          "maximumBuckets": 4096
+        }
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "project.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "waveform.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "waveform.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "mcp",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "audio.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "mcp",
+      "state": "ready",
+      "inlineAudio": true
+    },
+    {
+      "operation": "project.delete",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Project does not exist",
+        "retryable": false,
+        "details": {
+          "projectId": "cebaa457-4f16-41d5-898f-cd20ed062cb2"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "checks": {
+    "taps": [
+      {
+        "target": "voice-clip",
+        "mode": "dry",
+        "gain": 1,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "821228d2bb3b2e061096ea7b559ee436e18d8cac1c0fae76493380b6e6d7112d",
+        "wavSha256": "e52f860bd4245e5ba4bbe19912a3aa45fe02d56f9f524ab0af9d547b9e816927",
+        "cli": "01-cli.wav",
+        "mcp": "02-mcp.wav"
+      },
+      {
+        "target": "voice-clip",
+        "mode": "after-step",
+        "gain": 3,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "34962760bbaf0ebc4e320a534515b4ffc4d9083746cecd6de83fee74a559cd0b",
+        "wavSha256": "ab76a102f48f18b49d05e2f7920ea3d1aeb90c66fd3b8bacccdbabb591437e58",
+        "cli": "04-cli.wav",
+        "mcp": "05-mcp.wav"
+      },
+      {
+        "target": "voice-clip",
+        "mode": "processed",
+        "gain": 1.5,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1f94398c352da3454013ebba2ea8b5fe31660ca99ea2835eeb89e2a23c46bf4f",
+        "wavSha256": "c6c9019296f24493104d6472506b4208f750738758c8e5813c7288cd4eb27b57",
+        "cli": "07-cli.wav",
+        "mcp": "08-mcp.wav"
+      },
+      {
+        "target": "voice",
+        "mode": "dry",
+        "gain": 1.5,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1f94398c352da3454013ebba2ea8b5fe31660ca99ea2835eeb89e2a23c46bf4f",
+        "wavSha256": "c6c9019296f24493104d6472506b4208f750738758c8e5813c7288cd4eb27b57",
+        "cli": "10-cli.wav",
+        "mcp": "11-mcp.wav"
+      },
+      {
+        "target": "voice",
+        "mode": "after-step",
+        "gain": 7.5,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "54e50c9d3f35053ab8dad103a8ee436d2954c88c77f1653467d46ca1bc26505d",
+        "wavSha256": "d653b31a89e38691b3f7b72277cdeb47fd20f21684cc31c6758bc33667ed7b93",
+        "cli": "13-cli.wav",
+        "mcp": "14-mcp.wav"
+      },
+      {
+        "target": "voice",
+        "mode": "processed",
+        "gain": 3.75,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "cc1a5eca5909c8b8278c9332de4494142b3f1d61f5f166c7324f1d043f1dd429",
+        "wavSha256": "1a75f666bd0554b819c4ea1683d0ecfcdca19d8d56210ea5d6fb56b006c792de",
+        "cli": "16-cli.wav",
+        "mcp": "17-mcp.wav"
+      },
+      {
+        "target": "inner",
+        "mode": "dry",
+        "gain": 3.75,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "cc1a5eca5909c8b8278c9332de4494142b3f1d61f5f166c7324f1d043f1dd429",
+        "wavSha256": "1a75f666bd0554b819c4ea1683d0ecfcdca19d8d56210ea5d6fb56b006c792de",
+        "cli": "19-cli.wav",
+        "mcp": "20-mcp.wav"
+      },
+      {
+        "target": "inner",
+        "mode": "after-step",
+        "gain": 26.25,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "5e2a3778321047060ec8e8236871bd9dc355998afaac2d710d3c20a45c4d6133",
+        "wavSha256": "9c6202da33a0945a2a034c489ae660b62341d8d5b0bdb558c1e68ee1aa3ca5b2",
+        "cli": "22-cli.wav",
+        "mcp": "23-mcp.wav"
+      },
+      {
+        "target": "inner",
+        "mode": "processed",
+        "gain": 13.125,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "f75d2b3eb61acd7ef26302cd83cf01845d4c0589006f2897e57b2e4c451fdf34",
+        "wavSha256": "1c7a99b6beb49ee5c9e9555b1dc42c1b3e6321626e1ed00ec9d7f1843fe894f0",
+        "cli": "25-cli.wav",
+        "mcp": "26-mcp.wav"
+      },
+      {
+        "target": "outer",
+        "mode": "dry",
+        "gain": 13.125,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "f75d2b3eb61acd7ef26302cd83cf01845d4c0589006f2897e57b2e4c451fdf34",
+        "wavSha256": "1c7a99b6beb49ee5c9e9555b1dc42c1b3e6321626e1ed00ec9d7f1843fe894f0",
+        "cli": "28-cli.wav",
+        "mcp": "29-mcp.wav"
+      },
+      {
+        "target": "outer",
+        "mode": "after-step",
+        "gain": 144.375,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "22f14dace9efb1e3d31de2173f9bc60e84d7ed7f833f25a45ba7ba984698f19d",
+        "wavSha256": "e24b5a9cd535610674da28a51fd6ce37f1626cd4148d4db12a5b63f790d88714",
+        "cli": "31-cli.wav",
+        "mcp": "32-mcp.wav"
+      },
+      {
+        "target": "outer",
+        "mode": "processed",
+        "gain": 72.1875,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1c1ef164bf3aaf8f324c6992a1d9e16051368d24056b64eb71e997ebbf230376",
+        "wavSha256": "3eba690c3007de1123e0fc13ec17f9753530d7603894f9a65c60c2f6c756d7b6",
+        "cli": "34-cli.wav",
+        "mcp": "35-mcp.wav"
+      },
+      {
+        "target": "output",
+        "mode": "dry",
+        "gain": 72.1875,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1c1ef164bf3aaf8f324c6992a1d9e16051368d24056b64eb71e997ebbf230376",
+        "wavSha256": "3eba690c3007de1123e0fc13ec17f9753530d7603894f9a65c60c2f6c756d7b6",
+        "cli": "37-cli.wav",
+        "mcp": "38-mcp.wav"
+      },
+      {
+        "target": "output",
+        "mode": "after-step",
+        "gain": 938.4375,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "1825f981d74cbb8d8666654707fd849b80d7c5588403783e1f61d8064c36daff",
+        "wavSha256": "ba162b9282bfb5c86803529c68bb8d1bfece5c030bd324730bbcd8c9758a2ee3",
+        "cli": "40-cli.wav",
+        "mcp": "41-mcp.wav"
+      },
+      {
+        "target": "output",
+        "mode": "processed",
+        "gain": 469.21875,
+        "start": 15,
+        "end": 47952,
+        "pcmSha256": "28080e1a0fe71657415d304c299c3428f7784efa71622499674891fa04aa0228",
+        "wavSha256": "a858950e90ed2bf1947e6777d4b624a3d7fcc8023f801b0d3a20226d11292627",
+        "cli": "43-cli.wav",
+        "mcp": "44-mcp.wav"
+      }
+    ],
+    "waveforms": [
+      {
+        "name": "03-waveform.json",
+        "sha256": "ee7a7d97b4b7186d4ec94cf671190ee5da700db0439fc61ca2fca63fdd3ff6e1",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 1,
+        "audio": {
+          "jobId": "fb9ca717-fc69-41f5-bfa0-8efe8323b78a",
+          "generation": 1
+        }
+      },
+      {
+        "name": "06-waveform.json",
+        "sha256": "bf1aed6d95dfe9eeab50530ced2244f4d1ce61359399bb82ff1f172cc809c403",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 3,
+        "audio": {
+          "jobId": "ed52388a-ae07-437e-a952-50fae0145389",
+          "generation": 1
+        }
+      },
+      {
+        "name": "09-waveform.json",
+        "sha256": "64ccd221bc7f531caf4f8162a3e639d8d2d5d56f369d788b06fa772bcbee7e22",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 1.5,
+        "audio": {
+          "jobId": "6a513527-a128-4d7d-a5d7-2adafe82ef44",
+          "generation": 1
+        }
+      },
+      {
+        "name": "12-waveform.json",
+        "sha256": "8be0c1693f31103274d1e64f85e7a6e75fa7920a82336ed16aaba4da93a179f6",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 1.5,
+        "audio": {
+          "jobId": "ef7d5e41-a6ec-4d4e-9132-911562fc05c4",
+          "generation": 1
+        }
+      },
+      {
+        "name": "15-waveform.json",
+        "sha256": "2827b32a66dd12189215cadda53c733ee638b699f8b727989a3a3344528e5fc6",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 7.5,
+        "audio": {
+          "jobId": "9b5113b6-0488-4720-8f7e-c5e18f0c6c20",
+          "generation": 1
+        }
+      },
+      {
+        "name": "18-waveform.json",
+        "sha256": "c7177fde0678581e7fbcb65b758df23cabdb497b57711138226eb557042aeacd",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 3.75,
+        "audio": {
+          "jobId": "5673b1cf-fdad-420f-bfec-d7ad79748cad",
+          "generation": 1
+        }
+      },
+      {
+        "name": "21-waveform.json",
+        "sha256": "616df772d61fec42349cfedf734896e09edaa96697ab7684d6c917c2750549e0",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 3.75,
+        "audio": {
+          "jobId": "ef3108ff-ac3d-4792-986b-bfbb6ad50c63",
+          "generation": 1
+        }
+      },
+      {
+        "name": "24-waveform.json",
+        "sha256": "34cdeb8f070342c8bfd644988ed04c099f5ca13af67c699de890b25383c76f20",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 26.25,
+        "audio": {
+          "jobId": "74ce014f-1bef-4fe6-8533-dd7841e2a43a",
+          "generation": 1
+        }
+      },
+      {
+        "name": "27-waveform.json",
+        "sha256": "f9c6cb44a31dd040d730bc5ae2c6ecbba8136d57ce12a81a64c2b1f81dba3bf1",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 13.125,
+        "audio": {
+          "jobId": "e41ada8d-bd81-4235-ac96-efa4729b211d",
+          "generation": 1
+        }
+      },
+      {
+        "name": "30-waveform.json",
+        "sha256": "e103404730d22a5af8a5946c22f796e2edf5b218d1eb40e67a0a59477694da84",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 13.125,
+        "audio": {
+          "jobId": "937bd0dc-372a-4f10-86e0-de8dd5fe2ae3",
+          "generation": 1
+        }
+      },
+      {
+        "name": "33-waveform.json",
+        "sha256": "dd4fb8b7dc80595fcb4bbbc259cd55d4e5c26667c15001bcbf14a8fb32a8a4f2",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 144.375,
+        "audio": {
+          "jobId": "40f22321-86c8-4536-82a7-aff343c50d06",
+          "generation": 1
+        }
+      },
+      {
+        "name": "36-waveform.json",
+        "sha256": "8d366866cbb1a9e4a5c002178751e9d2fe25d79ff122130fd1bf7fe45d7ba8cf",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 72.1875,
+        "audio": {
+          "jobId": "dbee64f1-76dc-4fd1-9414-65c367433bb3",
+          "generation": 1
+        }
+      },
+      {
+        "name": "39-waveform.json",
+        "sha256": "989acb61a7c123847ede5bde8351699ded7359c6b62b4e9c0a6109389c87c6f6",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 72.1875,
+        "audio": {
+          "jobId": "4d2632c2-5678-4535-9422-ff68fb166c1f",
+          "generation": 1
+        }
+      },
+      {
+        "name": "42-waveform.json",
+        "sha256": "48bc048abc43c09c7f2ccda4962fe7f51fbb82b84e046fc440dcb617d2c22e33",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 938.4375,
+        "audio": {
+          "jobId": "764bb532-ba65-4591-907e-7337e4fc8d6c",
+          "generation": 1
+        }
+      },
+      {
+        "name": "45-waveform.json",
+        "sha256": "688cf3901e9faccb0189f812d07e7a208c54e4724c717aaf66957f8c21deae6b",
+        "buckets": 101,
+        "domain": "project",
+        "sampleRange": {
+          "start": 15,
+          "end": 47952
+        },
+        "gain": 469.21875,
+        "audio": {
+          "jobId": "68ce9179-621d-4d42-b7b9-363a5d0ef79f",
+          "generation": 1
+        }
+      }
+    ],
+    "sourceWaveform": {
+      "name": "00-waveform.json",
+      "sha256": "78a8c058d6e8c58997f2ba8ffccb32e9ef812000bff878d550e9e4115d58ebfd",
+      "buckets": 101,
+      "domain": "source",
+      "sampleRange": {
+        "start": 15,
+        "end": 47952
+      },
+      "gain": 1,
+      "audio": {
+        "jobId": "4c1b9d96-1606-4cac-ac70-6cd13fb8d37c",
+        "generation": 1
+      }
+    },
+    "full": {
+      "start": 0,
+      "end": 48000,
+      "pcmSha256": "c427e1f91bc6e71c5de1b1c06bd76cd72316f27eadc09c45d0e70d8cc34e6545",
+      "wavSha256": "37f0c566b51014307b776d3103db1ea93b3d2e70c0e7f0ecc22b4bf511fd338a"
+    },
+    "autoWaveform": {
+      "name": "48-waveform.json",
+      "sha256": "450ac94661189e44f11aa51e2f5b0e4c77ff864a92e9e375c12621dfb5e87d55",
+      "buckets": 1022,
+      "domain": "source",
+      "sampleRange": {
+        "start": 0,
+        "end": 48000
+      },
+      "gain": 1,
+      "audio": {
+        "jobId": "9db6bcda-2797-43fa-8738-43caa4d93a0c",
+        "generation": 1
+      }
+    },
+    "changed": {
+      "start": 15,
+      "end": 47952,
+      "pcmSha256": "90be4f6c47706fe115ddb9a0212157cfc6ab5167ad8c0d1bd853714d2e680111",
+      "wavSha256": "19eeaed9ddf7d7fa9f568ae5308eb883d294ffbf55d6c5168f485f507e647537"
+    },
+    "historyRestart": true,
+    "historicalWaveform": {
+      "name": "51-waveform.json",
+      "sha256": "688cf3901e9faccb0189f812d07e7a208c54e4724c717aaf66957f8c21deae6b",
+      "buckets": 101,
+      "domain": "project",
+      "sampleRange": {
+        "start": 15,
+        "end": 47952
+      },
+      "gain": 469.21875,
+      "audio": {
+        "jobId": "68ce9179-621d-4d42-b7b9-363a5d0ef79f",
+        "generation": 1
+      }
+    },
+    "head": {
+      "start": 15,
+      "end": 47952,
+      "pcmSha256": "1c1ef164bf3aaf8f324c6992a1d9e16051368d24056b64eb71e997ebbf230376",
+      "wavSha256": "3eba690c3007de1123e0fc13ec17f9753530d7603894f9a65c60c2f6c756d7b6"
+    },
+    "waveformDependencyRetry": {
+      "name": "53-waveform.json",
+      "sha256": "d930b1b0547dda931bbeff2edfb168949d40e483d47238e3ece1682254e65a68",
+      "buckets": 78,
+      "domain": "project",
+      "sampleRange": {
+        "start": 31,
+        "end": 37333
+      },
+      "gain": 72.1875,
+      "audio": {
+        "jobId": "9bffbe80-f040-4c27-8ec8-13add73209ab",
+        "generation": 2
+      }
+    },
+    "cancelRetry": {
+      "start": 37,
+      "end": 42666,
+      "pcmSha256": "8f30586b9c3cf9a53157e337b09adc54028f15503e446b11bdabad9f700569e7",
+      "wavSha256": "9cc5b139df0bf5676187d6aab19045bf25f007c73f950de9e80264b4ab4c151f"
+    },
+    "deletionPreservesSource": true
+  },
+  "pending": [
+    "Unavailable video processor: none is authorable in the current registry"
+  ],
+  "sourceSha256": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1",
+  "nativeSha256": "e9da7a3ad9fcea28d95f7bdfa7b61a7fec505a246e08f3f624d8f1e17cb8b1ec",
+  "admitted": {
+    "audio": {
+      "id": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1",
+      "bytes": 384044,
+      "createdAt": "2026-09-28T09:39:22.658Z",
+      "fileName": "130d3c741b520d9b8725e9ad8eb074b0fff2821e3201e99cb3eebf4d64e235c1.wav",
+      "originUs": 0,
+      "streams": [
+        {
+          "id": "track:1",
+          "kind": "audio",
+          "codec": "lpcm",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 1000000,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 1000000,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 1000000
+            }
+          ],
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ]
+    },
+    "video": {
+      "id": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+      "bytes": 29414120,
+      "createdAt": "2026-09-28T09:39:23.038Z",
+      "fileName": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a.mov",
+      "originUs": 0,
+      "streams": [
+        {
+          "id": "track:1",
+          "kind": "video",
+          "codec": "avc1",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 134025574,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 134025574,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 134025574
+            }
+          ],
+          "width": 3120,
+          "height": 1970,
+          "orientedWidth": 3120,
+          "orientedHeight": 1970,
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "samples": {
+            "count": 3951,
+            "firstPtsUs": 0,
+            "lastPtsUs": 134006597,
+            "minDurationUs": 18977,
+            "maxDurationUs": 39661
+          }
+        }
+      ]
+    }
+  },
+  "project": {
+    "projectId": "cebaa457-4f16-41d5-898f-cd20ed062cb2",
+    "revisionId": "ffe075da-bb17-4bc4-921b-a9353e3ccfeb"
+  }
+}

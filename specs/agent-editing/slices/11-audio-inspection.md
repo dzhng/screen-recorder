@@ -1,6 +1,8 @@
 # 11 — Audio, waveforms and spectrograms
 
-Status: bounded waveform reduction, shared WAV validation and cached waveform jobs implemented in core; public delivery, images, spectrograms and agent/visual acceptance remain. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
+Status: cached waveform JSON jobs and [actual public CLI/MCP delivery](../assets/11-waveform-public/README.md) are verified; images, spectrograms and agent/visual acceptance remain. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
+
+Dependencies: [11a](./11a-audio-delivery.md).
 
 ## Contract
 

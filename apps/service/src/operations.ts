@@ -378,6 +378,12 @@ export async function operate(
             operation.params.maxBytes,
           ),
         };
+      case "waveform.get":
+      case "waveform.retry":
+        return operationError(
+          "NOT_READY",
+          "Waveform inspection requires the project service until cutover",
+        );
       case "artifact.renew":
         return { ok: true, data: delivery.renew(operation.params.token) };
       case "artifact.close":

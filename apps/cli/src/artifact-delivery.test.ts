@@ -2,7 +2,7 @@ import { afterEach, expect, test, vi } from "vitest";
 import { mkdtemp, rm, writeFile, access, readFile, readdir } from "node:fs/promises";
 import { listenLocal } from "@screenrec/service";
 import type { OperationResponse } from "@screenrec/protocol";
-import { mediaBytes, consumeBatch, mediaFile } from "./media.js";
+import { artifactBytes, consumeBatch, artifactFile } from "./artifact-delivery.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -12,7 +12,7 @@ afterEach(async () => {
 async function fixture(
   bytes: Buffer,
   malformed: boolean | number = false,
-  mediaType: "image/png" | "audio/wav" | "video/mp4" = "image/png",
+  mediaType: "image/png" | "audio/wav" | "video/mp4" | "application/json" = "image/png",
   onRead: () => void = () => {},
 ) {
   const runtimeDirectory = await mkdtemp("/tmp/scr-delivery-client-");
@@ -63,7 +63,9 @@ async function fixture(
           ? { frame: { mediaType } }
           : mediaType === "audio/wav"
             ? { audio: { mediaType } }
-            : { preview: { mediaType } },
+            : mediaType === "application/json"
+              ? { waveform: { mediaType } }
+              : { preview: { mediaType } },
     },
   };
   return {
@@ -79,14 +81,14 @@ test("the image transport assembles bytes larger than one metadata response and 
   const bytes = Buffer.alloc(9 * 1024 * 1024 + 17);
   for (let i = 0; i < bytes.length; i++) bytes[i] = i % 251;
   const f = await fixture(bytes);
-  expect((await mediaBytes(f.selection, f.result))?.bytes.equals(bytes)).toBe(true);
+  expect((await artifactBytes(f.selection, f.result))?.bytes.equals(bytes)).toBe(true);
   expect(f.reads()).toBeGreaterThan(1);
   expect(f.closes()).toBe(1);
 });
 
 test("a nonadvancing chunk fails immediately and still releases the delivery", async () => {
   const f = await fixture(Buffer.from("evidence"), true);
-  await expect(mediaBytes(f.selection, f.result)).rejects.toMatchObject({
+  await expect(artifactBytes(f.selection, f.result)).rejects.toMatchObject({
     code: "INVALID_RESPONSE",
   });
   expect(f.reads()).toBe(1);
@@ -96,7 +98,7 @@ test("a nonadvancing chunk fails immediately and still releases the delivery", a
 test("audio payloads can exceed the image limit while preserving type and bytes", async () => {
   const bytes = Buffer.alloc(33 * 1024 * 1024 + 3, 0x71);
   const f = await fixture(bytes, false, "audio/wav");
-  const media = await mediaBytes(f.selection, f.result);
+  const media = await artifactBytes(f.selection, f.result);
   expect(media?.mediaType).toBe("audio/wav");
   expect(media?.bytes.equals(bytes)).toBe(true);
   expect(f.closes()).toBe(1);
@@ -104,7 +106,9 @@ test("audio payloads can exceed the image limit while preserving type and bytes"
 
 test("an oversized image is refused before reading and its lease is released", async () => {
   const f = await fixture(Buffer.alloc(33 * 1024 * 1024));
-  await expect(mediaBytes(f.selection, f.result)).rejects.toMatchObject({ code: "LIMIT_EXCEEDED" });
+  await expect(artifactBytes(f.selection, f.result)).rejects.toMatchObject({
+    code: "LIMIT_EXCEEDED",
+  });
   expect(f.reads()).toBe(0);
   expect(f.closes()).toBe(1);
 });
@@ -271,11 +275,11 @@ test.each(["video/mp4", "audio/wav"] as const)(
     cleanups.push(() => rm(directory, { recursive: true, force: true }));
     const output = directory + "/preview.mp4";
     if (mediaType === "audio/wav") {
-      expect(await mediaBytes(f.selection, f.result)).toBeNull();
+      expect(await artifactBytes(f.selection, f.result)).toBeNull();
       expect(f.reads()).toBe(0);
       expect(f.closes()).toBe(0);
     }
-    expect(await mediaFile(f.selection, f.result, output)).toEqual({
+    expect(await artifactFile(f.selection, f.result, output)).toEqual({
       output,
       bytes: bytes.length,
       mediaType,
@@ -283,7 +287,7 @@ test.each(["video/mp4", "audio/wav"] as const)(
     expect((await readFile(output)).equals(bytes)).toBe(true);
     expect(f.reads()).toBeGreaterThan(1);
     expect(f.closes()).toBe(1);
-    await expect(mediaFile(f.selection, f.result, output)).rejects.toMatchObject({
+    await expect(artifactFile(f.selection, f.result, output)).rejects.toMatchObject({
       code: "EEXIST",
     });
     expect((await readFile(output)).equals(bytes)).toBe(true);
@@ -294,7 +298,9 @@ test("a failed streamed read leaves no output or partial staging and releases it
   const f = await fixture(Buffer.alloc(512 * 1024 + 17, 0x6d), 2, "video/mp4");
   const directory = await mkdtemp("/tmp/screenrec-preview-failure-");
   cleanups.push(() => rm(directory, { recursive: true, force: true }));
-  await expect(mediaFile(f.selection, f.result, directory + "/preview.mp4")).rejects.toMatchObject({
+  await expect(
+    artifactFile(f.selection, f.result, directory + "/preview.mp4"),
+  ).rejects.toMatchObject({
     code: "INVALID_RESPONSE",
   });
   expect(await readdir(directory)).toEqual([]);
@@ -311,8 +317,43 @@ test("streaming renews the same delivery beyond its original expiry", async () =
   const directory = await mkdtemp("/tmp/screenrec-renew-delivery-");
   cleanups.push(() => rm(directory, { recursive: true, force: true }));
   const output = directory + "/full.wav";
-  await mediaFile(f.selection, f.result, output);
+  await artifactFile(f.selection, f.result, output);
   expect((await readFile(output)).equals(bytes)).toBe(true);
   expect(f.renewals()).toBe(1);
+  expect(f.closes()).toBe(1);
+});
+
+test("waveform JSON streams unchanged and uses bounded buffered delivery with lease cleanup", async () => {
+  const bytes = Buffer.from(
+    JSON.stringify({ buckets: [{ channels: [{ min: -0.25, max: 0.5, rms: 0.3 }] }] }),
+  );
+  const f = await fixture(bytes, false, "application/json");
+  expect(await artifactBytes(f.selection, f.result)).toEqual({
+    bytes,
+    mediaType: "application/json",
+  });
+  const folder = await mkdtemp("/tmp/scr-waveform-delivery-");
+  cleanups.push(() => rm(folder, { recursive: true, force: true }));
+  const output = folder + "/waveform.json";
+  expect(await artifactFile(f.selection, f.result, output)).toEqual({
+    output,
+    bytes: bytes.length,
+    mediaType: "application/json",
+  });
+  expect(await readFile(output)).toEqual(bytes);
+  expect(f.closes()).toBe(2);
+  const oversized = await fixture(Buffer.alloc(4 * 1024 ** 2 + 1), false, "application/json");
+  await expect(artifactBytes(oversized.selection, oversized.result)).rejects.toMatchObject({
+    code: "LIMIT_EXCEEDED",
+  });
+  expect(oversized.reads()).toBe(0);
+  expect(oversized.closes()).toBe(1);
+});
+
+test("invalid JSON evidence fails as a delivery error and releases its lease", async () => {
+  const f = await fixture(Buffer.from('{"buckets":'), false, "application/json");
+  await expect(artifactBytes(f.selection, f.result)).rejects.toMatchObject({
+    code: "INVALID_RESPONSE",
+  });
   expect(f.closes()).toBe(1);
 });

@@ -15,49 +15,44 @@ slice's acceptance gates remain the scope. Read [contracts](contracts.md),
 available public operations only; the installed app has not switched engines.
 
 Complete [10c occurrence queries](slices/10c-occurrence-queries.md) and
-[10d picture inspection](slices/10d-frame-inspection.md). [11a PCM delivery](slices/11a-audio-delivery.md)
-is verified, including the [large multi-source project journey](assets/11a-large-project-audio/README.md). Public transcript paging, phrase
-search and capture cursor/pause/geometry occurrence queries are verified. Capture
-scene/cut/interruption categories remain explicitly unsupported and require
-reconciliation before closing 10c. [10d direct frames](slices/10d-frame-inspection.md) is now the active implementation
-branch: picture-only compilation and core revision/cache lifecycle are committed;
-native still extraction, common-profile visual comparison and concurrent staging
-are integrated. [Public project pictures](assets/10d-public-project-frames/README.md)
-pass actual CLI/MCP delivery. [Selected-source routes](assets/10d-source-routing/README.md)
-and their actual journey pass; retain the reviewed journey and product-skill
-evidence. [Scene ownership](assets/10d-scene-ownership/README.md) is integrated
-with recording/package preservation; selected-source scene sampling and retained
-indexes are next. Retain the full
-[10 evidence](slices/10-project-evidence.md) umbrella requirements.
+[10d picture/index inspection](slices/10d-frame-inspection.md). Public source and
+project frames pass, including [blind product-skill use](assets/10d-frame-skill/README.md).
+[Scene ownership](assets/10d-scene-ownership/README.md) is integrated with actual
+recording/package preservation. Selected-source scene sampling, retained indexes
+and scene/cut/interruption event categories are the remaining inspection work.
+The latter categories still report unsupported until their execution paths land.
+Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
 
-Source and project audio share jobs, cached delivery and locked render attempts.
-The [public tap journey](assets/11a-public-project-taps/wired-render/README.md)
-passes all nested dry/after-step/processed taps with byte-identical WAV outputs.
-[Actual source extraction above 1 GiB](assets/11a-audio-extraction/README.md) and
-the bounded AAC tail correction are integrated. Signed-start preservation and core
-execution pins and concurrent staging pass the final combined-runtime source WAV,
-preview/export and project-picture journeys. Same-old-binary evidence proves a pre-existing tiny AAC
-full-versus-seek float difference; the final journey uses explicit AAC-only RMS
-and maximum error bounds while keeping exact counts/clocks/endpoints and lossless
-byte parity. Do not shorten support or pad missing decoded speech to hide failures.
-Implement [11 acoustic artifacts](slices/11-audio-inspection.md) in parallel with
-scene/index ownership: its PCM-only first pass is independent of remaining events.
+In parallel, finish [11 acoustic artifacts](slices/11-audio-inspection.md).
+[Public waveform JSON](assets/11-waveform-public/README.md) verifies raw/processed
+measurements, all nested taps, automatic overview, history and dependency retry.
+Images, bounded spectrograms, labeled axes and fresh agent/visual acceptance remain.
+Its PCM-only implementation is independent of the remaining event categories.
+
+[11a PCM delivery](slices/11a-audio-delivery.md) is verified, including actual
+[source WAVs](assets/11a-audio-extraction/README.md) and
+[multi-source project WAVs](assets/11a-large-project-audio/README.md) above 1 GiB.
+Execution pins and concurrent staging pass combined-runtime preservation.
+AAC comparisons retain the documented bounded seek-dependent float difference;
+counts/clocks/endpoints and lossless byte parity remain exact. Never pad missing
+samples, shorten source support or change thresholds to hide failures.
 
 Current public evidence:
 - [Paging/search](assets/10c-public-phrases/README.md) and
   [bounded/acquired-gap reads](assets/10c-public-bounds/README.md) use frozen ASR
-  rows to verify exact projection, not fresh inference.
+  rows for exact projection, not fresh inference. [Source acquisition](slices/10b-source-acquisition.md)
+  separately retains actual native transcription and capture-mask media evidence.
 - [Capture journey](assets/10c-public-capture/README.md) uses actual acquisition
-  normalization and complete row oracles through CLI/MCP. Physical checkpoint
-  loss is tested separately from core cache eviction and generation invalidation.
-- [Transcript skill use](assets/10c-project-skill/README.md) and
-  [audio/capture skill use](assets/11a-10c-inspection-skill/README.md) pass blind
-  agent usage. The latter verifies delivered PCM and complete observation rows,
-  without a listening claim.
-- [Source acquisition](slices/10b-source-acquisition.md) retains actual native
-  transcription, stream parity, cancellation/retry and same-byte capture masks.
-- [Route integration](assets/11a-capture-routing/README.md) records focused
-  checks, independent review and interrupted-render lifetime evidence.
+  normalization and complete cursor/pause/geometry row oracles. Unsupported
+  categories remain visible, not empty successes.
+- [Project pictures](assets/10d-public-project-frames/README.md) verify actual
+  membership, history and owned-media survival after project deletion.
+  [Source pictures](assets/10d-source-frame-public/README.md) verify selected
+  streams, physical gaps, retained capture bindings and exact reviewed pixels.
+  Custom public video exclusion masks and raw still-image admission remain open.
+- [Transcript](assets/10c-project-skill/README.md),
+  [audio/capture](assets/11a-10c-inspection-skill/README.md) and picture skills
+  pass blind agent use. Waveform skill use is next; none establishes listening.
 
 Use isolated homes and frozen workers. Imported sources never fabricate recording
 rows or narration roles. Preserve capture clocks/acquisition provenance separately

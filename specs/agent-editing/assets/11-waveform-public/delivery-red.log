@@ -1,0 +1,28 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+ ❯ apps/cli/src/media.test.ts (13 tests | 1 failed | 12 skipped) 6ms
+   × waveform JSON streams unchanged and uses bounded buffered delivery with lease cleanup 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/media.test.ts > waveform JSON streams unchanged and uses bounded buffered delivery with lease cleanup
+Error: Ready media has no valid delivery
+ ❯ consumeMedia apps/cli/src/media.ts:53:11
+     51|   const parsed = ready.safeParse(data);
+     52|   if (!parsed.success)
+     53|     throw new MediaDeliveryError("INVALID_RESPONSE", "Ready media has …
+       |           ^
+     54|   const { token, bytes } = parsed.data.delivery;
+     55|   let expiresAt = parsed.data.delivery.expiresAt;
+ ❯ mediaBytes apps/cli/src/media.ts:154:10
+ ❯ apps/cli/src/media.test.ts:326:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  02:29:33
+   Duration  209ms (transform 59%, import 36%, tests 4%, worker 1%)
+

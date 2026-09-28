@@ -1,0 +1,38 @@
+$ turbo check-types
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/client, @screenrec/composition, @screenrec/core, @screenrec/macos, @screenrec/protocol, @screenrec/service, @screenrec/test-harness, @screenrec/workbench
+   • Running check-types in 9 packages
+   • Remote caching disabled
+
+@screenrec/composition:build: cache hit, replaying logs 6821edd14d7ebeda
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/protocol:check-types: cache miss, executing cd4aaa7e3a987ef0
+@screenrec/core:check-types: cache miss, executing 2fa0fc571ca707f1
+@screenrec/composition:check-types: cache hit, replaying logs 881c05a9086290a2
+@screenrec/protocol:build: cache hit, replaying logs 8aea78039da346ea
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/composition:check-types: $ tsc -p tsconfig.check.json
+@screenrec/client:check-types: cache miss, executing 962829e9df5b2127
+@screenrec/client:build: cache hit, replaying logs 89b736db065d6e0a
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:build: cache hit, replaying logs 9bb01f992b3d8ecc
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/test-harness:check-types: cache miss, executing c0b12476d128ea1d
+@screenrec/service:check-types: cache miss, executing 82c961a6fe04f234
+@screenrec/service:build: cache hit, replaying logs 9849a58e6f7cfd0d
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:check-types: cache miss, executing 1c2ef7d17b711d44
+@screenrec/cli:build: cache hit, replaying logs 0b15509e64e39608
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+@screenrec/client:check-types: $ tsc -p tsconfig.check.json
+@screenrec/core:check-types: $ tsc -p tsconfig.check.json
+@screenrec/protocol:check-types: $ tsc -p tsconfig.check.json
+@screenrec/service:check-types: $ tsc -p tsconfig.check.json
+@screenrec/test-harness:check-types: $ tsc -p tsconfig.check.json
+@screenrec/cli:check-types: $ tsc -p tsconfig.check.json
+
+ Tasks:    13 successful, 13 total
+Cached:    7 cached, 13 total
+  Time:    773ms 
+

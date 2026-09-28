@@ -1209,3 +1209,28 @@ trim and stretch replacements keep their single-interval behavior.
   explicit conversions protect the package boundary. An imported asset is never
   disguised as a recording package. This fills the plan's storage seam without
   inventing a new portable format before editable project packaging is implemented.
+
+
+## Acoustic evidence decisions
+
+- **Sound; medium confidence — Omitted waveform resolution produces an overview.**
+  Asking for a whole long recording produces roughly a thousand buckets instead
+  of failing because a fine default exceeds the response limit. An agent can then
+  request a narrower window with an explicit number of sample frames per bucket.
+  The response reports its exact resolution and partial edge bounds. The plan
+  required useful detail but left default resolution open; automatic overview
+  plus explicit detail keeps the first request useful without hiding short sounds.
+
+- **Sound; high confidence — Cached waveforms retain audio provenance without requiring temporary WAV bytes forever.**
+  After measurements finish, deleting the disposable WAV does not invalidate the
+  surviving waveform. Its audio recipe and generation remain pinned. Rebuilding
+  missing measurements needs that audio again; explicit retry uses the same audio
+  owner to recover the prerequisite, while ordinary reads do not restart terminal
+  failures. This fills the dependency-lifetime seam without another scheduler or
+  a second decoder.
+
+- **Sound; high confidence — Waveform JSON uses the same leased artifact transport as pictures and audio.**
+  CLI inspection writes a complete JSON file without overwriting an existing file;
+  MCP supplies its bounded JSON text. Both consume the same cached bytes and close
+  the delivery lease. The plan left model presentation open; text preserves exact
+  numbers for agents without base64 decoding or another download mechanism.

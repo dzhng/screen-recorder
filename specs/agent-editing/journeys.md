@@ -38,8 +38,10 @@ also pass live CLI/MCP delivery against frozen source transcripts.
 [large source WAV delivery](assets/11a-audio-extraction/README.md) and
 [large multi-source project WAV delivery](assets/11a-large-project-audio/README.md) have actual
 public journeys. [Project stills](assets/10d-public-project-frames/README.md)
-verify delivered picture membership and retained media after project deletion. Scene/cut/interruption categories, processors beyond constant
-gain and subjective listening remain pending. Rows below
+verify delivered picture membership and retained media after project deletion. [Waveform JSON](assets/11-waveform-public/README.md) now verifies actual
+raw and processed bucket measurements. Scene/cut/interruption categories,
+acoustic images/spectrograms, processors beyond constant gain and subjective
+listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |

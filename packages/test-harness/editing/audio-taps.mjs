@@ -114,6 +114,81 @@ async function delivered(params, transport) {
   assert.equal(data.published.audio.frames, pcm(bytes).length / 8);
   return { bytes, data, name };
 }
+async function waveform(params, range, gain, requestedBucketFrames = 479) {
+  const input = {
+    ...params,
+    ...(requestedBucketFrames === null ? {} : { bucketFrames: requestedBucketFrames }),
+  };
+  const ready = await poll(
+    () => call("waveform.get", input, { transport: "mcp" }),
+    (value) => value.state === "ready",
+    "waveform ready",
+  );
+  const name = `${String(ordinal++).padStart(2, "0")}-waveform.json`;
+  const cli = await call("waveform.get", input, { output: join(out, name) });
+  const bytes = await readFile(join(out, name));
+  const mcp = await service.mcp.callTool({ name: "waveform.get", arguments: input });
+  assert.equal(mcp.structuredContent.ok, true);
+  assert.equal(mcp.content.length, 2);
+  assert.equal(mcp.content[1].type, "text");
+  assert.equal(mcp.content[1].text, bytes.toString("utf8"));
+  assert.equal(cli.published.waveform.bytes, bytes.length);
+  assert.equal(cli.published.generation, ready.published.generation);
+  const document = JSON.parse(bytes);
+  const start = Math.floor((range.startUs * 48000) / 1000000);
+  const end = Math.floor((range.endUs * 48000) / 1000000);
+  assert.deepEqual(document.sampleRange, { start, end });
+  assert.equal(document.channels, 2);
+  assert.equal(document.sampleRate, 48000);
+  const bucketFrames = document.bucketFrames;
+  assert.ok(Number.isSafeInteger(bucketFrames) && bucketFrames > 0);
+  if (requestedBucketFrames !== null) assert.equal(bucketFrames, requestedBucketFrames);
+  assert.ok(document.buckets.length <= 4096);
+  assert.equal(document.domain, "projectId" in params ? "project" : "source");
+  if ("projectId" in params) {
+    assert.equal(document.projectId, params.projectId);
+    assert.equal(document.revisionId, cli.revisionId);
+  } else {
+    assert.equal(document.assetId, params.assetId);
+    assert.equal(document.streamId, params.streamId);
+    assert.equal("revisionId" in document, false);
+  }
+  const expected = [];
+  for (
+    let gridStart = Math.floor(start / bucketFrames) * bucketFrames;
+    gridStart < end;
+    gridStart += bucketFrames
+  ) {
+    const left = Math.max(start, gridStart),
+      right = Math.min(end, gridStart + bucketFrames);
+    expected.push({
+      gridStart,
+      sampleRange: { start: left, end: right },
+      partial: right - left !== bucketFrames,
+      channels: [0, 1].map((channel) => {
+        const values = Array.from({ length: right - left }, (_, i) =>
+          Math.fround(sample(left + i, channel) * gain),
+        );
+        return {
+          min: Math.min(...values),
+          max: Math.max(...values),
+          rms: Math.sqrt(values.reduce((sum, value) => sum + value * value, 0) / values.length),
+        };
+      }),
+    });
+  }
+  assert.deepEqual(document.buckets, expected);
+  return {
+    name,
+    sha256: hash(bytes),
+    buckets: expected.length,
+    domain: document.domain,
+    sampleRange: document.sampleRange,
+    gain,
+    audio: document.audio,
+  };
+}
+
 try {
   const source = join(out, "phase-stereo.wav");
   await writeFile(source, wave());
@@ -200,6 +275,12 @@ try {
     range = { startUs: 333, endUs: 999000 };
   report.project = { projectId, revisionId };
   report.checks.taps = [];
+  report.checks.waveforms = [];
+  report.checks.sourceWaveform = await waveform(
+    { assetId: audio.id, streamId: audioStream.id, range },
+    range,
+    1,
+  );
   for (const [index, [kind, label, factor]] of scopes.entries()) {
     const target = kind === "output" ? { kind } : { kind, id: placed.edit.labels[label] };
     for (const mode of ["dry", "after-step", "processed"]) {
@@ -219,6 +300,7 @@ try {
         start: result.start,
         end: result.end,
       });
+      report.checks.waveforms.push(await waveform(params, range, gain));
       report.checks.taps.push({
         target: label,
         mode,
@@ -233,6 +315,22 @@ try {
   report.checks.full = verify(full.bytes, { startUs: 0, endUs: 1000000 }, 469.21875);
   const ranged = await delivered({ projectId, revisionId, range }, "cli");
   assert.deepEqual(pcm(ranged.bytes), pcm(full.bytes).subarray(15 * 8, 47952 * 8));
+  report.checks.autoWaveform = await waveform(
+    { assetId: audio.id, streamId: audioStream.id },
+    { startUs: 0, endUs: 1000000 },
+    1,
+    null,
+  );
+  assert.equal(
+    (
+      await call(
+        "waveform.get",
+        { assetId: audio.id, streamId: audioStream.id, bucketFrames: 1 },
+        { error: true },
+      )
+    ).code,
+    "LIMIT_EXCEEDED",
+  );
   const changed = await call("edit.apply", {
     projectId,
     requestId: "reorder-bypass-settings",
@@ -272,8 +370,31 @@ try {
   const historical = await delivered({ projectId, revisionId, range }, "mcp");
   assert.deepEqual(historical.bytes, ranged.bytes);
   report.checks.historyRestart = true;
+  report.checks.historicalWaveform = await waveform(
+    { projectId, revisionId, range },
+    range,
+    469.21875,
+  );
   const head = await delivered({ projectId, range }, "cli");
   report.checks.head = verify(head.bytes, range, 72.1875);
+  const waveformRange = { startUs: 666, endUs: 777777 };
+  const waveformRequest = {
+    projectId,
+    revisionId: changed.revision.id,
+    range: waveformRange,
+    bucketFrames: 479,
+  };
+  const waveformHeld = await service.arm("media.mixCompositionAudio");
+  const preparingWaveform = await call("waveform.get", waveformRequest);
+  await waveformHeld();
+  await call("job.cancel", { jobId: preparingWaveform.jobId });
+  await poll(
+    () => call("job.get", { jobId: preparingWaveform.jobId }),
+    (v) => v.state === "canceled",
+    "waveform audio dependency canceled",
+  );
+  await call("waveform.retry", waveformRequest, { transport: "mcp" });
+  report.checks.waveformDependencyRetry = await waveform(waveformRequest, waveformRange, 72.1875);
   const cancellationRange = { startUs: 777, endUs: 888888 };
   const held = await service.arm("media.mixCompositionAudio");
   const pending = await call("audio.get", { projectId, range: cancellationRange });

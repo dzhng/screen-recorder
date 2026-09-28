@@ -1,3 +1,4 @@
+import { WaveformInspection } from "@screenrec/core/waveform";
 import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
 import { CaptureSourceRead } from "@screenrec/core/capture-source-read";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
@@ -131,6 +132,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let transcripts: TranscriptProcessing;
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
+    let waveforms: WaveformInspection;
     const queue = new JobQueue({
       store: catalog,
       targets,
@@ -139,6 +141,11 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (
+          (job.target.kind === "asset" || job.target.kind === "project") &&
+          job.artifact === "waveform"
+        )
+          return waveforms.execute({ job, signal });
         if (
           (job.target.kind === "project" || job.target.kind === "asset") &&
           job.artifact === "frame"
@@ -225,6 +232,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
           ),
       },
     });
+    waveforms = new WaveformInspection({ audio: mediaAudio, jobs: queue, cache });
     projectEvidence = new ProjectEvidenceInspection({
       projects,
       assets,
@@ -440,6 +448,26 @@ export async function startProjectService(options: { home: string; worker?: Medi
                     return { atUs, ...operationFailure(error) };
                   }
                 }),
+              },
+            };
+          }
+          case "waveform.get":
+          case "waveform.retry": {
+            const status = waveforms[operation.operation === "waveform.get" ? "request" : "retry"](
+              operation.params,
+            );
+            return {
+              ok: true,
+              data: {
+                ...status,
+                delivery: status.published
+                  ? delivery.open(
+                      "projectId" in status
+                        ? { kind: "project", id: status.projectId }
+                        : { kind: "asset", id: status.assetId },
+                      () => cache.acquire(status.published!.waveform.cacheId),
+                    )
+                  : null,
               },
             };
           }

@@ -143,18 +143,19 @@ const frameParams = z.union([
   sourceFrameParams,
 ]);
 
+const audioRange = range.refine(({ startUs, endUs }) => endUs > startUs, {
+  message: "Audio range must be positive",
+});
+const projectAudioParams = project
+  .extend({
+    revisionId: id.optional(),
+    range: audioRange.optional(),
+    tap: processingTapSchema.optional(),
+  })
+  .strict();
+const sourceAudioParams = sourceSelection.extend({ range: audioRange.optional() }).strict();
 const audioParams = z.union([
-  project
-    .extend({
-      revisionId: id.optional(),
-      range: range
-        .refine(({ startUs, endUs }) => endUs > startUs, {
-          message: "Audio range must be positive",
-        })
-        .optional(),
-      tap: processingTapSchema.optional(),
-    })
-    .strict(),
+  projectAudioParams,
   ...inspection({
     revisionId: id.optional(),
     range: range.refine(({ startUs, endUs }) => endUs > startUs && endUs - startUs <= 30_000_000, {
@@ -162,15 +163,12 @@ const audioParams = z.union([
     }),
     track: z.enum(["narration", "system", "mix"]).default("mix"),
   }).options,
-  sourceSelection
-    .extend({
-      range: range
-        .refine(({ startUs, endUs }) => endUs > startUs, {
-          message: "Audio range must be positive",
-        })
-        .optional(),
-    })
-    .strict(),
+  sourceAudioParams,
+]);
+const waveformFields = { bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional() };
+const waveformParams = z.union([
+  projectAudioParams.extend(waveformFields),
+  sourceAudioParams.extend(waveformFields),
 ]);
 
 const indexFields = { revisionId: id, generation: id };
@@ -668,7 +666,19 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("frame.retry"), params: frameParams })
     .strict()
     .describe(
-      "Explicitly retry failed frame processing using the same pinned request; source dependencies require their own processing retry.",
+      "Explicitly retry failed frame processing using the same pinned request. Recording/package source dependencies require their own processing.retry.",
+    ),
+  z
+    .object({ operation: z.literal("waveform.get"), params: waveformParams })
+    .strict()
+    .describe(
+      "Inspect a selected audio source or project processing tap as per-channel min/max/RMS JSON. Uses audio.get selectors and range in the selected time domain. Omit bucketFrames for an automatic overview; set a positive sample count for finer inspection (maximum 4096 buckets). Returned sample bounds and resolution are exact; unavailable support is not proof of silence. CLI writes JSON to --output; MCP returns its JSON text. Pin the returned project revision while polling. This measures audio and never edits it.",
+    ),
+  z
+    .object({ operation: z.literal("waveform.retry"), params: waveformParams })
+    .strict()
+    .describe(
+      "Explicitly retry waveform preparation and its audio prerequisite using the same pinned selection, range, tap and resolution.",
     ),
   z
     .object({

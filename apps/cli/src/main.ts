@@ -3,7 +3,12 @@ import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { mediaBytes, mediaFile, MediaDeliveryError, consumeBatch } from "./media.js";
+import {
+  artifactBytes,
+  artifactFile,
+  ArtifactDeliveryError,
+  consumeBatch,
+} from "./artifact-delivery.js";
 import { parseArgs } from "node:util";
 import { z } from "zod";
 import {
@@ -32,13 +37,15 @@ const batchReferences = new Map<string, "atUs" | "ordinal">([
   ["index.frames", "ordinal"],
 ]);
 const previewOperations = new Set(["preview.get", "preview.retry"]);
-const mediaOperations = new Set([
+const artifactOperations = new Set([
   ...batchReferences.keys(),
   "index.frame",
   "frame.get",
   "frame.retry",
   "audio.get",
   "audio.retry",
+  "waveform.get",
+  "waveform.retry",
 ]);
 
 function failure(
@@ -69,7 +76,7 @@ class UsageError extends Error {
 }
 
 function errorResult(id: string, error: unknown): Extract<OperationResponse, { ok: false }> {
-  if (error instanceof MediaDeliveryError)
+  if (error instanceof ArtifactDeliveryError)
     return failure(id, error.code, error.message, error.retryable);
   if (error instanceof UsageError) return failure(id, error.code, error.message);
   if (error instanceof LocalTransportError)
@@ -177,10 +184,10 @@ async function mcp(selection: ServiceSelection) {
         result = errorResult(id, error);
       }
     }
-    let media: Awaited<ReturnType<typeof mediaBytes>> = null;
-    if (mediaOperations.has(call.params.name) && !batchReference) {
+    let media: Awaited<ReturnType<typeof artifactBytes>> = null;
+    if (artifactOperations.has(call.params.name) && !batchReference) {
       try {
-        media = await mediaBytes({ ...selection, signal: extra.signal }, result);
+        media = await artifactBytes({ ...selection, signal: extra.signal }, result);
       } catch (error) {
         result = errorResult(id, error);
       }
@@ -190,13 +197,20 @@ async function mcp(selection: ServiceSelection) {
         { type: "text" as const, text: JSON.stringify(result) },
         ...images,
         ...(media
-          ? [
-              {
-                type: media.mediaType === "image/png" ? ("image" as const) : ("audio" as const),
-                data: media.bytes.toString("base64"),
-                mimeType: media.mediaType,
-              },
-            ]
+          ? media.mediaType === "application/json"
+            ? [
+                {
+                  type: "text" as const,
+                  text: media.bytes.toString("utf8"),
+                },
+              ]
+            : [
+                {
+                  type: media.mediaType === "image/png" ? ("image" as const) : ("audio" as const),
+                  data: media.bytes.toString("base64"),
+                  mimeType: media.mediaType,
+                },
+              ]
           : []),
       ],
       structuredContent: result,
@@ -254,8 +268,8 @@ async function main() {
     await mcp(selection);
     return;
   }
-  if (values.output && !mediaOperations.has(operation) && !previewOperations.has(operation))
-    throw new Error("--output applies only to media inspection operations");
+  if (values.output && !artifactOperations.has(operation) && !previewOperations.has(operation))
+    throw new Error("--output applies only to artifact inspection operations");
   const sending = request(responseId, operation, await readParams(values.params ?? "{}"));
   let result = await invoke(selection, sending);
   const batchReference = batchReferences.get(operation);
@@ -285,9 +299,9 @@ async function main() {
       },
       (error) => errorResult(sending.id, error).error,
     );
-  } else if (mediaOperations.has(operation) || previewOperations.has(operation)) {
+  } else if (artifactOperations.has(operation) || previewOperations.has(operation)) {
     try {
-      const media = await mediaFile(selection, result, values.output);
+      const media = await artifactFile(selection, result, values.output);
       if (media && result.ok)
         result = {
           ...result,

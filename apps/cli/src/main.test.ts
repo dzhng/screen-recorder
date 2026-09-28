@@ -128,6 +128,8 @@ function expectCallableContract(tools: AdvertisedTool[]) {
     ["assetId", "streamId"],
   ]);
   expect(required("audio.retry")).toEqual(required("audio.get"));
+  expect(required("waveform.get")).toEqual([["projectId"], ["assetId", "streamId"]]);
+  expect(required("waveform.retry")).toEqual(required("waveform.get"));
   expect(required("frame.get")).toEqual([
     ["projectId", "atUs"],
     ["recordingId", "atUs"],
