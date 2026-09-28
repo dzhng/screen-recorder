@@ -1,0 +1,18 @@
+[
+  {
+    "file": "setup-receipts.json.gz",
+    "uncompressedSha256": "31cfe685142cb1b7929f75dfd091453dfe26d1bd4959ecce3471797a2f9d697e"
+  },
+  {
+    "file": "examiner/report.json.gz",
+    "uncompressedSha256": "54df9031d6aa6e96870a6c564d6ab9d432fb2a346394746853f3ddabdbcc786c"
+  },
+  {
+    "file": "inspection-consumer/help.json.gz",
+    "uncompressedSha256": "36a53daaf49aa0f8b1c57335e436444aa1e3222e688bf714d891c78c6dee2d82"
+  },
+  {
+    "file": "consumer/help.json.gz",
+    "uncompressedSha256": "36a53daaf49aa0f8b1c57335e436444aa1e3222e688bf714d891c78c6dee2d82"
+  }
+]

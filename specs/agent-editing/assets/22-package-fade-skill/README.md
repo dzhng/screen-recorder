@@ -37,3 +37,9 @@ outputs. `examiner/` retains independent public receipts and20PNG captures;
 `examiner-source.mjs.gz` freezes the executed probe. No installed app or real user
 library was touched. This asset-only skill trial does not close retained acquisition,
 model-output or font dependency portability in slice22.
+
+Large help/trace receipts are gzip-compressed without changing their bytes;
+`compressed-receipts.json` retains uncompressed hashes and `sha256.json` pins all
+retained files. The initial capture commit included29,543 lines, mostly repeated
+help schemas and trace JSON; this evidence-only cleanup makes the review surface
+smaller without discarding any request or response.
