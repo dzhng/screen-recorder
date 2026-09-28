@@ -18,9 +18,11 @@ Complete [10c occurrence queries](slices/10c-occurrence-queries.md) and
 [10d picture/index inspection](slices/10d-frame-inspection.md). Public source and
 project frames pass, including [blind product-skill use](assets/10d-frame-skill/README.md).
 [Scene ownership](assets/10d-scene-ownership/README.md) is integrated with actual
-recording/package preservation. Selected-source scene sampling, retained indexes
-and scene/cut/interruption event categories are the remaining inspection work.
-The latter categories still report unsupported until their execution paths land.
+recording/package preservation. [Selected-source sampling](assets/10d-source-scene-sampling/README.md)
+and [capture-end projection](assets/10c-capture-interruption/README.md) are integrated
+mechanisms. Finish retained scene chunks/indexes and their preparation, then public
+scene/cut queries. Wire interruption continuation through the public schema and
+verify its actual CLI/MCP journey; core completion does not establish that route.
 Retain the full [10 evidence](slices/10-project-evidence.md) umbrella scope.
 
 In parallel, finish [11 acoustic artifacts](slices/11-audio-inspection.md).
@@ -28,12 +30,15 @@ In parallel, finish [11 acoustic artifacts](slices/11-audio-inspection.md).
 measurements, all nested taps, automatic overview, history and dependency retry.
 [Blind waveform skill use](assets/11-waveform-skill/README.md) also passes.
 Images, bounded spectrograms, labeled axes and visual acceptance remain.
-Its PCM-only implementation is independent of the remaining event categories.
+The bounded spectral kernel is integrated; finish raster artifacts and their public
+job/cache lifecycle. PCM analysis is independent of the remaining event categories.
 
 [11a PCM delivery](slices/11a-audio-delivery.md) is verified, including actual
 [source WAVs](assets/11a-audio-extraction/README.md) and
 [multi-source project WAVs](assets/11a-large-project-audio/README.md) above 1 GiB.
 Execution pins and concurrent staging pass combined-runtime preservation.
+[Continuous availability](assets/11a-touching-support/README.md) preserves exact
+WAV bytes across touching support while retaining real holes.
 AAC comparisons retain the documented bounded seek-dependent float difference;
 counts/clocks/endpoints and lossless byte parity remain exact. Never pad missing
 samples, shorten source support or change thresholds to hide failures.

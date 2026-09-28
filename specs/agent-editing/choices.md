@@ -1245,3 +1245,66 @@ trim and stretch replacements keep their single-interval behavior.
   implicit. Only caller support is joined: physical container segment boundaries
   and recording edit joins retain their established meaning. Existing accepted
   recipes are unchanged, so this does not invalidate cached execution results.
+
+## Capture completion and occurrence boundaries
+
+- **Sound; high confidence — A stopped capture reports its finalized video endpoint, not an invented failure onset.**
+  If the recorder finishes video at two seconds but its selected microphone stream
+  ends earlier, the completion fact remains at two seconds. Short audio does not
+  receive a relocated interruption marker. Older receipts that merely say a finish
+  record existed remain unknown; damaged or contradictory terminal records retain
+  their facts but cannot publish a trusted marker. The plan required interruption
+  evidence without defining which journal fact establishes its time. Optional
+  completion and last-lifecycle metadata preserve that distinction for all future
+  event readers. Failure codes are retained without verbose failure messages, and
+  terminal facts share the existing provenance size budget instead of being silently
+  dropped. Landed in lifecycle provenance and capture-end projection.
+
+- **Sound; high confidence — A capture-end marker belongs to the range closing at its time.**
+  A query from one to two seconds includes a completion at two seconds; a query
+  starting at two seconds does not repeat it. Ordinary observations keep their
+  existing start-inclusive/end-exclusive rule. At an adjacent clip boundary, the
+  reader briefly retains the prior clip's endpoint while merging the next clip's
+  opening observations using the established project-time/track/clip ordering.
+  The plan left endpoint query ownership open. This prevents dropped final markers
+  and pagination reordering without changing transcript semantics; capture
+  checkpoints have their own policy because their continuation state changed.
+
+## Selected-source scene measurements
+
+- **Sound; medium confidence — Scene sampling refuses unusually expensive batches instead of silently skipping frames.**
+  A short request crossing an extreme number of physical edits or decoded samples
+  has explicit work ceilings. If it exceeds them, the operation fails visibly and
+  can be retried with a narrower range. These inspection limits are provisional
+  for the broader scale gate; no content is mislabeled unavailable to meet them.
+  The plan required bounded work but left the physical-support traversal ceiling
+  unspecified. Existing frame/movie callers keep their prior decoder behavior.
+
+- **Sound; high confidence — Selected-source scenes preserve exact picture clocks and reset across real gaps.**
+  Two sampled images can have a short physical hole between them even when both
+  endpoints contain pictures. The sampler checks the intervening support, so
+  stillness does not run through that hole. Touching availability stays continuous.
+  Exact container clocks identify images; rounded microseconds remain convenient
+  labels, and stillness starts at the first observed request after a reset. The
+  plan did not prescribe chunk overlap: source chunks repeat the exact previous
+  endpoint and publish analysis state only after the whole batch succeeds. This
+  preserves retry behavior and leaves the recording nearest-picture policy intact.
+
+## Spectral measurements
+
+- **Sound; high confidence — Retain physical spectral energy before choosing image contrast.**
+  When inspecting hum or a quiet consonant, the measured spectrum retains separate
+  channels and linear power per frequency interval, including constant/DC energy.
+  It does not remove a mean or apply a display floor. The image may later choose
+  a clearly labeled decibel scale. The plan left normalization and window defaults
+  open; periodic Hann and explicit rectangular windows use one-sided density
+  scaling, so frequency-bin energy has a defined meaning rather than arbitrary
+  brightness. Bounded matrix admission limits work before reading PCM.
+
+- **Sound; high confidence — Spectral queries keep a global sample grid and declare missing window context.**
+  Narrowing a displayed range over the same audio file returns identical overlapping
+  columns. If the input file itself is clipped, windows at its edges explicitly
+  report missing context. A public range/full-parity promise must acquire surrounding
+  PCM through the existing audio owner, respecting capture masks. The plan left
+  edge-window semantics open; inventing neighboring samples would conceal missing
+  evidence. No second decoder or mixer is introduced.

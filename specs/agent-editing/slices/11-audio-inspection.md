@@ -16,9 +16,8 @@ The [core waveform reducer](../../../packages/core/src/audio-wave.ts) owns sampl
 
 ## Remaining implementation passes
 
-1. Deliver bounded waveform JSON through the existing artifact transport, with source/project audio selectors and optional sample-count resolution. The default is an automatic overview; explicit detail fails with an actionable limit instead of being silently coarsened. Verify actual CLI/MCP delivery, dependency retry, restart/history and agent navigation.
-2. Add timestamped waveform images derived from the same pinned waveform evidence. Verify absolute axes, partial edge bins and range/full agreement through the visual acceptance below.
-3. Integrate the bounded spectral reducer and labeled time/frequency images through the same acoustic artifact lifecycle. Judge impulse/tone alignment, then complete the unprimed image and fresh-agent acceptance below. Energy suggestions remain optional heuristics.
+1. Add timestamped waveform images derived from the same pinned waveform evidence. Verify absolute axes, partial edge bins and range/full agreement through the visual acceptance below.
+2. Integrate the bounded spectral reducer and labeled time/frequency images through the same acoustic artifact lifecycle. Judge impulse/tone alignment, then complete the unprimed image and fresh-agent acceptance below. Energy suggestions remain optional heuristics.
 
 The [cached waveform owner](../../../packages/core/src/waveform.ts) uses the audio owner's canonical recipe and existing jobs/cache. A surviving waveform needs retained audio provenance, not resident PCM bytes. Rebuilding missing waveform data holds a PCM lease during reduction, then permits PCM eviction before waveform publication. Audio-generation changes fence publication; an explicit waveform retry retries its single audio prerequisite, while ordinary reads preserve terminal failures. JSON has an independent byte ceiling and preserves unavailable-support metadata rather than pretending missing capture context is silence. [Lifecycle evidence](../assets/11-waveform-jobs/README.md) covers the core boundary; it does not replace public delivery acceptance.
 

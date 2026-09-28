@@ -1,0 +1,834 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": false,
+      "error": {
+        "code": "INVALID_PARAMS",
+        "message": "Acquisition does not bind the selected asset and stream",
+        "retryable": false,
+        "details": {
+          "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+          "streamId": "track:1",
+          "acquisitionId": "e4daed64-937c-42a7-94cb-7c97896355ac"
+        }
+      }
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.batch",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.cancel",
+      "transport": "mcp",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "canceled"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "not_requested"
+    },
+    {
+      "operation": "frame.retry",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "absent"
+    }
+  ],
+  "checks": {
+    "boundedDelivery": true,
+    "explicitTracksAndPhysicalGap": true,
+    "retainedAcquisition": {
+      "id": "e4daed64-937c-42a7-94cb-7c97896355ac",
+      "donorDeleted": true,
+      "restarted": true,
+      "supportBasis": "physical",
+      "customVideoMaskAdmission": false
+    },
+    "mixedBatchCliAndMcp": true,
+    "cancelRetry": true
+  },
+  "frames": [
+    {
+      "name": "track1",
+      "selection": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1"
+      },
+      "sha256": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-psHV53/library/cache/derived/623e627e-c6eb-4f4d-9e71-a47474aed85c.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "bytes": 405,
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v1",
+        "cacheId": "623e627e-c6eb-4f4d-9e71-a47474aed85c"
+      }
+    },
+    {
+      "name": "track2",
+      "selection": {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:2"
+      },
+      "sha256": "f5559a2028199be2f55af6dab8a0910f891c16bd1617909331383640f16f3dda",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-psHV53/library/cache/derived/8863a085-c781-4d33-a6f3-a200e8e8fd5d.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "bytes": 415,
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:2",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v1",
+        "cacheId": "8863a085-c781-4d33-a6f3-a200e8e8fd5d"
+      }
+    },
+    {
+      "name": "acquired",
+      "selection": {
+        "assetId": "13618b3491a2671945aba403870cd8d0b333563d7dd5243f24f31ba9462a1c95",
+        "streamId": "track:1",
+        "acquisitionId": "e4daed64-937c-42a7-94cb-7c97896355ac"
+      },
+      "sha256": "ce77e9d310ebe6390e0673574f413dc7feb3f4d650bdd0000540d611d0031477",
+      "generation": 1,
+      "frame": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-psHV53/library/cache/derived/b3decc9a-b165-47db-9912-a6e05a5963ba.cache",
+        "mediaType": "image/png",
+        "width": 64,
+        "height": 48,
+        "sourceWidth": 64,
+        "sourceHeight": 48,
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "bytes": 405,
+        "assetId": "13618b3491a2671945aba403870cd8d0b333563d7dd5243f24f31ba9462a1c95",
+        "streamId": "track:1",
+        "requestedSourceUs": 150000,
+        "actualSourceUs": 100000,
+        "sample": {
+          "value": "13824",
+          "timescale": 10240,
+          "endValue": "14848",
+          "endTimescale": 10240,
+          "originUs": 1250000
+        },
+        "acquisitionId": "e4daed64-937c-42a7-94cb-7c97896355ac",
+        "atUs": 150000,
+        "maxLongEdge": 1600,
+        "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+        "implementationId": "native-source-picture-v1",
+        "cacheId": "b3decc9a-b165-47db-9912-a6e05a5963ba"
+      }
+    }
+  ],
+  "batches": [
+    {
+      "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+      "streamId": "track:2",
+      "items": [
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 150000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v1",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "9866855f-d630-4145-8791-244daa458243",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-psHV53/library/cache/derived/8863a085-c781-4d33-a6f3-a200e8e8fd5d.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 415,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 150000,
+                "actualSourceUs": 100000,
+                "sample": {
+                  "value": "13824",
+                  "timescale": 10240,
+                  "endValue": "14848",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 150000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v1",
+                "cacheId": "8863a085-c781-4d33-a6f3-a200e8e8fd5d"
+              }
+            },
+            "delivery": {
+              "token": "fbe37941-8d5b-446e-9900-77a7b70f08d6",
+              "bytes": 415,
+              "expiresAt": 1790589930141
+            },
+            "output": "/tmp/screenrec-source-scenes-public-integration/batch/01.png"
+          },
+          "atUs": 150000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 450000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v1",
+            "state": "unavailable",
+            "reason": "physical_gap",
+            "retryable": false,
+            "jobId": null,
+            "published": null,
+            "delivery": null
+          },
+          "atUs": 450000
+        },
+        {
+          "ok": false,
+          "error": {
+            "code": "INVALID_RANGE",
+            "message": "Picture time must lie within the source duration",
+            "retryable": false,
+            "details": {}
+          },
+          "atUs": 1000000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 950000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v1",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "dfbe14bd-061d-4ad8-a742-578030db2347",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-psHV53/library/cache/derived/306f8e7f-079e-4f0b-ace2-6d56358aef21.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 415,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 950000,
+                "actualSourceUs": 900000,
+                "sample": {
+                  "value": "22016",
+                  "timescale": 10240,
+                  "endValue": "23040",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 950000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v1",
+                "cacheId": "306f8e7f-079e-4f0b-ace2-6d56358aef21"
+              }
+            },
+            "delivery": {
+              "token": "8a3bd37e-6612-4a9e-909c-829739f9c788",
+              "bytes": 415,
+              "expiresAt": 1790589930142
+            },
+            "output": "/tmp/screenrec-source-scenes-public-integration/batch/04.png"
+          },
+          "atUs": 950000
+        },
+        {
+          "ok": true,
+          "data": {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "streamId": "track:2",
+            "atUs": 150000,
+            "maxLongEdge": 1600,
+            "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+            "implementationId": "native-source-picture-v1",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "9866855f-d630-4145-8791-244daa458243",
+            "published": {
+              "generation": 1,
+              "frame": {
+                "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/source-frame-public-psHV53/library/cache/derived/8863a085-c781-4d33-a6f3-a200e8e8fd5d.cache",
+                "mediaType": "image/png",
+                "width": 64,
+                "height": 48,
+                "sourceWidth": 64,
+                "sourceHeight": 48,
+                "decodedSamples": 1,
+                "readerOpens": 1,
+                "bytes": 415,
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:2",
+                "requestedSourceUs": 150000,
+                "actualSourceUs": 100000,
+                "sample": {
+                  "value": "13824",
+                  "timescale": 10240,
+                  "endValue": "14848",
+                  "endTimescale": 10240,
+                  "originUs": 1250000
+                },
+                "atUs": 150000,
+                "maxLongEdge": 1600,
+                "supportDigest": "8a7585f0d0c36272398675f03291eb29283621bc24ee75d0b71fbe456a254074",
+                "implementationId": "native-source-picture-v1",
+                "cacheId": "8863a085-c781-4d33-a6f3-a200e8e8fd5d"
+              }
+            },
+            "delivery": {
+              "token": "493fe814-ec41-4baf-ac42-d21be501d068",
+              "bytes": 415,
+              "expiresAt": 1790589930143
+            },
+            "output": "/tmp/screenrec-source-scenes-public-integration/batch/05.png"
+          },
+          "atUs": 150000
+        }
+      ]
+    }
+  ],
+  "imageProfiles": [
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/track1-cli.png",
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "height": 48
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/track2-cli.png",
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 64
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "width": 64,
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/bounded-cli.png",
+      "width": 32,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "height": 24,
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/frame-5.png",
+      "opaque": true,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 32,
+      "height": 24
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/acquired-cli.png",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true,
+      "width": 64,
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/retained-cli.png",
+      "width": 64,
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/batch/01.png",
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "opaque": true,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 64
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/batch/04.png",
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 64,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "opaque": true
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "height": 48,
+      "opaque": true,
+      "width": 64
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/batch/05.png",
+      "opaque": true,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "width": 64,
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "height": 48,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 64
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/retried-cli.png",
+      "height": 48,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "width": 64,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "height": 48
+    }
+  ],
+  "pictureComparisons": [
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/track1-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/track2-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/bounded-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/frame-5.png",
+      "kind": "reviewed native bounded picture",
+      "width": 32,
+      "height": 24,
+      "rgbaSha256": "59ae7687330b6026f7af4f2327303eb743170a4e1e0e3713f10c9052092f799e",
+      "referenceRgbaSha256": "59ae7687330b6026f7af4f2327303eb743170a4e1e0e3713f10c9052092f799e"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/acquired-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/retained-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/batch/01.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/batch/04.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/batch/05.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-second.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e",
+      "referenceRgbaSha256": "79c6ab9d769bd5867d9dfe60b8f3b1f08b2548ff31592d4b57eec85d94b3d50e"
+    },
+    {
+      "file": "/tmp/screenrec-source-scenes-public-integration/retried-cli.png",
+      "reference": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/reference-first.png",
+      "kind": "independent source reference",
+      "width": 64,
+      "height": 48,
+      "rgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b",
+      "referenceRgbaSha256": "ff02228877a697dbe5a8267671e5f66fdb28de1277b35a836715680dc8417d4b"
+    }
+  ],
+  "originals": [
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/source.mov",
+      "sha256": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc"
+    },
+    {
+      "file": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-source-frames/visual/first.mov",
+      "sha256": "b52fe7b878b9a206f59276f9093fb6e6cbde458997b0f51bd3b58f9e7b5dab10"
+    }
+  ]
+}

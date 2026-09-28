@@ -57,7 +57,7 @@ support returns byte-identical PNGs and matching receipts to merged support; the
 new assertion fails against frozen native `e9da7a3ad9fcea28d95f7bdfa7b61a7fec505a246e08f3f624d8f1e17cb8b1ec`.
 Recording retained spans still require strict separation. A read-only audio probe
 also reproduced touching-support refusal in its existing signed interval validator;
-that separate seam is reported to the parent owner rather than silently accepted.
+the [audio correction](../11a-touching-support/README.md) now verifies exact WAV preservation.
 
 Follow-up independent reviews found the endpoint/state fixes, touching support
 semantics and shared source-picture admission sound, with no further actionable
@@ -73,3 +73,6 @@ store pass must represent explicit unavailable grid entries and exact clocks, an
 index scene boundaries by actual sample time rather than chunk request start.
 Public CLI/MCP scene readiness, project projection and retained-index lifetimes
 remain separate required gates. No new delivered-image visual acceptance is claimed.
+
+[Combined integration](integration/README.md) preserves the live source-picture
+journey and existing native frame behavior after this sampler lands.
