@@ -953,3 +953,28 @@ trim and stretch replacements keep their single-interval behavior.
   The plan fixed gap-aware phrase matching but left this selection representation
   open. Full-word projection remains separate so query clipping cannot change
   whether an edit retained the whole word.
+
+
+## Native source WAV delivery — 2026-09-27
+
+- **Sound; medium confidence — Classic float-WAV capacity is explicit.**
+  A long full-source request can exceed the format's 32-bit container sizes. The
+  shared sink now refuses payloads above UInt32.max minus a 4096-byte platform
+  header reserve before creating output, rather than discovering overflow after
+  hours of decoding. The spec left the supported large-file container open; RF64
+  or another large-file format is not implemented. This conservative limit remains
+  a release-format decision for slice 24, not a claim of unlimited WAV duration.
+- **Sound; high confidence — Source windows use an absolute sample clock.**
+  Asking for a later portion of a source must select the same samples as slicing
+  its full WAV. Window endpoints therefore use the existing composition floor
+  clock and retain each support run's decoding origin. The established recording
+  operation concatenates spans with its own preserved clock and join treatment;
+  it is not reused as a synthetic one-span source window. This resolves the source
+  producer seam while retaining measured recording/ASR behavior.
+- **Sound; high confidence — Preserve known native formats and refuse ambiguous layouts.**
+  Raw source delivery retains integral native sample rates and conventional mono
+  or stereo, with platform defaults when channel-layout metadata is absent.
+  Explicit discrete stereo, wider layouts and fractional rates refuse instead of
+  silently remapping or rounding. The plan required supported-layout preservation
+  without choosing the initial format set; extending that set needs real channel
+  and sample-parity proof through the same producer.

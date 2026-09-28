@@ -23,17 +23,17 @@ track-local phrase search and event/cursor routes remain unimplemented on main.
 [10b source acquisition](slices/10b-source-acquisition.md) is verified. Its actual
 CLI/MCP/native journey covers selected-stream parity, cancellation/retry, donor
 deletion, differing masks over the same media, and genuine historical reads after
-advancing the project head and restarting. All recorded runtime hashes match main.
+advancing the project head and restarting. The 10b closure records exact agreement with the integrated runtime hashes.
 
 The [bounded transcript seek](assets/10b-transcript-seek/README.md) correction is
 integrated: portable admission enforces the same nonoverlap invariant as ingestion,
 and late windows seek one predecessor rather than scanning a longest-word prefix.
 The [10c exact window prerequisite](assets/10c-occurrence-window/README.md) is also
-integrated; core occurrence manifests/read/search remain unimplemented. Native
-source-window PCM work for 11a can proceed independently in an isolated build.
+integrated; core occurrence manifests/read/search remain unimplemented. The [native source-window PCM prerequisite](assets/11a-native-source-window/README.md)
+is integrated; 11a core cached delivery proceeds independently of occurrence reads.
 
-Alongside 10c, continue the isolated native source-window PCM prerequisite for
-11a. Then follow [10d direct frames](slices/10d-frame-inspection.md),
+Alongside 10c, continue source WAV admission/cache/delivery and then shared project
+tap binding for 11a. Then follow [10d direct frames](slices/10d-frame-inspection.md),
 [11a PCM delivery](slices/11a-audio-delivery.md) and
 [11 acoustic artifacts](slices/11-audio-inspection.md).
 [The inspection plan](assets/10-inspection-plan/README.md) explains these seams.

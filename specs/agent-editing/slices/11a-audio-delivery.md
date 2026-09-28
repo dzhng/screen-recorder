@@ -1,6 +1,6 @@
 # 11a — Shared source and project PCM delivery
 
-Status: not started. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
+Status: in progress. Native source-window WAV delivery is integrated; core admission, public source/project routes and tap delivery remain open. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
 
 ## Contract
 
@@ -55,3 +55,19 @@ trim gaps or alter timestamps solely to make an inspection fixture pass.
 Delegated: sink/stream integration and bounded artifact scheduling. Source binding,
 sample counts, channel reporting and tap scope are fixed. Record verification and
 remaining limits in Status and the README pickup.
+
+## Integrated prerequisite
+
+[Native source-window evidence](../assets/11a-native-source-window/README.md) proves
+absolute sample-clock windows, fractional full/range equality, actual selected
+channels, capture/physical gaps, excluded-source isolation and bounded late reads.
+Main integration rebuilt the native worker and source fixture, then passed all 13
+source/audio/speech wire tests. Existing recording spans remain byte-identical to
+the frozen baseline in the delegated proof; no fresh ASR inference is claimed.
+
+The current source format contract is integral native rates and conventional
+mono/stereo. Larger layouts and fractional rates refuse. The shared float-WAV
+sink refuses payloads beyond UInt32.max minus a 4096-byte header reserve before
+creating output. Slice 24 must assess long-output/format limits; the 60-second
+memory point measurement is not full scale acceptance. Public API acceptance
+and processing taps remain required before this slice can close.

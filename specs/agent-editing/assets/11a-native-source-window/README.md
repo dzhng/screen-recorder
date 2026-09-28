@@ -17,3 +17,8 @@ Routing the new entry point through the old relative spans clock falsifies the i
 Fixture development uncovered a transient AVURLAsset lifetime failure and incomplete single-call AVAudioFile fixture reads. The fixture retains its asset through composition insertion and reads output WAVE chunks independently; source media extends past the selected interval. Asserted selection boundaries were retained. No decoder behavior or comparison tolerance changed to accommodate those fixture failures.
 
 Independent Codex review found no actionable regression. Its attempted native execution was restricted by its environment and failed to start an audio reader; native pass claims come from the unsandboxed isolated-worktree checks recorded here, not that review.
+
+Main integration at 8d453b8 built `screenrec-native` and
+`ScreenRecorderSourceAudioTests`, then passed all 13 Node-driven source/audio/speech
+wire tests against that new main-worktree executable. The earlier frozen worker
+remains intact for preservation comparisons.
