@@ -1,0 +1,542 @@
+[
+  {
+    "file": "../images/history-clip-after.png",
+    "crop": "history-clip-after-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-clip-before.png",
+    "crop": "history-clip-before-crop.png",
+    "bbox": [
+      61,
+      51,
+      117,
+      83
+    ]
+  },
+  {
+    "file": "../images/history-clip-historical.png",
+    "crop": "history-clip-historical-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-clip-restored.png",
+    "crop": "history-clip-restored-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-clip-undo.png",
+    "crop": "history-clip-undo-crop.png",
+    "bbox": [
+      61,
+      51,
+      117,
+      83
+    ]
+  },
+  {
+    "file": "../images/history-group-after.png",
+    "crop": "history-group-after-crop.png",
+    "bbox": [
+      59,
+      46,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-group-before.png",
+    "crop": "history-group-before-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-group-historical.png",
+    "crop": "history-group-historical-crop.png",
+    "bbox": [
+      59,
+      46,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-group-restored.png",
+    "crop": "history-group-restored-crop.png",
+    "bbox": [
+      59,
+      46,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-group-undo.png",
+    "crop": "history-group-undo-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-outer-after.png",
+    "crop": "history-outer-after-crop.png",
+    "bbox": [
+      59,
+      47,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-outer-before.png",
+    "crop": "history-outer-before-crop.png",
+    "bbox": [
+      59,
+      46,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-outer-historical.png",
+    "crop": "history-outer-historical-crop.png",
+    "bbox": [
+      59,
+      47,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-outer-restored.png",
+    "crop": "history-outer-restored-crop.png",
+    "bbox": [
+      59,
+      47,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-outer-undo.png",
+    "crop": "history-outer-undo-crop.png",
+    "bbox": [
+      59,
+      46,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-output-after.png",
+    "crop": "history-output-after-crop.png",
+    "bbox": [
+      148,
+      83,
+      197,
+      113
+    ]
+  },
+  {
+    "file": "../images/history-output-before.png",
+    "crop": "history-output-before-crop.png",
+    "bbox": [
+      59,
+      47,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-output-historical.png",
+    "crop": "history-output-historical-crop.png",
+    "bbox": [
+      148,
+      83,
+      197,
+      113
+    ]
+  },
+  {
+    "file": "../images/history-output-restored.png",
+    "crop": "history-output-restored-crop.png",
+    "bbox": [
+      148,
+      83,
+      197,
+      113
+    ]
+  },
+  {
+    "file": "../images/history-output-undo.png",
+    "crop": "history-output-undo-crop.png",
+    "bbox": [
+      59,
+      47,
+      108,
+      77
+    ]
+  },
+  {
+    "file": "../images/history-track-after.png",
+    "crop": "history-track-after-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-track-before.png",
+    "crop": "history-track-before-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-track-historical.png",
+    "crop": "history-track-historical-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-track-restored.png",
+    "crop": "history-track-restored-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/history-track-undo.png",
+    "crop": "history-track-undo-crop.png",
+    "bbox": [
+      139,
+      77,
+      199,
+      111
+    ]
+  },
+  {
+    "file": "../images/original-1000000.png",
+    "crop": "original-1000000-crop.png",
+    "bbox": [
+      61,
+      51,
+      117,
+      83
+    ]
+  },
+  {
+    "file": "../images/original-1500000.png",
+    "crop": "original-1500000-crop.png",
+    "bbox": [
+      99,
+      59,
+      173,
+      91
+    ]
+  },
+  {
+    "file": "../images/original-700000.png",
+    "crop": "original-700000-crop.png",
+    "bbox": [
+      24,
+      44,
+      99,
+      76
+    ]
+  },
+  {
+    "file": "../images/replaced-1000000.png",
+    "crop": "replaced-1000000-crop.png",
+    "bbox": [
+      144,
+      51,
+      195,
+      83
+    ]
+  },
+  {
+    "file": "../images/replaced-1500000.png",
+    "crop": "replaced-1500000-crop.png",
+    "bbox": [
+      87,
+      59,
+      157,
+      94
+    ]
+  },
+  {
+    "file": "../images/replaced-700000.png",
+    "crop": "replaced-700000-crop.png",
+    "bbox": [
+      162,
+      44,
+      232,
+      79
+    ]
+  },
+  {
+    "file": "../images/replacement-reference-1000000.png",
+    "crop": "replacement-reference-1000000-crop.png",
+    "bbox": [
+      144,
+      51,
+      195,
+      83
+    ]
+  },
+  {
+    "file": "../images/replacement-reference-1500000.png",
+    "crop": "replacement-reference-1500000-crop.png",
+    "bbox": [
+      87,
+      59,
+      157,
+      94
+    ]
+  },
+  {
+    "file": "../images/replacement-reference-700000.png",
+    "crop": "replacement-reference-700000-crop.png",
+    "bbox": [
+      162,
+      44,
+      232,
+      79
+    ]
+  },
+  {
+    "file": "../images/padded-prefix.png",
+    "crop": "padded-prefix-crop.png",
+    "bbox": [
+      162,
+      44,
+      232,
+      79
+    ]
+  },
+  {
+    "file": "../images/padded-tail-1000000.png",
+    "crop": "padded-tail-1000000-crop.png",
+    "bbox": [
+      144,
+      51,
+      195,
+      83
+    ]
+  },
+  {
+    "file": "../images/padded-tail-1500000.png",
+    "crop": "padded-tail-1500000-crop.png",
+    "bbox": [
+      144,
+      51,
+      195,
+      83
+    ]
+  },
+  {
+    "file": "../images/padded-tail-1900000.png",
+    "crop": "padded-tail-1900000-crop.png",
+    "bbox": [
+      144,
+      51,
+      195,
+      83
+    ]
+  },
+  {
+    "file": "../images/padding-hold-reference.png",
+    "crop": "padding-hold-reference-crop.png",
+    "bbox": [
+      144,
+      51,
+      195,
+      83
+    ]
+  },
+  {
+    "file": "../images/raw-1500000.png",
+    "crop": "raw-1500000-crop.png",
+    "bbox": [
+      0,
+      0,
+      256,
+      160
+    ]
+  },
+  {
+    "file": "../images/raw-700000.png",
+    "crop": "raw-700000-crop.png",
+    "bbox": [
+      0,
+      0,
+      256,
+      160
+    ]
+  },
+  {
+    "file": "../images/reset-1500000.png",
+    "crop": "reset-1500000-crop.png",
+    "bbox": [
+      0,
+      0,
+      256,
+      160
+    ]
+  },
+  {
+    "file": "../images/reset-700000.png",
+    "crop": "reset-700000-crop.png",
+    "bbox": [
+      0,
+      0,
+      256,
+      160
+    ]
+  },
+  {
+    "file": "../images/rollback-after-false.png",
+    "crop": "rollback-after-false-crop.png",
+    "bbox": [
+      0,
+      0,
+      256,
+      160
+    ]
+  },
+  {
+    "file": "../images/rollback-after-true.png",
+    "crop": "rollback-after-true-crop.png",
+    "bbox": [
+      144,
+      51,
+      195,
+      83
+    ]
+  },
+  {
+    "file": "../images/rollback-before-false.png",
+    "crop": "rollback-before-false-crop.png",
+    "bbox": [
+      0,
+      0,
+      256,
+      160
+    ]
+  },
+  {
+    "file": "../images/rollback-before-true.png",
+    "crop": "rollback-before-true-crop.png",
+    "bbox": [
+      144,
+      51,
+      195,
+      83
+    ]
+  },
+  {
+    "file": "../images/trim-omitted-history-control.png",
+    "crop": "trim-omitted-history-control-crop.png",
+    "bbox": [
+      100,
+      62,
+      117,
+      83
+    ]
+  },
+  {
+    "file": "../images/trim-reference-1000000.png",
+    "crop": "trim-reference-1000000-crop.png",
+    "bbox": [
+      61,
+      51,
+      117,
+      83
+    ]
+  },
+  {
+    "file": "../images/trim-reference-1100000.png",
+    "crop": "trim-reference-1100000-crop.png",
+    "bbox": [
+      61,
+      52,
+      136,
+      87
+    ]
+  },
+  {
+    "file": "../images/trim-reference-1500000.png",
+    "crop": "trim-reference-1500000-crop.png",
+    "bbox": [
+      99,
+      59,
+      173,
+      91
+    ]
+  },
+  {
+    "file": "../images/trimmed-1000000.png",
+    "crop": "trimmed-1000000-crop.png",
+    "bbox": [
+      61,
+      51,
+      117,
+      83
+    ]
+  },
+  {
+    "file": "../images/trimmed-1100000.png",
+    "crop": "trimmed-1100000-crop.png",
+    "bbox": [
+      61,
+      52,
+      136,
+      87
+    ]
+  },
+  {
+    "file": "../images/trimmed-1500000.png",
+    "crop": "trimmed-1500000-crop.png",
+    "bbox": [
+      99,
+      59,
+      173,
+      91
+    ]
+  }
+]

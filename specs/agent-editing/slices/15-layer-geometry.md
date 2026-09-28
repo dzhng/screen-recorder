@@ -295,3 +295,15 @@ measures the complete pointer support through two canvases and all fit modes,
 successive clip geometry, track, nested groups and output rotation. It retains
 one-pixel shift and missing-pointer controls. Fresh scoped visual review and
 combined-worker reproduction are verified; the strict encoded color/profile gates remain open and unchanged.
+
+## Pointer edit lifecycle checkpoint
+
+[Public pointer lifecycle evidence](../assets/15-pointer-lifecycle/README.md)
+passes exact delivered PNG comparisons for acquisition replacement, preserved
+settings, explicit reset, incompatible-batch rollback, padded holds and trimmed
+source history. Clip, track, both nested groups and output also pass delivered
+undo/restore, immutable historical reads and request replay without head changes.
+Fresh visual review found no definite rendering defect in the named PNG pairs;
+its presentation concern and counterevidence are retained. The coordinator's
+current-build integration remains pending; encoded movie/profile acceptance is
+separate and unchanged.
