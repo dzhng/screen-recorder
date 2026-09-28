@@ -69,3 +69,8 @@ excerpts are not protected-phoneme labels; no independent listening occurred and
 no audio was played automatically.
 
 [Review](review.md) records independent code review and retained-byte verification.
+
+The [combined-build confirmation](root-integration.json) reproduces every raw
+artifact hash, comparison and bounded-read count with the integrated native
+worker. It does not extend the mechanism proof to a production processor or
+independent listening acceptance.

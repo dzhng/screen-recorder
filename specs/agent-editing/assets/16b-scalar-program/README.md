@@ -29,3 +29,12 @@ ceiling follows binary64's exponent range; normal inputs finish at adjacent
 representable endpoints much earlier. The [cost sample](cost.json) includes process
 startup and JSON overhead, so it bounds this numerical component rather than
 claiming end-to-end audio throughput.
+
+[Combined-build verification](root-integration.json) repeats all 7,023 native
+samples and 39 public geometry pictures after integration with the sampling
+boundary correction. Focused composition/transcript tests and affected transcript
+consumers pass. The first public attempt selected a stale default debug worker
+(the workspace app build produces release); its protocol refusal is retained in
+[root-stale-worker.log.gz](root-stale-worker.log.gz). Explicit scratch-product
+compilation and a new frozen worker resolved that setup error. Encoded quality
+remains the separate gate described by the geometry evidence.

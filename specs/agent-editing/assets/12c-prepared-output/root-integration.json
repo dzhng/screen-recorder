@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "nativeSha256": "1c07068b93152c6cb7c065b74186d6812ec977a9d7cbd640605b86cd27995233",
+  "processorSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "comparisonsExact": true,
+  "allRawArtifactsExact": true,
+  "lateRead": {
+    "start": 144017,
+    "end": 192023,
+    "bytesRead": 192024,
+    "inferenceCalls": 0,
+    "upstreamRenderCalls": 0,
+    "prefixBytesRead": 0
+  },
+  "productionReady": false,
+  "speechQuality": "unverified"
+}

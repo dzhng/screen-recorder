@@ -1,0 +1,26 @@
+{
+  "vectors": 11,
+  "samples": 7023,
+  "maxFloat64Delta": 0,
+  "float32Parity": true,
+  "analyticTolerance": 1e-10,
+  "compositionAndInitialTranscriptTests": 201,
+  "additionalTranscriptConsumerTests": 40,
+  "nativeBuild": "explicit scratch product build passed",
+  "publicGeometry": {
+    "passed": true,
+    "pictures": 39,
+    "checks": {
+      "wholeCurveRefusals": 7,
+      "analyticStaticControls": 8,
+      "movedPictures": 8,
+      "splitPictures": 8,
+      "trimmedPictures": 4,
+      "activationPictures": 3,
+      "previewExportExact": true,
+      "encodedGate": "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance"
+    }
+  },
+  "nativeSha256": "1c07068b93152c6cb7c065b74186d6812ec977a9d7cbd640605b86cd27995233",
+  "firstAttempt": "stale default debug worker refused new protocol before media; build-macos produces release, then explicit scratch product was built"
+}

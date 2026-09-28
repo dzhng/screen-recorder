@@ -19,28 +19,30 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Resolve encoded color/edge quality for [15](slices/15-layer-geometry.md) and
-   [16](slices/16-keyframes.md). The [zoom writer probe](assets/16-zoom/writer/README.md)
-   proves matching pre-append pixels and full/range inputs; profile-aware movie
-   decoding still differs. The [composed PNG boundary correction](assets/15-composed-border/README.md)
-   preserves finished-canvas pixels on the full-size probe, with fresh visual and code review. The [recorded-screen decoder cohort](assets/16-zoom/writer/codec/recorded/README.md)
-   localizes a large ProRes discrepancy to the image-generator path; real playback
-   and profile adoption remain open. Do not treat membership tolerance as color acceptance.
-   [Sampling cell correction](assets/15-sampling-cells/README.md) passes native/public
-   crop, pointer and relocation checks, with independent visual/code review.
-   Use the [remaining media audit](assets/15-acceptance-audit/README.md) to reconcile
-   completed pointer lifecycle checks with the still-open delivery gates.
-2. Continue dependency-ready [keyframes](slices/16-keyframes.md) and
-   [portable projects](slices/22-portable-projects.md) in parallel: gain/transition
-   execution and complete retained dependency ownership remain open. Caption work
-   follows the shared animation/evidence contracts; no new segmentation scope is active.
-3. Advance 08 codec/rate and narration acceptance, then speech evidence/cleanup
-   (12/12b), denoise quality/state (12c/15a), stretch endpoints/listening
-   (13/13a/14), and local voice identity/joins (18/19). Every later slice and global
-   TODO remains in scope; these priorities do not replace the full dependency graph.
+1. Select and verify the required H.264 quality/size policy for [06](slices/06-render-reproduction.md),
+   [15](slices/15-layer-geometry.md) and [16](slices/16-keyframes.md). Source and
+   finished-canvas sampling corrections now pass their native/public gates.
+   [Recorded decoder evidence](assets/16-zoom/writer/codec/recorded/README.md)
+   separates encoding loss from image-generator artifacts. ProRes is a diagnostic
+   control, not an added release requirement. Preserve all existing measured failures
+   and use the [remaining media audit](assets/15-acceptance-audit/README.md).
+2. Continue animated gain/transition delivery and portable screenshot-index closure
+   in parallel. The shared [scalar prerequisite](slices/16b-scalar-program.md) and
+   retained source transcripts pass combined-build confirmation. Caption work follows animation/evidence contracts. No segmentation
+   scope is active.
+3. Build the shared durable prepared-audio prerequisite for retiming and ordered
+   processors, using existing assets, queue publication and revision references.
+   The [retained RNNoise proof](assets/12c-prepared-output/README.md) establishes
+   scoped selection/state behavior, not speech quality or production readiness.
+   Continue 08 codec/rate/narration, 12/12b speech evidence, 12c/15a protected speech,
+   13/13a/14 stretch and 18/19 voice identity/joins. Every later slice and global
+   TODO remains in scope; this priority order does not replace the dependency graph.
 
 Compact evidence ledger:
 
+- [Source sampling cells](assets/15-sampling-cells/README.md) and
+  [finished-canvas PNG delivery](assets/15-composed-border/README.md) preserve edges
+  through the shared executor, with retained red/green controls and scoped review.
 - [Pointer alpha geometry](assets/15-pointer-alpha/README.md) and
   [edit lifecycle](assets/15-pointer-lifecycle/README.md) pass fresh visual review
   and exact combined-worker PNG reproduction. [Static layers](assets/15-layer-public/README.md),
@@ -56,8 +58,8 @@ Compact evidence ledger:
   and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
   their respective checkpoints, retaining workflow failures and handoff-ID errors.
   Relocation now preserves acquisition identities, raw/normalized evidence and retained
-  source-scene generations through restart; transcript/index generations and other
-  dependencies remain open.
+  source-scene and real source-transcript generations through restart; screenshot
+  indexes and other dependencies remain open.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.

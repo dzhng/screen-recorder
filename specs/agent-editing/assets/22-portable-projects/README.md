@@ -3,7 +3,7 @@
 The [public fixture](../../../../packages/test-harness/editing/package.mjs) passed on
 2026-09-28 through actual CLI children, MCP stdio and the production native worker.
 The isolated donor library, imported source paths and opened ZIP were removed
-before verifying independent adopted playback and undo. [Report](report.json)
+before verifying independent adopted playback and undo. [Report](report.json.gz)
 retains transport activity, exact decoded RGB/WAV hashes and failure checks; the
 adopted current and historical movies/WAVs retain the delivered media.
 
@@ -124,3 +124,9 @@ events without preparing them again. Current/history media, source and acquisiti
 evidence, undo, replay and failure checks remain green. The focused queue/scene
 tests pass on the combined build. Transcript/index, fonts and prepared model
 outputs remain separate unfinished dependencies.
+
+The [combined transcript confirmation](root-transcript-integration.json) verifies
+real native ASR relocation with the recipient restarted and models absent, exact
+raw/word evidence, and all prior scene/acquisition/media/undo checks. The retained
+[first attempt](root-stale-worker.log.gz) selected a stale debug worker and failed
+before media delivery; the successful run used an explicitly built frozen worker.
