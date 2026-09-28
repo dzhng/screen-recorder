@@ -18,8 +18,16 @@ requested placement independently. The [intermediate audit](intermediate-audit.j
 passes the initial image and refuses the wrong top placement. Final pixels are
 correct, but this is not a friction-free agent workflow. The author's public
 coordinates were consistent; native execution primitives should not be presented
-as competing authoring coordinates. Separating them at the existing receipt
-validation boundary is an explicit follow-up; native graph validation must remain.
+as competing authoring coordinates. The current receipt validator checks the full
+native graph and then exposes only public timing, layers and source provenance.
+
+A second fresh agent inspected the same final revision through the corrected CLI
+receipt, using only the skill and public help. Its unedited
+[report](reinspection/report.md) correctly describes the crop, portrait canvas,
+lower-right presenter and separate audio binding without the earlier coordinate
+confusion. Its [picture](reinspection/picture.png) is byte-identical to the first
+run's final image; the [manifest](reinspection/manifest.json) retains the inputs and
+receipts. This is read-only inspection, not a second authoring or listening pass.
 
 Fresh unprimed review inspected the final frame, exact 4× enlargement and source
 presenter. It found no concrete geometry/orientation defect; lower-right placement

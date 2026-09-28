@@ -1,0 +1,27 @@
+{
+  "head": "f7e00e2",
+  "workerSha256": "27a7b97869cce53631e8ea7730bb82484b203553da6a23beed94bcf2f211c61d",
+  "layers": {
+    "passed": true,
+    "exactBaselinePngs": 62,
+    "privateVisualGraphAbsent": true,
+    "implementationId": "native-composition-picture-v3",
+    "report": "integrated-layers.json"
+  },
+  "sourceIndex": {
+    "passed": true,
+    "report": "integrated-source-index.json",
+    "scope": "Public CLI/MCP source indexes using actual native scene/frame workers; controlled probe admission cases labeled separately"
+  },
+  "focusedTests": {
+    "passed": 67,
+    "files": 5,
+    "log": "integrated-tests.txt"
+  },
+  "packages": {
+    "passed": 3,
+    "log": "integrated-packages.txt"
+  },
+  "freshSkillReinspection": "../15-layer-skill/reinspection/report.md",
+  "projectIndexQueueAndPublicDeliveryVerified": false
+}

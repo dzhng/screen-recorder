@@ -30,7 +30,9 @@ Current pickup and priority:
    separate evidence boundaries. Cache-owner eviction remains a core gate.
    [Compiler frame-boundary selection](assets/10d-project-index-clock/README.md)
    and [candidate selection](assets/10d-project-index-selection/README.md) are
-   integrated; next implement retained project-index materialization.
+   integrated, along with the [retained project domain](assets/10d-project-index-domain/README.md).
+   Next implement project-index materialization and queued input retention, then
+   service delivery and actual public journeys.
    Retain the complete [10 umbrella](slices/10-project-evidence.md).
 2. In parallel, implement [15 layers and geometry](slices/15-layer-geometry.md).
    [Authored fixtures/oracle controls](assets/15-layer-fixtures/README.md) are
@@ -39,8 +41,10 @@ Current pickup and priority:
    picture/index preservation gates. Immutable probe state and pixel recipes have
    new identities. [Public presenter/stack journeys](assets/15-layer-public/README.md)
    pass. [Fresh skill use](assets/15-layer-skill/README.md) produces correct final
-   media but exposes private execution-coordinate leakage in frame receipts; fix
-   that boundary, then finish edit-operation journeys and pointer geometry. The broader final-output profile remains open.
+   media. The public receipt now excludes private execution coordinates;
+   [fresh reinspection](assets/15-layer-skill/reinspection/report.md) correctly
+   reads the same layout, and all 62 public journey images remain unchanged.
+   Finish edit-operation journeys and pointer geometry. The broader final-output profile remains open.
 3. Advance the unresolved media risks before adopting processors: speech
    evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
    and listening (13/13a/14), then local voice identity/joins (18/19). Continue

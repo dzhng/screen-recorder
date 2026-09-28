@@ -1,0 +1,20 @@
+{
+  "head": "f7e00e2",
+  "scope": "Fresh agent read-only CLI inspection; no implementation/spec access, no listening",
+  "sameFinalPng": "b91b9e0717633994f30f8cea69581f79a738e2a26603d6ad2b40416b4bf21317",
+  "files": {
+    "project.json": "62fbefee2e280da9659d18a8075533a63afa4b865650ea80d892854d76abc716",
+    "report.md": "6518a22cf49e17ed8f68fbcd8535e628c388d71fb6857be96790180ab4aef30f",
+    "base-processing.json": "611d95b3b05cd8abb6c97d0e4c17acfade4ddcbb02fef8d0452b44e61876a0e6",
+    "audio-asset.json": "9d51396a630ce2ba889a5ea9c1e4808e2661dab7edb5ac5b7605f121ab2fc8c2",
+    "presenter-asset.json": "6e3f231b1e8d7ba876c3610823b02638301295489a5c7a8107ab6a5f13512e03",
+    "revision.json": "7f4d2eb633dffcbc02eac283021f1738c7c35305a437c55503e7cd2a07f443cc",
+    "video-base-asset.json": "083d14a60f51de1b689ea01a2a29f5292a3e38eccb1e5be4571470031a991f51",
+    "picture.json": "f59f67773f29d0cade77fd14475c0a8704f6cdbf7174079732c6e8ee8b0636bc",
+    "picture-upscaled.png": "c284e6ec220ee243957fbc5bd885ebabc2738153ccdf460f3963a7a60cd879e3",
+    "help.json": "066286312b32723ea0a6e935559cdace0319a2462de85fdaaa3dedca7438dd9f",
+    "presenter-processing.json": "bb36ca5bc51114426978c2bdf7f565e9e76cafdc8f4450d92036473208abde96",
+    "picture.png": "b91b9e0717633994f30f8cea69581f79a738e2a26603d6ad2b40416b4bf21317"
+  },
+  "serialization": "Help JSON whitespace compacted; report and other receipts retained unchanged."
+}

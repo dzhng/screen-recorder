@@ -25,7 +25,10 @@ The shared [picture validator](../../../../packages/core/src/frame-inspection.ts
 checks the complete native visual graph before projecting public timing/layers and
 source provenance. Retained records compare that public projection. This boundary
 responds to a reported fresh-agent misunderstanding of native versus authoring
-coordinates; actual CLI/MCP and fresh-skill confirmation remain integration gates.
+coordinates. [Integrated confirmation](integrated.json) verifies actual CLI/MCP
+layer delivery with all 62 prior PNG hashes unchanged and private graphs absent,
+source-index preservation, recording-package recovery and
+[fresh skill reinspection](../15-layer-skill/reinspection/report.md).
 The service project-picture recipe changes for the public artifact shape, not a
 pixel algorithm or source-picture change.
 
@@ -39,3 +42,9 @@ Size overflow reports a structured limit error; ordinary JSON cycle/BigInt failu
 and nonfinite-number encoding semantics stay unchanged. Actual producer admission
 and preflight before scheduling pictures, indexed scene retention, queue cleanup,
 service deletion integration and public delivery remain the next pass.
+
+The retained [layer journey](integrated-layers.json) and
+[source-index journey](integrated-source-index.json) preserve command traces and
+observations. Controlled probe-admission cases in the source journey remain
+explicitly labeled. These existing public paths confirm shared-store and receipt
+preservation; they do not establish a public project-index producer.
