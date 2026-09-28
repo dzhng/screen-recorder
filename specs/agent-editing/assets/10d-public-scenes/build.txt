@@ -1,0 +1,24 @@
+$ turbo build "--filter=@screenrec/service" "--filter=@screenrec/cli"
+• turbo 2.10.13
+
+   • Packages in scope: @screenrec/cli, @screenrec/service
+   • Running build in 2 packages
+   • Remote caching disabled, using shared worktree cache
+
+@screenrec/composition:build: cache hit, replaying logs b1cfdbcd255ef465
+@screenrec/composition:build: $ tsc -p tsconfig.json
+@screenrec/core:build: cache miss, executing 25745e2afcabeb7d
+@screenrec/protocol:build: cache hit, replaying logs edac0c6a8f6560c4
+@screenrec/protocol:build: $ tsc -p tsconfig.json
+@screenrec/client:build: cache hit, replaying logs 26e52b29c78671b7
+@screenrec/client:build: $ tsc -p tsconfig.json
+@screenrec/core:build: $ tsc -p tsconfig.json
+@screenrec/service:build: cache miss, executing 609e61c6f5a018f5
+@screenrec/service:build: $ tsc -p tsconfig.json
+@screenrec/cli:build: cache miss, executing 4873aff7ec855253
+@screenrec/cli:build: $ tsc -p tsconfig.json && chmod +x dist/main.js
+
+ Tasks:    6 successful, 6 total
+Cached:    3 cached, 6 total
+  Time:    830ms 
+

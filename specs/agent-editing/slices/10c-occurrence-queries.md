@@ -159,3 +159,12 @@ short audio, adjacent occurrence ordering, page-one continuations and historical
 restart. The public schema now accepts the reader's interruption continuation head.
 Existing capture and frozen transcript journeys pass on matching shared runtime
 hashes. Source scene and project-cut semantics remain separate open work.
+
+## Public scene event checkpoint
+
+[Authored live scene evidence](../assets/10d-public-scenes/README.md) verifies
+actual native preparation and CLI/MCP source/project scene events, exact physical
+clocks, physical gaps, mixed capture ordering, explicit cancellation/retry,
+repeated and retimed occurrences, pagination and historical restart. Existing
+capture/interruption journeys pass without dropping scene rows. Screenshot-index
+acceptance and project-cut semantics remain separate open work.

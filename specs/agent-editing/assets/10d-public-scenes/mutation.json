@@ -1,0 +1,6 @@
+{
+  "mutation": "Remove scene rows from actual source event response; leave continuation intact",
+  "originalSha256": "c11ad1e14447c2264670e7b449c48c52418b7dea408aa9025dc8b456c3fd9e59",
+  "mutatedSha256": "adc9ebeaf0776fcf6d50751c2da760f8601fff6ea89009637d564bc7be20c634",
+  "expectedExitCode": 1
+}

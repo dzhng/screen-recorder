@@ -19,7 +19,7 @@ const report = {
     "Actual CLI/MCP, acquisition import, native media probing and journal normalization. Synthetic journals are explicitly labeled; no live capture or database seeding.",
   checks: {},
   trace: [],
-  pending: ["source scenes", "project cut semantics"],
+  pending: ["project cut semantics"],
 };
 const service = new JourneyService(
   home,
@@ -297,7 +297,15 @@ try {
       (value) => value.kind === "unplaced_geometry" && value.reason === "no_source_time",
     ),
   );
-  for (const kind of ["scene", "cut"])
+  assert.deepEqual(
+    sourceEvents.context.coverage.find((value) => value.kind === "scene"),
+    {
+      kind: "scene",
+      state: "ready",
+      reason: null,
+    },
+  );
+  for (const kind of ["cut"])
     assert.ok(
       sourceEvents.context.coverage.some(
         (value) => value.kind === kind && value.reason === "unsupported",

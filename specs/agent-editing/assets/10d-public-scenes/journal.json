@@ -1,0 +1,52 @@
+[
+  {
+    "event": "header",
+    "data": {
+      "schemaVersion": 1,
+      "sessionID": "authored-scenes",
+      "source": {
+        "kind": "window",
+        "windowID": 7
+      },
+      "width": 64,
+      "height": 48,
+      "microphone": false,
+      "systemAudio": false
+    },
+    "sequence": 1
+  },
+  {
+    "event": "origin",
+    "data": {
+      "hostUs": 1000000
+    },
+    "sequence": 2
+  },
+  {
+    "event": "pausePlaced",
+    "data": {
+      "atSourceUs": 650000,
+      "elapsedPauseUs": 17
+    },
+    "sequence": 3
+  },
+  {
+    "event": "finished",
+    "data": {
+      "state": "interrupted",
+      "durationUs": 2750000,
+      "failure": {
+        "code": "DEVICE_LOST",
+        "message": "Authored fixture"
+      }
+    },
+    "sequence": 4
+  },
+  {
+    "event": "lifecycle",
+    "data": {
+      "state": "interrupted"
+    },
+    "sequence": 5
+  }
+]

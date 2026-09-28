@@ -1,0 +1,3088 @@
+{
+  "passed": true,
+  "boundary": "Actual CLI/MCP, acquisition import, native media probing and journal normalization. Synthetic journals are explicitly labeled; no live capture or database seeding.",
+  "checks": {
+    "interruption": {
+      "states": [
+        "synthetic",
+        "incomplete",
+        "empty",
+        "complete",
+        "interrupted",
+        "missing",
+        "lifecycle-only",
+        "torn",
+        "corrupt",
+        "conflicting"
+      ],
+      "bothTransports": true,
+      "exactCaptureOffset": true,
+      "closingEndpoint": true,
+      "sourcePageOne": true,
+      "shortAudioNotRelocated": true
+    },
+    "source": {
+      "bothTransports": true,
+      "exactNormalizedRows": true,
+      "offset": true,
+      "physicalGap": true,
+      "halfOpen": true,
+      "missingContextDistinctFromEmpty": true,
+      "realJournalCoordinates": true,
+      "populatedPause": true,
+      "incompletePrefixIntegrity": true,
+      "untimedGeometryAndUnsupportedCategories": true
+    },
+    "project": {
+      "repeatedAndReordered": true,
+      "threeToTwoRetime": true,
+      "tiedTracks": true,
+      "rawCoordinatesUnchanged": true,
+      "visualApplicability": true,
+      "mixedCoverage": true,
+      "limits": [
+        1,
+        2,
+        500,
+        5000
+      ]
+    },
+    "history": {
+      "changedQueryAndDomainRefused": true,
+      "headAdvanced": true,
+      "historicalRestart": true,
+      "checkpointFileLossNotLRU": true,
+      "freshReadAfterLoss": true
+    },
+    "interruptionProject": {
+      "adjacentOpeningTies": true,
+      "priorEndpointOrder": true,
+      "pageOne": true,
+      "limits": [
+        1,
+        2,
+        500
+      ],
+      "partitionedWindows": true,
+      "repeatedAndRetimed": true,
+      "shortAudioNotRelocated": true,
+      "historicalRestart": true
+    },
+    "boundedInitialization": {
+      "emptyContinuation": true,
+      "tracks": 140,
+      "sourceReads": 280,
+      "nearLinear": true
+    },
+    "lateSeek": {
+      "rawRows": 2,
+      "noPrefixExpansion": true
+    }
+  },
+  "pending": [
+    "project cut semantics"
+  ],
+  "nativeSha256": "540153b361ff661c945295c844dd95f19f2a1296d5d900ba39ef6fb00185c316",
+  "runtime": {
+    "apps/service/dist/project-service.js": "cc11e36b590ebf82376c03c6ea27435650f4e0245904517aa68ec80c2be2c764",
+    "packages/protocol/dist/operations.js": "2943aa501bceed4a05df1ae092790ef7c5f55491bc2f147bec32e55395514db1",
+    "packages/core/dist/capture-source-read.js": "1337e2e3fdbb904ca4d72bde8f60c29e7fdbcb65da1657894a407114651df754",
+    "packages/core/dist/project-evidence.js": "8d11c9913304484fa3adab837e378756b4c9d03372703a568e9d25e188c58862",
+    "packages/core/dist/project-events.js": "78e6772a8582a8b2e8d442e5aa72961601aa360d160ca3076ad47bca997009fa",
+    "packages/core/dist/evidence-read.js": "7aa5c92ac85cb320f3dda896c0dd9a1c0b4ffb2fc6fed9cf22db1ea07874acb6",
+    "packages/core/dist/evidence-merge.js": "f0840bcbda5eb1aeb5f29135d5a315ef4ac92ea70defe55b67974dceb34e61d6",
+    "packages/test-harness/editing/capture-evidence.mjs": "668bb2de83aa34db63ca86df013ab6b3dda0d95ae1207264269cfa93eb75f467",
+    "packages/test-harness/editing/capture-evidence-fixture.mjs": "5654a74a69b24deebd48fa96cd8b81deb4163e63e0bbb33b371838a0f4d7ba03",
+    "packages/test-harness/editing/capture-evidence-service.mjs": "49f4f3f2d0c40b1af3f8ed854f90430e1162727971c30e6ac8b9261c5d748e64"
+  },
+  "traceRuns": [
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 4
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "acquisition.get",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "unavailable"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": false,
+        "error": {
+          "code": "ARTIFACT_CHANGED",
+          "message": "Capture evidence or filters changed",
+          "retryable": false,
+          "details": {}
+        }
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "unavailable"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 4
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 3
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 3
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 3
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 3
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 3
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 3
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "project.create",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "edit.apply",
+        "transport": "mcp",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 3
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": false,
+        "error": {
+          "code": "ARTIFACT_CHANGED",
+          "message": "Project evidence continuation or dependencies changed",
+          "retryable": false,
+          "details": {}
+        }
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": false,
+        "error": {
+          "code": "ARTIFACT_CHANGED",
+          "message": "Project evidence continuation or dependencies changed",
+          "retryable": false,
+          "details": {}
+        }
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "edit.apply",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": false,
+        "error": {
+          "code": "ARTIFACT_CHANGED",
+          "message": "Project evidence continuation or dependencies changed",
+          "retryable": false,
+          "details": {}
+        }
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "project.create",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "edit.apply",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "edit.apply",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "project.create",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "edit.apply",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "processing"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "cursor.raw",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 51
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    }
+  ],
+  "originalReportSha256": "f6e8212df9730f7973b5ffa550634b499114c85573b0f80ec0f11333bd6ac78b"
+}

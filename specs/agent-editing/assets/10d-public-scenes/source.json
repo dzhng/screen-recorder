@@ -1,0 +1,197 @@
+{
+  "first": {
+    "assetId": "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e",
+    "streamId": "track:1",
+    "state": "ready",
+    "context": {
+      "selection": {
+        "assetId": "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e",
+        "streamId": "track:1"
+      },
+      "domain": "events",
+      "durationUs": 2500000,
+      "sourceToAssetOffsetUs": 0,
+      "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+      "evidence": null,
+      "coverage": [
+        {
+          "kind": "pause",
+          "state": "unavailable",
+          "reason": "capture_context_missing"
+        },
+        {
+          "kind": "geometry",
+          "state": "unavailable",
+          "reason": "capture_context_missing"
+        },
+        {
+          "kind": "unplaced_geometry",
+          "state": "unavailable",
+          "reason": "no_source_time"
+        },
+        {
+          "kind": "interruption",
+          "state": "unavailable",
+          "reason": "capture_context_missing"
+        },
+        {
+          "kind": "scene",
+          "state": "ready",
+          "reason": null
+        },
+        {
+          "kind": "cut",
+          "state": "unavailable",
+          "reason": "unsupported"
+        }
+      ],
+      "scene": {
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "c7bc491c-b79b-47dc-8c79-53cae6685fe8",
+        "evidence": {
+          "sourceId": "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e",
+          "generation": "99838035-b890-4221-8e7d-27d6b149a096",
+          "policy": "rgb-spatial-change-v2-presentation-v1",
+          "sourceWidth": 64,
+          "sourceHeight": 48,
+          "chunkCount": 1,
+          "comparisonCount": 8,
+          "boundaryCount": 4,
+          "owner": {
+            "kind": "asset",
+            "assetId": "491d34c0c2bff15f01d8be032bafa4ca1a96f6244ddc4ba2738bf7673678b49e"
+          },
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "originUs": 250000,
+            "supportDigest": "fcf030520323f9b384129c6f1e88eca2c372310e9aed54735dfa41d3b920a371",
+            "durationUs": 2500000
+          }
+        }
+      }
+    },
+    "sourceRange": {
+      "startUs": 0,
+      "endUs": 2500000
+    },
+    "available": [
+      {
+        "startUs": 0,
+        "endUs": 1000000
+      },
+      {
+        "startUs": 1500000,
+        "endUs": 2500000
+      }
+    ],
+    "page": {
+      "rows": [
+        {
+          "kind": "scene",
+          "sourceAtUs": 400000,
+          "sourceOrdinal": 1,
+          "observation": {
+            "sample": {
+              "value": "6656",
+              "timescale": 10240,
+              "endValue": "7680",
+              "endTimescale": 10240,
+              "originUs": 250000
+            }
+          }
+        }
+      ],
+      "nextCursor": {
+        "reference": "05f65a0681cd835f6655988f69af439d7cd981c50dcbd7cb54d4da4305b9132a",
+        "position": {
+          "capture": {
+            "cursor": {
+              "after": null,
+              "done": false
+            },
+            "pause": {
+              "after": null,
+              "done": false
+            },
+            "geometry": {
+              "after": null,
+              "done": false
+            },
+            "interruption": {
+              "after": null,
+              "done": false
+            }
+          },
+          "scene": {
+            "after": {
+              "actualSourceUs": 400000,
+              "ordinal": 1
+            },
+            "done": false
+          }
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "kind": "scene",
+      "sourceAtUs": 400000,
+      "sourceOrdinal": 1,
+      "observation": {
+        "sample": {
+          "value": "6656",
+          "timescale": 10240,
+          "endValue": "7680",
+          "endTimescale": 10240,
+          "originUs": 250000
+        }
+      }
+    },
+    {
+      "kind": "scene",
+      "sourceAtUs": 800000,
+      "sourceOrdinal": 3,
+      "observation": {
+        "sample": {
+          "value": "10752",
+          "timescale": 10240,
+          "endValue": "11776",
+          "endTimescale": 10240,
+          "originUs": 250000
+        }
+      }
+    },
+    {
+      "kind": "scene",
+      "sourceAtUs": 1800000,
+      "sourceOrdinal": 4,
+      "observation": {
+        "sample": {
+          "value": "20992",
+          "timescale": 10240,
+          "endValue": "22016",
+          "endTimescale": 10240,
+          "originUs": 250000
+        }
+      }
+    },
+    {
+      "kind": "scene",
+      "sourceAtUs": 2200000,
+      "sourceOrdinal": 6,
+      "observation": {
+        "sample": {
+          "value": "25088",
+          "timescale": 10240,
+          "endValue": "26112",
+          "endTimescale": 10240,
+          "originUs": 250000
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+Shape: one existing public transport/service harness, authored frame fixture, and independent event sequence. No runtime adapter or scene detector is introduced. Existing capture oracle and all assertions are preserved; only scene coverage moves from unsupported to ready.
+
+Diff: independent review found physical-clock assertions trusted returned origin and project tie ordering inherited returned source ordering. Both corrected: authored 250000us origin and explicit complete mixed sequence. Isolated controls reject both defective alternatives. Actual final journey passes after correction.
+
+Final independent Codex review: No actionable defects found in the two scoped files after checking oracle independence, ordering and clocks, preserved coverage, and teardown. Syntax checks passed; end-to-end execution was not performed because SCREENREC_NATIVE was unset.
+
+Docs: linked from occurrence-query slice. Reports distinguish authored synthetic media/journals, actual native normalization and public delivery, previous capture preservation, and outstanding screenshot/project-cut acceptance. Root handoff and production changes remain the integrating owner's responsibility.
+
+Choices: authored black/white frames isolate timing and gap behavior; this is not a broad scene-quality corpus. Existing JobState/ArtifactState distinction and generic explicit retry are preserved. No new public API or architecture decision.

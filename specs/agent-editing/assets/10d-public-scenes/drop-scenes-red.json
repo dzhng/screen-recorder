@@ -1,0 +1,163 @@
+{
+  "passed": false,
+  "checks": {},
+  "error": {
+    "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   400000,\n-   800000,\n-   1800000,\n-   2200000\n- ]\n",
+    "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ []\n- [\n-   400000,\n-   800000,\n-   1800000,\n-   2200000\n- ]\n\n    at checkScenes (file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/scene-evidence.mjs:43:10)\n    at file:///private/tmp/screenrec-source-audio-inspection/packages/test-harness/editing/scene-evidence.mjs:172:3\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+  },
+  "traceRuns": [
+    {
+      "entry": {
+        "operation": "asset.import",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "asset.get",
+        "transport": "cli",
+        "ok": true
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.cancel",
+        "transport": "cli",
+        "ok": true,
+        "state": "canceled"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "canceled"
+      },
+      "count": 2
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "canceled"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.get",
+        "transport": "cli",
+        "ok": true,
+        "state": "canceled"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "job.retry",
+        "transport": "cli",
+        "ok": true,
+        "state": "running"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "not_ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "mcp",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    },
+    {
+      "entry": {
+        "operation": "timeline.events",
+        "transport": "cli",
+        "ok": true,
+        "state": "ready"
+      },
+      "count": 1
+    }
+  ],
+  "originalReportSha256": "56b54b61c77b0223811555aa2202f1565945609b6c0bb65889bf39db61143b50"
+}

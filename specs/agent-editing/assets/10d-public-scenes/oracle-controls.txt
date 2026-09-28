@@ -1,0 +1,2 @@
+Authored physical clocks pass; self-consistent source-relative clocks with zero origin fail.
+Authored pause-before-scene tie passes; reversed tied order fails.
