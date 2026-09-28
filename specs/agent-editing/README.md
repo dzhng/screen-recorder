@@ -19,55 +19,38 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Finish [15 layers and geometry](slices/15-layer-geometry.md) fresh pointer
-   [remaining delivered-media gaps](assets/15-acceptance-audit/README.md).
-   [Whole-chain pointer alpha geometry](assets/15-pointer-alpha/README.md) passes
-   with fresh visual review and exact combined-worker reproduction.
-   [Pointer replacement and history](assets/15-pointer-lifecycle/README.md) also
-   pass all six public groups with 54 exact combined-worker PNGs.
-   [Reference/encoding diagnosis](assets/15-pointer-chain/README.md) rejects the
-   flattened-source oracle; [root controls](assets/15-pointer-chain/root-integration.json)
-   reproduce its encoding/transfer findings. Original encoded-color gates stay open.
-   [Pointer skill trials](assets/15-pointer-skill/README.md) verify delivered results
-   and targeted guidance, while retaining workflow and report errors.
-   [Opaque final-output geometry](assets/15-output-geometry/README.md) passes
-   still/full/range/export and unchanged-audio checks on both canvases.
-   Static presenter/stack/edit behavior passes
-   [public journeys](assets/15-layer-public/README.md),
-   [fresh skill use](assets/15-layer-skill/README.md) and
-   [moving-source conformance](assets/15-layer-edit-motion/README.md).
-   Pointer authoring, shared source-time sampling, queued source histories and
-   [native prepared execution](assets/15-pointer-execution/README.md) are integrated;
-   [public readiness](assets/15-pointer-public/README.md) now passes actual native
-   journeys, preserving cache-ready reads and explicit retries.
-   [Combined worker checks](assets/15-pointer-integration/README.md) retain scoped
-   geometry and non-pointer preservation; full color/profile acceptance stays open.
-2. Continue 08 remaining codec/rate conformance and narration listening;
-   [physical-segment composition](assets/08-physical-segments/README.md) now passes
-   exact full/range/split checks after the converter buffer-state fix.
-   [Thirty-minute A/V timing](assets/08-av-drift/README.md) passes public export
-   across 120 fractional edits, with declared PCM length and AAC padding separated.
-   Advance the unresolved media risks before adopting processors: speech
-   evidence/cleanup (12/12b), denoise quality/state (12c/15a), stretch endpoints
-   and listening (13/13a/14), then local voice identity/joins (18/19). Continue
-   other dependency-ready slices; these priorities do not remove later scope.
-   [Scalar curve compilation](slices/16a-curve-primitives.md) is verified; persisted
-   [opacity animation and retained inspection](assets/16-opacity-index/README.md)
-   now pass their public vertical. [Animated zoom](assets/16-zoom/README.md) passes
-   exact frame/edit controls on the combined worker, while fresh review confirms
-   encoded edge/color defects. Remaining geometry scalars, gain and keyframe
-   journeys stay in 16.
-
-[Portable project work](slices/22-portable-projects.md) is in progress. Its owning
-slice distinguishes verified snapshot/archive checkpoints from open dependency
-classes and full acceptance.
-
-[Fresh package/fade skill use](assets/22-package-fade-skill/README.md) verifies
-continued editing after adoption, exact direct-frame controls, and corrected
-delivery polling; it retains failed attempts and handoff-ID errors.
+1. Resolve encoded color/edge quality for [15](slices/15-layer-geometry.md) and
+   [16](slices/16-keyframes.md). The [zoom writer probe](assets/16-zoom/writer/README.md)
+   proves matching pre-append pixels and full/range inputs; profile-aware movie
+   decoding still differs. Do not treat the membership tolerance as color acceptance.
+   Use the [remaining media audit](assets/15-acceptance-audit/README.md) to reconcile
+   completed pointer lifecycle checks with the still-open delivery gates.
+2. Continue dependency-ready [keyframes](slices/16-keyframes.md) and
+   [portable projects](slices/22-portable-projects.md) in parallel: remaining geometry
+   scalars/gain and complete retained dependency ownership remain open. Caption work
+   follows the shared animation/evidence contracts; no new segmentation scope is active.
+3. Advance 08 codec/rate and narration acceptance, then speech evidence/cleanup
+   (12/12b), denoise quality/state (12c/15a), stretch endpoints/listening
+   (13/13a/14), and local voice identity/joins (18/19). Every later slice and global
+   TODO remains in scope; these priorities do not replace the full dependency graph.
 
 Compact evidence ledger:
 
+- [Pointer alpha geometry](assets/15-pointer-alpha/README.md) and
+  [edit lifecycle](assets/15-pointer-lifecycle/README.md) pass fresh visual review
+  and exact combined-worker PNG reproduction. [Static layers](assets/15-layer-public/README.md),
+  [moving sources](assets/15-layer-edit-motion/README.md) and
+  [output geometry](assets/15-output-geometry/README.md) retain their scoped native
+  delivery gates. The [pointer reference diagnosis](assets/15-pointer-chain/README.md)
+  rejects a flattened-source oracle and keeps encoded color acceptance open.
+- [Opacity/indexing](assets/16-opacity-index/README.md) and
+  [zoom frame/edit controls](assets/16-zoom/README.md) pass on the combined build;
+  neither closes full keyframes or encoded quality. [Portable archive relocation](assets/22-portable-projects/README.md)
+  and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
+  their asset-only checkpoints, retaining workflow failures and handoff-ID errors.
+- [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
+  full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
+  passes 120 fractional edits, separating declared PCM length from AAC padding.
 - [Preview](assets/09-first-preview/README.md) and
   [export](assets/09-first-export/README.md) verify independent audio/video
   replacement, insertion, music, constant gain stacks and historical results.
