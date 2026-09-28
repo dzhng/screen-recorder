@@ -45,3 +45,7 @@ source storage and unchanged recording selector tests. Shape review kept the raw
 policy in one bounded traversal rather than adding raw/edited/cursor switches to
 the recording state machine. Source unavailable provenance uses the existing
 frame owner for admission and the existing index rows for retention.
+
+Integrated root dependency build and 43 source selection/storage/frame plus
+unchanged recording-selector tests pass after merging the typed no-picture owner
+and current service. Public index preparation/readiness remains unimplemented.
