@@ -21,3 +21,13 @@ A real native CLI/MCP source-index journey remains the next gate, including page
 coverage, delivered images, retry, history and restart. Project index projection
 and project-cut semantics remain open. No listening or new geometry is accepted
 by this integration checkpoint.
+
+## Batch adapter correction
+
+The actual native journey caught a missing source variant in the CLI/MCP batch
+response parser: single images succeeded, but source `index.frames` deliveries
+were rejected. Both frame and index batches now share the source-target response
+shape. The existing partial-failure, lease-draining and output-preservation test
+runs for source index batches as well. All 14 CLI tests pass. Independent review
+found no actionable defects and passed types; its socket tests were sandbox
+blocked. Review log: `/tmp/screenrec-source-index-batch-review.txt`.

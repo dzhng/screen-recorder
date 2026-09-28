@@ -462,6 +462,7 @@ it.each([
   { operation: "frame.batch", reference: "atUs", scope: "project" },
   { operation: "frame.batch", reference: "atUs", scope: "source" },
   { operation: "index.frames", reference: "ordinal", scope: "recording" },
+  { operation: "index.frames", reference: "ordinal", scope: "source" },
 ] as const)(
   "$operation $scope adapters retain partial failures, drain leases and never overwrite outputs",
   async ({ operation, reference, scope }) => {
@@ -476,7 +477,9 @@ it.each([
     const closed: string[] = [];
     const requested = reference === "ordinal" ? [7, 2, 7] : [0, 1, 2];
     const selectedIdentity =
-      reference === "ordinal" ? { revisionId: "r0", generation: "retained-1" } : {};
+      reference === "ordinal"
+        ? { ...(scope === "source" ? {} : { revisionId: "r0" }), generation: "retained-1" }
+        : {};
     const bytes = Buffer.from("image fixture bytes");
     let collideFile = false;
     const collisionOutput = join(home, "file-collision");

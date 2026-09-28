@@ -253,14 +253,20 @@ const targetedBatch = <T extends z.ZodRawShape>(fields: T) =>
       projectId: z.never().optional(),
     }),
   ]);
-const indexBatchResponse = targetedBatch({
-  revisionId: z.string(),
-  generation: z.string(),
-  items: z
-    .array(z.intersection(resultSchema, z.object({ ordinal: z.int().nonnegative() })))
-    .min(1)
-    .max(8),
-});
+const sourceBatch = <T extends z.ZodRawShape>(fields: T) =>
+  z.object({
+    ...fields,
+    assetId: z.string(),
+    streamId: z.string(),
+    acquisitionId: z.string().optional(),
+    projectId: z.never().optional(),
+    recordingId: z.never().optional(),
+    packageHandle: z.never().optional(),
+  });
+const indexItems = z
+  .array(z.intersection(resultSchema, z.object({ ordinal: z.int().nonnegative() })))
+  .min(1)
+  .max(8);
 const frameItems = z
   .array(z.intersection(resultSchema, z.object({ atUs: z.number() })))
   .min(1)
@@ -268,17 +274,12 @@ const frameItems = z
 const batchResponse = {
   atUs: z.union([
     ...targetedBatch({ revisionId: z.string(), items: frameItems }).options,
-    z.object({
-      assetId: z.string(),
-      streamId: z.string(),
-      acquisitionId: z.string().optional(),
-      projectId: z.never().optional(),
-      recordingId: z.never().optional(),
-      packageHandle: z.never().optional(),
-      items: frameItems,
-    }),
+    sourceBatch({ items: frameItems }),
   ]),
-  ordinal: indexBatchResponse,
+  ordinal: z.union([
+    ...targetedBatch({ revisionId: z.string(), generation: z.string(), items: indexItems }).options,
+    sourceBatch({ generation: z.string(), items: indexItems }),
+  ]),
 };
 
 // Drain every ready item's lease even when another read or output write fails.
