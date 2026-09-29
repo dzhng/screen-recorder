@@ -19,3 +19,8 @@ The CLI dependency build, CLI typecheck and three focused help tests pass (17 un
 The production choice is one `reused: "ref"` option at the shared owner. Existing protocol schemas remain authoritative. The tests assert consumer-visible closure and parity rather than generated names, definition counts or size snapshots. Installed SDK and this fresh agent are verified; other external client/provider schema subsets remain unmeasured. JSON Schema still cannot express every existing Zod refinement.
 
 `evidence.tar.xz` retains full before/after schemas, measurements, probe scripts, actual help, test/build/review logs, original consumer failures, successful requests/responses and independent confirmation. `SHA256SUMS` addresses the archive; its `manifest.json` hashes every retained member. This is a focused slice 25 checkpoint; the final autonomous journey remains open.
+
+Combined-root confirmation at68eec4d8 rebuilt the CLI and passed the same three
+focused tests (two adapter/selected cases, then the registry case separately).
+The full87-member evidence manifest and archive hash match. No service/native
+worker or full-suite rerun is implied; root logs are retained beside the archive.

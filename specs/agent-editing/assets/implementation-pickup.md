@@ -57,10 +57,11 @@ No production deadline or transaction guarantee changed.
   The distinct fractional-native-rate correction is already integrated and
   root-confirmed; ordinary integer-rate decoding remains supported.
 - Agent discovery: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-  Audit supports local shared JSON-schema references at the existing CLI/MCP
-  capabilities owner. Implement with full settings preserved, reference closure,
-  actual CLI/MCP checks and a fresh help-only consumer. External client support
-  is not established by SDK schema acceptance alone.
+  [Shared references](25-discovery-references/README.md) are integrated and
+  root-confirmed: full settings, local closure and CLI/MCP parity pass. A fresh
+  public-discovery consumer authored a nested curve with exact readback; it also
+  used processing.capabilities, so this is not a help-only-session claim. Other
+  external clients and rendered motion remain outside this checkpoint.
 
 The [sparse storage checkpoint](20a-sparse-storage/README.md) retains the capture
 proposal, independent audit and process-restart evidence; its original sample-phase
