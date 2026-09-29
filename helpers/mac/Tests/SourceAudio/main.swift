@@ -368,7 +368,7 @@ let identityFile = try FileHandle(forReadingFrom: identitySource)
 try identityFile.seek(toOffset: 123)
 let identityDescriptor = try MediaDescriptor(
     url: URL(fileURLWithPath: "/dev/fd/\(identityFile.fileDescriptor)"), writable: false)!
-let identity = try DescriptorAudioType.identify(identityDescriptor, maximumBytes: nil)
+let identity = try DescriptorAudioType.identify(identityDescriptor, maximumBytes: 64 * 1024 * 1024)
 let identityOffset = try identityFile.offset()
 precondition(identityOffset == 123)
 try identityFile.close()

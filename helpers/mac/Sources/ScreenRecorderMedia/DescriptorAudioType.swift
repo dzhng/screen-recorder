@@ -27,7 +27,7 @@ struct DescriptorAudioType {
         contentType = uti
     }
 
-    static func identify(_ descriptor: MediaDescriptor, maximumBytes: Int64?) throws
+    static func identify(_ descriptor: MediaDescriptor, maximumBytes: Int64) throws
         -> (type: DescriptorAudioType, readBytes: Int64)
     {
         let input = try IdentificationInput(descriptor, maximumBytes: maximumBytes)
@@ -66,10 +66,10 @@ struct DescriptorAudioType {
 private final class IdentificationInput {
     let descriptor: MediaDescriptor
     let length: Int64
-    let maximumBytes: Int64?
+    let maximumBytes: Int64
     var readBytes: Int64 = 0
     var failure: Error?
-    init(_ descriptor: MediaDescriptor, maximumBytes: Int64?) throws {
+    init(_ descriptor: MediaDescriptor, maximumBytes: Int64) throws {
         self.descriptor = descriptor
         length = try descriptor.size
         self.maximumBytes = maximumBytes
@@ -81,7 +81,7 @@ private final class IdentificationInput {
         }
         if position >= length { return 0 }
         let count = Int(min(Int64(count), length - position))
-        if let maximumBytes, Int64(count) > maximumBytes - readBytes {
+        if Int64(count) > maximumBytes - readBytes {
             throw NativeFailure("LIMIT_EXCEEDED", "Media input exceeds its inspection byte budget.")
         }
         var copied = 0

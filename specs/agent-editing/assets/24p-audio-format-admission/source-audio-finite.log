@@ -1,0 +1,21 @@
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write sources
+[3/6] Emitting module ScreenRecorderMedia
+[4/6] Compiling ScreenRecorderMedia DescriptorAudioType.swift
+[5/7] Compiling ScreenRecorderMedia MediaInput.swift
+[6/8] Emitting module ScreenRecorderAudio
+[6/10] Write sources
+[8/12] Compiling ScreenRecorderSourceAudioTests main.swift
+[9/12] Emitting module ScreenRecorderSourceAudioTests
+[9/12] Write Objects.LinkFileList
+[10/12] Linking ScreenRecorderSourceAudioTests
+[11/12] Applying ScreenRecorderSourceAudioTests
+Build of product 'ScreenRecorderSourceAudioTests' complete! (3.01s)
+Descriptor inspection: read=23044110 delivered=23044098
+Descriptor streaming: read=23044110 delivered=23044098
+PASS exact physical segment phase in full/late windows with binding acquisition support
+PASS arbitrary physical phase and acquisition-mask native addresses at44.1/48k
+Late 20ms window decoded 8192 native frames from a 60-second source
+Container identification exact allowance 8272 bytes; one byte short refused; offset and closed/unlinked lifetime preserved
+Source windows passed 6 full/range comparisons, dual stream mono/stereo, physical/acquisition gaps and poison isolation; unsupported rate/channel count refused. Evidence: /var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/E39806BA-15F3-40B4-9433-D6BD6274A56F

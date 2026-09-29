@@ -73,5 +73,11 @@
       "bytes": 1129,
       "sha256": "948765b084610324f082c2aaef4f6029e91e0b96fac584cc182b2989e62bc009"
     }
+  },
+  "finiteAllowanceFollowup": {
+    "change": "Identification allowance is nonoptional; no unbounded branch remains. Production caller already supplied the same finite limit.",
+    "verification": "Focused ScreenRecorderSourceAudioTests passes; full public matrix not repeated for this type narrowing.",
+    "log": "source-audio-finite.log",
+    "sha256": "8c7d01d98e3f84a49c4c4702da55c37de6c59bf7a24cb485a126013820a6c865"
   }
 }
