@@ -1,0 +1,19 @@
+{
+  "archiveSha256": "645d88c77c69fa9b127f583485853c0877999087c14bed275d2879cbdd16ea59",
+  "members": 45,
+  "expandedBytes": 98882647,
+  "allHashesVerified": true,
+  "integratedCommit": "a6af561f",
+  "build": {
+    "command": "bunx turbo run build --filter=@screenrec/service",
+    "passed": 5
+  },
+  "tests": {
+    "coreProjectsPrepared": 32,
+    "coreProjectAudioInspection": 28,
+    "nativeProjectTaps": 1,
+    "serviceProjectAndDeletion": 16
+  },
+  "testSelectionNote": "First core command included nonexistent acoustic-inspection.test.ts; actual matched projects/prepared tests passed32. Correct audio-inspection/project-audio files then passed28 with one native test skipped; that native test was subsequently selected explicitly with frozen8a worker and passed, other11 filtered tests were not rerun.",
+  "scope": "Integrated ownership semantics, prepared/audio recovery and native tap preservation verified; all45 archived evidence members rehashed. Full six-cohort public waveform test ran on source-identical isolated production changes; not repeated at root."
+}

@@ -17,8 +17,12 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: profile the cached waveform-query latency failure in the existing
-two-/four-hour duration-memory cohort, preserving the original budget and samples.
+Current pickup: build matched-input preservation evidence for [cutover23](slices/23-cutover.md),
+starting with one retained recording through the old recording service and isolated
+project service. Keep both homes isolated and the original library untouched;
+this preparatory work does not switch the installed app or enable gated processors.
+[Waveform duration memory](slices/24w-waveform-duration-memory.md) now passes after
+bounded ownership checks removed redundant document loads; the original red remains retained.
 The [exact voice runtime](assets/19d-runtime-recovery/README.md) is restored in
 durable storage and passes public preparation/restart under unchanged identities.
 [Deep/wide learned routing](slices/24v-learned-routing-scale.md) is verified for
@@ -29,8 +33,8 @@ Earlier failures remain evidence, not missing final gates. Keep parent
 [18](slices/18-voice-reproduction.md)/[19](slices/19-voice-assets.md) pronunciation,
 identity, contextual replacement, room tone and listening acceptance open.
 
-Parallel work: address the remaining [audio-domain gaps](assets/acceptance-maintenance/audio-domain.md)
-and remaining bounded query families. Combined document/history transfer
+Remaining branches include the [audio-domain gaps](assets/acceptance-maintenance/audio-domain.md)
+and speech/physical acceptance below. Combined document/history transfer
 is verified in [24u](slices/24u-package-history-scale.md). Low/high rate cohorts are banked;
 negative occupied-origin conformance remains unverified after zero-origin candidates.
 Advance speech/denoise and stretch
@@ -223,6 +227,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24t — Retired source-job reference history](slices/24t-job-reference-retirement.md)
 - [x] [24u — Combined document and retained-history transfer](slices/24u-package-history-scale.md)
 - [x] [24v — Learned processing through deep/wide routing](slices/24v-learned-routing-scale.md)
+- [x] [24w — Bounded waveform queries across duration](slices/24w-waveform-duration-memory.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

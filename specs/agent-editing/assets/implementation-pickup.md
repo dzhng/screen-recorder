@@ -23,9 +23,9 @@ Historical workers and measurements retain their own identities below.
   the passing debug prerecorded materializer and production release build.
 - **Voice18a/19a/19b:** integrated. Root actual-entry13 and lifecycle30 pass;
   relocated runtime produces both frozen outputs under donor/network denial.
-  Root reverified all11,427 bundle entries and21 archive members. Preserve
-  `/private/tmp/screenrec-19b-relocation/bundle` for common preparation work;
-  its model is separate, and no public readiness/distribution claim follows.
+  Root reverified all11,427 historical bundle entries and21 archive members.
+  That temporary relocation bundle is now absent; use the exact recovered durable
+  source below for new preparation. Historical evidence remains unchanged.
   Common preparation19c is integrated; root155 native-enabled focused tests pass.
   Its complete public managed-copy journey preserves both frozen voice outputs
   and all306 inherited ASR words/timings. The same-size runtime mutation control
@@ -45,8 +45,8 @@ Historical workers and measurements retain their own identities below.
   Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
   [Public voice jobs19f](19f-public-voice-jobs/README.md) is integrated, including
   saved replay, stable explicit origins, queued restart and model-free transfer of
-  generated/reference audio. Prepared-package-transfer is released after recovery;
-  capture-pause-recovery owns the waveform duration-memory/latency cohort after24v.
+  generated/reference audio. Prepared-package-transfer now owns the preparatory23a
+  old/new preservation harness; capture-pause-recovery is released after24w.
   Shared voice metadata is
   strict and independent of the active execution profile.
   Candidate native worker there has SHA256
@@ -78,7 +78,11 @@ Historical workers and measurements retain their own identities below.
 - **Two-hour package24j:** integrated full transfer passes. Original complete WAV,
   recipe, late PCM and newly authored receiver edit/undo survive donor removal
   with processing unavailable. No missing original history is inferred.
-  Its prepared-package-transfer worktree now owns public voice jobs19f.
+- **Waveform memory24w:** integrated; exact250-bucket public reads pass the original
+  latency and less-than2x duration-memory bounds. Two ownership-only checks reuse
+  bounded revision availability rather than hydrate documents. [Evidence](24w-waveform-duration-memory/README.md)
+  retains the original latency red, profiles and six-cohort rerun; no model cache
+  or general host-contention immunity is claimed.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.
@@ -86,8 +90,9 @@ Historical workers and measurements retain their own identities below.
 Preserve the older project-still-composition worktree's integrated diffs.
 The completed acquisition-picture-journey and noise-prepared-output worktrees
 were recoverably archived at the user's request; do not restore them merely for
-new work. Historical native executables/resources are hash-preserved under
-`/tmp/screenrec-preserved-workers` with a source-to-copy manifest. The
+new work. Historical native executables/resources were copied under
+`/tmp/screenrec-preserved-workers` at cleanup; temporary copies must be located and
+rehash-verified before use, not assumed available. The
 [cleanup receipt](maintenance/space-cleanup-2026-09-29.json) records reclaimed
 Docker cache/images, safe branch deletion and exact model recovery. About68GiB free was measured;
 recheck capacity before large work. Root owns this handoff and parent checklist.

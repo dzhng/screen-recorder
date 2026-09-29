@@ -3741,6 +3741,18 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   and preserves stable replay without another reference registry.
 - **Confidence:** high.
 
+## Check revision ownership without loading its document
+
+- **When:** cached waveform duration-memory24w.
+- **Choice:** dependency lookup and job pinning use the existing live-project and
+  pinned-revision availability checks. Only the actual composition consumer loads
+  and validates the document and source context.
+- **Gap:** the plan required bounded inspection but did not require ownership-only
+  consumers to deserialize the entire editing document.
+- **Verdict:** sound; shared ownership checks retain missing/foreign/deleted error
+  semantics without a new model cache, invalidation policy or public identity.
+- **Confidence:** high.
+
 ## Start queued execution after service recovery
 
 - **When:** public durable voice jobs19f.

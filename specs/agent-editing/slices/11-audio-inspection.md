@@ -16,10 +16,13 @@ The shared PCM/WAV owner from 11a feeds waveform buckets/images and bounded spec
 
 The [core waveform reducer](../../../packages/core/src/audio-wave.ts) owns sample-domain reduction and shares WAV validation with audio publication. Its absolute bucket grid is independent of the selected range and byte header. Edge buckets explicitly report their clipped sample support; channels remain separate. Bucket count is bounded before reading sample data, and sample blocks yield for cancellation while the caller retains the cache lease.
 
-## Acoustic artifact implementation
+## Verified acoustic artifact ownership
 
-1. Add timestamped waveform images derived from the same pinned waveform evidence. Verify absolute axes, partial edge bins and range/full agreement through the visual acceptance below.
-2. Integrate the bounded spectral reducer and labeled time/frequency images through the same acoustic artifact lifecycle. Judge impulse/tone alignment, then complete the unprimed image and fresh-agent acceptance below. Energy suggestions remain optional heuristics.
+Timestamped waveform images derive from pinned waveform evidence; the bounded
+spectral reducer and labeled images share the same acoustic lifecycle. The public
+and fresh-agent evidence linked above verifies those surfaces and their axes.
+Energy suggestions remain optional heuristics. Retimed conformance and listening
+remain separate from these completed mechanisms.
 
 The [cached waveform owner](../../../packages/core/src/acoustic-inspection.ts) uses the audio owner's canonical recipe and existing jobs/cache. A surviving waveform needs retained audio provenance, not resident PCM bytes. Rebuilding missing waveform data holds a PCM lease during reduction, then permits PCM eviction before waveform publication. Audio-generation changes fence publication; an explicit waveform retry retries its single audio prerequisite, while ordinary reads preserve terminal failures. JSON has an independent byte ceiling and preserves unavailable-support metadata rather than pretending missing capture context is silence. [Lifecycle evidence](../assets/11-waveform-jobs/README.md) covers the core boundary; it does not replace public delivery acceptance.
 
@@ -64,12 +67,13 @@ User feedback changing the named contract or judged variable requires updating t
 
 [Blind skill use](../assets/11-waveform-skill/README.md) verifies that a fresh agent
 can locate a short energy interval, map repeated project uses, and compare per-channel
-dry/processed measurements through the delivered public JSON. Image navigation,
-spectrogram use and listening remain separate open gates.
+dry/processed measurements through the delivered public JSON. This waveform-only
+checkpoint predates the public image and fresh acoustic-skill evidence linked in
+the status above; it does not establish listening acceptance.
 ## Acoustic raster checkpoint
 
-The [headless raster evidence](../assets/11-acoustic-raster/README.md) covers images from retained measurements, channel/time/frequency axes, subpixel peak preservation, bounded labels and shared picture PNG preservation. The core request adapter and native operation are ready for the existing acoustic lifecycle; public image delivery and fresh-agent use remain open.
+The [headless raster evidence](../assets/11-acoustic-raster/README.md) covers images from retained measurements, channel/time/frequency axes, subpixel peak preservation, bounded labels and shared picture PNG preservation. This checkpoint predates the verified public lifecycle and fresh-agent use linked in the status above.
 
 ## Public image journey checkpoint
 
-[Actual public acoustic evidence](../assets/11-public-acoustic-images/README.md) verifies CLI/MCP waveform and spectrogram PNG delivery, independent source/project measurements and pixels, all nested processing taps, outside-view missing FFT context, cancellation/retry, history, restart and temporary sidecar cleanup. Speech/listening and fresh-agent product-use acceptance remain separate.
+[Actual public acoustic evidence](../assets/11-public-acoustic-images/README.md) verifies CLI/MCP waveform and spectrogram PNG delivery, independent source/project measurements and pixels, all nested processing taps, outside-view missing FFT context, cancellation/retry, history, restart and temporary sidecar cleanup. The later fresh-agent product-use proof is linked in the status; speech/listening acceptance remains separate.

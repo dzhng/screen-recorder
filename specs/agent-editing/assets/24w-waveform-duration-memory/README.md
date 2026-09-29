@@ -21,6 +21,9 @@ process across cold preparation and cached reads, not the whole process tree or
 instantaneous allocation peaks. These observations do not prove native memory
 scaling, other query families or immunity to host contention.
 
+[Root verification](root-verification.json) records the integrated build, affected
+owner/service/native checks and independent rehash of all archived members.
+
 ## Retained red and owner correction
 
 The original sixth trial passed numerical delivery but failed its cached latency

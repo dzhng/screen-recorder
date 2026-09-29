@@ -1,6 +1,6 @@
 # 18 — Reproduce local reference speech
 
-Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode. With extracted background hum, the phrase ending sounds fine but its entrance remains too long. A [120ms shorter entrance](../assets/18-voice-phrase-lead/README.md) preserves the accepted ending sample-exact; acoustic/listening acceptance and managed origin retention remain open. [Current phrase timing figures](../assets/18-voice-boundary-timing/README.md) now pass calibrated numerical and independent visual checks; this does not close listening or all-candidate visual acceptance. Dependencies: [00](./00-corpus.md).
+Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode. With extracted background hum, the phrase ending sounds fine but its entrance remains too long. A [120ms shorter entrance](../assets/18-voice-phrase-lead/README.md) preserves the accepted ending sample-exact; acoustic/listening acceptance remains open. Managed origin retention is verified by [retained excerpts](19e-retained-audio-excerpts.md) and [durable voice jobs](19f-public-voice-jobs.md). [Current phrase timing figures](../assets/18-voice-boundary-timing/README.md) now pass calibrated numerical and independent visual checks; this does not close listening or all-candidate visual acceptance. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
