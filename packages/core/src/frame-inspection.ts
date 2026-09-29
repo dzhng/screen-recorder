@@ -2,6 +2,7 @@ import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import {
   compiledFrameSchema,
+  fontReferenceSchema,
   processingTapSchema,
   type ProcessingTap,
   type CompiledFrame,
@@ -18,6 +19,7 @@ import {
   projectWindow,
   type CompositionWindow,
   type CompositionAssetBinding,
+  type FontAssetBinding,
   type ProjectRenderSupport,
 } from "./project-window.js";
 
@@ -39,6 +41,26 @@ const pictureDeliverySchema = z.object({
     .positive()
     .max(32 * 1024 * 1024),
 });
+const textLayoutSchema = z
+  .object({
+    font: fontReferenceSchema,
+    text: z.string().max(8192),
+    visibleRange: z.tuple([time, time]),
+    lines: z
+      .array(
+        z
+          .object({
+            range: z.tuple([time, time]),
+            text: z.string().max(8192),
+            origin: z.tuple([z.number().finite(), z.number().finite()]),
+            width: z.number().finite().nonnegative(),
+            fonts: z.array(z.string().min(1)).max(8192),
+          })
+          .strict(),
+      )
+      .max(8192),
+  })
+  .strict();
 const nativeProjectReceiptSchema = pictureDeliverySchema.extend({
   profile: z.literal("h264-rec709"),
   frame: compiledFrameSchema,
@@ -47,6 +69,20 @@ const nativeProjectReceiptSchema = pictureDeliverySchema.extend({
   decodedImages: time,
   pictures: z.array(
     z.discriminatedUnion("kind", [
+      z.discriminatedUnion("status", [
+        z.strictObject({
+          kind: z.literal("text"),
+          clipId: z.string().min(1),
+          status: z.literal("available"),
+          layout: textLayoutSchema,
+        }),
+        z.strictObject({
+          kind: z.literal("text"),
+          clipId: z.string().min(1),
+          status: z.literal("unavailable"),
+          reason: z.string().min(1),
+        }),
+      ]),
       z
         .strictObject({
           kind: z.literal("image"),
@@ -111,6 +147,7 @@ export type ProjectFrameRenderer = ProjectRenderSupport & {
       model: import("@screenrec/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
+      fonts: readonly FontAssetBinding[];
       output: string;
       maxLongEdge: number;
     },
@@ -737,6 +774,7 @@ export class MediaFrameInspection {
             model: plan.model,
             window: plan.window,
             assets: plan.assets,
+            fonts: plan.fonts,
             output,
             maxLongEdge: plan.options.maxLongEdge,
           },
@@ -820,8 +858,21 @@ function checkPictureReceipt(
       const layer = expected.layers[index]!;
       return (
         picture.clipId !== layer.clipId ||
-        picture.assetId !== layer.assetId ||
-        picture.streamId !== layer.streamId ||
+        (picture.kind !== "text" &&
+          layer.kind !== "text" &&
+          (picture.assetId !== layer.assetId || picture.streamId !== layer.streamId)) ||
+        (picture.kind === "text" &&
+          layer.kind === "text" &&
+          picture.status === "available" &&
+          (!isDeepStrictEqual(picture.layout.font, layer.text.font) ||
+            picture.layout.text !== layer.text.text ||
+            picture.layout.visibleRange[0] + picture.layout.visibleRange[1] >
+              layer.text.text.length ||
+            picture.layout.lines.some(
+              (line) =>
+                line.text !== layer.text.text.slice(line.range[0], line.range[0] + line.range[1]) ||
+                line.fonts.some((font) => font !== layer.text.font.postScriptName),
+            ))) ||
         picture.kind !== layer.kind ||
         (picture.kind === "video" &&
           layer.kind === "video" &&

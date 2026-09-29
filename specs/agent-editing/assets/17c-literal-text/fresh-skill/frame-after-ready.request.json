@@ -1,0 +1,14 @@
+{
+  "projectId": "091651ec-950e-4f56-a5c6-cf9b9fc872c4",
+  "revisionId": "1d75ac50-2ac7-4556-8a27-e99657a7b5d4",
+  "atUs": 1000000,
+  "maxLongEdge": 640,
+  "tap": {
+    "target": {
+      "kind": "output"
+    },
+    "point": {
+      "kind": "processed"
+    }
+  }
+}

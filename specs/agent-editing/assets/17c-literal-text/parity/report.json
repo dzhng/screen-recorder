@@ -1,0 +1,4401 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "pictures": [
+    {
+      "name": "punctuation-newline-alpha",
+      "selection": {
+        "projectId": "9f8344bc-6da1-4366-94ec-7e2ab1973730",
+        "revisionId": "a587f0cb-8de5-43a7-9ff3-afc70db045fb",
+        "atUs": 0
+      },
+      "sha256": "d0e255d12fda31e85ab92beb7ac791cd5f3d2e667e0e8284bf0bfd6424db20c7",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/abb43ad2-a7d5-4663-8fba-1bb4ec071080.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 7096,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:1",
+              "trackId": "track:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    0,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "9f8344bc-6da1-4366-94ec-7e2ab1973730",
+        "revisionId": "a587f0cb-8de5-43a7-9ff3-afc70db045fb",
+        "cacheId": "abb43ad2-a7d5-4663-8fba-1bb4ec071080"
+      }
+    },
+    {
+      "name": "punctuation-newline-alpha-control",
+      "selection": {
+        "projectId": "84a29f87-3812-46b2-baf8-fe121848ec8b",
+        "revisionId": "94128910-dc82-4538-b180-feb6a2135d77",
+        "atUs": 0
+      },
+      "sha256": "d0e255d12fda31e85ab92beb7ac791cd5f3d2e667e0e8284bf0bfd6424db20c7",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/8b478c9a-12a3-4891-8ad2-72a9cfbc216d.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 7096,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "4f6245e7f1353aedb9cad249b8434c5397c8896ed949386642b2a706c9d20a5a",
+              "streamId": "image:0",
+              "clipId": "clip:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:1",
+              "trackId": "track:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:1",
+            "assetId": "4f6245e7f1353aedb9cad249b8434c5397c8896ed949386642b2a706c9d20a5a",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "84a29f87-3812-46b2-baf8-fe121848ec8b",
+        "revisionId": "94128910-dc82-4538-b180-feb6a2135d77",
+        "cacheId": "8b478c9a-12a3-4891-8ad2-72a9cfbc216d"
+      }
+    },
+    {
+      "name": "punctuation-newline-black",
+      "selection": {
+        "projectId": "9f8344bc-6da1-4366-94ec-7e2ab1973730",
+        "revisionId": "81c89313-2f78-4b03-83a9-e4dd163dab4e",
+        "atUs": 0
+      },
+      "sha256": "6647e940e18b6d754303e2b5ecc50f10891e69c744c8aedd67df7806216f3efa",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/262944b4-ba95-4eb1-9a71-b30f78743f7f.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 8203,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:1",
+              "trackId": "track:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    0,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "9f8344bc-6da1-4366-94ec-7e2ab1973730",
+        "revisionId": "81c89313-2f78-4b03-83a9-e4dd163dab4e",
+        "cacheId": "262944b4-ba95-4eb1-9a71-b30f78743f7f"
+      }
+    },
+    {
+      "name": "punctuation-newline-black-control",
+      "selection": {
+        "projectId": "84a29f87-3812-46b2-baf8-fe121848ec8b",
+        "revisionId": "cf9604cc-7ce9-4287-8f40-f9b8750c611f",
+        "atUs": 0
+      },
+      "sha256": "6647e940e18b6d754303e2b5ecc50f10891e69c744c8aedd67df7806216f3efa",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/f1d5a948-7824-496b-9f1c-4ada2d469357.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 8203,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "4f6245e7f1353aedb9cad249b8434c5397c8896ed949386642b2a706c9d20a5a",
+              "streamId": "image:0",
+              "clipId": "clip:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:1",
+              "trackId": "track:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:1",
+            "assetId": "4f6245e7f1353aedb9cad249b8434c5397c8896ed949386642b2a706c9d20a5a",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "84a29f87-3812-46b2-baf8-fe121848ec8b",
+        "revisionId": "cf9604cc-7ce9-4287-8f40-f9b8750c611f",
+        "cacheId": "f1d5a948-7824-496b-9f1c-4ada2d469357"
+      }
+    },
+    {
+      "name": "punctuation-newline-white",
+      "selection": {
+        "projectId": "9f8344bc-6da1-4366-94ec-7e2ab1973730",
+        "revisionId": "81806ee3-2be0-4df1-9a5c-bffefcdda994",
+        "atUs": 0
+      },
+      "sha256": "0b20a306648c82c39858850c9579d5e7441fa5a74787ec5d2a9700f9f3876e83",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/2d3e21f3-e12e-4dca-a3f0-d30ff4a9466e.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 1127,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:1",
+              "trackId": "track:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:2b212da72baded77ca2d46a32db6b61c27537c967cfb6057c0fbbaa515de7345:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    0,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "9f8344bc-6da1-4366-94ec-7e2ab1973730",
+        "revisionId": "81806ee3-2be0-4df1-9a5c-bffefcdda994",
+        "cacheId": "2d3e21f3-e12e-4dca-a3f0-d30ff4a9466e"
+      }
+    },
+    {
+      "name": "punctuation-newline-white-control",
+      "selection": {
+        "projectId": "84a29f87-3812-46b2-baf8-fe121848ec8b",
+        "revisionId": "0ded0c92-6adc-4053-9b5d-ddf05dbeb866",
+        "atUs": 0
+      },
+      "sha256": "0b20a306648c82c39858850c9579d5e7441fa5a74787ec5d2a9700f9f3876e83",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/15fdbbed-6bee-491e-9431-f3419933bebe.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 1127,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "4f6245e7f1353aedb9cad249b8434c5397c8896ed949386642b2a706c9d20a5a",
+              "streamId": "image:0",
+              "clipId": "clip:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:1",
+              "trackId": "track:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:9061c1ccef6f85fabd321165a287a8ad37575b413f3e140500a2e8fae7113f35:1",
+            "assetId": "4f6245e7f1353aedb9cad249b8434c5397c8896ed949386642b2a706c9d20a5a",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "84a29f87-3812-46b2-baf8-fe121848ec8b",
+        "revisionId": "0ded0c92-6adc-4053-9b5d-ddf05dbeb866",
+        "cacheId": "15fdbbed-6bee-491e-9431-f3419933bebe"
+      }
+    },
+    {
+      "name": "center-alpha",
+      "selection": {
+        "projectId": "20001f6e-e652-4eac-a643-125eae6da086",
+        "revisionId": "c8d43334-3f12-4668-b8ca-70f69526a932",
+        "atUs": 0
+      },
+      "sha256": "102d4d3c8e20d091dff484d0ce637d3fb2bec5d0d07a60c99c4b7b687bcc72fc",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/b0020af2-b85c-413f-893c-cd39fefc5a28.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 7217,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:1",
+              "trackId": "track:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    121.96875,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    121.0625,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "20001f6e-e652-4eac-a643-125eae6da086",
+        "revisionId": "c8d43334-3f12-4668-b8ca-70f69526a932",
+        "cacheId": "b0020af2-b85c-413f-893c-cd39fefc5a28"
+      }
+    },
+    {
+      "name": "center-alpha-control",
+      "selection": {
+        "projectId": "bb417aa2-dfd3-448c-9d53-c4b1dcf7e22c",
+        "revisionId": "0973c28b-62ef-49ed-be0e-b55f3c14abce",
+        "atUs": 0
+      },
+      "sha256": "102d4d3c8e20d091dff484d0ce637d3fb2bec5d0d07a60c99c4b7b687bcc72fc",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/8904bdcd-cf71-42cf-b561-36dcd95ed037.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 7217,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "3431dfa85b4408f4d63527784f6f1aa330a387c04254a91cfa38002d6edaf86b",
+              "streamId": "image:0",
+              "clipId": "clip:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:1",
+              "trackId": "track:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:1",
+            "assetId": "3431dfa85b4408f4d63527784f6f1aa330a387c04254a91cfa38002d6edaf86b",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "bb417aa2-dfd3-448c-9d53-c4b1dcf7e22c",
+        "revisionId": "0973c28b-62ef-49ed-be0e-b55f3c14abce",
+        "cacheId": "8904bdcd-cf71-42cf-b561-36dcd95ed037"
+      }
+    },
+    {
+      "name": "center-black",
+      "selection": {
+        "projectId": "20001f6e-e652-4eac-a643-125eae6da086",
+        "revisionId": "8f6b1927-90ec-46ea-989b-be773cceee46",
+        "atUs": 0
+      },
+      "sha256": "8e56782805e55e475cf91e79ce0796c1da0b1e2c734c436c7012e1d5c2511959",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/d24af435-bef8-4736-8ab1-50978fee4875.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 8243,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:1",
+              "trackId": "track:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    121.96875,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    121.0625,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "20001f6e-e652-4eac-a643-125eae6da086",
+        "revisionId": "8f6b1927-90ec-46ea-989b-be773cceee46",
+        "cacheId": "d24af435-bef8-4736-8ab1-50978fee4875"
+      }
+    },
+    {
+      "name": "center-black-control",
+      "selection": {
+        "projectId": "bb417aa2-dfd3-448c-9d53-c4b1dcf7e22c",
+        "revisionId": "b93acfff-9e55-40e3-8e09-d5bab38ef42f",
+        "atUs": 0
+      },
+      "sha256": "8e56782805e55e475cf91e79ce0796c1da0b1e2c734c436c7012e1d5c2511959",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/f4f2d7b6-f257-43d6-ade7-e08b325c2fc7.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 8243,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "3431dfa85b4408f4d63527784f6f1aa330a387c04254a91cfa38002d6edaf86b",
+              "streamId": "image:0",
+              "clipId": "clip:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:1",
+              "trackId": "track:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:1",
+            "assetId": "3431dfa85b4408f4d63527784f6f1aa330a387c04254a91cfa38002d6edaf86b",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "bb417aa2-dfd3-448c-9d53-c4b1dcf7e22c",
+        "revisionId": "b93acfff-9e55-40e3-8e09-d5bab38ef42f",
+        "cacheId": "f4f2d7b6-f257-43d6-ade7-e08b325c2fc7"
+      }
+    },
+    {
+      "name": "center-white",
+      "selection": {
+        "projectId": "20001f6e-e652-4eac-a643-125eae6da086",
+        "revisionId": "8d57d435-1ae5-4c1b-b0d3-b64d83fe33c8",
+        "atUs": 0
+      },
+      "sha256": "0b20a306648c82c39858850c9579d5e7441fa5a74787ec5d2a9700f9f3876e83",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/c591774c-6857-4e52-b28c-af9fdc5e1ca5.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 1127,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "center",
+                "wrap": true
+              },
+              "clipId": "clip:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:1",
+              "trackId": "track:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:8faf9e06eb762909078048477d1e248aae939d5d3e11171b0a86dccba6338b96:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    121.96875,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    121.0625,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "20001f6e-e652-4eac-a643-125eae6da086",
+        "revisionId": "8d57d435-1ae5-4c1b-b0d3-b64d83fe33c8",
+        "cacheId": "c591774c-6857-4e52-b28c-af9fdc5e1ca5"
+      }
+    },
+    {
+      "name": "center-white-control",
+      "selection": {
+        "projectId": "bb417aa2-dfd3-448c-9d53-c4b1dcf7e22c",
+        "revisionId": "2c7c0013-818b-4436-a142-bef4010f88c2",
+        "atUs": 0
+      },
+      "sha256": "0b20a306648c82c39858850c9579d5e7441fa5a74787ec5d2a9700f9f3876e83",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/5f900eb6-9c14-45c3-bb15-0ac0bfe9390e.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 1127,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "3431dfa85b4408f4d63527784f6f1aa330a387c04254a91cfa38002d6edaf86b",
+              "streamId": "image:0",
+              "clipId": "clip:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:1",
+              "trackId": "track:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:3bc26cee36f1fb8dffd13371a0631520eae03a6a494774948aaf9f7cfdc7095b:1",
+            "assetId": "3431dfa85b4408f4d63527784f6f1aa330a387c04254a91cfa38002d6edaf86b",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "bb417aa2-dfd3-448c-9d53-c4b1dcf7e22c",
+        "revisionId": "2c7c0013-818b-4436-a142-bef4010f88c2",
+        "cacheId": "5f900eb6-9c14-45c3-bb15-0ac0bfe9390e"
+      }
+    },
+    {
+      "name": "right-alpha",
+      "selection": {
+        "projectId": "7b0df9d9-b083-4dc9-9b9a-fdf0780fce01",
+        "revisionId": "066b2830-b2ef-4034-a8b8-418c1a451dd1",
+        "atUs": 0
+      },
+      "sha256": "8570c5aebb1f07471b35ba21c2272b99fb725878a280d79d5e3078943115c5f1",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/2039f791-2213-42cc-b969-728752b4d723.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 7177,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "right",
+                "wrap": true
+              },
+              "clipId": "clip:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:1",
+              "trackId": "track:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    243.9375,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    242.125,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "7b0df9d9-b083-4dc9-9b9a-fdf0780fce01",
+        "revisionId": "066b2830-b2ef-4034-a8b8-418c1a451dd1",
+        "cacheId": "2039f791-2213-42cc-b969-728752b4d723"
+      }
+    },
+    {
+      "name": "right-alpha-control",
+      "selection": {
+        "projectId": "97c88cb4-37b9-423e-9af5-bd89d9f9c06c",
+        "revisionId": "8c5d39b3-8eb4-4329-b403-768f84541c54",
+        "atUs": 0
+      },
+      "sha256": "8570c5aebb1f07471b35ba21c2272b99fb725878a280d79d5e3078943115c5f1",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/2d896616-70c9-404b-b602-de0ec2fdaac3.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 7177,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "58c50a778449f0cb0e2e8e2144900ed7e6ee30bd893a86132c269505f10d7d14",
+              "streamId": "image:0",
+              "clipId": "clip:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:1",
+              "trackId": "track:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:1",
+            "assetId": "58c50a778449f0cb0e2e8e2144900ed7e6ee30bd893a86132c269505f10d7d14",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "97c88cb4-37b9-423e-9af5-bd89d9f9c06c",
+        "revisionId": "8c5d39b3-8eb4-4329-b403-768f84541c54",
+        "cacheId": "2d896616-70c9-404b-b602-de0ec2fdaac3"
+      }
+    },
+    {
+      "name": "right-black",
+      "selection": {
+        "projectId": "7b0df9d9-b083-4dc9-9b9a-fdf0780fce01",
+        "revisionId": "4fdb5d90-e55c-4be8-9fa1-a5749a9fa42b",
+        "atUs": 0
+      },
+      "sha256": "d22c15fb4b4161e91fc802186c909345d06183858dbf8438530db8305c72d47b",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/9da2f59b-34d5-494d-907c-5a2346f3ed28.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 8257,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "right",
+                "wrap": true
+              },
+              "clipId": "clip:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:1",
+              "trackId": "track:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    243.9375,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    242.125,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "7b0df9d9-b083-4dc9-9b9a-fdf0780fce01",
+        "revisionId": "4fdb5d90-e55c-4be8-9fa1-a5749a9fa42b",
+        "cacheId": "9da2f59b-34d5-494d-907c-5a2346f3ed28"
+      }
+    },
+    {
+      "name": "right-black-control",
+      "selection": {
+        "projectId": "97c88cb4-37b9-423e-9af5-bd89d9f9c06c",
+        "revisionId": "2f12dd34-2b61-45a5-911d-89294875de4e",
+        "atUs": 0
+      },
+      "sha256": "d22c15fb4b4161e91fc802186c909345d06183858dbf8438530db8305c72d47b",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/ffe710f3-7c29-4763-afef-bb80258b80df.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 8257,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "58c50a778449f0cb0e2e8e2144900ed7e6ee30bd893a86132c269505f10d7d14",
+              "streamId": "image:0",
+              "clipId": "clip:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:1",
+              "trackId": "track:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:1",
+            "assetId": "58c50a778449f0cb0e2e8e2144900ed7e6ee30bd893a86132c269505f10d7d14",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "97c88cb4-37b9-423e-9af5-bd89d9f9c06c",
+        "revisionId": "2f12dd34-2b61-45a5-911d-89294875de4e",
+        "cacheId": "ffe710f3-7c29-4763-afef-bb80258b80df"
+      }
+    },
+    {
+      "name": "right-white",
+      "selection": {
+        "projectId": "7b0df9d9-b083-4dc9-9b9a-fdf0780fce01",
+        "revisionId": "317f8285-a33b-49fa-9ee0-b758c14b84a3",
+        "atUs": 0
+      },
+      "sha256": "0b20a306648c82c39858850c9579d5e7441fa5a74787ec5d2a9700f9f3876e83",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/cf120f0e-57db-4d86-9c6a-0c965cd094ef.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 1127,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "right",
+                "wrap": true
+              },
+              "clipId": "clip:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:1",
+              "trackId": "track:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:c87ff9f3308babcc92a6e6ae2619810068571ca02053718a7df00502220be1dc:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                26
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    243.9375,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    14,
+                    12
+                  ],
+                  "text": "Caption two.",
+                  "origin": [
+                    242.125,
+                    66
+                  ],
+                  "width": 177.875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "7b0df9d9-b083-4dc9-9b9a-fdf0780fce01",
+        "revisionId": "317f8285-a33b-49fa-9ee0-b758c14b84a3",
+        "cacheId": "cf120f0e-57db-4d86-9c6a-0c965cd094ef"
+      }
+    },
+    {
+      "name": "right-white-control",
+      "selection": {
+        "projectId": "97c88cb4-37b9-423e-9af5-bd89d9f9c06c",
+        "revisionId": "ea49902c-e0d8-47cf-87d1-9fcea2a0e334",
+        "atUs": 0
+      },
+      "sha256": "0b20a306648c82c39858850c9579d5e7441fa5a74787ec5d2a9700f9f3876e83",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/ce0b5e43-1f66-4e5d-9664-effc24e15c96.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 1127,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "58c50a778449f0cb0e2e8e2144900ed7e6ee30bd893a86132c269505f10d7d14",
+              "streamId": "image:0",
+              "clipId": "clip:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:1",
+              "trackId": "track:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:0d7da967482efef44cdfa32942702daa9a5e83fce2b8760e8a161563883c20ee:1",
+            "assetId": "58c50a778449f0cb0e2e8e2144900ed7e6ee30bd893a86132c269505f10d7d14",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "97c88cb4-37b9-423e-9af5-bd89d9f9c06c",
+        "revisionId": "ea49902c-e0d8-47cf-87d1-9fcea2a0e334",
+        "cacheId": "ce0b5e43-1f66-4e5d-9664-effc24e15c96"
+      }
+    },
+    {
+      "name": "long-word-alpha",
+      "selection": {
+        "projectId": "2f931906-ce91-4760-b902-32843695621b",
+        "revisionId": "c47e486f-83ed-4c9a-87ac-2bfb078055b3",
+        "atUs": 0
+      },
+      "sha256": "acc3291430a02411c0692758d9d28edd4e4ee4324440549095c2f9e997240373",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/6ca6ddde-8588-4da9-8f4c-05ac4ccbc91f.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 360,
+        "sourceWidth": 180,
+        "sourceHeight": 360,
+        "bytes": 12062,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Supercalifragilisticexpialidocious ends here.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 180,
+                "height": 360,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:1",
+              "trackId": "track:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:0",
+              "availability": "available",
+              "width": 180,
+              "height": 360
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Supercalifragilisticexpialidocious ends here.",
+              "visibleRange": [
+                0,
+                45
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    12
+                  ],
+                  "text": "Supercalifra",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 170.75,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    12,
+                    15
+                  ],
+                  "text": "gilisticexpiali",
+                  "origin": [
+                    0,
+                    66
+                  ],
+                  "width": 177.84375,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    27,
+                    8
+                  ],
+                  "text": "docious ",
+                  "origin": [
+                    0,
+                    103
+                  ],
+                  "width": 119.1875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    35,
+                    10
+                  ],
+                  "text": "ends here.",
+                  "origin": [
+                    0,
+                    140
+                  ],
+                  "width": 151.21875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "2f931906-ce91-4760-b902-32843695621b",
+        "revisionId": "c47e486f-83ed-4c9a-87ac-2bfb078055b3",
+        "cacheId": "6ca6ddde-8588-4da9-8f4c-05ac4ccbc91f"
+      }
+    },
+    {
+      "name": "long-word-alpha-control",
+      "selection": {
+        "projectId": "b7981294-1ea0-4c9f-935d-46a88167fc13",
+        "revisionId": "8713c29d-7d79-4320-b16d-4b307f309f8c",
+        "atUs": 0
+      },
+      "sha256": "acc3291430a02411c0692758d9d28edd4e4ee4324440549095c2f9e997240373",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/097a2af9-8257-4729-9985-d6b70e1b6481.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 360,
+        "sourceWidth": 180,
+        "sourceHeight": 360,
+        "bytes": 12062,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "cbfdfd4e956c8c0e351f4ad2ff437b74bf1139c27a79f0a8f8d9896b365c85c3",
+              "streamId": "image:0",
+              "clipId": "clip:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:1",
+              "trackId": "track:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:0",
+              "availability": "available",
+              "width": 180,
+              "height": 360
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:1",
+            "assetId": "cbfdfd4e956c8c0e351f4ad2ff437b74bf1139c27a79f0a8f8d9896b365c85c3",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "b7981294-1ea0-4c9f-935d-46a88167fc13",
+        "revisionId": "8713c29d-7d79-4320-b16d-4b307f309f8c",
+        "cacheId": "097a2af9-8257-4729-9985-d6b70e1b6481"
+      }
+    },
+    {
+      "name": "long-word-black",
+      "selection": {
+        "projectId": "2f931906-ce91-4760-b902-32843695621b",
+        "revisionId": "b9dfdf20-a190-49cb-b3ae-a21d2746fdee",
+        "atUs": 0
+      },
+      "sha256": "067f1abf22f1e0f9bf2c7bf764f67893fd76027883280f6251e23ec91836fae4",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/341420dd-ff51-4c51-a76b-e3cbc46cb23d.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 360,
+        "sourceWidth": 180,
+        "sourceHeight": 360,
+        "bytes": 12792,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Supercalifragilisticexpialidocious ends here.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 180,
+                "height": 360,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:1",
+              "trackId": "track:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:0",
+              "availability": "available",
+              "width": 180,
+              "height": 360
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Supercalifragilisticexpialidocious ends here.",
+              "visibleRange": [
+                0,
+                45
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    12
+                  ],
+                  "text": "Supercalifra",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 170.75,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    12,
+                    15
+                  ],
+                  "text": "gilisticexpiali",
+                  "origin": [
+                    0,
+                    66
+                  ],
+                  "width": 177.84375,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    27,
+                    8
+                  ],
+                  "text": "docious ",
+                  "origin": [
+                    0,
+                    103
+                  ],
+                  "width": 119.1875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    35,
+                    10
+                  ],
+                  "text": "ends here.",
+                  "origin": [
+                    0,
+                    140
+                  ],
+                  "width": 151.21875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "2f931906-ce91-4760-b902-32843695621b",
+        "revisionId": "b9dfdf20-a190-49cb-b3ae-a21d2746fdee",
+        "cacheId": "341420dd-ff51-4c51-a76b-e3cbc46cb23d"
+      }
+    },
+    {
+      "name": "long-word-black-control",
+      "selection": {
+        "projectId": "b7981294-1ea0-4c9f-935d-46a88167fc13",
+        "revisionId": "9475e6c3-454d-40b6-b8dd-c0721a7d10d6",
+        "atUs": 0
+      },
+      "sha256": "067f1abf22f1e0f9bf2c7bf764f67893fd76027883280f6251e23ec91836fae4",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/7397a49e-540d-46eb-9370-6a6774be423f.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 360,
+        "sourceWidth": 180,
+        "sourceHeight": 360,
+        "bytes": 12792,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "cbfdfd4e956c8c0e351f4ad2ff437b74bf1139c27a79f0a8f8d9896b365c85c3",
+              "streamId": "image:0",
+              "clipId": "clip:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:1",
+              "trackId": "track:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:0",
+              "availability": "available",
+              "width": 180,
+              "height": 360
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:1",
+            "assetId": "cbfdfd4e956c8c0e351f4ad2ff437b74bf1139c27a79f0a8f8d9896b365c85c3",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "b7981294-1ea0-4c9f-935d-46a88167fc13",
+        "revisionId": "9475e6c3-454d-40b6-b8dd-c0721a7d10d6",
+        "cacheId": "7397a49e-540d-46eb-9370-6a6774be423f"
+      }
+    },
+    {
+      "name": "long-word-white",
+      "selection": {
+        "projectId": "2f931906-ce91-4760-b902-32843695621b",
+        "revisionId": "44194704-4daf-4c35-8ea8-5f83cad1e937",
+        "atUs": 0
+      },
+      "sha256": "7f934f15db7bc5c5667822d6b1d1d42f7cede6127fe2e0cce97bae6145c186bb",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/0716beeb-fa88-4357-a345-c3c8e7550699.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 360,
+        "sourceWidth": 180,
+        "sourceHeight": 360,
+        "bytes": 1833,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Supercalifragilisticexpialidocious ends here.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 180,
+                "height": 360,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:1",
+              "trackId": "track:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:0",
+              "availability": "available",
+              "width": 180,
+              "height": 360
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:3349388f08c756142a16362fb7472d99da755487b799994f6182938f158a1cd0:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Supercalifragilisticexpialidocious ends here.",
+              "visibleRange": [
+                0,
+                45
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    12
+                  ],
+                  "text": "Supercalifra",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 170.75,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    12,
+                    15
+                  ],
+                  "text": "gilisticexpiali",
+                  "origin": [
+                    0,
+                    66
+                  ],
+                  "width": 177.84375,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    27,
+                    8
+                  ],
+                  "text": "docious ",
+                  "origin": [
+                    0,
+                    103
+                  ],
+                  "width": 119.1875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                },
+                {
+                  "range": [
+                    35,
+                    10
+                  ],
+                  "text": "ends here.",
+                  "origin": [
+                    0,
+                    140
+                  ],
+                  "width": 151.21875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "2f931906-ce91-4760-b902-32843695621b",
+        "revisionId": "44194704-4daf-4c35-8ea8-5f83cad1e937",
+        "cacheId": "0716beeb-fa88-4357-a345-c3c8e7550699"
+      }
+    },
+    {
+      "name": "long-word-white-control",
+      "selection": {
+        "projectId": "b7981294-1ea0-4c9f-935d-46a88167fc13",
+        "revisionId": "046e101f-914d-4fa3-96ef-20bb1a23abf7",
+        "atUs": 0
+      },
+      "sha256": "7f934f15db7bc5c5667822d6b1d1d42f7cede6127fe2e0cce97bae6145c186bb",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/bfa76533-750c-40ea-9d49-6a0a5a0630f9.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 360,
+        "sourceWidth": 180,
+        "sourceHeight": 360,
+        "bytes": 1833,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "cbfdfd4e956c8c0e351f4ad2ff437b74bf1139c27a79f0a8f8d9896b365c85c3",
+              "streamId": "image:0",
+              "clipId": "clip:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:1",
+              "trackId": "track:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:0",
+              "availability": "available",
+              "width": 180,
+              "height": 360
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:50402e3aa45dafae34f1a7d7b6e5a0617dfea71dd1e6384342436c4f3b80af0e:1",
+            "assetId": "cbfdfd4e956c8c0e351f4ad2ff437b74bf1139c27a79f0a8f8d9896b365c85c3",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "b7981294-1ea0-4c9f-935d-46a88167fc13",
+        "revisionId": "046e101f-914d-4fa3-96ef-20bb1a23abf7",
+        "cacheId": "bfa76533-750c-40ea-9d49-6a0a5a0630f9"
+      }
+    },
+    {
+      "name": "height-clipped-alpha",
+      "selection": {
+        "projectId": "9c96103e-e0d9-4fe5-994b-d131c7443972",
+        "revisionId": "d36a6cca-ee69-40dd-a2f5-82ad28909ac7",
+        "atUs": 0
+      },
+      "sha256": "16c470e275c1a8440916c8d3a6da1177a17e59f1d0b5bbda38f3e77dec92d683",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/6752c29b-888a-4f2c-9792-569aae0417ac.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 40,
+        "sourceWidth": 420,
+        "sourceHeight": 40,
+        "bytes": 3323,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 40,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:1",
+              "trackId": "track:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:0",
+              "availability": "available",
+              "width": 420,
+              "height": 40
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                14
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "9c96103e-e0d9-4fe5-994b-d131c7443972",
+        "revisionId": "d36a6cca-ee69-40dd-a2f5-82ad28909ac7",
+        "cacheId": "6752c29b-888a-4f2c-9792-569aae0417ac"
+      }
+    },
+    {
+      "name": "height-clipped-alpha-control",
+      "selection": {
+        "projectId": "c887d503-f9b6-4bae-8dff-45c130dcbc50",
+        "revisionId": "e37f7d1a-89cc-4f6d-b4cc-772b915f4056",
+        "atUs": 0
+      },
+      "sha256": "16c470e275c1a8440916c8d3a6da1177a17e59f1d0b5bbda38f3e77dec92d683",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/6d12d16c-ccef-49f7-85d3-572252f3c793.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 40,
+        "sourceWidth": 420,
+        "sourceHeight": 40,
+        "bytes": 3323,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "83adcad2a7ca950cb407398a3c92f48a2966157eb6f9bdb66e5c1e5b8f070a1b",
+              "streamId": "image:0",
+              "clipId": "clip:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:1",
+              "trackId": "track:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 40
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:1",
+            "assetId": "83adcad2a7ca950cb407398a3c92f48a2966157eb6f9bdb66e5c1e5b8f070a1b",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "c887d503-f9b6-4bae-8dff-45c130dcbc50",
+        "revisionId": "e37f7d1a-89cc-4f6d-b4cc-772b915f4056",
+        "cacheId": "6d12d16c-ccef-49f7-85d3-572252f3c793"
+      }
+    },
+    {
+      "name": "height-clipped-black",
+      "selection": {
+        "projectId": "9c96103e-e0d9-4fe5-994b-d131c7443972",
+        "revisionId": "211180f2-2e5d-4caf-9641-f07727a67f30",
+        "atUs": 0
+      },
+      "sha256": "c098985dd59d36ed5e5b527864cf44b1ad26967a5ce413ce57ddad53f0adc919",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/4352e863-d78e-47d1-a4ff-4ee9006fad85.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 40,
+        "sourceWidth": 420,
+        "sourceHeight": 40,
+        "bytes": 3891,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 40,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:1",
+              "trackId": "track:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:0",
+              "availability": "available",
+              "width": 420,
+              "height": 40
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                14
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "9c96103e-e0d9-4fe5-994b-d131c7443972",
+        "revisionId": "211180f2-2e5d-4caf-9641-f07727a67f30",
+        "cacheId": "4352e863-d78e-47d1-a4ff-4ee9006fad85"
+      }
+    },
+    {
+      "name": "height-clipped-black-control",
+      "selection": {
+        "projectId": "c887d503-f9b6-4bae-8dff-45c130dcbc50",
+        "revisionId": "2888c706-f81d-4d7c-b0d4-49274d179d26",
+        "atUs": 0
+      },
+      "sha256": "c098985dd59d36ed5e5b527864cf44b1ad26967a5ce413ce57ddad53f0adc919",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/cd826463-130a-4713-9f31-f603b14829d7.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 40,
+        "sourceWidth": 420,
+        "sourceHeight": 40,
+        "bytes": 3891,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "83adcad2a7ca950cb407398a3c92f48a2966157eb6f9bdb66e5c1e5b8f070a1b",
+              "streamId": "image:0",
+              "clipId": "clip:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:1",
+              "trackId": "track:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 40
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:1",
+            "assetId": "83adcad2a7ca950cb407398a3c92f48a2966157eb6f9bdb66e5c1e5b8f070a1b",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "c887d503-f9b6-4bae-8dff-45c130dcbc50",
+        "revisionId": "2888c706-f81d-4d7c-b0d4-49274d179d26",
+        "cacheId": "cd826463-130a-4713-9f31-f603b14829d7"
+      }
+    },
+    {
+      "name": "height-clipped-white",
+      "selection": {
+        "projectId": "9c96103e-e0d9-4fe5-994b-d131c7443972",
+        "revisionId": "95b1b5af-6fa0-417a-ba1c-0032adc6f5a2",
+        "atUs": 0
+      },
+      "sha256": "9325b57fb632c430bf67ff790f0780d2e0f406bb0bc8b74b1dcb34f3703c47a0",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/eb93ab32-d134-4989-bcb8-bbcb2dfdcdee.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 40,
+        "sourceWidth": 420,
+        "sourceHeight": 40,
+        "bytes": 553,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Hello, world!\nCaption two.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 40,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:1",
+              "trackId": "track:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:0",
+              "availability": "available",
+              "width": 420,
+              "height": 40
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:d4ce2b2f5aac41fe7f50a05e13eb48af6980ffaaf84f106fdeec2dce178557fb:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Hello, world!\nCaption two.",
+              "visibleRange": [
+                0,
+                14
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    14
+                  ],
+                  "text": "Hello, world!\n",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 176.0625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "9c96103e-e0d9-4fe5-994b-d131c7443972",
+        "revisionId": "95b1b5af-6fa0-417a-ba1c-0032adc6f5a2",
+        "cacheId": "eb93ab32-d134-4989-bcb8-bbcb2dfdcdee"
+      }
+    },
+    {
+      "name": "height-clipped-white-control",
+      "selection": {
+        "projectId": "c887d503-f9b6-4bae-8dff-45c130dcbc50",
+        "revisionId": "32ea837a-137c-434b-959f-17c7760283bf",
+        "atUs": 0
+      },
+      "sha256": "9325b57fb632c430bf67ff790f0780d2e0f406bb0bc8b74b1dcb34f3703c47a0",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/e236e978-db78-4742-8a3b-078d8da1af5f.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 40,
+        "sourceWidth": 420,
+        "sourceHeight": 40,
+        "bytes": 553,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "83adcad2a7ca950cb407398a3c92f48a2966157eb6f9bdb66e5c1e5b8f070a1b",
+              "streamId": "image:0",
+              "clipId": "clip:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:1",
+              "trackId": "track:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 40
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:07a97433eecdf774d6d59f6d204081df2be39076de355a8a229d69d545f4a4a7:1",
+            "assetId": "83adcad2a7ca950cb407398a3c92f48a2966157eb6f9bdb66e5c1e5b8f070a1b",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "c887d503-f9b6-4bae-8dff-45c130dcbc50",
+        "revisionId": "32ea837a-137c-434b-959f-17c7760283bf",
+        "cacheId": "e236e978-db78-4742-8a3b-078d8da1af5f"
+      }
+    },
+    {
+      "name": "width-clipped-alpha",
+      "selection": {
+        "projectId": "b9f1e946-5af6-4f73-88c3-b2a168667433",
+        "revisionId": "d39b1cd2-2a0b-4f58-a17e-394b3470b8ac",
+        "atUs": 0
+      },
+      "sha256": "cd8f10c550bb9a9bd69f46658abd2637518acaaaf7b7e8dfb330c51d7dc1a98b",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/cea50ec9-83b2-4a52-a5a7-990141e7cf6a.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 100,
+        "sourceWidth": 180,
+        "sourceHeight": 100,
+        "bytes": 4033,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Supercalifragilisticexpialidocious ends here.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 180,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": false
+              },
+              "clipId": "clip:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:1",
+              "trackId": "track:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:0",
+              "availability": "available",
+              "width": 180,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Supercalifragilisticexpialidocious ends here.",
+              "visibleRange": [
+                0,
+                45
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    45
+                  ],
+                  "text": "Supercalifragilisticexpialidocious ends here.",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 619,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "b9f1e946-5af6-4f73-88c3-b2a168667433",
+        "revisionId": "d39b1cd2-2a0b-4f58-a17e-394b3470b8ac",
+        "cacheId": "cea50ec9-83b2-4a52-a5a7-990141e7cf6a"
+      }
+    },
+    {
+      "name": "width-clipped-alpha-control",
+      "selection": {
+        "projectId": "6dc40a5a-4d91-4717-840b-517f7b10370e",
+        "revisionId": "40c382d8-9449-4a32-92b7-7b2946662720",
+        "atUs": 0
+      },
+      "sha256": "cd8f10c550bb9a9bd69f46658abd2637518acaaaf7b7e8dfb330c51d7dc1a98b",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/af7f1dcb-00c7-42f5-ae38-2c5f1a5c76ee.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 100,
+        "sourceWidth": 180,
+        "sourceHeight": 100,
+        "bytes": 4033,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "60055d4a8eb5527eb381e19cad86a666472ca326e754c57920c036934ff8c25f",
+              "streamId": "image:0",
+              "clipId": "clip:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:1",
+              "trackId": "track:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:0",
+              "availability": "available",
+              "width": 180,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:1",
+            "assetId": "60055d4a8eb5527eb381e19cad86a666472ca326e754c57920c036934ff8c25f",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "6dc40a5a-4d91-4717-840b-517f7b10370e",
+        "revisionId": "40c382d8-9449-4a32-92b7-7b2946662720",
+        "cacheId": "af7f1dcb-00c7-42f5-ae38-2c5f1a5c76ee"
+      }
+    },
+    {
+      "name": "width-clipped-black",
+      "selection": {
+        "projectId": "b9f1e946-5af6-4f73-88c3-b2a168667433",
+        "revisionId": "ac371343-343a-4fc6-9ad7-577fc1b0a1bb",
+        "atUs": 0
+      },
+      "sha256": "3b871ba90cf902bfdcca6f6ab48bf2d4679ef2279ff832456675858ef6d74828",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/ecdf30db-574e-40d3-a971-9225abcd0b1d.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 100,
+        "sourceWidth": 180,
+        "sourceHeight": 100,
+        "bytes": 4670,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Supercalifragilisticexpialidocious ends here.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 180,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": false
+              },
+              "clipId": "clip:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:1",
+              "trackId": "track:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:0",
+              "availability": "available",
+              "width": 180,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Supercalifragilisticexpialidocious ends here.",
+              "visibleRange": [
+                0,
+                45
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    45
+                  ],
+                  "text": "Supercalifragilisticexpialidocious ends here.",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 619,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "b9f1e946-5af6-4f73-88c3-b2a168667433",
+        "revisionId": "ac371343-343a-4fc6-9ad7-577fc1b0a1bb",
+        "cacheId": "ecdf30db-574e-40d3-a971-9225abcd0b1d"
+      }
+    },
+    {
+      "name": "width-clipped-black-control",
+      "selection": {
+        "projectId": "6dc40a5a-4d91-4717-840b-517f7b10370e",
+        "revisionId": "0093acfe-9eef-47c5-8bc6-15c4b0b92d8a",
+        "atUs": 0
+      },
+      "sha256": "3b871ba90cf902bfdcca6f6ab48bf2d4679ef2279ff832456675858ef6d74828",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/d92b4c9a-0357-42db-8c54-8dc50c058b7d.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 100,
+        "sourceWidth": 180,
+        "sourceHeight": 100,
+        "bytes": 4670,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "60055d4a8eb5527eb381e19cad86a666472ca326e754c57920c036934ff8c25f",
+              "streamId": "image:0",
+              "clipId": "clip:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:1",
+              "trackId": "track:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:0",
+              "availability": "available",
+              "width": 180,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:1",
+            "assetId": "60055d4a8eb5527eb381e19cad86a666472ca326e754c57920c036934ff8c25f",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "6dc40a5a-4d91-4717-840b-517f7b10370e",
+        "revisionId": "0093acfe-9eef-47c5-8bc6-15c4b0b92d8a",
+        "cacheId": "d92b4c9a-0357-42db-8c54-8dc50c058b7d"
+      }
+    },
+    {
+      "name": "width-clipped-white",
+      "selection": {
+        "projectId": "b9f1e946-5af6-4f73-88c3-b2a168667433",
+        "revisionId": "4aeb6361-c30d-46d6-94e7-abc74e945f4b",
+        "atUs": 0
+      },
+      "sha256": "fb25fb14e8a4a5dfa7b9bdf2782a44b041ac12ae920c585e2cedf5e622fc38c5",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/1d3c78c1-fb08-43c9-b7fc-c4eeed31ab68.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 100,
+        "sourceWidth": 180,
+        "sourceHeight": 100,
+        "bytes": 631,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Supercalifragilisticexpialidocious ends here.",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 180,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": false
+              },
+              "clipId": "clip:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:1",
+              "trackId": "track:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:0",
+              "availability": "available",
+              "width": 180,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:4f0bc3ed8a2a8783234c8fcde1642013e8287b3bf7ff565c6e06d3ad725aa945:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Supercalifragilisticexpialidocious ends here.",
+              "visibleRange": [
+                0,
+                45
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    45
+                  ],
+                  "text": "Supercalifragilisticexpialidocious ends here.",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 619,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "b9f1e946-5af6-4f73-88c3-b2a168667433",
+        "revisionId": "4aeb6361-c30d-46d6-94e7-abc74e945f4b",
+        "cacheId": "1d3c78c1-fb08-43c9-b7fc-c4eeed31ab68"
+      }
+    },
+    {
+      "name": "width-clipped-white-control",
+      "selection": {
+        "projectId": "6dc40a5a-4d91-4717-840b-517f7b10370e",
+        "revisionId": "b2c73697-84be-4d76-bbbc-84d1aa50f917",
+        "atUs": 0
+      },
+      "sha256": "fb25fb14e8a4a5dfa7b9bdf2782a44b041ac12ae920c585e2cedf5e622fc38c5",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-Czkamw/library/cache/derived/6c020a78-f5b8-42b6-b11d-bb44d0a74065.cache",
+        "mediaType": "image/png",
+        "width": 180,
+        "height": 100,
+        "sourceWidth": 180,
+        "sourceHeight": 100,
+        "bytes": 631,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "assetId": "60055d4a8eb5527eb381e19cad86a666472ca326e754c57920c036934ff8c25f",
+              "streamId": "image:0",
+              "clipId": "clip:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:1",
+              "trackId": "track:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:0",
+              "availability": "available",
+              "width": 180,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:133ac852e5e147c8d33fed3aeeef6630bc3cb2e227645de58036879545890de8:1",
+            "assetId": "60055d4a8eb5527eb381e19cad86a666472ca326e754c57920c036934ff8c25f",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "6dc40a5a-4d91-4717-840b-517f7b10370e",
+        "revisionId": "b2c73697-84be-4d76-bbbc-84d1aa50f917",
+        "cacheId": "6c020a78-f5b8-42b6-b11d-bb44d0a74065"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "punctuation-newline",
+      "exactFrozenRaster": true,
+      "exactLayout": true
+    },
+    {
+      "name": "center",
+      "exactFrozenRaster": true,
+      "exactLayout": true
+    },
+    {
+      "name": "right",
+      "exactFrozenRaster": true,
+      "exactLayout": true
+    },
+    {
+      "name": "long-word",
+      "exactFrozenRaster": true,
+      "exactLayout": true
+    },
+    {
+      "name": "height-clipped",
+      "exactFrozenRaster": true,
+      "exactLayout": true
+    },
+    {
+      "name": "width-clipped",
+      "exactFrozenRaster": true,
+      "exactLayout": true
+    }
+  ],
+  "workerSha256": "049a3247ec55a580c80e87a66f6d1e40a97cbea90f717271b0a0d7066a11bd79"
+}

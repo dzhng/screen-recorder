@@ -1,0 +1,12 @@
+$ vitest run --maxWorkers=4
+
+ RUN  v5.0.0 /Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/composition
+
+
+ Test Files  20 passed (20)
+      Tests  203 passed (203)
+   Start at  18:16:09
+   Duration  8.11s (tests 48%, import 27%, transform 25%, worker 1%)
+
+    Isolate  20 workers spawned · ~326ms startup each (spawn + environment, per file)
+             at least ~1.30s faster with isolate: false — reuses workers across files instead of one per file

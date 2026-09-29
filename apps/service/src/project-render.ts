@@ -85,7 +85,7 @@ export function projectMovieRenderer(
   pointers?: PointerOwners,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v12",
+    implementationId: "native-composition-movie-v13",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -127,6 +127,7 @@ export function projectMovieRenderer(
               settings: request.settings,
               processing: nativeProcessing(request.window.processing()),
               assets: request.assets,
+              fonts: request.fonts,
               audio: { range: manifest.sampleRange, clips: [...request.window.audio()] },
             },
             {
@@ -186,10 +187,10 @@ export function projectFrameRenderer(
   pointers?: PointerOwners,
 ): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v13",
+    implementationId: "native-composition-picture-v14",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
-      const { window, assets, output, maxLongEdge } = request;
+      const { window, assets, fonts, output, maxLongEdge } = request;
       return withRenderedFile(
         worker,
         { attemptParent: workspace, output, filename: "frame.png" },
@@ -207,6 +208,7 @@ export function projectFrameRenderer(
                 profile: "h264-rec709",
                 processing: nativeProcessing(window.processing()),
                 assets,
+                fonts,
                 maxLongEdge,
               },
               { signal },

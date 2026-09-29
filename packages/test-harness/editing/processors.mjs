@@ -26,7 +26,6 @@ if (!["--case routing", "--case ordered-edits"].includes(requested)) {
     clips: [],
     syncGroups: [],
     processing: [],
-    captions: [],
   };
   const context = {
     namespace: "routing-probe",
@@ -142,7 +141,6 @@ if (!["--case routing", "--case ordered-edits"].includes(requested)) {
     clips: [],
     syncGroups: [],
     processing: [],
-    captions: [],
   };
   const context = { namespace: "stack-probe", assets: [] };
   const first = applyBatch(

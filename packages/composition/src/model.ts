@@ -108,7 +108,7 @@ function unique<T extends { id: string }>(values: readonly T[], kind: string): M
 type SourceClock = Pick<ResolvedClip, "clip" | "range" | "rate">;
 export function sourceTime(clip: SourceClock, project: Rational): Rational {
   if (clip.clip.source.kind === "hold") return integer(clip.clip.source.atUs);
-  if (clip.clip.source.kind === "silence") invalid(`Silence has no source clock: ${clip.clip.id}`);
+  if (clip.clip.source.kind !== "range") invalid(`Clip has no source clock: ${clip.clip.id}`);
   return add(
     fromTime(clip.clip.source.range.startUs),
     multiply(subtract(project, clip.range.start), clip.rate!),
@@ -313,6 +313,16 @@ export function validateComposition(
       if (clip.pitch !== undefined && stream.kind !== "audio")
         invalid(`Pitch policy requires audio: ${clip.id}`);
       validateSourceSelection(clip.source, stream, clip.id);
+    } else if (clip.source.kind === "text") {
+      if (track.kind !== "video") invalid(`Text requires a video track: ${clip.id}`);
+      if (
+        !assetMap
+          .get(clip.source.font.assetId)
+          ?.fontFaces?.includes(clip.source.font.postScriptName)
+      )
+        invalid(
+          `Unknown exact font face: ${clip.source.font.assetId}/${clip.source.font.postScriptName}`,
+        );
     } else if (track.kind !== "audio") invalid(`Silence requires an audio track: ${clip.id}`);
     const anchor = placement(clip.placement, resolved);
     const rate =
@@ -329,7 +339,7 @@ export function validateComposition(
       rate,
     };
     let available: ExactRange[] = [anchor.range];
-    if (stream && clip.source.kind !== "silence" && (stream.kind !== "image" || acquisition)) {
+    if (stream && isMediaClip(clip) && (stream.kind !== "image" || acquisition)) {
       const support = (
         stream.kind === "image" ? acquisition! : sourceAvailability(stream.available, acquisition)
       ).map(exact);

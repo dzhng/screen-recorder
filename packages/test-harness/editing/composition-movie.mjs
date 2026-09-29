@@ -125,7 +125,6 @@ try {
     ],
     groups: [],
     syncGroups: [],
-    captions: [],
     clips: bindings.map((b, i) => ({
       id: b.assetId,
       assetId: b.assetId,

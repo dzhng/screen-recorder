@@ -52,7 +52,6 @@ const doc = (clips: Clip[]): Composition => ({
   groups: [],
   clips,
   processing: [],
-  captions: [],
   syncGroups: [],
 });
 const cuts = (clips: Clip[], input = asset) =>

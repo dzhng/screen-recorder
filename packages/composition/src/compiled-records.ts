@@ -1,14 +1,17 @@
 import { z } from "zod";
 import { visualOperationsSchema } from "./pointer.js";
-import { rangeSchema, selectionRangeSchema, processingTargetSchema } from "./schema.js";
+import {
+  rangeSchema,
+  selectionRangeSchema,
+  processingTargetSchema,
+  textSourceSchema,
+} from "./schema.js";
 
 const id = z.string().min(1);
 const index = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const layerIdentity = {
   clipId: id,
   trackId: id,
-  assetId: id,
-  streamId: id,
   availability: z.enum(["available", "source-unavailable", "anchor-unavailable"]),
   width: z.number().finite().positive(),
   height: z.number().finite().positive(),
@@ -29,8 +32,15 @@ export const compiledFrameSchema = z
     ),
     layers: z.array(
       z.discriminatedUnion("kind", [
-        z.strictObject({ kind: z.literal("video"), sourceUs: index, ...layerIdentity }),
-        z.strictObject({ kind: z.literal("image"), ...layerIdentity }),
+        z.strictObject({ kind: z.literal("text"), text: textSourceSchema, ...layerIdentity }),
+        z.strictObject({
+          kind: z.literal("video"),
+          assetId: id,
+          streamId: id,
+          sourceUs: index,
+          ...layerIdentity,
+        }),
+        z.strictObject({ kind: z.literal("image"), assetId: id, streamId: id, ...layerIdentity }),
       ]),
     ),
   })

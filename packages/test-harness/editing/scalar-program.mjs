@@ -20,7 +20,6 @@ const doc = {
   groups: [],
   processing: [],
   syncGroups: [],
-  captions: [],
   clips: [],
 };
 const compiler = createCompiler(validateComposition(doc, []), "scalar");

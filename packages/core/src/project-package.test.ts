@@ -66,7 +66,6 @@ test("portable manifest validates complete history bytes, undo targets, paths an
           clips: [],
           syncGroups: [],
           processing: [],
-          captions: [],
         },
       },
     ],

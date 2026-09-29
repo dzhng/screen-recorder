@@ -128,6 +128,23 @@ advertising playable media streams. Admission preserves the font bytes and names
 use caption/render operations only when advertised, and verify glyph coverage and
 actual rendered text separately. Importing a font does not install it globally.
 
+For literal captions, discover `place` with `source.kind: "text"` and `text.set`
+through `edit.apply`. Supply the literal, exact imported font face and every style
+field. Put text on a video track and choose the existing project, content or
+normalized clip anchor according to what should move with an edit. Text has no
+media stream or source clock. `text.set` replaces the text/style while preserving
+placement; it does not change a source transcript. Transcript-derived seeding is
+not advertised by this literal authoring checkpoint.
+
+The text box is a transparent source raster. Set an explicit geometry rectangle
+when its font pixels must map one-to-one to output pixels; ordinary fitting may
+scale it. Inspect the returned layout and the actual `frame.get` PNG for clipping,
+glyph coverage and contrast. A font name or echoed string does not prove visible
+text. Unsupported fallback or missing glyphs must be corrected by explicitly
+choosing another admitted face or literal. PNG output preserves canvas alpha;
+H.264 preview/export still requires opaque final pixels, including timeline gaps
+and output processing. Verify text after structural edits and package relocation.
+
 For visual layout, change the canvas for the output aspect ratio and place overlapping
 footage on separately ordered video tracks. Place imported PNG/JPEG images with
 `source: { kind: "hold", atUs: 0 }` and a project placement duration; that zero

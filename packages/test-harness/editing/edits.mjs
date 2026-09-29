@@ -34,7 +34,6 @@ if (process.argv.slice(2).join(" ") !== "--fixture linked-replacement") {
     clips: [],
     syncGroups: [],
     processing: [],
-    captions: [],
   };
   const run = (document, operations, namespace) =>
     applyBatch(document, operations, { assets, namespace });

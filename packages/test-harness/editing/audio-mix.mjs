@@ -119,7 +119,6 @@ const empty = {
   clips: [],
   processing: [],
   syncGroups: [],
-  captions: [],
 };
 function clip(id, source, trackId, startUs, endUs, sourceStartUs = 0) {
   return {
@@ -232,19 +231,27 @@ try {
     [b, "music-alac", "m4a", "alac"],
   ]) {
     const path = join(scratch, `${name}.${extension}`);
-    const encoded = spawnSync("ffmpeg", [
-      "-nostdin", "-v", "error", "-i", source.binding.path,
-      "-c:a", codec, path,
-    ], { encoding: "utf8", timeout: 30000 });
+    const encoded = spawnSync(
+      "ffmpeg",
+      ["-nostdin", "-v", "error", "-i", source.binding.path, "-c:a", codec, path],
+      { encoding: "utf8", timeout: 30000 },
+    );
     assert.equal(encoded.status, 0, encoded.stderr || String(encoded.error));
     const probe = call("media.probe", { path });
     const stream = probe.streams.find((value) => value.kind === "audio");
     const converted = {
       binding: { assetId: name, streamId: stream.id, path, originUs: probe.originUs },
-      asset: { id: name, streams: [{ id: stream.id, kind: "audio",
-        bounds: { startUs: stream.startUs, endUs: stream.endUs },
-        available: [{ startUs: stream.startUs, endUs: stream.endUs }],
-      }] },
+      asset: {
+        id: name,
+        streams: [
+          {
+            id: stream.id,
+            kind: "audio",
+            bounds: { startUs: stream.startUs, endUs: stream.endUs },
+            available: [{ startUs: stream.startUs, endUs: stream.endUs }],
+          },
+        ],
+      },
     };
     sources.push(converted);
     losslessSources.push(converted);
@@ -256,13 +263,24 @@ try {
   }
   assert.deepEqual(render(lossless).samples, mixed.samples);
   const losslessRange = { startUs: 123457, endUs: 812349 };
-  const firstLosslessSample = Math.floor(losslessRange.startUs * 48000 / 1000000);
-  const lastLosslessSample = Math.floor(losslessRange.endUs * 48000 / 1000000);
-  assert.deepEqual(render(lossless, losslessRange).samples,
-    mixed.samples.slice(firstLosslessSample * 2, lastLosslessSample * 2));
-  const losslessSplit = applyBatch(lossless, [{ operation: "split",
-    clipIds: ["voice-clip", "music-clip"], atUs: 333333, scope: "selected" }],
-    { assets: sources.map((source) => source.asset), namespace: "lossless-split" });
+  const firstLosslessSample = Math.floor((losslessRange.startUs * 48000) / 1000000);
+  const lastLosslessSample = Math.floor((losslessRange.endUs * 48000) / 1000000);
+  assert.deepEqual(
+    render(lossless, losslessRange).samples,
+    mixed.samples.slice(firstLosslessSample * 2, lastLosslessSample * 2),
+  );
+  const losslessSplit = applyBatch(
+    lossless,
+    [
+      {
+        operation: "split",
+        clipIds: ["voice-clip", "music-clip"],
+        atUs: 333333,
+        scope: "selected",
+      },
+    ],
+    { assets: sources.map((source) => source.asset), namespace: "lossless-split" },
+  );
   assert.deepEqual(render(losslessSplit.document).samples, mixed.samples);
   evidence.checks.push(
     "AIFF mono and ALAC stereo overlap preserves every WAV reference sample, fractional range and pure split",
@@ -273,59 +291,74 @@ try {
     [b, "music-mp3", "mp3", "libmp3lame", 2],
   ]) {
     const path = join(scratch, `${name}.${extension}`);
-    const encoded = spawnSync("ffmpeg", ["-nostdin", "-v", "error", "-i",
-      source.binding.path, "-c:a", codec, "-b:a", "192k", path],
-      { encoding: "utf8", timeout: 30000 });
+    const encoded = spawnSync(
+      "ffmpeg",
+      ["-nostdin", "-v", "error", "-i", source.binding.path, "-c:a", codec, "-b:a", "192k", path],
+      { encoding: "utf8", timeout: 30000 },
+    );
     assert.equal(encoded.status, 0, encoded.stderr || String(encoded.error));
     const probe = call("media.probe", { path });
     const stream = probe.streams.find((value) => value.kind === "audio");
     const available = [{ startUs: stream.startUs, endUs: stream.endUs }];
     const converted = {
       binding: { assetId: name, streamId: stream.id, path, originUs: probe.originUs },
-      asset: { id: name, streams: [{ id: stream.id, kind: "audio",
-        bounds: available[0], available }] },
+      asset: {
+        id: name,
+        streams: [{ id: stream.id, kind: "audio", bounds: available[0], available }],
+      },
     };
     sources.push(converted);
     const decoded = call("media.sourceAudio", {
       source: { source: path, streamId: stream.id, sourceOffsetUs: -probe.originUs, available },
-      range: { startUs: 0, endUs: 1000000 }, output: join(scratch, `${name}-decoded.wav`),
+      range: { startUs: 0, endUs: 1000000 },
+      output: join(scratch, `${name}-decoded.wav`),
     });
     assert.equal(decoded.frames, 48000);
     compressed.push({ source: converted, pcm: wave(decoded.file, true, channels), channels });
   }
-  const compressedDoc = { ...empty,
+  const compressedDoc = {
+    ...empty,
     tracks: compressed.map((_, i) => ({ id: `compressed-${i}`, kind: "audio", order: i })),
-    clips: compressed.map((value, i) => clip(`compressed-${i}`, value.source,
-      `compressed-${i}`, 0, 1000000)),
+    clips: compressed.map((value, i) =>
+      clip(`compressed-${i}`, value.source, `compressed-${i}`, 0, 1000000),
+    ),
   };
   const compressedMix = render(compressedDoc).samples;
   for (let i = 0; i < compressedMix.length; i++)
-    assert.equal(compressedMix[i], Math.fround(compressed[0].pcm[Math.floor(i / 2)]
-      + compressed[1].pcm[i]), `compressed overlap sample ${i}`);
+    assert.equal(
+      compressedMix[i],
+      Math.fround(compressed[0].pcm[Math.floor(i / 2)] + compressed[1].pcm[i]),
+      `compressed overlap sample ${i}`,
+    );
   const compressedRange = { startUs: 123457, endUs: 812349 };
   const compressedWindow = render(compressedDoc, compressedRange).samples;
   const compressedExpected = compressedMix.slice(
-    Math.floor(compressedRange.startUs * 48000 / 1000000) * 2,
-    Math.floor(compressedRange.endUs * 48000 / 1000000) * 2);
+    Math.floor((compressedRange.startUs * 48000) / 1000000) * 2,
+    Math.floor((compressedRange.endUs * 48000) / 1000000) * 2,
+  );
   assert.deepEqual(compressedWindow, compressedExpected);
-  evidence.checks.push("AAC mono and MP3 stereo mix matches selected-source decode and fractional range");
+  evidence.checks.push(
+    "AAC mono and MP3 stereo mix matches selected-source decode and fractional range",
+  );
   evidence.compressedEndpoints = [];
   for (const value of compressed) {
     const endUs = value.source.asset.streams[0].bounds.endUs;
-    const endDocument = { ...empty,
+    const endDocument = {
+      ...empty,
       tracks: [{ id: "endpoint", kind: "audio", order: 0 }],
       clips: [clip("endpoint", value.source, "endpoint", 0, endUs)],
     };
     const full = render(endDocument, { startUs: 0, endUs });
-    assert.equal(full.result.frames, Math.floor(endUs * 48000 / 1000000));
+    assert.equal(full.result.frames, Math.floor((endUs * 48000) / 1000000));
     assert.equal(full.samples.length, full.result.frames * 2);
     const range = { startUs: endUs - 20003, endUs };
     const tail = render(endDocument, range);
-    const expected = full.samples.slice(Math.floor(range.startUs * 48000 / 1000000) * 2);
+    const expected = full.samples.slice(Math.floor((range.startUs * 48000) / 1000000) * 2);
     assert.equal(tail.samples.length, expected.length);
     assert.equal(tail.result.frames, expected.length / 2);
     assert.deepEqual(tail.result.unavailable, [{ clipId: "endpoint", ranges: [] }]);
-    let maximumError = 0, sumSquaredError = 0;
+    let maximumError = 0,
+      sumSquaredError = 0;
     for (let i = 0; i < expected.length; i++) {
       const error = Math.abs(tail.samples[i] - expected[i]);
       maximumError = Math.max(maximumError, error);
@@ -334,12 +367,22 @@ try {
     const rmsError = Math.sqrt(sumSquaredError / expected.length);
     // Only AAC has the independently established one-PCM16-step seek allowance.
     const limit = value.source.binding.assetId === "voice-aac" ? 1 / 32768 : 0;
-    assert.ok(limit ? maximumError < limit && rmsError < limit : maximumError === 0,
-      `${value.source.binding.assetId} tail maximum=${maximumError} rms=${rmsError}`);
-    evidence.compressedEndpoints.push({ asset: value.source.binding.assetId, endUs,
-      fullFrames: full.result.frames, tailFrames: tail.result.frames, maximumError, rmsError });
+    assert.ok(
+      limit ? maximumError < limit && rmsError < limit : maximumError === 0,
+      `${value.source.binding.assetId} tail maximum=${maximumError} rms=${rmsError}`,
+    );
+    evidence.compressedEndpoints.push({
+      asset: value.source.binding.assetId,
+      endUs,
+      fullFrames: full.result.frames,
+      tailFrames: tail.result.frames,
+      maximumError,
+      rmsError,
+    });
   }
-  evidence.checks.push("compressed native endpoints retain exact counts and declared full/tail seek parity");
+  evidence.checks.push(
+    "compressed native endpoints retain exact counts and declared full/tail seek parity",
+  );
   const withSilence = structuredClone(document);
   withSilence.tracks.push({ id: "silent-track", kind: "audio", order: 2 });
   withSilence.clips.push({
@@ -510,15 +553,31 @@ try {
   };
   const mixedRatePcm = render(mixedRates).samples;
   for (let i = 0; i < mixedRatePcm.length; i++)
-    assert.equal(mixedRatePcm[i], Math.fround(resampled.samples[i] + b.samples[i]),
-      `mixed-rate sample ${i}`);
+    assert.equal(
+      mixedRatePcm[i],
+      Math.fround(resampled.samples[i] + b.samples[i]),
+      `mixed-rate sample ${i}`,
+    );
   const mixedRateRange = { startUs: 123457, endUs: 812349 };
-  assert.deepEqual(render(mixedRates, mixedRateRange).samples,
-    mixedRatePcm.slice(Math.floor(mixedRateRange.startUs * 48000 / 1000000) * 2,
-      Math.floor(mixedRateRange.endUs * 48000 / 1000000) * 2));
-  const mixedRateSplit = applyBatch(mixedRates, [{ operation: "split",
-    clipIds: ["resampled", "native-rate"], atUs: 333333, scope: "selected" }],
-    { assets: sources.map((source) => source.asset), namespace: "mixed-rate-split" });
+  assert.deepEqual(
+    render(mixedRates, mixedRateRange).samples,
+    mixedRatePcm.slice(
+      Math.floor((mixedRateRange.startUs * 48000) / 1000000) * 2,
+      Math.floor((mixedRateRange.endUs * 48000) / 1000000) * 2,
+    ),
+  );
+  const mixedRateSplit = applyBatch(
+    mixedRates,
+    [
+      {
+        operation: "split",
+        clipIds: ["resampled", "native-rate"],
+        atUs: 333333,
+        scope: "selected",
+      },
+    ],
+    { assets: sources.map((source) => source.asset), namespace: "mixed-rate-split" },
+  );
   assert.deepEqual(render(mixedRateSplit.document).samples, mixedRatePcm);
   evidence.checks.push(
     "simultaneous44.1k mono and48k stereo sum exactly after resampling, retaining fractional window and split phase",

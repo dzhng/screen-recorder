@@ -39,7 +39,6 @@ const document = {
     },
   ],
   syncGroups: [],
-  captions: [],
 };
 const assets = [
   {
@@ -242,7 +241,6 @@ const ordered = {
     },
   ],
   syncGroups: [],
-  captions: [],
 };
 const reordered = createCompiler(validateComposition(ordered, admitted), "reordered-av");
 const total = reordered.window({

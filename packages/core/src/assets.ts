@@ -596,6 +596,7 @@ export class AssetStore {
 export function compositionAsset(asset: Asset): CompositionAsset {
   return {
     id: asset.id,
+    ...(asset.fontFaces ? { fontFaces: asset.fontFaces.map((face) => face.postScriptName) } : {}),
     streams: asset.streams.flatMap((stream): CompositionAsset["streams"] => {
       if (!stream.decodable || stream.kind === "unsupported") return [];
       if (stream.kind === "image")

@@ -30,13 +30,20 @@ public final class CompositionPictureExecutor {
         struct Layer: Codable {
             let clipId: String
             let trackId: String
-            let assetId: String
-            let streamId: String
+            let assetId: String?
+            let streamId: String?
+            let text: TextSource?
             let kind: String
             let sourceUs: Int64?
             let availability: String
             let width: Double
             let height: Double
+            func mediaKey() throws -> String {
+                guard let assetId, let streamId, text == nil else {
+                    throw NativeFailure("INVALID_REQUEST", "Media layers require an asset stream binding.")
+                }
+                return assetId + "\u{0}" + streamId
+            }
         }
         struct Node: Codable, Equatable {
             let target: CompositionProcessing.Target
@@ -83,6 +90,7 @@ public final class CompositionPictureExecutor {
         var actualSourceUs: Int64? = nil
         var sample: Sample? = nil
         var reason: String? = nil
+        var layout: TextLayout? = nil
     }
     private struct LayerKey: Equatable {
         let clipId: String
@@ -90,6 +98,7 @@ public final class CompositionPictureExecutor {
         let binding: String
         let sampleTime: CMTime?
         let available: Bool
+        var text: TextSource? = nil
     }
     private struct PointerRasterKey: Equatable {
         let clipId: String
@@ -117,7 +126,9 @@ public final class CompositionPictureExecutor {
     private let preparedPointers: PreparedPointers?
     private let canvas: Canvas
     private let assets: [String: CompositionAsset]
+    private let fonts: [String: FontAssetBinding]
     private let background: CIImage
+    private let backgroundIsOpaque: Bool
     let color = CVImageBufferCreateColorSpaceFromAttachments(
         [
             kCVImageBufferColorPrimariesKey as String: kCVImageBufferColorPrimaries_ITU_R_709_2,
@@ -137,6 +148,7 @@ public final class CompositionPictureExecutor {
     ])
     private var readers: [String: Reader] = [:]
     private var stills: [String: StillImageSource] = [:]
+    private var texts: [TextSource: TextRaster] = [:]
     private(set) var decodedImages = 0
     private var decoded = 0
     private(set) var opens = 0
@@ -148,7 +160,7 @@ public final class CompositionPictureExecutor {
     private(set) var outputIsKnownOpaque = false
     var decodedSamples: Int { decoded + readers.values.reduce(0) { $0 + $1.source.decodedCount } }
 
-    init(canvas: Canvas, bindings: [CompositionAsset], pointers: PreparedPointersReceipt? = nil)
+    init(canvas: Canvas, bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], pointers: PreparedPointersReceipt? = nil)
         throws
     {
         self.preparedPointers = try pointers.map(PreparedPointers.init)
@@ -160,9 +172,16 @@ public final class CompositionPictureExecutor {
                 throw Self.invalid("Duplicate source binding.")
             }
         }
-        self.background = try Self.background(canvas)
+        let background = try Self.background(canvas)
+        self.background = background.image
+        self.backgroundIsOpaque = background.opaque
         self.canvas = canvas
         self.assets = assets
+        var fontBindings: [String: FontAssetBinding] = [:]
+        for font in fonts {
+            guard fontBindings.updateValue(font, forKey: font.assetId) == nil else { throw Self.invalid("Duplicate font asset binding.") }
+        }
+        self.fonts = fontBindings
     }
 
     func render(_ frame: Frame, allocate: (CVPixelBuffer?) async throws -> CVPixelBuffer)
@@ -182,15 +201,22 @@ public final class CompositionPictureExecutor {
         for id in readers.keys where !videoActive.contains(id) {
             decoded += readers.removeValue(forKey: id)!.source.decodedCount
         }
-        let imageBindings = Set(
-            frame.layers.filter { $0.kind == "image" }.map { $0.assetId + "\u{0}" + $0.streamId })
+        let imageBindings = try Set(
+            frame.layers.filter { $0.kind == "image" }.map { try $0.mediaKey() })
         stills = stills.filter { imageBindings.contains($0.key) }
+        let activeTexts = Set(frame.layers.filter { $0.kind == "text" && $0.availability == "available" }.compactMap(\.text))
+        texts = texts.filter { activeTexts.contains($0.key) }
         var media: [String: PresentationSource.Media] = [:]
         for reader in readers.values { media[reader.binding] = reader.source.media }
         var decodedPixels: Int64 = 0
         for layer in frame.layers {
             try Task.checkCancellation()
-            let key = layer.assetId + "\u{0}" + layer.streamId
+            if layer.kind == "text" {
+                guard let text = layer.text, layer.assetId == nil, layer.streamId == nil, layer.sourceUs == nil,
+                    layer.width == Double(text.width), layer.height == Double(text.height) else { throw Self.invalid("Invalid text layer identity.") }
+                continue
+            }
+            let key = try layer.mediaKey()
             guard let asset = assets[key] else {
                 throw Self.invalid("Missing retained source binding.")
             }
@@ -217,13 +243,13 @@ public final class CompositionPictureExecutor {
             decodedPixels
             + stills.values.reduce(0) {
                 $0 + Int64($1.width) * Int64($1.height)
-            }
+            } + texts.values.reduce(0) { $0 + $1.pixels }
         try Self.requireBudget(
             "decoded-source-pixels", requested: reservedPixels,
             limit: Self.maximumDecodedPixels, frame: frame.index)
         for layer in frame.layers where layer.kind == "image" {
             try Task.checkCancellation()
-            let key = layer.assetId + "\u{0}" + layer.streamId
+            let key = try layer.mediaKey()
             if stills[key] == nil {
                 let remaining = Self.maximumDecodedPixels - reservedPixels
                 guard remaining > 0 else {
@@ -243,6 +269,15 @@ public final class CompositionPictureExecutor {
                 decodedImages += 1
             }
         }
+        for text in activeTexts where texts[text] == nil {
+            guard text.width > 0, text.width <= 4096, text.height > 0, text.height <= 4096 else { throw Self.invalid("Invalid text raster dimensions.") }
+            let pixels = Int64(text.width) * Int64(text.height)
+            try Self.requireBudget("decoded-source-pixels", requested: reservedPixels + pixels,
+                limit: Self.maximumDecodedPixels, frame: frame.index)
+            guard let binding = fonts[text.font.assetId] else { throw Self.invalid("Missing retained font binding.") }
+            texts[text] = try TextRaster(text, binding: binding)
+            reservedPixels += pixels
+        }
         coverageMasks = coverageMasks.filter { requiredMasks.contains($0.key) }
         let canvasRect = CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height)
         let transparent = CIImage(color: .clear).cropped(to: canvasRect)
@@ -253,7 +288,18 @@ public final class CompositionPictureExecutor {
             try Task.checkCancellation()
             guard layer.width > 0, layer.height > 0, layer.width <= 32768, layer.height <= 32768
             else { throw Self.invalid("Invalid compiled layer.") }
-            let binding = layer.assetId + "\u{0}" + layer.streamId
+            if layer.kind == "text", let text = layer.text {
+                guard layer.availability == "available" || layer.availability == "anchor-unavailable" else { throw Self.invalid("Invalid text availability.") }
+                let available = layer.availability == "available"
+                let raster = texts[text]
+                pictures.append(Picture(kind: "text", status: available ? "available" : "unavailable",
+                    clipId: layer.clipId, reason: available ? nil : layer.availability, layout: available ? raster?.layout : nil))
+                keys.append(LayerKey(clipId: layer.clipId, reader: 0, binding: text.font.assetId,
+                    sampleTime: nil, available: available, text: text))
+                surfaces[.init(kind: "clip", id: layer.clipId)] = available ? raster!.image : CIImage(color: .clear).cropped(to: CGRect(x: 0, y: 0, width: text.width, height: text.height))
+                continue
+            }
+            let binding = try layer.mediaKey()
             guard let asset = assets[binding] else {
                 throw Self.invalid("Missing retained source binding.")
             }
@@ -366,7 +412,7 @@ public final class CompositionPictureExecutor {
             }
         }
         outputIsKnownOpaque =
-            frame.visual.last!.target.kind == "output" && frame.visual.last!.operations.isEmpty
+            backgroundIsOpaque && frame.visual.last!.target.kind == "output" && frame.visual.last!.operations.isEmpty
         let rasterKey = RasterKey(layers: keys, visual: frame.visual, pointers: pointerKeys)
         // Identical keys also identify an already-validated graph. Every new evidence row
         // was consumed above, but held pixels need neither glyph nor primitive rasterization.
@@ -620,19 +666,20 @@ public final class CompositionPictureExecutor {
         }
     }
 
-    private static func background(_ canvas: Canvas) throws -> CIImage {
+    private static func background(_ canvas: Canvas) throws -> (image: CIImage, opaque: Bool) {
         guard canvas.background.count == 9, canvas.background.first == "#",
-            let rgba = UInt32(canvas.background.dropFirst(), radix: 16), rgba & 255 == 255
+            let rgba = UInt32(canvas.background.dropFirst(), radix: 16)
         else {
-            throw unsupported("H.264 canvas requires an opaque RGBA background.")
+            throw invalid("Canvas requires an RGBA background.")
         }
-        return CIImage(
+        let image = CIImage(
             color: CIColor(
                 red: CGFloat((rgba >> 24) & 255) / 255,
                 green: CGFloat((rgba >> 16) & 255) / 255, blue: CGFloat((rgba >> 8) & 255) / 255,
-                alpha: 1)
+                alpha: CGFloat(rgba & 255) / 255)
         )
         .cropped(to: CGRect(x: 0, y: 0, width: canvas.width, height: canvas.height))
+        return (image, rgba & 255 == 255)
     }
     private static func invalid(_ message: String) -> NativeFailure {
         NativeFailure("INVALID_REQUEST", message)

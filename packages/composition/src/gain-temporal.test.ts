@@ -23,7 +23,6 @@ const document = {
   },
   tracks: [{ id: "a", kind: "audio", order: 0 }],
   groups: [],
-  captions: [],
   syncGroups: [],
   clips: [
     {

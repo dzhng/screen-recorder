@@ -12,6 +12,7 @@ public enum CompositionFrameRenderer {
         let profile: String
         let processing: [CompositionProcessing]
         public let assets: [CompositionAsset]
+        public let fonts: [FontAssetBinding]?
         let maxLongEdge: Int?
         let maxEncodedBytes: Int?
         let pointers: PreparedPointersReceipt?
@@ -47,7 +48,7 @@ public enum CompositionFrameRenderer {
             frame.visibleRange.endUs <= TimeSpan.maximumMicroseconds
         else { throw NativeFailure("INVALID_REQUEST", "Invalid compiled picture or image limits.") }
         let pictures = try CompositionPictureExecutor(
-            canvas: request.canvas, bindings: request.assets, pointers: request.pointers)
+            canvas: request.canvas, bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }
         let buffer = try await pictures.render(frame) { _ in

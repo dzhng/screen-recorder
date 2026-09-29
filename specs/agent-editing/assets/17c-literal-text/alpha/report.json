@@ -1,0 +1,986 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    }
+  ],
+  "pictures": [
+    {
+      "name": "half-alpha",
+      "selection": {
+        "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+        "revisionId": "a923bda8-b11a-4e4b-b62a-15fb0e19374b",
+        "atUs": 0
+      },
+      "sha256": "97f47e21629f16b7f2fa6f08ecb85d28f30a1b904e7d8e31fa2645ac87764ef9",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-hg2Dq4/library/cache/derived/24fc79ee-5929-4174-987e-083bc321c2b5.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 3877,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Alpha",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:6620b9fc8a7290f894d87a454647ea8eb438f2bed3ef73339366c47fa3e2fcb9:1",
+              "trackId": "track:6620b9fc8a7290f894d87a454647ea8eb438f2bed3ef73339366c47fa3e2fcb9:0",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:6620b9fc8a7290f894d87a454647ea8eb438f2bed3ef73339366c47fa3e2fcb9:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Alpha",
+              "visibleRange": [
+                0,
+                5
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    5
+                  ],
+                  "text": "Alpha",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 81.84375,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+        "revisionId": "a923bda8-b11a-4e4b-b62a-15fb0e19374b",
+        "cacheId": "24fc79ee-5929-4174-987e-083bc321c2b5"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "translucent-canvas-movie-refused",
+      "result": {
+        "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+        "revisionId": "a923bda8-b11a-4e4b-b62a-15fb0e19374b",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 8000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        },
+        "state": "failed",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false,
+        "jobId": "340f5093-740f-45d4-b1cd-8c13445abe83",
+        "published": null,
+        "delivery": null
+      },
+      "job": {
+        "jobId": "340f5093-740f-45d4-b1cd-8c13445abe83",
+        "attemptId": "d7e64600-2971-4f5c-ac40-4b6936d05b0a",
+        "artifact": "preview",
+        "lane": "heavy",
+        "input": "{\"range\":{\"startUs\":0,\"endUs\":1000000},\"settings\":{\"container\":\"mp4\",\"video\":{\"codec\":\"h264\",\"color\":\"rec709\",\"rateControl\":{\"mode\":\"average\",\"bitrate\":8000000},\"profile\":\"high\",\"level\":\"auto\",\"keyframeInterval\":120,\"keyframeIntervalSeconds\":2,\"frameReordering\":false,\"entropy\":\"cabac\",\"temporalCompression\":true,\"openGop\":false,\"prioritizeSpeed\":false,\"powerEfficient\":false,\"dataRateLimits\":[],\"bufferDurationSeconds\":null,\"initialBufferDelayPercent\":null,\"spatialAdaptiveQuantization\":true,\"lookAheadFrames\":null,\"nonDroppableFrameRate\":null,\"minimumQuantizer\":null,\"maximumQuantizer\":null},\"audio\":{\"codec\":\"aac\",\"sampleRate\":48000,\"layout\":\"stereo\",\"rateControl\":{\"mode\":\"constant\",\"bitrate\":192000},\"quality\":\"high\"}},\"implementationId\":\"native-composition-movie-v13\"}",
+        "state": "failed",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false,
+        "generation": 1,
+        "errorCode": "NOT_READY",
+        "errorDetails": {},
+        "target": {
+          "kind": "project",
+          "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+          "revisionId": "a923bda8-b11a-4e4b-b62a-15fb0e19374b"
+        },
+        "result": null
+      }
+    },
+    {
+      "name": "opaque-text-movie-ready",
+      "result": {
+        "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+        "revisionId": "5f3fd3ce-6855-4436-93da-745c4336af02",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 8000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "269d329c-6282-4830-a1f0-1be339341880",
+        "published": {
+          "generation": 1,
+          "preview": {
+            "audio": {
+              "channels": 2,
+              "clippedSamples": 0,
+              "decoderContext": {
+                "maximumPrerollFrames": 0,
+                "maximumTailFrames": 0,
+                "policy": "bounded-current-retained-run",
+                "sampleRate": 48000
+              },
+              "frames": 48000,
+              "maximumBlockFrames": 8192,
+              "peak": 0,
+              "peakResidentBytes": 45236224,
+              "sampleRate": 48000,
+              "unavailable": []
+            },
+            "bytes": 28856,
+            "codec": "h264",
+            "durationUs": 1000000,
+            "encodedAudio": {
+              "channels": 2,
+              "durationTimescale": 6000000,
+              "durationValue": 6000000,
+              "sampleRate": 48000
+            },
+            "encodedVideo": {
+              "level": "3.0",
+              "profile": "high"
+            },
+            "file": "/private/tmp/sr-captions-hg2Dq4/library/cache/derived/d7c188c0-5eab-41ca-a232-e54a282b326d.cache",
+            "frameCount": 8,
+            "height": 100,
+            "mediaType": "video/mp4",
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "width": 320,
+            "range": {
+              "startUs": 0,
+              "endUs": 1000000
+            },
+            "implementationId": "native-composition-movie-v13",
+            "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+            "revisionId": "5f3fd3ce-6855-4436-93da-745c4336af02",
+            "cacheId": "d7c188c0-5eab-41ca-a232-e54a282b326d"
+          }
+        },
+        "delivery": {
+          "token": "387dc288-47dc-427a-a268-f378dd950682",
+          "bytes": 28856,
+          "expiresAt": 1790644758383
+        },
+        "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-TD2Vvl/preview.mp4"
+      }
+    },
+    {
+      "name": "text-range-preview-and-full-export",
+      "exactFullBytes": true,
+      "range": {
+        "startUs": 250000,
+        "endUs": 750000
+      }
+    },
+    {
+      "name": "output-alpha-movie-refused",
+      "result": {
+        "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+        "revisionId": "f1dcfbc6-6d7b-4d44-9f6d-bf62cd01917a",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 8000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        },
+        "state": "failed",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false,
+        "jobId": "d4233b09-1aff-4066-bbf7-702dbd5571ab",
+        "published": null,
+        "delivery": null
+      },
+      "job": {
+        "jobId": "d4233b09-1aff-4066-bbf7-702dbd5571ab",
+        "attemptId": "75824a0c-6372-4ec2-a374-3622f091d8d5",
+        "artifact": "preview",
+        "lane": "heavy",
+        "input": "{\"range\":{\"startUs\":0,\"endUs\":1000000},\"settings\":{\"container\":\"mp4\",\"video\":{\"codec\":\"h264\",\"color\":\"rec709\",\"rateControl\":{\"mode\":\"average\",\"bitrate\":8000000},\"profile\":\"high\",\"level\":\"auto\",\"keyframeInterval\":120,\"keyframeIntervalSeconds\":2,\"frameReordering\":false,\"entropy\":\"cabac\",\"temporalCompression\":true,\"openGop\":false,\"prioritizeSpeed\":false,\"powerEfficient\":false,\"dataRateLimits\":[],\"bufferDurationSeconds\":null,\"initialBufferDelayPercent\":null,\"spatialAdaptiveQuantization\":true,\"lookAheadFrames\":null,\"nonDroppableFrameRate\":null,\"minimumQuantizer\":null,\"maximumQuantizer\":null},\"audio\":{\"codec\":\"aac\",\"sampleRate\":48000,\"layout\":\"stereo\",\"rateControl\":{\"mode\":\"constant\",\"bitrate\":192000},\"quality\":\"high\"}},\"implementationId\":\"native-composition-movie-v13\"}",
+        "state": "failed",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false,
+        "generation": 1,
+        "errorCode": "NOT_READY",
+        "errorDetails": {},
+        "target": {
+          "kind": "project",
+          "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+          "revisionId": "f1dcfbc6-6d7b-4d44-9f6d-bf62cd01917a"
+        },
+        "result": null
+      }
+    },
+    {
+      "name": "transparent-text-movie-refused",
+      "result": {
+        "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+        "revisionId": "f980a82f-47ef-4833-bec7-686fcc1095f7",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 8000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        },
+        "state": "failed",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false,
+        "jobId": "4e4322af-fdc0-40e3-8598-efa3eab4c1cc",
+        "published": null,
+        "delivery": null
+      },
+      "job": {
+        "jobId": "4e4322af-fdc0-40e3-8598-efa3eab4c1cc",
+        "attemptId": "c5f73ad2-331a-4848-9a7c-588449e04ed9",
+        "artifact": "preview",
+        "lane": "heavy",
+        "input": "{\"range\":{\"startUs\":0,\"endUs\":1000000},\"settings\":{\"container\":\"mp4\",\"video\":{\"codec\":\"h264\",\"color\":\"rec709\",\"rateControl\":{\"mode\":\"average\",\"bitrate\":8000000},\"profile\":\"high\",\"level\":\"auto\",\"keyframeInterval\":120,\"keyframeIntervalSeconds\":2,\"frameReordering\":false,\"entropy\":\"cabac\",\"temporalCompression\":true,\"openGop\":false,\"prioritizeSpeed\":false,\"powerEfficient\":false,\"dataRateLimits\":[],\"bufferDurationSeconds\":null,\"initialBufferDelayPercent\":null,\"spatialAdaptiveQuantization\":true,\"lookAheadFrames\":null,\"nonDroppableFrameRate\":null,\"minimumQuantizer\":null,\"maximumQuantizer\":null},\"audio\":{\"codec\":\"aac\",\"sampleRate\":48000,\"layout\":\"stereo\",\"rateControl\":{\"mode\":\"constant\",\"bitrate\":192000},\"quality\":\"high\"}},\"implementationId\":\"native-composition-movie-v13\"}",
+        "state": "failed",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false,
+        "generation": 1,
+        "errorCode": "NOT_READY",
+        "errorDetails": {},
+        "target": {
+          "kind": "project",
+          "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+          "revisionId": "f980a82f-47ef-4833-bec7-686fcc1095f7"
+        },
+        "result": null
+      }
+    },
+    {
+      "name": "opaque-cover-on-transparent-canvas-ready",
+      "result": {
+        "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+        "revisionId": "83134f8d-77bb-485d-a417-dd895797ccc5",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 8000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "17663f1a-694b-478b-915f-cc56ef463894",
+        "published": {
+          "generation": 1,
+          "preview": {
+            "audio": {
+              "channels": 2,
+              "clippedSamples": 0,
+              "decoderContext": {
+                "maximumPrerollFrames": 0,
+                "maximumTailFrames": 0,
+                "policy": "bounded-current-retained-run",
+                "sampleRate": 48000
+              },
+              "frames": 48000,
+              "maximumBlockFrames": 8192,
+              "peak": 0,
+              "peakResidentBytes": 45694976,
+              "sampleRate": 48000,
+              "unavailable": []
+            },
+            "bytes": 26852,
+            "codec": "h264",
+            "durationUs": 1000000,
+            "encodedAudio": {
+              "channels": 2,
+              "durationTimescale": 6000000,
+              "durationValue": 6000000,
+              "sampleRate": 48000
+            },
+            "encodedVideo": {
+              "level": "3.0",
+              "profile": "high"
+            },
+            "file": "/private/tmp/sr-captions-hg2Dq4/library/cache/derived/daab4f89-028e-4233-b9a3-05b7841aacff.cache",
+            "frameCount": 8,
+            "height": 100,
+            "mediaType": "video/mp4",
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "width": 320,
+            "range": {
+              "startUs": 0,
+              "endUs": 1000000
+            },
+            "implementationId": "native-composition-movie-v13",
+            "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+            "revisionId": "83134f8d-77bb-485d-a417-dd895797ccc5",
+            "cacheId": "daab4f89-028e-4233-b9a3-05b7841aacff"
+          }
+        },
+        "delivery": {
+          "token": "2e679e96-9473-4947-ab8e-aa2b97e3975c",
+          "bytes": 26852,
+          "expiresAt": 1790644770843
+        },
+        "output": "/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/screenrec-media-vUuNPK/preview.mp4"
+      }
+    },
+    {
+      "name": "transparent-gap-movie-refused",
+      "result": {
+        "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+        "revisionId": "99483aa0-a196-489c-98bb-0627a9153a6c",
+        "range": {
+          "startUs": 0,
+          "endUs": 3000000
+        },
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 8000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        },
+        "state": "failed",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false,
+        "jobId": "824832f5-23ec-4126-862e-e934428e1b1a",
+        "published": null,
+        "delivery": null
+      },
+      "job": {
+        "jobId": "824832f5-23ec-4126-862e-e934428e1b1a",
+        "attemptId": "2216d98e-089b-47a1-978d-69ae4299e326",
+        "artifact": "preview",
+        "lane": "heavy",
+        "input": "{\"range\":{\"startUs\":0,\"endUs\":3000000},\"settings\":{\"container\":\"mp4\",\"video\":{\"codec\":\"h264\",\"color\":\"rec709\",\"rateControl\":{\"mode\":\"average\",\"bitrate\":8000000},\"profile\":\"high\",\"level\":\"auto\",\"keyframeInterval\":120,\"keyframeIntervalSeconds\":2,\"frameReordering\":false,\"entropy\":\"cabac\",\"temporalCompression\":true,\"openGop\":false,\"prioritizeSpeed\":false,\"powerEfficient\":false,\"dataRateLimits\":[],\"bufferDurationSeconds\":null,\"initialBufferDelayPercent\":null,\"spatialAdaptiveQuantization\":true,\"lookAheadFrames\":null,\"nonDroppableFrameRate\":null,\"minimumQuantizer\":null,\"maximumQuantizer\":null},\"audio\":{\"codec\":\"aac\",\"sampleRate\":48000,\"layout\":\"stereo\",\"rateControl\":{\"mode\":\"constant\",\"bitrate\":192000},\"quality\":\"high\"}},\"implementationId\":\"native-composition-movie-v13\"}",
+        "state": "failed",
+        "reason": "The h264-rec709 profile requires opaque pixels after output processing.",
+        "retryable": false,
+        "generation": 1,
+        "errorCode": "NOT_READY",
+        "errorDetails": {},
+        "target": {
+          "kind": "project",
+          "projectId": "606bb887-6034-4688-b5b7-e05a4bbdae47",
+          "revisionId": "99483aa0-a196-489c-98bb-0627a9153a6c"
+        },
+        "result": null
+      }
+    }
+  ],
+  "workerSha256": "484200a9b65abd67c9c097e196eee8f3344ee9d162ba34ccc15a3e0f523112cf"
+}

@@ -2470,3 +2470,30 @@ high for identity/ownership, medium for the conservative face-count limit.
   retain their existing schemas, and no preset restricts explicit settings.
 - **Verdict:** Sound: reduces irrelevant output without adding a second schema
   owner or hiding any capability. **Confidence:** High.
+
+## Slice 17c — Literal text ownership
+
+- **Sound, high confidence — text uses the existing clip graph.** A title that
+  follows a video uses the same attachment as another visual layer. It therefore
+  splits, moves and repeats with that parent instead of needing a second caption
+  timeline. The parent explicitly approved removing the unshipped empty captions
+  field; frozen historical evidence retains its original format and build boundary.
+- **Sound, high confidence — exact font bytes stay ordinary asset dependencies.**
+  Changing a caption's font leaves its earlier revision able to undo and render.
+  One shared dependency extractor roots media and font assets for history and
+  packages. Native receives a separate font binding because a font has no playable
+  stream; it does not register fonts globally or select a face by ambient name.
+- **Sound, high confidence — layout reuse preserves literal code units.** Two
+  visually equivalent Unicode spellings may have different character ranges.
+  Raster reuse compares exact UTF-16 literals so their receipts keep the caller's
+  ranges. Reuse lives within active frame surfaces and existing pixel budgets,
+  without another persistent cache or unbounded glyph store.
+- **Sound, high confidence — canvas alpha is honored before codec admission.**
+  A transparent PNG remains transparent; an H.264 movie is admitted only when its
+  final pixels are opaque. This corrects the misplaced movie restriction in the
+  shared picture background without adding a matte or relaxing the movie gate.
+- **Sound, medium confidence — missing selected glyphs refuse separately from
+  font substitution.** A missing-glyph box from the chosen font is not proof that
+  the requested character rendered. Native refuses glyph zero as well as runs from
+  a substituted font; finite-box clipping remains the explicitly requested layout
+  behavior rather than an implicit font fallback.

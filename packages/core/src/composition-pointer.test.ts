@@ -21,7 +21,6 @@ const base = {
   },
   tracks: [{ id: "video", kind: "video", order: 0 }],
   groups: [],
-  captions: [],
   syncGroups: [],
   clips: [
     {

@@ -8,7 +8,7 @@ import {
   type ValidatedComposition,
   type ExactRange,
 } from "./model.js";
-import { compare, fromTime, subtract, type Rational, toTime } from "./rational.js";
+import { compare, fromTime, type Rational, toTime } from "./rational.js";
 import { isMediaClip, type Clip, type TimeValue } from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];

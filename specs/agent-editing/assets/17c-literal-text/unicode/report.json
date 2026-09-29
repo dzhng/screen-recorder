@@ -1,0 +1,314 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    }
+  ],
+  "pictures": [
+    {
+      "name": "distinct-unicode-literals",
+      "selection": {
+        "projectId": "9db4f8ff-ad3c-4432-a034-b14a547a0f4a",
+        "revisionId": "60b085e2-6e16-4c29-b9a1-a6b3a17847d9",
+        "atUs": 0
+      },
+      "sha256": "2f9b786659092af62b934505f0c905299c96802a43bb1cd44cfee7e3ce2019d5",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-jOsvwK/library/cache/derived/ea604d50-1cc1-4a5f-bb9f-d79fa6c5112f.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 1817,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "é",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:70239de7a863c37ed01cb82afd56dce3779b7f6bdd51477b7a4856619208ae3d:2",
+              "trackId": "track:70239de7a863c37ed01cb82afd56dce3779b7f6bdd51477b7a4856619208ae3d:0",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "é",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:70239de7a863c37ed01cb82afd56dce3779b7f6bdd51477b7a4856619208ae3d:3",
+              "trackId": "track:70239de7a863c37ed01cb82afd56dce3779b7f6bdd51477b7a4856619208ae3d:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:70239de7a863c37ed01cb82afd56dce3779b7f6bdd51477b7a4856619208ae3d:2",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "é",
+              "visibleRange": [
+                0,
+                1
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    1
+                  ],
+                  "text": "é",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 17.796875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:70239de7a863c37ed01cb82afd56dce3779b7f6bdd51477b7a4856619208ae3d:3",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "é",
+              "visibleRange": [
+                0,
+                2
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    2
+                  ],
+                  "text": "é",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 17.796875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "9db4f8ff-ad3c-4432-a034-b14a547a0f4a",
+        "revisionId": "60b085e2-6e16-4c29-b9a1-a6b3a17847d9",
+        "cacheId": "ea604d50-1cc1-4a5f-bb9f-d79fa6c5112f"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "canonical-equivalent-literals-retain-exact-layout-ranges",
+      "exactUTF16": true
+    },
+    {
+      "name": "fallback",
+      "state": "failed",
+      "job": {
+        "jobId": "13e7d23d-8dbb-4663-a0d8-8cc6bd5f6227",
+        "attemptId": "270a67e8-7e55-46a0-b105-247097960ea0",
+        "artifact": "frame",
+        "lane": "frame",
+        "input": "{\"atUs\":0,\"maxLongEdge\":1600,\"tap\":{\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}},\"implementationId\":\"native-composition-picture-v14\"}",
+        "state": "failed",
+        "reason": "FONT_SUBSTITUTED: AppleColorEmoji",
+        "retryable": false,
+        "generation": 1,
+        "errorCode": "UNSUPPORTED_MEDIA",
+        "errorDetails": {},
+        "target": {
+          "kind": "project",
+          "projectId": "9db4f8ff-ad3c-4432-a034-b14a547a0f4a",
+          "revisionId": "767ea8d6-2e50-4cfa-b1cc-33646a46f90e"
+        },
+        "result": null
+      }
+    },
+    {
+      "name": "missing",
+      "state": "failed",
+      "job": {
+        "jobId": "8a837c41-4dee-4cc1-ba29-80e190218f80",
+        "attemptId": "0821d434-01f5-473c-bc7b-8fcaed5dae5e",
+        "artifact": "frame",
+        "lane": "frame",
+        "input": "{\"atUs\":0,\"maxLongEdge\":1600,\"tap\":{\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}},\"implementationId\":\"native-composition-picture-v14\"}",
+        "state": "failed",
+        "reason": "FONT_SUBSTITUTED: LastResort",
+        "retryable": false,
+        "generation": 1,
+        "errorCode": "UNSUPPORTED_MEDIA",
+        "errorDetails": {},
+        "target": {
+          "kind": "project",
+          "projectId": "9db4f8ff-ad3c-4432-a034-b14a547a0f4a",
+          "revisionId": "d3f89e05-7a3f-4e9d-aea2-159e3a33e14d"
+        },
+        "result": null
+      }
+    }
+  ],
+  "workerSha256": "484200a9b65abd67c9c097e196eee8f3344ee9d162ba34ccc15a3e0f523112cf"
+}

@@ -105,7 +105,22 @@ export const mediaClipSchema = z
 export const silenceClipSchema = z
   .object({ ...clipFields, source: z.object({ kind: z.literal("silence") }).strict() })
   .strict();
-export const clipSchema = z.union([mediaClipSchema, silenceClipSchema]);
+export const fontReferenceSchema = z.object({ assetId: id, postScriptName: id }).strict();
+export const textSourceSchema = z
+  .object({
+    kind: z.literal("text"),
+    text: z.string().max(8192),
+    font: fontReferenceSchema,
+    width: positive.max(4096),
+    height: positive.max(4096),
+    size: finite.positive().max(512),
+    color: z.string().regex(/^#[0-9a-fA-F]{8}$/),
+    alignment: z.enum(["left", "center", "right"]),
+    wrap: z.boolean(),
+  })
+  .strict();
+export const textClipSchema = z.object({ ...clipFields, source: textSourceSchema }).strict();
+export const clipSchema = z.union([mediaClipSchema, silenceClipSchema, textClipSchema]);
 export const streamSchema = z.discriminatedUnion("kind", [
   z
     .object({
@@ -152,7 +167,9 @@ export const acquisitionContextSchema = z
   })
   .strict();
 export type AcquisitionContext = z.infer<typeof acquisitionContextSchema>;
-export const assetSchema = z.object({ id, streams: z.array(streamSchema) }).strict();
+export const assetSchema = z
+  .object({ id, streams: z.array(streamSchema), fontFaces: z.array(id).optional() })
+  .strict();
 export const routingNodeSchema = z
   .object({
     id,
@@ -281,7 +298,6 @@ export const compositionSchema = z
     clips: z.array(clipSchema),
     syncGroups: z.array(z.object({ id, clipIds: z.array(id).min(2) }).strict()),
     processing: z.array(processingStackSchema),
-    captions: z.array(z.never()).max(0),
   })
   .strict();
 
@@ -291,8 +307,20 @@ export type Anchor = z.infer<typeof anchorSchema>;
 export type MediaClip = z.infer<typeof mediaClipSchema>;
 export type Clip = z.infer<typeof clipSchema>;
 export function isMediaClip(clip: Clip): clip is MediaClip {
-  return clip.source.kind !== "silence";
+  return clip.source.kind === "range" || clip.source.kind === "hold";
 }
 export type Stream = z.infer<typeof streamSchema>;
 export type Asset = z.infer<typeof assetSchema>;
 export type Composition = z.infer<typeof compositionSchema>;
+
+export type TextSource = z.infer<typeof textSourceSchema>;
+export function clipAssetIds(clip: { source: Clip["source"]; assetId?: string }): string[] {
+  return clip.source.kind === "text"
+    ? [clip.source.font.assetId]
+    : clip.assetId === undefined
+      ? []
+      : [clip.assetId];
+}
+export function documentAssetIds(document: { clips: readonly Clip[] }): string[] {
+  return [...new Set(document.clips.flatMap(clipAssetIds))];
+}

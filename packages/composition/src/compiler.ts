@@ -146,7 +146,23 @@ function compileSchedules(
         const active = query(at);
         for (const value of active) {
           const clip = value.clip;
-          if (value.track.kind !== "video" || !isMediaClip(clip)) continue;
+          if (value.track.kind !== "video") continue;
+          if (clip.source.kind === "text") {
+            const available = value.available.some(
+              (range) => compare(range.start, at) <= 0 && compare(at, range.end) < 0,
+            );
+            layers.push({
+              kind: "text",
+              clipId: clip.id,
+              trackId: clip.trackId,
+              text: clip.source,
+              width: clip.source.width,
+              height: clip.source.height,
+              availability: available ? "available" : "anchor-unavailable",
+            });
+            continue;
+          }
+          if (!isMediaClip(clip)) continue;
           const part = value.available[firstAvailable(value.available, at)];
           const anchor = value.anchorSupport[firstAvailable(value.anchorSupport, at)];
           layers.push({

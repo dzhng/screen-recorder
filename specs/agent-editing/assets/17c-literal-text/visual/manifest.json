@@ -1,0 +1,453 @@
+[
+  {
+    "raw": "../parity/punctuation-newline-alpha.png",
+    "label": "alpha A",
+    "crop": [
+      0,
+      3,
+      119,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/punctuation-newline-alpha-control.png",
+    "label": "alpha B",
+    "crop": [
+      0,
+      3,
+      119,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/punctuation-newline-black.png",
+    "label": "black A",
+    "crop": [
+      0,
+      3,
+      119,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/punctuation-newline-black-control.png",
+    "label": "black B",
+    "crop": [
+      0,
+      3,
+      119,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/punctuation-newline-white.png",
+    "label": "white A",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/punctuation-newline-white-control.png",
+    "label": "white B",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/center-alpha.png",
+    "label": "alpha A",
+    "crop": [
+      120,
+      3,
+      240,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/center-alpha-control.png",
+    "label": "alpha B",
+    "crop": [
+      120,
+      3,
+      240,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/center-black.png",
+    "label": "black A",
+    "crop": [
+      120,
+      3,
+      240,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/center-black-control.png",
+    "label": "black B",
+    "crop": [
+      120,
+      3,
+      240,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/center-white.png",
+    "label": "white A",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/center-white-control.png",
+    "label": "white B",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/right-alpha.png",
+    "label": "alpha A",
+    "crop": [
+      241,
+      3,
+      361,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/right-alpha-control.png",
+    "label": "alpha B",
+    "crop": [
+      241,
+      3,
+      361,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/right-black.png",
+    "label": "black A",
+    "crop": [
+      241,
+      3,
+      361,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/right-black-control.png",
+    "label": "black B",
+    "crop": [
+      241,
+      3,
+      361,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/right-white.png",
+    "label": "white A",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/right-white-control.png",
+    "label": "white B",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/long-word-alpha.png",
+    "label": "alpha A",
+    "crop": [
+      0,
+      3,
+      118,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/long-word-alpha-control.png",
+    "label": "alpha B",
+    "crop": [
+      0,
+      3,
+      118,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/long-word-black.png",
+    "label": "black A",
+    "crop": [
+      0,
+      3,
+      118,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/long-word-black-control.png",
+    "label": "black B",
+    "crop": [
+      0,
+      3,
+      118,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/long-word-white.png",
+    "label": "white A",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/long-word-white-control.png",
+    "label": "white B",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/height-clipped-alpha.png",
+    "label": "alpha A",
+    "crop": [
+      0,
+      3,
+      120,
+      40
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/height-clipped-alpha-control.png",
+    "label": "alpha B",
+    "crop": [
+      0,
+      3,
+      120,
+      40
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/height-clipped-black.png",
+    "label": "black A",
+    "crop": [
+      0,
+      3,
+      120,
+      40
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/height-clipped-black-control.png",
+    "label": "black B",
+    "crop": [
+      0,
+      3,
+      120,
+      40
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/height-clipped-white.png",
+    "label": "white A",
+    "crop": [
+      0,
+      0,
+      118,
+      40
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/height-clipped-white-control.png",
+    "label": "white B",
+    "crop": [
+      0,
+      0,
+      118,
+      40
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/width-clipped-alpha.png",
+    "label": "alpha A",
+    "crop": [
+      0,
+      3,
+      119,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/width-clipped-alpha-control.png",
+    "label": "alpha B",
+    "crop": [
+      0,
+      3,
+      119,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/width-clipped-black.png",
+    "label": "black A",
+    "crop": [
+      0,
+      3,
+      119,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/width-clipped-black-control.png",
+    "label": "black B",
+    "crop": [
+      0,
+      3,
+      119,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/width-clipped-white.png",
+    "label": "white A",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../parity/width-clipped-white-control.png",
+    "label": "white B",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../faces-package/original-face.png",
+    "label": "original-face",
+    "crop": [
+      0,
+      3,
+      120,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../faces-package/same-name-distinct-asset.png",
+    "label": "same-name-distinct-asset",
+    "crop": [
+      0,
+      0,
+      118,
+      44
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../faces-package/AlBayan.png",
+    "label": "AlBayan",
+    "crop": [
+      0,
+      12,
+      118,
+      57
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../faces-package/AlBayan-Bold.png",
+    "label": "AlBayan-Bold",
+    "crop": [
+      0,
+      10,
+      118,
+      55
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "../alpha/half-alpha.png",
+    "label": "RGBA canvas",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  }
+]

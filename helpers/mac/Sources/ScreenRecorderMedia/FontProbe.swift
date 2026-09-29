@@ -12,19 +12,12 @@ enum FontProbe {
         guard CTFontManagerCreateFontDescriptorsFromURL(url as CFURL) != nil else { return nil }
         // Only the hashed data fork supplies faces; URL/resource-fork or installed-font state is not a dependency.
         let data = try Data(contentsOf: url, options: .mappedIfSafe)
-        guard let descriptors = CTFontManagerCreateFontDescriptorsFromData(data as CFData)
-            as? [CTFontDescriptor], !descriptors.isEmpty else {
-            throw NativeFailure("UNSUPPORTED_MEDIA", "Font faces must be contained in the admitted file bytes.")
-        }
-        guard descriptors.count <= 256 else {
-            throw NativeFailure("UNSUPPORTED_MEDIA", "Font collection exceeds 256 faces.")
-        }
-        var names = Set<String>()
+        let descriptors = try FontFile.descriptors(data)
         var faces: [ProbedFontFace] = []
         for descriptor in descriptors {
             try Task.checkCancellation()
             guard let name = CTFontDescriptorCopyAttribute(descriptor, kCTFontNameAttribute)
-                as? String, !name.isEmpty, names.insert(name).inserted else {
+                as? String, !name.isEmpty else {
                 throw NativeFailure("UNSUPPORTED_MEDIA", "Font faces require unique PostScript names within the file.")
             }
             let font = CTFontCreateWithFontDescriptor(descriptor, 12, nil)

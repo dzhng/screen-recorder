@@ -21,14 +21,19 @@ export function visualPlanner(
         let pixelBounds: { x: number; y: number; width: number; height: number } | undefined;
         let sourceSpace = node.target.kind === "clip";
         if (node.target.kind === "clip") {
-          const stream = clips.get(node.target.id)!.stream;
-          if (!stream || stream.kind === "audio")
-            throw new CompositionError(
-              "INVALID_COMPOSITION",
-              "Visual target has no picture domain",
-            );
-          domain = { width: stream.width, height: stream.height };
-          pixelBounds = stream.kind === "video" ? stream.pixelBounds : undefined;
+          const resolved = clips.get(node.target.id)!;
+          const stream = resolved.stream;
+          if (resolved.clip.source.kind === "text")
+            domain = { width: resolved.clip.source.width, height: resolved.clip.source.height };
+          else {
+            if (!stream || stream.kind === "audio")
+              throw new CompositionError(
+                "INVALID_COMPOSITION",
+                "Visual target has no picture domain",
+              );
+            domain = { width: stream.width, height: stream.height };
+            pixelBounds = stream.kind === "video" ? stream.pixelBounds : undefined;
+          }
         }
         const operations: VisualOperation[] = [];
         const geometryPrefix: number[] = [];

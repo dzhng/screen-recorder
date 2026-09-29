@@ -1,0 +1,91 @@
+{
+  "projectId": "091651ec-950e-4f56-a5c6-cf9b9fc872c4",
+  "expectedRevisionId": "533e6a91-ab54-4c14-9df1-a2fa6d470134",
+  "requestId": "fresh-caption-place-1",
+  "operations": [
+    {
+      "operation": "track.add",
+      "track": {
+        "kind": "video",
+        "order": 0
+      },
+      "label": "captions"
+    },
+    {
+      "operation": "place",
+      "clip": {
+        "trackId": {
+          "label": "captions"
+        },
+        "placement": {
+          "kind": "project",
+          "range": {
+            "startUs": 0,
+            "endUs": 3000000
+          }
+        },
+        "source": {
+          "kind": "text",
+          "text": "Literal captions\nMade for agents",
+          "font": {
+            "assetId": "d72db21f9242aedd6b917d8549ad5921766b24d5f8d0becfda2ff4c620b3c2e0",
+            "postScriptName": "Arial-BoldMT"
+          },
+          "width": 560,
+          "height": 160,
+          "size": 36,
+          "color": "#ffd166ff",
+          "alignment": "center",
+          "wrap": true
+        }
+      },
+      "label": "caption"
+    },
+    {
+      "operation": "processing.set",
+      "target": {
+        "kind": "clip",
+        "id": {
+          "label": "caption"
+        }
+      },
+      "steps": [
+        {
+          "enabled": true,
+          "window": {
+            "kind": "project",
+            "range": {
+              "startUs": 0,
+              "endUs": 3000000
+            }
+          },
+          "processor": {
+            "type": "geometry",
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "width": 560,
+              "height": 160
+            },
+            "rect": {
+              "x": 40,
+              "y": 100,
+              "width": 560,
+              "height": 160
+            },
+            "fit": "contain",
+            "scale": {
+              "x": 1,
+              "y": 1
+            },
+            "rotationDeg": 0,
+            "pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

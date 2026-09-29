@@ -6,11 +6,13 @@ import {
   selectionRangeSchema,
   type SelectionRange,
   type TimeValue,
+  type TextSource,
 } from "./schema.js";
 
 type Resolved = ValidatedComposition["clips"][number];
 export type ProjectCutSide = { clipId: string } & (
   | { kind: "silence" }
+  | { kind: "text"; text: TextSource }
   | {
       kind: "range" | "hold";
       assetId: string;
@@ -32,6 +34,7 @@ export type ProjectCut = {
 function side(value: Resolved | undefined, at: Rational): ProjectCutSide | null {
   if (!value) return null;
   const clip = value.clip;
+  if (clip.source.kind === "text") return { clipId: clip.id, kind: "text", text: clip.source };
   if (!isMediaClip(clip)) return { clipId: clip.id, kind: "silence" };
   return {
     clipId: clip.id,
@@ -46,6 +49,10 @@ function side(value: Resolved | undefined, at: Rational): ProjectCutSide | null 
 function continuous(a: ProjectCutSide | null, b: ProjectCutSide | null) {
   if (!a || !b || a.kind !== b.kind) return false;
   if (a.kind === "silence" || b.kind === "silence") return true;
+  if (a.kind === "text" || b.kind === "text")
+    return (
+      a.kind === "text" && b.kind === "text" && JSON.stringify(a.text) === JSON.stringify(b.text)
+    );
   return (
     a.assetId === b.assetId &&
     a.streamId === b.streamId &&

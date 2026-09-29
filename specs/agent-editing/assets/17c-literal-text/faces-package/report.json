@@ -1,0 +1,908 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "package.open",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "package.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "package.adopt",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "package.adopt",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.undo",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "pictures": [
+    {
+      "name": "original-face",
+      "selection": {
+        "projectId": "37c50554-b503-430d-a7f9-44f7ba32694f",
+        "revisionId": "c018068d-ee46-410f-94f8-23b533fc246d",
+        "atUs": 0
+      },
+      "sha256": "d493bb87d9bb1d3617fb997e066f862da6e9f0d4af8d964dede210eeb2e398ac",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-8PRtrD/library/cache/derived/af40ad24-8ccf-49c6-80cb-98758a6f8e62.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 5672,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Exact face identity",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+              "trackId": "track:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Exact face identity",
+              "visibleRange": [
+                0,
+                19
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    19
+                  ],
+                  "text": "Exact face identity",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 259.6875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "37c50554-b503-430d-a7f9-44f7ba32694f",
+        "revisionId": "c018068d-ee46-410f-94f8-23b533fc246d",
+        "cacheId": "af40ad24-8ccf-49c6-80cb-98758a6f8e62"
+      }
+    },
+    {
+      "name": "same-name-distinct-asset",
+      "selection": {
+        "projectId": "37c50554-b503-430d-a7f9-44f7ba32694f",
+        "revisionId": "213ad5c7-d05d-4ae2-b202-7392a7ef3b5e",
+        "atUs": 0
+      },
+      "sha256": "9c17f9869bbe86b0c5853e2118d5b056c0674992dbfff6e1cbdeb34165f017c4",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-8PRtrD/library/cache/derived/1e836199-bb6c-4547-a1e6-716ce5084adc.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 2818,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Exact face identity",
+                "font": {
+                  "assetId": "9d27d1c21ada1ca7da3cddd2ab6c58267a1198de9d04d8a172c61341bc4c6244",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+              "trackId": "track:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "9d27d1c21ada1ca7da3cddd2ab6c58267a1198de9d04d8a172c61341bc4c6244",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Exact face identity",
+              "visibleRange": [
+                0,
+                19
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    19
+                  ],
+                  "text": "Exact face identity",
+                  "origin": [
+                    0,
+                    14
+                  ],
+                  "width": 129.84375,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "37c50554-b503-430d-a7f9-44f7ba32694f",
+        "revisionId": "213ad5c7-d05d-4ae2-b202-7392a7ef3b5e",
+        "cacheId": "1e836199-bb6c-4547-a1e6-716ce5084adc"
+      }
+    },
+    {
+      "name": "adopted-distinct-asset",
+      "selection": {
+        "projectId": "d68675ab-a408-42f9-9520-ea08e05abfd5",
+        "revisionId": "ec4d9a28-43ff-4d23-9f02-5465f87792ac",
+        "atUs": 0
+      },
+      "sha256": "9c17f9869bbe86b0c5853e2118d5b056c0674992dbfff6e1cbdeb34165f017c4",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-8PRtrD/recipient/library/cache/derived/bf3e7c7f-31de-4f48-965b-bc882df960a2.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 2818,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Exact face identity",
+                "font": {
+                  "assetId": "9d27d1c21ada1ca7da3cddd2ab6c58267a1198de9d04d8a172c61341bc4c6244",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+              "trackId": "track:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "9d27d1c21ada1ca7da3cddd2ab6c58267a1198de9d04d8a172c61341bc4c6244",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Exact face identity",
+              "visibleRange": [
+                0,
+                19
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    19
+                  ],
+                  "text": "Exact face identity",
+                  "origin": [
+                    0,
+                    14
+                  ],
+                  "width": 129.84375,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "d68675ab-a408-42f9-9520-ea08e05abfd5",
+        "revisionId": "ec4d9a28-43ff-4d23-9f02-5465f87792ac",
+        "cacheId": "bf3e7c7f-31de-4f48-965b-bc882df960a2"
+      }
+    },
+    {
+      "name": "adopted-original-history",
+      "selection": {
+        "projectId": "d68675ab-a408-42f9-9520-ea08e05abfd5",
+        "revisionId": "86205453-a4a4-4297-b772-75e4854f32c4",
+        "atUs": 0
+      },
+      "sha256": "d493bb87d9bb1d3617fb997e066f862da6e9f0d4af8d964dede210eeb2e398ac",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-8PRtrD/recipient/library/cache/derived/e3cb5d9a-f776-4fdb-b934-78e5809f604a.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 5672,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Exact face identity",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+              "trackId": "track:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Exact face identity",
+              "visibleRange": [
+                0,
+                19
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    19
+                  ],
+                  "text": "Exact face identity",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 259.6875,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "d68675ab-a408-42f9-9520-ea08e05abfd5",
+        "revisionId": "86205453-a4a4-4297-b772-75e4854f32c4",
+        "cacheId": "e3cb5d9a-f776-4fdb-b934-78e5809f604a"
+      }
+    },
+    {
+      "name": "AlBayan",
+      "selection": {
+        "projectId": "37c50554-b503-430d-a7f9-44f7ba32694f",
+        "revisionId": "177e4f0d-aab7-48dd-a64f-49de1dce31a4",
+        "atUs": 0
+      },
+      "sha256": "9708a98668024d41f4b597c8d0267b5bd8cb9e9c838c4fa3a02825b821f9b954",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-8PRtrD/library/cache/derived/195e19d4-2a3e-4fe0-9fe9-4fe881436a4e.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 2654,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "مرحبا بالعالم",
+                "font": {
+                  "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+                  "postScriptName": "AlBayan"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+              "trackId": "track:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+                "postScriptName": "AlBayan"
+              },
+              "text": "مرحبا بالعالم",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "مرحبا بالعالم",
+                  "origin": [
+                    0,
+                    32
+                  ],
+                  "width": 111.712,
+                  "fonts": [
+                    "AlBayan"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "37c50554-b503-430d-a7f9-44f7ba32694f",
+        "revisionId": "177e4f0d-aab7-48dd-a64f-49de1dce31a4",
+        "cacheId": "195e19d4-2a3e-4fe0-9fe9-4fe881436a4e"
+      }
+    },
+    {
+      "name": "AlBayan-Bold",
+      "selection": {
+        "projectId": "37c50554-b503-430d-a7f9-44f7ba32694f",
+        "revisionId": "54f6aee1-af5f-41e6-a3d9-dc1afb46c6dc",
+        "atUs": 0
+      },
+      "sha256": "22ff04e16bf27e482be2b25a09892cbf875c02114e637ae37713d52dc3523e65",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-8PRtrD/library/cache/derived/03cdc061-912c-4f0f-8a57-dd8dbed43c67.cache",
+        "mediaType": "image/png",
+        "width": 420,
+        "height": 100,
+        "sourceWidth": 420,
+        "sourceHeight": 100,
+        "bytes": 3012,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "مرحبا بالعالم",
+                "font": {
+                  "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+                  "postScriptName": "AlBayan-Bold"
+                },
+                "width": 420,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+              "trackId": "track:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:0",
+              "availability": "available",
+              "width": 420,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:98d30ca585571112d0a980340616da5c0627319e96e592e57fbeba63e0cf57b7:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+                "postScriptName": "AlBayan-Bold"
+              },
+              "text": "مرحبا بالعالم",
+              "visibleRange": [
+                0,
+                13
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    13
+                  ],
+                  "text": "مرحبا بالعالم",
+                  "origin": [
+                    0,
+                    32
+                  ],
+                  "width": 122.71999999999998,
+                  "fonts": [
+                    "AlBayan-Bold"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "37c50554-b503-430d-a7f9-44f7ba32694f",
+        "revisionId": "54f6aee1-af5f-41e6-a3d9-dc1afb46c6dc",
+        "cacheId": "03cdc061-912c-4f0f-8a57-dd8dbed43c67"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "same-face-name-distinct-bytes",
+      "original": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+      "changed": "9d27d1c21ada1ca7da3cddd2ab6c58267a1198de9d04d8a172c61341bc4c6244",
+      "unitsPerEm": [
+        2048,
+        4096
+      ],
+      "distinctRaster": true,
+      "exactHalfWidth": true
+    },
+    {
+      "name": "font-history-package-fresh-store",
+      "currentRasterExact": true,
+      "undoRasterExact": true,
+      "originalFontIdsPreserved": true
+    },
+    {
+      "name": "collection-face-raster-selection",
+      "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+      "distinctRaster": true
+    }
+  ],
+  "workerSha256": "049a3247ec55a580c80e87a66f6d1e40a97cbea90f717271b0a0d7066a11bd79"
+}

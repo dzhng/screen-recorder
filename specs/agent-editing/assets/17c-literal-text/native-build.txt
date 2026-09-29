@@ -1,0 +1,121 @@
+[0/1] Planning build
+Building for debugging...
+[0/35] Write sources
+[0/35] Write ScreenRecorderSourceAudioTests-entitlement.plist
+[0/35] Write sources
+[0/35] Write ScreenRecorderCaptureTests-entitlement.plist
+[0/35] Write ScreenRecorderSpeechTests-entitlement.plist
+[0/35] Write ScreenRecorderCompositionAudioTests-entitlement.plist
+[0/35] Write sources
+[0/35] Write ScreenRecorderAudioTests-entitlement.plist
+[0/35] Write ScreenRecorderFrameTests-entitlement.plist
+[0/35] Write sources
+[0/35] Write ScreenRecorderCompositionVideoTests-entitlement.plist
+[0/35] Write sources
+[15/42] Write swift-version--1AB21518FC5DEDBE.txt
+[17/56] Emitting module ScreenRecorderSpeechTests
+[18/56] Emitting module ScreenRecorderScalarTests
+[19/56] Compiling ScreenRecorderScalarTests main.swift
+[19/56] Write Objects.LinkFileList
+[21/56] Emitting module ScreenRecorderCompositionAudioTests
+[22/56] Compiling ScreenRecorderCompositionAudioTests main.swift
+[22/56] Write Objects.LinkFileList
+[24/56] Compiling ScreenRecorderSpeechTests main.swift
+[24/56] Write Objects.LinkFileList
+[25/56] Linking ScreenRecorderScalarTests
+[26/56] Linking ScreenRecorderCompositionAudioTests
+[27/56] Applying ScreenRecorderScalarTests
+[28/56] Applying ScreenRecorderCompositionAudioTests
+[30/56] Compiling ScreenRecorderAudioTests FixtureAudio.swift
+[31/56] Emitting module ScreenRecorderAudioTests
+[32/56] Emitting module ScreenRecorderFrames
+[33/56] Compiling ScreenRecorderFrames TextRaster.swift
+[34/76] Compiling ScreenRecorderFrames VisualSamples.swift
+[35/76] Compiling ScreenRecorderFrames SourceFrameRenderer.swift
+[36/76] Compiling ScreenRecorderFrames SourceImageRenderer.swift
+[37/76] Compiling ScreenRecorderFrames FrameSource.swift
+[38/76] Compiling ScreenRecorderFrames FrameImage.swift
+[39/76] Compiling ScreenRecorderFrames FrameTypes.swift
+[40/76] Compiling ScreenRecorderFrames SourceVisualSamples.swift
+[41/76] Compiling ScreenRecorderFrames VideoColorPolicy.swift
+[42/76] Compiling ScreenRecorderFrames RetainedJSONLines.swift
+[43/76] Compiling ScreenRecorderFrames VideoRenderer.swift
+[44/76] Compiling ScreenRecorderFrames PointerSchedule.swift
+[45/76] Compiling ScreenRecorderFrames PreparedPointers.swift
+[46/76] Compiling ScreenRecorderFrames PresentationEvidence.swift
+[47/76] Compiling ScreenRecorderFrames PresentationSource.swift
+[48/76] Compiling ScreenRecorderSourceAudioTests main.swift
+[49/76] Emitting module ScreenRecorderSourceAudioTests
+[49/76] Write Objects.LinkFileList
+[50/76] Linking ScreenRecorderSpeechTests
+[52/76] Compiling ScreenRecorderFrames MovieClock.swift
+[53/76] Compiling ScreenRecorderFrames OutputSettings.swift
+[53/76] Applying ScreenRecorderSpeechTests
+[54/76] Linking ScreenRecorderSourceAudioTests
+[55/76] Applying ScreenRecorderSourceAudioTests
+[57/76] Compiling ScreenRecorderFrames AcousticImage.swift
+[58/76] Compiling ScreenRecorderFrames CompositionFrameRenderer.swift
+[59/76] Compiling ScreenRecorderFrames CompositionPictureExecutor.swift
+[60/76] Compiling ScreenRecorderFrames CompositionVideoRenderer.swift
+[61/106] Compiling ScreenRecorderWire SpeechOperation.swift
+[62/107] Compiling ScreenRecorderWire ProbeOperation.swift
+[63/107] Compiling ScreenRecorderWire SourceAudioOperation.swift
+[64/107] Compiling ScreenRecorderWire RenderWorkspace.swift
+[65/107] Compiling ScreenRecorderWire PresentationEvidenceOperation.swift
+[66/107] Compiling ScreenRecorderWire PackageWorkspace.swift
+[67/107] Compiling ScreenRecorderWire SourceEvidenceExport.swift
+[68/107] Compiling ScreenRecorderWire MovieOperation.swift
+[69/107] Compiling ScreenRecorderWire Wire.swift
+[70/107] Compiling ScreenRecorderWire WireRequest.swift
+[71/107] Compiling ScreenRecorderWire MediaRecovery.swift
+[72/107] Compiling ScreenRecorderWire FrameOperation.swift
+[73/107] Compiling ScreenRecorderWire ManagedFiles.swift
+[74/107] Compiling ScreenRecorderWire AudioOperation.swift
+[75/107] Compiling ScreenRecorderWire CompositionMovieOperation.swift
+[76/107] Compiling ScreenRecorderWire MovieMux.swift
+[77/107] Compiling ScreenRecorderWire PublicationOperation.swift
+[78/107] Compiling ScreenRecorderWire AcousticImageOperation.swift
+[79/107] Compiling ScreenRecorderWire ArchiveAssembly.swift
+[80/107] Emitting module ScreenRecorderWire
+[81/107] Compiling ScreenRecorderWire ArchiveExtraction.swift
+[82/107] Compiling ScreenRecorderWire ArchiveOperation.swift
+[83/107] Compiling ScreenRecorderWire CompositionVideoOperation.swift
+[84/107] Compiling ScreenRecorderWire Descriptors.swift
+[84/107] Write Objects.LinkFileList
+[86/121] Compiling ScreenRecorderCaptureTests main.swift
+[87/121] Emitting module ScreenRecorderCompositionVideoTests
+[88/121] Compiling ScreenRecorderCompositionVideoTests main.swift
+[88/121] Write Objects.LinkFileList
+[90/121] Emitting module ScreenRecorderCaptureTests
+[91/121] Compiling ScreenRecorderCaptureTests DeferredPauseTests.swift
+[92/121] Compiling ScreenRecorderCaptureTests CaptureExclusionTests.swift
+[93/121] Compiling ScreenRecorderCaptureTests CaptureClockTests.swift
+[94/121] Compiling ScreenRecorderCaptureTests CaptureJournalTests.swift
+[95/121] Compiling ScreenRecorderCaptureTests CaptureTerminationTests.swift
+[96/121] Compiling ScreenRecorderCaptureTests RecoveryFixtures.swift
+[97/121] Compiling ScreenRecorderCaptureTests MediaRecoveryTests.swift
+[98/121] Compiling ScreenRecorderCaptureTests HeldTailFrameTests.swift
+[99/121] Compiling ScreenRecorderCaptureTests CursorGeometryTests.swift
+[100/121] Compiling ScreenRecorderCaptureTests CaptureWriterTests.swift
+[100/121] Write Objects.LinkFileList
+[101/121] Linking screenrec-native
+[102/121] Applying screenrec-native
+[103/121] Linking ScreenRecorderCompositionVideoTests
+[105/121] Compiling ScreenRecorderAudioTests StreamingTests.swift
+[106/121] Compiling ScreenRecorderAudioTests main.swift
+[106/121] Write Objects.LinkFileList
+[107/121] Applying ScreenRecorderCompositionVideoTests
+[108/121] Linking ScreenRecorderAudioTests
+[109/121] Applying ScreenRecorderAudioTests
+[110/121] Linking ScreenRecorderCaptureTests
+[111/121] Applying ScreenRecorderCaptureTests
+[113/121] Compiling ScreenRecorderFrameTests SourceSceneBoundsTests.swift
+[114/121] Compiling ScreenRecorderFrameTests DescriptorLifetimeTests.swift
+[115/121] Emitting module ScreenRecorderFrameTests
+[116/121] Compiling ScreenRecorderFrameTests main.swift
+[117/121] Compiling ScreenRecorderFrameTests FixtureMedia.swift
+[118/121] Compiling ScreenRecorderFrameTests PresentationEvidenceTests.swift
+[118/121] Write Objects.LinkFileList
+[119/121] Linking ScreenRecorderFrameTests
+[120/121] Applying ScreenRecorderFrameTests
+Build complete! (24.41s)

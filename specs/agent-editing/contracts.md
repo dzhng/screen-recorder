@@ -74,21 +74,20 @@ type Composition = {
   clips: Clip[];
   syncGroups: { id: string; clipIds: string[] }[];
   processing: { target: ProcessingTarget; steps: ProcessingStep[] }[];
-  captions: Caption[];
 };
 ```
 
 [Processing](processing.md) defines ProcessingTarget/ProcessingStep, the typed registry,
 one get/set stack API, nested groups and fixed execution order. Variants include
 audio gain, geometry, opacity, pointer presentation and verified noise reduction
-when their capability slices pass. `Caption` holds literal text/style and an anchor; it can be
-seeded from pinned transcript occurrences. There is no persisted special zoom,
+when their capability slices pass. A text-source video clip holds literal text/style
+and the ordinary clip anchor; it can be seeded from pinned transcript occurrences. There is no persisted special zoom,
 presenter, B-roll or filler-removal object. Convenience operations expand into
 ordinary edits and return their expansion for inspection.
 
 Empty projects are valid editable state. Rendering requires a positive requested
 range; an audio-only project can render against its explicit canvas background.
-Duration is the latest resolved clip/caption end; processing windows do not extend it. A project gap
+Duration is the latest resolved clip end; processing windows do not extend it. A project gap
 renders the declared background and silence. Gaps in *acquisition* remain reported
 as unavailable source evidence; they must not become fictitious captured silence.
 Authored silence is an explicit audio-only occurrence with no asset, stream,

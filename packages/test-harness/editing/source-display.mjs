@@ -70,7 +70,6 @@ for (const [name, path, width, height, background, extent] of [
     ],
     processing: [],
     syncGroups: [],
-    captions: [],
   };
   const window = createCompiler(
     validateComposition(document, [asset]),

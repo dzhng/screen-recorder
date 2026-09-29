@@ -5,6 +5,8 @@ import {
   anchorSchema,
   mediaClipSchema,
   silenceClipSchema,
+  textClipSchema,
+  textSourceSchema,
   compositionSchema,
   rangeSchema,
   routingNodeSchema,
@@ -67,6 +69,7 @@ const placedMedia = mediaClipSchema.omit({ id: true }).extend({
 });
 const placedClip = z.union([
   placedMedia,
+  textClipSchema.omit({ id: true }).extend({ trackId: reference, placement }),
   silenceClipSchema.omit({ id: true }).extend({ trackId: reference, placement }),
 ]);
 const transition = {
@@ -78,6 +81,9 @@ const transition = {
   label,
 };
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({ operation: z.literal("text.set"), clipId: reference, source: textSourceSchema })
+    .strict(),
   z
     .object({ operation: z.literal("fade"), ...transition, mediaKind: z.enum(["audio", "video"]) })
     .strict(),
@@ -405,6 +411,19 @@ export function applyBatch(
         };
       }
       switch (operation.operation) {
+        case "text.set": {
+          const id = resolve(operation.clipId, "clip");
+          const clip = before.clips.find((clip) => clip.id === id);
+          if (clip?.source.kind !== "text")
+            invalid("Text edits require a text clip", { clipId: id });
+          next = {
+            ...before,
+            clips: before.clips.map((clip) =>
+              clip.id === id ? { ...clip, source: operation.source } : clip,
+            ),
+          };
+          break;
+        }
         case "processing.set": {
           const target =
             operation.target.kind === "output"
@@ -774,7 +793,7 @@ export function applyBatch(
             ...before,
             [key]: before[key].map((node) => {
               if (node.id !== id) return node;
-              const { parentId: previousParent, ...fields } = node;
+              const { parentId: _previousParent, ...fields } = node;
               return {
                 ...fields,
                 order: operation.order,

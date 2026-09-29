@@ -11,6 +11,7 @@ import {
   compositionSchema,
   isMediaClip,
   mediaClipSchema,
+  fontReferenceSchema,
   processingStepSchema,
   processingTargetSchema,
   rangeSchema,
@@ -61,6 +62,7 @@ export const executionWindowManifestSchema = z
     canvas: compositionSchema.shape.canvas,
     mediaKind: z.enum(["audio", "video", "output"]),
     sources: z.array(source),
+    fonts: z.array(fontReferenceSchema),
     processing: z.array(processingInstructionSchema),
     requirements: z.array(
       z.discriminatedUnion("kind", [
@@ -122,6 +124,7 @@ export function executionWindow(
 ) {
   const mediaKind = component ?? processing.at(-1)!.mediaKind;
   const sources: ExecutionWindowManifest["sources"] = [];
+  const fonts: ExecutionWindowManifest["fonts"] = [];
   const requirements: ExecutionWindowManifest["requirements"] = [];
   for (const kind of ["audio", "video"] as const)
     if (mediaKind === "output" || mediaKind === kind)
@@ -138,6 +141,17 @@ export function executionWindow(
         });
   for (const value of clips) {
     const clip = value.clip;
+    if (clip.source.kind === "text") {
+      const selectedFont = clip.source.font;
+      if (
+        !fonts.some(
+          (font) =>
+            font.assetId === selectedFont.assetId &&
+            font.postScriptName === selectedFont.postScriptName,
+        )
+      )
+        fonts.push(selectedFont);
+    }
     if (!isMediaClip(clip)) continue;
     sources.push({
       clipId: clip.id,
@@ -180,6 +194,7 @@ export function executionWindow(
     canvas,
     mediaKind,
     sources,
+    fonts,
     processing,
     requirements,
   });

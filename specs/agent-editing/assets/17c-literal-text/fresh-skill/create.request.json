@@ -1,0 +1,13 @@
+{
+  "requestId": "fresh-caption-project-1",
+  "title": "Fresh literal caption review",
+  "canvas": {
+    "width": 640,
+    "height": 360,
+    "fps": {
+      "numerator": 30,
+      "denominator": 1
+    },
+    "background": "#142032ff"
+  }
+}

@@ -21,8 +21,12 @@ when an edit requires them; whole values remain numbers. This preserves the sour
 mapping when a retimed clip is split. Command coordinates and admitted source
 metadata remain integer microseconds. Asset stream bounds and availability use the shared asset clock, including any
 leading stream offset. A still image has no invented duration and uses a hold at
-source time zero. Unsupported processing variants and captions are rejected until their typed capability
+source time zero. Unsupported processing variants are rejected until their typed capability
 slices land. Canvas background is explicit `#RRGGBBAA`.
+Text is a video occurrence with a literal source and an exact admitted font face;
+it has no playable stream or source clock. Its existing anchor controls timing,
+and ordinary geometry maps its transparent raster box into the canvas. Shared
+asset dependency extraction includes both media bindings and text font references.
 
 `resolvePlacement(model, clipIdOrAnchor)` returns an exact placement envelope and
 its disjoint available intervals. Rational numerators/denominators are `bigint` in

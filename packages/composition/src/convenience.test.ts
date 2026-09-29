@@ -9,7 +9,6 @@ const empty = {
   clips: [],
   syncGroups: [],
   processing: [],
-  captions: [],
 };
 const context = { assets: [], namespace: "macro" };
 

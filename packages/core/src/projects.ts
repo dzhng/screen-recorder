@@ -10,6 +10,8 @@ import {
   compositionSchema,
   editOperationSchema,
   isMediaClip,
+  documentAssetIds,
+  clipAssetIds,
   type Composition,
   type EditBatchResult,
 } from "@screenrec/composition";
@@ -199,7 +201,6 @@ export class ProjectStore {
         clips: [],
         syncGroups: [],
         processing: [],
-        captions: [],
       };
       const revision: ProjectRevision = {
         id,
@@ -332,17 +333,18 @@ export class ProjectStore {
     const args = { operation: "apply", expectedRevisionId: request.expectedRevisionId, operations };
     return this.mutate(projectId, request.requestId, args, () => {
       const current = this.current(projectId, request.expectedRevisionId);
-      const assetIds = new Set(
-        current.document.clips.filter(isMediaClip).map((clip) => clip.assetId),
-      );
+      const assetIds = new Set(documentAssetIds(current.document));
       const contextIds = new Set(acquisitionIds(current.document));
       for (const operation of operations) {
+        if (operation.operation === "place")
+          clipAssetIds(operation.clip).forEach((id) => assetIds.add(id));
+        if (operation.operation === "text.set")
+          clipAssetIds({ source: operation.source }).forEach((id) => assetIds.add(id));
         if (operation.operation === "replace") {
-          assetIds.add(operation.media.assetId);
+          clipAssetIds(operation.media).forEach((id) => assetIds.add(id));
           if (operation.media.acquisitionId) contextIds.add(operation.media.acquisitionId);
         }
         if (operation.operation === "place" && "assetId" in operation.clip) {
-          assetIds.add(operation.clip.assetId);
           if (operation.clip.acquisitionId) contextIds.add(operation.clip.acquisitionId);
         }
       }
@@ -383,9 +385,7 @@ export class ProjectStore {
   }
   processing(projectId: string, revisionId: string, target: unknown) {
     const revision = this.revision(projectId, revisionId);
-    const ids = [
-      ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
-    ];
+    const ids = documentAssetIds(revision.document);
     const model = validateComposition(
       revision.document,
       ids.map((id) => compositionAsset(this.assets.get(id))),
@@ -511,9 +511,7 @@ export class ProjectStore {
           if (existing) return existing;
           publishDependencies();
           for (const revision of revisions) {
-            const ids = [
-              ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
-            ];
+            const ids = documentAssetIds(revision.document);
             validateComposition(
               revision.document,
               ids.map((id) => compositionAsset(this.assets.get(id))),
@@ -636,9 +634,7 @@ export class ProjectStore {
     return this.references.dependencies({ kind: "revision", id: revisionId });
   }
   private insertRevision(revision: ProjectRevision) {
-    const ids = [
-      ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
-    ];
+    const ids = documentAssetIds(revision.document);
     this.assets.retain({ kind: "revision", id: revision.id }, ids);
     this.acquisitions.retain(
       { kind: "revision", id: revision.id },

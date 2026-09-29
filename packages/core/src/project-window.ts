@@ -1,6 +1,6 @@
 import {
   createCompiler,
-  isMediaClip,
+  documentAssetIds,
   processingCapabilities,
   rangeSchema,
   requireWindowReady,
@@ -16,6 +16,7 @@ import { compositionPointerSources } from "./composition-pointer.js";
 export type ProjectRenderSupport = { implementationId: string; pointers?: PointerPreparation };
 
 export type CompositionWindow = ReturnType<ReturnType<typeof createCompiler>["window"]>;
+export type FontAssetBinding = { assetId: string; path: string };
 export type CompositionAssetBinding = {
   assetId: string;
   streamId: string;
@@ -48,7 +49,7 @@ export function projectCompositionFromRevision(
   assets: Pick<AssetStore, "get" | "path">,
   contexts: Parameters<typeof validateComposition>[2],
 ) {
-  const ids = [...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId))];
+  const ids = documentAssetIds(revision.document);
   const metadata = new Map(ids.map((id) => [id, assets.get(id)]));
   const model = validateComposition(
     revision.document,
@@ -118,6 +119,10 @@ export function projectCompositionFromRevision(
         }),
         window: bound,
         assets: [...bindings.values()],
+        fonts: [...new Set(bound.manifest.fonts.map((font) => font.assetId))].map((assetId) => ({
+          assetId,
+          path: assets.path(assetId),
+        })),
         durationUs: model.durationUs,
         frameBoundary: compiler.frameBoundary,
       };

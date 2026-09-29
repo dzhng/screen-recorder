@@ -46,7 +46,6 @@ data.append(c.flush())
     },
     groups: [],
     processing: [],
-    captions: [],
     syncGroups: [],
     tracks: assets.map((asset, order) => ({ id: asset.id, kind: "video", order })),
     clips: assets.map((asset) => ({

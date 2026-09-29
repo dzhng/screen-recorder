@@ -7,7 +7,7 @@ import {
   toTime,
   createSourceRangeProjection,
   createProjectCuts,
-  isMediaClip,
+  documentAssetIds,
   rangeSchema,
   validateComposition,
   type TimeValue,
@@ -142,9 +142,7 @@ export class ProjectEvidenceInspection {
     let context = this.revisions.get(key);
     if (!context) {
       const revision = this.options.projects.revision(input.projectId, revisionId);
-      const ids = [
-        ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
-      ];
+      const ids = documentAssetIds(revision.document);
       const model = validateComposition(
         revision.document,
         ids.map((id) => compositionAsset(this.options.assets.get(id))),

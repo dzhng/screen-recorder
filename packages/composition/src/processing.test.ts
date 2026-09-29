@@ -12,7 +12,6 @@ const empty = {
   clips: [],
   syncGroups: [],
   processing: [],
-  captions: [],
 };
 const context = { namespace: "processing", assets: [] };
 const ref = (label: string) => ({ label });

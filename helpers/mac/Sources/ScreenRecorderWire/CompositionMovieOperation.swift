@@ -40,6 +40,7 @@ enum CompositionMovieOperation {
             from: params.filter { $0.key != "audio" })
         try WireRequest.requireAbsolute(request.output, request.frames)
         for asset in request.assets { try WireRequest.requireAbsolute(asset.path) }
+        for font in request.fonts ?? [] { try WireRequest.requireAbsolute(font.path) }
         func sample(_ us: Int64) -> Int64 { Int64(Int128(us) * 48_000 / 1_000_000) }
         guard schedule.range.start == sample(request.range.startUs),
             schedule.range.end == sample(request.range.endUs)

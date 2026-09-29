@@ -1,0 +1,2978 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.restore",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "pictures": [
+    {
+      "name": "authored-0",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "83c6910a-4c2c-4c4e-9c49-85c9d2f4d459",
+        "atUs": 0
+      },
+      "sha256": "ab077f4e0dcde1936e4fd17e5d0d27808ca964c77f589205231e77230a58b3f3",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/448401b2-54c9-40d5-8396-5b870c46c94e.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 4234,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "83c6910a-4c2c-4c4e-9c49-85c9d2f4d459",
+        "cacheId": "448401b2-54c9-40d5-8396-5b870c46c94e"
+      }
+    },
+    {
+      "name": "authored-500000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "83c6910a-4c2c-4c4e-9c49-85c9d2f4d459",
+        "atUs": 500000
+      },
+      "sha256": "4f506b0c484fd0a35d2022a7af83f8d25a141ce1c5ffc91721dfe5907e588180",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/b0691c8a-79c2-4f1d-acb7-83eff585ca3b.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9145,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 500000,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:3",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 500000,
+            "actualSourceUs": 500000,
+            "sample": {
+              "value": "8192",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "83c6910a-4c2c-4c4e-9c49-85c9d2f4d459",
+        "cacheId": "b0691c8a-79c2-4f1d-acb7-83eff585ca3b"
+      }
+    },
+    {
+      "name": "authored-1000000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "83c6910a-4c2c-4c4e-9c49-85c9d2f4d459",
+        "atUs": 1000000
+      },
+      "sha256": "776178f10d50ced1feec224022e734b51257d0592c223cb63859efb53e1e240c",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/885f40b3-2d31-4c82-96e5-82dcc2c09658.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9229,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 8,
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "startUs": 1000000,
+            "endUs": 1125000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1000000,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:3",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1000000,
+            "actualSourceUs": 1000000,
+            "sample": {
+              "value": "16384",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 1000000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "83c6910a-4c2c-4c4e-9c49-85c9d2f4d459",
+        "cacheId": "885f40b3-2d31-4c82-96e5-82dcc2c09658"
+      }
+    },
+    {
+      "name": "authored-1500000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "83c6910a-4c2c-4c4e-9c49-85c9d2f4d459",
+        "atUs": 1500000
+      },
+      "sha256": "718a27a8c13585e4a4376c28f3c5d12a27bafdd389e0b16fa7415b45c9fb6eb1",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/6089a88d-391d-419e-98ba-616517927318.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 4084,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 12,
+          "sampleAtUs": 1500000,
+          "visibleRange": {
+            "startUs": 1500000,
+            "endUs": 1625000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1500000,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1500000,
+            "actualSourceUs": 1500000,
+            "sample": {
+              "value": "24576",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 1500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "83c6910a-4c2c-4c4e-9c49-85c9d2f4d459",
+        "cacheId": "6089a88d-391d-419e-98ba-616517927318"
+      }
+    },
+    {
+      "name": "split-0",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "45979b2e-7e0d-4e50-b440-f38bb4bc0381",
+        "atUs": 0
+      },
+      "sha256": "ab077f4e0dcde1936e4fd17e5d0d27808ca964c77f589205231e77230a58b3f3",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/62f732dc-9dc3-4f11-a8d6-a8227b87c04f.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 4234,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 0,
+            "actualSourceUs": 0,
+            "sample": {
+              "value": "0",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "45979b2e-7e0d-4e50-b440-f38bb4bc0381",
+        "cacheId": "62f732dc-9dc3-4f11-a8d6-a8227b87c04f"
+      }
+    },
+    {
+      "name": "split-500000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "45979b2e-7e0d-4e50-b440-f38bb4bc0381",
+        "atUs": 500000
+      },
+      "sha256": "4f506b0c484fd0a35d2022a7af83f8d25a141ce1c5ffc91721dfe5907e588180",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/d1619d53-082d-44d0-9e91-68ae166105b9.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9145,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 500000,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:3",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 500000,
+            "actualSourceUs": 500000,
+            "sample": {
+              "value": "8192",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "45979b2e-7e0d-4e50-b440-f38bb4bc0381",
+        "cacheId": "d1619d53-082d-44d0-9e91-68ae166105b9"
+      }
+    },
+    {
+      "name": "split-1000000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "45979b2e-7e0d-4e50-b440-f38bb4bc0381",
+        "atUs": 1000000
+      },
+      "sha256": "776178f10d50ced1feec224022e734b51257d0592c223cb63859efb53e1e240c",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/dd685bdf-e626-4864-9b8b-d1432c05c00a.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9229,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 8,
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "startUs": 1000000,
+            "endUs": 1125000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1000000,
+              "clipId": "clip:fe4f83a4319980f1ac680473a03084f967ba6067621f18b64f934204fa551bfa:0",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fe4f83a4319980f1ac680473a03084f967ba6067621f18b64f934204fa551bfa:1",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fe4f83a4319980f1ac680473a03084f967ba6067621f18b64f934204fa551bfa:2",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:3",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fe4f83a4319980f1ac680473a03084f967ba6067621f18b64f934204fa551bfa:0",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1000000,
+            "actualSourceUs": 1000000,
+            "sample": {
+              "value": "16384",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fe4f83a4319980f1ac680473a03084f967ba6067621f18b64f934204fa551bfa:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fe4f83a4319980f1ac680473a03084f967ba6067621f18b64f934204fa551bfa:2",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 1000000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "45979b2e-7e0d-4e50-b440-f38bb4bc0381",
+        "cacheId": "dd685bdf-e626-4864-9b8b-d1432c05c00a"
+      }
+    },
+    {
+      "name": "split-1500000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "45979b2e-7e0d-4e50-b440-f38bb4bc0381",
+        "atUs": 1500000
+      },
+      "sha256": "718a27a8c13585e4a4376c28f3c5d12a27bafdd389e0b16fa7415b45c9fb6eb1",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/f0a7778f-05ce-47a5-a37b-a145ff6e2388.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 4084,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 12,
+          "sampleAtUs": 1500000,
+          "visibleRange": {
+            "startUs": 1500000,
+            "endUs": 1625000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1500000,
+              "clipId": "clip:fe4f83a4319980f1ac680473a03084f967ba6067621f18b64f934204fa551bfa:0",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fe4f83a4319980f1ac680473a03084f967ba6067621f18b64f934204fa551bfa:0",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1500000,
+            "actualSourceUs": 1500000,
+            "sample": {
+              "value": "24576",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 1500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "45979b2e-7e0d-4e50-b440-f38bb4bc0381",
+        "cacheId": "f0a7778f-05ce-47a5-a37b-a145ff6e2388"
+      }
+    },
+    {
+      "name": "retimed-250000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "e65f027d-0f27-48b2-9fcc-4de8671a7906",
+        "atUs": 250000
+      },
+      "sha256": "ec9ff39e78192c850083748747bb2dfc8f31f4a344b798e33428fc5355dd7bae",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/f4f9127a-3ea7-4d9f-8557-735d7cc8e7b9.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9555,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 2,
+          "sampleAtUs": 250000,
+          "visibleRange": {
+            "startUs": 250000,
+            "endUs": 375000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 500000,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 500000,
+            "actualSourceUs": 500000,
+            "sample": {
+              "value": "8192",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 250000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "e65f027d-0f27-48b2-9fcc-4de8671a7906",
+        "cacheId": "f4f9127a-3ea7-4d9f-8557-735d7cc8e7b9"
+      }
+    },
+    {
+      "name": "retimed-500000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "e65f027d-0f27-48b2-9fcc-4de8671a7906",
+        "atUs": 500000
+      },
+      "sha256": "776178f10d50ced1feec224022e734b51257d0592c223cb63859efb53e1e240c",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/0c0b4755-e8ad-44f6-9b11-0144ff274222.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9229,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1000000,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:3",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1000000,
+            "actualSourceUs": 1000000,
+            "sample": {
+              "value": "16384",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:5",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:6",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "e65f027d-0f27-48b2-9fcc-4de8671a7906",
+        "cacheId": "0c0b4755-e8ad-44f6-9b11-0144ff274222"
+      }
+    },
+    {
+      "name": "retimed-750000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "e65f027d-0f27-48b2-9fcc-4de8671a7906",
+        "atUs": 750000
+      },
+      "sha256": "582cfef347ee00db9c65e03a2b4bab69c597ac9a6f54e3e65f1c6be58655021c",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/685330f4-c66e-4fe5-acac-c0b0a1543f27.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 10144,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 6,
+          "sampleAtUs": 750000,
+          "visibleRange": {
+            "startUs": 750000,
+            "endUs": 875000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1500000,
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:3",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:4",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1500000,
+            "actualSourceUs": 1500000,
+            "sample": {
+              "value": "24576",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 750000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "e65f027d-0f27-48b2-9fcc-4de8671a7906",
+        "cacheId": "685330f4-c66e-4fe5-acac-c0b0a1543f27"
+      }
+    },
+    {
+      "name": "retimed-1250000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "e65f027d-0f27-48b2-9fcc-4de8671a7906",
+        "atUs": 1250000
+      },
+      "sha256": "782c736d6b29aea7b8fb05fec51b3e1dd99c77d7a38aef791e8ce449989cbc9e",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/67a53a5b-d081-41ae-a329-f837760ec773.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 5591,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 10,
+          "sampleAtUs": 1250000,
+          "visibleRange": {
+            "startUs": 1250000,
+            "endUs": 1375000
+          },
+          "layers": [
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:3",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 0,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "text",
+            "clipId": "clip:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:7",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 1250000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "e65f027d-0f27-48b2-9fcc-4de8671a7906",
+        "cacheId": "67a53a5b-d081-41ae-a329-f837760ec773"
+      }
+    },
+    {
+      "name": "repeated-2250000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "550fa935-452b-4ede-899c-4d50d61d01e0",
+        "atUs": 2250000
+      },
+      "sha256": "ec9ff39e78192c850083748747bb2dfc8f31f4a344b798e33428fc5355dd7bae",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/abc4e4f2-85ba-4feb-93a4-7977b8a7ac1f.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9555,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 18,
+          "sampleAtUs": 2250000,
+          "visibleRange": {
+            "startUs": 2250000,
+            "endUs": 2375000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 500000,
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:0",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:1",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:2",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:0",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 500000,
+            "actualSourceUs": 500000,
+            "sample": {
+              "value": "8192",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:2",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 2250000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "550fa935-452b-4ede-899c-4d50d61d01e0",
+        "cacheId": "abc4e4f2-85ba-4feb-93a4-7977b8a7ac1f"
+      }
+    },
+    {
+      "name": "repeated-2500000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "550fa935-452b-4ede-899c-4d50d61d01e0",
+        "atUs": 2500000
+      },
+      "sha256": "aca22e533f9e897b628f620f7cde652f741e37d27a259c62f40e4d19ccb2be7d",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/58064464-e893-4678-908c-901937b815f3.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9612,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 20,
+          "sampleAtUs": 2500000,
+          "visibleRange": {
+            "startUs": 2500000,
+            "endUs": 2625000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1000000,
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:0",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:1",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:2",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:0",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1000000,
+            "actualSourceUs": 1000000,
+            "sample": {
+              "value": "16384",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:2",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 2500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "550fa935-452b-4ede-899c-4d50d61d01e0",
+        "cacheId": "58064464-e893-4678-908c-901937b815f3"
+      }
+    },
+    {
+      "name": "repeated-2750000",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "550fa935-452b-4ede-899c-4d50d61d01e0",
+        "atUs": 2750000
+      },
+      "sha256": "718a27a8c13585e4a4376c28f3c5d12a27bafdd389e0b16fa7415b45c9fb6eb1",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/d0ea0bfe-e222-47f8-867a-806a3b479f6b.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 4084,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 22,
+          "sampleAtUs": 2750000,
+          "visibleRange": {
+            "startUs": 2750000,
+            "endUs": 2875000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1500000,
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:0",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:0",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1500000,
+            "actualSourceUs": 1500000,
+            "sample": {
+              "value": "24576",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          }
+        ],
+        "atUs": 2750000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "550fa935-452b-4ede-899c-4d50d61d01e0",
+        "cacheId": "d0ea0bfe-e222-47f8-867a-806a3b479f6b"
+      }
+    },
+    {
+      "name": "trimmed-attachment",
+      "selection": {
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "bb5cde17-783b-4d27-9c33-b9157dbe9318",
+        "atUs": 2500000
+      },
+      "sha256": "aca22e533f9e897b628f620f7cde652f741e37d27a259c62f40e4d19ccb2be7d",
+      "receipt": {
+        "file": "/private/tmp/sr-captions-tuJcuV/library/cache/derived/c9a42cf4-24a1-4ee7-b712-b1aa27bf1537.cache",
+        "mediaType": "image/png",
+        "width": 320,
+        "height": 100,
+        "sourceWidth": 320,
+        "sourceHeight": 100,
+        "bytes": 9612,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 20,
+          "sampleAtUs": 2500000,
+          "visibleRange": {
+            "startUs": 2500000,
+            "endUs": 2625000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+              "streamId": "track:1",
+              "sourceUs": 1000000,
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:0",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:0",
+              "availability": "available",
+              "width": 160,
+              "height": 96
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:1",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:1",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            },
+            {
+              "kind": "text",
+              "text": {
+                "kind": "text",
+                "text": "Attached caption",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 100,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:2",
+              "trackId": "track:fa4017839776a2d74b5801b77da4c1e356f622011ff91efafc443901feb36edb:2",
+              "availability": "available",
+              "width": 320,
+              "height": 100
+            }
+          ]
+        },
+        "decodedSamples": 1,
+        "readerOpens": 1,
+        "decodedImages": 0,
+        "pictures": [
+          {
+            "kind": "video",
+            "status": "available",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:0",
+            "assetId": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+            "streamId": "track:1",
+            "requestedSourceUs": 1000000,
+            "actualSourceUs": 1000000,
+            "sample": {
+              "value": "16384",
+              "timescale": 16384,
+              "originUs": 0
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:1",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "text",
+            "clipId": "clip:5662aab927a5649d05fd65fc5696156fbcda1cd3e8315e1e0d531ac32cef8141:2",
+            "status": "available",
+            "layout": {
+              "font": {
+                "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                "postScriptName": "ArialMT"
+              },
+              "text": "Attached caption",
+              "visibleRange": [
+                0,
+                16
+              ],
+              "lines": [
+                {
+                  "range": [
+                    0,
+                    16
+                  ],
+                  "text": "Attached caption",
+                  "origin": [
+                    0,
+                    29
+                  ],
+                  "width": 238.390625,
+                  "fonts": [
+                    "ArialMT"
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "atUs": 2500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v14",
+        "projectId": "678725be-f4c2-413d-87d1-0894c8a87381",
+        "revisionId": "bb5cde17-783b-4d27-9c33-b9157dbe9318",
+        "cacheId": "c9a42cf4-24a1-4ee7-b712-b1aa27bf1537"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "three-anchor-public-split",
+      "exactFrames": true
+    },
+    {
+      "name": "retime-repeat-trim-attachments",
+      "sourceClockOwner": "media",
+      "projectAnchorUnchanged": true
+    }
+  ],
+  "workerSha256": "049a3247ec55a580c80e87a66f6d1e40a97cbea90f717271b0a0d7066a11bd79"
+}

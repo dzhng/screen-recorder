@@ -8,6 +8,7 @@ enum CompositionVideoOperation {
         let request = try WireRequest.decode(CompositionVideoRenderer.Request.self, from: params)
         try WireRequest.requireAbsolute(request.output, request.frames)
         for asset in request.assets { try WireRequest.requireAbsolute(asset.path) }
+        for font in request.fonts ?? [] { try WireRequest.requireAbsolute(font.path) }
         let records = try FrameRecords(request.frames)
         defer { records.close() }
         return try await CompositionVideoRenderer.write(request, nextFrame: records.next)

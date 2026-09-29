@@ -18,7 +18,6 @@ const document: Composition = {
   groups: [],
   processing: [],
   syncGroups: [],
-  captions: [],
   clips: [
     {
       id: "c",

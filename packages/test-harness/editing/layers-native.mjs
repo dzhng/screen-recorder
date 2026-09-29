@@ -137,7 +137,6 @@ for (const [width, height] of [
       })),
       processing,
       syncGroups: [],
-      captions: [],
     };
     const compiler = createCompiler(validateComposition(document, assets), "authored-layers");
     const oracle = layerTree(canvas, surfaces, scenario.stacks);

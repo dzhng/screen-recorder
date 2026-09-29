@@ -335,7 +335,11 @@ test("font assets retain face identities without advertising playable streams", 
     },
   ]);
   expect(store.portable(asset.id).asset.fontFaces).toEqual(fontFaces);
-  expect(compositionAsset(asset)).toEqual({ id: asset.id, streams: [] });
+  expect(compositionAsset(asset)).toEqual({
+    id: asset.id,
+    streams: [],
+    fontFaces: fontFaces.map((face) => face.postScriptName),
+  });
   const recipient = await setup();
   const staged = await recipient.store.stagePortable(
     store.portable(asset.id),

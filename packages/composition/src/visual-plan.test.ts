@@ -24,7 +24,6 @@ const document: Composition = {
     placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
   })),
   syncGroups: [],
-  captions: [],
   processing: [
     {
       target: { kind: "clip", id: "a" },

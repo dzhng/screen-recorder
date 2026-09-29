@@ -109,7 +109,6 @@ async function compile(
     clips,
     syncGroups: [],
     processing: [],
-    captions: [],
   };
   const unique = (items, key) => [...new Map(items.map((item) => [key(item), item])).values()];
   const compiled = createCompiler(

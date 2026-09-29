@@ -1,0 +1,3 @@
+codex
+The equality and hash implementations consistently use exact UTF-16 text while preserving comparison of all other fields. The public regression checks distinct literals and their corresponding UTF-16 receipt ranges. No actionable regression found; JavaScript syntax validation passed, and no broad suites were run.
+The equality and hash implementations consistently use exact UTF-16 text while preserving comparison of all other fields. The public regression checks distinct literals and their corresponding UTF-16 receipt ranges. No actionable regression found; JavaScript syntax validation passed, and no broad suites were run.

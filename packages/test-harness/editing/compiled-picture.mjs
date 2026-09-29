@@ -266,7 +266,6 @@ const fractionalDocument = {
   ],
   processing: [],
   syncGroups: [],
-  captions: [],
 };
 const fractionalWindow = createCompiler(
   validateComposition(fractionalDocument, [compositionAsset({ id: "fractional", ...probed.data })]),

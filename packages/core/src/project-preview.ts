@@ -13,6 +13,7 @@ import {
   projectCapabilities,
   type CompositionWindow,
   type CompositionAssetBinding,
+  type FontAssetBinding,
   type ProjectRenderSupport,
 } from "./project-window.js";
 export type { CompositionWindow, CompositionAssetBinding } from "./project-window.js";
@@ -42,6 +43,7 @@ export type ProjectMovieRenderer = ProjectRenderSupport & {
       model: import("@screenrec/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
+      fonts: readonly FontAssetBinding[];
       output: string;
       settings: OutputSettings;
     },

@@ -1,0 +1,13 @@
+codex
+Text-cache equality can merge distinct Unicode literals and invalidate frame receipts. Type checks and composition tests passed; native verification and some core tests were blocked by environment restrictions.
+
+Review comment:
+
+- [P2] Key text rasters by exact UTF-16 content — /Users/david/.codex/worktrees/project-still-composition/screen-recorder/helpers/mac/Sources/ScreenRecorderFrames/TextRaster.swift:7-10
+  When two active text clips have identical styles but canonically equivalent literals such as `"\u00e9"` and `"e\u0301"`, Swift's synthesized `Hashable` considers their sources equal. The executor consequently shares one `TextRaster`, including its original literal and UTF-16 layout ranges, between both clips. `checkPictureReceipt` compares those literals exactly in JavaScript, so `frame.get` fails with `INVALID_RESPONSE` for this valid composition. Use exact code-unit equality and hashing for the text cache key so distinct literals retain their own layout receipts.
+Text-cache equality can merge distinct Unicode literals and invalidate frame receipts. Type checks and composition tests passed; native verification and some core tests were blocked by environment restrictions.
+
+Review comment:
+
+- [P2] Key text rasters by exact UTF-16 content — /Users/david/.codex/worktrees/project-still-composition/screen-recorder/helpers/mac/Sources/ScreenRecorderFrames/TextRaster.swift:7-10
+  When two active text clips have identical styles but canonically equivalent literals such as `"\u00e9"` and `"e\u0301"`, Swift's synthesized `Hashable` considers their sources equal. The executor consequently shares one `TextRaster`, including its original literal and UTF-16 layout ranges, between both clips. `checkPictureReceipt` compares those literals exactly in JavaScript, so `frame.get` fails with `INVALID_RESPONSE` for this valid composition. Use exact code-unit equality and hashing for the text cache key so distinct literals retain their own layout receipts.

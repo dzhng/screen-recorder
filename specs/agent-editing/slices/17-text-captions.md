@@ -1,6 +1,6 @@
 # 17 — Text and attached captions
 
-Status: scoped font/layout reproduction verified; [font admission](17b-font-admission.md) has scoped public evidence. Public caption implementation not started. Dependencies: [17b](./17b-font-admission.md), [17a](./17a-text-layout.md), [10](./10-project-evidence.md), [16](./16-keyframes.md).
+Status: scoped font/layout reproduction verified; [font admission](17b-font-admission.md) has scoped public evidence. [Literal text integration](17c-literal-text.md) is verified; occurrence-specific seeding remains required. Dependencies: [17b](./17b-font-admission.md), [17a](./17a-text-layout.md), [10](./10-project-evidence.md), [16](./16-keyframes.md).
 
 ## Contract
 
@@ -8,11 +8,11 @@ Explicit text overlays and transcript-seeded captions render legibly and follow 
 
 ## Seam and ownership
 
-Caption/text objects use the existing anchor algebra and compiler. Native text rasterization executes explicit styles. Fonts are resolved dependencies, not ambient fallbacks. Source transcript is never overwritten by caption corrections.
+Text clips use the existing anchor algebra and compiler. Native text rasterization executes explicit styles. Fonts are resolved dependencies, not ambient fallbacks. Source transcript is never overwritten by caption corrections.
 
 ## Work and review surface
 
-Support literal text, font identity, size/color/alignment/box/wrapping and source/project anchors. Seed captions from pinned word occurrences including repeated speech; edits to display text remain distinct from regenerated audio. Render transparent text assets or a native text primitive through the same layer pipeline.
+Support literal text, font identity, size/color/alignment/box/wrapping and source/project anchors. Seed captions from pinned word occurrences including repeated speech; edits to display text remain distinct from regenerated audio. Render a native text primitive through the same layer pipeline.
 
 Create this planned probe in this slice:
 

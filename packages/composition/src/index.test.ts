@@ -57,7 +57,6 @@ function document(clips: Clip[] = []): Composition {
     syncGroups: [],
     processing: [],
     groups: [],
-    captions: [],
   };
 }
 const r = (numerator: bigint, denominator = 1n): Rational => ({ numerator, denominator });

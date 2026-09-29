@@ -12,7 +12,6 @@ const empty = {
   clips: [],
   syncGroups: [],
   processing: [],
-  captions: [],
 };
 const context = {
   namespace: "routing",

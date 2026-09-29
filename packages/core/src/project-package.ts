@@ -4,7 +4,7 @@ import { portableSourceIndexMetadataSchema } from "./source-index.js";
 import { indexGenerationResource } from "./screenshot-index.js";
 import { createHash } from "node:crypto";
 import { z } from "zod";
-import { isMediaClip, validateComposition } from "@screenrec/composition";
+import { isMediaClip, documentAssetIds, validateComposition } from "@screenrec/composition";
 import { CatalogError } from "./catalog.js";
 import { compositionAsset, portableAssetSchema } from "./assets.js";
 import {
@@ -303,12 +303,14 @@ export function projectResourceRoots(snapshot: ProjectSnapshot): ResourceReferen
   return [
     ...snapshot.references.flatMap((value) => value.resources),
     ...snapshot.revisions.flatMap((revision) =>
+      documentAssetIds(revision.document).map((id) => ({ kind: "asset" as const, id })),
+    ),
+    ...snapshot.revisions.flatMap((revision) =>
       revision.document.clips
         .filter(isMediaClip)
-        .flatMap((clip): ResourceReference[] => [
-          { kind: "asset", id: clip.assetId },
-          ...(clip.acquisitionId ? [{ kind: "acquisition" as const, id: clip.acquisitionId }] : []),
-        ]),
+        .flatMap((clip): ResourceReference[] =>
+          clip.acquisitionId ? [{ kind: "acquisition", id: clip.acquisitionId }] : [],
+        ),
     ),
   ];
 }

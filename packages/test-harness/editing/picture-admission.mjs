@@ -58,7 +58,6 @@ const document = {
   ],
   processing: [],
   syncGroups: [],
-  captions: [],
 };
 const compiler = createCompiler(validateComposition(document, [asset]), "inactive-clip");
 for (const point of [{ kind: "dry" }, { kind: "processed" }]) {

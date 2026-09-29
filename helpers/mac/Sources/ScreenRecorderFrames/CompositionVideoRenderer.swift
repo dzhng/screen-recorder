@@ -12,6 +12,7 @@ public enum CompositionVideoRenderer {
         public let settings: OutputSettings
         public let processing: [CompositionProcessing]
         public let assets: [CompositionAsset]
+        public let fonts: [FontAssetBinding]?
         let pointers: PreparedPointersReceipt?
         public func validateOutput(hasAudio: Bool) throws {
             try canvas.validate()
@@ -23,7 +24,7 @@ public enum CompositionVideoRenderer {
         public func replacingOutput(_ path: String) -> Self {
             Self(
                 output: path, frames: frames, range: range, canvas: canvas, settings: settings,
-                processing: processing, assets: assets, pointers: pointers)
+                processing: processing, assets: assets, fonts: fonts, pointers: pointers)
         }
     }
     public struct Result: Encodable {
@@ -59,7 +60,7 @@ public enum CompositionVideoRenderer {
         }
         try request.validateOutput(hasAudio: false)
         let pictures = try CompositionPictureExecutor(
-            canvas: canvas, bindings: request.assets, pointers: request.pointers)
+            canvas: canvas, bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
         let output = try NewFile(at: request.output, assembledAs: "video.mp4")
         defer { output.discard() }
         let writer = try AVAssetWriter(outputURL: output.url, fileType: .mp4)

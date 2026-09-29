@@ -39,7 +39,6 @@ const document = {
   ],
   syncGroups: [],
   processing: [],
-  captions: [],
 };
 const pointer = { type: "pointer", trailUs: 2_000_000 };
 const set = (steps: unknown[]) =>

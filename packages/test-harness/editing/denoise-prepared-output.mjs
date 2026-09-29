@@ -201,7 +201,6 @@ const document = {
   tracks: [{ id: "voice", kind: "audio", order: 0 }],
   groups: [],
   syncGroups: [],
-  captions: [],
   processing: [],
   clips: [
     {

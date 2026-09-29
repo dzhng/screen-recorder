@@ -70,7 +70,6 @@ function document(clips: MediaClip[]): Composition {
     syncGroups: [],
     processing: [],
     groups: [],
-    captions: [],
   };
 }
 

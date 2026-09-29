@@ -42,7 +42,6 @@ const document: Composition = {
   tracks: [{ id: "v", kind: "video", order: 0 }],
   groups: [],
   syncGroups: [],
-  captions: [],
   clips: [
     {
       id: "c",

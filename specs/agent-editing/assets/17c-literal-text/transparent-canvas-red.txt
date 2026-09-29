@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: textpicture: {"projectId":"acb3da10-8eee-4fbe-9398-c58d5f095be4","revisionId":"c6118380-ad76-4589-9e20-7d2a7a18f6c0","atUs":0,"maxLongEdge":1600,"tap":{"target":{"kind":"output"},"point":{"kind":"processed"}},"implementationId":"native-composition-picture-v14","state":"failed","reason":"H.264 canvas requires an opaque RGBA background.","retryable":false,"jobId":"6f5be463-50d5-4674-ab18-bfd8c9a85393","published":null,"delivery":null}
+    at poll (file:///Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs:22:12)
+    at async file:///private/tmp/text-first-public.mjs:10:92 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

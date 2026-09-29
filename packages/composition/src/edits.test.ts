@@ -12,7 +12,6 @@ const input = {
   syncGroups: [],
   processing: [],
   groups: [],
-  captions: [],
 };
 const context = {
   namespace: "transaction",
@@ -1453,7 +1452,7 @@ test("insertion splits linked media and attachments then shifts named roots once
   for (const at of [0, 250000, 500000, 799999, 1300000, 1450000, 2499999]) {
     const originalAt = at < 800000 ? at : at - 500000;
     const values = (model: typeof before, time: number) =>
-      projectToSource(model, time).map(({ clipId, ...value }) => value);
+      projectToSource(model, time).map(({ clipId: _clipId, ...value }) => value);
     expect(values(after, at)).toEqual(values(before, originalAt));
   }
   expect(result.document.syncGroups.map((group) => group.clipIds.length)).toEqual([2, 2]);

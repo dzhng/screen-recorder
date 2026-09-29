@@ -232,7 +232,6 @@ try {
     tracks: [{ id: "video", kind: "video", order: 0 }],
     groups: [],
     syncGroups: [],
-    captions: [],
     clips: [
       {
         id: "clip",

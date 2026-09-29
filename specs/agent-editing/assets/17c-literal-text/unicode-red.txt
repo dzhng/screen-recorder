@@ -1,0 +1,17 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: distinct-unicode-literals: {"projectId":"b8d13907-6e03-4fc6-a7d2-daf501cf4f32","revisionId":"10f980d1-1977-4c36-9889-bc97de571f40","atUs":0,"maxLongEdge":1600,"tap":{"target":{"kind":"output"},"point":{"kind":"processed"}},"implementationId":"native-composition-picture-v14","state":"failed","reason":"Picture receipt differs from its pinned frame","retryable":false,"jobId":"d11e8681-0c0e-4843-a912-5b322a8fa6d0","published":null,"delivery":null}
+    at poll (file:///Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/test-harness/editing/source-evidence-fixture.mjs:22:12)
+    at async picture (file:///Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/test-harness/editing/captions.mjs:26:3)
+    at async file:///Users/david/.codex/worktrees/project-still-composition/screen-recorder/packages/test-harness/editing/captions.mjs:87:20 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0
