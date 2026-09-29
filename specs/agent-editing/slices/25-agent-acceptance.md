@@ -1,6 +1,6 @@
 # 25 — Autonomous agent acceptance
 
-Status: whole-workflow acceptance not started. [Focused CLI discovery](../assets/25-cli-discovery/README.md) and the [CLI test-ownership audit](../assets/25-cli-test-ownership/README.md) follow per-feature skill trials; it is not the final autonomous journey. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
+Status: whole-workflow acceptance not started. [Focused CLI discovery](../assets/25-cli-discovery/README.md), [shared-reference discovery](../assets/25-discovery-references/README.md), and the [CLI test-ownership audit](../assets/25-cli-test-ownership/README.md) follow per-feature skill trials; it is not the final autonomous journey. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
 
 ## Contract
 

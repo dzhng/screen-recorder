@@ -95,7 +95,7 @@ async function serviceFixture() {
 type AdvertisedTool = {
   name: string;
   description?: string | undefined;
-  inputSchema: { required?: string[]; anyOf?: { required?: string[] }[] };
+  inputSchema: { required?: string[]; anyOf?: { required?: string[] }[] } & Record<string, unknown>;
 };
 
 /** Callers may omit every parameter the service defaults, and every tool says what it does. */
@@ -103,6 +103,30 @@ function expectCallableContract(tools: AdvertisedTool[]) {
   expect(JSON.stringify(tools.map((tool) => tool.inputSchema)).includes('"readOnly":true')).toBe(
     false,
   );
+  // Each advertised inputSchema must be usable on its own by a CLI or MCP caller.
+  for (const tool of tools) {
+    const visit = (value: unknown): void => {
+      if (value === null || typeof value !== "object") return;
+      if ("$ref" in value) {
+        expect(typeof value.$ref).toBe("string");
+        const ref = value.$ref as string;
+        expect(ref.startsWith("#/"), `${tool.name}: external schema reference`).toBe(true);
+        let target: unknown = tool.inputSchema;
+        for (const key of ref
+          .slice(2)
+          .split("/")
+          .map((part) => part.replaceAll("~1", "/").replaceAll("~0", "~"))) {
+          target =
+            target !== null && typeof target === "object"
+              ? (target as Record<string, unknown>)[key]
+              : undefined;
+        }
+        expect(target, `${tool.name}: unresolved ${ref}`).toBeDefined();
+      }
+      for (const child of Object.values(value)) visit(child);
+    };
+    visit(tool.inputSchema);
+  }
   const required = (name: string) => {
     const schema = tools.find((tool) => tool.name === name)?.inputSchema;
     return schema?.anyOf ? schema.anyOf.map((option) => option.required) : schema?.required;
@@ -216,14 +240,14 @@ it("operation help returns its canonical schema and refuses unknown names", () =
     timeout: 3_000,
   });
   expect(help.status).toBe(0);
-  const selected = spawnSync(process.execPath, [entry, "asset.import", "--help"], {
+  const selected = spawnSync(process.execPath, [entry, "edit.apply", "--help"], {
     cwd: "/",
     encoding: "utf8",
     timeout: 3_000,
   });
   expect(selected.status).toBe(0);
   expect(JSON.parse(selected.stdout).operations).toEqual(
-    JSON.parse(help.stdout).operations.filter((op: { name: string }) => op.name === "asset.import"),
+    JSON.parse(help.stdout).operations.filter((op: { name: string }) => op.name === "edit.apply"),
   );
   const unknown = spawnSync(process.execPath, [entry, "not-an-operation", "--help"], {
     cwd: "/",
@@ -427,7 +451,8 @@ it("help, MCP tools/list and invalid tools never contact the default socket", as
   await new Promise<void>((resolve) => server.listen(join(home, "run/service.sock"), resolve));
   cleanup.push(() => new Promise<void>((resolve) => server.close(() => resolve())));
   const env = { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" };
-  expect((await runCli(["--help"], env)).status).toBe(0);
+  const help = await runCli(["--help"], env);
+  expect(help.status).toBe(0);
   expect((await runCli(["asset.import", "--help"], env)).status).toBe(0);
   expect((await runCli(["not-an-operation", "--help"], env)).status).toBe(1);
   const transport = new StdioClientTransport({
@@ -442,6 +467,12 @@ it("help, MCP tools/list and invalid tools never contact the default socket", as
   const { tools } = await client.listTools();
   expect(tools.map((tool) => tool.name).sort()).toEqual([...operationNames].sort());
   expectCallableContract(tools as AdvertisedTool[]);
+  const advertised = JSON.parse(help.stdout).operations as AdvertisedTool[];
+  for (const tool of tools)
+    expect(tool.inputSchema).toEqual({
+      ...advertised.find((entry) => entry.name === tool.name)!.inputSchema,
+      type: "object",
+    });
   for (const [name, code] of [
     ["not.an.operation", "UNKNOWN_OPERATION"],
     ["edit.cut", "INVALID_PARAMS"],

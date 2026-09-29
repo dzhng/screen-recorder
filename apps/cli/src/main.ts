@@ -70,6 +70,7 @@ function capabilities(operation?: string) {
       // What a caller must send, so a parameter the service defaults stays optional.
       inputSchema: z.toJSONSchema(definition.shape.params, {
         io: "input",
+        reused: "ref",
         override: ({ jsonSchema }) => {
           // Runtime freezing does not make caller-authored inputs read-only.
           delete jsonSchema.readOnly;
