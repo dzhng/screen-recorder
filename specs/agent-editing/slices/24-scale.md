@@ -11,10 +11,10 @@ memory](24m-query-duration-memory.md) also pass. [Actual decoder/read accounting
 pinning and cardinality gates. [Finite decoder demand](24q-finite-decoder-demand.md)
 resolves the sparse read-ahead failure; [container identification](24p-audio-format-admission.md)
 preserves descriptor-backed audio admission. Other query families, large-document/
-package history and remaining budgets stay open. Carry the unresolved inherited
-300-second audio streaming
-deadline from [baseline maintenance](../assets/00-baseline/audio-fix/review.md);
-neither baseline nor changed diagnostic establishes a pass. The inherited storage
+package history and remaining budgets stay open. The retained300-second audio streaming gate now passes unchanged in
+[24s](24s-audio-stream-budget.md), including its original debug deadline, sampled
+accuracy and memory assertions. The earlier87.209s diagnostic remains retained;
+no causal speedup or concurrent-load immunity is inferred. The inherited storage
 inventory deadline also failed during concurrent build/native tests but passes
 unchanged in isolation; retain this load-sensitive case in final scale verification.
 See [integration evidence](../assets/integration/README.md). The [cache-owner control](../assets/08a-derived-cache/README.md) also reproduces the large-history and storage setup deadlines before the cache change; processing checks pass in isolation. Revalidate these without relaxing their functional/bounded-work assertions. Dependencies: [23](./23-cutover.md).

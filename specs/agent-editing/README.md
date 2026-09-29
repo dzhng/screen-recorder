@@ -35,7 +35,7 @@ to reuse stale learned audio after adoption. Do not repeat completed DSP researc
 
 Recent scoped passes are banked: [finite source reads](slices/24q-finite-decoder-demand.md)
 and [inherited audio identification](slices/24p-audio-format-admission.md),
-[history pages](slices/24r-history-query-scale.md), [routed scale](slices/24k-routing-scale.md),
+[history pages](slices/24r-history-query-scale.md), [the retained streaming deadline](slices/24s-audio-stream-budget.md), [routed scale](slices/24k-routing-scale.md),
 [warm preview](slices/24l-preview-budget.md), [timeline query memory](slices/24m-query-duration-memory.md),
 and [denoise transitions](slices/15a3b-denoise-transitions.md) with
 [fresh skill use](assets/15a3b-mix-skill/README.md). [Capture rollout](slices/20d-capture-publication.md)
@@ -315,6 +315,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24p — Inherited audio container identification](slices/24p-audio-format-admission.md)
 - [x] [24q — Finite native decoder demand](slices/24q-finite-decoder-demand.md)
 - [x] [24r — Bounded public history queries](slices/24r-history-query-scale.md)
+- [x] [24s — Retained audio streaming deadline](slices/24s-audio-stream-budget.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

@@ -31,6 +31,7 @@ Historical workers and measurements retain their own identities below.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
   Continue actual decoded-work measurement and remaining query families/history.
 - **History queries24r:** the [public history scale check](../slices/24r-history-query-scale.md) passes with real compact revisions and fresh services. Existing cursors exclude new edits; fixed250-row query memory remains stable between5,000 and10,000 revisions. This does not close arbitrary document-size, package-history or job-retirement gates.
+- **Streaming24s:** the original debug300-second streaming harness now passes unchanged, including its60-second child deadlines and memory/sample/sink checks. Storage-inventory contention remains separate and unresolved.
 - **Two-hour package24j:** exact recipe reconstruction is verified; full transfer
   still lacks the free disk required by its measured preflight. Run its measured preflight before restoring PCM.
   No large restore or repeated DSP has run. The prerequisite worktree is
