@@ -92,8 +92,8 @@ Historical workers and measurements retain their own identities below.
   preserves both real postcommit receipts and file identities through reply loss,
   restart and concurrent replay. Root verified all380 archived members and five
   saved movie hashes without rerunning services. Saved homes remain retained;
-  prepared-package-transfer is released after integrating the accepted12d public
-  editing/rendering/undo journey; no native/service processes remain.
+  prepared-package-transfer completed the accepted12d public editing/rendering/undo
+  journey and now owns one retained-input current-worker AAC mixed full/range check.
 - **Selected-device preparation20e:** [the scoped probe](../slices/20e-selected-device-probe.md)
   is now being implemented in capture-pause-recovery. Its physical input stop,
   camera media closure and audio publication share existing termination ordering;
@@ -187,7 +187,9 @@ Current AAC source-repeat provenance is corrected in the
 One historical source decode differs before composition. The bounded
 [current-worker cohort](08-11-rate-conformance/current-source-cohort/README.md)
 returns exact PCM for the same retained request eight times; broader
-reproducibility and the earlier mixed-range cause remain unverified.
+reproducibility remains unverified. A separate read-only audit confirms a retained
+AAC mixed full/range red on historical6663; the exact current8a composition case
+is the next check, without another source-only or broader format cohort.
 
 The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)
 they heard no obvious artifacts but found the unfamiliar cropped words confusing

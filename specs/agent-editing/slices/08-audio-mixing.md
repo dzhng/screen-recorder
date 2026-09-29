@@ -1,6 +1,6 @@
 # 08 — Independent audio mixing
 
-Status: native constant-gain execution and tested fractional unit-rate mapping pass; later09/11a public jobs, taps and large PCM delivery supply their scoped integration gates. [Current reconciliation](../assets/08-current-acceptance/README.md) records the combined-worker rerun. [Physical-segment composition](../assets/08-physical-segments/README.md) passes at 44.1/48kHz after a converter buffer-state fix. [Thirty-minute A/V drift](../assets/08-av-drift/README.md) passes actual public export with 120 fractional edits. [Mixed-rate conformance](../assets/08-11-rate-conformance/README.md) adds 44.1k AAC/MP3 with 48k PCM and frozen-decoder arithmetic; independent resampled AAC reproducibility remains unresolved. [Low/high lossless rates](../assets/08-lossless-rate-boundaries/README.md) add bounded 8/192k source conformance. Broader codec/rate conformance and real-narration listening remain open. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
+Status: native constant-gain execution and tested fractional unit-rate mapping pass; later09/11a public jobs, taps and large PCM delivery supply their scoped integration gates. [Current reconciliation](../assets/08-current-acceptance/README.md) records the combined-worker rerun. [Physical-segment composition](../assets/08-physical-segments/README.md) passes at 44.1/48kHz after a converter buffer-state fix. [Thirty-minute A/V drift](../assets/08-av-drift/README.md) passes actual public export with 120 fractional edits. [Mixed-rate conformance](../assets/08-11-rate-conformance/README.md) adds 44.1k AAC/MP3 with 48k PCM and frozen-decoder arithmetic; retained AAC mixed full/range PCM agreement remains unresolved on the current worker. [Low/high lossless rates](../assets/08-lossless-rate-boundaries/README.md) add bounded 8/192k source conformance. The [public12d narration join](../assets/12d-complete-sentence/README.md#managed-public-journey) now reproduces the user-accepted lossless candidate. The remaining concrete numerical gate is the archived AAC full/range discrepancy; named-domain limitations remain explicit. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
 
 ## Contract
 
@@ -8,7 +8,8 @@ Audio instances in the supported execution domain can overlap and replace one an
 
 [Recorded narration plus authored accompaniment](../assets/08-narration-music/README.md)
 now has scoped public exact-sample, dry-neighbor, gain-negative and undo evidence;
-perceptual balance and join listening remain unverified.
+perceptual accompaniment balance remains unverified. The separately accepted12d
+join establishes only its own original/candidate pair.
 
 ## Seam and ownership
 
@@ -58,8 +59,9 @@ retain the measured format/rate coverage. The segment probe fixes a converter
 buffer-state defect while preserving full/range/split samples and excluded-input
 isolation; source and mixer regression suites pass.
 [Long-project A/V timing](../assets/08-av-drift/README.md) is verified for the
-measured thirty-minute public export. Broader rate/codec coverage and real-narration
-listening remain open.
+measured thirty-minute public export. These are named conformance cases, not a
+universal codec guarantee. The accepted public12d join covers its own narration
+edit; other perceptual judgments remain separate.
 
 [Negative-origin feasibility](../assets/08-negative-origin/README.md) exhausted a bounded two-candidate probe: a negative writer session normalized to zero, and negative composition insertion was refused before export. No genuine negative occupied-origin asset was produced; its public mixing proof remains unverified, without a new admission restriction.
 
@@ -75,3 +77,13 @@ lookahead have focused preservation evidence. Listening remains separate.
 [Native sample-address evidence](../assets/08-native-sample-address/README.md)
 verifies arbitrary physical phase through full/range decoding and resampling,
 with binding acquisition masks, bounded seeks and cache invalidation.
+
+## Current unresolved numerical gate
+
+A read-only audit of the retained `mix-verified` WAVs confirms that the AAC mixed
+range differs from its corresponding full-output slice in4530 scalar samples
+(maximum5.960464477539063e-8, RMS3.1973591513322384e-9). This is a direct full/range
+comparison on historical worker6663, distinct from independently decoded component
+comparisons. The current8a source-only repeat cohort does not exercise this mix
+contract. Recheck this exact retained-input case through the current composition
+owner; do not repeat unrelated format cohorts or change the comparison tolerance.
