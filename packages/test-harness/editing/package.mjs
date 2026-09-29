@@ -750,7 +750,7 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   let largeHead = expanded.revision.id,
     historyBytes = Buffer.byteLength(JSON.stringify(expanded.revision));
   for (let ordinal = 0; historyBytes <= archiveLimits.revisionBytes; ordinal++) {
-    assert.ok(ordinal < 40, "History fixture failed to cross its bounded aggregate limit");
+    assert.ok(ordinal < 40, "History fixture failed to cross the recording inline budget");
     const changed = await call("edit.apply", {
       projectId: large.project.projectId,
       requestId: `canvas-${ordinal}`,
@@ -760,22 +760,24 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     largeHead = changed.revision.id;
     historyBytes += Buffer.byteLength(JSON.stringify(changed.revision));
   }
-  assert.equal(
-    (
-      await call(
-        "export.create",
-        {
-          projectId: large.project.projectId,
-          exportId: randomUUID(),
-          directory,
-          leaf: "too-large.zip",
-          kind: "processed-package",
-        },
-        { error: true },
-      )
-    ).code,
-    "LIMIT_EXCEEDED",
+  const expandedExportId = randomUUID();
+  await call("export.create", {
+    projectId: large.project.projectId,
+    exportId: expandedExportId,
+    directory,
+    leaf: "expanded-history.zip",
+    kind: "processed-package",
+  });
+  const expandedExport = await poll(
+    () => call("export.status", { exportId: expandedExportId }, { transport: "mcp" }),
+    (value) => value.state === "committed" || value.state === "failed",
   );
+  assert.equal(expandedExport.state, "committed");
+  assert.equal(
+    expandedExport.snapshot.historyThroughOrdinal,
+    expandedExport.snapshot.revisionCount - 1,
+  );
+  assert.ok(historyBytes > archiveLimits.revisionBytes);
   report.checks = {
     current,
     history: before,
@@ -802,7 +804,7 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     adoptionReplay: true,
     canceledAdoptionInvisible: true,
     corruptAndMissingMembersRejected: true,
-    aggregateHistoryLimitBeforePublication: true,
+    projectHistoryBeyondInlineRecordingBudget: true,
     closedAdmissionStatusRetained: true,
   };
   report.passed = true;

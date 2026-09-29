@@ -8,7 +8,6 @@ import {
   validateArchiveLimits,
   type ArchiveLimits,
   type ArchiveManifest,
-  type ArchiveManifestValidator,
 } from "@screenrec/core/package-archive";
 import {
   type JobQueue,
@@ -17,7 +16,12 @@ import {
   type ContextJob,
 } from "@screenrec/core/jobs";
 import { admitArchive, type AdmittedArchive } from "./archive-input.js";
-import { openPackageArchive, packageOutputBytes, type RetainedPackage } from "./package-archive.js";
+import {
+  openPackageArchive,
+  packageOutputBytes,
+  type RetainedPackage,
+  type PackageManifestResolution,
+} from "./package-archive.js";
 import {
   provisionPackageWorkspace,
   recoverPackageWorkspaces,
@@ -73,7 +77,10 @@ const describe = (error: unknown) =>
   (error instanceof Error ? error.message : String(error)).slice(0, 4096);
 
 /** One process-local resource owner; execution capacity remains exclusively in JobQueue. */
-export class PackageRegistry<T extends ArchiveManifest = ReturnType<typeof validateManifest>> {
+export class PackageRegistry<
+  T extends ArchiveManifest = ReturnType<typeof validateManifest>,
+  Parsed extends ArchiveManifest = T,
+> {
   private readonly entries = new Map<string, Entry<T>>();
   private readonly handles = new Map<string, Entry<T>>();
   private readonly terminal = new Map<string, PackageAdmission>();
@@ -83,9 +90,8 @@ export class PackageRegistry<T extends ArchiveManifest = ReturnType<typeof valid
   private readonly limits: ArchiveLimits;
   private readonly bytes: number;
   constructor(
-    private readonly options: {
+    private readonly options: PackageManifestResolution<T, Parsed> & {
       parent: { directory: string; handle: FileHandle };
-      validate: ArchiveManifestValidator<T>;
       mediaPaths?: (manifest: T) => readonly string[];
       inspect?: (
         retained: RetainedPackage<T>,
@@ -97,6 +103,7 @@ export class PackageRegistry<T extends ArchiveManifest = ReturnType<typeof valid
       delivery: DerivativeDelivery;
       limits?: ArchiveLimits;
       bytes?: number;
+      inlineRevisions?: boolean;
     },
   ) {
     this.limits = { ...(options.limits ?? archiveLimits) };
@@ -337,11 +344,9 @@ export class PackageRegistry<T extends ArchiveManifest = ReturnType<typeof valid
         { directory: entry.workspace.directory, handle: entry.workspace.handle },
         this.options.worker,
         {
+          ...this.options,
           signal,
           limits: this.limits,
-          validate: this.options.validate,
-          ...(this.options.mediaPaths ? { mediaPaths: this.options.mediaPaths } : {}),
-          ...(this.options.inspect ? { inspect: this.options.inspect } : {}),
         },
       );
       if (signal.aborted || entry.state !== "opening")

@@ -17,6 +17,19 @@ export const archiveLimits = {
   initialReadBytes: 8 * 1024 ** 2,
   receiptBytes: 7 * 1024 ** 2,
 };
+/** Project packages eagerly validate complete selected history and typed resources before readiness. */
+export const projectJsonBytes = 128 * 1024 ** 2;
+export function checkProjectJsonBytes(aggregate: number): void {
+  if (!Number.isSafeInteger(aggregate) || aggregate > projectJsonBytes)
+    throw new CatalogError(
+      "LIMIT_EXCEEDED",
+      "Project JSON exceeds its working-memory admission budget",
+      {
+        aggregateJsonBytes: aggregate,
+        maximumJsonBytes: projectJsonBytes,
+      },
+    );
+}
 export type ArchiveLimits = typeof archiveLimits;
 const integer = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
 const digest = z.string().regex(/^[a-f0-9]{64}$/);

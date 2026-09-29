@@ -1,6 +1,11 @@
 import { createHash } from "node:crypto";
-import { archiveLimits } from "./package-archive.js";
-import { projectPackageManifest, validateProjectPackage } from "./project-package.js";
+import { archiveLimits, projectJsonBytes } from "./package-archive.js";
+import {
+  projectPackageManifest,
+  validateProjectPackage,
+  resourceMetadataMember,
+  parseProjectPackageManifest,
+} from "./project-package.js";
 import type { ProjectSnapshot } from "./projects.js";
 
 import { test, expect } from "vitest";
@@ -44,8 +49,8 @@ test("portable inventory follows generated reference chains and rejects missing 
   expect(() => collectPortableResources(roots("speech"), read)).toThrow("missing reference");
 });
 
-test("portable manifest validates complete history bytes, undo targets, paths and declared media closure", () => {
-  const snapshot: ProjectSnapshot = {
+function snapshotFixture(): ProjectSnapshot {
+  return {
     project: { projectId: "donor", title: "Editable", createdAt: "now", currentRevisionId: "r0" },
     revisions: [
       {
@@ -72,6 +77,10 @@ test("portable manifest validates complete history bytes, undo targets, paths an
     undo: [],
     references: [],
   };
+}
+
+test("portable manifest validates complete history bytes, undo targets, paths and declared media closure", () => {
+  const snapshot = snapshotFixture();
   const text = JSON.stringify(snapshot.revisions[0]);
   const path = "revisions/0.json";
   const revisions = new Map([[path, text]]);
@@ -104,16 +113,13 @@ test("portable manifest validates complete history bytes, undo targets, paths an
       sha256: createHash("sha256").update(secondText).digest("hex"),
     },
   ];
-  expect(() =>
+  expect(
     validateProjectPackage(
       JSON.stringify(projectPackageManifest(two, [], twoInventory)),
       new Map([...revisions, ["revisions/1.json", secondText]]),
-      {
-        ...archiveLimits,
-        revisionBytes: Math.max(Buffer.byteLength(text), Buffer.byteLength(secondText)) + 1,
-      },
-    ),
-  ).toThrow(/revision byte budget/);
+      { ...archiveLimits, revisionBytes: 1 },
+    ).snapshot,
+  ).toEqual(two);
   expect(() =>
     validate(manifest, new Map([[path, text.replace("Editable", "Changed") + " "]])),
   ).toThrow(/hash or size/);
@@ -136,4 +142,127 @@ test("portable manifest validates complete history bytes, undo targets, paths an
       expandedBytes: 1,
     }),
   ).toThrow(/byte limit/);
+});
+
+test("inventory-bound asset metadata is mandatory, exact and validated before closure", () => {
+  const snapshot = snapshotFixture();
+  const resource: Extract<PortableResource, { kind: "asset" }> = {
+    kind: "asset",
+    asset: {
+      id: "a".repeat(64),
+      bytes: 1,
+      fileName: "a".repeat(64) + ".mov",
+      createdAt: "now",
+      originUs: 100001,
+      streams: [
+        {
+          id: "audio:0",
+          kind: "audio",
+          codec: "pcm",
+          decodable: true,
+          startUs: 0,
+          endUs: 30,
+          channels: 1,
+          sampleRate: 48000,
+          segments: [
+            { startUs: 0, endUs: 10, empty: true },
+            { startUs: 10, endUs: 30, empty: false, mediaStartUs: 0, mediaDurationUs: 20 },
+          ],
+        },
+      ],
+    },
+    origins: [],
+    dependencies: [],
+  };
+  snapshot.references = [
+    { revisionId: "r0", resources: [{ kind: "asset", id: resource.asset.id }] },
+  ];
+  const revision = JSON.stringify(snapshot.revisions[0]);
+  const revisions = new Map([["revisions/0.json", revision]]);
+  const member = resourceMetadataMember(resource);
+  const manifest = projectPackageManifest(
+    snapshot,
+    [resource],
+    [
+      {
+        path: "revisions/0.json",
+        bytes: Buffer.byteLength(revision),
+        sha256: createHash("sha256").update(revision).digest("hex"),
+      },
+      {
+        path: `assets/${resource.asset.fileName}`,
+        bytes: resource.asset.bytes,
+        sha256: resource.asset.id,
+      },
+      member.reference.metadata,
+    ],
+  );
+  const read = (
+    metadata = new Map([[member.reference.metadata.path, member.body]]),
+    value = manifest,
+  ) => validateProjectPackage(JSON.stringify(value), revisions, archiveLimits, metadata);
+  expect(read().resources).toEqual([resource]);
+  expect(() => read(new Map())).toThrow(/metadata member hash or size/);
+  expect(() => read(new Map([[member.reference.metadata.path, member.body + " "]]))).toThrow(
+    /metadata member hash or size/,
+  );
+  expect(() =>
+    read(
+      new Map([
+        [member.reference.metadata.path, member.body],
+        ["extra", "{}"],
+      ]),
+    ),
+  ).toThrow(/Unexpected resource metadata/);
+  expect(() => read(undefined, { ...manifest, version: 1 } as never)).toThrow(/project.*version/);
+  const duplicate = structuredClone(resource);
+  duplicate.asset.streams.push({ ...duplicate.asset.streams[0]!, segments: [] });
+  const duplicateMember = resourceMetadataMember(duplicate);
+  const duplicateManifest = {
+    ...manifest,
+    resources: [duplicateMember.reference],
+    inventory: manifest.inventory.map((entry) =>
+      entry.path === member.reference.metadata.path ? duplicateMember.reference.metadata : entry,
+    ),
+  };
+  expect(() =>
+    read(new Map([[member.reference.metadata.path, duplicateMember.body]]), duplicateManifest),
+  ).toThrow(/schema/);
+  const substituted = JSON.stringify({
+    ...resource,
+    asset: { ...resource.asset, id: "b".repeat(64), fileName: `${"b".repeat(64)}.wav` },
+  });
+  const substitutedRef = {
+    ...member.reference.metadata,
+    bytes: Buffer.byteLength(substituted),
+    sha256: createHash("sha256").update(substituted).digest("hex"),
+  };
+  expect(() =>
+    read(new Map([[substitutedRef.path, substituted]]), {
+      ...manifest,
+      resources: [{ ...member.reference, metadata: substitutedRef }],
+      inventory: manifest.inventory.map((entry) =>
+        entry.path === substitutedRef.path ? substitutedRef : entry,
+      ),
+    }),
+  ).toThrow(/identity/);
+  const oversized = { ...member.reference.metadata, bytes: projectJsonBytes + 1 };
+  const tooLarge = {
+    ...manifest,
+    resources: [{ ...member.reference, metadata: oversized }],
+    inventory: manifest.inventory.map((entry) =>
+      entry.path === oversized.path ? oversized : entry,
+    ),
+  };
+  expect(() =>
+    parseProjectPackageManifest(JSON.stringify(tooLarge), revisions, archiveLimits),
+  ).toThrow(
+    expect.objectContaining({
+      code: "LIMIT_EXCEEDED",
+      details: {
+        aggregateJsonBytes: projectJsonBytes + 1 + Buffer.byteLength(revision),
+        maximumJsonBytes: projectJsonBytes,
+      },
+    }),
+  );
 });

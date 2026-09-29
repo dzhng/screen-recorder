@@ -1,5 +1,5 @@
 import { ResourceReferences, resourceKinds, type ResourceReference } from "./references.js";
-import { archiveLimits } from "./package-archive.js";
+import { archiveLimits, checkProjectJsonBytes } from "./package-archive.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
@@ -482,11 +482,12 @@ export class ProjectStore {
         "SELECT COUNT(*) AS count,COALESCE(SUM(length(CAST(content AS BLOB))),0) AS bytes FROM project_revisions WHERE projectId=? AND ordinal<=?",
       )
       .get(projectId, selected.ordinal) as { count: number; bytes: number };
-    if (usage.count > archiveLimits.history || usage.bytes > archiveLimits.revisionBytes)
+    if (usage.count > archiveLimits.history)
       throw new CatalogError(
         "LIMIT_EXCEEDED",
         "Project history exceeds the portable snapshot budget",
       );
+    checkProjectJsonBytes(usage.bytes);
     const history = this.history(
       projectId,
       { projectId, afterOrdinal: -1, throughOrdinal: selected.ordinal },

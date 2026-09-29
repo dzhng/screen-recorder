@@ -1,3 +1,4 @@
+import { resolveProjectPackageMetadata } from "./project-package-metadata.js";
 import { sourceExporter } from "./source-export.js";
 import { preparedAudioResource, type PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { acquisitionContext } from "@screenrec/core/acquisitions";
@@ -25,7 +26,7 @@ import { mkdir, open, writeFile, type FileHandle } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
 import { copyImportedFile, fileIdentity, type IdentifiedFile } from "@screenrec/core/files";
-import { archiveLimits } from "@screenrec/core/package-archive";
+import { archiveLimits, checkProjectJsonBytes } from "@screenrec/core/package-archive";
 import {
   collectPortableResources,
   projectResourceRoots,
@@ -37,6 +38,9 @@ import {
   type PortableDependency,
   type PortableResource,
   projectPackageManifest,
+  parseProjectPackageManifest,
+  resourceMetadataMember,
+  type ProjectPackageManifest,
   validateProjectPackage,
   type ValidatedProjectPackage,
 } from "@screenrec/core/project-package";
@@ -91,7 +95,7 @@ type Owners = {
 /** Archive lifetimes remain in the registry; durable adoption remains in the project and asset owners. */
 export class ProjectPackages {
   private parent: Awaited<ReturnType<typeof openPackageParent>> | undefined;
-  private registry: PackageRegistry<ValidatedProjectPackage> | undefined;
+  private registry: PackageRegistry<ValidatedProjectPackage, ProjectPackageManifest> | undefined;
   private preparing: Promise<void> | undefined;
   private closed = false;
   constructor(private readonly owners: Owners) {}
@@ -101,12 +105,14 @@ export class ProjectPackages {
     if (this.registry) return;
     this.preparing = (async () => {
       const parent = await openPackageParent(join(this.owners.directory, "packages"));
-      const registry = new PackageRegistry({
+      const registry = new PackageRegistry<ValidatedProjectPackage, ProjectPackageManifest>({
         parent,
         jobs: this.owners.jobs,
         worker: this.owners.worker,
         delivery: this.owners.delivery,
-        validate: validateProjectPackage,
+        inlineRevisions: false,
+        validate: parseProjectPackageManifest,
+        resolve: resolveProjectPackageMetadata,
         inspect: async (context, signal = new AbortController().signal, lifetime) => {
           for (const entry of context.manifest.resources) {
             if (entry.kind !== "acquisition") continue;
@@ -229,7 +235,10 @@ export class ProjectPackages {
   }
   pin(projectId: string, revisionId?: string): PinnedProjectPackage {
     const snapshot = this.owners.projects.snapshot(projectId, revisionId);
-    let metadataBytes = Buffer.byteLength(JSON.stringify(snapshot.references)),
+    let jsonBytes = snapshot.revisions.reduce(
+        (sum, revision) => sum + Buffer.byteLength(JSON.stringify(revision)),
+        0,
+      ),
       members = snapshot.revisions.length;
     const acquisitionFiles: PinnedProjectPackage["acquisitionFiles"] = {};
     const transcriptFiles: PinnedProjectPackage["transcriptFiles"] = {};
@@ -252,14 +261,7 @@ export class ProjectPackages {
         };
         if (!sceneInventory.has(resourceIdentity(scene).id)) {
           members += metadata.chunkCount;
-          metadataBytes +=
-            Buffer.byteLength(JSON.stringify(scene)) +
-            metadata.chunkCount *
-              (Buffer.byteLength(
-                JSON.stringify({ bytes: 8 * 1024 * 1024, sha256: "f".repeat(64) }),
-              ) +
-                1);
-          if (members >= archiveLimits.entries || metadataBytes > archiveLimits.manifestBytes)
+          if (members >= archiveLimits.entries)
             throw new CatalogError(
               "LIMIT_EXCEEDED",
               "Scene inventory exceeds archive metadata budget",
@@ -280,8 +282,7 @@ export class ProjectPackages {
         const identity = resourceIdentity(resource);
         if (!transcriptInventory.has(identity.id)) {
           members += 2;
-          metadataBytes += Buffer.byteLength(JSON.stringify(resource)) + 128;
-          if (members >= archiveLimits.entries || metadataBytes > archiveLimits.manifestBytes)
+          if (members >= archiveLimits.entries)
             throw new CatalogError("LIMIT_EXCEEDED", "Transcript inventory exceeds archive budget");
           transcriptFiles[identity.id] = this.owners.transcriptRecords.portableFile(metadata);
           transcriptInventory.set(identity.id, resource);
@@ -303,8 +304,7 @@ export class ProjectPackages {
         if (!indexInventory.has(identity.id)) {
           const entries = metadata.candidateCount * 2 + metadata.coverageCount;
           members += entries;
-          metadataBytes += Buffer.byteLength(JSON.stringify(resource)) + entries * 128;
-          if (members >= archiveLimits.entries || metadataBytes > archiveLimits.manifestBytes)
+          if (members >= archiveLimits.entries)
             throw new CatalogError(
               "LIMIT_EXCEEDED",
               "Screenshot index inventory exceeds archive budget",
@@ -342,8 +342,7 @@ export class ProjectPackages {
         reference.resources.push(identity);
       const entries = metadata.candidateCount * 2 + metadata.coverageCount;
       members += entries;
-      metadataBytes += Buffer.byteLength(JSON.stringify(resource)) + entries * 128;
-      if (members >= archiveLimits.entries || metadataBytes > archiveLimits.manifestBytes)
+      if (members >= archiveLimits.entries)
         throw new CatalogError(
           "LIMIT_EXCEEDED",
           "Screenshot index inventory exceeds archive budget",
@@ -419,13 +418,15 @@ export class ProjectPackages {
         resource.kind === "acquisition" ||
         resource.kind === "prepared-audio"
       ) {
-        metadataBytes += Buffer.byteLength(JSON.stringify(resource));
         members += resourceMembers(resource).length;
       }
-      if (metadataBytes > archiveLimits.manifestBytes || members >= archiveLimits.entries)
+      jsonBytes += Buffer.byteLength(JSON.stringify(resource));
+      checkProjectJsonBytes(jsonBytes);
+      members++; // Every typed resource has one metadata member in version 2.
+      if (members >= archiveLimits.entries)
         throw new CatalogError(
           "LIMIT_EXCEEDED",
-          "Project resource metadata exceeds package manifest budget",
+          "Project resources exceed package inventory budget",
         );
       return resource;
     });
@@ -902,6 +903,8 @@ export class ProjectPackages {
         : resourceMembers(resource),
     );
     const resources: PortableResource[] = [];
+    const resourceMetadata = new Map<string, string>();
+    let jsonBytes = [...revisions.values()].reduce((sum, body) => sum + Buffer.byteLength(body), 0);
     if (
       declared.length + plan.length >= archiveLimits.entries ||
       declared.some((entry) => entry.bytes > archiveLimits.memberBytes) ||
@@ -1062,13 +1065,22 @@ export class ProjectPackages {
         await add(member.path, copied.bytes, copied.sha256);
       }
     }
+    await mkdir(join(input.directory, "resources"), { mode: 0o700 });
+    for (const resource of resources) {
+      signal.throwIfAborted();
+      const metadata = resourceMetadataMember(resource);
+      jsonBytes += metadata.reference.metadata.bytes;
+      checkProjectJsonBytes(jsonBytes);
+      await text(metadata.reference.metadata.path, metadata.body);
+      resourceMetadata.set(metadata.reference.metadata.path, metadata.body);
+    }
     const manifest = projectPackageManifest(
       pinned.snapshot,
       resources,
       plan.map(({ identity: _identity, ...entry }) => entry),
     );
     const body = JSON.stringify(manifest);
-    validateProjectPackage(body, revisions, archiveLimits);
+    validateProjectPackage(body, revisions, archiveLimits, resourceMetadata);
     await text("manifest.json", body);
     const planBody = JSON.stringify(plan);
     if (Buffer.byteLength(planBody) > archiveLimits.receiptBytes)

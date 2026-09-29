@@ -433,7 +433,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video or an editable processed-package ZIP; recordings export video or their processed-package ZIP. Project packaging currently requires the current revision and refuses acquisition/evidence dependencies whose portable adoption is not implemented. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video or an editable processed-package ZIP; recordings export video or their processed-package ZIP. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until processing.retry succeeds.",
     ),
   z
     .object({
@@ -467,7 +467,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Read an export's pinned revision, admitted destination, job, private cleanup state and historical commit receipt without opening the destination. output names a file only once committed.",
+      "Read an export's pinned revision, admitted destination, job, private cleanup state and historical commit receipt without opening the destination. Project package snapshots report project/revision identity and history/resource counts; video snapshots retain output settings. output names a file only once committed.",
     ),
   z
     .object({

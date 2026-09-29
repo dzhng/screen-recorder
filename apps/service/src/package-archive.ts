@@ -24,8 +24,26 @@ import type { validateManifest } from "@screenrec/core/package-manifest";
 
 export const packageOutputBytes = 128 * 1024 ** 2;
 
-export type PackageArchiveOptions<T extends ArchiveManifest> = {
-  validate: ArchiveManifestValidator<T>;
+type ManifestResolver<Parsed extends ArchiveManifest, Ready extends ArchiveManifest> = (
+  input: { manifest: Parsed; revisions: ReadonlyMap<string, string>; files: FileAccess },
+  signal: AbortSignal | undefined,
+  lifetime: { readonly fd: number },
+) => Promise<Ready>;
+
+/** A differently shaped parsed manifest cannot enter readiness without its resolver. */
+export type PackageManifestResolution<
+  Ready extends ArchiveManifest,
+  Parsed extends ArchiveManifest = Ready,
+> = {
+  validate: ArchiveManifestValidator<Parsed>;
+} & ([Parsed] extends [Ready]
+  ? { resolve?: ManifestResolver<Parsed, Ready> }
+  : { resolve: ManifestResolver<Parsed, Ready> });
+
+export type PackageArchiveOptions<
+  T extends ArchiveManifest,
+  Parsed extends ArchiveManifest = T,
+> = PackageManifestResolution<T, Parsed> & {
   mediaPaths?: (manifest: T) => readonly string[];
   inspect?: (
     retained: RetainedPackage<T>,
@@ -35,12 +53,19 @@ export type PackageArchiveOptions<T extends ArchiveManifest> = {
   signal?: AbortSignal;
   limits?: ArchiveLimits;
   timeoutMs?: number;
+  inlineRevisions?: boolean;
 };
 async function extractArchive<T extends ArchiveManifest>(
   archive: AdmittedArchive,
   workspace: FileHandle,
   worker: MediaWorker,
-  options: PackageArchiveOptions<T>,
+  options: {
+    validate: ArchiveManifestValidator<T>;
+    signal?: AbortSignal;
+    limits?: ArchiveLimits;
+    timeoutMs?: number;
+    inlineRevisions?: boolean;
+  },
 ) {
   const limits = options.limits ?? archiveLimits;
   validateArchiveLimits(limits);
@@ -87,7 +112,14 @@ async function extractArchive<T extends ArchiveManifest>(
   try {
     const result = await worker(
       "archive.extract",
-      { input: { bytes: archive.bytes, identity: archive.identity }, identity, limits },
+      {
+        input: { bytes: archive.bytes, identity: archive.identity },
+        identity,
+        limits,
+        ...(options.inlineRevisions === undefined
+          ? {}
+          : { inlineRevisions: options.inlineRevisions }),
+      },
       {
         ...nativeOptions,
         descriptors: [workspace.fd, archive.fd],
@@ -110,7 +142,13 @@ export async function verifyPackageArchive<T extends ArchiveManifest>(
   archive: AdmittedArchive,
   workspace: FileHandle,
   worker: MediaWorker,
-  options: PackageArchiveOptions<T>,
+  options: {
+    validate: ArchiveManifestValidator<T>;
+    signal?: AbortSignal;
+    limits?: ArchiveLimits;
+    timeoutMs?: number;
+    inlineRevisions?: boolean;
+  },
 ) {
   const extraction = await extractArchive(archive, workspace, worker, options);
   await extraction.close();
@@ -118,23 +156,47 @@ export async function verifyPackageArchive<T extends ArchiveManifest>(
   return receipt;
 }
 
-export async function openPackageArchive<T extends ArchiveManifest>(
+export async function openPackageArchive<
+  T extends ArchiveManifest,
+  Parsed extends ArchiveManifest = T,
+>(
   archive: AdmittedArchive,
   workspace: { directory: string; handle: FileHandle },
   worker: MediaWorker,
-  options: PackageArchiveOptions<T>,
+  options: PackageArchiveOptions<T, Parsed>,
 ) {
   const extraction = await extractArchive(archive, workspace.handle, worker, options);
+  let opened: IdentifiedFiles | undefined;
   let retained: RetainedPackage<T>;
   try {
+    opened = new IdentifiedFiles(workspace.directory, extraction.verified.files);
+    options.signal?.throwIfAborted();
+    // The type-level contract permits omission only when Parsed is already a Ready shape.
+    const manifest = options.resolve
+      ? await options.resolve(
+          {
+            manifest: extraction.verified.manifest,
+            revisions: new Map(Object.entries(extraction.verified.revisionContents)),
+            files: fileSubdirectory(opened, "content"),
+          },
+          options.signal,
+          workspace.handle,
+        )
+      : (extraction.verified.manifest as unknown as T);
+    options.signal?.throwIfAborted();
     retained = new RetainedPackage(
       workspace,
       worker,
-      extraction,
-      options.mediaPaths?.(extraction.verified.manifest) ?? [],
+      { ...extraction, verified: { ...extraction.verified, manifest } },
+      options.mediaPaths?.(manifest) ?? [],
+      opened,
     );
   } catch (error) {
-    await extraction.close(error);
+    try {
+      opened?.close();
+    } finally {
+      await extraction.close(error);
+    }
     throw error;
   }
   try {
@@ -178,6 +240,7 @@ export class RetainedPackage<T extends ArchiveManifest = ReturnType<typeof valid
     private readonly worker: MediaWorker,
     private readonly extraction: Extraction<T>,
     private readonly mediaPaths: readonly string[],
+    opened: IdentifiedFiles,
   ) {
     this.manifest = extraction.verified.manifest;
     this.archiveUsage = Object.freeze({
@@ -185,7 +248,7 @@ export class RetainedPackage<T extends ArchiveManifest = ReturnType<typeof valid
       expandedBytes: extraction.verified.expandedBytes,
     });
     this.revisionContents = extraction.verified.revisionContents;
-    this.opened = new IdentifiedFiles(workspace.directory, extraction.verified.files);
+    this.opened = opened;
     this.files = fileSubdirectory(this.opened, "content");
   }
   private callWorker(...args: Parameters<MediaWorker>): ReturnType<MediaWorker> {

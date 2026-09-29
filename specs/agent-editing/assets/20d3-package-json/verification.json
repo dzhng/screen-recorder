@@ -1,0 +1,420 @@
+{
+  "scope": "Unified inventory-bound JSON for project package v2; pre-ready descriptor hydration, export summaries, preservation. Combined sparse10k edit setup remains red and is not claimed closed.",
+  "base": "fc471b7838a878c2fa43083ab0910fc790ec7275",
+  "native": {
+    "path": "/tmp/screenrec-package-json-native",
+    "sha256": "8f5241244e4eebda40d9c8d21311f82fddaaf3f4c186ef823aec3c60dd6bea55",
+    "changes": [
+      "ArchiveOperation.Extraction.inlineRevisions",
+      "ArchiveExtraction project revision members delivered as ordinary hashed files"
+    ],
+    "buildCommand": "swift build --package-path helpers/mac",
+    "currentSourceBuild": "After syncingfc471b78, swift build completed in5.03s and reproduced the exact same frozen worker SHA256."
+  },
+  "gates": {
+    "focused": "26 core/project/service tests passed;3 package schema cases rechecked after identity substitution control",
+    "owner": "27 registry/export lifecycle tests passed including pre-ready failure/cancel owner cleanup",
+    "recording": "43 native archive tests passed, recording default inline contract unchanged",
+    "publicSmall": "package-json-small",
+    "canonical100000": "package-json-canonical-indexed, exact200000 physical rows after donor removal and adoption",
+    "history10000": "package-json-history10000,21 revisions/43097858 JSON bytes; package-json-history-undo verifies every document and undo9500clips",
+    "canonicalClock": "package-json-canonical-clock exact PCM,1us direct-mask proof, native proof/clock/layout tamper controls",
+    "preservation": "package-json-preservation-final all scenes/transcripts/source+project indexes, historical prefix/edit/undo/replay/cancel/corruption; old1MiB final oracle corrected to approved expanded history contract",
+    "prepared": "package-json-prepared owner-seeded and public learned outputs exact current/history/late PCM with executor/model unavailable and tamper controls",
+    "review": "Read-only codex review clean; final shape/diff/docs review applied. Existing no-constant-condition warning in unchanged project-packages pagination loop."
+  },
+  "workingMemory": {
+    "aggregateJsonBytes": 132875545,
+    "maximumJsonBytes": 134217728,
+    "fraction": 0.989999957382679,
+    "historyRevisions": 21,
+    "currentClipCount": 10000,
+    "scope": "Working-memory fixture: actual public history plus actual canonical resource metadata and repeated typed physical-row resources with synthetic identities. Not a native archive/media/publication proof.",
+    "measurement": {
+      "passed": true,
+      "phases": [
+        {
+          "name": "compact envelope",
+          "seconds": 0.0033197079999999985,
+          "rss": 90882048,
+          "maxRSSKiB": 88752
+        },
+        {
+          "name": "complete descriptor hydration/schema/closure/history validation",
+          "seconds": 5.618619333000001,
+          "rss": 1631272960,
+          "maxRSSKiB": 1605568
+        }
+      ],
+      "resources": 9,
+      "revisions": 21,
+      "maxRSSKiB": 1605568,
+      "within4GiB": true,
+      "scope": "Metadata hydration worker only; native canonical verification remains a separate public gate."
+    }
+  },
+  "status": {
+    "index": {
+      "buildMs": 20.169209000000002,
+      "reads1000Ms": 3.600666000000004,
+      "plan": [
+        {
+          "id": 3,
+          "parent": 0,
+          "notused": 56,
+          "detail": "SEARCH export_intents USING COVERING INDEX export_intents_status (exportId=?)"
+        }
+      ],
+      "jsonFunctions": [],
+      "indexBytes": 4096,
+      "summary": {
+        "projectId": "6b055a7d-113a-408a-ad73-48796616c568",
+        "revisionId": "7d7bbdaa-8d58-4090-83b3-82e5ff24b092",
+        "historyThroughOrdinal": 1,
+        "revisionCount": 2,
+        "resourceCount": 3
+      },
+      "maxRSSKiB": 125120
+    },
+    "updates": [
+      {
+        "name": "index",
+        "updatesMs": [
+          7.830207999999999,
+          5.9105419999999995,
+          5.715667000000003,
+          5.916083,
+          6.4630420000000015
+        ],
+        "maxRSSKiB": 87776
+      },
+      {
+        "name": "covering",
+        "updatesMs": [
+          29.625584000000003,
+          26.120833000000005,
+          26.512916999999987,
+          26.396457999999996,
+          27.590625000000017
+        ],
+        "maxRSSKiB": 126304
+      }
+    ],
+    "public": {
+      "results": [
+        {
+          "home": "/tmp/package-json-small/donor-removed",
+          "exportId": "da3a321e-8646-4629-b4eb-c4f55ad1f934",
+          "bytes": 2406,
+          "beforeRSSKiB": 99328,
+          "observations": [
+            {
+              "milliseconds": 4.69295900000003,
+              "rssKiB": 99728,
+              "state": "committed"
+            },
+            {
+              "milliseconds": 1.1643329999999992,
+              "rssKiB": 99808,
+              "state": "committed"
+            },
+            {
+              "milliseconds": 0.8705420000000004,
+              "rssKiB": 99968,
+              "state": "committed"
+            },
+            {
+              "milliseconds": 0.7987919999999917,
+              "rssKiB": 100128,
+              "state": "committed"
+            },
+            {
+              "milliseconds": 0.7848749999999995,
+              "rssKiB": 100272,
+              "state": "committed"
+            }
+          ],
+          "list": {
+            "milliseconds": 1.430250000000001,
+            "rssKiB": 100448,
+            "count": 1,
+            "bytes": 275
+          }
+        },
+        {
+          "home": "/tmp/package-json-canonical-indexed/donor-removed",
+          "exportId": "fc6ddd7e-7a5c-4911-bc75-d1ee276c28c2",
+          "bytes": 19611312,
+          "beforeRSSKiB": 190576,
+          "observations": [
+            {
+              "milliseconds": 3.908083999999917,
+              "rssKiB": 190704,
+              "state": "failed"
+            },
+            {
+              "milliseconds": 1.015916999999945,
+              "rssKiB": 190784,
+              "state": "failed"
+            },
+            {
+              "milliseconds": 0.7258340000000771,
+              "rssKiB": 190848,
+              "state": "failed"
+            },
+            {
+              "milliseconds": 0.7675000000000409,
+              "rssKiB": 190944,
+              "state": "failed"
+            },
+            {
+              "milliseconds": 0.7172090000000253,
+              "rssKiB": 191056,
+              "state": "failed"
+            }
+          ],
+          "list": {
+            "milliseconds": 1.401958000000036,
+            "rssKiB": 191152,
+            "count": 3,
+            "bytes": 746
+          }
+        }
+      ],
+      "scope": "Current actual public status calls, sampled service RSS not process high-water; no new export/render"
+    },
+    "tradeoff": "Covering index removes full-record access from repeated status/list. Lifecycle updates recompute summary (~26\u201330ms measured19.6MB snapshot); construction~20ms. Observations are not universal timing guarantees.",
+    "listQueryPlan": {
+      "query": "SELECT selected.*,j.state FROM (SELECT exportId,targetKind,targetId,kind,\n      json_extract(CASE WHEN targetKind='project' AND kind='processed-package'\n  THEN json_object('projectId',targetId,'revisionId',json_extract(snapshot,'$.revisionId'),\n    'historyThroughOrdinal',json_array_length(snapshot,'$.snapshot.revisions')-1,\n    'revisionCount',json_array_length(snapshot,'$.snapshot.revisions'),\n    'resourceCount',json_array_length(snapshot,'$.resources'))\n  ELSE snapshot END,'$.revisionId') AS revisionId,receipt IS NOT NULL AS receipt,abandoning,\n      assembly IS NOT NULL AS assembly,staging IS NOT NULL AS staging,stagingCleared\n      FROM (SELECT exportId AS selectedExportId FROM export_intents WHERE exportId>?\n        \n         ORDER BY exportId LIMIT ?) page\n      CROSS JOIN export_intents INDEXED BY export_intents_status_projection ON exportId=page.selectedExportId) selected\n      LEFT JOIN jobs j ON j.targetKind=selected.targetKind AND j.targetId=selected.targetId AND j.revisionId=selected.revisionId\n      AND j.artifact=? AND j.input=selected.exportId ORDER BY selected.exportId",
+      "plan": [
+        {
+          "id": 2,
+          "parent": 0,
+          "notused": 0,
+          "detail": "CO-ROUTINE page"
+        },
+        {
+          "id": 8,
+          "parent": 2,
+          "notused": 189,
+          "detail": "SEARCH export_intents USING COVERING INDEX sqlite_autoindex_export_intents_1 (exportId>?)"
+        },
+        {
+          "id": 23,
+          "parent": 0,
+          "notused": 196,
+          "detail": "SCAN page"
+        },
+        {
+          "id": 26,
+          "parent": 0,
+          "notused": 55,
+          "detail": "SEARCH export_intents USING COVERING INDEX export_intents_status_projection (exportId=?)"
+        },
+        {
+          "id": 32,
+          "parent": 0,
+          "notused": 47,
+          "detail": "SEARCH j USING INDEX jobs_identity (targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?) LEFT-JOIN"
+        },
+        {
+          "id": 76,
+          "parent": 0,
+          "notused": 0,
+          "detail": "USE TEMP B-TREE FOR ORDER BY"
+        }
+      ],
+      "functions": [
+        {
+          "addr": 33,
+          "opcode": "Function",
+          "p1": 2,
+          "p2": 12,
+          "p3": 9,
+          "p4": "json_extract(-1)",
+          "p5": 0,
+          "comment": null
+        },
+        {
+          "addr": 48,
+          "opcode": "Function",
+          "p1": 2,
+          "p2": 26,
+          "p3": 18,
+          "p4": "json_extract(-1)",
+          "p5": 0,
+          "comment": null
+        }
+      ]
+    },
+    "rejectedReorderedListPlan": {
+      "query": "SELECT selected.*,j.state FROM (SELECT exportId,targetKind,targetId,kind,\n      json_extract(CASE WHEN targetKind='project' AND kind='processed-package'\n  THEN json_object('projectId',targetId,'revisionId',json_extract(snapshot,'$.revisionId'),\n    'historyThroughOrdinal',json_array_length(snapshot,'$.snapshot.revisions')-1,\n    'revisionCount',json_array_length(snapshot,'$.snapshot.revisions'),\n    'resourceCount',json_array_length(snapshot,'$.resources'))\n  ELSE snapshot END,'$.revisionId') AS revisionId,receipt IS NOT NULL AS receipt,abandoning,\n      assembly IS NOT NULL AS assembly,staging IS NOT NULL AS staging,stagingCleared\n      FROM (SELECT exportId AS selectedExportId FROM export_intents WHERE exportId>?\n        \n         ORDER BY exportId LIMIT ?) page\n      JOIN export_intents INDEXED BY export_intents_status_projection ON exportId=page.selectedExportId) selected\n      LEFT JOIN jobs j ON j.targetKind=selected.targetKind AND j.targetId=selected.targetId AND j.revisionId=selected.revisionId\n      AND j.artifact=? AND j.input=selected.exportId ORDER BY selected.exportId",
+      "plan": [
+        {
+          "id": 2,
+          "parent": 0,
+          "notused": 0,
+          "detail": "CO-ROUTINE page"
+        },
+        {
+          "id": 8,
+          "parent": 2,
+          "notused": 189,
+          "detail": "SEARCH export_intents USING COVERING INDEX sqlite_autoindex_export_intents_1 (exportId>?)"
+        },
+        {
+          "id": 23,
+          "parent": 0,
+          "notused": 214,
+          "detail": "SCAN export_intents USING COVERING INDEX export_intents_status_projection"
+        },
+        {
+          "id": 36,
+          "parent": 0,
+          "notused": 53,
+          "detail": "SEARCH page USING AUTOMATIC COVERING INDEX (selectedExportId=?)"
+        },
+        {
+          "id": 40,
+          "parent": 0,
+          "notused": 47,
+          "detail": "SEARCH j USING INDEX jobs_identity (targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?) LEFT-JOIN"
+        }
+      ],
+      "functions": [
+        {
+          "addr": 41,
+          "opcode": "Function",
+          "p1": 2,
+          "p2": 15,
+          "p3": 12,
+          "p4": "json_extract(-1)",
+          "p5": 0,
+          "comment": null
+        },
+        {
+          "addr": 57,
+          "opcode": "Function",
+          "p1": 2,
+          "p2": 28,
+          "p3": 21,
+          "p4": "json_extract(-1)",
+          "p5": 0,
+          "comment": null
+        }
+      ]
+    },
+    "listPlanCorrection": "CROSS JOIN preserves the bounded ID-page outer loop; ordinary JOIN let SQLite scan the entire summary index. Final plan searches summary by each selected ID.",
+    "publicFinal": {
+      "results": [
+        {
+          "home": "/tmp/package-json-small/donor-removed",
+          "exportId": "da3a321e-8646-4629-b4eb-c4f55ad1f934",
+          "bytes": 2406,
+          "beforeRSSKiB": 100240,
+          "observations": [
+            {
+              "milliseconds": 6.892458000000033,
+              "rssKiB": 100592,
+              "state": "committed"
+            },
+            {
+              "milliseconds": 1.0259590000000003,
+              "rssKiB": 100704,
+              "state": "committed"
+            },
+            {
+              "milliseconds": 0.8159160000000156,
+              "rssKiB": 100880,
+              "state": "committed"
+            },
+            {
+              "milliseconds": 0.7226660000000038,
+              "rssKiB": 101024,
+              "state": "committed"
+            },
+            {
+              "milliseconds": 0.7599999999999909,
+              "rssKiB": 101216,
+              "state": "committed"
+            }
+          ],
+          "list": {
+            "milliseconds": 1.622000000000014,
+            "rssKiB": 101376,
+            "count": 1,
+            "bytes": 275
+          }
+        },
+        {
+          "home": "/tmp/package-json-canonical-indexed/donor-removed",
+          "exportId": "fc6ddd7e-7a5c-4911-bc75-d1ee276c28c2",
+          "bytes": 19611312,
+          "beforeRSSKiB": 116192,
+          "observations": [
+            {
+              "milliseconds": 4.01720899999998,
+              "rssKiB": 116304,
+              "state": "failed"
+            },
+            {
+              "milliseconds": 0.9128750000000991,
+              "rssKiB": 116352,
+              "state": "failed"
+            },
+            {
+              "milliseconds": 0.7184590000000526,
+              "rssKiB": 116448,
+              "state": "failed"
+            },
+            {
+              "milliseconds": 0.7456250000000182,
+              "rssKiB": 116544,
+              "state": "failed"
+            },
+            {
+              "milliseconds": 0.6742090000000189,
+              "rssKiB": 116656,
+              "state": "failed"
+            }
+          ],
+          "list": {
+            "milliseconds": 1.3813750000000482,
+            "rssKiB": 116752,
+            "count": 3,
+            "bytes": 746
+          }
+        }
+      ],
+      "scope": "Current actual public status calls, sampled service RSS not process high-water; no new export/render"
+    }
+  },
+  "open": {
+    "combined": "First500 placements referencing100k-run canonical acquisition hit unchanged10s service timeout but committed. Exact request replay returned same revision. Root owns composition availability scaling; no retry loop or widened deadline. Separate green cases and near-budget direct resolver do not prove combined public closure.",
+    "capacity": "128MiB aggregate serialized project history+all resource JSON; eager hydration, not unlimited lazy packages.",
+    "quality": "No listening/model-quality/capture rollout claim."
+  },
+  "choices": [
+    {
+      "choice": "Project package v2 metadata/revision files",
+      "reason": "Actual resource and complete history metadata exceed manifest/frame/inline budgets; same typed validators and one descriptor lifetime remain authoritative."
+    },
+    {
+      "choice": "128MiB aggregate before reads, shared export/read",
+      "reason": "Declared large metadata/history domain and measured99% fixture below4GiB; explicit refusal instead of truncation."
+    },
+    {
+      "choice": "Covering SQLite expression index for project-package status",
+      "reason": "Noncovering index still read large record; one derived immutable expression avoids a second snapshot registry. Video/recording response shapes unchanged."
+    }
+  ],
+  "commands": [
+    "bunx turbo build --filter=@screenrec/cli",
+    "bunx vitest run packages/core/src/project-package.test.ts packages/core/src/projects.test.ts apps/service/src/project-service.test.ts",
+    "SCREENREC_NATIVE=FROZEN node --test apps/service/tests/package-registry.mjs apps/service/tests/project-export.mjs",
+    "SCREENREC_NATIVE=FROZEN node --test apps/macos/tests/package-archive.mjs",
+    "SCREENREC_NATIVE=FROZEN node packages/test-harness/editing/package-metadata.mjs --out NEW --clips10000",
+    "SCREENREC_NATIVE=FROZEN SCREENREC_ASR_REQUEST=specs/agent-editing/assets/12-speech/transcript-request.json node packages/test-harness/editing/package.mjs --case relocate-edit-undo --out NEW",
+    "SCREENREC_NATIVE=FROZEN node packages/test-harness/editing/prepared-package.mjs --out NEW"
+  ]
+}

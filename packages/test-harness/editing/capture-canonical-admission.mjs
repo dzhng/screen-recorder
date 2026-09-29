@@ -18,6 +18,26 @@ const report = {
   workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
 };
 const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, null, 2) + "\n");
+async function resourceFile(directory, manifest, kind, id) {
+  const reference = manifest.resources.find(
+    (row) => row.identity.kind === kind && (id === undefined || row.identity.id === id),
+  );
+  assert.ok(reference);
+  const value = JSON.parse(await readFile(join(directory, reference.metadata.path)));
+  return {
+    value,
+    async save() {
+      const body = JSON.stringify(value);
+      await writeFile(join(directory, reference.metadata.path), body);
+      reference.metadata.bytes = Buffer.byteLength(body);
+      reference.metadata.sha256 = hash(Buffer.from(body));
+      Object.assign(
+        manifest.inventory.find((row) => row.path === reference.metadata.path),
+        reference.metadata,
+      );
+    },
+  };
+}
 let service;
 async function start(home) {
   service = new JourneyService(
@@ -267,7 +287,8 @@ try {
   await run("unzip", ["-q", exported.output, "-d", corruptDirectory]);
   const manifestPath = join(corruptDirectory, "manifest.json"),
     manifest = JSON.parse(await readFile(manifestPath));
-  const resource = manifest.resources.find((row) => row.kind === "acquisition");
+  const resourceMember = await resourceFile(corruptDirectory, manifest, "acquisition");
+  const resource = resourceMember.value;
   const proofMember = manifest.inventory.find((row) =>
     row.path.endsWith("narration.publication.json"),
   );
@@ -282,6 +303,7 @@ try {
     bytes: String(proofMember.bytes),
     sha256: proofMember.sha256,
   };
+  await resourceMember.save();
   await writeFile(manifestPath, JSON.stringify(manifest));
   const corruptArchive = join(out, "invalid-proof.zip");
   await run("zip", ["-qr", corruptArchive, "."], { cwd: corruptDirectory });
@@ -298,19 +320,24 @@ try {
   await run("unzip", ["-q", exported.output, "-d", clockDirectory]);
   const clockManifestPath = join(clockDirectory, "manifest.json");
   const clockManifest = JSON.parse(await readFile(clockManifestPath));
-  const clockContext = clockManifest.resources.find(
-    (row) => row.kind === "acquisition",
-  ).acquisition;
+  const clockAcquisition = await resourceFile(clockDirectory, clockManifest, "acquisition");
+  const clockContext = clockAcquisition.value.acquisition;
   const clockBinding = clockContext.bindings.find((row) => row.sourceRoles.includes("narration"));
-  const clockAsset = clockManifest.resources.find(
-    (row) => row.kind === "asset" && row.asset.id === clockBinding.assetId,
-  ).asset;
+  const clockAssetMember = await resourceFile(
+    clockDirectory,
+    clockManifest,
+    "asset",
+    clockBinding.assetId,
+  );
+  const clockAsset = clockAssetMember.value.asset;
   clockAsset.originUs += 1;
   clockBinding.sourceToAssetOffsetUs -= 1;
   clockBinding.available = clockBinding.available.map(({ startUs, endUs }) => ({
     startUs: Math.max(0, startUs - 1),
     endUs: endUs - 1,
   }));
+  await clockAcquisition.save();
+  await clockAssetMember.save();
   await writeFile(clockManifestPath, JSON.stringify(clockManifest));
   const clockArchive = join(out, "invalid-clock.zip");
   await run("zip", ["-qr", clockArchive, "."], { cwd: clockDirectory });
@@ -331,7 +358,8 @@ try {
   await run("unzip", ["-q", exported.output, "-d", downgradeDirectory]);
   const downgradePath = join(downgradeDirectory, "manifest.json"),
     downgrade = JSON.parse(await readFile(downgradePath));
-  const downgraded = downgrade.resources.find((row) => row.kind === "acquisition").acquisition;
+  const downgradeMember = await resourceFile(downgradeDirectory, downgrade, "acquisition");
+  const downgraded = downgradeMember.value.acquisition;
   downgraded.receipt.header.schemaVersion = 1;
   delete downgraded.receipt.publications;
   for (const entry of downgrade.inventory.filter((row) => row.path.endsWith(".publication.json")))
@@ -339,6 +367,7 @@ try {
   downgrade.inventory = downgrade.inventory.filter(
     (row) => !row.path.endsWith(".publication.json"),
   );
+  await downgradeMember.save();
   await writeFile(downgradePath, JSON.stringify(downgrade));
   const downgradeArchive = join(out, "invalid-layout.zip");
   await run("zip", ["-qr", downgradeArchive, "."], { cwd: downgradeDirectory });

@@ -305,7 +305,7 @@ test("same-provenance library deletion and package close revoke only their own d
   );
   await f.writeArchive();
   const recordingDirectory = join(f.home, "recordings", recording.recordingId);
-  await mkdir(recordingDirectory, { recursive: true });
+  await mkdir(recordingDirectory, { recursive: true, mode: 0o700 });
   await writeFile(join(recordingDirectory, "owned"), "library source");
   const cache = new DerivedCache(f.store, f.home, recordingCacheOwnerCheck(f.store));
   await cache.reconcile();
@@ -744,3 +744,37 @@ test("partial copy cancellation drains the actual worker before returning reserv
     },
   );
 });
+
+for (const cancel of [false, true]) {
+  test(`pre-ready descriptor hydration ${cancel ? "cancellation" : "failure"} closes its owner without publishing a handle`, async (t) => {
+    let files, enter;
+    const entered = new Promise((resolve) => {
+      enter = resolve;
+    });
+    const f = await fixture(t, {
+      resolve: async (input, signal) => {
+        files = input.files;
+        const file = files.open("source/video.mov");
+        file.close();
+        enter();
+        if (cancel)
+          await new Promise((resolve) => signal.addEventListener("abort", resolve, { once: true }));
+        throw new Error("Hydration did not complete");
+      },
+    });
+    await f.registry.recover();
+    const admission = await f.registry.open(f.input);
+    await entered;
+    assert.equal(f.registry.status(admission.id).packageHandle, null);
+    if (cancel) await f.registry.close(admission.id);
+    else
+      await waitFor(
+        () => f.registry.status(admission.id),
+        (value) => value.state === "failed",
+      );
+    assert.equal(f.registry.status(admission.id).packageHandle, null);
+    assert.throws(() => files.open("source/video.mov"));
+    assert.equal(f.registry.usage().owners, 0);
+    assert.deepEqual(await readdir(f.directory), []);
+  });
+}

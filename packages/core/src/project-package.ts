@@ -22,8 +22,8 @@ import { portableScenePublicationSchema } from "./scene-processing.js";
 import { portableTranscriptSchema, transcriptGenerationResource } from "./transcript.js";
 import { retainedPublicationSchema } from "./jobs.js";
 import { acquisitionContext, portableAcquisitionSchema } from "./acquisitions.js";
-import type { ResourceReference } from "./references.js";
-import type { ArchiveLimits } from "./package-archive.js";
+import { resourceKinds, type ResourceReference } from "./references.js";
+import { checkProjectJsonBytes, type ArchiveLimits } from "./package-archive.js";
 
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const member = z.strictObject({
@@ -100,6 +100,28 @@ const resourceSchema = z.discriminatedUnion("kind", [
     }),
   }),
 ]);
+const serializedResourceSchema = z.strictObject({
+  identity: z.strictObject({ kind: z.enum(resourceKinds), id: z.string().min(1).max(2048) }),
+  metadata: member,
+});
+export function resourceMetadataPath(identity: ResourceReference): string {
+  return `resources/${createHash("sha256").update(key(identity)).digest("hex")}.json`;
+}
+export function resourceMetadataMember(resource: PortableResource) {
+  const body = JSON.stringify(resource),
+    identity = resourceIdentity(resource);
+  return {
+    body,
+    reference: {
+      identity,
+      metadata: {
+        path: resourceMetadataPath(identity),
+        bytes: Buffer.byteLength(body),
+        sha256: createHash("sha256").update(body).digest("hex"),
+      },
+    },
+  };
+}
 export type PortableResource = z.infer<typeof resourceSchema>;
 export type PortableDependency =
   | Exclude<
@@ -266,16 +288,19 @@ export function transcriptMemberPath(
 }
 const manifestSchema = z.strictObject({
   format: z.literal("screenrec-project"),
-  version: z.literal(1),
+  version: z.literal(2),
   project: z.unknown(),
   undo: z.array(z.string()).max(1000),
   references: projectSnapshotReferencesSchema,
   revisions: z.array(z.string()).min(1).max(1000),
-  resources: z.array(resourceSchema).max(25_000),
+  resources: z.array(serializedResourceSchema).max(25_000),
   inventory: z.array(member).max(25_000),
 });
 export type ProjectPackageManifest = z.infer<typeof manifestSchema>;
-export type ValidatedProjectPackage = ProjectPackageManifest & { snapshot: ProjectSnapshot };
+export type ValidatedProjectPackage = Omit<ProjectPackageManifest, "resources"> & {
+  resources: PortableResource[];
+  snapshot: ProjectSnapshot;
+};
 function invalid(message: string): never {
   throw new CatalogError("INVALID_PACKAGE", message);
 }
@@ -328,21 +353,21 @@ export function projectPackageManifest(
 ): ProjectPackageManifest {
   return {
     format: "screenrec-project",
-    version: 1,
+    version: 2,
     project: snapshot.project,
     undo: snapshot.undo,
     references: snapshot.references,
     revisions: snapshot.revisions.map((revision) => `revisions/${revision.ordinal}.json`),
-    resources,
+    resources: resources.map((resource) => resourceMetadataMember(resource).reference),
     inventory,
   };
 }
-/** Native extraction checks archive bytes; this owner checks complete editable meaning. */
-export function validateProjectPackage(
+/** Compact shape/inventory admission precedes any external metadata reads. */
+export function parseProjectPackageManifest(
   body: string,
-  revisions: ReadonlyMap<string, string>,
+  _revisions: ReadonlyMap<string, string>,
   limits: ArchiveLimits,
-): ValidatedProjectPackage {
+): ProjectPackageManifest {
   if (Buffer.byteLength(body) > limits.manifestBytes) invalid("Project manifest exceeds its limit");
   let value: unknown;
   try {
@@ -350,6 +375,16 @@ export function validateProjectPackage(
   } catch {
     invalid("Invalid project manifest JSON");
   }
+  if (
+    value &&
+    typeof value === "object" &&
+    "format" in value &&
+    value.format === "screenrec-project" &&
+    (!("version" in value) || value.version !== 2)
+  )
+    throw new CatalogError("INVALID_PACKAGE", "Unsupported project package version", {
+      supportedVersion: 2,
+    });
   const parsed = manifestSchema.safeParse(value);
   if (!parsed.success) invalid("Invalid project manifest");
   const manifest = parsed.data;
@@ -378,8 +413,41 @@ export function validateProjectPackage(
     if (!Number.isSafeInteger(bytes) || bytes > limits.expandedBytes)
       invalid("Project inventory exceeds byte limit");
   }
+  let aggregate = 0;
+  const metadata = new Set<string>();
+  for (const resource of manifest.resources) {
+    const ref = resource.metadata,
+      entry = inventory.get(ref.path);
+    if (
+      ref.path !== resourceMetadataPath(resource.identity) ||
+      metadata.has(ref.path) ||
+      !entry ||
+      entry.bytes !== ref.bytes ||
+      entry.sha256 !== ref.sha256
+    )
+      invalid("Resource metadata reference differs from inventory");
+    metadata.add(ref.path);
+    aggregate += ref.bytes;
+  }
+  for (const [ordinal, path] of manifest.revisions.entries()) {
+    const entry = inventory.get(path);
+    if (path !== `revisions/${ordinal}.json` || !entry)
+      invalid("Project revision inventory is incomplete");
+    aggregate += entry.bytes;
+  }
+  checkProjectJsonBytes(aggregate);
+  return manifest;
+}
+
+/** Complete editable meaning is checked after admitted member hydration, before readiness. */
+export function resolveProjectPackage(
+  manifest: ProjectPackageManifest,
+  revisions: ReadonlyMap<string, string>,
+  limits: ArchiveLimits,
+  metadata: ReadonlyMap<string, string>,
+): ValidatedProjectPackage {
+  const inventory = new Map(manifest.inventory.map((entry) => [entry.path, entry]));
   const consumed = new Set<string>();
-  let revisionBytes = 0;
   const documents = manifest.revisions.map((path, index) => {
     if (path !== `revisions/${index}.json`) invalid("Project revision inventory is incomplete");
     const text = revisions.get(path),
@@ -387,14 +455,10 @@ export function validateProjectPackage(
     if (
       !text ||
       !entry ||
-      Buffer.byteLength(text) > limits.revisionBytes ||
       entry.bytes !== Buffer.byteLength(text) ||
       entry.sha256 !== createHash("sha256").update(text).digest("hex")
     )
       invalid("Project revision hash or size differs");
-    revisionBytes += Buffer.byteLength(text);
-    if (revisionBytes > limits.revisionBytes)
-      invalid("Project history exceeds aggregate revision byte budget");
     consumed.add(path);
     try {
       return JSON.parse(text);
@@ -410,7 +474,30 @@ export function validateProjectPackage(
     references: manifest.references,
   });
   const resources = new Map<string, PortableResource>();
-  for (const resource of manifest.resources) {
+  const resolved: PortableResource[] = [];
+  let metadataCount = 0;
+  for (const serialized of manifest.resources) {
+    const ref = serialized.metadata,
+      body = metadata.get(ref.path);
+    if (
+      body === undefined ||
+      Buffer.byteLength(body) !== ref.bytes ||
+      createHash("sha256").update(body).digest("hex") !== ref.sha256
+    )
+      invalid("Resource metadata member hash or size differs");
+    let value: unknown;
+    try {
+      value = JSON.parse(body);
+    } catch {
+      invalid("Invalid resource metadata JSON");
+    }
+    const parsed = resourceSchema.safeParse(value);
+    if (!parsed.success || key(resourceIdentity(parsed.data)) !== key(serialized.identity))
+      invalid("Invalid portable resource metadata identity or schema");
+    const resource = parsed.data;
+    consumed.add(ref.path);
+    metadataCount++;
+    resolved.push(resource);
     if (
       (resource.kind === "index-generation" || resource.kind === "project-index-generation") &&
       (resource.images.length !== resource.metadata.candidateCount ||
@@ -446,6 +533,7 @@ export function validateProjectPackage(
     }
     resources.set(identity, resource);
   }
+  if (metadata.size !== metadataCount) invalid("Unexpected resource metadata member");
   const closure = collectPortableResources(
     projectResourceRoots(snapshot),
     (identity) => resources.get(key(identity)) ?? invalid("Missing transitive project dependency"),
@@ -461,5 +549,19 @@ export function validateProjectPackage(
   );
   for (const revision of snapshot.revisions)
     validateComposition(revision.document, assets, acquisitions);
-  return { ...manifest, snapshot };
+  return { ...manifest, resources: resolved, snapshot };
+}
+
+export function validateProjectPackage(
+  body: string,
+  revisions: ReadonlyMap<string, string>,
+  limits: ArchiveLimits,
+  metadata: ReadonlyMap<string, string> = new Map(),
+): ValidatedProjectPackage {
+  return resolveProjectPackage(
+    parseProjectPackageManifest(body, revisions, limits),
+    revisions,
+    limits,
+    metadata,
+  );
 }

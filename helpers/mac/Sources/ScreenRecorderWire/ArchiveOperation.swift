@@ -74,6 +74,7 @@ enum ArchiveOperation {
         let identity: InodeIdentity
         let limits: Limits
         let input: Admitted
+        let inlineRevisions: Bool?
     }
     struct Copy: Codable {
         struct Member: Codable {

@@ -97,6 +97,24 @@ type Row = Omit<
   receipt: string | null;
   abandoning: number;
 };
+type IntentIdentity = Pick<Intent, "exportId" | "targetKind" | "targetId"> & {
+  snapshot: { revisionId: string };
+};
+type PackageSnapshotSummary = {
+  projectId: string;
+  revisionId: string;
+  historyThroughOrdinal: number;
+  revisionCount: number;
+  resourceCount: number;
+};
+// SQLite owns this derived immutable projection. Status reads the indexed expression,
+// leaving the complete pinned snapshot authoritative for execution and recovery.
+const statusSnapshotSql = `CASE WHEN targetKind='project' AND kind='processed-package'
+  THEN json_object('projectId',targetId,'revisionId',json_extract(snapshot,'$.revisionId'),
+    'historyThroughOrdinal',json_array_length(snapshot,'$.snapshot.revisions')-1,
+    'revisionCount',json_array_length(snapshot,'$.snapshot.revisions'),
+    'resourceCount',json_array_length(snapshot,'$.resources'))
+  ELSE snapshot END`;
 const artifact = "export-media",
   recoveryArtifact = "export-recovery";
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
@@ -177,7 +195,9 @@ export class MediaExports {
     CREATE INDEX IF NOT EXISTS export_intents_storage ON export_intents(exportId) WHERE ${stagingPendingSql};
     CREATE INDEX IF NOT EXISTS export_intents_owner ON export_intents(targetKind,targetId,exportId);
     CREATE INDEX IF NOT EXISTS export_discovery_unfinished ON export_intents(exportId) WHERE ${unfinishedSql};
-    CREATE INDEX IF NOT EXISTS export_discovery_owner_unfinished ON export_intents(targetKind,targetId,exportId) WHERE ${unfinishedSql};`);
+    CREATE INDEX IF NOT EXISTS export_discovery_owner_unfinished ON export_intents(targetKind,targetId,exportId) WHERE ${unfinishedSql};
+    CREATE INDEX IF NOT EXISTS export_intents_status_projection ON export_intents(exportId,(${statusSnapshotSql}),targetKind,targetId,kind,destination,receipt,abandoning,
+      (assembly IS NOT NULL),(staging IS NOT NULL),stagingCleared);`);
   }
   private recording() {
     if (!this.owners.recording)
@@ -280,7 +300,7 @@ export class MediaExports {
     await Promise.allSettled([...this.creating.keys(), ...this.retiring.values()]);
   }
 
-  private identity(intent: Intent) {
+  private identity(intent: IntentIdentity) {
     return {
       target: { ...this.owner(intent), revisionId: intent.snapshot.revisionId },
 
@@ -288,7 +308,7 @@ export class MediaExports {
       input: intent.exportId,
     };
   }
-  private recoveryIdentity(intent: Intent, attemptId: string) {
+  private recoveryIdentity(intent: IntentIdentity, attemptId: string) {
     return {
       target: { ...this.owner(intent), revisionId: intent.snapshot.revisionId },
 
@@ -768,13 +788,16 @@ export class MediaExports {
         : projectId !== null
           ? { kind: "project", projectId }
           : undefined;
+    // Keep the bounded ID page outside the lookup; SQLite may otherwise scan every summary.
     const rows = this.owners.catalog.catalog
       .prepare(
         `SELECT selected.*,j.state FROM (SELECT exportId,targetKind,targetId,kind,
-      json_extract(snapshot,'$.revisionId') AS revisionId,receipt IS NOT NULL AS receipt,abandoning,
+      json_extract(${statusSnapshotSql},'$.revisionId') AS revisionId,receipt IS NOT NULL AS receipt,abandoning,
       assembly IS NOT NULL AS assembly,staging IS NOT NULL AS staging,stagingCleared
-      FROM export_intents WHERE exportId>? ${owner ? "AND targetKind=? AND targetId=?" : ""}
-      ${unfinishedOnly ? `AND ${unfinishedSql}` : ""} ORDER BY exportId LIMIT ?) selected
+      FROM (SELECT exportId AS selectedExportId FROM export_intents WHERE exportId>?
+        ${owner ? "AND targetKind=? AND targetId=?" : ""}
+        ${unfinishedOnly ? `AND ${unfinishedSql}` : ""} ORDER BY exportId LIMIT ?) page
+      CROSS JOIN export_intents INDEXED BY export_intents_status_projection ON exportId=page.selectedExportId) selected
       LEFT JOIN jobs j ON j.targetKind=selected.targetKind AND j.targetId=selected.targetId AND j.revisionId=selected.revisionId
       AND j.artifact=? AND j.input=selected.exportId ORDER BY selected.exportId`,
       )
@@ -815,7 +838,35 @@ export class MediaExports {
   }
   /** Reads the durable intent even while its owner is being deleted, as discovery does. */
   status(exportId: string) {
-    const intent = this.require(exportId);
+    const row = this.owners.catalog.catalog
+      .prepare(`SELECT exportId,targetKind,targetId,kind,
+      ${statusSnapshotSql} AS snapshot,destination,receipt,abandoning,
+      assembly IS NOT NULL AS assembly,staging IS NOT NULL AS staging,stagingCleared
+      FROM export_intents INDEXED BY export_intents_status_projection WHERE exportId=?`)
+      .get(exportId) as
+      | (Pick<
+          Row,
+          | "exportId"
+          | "targetKind"
+          | "targetId"
+          | "kind"
+          | "snapshot"
+          | "destination"
+          | "receipt"
+          | "abandoning"
+        > &
+          Lifecycle)
+      | undefined;
+    if (!row) throw new CatalogError("NOT_FOUND", "Export intent does not exist", { exportId });
+    const intent = {
+      ...row,
+      snapshot: JSON.parse(row.snapshot) as
+        | Snapshot
+        | PinnedProjectPreview
+        | PackageSnapshotSummary,
+      destination: JSON.parse(row.destination) as Intent["destination"],
+      receipt: row.receipt ? (JSON.parse(row.receipt) as PublicationReceipt) : null,
+    };
     const job = this.owners.jobs.status(this.identity(intent));
     const current = job.jobId ? this.owners.jobs.job(job.jobId) : null;
     const recovery = current

@@ -173,7 +173,7 @@ extension ArchiveOperation {
             var bytes = 0
             var hash = SHA256()
             var metadata = Data()
-            let text = name == "manifest.json" || name.hasPrefix("revisions/") && !directory
+            let text = name == "manifest.json" || request.inlineRevisions != false && name.hasPrefix("revisions/") && !directory
             while true {
                 let n = archive_read_data(reader, buffer, chunkBytes)
                 if n < 0 { try parser(Int32(n), reader, input) }
