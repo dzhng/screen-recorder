@@ -1,7 +1,8 @@
 # 12d — Complete sentence cleanup annotation packet
 
 Status: bounded native packet and machine preservation checks passed; independent
-labels and join listening remain open. Dependencies: [12](12-speech-evidence.md).
+word-boundary labels remain open. The user accepted neighboring speech and the
+join as clear and natural on 2026-09-29. Dependencies: [12](12-speech-evidence.md).
 [Evidence and reproduction](../assets/12d-complete-sentence/README.md).
 
 ## Contract
@@ -20,7 +21,8 @@ subjective acceptance follows from sample equality.
 - [x] Actual source poison changes original only in removed frames, while the full
   candidate PCM is unchanged through the real native excerpt owner.
 - [x] Original source and earlier partial packet preserved; no playback or model use.
-- [ ] Independent audible sentence/neighbor labels and candidate join judgment.
+- [x] User candidate join judgment: “Yes, clear and natural.”
+- [ ] Independent audible sentence/neighbor boundary labels.
 - [ ] Parent slice 12 complete filler/repetition inventory and timing acceptance.
 
 The outer 250 ms guards are explicit presentation context based on inherited ASR,

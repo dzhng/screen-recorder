@@ -152,7 +152,7 @@
       "w117"
     ],
     "boundaryAuthority": "inherited-manual-visual-marks",
-    "audition": "not-performed-for-this-cut"
+    "audition": "user accepted candidate removal and neighboring speech on 2026-09-29"
   },
   "protectedNeighbors": [
     {
@@ -168,6 +168,12 @@
   ],
   "independentFillerInventory": null,
   "independentRepetitionIntent": null,
-  "joinListening": "UNVERIFIED",
-  "audibleSentenceCompleteness": "UNVERIFIED; all w111–w123 proposed word ranges are included with 250ms outer guards"
+  "joinListening": {
+    "verdict": "ACCEPTED_FOR_THIS_CANDIDATE",
+    "authority": "user listening feedback",
+    "date": "2026-09-29",
+    "question": "Compared with the original, does the candidate remove “uh” while keeping the neighboring words clear and the join natural?",
+    "answer": "Yes, clear and natural"
+  },
+  "audibleSentenceCompleteness": "User accepted neighboring words and natural join for this complete-context pair; independent word-boundary annotations remain absent."
 }

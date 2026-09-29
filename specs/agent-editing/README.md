@@ -129,6 +129,9 @@ Compact evidence ledger:
   [touching-support continuity](assets/11a-touching-support/README.md), exact
   lossless counts/bytes and the documented bounded AAC seek difference.
   [11 acoustic inspection](slices/11-audio-inspection.md) still needs retiming conformance.
+- The [complete-sentence filler candidate](assets/12d-complete-sentence/README.md)
+  has user acceptance for clear neighboring words and a natural join; independent
+  word-boundary labels and the broader cleanup inventory remain open.
 - [Verbatim speech](assets/12-verbatim/README.md) and
   [forced alignment](assets/12-alignment/README.md) fail their timing/memory gates.
   The [text-only diagnostic](assets/12-alignment-text-coverage/README.md) fixes one

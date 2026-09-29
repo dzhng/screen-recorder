@@ -1,7 +1,8 @@
 # Complete sentence filler candidate
 
 Status: the explicit source selection and PCM preservation checks pass. Audible
-sentence completeness, protected words and join quality remain unverified.
+neighboring speech and join quality were accepted by the user on 2026-09-29:
+“Yes, clear and natural.” Independent protected-word timing remains unverified.
 No speech engine or cleanup recipe is selected by this packet.
 
 The original says, according to the frozen ASR proposal:
@@ -18,7 +19,8 @@ ramps; those affected samples are excluded from the unchanged-neighbor claim.
 
 The [annotations](annotations.json) retain source-clock word proposals and the
 inherited manual visual mark separately. Independent protected-word ranges,
-complete filler inventory, repetition intent and listening verdicts stay empty.
+complete filler inventory and repetition intent stay empty. The user listening
+verdict applies only to this original/candidate pair.
 The outer window includes all proposed w111–w123 ranges with 250 ms guards. It
 starts before “So,” rather than inside “do”; these guards are a presentation
 choice based on ASR ranges, not an independent audible boundary claim.
@@ -44,8 +46,8 @@ paths; the two primary WAVs above are the retained copies.
 The [rejected short-context packet](../12-speech/README.md) is preserved unchanged.
 Its outer window began inside the proposed “do” and cannot demonstrate the full
 sentence. This replacement presentation supplies context, not missing independent
-labels or acceptance of the join. Next evidence is an audio-capable independent
-annotation of the full sentence and its join, then the broader inventory required
+word-boundary labels. The user has now accepted this join; next evidence is an
+independent timing annotation of the full sentence, then the broader inventory required
 by slice 12; timing and precision/recall gates remain unchanged.
 
 Reproduce with the existing native worker and installed local packet inspector:
