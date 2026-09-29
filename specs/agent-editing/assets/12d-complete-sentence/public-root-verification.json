@@ -1,0 +1,32 @@
+{
+  "original.wav": {
+    "frames": 342720,
+    "exactFrozenMonoDuplicated": true,
+    "pcmSha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d"
+  },
+  "candidate.wav": {
+    "frames": 322560,
+    "exactFrozenMonoDuplicated": true,
+    "pcmSha256": "53584f6435cf0f569de200803190f512f29e7790fac5398546fd75ef91fc02eb"
+  },
+  "undo.wav": {
+    "frames": 342720,
+    "exactFrozenMonoDuplicated": true,
+    "pcmSha256": "f81fe37f650f23a11643fc247c52b4e65b79fae6fa753753cc4b91e1a384435d"
+  },
+  "movie": {
+    "previewExportExact": true,
+    "bytes": 654407,
+    "sha256": "d1d55ee5384cf36c9dbed231b8da269ce9fa42927196038ff0bdf0acb2cbadcf",
+    "committedReceiptMatches": true
+  },
+  "archive": {
+    "sha256": "5652daeb26d80d6d9c7aba51f3e00ac4c2513edb0edd848724aabd22be9061d4",
+    "membersRehashed": 49
+  },
+  "integratedSavedHarness": {
+    "passed": true,
+    "nativeOrServiceRun": false,
+    "scope": "Saved PCM, undo document, movie clocks and existing AAC policy; no new listening or continuous playback claim."
+  }
+}

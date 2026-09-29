@@ -126,3 +126,7 @@ passed. Independent Codex review found no actionable defect, reran the saved
 verification and checked every then-archived member; it did not rerun the live
 journey. The final archive also retains that review and the reporter mutation
 regression. Broad cleanup and independent annotation gates remain open.
+
+[Integrated root verification](public-root-verification.json) independently parsed
+all original/candidate/undo PCM, checked the committed movie receipt, rehashed all
+49 archived members and reran the saved-output checks without services or rendering.

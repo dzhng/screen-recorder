@@ -92,8 +92,8 @@ Historical workers and measurements retain their own identities below.
   preserves both real postcommit receipts and file identities through reply loss,
   restart and concurrent replay. Root verified all380 archived members and five
   saved movie hashes without rerunning services. Saved homes remain retained;
-  prepared-package-transfer now owns the accepted12d filler cut through managed
-  public editing/rendering/undo; its initial priority audit identified that real gap.
+  prepared-package-transfer is released after integrating the accepted12d public
+  editing/rendering/undo journey; no native/service processes remain.
 - **Selected-device preparation20e:** [the scoped probe](../slices/20e-selected-device-probe.md)
   is now being implemented in capture-pause-recovery. Its physical input stop,
   camera media closure and audio publication share existing termination ordering;
@@ -226,8 +226,10 @@ byte-for-byte reproduction pass. The user accepts its complete0.8× sentence as 
 for the exact scope. Other rates, joins, labels and13a/14 integration remain open.
 
 
-The [complete-sentence filler packet](12d-complete-sentence/README.md) now replaces
-cropped-word QA for one proposed `uh` removal. Root presented the original and
-candidate; the user accepted neighboring words and the join as clear and natural. Exact retained
-PCM and removed-source poison controls pass. Full independent labels, repetition
-intent and parent12 timing/cleanup acceptance remain open.
+The [complete-sentence filler journey](12d-complete-sentence/README.md) now
+reproduces the user-accepted `uh` removal through public CLI/MCP edits and complete
+undo. Root independently verifies full original/candidate/undo PCM and all49
+archived members; saved movie clocks/AAC gates pass. Lossless audio is exactly the
+accepted mono duplicated to stereo. The640×404 sampled visual proof has explicit
+small-text limits. Full independent labels, repetition intent and parent12
+timing/cleanup acceptance remain open.

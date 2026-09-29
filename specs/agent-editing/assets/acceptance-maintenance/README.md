@@ -1,10 +1,10 @@
 # Remaining audio acceptance
 
-The next buildable workflow is the user-accepted complete-sentence filler cut
-through managed public edits, delivered audio and undo, using the existing
-[12d candidate](../12d-complete-sentence/README.md). Its native excerpt proof does
-not yet establish that project workflow. Preserve the exact accepted treatment;
-this does not select a speech engine or close the full filler/repetition inventory.
+The user-accepted complete-sentence filler cut now passes managed public edits,
+delivered audio/export and undo through [12d](../12d-complete-sentence/README.md).
+Its full lossless output preserves the accepted treatment exactly. Reuse this
+journey; it does not select a speech engine or close the full filler/repetition
+inventory.
 
 Public stretching still lacks its execution binding and remains gated by13a.
 Once accepted, implement14 through the existing prepared-audio owner and use one
