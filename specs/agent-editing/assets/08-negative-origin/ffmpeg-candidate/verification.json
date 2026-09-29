@@ -1,0 +1,64 @@
+{
+  "scope": "One distinct installed FFmpeg lossless negative-timestamp mux candidate; not negative occupied-origin conformance",
+  "source": {
+    "path": "specs/agent-editing/assets/00-corpus/a-audio.wav",
+    "sha256": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+    "format": {
+      "channels": 1,
+      "rate": 48000,
+      "sampleBytes": 2,
+      "frames": 96000
+    }
+  },
+  "command": [
+    "ffmpeg",
+    "-nostdin",
+    "-v",
+    "warning",
+    "-copyts",
+    "-itsoffset",
+    "-0.25",
+    "-i",
+    "specs/agent-editing/assets/00-corpus/a-audio.wav",
+    "-map",
+    "0:a:0",
+    "-c:a",
+    "pcm_s16le",
+    "-avoid_negative_ts",
+    "disabled",
+    "-use_editlist",
+    "0",
+    "-movflags",
+    "+negative_cts_offsets",
+    "/tmp/screenrec-negative-ffmpeg/negative.mov"
+  ],
+  "candidate": {
+    "bytes": 192650,
+    "sha256": "ba50c239acbd79dd10c17cc20f000be7d42a1bb8bf4716bc3957701ade65cf85",
+    "retained": "negative.mov.gz"
+  },
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+    "originUs": 0,
+    "occupiedTargetRangeUs": {
+      "startUs": 0,
+      "endUs": 2000000
+    }
+  },
+  "ffprobe": {
+    "streamStartSeconds": 0,
+    "firstPacketPtsSeconds": 0
+  },
+  "verdict": "NON_EXERCISE: negative requested input timestamps did not survive as negative occupied origin",
+  "stoppedBefore": [
+    "public import/composition conformance",
+    "full/range/tail/split/overlap PCM checks"
+  ],
+  "notClaimed": [
+    "negative-origin support or blanket refusal",
+    "negativeCTS equivalence",
+    "sample preservation or listening acceptance"
+  ],
+  "additionalCandidates": 0
+}

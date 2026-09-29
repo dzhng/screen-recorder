@@ -47,3 +47,8 @@ hash-pinned worker. The first program writes its own source CAF. The candidate
 programs should not be rerun in a directory containing earlier outputs: the
 original fixture writer reuses an existing movie. No further candidate search
 was performed after the authorized two attempts.
+
+A later separately authorized [FFmpeg candidate](ffmpeg-candidate/README.md) used
+negative input timestamps with timestamp adjustment/edit lists disabled. Both
+FFprobe and native occupied support still begin at zero. It is retained as another
+non-exercise, not a new admission rule; that construction path stopped there.
