@@ -1,0 +1,41 @@
+{
+  "frames" : [
+    {
+      "bgraSHA256" : "c6c6f5cc623e78e91d931c057b06fe8d4c98119c3389e2982dd1da7b205870c4",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 0,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 0,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "1a61c0c1cb45946519dd6f0f5447069ac9dbd21f04f64b46dc862bd07f3896e0",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 10,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 333333,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "a0258fd8297a69a5433e9fd4031861794e7cf2566f5ba6375456b9b6e49cd64e",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 20,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 666666,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "60f6bf783cd5f970ae911efe04102e423e5639239e808daf1c4c8b257a3070f2",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 29,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 966666,
+      "width" : 1920
+    }
+  ],
+  "movieSHA256" : "ebad5aa922798726d375df5afc3314d4754a8dd050463d5264ed885acea44868"
+}

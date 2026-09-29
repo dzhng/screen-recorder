@@ -1,0 +1,33 @@
+{
+  "reversedOrder": true,
+  "allDecodedPNGsMatch": true,
+  "checks": [
+    {
+      "preset": "compact",
+      "decodedPNGHashes": [
+        "7503ac6d3fe0207a5f26bbfaa35f54066d17abd3e9072fffa87e8cf503c27acb",
+        "9a2ebda11e1804dcc798466f07298a8d443b113186cc367931a6e462df84be02",
+        "2e56554a1ff86690d4af7db26ac22d8018552b142ada819aac9e194af8b9bc43",
+        "f6d2ed96639f6ef5f3c03fb4d83232e53aaeb5a6cb90135a54a2a7ea47dcf277"
+      ]
+    },
+    {
+      "preset": "balanced",
+      "decodedPNGHashes": [
+        "134a298e25e305a83ec64e0eae3c4d19e9fa64fbad4d373cd925c1aaab7c64fd",
+        "3ecde82a92fea5c96934832e4ee301009b8fce6ee9b0181e0dce3db24efe71a2",
+        "7def2287b23a40e1fb010792e25ee55d2d051505122a6bd1a7b5c0cbed5a1962",
+        "96c8aeca0981f1182755362756e1fccfb98fd4aac1ead73300b4727f9d914a77"
+      ]
+    },
+    {
+      "preset": "sharp",
+      "decodedPNGHashes": [
+        "edbf4a7fe2b6b1fe5e6727112cd84e21960418a9733bdac9685256bca3198dc7",
+        "f21597adfde392a1855637ca69ad1999cc6409c278762e3cdd72374366d9ee2a",
+        "337c5e6b31e9783e62c841af49c283ba6bd14d745328f1e73dceb40d454d9cb3",
+        "e376fb02a05ad41c2d91c8637b82ff2b2dcc520b62302104bd60067a322f7c42"
+      ]
+    }
+  ]
+}

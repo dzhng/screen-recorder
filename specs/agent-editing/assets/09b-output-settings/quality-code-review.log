@@ -1,0 +1,1218 @@
+2026-09-29T00:18:10.836012Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-29T00:18:10.837798Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0ea86-afbf-7272-a37f-3c3c7e018cfa
+--------
+user
+current changes
+exec
+/bin/zsh -lc 'git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md; find .. -name AGENTS.override.md -o -name AGENTS.md' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+2026-09-29T00:18:20.178659Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ea86-afbf-7272-a37f-3c3c7e018cfa turn_id=01a0ea86-b6fe-7052-8d64-6962ac0cd7f9 item_id="exec-b0973f9c-3f52-4425-a1ce-3f2da723b2c1"
+ succeeded in 215ms:
+../screen-recorder/AGENTS.md
+../screen-recorder/helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+
+exec
+/bin/zsh -lc 'git diff; cat packages/test-harness/editing/output-quality.mjs' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+diff --git a/skills/screenrec/SKILL.md b/skills/screenrec/SKILL.md
+index c356c18a..d7bed204 100644
+--- a/skills/screenrec/SKILL.md
++++ b/skills/screenrec/SKILL.md
+@@ -213,6 +213,13 @@ audio or video, inspect both planes: the requested replacement must change while
+ the protected plane keeps its source and timing. A downloaded preview is a viewing
+ artifact; it does not establish that a durable export intent has published.
+ 
++Before choosing project video delivery settings, inspect `output.capabilities` and
++operation help. Presets are defaults: override individual controls or pass the
++returned resolved settings. Keep canvas dimensions/frame rate in the composition.
++Read the actual encoded profile/level and audio format in the result; requested
++average bitrate is not measured file bitrate. Preserve the original request for
++export retries, and report unsupported combinations instead of silently substituting.
++
+ For an editable project transfer, discover `export.create` package support and
+ poll its durable export intent until committed. Open the resulting ZIP, inspect
+ `package.status`, then explicitly adopt it with a stable request ID. Poll the same
+import assert from "node:assert/strict";
+import { mkdir, mkdtemp, readFile, writeFile, copyFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
+import { randomUUID } from "node:crypto";
+import { parseArgs } from "node:util";
+import { JourneyService, hash, poll, run, root } from "./source-evidence-fixture.mjs";
+const { values } = parseArgs({
+  options: {
+    duration: { type: "string", default: "1" },
+    pointer: { type: "boolean", default: false },
+    order: { type: "string", default: "compact,balanced,sharp" },
+    out: { type: "string" },
+    start: { type: "string", default: "0" },
+  },
+});
+assert(values.out && process.env.SCREENREC_NATIVE);
+const out = resolve(values.out),
+  startUs = Number(values.start),
+  durationUs = Number(values.duration) * 1000000;
+assert(
+  Number.isSafeInteger(durationUs) &&
+    durationUs >= 1000000 &&
+    durationUs <= 30000000 &&
+    durationUs % 1000000 === 0,
+);
+assert(Number.isSafeInteger(startUs) && startUs >= 0);
+await mkdir(out);
+const home = await mkdtemp("/tmp/sr-quality-");
+const report = {
+  passed: false,
+  trace: [],
+  sourceStartUs: startUs,
+  durationUs,
+  references: [],
+  variants: [],
+  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  presetPromoted: false,
+};
+const service = new JourneyService(home, report),
+  call = service.call.bind(service);
+try {
+  await service.start();
+  const source = join(root, "fixtures/narrated-workbench/video.mov");
+  const admitted = await call("asset.import", { requestId: randomUUID(), path: source });
+  await poll(
+    () => call("job.get", { jobId: admitted.jobId }),
+    (v) => v.state === "ready",
+    "source import",
+  );
+  const asset = await call("asset.get", { assetId: hash(await readFile(source)) });
+  report.source = asset;
+  let acquisitionId;
+  if (values.pointer) {
+    const donor = join(home, "donor");
+    await mkdir(donor);
+    for (const name of ["video.mov", "narration.mov", "capture.journal.jsonl"])
+      await copyFile(join(root, "fixtures/narrated-workbench", name), join(donor, name));
+    const pending = await call("acquisition.import", { requestId: randomUUID(), path: donor });
+    const ready = await poll(
+      () => call("job.get", { jobId: pending.jobId }),
+      (value) => value.state === "ready",
+      "actual pointer journal",
+    );
+    const acquisition = await call("acquisition.get", {
+      acquisitionId: ready.target.acquisitionId,
+    });
+    assert(acquisition.bindings.some((binding) => binding.assetId === asset.id));
+    acquisitionId = acquisition.id;
+    report.acquisition = acquisition;
+  }
+  const created = await call("project.create", {
+    requestId: randomUUID(),
+    title: "Encoding quality study",
+    canvas: {
+      width: 1920,
+      height: 1080,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  const projectId = created.project.projectId;
+  const edited = await call("edit.apply", {
+    projectId,
+    requestId: randomUUID(),
+    expectedRevisionId: created.revision.id,
+    operations: [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "screen" },
+      {
+        operation: "place",
+        label: "screen-clip",
+        clip: {
+          trackId: { label: "screen" },
+          assetId: asset.id,
+          ...(acquisitionId ? { acquisitionId } : {}),
+          streamId: asset.streams.find((x) => x.kind === "video").id,
+          source: { kind: "range", range: { startUs, endUs: startUs + durationUs } },
+          placement: { kind: "project", range: { startUs: 0, endUs: durationUs } },
+        },
+      },
+      ...(values.pointer
+        ? [
+            {
+              operation: "processing.set",
+              target: { kind: "clip", id: { label: "screen-clip" } },
+              steps: [{ processor: { type: "pointer", trailUs: 600000 } }],
+            },
+          ]
+        : []),
+    ],
+  });
+  report.project = edited;
+  const frameCount = (durationUs * 30) / 1000000;
+  const indices = [0, Math.floor(frameCount / 3), Math.floor((frameCount * 2) / 3), frameCount - 1];
+  for (const index of indices) {
+    const atUs = Math.floor((index * 1000000) / 30),
+      path = join(out, `reference-${index}.png`);
+    const params = { projectId, atUs, maxLongEdge: 1920 };
+    await poll(
+      () => call("frame.get", params),
+      (v) => v.state === "ready",
+      "reference",
+    );
+    const result = await call("frame.get", params, { output: path });
+    report.references.push({
+      index,
+      atUs,
+      path,
+      sha256: hash(await readFile(path)),
+      receipt: result,
+    });
+  }
+  const order = values.order.split(",");
+  assert.deepEqual([...order].sort(), ["balanced", "compact", "sharp"]);
+  report.order = order;
+  for (const preset of order) {
+    const path = join(out, `${preset}.mp4`),
+      params = { projectId, settings: { preset } };
+    const ready = await poll(
+      () => call("preview.get", params),
+      (v) => v.state === "ready",
+      preset,
+    );
+    await call("preview.get", params, { output: path });
+    const prefix = join(out, `${preset}-%02d.png`);
+    await run(
+      "ffmpeg",
+      [
+        "-v",
+        "error",
+        "-i",
+        path,
+        "-vf",
+        "select=" + indices.map((index) => `eq(n\\,${index})`).join("+"),
+        "-fps_mode",
+        "passthrough",
+        prefix,
+      ],
+      { timeout: 60000 },
+    );
+    report.variants.push({
+      preset,
+      path,
+      bytes: (await readFile(path)).length,
+      sha256: hash(await readFile(path)),
+      settings: ready.published.preview.settings,
+      encodedVideo: ready.published.preview.encodedVideo,
+    });
+  }
+  report.passed = true;
+} finally {
+  await service.stop();
+  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
+}
+console.log(JSON.stringify({ passed: report.passed, out, presetPromoted: false }));
+
+2026-09-29T00:18:22.763688Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ea86-afbf-7272-a37f-3c3c7e018cfa turn_id=01a0ea86-b6fe-7052-8d64-6962ac0cd7f9 item_id="exec-6a495db5-6573-4f7e-934c-3f58e63de07b"
+exec
+/bin/zsh -lc 'cat packages/test-harness/editing/output-quality.py; cat packages/test-harness/editing/output-quality-decode.swift; cat specs/agent-editing/assets/09b-output-settings/quality-plan.md; find specs/agent-editing/assets/09b-output-quality -type f; cat .agents/skills/write-tests/SKILL.md' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+"""Measure the named PNG/FFmpeg-RGB paths without masking text or edges."""
+import io
+import hashlib
+import json
+import sys
+from pathlib import Path
+import numpy as np
+from PIL import Image, ImageCms
+
+root = Path(sys.argv[1])
+report = json.loads((root / 'report.json').read_text())
+assert report['passed']
+srgb = ImageCms.createProfile('sRGB')
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def rgb(path):
+    image = Image.open(path)
+    assert image.size == (1920, 1080), (path, image.size)
+    profile = image.info.get('icc_profile')
+    result = image.convert('RGB')
+    if profile:
+        result = ImageCms.profileToProfile(result, ImageCms.ImageCmsProfile(io.BytesIO(profile)), srgb, outputMode='RGB')
+    return np.array(result, dtype=np.int16)
+
+decoder = sys.argv[2] if len(sys.argv) > 2 else 'ffmpeg'
+assert decoder in ('ffmpeg', 'apple')
+measurements = []
+for variant in report['variants']:
+    assert sha(root / f"{variant['preset']}.mp4") == variant['sha256']
+    frames = []
+    for ordinal, reference in enumerate(report['references'], 1):
+        assert sha(root / f"reference-{reference['index']}.png") == reference["sha256"]
+        before = rgb(root / f"reference-{reference['index']}.png")
+        if decoder == 'ffmpeg':
+            after = rgb(root / f"{variant['preset']}-{ordinal:02d}.png")
+        else:
+            directory = root / f"{variant['preset']}-apple"
+            metadata = json.loads((directory / 'frames.json').read_text())
+            assert metadata['movieSHA256'] == variant['sha256']
+            entry = next(x for x in metadata['frames'] if x['index'] == reference['index'])
+            assert sha(directory / f"frame-{reference['index']}.bgra") == entry['bgraSHA256']
+            assert sha(directory / f"frame-{reference['index']}.icc") == entry['iccSHA256']
+            assert entry['ptsValue'] * 1000000 == reference['atUs'] * entry['ptsTimescale']
+            assert (entry['width'], entry['height']) == (1920, 1080)
+            image = Image.frombytes('RGBA', (1920, 1080), (directory / f"frame-{reference['index']}.bgra").read_bytes(), 'raw', 'BGRA').convert('RGB')
+            profile = ImageCms.ImageCmsProfile(str(directory / f"frame-{reference['index']}.icc"))
+            image = ImageCms.profileToProfile(image, profile, srgb, outputMode='RGB')
+            image.save(directory / f"frame-{reference['index']}.png")
+            after = np.array(image, dtype=np.int16)
+        error = np.abs(before - after)
+        frames.append({'index': reference['index'], 'meanRGB': float(error.mean()),
+                       'rmsRGB': float(np.sqrt(np.mean(error.astype(np.float64) ** 2))),
+                       'maxRGB': int(error.max()), 'shareAbove4': float((error > 4).mean())})
+    measurements.append({'preset': variant['preset'], 'bytes': variant['bytes'], 'frames': frames})
+result = {'decoder': decoder + '; embedded ICC converted to sRGB',
+          'wholeImageNoMask': True, 'presetPromoted': False, 'measurements': measurements}
+(root / f'measurements-{decoder}.json').write_text(json.dumps(result, indent=2) + '\n')
+print(json.dumps(result, indent=2))
+@preconcurrency import AVFoundation
+import CryptoKit
+import Foundation
+
+@main
+struct Decode {
+    static func main() async throws {
+        let asset = AVURLAsset(url: URL(fileURLWithPath: CommandLine.arguments[1]))
+        let directory = URL(fileURLWithPath: CommandLine.arguments[2], isDirectory: true)
+        let track = try await asset.loadTracks(withMediaType: .video)[0]
+        let reader = try AVAssetReader(asset: asset)
+        let output = AVAssetReaderTrackOutput(
+            track: track,
+            outputSettings: [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+            ])
+        reader.add(output)
+        precondition(reader.startReading())
+        let selected =
+            CommandLine.arguments.count > 3
+            ? CommandLine.arguments[3].split(separator: ",").compactMap { Int($0) }
+            : [0, 10, 20, 29]
+        let expected = CommandLine.arguments.count > 4 ? Int(CommandLine.arguments[4])! : 30
+        precondition(selected.count == 4 && Set(selected).count == 4)
+        var index = 0
+        var frames: [[String: Any]] = []
+        while let sample = output.copyNextSampleBuffer() {
+            if selected.contains(index) {
+                let buffer = CMSampleBufferGetImageBuffer(sample)!
+                CVPixelBufferLockBaseAddress(buffer, .readOnly)
+                defer { CVPixelBufferUnlockBaseAddress(buffer, .readOnly) }
+                var bytes = Data()
+                let base = CVPixelBufferGetBaseAddress(buffer)!
+                let stride = CVPixelBufferGetBytesPerRow(buffer)
+                let width = CVPixelBufferGetWidth(buffer)
+                let height = CVPixelBufferGetHeight(buffer)
+                for y in 0..<height {
+                    bytes.append(
+                        base.advanced(by: y * stride).assumingMemoryBound(to: UInt8.self),
+                        count: width * 4)
+                }
+                let color =
+                    CVBufferCopyAttachment(buffer, kCVImageBufferCGColorSpaceKey, nil)
+                    as! CGColorSpace
+                let icc = color.copyICCData()! as Data
+                try bytes.write(to: directory.appendingPathComponent("frame-\(index).bgra"))
+                try icc.write(to: directory.appendingPathComponent("frame-\(index).icc"))
+                let time = CMSampleBufferGetPresentationTimeStamp(sample)
+                frames.append([
+                    "index": index, "width": width, "height": height,
+                    "ptsValue": time.value, "ptsTimescale": time.timescale,
+                    "bgraSHA256": SHA256.hash(data: bytes).map { String(format: "%02x", $0) }
+                        .joined(),
+                    "iccSHA256": SHA256.hash(data: icc).map { String(format: "%02x", $0) }.joined(),
+                ])
+            }
+            index += 1
+        }
+        precondition(reader.status == .completed && index == expected && frames.count == 4)
+        let movieHash = SHA256.hash(
+            data: try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1]))
+        ).map { String(format: "%02x", $0) }.joined()
+        try JSONSerialization.data(
+            withJSONObject: ["movieSHA256": movieHash, "frames": frames],
+            options: [.prettyPrinted, .sortedKeys]
+        )
+        .write(to: directory.appendingPathComponent("frames.json"))
+    }
+}
+# Balanced preset experiment
+
+The user requested a balance of sharpness and file size, with all controls exposed.
+This is an open-ended tradeoff study, not a request to minimize one hidden score.
+The unchanged pre-encode public PNG is the reference; compare3/8/20Mbps while all
+other resolved settings, source selection, canvas and frame rate remain fixed.
+
+Start with one second of the real narrated-workbench screen at1920x1080/30fps,
+source0. Capture full-resolution public PNGs at four exact frame timestamps and
+compare matching decoded encoded frames. Report file bytes, mean/RMS/max RGB error,
+and changed-channel share above the existing four-level diagnostic. No edge/text
+exclusion, blur, rescaling or new error tolerance. File hashes and exact requests
+must be retained. PNG ICC conversion to sRGB is explicit; the initial decoder is
+FFmpeg RGB, which is a named measurement path rather than proof of source color
+intent. Confirm the eventual decision with the existing Apple decoder control.
+
+Hypothesis:8Mbps yields a useful error reduction versus3Mbps, while20Mbps offers
+less improvement per added byte. A null result or a dominated8Mbps point rejects
+that rationale; it does not license choosing8by name. This first task cannot select
+a general preset. Expand to a moving-text window and actual recorded pointer
+history, then inspect full frames and enlarged text/edge crops independently.
+Retain all outcomes and select from the observed size/legibility tradeoff; preserve
+codec-loss failures separately from a balanced-default recommendation.
+
+Each public job uses the existing worker deadline. Only one cohort is active;
+no exhaustive bitrate grid or repeated broad regressions. No installed app, live
+capture or speakers are used. The first checkpoint emits measurements and samples;
+no preset promotion is claimed without the expanded comparison and review.
+
+Opening cohort: the Apple decoder preserves the FFmpeg ranking, with smaller
+absolute error. Candidate8Mbps dominates3Mbps on this one static second (smaller
+file and lower mean/RMS error);20Mbps lowers error further for more bytes. This
+supports expanding the comparison, not preset promotion. A source-only1fps scan
+of the real134-second recording finds its largest adjacent image change near41s.
+The next fixed cohort is source[40.5,41.5)s, chosen for movement before examining
+any encoder output. Screening downscales are never used for fidelity metrics.
+specs/agent-editing/assets/09b-output-quality/review-crops/long-0-grid.png
+specs/agent-editing/assets/09b-output-quality/review-crops/motion-29.jpg
+specs/agent-editing/assets/09b-output-quality/review-crops/motion-10.jpg
+specs/agent-editing/assets/09b-output-quality/review-crops/long-299-rule.png
+specs/agent-editing/assets/09b-output-quality/review-crops/long-200-token.png
+specs/agent-editing/assets/09b-output-quality/review-crops/pointer-10.png
+specs/agent-editing/assets/09b-output-quality/review-crops/long-299-paragraph.png
+specs/agent-editing/assets/09b-output-quality/review-crops/opening-20.jpg
+specs/agent-editing/assets/09b-output-quality/review-crops/pointer-29.png
+specs/agent-editing/assets/09b-output-quality/review-crops/opening-0.jpg
+specs/agent-editing/assets/09b-output-quality/review-crops/pointer-0.png
+specs/agent-editing/assets/09b-output-quality/review-crops/long-100-grid.png
+specs/agent-editing/assets/09b-output-quality/review-crops/motion-29-token.png
+specs/agent-editing/assets/09b-output-quality/review-crops/long-100.png
+specs/agent-editing/assets/09b-output-quality/review-crops/opening-10.jpg
+specs/agent-editing/assets/09b-output-quality/review-crops/opening-0-grid.png
+specs/agent-editing/assets/09b-output-quality/review-crops/opening-29-text.png
+specs/agent-editing/assets/09b-output-quality/review-crops/opening-29.jpg
+specs/agent-editing/assets/09b-output-quality/review-crops/motion-0.jpg
+specs/agent-editing/assets/09b-output-quality/review-crops/opening-0-icons.png
+specs/agent-editing/assets/09b-output-quality/review-crops/long-299.png
+specs/agent-editing/assets/09b-output-quality/review-crops/long-0.png
+specs/agent-editing/assets/09b-output-quality/review-crops/pointer-20.png
+specs/agent-editing/assets/09b-output-quality/review-crops/pointer-detail.png
+specs/agent-editing/assets/09b-output-quality/review-crops/motion-20.jpg
+specs/agent-editing/assets/09b-output-quality/review-crops/long-200.png
+specs/agent-editing/assets/09b-output-quality/review-crops/grid-temporal.png
+specs/agent-editing/assets/09b-output-quality/review-crops/motion-20-motion.png
+specs/agent-editing/assets/09b-output-quality/order-confirmation.json
+specs/agent-editing/assets/09b-output-quality/sha256.json
+specs/agent-editing/assets/09b-output-quality/long-first-filter-failure.log.gz
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/opening/sharp-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/opening/measurements-apple.json.gz
+specs/agent-editing/assets/09b-output-quality/opening/reference-20.png
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/opening/balanced-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/opening/sharp.mp4
+specs/agent-editing/assets/09b-output-quality/opening/compact.mp4
+specs/agent-editing/assets/09b-output-quality/opening/reference-10.png
+specs/agent-editing/assets/09b-output-quality/opening/reference-29.png
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/opening/reference-0.png
+specs/agent-editing/assets/09b-output-quality/opening/report.json.gz
+specs/agent-editing/assets/09b-output-quality/opening/balanced.mp4
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/motion/sharp-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/motion/measurements-apple.json.gz
+specs/agent-editing/assets/09b-output-quality/motion/reference-20.png
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/motion/balanced-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/motion/sharp.mp4
+specs/agent-editing/assets/09b-output-quality/motion/compact.mp4
+specs/agent-editing/assets/09b-output-quality/motion/reference-10.png
+specs/agent-editing/assets/09b-output-quality/motion/reference-29.png
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/motion/compact-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/motion/reference-0.png
+specs/agent-editing/assets/09b-output-quality/motion/report.json.gz
+specs/agent-editing/assets/09b-output-quality/motion/balanced.mp4
+specs/agent-editing/assets/09b-output-quality/README.md
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-299.icc
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-299.png
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-100.png
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-100.icc
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-200.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-200.icc
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-200.png
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-299.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/sharp-apple/frame-100.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/reference-299.png
+specs/agent-editing/assets/09b-output-quality/long/reference-100.png
+specs/agent-editing/assets/09b-output-quality/long/measurements-apple.json.gz
+specs/agent-editing/assets/09b-output-quality/long/reference-200.png
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-299.icc
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-299.png
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-100.png
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-100.icc
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-200.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-200.icc
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-200.png
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-299.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/balanced-apple/frame-100.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/sharp.mp4
+specs/agent-editing/assets/09b-output-quality/long/compact.mp4
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-299.icc
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-299.png
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-100.png
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-100.icc
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-200.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-200.icc
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-200.png
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-299.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/compact-apple/frame-100.bgra.gz
+specs/agent-editing/assets/09b-output-quality/long/reference-0.png
+specs/agent-editing/assets/09b-output-quality/long/report.json.gz
+specs/agent-editing/assets/09b-output-quality/long/balanced.mp4
+specs/agent-editing/assets/09b-output-quality/visual-review.md
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/pointer/sharp-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/pointer/measurements-apple.json.gz
+specs/agent-editing/assets/09b-output-quality/pointer/reference-20.png
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/pointer/balanced-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/pointer/sharp.mp4
+specs/agent-editing/assets/09b-output-quality/pointer/compact.mp4
+specs/agent-editing/assets/09b-output-quality/pointer/reference-10.png
+specs/agent-editing/assets/09b-output-quality/pointer/reference-29.png
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-20.icc
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-20.png
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-20.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-0.icc
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-29.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-0.png
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-10.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frames.json
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-0.bgra.gz
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-29.icc
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-29.png
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-10.icc
+specs/agent-editing/assets/09b-output-quality/pointer/compact-apple/frame-10.png
+specs/agent-editing/assets/09b-output-quality/pointer/reference-0.png
+specs/agent-editing/assets/09b-output-quality/pointer/report.json.gz
+specs/agent-editing/assets/09b-output-quality/pointer/balanced.mp4
+specs/agent-editing/assets/09b-output-quality/motion-selection.json
+specs/agent-editing/assets/09b-output-quality/ffmpeg-opening-measurements.json.gz
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-29T00:18:27.220239Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ea86-afbf-7272-a37f-3c3c7e018cfa turn_id=01a0ea86-b6fe-7052-8d64-6962ac0cd7f9 item_id="exec-9921cd5e-4771-4cfe-b22f-060db9bf3e50"
+exec
+/bin/zsh -lc "cat specs/agent-editing/assets/09b-output-quality/README.md; cat specs/agent-editing/assets/09b-output-quality/opening/compact-apple/frames.json; sed -n '1,160p' packages/test-harness/editing/source-evidence-fixture.mjs; cat specs/agent-editing/assets/09b-output-quality/visual-review.md" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+# Output quality and size decision
+
+Use 8 Mbps as the balanced H.264 default. Keep 3 Mbps compact and 20 Mbps sharp
+as optional starting points; every resolved setting remains independently
+configurable through the public settings schema. These are encoder targets, not
+promised file bitrates. This policy is scoped to the tested offline H.264 backend
+and is not a universal optimum.
+
+The public journey holds source, composition, 1920×1080 canvas and 30 fps fixed.
+Each cohort has four full-resolution pre-encode PNG references and matching
+Apple-decoded frames for each candidate. ICC conversion to sRGB is explicit;
+all RGB pixels enter the comparison without masks, blur or resized scoring.
+The values below are file bytes and the arithmetic mean of four frame RMS errors.
+
+| Cohort | Compact bytes / RMS | Balanced bytes / RMS | Sharp bytes / RMS |
+| --- | ---: | ---: | ---: |
+| Opening, 1 s | 124,184 / 2.750 | 115,713 / 2.434 | 145,602 / 2.273 |
+| Scroll, 1 s | 254,072 / 2.710 | 249,442 / 2.352 | 315,849 / 2.162 |
+| Recorded pointer/trail, 1 s | 131,155 / 2.755 | 123,081 / 2.439 | 155,353 / 2.275 |
+| Scroll interval, 10 s | 2,102,858 / 2.376 | 2,240,120 / 2.193 | 2,533,654 / 2.109 |
+
+Balanced has lower measured error and fewer bytes than compact in the three
+short cohorts. In the ten-second cohort it costs 6.5% more bytes for 7.7% less
+sampled RMS error; sharp then costs another 13.1% for 3.8% less error. Independent
+inspection of all 64 reference/decoded images finds the strongest difference in
+initial thin grid lines: compact breaks or doubles lines, sharp is closest, and
+balanced is intermediate. Sampled text remains readable in every candidate;
+there is no strong balanced/sharp text-legibility winner. These observations
+support a reversible balanced default while keeping sharper output available.
+
+## Evidence boundaries
+
+The original four-code-level diagnostic still fails. This decision does not
+replace it or close existing codec-fidelity gates. Four sparse frames per cohort
+cannot establish continuous motion quality, long-run stability, audio quality,
+or performance on photographs, dense code and other untested content. The
+[visual review](visual-review.md) records those limits and its partial blinding.
+Review crops retain every produced inspection sheet, including JPEG overviews;
+fine-detail judgments use the lossless enlarged PNG crops and full PNGs.
+
+The opening FFmpeg measurement has different absolute error but the same ranking.
+Decoder results are named separately, never averaged together. A reverse-order
+repeat produces the same file sizes and all 12 decoded PNG hashes. The source-only
+motion scan selected the largest adjacent change before encoding; its downsized
+screening images do not enter fidelity metrics. The first long trial failed in a
+frame-selection command; its log is retained, and the corrected trial is `long`.
+
+## Reproduction and provenance
+
+Run `packages/test-harness/editing/output-quality.mjs` with `SCREENREC_NATIVE`
+pointing to a built native worker and a fresh `--out` directory. The opening
+uses defaults; motion uses `--start 40500000`; pointer uses `--pointer`; long uses
+`--start 35000000 --duration 10`. The reverse-order confirmation uses
+`--order sharp,balanced,compact`. Each compressed report pins source, worker,
+settings, movie and reference hashes and preserves the original unpromoted
+research status. The policy decision here is subsequent to those raw reports.
+
+Compile `output-quality-decode.swift` with `swiftc -parse-as-library`, then pass
+movie path and output directory. Long uses additional arguments
+`0,100,200,299 300`; defaults select `0,10,20,29` of 30 frames. Run
+`output-quality.py COHORT apple` with Python, NumPy and Pillow. The evaluator
+verifies raw frame/profile/reference/movie hashes and exact presentation times
+before scoring. Compressed retained raw BGRA files must be decompressed in a
+scratch reproduction directory first. `sha256.json` pins the retained package.
+{
+  "frames" : [
+    {
+      "bgraSHA256" : "2719779fb1e3655cbe3c5943ce2bd3798b3bff7fce0caa1536d02832afba13f1",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 0,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 0,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "3bed08313d0298517ff3e8796ff922fd0e30c648d5e7f542b45d6d32db89f008",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 10,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 333333,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "ac3baa458d1a2aef3cdb4efba26aacb92a8b70fd6c957ca5b3816bbe5f576b3a",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 20,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 666666,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "5c4769bc2d318021dc188fa3bed880200e8aaca723fca0fe4098173b124cff1e",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 29,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 966666,
+      "width" : 1920
+    }
+  ],
+  "movieSHA256" : "9e986cb43e13197079329ff767de9eda8ae284b7625e1cfdd778449aa06bd011"
+}import assert from "node:assert/strict";
+import { execFile, fork } from "node:child_process";
+import { createHash, randomUUID } from "node:crypto";
+import { once } from "node:events";
+import { constants } from "node:fs";
+import { copyFile, lstat, mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { setTimeout as delay } from "node:timers/promises";
+import { promisify } from "node:util";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { cliReply } from "./first-preview-transport.mjs";
+
+export const run = promisify(execFile);
+export const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+export const root = new URL("../../../", import.meta.url).pathname;
+export async function poll(read, done, label) {
+  const deadline = performance.now() + 180000;
+  for (;;) {
+    const value = await read();
+    if (done(value)) return value;
+    assert.ok(!["failed", "canceled"].includes(value.state), `${label}: ${JSON.stringify(value)}`);
+    assert.ok(performance.now() < deadline, `${label}: deadline`);
+    await delay(100);
+  }
+}
+
+/** Copies already prepared, hash-pinned files. No network fetch or preparation operation. */
+export async function copyModels(home, request) {
+  const { parakeetModel: manifest, SpeechModels } =
+    await import("../../../packages/core/dist/speech-models.js");
+  assert.deepEqual(request.files, manifest.files);
+  const models = new SpeechModels(join(home, "library"));
+  const target = join(home, "library/models", manifest.name, manifest.revision);
+  const receipt = { modelDigest: models.modelDigest, files: {} };
+  for (const file of manifest.files) {
+    const source = join(request.directory, file.path);
+    const destination = join(target, manifest.folderName, file.path);
+    assert.ok((await lstat(source)).isFile());
+    await mkdir(dirname(destination), { recursive: true });
+    await copyFile(source, destination, constants.COPYFILE_FICLONE);
+    const bytes = await readFile(destination);
+    assert.equal(bytes.length, file.bytes);
+    assert.equal(hash(bytes), file.sha256);
+    const stat = await lstat(destination, { bigint: true });
+    receipt.files[file.path] = { modifiedNs: String(stat.mtimeNs), inode: String(stat.ino) };
+  }
+  await writeFile(join(target, "receipt.json"), JSON.stringify(receipt));
+  assert.deepEqual(models.status(), { state: "ready" });
+  return { modelDigest: models.modelDigest, files: manifest.files };
+}
+
+/** Public transports around a scratch project service; barriers hold only real native replies. */
+export class JourneyService {
+  constructor(
+    home,
+    report,
+    evidence,
+    serviceModule = new URL("./source-acquisition-service.mjs", import.meta.url),
+  ) {
+    this.home = home;
+    this.serviceModule = serviceModule;
+    this.evidence = evidence;
+    this.report = report;
+    this.logs = [];
+    this.barriers = new Map();
+  }
+  async start() {
+    this.started = false;
+    this.child = fork(this.serviceModule, [this.home, ...(this.evidence ? [this.evidence] : [])], {
+      stdio: ["ignore", "pipe", "pipe", "ipc"],
+    });
+    this.child.stdout.on("data", (b) => this.logs.push(b.toString()));
+    this.child.stderr.on("data", (b) => this.logs.push(b.toString()));
+    this.child.on("message", (m) => {
+      if (m.type) this.barriers.set(`${m.id}/${m.type}`, m);
+    });
+    const [ready] = await Promise.race([
+      once(this.child, "message"),
+      once(this.child, "exit").then(([code]) => {
+        throw new Error(`Service exited ${code}: ${this.logs.join("")}`);
+      }),
+      delay(30000, undefined, { ref: false }).then(() => {
+        throw new Error("Service startup deadline");
+      }),
+    ]);
+    assert.equal(ready.error, undefined, JSON.stringify(ready));
+    this.socketPath = ready.socketPath;
+    this.mcp = new Client({ name: "source-transcript-journey", version: "1" });
+    await this.mcp.connect(
+      new StdioClientTransport({
+        command: process.execPath,
+        args: [join(root, "apps/cli/dist/main.js"), "mcp", "--socket", this.socketPath],
+        stderr: "pipe",
+      }),
+    );
+    this.started = true;
+  }
+  async call(operation, params, { transport = "cli", error = false, output } = {}) {
+    const response =
+      transport === "mcp"
+        ? (await this.mcp.callTool({ name: operation, arguments: params })).structuredContent
+        : await cliReply([
+            join(root, "apps/cli/dist/main.js"),
+            operation,
+            "--socket",
+            this.socketPath,
+            "--params",
+            JSON.stringify(params),
+            ...(output ? ["--output", output] : []),
+          ]);
+    assert.equal(response?.ok, !error, `${operation}: ${JSON.stringify(response)}`);
+    this.report.trace.push({
+      operation,
+      transport,
+      ok: response.ok,
+      state: response.data?.state,
+      error: response.error,
+    });
+    return response.ok ? response.data : response.error;
+  }
+  async arm(operation) {
+    const id = randomUUID();
+    this.child.send({ type: "barrier.arm", id, operation, remaining: 1 });
+    await poll(
+      () => this.barriers.get(`${id}/barrier.armed`) ?? {},
+      (v) => v.type === "barrier.armed",
+      "arm",
+    );
+    return () =>
+      poll(
+        () => this.barriers.get(`${id}/barrier.hit`) ?? {},
+        (v) => v.nativeSucceeded,
+        "native reply",
+      );
+  }
+  async stop(crash = false) {
+    await this.mcp?.close();
+    this.mcp = undefined;
+    const child = this.child;
+    if (!child || child.exitCode !== null || child.signalCode !== null) return;
+    const exited = once(child, "exit");
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        child.kill("SIGKILL");
+        reject(new Error("Service shutdown deadline"));
+      }, 15000);
+      timer.unref();
+    });
+    if (crash) child.kill("SIGKILL");
+    // Startup failures may close IPC before cleanup. The bounded terminal-exit
+    // check owns shutdown success; a failed send must not hide the startup error.
+    else child.send("close", () => {});
+    try {
+      const [code, signal] = await Promise.race([exited, timeout]);
+      if (crash) assert.equal(signal, "SIGKILL");
+      else if (this.started) assert.equal(code, 0, this.logs.join(""));
+    } catch (error) {
+      await exited;
+# Independent visual review of Apple-decoded recording output
+
+Reviewed 2026-09-28. No implementation files, numerical measurement reports, encoder settings or output sizes were read. This is visual evidence, not preset acceptance or a default-selection decision.
+
+## Target and comparison
+
+The encoded recording should preserve the captured screen's readable characters, thin grid and UI borders, small colored icons, pointer shape and trail state at the matching frame. Compression must not invent breaks or additional edges in the grid, obscure text, or leave a trail absent from the matching reference.
+
+Inspected all 48 supplied PNGs: opening, motion and pointer cohorts, four reference frames (0, 10, 20, 29) and all three matching decoded candidates. All opening/motion images are 1920×1080; layouts/content matched per frame. The pointer set also showed matching content and framing within each comparison. Opening is effectively static; motion includes a scroll between frames 10 and 20; pointer includes a visible pink trail that fades between frames 10 and 20 and is mostly gone by 29.
+
+Comparison sheets used labels A=balanced, B=sharp, C=compact. Labels were neutral on sheets, though this was not a fully blinded trial because I generated the mapping. I did not use preset names as quality evidence. Initial overview sheets for opening/motion were downsampled JPEGs, so fine-detail conclusions use lossless PNG crops enlarged with nearest-neighbor, not those overviews. Pointer overview sheets were PNG. Artifacts are in `/tmp/quality-independent/`.
+
+## Visible findings
+
+- **Thin pale grid lines provide the strongest separation.** At opening frame 0, compact has broken/faded horizontal stretches, doubled pale edges and uneven vertical lines. These are visible in the full-frame view and clearly visible at 2× in `opening-0-grid.png`. Balanced has weaker instances of uneven line strength, with some vertical segments washed out. Sharp is closest to the reference's continuous regular grid in this crop, though it is not identical. The pointer cohort's frame 0 reproduces the conspicuous compact grid degradation. Confidence: high for compact's loss, moderate for sharp over balanced.
+- **The initial grid loss substantially settles in later frames.** In `grid-temporal.png`, frames 10, 20 and 29 look much more regular than frame 0 across candidates. Compact retains some unevenness, but the large first-frame defects are reduced. The reference grid itself remains steady. This is evidence of changing reconstruction quality during the static opening; sampled stills cannot establish the perceptual severity of flicker in playback.
+- **Text is readable in all candidates.** The submenu heading, instructional paragraph, Products button, visual token, motion heading and fine section labels remain recognizable. At 2×, encoded character contours are a little softened/changed compared with reference; compact's token edges are slightly rougher in `motion-29-token.png`. I saw no missing letters, substituted token characters or gross text smear in the sampled frames. I cannot support a strong balanced-versus-sharp legibility winner from these text crops. Confidence: high for preserved readability of sampled text, low for a broad typography ranking.
+- **Colored icons and filled markers retain their identity.** Small saturated browser icons show softened color boundaries in all encoded versions. Compact appears slightly less clean around some high-contrast icon edges, but the crop is small and this is a weak separation. The orange motion target retains its circular border and white cross; no consequential shape or hue loss is apparent. The dark teal token/button and pale landmark cards remain distinguishable. Confidence: moderate for preserved identity, low for ranking subtle icon differences.
+- **Scroll state is correct in the sampled motion frames.** Frames 20 and 29 show the lower page with the motion and sound cards, matching their references in all candidates. No gross displaced region, stale previous scroll position or duplicate text appears. The orange target stays at the left in the shown references and candidates: this cohort is evidence for screen scrolling, not for an animated moving target traversing the lane.
+- **Actual pointer and trail state survive in every candidate.** `pointer-detail.png` shows frames 10, 20 and 29 at 3×. The black/white pointer silhouette and pink trail have the matching position and fade state. Encoded pink edges are a little softer, with slight fringe/halo changes; none removes the pointer or visibly leaves the long old trail at frame 29. Differences among presets here are small, with no defensible categorical winner. Confidence: high for correct sampled pointer/trail state, moderate for the absence of a large local artifact.
+
+## Judgment and limits
+
+For fidelity alone, the reference retains cleaner fine detail than all encoded candidates. Sharp is visually closer on the most discriminating first-frame grid crop; balanced is close on ordinary text and pointer detail; compact has the most conspicuous thin-line loss. This does not establish which speed/size/quality tradeoff should ship, and it does not justify a default change by itself.
+
+This is a 12-timepoint still-frame inspection across three short cohorts, not continuous video playback, OCR measurement, a broad content corpus or a cross-decoder study. It cannot rule out transient inter-frame artifacts, prove long-run stability, evaluate audio, or generalize to dense code, photographs, dark interfaces or tiny type beyond these samples. No numerical reports were consulted after the visual judgment either.
+
+## Extension: 10-second source interval 35–45 seconds
+
+Reviewed all 16 images in `/tmp/screenrec-output-quality-long-2`: reference and each decoded candidate at frames 0, 100, 200 and 299. All are 1920×1080. Used lossless full-frame PNG sheets, native full-frame reference/compact views at frame 299, and nearest-neighbor enlarged lossless crops for the grid, token, final paragraph and horizontal rule. The same A/B/C mapping applies. No measurements, settings, output sizes or implementation were read.
+
+- **Initial grid differences repeat over this longer encode.** At frame 0, compact again has conspicuous doubled/washed-out grid segments and uneven thickness. Balanced has a few weakened vertical segments; sharp is visually closest to the reference's regular lines in the selected crop. Confidence: high for compact degradation, moderate for sharp versus balanced. See `long-0-grid.png`.
+- **By frame 100 the grid is much cleaner in all three.** The initial compact breaks/doubling have largely resolved, and differences are subtle in `long-100-grid.png`. This supports improvement after the first sampled frame, not a claim about precisely when it settles or whether it oscillates between samples.
+- **Content changes and scroll positions match.** The token changes from SQQKAS at frame 0 to V4HETB by frame 100 in reference and every candidate. Frame 200 shows the lower motion/sound cards; frame 299 shows the first and second numbered text passages. I see no stale page section, repeated strip or incorrect sampled scroll offset. Confidence: high for these four timepoints.
+- **Post-scroll text remains readable.** At frame 299, the heading “The first paragraph,” explanatory body and “A sentence to identify” remain legible in every candidate. Enlarged crops show slight contour/contrast changes relative to reference, but no evident missing character, substantial smear or clear balanced/sharp reading advantage. Compact also retains readable body text. The pale horizontal separator remains continuous in all three. Confidence: high for sampled text readability; low for ranking subtle text-edge differences.
+- **Colored token and controls remain intact.** At frame 200, V4HETB and Change token stay distinguishable with matching fills and geometry; all encoded versions slightly soften/alter fine letter edges. No major color shift or lost control boundary is visible. Confidence: moderate.
+
+The extension is consistent with the earlier visual conclusion: compact's first-frame thin-line damage is the strongest defect, while later sampled text screens offer little categorical separation. It adds evidence across a longer duration and multiple page positions but is still four sparse still samples, not playback inspection of the entire scrolling transition. No claim of smooth motion, frame pacing, absence of transient scroll artifacts or preset promotion follows from this review. Total inspection now covers 64 supplied images across four cohorts.
+
+2026-09-29T00:18:32.461918Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ea86-afbf-7272-a37f-3c3c7e018cfa turn_id=01a0ea86-b6fe-7052-8d64-6962ac0cd7f9 item_id="exec-bad227ce-3dbb-4e12-a214-07a796ffae0b"
+exec
+/bin/zsh -lc "cat specs/agent-editing/assets/09b-output-quality/order-confirmation.json; head -15 specs/agent-editing/assets/09b-output-quality/sha256.json; rg 'output.capabilities|resolved settings' packages/protocol/src -n | head; sed -n '160,195p' packages/test-harness/editing/source-evidence-fixture.mjs; python3 - <<'PY'
+import json,gzip,pathlib,hashlib
+p=pathlib.Path('specs/agent-editing/assets/09b-output-quality')
+for c in ['opening','motion','pointer','long']:
+ r=json.loads(gzip.decompress((p/c/'report.json.gz').read_bytes()))
+ print(c,r.keys())
+ for v in r['variants']:
+  assert hashlib.sha256((p/c/(v['preset']+'.mp4')).read_bytes()).hexdigest()==v['sha256']
+  m=json.loads((p/c/(v['preset']+'-apple')/'frames.json').read_text())
+  for ref in r['references']:
+   e=next(e for e in m['frames'] if e['index']==ref['index'])
+   assert e['ptsValue']*1000000==ref['atUs']*e['ptsTimescale']
+ print([(v['preset'],v['settings']) for v in r['variants']][:1])
+PY" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+2026-09-29T00:18:46.937737Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ea86-afbf-7272-a37f-3c3c7e018cfa turn_id=01a0ea86-b6fe-7052-8d64-6962ac0cd7f9 item_id="exec-cf07b611-c478-4d30-b1b8-a24602457e99"
+ succeeded in 793ms:
+{
+  "reversedOrder": true,
+  "allDecodedPNGsMatch": true,
+  "checks": [
+    {
+      "preset": "compact",
+      "decodedPNGHashes": [
+        "7503ac6d3fe0207a5f26bbfaa35f54066d17abd3e9072fffa87e8cf503c27acb",
+        "9a2ebda11e1804dcc798466f07298a8d443b113186cc367931a6e462df84be02",
+        "2e56554a1ff86690d4af7db26ac22d8018552b142ada819aac9e194af8b9bc43",
+        "f6d2ed96639f6ef5f3c03fb4d83232e53aaeb5a6cb90135a54a2a7ea47dcf277"
+      ]
+    },
+    {
+      "preset": "balanced",
+      "decodedPNGHashes": [
+        "134a298e25e305a83ec64e0eae3c4d19e9fa64fbad4d373cd925c1aaab7c64fd",
+        "3ecde82a92fea5c96934832e4ee301009b8fce6ee9b0181e0dce3db24efe71a2",
+        "7def2287b23a40e1fb010792e25ee55d2d051505122a6bd1a7b5c0cbed5a1962",
+        "96c8aeca0981f1182755362756e1fccfb98fd4aac1ead73300b4727f9d914a77"
+      ]
+    },
+    {
+      "preset": "sharp",
+      "decodedPNGHashes": [
+        "edbf4a7fe2b6b1fe5e6727112cd84e21960418a9733bdac9685256bca3198dc7",
+        "f21597adfde392a1855637ca69ad1999cc6409c278762e3cdd72374366d9ee2a",
+        "337c5e6b31e9783e62c841af49c283ba6bd14d745328f1e73dceb40d454d9cb3",
+        "e376fb02a05ad41c2d91c8637b82ff2b2dcc520b62302104bd60067a322f7c42"
+      ]
+    }
+  ]
+}
+{
+  "opening/measurements-apple.json.gz": "89979447f082eba771a950440807aff8323f21b641763d45fd3344422981552a",
+  "opening/reference-20.png": "244dda173fc2acd530665da1234df4e6553398ce98d3e1c8a20a0163fd060411",
+  "opening/sharp.mp4": "0bc4a73b59d49e3cd95099b04498e64c51d7bea31675d2a9924e949f8bf5bfee",
+  "opening/compact.mp4": "9e986cb43e13197079329ff767de9eda8ae284b7625e1cfdd778449aa06bd011",
+  "opening/reference-10.png": "b6cc193ea18cc63ae86237c12e8f2ae7ca32565ccdce324148b6d5c0ab7a3299",
+  "opening/reference-29.png": "9849a795cd8b7fd0f96b9442267e127f2a50091cfdf8a13cb75bf275b8c0cca5",
+  "opening/reference-0.png": "1ed09295583a6209a8adea0837f5286915947608108a878d2e5e988d44f71fa7",
+  "opening/report.json.gz": "71bd024ddcfa1db3380e4e3d847ba3559810dce252c11f9c8bde75d83cf42470",
+  "opening/balanced.mp4": "86dc805f586d8c8f28d7596299d21a284b5f9fd71d87fcba6f2327be0213f217",
+  "opening/sharp-apple/frame-20.icc": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+  "opening/sharp-apple/frame-20.png": "4e29e2db9626fadfbf59bb626cfa5d5fe2c20b6122becaebba3aa5b3422f1f8e",
+  "opening/sharp-apple/frame-20.bgra.gz": "08d5ef7bfc417b298bc5826b1c316cbbbf58fa26ffecbd75b7f27e86ba0a8b44",
+  "opening/sharp-apple/frame-0.icc": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+  "opening/sharp-apple/frame-29.bgra.gz": "f85c84ba6edade0750c0b9cb82d864d4a11660340401b2305a1fb9eaaca5bdc8",
+packages/protocol/src/operations.ts:295:    .object({ operation: z.literal("output.capabilities"), params: z.object({}).strict() })
+      await exited;
+      throw error;
+    } finally {
+      clearTimeout(timer);
+      this.started = false;
+    }
+  }
+}
+
+/** Synthetic acquisition journals around real speech bytes; not a physical capture claim. */
+export async function acquisitionDonor(directory, narration, available) {
+  await mkdir(directory, { recursive: true });
+  await copyFile(
+    join(root, "fixtures/narrated-workbench/video.mov"),
+    join(directory, "video.mov"),
+    constants.COPYFILE_FICLONE,
+  );
+  await copyFile(narration, join(directory, "narration.mov"), constants.COPYFILE_FICLONE);
+  const records = [
+    {
+      event: "header",
+      data: {
+        schemaVersion: 1,
+        sessionID: `synthetic-source-journey-${randomUUID()}`,
+        source: { kind: "window", windowID: 7 },
+        width: 3120,
+        height: 1970,
+        microphone: true,
+        systemAudio: false,
+      },
+    },
+    { event: "origin", data: { hostUs: 1000000 } },
+    ...available.map((range) => ({ event: "audioSamples", data: { role: "narration", ...range } })),
+    { event: "finished", data: {} },
+    { event: "lifecycle", data: { state: "complete" } },
+  ];
+opening dict_keys(['passed', 'trace', 'sourceStartUs', 'references', 'variants', 'nativeSha256', 'presetPromoted', 'source', 'project'])
+[('compact', {'container': 'mp4', 'video': {'codec': 'h264', 'color': 'rec709', 'rateControl': {'mode': 'average', 'bitrate': 3000000}, 'profile': 'high', 'level': 'auto', 'keyframeInterval': 120, 'keyframeIntervalSeconds': 2, 'frameReordering': False, 'entropy': 'cabac', 'temporalCompression': True, 'openGop': False, 'prioritizeSpeed': False, 'powerEfficient': False, 'dataRateLimits': [], 'bufferDurationSeconds': None, 'initialBufferDelayPercent': None, 'spatialAdaptiveQuantization': True, 'nonDroppableFrameRate': None, 'minimumQuantizer': None, 'maximumQuantizer': None}, 'audio': {'codec': 'aac', 'sampleRate': 48000, 'layout': 'stereo', 'rateControl': {'mode': 'constant', 'bitrate': 192000}, 'quality': 'high'}})]
+motion dict_keys(['passed', 'trace', 'sourceStartUs', 'references', 'variants', 'nativeSha256', 'presetPromoted', 'source', 'project'])
+[('compact', {'container': 'mp4', 'video': {'codec': 'h264', 'color': 'rec709', 'rateControl': {'mode': 'average', 'bitrate': 3000000}, 'profile': 'high', 'level': 'auto', 'keyframeInterval': 120, 'keyframeIntervalSeconds': 2, 'frameReordering': False, 'entropy': 'cabac', 'temporalCompression': True, 'openGop': False, 'prioritizeSpeed': False, 'powerEfficient': False, 'dataRateLimits': [], 'bufferDurationSeconds': None, 'initialBufferDelayPercent': None, 'spatialAdaptiveQuantization': True, 'nonDroppableFrameRate': None, 'minimumQuantizer': None, 'maximumQuantizer': None}, 'audio': {'codec': 'aac', 'sampleRate': 48000, 'layout': 'stereo', 'rateControl': {'mode': 'constant', 'bitrate': 192000}, 'quality': 'high'}})]
+pointer dict_keys(['passed', 'trace', 'sourceStartUs', 'references', 'variants', 'nativeSha256', 'presetPromoted', 'source', 'acquisition', 'project', 'order'])
+[('compact', {'container': 'mp4', 'video': {'codec': 'h264', 'color': 'rec709', 'rateControl': {'mode': 'average', 'bitrate': 3000000}, 'profile': 'high', 'level': 'auto', 'keyframeInterval': 120, 'keyframeIntervalSeconds': 2, 'frameReordering': False, 'entropy': 'cabac', 'temporalCompression': True, 'openGop': False, 'prioritizeSpeed': False, 'powerEfficient': False, 'dataRateLimits': [], 'bufferDurationSeconds': None, 'initialBufferDelayPercent': None, 'spatialAdaptiveQuantization': True, 'nonDroppableFrameRate': None, 'minimumQuantizer': None, 'maximumQuantizer': None}, 'audio': {'codec': 'aac', 'sampleRate': 48000, 'layout': 'stereo', 'rateControl': {'mode': 'constant', 'bitrate': 192000}, 'quality': 'high'}})]
+long dict_keys(['passed', 'trace', 'sourceStartUs', 'durationUs', 'references', 'variants', 'nativeSha256', 'presetPromoted', 'source', 'project', 'order'])
+[('compact', {'container': 'mp4', 'video': {'codec': 'h264', 'color': 'rec709', 'rateControl': {'mode': 'average', 'bitrate': 3000000}, 'profile': 'high', 'level': 'auto', 'keyframeInterval': 120, 'keyframeIntervalSeconds': 2, 'frameReordering': False, 'entropy': 'cabac', 'temporalCompression': True, 'openGop': False, 'prioritizeSpeed': False, 'powerEfficient': False, 'dataRateLimits': [], 'bufferDurationSeconds': None, 'initialBufferDelayPercent': None, 'spatialAdaptiveQuantization': True, 'nonDroppableFrameRate': None, 'minimumQuantizer': None, 'maximumQuantizer': None}, 'audio': {'codec': 'aac', 'sampleRate': 48000, 'layout': 'stereo', 'rateControl': {'mode': 'constant', 'bitrate': 192000}, 'quality': 'high'}})]
+
+exec
+/bin/zsh -lc "node --check packages/test-harness/editing/output-quality.mjs; python3 - <<'PY'
+import pathlib,json,hashlib,gzip,ast
+ast.parse(pathlib.Path('packages/test-harness/editing/output-quality.py').read_text())
+p=pathlib.Path('specs/agent-editing/assets/09b-output-quality')
+m=json.loads((p/'sha256.json').read_text()); bad=[n for n,h in m.items() if hashlib.sha256((p/n).read_bytes()).hexdigest()"'!=h];print('"'Manifest entries:',len(m),'mismatches:',bad)
+for cohort in ['opening','motion','pointer','long']:
+ r=json.loads(gzip.decompress((p/cohort/'report.json.gz').read_bytes()))
+ for v in r['variants']:
+  d=p/cohort/(v['preset']+'-apple');f=json.loads((d/'frames.json').read_text())
+  for e in f['frames']:
+   assert hashlib.sha256(gzip.decompress((d/f\"frame-{e['index']}.bgra.gz\").read_bytes())).hexdigest()==e['bgraSHA256']
+ print(cohort,'raw frame hashes verified')
+PY" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+2026-09-29T00:18:59.009068Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ea86-afbf-7272-a37f-3c3c7e018cfa turn_id=01a0ea86-b6fe-7052-8d64-6962ac0cd7f9 item_id="exec-79ae550f-7b80-4623-83fa-fd89b067b173"
+ succeeded in 921ms:
+Manifest entries: 192 mismatches: []
+opening raw frame hashes verified
+motion raw frame hashes verified
+pointer raw frame hashes verified
+long raw frame hashes verified
+
+codex
+No actionable defects were found in the changed instructions, quality-study harness, or retained evidence. Syntax checks and artifact hash/timestamp checks passed; the full native recording journey was not rerun.
+No actionable defects were found in the changed instructions, quality-study harness, or retained evidence. Syntax checks and artifact hash/timestamp checks passed; the full native recording journey was not rerun.

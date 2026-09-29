@@ -1,0 +1,29 @@
+{
+  "method": "FFmpeg1fps160x100 adjacent-frame meanRGB difference; screening only, no fidelity measurement",
+  "candidates": [
+    {
+      "seconds": 41,
+      "meanRGBChange": 14.584708333333333
+    },
+    {
+      "seconds": 129,
+      "meanRGBChange": 14.269229166666667
+    },
+    {
+      "seconds": 42,
+      "meanRGBChange": 13.866354166666667
+    },
+    {
+      "seconds": 16,
+      "meanRGBChange": 13.472291666666667
+    },
+    {
+      "seconds": 43,
+      "meanRGBChange": 11.8205625
+    },
+    {
+      "seconds": 17,
+      "meanRGBChange": 11.192145833333333
+    }
+  ]
+}

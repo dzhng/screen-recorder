@@ -1,0 +1,41 @@
+{
+  "frames" : [
+    {
+      "bgraSHA256" : "2719779fb1e3655cbe3c5943ce2bd3798b3bff7fce0caa1536d02832afba13f1",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 0,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 0,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "101d8b24f667bd77c629f94d41f876609deae247efacec793a64fa43940ed675",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 10,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 333333,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "2278d97f08487ae3665b69773e8ac9676a20d1197ac161ca1eec7715034f9987",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 20,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 666666,
+      "width" : 1920
+    },
+    {
+      "bgraSHA256" : "245febe3fce32ef867bb1e251b9e0eda7e4a4777decd97b59fa81920a1dcad7c",
+      "height" : 1080,
+      "iccSHA256" : "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+      "index" : 29,
+      "ptsTimescale" : 1000000,
+      "ptsValue" : 966666,
+      "width" : 1920
+    }
+  ],
+  "movieSHA256" : "34da156654220181a66e2447c978ec8777e3e7ae9ab339be5d3e5b8d40e0b7ae"
+}

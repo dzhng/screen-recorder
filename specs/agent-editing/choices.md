@@ -2354,8 +2354,23 @@ exactly what executes. Confidence: medium.
   A requested H.264 profile/explicit level must match the actual sequence parameter
   set. Echoing the request cannot prove encoder behavior. Auto level reports the
   encoder-selected level. This adds a bounded metadata read, not a second renderer.
-- **Provisional, medium confidence — candidate bitrate presets await quality evidence.**
-  Compact/balanced/sharp currently select3/8/20Mbps as research candidates. Public
-  control tests prove these requests execute and remain overridable; they do not
-  establish a balanced quality policy. Keep this checkpoint unintegrated until the
-  real text/motion/pointer comparison selects or replaces those values.
+
+### Balanced encoding favors the middle measured quality/size tradeoff
+
+- **When:** 09b output quality decision.
+- **Choice:** Use an 8 Mbps encoder target when an agent leaves video rate control
+  unspecified. A ten-second screen recording at this setting costs about 6.5%
+  more bytes than the compact candidate and reduces the sampled pixel error by
+  about 7.7%. The sharper candidate costs another 13.1% for a smaller error
+  reduction. An agent can request any supported explicit setting; the preset
+  does not restrict the controls or promise a particular file size.
+- **Gap:** The user chose balanced sharpness/file size, leaving the numeric default
+  to measured evidence.
+- **Reach:** Ordinary exports inherit this starting point. Fine grids can benefit
+  from sharper settings, and this small screen-recording corpus does not establish
+  the best value for every kind of footage. Existing fidelity failures remain open.
+- **Verdict:** Sound as a reversible default, supported by four cohorts and an
+  independent visual review rather than preset names alone.
+- **Confidence:** Medium; preference between marginal sharpness and bytes varies
+  by content. Change the preset default if broader evidence supports another
+  point; retained export intents keep their original resolved settings.
