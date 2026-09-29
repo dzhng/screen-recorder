@@ -1,0 +1,21 @@
+(node:71949) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+CatalogError: unprepared ambient module was imported
+    at nativeResult (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/worker.js:26:15)
+    at file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/voice.js:69:29
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:160:25
+    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:189:34
+    at async withLockedRenderWorkspace (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:55:24)
+    at async withLockedRenderWorkspace (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:55:24)
+    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/packages/test-harness/editing/voice-entry.mjs:67:20 {
+  code: 'MEDIA_WORKER_FAILED',
+  details: {},
+  retryable: false
+}
+
+Node.js v24.14.0

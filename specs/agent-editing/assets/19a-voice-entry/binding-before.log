@@ -1,0 +1,35 @@
+
+ RUN  v5.0.0 /Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder
+
+(node:71952) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ apps/service/src/worker.test.ts (8 tests | 1 failed | 7 skipped) 308ms
+   × native binding resolves its supplied executable on each call 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/worker.test.ts > native binding resolves its supplied executable on each call
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ apps/service/src/worker.test.ts:155:21
+    153|   environment.SCREENREC_NATIVE = executable;
+    154|   const result = await run("answer", {});
+    155|   expect(result.ok).toBe(true);
+       |                     ^
+    156|   if (result.ok) expectGone((result.data as { pid: number }).pid);
+    157| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  10:42:04
+   Duration  492ms (tests 69%, transform 20%, import 10%)
+

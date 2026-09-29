@@ -1,0 +1,49 @@
+{
+  "base": "5cdf1775",
+  "specSource": "ee30b6d4",
+  "archiveSha256": "8f53c395e4126a8a8720387b90488da770858aac3d3290fb45a0da4b1d345f5b",
+  "members": [
+    {
+      "path": "word.wav",
+      "bytes": 84538,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+    },
+    {
+      "path": "phrase.wav",
+      "bytes": 322618,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+    }
+  ],
+  "sourceIdentities": {
+    "helpers/voice/worker.py": {
+      "bytes": 6216,
+      "sha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1"
+    },
+    "helpers/voice/pins.json": {
+      "bytes": 100967,
+      "sha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05"
+    },
+    "apps/service/src/voice-pins.ts": {
+      "bytes": 494,
+      "sha256": "cacc6cb806c27cedd1b6c3457a40c765366d9b06e079a2315952be4b7bf289f1"
+    },
+    "apps/service/src/voice.ts": {
+      "bytes": 5681,
+      "sha256": "a8af3009574ca810217e96a23c1b837dd7f976668214d8f9acfaee1b9192957e"
+    },
+    "apps/service/src/worker.ts": {
+      "bytes": 7551,
+      "sha256": "6a8787a14deb824b711f83b563627da8f9c93936cf4e749715bb54ec6f58491a"
+    },
+    "packages/test-harness/editing/voice-entry.mjs": {
+      "bytes": 8449,
+      "sha256": "6bb74e4263ed3e7ed105f4ab0b02522b76827de18080722cd4ea6644e97ea061"
+    }
+  },
+  "commands": [
+    "node_modules/.bin/tsc -p apps/service/tsconfig.json",
+    "node_modules/.bin/tsc -p apps/service/tsconfig.check.json --noEmit",
+    "SCREENREC_NATIVE=<native worker> node_modules/.bin/vitest run apps/service/src/worker.test.ts apps/service/src/render.test.ts",
+    "node packages/test-harness/editing/voice-entry.mjs --out <new scratch directory> --python <prepared Python> --entry <helpers/voice/worker.py> --model <prepared model> --cache <prepared HF cache> --native <native worker>"
+  ]
+}

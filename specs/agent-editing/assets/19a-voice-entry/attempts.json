@@ -1,0 +1,47 @@
+{
+  "attempts": [
+    {
+      "name": "first",
+      "passed": true,
+      "failure": null,
+      "checks": 11
+    },
+    {
+      "name": "final",
+      "passed": true,
+      "failure": null,
+      "checks": 13
+    },
+    {
+      "name": "shadow-red",
+      "passed": false,
+      "failure": {
+        "message": "unprepared ambient module was imported",
+        "stack": "Error: unprepared ambient module was imported\n    at nativeResult (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/worker.js:26:15)\n    at file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/voice.js:69:29\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:160:25\n    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:189:34\n    at async withLockedRenderWorkspace (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:55:24)\n    at async withLockedRenderWorkspace (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:55:24)\n    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/packages/test-harness/editing/voice-entry.mjs:67:20"
+      },
+      "checks": 0
+    },
+    {
+      "name": "isolated",
+      "passed": true,
+      "failure": null,
+      "checks": 13
+    },
+    {
+      "name": "verified",
+      "passed": false,
+      "failure": {
+        "message": "Cannot read properties of undefined (reading 'runtimeCommit')",
+        "stack": "TypeError: Cannot read properties of undefined (reading 'runtimeCommit')\n    at file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/voice.js:84:62\n    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:160:25\n    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:189:34\n    at async withLockedRenderWorkspace (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:55:24)\n    at async withLockedRenderWorkspace (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/apps/service/dist/render.js:55:24)\n    at async file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/packages/test-harness/editing/voice-entry.mjs:70:20"
+      },
+      "checks": 0
+    },
+    {
+      "name": "complete",
+      "passed": true,
+      "failure": null,
+      "checks": 13
+    }
+  ],
+  "note": "Implementation verification only, with fixed recipe/model/seed. verified failed during the revision-label ownership refactor (missing assignment); corrected before complete. No output baseline changed."
+}

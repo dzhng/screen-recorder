@@ -1,6 +1,6 @@
 # 19a — Frozen voice worker entry parity
 
-Status: planned. Parent: [19](19-voice-assets.md). Dependencies: [18a](18a-voice-repeatability.md), the frozen main reference-conditioned candidate from [18](18-voice-reproduction.md), not its unresolved listening verdict.
+Status: private entry parity and refusal/lifetime gates verified; reviewed evidence retained. Parent: [19](19-voice-assets.md). Dependencies: [18a](18a-voice-repeatability.md), the frozen main reference-conditioned candidate from [18](18-voice-reproduction.md), not its unresolved listening verdict.
 
 ## Contract and owner
 
@@ -41,6 +41,8 @@ Return actual duration/format, complete output identity and effective
 request/reference/runtime/model provenance. Bound request/reference sizes and
 retain the frozen reference-loading behavior. Do not select voices, normalize,
 trim, stretch, splice, add room tone or mutate any project.
+
+Implementation: [private worker](../../../helpers/voice/README.md), service binding and shared process/workspace owners. [Evidence](../assets/19a-voice-entry/README.md).
 
 ## Verification
 

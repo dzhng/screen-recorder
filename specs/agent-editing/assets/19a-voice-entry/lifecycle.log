@@ -1,0 +1,13 @@
+
+ RUN  v5.0.0 /Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder
+
+(node:72839) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72838) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  2 passed (2)
+      Tests  30 passed (30)
+   Start at  10:42:41
+   Duration  5.10s (tests 95%, transform 3%, import 1%)
+

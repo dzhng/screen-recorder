@@ -68,6 +68,8 @@ let text=''; process.stdin.on('data',x=>text+=x); process.stdin.on('end',()=>{
  const dir=dirname(params.output);
  mkdirSync(join(dir,'.movie-render-held')); writeFileSync(join(dir,'.movie-render-held','partial'),'partial');
  writeFileSync(join(dir,'pid'),String(process.pid));
+ if(params.source==='malformed') process.stdout.write('not-json\\n');
+ if(params.source==='crash') process.exit(19);
  if(params.source==='success') {
   writeFileSync(params.output,'finished');
   process.stdout.write(JSON.stringify({ok:true,data:{file:params.output,mediaType:'video/mp4',codec:'h264',durationUs:30000000,width:2,height:2,frameCount:1,bytes:8}})+'\\n');
@@ -159,6 +161,36 @@ it("deadline failure reclaims the closed attempt and preserves its reason", asyn
   ).rejects.toMatchObject({ code: "MEDIA_WORKER_TIMEOUT", retryable: true });
   expect(await readdir(parent)).toEqual([]);
 });
+it.each(["malformed", "crash"])(
+  "%s response closes the process before removing partial staging",
+  async (source) => {
+    const { parent, run } = await fixture();
+    const worker: MediaWorker = async (...args) => {
+      const result = await run(...args);
+      if (args[0] !== "storage.clearRenderWorkspace") {
+        const current = await ready(parent);
+        expect(() => process.kill(current.pid, 0)).toThrowError(
+          expect.objectContaining({ code: "ESRCH" }),
+        );
+        expect(await readFile(join(current.dir, ".movie-render-held", "partial"), "utf8")).toBe(
+          "partial",
+        );
+      }
+      return result;
+    };
+    await expect(
+      withRenderedMedia(
+        worker,
+        { source, plan, tracks: [], attemptParent: parent },
+        new AbortController().signal,
+        async () => {
+          throw new Error("must not consume");
+        },
+      ),
+    ).rejects.toMatchObject({ code: "MEDIA_WORKER_FAILED" });
+    expect(await readdir(parent)).toEqual([]);
+  },
+);
 it("abort after native publication but before receipt prevents consumption", async () => {
   const { parent, run } = await fixture();
   const controller = new AbortController();
@@ -444,9 +476,7 @@ it("audio owner SIGKILL preserves the orphan child's lock until restart can recl
   for (const name of ["render", "worker"])
     await writeFile(
       join(home, `${name}.mjs`),
-      stripTypeScriptTypes(
-        await readFile(new URL(`./${name}.ts`, import.meta.url), "utf8"),
-      )
+      stripTypeScriptTypes(await readFile(new URL(`./${name}.ts`, import.meta.url), "utf8"))
         .replace('"./worker.js"', '"./worker.mjs"')
         .replace(/"(@screenrec\/[^"]+)"/g, (_, specifier: string) =>
           JSON.stringify(pathToFileURL(require.resolve(specifier)).href),

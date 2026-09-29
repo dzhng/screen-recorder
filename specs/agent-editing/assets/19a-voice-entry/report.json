@@ -1,0 +1,122 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "label": "word",
+      "exactWAVAndPCM": true,
+      "ignoresAmbientPythonPath": true,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "receipt": {
+        "file": "/tmp/screenrec-19a-complete/word.wav",
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 21120,
+        "durationUs": 880000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveRepetitionPenalty": 1.5,
+        "seed": 18,
+        "text": "paid",
+        "referenceText": "Okay, so this is the recorder workbench."
+      }
+    },
+    {
+      "label": "phrase",
+      "exactWAVAndPCM": true,
+      "ignoresAmbientPythonPath": true,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "receipt": {
+        "file": "/tmp/screenrec-19a-complete/phrase.wav",
+        "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 80640,
+        "durationUs": 3360000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveRepetitionPenalty": 1.5,
+        "seed": 18,
+        "text": "This is available at no cost.",
+        "referenceText": "Okay, so this is the recorder workbench."
+      }
+    },
+    {
+      "label": "preexisting destination",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "label": "input/output collision",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "label": "missing runtime",
+      "code": "MODEL_NOT_PREPARED"
+    },
+    {
+      "label": "wrong runtime",
+      "code": "MODEL_NOT_PREPARED"
+    },
+    {
+      "label": "missing model",
+      "code": "MODEL_NOT_PREPARED"
+    },
+    {
+      "label": "mismatched model bytes",
+      "code": "MODEL_NOT_PREPARED"
+    },
+    {
+      "label": "unsupported reference rate",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "label": "malformed reference",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "label": "reference exceeds measured frames",
+      "code": "INVALID_REQUEST"
+    },
+    {
+      "label": "cancel",
+      "pid": 75496,
+      "partialOutput": true,
+      "closedBeforeReturn": true,
+      "code": "CANCELED"
+    },
+    {
+      "label": "deadline",
+      "pid": 75531,
+      "partialOutput": true,
+      "closedBeforeReturn": true,
+      "code": "MEDIA_WORKER_TIMEOUT"
+    }
+  ],
+  "scope": "Private entry parity; no public job, managed-origin or listening acceptance",
+  "preparation": {
+    "python": "/tmp/screenrec-voice-venv/bin/python",
+    "entry": "/Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/helpers/voice/worker.py",
+    "model": "/tmp/screenrec-voice-model",
+    "cache": "/tmp/screenrec-voice-hf"
+  }
+}

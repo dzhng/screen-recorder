@@ -81,6 +81,23 @@ export function mediaWorker(
   environment: NodeJS.ProcessEnv = process.env,
   timeoutMs: number = MEDIA_WORKER_TIMEOUT_MS,
 ): MediaWorker {
+  return (operation, params, options) =>
+    jsonWorker({ executable: environment[NATIVE_EXECUTABLE_VARIABLE] }, timeoutMs)(
+      operation,
+      params,
+      options,
+    );
+}
+
+/** One process/pipe lifetime for native media and explicitly prepared sidecars. */
+export function jsonWorker(
+  command: {
+    executable: string | undefined;
+    args?: readonly string[];
+    environment?: NodeJS.ProcessEnv;
+  },
+  timeoutMs: number = MEDIA_WORKER_TIMEOUT_MS,
+): MediaWorker {
   return (
     operation,
     params,
@@ -102,7 +119,7 @@ export function mediaWorker(
         );
         return;
       }
-      const executable = environment[NATIVE_EXECUTABLE_VARIABLE];
+      const executable = command.executable;
       if (!executable || !isAbsolute(executable)) {
         settle(
           operationError(
@@ -130,7 +147,8 @@ export function mediaWorker(
         );
         return;
       }
-      const child = spawn(executable, [], {
+      const child = spawn(executable, [...(command.args ?? [])], {
+        ...(command.environment ? { env: command.environment } : {}),
         cwd: "/",
         stdio: ["pipe", "pipe", "ignore", ...descriptors] as [
           "pipe",

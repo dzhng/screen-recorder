@@ -146,3 +146,12 @@ it("inherited descriptor remains owned by parent after canceled worker closes", 
     await file.close();
   }
 });
+
+it("native binding resolves its supplied executable on each call", async () => {
+  const environment: NodeJS.ProcessEnv = {};
+  const run = mediaWorker(environment);
+  environment.SCREENREC_NATIVE = executable;
+  const result = await run("answer", {});
+  expect(result.ok).toBe(true);
+  if (result.ok) expectGone((result.data as { pid: number }).pid);
+});
