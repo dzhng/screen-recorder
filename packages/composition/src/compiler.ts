@@ -13,7 +13,7 @@ import {
 } from "./execution-window.js";
 import { processingPlanner } from "./processing-plan.js";
 import { CompositionError } from "./errors.js";
-import { sourceTime, type ValidatedComposition } from "./model.js";
+import { resolvedClip, sourceTime, type ValidatedComposition } from "./model.js";
 import { compare, floor, ceil, fromTime, toTime, type Rational } from "./rational.js";
 import {
   isMediaClip,
@@ -77,6 +77,46 @@ function frameTiming(
   };
 }
 
+function compileAudioInput(
+  value: Resolved,
+  ranges: readonly { start: Rational; end: Rational }[],
+  sampleRate: number,
+  contexts: ReturnType<typeof audioContexts>,
+): CompiledAudio {
+  const sample = (at: Rational) => sampleAt(at, sampleRate);
+  const first = ranges[0]!,
+    last = ranges.at(-1)!;
+  const start = Math.max(sample(first.start), sample(value.range.start)),
+    end = Math.min(sample(last.end), sample(value.range.end));
+  const clip = value.clip;
+  const source: CompiledAudio["source"] =
+    isMediaClip(clip) && clip.source.kind === "range"
+      ? { kind: "range", assetId: clip.assetId, streamId: clip.streamId, range: clip.source.range }
+      : { kind: "silence" };
+  const available: CompiledAudio["available"] = [];
+  for (const selected of ranges) {
+    const selectedStart = Math.max(start, sample(selected.start)),
+      selectedEnd = Math.min(end, sample(selected.end));
+    for (let i = firstAvailable(value.available, selected.start); i < value.available.length; i++) {
+      const part = value.available[i]!,
+        a = Math.max(selectedStart, sample(part.start)),
+        b = Math.min(selectedEnd, sample(part.end));
+      if (a >= selectedEnd) break;
+      if (a < b) available.push({ start: a, end: b });
+    }
+  }
+  return {
+    clipId: clip.id,
+    trackId: clip.trackId,
+    sampleRange: { start, end },
+    placement: { startUs: toTime(value.range.start), endUs: toTime(value.range.end) },
+    source,
+    context: contexts(value, { startUs: toTime(first.start), endUs: toTime(last.end) }, sampleRate),
+    pitch: isMediaClip(clip) ? (clip.pitch ?? "preserve") : "preserve",
+    available,
+  };
+}
+
 function compileSchedules(
   visual: ReturnType<typeof visualPlanner>,
   processing: ReturnType<typeof processingPlanner>,
@@ -90,49 +130,15 @@ function compileSchedules(
       const range = checkedRange(input);
       if (!Number.isSafeInteger(sampleRate) || sampleRate <= 0)
         throw new CompositionError("INVALID_TIME", "Expected a positive integer sample rate");
-      const sample = (at: Rational) => sampleAt(at, sampleRate);
-      const requestedStart = sample(fromTime(range.startUs)),
-        requestedEnd = sample(fromTime(range.endUs));
       for (const value of query(fromTime(range.startUs), fromTime(range.endUs))) {
         if (value.track.kind !== "audio") continue;
-        const start = Math.max(requestedStart, sample(value.range.start));
-        const end = Math.min(requestedEnd, sample(value.range.end));
-        if (start >= end) continue;
-        const clip = value.clip;
-        const source: CompiledAudio["source"] =
-          isMediaClip(clip) && clip.source.kind === "range"
-            ? {
-                kind: "range",
-                assetId: clip.assetId,
-                streamId: clip.streamId,
-                range: clip.source.range,
-              }
-            : { kind: "silence" };
-        const available: CompiledAudio["available"] = [];
-        for (
-          let i = firstAvailable(value.available, fromTime(range.startUs));
-          i < value.available.length;
-          i++
-        ) {
-          const part = value.available[i]!;
-          const first = Math.max(start, sample(part.start)),
-            last = Math.min(end, sample(part.end));
-          if (first >= end) break;
-          if (first < last) available.push({ start: first, end: last });
-        }
-        yield {
-          clipId: clip.id,
-          trackId: clip.trackId,
-          sampleRange: { start, end },
-          placement: {
-            startUs: toTime(value.range.start),
-            endUs: toTime(value.range.end),
-          },
-          source,
-          context: contexts(value, range, sampleRate),
-          pitch: isMediaClip(clip) ? (clip.pitch ?? "preserve") : "preserve",
-          available,
-        };
+        const clip = compileAudioInput(
+          value,
+          [{ start: fromTime(range.startUs), end: fromTime(range.endUs) }],
+          sampleRate,
+          contexts,
+        );
+        if (clip.sampleRange.start < clip.sampleRange.end) yield clip;
       }
     },
     *frames(input: Range): Generator<CompiledFrame> {
@@ -260,7 +266,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         "NOT_READY",
         "Audio clip tap has no output samples in the requested window",
       );
-    const plan = processing(clips, request.tap, component);
+    let plan = processing(clips, request.tap, component);
     const selected = new Set(
       plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
     );
@@ -268,20 +274,34 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
     let state: ReturnType<typeof deriveStatePlan> | undefined;
     if (component !== "video" && plan.at(-1)?.mediaKind !== "video") {
       fullState ??= deriveStatePlan(model);
-      const selectedState = fullState.domains.length
-        ? selectStatePlan(
-            fullState,
-            new Set(
-              processing(
-                model.clips.filter((clip) => clip.track.kind === "audio"),
-                request.tap,
-                "audio",
-              ).flatMap((node) => node.steps.filter((step) => step.enabled).map((step) => step.id)),
-            ),
-            request.range,
+      const eligible = fullState.domains.length
+        ? new Set(
+            processing(
+              model.clips.filter((clip) => clip.track.kind === "audio"),
+              request.tap,
+              "audio",
+            ).flatMap((node) => node.steps.filter((step) => step.enabled).map((step) => step.id)),
           )
+        : new Set<string>();
+      const selectedState = fullState.domains.length
+        ? selectStatePlan(fullState, eligible, request.range)
         : fullState;
-      if (selectedState.domains.length) state = selectedState;
+      if (selectedState.domains.length) {
+        state = selectedState;
+        const first = sampleAt(fromTime(request.range.startUs), request.rendition.sampleRate),
+          last = sampleAt(fromTime(request.range.endUs), request.rendition.sampleRate);
+        const targets = state.domains.flatMap((domain) =>
+          domain.members
+            .filter(
+              (member) =>
+                eligible.has(member.stepId) &&
+                sampleAt(fromTime(member.range.startUs), request.rendition.sampleRate) < last &&
+                sampleAt(fromTime(member.range.endUs), request.rendition.sampleRate) > first,
+            )
+            .map((member) => member.target),
+        );
+        plan = processing(clips, request.tap, component, targets);
+      }
     }
     const compiled = executionWindow(
       revisionId,
@@ -298,9 +318,60 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
         intervalIndex(inputs, (clip) => clip.range, renderOrder),
         contexts,
       ),
-      () => temporal.audio(plan, request.rendition.sampleRate),
+      () => temporal.audio(plan, request.rendition.sampleRate, state),
       component,
       state,
+      () => {
+        return state
+          ? {
+              clips: state.inputs.map((input) => {
+                const value = resolvedClip(model, input.clip.id)!;
+                const ranges = input.selected.map((range) => ({
+                  start: fromTime(range.startUs),
+                  end: fromTime(range.endUs),
+                }));
+                return {
+                  ...compileAudioInput(value, ranges, request.rendition.sampleRate, contexts),
+                  required: ranges
+                    .map((range) => ({
+                      start: sampleAt(range.start, request.rendition.sampleRate),
+                      end: sampleAt(range.end, request.rendition.sampleRate),
+                    }))
+                    .filter((range) => range.start < range.end),
+                };
+              }),
+              processing: temporal.audio(
+                state.nodes.map(({ range: _range, ...node }) => node),
+                request.rendition.sampleRate,
+                state,
+              ),
+              domains: state.domains.map((domain) => ({
+                sampleRange: domain.sampleRange,
+                dependencies: domain.dependencies,
+                members: domain.members.map((member) => ({
+                  target: member.target,
+                  stepId: member.stepId,
+                  sampleRange: {
+                    start: sampleAt(fromTime(member.range.startUs), request.rendition.sampleRate),
+                    end: sampleAt(fromTime(member.range.endUs), request.rendition.sampleRate),
+                  },
+                })),
+              })),
+              formats: state.inputs.flatMap((input) =>
+                isMediaClip(input.clip)
+                  ? [
+                      {
+                        assetId: input.clip.assetId,
+                        streamId: input.clip.streamId,
+                        channels: input.channels ?? null,
+                        sampleRate: input.sampleRate ?? null,
+                      },
+                    ]
+                  : [],
+              ),
+            }
+          : undefined;
+      },
     );
     return compiled;
   }

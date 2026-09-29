@@ -9,6 +9,9 @@ import { mediaWorker } from "../../../apps/service/dist/worker.js";
 const probeOverrides = process.env.SCREENREC_TEST_PROBE_OVERRIDES
   ? JSON.parse(await readFile(process.env.SCREENREC_TEST_PROBE_OVERRIDES, "utf8"))
   : [];
+const unavailableOperations = new Set(
+  JSON.parse(process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS ?? "[]"),
+);
 const native = mediaWorker();
 let armed;
 let speechOrdinal = 0;
@@ -23,6 +26,16 @@ process.on("message", (message) => {
   }
 });
 const worker = async (operation, params, options) => {
+  if (unavailableOperations.has(operation))
+    return {
+      ok: false,
+      error: {
+        code: "NOT_READY",
+        message: "Deliberately unavailable fixture operation",
+        retryable: false,
+        details: {},
+      },
+    };
   const result = await native(operation, params, options);
   if (operation === "media.probe" && result.ok && probeOverrides.length) {
     const digest = createHash("sha256")

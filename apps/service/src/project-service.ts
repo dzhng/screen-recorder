@@ -28,6 +28,7 @@ import { MediaExports } from "./exports.js";
 import { PointerPreparation } from "@screenrec/core/pointer-preparation";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
 import {
+  nativeRNNoise,
   projectMovieRenderer,
   projectAudioRenderer,
   projectFrameRenderer,
@@ -248,7 +249,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
           }),
         ) as SpeechTranscriptionReceipt,
     });
-    const audioRenderer = projectAudioRenderer(worker, workspace);
+    const rnnoise = await nativeRNNoise(worker);
+    const audioRenderer = projectAudioRenderer(worker, workspace, rnnoise);
     preparedAudio = new PreparedAudioStore({
       catalog,
       assets,
@@ -349,7 +351,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       assets,
       queue,
       cache,
-      projectMovieRenderer(worker, workspace, { preparation: pointers, evidence }),
+      projectMovieRenderer(worker, workspace, { preparation: pointers, evidence }, rnnoise),
     );
     const projectPictures = projectFrameRenderer(worker, workspace, {
       preparation: pointers,

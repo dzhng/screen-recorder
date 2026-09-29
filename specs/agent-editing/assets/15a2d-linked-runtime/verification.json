@@ -1,0 +1,50 @@
+{
+  "sourceBase": "bfde102e",
+  "native": {
+    "path": "/tmp/screenrec-rnnoise-runtime-native",
+    "sha256": "0ebd8b0ff6ae7f5889b3d79651f1fea3e2e380a0368445ae8575c160a6295aa7",
+    "directLinkBuildSeconds": 23.96,
+    "combinedIncrementalBuildSeconds": 9.74,
+    "cleanBuildClaim": false
+  },
+  "modelArchive": {
+    "path": "/tmp/screenrec-rnnoise-model.tar.gz",
+    "sha256": "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37"
+  },
+  "fixedReference": {
+    "path": "/tmp/screenrec-rnnoise-api",
+    "sha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee"
+  },
+  "linkedChecks": 26,
+  "linkedPassed": true,
+  "publicPassed": true,
+  "inFlightCancellation": {
+    "observedOutputSpoolBytes": 1173120,
+    "declaredFrames": 28800000,
+    "canceled": true,
+    "noPublishedResult": true,
+    "scratchRemoved": true,
+    "cancelAndCleanupMs": 427.3712090000008
+  },
+  "focusedTests": {
+    "composition": 64,
+    "core": 33,
+    "coreNativeOnlySkipped": 1,
+    "service": 12
+  },
+  "nativeStreamCheck": true,
+  "missingModelPreflightAndRestoration": true,
+  "independentReview": "duplicate native dependency reconstruction removed; follow-up no remaining concrete finding",
+  "sourceProvenance": [
+    "specs/agent-editing/assets/12c-matched-noise/audio",
+    "specs/agent-editing/assets/12c-clean-reference/native-level/audio"
+  ],
+  "limitations": [
+    "No listening or intelligibility acceptance; the user found unfamiliar word crops not understandable and reported no obvious artifacts only.",
+    "No general stereo processing enabled.",
+    "Retained reads with deliberately unavailable execution inside a linked worker are not a model-absent binary proof.",
+    "Broader prepared portability and temporal/channel acceptance remain parent gates.",
+    "No external model redistribution license acceptance.",
+    "MP4 delivery is functional/export-byte-preservation evidence, not encoded PCM equality or playback judgment."
+  ]
+}

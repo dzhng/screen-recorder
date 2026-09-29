@@ -60,6 +60,7 @@ export function processingPlanner(model: ValidatedComposition) {
     clips: readonly ValidatedComposition["clips"][number][],
     tap: ProcessingTap = { target: { kind: "output" }, point: { kind: "processed" } },
     component?: "audio" | "video",
+    additionalTargets: readonly ProcessingTarget[] = [],
   ): ProcessingInstruction[] => {
     const output = entries.get(processingKey(tap.target));
     if (!output)
@@ -84,8 +85,11 @@ export function processingPlanner(model: ValidatedComposition) {
       });
     const selected = new Map<string, Entry>();
     const children = new Map<string, Entry[]>();
-    for (const clip of clips) {
-      let target: ProcessingTarget | undefined = { kind: "clip", id: clip.clip.id };
+    for (const initial of [
+      ...clips.map((clip) => ({ kind: "clip" as const, id: clip.clip.id })),
+      ...additionalTargets,
+    ]) {
+      let target: ProcessingTarget | undefined = initial;
       while (target) {
         const key = processingKey(target);
         if (selected.has(key)) break;

@@ -14,7 +14,11 @@ import { ProjectStore, type ProjectRevision } from "./projects.js";
 import { CatalogError } from "./catalog.js";
 import type { PointerPreparation } from "./pointer-preparation.js";
 import { compositionPointerSources } from "./composition-pointer.js";
-export type ProjectRenderSupport = { implementationId: string; pointers?: PointerPreparation };
+export type ProjectRenderSupport = {
+  implementationId: string;
+  rnnoise?: string;
+  pointers?: PointerPreparation;
+};
 
 export type CompositionWindow = ReturnType<ReturnType<typeof createCompiler>["window"]>;
 export type FontAssetBinding = { assetId: string; path: string };
@@ -77,6 +81,7 @@ const implementations = (support: ProjectRenderSupport): ProcessorImplementation
   geometry: support.implementationId,
   opacity: support.implementationId,
   gain: support.implementationId,
+  ...(support.rnnoise ? { rnnoise: support.rnnoise } : {}),
   ...(support.pointers ? { pointer: support.implementationId } : {}),
 });
 export const projectCapabilities = (support: ProjectRenderSupport) =>

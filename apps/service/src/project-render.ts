@@ -17,6 +17,39 @@ import type { SourceEvidenceReader } from "@screenrec/core/evidence-read";
 import type { PresentationReceipt } from "@screenrec/core/presentation-evidence";
 import { prepareCompositionPointers } from "@screenrec/core/composition-pointer";
 import { renderPlan } from "@screenrec/core/timeline";
+/** A bounded metadata-only probe. An absent/older worker leaves authoring and retained reads usable. */
+export async function nativeRNNoise(worker: MediaWorker): Promise<string | undefined> {
+  try {
+    const result = nativeResult(await worker("media.audioCapabilities", {}, { timeoutMs: 5000 }));
+    if (typeof result !== "object" || result === null || !("rnnoise" in result)) return;
+    const identity = result.rnnoise;
+    return typeof identity === "string" && /^rnnoise-[a-zA-Z0-9-]{1,240}$/.test(identity)
+      ? identity
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+function statePayload(
+  window: Parameters<ProjectAudioRenderer["render"]>[0]["window"],
+  identity?: string,
+) {
+  const state = window.audioState();
+  if (!state) return undefined;
+  if (!identity) throw new CatalogError("NOT_READY", "The native RNNoise recipe is unavailable");
+  return { ...state, processing: nativeProcessing(state.processing), implementationId: identity };
+}
+function audioDeadline(window: Parameters<ProjectAudioRenderer["render"]>[0]["window"]) {
+  const workUs = (window.manifest.state?.domains ?? []).reduce(
+    (total, domain) =>
+      total + ((domain.sampleRange.end - domain.sampleRange.start) * 1000000) / 48000,
+    0,
+  );
+  return renderWindowDeadlineMs({
+    startUs: 0,
+    endUs: window.manifest.range.endUs - window.manifest.range.startUs + workUs,
+  });
+}
 type PointerOwners = { preparation: PointerPreparation; evidence: SourceEvidenceReader };
 export function projectPointerHistoryRenderer(
   worker: MediaWorker,
@@ -83,9 +116,11 @@ export function projectMovieRenderer(
   worker: MediaWorker,
   workspace: string,
   pointers?: PointerOwners,
+  rnnoise?: string,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v16",
+    implementationId: "native-composition-movie-v17",
+    ...(rnnoise ? { rnnoise } : {}),
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -128,13 +163,17 @@ export function projectMovieRenderer(
               processing: nativeProcessing(request.window.processing()),
               assets: request.assets,
               fonts: request.fonts,
-              audio: { range: manifest.sampleRange, clips: [...request.window.audio()] },
+              audio: {
+                range: manifest.sampleRange,
+                clips: [...request.window.audio()],
+                state: statePayload(request.window, rnnoise),
+              },
             },
             {
               signal,
               // Video rendering and PCM/AAC assembly each get the retained playback duration.
               // Sparse source seeks do not budget discarded recording prefixes.
-              timeoutMs: renderWindowDeadlineMs(manifest.range),
+              timeoutMs: audioDeadline(request.window),
             },
           );
           signal.throwIfAborted();
@@ -155,9 +194,14 @@ export function projectMovieRenderer(
   };
 }
 
-export function projectAudioRenderer(worker: MediaWorker, workspace: string): ProjectAudioRenderer {
+export function projectAudioRenderer(
+  worker: MediaWorker,
+  workspace: string,
+  rnnoise?: string,
+): ProjectAudioRenderer {
   return {
-    implementationId: "native-composition-audio-v6",
+    implementationId: "native-composition-audio-v7",
+    ...(rnnoise ? { rnnoise } : {}),
     render: async ({ window, assets, output }, signal) =>
       withRenderedFile(
         worker,
@@ -170,11 +214,12 @@ export function projectAudioRenderer(worker: MediaWorker, workspace: string): Pr
               {
                 output: file,
                 range: window.manifest.sampleRange,
+                state: statePayload(window, rnnoise),
                 clips: [...window.audio()],
                 processing: nativeProcessing(window.processing()),
                 assets,
               },
-              { signal, timeoutMs: renderWindowDeadlineMs(window.manifest.range) },
+              { signal, timeoutMs: audioDeadline(window) },
             ),
           ),
       ),

@@ -21,6 +21,9 @@ try {
       "(`xcode-select --install`), or point `xcode-select -p` at a developer directory that has them.",
   );
 }
+execFileSync(process.execPath, [join(root, "helpers/denoise/prepare.mjs"), "--verify"], {
+  stdio: "inherit",
+});
 const app = join(root, "dist/ScreenRecorder.app");
 const macOS = join(app, "Contents/MacOS");
 mkdirSync(macOS, { recursive: true });
@@ -33,6 +36,11 @@ for (const [directory, executable] of [
   const bin = execFileSync("swift", [...args, "--show-bin-path"], { encoding: "utf8" }).trim();
   copyFileSync(join(bin, executable), join(macOS, executable));
 }
+
+const rnnoiseNotices = join(app, "Contents/Resources/ThirdParty/RNNoise");
+mkdirSync(rnnoiseNotices, { recursive: true });
+for (const file of ["COPYING", "provenance.json"])
+  copyFileSync(join(root, "helpers/denoise", file), join(rnnoiseNotices, file));
 
 // The bundled service and CLI run outside the checkout with no node_modules in reach, so
 // each ships as one file with Node builtins left external.

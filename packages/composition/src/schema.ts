@@ -224,7 +224,9 @@ export const processorRegistry = {
     schema: z
       .object({ type: z.literal("rnnoise") })
       .strict()
-      .describe("Fixed-recipe RNNoise state metadata; execution remains unavailable."),
+      .describe(
+        "Fixed 48 kHz RNNoise recipe over current connected state domains. Native execution requires verified mono sources or their structural dual-mono mix; stereo or unknown source layouts are refused. Availability is reported by execution and implementationId.",
+      ),
     targets: allProcessingTargets,
     mediaKind: "audio" as const,
     units: {},

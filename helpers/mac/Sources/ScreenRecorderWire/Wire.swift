@@ -31,6 +31,7 @@ public enum NativeWire {
                     }
                     return ["platform": "macos"]
                 }, unexpected: { NativeFailure("INVALID_REQUEST", $0.localizedDescription) }),
+            "media.audioCapabilities": media { _ in ["rnnoise": CompositionAudio.rnnoiseImplementation] },
             "media.outputCapabilities": media { _ in try OutputSettings.inventory() },
             "media.probe": media { try json(await ProbeOperation.execute($0)) },
             "media.frame": media { try json(await FrameOperation.execute($0)) },

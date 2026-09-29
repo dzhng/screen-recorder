@@ -272,3 +272,8 @@ rebased only at this consumption boundary. Exact movie and edit-list clocks rema
 authoritative when external tools report AAC duration rounded to native samples.
 See [native assembly evidence](../../specs/agent-editing/assets/09-assembly/README.md)
 for verified behavior and remaining public integration gates.
+
+The audio target directly links the [fixed RNNoise dependency](../denoise/README.md).
+Its verified local model preparation is an explicit native-build prerequisite;
+the app build checks it before invoking Swift. Runtime processing never downloads
+or prepares weights.

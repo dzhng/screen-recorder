@@ -10,16 +10,18 @@ public struct CompositionAudioPlan: Codable, Sendable {
     public let clips: [Clip]
     public let processing: [CompositionProcessing]
     public let assets: [CompositionAsset]
+    public let state: State?
 
     public init(
         output: String, range: Samples, clips: [Clip], processing: [CompositionProcessing],
-        assets: [CompositionAsset]
+        assets: [CompositionAsset], state: State? = nil
     ) {
         self.output = output
         self.range = range
         self.clips = clips
         self.processing = processing
         self.assets = assets
+        self.state = state
     }
 
     public struct Samples: Codable, Sendable, Equatable {
@@ -40,6 +42,30 @@ public struct CompositionAudioPlan: Codable, Sendable {
         let pitch: String
         let available: [Samples]
         let context: [Context]
+        let required: [Samples]?
+    }
+    public struct State: Codable, Sendable {
+        let implementationId: String
+        let clips: [Clip]
+        let processing: [CompositionProcessing]
+        let domains: [Domain]
+        let formats: [Format]
+        struct Domain: Codable, Sendable {
+            let sampleRange: Samples
+            let dependencies: [Int]
+            let members: [Member]
+        }
+        struct Member: Codable, Sendable {
+            let target: CompositionProcessing.Target
+            let stepId: String
+            let sampleRange: Samples
+        }
+        struct Format: Codable, Sendable {
+            let assetId: String
+            let streamId: String
+            let channels: Int?
+            let sampleRate: Int?
+        }
     }
     public struct Context: Codable, Sendable {
         let source: Selection

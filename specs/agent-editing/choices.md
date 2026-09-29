@@ -2917,3 +2917,27 @@ recording length limit. If cleanup encounters an unexpected file in the attempt,
 it retains that file and reports pending cleanup instead of deleting the folder
 recursively. A successfully published recording stays available throughout. These
 choices make future stop/recovery continuation reuse the same inspectable attempt.
+
+### Stream learned state through one attempt-owned PCM spool (sound, medium confidence)
+
+When a short preview needs an earlier learned-processing prefix, the compiler
+supplies one shared set of current inputs and ordered prefix references. Native
+execution uses the ordinary mixer to write each complete component into one
+reusable input file, then calls the fixed adapter and appends its output to one
+attempt-owned file. This trades temporary disk I/O for memory independent of
+recording length and avoids an asynchronous-to-synchronous thread bridge. Nothing
+is published until counts agree; cancellation belongs to the existing render
+attempt and prepared job. There is no second prepared cache, job queue or project
+graph. Components with no output samples do no inference.
+
+### Bind the compiled recipe through observed native metadata (sound, high confidence)
+
+At service startup, one bounded native metadata request identifies the compiled
+recipe for both audio and movie consumers. If that request is unavailable or
+malformed, new learned preparation remains unavailable while ordinary authoring
+and retained PCM reads remain usable. Availability is fixed for that service
+instance because the model is compiled into its worker; replacing the worker
+requires a restart. The existing render deadline includes the complete selected
+state components as well as requested output, so a short preview does not budget
+only its visible duration. This neither creates a runtime model installer nor
+claims that an unavailable capability removes weights from the linked binary.

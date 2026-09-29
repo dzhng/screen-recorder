@@ -9,6 +9,7 @@ enum CompositionMovieOperation {
     private struct AudioSchedule: Codable {
         let range: CompositionAudioPlan.Samples
         let clips: [CompositionAudioPlan.Clip]
+        let state: CompositionAudioPlan.State?
     }
     struct EncodedAudio: Encodable {
         let sampleRate: Int
@@ -61,7 +62,7 @@ enum CompositionMovieOperation {
                 .init(
                     output: request.output,
                     range: schedule.range, clips: schedule.clips,
-                    processing: request.processing, assets: request.assets))
+                    processing: request.processing, assets: request.assets, state: schedule.state))
         }
         let output = try NewFile(at: request.output, assembledAs: "movie.mp4")
         defer { output.discard() }

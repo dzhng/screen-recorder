@@ -40,7 +40,13 @@ async function setup(worker: MediaWorker) {
   cleanups.push(() => rm(home, { recursive: true, force: true }));
   const path = join(home, "source.png");
   await writeFile(path, "image bytes");
-  const service = await startProjectService({ home, worker });
+  const service = await startProjectService({
+    home,
+    worker: (operation, params, options) =>
+      operation === "media.audioCapabilities"
+        ? Promise.resolve({ ok: true, data: {} })
+        : worker(operation, params, options),
+  });
   cleanups.push(() => service.close());
   async function call(operation: string, params: Record<string, unknown>) {
     return callLocal(service.socketPath, { id: "test", operation, params });
@@ -751,5 +757,10 @@ test("project export refuses a dangling prepared audio reference before native w
 
 function projectStoreFixture(catalog: Catalog, assets: AssetStore, home: string) {
   const acquisitions = new AcquisitionStore(catalog);
-  return new ProjectStore(catalog, assets, new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)), acquisitions);
+  return new ProjectStore(
+    catalog,
+    assets,
+    new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)),
+    acquisitions,
+  );
 }

@@ -79,7 +79,11 @@ export {
   processingTapSchema,
   requireWindowReady,
 } from "./execution-window.js";
-export type { ExecutionWindowManifest, ProcessingTap } from "./execution-window.js";
+export type {
+  CompiledAudioState,
+  ExecutionWindowManifest,
+  ProcessingTap,
+} from "./execution-window.js";
 
 export { createSourceRangeProjection } from "./source-projection.js";
 export type {

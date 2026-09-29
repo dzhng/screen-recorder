@@ -40,12 +40,12 @@ public struct CompositionAudioResult: Encodable, Sendable {
 }
 
 public enum CompositionAudio {
-    fileprivate typealias Plan = CompositionAudioPlan
-    private static let rate = 48_000
-    private static func invalid(_ message: String) -> NativeFailure {
+    typealias Plan = CompositionAudioPlan
+    static let rate = 48_000
+    static func invalid(_ message: String) -> NativeFailure {
         NativeFailure("INVALID_REQUEST", message)
     }
-    fileprivate struct Context {
+    struct Context {
         let origin: ExactTime
         let sourceStart: Int64
         let sourceEnd: Int64
@@ -97,12 +97,13 @@ public enum CompositionAudio {
         }
         return result
     }
-    fileprivate final class Input {
+    final class Input {
         let source: SourceTrack
         let contexts: [Context]
         let intervals: [Plan.Samples]
         var index = 0
         var conversion: ConvertedAudioInterval?
+        var nextPosition: Int64?
         var maximumPreroll: Int64 = 0
         var maximumTail: Int64 = 0
         init(source: SourceTrack, contexts: [Context], intervals: [Plan.Samples]) {
@@ -112,6 +113,8 @@ public enum CompositionAudio {
         }
         func mix(into samples: inout [Float], position: Int64, count: Int) throws {
             let end = position + Int64(count)
+            if nextPosition != position { conversion = nil }
+            nextPosition = end
             while index < intervals.count {
                 let interval = intervals[index]
                 if interval.end <= position {
@@ -178,7 +181,22 @@ public enum CompositionAudio {
         }
     }
 
-    public static func open(_ plan: CompositionAudioPlan) async throws -> Stream {
+    final class Sources {
+        var opened: [[String]: SourceTrack] = [:]
+    }
+    struct Graph {
+        let nodes: [CompositionProcessing]
+        let inputs: [String: Input]
+        let missing: [CompositionAudioReport.Missing]
+        func stream(range: Plan.Samples, target: CompositionProcessing.Target, before: String? = nil,
+                    prepared: PreparedState? = nil) -> Stream {
+            Stream(range: range, nodes: nodes, inputs: inputs.mapValues {
+                Input(source: $0.source, contexts: $0.contexts, intervals: $0.intervals)
+            }, missing: missing, target: target, before: before, prepared: prepared)
+        }
+    }
+    static func graph(_ plan: CompositionAudioPlan, forest: Bool = false,
+                      sources: Sources) async throws -> Graph {
         guard plan.range.valid, plan.clips.count <= 256, !plan.processing.isEmpty,
             plan.processing.count <= 10_000, plan.assets.count <= 256,
             plan.clips.reduce(0, { $0 + $1.available.count + $1.context.count }) <= 20_000
@@ -229,14 +247,17 @@ public enum CompositionAudio {
                     continue
                 }
                 guard !step.id.isEmpty, stepIds.insert(step.id).inserted,
-                    step.processor.type == "gain", let gain = step.processor.gain
-                else { throw invalid("Only gain processing is supported.") }
+                    ["gain", "rnnoise"].contains(step.processor.type)
+                else { throw invalid("Unsupported audio processing step.") }
+                if step.processor.type == "gain" {
+                guard let gain = step.processor.gain else { throw invalid("Missing gain.") }
                 switch gain {
                 case .constant(let value):
                     guard value.isFinite, value >= 0, value <= Double(Float.greatestFiniteMagnitude)
                     else { throw invalid("Only finite nonnegative float gain is supported.") }
                 case .program(let program): try program.validate()
                 }
+                } else if step.processor.active == nil { throw invalid("Missing state activation spans.") }
                 if let active = step.processor.active {
                     var end: Int64 = 0
                     for span in active {
@@ -248,7 +269,7 @@ public enum CompositionAudio {
                 }
             }
         }
-        guard used.count == nodes.count - 1,
+        guard (forest || used.count == nodes.count - 1),
             Set(nodes.filter { $0.target.kind == "clip" }.compactMap { $0.target.id })
                 == Set(clipById.keys)
         else { throw invalid("Every audio clip and node must belong to the requested tree.") }
@@ -257,11 +278,10 @@ public enum CompositionAudio {
             throw invalid("Duplicate asset stream.")
         }
         var inputs: [String: Input] = [:]
-        var opened: [[String]: SourceTrack] = [:]
         var missing: [CompositionAudioReport.Missing] = []
         for clip in plan.clips {
             try Task.checkCancellation()
-            guard clip.sampleRange.valid, clip.sampleRange.start >= plan.range.start,
+            guard (clip.sampleRange.valid || (forest && clip.sampleRange.start == clip.sampleRange.end && clip.sampleRange.start >= 0)), clip.sampleRange.start >= plan.range.start,
                 clip.sampleRange.end <= plan.range.end, ["preserve", "follow"].contains(clip.pitch)
             else { throw invalid("Invalid compiled clip sample bounds or pitch policy.") }
             guard clip.sampleRange.start >= (try clip.placement.startUs.sample(rate)),
@@ -270,7 +290,7 @@ public enum CompositionAudio {
                     $0.target.kind == "track" && $0.target.id == clip.trackId
                         && $0.inputs.contains(.init(kind: "clip", id: clip.clipId))
                 })
-                    || (nodes.last?.target == .init(kind: "clip", id: clip.clipId))
+                    || (forest ? !used.contains(.init(kind: "clip", id: clip.clipId)) : nodes.last?.target == .init(kind: "clip", id: clip.clipId))
             else {
                 throw invalid("Clip bounds or track do not match the compiled placement/tree.")
             }
@@ -308,14 +328,14 @@ public enum CompositionAudio {
             }
             let offset = try range.startUs.subtract(clip.placement.startUs)
             let source: SourceTrack
-            if let existing = opened[[assetId, streamId]] {
+            if let existing = sources.opened[[assetId, streamId]] {
                 source = existing
             } else {
                 source = try await SourceTrack.open(
                     source: asset.path, streamId: streamId,
                     sourceOffsetUs: -asset.originUs,
                     available: [TimeSpan(startUs: 0, endUs: TimeSpan.maximumMicroseconds)])
-                opened[[assetId, streamId]] = source
+                sources.opened[[assetId, streamId]] = source
             }
             guard source.channels <= 2 else {
                 throw NativeFailure(
@@ -338,19 +358,32 @@ public enum CompositionAudio {
                 }
             }
             var absent: [Plan.Samples] = []
-            var position = clip.sampleRange.start
-            for part in readable {
-                if position < part.start { absent.append(.init(start: position, end: part.start)) }
-                position = part.end
-            }
-            if position < clip.sampleRange.end {
-                absent.append(.init(start: position, end: clip.sampleRange.end))
+            let required = clip.required ?? [clip.sampleRange]
+            var requiredEnd = clip.sampleRange.start
+            for span in required {
+                guard span.valid, span.start >= requiredEnd, span.end <= clip.sampleRange.end else {
+                    throw invalid("Required support must be ordered within clip bounds.")
+                }
+                requiredEnd = span.end
+                var position = span.start
+                for part in readable where part.end > position && part.start < span.end {
+                    if position < part.start { absent.append(.init(start: position, end: min(part.start, span.end))) }
+                    position = min(span.end, max(position, part.end))
+                }
+                if position < span.end { absent.append(.init(start: position, end: span.end)) }
             }
             missing.append(.init(clipId: clip.clipId, ranges: absent))
             inputs[clip.clipId] = Input(
                 source: source, contexts: contexts, intervals: readable)
         }
-        return Stream(range: plan.range, nodes: nodes, inputs: inputs, missing: missing)
+        return Graph(nodes: nodes, inputs: inputs, missing: missing)
+    }
+
+    public static func open(_ plan: CompositionAudioPlan) async throws -> Stream {
+        let sources = Sources()
+        let prepared = try await prepareState(plan, sources: sources)
+        let graph = try await graph(plan, sources: sources)
+        return graph.stream(range: plan.range, target: graph.nodes.last!.target, prepared: prepared)
     }
 
     /// Prepares one bounded PCM source; neither the consumer nor a preview window owns its phase.
@@ -361,21 +394,61 @@ public enum CompositionAudio {
         private let nodes: [CompositionProcessing]
         private let inputs: [String: Input]
         private let missing: [CompositionAudioReport.Missing]
+        private let target: CompositionProcessing.Target
+        private let before: String?
+        private let prepared: PreparedState?
         private var consumed = false
 
-        fileprivate init(
+        init(
             range: Plan.Samples, nodes: [CompositionProcessing], inputs: [String: Input],
-            missing: [CompositionAudioReport.Missing]
+            missing: [CompositionAudioReport.Missing], target: CompositionProcessing.Target,
+            before: String?, prepared: PreparedState?
         ) {
             self.range = range
             self.nodes = nodes
             self.inputs = inputs
             self.missing = missing
+            self.target = target
+            self.before = before
+            self.prepared = prepared
         }
         public func consume(_ sink: (AudioPCMBlock) async throws -> Void) async throws {
             guard !consumed else { throw invalid("Composition PCM can only be consumed once.") }
             consumed = true
-            let audioTargets = Set(nodes.map(\.target))
+            let byTarget = Dictionary(uniqueKeysWithValues: nodes.enumerated().map { ($0.element.target, $0.offset) })
+            guard let root = byTarget[target] else { throw invalid("Unknown audio view target.") }
+            let endpoint: Int
+            if let before {
+                guard let index = nodes[root].steps.firstIndex(where: { $0.id == before }) else {
+                    throw invalid("Unknown exclusive audio prefix endpoint.")
+                }
+                endpoint = index
+            } else { endpoint = nodes[root].steps.count }
+            let limits = nodes.indices.map { $0 == root ? endpoint : nodes[$0].steps.count }
+            let children = nodes.map { $0.inputs.compactMap { byTarget[$0] } }
+            // Index replacement changes once; each block visits only its needed routing subtree.
+            typealias Event = (at: Int64, node: Int, step: Int, span: PreparedState.Span?)
+            var events: [Event] = []
+            var boundarySet = Set<Int64>()
+            for (index, node) in nodes.enumerated() {
+                for (stepIndex, step) in node.steps.prefix(limits[index]).enumerated() where step.enabled {
+                    for span in prepared?.spans[step.id] ?? [] {
+                        events.append((span.range.start, index, stepIndex, span))
+                        events.append((span.range.end, index, stepIndex, nil))
+                        boundarySet.insert(span.range.start)
+                        boundarySet.insert(span.range.end)
+                    }
+                    if step.processor.type == "rnnoise" {
+                        for span in step.processor.active ?? [] { boundarySet.insert(span.start); boundarySet.insert(span.end) }
+                    }
+                }
+            }
+            events.sort { a, b in a.at != b.at ? a.at < b.at : a.span == nil && b.span != nil }
+            var eventIndex = 0
+            var active = [Int: [Int: PreparedState.Span]]()
+            var latest = [Int: (Int, PreparedState.Span)]()
+            let boundaries = boundarySet.filter { $0 > range.start && $0 < range.end }.sorted()
+            var boundaryIndex = 0
             // Processing buffers total at most eight MiB, independently of project duration or depth.
             let blockFrames = max(1, min(8192, 1_048_576 / nodes.count))
             var peak: Float = 0
@@ -384,39 +457,59 @@ public enum CompositionAudio {
                 var position = range.start
                 while position < range.end {
                     try Task.checkCancellation()
-                    let count = Int(min(Int64(blockFrames), range.end - position))
-                    var buffers: [CompositionProcessing.Target: [Float]] = [:]
-                    for node in nodes {
-                        try Task.checkCancellation()
-                        var samples: [Float]
-                        if node.target.kind == "clip", let id = node.target.id {
-                            guard let input = inputs[id], input.intervals.last?.end ?? 0 > position,
-                                input.intervals.first?.start ?? Int64.max < position + Int64(count)
-                            else { continue }
-                            samples = [Float](repeating: 0, count: count * 2)
-                            try input.mix(into: &samples, position: position, count: count)
-                        } else {
-                            var combined: [Float]?
-                            for child in node.inputs where audioTargets.contains(child) {
-                                guard let input = buffers.removeValue(forKey: child) else {
-                                    continue
-                                }
-                                if combined == nil {
-                                    combined = input
-                                } else {
-                                    for index in input.indices { combined![index] += input[index] }
-                                }
-                            }
-                            guard let value = combined else { continue }
-                            samples = value
-                        }
-                        for step in node.steps where step.enabled && step.processor.type == "gain" {
-                            try applyGain(step.processor, to: &samples, position: position)
-                        }
-                        buffers[node.target] = samples
+                    while boundaryIndex < boundaries.count && boundaries[boundaryIndex] <= position { boundaryIndex += 1 }
+                    let end = min(range.end, boundaryIndex < boundaries.count ? boundaries[boundaryIndex] : range.end)
+                    let count = Int(min(Int64(blockFrames), end - position))
+                    while eventIndex < events.count && events[eventIndex].0 <= position {
+                        let (_, node, step, span) = events[eventIndex]
+                        active[node, default: [:]][step] = span
+                        latest[node] = active[node]?.max(by: { $0.key < $1.key }).map { ($0.key, $0.value) }
+                        eventIndex += 1
                     }
-                    let samples =
-                        buffers[nodes.last!.target] ?? [Float](repeating: 0, count: count * 2)
+                    var chosen: [Int: (Int, PreparedState.Span)] = [:]
+                    var needed = Set<Int>()
+                    var pending = [root]
+                    while let index = pending.popLast() {
+                        guard needed.insert(index).inserted else { continue }
+                        if let span = latest[index] {
+                            chosen[index] = span
+                        } else { pending.append(contentsOf: children[index]) }
+                    }
+                    var buffers: [Int: [Float]] = [:]
+                    for index in nodes.indices where needed.contains(index) {
+                        try Task.checkCancellation()
+                        let node = nodes[index]
+                        var samples: [Float]
+                        let firstStep: Int
+                        if let (step, span) = chosen[index] {
+                            samples = try prepared!.read(span, position: position, count: count)
+                            firstStep = step + 1
+                        } else {
+                            samples = [Float](repeating: 0, count: count * 2)
+                            firstStep = 0
+                            if node.target.kind == "clip", let id = node.target.id {
+                                if let input = inputs[id] { try input.mix(into: &samples, position: position, count: count) }
+                            } else {
+                                var combined: [Float]?
+                                for child in children[index] {
+                                    guard let input = buffers.removeValue(forKey: child) else { continue }
+                                    if combined == nil { combined = input }
+                                    else { for sample in input.indices { combined![sample] += input[sample] } }
+                                }
+                                if let combined { samples = combined }
+                            }
+                        }
+                        for step in node.steps[firstStep..<limits[index]] where step.enabled {
+                            if step.processor.type == "gain" {
+                                try applyGain(step.processor, to: &samples, position: position)
+                            } else if step.processor.type == "rnnoise",
+                                (step.processor.active ?? []).contains(where: { $0.start <= position && position < $0.end }) {
+                                throw invalid("Active RNNoise has no prepared coverage.")
+                            }
+                        }
+                        buffers[index] = samples
+                    }
+                    let samples = buffers[root] ?? [Float](repeating: 0, count: count * 2)
                     var sampleIndex = 0
                     while sampleIndex < samples.count {
                         let sample = samples[sampleIndex]
@@ -443,8 +536,8 @@ public enum CompositionAudio {
                 peakResidentBytes: ProcessResources.peakResidentBytes(),
                 decoderContext: .init(
                     policy: "bounded-current-retained-run", sampleRate: rate,
-                    maximumPrerollFrames: inputs.values.map(\.maximumPreroll).max() ?? 0,
-                    maximumTailFrames: inputs.values.map(\.maximumTail).max() ?? 0),
+                    maximumPrerollFrames: max(inputs.values.map(\.maximumPreroll).max() ?? 0, prepared?.maximumPreroll ?? 0),
+                    maximumTailFrames: max(inputs.values.map(\.maximumTail).max() ?? 0, prepared?.maximumTail ?? 0)),
                 unavailable: missing)
         }
     }

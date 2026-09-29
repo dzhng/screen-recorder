@@ -88,6 +88,7 @@ export type ProjectAudioInput = {
 };
 export type ProjectAudioRenderer = {
   implementationId: string;
+  rnnoise?: string;
   render(
     request: {
       window: CompositionWindow;

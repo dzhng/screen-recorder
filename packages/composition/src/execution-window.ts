@@ -97,6 +97,25 @@ export const executionWindowManifestSchema = z
     ),
   })
   .strict();
+export type CompiledAudioState = {
+  clips: (CompiledAudio & { required: { start: number; end: number }[] })[];
+  processing: CompiledProcessingInstruction[];
+  domains: {
+    sampleRange: { start: number; end: number };
+    dependencies: number[];
+    members: {
+      target: ProcessingInstruction["target"];
+      stepId: string;
+      sampleRange: { start: number; end: number };
+    }[];
+  }[];
+  formats: {
+    assetId: string;
+    streamId: string;
+    channels: number | null;
+    sampleRate: number | null;
+  }[];
+};
 export type ExecutionWindowManifest = z.infer<typeof executionWindowManifestSchema>;
 export function requireWindowReady(manifest: ExecutionWindowManifest): void {
   const requirements = manifest.requirements.filter(
@@ -124,6 +143,7 @@ export function executionWindow(
   compileProcessing: () => CompiledProcessingInstruction[],
   component?: "audio" | "video",
   state?: StatePlan,
+  compileState: () => CompiledAudioState | undefined = () => undefined,
 ) {
   const mediaKind = component ?? processing.at(-1)!.mediaKind;
   const sources: ExecutionWindowManifest["sources"] = [];
@@ -227,6 +247,7 @@ export function executionWindow(
   return {
     manifest,
     processing: compileProcessing,
+    audioState: compileState,
     *frames(): Generator<CompiledFrame> {
       if (mediaKind === "audio") return;
       yield* schedules.frames(request.range);

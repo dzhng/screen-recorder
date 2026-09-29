@@ -2,7 +2,7 @@ import { sampleAt } from "./sample-clock.js";
 import type { AudioContext } from "./compiled-records.js";
 import { sourceTime, intersection, type ValidatedComposition, type ExactRange } from "./model.js";
 import { compare, fromTime, toTime, type Rational } from "./rational.js";
-import { isMediaClip, type Range } from "./schema.js";
+import { isMediaClip, type SelectionRange } from "./schema.js";
 
 type Run = {
   assetId: string;
@@ -57,7 +57,7 @@ export function audioContexts(model: ValidatedComposition) {
   }
   return (
     value: ValidatedComposition["clips"][number],
-    range: Range,
+    range: SelectionRange,
     sampleRate: number,
   ): readonly AudioContext[] => {
     const ranges = owners.get(value.clip.id) ?? [];

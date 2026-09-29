@@ -1,3 +1,4 @@
+import type { StatePlan } from "./processing-state.js";
 import { sampleAt } from "./sample-clock.js";
 import type { SampleScalarProgram } from "./scalar-program.js";
 import { compileScalarCurve, type CompiledScalarCurve } from "./curve.js";
@@ -13,7 +14,8 @@ export type CompiledProcessingInstruction = Omit<ProcessingInstruction, "steps">
     id: string;
     enabled: boolean;
     processor:
-      | Exclude<ProcessingStep["processor"], { type: "gain" }>
+      | Exclude<ProcessingStep["processor"], { type: "gain" | "rnnoise" }>
+      | { type: "rnnoise"; active: readonly { start: number; end: number }[] }
       | {
           type: "gain";
           gain: number | SampleScalarProgram;
@@ -117,11 +119,28 @@ export function temporalProcessing(model: ValidatedComposition) {
     audio(
       plan: readonly ProcessingInstruction[],
       sampleRate: number,
+      state?: StatePlan,
     ): CompiledProcessingInstruction[] {
+      const stateActive = new Map<string, { start: number; end: number }[]>();
+      for (const domain of state?.domains ?? [])
+        for (const member of domain.members) {
+          const start = sampleAt(fromTime(member.range.startUs), sampleRate),
+            end = sampleAt(fromTime(member.range.endUs), sampleRate);
+          if (start === end) continue;
+          const ranges = stateActive.get(member.stepId) ?? [];
+          ranges.push({ start, end });
+          stateActive.set(member.stepId, ranges);
+        }
       return plan.map(({ steps, ...node }) => ({
         ...node,
         steps: steps.map((step) => {
           const { id, enabled, processor } = step;
+          if (processor.type === "rnnoise")
+            return {
+              id,
+              enabled,
+              processor: { type: "rnnoise" as const, active: stateActive.get(id) ?? [] },
+            };
           if (processor.type !== "gain") return { id, enabled, processor };
           if (typeof processor.gain === "number" && !step.window)
             return { id, enabled, processor: { type: "gain" as const, gain: processor.gain } };

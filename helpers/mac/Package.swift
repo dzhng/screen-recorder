@@ -9,6 +9,7 @@ let package = Package(
         .executable(name: "screenrec-native", targets: ["ScreenRecorderNative"]),
     ],
     dependencies: [
+        .package(path: "../denoise"),
         // Traits disabled so the NeMo text-normalization binary is never linked. Only the worker's
         // speech target uses it; the app's capture library never reaches it.
         .package(url: "https://github.com/FluidInference/FluidAudio.git", exact: "0.15.7", traits: []),
@@ -24,7 +25,7 @@ let package = Package(
         .systemLibrary(name: "CLibArchive"),
         .target(name: "ScreenRecorderCapture", dependencies: ["ScreenRecorderMedia"]),
         .target(name: "ScreenRecorderFrames", dependencies: ["ScreenRecorderMedia"]),
-        .target(name: "ScreenRecorderAudio", dependencies: ["ScreenRecorderMedia"]),
+        .target(name: "ScreenRecorderAudio", dependencies: ["ScreenRecorderMedia", .product(name: "ScreenRecorderDenoise", package: "denoise")]),
         .target(
             name: "ScreenRecorderSpeech",
             dependencies: [

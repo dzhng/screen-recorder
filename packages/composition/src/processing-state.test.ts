@@ -1129,3 +1129,46 @@ test("out-of-range retimed state inputs keep their existing preparation requirem
     implementationId: null,
   });
 });
+
+test("a gap-only state request retains downstream routing and gain after its active parent", () => {
+  const doc = {
+    ...document,
+    tracks: [{ ...document.tracks[0], parentId: "bus" }],
+    groups: [{ id: "bus", kind: "audio", order: 0 }],
+    clips: [
+      {
+        ...document.clips[0],
+        placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+      },
+      {
+        ...document.clips[0],
+        id: "late",
+        placement: { kind: "project", range: { startUs: 2000000, endUs: 3000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "track", id: "audio" },
+        steps: [{ id: "noise", enabled: true, processor: { type: "rnnoise" } }],
+      },
+      {
+        target: { kind: "group", id: "bus" },
+        steps: [{ id: "downstream", enabled: true, processor: { type: "gain", gain: 3 } }],
+      },
+    ],
+  };
+  const plan = createCompiler(validateComposition(doc, []), "gap").audioWindow({
+    range: { startUs: 1000000, endUs: 2000000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  expect(plan.manifest.processing.map((n) => n.target)).toEqual([
+    { kind: "track", id: "audio" },
+    { kind: "group", id: "bus" },
+    { kind: "output" },
+  ]);
+  expect(plan.manifest.processing[1]!.steps[0]).toMatchObject({
+    id: "downstream",
+    processor: { type: "gain", gain: 3 },
+  });
+});
