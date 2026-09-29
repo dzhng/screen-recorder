@@ -1,6 +1,7 @@
 # 12d — Complete sentence cleanup annotation packet
 
-Status: bounded native packet and machine preservation checks passed; independent
+Status: bounded native packet and managed public edit/preview/export/undo passed;
+the public lossless candidate exactly reproduces the accepted join. Independent
 word-boundary labels remain open. The user accepted neighboring speech and the
 join as clear and natural on 2026-09-29. Dependencies: [12](12-speech-evidence.md).
 [Evidence and reproduction](../assets/12d-complete-sentence/README.md).
@@ -22,6 +23,14 @@ subjective acceptance follows from sample equality.
   candidate PCM is unchanged through the real native excerpt owner.
 - [x] Original source and earlier partial packet preserved; no playback or model use.
 - [x] User candidate join judgment: “Yes, clear and natural.”
+- [x] Public project journey: one atomic batch of two splits, one jointly rippled
+  removal and two explicit gain stacks; complete candidate PCM equals the frozen
+  accepted mono candidate duplicated into stereo. One undo restores the complete
+  original document and PCM. CLI/MCP delivery agrees.
+- [x] Saved preview/export audio passes the existing recovered-AAC policy over
+  the full support; movie clocks and public committed receipt agree. Sampled
+  source/export stills preserve framing/content, with small-text readability
+  limited by the explicitly chosen 640×404 canvas.
 - [ ] Independent audible sentence/neighbor boundary labels.
 - [ ] Parent slice 12 complete filler/repetition inventory and timing acceptance.
 
@@ -35,3 +44,10 @@ fixed-corpus harness; no production abstraction or dependency added. Formatter
 and lint passed. Independent Codex review found no actionable defect and verified
 artifact hashes; its attempted native rerun was blocked by its sandbox. The
 recorded native pass ran separately in the permitted environment.
+
+The managed journey is a concrete explicit edit, not automatic filler detection.
+Its lossless equality carries forward only the already accepted candidate's
+listening verdict. It supplies a real-narration join through the public mixer for
+08's narration-join requirement; it adds no codec-domain, independent timing,
+repetition or general speech-cleanup acceptance. The delivered encoded movie uses
+the existing AAC verification policy, not a new listening judgment.

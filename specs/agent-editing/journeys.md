@@ -20,6 +20,13 @@ schemas. Unavailable paths are reported pending, never skipped into a green suit
 
 ## Scenario inventory
 
+[Explicit complete-sentence filler removal](assets/12d-complete-sentence/README.md#managed-public-journey)
+now passes managed public editing, inspection, preview, export and undo for the
+one user-accepted candidate. Two splits, a joint picture/audio ripple removal and
+two explicit gain stacks reproduce the complete accepted PCM exactly, allowing
+only mono-to-stereo duplication. This is a usable explicit edit and a real
+narration-join journey, not automatic target detection or whole-slice 12 acceptance.
+
 The [public project journey](assets/04-public-projects/README.md) verifies live
 state for all four stack targets, reorder/bypass, linked splitting, audio
 replacement with preserved video/settings, explicit reset, historical reads,
@@ -73,7 +80,7 @@ describe the full acceptance requirement; their owning slice evidence records pr
 | Stretch narration while showing new video | 14 | Requested duration, protected speech/pitch and explicitly linked versus independent video timing are verified in delivered media. |
 | Add music and independently adjust its level | 09 constant levels, 16 animated levels | Actual mixed PCM contains both inputs at explicit levels; adding an unused/silent track does not change volume. |
 | Crop, change aspect ratio, zoom, rotate, fit and animate | 15 static, 16 animated | Delivered frames preserve asymmetric landmarks, pointer mapping and requested canvas geometry at boundaries/interior times. |
-| Remove ums, accidental repeated words and false starts | 12b | Real labeled speech targets are removed; protected neighboring words and deliberate emphasis remain. Transcription alone cannot pass this row. |
+| Remove ums, accidental repeated words and false starts | 12b; 12d verifies one explicit accepted filler cut through public media/history | Real labeled speech targets are removed; protected neighboring words and deliberate emphasis remain. The broader inventory and independent boundaries remain open; transcription alone cannot pass this row. |
 | Slow only rushed speech | 14 | Edited passage duration/pitch and joins pass while untouched neighbors remain unchanged; related video/captions follow declared links. |
 | Generate corrected words or a phrase in the selected local voice | 19 | Use same-video, external-file and past-project references; verify requested words, identity, level, entrance/exit timing and continuity separately. No lip-sync or mandatory B-roll is imposed. |
 | Match replacement ambience without extra silence or echo | 19 | Original room tone is explicitly retained/mixed; inspect/audition generated joins, levels and protected context. User-rejected cloning mode is not accepted as a substitute. |

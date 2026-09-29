@@ -172,6 +172,12 @@ mix restores the immediate upstream audio; it does not mute the clip. Keep one
 continuous processor through a fade instead of inserting bypasses that change
 learned state, and inspect both dry neighbors and the processed transition.
 
+For a spoken cut that should shorten picture and sound together, select both
+media clips and name both tracks in the ripple scope. A cut adds no implicit
+audio ramp: author the intended join with existing gain curves or fades, then
+compare the complete delivered audio and verify undo. Do not infer filler bounds
+or repetition intent from the fact that an edit is executable.
+
 For a simple fade or uniform zoom, discover the `fade`/`zoom` variants in
 `edit.apply`. Choose explicit start/end values and an anchor window. Fade requires
 an audio/video choice even at output. Use whole microseconds for project/source
