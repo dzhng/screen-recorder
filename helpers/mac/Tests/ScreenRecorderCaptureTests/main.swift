@@ -2,6 +2,9 @@ import Foundation
 
 if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
   runCaptureJournalLeaseChild(directory: CommandLine.arguments[1])
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_NATIVE_PUBLICATION_OUTPUT"] {
+  try await runNativeCapturePublicationProbe(output: output,
+    corpus: ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_GAP_CORPUS"] ?? "")
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_DESCRIPTOR_OUTPUT"] {
   try await runCaptureAudioMaterializerDescriptorProbe(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_OUTPUT"] {
@@ -33,6 +36,7 @@ if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
   try await runFractionalRecoveryDurationTest()
   try await runCaptureDurationTests()
   try await runNativeCaptureInputTests()
+  try await runCanonicalRecoveryTests()
   try await runCaptureTerminationTests()
   try await runCaptureWriterTests()
   runCaptureClockTests()

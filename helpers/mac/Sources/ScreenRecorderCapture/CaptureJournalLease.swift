@@ -1,11 +1,13 @@
 import Darwin
 import Foundation
+import Synchronization
 
 /// Exclusive ownership of one existing take's journal inode, retained across publication work.
 package final class CaptureJournalLease: Sendable {
     package let directory: String
-    package let descriptor: Int32
-    private let parent: Int32
+    private struct Handles: Sendable { var journal: Int32; var directory: Int32 }
+    private let handles: Mutex<Handles>
+    package var descriptor: Int32 { handles.withLock { $0.journal } }
     private let journalIdentity: (dev_t, ino_t)
     private let directoryIdentity: (dev_t, ino_t)
 
@@ -48,8 +50,7 @@ package final class CaptureJournalLease: Sendable {
                 selected.st_dev == file.st_dev, selected.st_ino == file.st_ino
             else { throw CaptureFailure("JOURNAL_CHANGED", "Journal changed while acquiring its lease.") }
             self.directory = resolved
-            self.descriptor = descriptor
-            self.parent = parent
+            handles = Mutex(Handles(journal: descriptor, directory: parent))
             journalIdentity = (file.st_dev, file.st_ino)
             directoryIdentity = (folder.st_dev, folder.st_ino)
         } catch {
@@ -58,18 +59,33 @@ package final class CaptureJournalLease: Sendable {
             throw error
         }
     }
-    deinit { close(descriptor); close(parent) }
+    deinit { release() }
+
+    /// The lifecycle owner ends authority after all leased work, independently of retained callbacks.
+    package func release() {
+        handles.withLock { state in
+            if state.journal >= 0 { close(state.journal); state.journal = -1 }
+            if state.directory >= 0 { close(state.directory); state.directory = -1 }
+        }
+    }
 
     package func check() throws {
-        var folder = stat(), entry = stat(), held = stat()
-        guard lstat(directory, &folder) == 0,
-            (folder.st_dev, folder.st_ino) == directoryIdentity,
-            fstatat(parent, "capture.journal.jsonl", &entry, AT_SYMLINK_NOFOLLOW) == 0,
-            fstat(descriptor, &held) == 0,
-            entry.st_mode & S_IFMT == S_IFREG, held.st_nlink == 1,
-            (entry.st_dev, entry.st_ino) == journalIdentity,
-            (held.st_dev, held.st_ino) == journalIdentity
-        else { throw CaptureFailure("JOURNAL_CHANGED", "Leased journal or directory was replaced.") }
+        try handles.withLock { state in
+            guard state.journal >= 0, state.directory >= 0 else {
+                throw CaptureFailure("JOURNAL_CLOSED", "Capture journal ownership has ended.")
+            }
+            let descriptor = state.journal
+            let parent = state.directory
+            var folder = stat(), entry = stat(), held = stat()
+            guard lstat(directory, &folder) == 0,
+                (folder.st_dev, folder.st_ino) == directoryIdentity,
+                fstatat(parent, "capture.journal.jsonl", &entry, AT_SYMLINK_NOFOLLOW) == 0,
+                fstat(descriptor, &held) == 0,
+                entry.st_mode & S_IFMT == S_IFREG, held.st_nlink == 1,
+                (entry.st_dev, entry.st_ino) == journalIdentity,
+                (held.st_dev, held.st_ino) == journalIdentity
+            else { throw CaptureFailure("JOURNAL_CHANGED", "Leased journal or directory was replaced.") }
+        }
     }
     /// A persisted publication pin must not outlive the raw journal bytes that authorize it.
     package func synchronize() throws {

@@ -1,0 +1,367 @@
+{
+  "trace": [
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "results": [
+    {
+      "name": "physical",
+      "params": {
+        "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 2000000
+        }
+      },
+      "result": {
+        "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+        "streamId": "track:1",
+        "range": {
+          "startUs": 0,
+          "endUs": 2000000
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "e1ae4c4d-fb72-466d-819d-5d0785b25642",
+        "published": {
+          "generation": 1,
+          "audio": {
+            "file": "/private/tmp/capture-actual-source-audio-P2JPr1/home/library/cache/derived/3ee9b864-f70a-4a1e-98a8-b53df6fefbf2.cache",
+            "mediaType": "audio/wav",
+            "bytes": 388096,
+            "sampleRate": 48000,
+            "channels": 1,
+            "layout": "mono",
+            "range": {
+              "startUs": 0,
+              "endUs": 2000000
+            },
+            "sampleRange": {
+              "start": 0,
+              "end": 96000
+            },
+            "frames": 96000,
+            "decodedFrames": 87808,
+            "unavailable": [
+              {
+                "startUs": 682667,
+                "endUs": 853333
+              }
+            ],
+            "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+            "streamId": "track:1",
+            "supportDigest": "2c62ff927c4659d29ccd7cdc4084d8491a16c7ef45788b8eab8ab366f38e129c",
+            "implementationId": "native-source-audio-v4",
+            "cacheId": "3ee9b864-f70a-4a1e-98a8-b53df6fefbf2"
+          }
+        },
+        "delivery": {
+          "token": "6a19720d-353f-4c5d-b242-4b796c8c03df",
+          "bytes": 388096,
+          "expiresAt": 1790676265392
+        },
+        "output": "/tmp/capture-actual-source-audio-P2JPr1/physical.wav"
+      },
+      "bytes": 384000,
+      "sha256": "448eed491a3f9c1012b8b1ab082952154adc79a397f8cb9aca4a1c8efcb983df"
+    },
+    {
+      "name": "acquired",
+      "params": {
+        "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+        "streamId": "track:1",
+        "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+        "range": {
+          "startUs": 0,
+          "endUs": 2000000
+        }
+      },
+      "result": {
+        "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+        "streamId": "track:1",
+        "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+        "range": {
+          "startUs": 0,
+          "endUs": 2000000
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "2121185b-c6b6-41e0-a5f9-c2f3632e351a",
+        "published": {
+          "generation": 1,
+          "audio": {
+            "file": "/private/tmp/capture-actual-source-audio-P2JPr1/home/library/cache/derived/1dc68445-902e-4b9f-809d-c2b406c5b0d5.cache",
+            "mediaType": "audio/wav",
+            "bytes": 388096,
+            "sampleRate": 48000,
+            "channels": 1,
+            "layout": "mono",
+            "range": {
+              "startUs": 0,
+              "endUs": 2000000
+            },
+            "sampleRange": {
+              "start": 0,
+              "end": 96000
+            },
+            "frames": 96000,
+            "decodedFrames": 87808,
+            "unavailable": [
+              {
+                "startUs": 682667,
+                "endUs": 853333
+              }
+            ],
+            "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+            "streamId": "track:1",
+            "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+            "supportDigest": "2c62ff927c4659d29ccd7cdc4084d8491a16c7ef45788b8eab8ab366f38e129c",
+            "implementationId": "native-source-audio-v4",
+            "cacheId": "1dc68445-902e-4b9f-809d-c2b406c5b0d5"
+          }
+        },
+        "delivery": {
+          "token": "0f6537f8-0e45-47f1-8851-617d90a049e6",
+          "bytes": 388096,
+          "expiresAt": 1790676265700
+        },
+        "output": "/tmp/capture-actual-source-audio-P2JPr1/acquired.wav"
+      },
+      "bytes": 384000,
+      "sha256": "448eed491a3f9c1012b8b1ab082952154adc79a397f8cb9aca4a1c8efcb983df"
+    },
+    {
+      "name": "one-us-window",
+      "params": {
+        "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+        "streamId": "track:1",
+        "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+        "range": {
+          "startUs": 1,
+          "endUs": 2000000
+        }
+      },
+      "result": {
+        "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+        "streamId": "track:1",
+        "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+        "range": {
+          "startUs": 1,
+          "endUs": 2000000
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "27086175-a751-4568-8de2-cccfc3aced6d",
+        "published": {
+          "generation": 1,
+          "audio": {
+            "file": "/private/tmp/capture-actual-source-audio-P2JPr1/home/library/cache/derived/2a999bd5-cbca-4406-b43e-b15ae4ba758f.cache",
+            "mediaType": "audio/wav",
+            "bytes": 388096,
+            "sampleRate": 48000,
+            "channels": 1,
+            "layout": "mono",
+            "range": {
+              "startUs": 1,
+              "endUs": 2000000
+            },
+            "sampleRange": {
+              "start": 0,
+              "end": 96000
+            },
+            "frames": 96000,
+            "decodedFrames": 87808,
+            "unavailable": [
+              {
+                "startUs": 682667,
+                "endUs": 853333
+              }
+            ],
+            "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+            "streamId": "track:1",
+            "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+            "supportDigest": "2c62ff927c4659d29ccd7cdc4084d8491a16c7ef45788b8eab8ab366f38e129c",
+            "implementationId": "native-source-audio-v4",
+            "cacheId": "2a999bd5-cbca-4406-b43e-b15ae4ba758f"
+          }
+        },
+        "delivery": {
+          "token": "848966a0-4f1f-4c08-9d92-ffed8c28f332",
+          "bytes": 388096,
+          "expiresAt": 1790676266010
+        },
+        "output": "/tmp/capture-actual-source-audio-P2JPr1/one-us-window.wav"
+      },
+      "bytes": 384000,
+      "sha256": "448eed491a3f9c1012b8b1ab082952154adc79a397f8cb9aca4a1c8efcb983df"
+    },
+    {
+      "name": "offgrid-window",
+      "params": {
+        "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+        "streamId": "track:1",
+        "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+        "range": {
+          "startUs": 21,
+          "endUs": 2000000
+        }
+      },
+      "result": {
+        "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+        "streamId": "track:1",
+        "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+        "range": {
+          "startUs": 21,
+          "endUs": 2000000
+        },
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "jobId": "bce49374-a7dd-48c8-8793-266df86985dc",
+        "published": {
+          "generation": 1,
+          "audio": {
+            "file": "/private/tmp/capture-actual-source-audio-P2JPr1/home/library/cache/derived/104014eb-599f-4c92-b19c-356403e26efc.cache",
+            "mediaType": "audio/wav",
+            "bytes": 388092,
+            "sampleRate": 48000,
+            "channels": 1,
+            "layout": "mono",
+            "range": {
+              "startUs": 21,
+              "endUs": 2000000
+            },
+            "sampleRange": {
+              "start": 1,
+              "end": 96000
+            },
+            "frames": 95999,
+            "decodedFrames": 87808,
+            "unavailable": [
+              {
+                "startUs": 682667,
+                "endUs": 853333
+              }
+            ],
+            "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+            "streamId": "track:1",
+            "acquisitionId": "138d120d-9d3b-409c-9acf-c0f49b4f9f22",
+            "supportDigest": "2c62ff927c4659d29ccd7cdc4084d8491a16c7ef45788b8eab8ab366f38e129c",
+            "implementationId": "native-source-audio-v4",
+            "cacheId": "104014eb-599f-4c92-b19c-356403e26efc"
+          }
+        },
+        "delivery": {
+          "token": "dcd4383d-e7a9-47c7-92d5-0e759759a43f",
+          "bytes": 388092,
+          "expiresAt": 1790676266318
+        },
+        "output": "/tmp/capture-actual-source-audio-P2JPr1/offgrid-window.wav"
+      },
+      "bytes": 383996,
+      "sha256": "de018980b0e8e945721fe343ccd3a554e2ae0729a43429b405702d3f337e6842"
+    }
+  ]
+}

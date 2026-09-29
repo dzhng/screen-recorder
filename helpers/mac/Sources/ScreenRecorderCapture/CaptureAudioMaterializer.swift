@@ -13,11 +13,15 @@ package struct CaptureMediaIdentity: Codable, Sendable, Equatable {
       inherited.map { fcntl($0.descriptor, F_DUPFD_CLOEXEC, 0) }
       ?? Darwin.open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK)
     guard descriptor >= 0 else {
-      throw CaptureFailure("INVALID_MEDIA", "Cannot open media identity input.")
+      let invalidPath = [ENOENT, ENOTDIR, ELOOP].contains(errno)
+      throw CaptureFailure(invalidPath ? "INVALID_MEDIA" : "MEDIA_UNAVAILABLE", "Cannot open media identity input.")
     }
     defer { close(descriptor) }
     var info = stat()
-    guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG, info.st_size >= 0 else {
+    guard fstat(descriptor, &info) == 0 else {
+      throw CaptureFailure("MEDIA_UNAVAILABLE", "Cannot inspect media identity input.")
+    }
+    guard info.st_mode & S_IFMT == S_IFREG, info.st_size >= 0 else {
       throw CaptureFailure("INVALID_MEDIA", "Media identity requires a regular file.")
     }
     var hash = SHA256()
@@ -26,7 +30,11 @@ package struct CaptureMediaIdentity: Codable, Sendable, Equatable {
       try Task.checkCancellation()
       var data = Data(count: Int(min(65_536, info.st_size - bytes)))
       let count = data.withUnsafeMutableBytes { pread(descriptor, $0.baseAddress, $0.count, bytes) }
-      guard count == data.count else {
+      if count < 0 && errno == EINTR { continue }
+      guard count >= 0 else {
+        throw CaptureFailure("MEDIA_UNAVAILABLE", "Cannot read media identity input.")
+      }
+      guard count > 0 else {
         throw CaptureFailure("INVALID_MEDIA", "Media identity input ended before its pinned size.")
       }
       data.count = count
@@ -34,7 +42,10 @@ package struct CaptureMediaIdentity: Codable, Sendable, Equatable {
       hash.update(data: data)
     }
     var final = stat()
-    guard fstat(descriptor, &final) == 0, final.st_size == info.st_size else {
+    guard fstat(descriptor, &final) == 0 else {
+      throw CaptureFailure("MEDIA_UNAVAILABLE", "Cannot recheck media identity input.")
+    }
+    guard final.st_size == info.st_size else {
       throw CaptureFailure("INVALID_MEDIA", "Media identity input changed length.")
     }
     return CaptureMediaIdentity(
@@ -100,9 +111,23 @@ package enum CaptureAudioMaterializer {
     let payloadURL = URL(fileURLWithPath: directory).appendingPathComponent(format.file)
     let payload = try CaptureMediaIdentity.read(payloadURL)
     let input = try MediaInput(url: payloadURL, purpose: .streaming)
-    let tracks = try await input.asset.load(.tracks)
+    let tracks: [AVAssetTrack]
+    do { tracks = try await input.asset.load(.tracks) }
+    catch {
+      try Task.checkCancellation()
+      try lease.check()
+      let cause = error as NSError
+      // These parse errors describe the pinned input; generic decoding and IO errors still retry.
+      if cause.domain == AVFoundationErrorDomain,
+        [AVError.fileFormatNotRecognized.rawValue, AVError.fileFailedToParse.rawValue].contains(cause.code),
+        try CaptureMediaIdentity.read(payloadURL) == payload
+      {
+        throw CaptureFailure("PACKED_MEDIA_INVALID", "Packed PCM cannot be parsed (\(cause.domain) \(cause.code)): \(cause.localizedDescription)")
+      }
+      throw error
+    }
     guard tracks.count == 1, tracks[0].mediaType == .audio else {
-      throw invalid("Packed media must contain exactly one audio track.")
+      throw CaptureFailure("PACKED_MEDIA_INVALID", "Packed media must contain exactly one audio track.")
     }
     let track = tracks[0]
     try await validate(track, format: format)
@@ -270,13 +295,13 @@ package enum CaptureAudioMaterializer {
 
   private static func validate(_ track: AVAssetTrack, format: JournalPCMTrack) async throws {
     guard format.rate > 0, format.rate <= 192_000, (1...8).contains(format.channels) else {
-      throw invalid("Accepted PCM format is outside the native execution domain.")
+      throw CaptureFailure("INVALID_MEDIA", "Accepted PCM format is outside the native execution domain.")
     }
     guard try await track.load(.isSelfContained) else {
-      throw invalid("Capture PCM must not depend on external media references.")
+      throw CaptureFailure("INVALID_MEDIA", "Capture PCM must not depend on external media references.")
     }
     let descriptions = try await track.load(.formatDescriptions)
-    guard !descriptions.isEmpty else { throw invalid("Packed PCM format is absent.") }
+    guard !descriptions.isEmpty else { throw CaptureFailure("INVALID_MEDIA", "Packed PCM format is absent.") }
     for description in descriptions {
       guard let asbd = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee,
         asbd.mFormatID == kAudioFormatLinearPCM, asbd.mSampleRate == Double(format.rate),
@@ -284,7 +309,7 @@ package enum CaptureAudioMaterializer {
         asbd.mBitsPerChannel == 32, asbd.mBytesPerFrame == format.channels * 4,
         asbd.mFormatFlags & kAudioFormatFlagIsFloat != 0,
         asbd.mFormatFlags & (kAudioFormatFlagIsBigEndian | kAudioFormatFlagIsNonInterleaved) == 0
-      else { throw invalid("Packed PCM does not match the accepted fixed Float32 format.") }
+      else { throw CaptureFailure("INVALID_MEDIA", "Packed PCM does not match the accepted fixed Float32 format.") }
     }
   }
 
@@ -393,6 +418,13 @@ package enum CaptureAudioMaterializer {
           drain || sample.presentationTimeStamp == occupiedEnd
         else { break }
       }
+    }
+    try Task.checkCancellation()
+    if reader.status == .failed {
+      // A failed read with no observations proves no absence. Known IO cannot define a
+      // committed tail; other decoder failures retain an already observed usable prefix.
+      if frames == 0 { throw reader.error ?? invalid("Packed PCM reader failed before proving any frames.") }
+      if let error = reader.error, CaptureFinalizationError.isOperationalRead(error) { throw error }
     }
     let last = track.makeSampleCursorAtLastSampleInDecodeOrder()
     let mediaEnd = last.map { CMTimeAdd($0.presentationTimeStamp, $0.currentSampleDuration) }

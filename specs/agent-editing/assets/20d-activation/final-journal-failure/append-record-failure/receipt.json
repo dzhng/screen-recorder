@@ -1,0 +1,17 @@
+{
+  "acceptedReportedBuffers" : 1,
+  "decodedPCMBytes" : 32768,
+  "errnoName" : "EFBIG",
+  "exactInputPCM" : true,
+  "expectedInputFrames" : 8192,
+  "journaledAcquisitionRecords" : 0,
+  "journalPrefixBytes" : 524725,
+  "mediaBytesDuringLimit" : {
+    "narration.packed.mov" : 32804,
+    "video.mov" : 0
+  },
+  "mode" : "append-record-failure",
+  "observedErrno" : 27,
+  "softLimitBytes" : 524895,
+  "trackStartBytes" : 170
+}

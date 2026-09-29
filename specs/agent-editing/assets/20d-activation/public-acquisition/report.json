@@ -1,0 +1,66 @@
+{
+  "trace": [
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "acquisition.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "acquisition.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    }
+  ],
+  "checks": {
+    "actualWriterAdmitted": true,
+    "conflictRefused": {
+      "jobId": "9e031cda-866b-49dd-8657-8e66f8e78d9a",
+      "attemptId": "9a854175-48d6-4c86-a63b-cf38b35ff27f",
+      "artifact": "acquisition.import",
+      "lane": "heavy",
+      "input": "{\"capture.journal.jsonl\":{\"path\":\"/private/tmp/capture-packed-native-parity-9/publication-conflict/capture.journal.jsonl\",\"bytes\":7201,\"identity\":{\"device\":\"16777229\",\"inode\":\"325678521\",\"modifiedNs\":\"1790670454863840196\",\"changedNs\":\"1790670454863840196\"}},\"video.mov\":{\"path\":\"/private/tmp/capture-packed-native-parity-9/publication-conflict/video.mov\",\"bytes\":9937,\"identity\":{\"device\":\"16777229\",\"inode\":\"325678522\",\"modifiedNs\":\"1790670454835160705\",\"changedNs\":\"1790670454835160705\"}},\"narration.mov\":{\"path\":\"/private/tmp/capture-packed-native-parity-9/publication-conflict/narration.mov\",\"bytes\":23,\"identity\":{\"device\":\"16777229\",\"inode\":\"325678526\",\"modifiedNs\":\"1790670454826274207\",\"changedNs\":\"1790670454826274207\"}},\"system.mov\":{\"path\":\"/private/tmp/capture-packed-native-parity-9/publication-conflict/system.mov\",\"bytes\":351965,\"identity\":{\"device\":\"16777229\",\"inode\":\"325678537\",\"modifiedNs\":\"1790670454846990368\",\"changedNs\":\"1790670454863470988\"}},\"narration.publication.json\":null,\"system.publication.json\":{\"path\":\"/private/tmp/capture-packed-native-parity-9/publication-conflict/system.publication.json\",\"bytes\":654,\"identity\":{\"device\":\"16777229\",\"inode\":\"325678539\",\"modifiedNs\":\"1790670454851664533\",\"changedNs\":\"1790670454863534655\"}}}",
+      "state": "failed",
+      "reason": "Cannot open media identity input.",
+      "retryable": false,
+      "generation": 1,
+      "errorCode": "INVALID_MEDIA",
+      "errorDetails": {},
+      "target": {
+        "kind": "acquisition",
+        "acquisitionId": "d2c425f9-5a02-4faa-a95d-b10ca92e7709"
+      },
+      "result": null
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "cursor" : {
+    "droppedReadings" : 0,
+    "forgottenPlacements" : 0,
+    "geometryEpochs" : 0,
+    "omittedPaused" : 0,
+    "sampled" : 0,
+    "skippedTicks" : 0
+  },
+  "durationUs" : 3060700,
+  "height" : 96,
+  "hostOriginUs" : 532445187358,
+  "pauses" : [
+
+  ],
+  "source" : {
+    "kind" : "offline-format"
+  },
+  "state" : "complete",
+  "systemAudioScope" : "disabled",
+  "tracks" : [
+    {
+      "channelCount" : 1,
+      "droppedSamples" : 0,
+      "file" : "narration.packed.mov",
+      "firstSampleUs" : 100000,
+      "heldTailUs" : 0,
+      "lastSampleEndUs" : 441333,
+      "omittedSamples" : 0,
+      "role" : "narration",
+      "sampleRate" : 48000,
+      "samples" : 2
+    },
+    {
+      "droppedSamples" : 0,
+      "file" : "video.mov",
+      "firstSampleUs" : 0,
+      "heldTailUs" : 2060700,
+      "lastSampleEndUs" : 1000000,
+      "omittedSamples" : 0,
+      "role" : "video",
+      "samples" : 1
+    }
+  ],
+  "width" : 160
+}

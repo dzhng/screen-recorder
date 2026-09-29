@@ -1,0 +1,26 @@
+{
+  "id": "explicit-mask",
+  "operation": "media.sourceAudio",
+  "params": {
+    "source": {
+      "source": "/tmp/capture-packed-native-parity-10/normal/narration.mov",
+      "streamId": "track:1",
+      "sourceOffsetUs": -100001,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 41
+        },
+        {
+          "startUs": 42,
+          "endUs": 2000000
+        }
+      ]
+    },
+    "range": {
+      "startUs": 0,
+      "endUs": 2000000
+    },
+    "output": "/tmp/capture-actual-source-audio-xn9ygn/explicit-mask.wav"
+  }
+}

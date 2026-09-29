@@ -134,7 +134,7 @@ for (const mode of modes) {
     "-ignore_editlist",
     "1",
     "-i",
-    join(directory, "narration.mov"),
+    join(directory, track.file),
     "-map",
     "0:a:0",
     "-f",
@@ -148,11 +148,18 @@ for (const mode of modes) {
     .trim()
     .split("\n")
     .map(JSON.parse);
-  const acquisition = events.filter((x) => x.event === "audioSamples");
+  const format = events.find((x) => x.event === "pcmTrack").data;
+  assert.equal(format.rate, inputs[0].rate);
+  assert.equal(format.channels, inputs[0].channels);
+  assert.equal(Number(format.phaseUs), inputs[0].sourceUs);
+  const acquisition = events.filter((x) => x.event === "pcmAppend");
   assert.equal(acquisition.length, refusal ? 1 : 2);
+  let frames = 0;
   for (let index = 0; index < acquisition.length; index++) {
-    assert.equal(acquisition[index].data.startUs, inputs[index].sourceUs);
-    assert.equal(acquisition[index].data.endUs, inputs[index].sourceUs + inputs[index].durationUs);
+    assert.equal(Number(acquisition[index].data.physicalFirstFrame), frames);
+    assert.equal(Number(acquisition[index].data.declaredFirstFrame), frames);
+    assert.equal(Number(acquisition[index].data.frameCount), inputs[index].frames);
+    frames += inputs[index].frames;
   }
   if (inputs[0].channels === 2)
     assert.ok(

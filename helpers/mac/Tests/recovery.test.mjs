@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -66,8 +66,9 @@ test("short optional narration never shortens decoded video", () => {
       .digest("hex");
     const result = recover(directory);
     assert.equal(result.durationUs, 2_000_000);
-    assert.deepEqual(result.tracks[0].intervals, [{ startUs: 0, endUs: 2_000_000 }]);
-    assert.deepEqual(result.tracks[1].intervals, [{ startUs: 250_000, endUs: 750_000 }]);
+    assert.equal(result.tracks[0].intervalCount, 1);
+    assert.equal(result.tracks[0].intervals, undefined);
+    assert.equal(result.tracks[1].intervalCount, 1);
     assert.equal(result.tracks[2].failure.code, "MISSING_MEDIA");
     assert.equal(
       createHash("sha256")
@@ -87,9 +88,9 @@ test("unreadable video retains independently decodable narration", () => {
     audio(directory);
     const result = recover(directory);
     assert.equal(result.durationUs, 0);
-    assert.deepEqual(result.tracks[0].intervals, []);
+    assert.equal(result.tracks[0].intervalCount, 0);
     assert.equal(result.tracks[0].failure.code, "DECODE_FAILED");
-    assert.deepEqual(result.tracks[1].intervals, [{ startUs: 250_000, endUs: 750_000 }]);
+    assert.equal(result.tracks[1].intervalCount, 1);
     assert.equal(result.tracks[1].acquisitionVerified, false);
   } finally {
     rmSync(directory, { recursive: true, force: true });
@@ -146,12 +147,9 @@ test("truncated acquisition journal preserves known audio gaps and an unfinished
     assert.equal(result.journal.incompleteTail, true);
     assert.equal(result.journal.invalidAtSequence, undefined);
     assert.equal(result.journal.openPauseHostUs, 1_700_000);
-    assert.deepEqual(result.journal.pauses, []);
+    assert.equal(result.journal.pauses, undefined);
     assert.equal(result.tracks[2].failure.code, "NOT_REQUESTED");
-    assert.deepEqual(result.tracks[1].intervals, [
-      { startUs: 250_000, endUs: 400_000 },
-      { startUs: 500_000, endUs: 700_000 },
-    ]);
+    assert.equal(result.tracks[1].intervalCount, 2);
     assert.equal(result.tracks[1].acquisitionVerified, true);
   } finally {
     rmSync(directory, { recursive: true, force: true });
@@ -195,8 +193,47 @@ test("a journal record that will not decode is named instead of silently dropped
     assert.equal(result.journal.lastSequence, 3);
     assert.equal(result.journal.originHostUs, 1_000_000);
     assert.equal(result.journal.finished, false);
-    assert.deepEqual(result.tracks[1].intervals, [{ startUs: 250_000, endUs: 700_000 }]);
+    assert.equal(result.tracks[1].intervalCount, 1);
   } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("unreadable journal remains a retryable wire failure until access is restored", () => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-recovery-access-"));
+  const journal = join(directory, "capture.journal.jsonl");
+  writeFileSync(
+    journal,
+    JSON.stringify({
+      sequence: 1,
+      event: "header",
+      data: {
+        schemaVersion: 2,
+        sessionID: "access",
+        source: { kind: "fixture" },
+        width: 160,
+        height: 90,
+        microphone: false,
+        systemAudio: false,
+      },
+    }) + "\n",
+  );
+  try {
+    chmodSync(journal, 0o000);
+    const response = JSON.parse(
+      run(
+        executable,
+        [],
+        JSON.stringify({ id: "access", operation: "media.recover", params: { directory } }) + "\n",
+      ),
+    );
+    assert.equal(response.ok, false);
+    assert.equal(response.error.code, "JOURNAL_UNAVAILABLE");
+    assert.equal(response.error.retryable, true);
+    chmodSync(journal, 0o600);
+    assert.equal(recover(directory).journal.header.sessionID, "access");
+  } finally {
+    chmodSync(journal, 0o600);
     rmSync(directory, { recursive: true, force: true });
   }
 });

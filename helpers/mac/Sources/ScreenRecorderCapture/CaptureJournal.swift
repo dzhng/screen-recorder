@@ -103,7 +103,7 @@ public final class CaptureJournal {
         try append("header", data: header, durable: true)
     }
 
-    package func recordPCMOrigin(_ origin: JournalPCMOrigin) throws {
+    package func recordPCMOrigin(_ origin: JournalPCMOrigin, placedPauses: [PauseEvent] = []) throws {
         var next = pcmState
         guard header.schemaVersion == 2 else {
             throw CaptureFailure("INVALID_JOURNAL", "PCM mappings require schema2.")
@@ -111,6 +111,7 @@ public final class CaptureJournal {
         try next.origin(origin)
         try append("pcmOrigin", data: origin, durable: true)
         pcmState = next
+        for pause in placedPauses { try append("pausePlaced", data: pause, durable: true) }
     }
     package func recordPCMTrack(_ track: JournalPCMTrack) throws {
         var next = pcmState
@@ -203,6 +204,7 @@ public final class CaptureJournal {
     private func append<Event: Encodable>(_ event: String, data: Event, durable: Bool = false)
         throws
     {
+        try lease.check()
         // The number is taken only once the record is in the file: a record that could not be
         // encoded or written must not leave a gap the reader would treat as corruption.
         let next = sequence + 1
@@ -237,7 +239,9 @@ public final class CaptureJournal {
     ) throws -> RecordsEnd {
         let url = URL(fileURLWithPath: directory).appendingPathComponent("capture.journal.jsonl")
         let input = descriptor ?? Darwin.open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
-        guard input >= 0 else { throw CaptureFailure("JOURNAL_UNAVAILABLE", "Cannot read capture journal.") }
+        guard input >= 0 else {
+            throw CaptureFailure(errno == ENOENT ? "JOURNAL_MISSING" : "JOURNAL_UNAVAILABLE", "Cannot read capture journal.")
+        }
         defer { if descriptor == nil { close(input) } }
         var pending = Data()
         var bytes: Int64 = 0

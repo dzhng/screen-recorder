@@ -27,6 +27,7 @@ public struct CaptureClock: Sendable {
         package let frames: Int64
         package let rate: Int32
         package let joinsPrevious: Bool
+        package let removedPauseUs: Int64
     }
 
     public init() {}
@@ -65,7 +66,7 @@ public struct CaptureClock: Sendable {
         return hostUs - originUs - removedBefore(hostUs, originUs: originUs)
     }
 
-    /// Offline candidate seam. Production writer does not call this until admission/support gates pass.
+    /// Prospective admission; the writer commits its copied clock only after media acceptance.
     /// The caller supplies accepted buffers only; rejected appends must never advance this phase.
     package mutating func recordAcceptedPCM(
         role: String, hostPTS: CMTime, frames: Int64, rate: Int32
@@ -118,7 +119,8 @@ public struct CaptureClock: Sendable {
         _ = try container.time(at: end.partialValue)
         let placement = PCMPlacement(
             anchorUs: anchor, firstFrame: first, frames: frames, rate: rate,
-            joinsPrevious: prior.map { first == $0.endFrame && removedUs == $0.removedUs } ?? false)
+            joinsPrevious: prior.map { first == $0.endFrame && removedUs == $0.removedUs } ?? false,
+            removedPauseUs: removedUs)
         pcmPhases[role] = PCMPhase(
             anchorUs: anchor, rate: rate, endFrame: end.partialValue, removedUs: removedUs)
         return placement

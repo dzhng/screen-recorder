@@ -1,0 +1,78 @@
+{
+  "trace": [
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "recording.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "interrupted"
+    }
+  ],
+  "boundary": "Real native capture result and files installed via existing library fixture owner; public CLI/MCP frame consumer. No public capture or hardware acquisition.",
+  "frame": {
+    "recordingId": "876abe46-4741-4a27-9be1-e94dd38d571d",
+    "sourceId": "publication-conflict",
+    "revisionId": "r0",
+    "state": "ready",
+    "reason": null,
+    "retryable": false,
+    "jobId": "52a0bc5e-3fc2-4b17-b293-b12a2b258a59",
+    "published": {
+      "generation": 1,
+      "frame": {
+        "actualSourceUs": 500000,
+        "bytes": 31705,
+        "distanceUs": 0,
+        "file": "/private/tmp/capture-clean-recording-MwYhTX/home/cache/derived/7691087b-933f-4d88-8e64-c7bf360ccbda.cache",
+        "height": 120,
+        "mediaType": "image/png",
+        "requestedSourceUs": 500000,
+        "sourceHeight": 120,
+        "sourceWidth": 160,
+        "width": 160,
+        "recordingId": "876abe46-4741-4a27-9be1-e94dd38d571d",
+        "sourceId": "publication-conflict",
+        "revisionId": "r0",
+        "requestedPlaybackUs": 500000,
+        "actualPlaybackUs": 500000,
+        "kept": {
+          "startUs": 0,
+          "endUs": 3160218
+        },
+        "clean": true,
+        "annotation": null,
+        "sourceEvidence": null,
+        "cacheId": "7691087b-933f-4d88-8e64-c7bf360ccbda"
+      }
+    },
+    "dependency": null,
+    "delivery": {
+      "token": "34e8eb57-cf26-4707-8468-879269516217",
+      "bytes": 31705,
+      "expiresAt": 1790670887981
+    },
+    "output": "/tmp/capture-clean-recording-MwYhTX/clean.png"
+  },
+  "recording": {
+    "recordingId": "876abe46-4741-4a27-9be1-e94dd38d571d",
+    "sourceId": "publication-conflict",
+    "creationSequence": 1,
+    "createdAt": "2026-09-29T08:34:17.452Z",
+    "state": "interrupted",
+    "lifecycleSequence": 1,
+    "interruptionReason": "PUBLICATION_CONFLICT",
+    "sourceDurationUs": 3160218,
+    "currentRevisionId": "r0"
+  }
+}

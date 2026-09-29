@@ -6,33 +6,6 @@ import ScreenRecorderCapture
 import ScreenRecorderMedia
 import ScreenRecorderWire
 
-func captureFixtureRetimed(_ sample: CMSampleBuffer, at pts: CMTime, duration: CMTime? = nil) throws
-  -> CMSampleBuffer
-{
-  var count = 0
-  var status = CMSampleBufferGetSampleTimingInfoArray(
-    sample, entryCount: 0, arrayToFill: nil, entriesNeededOut: &count)
-  precondition(status == noErr)
-  var timing = [CMSampleTimingInfo](repeating: CMSampleTimingInfo(), count: count)
-  status = CMSampleBufferGetSampleTimingInfoArray(
-    sample, entryCount: count, arrayToFill: &timing, entriesNeededOut: &count)
-  precondition(status == noErr)
-  let shift = CMTimeSubtract(pts, sample.presentationTimeStamp)
-  for n in timing.indices {
-    timing[n].presentationTimeStamp = CMTimeAdd(timing[n].presentationTimeStamp, shift)
-    if timing[n].decodeTimeStamp.isNumeric {
-      timing[n].decodeTimeStamp = CMTimeAdd(timing[n].decodeTimeStamp, shift)
-    }
-    if let duration { timing[n].duration = duration }
-  }
-  var copy: CMSampleBuffer?
-  status = CMSampleBufferCreateCopyWithNewTiming(
-    allocator: kCFAllocatorDefault, sampleBuffer: sample, sampleTimingEntryCount: count,
-    sampleTimingArray: &timing, sampleBufferOut: &copy)
-  precondition(status == noErr)
-  return copy!
-}
-
 /// Calls the real production writer only. Never starts a stream, devices or cursor sampling.
 func runCaptureAudioGapProbe(output rootPath: String, corpus: String) async throws {
   let root = URL(fileURLWithPath: rootPath)
@@ -207,7 +180,7 @@ func runCaptureJournalFailureProbe(output rootPath: String, corpus: String) asyn
         precondition(observedErrno == EFBIG)
         let writtenCount = try Data(contentsOf: journal).count
         precondition(writtenCount == limit)
-        for file in ["video.mov", "narration.mov"] {
+        for file in ["video.mov", "narration.packed.mov"] {
           let size =
             (try FileManager.default.attributesOfItem(
               atPath: directory.appendingPathComponent(file).path)[.size] as! NSNumber).intValue
@@ -223,15 +196,16 @@ func runCaptureJournalFailureProbe(output rootPath: String, corpus: String) asyn
     let encoder = JSONEncoder()
     encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
     try encoder.encode(result).write(to: directory.appendingPathComponent("result.json"))
-    let recovery = await MediaRecovery.inspect(directory: directory.path)
-    try encoder.encode(recovery).write(to: directory.appendingPathComponent("recovery.json"))
     let lines = try String(contentsOf: journal, encoding: .utf8).split(separator: "\n")
     let events = try lines.map {
       try JSONSerialization.jsonObject(with: Data($0.utf8)) as! [String: Any]
     }
-    let acquired = events.filter { $0["event"] as? String == "audioSamples" }.count
+    let acquired = events.filter { $0["event"] as? String == "pcmAppend" }.count
     let narration = result.tracks.first { $0.role == "narration" }!
-    let payload = try await journalFailurePCM(directory.appendingPathComponent("narration.mov"), startUs: 100000)
+    let payload = try await journalFailurePCM(directory.appendingPathComponent("narration.packed.mov"), startUs: 0)
+    writer.releaseJournal()
+    let recovery = try await MediaRecovery.recover(directory: directory.path)
+    try encoder.encode(recovery).write(to: directory.appendingPathComponent("recovery.json"))
     let original = try await journalFailurePCM(
       URL(fileURLWithPath: corpus).appendingPathComponent("a-audio.wav"))
     let expectedBytes = sample.numSamples * 4
@@ -256,8 +230,9 @@ func runCaptureJournalFailureProbe(output rootPath: String, corpus: String) asyn
       precondition(result.failure?.code == "JOURNAL_FAILED" && acquired == 0)
       let recovered = recovery.tracks.first { $0.role == "narration" }!
       precondition(
-        recovered.decodedSamples > 0 && recovered.intervals.isEmpty,
-        "Retain decoded payload without claiming unmapped acquisition")
+        recovered.intervals.isEmpty && recovered.failure?.code == "AUDIO_UNAVAILABLE"
+          && FileManager.default.fileExists(atPath: directory.appendingPathComponent("narration.packed.mov").path),
+        "Retain independently decoded payload without claiming unmapped acquisition")
     }
   }
 }

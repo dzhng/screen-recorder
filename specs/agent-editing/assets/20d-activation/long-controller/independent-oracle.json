@@ -1,0 +1,8 @@
+{
+  "offeredBuffers": 24000,
+  "acceptedBuffers": 24000,
+  "acceptedFrames": 48000,
+  "independentPCM": "28e82f634012a28cf1c144943552fcd30ee0986077d5f4ea2323339fd824e6a6",
+  "receiptPCM": "28e82f634012a28cf1c144943552fcd30ee0986077d5f4ea2323339fd824e6a6",
+  "oracle": "Independent ffmpeg decode of original WAV selected by actual admitted journal frame addresses; exact2-frame ranges with2-frame gaps. Native canonical verification binds same digest and support."
+}

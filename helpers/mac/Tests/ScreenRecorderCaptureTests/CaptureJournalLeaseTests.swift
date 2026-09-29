@@ -65,6 +65,17 @@ func runCaptureJournalLeaseTests() throws {
     try require(kill(child, 0) == 0)
     try require(try contend(protected) == 0, "Exec must not keep the released writer lease alive")
 
+    let retired = RecoveryFixture.directory("journal-lease-retired-owner")
+    defer { try? FileManager.default.removeItem(at: retired) }
+    let retained = try journal(retired)
+    let beforeRetirement = try Data(contentsOf: retired.appendingPathComponent("capture.journal.jsonl"))
+    retained.lease.release()
+    retained.lease.release()
+    try require(try contend(retired) == 0, "Terminal authority ends even while callback owners remain alive")
+    do { _ = try retained.recordLifecycle(state: "complete", reason: nil); try require(false, "A retained owner cannot append after release") }
+    catch let failure as CaptureFailure { try require(failure.code == "JOURNAL_CLOSED") }
+    try require(try Data(contentsOf: retired.appendingPathComponent("capture.journal.jsonl")) == beforeRetirement)
+
     let inherited = RecoveryFixture.directory("journal-lease-inherited-negative")
     defer { try? FileManager.default.removeItem(at: inherited) }
     var negative: CaptureJournal? = try journal(inherited)

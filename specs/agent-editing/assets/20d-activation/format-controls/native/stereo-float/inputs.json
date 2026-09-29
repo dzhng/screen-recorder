@@ -1,0 +1,22 @@
+[
+  {
+    "bits" : 32,
+    "channels" : 2,
+    "durationUs" : 170667,
+    "flags" : 9,
+    "formatID" : 1819304813,
+    "frames" : 8192,
+    "rate" : 48000,
+    "sourceUs" : 100000
+  },
+  {
+    "bits" : 32,
+    "channels" : 2,
+    "durationUs" : 170667,
+    "flags" : 9,
+    "formatID" : 1819304813,
+    "frames" : 8192,
+    "rate" : 48000,
+    "sourceUs" : 270667
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "code" : -11829,
+  "domain" : "AVFoundationErrorDomain",
+  "underlying" : "Optional(Error Domain=NSOSStatusErrorDomain Code=-12848 \"(null)\")",
+  "description" : "Cannot Open"
+}

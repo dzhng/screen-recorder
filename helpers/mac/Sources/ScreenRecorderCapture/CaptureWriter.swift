@@ -14,6 +14,7 @@ private final class TrackWriter {
     var first: Int64?
     var end: Int64?
     var samples = 0
+    var physicalFrames: Int64 = 0
     var heldTailUs: Int64 = 0
 
     init(
@@ -21,25 +22,32 @@ private final class TrackWriter {
     ) throws {
         self.role = role
         pcm = try role == "video" ? nil : format.map { try CapturePCM(format: $0) }
-        file = role == "video" ? "video.mov" : "\(role).mov"
-        writer = try AVAssetWriter(
-            outputURL: URL(fileURLWithPath: directory).appendingPathComponent(file), fileType: .mov)
-        // The source clock and final revision use microseconds. Default 600 Hz movie/
-        // video timing can round the written endpoint below the reported stop boundary.
-        writer.movieTimeScale = 1_000_000
-        writer.movieFragmentInterval = CMTime(value: 5, timescale: 1)
-        writer.initialMovieFragmentInterval = CMTime(value: 1, timescale: 1)
-        input = AVAssetWriterInput(
-            mediaType: role == "video" ? .video : .audio, outputSettings: settings,
-            sourceFormatHint: pcm?.format ?? format)
-        if role == "video" { input.mediaTimeScale = 1_000_000 }
-        input.expectsMediaDataInRealTime = true
         sampleRate = format.flatMap {
             CMAudioFormatDescriptionGetStreamBasicDescription($0)?.pointee.mSampleRate
         }
         channelCount = format.flatMap {
             CMAudioFormatDescriptionGetStreamBasicDescription($0)?.pointee.mChannelsPerFrame
         }
+        file = role == "video" ? "video.mov" : "\(role).packed.mov"
+        writer = try AVAssetWriter(
+            outputURL: URL(fileURLWithPath: directory).appendingPathComponent(file), fileType: .mov)
+        // Video endpoints use source-clock ticks; packed PCM endpoints use exact native frames.
+        let timescale: Int32
+        if role == "video" { timescale = 1_000_000 }
+        else {
+            guard let rate = sampleRate.flatMap({ Int32(exactly: $0) }), rate > 0 else {
+                throw CaptureFailure("INVALID_AUDIO_FORMAT", "PCM rate cannot identify its native sample grid.")
+            }
+            timescale = rate
+        }
+        writer.movieTimeScale = timescale
+        writer.movieFragmentInterval = CMTime(value: 5, timescale: 1)
+        writer.initialMovieFragmentInterval = CMTime(value: 1, timescale: 1)
+        input = AVAssetWriterInput(
+            mediaType: role == "video" ? .video : .audio, outputSettings: settings,
+            sourceFormatHint: pcm?.format ?? format)
+        if role == "video" { input.mediaTimeScale = timescale }
+        input.expectsMediaDataInRealTime = true
         guard writer.canAdd(input) else {
             throw CaptureFailure("ENCODER_UNAVAILABLE", "Cannot encode \(role).")
         }
@@ -56,6 +64,9 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
     package let queue = DispatchQueue(label: "com.david.screenrec.capture-writer")
     private let journal: CaptureJournal
     package var packedJournalLease: CaptureJournalLease? { journal.schemaVersion == 2 ? journal.lease : nil }
+    package var requestedAudioRoles: [String] {
+        (request.microphone ? ["narration"] : []) + (request.systemAudio ? ["system"] : [])
+    }
     private let request: CaptureRequest
     private let width: Int
     private let height: Int
@@ -93,7 +104,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
         journal = try CaptureJournal(
             directory: request.outputDirectory,
             header: CaptureJournalHeader(
-                schemaVersion: 1, sessionID: sessionID, source: request.source, width: width,
+                schemaVersion: 2, sessionID: sessionID, source: request.source, width: width,
                 height: height,
                 microphone: request.microphone, systemAudio: request.systemAudio))
         tracks["video"] = try TrackWriter(
@@ -198,8 +209,10 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             sampler?.stop()
             finishing = true
             tracks.values.forEach { $0.writer.cancelWriting() }
+            journal.lease.release()
         }
     }
+    package func releaseJournal() { queue.sync { journal.lease.release() } }
 
     /// Places one pointer reading in the take's source time. A reading the clock refuses, because
     /// the take is paused or has no source zero yet, is counted and dropped: no sample is invented
@@ -290,7 +303,8 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             if usable, clock.start(at: hostUs, durationUs: durationUs) {
                 publishClock()
                 guard record({
-                    try self.journal.recordOrigin(hostUs: hostUs, placedPauses: self.clock.pauses)
+                    try self.journal.recordPCMOrigin(JournalPCMOrigin(rawPTS: pts, declaredHostUs: hostUs),
+                        placedPauses: self.clock.pauses)
                 }) else { return }
             }
             updateGeometry(from: info, hostUs: hostUs, durationUs: durationUs, usable: usable)
@@ -299,7 +313,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
         case .microphone: role = "narration"
         @unknown default: return
         }
-        guard let sourceUs = clock.sourceTime(for: hostUs, durationUs: durationUs) else {
+        guard var sourceUs = clock.sourceTime(for: hostUs, durationUs: role == "video" ? durationUs : 0) else {
             omitted[role, default: 0] += 1
             return
         }
@@ -328,6 +342,30 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                 return
             }
             let sample = try track.pcm?.normalize(sample) ?? sample
+            var endUs = sourceUs + durationUs
+            var targetPTS = CMTime(value: sourceUs, timescale: 1_000_000)
+            var prospectiveClock = clock
+            var placement: CaptureClock.PCMPlacement?
+            let physicalFirst = track.physicalFrames
+            if role != "video" {
+                guard let rate = track.sampleRate.flatMap({ Int32(exactly: $0) }), rate > 0 else {
+                    throw CaptureFailure("INVALID_AUDIO_FORMAT", "PCM sample rate must identify its native sample grid.")
+                }
+                guard let admitted = try prospectiveClock.recordAcceptedPCM(
+                    role: role, hostPTS: pts, frames: Int64(sample.numSamples), rate: rate) else {
+                    omitted[role, default: 0] += 1
+                    return
+                }
+                placement = admitted
+                let timeline = try PCMContainerTime(phaseUs: admitted.anchorUs, rate: rate)
+                sourceUs = CMTimeConvertScale(try timeline.time(at: admitted.firstFrame),
+                    timescale: 1_000_000, method: .roundHalfAwayFromZero).value
+                endUs = CMTimeConvertScale(try timeline.time(at: admitted.firstFrame + admitted.frames),
+                    timescale: 1_000_000, method: .roundHalfAwayFromZero).value
+                let physicalEnd = physicalFirst.addingReportingOverflow(admitted.frames)
+                guard !physicalEnd.overflow else { throw CaptureFailure("INVALID_AUDIO_TIMING", "Physical PCM address overflow.") }
+                targetPTS = CMTime(value: physicalFirst, timescale: rate)
+            }
             var count = 0
             var status = CMSampleBufferGetSampleTimingInfoArray(
                 sample, entryCount: 0, arrayToFill: nil, entriesNeededOut: &count)
@@ -340,7 +378,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             guard status == noErr else {
                 throw CaptureFailure("RETIME_FAILED", "Cannot read sample timing: \(status).")
             }
-            let offset = CMTimeSubtract(pts, CMTime(value: sourceUs, timescale: 1_000_000))
+            let offset = CMTimeSubtract(pts, targetPTS)
             for index in timing.indices {
                 timing[index].presentationTimeStamp = CMTimeSubtract(
                     timing[index].presentationTimeStamp, offset)
@@ -364,25 +402,26 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             let firstAppend = track.first == nil
             // Media acceptance cannot be rolled back if the following journal write fails.
             track.first = track.first ?? sourceUs
-            track.end = max(track.end ?? 0, sourceUs + durationUs)
+            track.end = max(track.end ?? 0, endUs)
             track.samples += 1
-            if role == "video" { lastVideo = retimed }
-            if firstAppend {
-                guard
-                    record({
-                        try self.journal.recordTrackStarted(
-                            role: role, file: track.file, firstSourceUs: sourceUs,
-                            sampleRate: track.sampleRate, channelCount: track.channelCount)
-                    })
-                else { return }
-            }
-            if role != "video" {
-                guard
-                    record({
-                        try self.journal.recordAudioSamples(
-                            role: role, startUs: sourceUs, endUs: sourceUs + durationUs)
-                    })
-                else { return }
+            if let placement {
+                clock = prospectiveClock
+                track.physicalFrames = physicalFirst + placement.frames
+                publishClock()
+                if firstAppend {
+                    guard record({ try self.journal.recordPCMTrack(JournalPCMTrack(
+                        role: role, rate: placement.rate, channels: track.channelCount!, phaseUs: placement.anchorUs)) }) else { return }
+                }
+                guard record({ try self.journal.recordPCMAppend(JournalPCMAppend(
+                    role: role, physicalFirstFrame: physicalFirst, frameCount: placement.frames,
+                    declaredFirstFrame: placement.firstFrame, rawPTS: pts, removedPauseUs: placement.removedPauseUs)) }) else { return }
+            } else {
+                lastVideo = retimed
+                if firstAppend {
+                    guard record({ try self.journal.recordTrackStarted(
+                        role: role, file: track.file, firstSourceUs: sourceUs,
+                        sampleRate: track.sampleRate, channelCount: track.channelCount) }) else { return }
+                }
             }
         } catch {
             let reason =
@@ -459,8 +498,10 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                 track.writer.cancelWriting()
                 continue
             }
-            track.writer.endSession(
-                atSourceTime: CMTime(value: sourceDurationUs, timescale: 1_000_000))
+            let end = track.role == "video"
+                ? CMTime(value: sourceDurationUs, timescale: 1_000_000)
+                : CMTime(value: track.physicalFrames, timescale: Int32(track.sampleRate!))
+            track.writer.endSession(atSourceTime: end)
             track.input.markAsFinished()
             group.enter()
             track.writer.finishWriting { group.leave() }
@@ -508,11 +549,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                     ? "whole-system-excluding-recorder" : "disabled",
                 cursor: self.cursor.stats
             )
-            if self.journal.schemaVersion == 1 {
-                continuation.resume(returning: self.recordFinished(result))
-            } else {
-                continuation.resume(returning: result)
-            }
+            continuation.resume(returning: result)
         }
     }
     package func recordPublishedResult(_ result: CaptureResult) -> CaptureResult {

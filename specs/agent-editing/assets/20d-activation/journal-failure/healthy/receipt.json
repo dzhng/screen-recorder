@@ -1,0 +1,16 @@
+{
+  "acceptedReportedBuffers" : 1,
+  "decodedPCMBytes" : 32768,
+  "errnoName" : "none",
+  "exactInputPCM" : true,
+  "expectedInputFrames" : 8192,
+  "journaledAcquisitionRecords" : 1,
+  "journalPrefixBytes" : 524711,
+  "mediaBytesDuringLimit" : {
+
+  },
+  "mode" : "healthy",
+  "observedErrno" : 0,
+  "softLimitBytes" : 524711,
+  "trackStartBytes" : 170
+}

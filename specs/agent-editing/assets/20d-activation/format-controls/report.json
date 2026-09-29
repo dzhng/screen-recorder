@@ -1,0 +1,77 @@
+{
+  "scope": "Actual CaptureWriter, prerecorded PCM; no capture devices",
+  "workerSHA256": "20a26fd9c4b432d94f327ef853cd51d3708512ee955f255ee39a999378ac5078",
+  "completed": true,
+  "modes": {
+    "same-format": {
+      "acceptedBuffers": 2,
+      "decodedFrames": 16384,
+      "exactInputPCM": true,
+      "failure": null,
+      "sha256": "8bb32dd3aada07fe72520a9d5e4735392bfeec295c127eb091c9997ca69ae1be"
+    },
+    "representation": {
+      "acceptedBuffers": 2,
+      "decodedFrames": 16384,
+      "exactInputPCM": true,
+      "failure": null,
+      "sha256": "8bb32dd3aada07fe72520a9d5e4735392bfeec295c127eb091c9997ca69ae1be"
+    },
+    "initial-int16": {
+      "acceptedBuffers": 2,
+      "decodedFrames": 16384,
+      "exactInputPCM": true,
+      "failure": null,
+      "sha256": "8bb32dd3aada07fe72520a9d5e4735392bfeec295c127eb091c9997ca69ae1be"
+    },
+    "int16-to-float": {
+      "acceptedBuffers": 2,
+      "decodedFrames": 16384,
+      "exactInputPCM": true,
+      "failure": null,
+      "sha256": "8bb32dd3aada07fe72520a9d5e4735392bfeec295c127eb091c9997ca69ae1be"
+    },
+    "rate": {
+      "acceptedBuffers": 1,
+      "decodedFrames": 8192,
+      "exactInputPCM": true,
+      "failure": "AUDIO_FORMAT_CHANGED",
+      "sha256": "423b437e84473ba7a3741a62aea01232fd906ff42b2e983d9a039cf22cdaaa86"
+    },
+    "channels": {
+      "acceptedBuffers": 1,
+      "decodedFrames": 8192,
+      "exactInputPCM": true,
+      "failure": "AUDIO_FORMAT_CHANGED",
+      "sha256": "423b437e84473ba7a3741a62aea01232fd906ff42b2e983d9a039cf22cdaaa86"
+    },
+    "stereo-float": {
+      "acceptedBuffers": 2,
+      "decodedFrames": 16384,
+      "exactInputPCM": true,
+      "failure": null,
+      "sha256": "ec22a75b8232e2b85b69acf76c732486d4c3e20134f76b58cfe6605f31fdfd78"
+    },
+    "stereo-planar": {
+      "acceptedBuffers": 2,
+      "decodedFrames": 16384,
+      "exactInputPCM": true,
+      "failure": null,
+      "sha256": "ec22a75b8232e2b85b69acf76c732486d4c3e20134f76b58cfe6605f31fdfd78"
+    },
+    "packed24": {
+      "acceptedBuffers": 2,
+      "decodedFrames": 16384,
+      "exactInputPCM": true,
+      "failure": null,
+      "sha256": "ec22a75b8232e2b85b69acf76c732486d4c3e20134f76b58cfe6605f31fdfd78"
+    },
+    "float64": {
+      "acceptedBuffers": 2,
+      "decodedFrames": 32192,
+      "exactInputPCM": true,
+      "failure": null,
+      "sha256": "d668e6c2bed2bdbd6972c62f77cecd38514aeb8962ffb58fa8e35d46f9515ed4"
+    }
+  }
+}

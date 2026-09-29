@@ -298,7 +298,7 @@ struct CameraReproduction {
         try? FileManager.default.removeItem(at: snapshot)
         try FileManager.default.copyItem(at: file, to: snapshot)
         let recovered = await MediaRecovery.inspect(directory: partial.path)
-        if recovered.tracks.contains(where: { $0.role == "video" && $0.decodedSamples > 0 }) {
+        if recovered.tracks.contains(where: { $0.role == "video" && ($0.decodedSamples ?? 0) > 0 }) {
           interrupted = recovered
           break
         }
@@ -315,7 +315,7 @@ struct CameraReproduction {
     guard let found = recovered.tracks.first(where: { $0.role == (video ? "video" : "narration") })
     else { throw CaptureFailure("REPRODUCTION_FAILED", "Recovery lost role") }
     try check(
-      found.failure == nil && found.decodedSamples > 0 && found.decodeReachedEnd,
+      found.failure == nil && (found.decodedSamples ?? 0) > 0 && found.decodeReachedEnd,
       "Completed independent source recovers")
     return RoleResult(
       role: selected.role, written: written, omitted: omitted, firstUs: first!, endUs: end,

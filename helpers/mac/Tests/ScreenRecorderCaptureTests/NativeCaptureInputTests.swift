@@ -1,54 +1,10 @@
 @preconcurrency import AVFoundation
 import Foundation
+import CryptoKit
 import ScreenCaptureKit
 import ScreenRecorderCapture
 import ScreenRecorderMedia
 import ScreenRecorderWire
-
-/// Only the physical input boundary is substituted. NativeCapture creates and closes the real writer.
-@MainActor
-private final class PrerecordedCaptureInput: CaptureInputSession {
-    let width = RecoveryFixture.width
-    let height = RecoveryFixture.height
-    let requestedSourceRect: CGRect? = nil
-    let source: URL
-    let refusesAfterDelivery: Bool
-    var stops = 0
-    var onFailure: (@Sendable (CaptureFailure) -> Void)?
-
-    init(source: URL, refusesAfterDelivery: Bool = false) {
-        self.source = source
-        self.refusesAfterDelivery = refusesAfterDelivery
-    }
-
-    func start(writer: CaptureWriter, onFailure: @escaping @Sendable (CaptureFailure) -> Void,
-        checkInterruption: () throws -> Void) async throws {
-        self.onFailure = onFailure
-        let asset = AVURLAsset(url: source)
-        let track = try await asset.loadTracks(withMediaType: .video).first!
-        let reader = try AVAssetReader(asset: asset)
-        let output = AVAssetReaderTrackOutput(track: track,
-            outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
-        reader.add(output)
-        precondition(reader.startReading())
-        // An inert SCStream only supplies the existing callback's identity. Never start it.
-        let stream = SCStream(filter: SCContentFilter(), configuration: SCStreamConfiguration(), delegate: nil)
-        let origin = CaptureHostTime.nowUs() - 400_000
-        while let sample = output.copyNextSampleBuffer() {
-            let timed = try captureFixtureRetimed(sample,
-                at: CMTimeAdd(time(microseconds: origin), sample.presentationTimeStamp))
-            let attachments = CMSampleBufferGetSampleAttachmentsArray(timed, createIfNecessary: true)! as NSArray
-            (attachments[0] as! NSMutableDictionary)[SCStreamFrameInfo.status.rawValue] = SCFrameStatus.complete.rawValue
-            writer.queue.sync { writer.stream(stream, didOutputSampleBuffer: timed, of: .screen) }
-            try checkInterruption()
-            if refusesAfterDelivery { throw CaptureFailure("INPUT_START_FAILED", "Prerecorded partial start") }
-        }
-        precondition(reader.status == .completed)
-    }
-    func startCursorSampling(writer: CaptureWriter) {}
-    func observeDeviceLoss(onFailure: @escaping @Sendable (CaptureFailure) -> Void) {}
-    func stop() async -> CaptureFailure? { stops += 1; return nil }
-}
 
 @MainActor
 func runNativeCaptureInputTests() async throws {
@@ -75,8 +31,127 @@ func runNativeCaptureInputTests() async throws {
     let result = try await capture.stop()
     precondition(result.state == "complete" && result.failure == nil && healthy.stops == 1)
     precondition(result.cursor.sampled == 0, "Prerecorded input cannot acquire the live cursor")
-    let recovered = await MediaRecovery.inspect(directory: root.appendingPathComponent("healthy").path)
+    let recovered = try await MediaRecovery.recover(directory: root.appendingPathComponent("healthy").path)
+    precondition(recovered.journalFailure == nil)
     precondition(recovered.durationUs == result.durationUs && result.durationUs >= 300_000)
     precondition(capture.deviceState == "idle")
     print("PASS actual NativeCapture closes prerecorded writer, tears down partial input, ignores stale generation, and acquires no live cursor")
+}
+
+
+@MainActor
+func runNativeCapturePublicationProbe(output: String, corpus: String) async throws {
+    let root = URL(fileURLWithPath: output)
+    let child = ProcessInfo.processInfo.environment["SCREENREC_NATIVE_PUBLICATION_CHILD"] == "1"
+    let video = root.appendingPathComponent("input.mov")
+    if !child {
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+        try await RecoveryFixture.writeVariableDurationVideo(to: video,
+            timesUs: [0, 500000, 1500000, 2300000], endUs: 2500000)
+    }
+    var supportHashes: [String] = []
+    var normalPCMHash: String?
+    for mode in child ? ["interrupted-before-publication"] : ["normal", "retry-before-publication", "interrupted-before-publication", "publication-conflict", "unreadable-packed", "requested-missing"] {
+        let folder = root.appendingPathComponent(mode)
+        let input = PrerecordedCaptureInput(source: video)
+        if mode != "requested-missing" {
+            input.audio = URL(fileURLWithPath: corpus).appendingPathComponent("a-audio.wav")
+            input.omittedAudioBuffer = 4
+            input.audioRoles = [.microphone, .audio]
+        }
+        input.holdStop = ["interrupted-before-publication", "retry-before-publication", "unreadable-packed"].contains(mode)
+        let crashedChild = mode == "interrupted-before-publication" && !child
+        if crashedChild {
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: CommandLine.arguments[0])
+            var environment = ProcessInfo.processInfo.environment
+            environment["SCREENREC_NATIVE_PUBLICATION_CHILD"] = "1"
+            process.environment = environment
+            try process.run()
+            process.waitUntilExit()
+            precondition(process.terminationStatus == 0, "Interrupted writer child must close before recovery")
+        } else {
+            var capture: NativeCapture? = NativeCapture(prepareInput: { _ in input })
+            try await capture!.start(CaptureRequest(source: CaptureSource(kind: "offline-prerecorded"),
+                outputDirectory: folder.path, sourceId: mode, microphone: true, systemAudio: true))
+            if input.holdStop {
+                let stopping = Task { [active = capture!] in try await active.stop() }
+                await input.stopEntered.wait()
+                capture!.cancelPublication()
+                input.releaseStop.release()
+                do { _ = try await stopping.value; preconditionFailure("Publication should observe cancellation after encoder closure") }
+                catch is CancellationError {}
+                do { _ = try await MediaRecovery.recover(directory: folder.path); preconditionFailure("Failed publication retains retry authority") }
+                catch let error as CaptureFailure { precondition(error.code == "CAPTURE_BUSY") }
+                if child {
+                    // Exiting this owned process, rather than dropping an ARC reference, models abandoned ownership.
+                    return
+                }
+                if mode == "unreadable-packed" {
+                    try Data("corrupted immutable packed media".utf8).write(to: folder.appendingPathComponent("narration.packed.mov"))
+                }
+                let retried: CaptureResult
+                do { retried = try await capture!.stop() }
+                catch {
+                    let native = error as NSError
+                    try JSONSerialization.data(withJSONObject: ["domain": native.domain, "code": native.code,
+                        "description": native.localizedDescription, "underlying": String(describing: native.userInfo[NSUnderlyingErrorKey])], options: [.prettyPrinted])
+                        .write(to: folder.appendingPathComponent("publication-error.json"))
+                    throw error
+                }
+                precondition(retried.state == (mode == "unreadable-packed" ? "interrupted" : "complete"))
+                try JSONEncoder().encode(retried).write(to: folder.appendingPathComponent("capture-result.json"))
+                capture = nil
+            } else {
+                if mode == "publication-conflict" {
+                    try Data("occupied canonical name".utf8).write(to: folder.appendingPathComponent("narration.mov"))
+                }
+                let result = try await capture!.stop()
+                try JSONEncoder().encode(result).write(to: folder.appendingPathComponent("capture-result.json"))
+                precondition(result.state == (["requested-missing", "publication-conflict"].contains(mode) ? "interrupted" : "complete"))
+                if mode == "publication-conflict" { precondition(result.failure?.code == "PUBLICATION_CONFLICT") }
+                if mode == "requested-missing" { precondition(result.failure?.code == "NO_NARRATION") }
+                else {
+                    for track in result.tracks where track.role != "video" {
+                        precondition(track.samples == input.offeredAudioBuffers && track.droppedSamples == 0)
+                    }
+                }
+                precondition(result.cursor.sampled == 0)
+                capture = nil
+            }
+        }
+        let recovered = try await MediaRecovery.recover(directory: folder.path)
+        try JSONEncoder().encode(recovered).write(to: folder.appendingPathComponent("recovery.json"))
+        precondition(recovered.durationUs >= 2500000 || mode == "requested-missing")
+        if mode == "requested-missing" {
+            precondition(recovered.tracks.filter { $0.role != "video" }.allSatisfy { $0.failure?.code == "AUDIO_UNAVAILABLE" && $0.intervals.isEmpty })
+            continue
+        }
+        var expected = SHA256()
+        expected.update(data: Data("screenrec.capture-pcm.v1\0".utf8))
+        for value in [input.expectedRate, input.expectedChannels] {
+            var little = value.littleEndian
+            expected.update(data: withUnsafeBytes(of: &little) { Data($0) })
+        }
+        expected.update(data: input.expectedPCM)
+        let offeredHash = expected.finalize().map { String(format: "%02x", $0) }.joined()
+        if mode == "normal" { normalPCMHash = offeredHash }
+        let expectedHash = crashedChild ? normalPCMHash! : offeredHash
+        if ["publication-conflict", "unreadable-packed"].contains(mode) {
+            precondition(recovered.tracks.first { $0.role == "narration" }!.failure?.code == (mode == "publication-conflict" ? "PUBLICATION_CONFLICT" : "PACKED_MEDIA_INVALID"))
+            precondition(recovered.tracks.first { $0.role == "video" }!.intervals.isEmpty == false)
+            let retainedConflict = try Data(contentsOf: folder.appendingPathComponent(mode == "publication-conflict" ? "narration.mov" : "narration.packed.mov"))
+            precondition(retainedConflict == Data((mode == "publication-conflict" ? "occupied canonical name" : "corrupted immutable packed media").utf8))
+        }
+        for role in ["publication-conflict", "unreadable-packed"].contains(mode) ? ["system"] : ["narration", "system"] {
+            let receipt = try JSONDecoder().decode(CaptureAudioPublication.Receipt.self,
+                from: Data(contentsOf: folder.appendingPathComponent("\(role).publication.json")))
+            precondition(receipt.pcmSHA256 == expectedHash, "Canonical PCM must equal independently decoded offered samples excluding the known omission")
+            precondition(receipt.acceptedFrames == receipt.representedFrames)
+            supportHashes.append(receipt.supportSHA256)
+            precondition(recovered.tracks.first { $0.role == role }!.intervals.count == 2)
+        }
+    }
+    precondition(Set(supportHashes).count == 1, "Normal and interrupted recovery preserve the same admitted source support")
+    print("PASS actual NativeCapture normal/interrupted publication preserves independent PCM, both roles, exact shared support and requested-missing refusal")
 }

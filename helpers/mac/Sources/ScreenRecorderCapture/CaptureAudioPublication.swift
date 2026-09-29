@@ -27,7 +27,7 @@ package enum CaptureAudioPublication {
       guard result.role == intent.role, result.payload == intent.payload,
         result.journal == intent.journal, let canonical = result.canonical,
         result.representedFrames > 0
-      else { throw failure("Candidate does not represent the pinned publication intent.") }
+      else { throw conflict("Candidate does not represent the pinned publication intent.") }
       self.intent = intent
       acceptedFrames = result.acceptedFrames
       committedFrames = result.committedFrames
@@ -40,8 +40,20 @@ package enum CaptureAudioPublication {
     }
   }
 
+  package enum Outcome: Sendable {
+    case published(Receipt)
+    /// The pinned attempt was inspected but represents no playable frames. Working bytes stay retained.
+    case unavailable(Unavailable)
+  }
+
+  package enum Unavailable: Sendable {
+    case noRepresentedFrames(CaptureAudioMaterialization)
+    /// Mapping absence proves no placement, not a decoded count or an invented format.
+    case missingMapping(Intent)
+  }
+
   /// One explicit attempt; failures retain the packed payload and immutable restart intent.
-  package static func publish(lease: CaptureJournalLease, role: String) async throws -> Receipt {
+  package static func publish(lease: CaptureJournalLease, role: String) async throws -> Outcome {
     try Task.checkCancellation()
     guard ["narration", "system"].contains(role) else { throw failure("Invalid publication role.") }
     try lease.check()
@@ -56,12 +68,12 @@ package enum CaptureAudioPublication {
     if exists(published) {
       let receipt: Receipt = try read(published)
       guard receipt.intent.role == role else {
-        throw failure("Published receipt names a different role.")
+        throw conflict("Published receipt names a different role.")
       }
       try await verify(receipt, lease: lease, canonical: canonical)
       try synchronize(root)
       try lease.check()
-      return receipt
+      return .published(receipt)
     }
 
     try directory(attempt)
@@ -72,7 +84,7 @@ package enum CaptureAudioPublication {
       guard
         try CaptureMediaIdentity.read(root.appendingPathComponent("\(role).packed.mov"))
           == intent.payload
-      else { throw failure("Packed payload no longer matches the publication intent.") }
+      else { throw conflict("Packed payload no longer matches the publication intent.") }
     } else {
       let summary = try CaptureJournal.streamAcceptedPCM(lease: lease) { _ in }
       guard let prefix = summary.validatedPrefix, let header = summary.header,
@@ -95,24 +107,43 @@ package enum CaptureAudioPublication {
     // owned partial candidate once; never reinterpret an already visible canonical filename.
     if !exists(prepared) {
       guard !exists(canonical) else {
-        throw failure("Canonical media has no prepared publication proof.")
+        throw conflict("Canonical media has no prepared publication proof.")
       }
       if exists(candidate) {
         var info = stat()
         guard lstat(candidate.path, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
           info.st_uid == getuid(), info.st_nlink == 1
-        else { throw failure("Incomplete candidate is not an owned private file.") }
+        else { throw conflict("Incomplete candidate is not an owned private file.") }
         guard unlink(candidate.path) == 0 else {
           throw failure("Cannot reset incomplete candidate.")
         }
       }
     }
+    var hasMapping = false
+    _ = try CaptureJournal.streamAcceptedPCM(lease: lease, through: intent.journal,
+      track: { if $0.role == role { hasMapping = true } }) { _ in }
+    if !hasMapping {
+      guard !exists(prepared), !exists(candidate), !exists(canonical), !exists(published) else {
+        throw conflict("Missing mapping conflicts with retained publication proof or media.")
+      }
+      try lease.check()
+      return .unavailable(.missingMapping(intent))
+    }
     let result = try await CaptureAudioMaterializer.materialize(
       lease: lease, through: intent.journal, role: role, candidate: candidate)
+    guard result.role == intent.role, result.payload == intent.payload, result.journal == intent.journal else {
+      throw conflict("Materialized result does not match the pinned publication intent.")
+    }
+    if result.representedFrames == 0 {
+      guard result.canonical == nil, result.candidate == nil, !exists(prepared), !exists(candidate),
+        !exists(canonical), !exists(published)
+      else { throw conflict("Unavailable audio conflicts with retained publication proof or media.") }
+      return .unavailable(.noRepresentedFrames(result))
+    }
     let receipt = try Receipt(intent: intent, result: result)
     if exists(prepared) {
       let retained: Receipt = try read(prepared)
-      guard retained == receipt else { throw failure("Prepared publication facts changed.") }
+      guard retained == receipt else { throw conflict("Prepared publication facts changed.") }
     } else {
       // Persist candidate bytes before a durable receipt can authorize retrying this exact identity.
       _ = try NewFile.publish(staged: candidate, at: candidate.path)
@@ -127,7 +158,7 @@ package enum CaptureAudioPublication {
     _ = try NewFile.publish(staged: prepared, at: published.path)
     try synchronize(root)
     try lease.check()
-    return receipt
+    return .published(receipt)
   }
 
   /// Optional reclamation after publication. Failure leaves canonical availability intact and is
@@ -226,13 +257,13 @@ package enum CaptureAudioPublication {
     guard accepted == receipt.acceptedFrames, receipt.committedFrames >= 0,
       receipt.representedFrames > 0,
       receipt.representedFrames == min(receipt.acceptedFrames, receipt.committedFrames)
-    else { throw failure("Invalid represented prefix in publication receipt.") }
+    else { throw conflict("Invalid represented prefix in publication receipt.") }
     let result = try await CaptureAudioMaterializer.verifyCanonical(
       lease: lease, through: receipt.intent.journal, role: receipt.intent.role,
       representedFrames: receipt.representedFrames, candidate: canonical)
     guard result.identity == receipt.canonical, result.pcmSHA256 == receipt.pcmSHA256,
       result.supportSHA256 == receipt.supportSHA256
-    else { throw failure("Published media no longer matches its receipt.") }
+    else { throw conflict("Published media no longer matches its receipt.") }
     return result
   }
 
@@ -249,9 +280,9 @@ package enum CaptureAudioPublication {
     let path = URL(fileURLWithPath: lease.directory).appendingPathComponent("\(role).publication.json")
     let before = try CaptureMediaIdentity.read(path)
     let receipt: Receipt = try read(path)
-    guard receipt.intent.role == role else { throw failure("Published receipt names a different role.") }
+    guard receipt.intent.role == role else { throw conflict("Published receipt names a different role.") }
     let verified = try await verify(receipt, lease: lease, canonical: canonical)
-    guard try CaptureMediaIdentity.read(path) == before else { throw failure("Publication receipt changed.") }
+    guard try CaptureMediaIdentity.read(path) == before else { throw conflict("Publication receipt changed.") }
     return (VerifiedSource(canonical: verified.identity, receipt: before), verified.acquiredAudio)
   }
 
@@ -259,13 +290,13 @@ package enum CaptureAudioPublication {
     -> Int64
   {
     guard intent.version == 1, intent.role == role, ["narration", "system"].contains(role)
-    else { throw failure("Invalid publication intent.") }
+    else { throw conflict("Invalid publication intent.") }
     var accepted: Int64 = 0
     let summary = try CaptureJournal.streamAcceptedPCM(lease: lease, through: intent.journal) {
       if $0.role == role { accepted = $0.physicalFirstFrame + $0.frameCount }
     }
     guard summary.header?.sessionID == intent.sourceID, summary.header?.schemaVersion == 2
-    else { throw failure("Publication journal no longer matches the pinned intent.") }
+    else { throw conflict("Publication journal no longer matches the pinned intent.") }
     return accepted
   }
 
@@ -280,7 +311,7 @@ package enum CaptureAudioPublication {
     var info = stat()
     guard lstat(url.path, &info) == 0, info.st_mode & S_IFMT == S_IFDIR,
       info.st_uid == getuid(), info.st_mode & 0o077 == 0
-    else { throw failure("Publication attempt must be an owned private directory.") }
+    else { throw conflict("Publication attempt must be an owned private directory.") }
   }
   private static func read<Value: Decodable>(_ url: URL) throws -> Value {
     let descriptor = open(url.path, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
@@ -301,7 +332,8 @@ package enum CaptureAudioPublication {
     guard data.count <= 65_536 else {
       throw failure("Publication record exceeds its bounded metadata format.")
     }
-    return try JSONDecoder().decode(Value.self, from: data)
+    do { return try JSONDecoder().decode(Value.self, from: data) }
+    catch is DecodingError { throw conflict("Publication record is malformed.") }
   }
   private static func write<Value: Encodable>(_ value: Value, to url: URL) throws {
     let encoder = JSONEncoder()
@@ -322,6 +354,9 @@ package enum CaptureAudioPublication {
     }
     defer { close(descriptor) }
     guard fsync(descriptor) == 0 else { throw failure("Cannot synchronize publication directory.") }
+  }
+  private static func conflict(_ message: String) -> CaptureFailure {
+    CaptureFailure("PUBLICATION_CONFLICT", message)
   }
   private static func failure(_ message: String) -> CaptureFailure {
     CaptureFailure("PUBLICATION_FAILED", message)

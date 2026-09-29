@@ -1,0 +1,109 @@
+{
+  "id": "dd9ccc86-79be-484f-bbb6-63c534f5526b",
+  "sourceId": "normal",
+  "evidence": {
+    "owner": {
+      "kind": "acquisition",
+      "acquisitionId": "dd9ccc86-79be-484f-bbb6-63c534f5526b"
+    },
+    "sourceId": "normal",
+    "generation": "c49ec259-1687-434d-9034-70d0019d61a1",
+    "receipt": {
+      "audioIntervals": 4,
+      "bytes": 340,
+      "completion": {
+        "durationUs": 3174865,
+        "sequence": 29,
+        "state": "complete"
+      },
+      "cursorSamples": 0,
+      "displaySpaces": 0,
+      "file": "/tmp/capture-activation-public-O5rjW2/home/library/acquisitions/dd9ccc86-79be-484f-bbb6-63c534f5526b/c49ec259-1687-434d-9034-70d0019d61a1/source.jsonl",
+      "finished": true,
+      "geometryRecords": 0,
+      "header": {
+        "height": 120,
+        "microphone": true,
+        "schemaVersion": 2,
+        "sessionID": "normal",
+        "source": {
+          "kind": "offline-prerecorded"
+        },
+        "systemAudio": true,
+        "width": 160
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastLifecycle": {
+        "state": "complete"
+      },
+      "lastSequence": 30,
+      "originHostUs": 531952205798,
+      "pauseEvents": 0,
+      "publications": {
+        "narration": {
+          "canonical": {
+            "bytes": "351965",
+            "sha256": "f9b54fecffd40fe39fccb3f913ad414185b56f15f66107a0ff0cab64d082ea96"
+          },
+          "receipt": {
+            "bytes": "643",
+            "sha256": "b6167d96d79f77066ed695ca8b8a376949015e3c6ea2776f66747c8c17f5d20d"
+          }
+        },
+        "system": {
+          "canonical": {
+            "bytes": "351965",
+            "sha256": "f9b54fecffd40fe39fccb3f913ad414185b56f15f66107a0ff0cab64d082ea96"
+          },
+          "receipt": {
+            "bytes": "640",
+            "sha256": "45923ddf6cf9492d67c007092837b13ba01802344eee7f9f81a143994d63fcd2"
+          }
+        }
+      }
+    }
+  },
+  "journal": {
+    "fileName": "c49ec259-1687-434d-9034-70d0019d61a1/source/capture.journal.jsonl",
+    "sha256": "c4b552c1c9a5c3a44fa1cde6a365a519d310f1ea0418b3d6f6112c9c8486e404",
+    "bytes": 7026
+  },
+  "bindings": [
+    {
+      "assetId": "0efe0725cfdfc070202b0c479f0e37a383cae89cb9cf061bc86150e968871c56",
+      "streamId": "track:1",
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 3174865
+        }
+      ],
+      "sourceRoles": [
+        "video"
+      ],
+      "sourceToAssetOffsetUs": 0,
+      "supportBasis": "physical"
+    },
+    {
+      "assetId": "f9b54fecffd40fe39fccb3f913ad414185b56f15f66107a0ff0cab64d082ea96",
+      "streamId": "track:1",
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 682667
+        },
+        {
+          "startUs": 853333,
+          "endUs": 2000000
+        }
+      ],
+      "sourceRoles": [
+        "narration",
+        "system"
+      ],
+      "sourceToAssetOffsetUs": -100001,
+      "supportBasis": "captured-audio"
+    }
+  ]
+}

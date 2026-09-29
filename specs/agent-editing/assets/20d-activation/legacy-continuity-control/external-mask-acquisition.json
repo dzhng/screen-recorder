@@ -1,0 +1,78 @@
+{
+  "id": "1cd0a1b7-e9cc-456a-868a-f3896b46eec8",
+  "sourceId": "explicit-external-mask",
+  "evidence": {
+    "owner": {
+      "kind": "acquisition",
+      "acquisitionId": "1cd0a1b7-e9cc-456a-868a-f3896b46eec8"
+    },
+    "sourceId": "explicit-external-mask",
+    "generation": "758f5e2d-ab0e-47eb-9f98-ce38e9c5f78e",
+    "receipt": {
+      "audioIntervals": 2,
+      "bytes": 173,
+      "cursorSamples": 0,
+      "displaySpaces": 0,
+      "file": "/tmp/capture-actual-source-audio-P2JPr1/home/library/acquisitions/1cd0a1b7-e9cc-456a-868a-f3896b46eec8/758f5e2d-ab0e-47eb-9f98-ce38e9c5f78e/source.jsonl",
+      "finished": true,
+      "geometryRecords": 0,
+      "header": {
+        "height": 120,
+        "microphone": true,
+        "schemaVersion": 1,
+        "sessionID": "explicit-external-mask",
+        "source": {
+          "kind": "fixture"
+        },
+        "systemAudio": false,
+        "width": 160
+      },
+      "incompleteTail": false,
+      "journal": "capture.journal.jsonl",
+      "lastSequence": 6,
+      "originHostUs": 1000,
+      "pauseEvents": 0
+    }
+  },
+  "journal": {
+    "fileName": "758f5e2d-ab0e-47eb-9f98-ce38e9c5f78e/source/capture.journal.jsonl",
+    "sha256": "33c7e79df9e422be9ed598575c51d62cf59176c4999040e14433cfb5d104e53b",
+    "bytes": 581
+  },
+  "bindings": [
+    {
+      "assetId": "b2ec193988dbeb76dc22d957421a8115d32b3b938bbcd658a4e1fc4314621562",
+      "streamId": "track:1",
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 3303756
+        }
+      ],
+      "sourceRoles": [
+        "video"
+      ],
+      "sourceToAssetOffsetUs": 0,
+      "supportBasis": "physical"
+    },
+    {
+      "assetId": "ed60590c70bce45970eaa23899259382fa6df1e8e4e4ab79d7ce78861f013cdb",
+      "streamId": "track:1",
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 682667
+        },
+        {
+          "startUs": 853333,
+          "endUs": 2000000
+        }
+      ],
+      "sourceRoles": [
+        "narration"
+      ],
+      "sourceToAssetOffsetUs": -100001,
+      "supportBasis": "captured-audio"
+    }
+  ]
+}

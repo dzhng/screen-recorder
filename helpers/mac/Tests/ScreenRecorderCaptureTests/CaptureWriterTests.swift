@@ -65,8 +65,10 @@ func runCaptureDurationTests() async throws {
         (attachments[0] as! NSMutableDictionary)[SCStreamFrameInfo.status.rawValue] = SCFrameStatus.complete.rawValue
         writer.queue.sync { writer.stream(stream, didOutputSampleBuffer: sample!, of: .screen) }
         writer.seal()
-        let result = await writer.finish(failure: interrupted
+        let closed = await writer.finish(failure: interrupted
             ? CaptureFailure("INTERRUPTED", "Generated interruption") : nil)
+        let result = writer.recordPublishedResult(closed)
+        writer.releaseJournal()
         precondition(result.state == (interrupted ? "interrupted" : "complete"))
         if interrupted { precondition(result.durationUs == 33_333) }
         let evidenceFile = directory.deletingLastPathComponent().appendingPathComponent(UUID().uuidString + ".jsonl")
@@ -82,7 +84,7 @@ func runCaptureDurationTests() async throws {
         let duration = try await asset.load(.duration)
         precondition(time(microseconds: result.durationUs) == duration,
             "Finalized revision duration \(result.durationUs) must equal actual asset \(duration.value)/\(duration.timescale)")
-        let recovered = await MediaRecovery.inspect(directory: directory.path)
+        let recovered = try await MediaRecovery.recover(directory: directory.path)
         precondition(recovered.durationUs == result.durationUs, "Recovery and finalized capture must agree")
         print("PASS generated capture exact finalized duration \(result.durationUs)")
     }

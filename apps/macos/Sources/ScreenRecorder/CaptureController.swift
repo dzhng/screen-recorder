@@ -336,7 +336,7 @@ final class CaptureController {
                 return receipt
             } catch {
                 if !discard, !serviceGone, !(error is CancellationError),
-                    let report = try? transition("finalizing", reason: (error as? CaptureFailure)?.code ?? "PUBLICATION_FAILED") {
+                    let report = try? transition("finalizing", finalizationError: CaptureFinalizationError(error)) {
                     await send(report: report)
                 }
                 throw error
@@ -352,13 +352,13 @@ final class CaptureController {
         _ = try? await finish(reason: reason.code, notify: true)
     }
 
-    private func transition(_ state: String, reason: String? = nil) throws -> [String: Any] {
+    private func transition(_ state: String, reason: String? = nil, finalizationError: CaptureFinalizationError? = nil) throws -> [String: Any] {
         capture.note(state, reason: reason)
-        return try report(state: state, reason: reason)
+        return try report(state: state, reason: reason, finalizationError: finalizationError)
     }
 
     private func report(
-        state: String, reason: String? = nil, durationUs: Int64? = nil, take existing: Take? = nil
+        state: String, reason: String? = nil, durationUs: Int64? = nil, take existing: Take? = nil, finalizationError: CaptureFinalizationError? = nil
     ) throws -> [String: Any] {
         guard let take = existing ?? self.take else {
             throw CaptureFailure("INVALID_STATE", "No take is capturing.")
@@ -372,6 +372,11 @@ final class CaptureController {
             "state": state,
         ]
         if let reason { report["reason"] = reason }
+        if state == "finalizing" {
+            report["finalizationError"] = try finalizationError.map {
+                try JSONSerialization.jsonObject(with: JSONEncoder().encode($0))
+            } ?? NSNull()
+        }
         if state == "complete" || state == "interrupted" {
             report["sourceDurationUs"] = durationUs as Any? ?? NSNull()
         }

@@ -1,0 +1,10 @@
+{
+  "code" : 257,
+  "domain" : "NSCocoaErrorDomain",
+  "underlying" : {
+    "message" : "The operation couldn’t be completed. (OSStatus error -12203.)",
+    "domain" : "NSOSStatusErrorDomain",
+    "code" : -12203
+  },
+  "message" : "The file “video.mov” couldn’t be opened because you don’t have permission to view it."
+}

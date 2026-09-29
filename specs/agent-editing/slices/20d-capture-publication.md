@@ -161,3 +161,42 @@ Remaining metadata delivery is split into [20d2 public asset pages](20d2-asset-m
 and [20d3 inventory-bound package metadata](20d3-package-asset-metadata.md). These
 preserve one AssetStore metadata owner and separate response delivery from complete
 pre-ready portable dependency/canonical verification.
+
+### Remaining terminal diagnostic disclosure
+
+The fresh product-only recovery trial could read an interrupted take's
+`PUBLICATION_CONFLICT` code and inspect valid clean video, but could not retrieve
+its explanatory completion message. Do not overload unfinished `finalizationError`
+or replace machine-readable `interruptionReason` with prose. The raw journal's
+finished `CaptureResult.failure.message` is the existing authoritative diagnostic.
+A subsequent bounded disclosure seam should preserve that provenance through the
+existing source-evidence/recording owners and package relocation, then prove public
+inspection of the message without authoring a new take or reading private files.
+Generic help may explain a conflict class; it cannot diagnose a specific conflict.
+Parent 20d remains open for this public usability gate.
+
+### Native activation checkpoint
+
+Actual CaptureWriter callbacks now admit PCM prospectively, commit clock/address
+state only after successful append, and journal exact accepted frames. Ordinary
+capture writes working packed audio and exposes only verified canonical publication.
+Normal stop and restart recovery share the publisher; missing roles, verified zero
+prefixes, integrity conflicts and operational failures remain distinct. Independent
+roles continue after a role failure, and temporary read/write access does not become
+an irreversible terminal result. Native finalization diagnostics use the same
+bounded retryability translation as recovery and flow into the recording's existing
+finalizationError owner.
+
+[`20d-activation`](../assets/20d-activation/README.md) retains actual prerecorded
+controller/writer/publication and recovery parity, real journal failures, independent
+PCM, long finalization/cancellation, public acquisition/audio/clean-frame delivery,
+and the scoped native one-microsecond mask gate. No physical capture was activated.
+The remaining terminal-message disclosure and settled cleanup replay requirements
+remain open; this checkpoint does not close full20d or physical20/21.
+
+Source-admission retry diagnostics also remain a named gate: its generic Wire
+CaptureFailure fallback still defaults to nonretryable. Audit the source-evidence
+call sites before mapping the explicit operational `MEDIA_UNAVAILABLE` and
+`JOURNAL_UNAVAILABLE` cases; preserve NativeFailure's own semantics and prove public
+job retry after restored access, with invalid/corrupt source negatives. Do not apply
+finalization's unknown-error retry default indiscriminately to immutable admission.

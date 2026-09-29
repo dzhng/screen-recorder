@@ -94,8 +94,8 @@ private func runCrashedFragmentTests() async throws {
     let recovered = await MediaRecovery.inspect(directory: directory.path)
     let video = track("video", of: recovered)
     precondition(
-        video.decodedSamples > 0 && video.decodeReachedEnd,
-        "An unfinalized take must decode a prefix, got \(video.decodedSamples) samples")
+        (video.decodedSamples ?? 0) > 0 && video.decodeReachedEnd,
+        "An unfinalized take must decode a prefix, got \(String(describing: video.decodedSamples)) samples")
     precondition(
         video.failure == nil, "A decodable prefix is not a failure: \(video.failure!.message)")
     precondition(
@@ -186,4 +186,62 @@ func runMediaRecoveryTests() async throws {
     try await runCrashedFragmentTests()
     try await runUnrequestedAudioTests()
     try await runVideoGapTests()
+    try await runLegacyAudioSupportTest()
+    try runRecoveryReceiptSizeTest()
+}
+
+private func runLegacyAudioSupportTest() async throws {
+    let directory = RecoveryFixture.directory("legacy-audio-support")
+    defer { try? FileManager.default.removeItem(at: directory) }
+    var root = URL(fileURLWithPath: #filePath)
+    for _ in 0..<5 { root.deleteLastPathComponent() }
+    let asset = AVURLAsset(url: root.appendingPathComponent("specs/agent-editing/assets/00-corpus/a-audio.wav"))
+    let source = try await asset.loadTracks(withMediaType: .audio)[0]
+    let composition = AVMutableComposition()
+    let target = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+    try target.insertTimeRange(CMTimeRange(start: .zero, duration: time(microseconds: 500000)), of: source, at: time(microseconds: 250000))
+    try await AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!
+        .export(to: directory.appendingPathComponent("narration.mov"), as: .mov)
+    try await RecoveryFixture.writeVariableDurationVideo(to: directory.appendingPathComponent("video.mov"), timesUs: [0, 1000000], endUs: 2000000)
+    let physical = await MediaRecovery.inspect(directory: directory.path)
+    precondition(physical.durationUs == 2000000)
+    precondition(RecoveryFixture.bounds(track("narration", of: physical).intervals) == [[250000, 750000]])
+    let journal = try CaptureJournal(directory: directory.path, header: CaptureJournalHeader(
+        schemaVersion: 1, sessionID: "legacy-support", source: CaptureSource(kind: "window", windowID: 1),
+        width: 160, height: 120, microphone: true, systemAudio: false))
+    try journal.recordOrigin(hostUs: 1000000)
+    try journal.recordAudioSamples(role: "narration", startUs: 250000, endUs: 300000)
+    try journal.recordAudioSamples(role: "narration", startUs: 300001, endUs: 400000)
+    try journal.recordAudioSamples(role: "narration", startUs: 500000, endUs: 700000)
+    try journal.recordPauseBegan(hostUs: 1700000)
+    journal.lease.release()
+    let handle = try FileHandle(forWritingTo: directory.appendingPathComponent("capture.journal.jsonl"))
+    try handle.seekToEnd()
+    try handle.write(contentsOf: Data("{\"sequence\":7,\"event\":\"pauseEnded\"".utf8))
+    try handle.close()
+    let recovered = await MediaRecovery.inspect(directory: directory.path)
+    precondition(recovered.journal?.incompleteTail == true && recovered.journal?.openPauseHostUs == 1700000)
+    precondition(RecoveryFixture.bounds(track("narration", of: recovered).intervals) == [[250000, 400000], [500000, 700000]])
+    precondition(track("narration", of: recovered).acquisitionVerified)
+    print("PASS detailed native recovery preserves optional-audio bounds and truncated-journal gaps")
+}
+
+private func runRecoveryReceiptSizeTest() throws {
+    // A control serialization proof, not a physical capture or container feasibility claim.
+    let spans = (0..<100000).map { index in
+        TimeSpan(startUs: 20000000000 + Int64(index) * 100000, endUs: 20000000001 + Int64(index) * 100000)
+    }
+    let input: [String: Any] = ["durationUs": Int64(30000000000), "tracks": ["narration", "system"].map { role in
+        ["role": role, "file": "\(role).mov", "intervals": spans.map { ["startUs": $0.startUs, "endUs": $0.endUs] },
+         "representedFrames": "100000", "decodeReachedEnd": true, "acquisitionVerified": true] as [String: Any]
+    }]
+    let recovered = try JSONDecoder().decode(RecoveredCapture.self, from: JSONSerialization.data(withJSONObject: input))
+    let full = try JSONEncoder().encode(recovered)
+    let receipt = try JSONEncoder().encode(RecoveryReceipt(recovered))
+    precondition(full.count > 8 * 1024 * 1024 && receipt.count < 64 * 1024)
+    let object = try JSONSerialization.jsonObject(with: receipt) as! [String: Any]
+    let tracks = object["tracks"] as! [[String: Any]]
+    precondition(tracks.allSatisfy { $0["intervalCount"] as? Int == 100000 && $0["intervals"] == nil })
+    precondition(recovered.tracks.allSatisfy { $0.intervals == spans })
+    print("PASS bounded recovery receipt \(receipt.count) bytes retains counts; complete native model \(full.count) bytes remains available")
 }

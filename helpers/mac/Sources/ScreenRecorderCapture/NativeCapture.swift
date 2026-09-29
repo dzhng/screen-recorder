@@ -176,6 +176,7 @@ public final class NativeCapture {
             self.sink = nil
             self.closedResult = nil
             generations.end(generation)
+            sink.releaseJournal()
             state = .idle
             return result
         }
@@ -192,9 +193,31 @@ public final class NativeCapture {
         guard let lease = sink.packedJournalLease else { return closed }
         try Task.checkCancellation()
         var receipts: [CaptureAudioPublication.Receipt] = []
-        for track in closed.tracks where ["narration", "system"].contains(track.role) && track.samples > 0 {
-            receipts.append(try await CaptureAudioPublication.publish(lease: lease, role: track.role))
+        var unavailable: [String] = []
+        var publicationFailure: CaptureFailure?
+        var retryFailure: (any Error)?
+        for role in sink.requestedAudioRoles {
+            guard closed.tracks.contains(where: { $0.role == role && $0.samples > 0 }) else {
+                unavailable.append(role)
+                continue
+            }
+            do {
+                switch try await CaptureAudioPublication.publish(lease: lease, role: role) {
+                case .published(let receipt): receipts.append(receipt)
+                case .unavailable: unavailable.append(role)
+                }
+            } catch {
+                try Task.checkCancellation()
+                try lease.check()
+                let failure = CaptureFinalizationError(error)
+                if !failure.retryable {
+                    publicationFailure = publicationFailure ?? CaptureFailure(failure.code, "\(role): \(failure.message)")
+                } else {
+                    retryFailure = retryFailure ?? error
+                }
+            }
         }
+        if let retryFailure { throw retryFailure }
         // All requested represented media has now crossed its publication boundary. Cancellation
         // of optional cleanup must return this settled result, never make it discardable again.
         var cleanupFailure: CaptureFailure?
@@ -205,9 +228,10 @@ public final class NativeCapture {
             }
         }
         let partial = receipts.first { $0.diagnostic != nil || $0.representedFrames != $0.acceptedFrames }
-        let failure = closed.failure ?? partial.map {
+        let failure = closed.failure ?? publicationFailure ?? partial.map {
             CaptureFailure("AUDIO_PUBLICATION_PARTIAL", "\($0.intent.role) retains unresolved audio: \($0.diagnostic ?? "unrepresented accepted frames").")
-        }
+        } ?? (unavailable.isEmpty ? nil : CaptureFailure("AUDIO_UNAVAILABLE",
+            "Requested audio has no verified playable frames: \(unavailable.joined(separator: ", "))."))
         let roles = Set(receipts.map { $0.intent.role })
         let tracks = closed.tracks.map { track in
             CapturedTrack(role: track.role, file: roles.contains(track.role) ? "\(track.role).mov" : track.file,
@@ -236,6 +260,7 @@ public final class NativeCapture {
             self.sink = nil
             closedResult = nil
             generations.end(generation)
+            sink.releaseJournal()
             state = .idle
             return nil
         }

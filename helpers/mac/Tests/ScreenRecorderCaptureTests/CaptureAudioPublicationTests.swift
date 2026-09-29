@@ -18,7 +18,13 @@ func runCaptureAudioPublicationTests(output: String? = nil) async throws {
   }
   func publish(_ folder: URL) async throws -> CaptureAudioPublication.Receipt {
     let lease = try CaptureJournalLease(directory: folder.path)
-    return try await CaptureAudioPublication.publish(lease: lease, role: "narration")
+    return try await published(lease)
+  }
+  func published(_ lease: CaptureJournalLease) async throws -> CaptureAudioPublication.Receipt {
+    guard case .published(let receipt) = try await CaptureAudioPublication.publish(lease: lease, role: "narration") else {
+      preconditionFailure("This fixture must publish represented audio")
+    }
+    return receipt
   }
   func remove(_ folder: URL, _ name: String) throws {
     try FileManager.default.removeItem(at: folder.appendingPathComponent(name))
@@ -35,6 +41,39 @@ func runCaptureAudioPublicationTests(output: String? = nil) async throws {
   }
 
   let complete = try fixture("complete")
+  let unavailable = try captureMaterializerFixture(in: root, name: "unavailable", accepted: 0)
+  do {
+    let unavailableLease = try CaptureJournalLease(directory: unavailable.path)
+    guard case .unavailable(.noRepresentedFrames(let absent)) = try await CaptureAudioPublication.publish(lease: unavailableLease, role: "narration") else {
+      preconditionFailure("A verified zero represented prefix must be typed unavailable")
+    }
+    precondition(absent.representedFrames == 0 && absent.canonical == nil)
+  }
+  precondition(FileManager.default.fileExists(atPath: unavailable.appendingPathComponent("narration.packed.mov").path))
+  precondition(!FileManager.default.fileExists(atPath: unavailable.appendingPathComponent("narration.mov").path))
+  let unavailableExport = try await SourceEvidenceExport.write(directory: unavailable.path,
+    output: root.appendingPathComponent("unavailable-evidence.jsonl").path)
+  precondition(unavailableExport.audioIntervals == 0)
+  try Data("conflicting canonical name".utf8).write(to: unavailable.appendingPathComponent("narration.mov"))
+  do {
+    let unavailableLease = try CaptureJournalLease(directory: unavailable.path)
+    _ = try await CaptureAudioPublication.publish(lease: unavailableLease, role: "narration")
+    preconditionFailure("Integrity conflict must not become unavailable")
+  } catch let failure as CaptureFailure { precondition(failure.code == "PUBLICATION_CONFLICT") }
+  let unmapped = try captureMaterializerFixture(in: root, name: "missing-mapping", accepted: 0)
+  let unmappedJournal = unmapped.appendingPathComponent("capture.journal.jsonl")
+  let unmappedPrefix = try String(contentsOf: unmappedJournal, encoding: .utf8).split(separator: "\n").prefix(2).joined(separator: "\n") + "\n"
+  try Data(unmappedPrefix.utf8).write(to: unmappedJournal)
+  do {
+    let lease = try CaptureJournalLease(directory: unmapped.path)
+    guard case .unavailable(.missingMapping(let intent)) = try await CaptureAudioPublication.publish(lease: lease, role: "narration") else {
+      preconditionFailure("Missing mapping retains identity without fabricated phase/count")
+    }
+    precondition(intent.role == "narration" && intent.payload.bytes > 0)
+  }
+  let unmappedExport = try await SourceEvidenceExport.write(directory: unmapped.path,
+    output: root.appendingPathComponent("unmapped-evidence.jsonl").path)
+  precondition(unmappedExport.audioIntervals == 0)
   let original = try await publish(complete)
   let exported = try await SourceEvidenceExport.write(
     directory: complete.path, output: root.appendingPathComponent("published-evidence.jsonl").path)
@@ -125,8 +164,7 @@ func runCaptureAudioPublicationTests(output: String? = nil) async throws {
   precondition(
     !FileManager.default.fileExists(
       atPath: complete.appendingPathComponent("narration.packed.mov").path))
-  let afterCleanup = try await CaptureAudioPublication.publish(
-    lease: cleanupLease, role: "narration")
+  let afterCleanup = try await published(cleanupLease)
   precondition(
     afterCleanup == original, "Canonical verification must survive removal of packed working data")
   try await CaptureAudioPublication.cleanup(lease: cleanupLease, receipt: original)
@@ -160,7 +198,7 @@ func runCaptureAudioPublicationTests(output: String? = nil) async throws {
     try await CaptureAudioPublication.cleanup(lease: pendingLease, receipt: pendingReceipt)
     preconditionFailure("Nonempty attempt requires explicit cleanup attention")
   } catch let failure as CaptureFailure { precondition(failure.code == "PUBLICATION_FAILED") }
-  let available = try await CaptureAudioPublication.publish(lease: pendingLease, role: "narration")
+  let available = try await published(pendingLease)
   precondition(
     available == pendingReceipt, "Optional cleanup failure must not revoke canonical availability")
   try FileManager.default.removeItem(at: unexpected)
