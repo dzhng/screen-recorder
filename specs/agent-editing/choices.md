@@ -3066,3 +3066,15 @@ not a universal throughput promise. Legacy sources retain their old worker deadl
 control messages and public client waits are unchanged because preparation is a job.
 Cancellation still drains the worker. Larger probe responses and physical metadata
 row limits are separate failures; extending a timer does not make those imports work.
+
+### Advance execution identity when a refused domain becomes supported (sound, high confidence)
+
+A project that failed an older native size limit has a nonretryable job, so retry
+cannot repair it after updating the renderer. Audio/movie execution identities now
+advance with the expanded transport and scheduling capability even though sample
+meaning is unchanged. A new preparation request for the same revision gets a fresh
+recipe instead of reusing the old refusal. The earlier transport pass did not account
+for persistent failures; the owner regression now demonstrates that boundary. This
+can recompute previously ready recipes requested anew, but saved audio assets and
+historical publications remain intact. There is no metadata migration or change to
+the fixed RNNoise model recipe.

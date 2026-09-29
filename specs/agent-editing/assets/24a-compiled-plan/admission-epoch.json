@@ -1,0 +1,14 @@
+{
+  "base": "0a62d344",
+  "audioExecutor": "native-composition-audio-v8",
+  "movieExecutor": "native-composition-movie-v18",
+  "rnnoiseRecipeUnchanged": true,
+  "scope": "Prepared owner regression: old nonretryable failure remains failed under same identity; new execution identity publishes same revision; retained bytes remain readable after a later identity. Combined focused owner/service tests and service build.",
+  "negativeControl": "Reusing old identity leaves readiness failed.",
+  "archiveSHA256": "1c2e046d5d7eee03c7fa725e0f2d7f718c4e0db38f5860dfd6ef9fd4a21c2db7",
+  "files": {
+    "executor-admission-epoch-red.log": "ebefbc4c599660fb92eb0c49f3db14103c6841555ff94deddf52562b8a37046a",
+    "executor-admission-epoch-green.log": "b81c527887005fcf9263543033d76cb76a43c2a1c3a800d18fef67e150070cf1",
+    "executor-admission-epoch-build.log": "bfed189d64bd0c02303d5d5df100e747222975a4c46559ecb8da8aabec227883"
+  }
+}

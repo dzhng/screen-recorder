@@ -4,7 +4,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtemp, readFile, readdir, rm, writeFile, rename, realpath } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
-import { Catalog } from "./catalog.js";
+import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { ResourceReferences } from "./references.js";
@@ -189,8 +189,9 @@ async function fixture(
     setHold: (value: typeof hold) => {
       hold = value;
     },
-    reopen: async () => {
+    reopen: async (nextImplementation = implementationId) => {
       await current.close();
+      implementationId = nextImplementation;
       current = await connect();
       return current;
     },
@@ -248,6 +249,43 @@ test("retains exact PCM and immutable revision dependencies; bounded reads survi
   expect(f.reads).toBe(1);
   expect(f.current.prepared.request(f.input).state).toBe("ready");
   expect(f.reads).toBe(1);
+});
+test("an expanded executor can prepare the same revision after a nonretryable old failure", async () => {
+  const f = await fixture([], "bounded-executor");
+  const document = JSON.stringify(f.placed.revision.document);
+  f.setHold(async () => {
+    throw new CatalogError("INVALID_REQUEST", "Plan exceeds old executor bounds");
+  });
+  f.current.prepared.request(f.input);
+  await f.current.jobs.idle();
+  const failed = f.current.prepared.request(f.input);
+  expect(failed).toMatchObject({ state: "failed", retryable: false, published: null });
+  expect(() => f.current.jobs.retry(failed.jobId!)).toThrow("cannot be retried");
+  f.setHold(undefined);
+  await f.reopen();
+  expect(f.current.prepared.request(f.input)).toMatchObject({
+    jobId: failed.jobId,
+    state: "failed",
+  });
+  await f.reopen("expanded-executor");
+  const value = await ready(f);
+  expect(f.current.prepared.request(f.input).jobId).not.toBe(failed.jobId);
+  expect(f.current.jobs.job(failed.jobId!)).toMatchObject({ state: "failed", retryable: false });
+  expect(
+    JSON.stringify(f.current.projects.revision(f.input.projectId, f.input.revisionId).document),
+  ).toBe(document);
+  await f.reopen("later-executor");
+  f.setHold(async () => {
+    throw new CatalogError("NOT_READY", "Execution is unavailable");
+  });
+  const retained = f.current.prepared.open(value.resourceId, { start: 47003, end: 47017 });
+  try {
+    const bytes = Buffer.alloc(14 * 8);
+    expect(retained.read(bytes, 0)).toBe(bytes.length);
+    expect(bytes).toEqual(wave(48000).subarray(44 + 47003 * 8, 44 + 47017 * 8));
+  } finally {
+    retained.release();
+  }
 });
 test("canceling a fully staged result publishes neither asset nor revision binding; startup recovers orphan bytes", async () => {
   const f = await fixture();

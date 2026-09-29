@@ -22,8 +22,11 @@ preserve ordinary audio preparation behavior.
 Independent read-only Codex review found no actionable issue. It verified types
 and the new tests against the available worker; its fresh native build was blocked
 by its toolchain sandbox. Root's actual Swift and service builds passed separately.
-No DSP recipe, renderer identity or cache identity changes, because decoded plan
-meaning and delivered media remain unchanged. No installed app or device was used.
+DSP meaning and delivered media remain unchanged. The
+[admission follow-up](admission-epoch.json) advances audio/movie executor identities:
+a nonretryable earlier size-limit failure otherwise remains cached after an update.
+New requests can prepare the same revision; retained artifacts and their original
+provenance remain intact. The RNNoise recipe identity does not change. No installed app or device was used.
 
 The [verification receipt](verification.json) authenticates logs, outputs and
 measurements in the archive. The [owning slice](../../slices/24a-compiled-plan-delivery.md)
