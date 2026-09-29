@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "scope": "Native finite selected Float32 PCM conversion; no public excerpt job, listening or model use",
+  "workerSha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3",
+  "rootWorkerSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "nativeGate": "node helpers/mac/Tests/selected-audio.mjs OUT",
+  "repeatedCompleteWavs": 65,
+  "wireCases": 4,
+  "finiteContextNegativeControl": {
+    "change": "case .finite(let allowedEnd): end = min(allowedEnd, requestedEnd)",
+    "exitCode": 133,
+    "assertion": "The final permitted frame must influence finite-filter output despite the shorter output quota"
+  },
+  "preservation": {
+    "source": "passed support/phase/late-window and finite reader demand cases",
+    "nativeAudio": "passed",
+    "composition": "passed",
+    "musicAndReplacement": "passed complete gate",
+    "decoderAccounting": "passed 16 cases with --enforce-read-ahead",
+    "stream300": {
+      "blocks": 1759,
+      "channels": 2,
+      "checkedSamples": 9530,
+      "completedAfterFailure": false,
+      "finalBlockFrames": 3840,
+      "frames": 14397184,
+      "largestBlockFrames": 8192,
+      "maximumSampleError": 1.4901161193847656e-08,
+      "peakNativeRSSBytes": 29704192,
+      "sampleRate": 48000,
+      "seconds": 300,
+      "sinkFailureAfterBlocks": 3,
+      "waveBytes": 115181568,
+      "waveFrames": 14397184
+    }
+  },
+  "review": "No actionable code defects; independent sandbox runtime/compiler checks unavailable. Implementing-agent isolated runtime gates passed.",
+  "artifactBytes": 12426572,
+  "artifactSha256": "92f79a996380d3d093badb02fd2a344662570bc56f665b3f8bcb2df0291394cc",
+  "verifiedArchiveMembers": 1779,
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n",
+  "swift": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0\n",
+  "preservationWorkerSha256": "ac0ca3fb164190ef8407b8f6234499a64e3b24e1572ab95380a08d9bcfb213f2",
+  "workerDifference": "Final worker uses shared NATIVE_DECODE_FAILED for malformed finite WAV; existing converter/source paths unchanged.",
+  "cleanup": {
+    "verifiedTemporaryBytesRemoved": 452852933,
+    "remainingOwnedOutputTrees": 0
+  }
+}

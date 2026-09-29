@@ -175,6 +175,10 @@ struct SourceTrack {
 }
 
 final class ConvertedAudioInterval {
+    enum InputSupport {
+        case outputDuration(limit: Int64?)
+        case finite(end: Int64)
+    }
     private let sourceInput: MediaInput
     private let converter: AVAudioConverter
     private let input: ConversionInput
@@ -186,7 +190,7 @@ final class ConvertedAudioInterval {
 
     init(
         source: SourceTrack, decoder: AudioSourceReader, origin: ExactTime, start: Int64,
-        outputRate: Int, owed: Int64, end limit: Int64? = nil
+        outputRate: Int, owed: Int64, support: InputSupport = .outputDuration(limit: nil)
     ) throws {
         sourceInput = source.input
         guard
@@ -209,7 +213,11 @@ final class ConvertedAudioInterval {
         guard let requestedEnd = Int64(exactly: Int128(start) + duration) else {
             throw NativeFailure.decodeFailed("Audio selection exceeds native frame capacity.")
         }
-        let end = limit.map { min($0, requestedEnd) } ?? requestedEnd
+        let end: Int64
+        switch support {
+        case .outputDuration(let limit): end = limit.map { min($0, requestedEnd) } ?? requestedEnd
+        case .finite(let allowedEnd): end = allowedEnd
+        }
         let covered = Int128(max(0, end - start)) * Int128(outputRate) / Int128(source.sampleRate)
         paddingFrames = Int(max(0, Int128(owed) - covered))
         try decoder.begin(origin: origin, at: start, end: end)

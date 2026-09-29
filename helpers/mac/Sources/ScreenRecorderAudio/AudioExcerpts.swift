@@ -30,7 +30,7 @@ public enum AudioWave {
     }
 }
 
-/// One float-WAVE sink for both recording excerpts and composition execution. Closing the file
+/// One float-WAVE sink shared by PCM producers. Closing the file
 /// precedes publication so every receipt describes a completed header and payload.
 final class AudioWaveWriter {
     private let format: AVAudioFormat

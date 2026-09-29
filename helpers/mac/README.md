@@ -277,3 +277,21 @@ The audio target directly links the [fixed RNNoise dependency](../denoise/README
 Its verified local model preparation is an explicit native-build prerequisite;
 the app build checks it before invoking Swift. Runtime processing never downloads
 or prepares weights.
+
+### Finite selected audio
+
+`media.convertSelectedAudio` converts a completed selected Float32 WAV through
+[SelectedAudioConversion](Sources/ScreenRecorderAudio/SelectedAudioConversion.swift).
+The input's validated frame count owns filter support; the separately floored output
+quota owns publication length. Converter phase starts at selected frame zero and
+continues across delivery blocks. Existing source/composition windows retain their
+own support and phase policies.
+
+Channel mapping follows rate conversion: stereo-to-mono averages in Double and
+rounds once to Float32, mono-to-stereo duplicates, and matching channel counts
+retain numerical PCM. Non-finite output is refused; no clipping or normalization
+is applied. The shared platform converter may normalize signed zero. Complete
+canonical-file byte preservation belongs to the caller's verified reuse/copy path.
+Selected silence may receive filter contributions from adjacent selected samples;
+conversion never re-applies a contributor's missing-source mask to already mixed
+PCM. ASR conditioning remains separate and unchanged.

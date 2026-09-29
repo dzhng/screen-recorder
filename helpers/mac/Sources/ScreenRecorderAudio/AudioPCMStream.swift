@@ -206,7 +206,7 @@ public final class AudioPCMStream: AudioPCMSource {
                         if conversions[track] == nil {
                             let range = interval.decodeRange
                             conversions[track] = try ConvertedAudioInterval(source: sources[track], decoder: decoders[track], origin: range.origin, start: range.start,
-                                outputRate: format.sampleRate, owed: interval.end - interval.start, end: range.end)
+                                outputRate: format.sampleRate, owed: interval.end - interval.start, support: .outputDuration(limit: range.end))
                         }
                         let begin = max(position, interval.start)
                         let finish = min(end, interval.end)

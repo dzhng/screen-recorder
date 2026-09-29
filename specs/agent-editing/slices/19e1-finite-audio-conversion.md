@@ -1,6 +1,6 @@
 # 19e1 — Canonical conversion of finite selected PCM
 
-Status: planned. Parent: [19e](19e-retained-audio-excerpts.md). Dependencies: [11](11-audio-inspection.md), [24q](24q-finite-decoder-demand.md).
+Status: complete; native finite PCM conversion passes exact frame/count, channel, finite-context, isolation, lifecycle and fresh-process gates; existing source/mix/streaming/finite-reader gates remain green. [Evidence](../assets/19e1-finite-audio-conversion/README.md). Parent: [19e](19e-retained-audio-excerpts.md). Dependencies: [11](11-audio-inspection.md), [24q](24q-finite-decoder-demand.md).
 
 ## Contract and owner
 

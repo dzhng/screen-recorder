@@ -185,7 +185,7 @@ public enum CompositionAudio {
                     conversion = try ConvertedAudioInterval(
                         source: source, decoder: reader,
                         origin: contextRange.origin, start: startSample,
-                        outputRate: rate, owed: owed, end: contextRange.sourceEnd)
+                        outputRate: rate, owed: owed, support: .outputDuration(limit: contextRange.sourceEnd))
                     var remaining = skip
                     while remaining > 0 {
                         try Task.checkCancellation()
