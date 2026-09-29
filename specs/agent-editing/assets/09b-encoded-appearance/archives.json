@@ -1,0 +1,50 @@
+[
+  {
+    "archive": "recorded-full-0000.tar.xz",
+    "bytes": 25992612,
+    "sha256": "668965f6df45d2f139cb0f82b40b82beba9476a6a9bbb03b47e49bd0c66be131",
+    "files": 100
+  },
+  {
+    "archive": "recorded-full-0100.tar.xz",
+    "bytes": 24705172,
+    "sha256": "7272db49250d0b36383f2bb2141fbbf8329aaf9176a29d8cafbcb6749310007e",
+    "files": 100
+  },
+  {
+    "archive": "recorded-full-0200.tar.xz",
+    "bytes": 31582312,
+    "sha256": "cbdf0fbdb178b4bd3f5b41b04afa76a38914dcbcd3208753f5dcf6ba22318b16",
+    "files": 100
+  },
+  {
+    "archive": "recorded-range-0000.tar.xz",
+    "bytes": 23798648,
+    "sha256": "324b3b54e80786ae2253f6bca112296cae49f50aebc3e581b341e5e8eb7613de",
+    "files": 100
+  },
+  {
+    "archive": "recorded-range-0100.tar.xz",
+    "bytes": 24739088,
+    "sha256": "78f29d2483ee8b8aa0111b39a1a59b81b4f9699feafab258fae30ee6b6f5ab36",
+    "files": 100
+  },
+  {
+    "archive": "recorded-range-0200.tar.xz",
+    "bytes": 25379732,
+    "sha256": "a0c4e4ffd4efc6843cb83f8eb5621c4695b24dc420cbc94026b15b342c1641dc",
+    "files": 80
+  },
+  {
+    "archive": "capture-metadata-media.tar.xz",
+    "bytes": 6605808,
+    "sha256": "9ac4d22bdd83b74233a8d63e904d983164d112975175432ad936a00b776b8517",
+    "files": 101
+  },
+  {
+    "archive": "review-sheets.tar.xz",
+    "bytes": 9828588,
+    "sha256": "160779d480c8b61be0622e71a3875c056395463a34bc9dc92b473d87f896358e",
+    "files": 54
+  }
+]

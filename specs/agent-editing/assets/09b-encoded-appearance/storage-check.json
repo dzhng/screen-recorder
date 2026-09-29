@@ -1,0 +1,17 @@
+{
+  "decodedPNG": {
+    "frames": 595,
+    "uniqueSHA256": 589,
+    "capturedBytes": 218484035,
+    "uniqueBytes": 218469202
+  },
+  "representativeFirst100RecordedFullFrames": {
+    "gzipBytes": 37267381,
+    "xzPreset9Bytes": 25992612,
+    "zstdLevel19Window27Bytes": 26365972
+  },
+  "choice": "xz preset9, plus global storedAs manifest; retain every original pathname/hash and all failures",
+  "finalArchiveBytes": 172631960,
+  "allCapturedPathBytes": 262092002,
+  "globallyUniqueBytes": 249837171
+}
