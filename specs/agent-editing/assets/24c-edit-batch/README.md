@@ -36,3 +36,5 @@ packages/composition test`, `bun run --cwd packages/composition check-types`, an
 `bun run --cwd packages/core test src/projects.test.ts src/project-audio.test.ts`.
 Build composition before core/public consumers. Frozen comparison scripts retain
 absolute scratch paths as provenance, not portable product entrypoints.
+
+[Combined-root verification](root-verification.json) retains integrated checks in `root-verification.tar.gz`; the broader gates above remain open.

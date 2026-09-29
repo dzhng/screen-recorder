@@ -281,6 +281,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)
+- [x] [24c — Bound independent edit append work](slices/24c-edit-batch-work.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

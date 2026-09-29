@@ -3118,3 +3118,17 @@ model/cache, which would need invalidation and intermediate-validity rules acros
 all edit kinds. Exact frozen scalar comparisons and original large receipt identity
 support the choice. The public deadline remains unchanged. The separate duplicate
 public-document/MCP response-size failure is not counted as fixed by faster edits.
+
+### Deliver bulk probe metadata through the attempt owner (sound, high confidence)
+
+A heavily fragmented recording can have a small media file but a metadata description
+that exceeds the command-response frame. Native probing now writes that same description
+to its caller's temporary file and returns a length and digest. The service checks the
+file before applying its existing metadata schema. This keeps one metadata producer
+and one decoder, using the existing attempt cleanup and inherited locks. Caller file
+descriptors retain their numbering before hidden lifetime descriptors are appended.
+The plan left bulk delivery unspecified; the measured object fits a separate64MiB
+payload budget, which bounds accepted bytes rather than native framework allocations.
+Ordinary media path admission stays unchanged, and direct native callers may still
+request inline metadata. Physical row limits and public/package delivery need their
+own verification; larger global control frames would not solve those contracts.

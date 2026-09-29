@@ -26,3 +26,5 @@ refusal, preservation checks, and fresh-attempt result. Old immutable import
 request IDs retain their prior result; a fresh request ID starts new work.
 The source fixture and independent PCM/publication proof remain in
 [the source-budget leaf](../20d-source-budget/README.md).
+
+[Combined-root verification](root-verification.json) retains integrated checks in `root-verification.tar.gz`; the broader gates above remain open.

@@ -1,0 +1,14 @@
+{
+  "commit": "2fc55b894632051bbbee50d6abe28f3fa6000059",
+  "checks": {
+    "focusedTests": 42,
+    "actualNativeRenderTests": 20,
+    "authenticatedArtifacts": 20,
+    "ordinaryCLIAndMCPImports": "passed",
+    "bulkMetadataExactEquality": true,
+    "bulkMetadataRows": 200000,
+    "initialFixtureFailure": "Assumed root node_modules layout; corrected with actual package resolution."
+  },
+  "scope": "Scoped prerequisite verification; full two-hour scale, bulk public/package metadata and capture activation remain open.",
+  "nativeWorkerSha256": "541c6761ac2bc763e3029c4856a6d19699fd7357196a837bac36fff99bd2567e"
+}

@@ -1,8 +1,8 @@
 import { afterEach, expect, it } from "vitest";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
-import { stripTypeScriptTypes } from "node:module";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { createRequire, stripTypeScriptTypes } from "node:module";
+import { pathToFileURL } from "node:url";
 import {
   chmod,
   mkdtemp,
@@ -440,17 +440,18 @@ it("audio abort reclaims native side staging after child close without publishin
 it("audio owner SIGKILL preserves the orphan child's lock until restart can reclaim staging", async () => {
   const { home, parent, executable, run } = await fixture();
   // Launch freshly stripped source, not a possibly stale dist build, in a separate service owner.
+  const require = createRequire(import.meta.url);
   for (const name of ["render", "worker"])
     await writeFile(
       join(home, `${name}.mjs`),
       stripTypeScriptTypes(
         await readFile(new URL(`./${name}.ts`, import.meta.url), "utf8"),
-      ).replace('"./worker.js"', '"./worker.mjs"'),
+      )
+        .replace('"./worker.js"', '"./worker.mjs"')
+        .replace(/"(@screenrec\/[^"]+)"/g, (_, specifier: string) =>
+          JSON.stringify(pathToFileURL(require.resolve(specifier)).href),
+        ),
     );
-  await symlink(
-    fileURLToPath(new URL("../../../node_modules", import.meta.url)),
-    join(home, "node_modules"),
-  );
   const output = join(home, "audio.cache");
   const code = `
     import {withRenderedFile} from ${JSON.stringify(pathToFileURL(join(home, "render.mjs")).href)};

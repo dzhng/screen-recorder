@@ -46,8 +46,10 @@ with independent state per output channel. Listening acceptance remains open.
   [combined-root readiness/cancellation evidence](20d-source-budget/root-verification.json).
   [Recording source lifetime](20d-source-lifetime/README.md) now has
   [combined-root orphan/deletion confirmation](20d-source-lifetime/root-verification.json).
-  Next resolve complete large-source metadata delivery. The100k canonical probe also exceeds the response-frame bound; that
-  metadata delivery gap remains separate from the measured source-verification timeout. Existing consumer interval limits remain separate integration gates.
+  [Probe file delivery](20d-probe-file/README.md) now preserves the complete
+  native metadata object through bounded attempt files. Next reconcile physical-row
+  admission and complete public/package metadata delivery. Those limits remain
+  separate from source-verification timing and native probe transport.
   Readable prefixes never authorize deleting ambiguous tails; cleanup requires
   matching accepted/committed/represented counts and clean indexed decode.
 - **Denoise input/runtime:** `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
@@ -72,9 +74,10 @@ with independent state per output channel. Listening acceptance remains open.
   [learned package transfer](14a-learned-portable/README.md) now pass their scoped
   native/public combined-root checks. [Active audio work](24b-active-audio/README.md)
   now verifies successful five-minute/500-occurrence preparation against the full
-  independent frozen PCM oracle. The two-hour/10,000-occurrence public setup times
-  out after4,500 placements; the original run did not inspect post-timeout commit
-  outcome. Next localize that edit cost with preserved state, then complete the
+  independent frozen PCM oracle. The [batching checkpoint](24c-edit-batch/README.md) fixes repeated resolution
+  with exact scalar equivalence. Its preserved reproduction confirms the timed-out
+  request committed and replays without another edit; the earlier discarded run
+  remains unobserved. Next remove duplicate public document delivery, then finish
   two-hour preparation, temporal and retiming gates. [Compiled-plan delivery](24a-compiled-plan/README.md)
   removes the separate control-message size obstacle. Audio/movie executor identities
   advanced for expanded admission so prior nonretryable failures cannot strand new requests.

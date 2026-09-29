@@ -2,7 +2,7 @@
 
 Status: exact editor equivalence and public setup improvement verified; large
 public receipt delivery remains a separate blocking prerequisite for the declared
-two-hour/10,000-occurrence scale gate. [Evidence](../assets/24c-edit-batch/README.md).
+two-hour/10,000-occurrence scale gate. Dependencies: [24a](24a-compiled-plan-delivery.md). [Evidence](../assets/24c-edit-batch/README.md).
 
 An atomic batch must preserve operation order, generated identities, label binding,
 first failing operation, and per-operation receipts. Contiguous independent project
