@@ -1,6 +1,9 @@
 # 24 — Verify bounded work and long projects
 
-Status: not started. Carry the unresolved inherited 300-second audio streaming
+Status: in progress; compiled-plan delivery, active audio scheduling, independent
+edit batching and compact edit receipts pass their scoped prerequisites. Two-hour
+preparation and the full budgets below remain open. Carry the unresolved inherited
+300-second audio streaming
 deadline from [baseline maintenance](../assets/00-baseline/audio-fix/review.md);
 neither baseline nor changed diagnostic establishes a pass. The inherited storage
 inventory deadline also failed during concurrent build/native tests but passes
@@ -13,8 +16,13 @@ real edits, disk-backed deletion and restart assertions at the original deadline
 it does not establish broader scale acceptance.
 
 [Compiled-plan transport](24a-compiled-plan-delivery.md) preserves control-frame limits
-for large audio/movie requests. It does not remove the separately reproduced active-mixer
-occurrence/work limits or establish long-output scale.
+for large audio/movie requests. [Active scheduling](24b-active-audio-work.md)
+passes five-minute complete-PCM comparison; [batching](24c-edit-batch-work.md) and
+[compact receipts](24d-edit-receipts.md) establish public10k project setup. A fresh
+two-hour run then exposes oversized public job status before full preparation can
+be observed. Compact status delivery alone will not establish constant query
+memory: the current queue still loads the internal execution input. Retained
+input/index growth and inspection work remain part of the whole-scale gate.
 
 ## Contract
 
