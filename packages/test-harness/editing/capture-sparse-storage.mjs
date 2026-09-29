@@ -123,12 +123,13 @@ function verify(name, payload, rate, runs) {
   if (rate === 48000 || name === 'continuous-44100') {
     const expected = Buffer.alloc(expectedFrames * 4);
     for (const r of runs) {
-      // Observe the current reader projection separately from exact container placement.
-      const projectedUs = Math.round((r.sourceStart.value * 1000000) / r.sourceStart.timescale);
-      const start = Number((BigInt(projectedUs) * BigInt(rate)) / 1000000n);
+      // Place original frame identities directly from the requested rational source time.
+      const start = Number(
+        (BigInt(r.sourceStart.value) * BigInt(rate)) / BigInt(r.sourceStart.timescale),
+      );
       packed.copy(expected, start * 4, r.firstFrame * 4, (r.firstFrame + r.frames) * 4);
     }
-    assert.ok(full.equals(expected), `${name}: exact PCM identities on existing output grid`);
+    assert.ok(full.equals(expected), `${name}: exact PCM identities at requested source positions`);
   }
   if (runs.length === 1)
     assert.ok(
@@ -160,18 +161,21 @@ verify('continuous-owner', join(frozen, 'continuous/narration.mov'), 48000, [
 const rounded = verify('omitted-rounded', omitted, 48000, roundedRuns);
 const rational = verify('omitted-rational', omitted, 48000, rationalRuns);
 assert.ok(
-  rounded.equals(rational),
-  'Retained red: rational container phase is lost at reader projection',
+  !rounded.equals(rational),
+  'Exact rational placement must remain distinct from the rounded control',
 );
 const original = pcm(join(root, 'specs/agent-editing/assets/00-corpus/a-audio.wav'));
-assert.ok(!rational.subarray(57600 * 4, 67200 * 4).equals(original.subarray(52800 * 4, 62400 * 4)));
+assert.ok(
+  rational.subarray(57600 * 4, 67200 * 4).equals(original.subarray(52800 * 4, 62400 * 4)),
+  'Late rational read preserves the original sample identities',
+);
 assert.ok(rounded.subarray(57600 * 4, 67200 * 4).equals(original.subarray(52801 * 4, 62401 * 4)));
 report.phase = {
   roundedPreservesOriginalSamples: false,
   roundedSecondStartFrame: 45759,
   rationalContainerSecondStartFrame: 45760,
-  rationalReadSecondStartFrame: 45759,
-  rationalPreservesOriginalSamples: false,
+  rationalReadSecondStartFrame: 45760,
+  rationalPreservesOriginalSamples: true,
   originalLateFirstFrame: 52800,
   roundedLateFirstFrame: 52801,
 };

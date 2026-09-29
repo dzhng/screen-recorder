@@ -1,9 +1,9 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: preserve exact sample phase in the shared audio reader, then
-complete canonical sparse captured-audio storage and recovery before repairing
-the verified writer gap bug. Fractional-rate execution now refuses
+Current priority: implement and verify declared capture admission and exact
+journal addresses, then canonical sparse storage/recovery and safe publication.
+The shared reader phase correction is integrated and root-confirmed. Fractional-rate execution now refuses
 with cache invalidation and combined-root confirmation. Settings09b,
 scoped06/15 and caption17 are verified; whole16/22 and final acceptance remain open.
 
@@ -20,8 +20,11 @@ controls, delivered clocks and discriminating phase/geometry negatives. Fresh
 review found edge fringes most apparent when magnified; continuous playback,
 real-speech listening and delivered retime/gain remain unverified.
 
-Current native worker: `/tmp/screenrec-integral-audio-native`, SHA256
-`f3d66d941dad297f40f729c9570816558f41083c0628b48d7728cff891ceac80`.
+Current native worker: `/tmp/screenrec-rational-audio-native`, SHA256
+`3a9a91153d5cf2ec1a1149d59c5fbf7509d1ba6ea70fd160a1e81b1583561e90`.
+Source audio is v3, composition audio v5, movie v15 and transcript decoder v3;
+prepared/acoustic identity follows the corrected upstream execution. Picture-only
+identity remains unchanged. Prior integral-rate worker provenance remains in its leaf.
 Earlier caption/output proofs used frozen `/tmp/screenrec-caption-output-combined-native`
 SHA256 `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`;
 keep original receipts as provenance.
@@ -48,28 +51,31 @@ No production deadline or transaction guarantee changed.
   [20b](../slices/20b-exact-capture-audio.md), [20c](../slices/20c-sparse-capture-materialization.md)
   and [20d](../slices/20d-capture-publication.md) separate clock/journal, materialization
   and publication. Next resolve ordinary raw timestamp scales and exact continuity
-  before selecting20b representation. Nanosecond timestamps plus48kHz can exceed
-  a signed32-bit common timescale; refusal of normal inputs cannot count as repair.
+  under the [corrected admission property](20b-time-feasibility/contract-audit.md).
+  Raw timestamp digits remain provenance; the playable container must preserve
+  one declared admitted timeline. Initial-phase/native-grid policy is only a
+  candidate, with grouping/gaps/window/resampling gates before rollout.
   No production packed-file rollout until canonical admission/recovery passes.
 - Shared audio reader: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  Trace localizes the sparse proof's one-sample placement error to microsecond
-  projection followed by different output/decoder rounding. Exact-support fix is
-  under preservation review in the isolated worktree, not yet integrated. Check
-  legacy excerpt lookahead/end limits before accepting the common reader change. Keep exact and rounded controls; no offsets or relaxed gates.
-  The distinct fractional-native-rate correction is already integrated and
-  root-confirmed; ordinary integer-rate decoding remains supported.
+  [Exact source phase](08-rational-segment-phase/README.md) is integrated at e03ed4ad.
+  Native red/green, legacy lookahead preservation, public cache invalidation and
+  integer-rate checks pass. Root builds and upgraded sparse-storage oracle confirm
+  exact original placement and all 14 storage groups. No capture writer repair or
+  broad listening claim follows. Earlier fractional-rate refusal remains intact.
 - Agent discovery / denoise pickup: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
   [Shared references](25-discovery-references/README.md) are integrated and
   root-confirmed: full settings, local closure and CLI/MCP parity pass. A fresh
   public-discovery consumer authored a nested curve with exact readback; it also
   used processing.capabilities, so this is not a help-only-session claim. Other
-  external clients and rendered motion remain outside this checkpoint. Next audit
-  the concrete learned-denoise adoption seam against the existing prepared owner;
-  do not infer protected-word acceptance from the user's no-artifacts feedback.
+  external clients and rendered motion remain outside this checkpoint. The frozen
+  native learned-denoise adapter and 15a reslice are in progress in an
+  isolated dependency package; public readiness remains unchanged. Reuse existing
+  prepared ownership for later state/channel integration. No protected-word
+  acceptance follows from the user's no-artifacts feedback.
 
 The [sparse storage checkpoint](20a-sparse-storage/README.md) retains the capture
-proposal, independent audit and process-restart evidence; its original sample-phase
-gate remains red pending the shared reader correction. The real-narration/music checkpoint is integrated; complete PCM
+proposal, independent audit and historical process-restart/phase evidence. The
+new combined confirmation lives in the reader correction leaf above. The real-narration/music checkpoint is integrated; complete PCM
 mix/dry-neighbor/undo and public negative controls pass without a listening claim.
 The [job-reference audit](acceptance-maintenance/job-references.md) confirms the
 existing retirement owner; no new garbage collector is needed for the audited paths.

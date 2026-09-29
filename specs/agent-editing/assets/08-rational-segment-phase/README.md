@@ -55,3 +55,16 @@ logs and integer cohort. Frozen probes contain their original scratch paths;
 reproduction requires a fresh isolated library and old-implementation seed before
 new-implementation verification. The root storage harness owns its separate
 combined capture confirmation here; earlier storage red evidence remains frozen.
+
+## Combined capture confirmation
+
+[Root verification](root-sparse-verification.json) upgrades the active sparse-storage
+oracle to original sample placement computed directly from requested rational times.
+The old reader fails the omitted-run comparison; the corrected reader passes all14
+storage/publication groups. The exact and rounded controls now differ as required:
+the exact late read selects original52800, while the rounded control selects52801.
+Continuous44.1/48k, physical byte identity, full/late reads and interrupted publication
+remain checked. Root CLI dependency build also passes. The155-file archive preserves
+both runs and the independent oracle review; every archived member was hash-checked.
+Earlier20a evidence remains frozen. This fixes reader phase, not the unwired capture
+journal/materializer/publication repair.

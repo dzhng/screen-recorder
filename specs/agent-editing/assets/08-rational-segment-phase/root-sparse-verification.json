@@ -1,0 +1,29 @@
+{
+  "rootCodeCommit": "e03ed4ad",
+  "unfixedCodeCommit": "aab0dfc8",
+  "command": "node packages/test-harness/editing/capture-sparse-storage.mjs --out <empty scratch directory>",
+  "red": {
+    "exitCode": 1,
+    "failure": "omitted-rational: exact PCM identities at requested source positions",
+    "binarySha256": "4867aaea37b0971ef3563e0602f0ad4723b65be0af78b04b823fea0178032b33"
+  },
+  "green": {
+    "exitCode": 0,
+    "checks": 14,
+    "binarySha256": "f691c00cc047933ddd365839b7fa225ab8eb1363f1fdfeb8079055db23a84c6a",
+    "phase": {
+      "roundedPreservesOriginalSamples": false,
+      "roundedSecondStartFrame": 45759,
+      "rationalContainerSecondStartFrame": 45760,
+      "rationalReadSecondStartFrame": 45760,
+      "rationalPreservesOriginalSamples": true,
+      "originalLateFirstFrame": 52800,
+      "roundedLateFirstFrame": 52801
+    },
+    "productionRepairReady": false
+  },
+  "cliDependencyBuild": "6 tasks passed, 5 cached",
+  "review": "Independent oracle review: no correctness defects; original storage/restart/count gates retained.",
+  "archiveSha256": "7ae4898da2dc9cd84f19a7a24e07a7aaca4d7d590b341de2329a6697348655fa",
+  "archiveFiles": 155
+}
