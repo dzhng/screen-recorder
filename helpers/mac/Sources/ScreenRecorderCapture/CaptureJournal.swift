@@ -93,6 +93,7 @@ public final class CaptureJournal {
     package let lease: CaptureJournalLease
     private var sequence = 0
     private let header: CaptureJournalHeader
+    package var schemaVersion: Int { header.schemaVersion }
     private var pcmState = JournalPCMState()
 
     public init(directory: String, header: CaptureJournalHeader) throws {
