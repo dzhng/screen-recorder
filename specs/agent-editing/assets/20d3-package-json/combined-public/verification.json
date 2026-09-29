@@ -1,0 +1,210 @@
+{
+  "passed": true,
+  "base": "d613301800ff19c2c0c406b8f9a7d7b570412f5d",
+  "modelFix": "a2b84a10",
+  "catalogFormat": 16,
+  "worker": {
+    "path": "/tmp/screenrec-package-json-current-native",
+    "sha256": "8f5241244e4eebda40d9c8d21311f82fddaaf3f4c186ef823aec3c60dd6bea55"
+  },
+  "input": {
+    "path": "/tmp/package-json-canonical-indexed/project.zip",
+    "bytes": 55617282,
+    "sha256": "d3443519cf39e939bb714f0eb58a4871b2d9c8bf9f1dfcb5c3b88431a3571d50",
+    "provenance": "Original100k canonical package and source proof retained in parent20d3 evidence archive; this run uses public package.open/adopt into a fresh catalog, without modifying old15 homes."
+  },
+  "command": "SCREENREC_NATIVE=/tmp/screenrec-package-json-current-native node packages/test-harness/editing/package-metadata.mjs --out NEW_DIRECTORY --clips 10000 --package /private/tmp/package-json-canonical-indexed/project.zip --asset e83523233b5b60dbfc70334f80a4dec3f38aab52ea8451afbdb459123c06ca04 --acquisition f87d6d01-04f8-498f-b53a-ec44e265a847",
+  "observations": {
+    "setupMilliseconds": 12386.693125000005,
+    "editMilliseconds": [
+      478.23887499999546,
+      462.34787500000675,
+      469.9365419999958,
+      482.5022089999984,
+      510.6369160000031,
+      533.1785830000008,
+      536.6799170000013,
+      613.4266249999928,
+      581.452375000008,
+      634.7437499999942,
+      616.9202090000035,
+      646.5069579999981,
+      657.126958000008,
+      666.4116250000079,
+      691.2222920000204,
+      709.668708000012,
+      719.8837080000085,
+      837.9747919999936,
+      741.723874999996,
+      740.5458750000107
+    ],
+    "historyRevisions": 21,
+    "historyJsonBytes": 48872858,
+    "resourceJsonBytes": 19608388,
+    "manifestBytes": 10840,
+    "physicalRows": 200000
+  },
+  "checks": [
+    "fresh catalog bootstrap through retained package admission/adoption",
+    "version2 inventory metadata bytes/hash",
+    "complete selected history and adopted undo",
+    "complete acquisition metadata and exact support retained",
+    "receiver adoption and exact complete physical rows",
+    "missing never ready",
+    "corrupt never ready",
+    "duplicate-stream never ready",
+    "version1 never ready"
+  ],
+  "historyDocuments": [
+    {
+      "ordinal": 0,
+      "sha256": "6093a9d59daeddb75305ac9111ddd802a919b980cbcdaeb5c0d690ef24ef5300"
+    },
+    {
+      "ordinal": 1,
+      "sha256": "f46f68d85c47bf67c73e13e45a16816f6f044afecd340e0fd804ec4db0671c51"
+    },
+    {
+      "ordinal": 2,
+      "sha256": "45c95e6122da43ed08e519d75cb5fb70edb0a8906d90b1d2fecda05b3af99c33"
+    },
+    {
+      "ordinal": 3,
+      "sha256": "dbfcec0668e660fa4426f63d2f4ef72ef33c454554bc327f4ed76d7b76d36b2e"
+    },
+    {
+      "ordinal": 4,
+      "sha256": "9c3b26b8fb49695179391cfd4365710acd726c54f2dc873981cc73b275bd994c"
+    },
+    {
+      "ordinal": 5,
+      "sha256": "4f7f2f24cab1fbc002441f2042c51aaae163d54b5691e4316c475d401bb368e1"
+    },
+    {
+      "ordinal": 6,
+      "sha256": "c86b5f64dabcddc3f04d534030f6712daf6e07a70d2ef68d7831fa33b98b111e"
+    },
+    {
+      "ordinal": 7,
+      "sha256": "53b6d4970d7944b9efcc94e4dd52a892c71deac4e80402657488fcab812de951"
+    },
+    {
+      "ordinal": 8,
+      "sha256": "44382c9519741709aedc109fefc5743380749118d3b9d9287e896ab178e7409a"
+    },
+    {
+      "ordinal": 9,
+      "sha256": "9efeb7a41ccd60d5af6f48e14554627c1ea07779f9f9dc595c5acada333e7409"
+    },
+    {
+      "ordinal": 10,
+      "sha256": "41832d35f736d204c256559c36063a6a8bf9ebc21bee00eee200e0d469243de7"
+    },
+    {
+      "ordinal": 11,
+      "sha256": "dfd7c64844957ffadcbd5d06a561632e9afbba9374d7d011a0b910762cafa5e0"
+    },
+    {
+      "ordinal": 12,
+      "sha256": "9d1bc1348a2d0d7433d9181c2c1ff3407fe7874842a1ca61a820a35f70487b4b"
+    },
+    {
+      "ordinal": 13,
+      "sha256": "e2a357ca8c4f9a36af883410dde0fc89847c23d45c8f0580ad54b965c9df21c8"
+    },
+    {
+      "ordinal": 14,
+      "sha256": "18b8d547c012132d19b276c0d41a2ad6632c3bf03255dd101114db1bb748f183"
+    },
+    {
+      "ordinal": 15,
+      "sha256": "2fef951330d0e1a259e9842262359fca0f7f57bd63a093d2ec6d37d6703b7e17"
+    },
+    {
+      "ordinal": 16,
+      "sha256": "e435dc84aee7737b230cc91af83392b74104e36f81913a9a67e06d51b4cfa74b"
+    },
+    {
+      "ordinal": 17,
+      "sha256": "248cb457fa98f4afda775b72bcb6889182e25868bc801b6019b97733026ae5ad"
+    },
+    {
+      "ordinal": 18,
+      "sha256": "66803ed5d1af59daf7c74a58e2ca6a3ae72980b18cbf6618f54eb77a0beb38b4"
+    },
+    {
+      "ordinal": 19,
+      "sha256": "4db188258b8d7102bf73000fc1c5227fb3c39aea983f43ef3f243c28d2352127"
+    },
+    {
+      "ordinal": 20,
+      "sha256": "0fd4c7066524f697e8346bab0d1a4edd8268d5dcfc549d67b78bdd0be7a2b068"
+    }
+  ],
+  "originalResourceParity": {
+    "passed": true,
+    "scope": "Every complete original typed resource compared to combined exported resource, not counts or selected fields",
+    "resources": [
+      {
+        "identity": {
+          "kind": "acquisition",
+          "id": "f87d6d01-04f8-498f-b53a-ec44e265a847"
+        },
+        "originalBytes": 4179195,
+        "transferredBytes": 4179195,
+        "originalSHA256": "9da5b9625ee9e7bd44073386af0b45b31de9292eb312f8a5db95d96f962ac46d",
+        "transferredSHA256": "9da5b9625ee9e7bd44073386af0b45b31de9292eb312f8a5db95d96f962ac46d"
+      },
+      {
+        "identity": {
+          "kind": "asset",
+          "id": "b56a096acd4faf9ab43691e29960eaa4631b3be3ea85fab85861447cbcfaedf7"
+        },
+        "originalBytes": 781,
+        "transferredBytes": 781,
+        "originalSHA256": "8f5dbbdd9ce2ca373686f55c9b1312d1023d00dbe494dee581e33cf0d61f826f",
+        "transferredSHA256": "f318127caf1e950232e838f22e895c6f8de2c3653265dede627b9719d66f8159"
+      },
+      {
+        "identity": {
+          "kind": "asset",
+          "id": "e83523233b5b60dbfc70334f80a4dec3f38aab52ea8451afbdb459123c06ca04"
+        },
+        "originalBytes": 15428412,
+        "transferredBytes": 15428412,
+        "originalSHA256": "081a03a7fd0988fa0896776bf69414823833280f91975a3107661a731b92b5eb",
+        "transferredSHA256": "537654dc3bb9f85522a2b62f060c85b4f5872a01ea0eba60f62b42cdd452a4b6"
+      }
+    ]
+  },
+  "continuation": "Resumes already-adopted receiver after correcting only expected normalized receipt.file locator relocation; no setup or native readiness/adoption repeated.",
+  "review": "Independent read-only Codex review found no concrete defect in the scoped harness changes. Final locator correction asserts exact declared relocation, not field omission. No production code or deadline change.",
+  "limits": [
+    "Observed edit timing is not a universal performance guarantee.",
+    "The128MiB aggregate eager JSON admission still applies.",
+    "No DSP/audio-quality/listening or live capture acceptance is added.",
+    "Whole24/20/22 status remains owned by the root plan."
+  ],
+  "choices": [
+    {
+      "choice": "Fresh public package bootstrap into catalog16",
+      "reason": "Existing retained15 homes are immutable evidence; no migration or owner-seeded import."
+    },
+    {
+      "choice": "Compare complete acquisition metadata after exact receipt.file rebinding",
+      "reason": "The evidence locator must move to the receiver; ignoring all path fields or requiring the donor path would both misstate portability."
+    },
+    {
+      "choice": "Continue already-adopted receiver after oracle repair",
+      "reason": "Preserve successful real setup/admission and finish remaining assertions without repeated expensive work; both reports and continuation source are retained."
+    }
+  ],
+  "finalReview": {
+    "file": "final-review.log.gz",
+    "bytes": 30257,
+    "sha256": "a20ebc6271eca796c00fb118dd9eec220babd5d47e143d229856ff729aee04f2",
+    "verdict": "No actionable defects; exact home-prefix relocation and all other fields unchanged, continuation scope honest.",
+    "expandedSha256": "7cfd11da145e0111f71bdc15a11b387d5a679c902d77ac5fe467b831a5921747"
+  },
+  "retainedInputUnchanged": true
+}

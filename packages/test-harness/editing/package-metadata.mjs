@@ -15,6 +15,7 @@ const { values } = parseArgs({
     asset: { type: "string" },
     acquisition: { type: "string" },
     clips: { type: "string" },
+    package: { type: "string" },
   },
 });
 assert.ok(values.out && process.env.SCREENREC_NATIVE);
@@ -48,6 +49,18 @@ async function settled(operation, params, desired) {
 const donor = values.home ? resolve(values.home) : join(out, "donor");
 try {
   await start(donor);
+  const donorReal = await realpath(donor);
+  if (values.package) {
+    const opened = await call("package.open", { path: await realpath(resolve(values.package)) });
+    const ready = await settled("package.status", { admissionId: opened.id }, "ready");
+    await settled(
+      "package.adopt",
+      { packageHandle: ready.packageHandle, requestId: "bootstrap" },
+      "ready",
+    );
+    await call("package.close", { admissionId: opened.id });
+    report.checks.push("fresh catalog bootstrap through retained package admission/adoption");
+  }
   let assetId = values.asset;
   if (!assetId) {
     const path = join(donor, "input.wav");
@@ -58,6 +71,11 @@ try {
     const imported = await call("asset.import", { requestId: "input", path });
     assetId = (await settled("job.get", { jobId: imported.jobId }, "ready")).result.assetId;
   }
+  const acquisition = values.acquisition
+    ? await call("acquisition.get", { acquisitionId: values.acquisition }, { transport: "mcp" })
+    : undefined;
+  if (acquisition)
+    await writeFile(join(out, "donor-acquisition.json"), JSON.stringify(acquisition));
   const header = await call("asset.get", { assetId });
   const stream = header.streams.find((item) => item.kind === "audio");
   assert.ok(stream);
@@ -74,6 +92,11 @@ try {
   const clipCount = Number(values.clips ?? 1);
   assert.ok(Number.isSafeInteger(clipCount) && clipCount > 0 && clipCount <= 10000);
   let revision = created.revision;
+  report.historyDocuments = [
+    { ordinal: revision.ordinal, sha256: hash(JSON.stringify(revision.document)) },
+  ];
+  const setupStarted = performance.now();
+  report.editMilliseconds = [];
   for (let first = 0; first < clipCount; first += 500) {
     const operations = first
       ? []
@@ -90,6 +113,7 @@ try {
           placement: { kind: "project", range: { startUs: i * 1000000, endUs: (i + 1) * 1000000 } },
         },
       });
+    const editStarted = performance.now();
     revision = (
       await call("edit.apply", {
         projectId: created.project.projectId,
@@ -98,7 +122,13 @@ try {
         operations,
       })
     ).revision;
+    report.editMilliseconds.push(performance.now() - editStarted);
+    report.historyDocuments.push({
+      ordinal: revision.ordinal,
+      sha256: hash(JSON.stringify(revision.document)),
+    });
   }
+  report.setupMilliseconds = performance.now() - setupStarted;
   const exportId = randomUUID();
   await call("export.create", {
     projectId: created.project.projectId,
@@ -133,6 +163,10 @@ try {
   );
   assert.equal(revisions.length, Math.ceil(clipCount / 500) + 1);
   assert.deepEqual(revisions.at(-1), revision);
+  assert.deepEqual(
+    revisions.map((row) => ({ ordinal: row.ordinal, sha256: hash(JSON.stringify(row.document)) })),
+    report.historyDocuments,
+  );
   report.historyRevisions = revisions.length;
   report.historyJsonBytes = manifest.revisions.reduce(
     (sum, ref) => sum + manifest.inventory.find((row) => row.path === ref).bytes,
@@ -176,6 +210,22 @@ try {
   assert.deepEqual(undone.document, revisions.at(-2).document);
   report.checks.push("complete selected history and adopted undo");
   assert.deepEqual(await call("asset.get", { assetId }), header);
+  if (acquisition) {
+    const relocated = await call(
+      "acquisition.get",
+      { acquisitionId: values.acquisition },
+      { transport: "mcp" },
+    );
+    assert.ok(acquisition.evidence.receipt.file.startsWith(donorReal + "/"));
+    const expected = structuredClone(acquisition);
+    expected.evidence.receipt.file = join(
+      await realpath(join(out, "receiver")),
+      acquisition.evidence.receipt.file.slice(donorReal.length + 1),
+    );
+    assert.deepEqual(relocated, expected);
+    await writeFile(join(out, "receiver-acquisition.json"), JSON.stringify(relocated));
+    report.checks.push("complete acquisition metadata and exact support retained");
+  }
   let cursor,
     count = 0;
   do {

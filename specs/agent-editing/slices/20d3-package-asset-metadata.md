@@ -1,6 +1,6 @@
 # 20d3 — Inventory-bound project package JSON
 
-Status: implementation verification. Dependencies: [20d2](20d2-asset-metadata-pages.md).
+Status: metadata checkpoint and combined public gate verified. Dependencies: [20d2](20d2-asset-metadata-pages.md).
 
 Complete selected history and resource metadata belong in inventory-bound JSON
 members. Compact manifest references preserve the unchanged control-frame and
@@ -36,8 +36,12 @@ lifetimes. Evidence and limits are in [the checkpoint](../assets/20d3-package-js
 No downstream audio-selection, capture rollout, model-quality, or listening gate is
 closed by metadata portability.
 
-The combined 10,000-clip/100,000-run public setup remains a required open acceptance
-gate: its first 500-place edit exceeded the unchanged service deadline while committing
-successfully. Exact replay returns that revision. Separate green history and sparse
-package journeys do not close this combination. Root owns the bounded composition
-availability-work follow-up; no deadline widening or owner-seeded acceptance replaces it.
+The combined 10,000-clip/100,000-run public setup now passes after the existing
+composition owner correction in [24g](24g-fragmented-selection.md). The original
+first 500 timeout and exact committed replay remain retained. A fresh catalog format 16 donor
+adopts the retained package through public admission, performs all edits, exports,
+and relocates complete metadata/history to a fresh receiver. Every selected history
+document, adopted undo, acquisition fact and physical segment row is checked, with
+only the required evidence-file locator relocation. See [the combined gate](../assets/20d3-package-json/combined-public/README.md).
+No widened deadline, owner-seeded setup, DSP or listening claim substitutes for this
+proof; the unified working-memory capacity remains disclosed above.

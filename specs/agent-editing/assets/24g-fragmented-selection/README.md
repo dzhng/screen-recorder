@@ -37,5 +37,6 @@ The archive retains exact inputs, complete normalized resolved output, original
 model source, matched measurements, profiler and verification logs. After extracting
 to a scratch directory, the existing built composition library can reproduce the
 model result using `sparse-selection.mjs --input INPUT --out NEW --expected DIGEST`.
-The manifest authenticates every retained file. Public setup, package transfer and
-adopted history still require the integrated follow-up.
+The manifest authenticates every retained file. The [integrated public follow-up](../20d3-package-json/combined-public/README.md) now
+verifies combined setup, package transfer, every selected history document, adopted
+undo and complete source metadata on a fresh catalog.
