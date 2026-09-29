@@ -73,8 +73,9 @@ No production deadline or transaction guarantee changed.
   [root actual-writer confirmation](20b-pcm-format/root-verification.json):
   representation changes preserve input PCM, and rate/channel changes refuse
   before acceptance. The journal's [validated prefix token](20b-journal-prefix/README.md)
-  now supports candidate provenance. Next define publication/receipt/admission
-  ordering with the materializer owner. Actual prospective-clock/callback wiring stays coupled
+  now supports candidate provenance. Publication design now uses the existing journal inode for exclusive process
+  ownership and existing no-clobber publication. Next implement lease and pinned
+  prefix validation, then receipt/admission ordering with the materializer owner. Actual prospective-clock/callback wiring stays coupled
   to canonical publication, with no interim dual writer mode.
   The production packed writer
   remains disconnected until canonical admission/recovery passes.
@@ -85,12 +86,15 @@ No production deadline or transaction guarantee changed.
   before the fix and passes afterward, with original PCM, exact full/window
   comparisons, sparse storage, capture preservation and the explicit1µs acquisition
   exclusion. The historical
-  [100001µs red](20b-window-phase/README.md) remains frozen. Next measure bounded
+  [100001µs red](20b-window-phase/README.md) remains frozen. Next implement bounded
   canonical segment materialization and reconcile accepted journal mappings with
-  decoded committed prefixes in20c. Platform export has high fragmented-run memory
-  cost; bounded AVMutableMovie/header alternatives are under causal investigation
-  in `/tmp/sparse-materialization-scaling`, with no product cap selected. Coordinate
-  the candidate and validated-prefix contract with the publication owner.
+  decoded committed prefixes in20c. The [platform feasibility proof](20c-platform-feasibility/README.md)
+  supports bulk Composition passthrough at the existing acquisition outer limit,
+  with exact PCM/placement, relocation and early cancellation. Fragmented export
+  has high memory cost; finalize roles sequentially. No actual finalization budget
+  violation or new recording cap is established, and custom container work is
+  deferred. Implement shared reconciliation and coordinate the candidate and
+  validated-prefix contract with the publication owner.
   No packed writer rollout until20d.
   [Native stretch parity](13b-native-stretch-parity/README.md) is also integrated
   and root-confirmed:65 complete-byte/error gates pass. Public retiming remains

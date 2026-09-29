@@ -2791,3 +2791,18 @@ AudioConverterConvertComplexBuffer without narrowing representation support.
 Removing sourceFormatHint was rejected: controlled outputs were byte-identical to
 the failure. Confidence: high for this bounded correction; actual device format
 changes and physical capture remain unmeasured.
+
+### Keep the measured platform export for sparse capture (sound)
+
+When a recording has many gaps, the platform export uses more memory for the
+separate occupied runs. The largest existing acquisition limit completed with
+exact original samples and placement. Continue with that representation,
+finalizing audio roles sequentially so their peak memory costs do not overlap.
+The plan left the platform mechanism and resource tradeoff open; the measured
+cost alone does not establish a violated finalization budget. A custom movie
+serializer would create another format owner without evidence that it is needed.
+This choice constrains20c implementation, not recording duration or accepted
+input. Confidence: medium; one host's measurements exclude platform services and
+do not prove every machine's resource envelope. Cancellation must retain the
+original payload and journal; this experiment does not authorize cleanup. See
+[the retained experiment](assets/20c-platform-feasibility/README.md).
