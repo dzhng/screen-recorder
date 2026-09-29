@@ -1,0 +1,11 @@
+{
+  "scope": "Retained packet and poison full-WAV verification; no listening inference",
+  "artifactsVerified": [
+    "original.wav",
+    "candidate-remove-uh.wav",
+    "poison-original-control.wav",
+    "poison-candidate-control.wav"
+  ],
+  "completeCandidateEqualsPoisonCandidate": true,
+  "harnessSha256Matches": true
+}

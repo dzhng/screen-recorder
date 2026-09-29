@@ -258,6 +258,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [12 — Validate speech cleanup evidence](slices/12-speech-evidence.md)
 - [ ] [12b — Adopt verified source speech processing](slices/12b-speech-processing.md)
 - [ ] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
+- [ ] [12d — Complete sentence cleanup annotation packet](slices/12d-complete-sentence-cleanup.md)
 - [ ] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
 - [ ] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [x] [13b — Native stretch recipe parity](slices/13b-native-stretch-parity.md)

@@ -164,3 +164,10 @@ A [familiar stretch packet](13a-familiar-sentence/README.md) now supplies the sa
 complete selection at1x,0.8x,0.9x and1.25x. Native file checks and an independent
 byte-for-byte reproduction pass. The user accepts its complete0.8× sentence as clear and natural; see the packet
 for the exact scope. Other rates, joins, labels and13a/14 integration remain open.
+
+
+The [complete-sentence filler packet](12d-complete-sentence/README.md) now replaces
+cropped-word QA for one proposed `uh` removal. Root presented the original and
+candidate for optional word/join feedback; no answer is inferred. Exact retained
+PCM and removed-source poison controls pass. Full independent labels, repetition
+intent and parent12 timing/cleanup acceptance remain open.
