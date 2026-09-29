@@ -77,3 +77,9 @@ its scratch library; failed diagnostic state is deliberately retained for inspec
 Compressed files preserve original bytes; the two tar archives contain the complete
 integer and public-boundary follow-up artifacts. Media was synthesized or decoded
 without capture, app launch, playback, downloads or model inference.
+
+Combined-root confirmation after integration passes the focused build and all39
+core checks. The public boundary cohort again admits all three assets, refuses
+fractional/four-channel project execution without publication, preserves prior
+raw refusals, and renders discrete stereo full/range output. Its complete root
+receipt is retained separately; the native worker is the pinned f3d66d94 build.

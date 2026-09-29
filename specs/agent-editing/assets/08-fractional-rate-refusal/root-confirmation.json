@@ -1,0 +1,14 @@
+{
+  "allImportsReady": true,
+  "fractionalAndFourChannelProjectRefused": true,
+  "oldRawRefusalsPreserved": true,
+  "discreteChannelMaxDifferences": [
+    0,
+    0
+  ],
+  "discreteFrames": [
+    48000,
+    33067
+  ],
+  "rangeExactlyMatchesFullSlice": true
+}
