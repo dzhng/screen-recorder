@@ -231,6 +231,34 @@ it("operation help returns its canonical schema and refuses unknown names", () =
   expect(JSON.parse(unknown.stdout).error.code).toBe("UNKNOWN_OPERATION");
 });
 
+it("CLI and MCP return the same recording list", async () => {
+  const { socket, recordingId } = await serviceFixture();
+  const client = new Client({ name: "listing-test", version: "1" });
+  cleanup.push(() => client.close());
+  await client.connect(
+    new StdioClientTransport({
+      command: process.execPath,
+      args: [entry, "mcp", "--socket", socket],
+      stderr: "pipe",
+    }),
+  );
+  const listed = cli(socket, "recording.list", { limit: 1 });
+  expect(listed.exitCode).toBe(0);
+  expect(listed.result.data).toMatchObject({ recordings: [{ recordingId }], nextCursor: null });
+  const mcpList = await client.callTool({ name: "recording.list", arguments: { limit: 1 } });
+  expect(mcpList.isError).toBe(false);
+  expect(mcpList.structuredContent).toMatchObject({ ok: true, data: listed.result.data });
+});
+
+it("oversized CLI requests preserve their ID and fail before service discovery", () => {
+  const oversizedCli = cli("/tmp/nonexistent-screenrec-size.sock", "recording.get", {
+    recordingId: "x".repeat(1_050_000),
+  });
+  expect(oversizedCli.exitCode).toBe(1);
+  expect(oversizedCli.result.error.code).toBe("LIMIT_EXCEEDED");
+  expect(oversizedCli.result.id).toBe("cli-test");
+});
+
 it("CLI and real MCP transport share edits, replay, history and structured failures", async () => {
   const { socket, recordingId } = await serviceFixture();
   const transport = new StdioClientTransport({
@@ -241,15 +269,6 @@ it("CLI and real MCP transport share edits, replay, history and structured failu
   const client = new Client({ name: "screenrec-adapter-test", version: "1" });
   cleanup.push(() => client.close());
   await client.connect(transport);
-  const { tools } = await client.listTools();
-  expect(tools.map((tool) => tool.name).sort()).toEqual([...operationNames].sort());
-  expectCallableContract(tools as AdvertisedTool[]);
-  const listed = cli(socket, "recording.list", { limit: 1 });
-  expect(listed.exitCode).toBe(0);
-  expect(listed.result.data).toMatchObject({ recordings: [{ recordingId }], nextCursor: null });
-  const mcpList = await client.callTool({ name: "recording.list", arguments: { limit: 1 } });
-  expect(mcpList.isError).toBe(false);
-  expect(mcpList.structuredContent).toMatchObject({ ok: true, data: listed.result.data });
   const params = {
     recordingId,
     requestId: "cut-one",
@@ -288,22 +307,6 @@ it("CLI and real MCP transport share edits, replay, history and structured failu
   expect(
     history.result.data.revisions.map((revision: { operation: string }) => revision.operation),
   ).toEqual(["original", "cut", "undo"]);
-  const oversizedParams = { recordingId: "x".repeat(1_050_000) };
-  const oversizedCli = cli(socket, "recording.get", oversizedParams);
-  const oversizedMcp = await client.callTool({ name: "recording.get", arguments: oversizedParams });
-  expect(oversizedCli.exitCode).toBe(1);
-  expect(oversizedCli.result.error.code).toBe("LIMIT_EXCEEDED");
-  expect(oversizedCli.result.id).toBe("cli-test");
-  expect(oversizedMcp.structuredContent).toMatchObject({
-    ok: false,
-    error: { code: "LIMIT_EXCEEDED" },
-  });
-  const invalid = await client.callTool({
-    name: "edit.trim",
-    arguments: { recordingId, typo: true },
-  });
-  expect(invalid.isError).toBe(true);
-  expect(invalid.structuredContent).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
 });
 
 it("preserves the parsed request ID on local JSON validation failure", () => {
@@ -433,9 +436,9 @@ it("help, MCP tools/list and invalid tools never contact the default socket", as
   const client = new Client({ name: "discovery-test", version: "1" });
   cleanup.push(() => client.close());
   await client.connect(transport);
-  expect((await client.listTools()).tools.map((tool) => tool.name).sort()).toEqual(
-    [...operationNames].sort(),
-  );
+  const { tools } = await client.listTools();
+  expect(tools.map((tool) => tool.name).sort()).toEqual([...operationNames].sort());
+  expectCallableContract(tools as AdvertisedTool[]);
   for (const [name, code] of [
     ["not.an.operation", "UNKNOWN_OPERATION"],
     ["edit.cut", "INVALID_PARAMS"],
@@ -451,6 +454,12 @@ it("help, MCP tools/list and invalid tools never contact the default socket", as
     ok: false,
     error: { code: "LIMIT_EXCEEDED" },
   });
+  const invalid = await client.callTool({
+    name: "edit.trim",
+    arguments: { recordingId: "take", typo: true },
+  });
+  expect(invalid.isError).toBe(true);
+  expect(invalid.structuredContent).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
   expect(connections).toBe(0);
 });
 
@@ -644,17 +653,16 @@ it.each([
   },
 );
 
-it("invalid batch cardinality and trail options are rejected before service discovery", () => {
-  for (const params of [
-    { recordingId: "take", clean: true, atUs: [] },
-    { recordingId: "take", clean: true, atUs: Array(9).fill(0) },
-    { recordingId: "take", clean: "yes", atUs: [0] },
-    { recordingId: "take", trailUs: 10_000_001, atUs: [0] },
-  ])
-    expect(cli("/tmp/nonexistent-screenrec-batch.sock", "frame.batch", params)).toMatchObject({
-      exitCode: 1,
-      result: { error: { code: "INVALID_PARAMS" } },
-    });
+it.each([
+  { recordingId: "take", clean: true, atUs: [] },
+  { recordingId: "take", clean: true, atUs: Array(9).fill(0) },
+  { recordingId: "take", clean: "yes", atUs: [0] },
+  { recordingId: "take", trailUs: 10_000_001, atUs: [0] },
+])("invalid batch parameters %# are rejected before service discovery", (params) => {
+  expect(cli("/tmp/nonexistent-screenrec-batch.sock", "frame.batch", params)).toMatchObject({
+    exitCode: 1,
+    result: { error: { code: "INVALID_PARAMS" } },
+  });
 });
 
 it("selected-frame CLI and MCP deliver image bytes while metadata-only responses create no files", async () => {
