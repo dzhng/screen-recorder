@@ -43,10 +43,9 @@ public final class AudioPCMStream: AudioPCMSource {
     private var consumed = false
 
     private struct Interval {
-        let source: TimeSpan
         let start: Int64
         let end: Int64
-        let decodeRange: (start: CMTime, end: CMTime)?
+        let decodeRange: (start: CMTime, end: CMTime?)
     }
 
     /// `sampleRate` defaults to the highest rate among the tracks, so nothing is resampled down
@@ -92,7 +91,7 @@ public final class AudioPCMStream: AudioPCMSource {
     /// Physical occupancy intersected with the caller's selected acquisition support.
     public static func readableIntervals(of source: AudioSourceSelection) async throws -> [TimeSpan] {
         try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
-        return try await SourceTrack.open(selection: source).available
+        return try await SourceTrack.open(selection: source).available.map { try $0.roundedSpan() }
     }
 
     private init(sources: [SourceTrack], spans: [TimeSpan], sampleRate: Int?, sourceWindow: Bool = false) throws {
@@ -118,36 +117,42 @@ public final class AudioPCMStream: AudioPCMSource {
             var unavailable: [TimeSpan] = []
             var availableIndex = 0
             for (index, span) in spans.enumerated() {
+                let selection = CompositionAudioPlan.Selection(span)
                 while availableIndex < track.available.count,
-                    track.available[availableIndex].endUs <= span.startUs
+                    try track.available[availableIndex].endUs.subtract(selection.startUs).numerator <= 0
                 { availableIndex += 1 }
                 var cursor = availableIndex
-                var readable: [(interval: TimeSpan, run: TimeSpan)] = []
+                var readable: [(interval: CompositionAudioPlan.Selection, run: CompositionAudioPlan.Selection)] = []
                 while cursor < track.available.count,
-                    track.available[cursor].startUs < span.endUs
+                    try track.available[cursor].startUs.subtract(selection.endUs).numerator < 0
                 {
-                    if let interval = span.intersection(track.available[cursor]) {
+                    if let interval = try selection.intersection(track.available[cursor]) {
                         readable.append((interval, track.available[cursor]))
                     }
                     cursor += 1
                 }
                 for piece in readable {
                     let interval = piece.interval
-                    let start = try layout.frame(ofUs: interval.startUs, inSpan: index)
-                    let end = try layout.frame(ofUs: interval.endUs, inSpan: index)
+                    let start = try layout.frame(at: interval.startUs, inSpan: index)
+                    let end = try layout.frame(at: interval.endUs, inSpan: index)
                     if end > start {
-                        let decodeRange: (start: CMTime, end: CMTime)?
+                        let decodeRange: (start: CMTime, end: CMTime?)
                         if sourceWindow {
                             let run = piece.run
-                            let origin = try ExactTime(Int128(run.startUs - track.sourceOffsetUs)).sample(sampleRate, nearest: true)
-                            let skip = try ExactTime(Int128(interval.startUs)).sample(sampleRate) - ExactTime(Int128(run.startUs)).sample(sampleRate)
-                            let limit = try ExactTime(Int128(run.endUs - track.sourceOffsetUs)).sample(sampleRate, ceil: true)
+                            let origin = try run.startUs.subtract(ExactTime(Int128(track.sourceOffsetUs))).sample(sampleRate, nearest: true)
+                            let skip = try interval.startUs.sample(sampleRate) - run.startUs.sample(sampleRate)
+                            let limit = try run.endUs.subtract(ExactTime(Int128(track.sourceOffsetUs))).sample(sampleRate, ceil: true)
                             decodeRange = (CMTime(value: origin + skip, timescale: CMTimeScale(sampleRate)), CMTime(value: limit, timescale: CMTimeScale(sampleRate)))
-                        } else { decodeRange = nil }
-                        readableIntervals.append(Interval(source: interval, start: start, end: end, decodeRange: decodeRange))
+                        } else {
+                            let offset = ExactTime(Int128(track.sourceOffsetUs))
+                            let first = try interval.startUs.subtract(offset).sample(track.sampleRate, nearest: true)
+                            // Legacy excerpts retain the converter's requested-duration lookahead.
+                            decodeRange = (CMTime(value: first, timescale: CMTimeScale(track.sampleRate)), nil)
+                        }
+                        readableIntervals.append(Interval(start: start, end: end, decodeRange: decodeRange))
                     }
                 }
-                unavailable.append(contentsOf: span.subtracting(readable.map(\.interval)))
+                unavailable.append(contentsOf: span.subtracting(try readable.map { try $0.interval.roundedSpan() }))
             }
             intervals.append(readableIntervals)
             reports.append(
@@ -198,14 +203,9 @@ public final class AudioPCMStream: AudioPCMSource {
                         }
                         if interval.start >= end { break }
                         if conversions[track] == nil {
-                            if let range = interval.decodeRange {
-                                conversions[track] = try ConvertedAudioInterval(source: sources[track], decoder: decoders[track], start: range.start,
-                                    outputRate: format.sampleRate, owed: interval.end - interval.start, end: range.end)
-                            } else {
-                                conversions[track] = try ConvertedAudioInterval(
-                                    source: sources[track], decoder: decoders[track], interval: interval.source,
-                                    outputRate: format.sampleRate, owed: interval.end - interval.start)
-                            }
+                            let range = interval.decodeRange
+                            conversions[track] = try ConvertedAudioInterval(source: sources[track], decoder: decoders[track], start: range.start,
+                                outputRate: format.sampleRate, owed: interval.end - interval.start, end: range.end)
                         }
                         let begin = max(position, interval.start)
                         let finish = min(end, interval.end)

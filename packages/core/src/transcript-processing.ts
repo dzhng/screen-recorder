@@ -29,7 +29,7 @@ import { TranscriptRead, transcriptContinuation } from "./transcript-read.js";
 
 const artifact = "transcript";
 // Native PCM decoding is an execution input, separate from portable transcript schema policy.
-const decoderExecution = "native-audio-v2";
+const decoderExecution = "native-audio-v3";
 
 export type PortableTranscriptPublication = z.infer<typeof retainedPublicationSchema>;
 /** The model owner as transcription sees it: readiness, the verified file list and its pins. */

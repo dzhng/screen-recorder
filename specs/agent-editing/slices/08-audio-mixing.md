@@ -66,3 +66,8 @@ listening remain open.
 [Admission-boundary characterization](../assets/08-admission-boundaries/README.md) records one public fractional-rate/discrete-layout cohort: raw refusals and broader composition readiness differ, while measured output clocks/range phase and discrete channel samples agree. No policy change or independent fractional-source-time fidelity claim follows.
 
 [Fractional-rate refusal](../assets/08-fractional-rate-refusal/README.md) resolves a measured late-window phase defect with a shared integral-native-rate execution guard and new audio/movie recipe identities. Asset admission and discrete-two-channel mapping remain unchanged; old ready fractional recipes cannot bypass refusal.
+
+[Exact physical segment phase](../assets/08-rational-segment-phase/README.md)
+retains rational occupied times through the shared reader and invalidates affected
+derived recipes; full/late PCM, binding acquisition support and legacy converter
+lookahead have focused preservation evidence. Listening remains separate.

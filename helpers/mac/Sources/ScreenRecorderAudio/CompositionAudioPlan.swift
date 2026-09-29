@@ -1,4 +1,5 @@
 import Foundation
+import CoreMedia
 import ScreenRecorderMedia
 
 /// The compiler's audio schedule and child-before-parent processing tree, plus resolved asset
@@ -92,6 +93,12 @@ struct ExactTime: Codable, Sendable {
                 Fraction(numerator: Int64(numerator), denominator: Int64(denominator)))
         }
     }
+    init(_ time: CMTime) throws {
+        guard time.isNumeric, time.timescale > 0 else {
+            throw NativeFailure.decodeFailed("Audio segment has invalid presentation time.")
+        }
+        self.init(Int128(time.value) * 1_000_000, Int128(time.timescale))
+    }
     init(_ numerator: Int128, _ denominator: Int128 = 1) {
         var a = numerator.magnitude
         var b = denominator.magnitude
@@ -133,5 +140,31 @@ struct ExactTime: Codable, Sendable {
     }
     func equals(_ other: ExactTime) -> Bool {
         numerator == other.numerator && denominator == other.denominator
+    }
+}
+
+extension CompositionAudioPlan.Selection {
+    init(_ span: TimeSpan) {
+        self.init(startUs: ExactTime(Int128(span.startUs)), endUs: ExactTime(Int128(span.endUs)))
+    }
+    func intersection(_ other: Self) throws -> Self? {
+        let start = try startUs.subtract(other.startUs).numerator >= 0 ? startUs : other.startUs
+        let end = try endUs.subtract(other.endUs).numerator <= 0 ? endUs : other.endUs
+        return try end.subtract(start).numerator > 0 ? Self(startUs: start, endUs: end) : nil
+    }
+    /// Public microsecond evidence is a projection, never the execution clock.
+    func roundedSpan() throws -> TimeSpan {
+        TimeSpan(startUs: try startUs.sample(1_000_000, nearest: true),
+            endUs: try endUs.sample(1_000_000, nearest: true))
+    }
+    static func intersection(_ left: [Self], _ right: [Self]) throws -> [Self] {
+        var result: [Self] = []
+        var a = 0, b = 0
+        while a < left.count && b < right.count {
+            if let value = try left[a].intersection(right[b]) { result.append(value) }
+            if try left[a].endUs.subtract(right[b].endUs).numerator < 0 { a += 1 }
+            else { b += 1 }
+        }
+        return result
     }
 }

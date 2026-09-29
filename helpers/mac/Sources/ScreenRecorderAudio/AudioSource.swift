@@ -13,7 +13,7 @@ struct SourceTrack {
     let sampleRate: Int
     let packetFrames: Int
     let channels: Int
-    let available: [TimeSpan]
+    let available: [CompositionAudioPlan.Selection]
 
     static func open(selection: AudioSourceSelection, strictWindowFormat: Bool = false) async throws -> SourceTrack {
         try await open(source: selection.source, streamId: selection.streamId,
@@ -89,10 +89,11 @@ struct SourceTrack {
         // Empty edits hold no sample. AVFoundation would read them back as silence, which is
         // indistinguishable from recorded quiet, so absence is decided from the container's own
         // occupied segments rather than from the samples it is willing to produce.
-        let occupied = segments.map {
-            TimeSpan(
-                startUs: microseconds($0.asset.start) + sourceOffsetUs,
-                endUs: microseconds(CMTimeRangeGetEnd($0.asset)) + sourceOffsetUs)
+        let offset = ExactTime(-Int128(sourceOffsetUs))
+        let occupied = try segments.map {
+            CompositionAudioPlan.Selection(
+                startUs: try ExactTime($0.asset.start).subtract(offset),
+                endUs: try ExactTime(CMTimeRangeGetEnd($0.asset)).subtract(offset))
         }
         // Adjacent declarations describe continuous capture, so they must not restart decoding.
         // Even a one-microsecond hole remains a real exclusion; physical segment edges stay intact.
@@ -110,7 +111,8 @@ struct SourceTrack {
             track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,
             // Physical occupancy is not acquisition evidence. Recording callers supply acquired
             // intervals here; composition execution additionally intersects its retained domains.
-            available: TimeSpan.intersection(continuous, occupied))
+            available: try CompositionAudioPlan.Selection.intersection(
+                continuous.map(CompositionAudioPlan.Selection.init), occupied))
     }
 
     private static func nativeSampleRate(_ rate: Double) throws -> Int {
@@ -162,16 +164,6 @@ final class ConvertedAudioInterval {
     private var offset = 0
     private var exhausted = false
     private var paddingFrames: Int
-
-    convenience init(
-        source: SourceTrack, decoder: AudioSourceReader, interval: TimeSpan,
-        outputRate: Int, owed: Int64
-    ) throws {
-        try self.init(
-            source: source, decoder: decoder,
-            start: time(microseconds: interval.startUs - source.sourceOffsetUs),
-            outputRate: outputRate, owed: owed)
-    }
 
     init(
         source: SourceTrack, decoder: AudioSourceReader, start: CMTime,

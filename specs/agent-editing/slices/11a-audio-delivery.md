@@ -134,3 +134,8 @@ separates process-lifetime checks from decoded-media conformance.
 [Touching-support evidence](../assets/11a-touching-support/README.md) verifies that
 adjacent source availability declarations produce exactly the same WAV as their
 union, without erasing real gaps or relaxing recording cut validation.
+
+[Exact physical segment phase](../assets/08-rational-segment-phase/README.md)
+retains rational occupied times through the shared reader and invalidates affected
+derived recipes; full/late PCM, binding acquisition support and legacy converter
+lookahead have focused preservation evidence. Listening remains separate.

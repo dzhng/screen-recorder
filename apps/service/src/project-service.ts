@@ -267,7 +267,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       cache,
       project: { projects, renderer: audioRenderer },
       sourceRenderer: {
-        implementationId: "native-source-audio-v2",
+        implementationId: "native-source-audio-v3",
         render: async (request, signal) =>
           withRenderedFile(
             worker,

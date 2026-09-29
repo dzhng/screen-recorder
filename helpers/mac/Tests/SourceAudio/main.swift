@@ -224,6 +224,45 @@ for rate in [44_100, 48_000] {
     try JSONSerialization.data(withJSONObject: request).write(
         to: directory.appendingPathComponent("request-\(rate).json"))
 }
+// A sample-aligned physical edit need not have an integral microsecond boundary.
+let rationalInput = try await pcmMovie(fixture(rate: 48_000, channels: 1, name: "rational-source", seconds: 2.1))
+let rationalAsset = AVURLAsset(url: rationalInput)
+let rationalSource = try await rationalAsset.loadTracks(withMediaType: .audio)[0]
+let rationalComposition = AVMutableComposition()
+let rationalTrack = rationalComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+rationalTrack.naturalTimeScale = 6_000_000
+for (sourceStart, count, targetStart) in [(0, 32768, 4800), (40960, 55040, 45760)] {
+    try rationalTrack.insertTimeRange(
+        CMTimeRange(start: CMTime(value: Int64(sourceStart), timescale: 48000), duration: CMTime(value: Int64(count), timescale: 48000)),
+        of: rationalSource, at: CMTime(value: Int64(targetStart), timescale: 48000))
+}
+let rationalURL = directory.appendingPathComponent("rational-segments.mov")
+try await AVAssetExportSession(asset: rationalComposition, presetName: AVAssetExportPresetPassthrough)!.export(to: rationalURL, as: .mov)
+let rationalPublished = try await AVURLAsset(url: rationalURL).loadTracks(withMediaType: .audio)[0]
+let rationalSegments = SourceSegment.occupied(of: try await rationalPublished.load(.segments))
+precondition(rationalSegments[1].asset.start == CMTime(value: 45760, timescale: 48000))
+let rationalSelection = AudioSourceSelection(source: rationalURL.path, sourceOffsetUs: 0, available: [.init(startUs: 0, endUs: 2_100_000)])
+let rationalFullURL = directory.appendingPathComponent("rational-full.wav")
+_ = try await SourceAudio.write(source: rationalSelection, range: .init(startUs: 0, endUs: 2_100_000), output: rationalFullURL)
+let rationalFull = try wave(rationalFullURL).samples
+var rationalExpected = [Float](repeating: 0, count: 100800)
+for (sourceStart, count, targetStart) in [(0, 32768, 4800), (40960, 55040, 45760)] {
+    for frame in 0..<count { rationalExpected[targetStart + frame] = Float(((sourceStart + frame) * 3) % 101 - 50) / 100 }
+}
+precondition(rationalFull == rationalExpected, "Physical rational segments changed full source sample placement")
+let rationalLateURL = directory.appendingPathComponent("rational-late.wav")
+_ = try await SourceAudio.write(source: rationalSelection, range: .init(startUs: 1_200_000, endUs: 1_400_000), output: rationalLateURL)
+let rationalLate = try wave(rationalLateURL).samples
+precondition(rationalLate == Array(rationalExpected[57600..<67200]), "Late source window lost the physical segment phase")
+// Acquisition remains binding even when physical media exists outside it.
+let acquiredURL = directory.appendingPathComponent("rational-acquired.wav")
+_ = try await SourceAudio.write(
+    source: .init(source: rationalURL.path, sourceOffsetUs: 0, available: [.init(startUs: 1_200_000, endUs: 1_400_000)]),
+    range: .init(startUs: 1_000_000, endUs: 1_500_000), output: acquiredURL)
+let acquired = try wave(acquiredURL).samples
+precondition(acquired == [Float](repeating: 0, count: 9600) + Array(rationalExpected[57600..<67200]) + [Float](repeating: 0, count: 4800))
+print("PASS exact physical segment phase in full/late windows with binding acquisition support")
+
 for (rate, channels, discrete) in [(44_100.5, 2, false), (48_000.0, 4, true), (48_000.0, 2, true)] {
     let source = try fixture(
         rate: rate, channels: channels, name: "unsupported-\(rate)-\(channels)", discrete: discrete)

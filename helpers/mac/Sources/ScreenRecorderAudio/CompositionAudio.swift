@@ -71,8 +71,8 @@ public enum CompositionAudio {
             }
             previous = range.endUs
             for occupied in source.available {
-                let physicalStart = ExactTime(Int128(occupied.startUs))
-                let physicalEnd = ExactTime(Int128(occupied.endUs))
+                let physicalStart = occupied.startUs
+                let physicalEnd = occupied.endUs
                 let start =
                     try range.startUs.subtract(physicalStart).numerator >= 0
                     ? range.startUs : physicalStart

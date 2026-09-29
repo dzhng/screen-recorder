@@ -45,17 +45,14 @@ struct ExcerptLayout {
             / Int64(sampleRate)
     }
 
-    /// The output frame holding recording source time `us`, which must lie inside span `index`.
+    /// The output frame holding recording exact source time, which must lie inside span `index`.
     /// Quantised from the same cumulative playback timeline as the span boundaries, so material
     /// inside a span cannot land a frame away from where that span was placed.
-    func frame(ofUs us: Int64, inSpan index: Int) throws -> Int64 {
-        if let sourceOriginFrame {
-            // Selected windows use the same absolute floor clock as composition output.
-            return try ExactTime(Int128(us)).sample(sampleRate) - sourceOriginFrame
-        }
-        return Self.frames(ofUs: playedUs[index] + (us - spans[index].startUs), at: sampleRate)
+    func frame(at time: ExactTime, inSpan index: Int) throws -> Int64 {
+        if let sourceOriginFrame { return try time.sample(sampleRate) - sourceOriginFrame }
+        let offset = ExactTime(Int128(spans[index].startUs) - Int128(playedUs[index]))
+        return try time.subtract(offset).sample(sampleRate, nearest: true)
     }
-
     /// Ramp length at a join. Half of a short span, so a fade-out and a fade-in inside the same
     /// span never overlap and the span keeps its full length.
     func rampFrames(ofSpan index: Int) -> Int64 {
