@@ -17,6 +17,8 @@ prerequisite checkpoints below.
   failure. Implement the retained publication proposal through existing no-clobber
   output and termination owners: intent, verified candidate, canonical file,
   receipt, restart continuation and eligible cleanup. Reuse20c verification.
+  Account for existing native-control/recovery-worker and outer client deadlines;
+  prove long finalization/retry/cancellation through public operations.
   Immutable import/package closure remains20d work. Do not activate the new
   callback/layout through an interim dual writer mode.
 - **Shared reader/materializer:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.

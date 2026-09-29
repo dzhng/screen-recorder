@@ -67,6 +67,16 @@ and before/after staging cleanup. Corrupt or mismatched candidates never permit 
 of recoverable input. Partial results carry truthful failure/support rather than
 pretending the entire take passed.
 
+The public orchestration already bounds native control and recovery workers through
+[protocol deadlines](../../../packages/protocol/src/framing.ts),
+[client operation budgets](../../../packages/protocol/src/operations.ts) and
+[the worker owner](../../../apps/service/src/worker.ts). Exercise finalization and
+recovery workloads exceeding their old short-operation budgets, including retries
+and cancellation. Preserve truthful finalizing state and existing attempt ownership;
+do not widen every operation's timeout or infer public success from an unbounded
+standalone native call. Any per-operation budget must cover its actual consumed
+work and remain consistent with the outer client wait.
+
 Run public source get/list, audio evidence/read, asset adoption and project placement
 on the canonical files; cover restart, history/package dependency closure and take
 retirement so publication does not strand bytes or relabel staging as an asset.
