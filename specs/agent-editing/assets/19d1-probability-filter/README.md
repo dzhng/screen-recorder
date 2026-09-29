@@ -66,3 +66,7 @@ filtered audio/replay through the managed worker. The existing19d artifact and
 all frozen originals remain untouched. Parent settings acceptance remains open.
 
 Archive SHA256: `04ea0d051bd561dcd7353ea0e8d42386e52fcbc4f413c886cf354bc3aa2c45e8`.
+
+[Root verification](root-verification.json) independently reran the same numerical
+controls through the frozen runtime with network access denied. All classifications
+and preservation checks reproduced; this still does not claim synthesis parity.
