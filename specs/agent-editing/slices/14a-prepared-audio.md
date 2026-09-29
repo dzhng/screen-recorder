@@ -109,5 +109,6 @@ unit-rate, split and constant-gain output, bounded reads after restart, lifecycl
 tests and the broad-suite verification limits. The public command and ordinary retained-asset inspection now exercise the
 production native renderer through the existing owner. Package export now retains supported prepared receipts through the existing owner.
 The linked learned runtime and portable retained results are verified in their
-scoped leaves. Successful long-output scaling, remaining lifecycle/processor
-combinations and listening acceptance remain required before full closure.
+scoped leaves. Successful long-output scaling is verified in [24f](24f-successful-learned-scale.md).
+Accepted stretch binding and the remaining processor/listening combinations stay
+with their owning slices before full closure.

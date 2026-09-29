@@ -1,6 +1,6 @@
 # 16b — Canonical numerical scalar program
 
-Status: implemented and verified as a numerical prerequisite; public gain delivery remains in16. Dependencies: [16a](./16a-curve-primitives.md).
+Status: implemented and verified as a numerical prerequisite. [Public unit-rate gain](../assets/16-gain/README.md) is now verified; delivered retime+gain remains in16. Dependencies: [16a](./16a-curve-primitives.md).
 
 ## Contract
 
@@ -100,4 +100,5 @@ The compiler and native numerical executor pass independent analytic controls an
 cross-runtime conformance in debug and optimized Swift builds. Existing reviewed
 geometry PNGs remain byte-identical. The counterexamples, mutation evidence and
 receipts live in [the numerical evidence](../assets/16b-scalar-program/README.md).
-Public audio gain adoption remains a separate delivery gate in slice16.
+The subsequent [public gain evidence](../assets/16-gain/README.md) verifies unit-rate
+delivery; [16](16-keyframes.md) retains delivered retime+gain and full journeys.

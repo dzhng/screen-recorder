@@ -10,8 +10,11 @@ The fixed model is linked directly into the native audio target. Explicit local 
 
 A bounded startup metadata query binds the observed native recipe identity to audio and movie execution. Missing capability leaves new RNNoise preparation unavailable. Existing prepared PCM can still be read without executing RNNoise or satisfying its current availability requirement. This is a consumer independence claim within the linked-binary test, not a model-absent binary claim.
 
-Produced execution requires actual mono source format matching stored provenance and complete selected readable support. Authored silence and equal-channel gain/mixing preserve structural dual mono, which is checked before inference. Declared stereo, unknown format, changed physical format and missing support refuse. General stereo processing is not enabled.
+This initial checkpoint required actual mono source format matching stored provenance and complete selected readable support. Authored silence and equal-channel gain/mixing preserve structural dual mono, which is checked before inference. At this checkpoint, declared stereo, unknown format, changed physical format and missing support refused. The subsequent [independent-channel checkpoint](15a2f-independent-channels.md) owns current stereo execution; do not reinstate this historical mono-only restriction.
 
 The linked and public harnesses in `packages/test-harness/editing/denoise-runtime*.mjs` own replay. Complete frozen PCM comparisons are numerical preservation evidence only. The user's unfamiliar random-word excerpt feedback established no obvious artifacts, not intelligibility or word retention. Any later human audition must use complete meaningful sentences from their recording, with the original alongside and one clear question; this checkpoint requests no audition.
 
-Remaining parent gates include the full independent-channel policy, broader prepared portability/consumer acceptance, and protected-speech/listening judgment. Neither matched PCM nor a successful linked build closes them.
+Independent-channel execution and learned portability are now verified through
+[15a2](15a2-denoise-prepared-consumers.md). Protected-speech/spatial listening and
+post-retime acceptance remain with [15a3](15a3-denoise-acceptance.md); matched PCM
+and a successful linked build do not close those judgments.
