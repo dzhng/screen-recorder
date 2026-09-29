@@ -1,6 +1,6 @@
 # 15a2b — Structural parent domains and authored activation
 
-Status: verified pure metadata checkpoint; [retained evidence](../assets/15a2b-parent-state-windows/README.md). Extends [15a2a](./15a2a-state-domains.md) through the same pure state owner. RNNoise execution remains unavailable; [15a2](./15a2-denoise-prepared-consumers.md) retains channel/native/prepared integration.
+Status: verified pure metadata checkpoint; [retained evidence](../assets/15a2b-parent-state-windows/README.md). Dependencies: [15a2a](./15a2a-state-domains.md). Extends the same pure state owner. RNNoise execution remains unavailable; [15a2](./15a2-denoise-prepared-consumers.md) retains channel/native/prepared integration.
 
 ## Domain and prefix contract
 

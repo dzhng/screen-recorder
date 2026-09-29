@@ -110,9 +110,12 @@ No production deadline or transaction guarantee changed.
   [clip state-domain checkpoint](15a2a-state-domains/README.md) is integrated with
   [root history/readiness verification](15a2a-state-domains/root-verification.json).
   Shared split state, independent copies and bounded edit repair are metadata
-  contracts; no rendered RNNoise is implied. Next extend this same owner through
-  parent routing and connected authored windows, then channel admission and existing
-  prepared ownership for runtime integration. Public readiness remains unchanged. No
+  contracts; no rendered RNNoise is implied. The [parent/window checkpoint](15a2b-parent-state-windows/README.md)
+  is now integrated with [combined-root verification](15a2b-parent-state-windows/root-verification.json).
+  Exact active-member selection, ordered prefix dependencies and gap readiness are
+  verified. Next bind out-of-range state input dependencies and actual channel
+  provenance through existing project/prepared owners, then integrate native execution.
+  Public readiness remains unchanged. No
   protected-word acceptance follows from the user's no-artifacts feedback.
 
 The [sparse storage checkpoint](20a-sparse-storage/README.md) retains the capture

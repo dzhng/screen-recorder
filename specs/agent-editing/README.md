@@ -251,6 +251,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [15a1 — Frozen learned native-entry parity](slices/15a1-denoise-entry-parity.md)
 - [ ] [15a2 — Typed learned state and prepared consumers](slices/15a2-denoise-prepared-consumers.md)
 - [x] [15a2a — Revision-owned clip state domains](slices/15a2a-state-domains.md)
+- [x] [15a2b — Structural parent domains and authored activation](slices/15a2b-parent-state-windows.md)
 - [ ] [15a3 — Combined, temporal and protected-speech acceptance](slices/15a3-denoise-acceptance.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)

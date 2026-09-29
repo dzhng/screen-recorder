@@ -1,0 +1,28 @@
+{
+  "commit": "bf156bf7",
+  "scope": "Combined-root pure state planning, history and unavailable-execution checks; no native DSP or listening claim",
+  "buildBeforeTests": true,
+  "tests": {
+    "passed": 243,
+    "skipped": 1
+  },
+  "typechecks": [
+    "composition",
+    "core"
+  ],
+  "retainedAgentArtifactsVerified": 32,
+  "logs": [
+    {
+      "file": "screenrec-parent-state-root-tests.log",
+      "sha256": "4422c35429b185e5a448c8dcb819779ea5e494e5f16a75b21b2014ad12b6fd7c"
+    },
+    {
+      "file": "screenrec-parent-state-root-composition-types.log",
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "file": "screenrec-parent-state-root-core-types.log",
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    }
+  ]
+}

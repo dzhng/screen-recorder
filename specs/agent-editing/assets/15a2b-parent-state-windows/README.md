@@ -13,3 +13,5 @@ Negative controls replace interval selection with step-only selection, and repla
 `evidence.tar.gz` retains review logs, failures, measurements and exact tracer requests/manifests. `manifest.json` authenticates every member; `SHA256SUMS` authenticates the archive and manifest. Extract into scratch for inspection. Embedded local paths record provenance and do not constitute portable command defaults.
 
 The next gate is actual channel provenance and native/prepared binding through the existing owners. In particular, bindings/resource references and missing-support diagnostics must include selected state prerequisites beyond the requested output range. Neither stereo output format nor this metadata pass establishes dual mono, general stereo policy, complete prepared lifecycle acceptance, or audible quality.
+
+[Combined-root verification](root-verification.json) confirms the focused suite and both typechecks after building the merged composition dependency. Root logs are retained in `root-verification.tar.gz`; no native execution was enabled.
