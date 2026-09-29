@@ -50,9 +50,10 @@ export type ValidatedComposition = Readonly<{
   clips: readonly Immutable<ResolvedClip>[];
   durationUs: number;
 }>;
-function freeze<T>(value: T): Immutable<T> {
-  if (value !== null && typeof value === "object") {
-    for (const child of Object.values(value)) freeze(child);
+function freeze<T>(value: T, seen = new WeakSet<object>()): Immutable<T> {
+  if (value !== null && typeof value === "object" && !seen.has(value)) {
+    seen.add(value);
+    for (const child of Object.values(value)) freeze(child, seen);
     Object.freeze(value);
   }
   return value as Immutable<T>;
@@ -292,6 +293,7 @@ export function resolveComposition(
     }
   }
   const resolved = new Map<string, ResolvedClip>();
+  const supportByStream = new Map<Stream, Map<Range[] | undefined, ExactRange[]>>();
   for (let next = 0; next < ready.length; next++) {
     const clip = ready[next]!;
     const track = tracks.get(clip.trackId);
@@ -341,20 +343,38 @@ export function resolveComposition(
     };
     let available: ExactRange[] = [anchor.range];
     if (stream && isMediaClip(clip) && (stream.kind !== "image" || acquisition)) {
-      const support = (
-        stream.kind === "image" ? acquisition! : sourceAvailability(stream.available, acquisition)
-      ).map(exact);
+      let byAcquisition = supportByStream.get(stream);
+      if (!byAcquisition) supportByStream.set(stream, (byAcquisition = new Map()));
+      let support = byAcquisition.get(acquisition);
+      if (!support) {
+        support = (
+          stream.kind === "image" ? acquisition! : sourceAvailability(stream.available, acquisition)
+        ).map(exact);
+        byAcquisition.set(acquisition, support);
+      }
+      const start =
+        clip.source.kind === "hold"
+          ? integer(clip.source.atUs)
+          : fromTime(clip.source.range.startUs);
+      let low = 0,
+        high = support.length;
+      while (low < high) {
+        const middle = Math.floor((low + high) / 2);
+        if (compare(support[middle]!.end, start) <= 0) low = middle + 1;
+        else high = middle;
+      }
       if (clip.source.kind === "hold") {
-        const at = integer(clip.source.atUs);
-        available = support.some((range) => contains(range, at)) ? [anchor.range] : [];
+        available = low < support.length && contains(support[low]!, start) ? [anchor.range] : [];
       } else {
         const selected = exact(clip.source.range);
-        available = support.flatMap((range) => {
-          const kept = intersection(range, selected);
-          return kept
-            ? [{ start: projectTime(result, kept.start), end: projectTime(result, kept.end) }]
-            : [];
-        });
+        available = [];
+        for (let i = low; i < support.length && compare(support[i]!.start, selected.end) < 0; i++) {
+          const kept = intersection(support[i]!, selected)!;
+          available.push({
+            start: projectTime(result, kept.start),
+            end: projectTime(result, kept.end),
+          });
+        }
       }
     }
     resolved.set(clip.id, { ...result, available: intersectAll(anchor.available, available) });

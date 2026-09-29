@@ -1,0 +1,65 @@
+{
+  "files": {
+    "input.json": {
+      "bytes": 8588215,
+      "sha256": "f9b2fd6b6ce757fe2c7f591c1ea4945ec2ed2d6820468c781da0ce23b5716673"
+    },
+    "resolved.json": {
+      "bytes": 9561239,
+      "sha256": "68ae3ec727512b14f89353e61bdaa9505400ff61344116c345a14f8c985fbfc1"
+    },
+    "retained-report.json": {
+      "bytes": 385,
+      "sha256": "4e983b19160d671f1541a247ccec7c13422b301c17bdaa32728810c9d60662dd"
+    },
+    "actual-red.json": {
+      "bytes": 198,
+      "sha256": "ea1b70ddbd9c336e5d5e7c109b485a043e92d946f91cfc7b7b0d89b15d0df11f"
+    },
+    "actual-green.json": {
+      "bytes": 196,
+      "sha256": "d061672f0fb223126fe48cfca6b393dd4bc91a512e304ff677d29e00bd269b70"
+    },
+    "synthetic-red.json": {
+      "bytes": 278,
+      "sha256": "030eac0358a70007a403e9147d0e763102792d133d16ccc5809324c2d8e5e899"
+    },
+    "freeze-only.json": {
+      "bytes": 278,
+      "sha256": "7a2f5c55b56b57049bcd7143aff906ab73eb5927dff9d4edd70424a2d5b84e19"
+    },
+    "synthetic-green.json": {
+      "bytes": 276,
+      "sha256": "b1985e1c827154d3206c553ff217a6a00e1f675ea9fdc808a576a59679ff86f6"
+    },
+    "mutation.log": {
+      "bytes": 1274,
+      "sha256": "8f124c4077bb342f7bc3219d5db6fcae06116ad36cf0748634d57fdb1c92a99e"
+    },
+    "composition-tests.log": {
+      "bytes": 398,
+      "sha256": "5c331ac63b35687ca0cc707e55e59280d1f5e368011917150be47c69533604f1"
+    },
+    "types.log": {
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    "review.log": {
+      "bytes": 44722,
+      "sha256": "741ce5ae54298b9dc9cc12e5e615d853e772a9464a6b8995843ef6edf70d5cc2"
+    },
+    "baseline-profile.cpuprofile": {
+      "bytes": 107099,
+      "sha256": "8463b3f109bb17758ba2cd1266ca88eb4372ef28ef02d3fea3b8d6884d3ba6e0"
+    },
+    "actual-probe.mjs": {
+      "bytes": 2008,
+      "sha256": "e2a6bd5d623d59f9f8235d1a7177c2b2640c78a98d1bdf4833a17ad10207ff27"
+    },
+    "baseline-model.ts": {
+      "bytes": 19181,
+      "sha256": "72adc17928c6c28921a297d58bfc3dbd079eb4eaebe4972fa9bcd348b308b904"
+    }
+  },
+  "archiveSha256": "59437f7b0dc843212a34063febf1225fb308011febbb6a8604c460c077d9f13f"
+}

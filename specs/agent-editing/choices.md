@@ -3223,3 +3223,12 @@ conservative rather than a universal performance guarantee. Expiry keeps source 
 and reports a retryable failure. The plan required fragmentation-aware budgeting but
 did not specify this allowance; later scale evidence may revise it without changing
 editing semantics or global client deadlines.
+
+### Share source support only within one validation (sound, high confidence)
+
+When many short clips use one fragmented source, the model now computes the shared
+source/acquisition intersection once for that validation, then selects only the
+intervals each clip touches. A different acquisition keeps a different intersection.
+Freezing the result visits shared objects once. The scale plan left the optimization
+mechanism open; keeping this index local avoids a long-lived cache or invalidation
+policy, while preserving every selected interval and exact rational boundary.

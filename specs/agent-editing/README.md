@@ -291,6 +291,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24d — One committed document in public edit receipts](slices/24d-edit-receipts.md)
 - [x] [24e — Compact public job recipe identity](slices/24e-job-status.md)
 - [x] [24f — Successful long learned preparation](slices/24f-successful-learned-scale.md)
+- [ ] [24g — Bounded fragmented-source selections](slices/24g-fragmented-selection.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

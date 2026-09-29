@@ -1,6 +1,6 @@
 # 20d3 — Inventory-bound project package JSON
 
-Status: implementation verification; follows [20d2](20d2-asset-metadata-pages.md).
+Status: implementation verification. Dependencies: [20d2](20d2-asset-metadata-pages.md).
 
 Complete selected history and resource metadata belong in inventory-bound JSON
 members. Compact manifest references preserve the unchanged control-frame and

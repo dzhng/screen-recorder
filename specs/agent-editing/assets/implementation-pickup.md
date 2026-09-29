@@ -52,7 +52,10 @@ with independent state per output channel. Listening acceptance remains open.
   native metadata object through bounded attempt files. [Physical-row admission](20d-probe-rows/README.md)
   now passes the actual100k-run public import on root. [Indexed asset pages](20d2-asset-pages/README.md)
   now reconstruct every row through CLI/MCP on root without scanning a full JSON
-  array per page. Next complete inventory-bound package metadata delivery. Those limits remain
+  array per page. The inventory-bound package implementation is integrated, with its combined
+  fragmented-source/history gate still open under [24g](../slices/24g-fragmented-selection.md).
+  The model checkpoint removes repeated whole-source support work; next prove the
+  complete public combination. Those limits remain
   separate from source-verification timing and native probe transport.
   Readable prefixes never authorize deleting ambiguous tails; cleanup requires
   matching accepted/committed/represented counts and clean indexed decode.
