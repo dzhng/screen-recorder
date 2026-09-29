@@ -1,0 +1,23 @@
+{
+  "payload": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/20a-capture-owner-gap/run/native/omitted-buffer/narration.mov",
+  "output": "/tmp/capture-admission-retained/canonical",
+  "rate": 48000,
+  "runs": [
+    {
+      "firstFrame": 0,
+      "frames": 32768,
+      "sourceStart": {
+        "value": 1,
+        "timescale": 10
+      }
+    },
+    {
+      "firstFrame": 32768,
+      "frames": 55040,
+      "sourceStart": {
+        "value": 143,
+        "timescale": 150
+      }
+    }
+  ]
+}

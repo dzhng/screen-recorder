@@ -1,0 +1,59 @@
+{
+  "ambiguity" : "A declared1us exclusion and timestamp residue get the same adjacent sample classification. Address-only policy cannot establish support preservation.",
+  "cases" : [
+    {
+      "chunk" : 1024,
+      "frames" : 88200,
+      "joins" : 86,
+      "name" : "grouping",
+      "rate" : 44100,
+      "runs" : 1
+    },
+    {
+      "chunk" : 8192,
+      "frames" : 88200,
+      "joins" : 10,
+      "name" : "grouping",
+      "rate" : 44100,
+      "runs" : 1
+    },
+    {
+      "chunk" : 1024,
+      "frames" : 96000,
+      "joins" : 93,
+      "name" : "grouping",
+      "rate" : 48000,
+      "runs" : 1
+    },
+    {
+      "chunk" : 8192,
+      "frames" : 96000,
+      "joins" : 11,
+      "name" : "grouping",
+      "rate" : 48000,
+      "runs" : 1
+    },
+    {
+      "gapFrames" : 8192,
+      "lateOriginalFrame" : 52800,
+      "name" : "omitted-buffer",
+      "secondFrame" : 40960
+    },
+    {
+      "crossingRejected" : true,
+      "name" : "pause",
+      "resumedFrame" : 39552
+    },
+    {
+      "name" : "overlap",
+      "refusedWithoutStateAdvance" : true
+    },
+    {
+      "name" : "ties",
+      "nearestTiesAwayFromZero" : true
+    }
+  ],
+  "explicitMicrosecondGapPreserved" : false,
+  "rolloutReady" : false,
+  "scope" : "offline CaptureClock admission candidate; production writer unused"
+}

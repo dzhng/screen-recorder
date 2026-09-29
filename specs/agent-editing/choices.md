@@ -2674,3 +2674,15 @@ It rejects unsupported format, invalid reads and nonfinite scaled samples, and
 propagates cancellation/read/write errors. It adds no editorial strength/channel
 policy, source decoder or automatic quality acceptance. Confidence is high in
 this narrow ownership split; the public target/state contract remains open.
+
+
+### Candidate PCM ties and accepted-state boundary (sound, provisional)
+
+In the bounded 20b prototype, a time halfway between native sample positions rounds
+away from zero, matching the existing microsecond boundary rule. The fixed phase
+is established only when the accepted-buffer method is called; skipped appends do
+not call it. This avoids a failed first buffer silently becoming the reference
+for later captured audio. Actual append/journal transaction wiring is still a
+required integration gate. Confidence is medium for the candidate as a whole:
+its native tracer passes, but public support projection, resampling and recovery
+must be judged before production adoption. No per-reader correction is authorized.

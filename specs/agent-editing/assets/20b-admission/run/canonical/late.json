@@ -1,0 +1,21 @@
+{
+  "bytes" : 42496,
+  "channels" : 1,
+  "decodedFrames" : 16384,
+  "file" : "\/tmp\/capture-admission-retained\/canonical\/late.wav",
+  "frames" : 9600,
+  "layout" : "mono",
+  "mediaType" : "audio\/wav",
+  "range" : {
+    "endUs" : 1400000,
+    "startUs" : 1200000
+  },
+  "sampleRange" : {
+    "end" : 67200,
+    "start" : 57600
+  },
+  "sampleRate" : 48000,
+  "unavailable" : [
+
+  ]
+}

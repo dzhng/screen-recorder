@@ -1,3 +1,4 @@
+import CoreMedia
 import Foundation
 
 public struct PauseEvent: Codable, Sendable, Equatable {
@@ -11,6 +12,22 @@ public struct CaptureClock: Sendable {
     private var intervals: [(start: Int64, end: Int64)] = []
     private var pausedAt: Int64?
     private var sealedAt: Int64?
+    private var pcmPhases: [String: PCMPhase] = [:]
+
+    private struct PCMPhase: Sendable {
+        let anchorUs: Int64
+        let rate: Int32
+        var endFrame: Int64
+        var removedUs: Int64
+    }
+
+    package struct PCMPlacement: Codable, Sendable {
+        package let anchorUs: Int64
+        package let firstFrame: Int64
+        package let frames: Int64
+        package let rate: Int32
+        package let joinsPrevious: Bool
+    }
 
     public init() {}
     public var isPaused: Bool { pausedAt != nil }
@@ -25,8 +42,9 @@ public struct CaptureClock: Sendable {
         var removedUs: Int64 = 0
         for interval in intervals where interval.start >= hostUs {
             let duration = interval.end - interval.start
-            pauses.append(PauseEvent(
-                atSourceUs: interval.start - hostUs - removedUs, elapsedPauseUs: duration))
+            pauses.append(
+                PauseEvent(
+                    atSourceUs: interval.start - hostUs - removedUs, elapsedPauseUs: duration))
             removedUs += duration
         }
         return true
@@ -45,6 +63,62 @@ public struct CaptureClock: Sendable {
         guard let originUs, hostUs >= originUs, accepts(hostUs: hostUs, durationUs: durationUs)
         else { return nil }
         return hostUs - originUs - removedBefore(hostUs, originUs: originUs)
+    }
+
+    /// Offline candidate seam. Production writer does not call this until admission/support gates pass.
+    /// The caller supplies accepted buffers only; rejected appends must never advance this phase.
+    package mutating func recordAcceptedPCM(
+        role: String, hostPTS: CMTime, frames: Int64, rate: Int32
+    )
+        throws -> PCMPlacement?
+    {
+        guard ["narration", "system"].contains(role), hostPTS.isNumeric, hostPTS.timescale > 0,
+            hostPTS.epoch == 0,
+            frames > 0, frames <= Int64(Int32.max), (1...192_000).contains(rate)
+        else { throw CaptureFailure("INVALID_AUDIO_TIMING", "Invalid PCM timing candidate.") }
+        // Int64 raw values, Int32 scales/rates and these products fit Int128. Round only at named boundaries.
+        func nearest(_ numerator: Int128, _ denominator: Int128) throws -> Int64 {
+            let magnitude = numerator.magnitude
+            let rounded = (magnitude + UInt128(denominator) / 2) / UInt128(denominator)
+            let signed = numerator < 0 ? -Int128(rounded) : Int128(rounded)
+            guard let value = Int64(exactly: signed) else {
+                throw CaptureFailure("INVALID_AUDIO_TIMING", "PCM position exceeds capture bounds.")
+            }
+            return value
+        }
+        let scale = Int128(hostPTS.timescale)
+        let hostUs = try nearest(Int128(hostPTS.value) * 1_000_000, scale)
+        let durationUs = try nearest(Int128(frames) * 1_000_000, Int128(rate))
+        guard hostUs <= Int64.max - durationUs else {
+            throw CaptureFailure("INVALID_AUDIO_TIMING", "PCM interval exceeds capture bounds.")
+        }
+        guard sourceTime(for: hostUs, durationUs: durationUs) != nil, let originUs else {
+            return nil
+        }
+        let removedUs = removedBefore(hostUs, originUs: originUs)
+        let relative =
+            Int128(hostPTS.value) * 1_000_000 - (Int128(originUs) + Int128(removedUs)) * scale
+        let prior = pcmPhases[role]
+        if let prior, prior.rate != rate {
+            throw CaptureFailure(
+                "AUDIO_FORMAT_CHANGED", "PCM rate changed within the declared phase.")
+        }
+        let anchor = try prior?.anchorUs ?? nearest(relative, scale)
+        let first = try nearest(
+            (relative - Int128(anchor) * scale) * Int128(rate), scale * 1_000_000)
+        guard first >= 0, prior.map({ first >= $0.endFrame }) ?? true else {
+            throw CaptureFailure("AUDIO_OVERLAP", "PCM classification overlaps admitted samples.")
+        }
+        let end = first.addingReportingOverflow(frames)
+        guard !end.overflow else {
+            throw CaptureFailure("INVALID_AUDIO_TIMING", "PCM frame count overflow.")
+        }
+        let placement = PCMPlacement(
+            anchorUs: anchor, firstFrame: first, frames: frames, rate: rate,
+            joinsPrevious: prior.map { first == $0.endFrame && removedUs == $0.removedUs } ?? false)
+        pcmPhases[role] = PCMPhase(
+            anchorUs: anchor, rate: rate, endFrame: end.partialValue, removedUs: removedUs)
+        return placement
     }
 
     /// The same interval rule gates origin and media placement, including delayed deliveries

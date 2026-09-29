@@ -35,7 +35,7 @@ let package = Package(
         .executableTarget(name: "CameraReproduction", dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire", "ScreenRecorderAudio"], path: "Tests/CameraReproduction"),
         .executableTarget(
             name: "ScreenRecorderCaptureTests",
-            dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire"],
+            dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire", "ScreenRecorderAudio"],
             path: "Tests/ScreenRecorderCaptureTests"),
         .executableTarget(
             name: "ScreenRecorderFrameTests", dependencies: ["ScreenRecorderFrames", "ScreenRecorderMedia"],

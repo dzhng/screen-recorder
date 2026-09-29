@@ -1,0 +1,60 @@
+{
+  "canonicalSha256" : "2d787c321ea8ed4e29ffa79664c6e84fffeebd9250e71770b8c788740fdef40a",
+  "completed" : true,
+  "payloadSha256" : "b12961f5ec11d49854a7e676291929565b16020d77188d5eb7c194cab3a95256",
+  "reads" : [
+    {
+      "end" : 100800,
+      "label" : "full",
+      "start" : 0
+    },
+    {
+      "end" : 67200,
+      "label" : "late",
+      "start" : 57600
+    }
+  ],
+  "scope" : "probe-known exact mapping; no legacy journal reconstruction",
+  "segments" : [
+    {
+      "firstFrame" : 0,
+      "frames" : 32768,
+      "mediaDuration" : {
+        "timescale" : 6000000,
+        "value" : 4096000
+      },
+      "mediaStart" : {
+        "timescale" : 6000000,
+        "value" : 0
+      },
+      "sourceDuration" : {
+        "timescale" : 6000000,
+        "value" : 4096000
+      },
+      "sourceStart" : {
+        "timescale" : 6000000,
+        "value" : 600000
+      }
+    },
+    {
+      "firstFrame" : 32768,
+      "frames" : 55040,
+      "mediaDuration" : {
+        "timescale" : 6000000,
+        "value" : 6880000
+      },
+      "mediaStart" : {
+        "timescale" : 6000000,
+        "value" : 4096000
+      },
+      "sourceDuration" : {
+        "timescale" : 6000000,
+        "value" : 6880000
+      },
+      "sourceStart" : {
+        "timescale" : 6000000,
+        "value" : 5720000
+      }
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "scope": "offline admitted-time candidate; production writer not connected",
+  "owner": [
+    {
+      "chunk": 1024,
+      "frames": 88200,
+      "joins": 86,
+      "name": "grouping",
+      "rate": 44100,
+      "runs": 1
+    },
+    {
+      "chunk": 8192,
+      "frames": 88200,
+      "joins": 10,
+      "name": "grouping",
+      "rate": 44100,
+      "runs": 1
+    },
+    {
+      "chunk": 1024,
+      "frames": 96000,
+      "joins": 93,
+      "name": "grouping",
+      "rate": 48000,
+      "runs": 1
+    },
+    {
+      "chunk": 8192,
+      "frames": 96000,
+      "joins": 11,
+      "name": "grouping",
+      "rate": 48000,
+      "runs": 1
+    },
+    {
+      "anchorUs": 270667,
+      "firstFrame": 0,
+      "name": "first-accepted-phase"
+    },
+    {
+      "anchorUs": 100000,
+      "laterFrame": 1024,
+      "name": "nonzero-origin",
+      "relativeInitialRawResidueNs": 499
+    },
+    {
+      "gapFrames": 8192,
+      "lateOriginalFrame": 52800,
+      "name": "omitted-buffer",
+      "secondFrame": 40960
+    },
+    {
+      "crossingRejected": true,
+      "name": "pause",
+      "resumedFrame": 39552
+    },
+    {
+      "name": "overlap",
+      "refusedWithoutStateAdvance": true
+    },
+    {
+      "name": "ties",
+      "nearestTiesAwayFromZero": true
+    },
+    {
+      "binding": true,
+      "endUs": 1200042,
+      "name": "explicit-reader-mask",
+      "startUs": 1200041
+    }
+  ],
+  "fullFrames": 100800,
+  "lateFrames": 9600,
+  "lateOriginalFirstFrame": 52800,
+  "fullLateOriginalPCMExact": true,
+  "explicitMask": {
+    "startUs": 1200041,
+    "endUs": 1200042,
+    "excludedAbsoluteOutputFrame": 57601,
+    "allOtherSamplesExact": true
+  },
+  "captureWorkerSha256": "503bbf0ffd7578af14f8106893cc21b5cc3944694377e9360c9a7d38113cf5d0",
+  "storageWorkerSha256": "74f05b86b692c438056adb9d20e73fae30936414ab51aff8902ab2db3eb8118b",
+  "rolloutReady": false
+}

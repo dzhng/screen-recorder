@@ -1,6 +1,6 @@
 # 20b — Exact capture placement and accepted PCM addresses
 
-Status: candidate admission policy approved for bounded offline prototype only; raw-through-container equivalence is not required. [Raw-scale findings](../assets/20b-time-feasibility/README.md) remain historical evidence. No writer rollout.
+Status: [bounded owner prototype](../assets/20b-admission/README.md) verifies addresses, actual omitted-buffer PCM and explicit reader masking. Journal/append integration and broader resample/recovery/support gates remain open. No writer rollout; no raw-host equivalence claim.
 Dependencies: [08](08-audio-mixing.md).
 
 ## Contract and owner
@@ -24,7 +24,10 @@ original 52800 at 1.2s and callback-grouping invariance on the controlled timest
 then explicit gap/pause/overlap behavior. Report any semantic ambiguity before
 broadening tests. Public microsecond support, resampling, fractional edit boundaries
 and full/window/recovery behavior remain acceptance gates. Raw provenance is not
-another playback map; all consumers use the same declared admitted source.
+another playback map; all consumers use the same declared admitted source. Candidate
+support is the union of successfully admitted sample intervals, clipped to the proven
+committed prefix, with explicit external acquisition/selection masks still binding.
+A raw timestamp residue alone is not an independently supplied support exclusion.
 
 CaptureWriter's existing serial callback queue owns accepted physical frame addresses.
 After a successful append, journal the role/payload identity, cumulative first PCM
