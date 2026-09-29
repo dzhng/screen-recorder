@@ -32,6 +32,7 @@ struct SourceTrack {
         let asset = input.asset
         let audio: AVAssetTrack
         let stream: AudioStreamBasicDescription
+        let sampleRate: Int
         let segments: [SourceSegment]
         do {
             let tracks = try await asset.loadTracks(withMediaType: .audio)
@@ -48,7 +49,15 @@ struct SourceTrack {
             }
             let descriptions = try await track.load(.formatDescriptions)
             if strictWindowFormat { try Self.validateWindowFormats(descriptions) }
-            guard let description = descriptions.first,
+            // The native reader's fractional-to-integer conversion is not phase-stable when seeking.
+            // Validate every description before any rate is converted to an integer.
+            let rates = try descriptions.map { description in
+                guard let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee else {
+                    throw NativeFailure.decodeFailed("Source audio format is unreadable: \(source.path).")
+                }
+                return try Self.nativeSampleRate(basic.mSampleRate)
+            }
+            guard let description = descriptions.first, let rate = rates.first,
                 let basic = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee
             else {
                 throw NativeFailure.decodeFailed(
@@ -56,6 +65,7 @@ struct SourceTrack {
             }
             audio = track
             stream = basic
+            sampleRate = rate
             segments = SourceSegment.occupied(of: try await track.load(.segments))
         } catch let failure as NativeFailure {
             if let detail = input.failure { throw detail }
@@ -65,13 +75,11 @@ struct SourceTrack {
             throw NativeFailure.decodeFailed(
                 "Cannot open \(source.path): \(error.localizedDescription)")
         }
-        let sampleRate = Int(stream.mSampleRate.rounded())
         let channels = Int(stream.mChannelsPerFrame)
         guard (1...32_768).contains(stream.mFramesPerPacket) else {
             throw NativeFailure("UNSUPPORTED_FORMAT", "Audio decoding requires a fixed packet size of at most 32768 native frames.")
         }
-        guard (1...AudioLimits.maximumSampleRate).contains(sampleRate),
-            (1...AudioLimits.maximumChannels).contains(channels)
+        guard (1...AudioLimits.maximumChannels).contains(channels)
         else {
             throw NativeFailure(
                 "LIMIT_EXCEEDED",
@@ -105,12 +113,21 @@ struct SourceTrack {
             available: TimeSpan.intersection(continuous, occupied))
     }
 
+    private static func nativeSampleRate(_ rate: Double) throws -> Int {
+        guard rate.isFinite, rate.rounded() == rate else {
+            throw NativeFailure("UNSUPPORTED_FORMAT", "Audio execution requires an integral native sample rate.")
+        }
+        guard (1...Double(AudioLimits.maximumSampleRate)).contains(rate) else {
+            throw NativeFailure("LIMIT_EXCEEDED", "Native audio sample rate is outside the supported bounds.")
+        }
+        return Int(rate)
+    }
+
     private static func validateWindowFormats(_ descriptions: [CMAudioFormatDescription]) throws {
         var signature: [Double]?
         for description in descriptions {
             guard let value = CMAudioFormatDescriptionGetStreamBasicDescription(description)?.pointee,
-                value.mSampleRate.isFinite, value.mSampleRate.rounded() == value.mSampleRate,
-                (1...Double(AudioLimits.maximumSampleRate)).contains(value.mSampleRate),
+                (try? nativeSampleRate(value.mSampleRate)) != nil,
                 value.mChannelsPerFrame == 1 || value.mChannelsPerFrame == 2
             else { throw NativeFailure("UNSUPPORTED_FORMAT", "Source windows require an integral native rate and mono or stereo audio.") }
             let current = [value.mSampleRate, Double(value.mChannelsPerFrame)]

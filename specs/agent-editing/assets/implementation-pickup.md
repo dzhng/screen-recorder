@@ -87,3 +87,5 @@ not close word retention or intelligibility. No further action on those clips
 was requested. Future user comparisons use complete meaningful sentences from
 their own recording and one clear question. Prior learned-filter preference
 stands; candidate boundaries remain unconfirmed and no new inference was run.
+
+[Fractional audio execution](08-fractional-rate-refusal/README.md) now refuses nonintegral native rates after a localized late-window defect; public audio/preview/preparation cache invalidation and named integer preservation pass. Fractional import remains available, with no offset/tolerance workaround or layout-policy expansion.

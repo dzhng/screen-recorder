@@ -138,6 +138,12 @@ Select the source presentation interval containing that time, not an assumed
 source frame number. At a half-open cut boundary, the following clip wins. Preserve
 source hold/gap/presentation evidence. A hold uses its explicit source time.
 
+Audio assets may retain fractional native-rate metadata, but current audio execution
+requires finite integral native rates from 1 through 192000 Hz in every reported
+format description. Unsupported fractional rates refuse before decoding; they are
+not rounded into executable readiness. This limit does not change asset admission
+or the separate source/project channel-layout policies.
+
 Audio output sample bounds are `floor(projectUs * sampleRate / 1_000_000)` at both
 ends, evaluated from absolute project positions rather than accumulated chunk
 lengths. A prepared retime delivers exactly the declared sample count with its

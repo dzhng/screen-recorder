@@ -227,6 +227,16 @@ for rate in [44_100, 48_000] {
 for (rate, channels, discrete) in [(44_100.5, 2, false), (48_000.0, 4, true), (48_000.0, 2, true)] {
     let source = try fixture(
         rate: rate, channels: channels, name: "unsupported-\(rate)-\(channels)", discrete: discrete)
+    #if DEBUG
+    if rate.rounded() != rate {
+        do {
+            _ = try await SourceTrack.open(
+                source: source.path, streamId: nil, sourceOffsetUs: 0,
+                available: [.init(startUs: 0, endUs: 1_000_000)])
+            fatalError("Common audio execution accepted a fractional native rate")
+        } catch let error as NativeFailure { precondition(error.code == "UNSUPPORTED_FORMAT") }
+    }
+    #endif
     do {
         _ = try await SourceAudio.write(
             source: .init(

@@ -2606,3 +2606,20 @@ its ordinary append-only revision sequence from that selected moment.
   enforced by edits and are not changed by a discovery annotation.
 - **Verdict:** Sound: the public description matches what callers can submit,
   using the existing single discovery owner. **Confidence:** High.
+
+## Fractional native audio execution
+
+- **Choice:** Keep fractional-rate audio importable, but refuse its execution until
+  the native decoding path can preserve source phase across seeks. Validate actual
+  format rates before integer conversion rather than rounding them silently.
+- **Gap:** Asset admission allowed fractional metadata, while the execution clock
+  used integer rates without an explicit supported-domain boundary.
+- **Evidence:** A declared44100.5Hz impulse fixture preserves full-render spacing
+  but shifts a late public window. The shift already exists in AVAssetReader output
+  before the second converter. An offset patch would hide a seek-dependent defect.
+- **Reach:** One SourceTrack rate validator governs execution. Source layout
+  restrictions and composition discrete-two-channel index mapping stay separate.
+  Audio/movie recipe identities advance; prepared recipes inherit the audio
+  executor identity so prior ready results cannot satisfy a new request.
+- **Verdict:** Sound with high confidence for explicit refusal; fractional-rate support and broader decoder quality
+  remain unproven. Asset admission and retained original provenance are unchanged.
