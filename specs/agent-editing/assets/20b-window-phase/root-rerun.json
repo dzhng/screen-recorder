@@ -1,0 +1,116 @@
+{
+  "scope": "combined-root native rerun reproduces retained failing windows; not a corrected gate",
+  "workerSha256": "7d92f7c7494e333b05ffd826905bb963c10beca54fcf0b19e5f8df71f142965a",
+  "storageWorkerSha256": "1fd812ff9c26590f1c252c71a18f5fcbf6fcbd043b386f42128dee48d092949b",
+  "cases": [
+    {
+      "rate": 44100,
+      "inputSha256": "2a05df8e4dab13bde96caf3b54618f9766e08b9aeeaf24825063d6022de57a0a",
+      "canonicalSha256": "e27e312544ee8c7ec2922b524c469049cdbb416a67d897719fb1a5b8849d4556",
+      "owner": {
+        "candidateAnchorUs": 100001,
+        "declaredOriginUs": 100000000,
+        "groups": [
+          {
+            "anchorUs": 100001,
+            "chunk": 1024,
+            "frames": 88200,
+            "runs": 1
+          },
+          {
+            "anchorUs": 100001,
+            "chunk": 8192,
+            "frames": 88200,
+            "runs": 1
+          }
+        ],
+        "originPolicyEquivalent": false,
+        "rate": 44100,
+        "rawFirstAudioValue": 100100000501,
+        "rawRelativeRoundedOnceUs": 100000,
+        "rawVideoOrigin": {
+          "timescale": 1000000000,
+          "value": 100000000499
+        },
+        "scope": "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+      },
+      "nativeFullOriginalPCMExact": true,
+      "nativeWindowParity": false,
+      "nativeWindowMatchesMinusOne": true,
+      "projectWindowParity": false,
+      "projectWindowMatchesMinusOne": false
+    },
+    {
+      "rate": 48000,
+      "inputSha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2",
+      "canonicalSha256": "53287c704dc2c352cefea3e5b2a6b56952fd4cfa53253010932276d9050f1b92",
+      "owner": {
+        "candidateAnchorUs": 100001,
+        "declaredOriginUs": 100000000,
+        "groups": [
+          {
+            "anchorUs": 100001,
+            "chunk": 1024,
+            "frames": 96000,
+            "runs": 1
+          },
+          {
+            "anchorUs": 100001,
+            "chunk": 8192,
+            "frames": 96000,
+            "runs": 1
+          }
+        ],
+        "originPolicyEquivalent": false,
+        "rate": 48000,
+        "rawFirstAudioValue": 100100000501,
+        "rawRelativeRoundedOnceUs": 100000,
+        "rawVideoOrigin": {
+          "timescale": 1000000000,
+          "value": 100000000499
+        },
+        "scope": "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+      },
+      "nativeFullOriginalPCMExact": true,
+      "nativeWindowParity": false,
+      "nativeWindowMatchesMinusOne": true,
+      "projectWindowParity": false,
+      "projectWindowMatchesMinusOne": true
+    }
+  ],
+  "windowGatePassed": false,
+  "identicalRetainedWAVs": [
+    {
+      "path": "44100-consumer/native-full.wav",
+      "sha256": "6a13c22388ec1b0b4467d031049b54a0159720d023f56457ec76b6b5ab5dcead"
+    },
+    {
+      "path": "44100-consumer/native-window.wav",
+      "sha256": "d0b0dc271f22c8f3ec1ecf03ab6db56cc66d8067a925005299aeeb26293fc081"
+    },
+    {
+      "path": "44100-consumer/project-full.wav",
+      "sha256": "db90c6747708a9745eb577881c449b42306b9e703683b58a018ee3ecc60a66d1"
+    },
+    {
+      "path": "44100-consumer/project-window.wav",
+      "sha256": "cfc9a2ff0c10d9c3ba2fd374dd1b0c0b2a006ebe00021aeec2be2468b6118e1b"
+    },
+    {
+      "path": "48000-consumer/native-full.wav",
+      "sha256": "51901538590aebbf65313e046a6079a7c68c4504cce9f93a591948176ddaff4c"
+    },
+    {
+      "path": "48000-consumer/native-window.wav",
+      "sha256": "3c01f608de45fee9ebb5aded44c11bc98aec7d514c40cca57ba65dbda085e9b3"
+    },
+    {
+      "path": "48000-consumer/project-full.wav",
+      "sha256": "ef423e0d3b3f770ae5fa1fadd38110cbbf85e8583e9997c3d28941e2ed6d4775"
+    },
+    {
+      "path": "48000-consumer/project-window.wav",
+      "sha256": "b4151493d5f5f187ea6a147fe5111813d39943935c3a595cd38294f7332f0eaa"
+    }
+  ]
+}

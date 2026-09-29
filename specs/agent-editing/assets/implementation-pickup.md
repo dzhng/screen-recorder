@@ -70,7 +70,9 @@ No production deadline or transaction guarantee changed.
   and root-confirmed, but the [100001µs phase fixture](20b-window-phase/README.md)
   exposes full/range mismatch at44.1/48k and44.1→48k resampling.
   [Root retained-evidence verification](20b-window-phase/root-retained-verification.json)
-  confirms the original/full identity and window failures; it is not a native rerun.
+  confirms the original/full identity and window failures. A separate
+  [combined-root native rerun](20b-window-phase/root-rerun.json) reproduces all eight
+  retained WAVs byte-for-byte; the window gate remains red.
   Packet probes in `/tmp/source-arbitrary-phase`
   isolate physical seek phase loss before conversion: distinct seek coordinates
   can return different payload samples with the same reported packet timestamp.
