@@ -3443,3 +3443,23 @@ report incomplete capture rather than inventing a successful finish. The plan
 required the boundary but did not choose the fault mechanism. Reconstructed disk
 states directly exercise recovery without claiming an actual process kill or
 hardware power-loss experiment.
+
+## 24j — Restore an authenticated checkpoint, not missing history (sound, high confidence)
+
+The original two-hour library was removed, but its successful receipt kept the
+complete recipe hash. Rebuild the authored composition from the frozen setup and
+accept it only if the full recipe hash matches exactly. Preserve its original
+preparation identity and PCM; use the existing adoption owner to assign a new
+checkpoint identity and timestamp. Newly authored edits can test undo, but cannot
+stand in for missing original history. The plan required full-size transfer without
+repeating proved DSP and did not specify recovery from this retained evidence.
+This preserves provenance without manufacturing a new execution or old history.
+
+## 24j — Check the test's actual storage peak first (sound, high confidence)
+
+Full export briefly holds four independent copies of the large prepared payload.
+The research harness checks that capacity plus a1GiB working margin before
+restoring gigabytes, and keeps scratch on the checked output volume. This is a
+reversible test safeguard, not a product limit or permission to delete other files.
+The plan left research capacity checks unspecified; the exact transfer remains
+unverified until enough capacity is available and all real owners run successfully.

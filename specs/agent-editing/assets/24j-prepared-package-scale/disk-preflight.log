@@ -1,0 +1,17 @@
+(node:34149) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Full transfer requires four payload copies plus 1 GiB working margin
+    at file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/packages/test-harness/editing/prepared-package-scale.mjs:157:1 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

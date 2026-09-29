@@ -20,7 +20,7 @@ verified public operations only; the installed app has not switched engines.
 Current pickup and priority:
 
 1. Continue general [scale](slices/24-scale.md), including complete two-hour
-   prepared-package transfer, wide routing and queue/cancellation interactions.
+   [prepared-package transfer](slices/24j-prepared-package-scale.md), wide routing and queue/cancellation interactions.
    The exact two-hour recipe has been reconstructed against its original hash;
    transfer preflight needs about3GiB more free disk. Do not restore multi-GB PCM
    before the measured preflight passes. Generic [package closure](slices/22-portable-projects.md)
@@ -299,6 +299,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24g — Bounded fragmented-source selections](slices/24g-fragmented-selection.md)
 - [x] [24h — Bounded public job inspection](slices/24h-job-inspection.md)
 - [x] [24i — Independent processing batches](slices/24i-processing-batches.md)
+- [ ] [24j — Complete two-hour prepared-package transfer](slices/24j-prepared-package-scale.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

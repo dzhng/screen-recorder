@@ -1,0 +1,23 @@
+(node:33991) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Reconstruction must match the original complete recipe byte hash
++ actual - expected
+
++ '7efb6a79bb51be3e9403ea2582593e1c5179d86c0ed343bb6b6c34be4a50b75c'
+- '75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb'
+
+    at file:///private/tmp/screenrec-24f-reconstruction/negative.mjs:132:8
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '7efb6a79bb51be3e9403ea2582593e1c5179d86c0ed343bb6b6c34be4a50b75c',
+  expected: '75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.14.0

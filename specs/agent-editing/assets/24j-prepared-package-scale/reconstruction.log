@@ -1,0 +1,3 @@
+(node:35098) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"recipe":{"bytes":15944124,"sha256":"75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb"}}

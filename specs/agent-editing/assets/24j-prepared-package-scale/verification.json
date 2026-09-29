@@ -1,0 +1,58 @@
+{
+  "scope": "Recipe provenance only; complete package transfer not yet run",
+  "originalReportSha256": "9255f0e5e490d5bc98bea6b9b2540165329abacbd843151e3e86d2e668c7fa89",
+  "recipeBytes": 15944124,
+  "recipeSha256": "75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb",
+  "nativeSha256": "b95b9bcde50b6a1d0dc83a9bde87ca0ab6d4c8f64d4b0bb179e039a8d4bd5a9c",
+  "negativeSourceSpanHash": "7efb6a79bb51be3e9403ea2582593e1c5179d86c0ed343bb6b6c34be4a50b75c",
+  "fullTransferPassed": false,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2760,
+      "sha256": "8b697e7377978056622e0b07ac53b6a6fbcc4ba19acea102f2869bf89f6cf4d9"
+    },
+    {
+      "path": "changed-source-control.log",
+      "bytes": 932,
+      "sha256": "c415ff5a989ae1fc1f1d8bf10eb0928ee12ef40c58af828f29a1a1cb21e12891"
+    },
+    {
+      "path": "disk-preflight.log",
+      "bytes": 635,
+      "sha256": "b869afa6c48360b71071b3821caf1076e764e4840a1e656d2c37cd8fc24615ef"
+    },
+    {
+      "path": "reconstruction.log",
+      "bytes": 275,
+      "sha256": "17aab045f32a4e912dfc61207c8bd76564885f581b44a04e51f88061e4c6c829"
+    },
+    {
+      "path": "reconstruction.tar.xz",
+      "bytes": 332800,
+      "sha256": "cf0afd071be1058b4d147962a4f318e10a937c0fbcfcf75500afbe1d2dc21d93"
+    },
+    {
+      "path": "screenrec-24j-final-review.log.gz",
+      "bytes": 43480,
+      "sha256": "8cf37b23f0aa2fa5366a2b924331b7b22e5034bd49dbf232d8a89f8f4835f268"
+    },
+    {
+      "path": "screenrec-24j-root-final-metadata.log.gz",
+      "bytes": 229,
+      "sha256": "dd4362a4ec2dc5dedcdbfdfe9d359f2ca629c19968f0fe56953aa77296fb72ae"
+    },
+    {
+      "path": "screenrec-24j-root-metadata.log.gz",
+      "bytes": 229,
+      "sha256": "d8a40ab0757a9e6de79e9fa8e764927dfba3354940cac119c8a5efc457960e9a"
+    },
+    {
+      "path": "screenrec-24j-root-review.log.gz",
+      "bytes": 61042,
+      "sha256": "51478cfc89cfdec78c3575635c7447490a642081da6bc47988f7f609ce892fd9"
+    }
+  ],
+  "rootMetadataPassed": true,
+  "rootReview": "Two harness findings corrected; followup no actionable defects. Full transfer remains unverified."
+}

@@ -135,11 +135,14 @@ refusal and undo journey; physical/quality/autonomous gates are not implied.
 
 The two-hour transfer delegate committed an exact reconstruction prerequisite in
 `/Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder` (b18aec04).
-Root must integrate it under scale24j, review the unexecuted full transfer harness,
-and keep its full gate open. Recipe SHA matches the original ready job exactly;
+Root integrated it as [24j](../slices/24j-prepared-package-scale.md), with two
+independent review findings fixed and full transfer still open. Recipe SHA matches the original ready job exactly;
 actual preflight lacks about3GiB free space. User was asked optionally to free it;
 no answer or elapsed time is permission or available disk. No large restore ran.
-Continue wide routing/queue scale and audio acceptance while space is unavailable.
+The routing-scale delegate now owns24k in the reused capture-pause-recovery
+worktree, branch `codex/routing-scale` fromfcd0f0b2. It is measuring bounded late
+reads with wide/nested routing and queued cancellation. Root owns integration.
+Continue audio acceptance while space is unavailable.
 Older worktree diffs are preserved; do not reapply them. No installed cutover occurred.
 
 A complete familiar sentence was presented for optional denoise word/naturalness
