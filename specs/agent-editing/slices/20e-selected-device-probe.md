@@ -37,8 +37,11 @@ screen-established clock snapshot and serial ingestion queue. It records the
 existing journal shape for its independent video source, not a new production role
 or audio writer. It must not re-zero late camera frames, hold a disconnected camera's
 tail, or invent a source picture across a gap. `CaptureInputSession.stop` remains physical-input drain only. Its probe media
-joins NativeCapture's existing termination operation through explicit default
-identity `finalizeMedia(result)` and default no-op `discardMedia()` hooks. Stop
+joins NativeCapture's existing termination operation through explicit default-nil
+`finalizeMedia(clock:failure:) -> CaptureFailure?` and default no-op `discardMedia()`
+hooks. Camera results stay in separate probe evidence; no camera role enters
+production CaptureResult tracks. Earlier failures retain precedence, and all
+screen/microphone result fields remain authoritative. Stop
 seals writer ingress, drains inputs, finishes the screen/audio writer (including
 an open pause), then finalizes camera from the final shared clock before caching
 the closed result and publishing audio. Publication retries must not repeat media
