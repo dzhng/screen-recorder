@@ -1,0 +1,46 @@
+{
+  "scope": "Unchanged five-second inventory test, one baseline and two concurrent instances; no original native-build contention reproduction",
+  "runs": {
+    "baseline": {
+      "diagnostic": "storage-phases",
+      "pid": 62051,
+      "fixtureMs": 3.4672080000000136,
+      "setupMs": 160.78279100000003,
+      "reservationMs": 89.82549100000028,
+      "scanMs": 141.52966699999996,
+      "reads": 6333,
+      "totalMs": 302.67787500000003
+    },
+    "concurrent-a": {
+      "diagnostic": "storage-phases",
+      "pid": 62065,
+      "fixtureMs": 4.156166999999996,
+      "setupMs": 212.730458,
+      "reservationMs": 124.16716799999973,
+      "scanMs": 146.7595,
+      "reads": 6345,
+      "totalMs": 359.899
+    },
+    "concurrent-b": {
+      "diagnostic": "storage-phases",
+      "pid": 62064,
+      "fixtureMs": 4.089207999999999,
+      "setupMs": 212.024333,
+      "reservationMs": 127.03319099999993,
+      "scanMs": 145.36708299999998,
+      "reads": 6345,
+      "totalMs": 357.745875
+    }
+  },
+  "testSha256": "720caeddd047d92347cbe0a4a4187007859891f7e2f80290362c922bc35accb1",
+  "instrumentedTestSha256": "d6f9d0749a395888c07638f59990b39baf094a74c49682596da0976ca2c520f3",
+  "originalRestored": true,
+  "unchangedAssertions": [
+    "sibling catalog reads progress",
+    "evidenceBytes700",
+    "cacheBytes1050",
+    "totalBytes1750"
+  ],
+  "limitation": "Console timing from the first identical3passing runs was suppressed; retained logs then repeated samebaseline+pair with scratchfile timestamps. No broader stress combinations.",
+  "archiveSha256": "3660f15d70aeb8c18cfbd91ec69d62123cec2f6c7606867b1103b3c2d260a880"
+}
