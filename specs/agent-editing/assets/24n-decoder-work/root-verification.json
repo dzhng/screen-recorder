@@ -1,0 +1,20 @@
+{
+  "workerSHA256": "c3f0a415e293f18c942307f53038bb2364496f4ddc7e865934b224c59e0dd948",
+  "accountingPassed": true,
+  "cases": 13,
+  "descriptorIO": {
+    "sourceBytes": 11520044,
+    "lateReadBytes": 11520058,
+    "smallerThanWholeSource": false
+  },
+  "aacComparison": {
+    "maximum": 0,
+    "rms": 0,
+    "comparedSamples": 1920
+  },
+  "nativeProjectAudioTests": 12,
+  "limitations": [
+    "Descriptor read amplification remains red in this pre-fix confirmation.",
+    "Counters are logical reads, not physical disk traffic or total scratch I/O."
+  ]
+}

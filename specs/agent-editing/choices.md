@@ -3529,3 +3529,15 @@ tov9/v19 while keeping the fixed model identity. Previously prepared audio keeps
 its recorded policy and remains readable through the existing retained-result
 owner. Omitted mix preserves the old full-wet samples; its new execution receipt
 truthfully identifies the new executor rather than pretending it was the old one.
+
+## 24n — Measure decoding and source reads separately (sound, high confidence)
+
+A 20 ms excerpt can decode few samples while still reading most of its file to
+identify it. Report both amounts from their existing owners: native decoded
+frames by rate, and successful positional reads/deliveries by the descriptor
+loader. Count retired readers once without retaining them. Snapshot loader
+counters only for the final public result; preparation's internal results would
+otherwise repeatedly scan the same sources. The plan required bounded work but
+left the measurement seam unspecified. Explicit unknown reads for pathname and
+retained-PCM paths prevent partial telemetry from masquerading as total I/O;
+future performance claims must preserve that distinction.

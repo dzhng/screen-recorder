@@ -5,7 +5,7 @@ Root integrates committed passes and verifies their consumer contracts. Current
 catalog format is19, source policy is native-source-v2 and produced audio/movie
 policies arev9/v19. The combined worker is
 `helpers/mac/.build/debug/screenrec-native`, SHA256
-`7ae9f9c82085bcf4d5f6b936267d9a3c24e8304bc8650f7493f4326155056945`.
+`c3f0a415e293f18c942307f53038bb2364496f4ddc7e865934b224c59e0dd948`.
 Historical workers and measurements retain their own identities below.
 
 ## Active owners and next action
@@ -14,10 +14,14 @@ Historical workers and measurements retain their own identities below.
   audio/preparation tests and50 public checks pass; [fresh skill use](15a3b-mix-skill/README.md)
   independently preserves the complete split PCM and dry-source samples. No
   listening or retiming acceptance is inferred.
-- **Decoder work24n:** delegate owns `codex/decoder-scale` in the reused
-  capture-pause-recovery worktree. Actual PCM decoding is bounded, but descriptor
-  reads can amplify to the whole source. Telemetry is being banked separately;
-  diagnose resource-loading requests before changing the input owner.
+- **Decoder work24n:** integrated; all 13 root accounting/PCM controls and 12 native
+  project-audio tests pass. Descriptor metadata can still read the entire source.
+  The `codex/decoder-scale` delegate owns 24o in capture-pause-recovery: declare
+  existing local bytes available on demand without changing the 64 MiB inspection
+  guard or descriptor identity. Preserve the pre-fix red.
+- **Audio format admission:** the two-hour-package-transfer delegate is probing
+  platform identification of descriptor-backed MP3/AIFF/FLAC. Proposal first;
+  no filename guessing or alternate decoder. This is separate from24o.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).

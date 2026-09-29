@@ -80,3 +80,12 @@ not decoder seeking. Merely yielding after chunks does not prove bounded prefix
 I/O; timing delays without a demand signal would not establish that contract.
 The trace sources were restored after measurement. A future input-owner pass
 must preserve inherited descriptor identity and truthful request completion.
+
+## Combined root confirmation
+
+The integrated debug worker reproduces all 13 accounting/PCM cases and passes 12
+native project-audio tests. Its late WAV request again reads the whole source;
+this confirms the red independently of the release run. Exact worker identity
+and compact outcomes are in `root-verification.json`; complete receipts and
+build/test logs are compressed alongside it. The metadata correction is a
+separate pass, so these pre-fix observations remain unchanged.

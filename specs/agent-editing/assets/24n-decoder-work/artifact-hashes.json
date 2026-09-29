@@ -1,8 +1,8 @@
 [
   {
     "file": "README.md",
-    "bytes": 4961,
-    "sha256": "b9eb3ced63d3d26d664395bbcc7477b064b5128005b9ab3730bab8fcd0900153"
+    "bytes": 5444,
+    "sha256": "c87e5fc0a7742633331a4ed220033b2bdaf6b8a609b6a442a87305485d834fd6"
   },
   {
     "file": "counter-mutation-report.json",
@@ -33,6 +33,26 @@
     "file": "report.json",
     "bytes": 55770,
     "sha256": "b66cb180ab6cecbe7d5a1ec14d31465f63c42a06507f3f0f8339f185802e1317"
+  },
+  {
+    "file": "root-build.log.gz",
+    "bytes": 502,
+    "sha256": "32887ea5f5eb43403d5954cf043be87795aefba508ae63af5d08ecf386b31949"
+  },
+  {
+    "file": "root-core.log.gz",
+    "bytes": 311,
+    "sha256": "e3d8cbfcf4a308c0ce8d99c49973dacc43dc2f22f317253aca0c2e2d8e2ba4a9"
+  },
+  {
+    "file": "root-report.json.gz",
+    "bytes": 3499,
+    "sha256": "b99f54fa34c900cb4564f27e0340a9654a2865fbe3ac5dc765b499af13e2c50e"
+  },
+  {
+    "file": "root-verification.json",
+    "bytes": 557,
+    "sha256": "0f9163813a7e8806faed2bc76a246e0c8c526d2c3dcc24242154b50ccece7672"
   },
   {
     "file": "screenrec-24n-counter-mutation.log.gz",
