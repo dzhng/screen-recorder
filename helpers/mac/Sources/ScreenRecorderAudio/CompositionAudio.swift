@@ -111,6 +111,7 @@ public enum CompositionAudio {
             self.contexts = contexts
             self.intervals = intervals
         }
+        func suspend() { conversion = nil; nextPosition = nil }
         func mix(into samples: inout [Float], position: Int64, count: Int) throws {
             let end = position + Int64(count)
             if nextPosition != position { conversion = nil }
@@ -188,17 +189,20 @@ public enum CompositionAudio {
         let nodes: [CompositionProcessing]
         let inputs: [String: Input]
         let missing: [CompositionAudioReport.Missing]
+        let byTarget: [CompositionProcessing.Target: Int]
+        let children: [[Int]]
+        let parents: [Int: Int]
+        let childOrdinals: [Int: Int]
+        let support: [Int: [(Plan.Samples, Bool)]]
         func stream(range: Plan.Samples, target: CompositionProcessing.Target, before: String? = nil,
                     prepared: PreparedState? = nil) -> Stream {
-            Stream(range: range, nodes: nodes, inputs: inputs.mapValues {
-                Input(source: $0.source, contexts: $0.contexts, intervals: $0.intervals)
-            }, missing: missing, target: target, before: before, prepared: prepared)
+            Stream(range: range, graph: self, target: target, before: before, prepared: prepared)
         }
     }
     static func graph(_ plan: CompositionAudioPlan, forest: Bool = false,
                       sources: Sources) async throws -> Graph {
-        guard plan.range.valid, plan.clips.count <= 256, !plan.processing.isEmpty,
-            plan.processing.count <= 10_000, plan.assets.count <= 256,
+        guard plan.range.valid, plan.clips.count <= 10_000, !plan.processing.isEmpty,
+            plan.processing.count <= 20_000, plan.assets.count <= 256,
             plan.clips.reduce(0, { $0 + $1.available.count + $1.context.count }) <= 20_000
         else {
             throw invalid("Audio plan exceeds bounds or has an empty range/tree.")
@@ -222,6 +226,7 @@ public enum CompositionAudio {
         let audioTargets = Set(nodes.map(\.target))
         var seen = Set<CompositionProcessing.Target>()
         var used = Set<CompositionProcessing.Target>()
+        var parentTargets: [CompositionProcessing.Target: CompositionProcessing.Target] = [:]
         var stepIds = Set<String>()
         for node in nodes {
             guard ["audio", "output"].contains(node.mediaKind),
@@ -239,6 +244,7 @@ public enum CompositionAudio {
                     throw invalid(
                         "Processing must be a child-before-parent tree without shared inputs.")
                 }
+                parentTargets[input] = node.target
             }
             for step in node.steps {
                 if node.mediaKind == "output",
@@ -286,10 +292,7 @@ public enum CompositionAudio {
             else { throw invalid("Invalid compiled clip sample bounds or pitch policy.") }
             guard clip.sampleRange.start >= (try clip.placement.startUs.sample(rate)),
                 clip.sampleRange.end <= (try clip.placement.endUs.sample(rate)),
-                nodes.contains(where: {
-                    $0.target.kind == "track" && $0.target.id == clip.trackId
-                        && $0.inputs.contains(.init(kind: "clip", id: clip.clipId))
-                })
+                parentTargets[.init(kind: "clip", id: clip.clipId)] == .init(kind: "track", id: clip.trackId)
                     || (forest ? !used.contains(.init(kind: "clip", id: clip.clipId)) : nodes.last?.target == .init(kind: "clip", id: clip.clipId))
             else {
                 throw invalid("Clip bounds or track do not match the compiled placement/tree.")
@@ -376,7 +379,20 @@ public enum CompositionAudio {
             inputs[clip.clipId] = Input(
                 source: source, contexts: contexts, intervals: readable)
         }
-        return Graph(nodes: nodes, inputs: inputs, missing: missing)
+        let byTarget = Dictionary(uniqueKeysWithValues: nodes.enumerated().map { ($0.element.target, $0.offset) })
+        let children = nodes.map { $0.inputs.compactMap { byTarget[$0] } }
+        var parents: [Int: Int] = [:], childOrdinals: [Int: Int] = [:]
+        for (parent, children) in children.enumerated() {
+            for (ordinal, child) in children.enumerated() { parents[child] = parent; childOrdinals[child] = ordinal }
+        }
+        var support: [Int: [(Plan.Samples, Bool)]] = [:]
+        for clip in plan.clips {
+            guard let node = byTarget[.init(kind: "clip", id: clip.clipId)] else { continue }
+            if let input = inputs[clip.clipId] { support[node] = input.intervals.map { ($0, true) } }
+            else { support[node] = [(clip.sampleRange, false)] }
+        }
+        return Graph(nodes: nodes, inputs: inputs, missing: missing, byTarget: byTarget,
+            children: children, parents: parents, childOrdinals: childOrdinals, support: support)
     }
 
     public static func open(_ plan: CompositionAudioPlan) async throws -> Stream {
@@ -391,23 +407,19 @@ public enum CompositionAudio {
         public let format = AudioPCMFormat(sampleRate: rate, channels: 2, layout: .stereo)
         public private(set) var report: CompositionAudioReport?
         private let range: Plan.Samples
-        private let nodes: [CompositionProcessing]
-        private let inputs: [String: Input]
-        private let missing: [CompositionAudioReport.Missing]
+        private let graph: Graph
+        private var inputs: [Int: Input] = [:]
         private let target: CompositionProcessing.Target
         private let before: String?
         private let prepared: PreparedState?
         private var consumed = false
 
         init(
-            range: Plan.Samples, nodes: [CompositionProcessing], inputs: [String: Input],
-            missing: [CompositionAudioReport.Missing], target: CompositionProcessing.Target,
+            range: Plan.Samples, graph: Graph, target: CompositionProcessing.Target,
             before: String?, prepared: PreparedState?
         ) {
             self.range = range
-            self.nodes = nodes
-            self.inputs = inputs
-            self.missing = missing
+            self.graph = graph
             self.target = target
             self.before = before
             self.prepared = prepared
@@ -415,8 +427,9 @@ public enum CompositionAudio {
         public func consume(_ sink: (AudioPCMBlock) async throws -> Void) async throws {
             guard !consumed else { throw invalid("Composition PCM can only be consumed once.") }
             consumed = true
-            let byTarget = Dictionary(uniqueKeysWithValues: nodes.enumerated().map { ($0.element.target, $0.offset) })
-            guard let root = byTarget[target] else { throw invalid("Unknown audio view target.") }
+            let nodes = graph.nodes, children = graph.children
+            defer { for input in inputs.values { input.suspend() } }
+            guard let root = graph.byTarget[target] else { throw invalid("Unknown audio view target.") }
             let endpoint: Int
             if let before {
                 guard let index = nodes[root].steps.firstIndex(where: { $0.id == before }) else {
@@ -424,33 +437,74 @@ public enum CompositionAudio {
                 }
                 endpoint = index
             } else { endpoint = nodes[root].steps.count }
-            let limits = nodes.indices.map { $0 == root ? endpoint : nodes[$0].steps.count }
-            let children = nodes.map { $0.inputs.compactMap { byTarget[$0] } }
+            var viewNodes: [Int] = [], pendingNodes = [root]
+            while let index = pendingNodes.popLast() {
+                viewNodes.append(index)
+                pendingNodes.append(contentsOf: children[index])
+            }
+            let limits = Dictionary(uniqueKeysWithValues: viewNodes.map {
+                ($0, $0 == root ? endpoint : nodes[$0].steps.count)
+            })
             // Index replacement changes once; each block visits only its needed routing subtree.
             typealias Event = (at: Int64, node: Int, step: Int, span: PreparedState.Span?)
             var events: [Event] = []
             var boundarySet = Set<Int64>()
-            for (index, node) in nodes.enumerated() {
-                for (stepIndex, step) in node.steps.prefix(limits[index]).enumerated() where step.enabled {
+            var supportEvents: [(at: Int64, node: Int, delta: Int, readable: Bool)] = []
+            func support(_ node: Int, _ span: Plan.Samples, readable: Bool = false) {
+                guard span.end > span.start else { return }
+                supportEvents.append((span.start, node, 1, readable))
+                supportEvents.append((span.end, node, -1, readable))
+                boundarySet.insert(span.start); boundarySet.insert(span.end)
+            }
+            for index in viewNodes {
+                for (span, readable) in graph.support[index] ?? [] { support(index, span, readable: readable) }
+                let node = nodes[index]
+                for (stepIndex, step) in node.steps.prefix(limits[index]!).enumerated() where step.enabled {
                     for span in prepared?.spans[step.id] ?? [] {
                         events.append((span.range.start, index, stepIndex, span))
                         events.append((span.range.end, index, stepIndex, nil))
-                        boundarySet.insert(span.range.start)
-                        boundarySet.insert(span.range.end)
+                        support(index, span.range)
                     }
                     if step.processor.type == "rnnoise" {
-                        for span in step.processor.active ?? [] { boundarySet.insert(span.start); boundarySet.insert(span.end) }
+                        for span in step.processor.active ?? [] { support(index, .init(start: span.start, end: span.end)) }
+                    } else if step.processor.type == "gain", let gain = step.processor.gain,
+                        gain.constant == nil || gain.constant!.sign == .minus {
+                        // Curves can fail validation and negative-zero gain can change silent bits.
+                        // Keep their authored activity even when no source contributes samples.
+                        if let active = step.processor.active {
+                            for span in active { support(index, .init(start: span.start, end: span.end)) }
+                        } else { support(index, range) }
                     }
                 }
             }
             events.sort { a, b in a.at != b.at ? a.at < b.at : a.span == nil && b.span != nil }
+            supportEvents.sort { $0.at < $1.at }
+            var supportIndex = 0
+            var readableCounts = [Int: Int]()
+            var supportCounts = [Int: Int]()
+            var activeChildren = [Int: Set<Int>]()
+            func changeSupport(_ node: Int, _ delta: Int) {
+                var current = node
+                while true {
+                    let old = supportCounts[current] ?? 0
+                    supportCounts[current, default: 0] += delta
+                    guard current != root, let parent = graph.parents[current] else { break }
+                    if old == 0 && supportCounts[current]! > 0 { activeChildren[parent, default: []].insert(current) }
+                    if old > 0 && supportCounts[current]! == 0 { activeChildren[parent]?.remove(current) }
+                    current = parent
+                }
+            }
             var eventIndex = 0
             var active = [Int: [Int: PreparedState.Span]]()
             var latest = [Int: (Int, PreparedState.Span)]()
             let boundaries = boundarySet.filter { $0 > range.start && $0 < range.end }.sorted()
             var boundaryIndex = 0
-            // Processing buffers total at most eight MiB, independently of project duration or depth.
-            let blockFrames = max(1, min(8192, 1_048_576 / nodes.count))
+            var maximumBlockFrames = 0
+            var liveInputs = Set<Int>()
+            var schedule: [Int] = []
+            var scheduledChildren: [Int: [Int]] = [:]
+            var chosen: [Int: (Int, PreparedState.Span)] = [:]
+            var scheduledAt: Int64? = nil
             var peak: Float = 0
             var clipped: Int64 = 0
             do {
@@ -459,24 +513,48 @@ public enum CompositionAudio {
                     try Task.checkCancellation()
                     while boundaryIndex < boundaries.count && boundaries[boundaryIndex] <= position { boundaryIndex += 1 }
                     let end = min(range.end, boundaryIndex < boundaries.count ? boundaries[boundaryIndex] : range.end)
+                    if scheduledAt == nil || scheduledAt! <= position {
+                        while supportIndex < supportEvents.count && supportEvents[supportIndex].at <= position {
+                            let event = supportEvents[supportIndex]
+                            changeSupport(event.node, event.delta)
+                            if event.readable { readableCounts[event.node, default: 0] += event.delta }
+                            supportIndex += 1
+                        }
+                        while eventIndex < events.count && events[eventIndex].at <= position {
+                            let (_, node, step, span) = events[eventIndex]
+                            active[node, default: [:]][step] = span
+                            latest[node] = active[node]?.max(by: { $0.key < $1.key }).map { ($0.key, $0.value) }
+                            eventIndex += 1
+                        }
+                        chosen.removeAll(keepingCapacity: true)
+                        scheduledChildren.removeAll(keepingCapacity: true)
+                        var needed = Set<Int>(), pending = [root]
+                        while let index = pending.popLast() {
+                            guard needed.insert(index).inserted else { continue }
+                            if let span = latest[index] { chosen[index] = span }
+                            else {
+                                let active = (activeChildren[index] ?? []).sorted { graph.childOrdinals[$0]! < graph.childOrdinals[$1]! }
+                                scheduledChildren[index] = active
+                                pending.append(contentsOf: active)
+                            }
+                        }
+                        schedule = needed.sorted()
+                        let selectedInputs = Set(schedule.filter {
+                            chosen[$0] == nil && (readableCounts[$0] ?? 0) > 0
+                        })
+                        for index in liveInputs.subtracting(selectedInputs) { inputs[index]?.suspend() }
+                        guard selectedInputs.count <= 256 else {
+                            throw invalid("Audio view exceeds 256 simultaneously active source occurrences.")
+                        }
+                        liveInputs = selectedInputs
+                        scheduledAt = end
+                    }
+                    // Only active routing buffers consume this budget; timeline metadata is separate.
+                    let blockFrames = max(1, min(8192, 1_048_576 / schedule.count))
                     let count = Int(min(Int64(blockFrames), end - position))
-                    while eventIndex < events.count && events[eventIndex].0 <= position {
-                        let (_, node, step, span) = events[eventIndex]
-                        active[node, default: [:]][step] = span
-                        latest[node] = active[node]?.max(by: { $0.key < $1.key }).map { ($0.key, $0.value) }
-                        eventIndex += 1
-                    }
-                    var chosen: [Int: (Int, PreparedState.Span)] = [:]
-                    var needed = Set<Int>()
-                    var pending = [root]
-                    while let index = pending.popLast() {
-                        guard needed.insert(index).inserted else { continue }
-                        if let span = latest[index] {
-                            chosen[index] = span
-                        } else { pending.append(contentsOf: children[index]) }
-                    }
+                    maximumBlockFrames = max(maximumBlockFrames, count)
                     var buffers: [Int: [Float]] = [:]
-                    for index in nodes.indices where needed.contains(index) {
+                    for index in schedule {
                         try Task.checkCancellation()
                         let node = nodes[index]
                         var samples: [Float]
@@ -488,18 +566,27 @@ public enum CompositionAudio {
                             samples = [Float](repeating: 0, count: count * 2)
                             firstStep = 0
                             if node.target.kind == "clip", let id = node.target.id {
-                                if let input = inputs[id] { try input.mix(into: &samples, position: position, count: count) }
+                                if liveInputs.contains(index), inputs[index] == nil, let template = graph.inputs[id] {
+                                    inputs[index] = Input(source: template.source, contexts: template.contexts, intervals: template.intervals)
+                                }
+                                if liveInputs.contains(index), let input = inputs[index] {
+                                    try input.mix(into: &samples, position: position, count: count)
+                                }
                             } else {
                                 var combined: [Float]?
-                                for child in children[index] {
+                                for child in scheduledChildren[index] ?? [] {
                                     guard let input = buffers.removeValue(forKey: child) else { continue }
                                     if combined == nil { combined = input }
                                     else { for sample in input.indices { combined![sample] += input[sample] } }
                                 }
                                 if let combined { samples = combined }
+                                // Every omitted child is proven +0. Preserve its IEEE addition effect.
+                                if (scheduledChildren[index]?.count ?? 0) < children[index].count {
+                                    for sample in samples.indices where samples[sample] == 0 { samples[sample] = 0 }
+                                }
                             }
                         }
-                        for step in node.steps[firstStep..<limits[index]] where step.enabled {
+                        for step in node.steps[firstStep..<limits[index]!] where step.enabled {
                             if step.processor.type == "gain" {
                                 try applyGain(step.processor, to: &samples, position: position)
                             } else if step.processor.type == "rnnoise",
@@ -532,13 +619,13 @@ public enum CompositionAudio {
             report = CompositionAudioReport(
                 sampleRate: rate, channels: 2,
                 frames: range.end - range.start, peak: Double(peak), clippedSamples: clipped,
-                maximumBlockFrames: blockFrames,
+                maximumBlockFrames: maximumBlockFrames,
                 peakResidentBytes: ProcessResources.peakResidentBytes(),
                 decoderContext: .init(
                     policy: "bounded-current-retained-run", sampleRate: rate,
                     maximumPrerollFrames: max(inputs.values.map(\.maximumPreroll).max() ?? 0, prepared?.maximumPreroll ?? 0),
                     maximumTailFrames: max(inputs.values.map(\.maximumTail).max() ?? 0, prepared?.maximumTail ?? 0)),
-                unavailable: missing)
+                unavailable: graph.missing)
         }
     }
 

@@ -3078,3 +3078,19 @@ for persistent failures; the owner regression now demonstrates that boundary. Th
 can recompute previously ready recipes requested anew, but saved audio assets and
 historical publications remain intact. There is no metadata migration or change to
 the fixed RNNoise model recipe.
+### Active audio scheduling and scale evidence
+
+- **When:** 24b active-audio prerequisite.
+- **Choice:** Apply the decoder budget to simultaneously readable occurrences,
+  rather than every clip saved in the timeline. A project can play thousands of
+  short clips one after another without opening thousands of readers. Overlapping
+  clips still consume the existing bounded reader budget; structural plan bounds
+  separately limit metadata. The same mixer decides both ordinary and learned
+  prefix work, including prepared output that continues across source silence.
+- **Gap:** The declared 500/10,000-occurrence workload exceeded the prior whole-plan
+  limit; the plan did not prescribe the admission/scheduling repair.
+- **Reach:** Allows long sequential timelines without a new mixer or cache. It
+  does not admit unbounded simultaneous readers or guarantee deep-graph latency.
+- **Verdict:** Sound; bounds the resource actually consumed while preserving
+  earlier numerical, routing and cancellation contracts.
+- **Confidence:** High.

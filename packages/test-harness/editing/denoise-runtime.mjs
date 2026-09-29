@@ -273,7 +273,7 @@ compare(
   gapFull.subarray(48000 * 4, 96000 * 4),
 );
 
-function refuse(name, change, code) {
+function refuse(name, change, code, message) {
   const params = JSON.parse(readFileSync(out + "/full-request.json"));
   params.output = out + "/" + name + ".wav";
   change(params);
@@ -289,6 +289,7 @@ function refuse(name, change, code) {
   writeFileSync(out + "/" + name + "-response.json", JSON.stringify(response, null, 2));
   assert.equal(response.ok, false);
   assert.equal(response.error.code, code);
+  if (message) assert(response.error.message.includes(message), response.error.message);
   assert(!existsSync(params.output));
   report.checks.push({ name, refused: code, noPublishedFile: true });
   save();
@@ -575,6 +576,40 @@ compare(
   "opposite-polarity-no-downmix",
   renderPCM("opposite-polarity-output", doc, range, invertedFixture),
   interleave(expected, invertedExpected),
+);
+refuse(
+  "active-reader-overlap-bound",
+  (p) => {
+    const clip = p.clips[0];
+    delete p.state;
+    p.clips = Array.from({ length: 257 }, (_, i) => ({
+      ...clip,
+      clipId: `c${i}`,
+      trackId: `t${i}`,
+    }));
+    p.processing = [
+      ...p.clips.map((c) => ({
+        target: { kind: "clip", id: c.clipId },
+        mediaKind: "audio",
+        inputs: [],
+        steps: [],
+      })),
+      ...p.clips.map((c) => ({
+        target: { kind: "track", id: c.trackId },
+        mediaKind: "audio",
+        inputs: [{ kind: "clip", id: c.clipId }],
+        steps: [],
+      })),
+      {
+        target: { kind: "output" },
+        mediaKind: "output",
+        inputs: p.clips.map((c) => ({ kind: "track", id: c.trackId })),
+        steps: [],
+      },
+    ];
+  },
+  "INVALID_REQUEST",
+  "256 simultaneously active source occurrences",
 );
 report.identity = identity;
 report.passed = true;

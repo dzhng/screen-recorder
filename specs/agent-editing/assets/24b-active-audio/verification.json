@@ -1,0 +1,92 @@
+{
+  "base": "00178be1 plus fbdd4b9c transport checkpoint cherry-pick eaa14a71",
+  "native": {
+    "path": "/tmp/screenrec-active-mixer-native",
+    "sha256": "d9f09982f122ee97774496ff05f8e08a67c85f73a88ecd16fdeed14bf67fa1aa",
+    "configuration": "debug; incremental local builds, not clean or release performance claim"
+  },
+  "fiveMinute": {
+    "seconds": 300,
+    "occurrences": 500,
+    "checks": {
+      "successfulPreparation": true,
+      "exactIndependentFullPCM": true,
+      "exactDeclaredFullCount": true,
+      "exactLateVersusFull": true,
+      "repeatIdentity": true,
+      "retainedReadWithoutProcessing": true,
+      "workspaceClean": true
+    },
+    "observations": {
+      "setupMs": 615.8079999999999,
+      "prepareMs": 17424.132875000003,
+      "nativePeakResidentBytes": 52346880,
+      "fullPCMHash": "6001dec62e093cae7af5a32d00a2f86eafe7f9be507eeef28a4f8e2f3acbed17",
+      "independentReferenceMs": 2683.127457999999,
+      "fullSha256": "f6e6cfeccc4be418ffb44a1b169e6fc4b864dfcf1d512df984e4330254e039a5",
+      "fullBytes": 115204096,
+      "lateColdMs": 450.28512500000215,
+      "lateWarmDeliveryMs": 98.49358299999949,
+      "latePCMHash": "b77fffb475b722b0eddb11bd01d7887eb5d6be4560e0de74b1865ed962a5480e",
+      "sampledHarnessPeakRSS": 286064640,
+      "sampledServicePeakRSS": 295436288,
+      "sampledPeakWorkspaceBytes": 340205568
+    },
+    "oracle": "Complete14,400,000frames\u00d72lanes match pinned frozen mono C reference, original scale/frame/flush/latency; exact integer source periods, no tolerance."
+  },
+  "regressions": {
+    "nativePassed": true,
+    "nativeChecks": 51,
+    "publicPassed": true,
+    "publicGroups": 17,
+    "ordinaryAudioMoviePublic": true,
+    "audioMixMusicReplacement": true,
+    "focusedNativeSignedZeroAndMissingState": true,
+    "signedZeroFalsification": "Removing signed-zero activation failed precondition at exact bit comparison, exit133; restoration green.",
+    "shutdownFinalizer": "Injected failure after real stop preserves failed report and diagnostic; normal6s followup green."
+  },
+  "buildOrder": [
+    "node helpers/denoise/prepare.mjs --verify",
+    "swift build --package-path helpers/mac --product screenrec-native",
+    "bun run --cwd packages/composition build",
+    "bun run --cwd packages/core build",
+    "bun run --cwd apps/service build"
+  ],
+  "commands": [
+    "SCREENREC_NATIVE=/tmp/screenrec-active-mixer-native node packages/test-harness/editing/denoise-scale.mjs --out /tmp/UNIQUE --seconds 300 --occurrences 500 --reference /tmp/screenrec-rnnoise-api",
+    "SCREENREC_NATIVE=/tmp/screenrec-active-mixer-native node packages/test-harness/editing/denoise-runtime.mjs --out /tmp/NEW-NATIVE --reference /tmp/screenrec-rnnoise-api",
+    "SCREENREC_NATIVE=/tmp/screenrec-active-mixer-native node packages/test-harness/editing/denoise-runtime-public.mjs --out /tmp/NEW-PUBLIC --source /tmp/NEW-NATIVE/source.wav",
+    "SCREENREC_NATIVE=/tmp/screenrec-active-mixer-native node packages/test-harness/editing/prepared-audio-public.mjs --out /tmp/NEW-ORDINARY",
+    "SCREENREC_NATIVE=/tmp/screenrec-active-mixer-native node packages/test-harness/editing/audio-mix.mjs --case music-and-replacement",
+    "swift run --package-path helpers/mac ScreenRecorderCompositionAudioTests"
+  ],
+  "twoHour": {
+    "passed": false,
+    "stage": "public edit setup",
+    "successfulPlacementBatches": 9,
+    "occurrencesPerBatch": 500,
+    "error": "TIMEOUT: Service call timed out; committed changes are not rolled back",
+    "nativePreparationReached": false,
+    "deadlineChanged": false,
+    "commitOutcome": "Unobserved: initial harness finalizer removed scratch. Corrected harness preserves failed home for explicit read/replay in next localization."
+  },
+  "reviews": {
+    "design": "Findings addressed: evict decoders; index activechildren; preserve signedzero and silent missing-state validation; share immutable topology/lazy per-view cursors.",
+    "settledMixer": "No concrete defects. Residual event propagation O(events\u00d7depth), not global scale closure.",
+    "oracle": "Exact recipe/count/lane comparison supported; finalizer evidence-loss finding fixed and tested. Reviewer did not run inference."
+  },
+  "limits": [
+    "5min500 sequential repeated source, not2h/10k acceptance, wide/deep overlapping acceptance or warm preview budget.",
+    "Native receipt RSS is measured peak; service/harness/scratch samples are observed values, not hard maxima.",
+    "No listening/intelligibility/spatial quality claim.",
+    "Post-retime runtime remains unavailable pending14;13b isolated recipe parity is insufficient.",
+    "Existing pipeline/resampling owner unchanged; prior ordinary mix gates passed."
+  ],
+  "storage": {
+    "logicalBytes": 976377105,
+    "newUniqueBytes": 370169013,
+    "archiveBytes": 32135700,
+    "reusedLogicalFiles": 146,
+    "newUniqueBlobs": 172
+  }
+}

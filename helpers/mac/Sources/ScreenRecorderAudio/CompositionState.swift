@@ -40,28 +40,31 @@ extension CompositionAudio {
             try? FileManager.default.removeItem(at: directory)
         }
         func read(_ span: Span, position: Int64, count: Int) throws -> [Float] {
-            guard position >= span.range.start, position + Int64(count) <= span.range.end else {
-                throw invalid("Prepared state read exceeds its component.")
-            }
-            var result = [Float](repeating: 0, count: count * 2)
-            for (channel, offset) in [span.offsets.0, span.offsets.1].enumerated() {
-                try output.seek(toOffset: offset + UInt64(position - span.range.start) * 4)
-                let data = try output.read(upToCount: count * 4) ?? Data()
-                guard data.count == count * 4 else { throw invalid("Prepared state PCM is truncated.") }
-                data.withUnsafeBytes { bytes in
-                    for index in 0..<count {
-                        result[index * 2 + channel] = bytes.loadUnaligned(fromByteOffset: index * 4, as: Float.self)
+            // FileHandle's Objective-C temporaries must drain per chunk, not per full program.
+            try autoreleasepool {
+                guard position >= span.range.start, position + Int64(count) <= span.range.end else {
+                    throw invalid("Prepared state read exceeds its component.")
+                }
+                var result = [Float](repeating: 0, count: count * 2)
+                for (channel, offset) in [span.offsets.0, span.offsets.1].enumerated() {
+                    try output.seek(toOffset: offset + UInt64(position - span.range.start) * 4)
+                    let data = try output.read(upToCount: count * 4) ?? Data()
+                    guard data.count == count * 4 else { throw invalid("Prepared state PCM is truncated.") }
+                    data.withUnsafeBytes { bytes in
+                        for index in 0..<count {
+                            result[index * 2 + channel] = bytes.loadUnaligned(fromByteOffset: index * 4, as: Float.self)
+                        }
                     }
                 }
+                return result
             }
-            return result
         }
     }
 
     static func prepareState(_ plan: Plan, sources: Sources) async throws -> PreparedState? {
         guard let state = plan.state else { return nil }
         guard state.implementationId == rnnoiseImplementation, !state.domains.isEmpty,
-            state.domains.count <= 20_000, state.domains.reduce(0, { $0 + $1.members.count }) <= 20_000, state.formats.count <= 256 else {
+            state.domains.count <= 20_000, state.domains.reduce(0, { $0 + $1.members.count }) <= 20_000, state.formats.count <= 10_000 else {
             throw invalid("Unknown RNNoise implementation or invalid state plan bounds.")
         }
         let nodes = Dictionary(grouping: state.processing, by: \.target)
@@ -181,16 +184,18 @@ extension CompositionAudio {
                 let offset = try prepared.output.seekToEnd()
                 var written: Int64 = 0
                 try RNNoiseProcessor.process(sampleCount: count, sampleRate: rate, channels: 1, read: { buffer in
-                    let data = try prepared.input.read(upToCount: buffer.count * 8) ?? Data()
-                    guard data.count % 8 == 0 else { throw invalid("Unaligned stereo state input PCM.") }
-                    data.withUnsafeBytes { bytes in
-                        for index in 0..<(bytes.count / 8) {
-                            buffer[index] = bytes.loadUnaligned(fromByteOffset: index * 8 + channel * 4, as: Float.self)
+                    try autoreleasepool {
+                        let data = try prepared.input.read(upToCount: buffer.count * 8) ?? Data()
+                        guard data.count % 8 == 0 else { throw invalid("Unaligned stereo state input PCM.") }
+                        data.withUnsafeBytes { bytes in
+                            for index in 0..<(bytes.count / 8) {
+                                buffer[index] = bytes.loadUnaligned(fromByteOffset: index * 8 + channel * 4, as: Float.self)
+                            }
                         }
+                        return data.count / 8
                     }
-                    return data.count / 8
                 }, write: { buffer in
-                    try prepared.output.write(contentsOf: Data(buffer: buffer))
+                    try autoreleasepool { try prepared.output.write(contentsOf: Data(buffer: buffer)) }
                     written += Int64(buffer.count)
                 }, checkCancellation: { try Task.checkCancellation() })
                 guard written == count, try prepared.output.offset() == offset + UInt64(count) * 4 else {
