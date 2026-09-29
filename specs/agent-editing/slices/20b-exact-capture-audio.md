@@ -1,17 +1,30 @@
 # 20b — Exact capture placement and accepted PCM addresses
 
-Status: planned; [raw-scale feasibility](../assets/20b-time-feasibility/README.md) exposes unresolved quantizer provenance and container representation. Production implementation waits for the exact-reader gate below.
+Status: candidate admission policy approved for bounded offline prototype only; raw-through-container equivalence is not required. [Raw-scale findings](../assets/20b-time-feasibility/README.md) remain historical evidence. No writer rollout.
 Dependencies: [08](08-audio-mixing.md).
 
 ## Contract and owner
 
-CaptureClock alone maps media into the take's source time. Preserve its first usable
-video origin, pause-overlap rejection, delayed-delivery handling, removed-pause
-semantics and sealed duration. Retain exact numeric input PTS and frame/rate duration
-through that owner; integer microseconds remain projections for existing reports,
-cursor/UI consumers and public boundaries, not anchors used to count PCM frames.
-A rational origin is not silently rounded before subtraction. This does not change
-which device clock ScreenCaptureKit timestamps belong to or establish physical sync.
+CaptureClock alone defines the admitted source timeline. Preserve its first usable
+video origin, pause-overlap rejection, delayed deliveries, removed-pause semantics
+and sealed duration. Keep original raw PTS/epoch as exact provenance; canonical
+media need not embed every raw host nanosecond. The accepted engineering direction
+is a declared capture admission policy, not equivalence to the physical clock.
+
+Prototype one fixed phase per audio role: round the first admitted relative source
+anchor once to microseconds (nearest, ties away from zero). Classify later buffer
+starts by nearest native sample position relative to that fixed phase, with the
+same explicit tie rule; keep exact frame count/rate addresses thereafter. No later
+anchor fitting. Exact accepted sample addresses and acquired support together are
+the contract. Adjacent admitted addresses can coalesce; a backward/overlapping
+classification, explicit gap or pause cannot be silently forced into continuity.
+
+This candidate is **not rollout approval**. First prove the banked omission selects
+original 52800 at 1.2s and callback-grouping invariance on the controlled timestamps,
+then explicit gap/pause/overlap behavior. Report any semantic ambiguity before
+broadening tests. Public microsecond support, resampling, fractional edit boundaries
+and full/window/recovery behavior remain acceptance gates. Raw provenance is not
+another playback map; all consumers use the same declared admitted source.
 
 CaptureWriter's existing serial callback queue owns accepted physical frame addresses.
 After a successful append, journal the role/payload identity, cumulative first PCM
@@ -26,22 +39,18 @@ this is a disk-format contract, not internal API version negotiation. No precise
 frame addresses may be inferred from older rounded audioSamples ranges. A journal
 write failure prevents canonical publication and leaves truthful recoverable state.
 
-An exact-continuity baseline coalesces adjacent physical frames with raw PTS advancing
-by the prior frame/rate duration, unchanged format and unchanged pause mapping.
-This baseline is not sufficient for ordinary source support: the raw-scale probe
-shows strict equality can split every quantized continuous
-callback. Any coalescence based on a quantizer requires independently established
-source provenance and exact round-trip evidence; fitting observed timestamps or
-trusting a rounded flag is insufficient. Resolve this before rollout; no epsilon
-merging. Format changes end the supported epoch with a typed result;
-do not mix frame counters across sample rates or silently convert the source clock.
+Do not derive continuity from exact equality of raw host stamps or a fitted source
+quantizer. The [decision audit](../assets/20b-time-feasibility/contract-audit.md)
+supersedes that implementer overconstraint. Format changes end the supported epoch
+with a typed result; never mix native-frame counters across formats silently.
 
 ## Start and rollout gates
 
-The separate SourceAudio owner must first prove the frozen rational MOV returns
-original sample 52800 at 1.2s, with full/late parity and ordinary 44.1/48k preservation.
+The separate SourceAudio correction landed as root e03ed4ad and proves the frozen
+rational MOV returns original sample 52800 at 1.2s; preserve its full/late and
+ordinary 44.1/48k gates.
 The retained [storage proof](../assets/20a-sparse-storage/README.md) documents the
-current red. Its banked mechanism is input evidence, not a dependency on completing
+historical red. Its banked mechanism is input evidence, not a dependency on completing
 parent 20a; 20a's delivery failure is resolved only by the complete repair chain.
 
 This slice may establish owner methods, records and offline seam tests. **Do not
@@ -59,7 +68,8 @@ precision/overflow refuses; no invented tolerance or broad all-device claim.
 Before choosing the representation, exercise actual raw-scale candidates, including
 nanosecond host timestamps combined with 48 kHz: their common scale can exceed
 CoreMedia's Int32 limit. The 44.1/48k plus-microseconds storage proof is not general
-raw-clock support. A representability refusal affecting ordinary supported capture
+raw-clock support. Canonical representation must preserve the declared admitted timeline, not every
+raw-host rational. A representability refusal affecting ordinary supported capture
 input **fails the repair gate**; it requires a bounded alternative/reslice, not a
 policy narrowing away normal recorder behavior. Never use an epsilon to hide phase.
 

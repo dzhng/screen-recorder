@@ -2634,3 +2634,20 @@ rather than rounding. This is not a new capture journal or a promise for all dev
 clocks. The rational container succeeds while the existing reader still moves a
 sample; that red remains a separate prerequisite. Packed files remain immutable
 experiment inputs, not a decision to retain duplicate production originals forever.
+
+
+### Captured time: raw-clock equality superseded by admitted placement (corrected)
+
+The 20b/c implementer required every raw host nanosecond plus native frame duration
+to survive canonical MOV exactly. This exceeded the public microsecond/source-sample
+contract and can exceed the platform timescale. The corrected requirement is one
+declared CaptureClock admission policy, exact raw provenance retained separately,
+and canonical preservation of admitted sample identities, addresses and support.
+A fixed initial microsecond phase with deterministic native-sample classification
+is approved only as a candidate to test. It must preserve omission, grouping,
+explicit support, pause and window/resampling behavior before rollout; no hidden
+fitting, epsilon merging or reader-specific timeline is authorized. This supersedes
+the earlier raw-PTS equality/coalescence and raw-through-MOV requirements, while
+keeping accepted-versus-durable and canonical publication invariants unchanged.
+Verdict: earlier requirement unsound; corrected observable property sound, high
+confidence. The initial policy's equivalence remains unproven, not silently adopted.

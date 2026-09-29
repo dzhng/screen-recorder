@@ -12,7 +12,7 @@ existing Capture/Media dependency direction. Reuse SourceSegment/container seman
 and extract reusable decode primitives if needed rather than copying recovery.
 
 Input is an immutable packed payload plus a validated streamed journal prefix.
-Output identifies the represented physical frame prefix, exact occupied/empty
+Output identifies the represented physical frame prefix, declared occupied/empty
 source segments, diagnostics and canonical candidate. Source time comes from the
 CaptureClock evidence established by 20b. No inserted silence, per-reader map,
 second blob store or fitted source offset. Keep separate capture roles independent.
@@ -28,11 +28,15 @@ prefix unless trustworthy later addresses are independently established. Preserv
 ambiguous tails and report why they were excluded; do not delete evidence on failure.
 
 Coalesce exact runs from 20b and use the banked composition/passthrough mechanism.
-Preflight exact representability of source placement, frame duration and container
-timescale without overflow; unsupported precision refuses rather than quantizes.
-Verify actual canonical PCM identities and exact segment placement before declaring
+Preflight representation of the admitted phase, exact frame duration and support
+without overflow. Do not demand lossless raw-host nanoseconds in the container or
+apply another hidden timing quantizer during materialization.
+Verify canonical sample identity/count/order, declared placement and support before declaring
 the candidate valid. Endpoint/packet-count checks or a successful export alone are
-insufficient. Physical payload must contain the original samples without gap padding.
+insufficient. For supported source windows/output contexts, canonical playback must
+select the same samples and support as the admission result, including resampling
+and acquired-window intersections. Physical payload must contain original samples
+without gap padding. This observable property replaces raw-clock equivalence.
 
 ## Bounded work gate
 

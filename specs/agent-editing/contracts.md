@@ -39,8 +39,9 @@ or trailing media remains a gap, not a duration silently stretched to match vide
 
 ## Captured PCM publication
 
-The planned [capture repair](slices/20b-exact-capture-audio.md) retains exact source
-placement under CaptureClock and exact accepted physical frame addresses in the
+The planned [capture repair](slices/20b-exact-capture-audio.md) defines one declared admitted source
+timeline under CaptureClock, retains exact raw timestamp provenance separately,
+and records exact accepted physical frame addresses in the
 existing capture journal. Accepted appends are not proof of durable payload. Normal
 finish and recovery share [one materializer](slices/20c-sparse-capture-materialization.md);
 only verified canonical source-time media reaches asset/project adoption. Empty
