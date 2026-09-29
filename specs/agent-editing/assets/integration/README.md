@@ -18,6 +18,15 @@ progressed. This is one diagnostic sample, not a general latency guarantee or
 proof that load-sensitive timing is solved. No timeout, fixture or storage
 implementation changed; slice 24 retains the concurrent deadline evidence.
 
+The [current targeted rerun](storage-current-targeted.txt) at root `d2f34e82`
+passes the unchanged named inventory test once (one passed, twelve skipped;
+546ms whole Vitest run). Command: `node node_modules/vitest/vitest.mjs run
+packages/core/src/storage.test.ts --maxWorkers=1 -t '^large file and reservation
+inventories yield while unrelated catalog reads keep working$'` (one shell line).
+The default five-second test deadline includes setup, reservation insertion,
+file creation, scan and assertions. This run does not isolate scan latency or
+prove concurrent-load immunity; the original red remains part of final scale work.
+
 Independent admission review caught unbounded provenance in asset.get. Its
 metadata-only response and separately paginated asset.origins now pass a public
 10,001-origin regression and real CLI/MCP traversal. Atomic queue admission has

@@ -1,0 +1,11 @@
+
+ RUN  v5.0.0 /Users/david/dev/screen-recorder
+
+(node:83541) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 12 skipped (13)
+   Start at  10:53:25
+   Duration  546ms (tests 79%, transform 13%, import 7%)
+
