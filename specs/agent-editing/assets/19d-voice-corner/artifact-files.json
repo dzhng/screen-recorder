@@ -1,0 +1,37 @@
+[
+  {
+    "file": "screenrec-19d-corner/combined-512.json",
+    "bytes": 6868,
+    "sha256": "3802b9d6d9a109b44a18e9ac6c35d205268f5524da470558d14c4604ed22d935"
+  },
+  {
+    "file": "screenrec-19d-corner/combined-512.request.json",
+    "bytes": 4658,
+    "sha256": "5ae2360af99a43dad025c8e5272d1584bc819b41ac2ac6f8c6ce530d98b958b8"
+  },
+  {
+    "file": "screenrec-19d-corner/combined-512.wav",
+    "bytes": 3932218,
+    "sha256": "c995c674a2b4730959a897e51037a716b82b23aace601ff04b5c84d831169d19"
+  },
+  {
+    "file": "screenrec-19d-corner/receipt.json",
+    "bytes": 44260,
+    "sha256": "d45b716f916fcec2db7e9115434b435d2bdf607d6ef4f9370b8320e87a900f95"
+  },
+  {
+    "file": "screenrec-19d-corner/worker.log",
+    "bytes": 539,
+    "sha256": "f49e5d7c8b46a15322a425542a6acbf75393d33e986053185de7fa1bb8f9e04b"
+  },
+  {
+    "file": "controller-used.py",
+    "bytes": 3651,
+    "sha256": "373dcb8170e199e4a3126ae1d0199f45bd28e82fcb6c571b80fc456a7ee5936c"
+  },
+  {
+    "file": "controller.log",
+    "bytes": 179,
+    "sha256": "5e2d62e3e39a5b39b75757ba22073700b9b8efec9ce882ac77151b42b4864454"
+  }
+]

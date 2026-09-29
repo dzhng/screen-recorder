@@ -1,0 +1,11 @@
+{
+  "resourceGatePassed": true,
+  "completedCases": 1,
+  "generatedCodes": 512,
+  "stopReason": "token-budget",
+  "completeSpeechPublication": false,
+  "archiveMembersVerified": 7,
+  "archiveSha256": "bb2e77bb43aafdb67a7c39ffcf1b2ee58a38553d68d26bd3d1ae8528337a9313",
+  "review": "Independent archive/reference/report consistency review passed; no production changes",
+  "publicProfileAdopted": false
+}
