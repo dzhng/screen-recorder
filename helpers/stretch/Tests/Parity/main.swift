@@ -5,16 +5,16 @@ import ScreenRecorderStretch
 do {
   let args = CommandLine.arguments
   if args.count == 2 && args[1] == "--contracts" {
-    func refused(_ expected: FrozenSignalsmith.Failure, _ operation: () throws -> Void) throws {
+    func refused(_ expected: SignalsmithProcessor.Failure, _ operation: () throws -> Void) throws {
       do { try operation(); throw ParityFailure.expectedFailure }
-      catch let error as FrozenSignalsmith.Failure { guard error == expected else { throw error } }
+      catch let error as SignalsmithProcessor.Failure { guard error == expected else { throw error } }
     }
-    try refused(.unsupportedFormat) { _ = try FrozenSignalsmith.process(selected: [0], outputFrames: 1, sampleRate: 48000, channels: 2) }
-    try refused(.invalidCount) { _ = try FrozenSignalsmith.process(selected: [], outputFrames: 1, sampleRate: 48000, channels: 1) }
+    try refused(.unsupportedFormat) { _ = try SignalsmithProcessor.process(selected: [0], outputFrames: 1, sampleRate: 48000, channels: 2) }
+    try refused(.invalidCount) { _ = try SignalsmithProcessor.process(selected: [], outputFrames: 1, sampleRate: 48000, channels: 1) }
     for canceledAt in [1, 2] {
       var checks = 0
       do {
-        _ = try FrozenSignalsmith.process(selected: [0.5], outputFrames: 1, sampleRate: 48000, channels: 1) {
+        _ = try SignalsmithProcessor.process(selected: [0.5], outputFrames: 1, sampleRate: 48000, channels: 1) {
           checks += 1
           if checks == canceledAt { throw CancellationError() }
         }
@@ -34,7 +34,7 @@ do {
   let selected = (first..<end).map { i in
     bytes.withUnsafeBytes { Float(bitPattern: UInt32(littleEndian: $0.loadUnaligned(fromByteOffset: i * 4, as: UInt32.self))) }
   }
-  let samples = try FrozenSignalsmith.process(selected: selected, outputFrames: wanted, sampleRate: rate, channels: 1)
+  let samples = try SignalsmithProcessor.process(selected: selected, outputFrames: wanted, sampleRate: rate, channels: 1)
   let result = samples.withUnsafeBytes { Data($0) }
   try result.write(to: output, options: .withoutOverwriting)
   print("{\"frames\":\(samples.count)}")

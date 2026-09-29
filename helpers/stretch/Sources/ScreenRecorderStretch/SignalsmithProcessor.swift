@@ -1,7 +1,7 @@
 import CSignalsmith
 
 /// Bounded mono parity adapter. Selection and publication belong to its caller.
-public enum FrozenSignalsmith {
+public enum SignalsmithProcessor {
   public enum Failure: Error, Equatable {
     case unsupportedFormat, invalidCount, unsupportedSelection, nonfinite, processingFailed
   }

@@ -29,3 +29,7 @@ No recorded audition acceptance exists; that does not establish whether the audi
 was heard. Protected words, short-speech treatment, stereo/runtime state domains
 and all public14 acceptance remain separate. [Choices](choices.md) explains the
 package boundary and source ownership.
+
+The responsibility-named `SignalsmithProcessor` follow-up repeats all65 checks
+and matches every prior PCM hash. `named-adapter.json` pins its binary and
+command-receipt archive; identical PCM remains in the original evidence archive.

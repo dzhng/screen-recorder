@@ -1,0 +1,8 @@
+{
+  "worker": "/tmp/screenrec-stretch-processor-native",
+  "sha256": "c9be22455ba8f313f3c15d5a3343a92e005c957f245bdf4f22029422492c6fc9",
+  "checks": 65,
+  "matchesPreviousChecksAndPCMHashes": true,
+  "archiveSha256": "f2c1bd73abb7642e8323ab08a144d598c840d78f58d6f4760d561c182fa21dcc",
+  "researchCppSha256": "edefb8f3aac5cea1fb6118b1bca0dd1475ac47b0252103bdca348d1cfb802bc0"
+}
