@@ -1,0 +1,923 @@
+{
+  "scope": "Eight fresh-process source reads; only source/output pathname and request id relocated from retained source requests",
+  "worker": "/Users/david/dev/screen-recorder/helpers/mac/.build/arm64-apple-macosx/debug/screenrec-native",
+  "workerSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "sourceSha256": "6df398ba0d8adad30d05334bb9a0c9213e5f8993b93947b6acd75cfd643f8c18",
+  "historicalArchiveSha256": "80988c0df64f2f7f306750c0c2057b46c0c13ea95cde2b25613dfcb18c2900de",
+  "cases": [
+    {
+      "index": 0,
+      "exitCode": 0,
+      "elapsedSeconds": 0.0675802230834961,
+      "request": {
+        "id": "source-0",
+        "operation": "media.sourceAudio",
+        "params": {
+          "source": {
+            "source": "/tmp/screenrec-current-aac-cohort/input.m4a",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 2000000
+              }
+            ]
+          },
+          "range": {
+            "startUs": 123457,
+            "endUs": 1812349
+          },
+          "output": "/tmp/screenrec-current-aac-cohort/source-0.wav"
+        }
+      },
+      "receipt": {
+        "data": {
+          "bytes": 302016,
+          "channels": 1,
+          "decodedFrames": 76529,
+          "file": "/tmp/screenrec-current-aac-cohort/source-0.wav",
+          "frames": 74480,
+          "layout": "mono",
+          "mediaType": "audio/wav",
+          "range": {
+            "endUs": 1812349,
+            "startUs": 123457
+          },
+          "sampleRange": {
+            "end": 79924,
+            "start": 5444
+          },
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        "id": "source-0",
+        "ok": true
+      },
+      "wavSha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "pcmSha256": "41f4bc4d55605c4be3b8bde66ec59ee4db210544a4cf309002838c1c46232205",
+      "format": [
+        3,
+        1,
+        44100,
+        176400,
+        4,
+        32
+      ],
+      "frames": 74480,
+      "versusCurrentFirst": {
+        "pcmBytesEqual": true,
+        "changedSamples": 0,
+        "maximum": 0.0,
+        "rms": 0.0,
+        "firstChangedReturnedSample": null,
+        "lastChangedReturnedSample": null,
+        "firstSamples": [
+          0.061580296605825424,
+          0.061580296605825424
+        ],
+        "lastSamples": [
+          0.12011029571294785,
+          0.12011029571294785
+        ]
+      },
+      "versusHistorical": {
+        "0": {
+          "pcmBytesEqual": true,
+          "changedSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0,
+          "firstChangedReturnedSample": null,
+          "lastChangedReturnedSample": null,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011029571294785,
+            0.12011029571294785
+          ]
+        },
+        "5": {
+          "pcmBytesEqual": false,
+          "changedSamples": 1486,
+          "maximum": 6.705522537231445e-08,
+          "rms": 2.346948173843623e-09,
+          "firstChangedReturnedSample": 72399,
+          "lastChangedReturnedSample": 74479,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011028081178665,
+            0.12011029571294785
+          ]
+        }
+      }
+    },
+    {
+      "index": 1,
+      "exitCode": 0,
+      "elapsedSeconds": 0.06775498390197754,
+      "request": {
+        "id": "source-1",
+        "operation": "media.sourceAudio",
+        "params": {
+          "source": {
+            "source": "/tmp/screenrec-current-aac-cohort/input.m4a",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 2000000
+              }
+            ]
+          },
+          "range": {
+            "startUs": 123457,
+            "endUs": 1812349
+          },
+          "output": "/tmp/screenrec-current-aac-cohort/source-1.wav"
+        }
+      },
+      "receipt": {
+        "data": {
+          "bytes": 302016,
+          "channels": 1,
+          "decodedFrames": 76529,
+          "file": "/tmp/screenrec-current-aac-cohort/source-1.wav",
+          "frames": 74480,
+          "layout": "mono",
+          "mediaType": "audio/wav",
+          "range": {
+            "endUs": 1812349,
+            "startUs": 123457
+          },
+          "sampleRange": {
+            "end": 79924,
+            "start": 5444
+          },
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        "id": "source-1",
+        "ok": true
+      },
+      "wavSha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "pcmSha256": "41f4bc4d55605c4be3b8bde66ec59ee4db210544a4cf309002838c1c46232205",
+      "format": [
+        3,
+        1,
+        44100,
+        176400,
+        4,
+        32
+      ],
+      "frames": 74480,
+      "versusCurrentFirst": {
+        "pcmBytesEqual": true,
+        "changedSamples": 0,
+        "maximum": 0.0,
+        "rms": 0.0,
+        "firstChangedReturnedSample": null,
+        "lastChangedReturnedSample": null,
+        "firstSamples": [
+          0.061580296605825424,
+          0.061580296605825424
+        ],
+        "lastSamples": [
+          0.12011029571294785,
+          0.12011029571294785
+        ]
+      },
+      "versusHistorical": {
+        "0": {
+          "pcmBytesEqual": true,
+          "changedSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0,
+          "firstChangedReturnedSample": null,
+          "lastChangedReturnedSample": null,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011029571294785,
+            0.12011029571294785
+          ]
+        },
+        "5": {
+          "pcmBytesEqual": false,
+          "changedSamples": 1486,
+          "maximum": 6.705522537231445e-08,
+          "rms": 2.346948173843623e-09,
+          "firstChangedReturnedSample": 72399,
+          "lastChangedReturnedSample": 74479,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011028081178665,
+            0.12011029571294785
+          ]
+        }
+      }
+    },
+    {
+      "index": 2,
+      "exitCode": 0,
+      "elapsedSeconds": 0.06559395790100098,
+      "request": {
+        "id": "source-2",
+        "operation": "media.sourceAudio",
+        "params": {
+          "source": {
+            "source": "/tmp/screenrec-current-aac-cohort/input.m4a",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 2000000
+              }
+            ]
+          },
+          "range": {
+            "startUs": 123457,
+            "endUs": 1812349
+          },
+          "output": "/tmp/screenrec-current-aac-cohort/source-2.wav"
+        }
+      },
+      "receipt": {
+        "data": {
+          "bytes": 302016,
+          "channels": 1,
+          "decodedFrames": 76529,
+          "file": "/tmp/screenrec-current-aac-cohort/source-2.wav",
+          "frames": 74480,
+          "layout": "mono",
+          "mediaType": "audio/wav",
+          "range": {
+            "endUs": 1812349,
+            "startUs": 123457
+          },
+          "sampleRange": {
+            "end": 79924,
+            "start": 5444
+          },
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        "id": "source-2",
+        "ok": true
+      },
+      "wavSha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "pcmSha256": "41f4bc4d55605c4be3b8bde66ec59ee4db210544a4cf309002838c1c46232205",
+      "format": [
+        3,
+        1,
+        44100,
+        176400,
+        4,
+        32
+      ],
+      "frames": 74480,
+      "versusCurrentFirst": {
+        "pcmBytesEqual": true,
+        "changedSamples": 0,
+        "maximum": 0.0,
+        "rms": 0.0,
+        "firstChangedReturnedSample": null,
+        "lastChangedReturnedSample": null,
+        "firstSamples": [
+          0.061580296605825424,
+          0.061580296605825424
+        ],
+        "lastSamples": [
+          0.12011029571294785,
+          0.12011029571294785
+        ]
+      },
+      "versusHistorical": {
+        "0": {
+          "pcmBytesEqual": true,
+          "changedSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0,
+          "firstChangedReturnedSample": null,
+          "lastChangedReturnedSample": null,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011029571294785,
+            0.12011029571294785
+          ]
+        },
+        "5": {
+          "pcmBytesEqual": false,
+          "changedSamples": 1486,
+          "maximum": 6.705522537231445e-08,
+          "rms": 2.346948173843623e-09,
+          "firstChangedReturnedSample": 72399,
+          "lastChangedReturnedSample": 74479,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011028081178665,
+            0.12011029571294785
+          ]
+        }
+      }
+    },
+    {
+      "index": 3,
+      "exitCode": 0,
+      "elapsedSeconds": 0.0658879280090332,
+      "request": {
+        "id": "source-3",
+        "operation": "media.sourceAudio",
+        "params": {
+          "source": {
+            "source": "/tmp/screenrec-current-aac-cohort/input.m4a",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 2000000
+              }
+            ]
+          },
+          "range": {
+            "startUs": 123457,
+            "endUs": 1812349
+          },
+          "output": "/tmp/screenrec-current-aac-cohort/source-3.wav"
+        }
+      },
+      "receipt": {
+        "data": {
+          "bytes": 302016,
+          "channels": 1,
+          "decodedFrames": 76529,
+          "file": "/tmp/screenrec-current-aac-cohort/source-3.wav",
+          "frames": 74480,
+          "layout": "mono",
+          "mediaType": "audio/wav",
+          "range": {
+            "endUs": 1812349,
+            "startUs": 123457
+          },
+          "sampleRange": {
+            "end": 79924,
+            "start": 5444
+          },
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        "id": "source-3",
+        "ok": true
+      },
+      "wavSha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "pcmSha256": "41f4bc4d55605c4be3b8bde66ec59ee4db210544a4cf309002838c1c46232205",
+      "format": [
+        3,
+        1,
+        44100,
+        176400,
+        4,
+        32
+      ],
+      "frames": 74480,
+      "versusCurrentFirst": {
+        "pcmBytesEqual": true,
+        "changedSamples": 0,
+        "maximum": 0.0,
+        "rms": 0.0,
+        "firstChangedReturnedSample": null,
+        "lastChangedReturnedSample": null,
+        "firstSamples": [
+          0.061580296605825424,
+          0.061580296605825424
+        ],
+        "lastSamples": [
+          0.12011029571294785,
+          0.12011029571294785
+        ]
+      },
+      "versusHistorical": {
+        "0": {
+          "pcmBytesEqual": true,
+          "changedSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0,
+          "firstChangedReturnedSample": null,
+          "lastChangedReturnedSample": null,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011029571294785,
+            0.12011029571294785
+          ]
+        },
+        "5": {
+          "pcmBytesEqual": false,
+          "changedSamples": 1486,
+          "maximum": 6.705522537231445e-08,
+          "rms": 2.346948173843623e-09,
+          "firstChangedReturnedSample": 72399,
+          "lastChangedReturnedSample": 74479,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011028081178665,
+            0.12011029571294785
+          ]
+        }
+      }
+    },
+    {
+      "index": 4,
+      "exitCode": 0,
+      "elapsedSeconds": 0.06631612777709961,
+      "request": {
+        "id": "source-4",
+        "operation": "media.sourceAudio",
+        "params": {
+          "source": {
+            "source": "/tmp/screenrec-current-aac-cohort/input.m4a",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 2000000
+              }
+            ]
+          },
+          "range": {
+            "startUs": 123457,
+            "endUs": 1812349
+          },
+          "output": "/tmp/screenrec-current-aac-cohort/source-4.wav"
+        }
+      },
+      "receipt": {
+        "data": {
+          "bytes": 302016,
+          "channels": 1,
+          "decodedFrames": 76529,
+          "file": "/tmp/screenrec-current-aac-cohort/source-4.wav",
+          "frames": 74480,
+          "layout": "mono",
+          "mediaType": "audio/wav",
+          "range": {
+            "endUs": 1812349,
+            "startUs": 123457
+          },
+          "sampleRange": {
+            "end": 79924,
+            "start": 5444
+          },
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        "id": "source-4",
+        "ok": true
+      },
+      "wavSha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "pcmSha256": "41f4bc4d55605c4be3b8bde66ec59ee4db210544a4cf309002838c1c46232205",
+      "format": [
+        3,
+        1,
+        44100,
+        176400,
+        4,
+        32
+      ],
+      "frames": 74480,
+      "versusCurrentFirst": {
+        "pcmBytesEqual": true,
+        "changedSamples": 0,
+        "maximum": 0.0,
+        "rms": 0.0,
+        "firstChangedReturnedSample": null,
+        "lastChangedReturnedSample": null,
+        "firstSamples": [
+          0.061580296605825424,
+          0.061580296605825424
+        ],
+        "lastSamples": [
+          0.12011029571294785,
+          0.12011029571294785
+        ]
+      },
+      "versusHistorical": {
+        "0": {
+          "pcmBytesEqual": true,
+          "changedSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0,
+          "firstChangedReturnedSample": null,
+          "lastChangedReturnedSample": null,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011029571294785,
+            0.12011029571294785
+          ]
+        },
+        "5": {
+          "pcmBytesEqual": false,
+          "changedSamples": 1486,
+          "maximum": 6.705522537231445e-08,
+          "rms": 2.346948173843623e-09,
+          "firstChangedReturnedSample": 72399,
+          "lastChangedReturnedSample": 74479,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011028081178665,
+            0.12011029571294785
+          ]
+        }
+      }
+    },
+    {
+      "index": 5,
+      "exitCode": 0,
+      "elapsedSeconds": 0.06616520881652832,
+      "request": {
+        "id": "source-5",
+        "operation": "media.sourceAudio",
+        "params": {
+          "source": {
+            "source": "/tmp/screenrec-current-aac-cohort/input.m4a",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 2000000
+              }
+            ]
+          },
+          "range": {
+            "startUs": 123457,
+            "endUs": 1812349
+          },
+          "output": "/tmp/screenrec-current-aac-cohort/source-5.wav"
+        }
+      },
+      "receipt": {
+        "data": {
+          "bytes": 302016,
+          "channels": 1,
+          "decodedFrames": 76529,
+          "file": "/tmp/screenrec-current-aac-cohort/source-5.wav",
+          "frames": 74480,
+          "layout": "mono",
+          "mediaType": "audio/wav",
+          "range": {
+            "endUs": 1812349,
+            "startUs": 123457
+          },
+          "sampleRange": {
+            "end": 79924,
+            "start": 5444
+          },
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        "id": "source-5",
+        "ok": true
+      },
+      "wavSha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "pcmSha256": "41f4bc4d55605c4be3b8bde66ec59ee4db210544a4cf309002838c1c46232205",
+      "format": [
+        3,
+        1,
+        44100,
+        176400,
+        4,
+        32
+      ],
+      "frames": 74480,
+      "versusCurrentFirst": {
+        "pcmBytesEqual": true,
+        "changedSamples": 0,
+        "maximum": 0.0,
+        "rms": 0.0,
+        "firstChangedReturnedSample": null,
+        "lastChangedReturnedSample": null,
+        "firstSamples": [
+          0.061580296605825424,
+          0.061580296605825424
+        ],
+        "lastSamples": [
+          0.12011029571294785,
+          0.12011029571294785
+        ]
+      },
+      "versusHistorical": {
+        "0": {
+          "pcmBytesEqual": true,
+          "changedSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0,
+          "firstChangedReturnedSample": null,
+          "lastChangedReturnedSample": null,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011029571294785,
+            0.12011029571294785
+          ]
+        },
+        "5": {
+          "pcmBytesEqual": false,
+          "changedSamples": 1486,
+          "maximum": 6.705522537231445e-08,
+          "rms": 2.346948173843623e-09,
+          "firstChangedReturnedSample": 72399,
+          "lastChangedReturnedSample": 74479,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011028081178665,
+            0.12011029571294785
+          ]
+        }
+      }
+    },
+    {
+      "index": 6,
+      "exitCode": 0,
+      "elapsedSeconds": 0.0665581226348877,
+      "request": {
+        "id": "source-6",
+        "operation": "media.sourceAudio",
+        "params": {
+          "source": {
+            "source": "/tmp/screenrec-current-aac-cohort/input.m4a",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 2000000
+              }
+            ]
+          },
+          "range": {
+            "startUs": 123457,
+            "endUs": 1812349
+          },
+          "output": "/tmp/screenrec-current-aac-cohort/source-6.wav"
+        }
+      },
+      "receipt": {
+        "data": {
+          "bytes": 302016,
+          "channels": 1,
+          "decodedFrames": 76529,
+          "file": "/tmp/screenrec-current-aac-cohort/source-6.wav",
+          "frames": 74480,
+          "layout": "mono",
+          "mediaType": "audio/wav",
+          "range": {
+            "endUs": 1812349,
+            "startUs": 123457
+          },
+          "sampleRange": {
+            "end": 79924,
+            "start": 5444
+          },
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        "id": "source-6",
+        "ok": true
+      },
+      "wavSha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "pcmSha256": "41f4bc4d55605c4be3b8bde66ec59ee4db210544a4cf309002838c1c46232205",
+      "format": [
+        3,
+        1,
+        44100,
+        176400,
+        4,
+        32
+      ],
+      "frames": 74480,
+      "versusCurrentFirst": {
+        "pcmBytesEqual": true,
+        "changedSamples": 0,
+        "maximum": 0.0,
+        "rms": 0.0,
+        "firstChangedReturnedSample": null,
+        "lastChangedReturnedSample": null,
+        "firstSamples": [
+          0.061580296605825424,
+          0.061580296605825424
+        ],
+        "lastSamples": [
+          0.12011029571294785,
+          0.12011029571294785
+        ]
+      },
+      "versusHistorical": {
+        "0": {
+          "pcmBytesEqual": true,
+          "changedSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0,
+          "firstChangedReturnedSample": null,
+          "lastChangedReturnedSample": null,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011029571294785,
+            0.12011029571294785
+          ]
+        },
+        "5": {
+          "pcmBytesEqual": false,
+          "changedSamples": 1486,
+          "maximum": 6.705522537231445e-08,
+          "rms": 2.346948173843623e-09,
+          "firstChangedReturnedSample": 72399,
+          "lastChangedReturnedSample": 74479,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011028081178665,
+            0.12011029571294785
+          ]
+        }
+      }
+    },
+    {
+      "index": 7,
+      "exitCode": 0,
+      "elapsedSeconds": 0.06526494026184082,
+      "request": {
+        "id": "source-7",
+        "operation": "media.sourceAudio",
+        "params": {
+          "source": {
+            "source": "/tmp/screenrec-current-aac-cohort/input.m4a",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0,
+            "available": [
+              {
+                "startUs": 0,
+                "endUs": 2000000
+              }
+            ]
+          },
+          "range": {
+            "startUs": 123457,
+            "endUs": 1812349
+          },
+          "output": "/tmp/screenrec-current-aac-cohort/source-7.wav"
+        }
+      },
+      "receipt": {
+        "data": {
+          "bytes": 302016,
+          "channels": 1,
+          "decodedFrames": 76529,
+          "file": "/tmp/screenrec-current-aac-cohort/source-7.wav",
+          "frames": 74480,
+          "layout": "mono",
+          "mediaType": "audio/wav",
+          "range": {
+            "endUs": 1812349,
+            "startUs": 123457
+          },
+          "sampleRange": {
+            "end": 79924,
+            "start": 5444
+          },
+          "sampleRate": 44100,
+          "unavailable": []
+        },
+        "id": "source-7",
+        "ok": true
+      },
+      "wavSha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "pcmSha256": "41f4bc4d55605c4be3b8bde66ec59ee4db210544a4cf309002838c1c46232205",
+      "format": [
+        3,
+        1,
+        44100,
+        176400,
+        4,
+        32
+      ],
+      "frames": 74480,
+      "versusCurrentFirst": {
+        "pcmBytesEqual": true,
+        "changedSamples": 0,
+        "maximum": 0.0,
+        "rms": 0.0,
+        "firstChangedReturnedSample": null,
+        "lastChangedReturnedSample": null,
+        "firstSamples": [
+          0.061580296605825424,
+          0.061580296605825424
+        ],
+        "lastSamples": [
+          0.12011029571294785,
+          0.12011029571294785
+        ]
+      },
+      "versusHistorical": {
+        "0": {
+          "pcmBytesEqual": true,
+          "changedSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0,
+          "firstChangedReturnedSample": null,
+          "lastChangedReturnedSample": null,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011029571294785,
+            0.12011029571294785
+          ]
+        },
+        "5": {
+          "pcmBytesEqual": false,
+          "changedSamples": 1486,
+          "maximum": 6.705522537231445e-08,
+          "rms": 2.346948173843623e-09,
+          "firstChangedReturnedSample": 72399,
+          "lastChangedReturnedSample": 74479,
+          "firstSamples": [
+            0.061580296605825424,
+            0.061580296605825424
+          ],
+          "lastSamples": [
+            0.12011028081178665,
+            0.12011029571294785
+          ]
+        }
+      }
+    }
+  ],
+  "allCurrentPCMExact": true,
+  "universalDeterminismEstablished": false,
+  "originalMixCauseEstablished": false,
+  "historicalReceiptEqualFields": [
+    "channels",
+    "frames",
+    "layout",
+    "mediaType",
+    "range",
+    "sampleRange",
+    "sampleRate",
+    "unavailable",
+    "bytes"
+  ],
+  "historicalDecodedFrames": 81920,
+  "currentDecodedFrames": [
+    76529,
+    76529,
+    76529,
+    76529,
+    76529,
+    76529,
+    76529,
+    76529
+  ]
+}

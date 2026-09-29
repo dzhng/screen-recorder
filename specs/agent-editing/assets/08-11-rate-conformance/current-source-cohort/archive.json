@@ -1,0 +1,192 @@
+{
+  "archive": "captures.tar.xz",
+  "bytes": 245072,
+  "sha256": "c5a059f6af80dbce8bdd83ad431e680aec58c90674fe403119f9eaf7ad9fce29",
+  "members": [
+    {
+      "path": "executed-probe.py",
+      "bytes": 3963,
+      "sha256": "cb45a35c121af7def7faa78910007c5a3b01afb948a1dcda0db3982bce990c26"
+    },
+    {
+      "path": "historical-0.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "historical-5.wav",
+      "bytes": 302016,
+      "sha256": "54fc959061387652dddde3fb9b4fdd442d46e58e6dda0dddef8d45490798449f"
+    },
+    {
+      "path": "input.m4a",
+      "bytes": 35057,
+      "sha256": "6df398ba0d8adad30d05334bb9a0c9213e5f8993b93947b6acd75cfd643f8c18"
+    },
+    {
+      "path": "report.json",
+      "bytes": 24788,
+      "sha256": "09514a1086746fb988b19dba910eabfd56bedecd7a5ad67f1396b96314083520"
+    },
+    {
+      "path": "request-0.json",
+      "bytes": 335,
+      "sha256": "39ae6cab3c384a37374ce9fb5a4f0ff75c62fced2a02424adf634967a2f0ff2d"
+    },
+    {
+      "path": "request-1.json",
+      "bytes": 335,
+      "sha256": "4afd2011f505d834d955ff6c122ecf4be344bce670507e4248c4144935f526a1"
+    },
+    {
+      "path": "request-2.json",
+      "bytes": 335,
+      "sha256": "f75039e827fadcee7e9a216e332e9e8669a550049b79ddbf09cb9f31d0a22ad7"
+    },
+    {
+      "path": "request-3.json",
+      "bytes": 335,
+      "sha256": "23e1547827d96ead5f8c905ae071e7157daecb8636ef6d5c977240f2d1cfc6c5"
+    },
+    {
+      "path": "request-4.json",
+      "bytes": 335,
+      "sha256": "2843296282f143ff83a2dc723648831402c63b6eb7878da2a418c73592841cc7"
+    },
+    {
+      "path": "request-5.json",
+      "bytes": 335,
+      "sha256": "30a5f240d241ddf0304d518ce5affadb2ec7d8b5b19cc191e633bfd218cc1860"
+    },
+    {
+      "path": "request-6.json",
+      "bytes": 335,
+      "sha256": "37fd2ff416c50daea49e7a83fdd823f396f8787a71c7c88a52ccab59fa0b96bf"
+    },
+    {
+      "path": "request-7.json",
+      "bytes": 335,
+      "sha256": "8582c1a0c4e22d8b587a44902d5a7fec68f22c125bef50b64f1334e18e8cd916"
+    },
+    {
+      "path": "source-0.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "source-1.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "source-2.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "source-3.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "source-4.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "source-5.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "source-6.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "source-7.wav",
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337"
+    },
+    {
+      "path": "stderr-0.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stderr-1.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stderr-2.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stderr-3.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stderr-4.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stderr-5.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stderr-6.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stderr-7.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout-0.json",
+      "bytes": 322,
+      "sha256": "fade73f456befd4f83631b9679535292da6297124bba7c46a6809fff2fc2666a"
+    },
+    {
+      "path": "stdout-1.json",
+      "bytes": 322,
+      "sha256": "d05dce0068fce41d768ac5a7856221a39b6568a9b62f693e8e79dad73dc1dfa7"
+    },
+    {
+      "path": "stdout-2.json",
+      "bytes": 322,
+      "sha256": "d7a86a4c31e7b4bc34c6be68cd53624d2547299c05008c12add9d283eeb094d3"
+    },
+    {
+      "path": "stdout-3.json",
+      "bytes": 322,
+      "sha256": "babe035d0e3955264d9d7dd3afd8d45b7a44aa2fd587a57be1926a7995b25e2f"
+    },
+    {
+      "path": "stdout-4.json",
+      "bytes": 322,
+      "sha256": "240c29fa2f71e7ad5a6b42ae6ceb497b136fe2b3e1720116694f06c79ef9ca16"
+    },
+    {
+      "path": "stdout-5.json",
+      "bytes": 322,
+      "sha256": "f464d4c70493ade78eeb65384eee8861263d8366464cae6cd38634c5b94978a9"
+    },
+    {
+      "path": "stdout-6.json",
+      "bytes": 322,
+      "sha256": "16dfb9cd7cb51b2a9337616a8f73dca76d477bd38af22aed43084853b1a8bc37"
+    },
+    {
+      "path": "stdout-7.json",
+      "bytes": 322,
+      "sha256": "e3e09846a657e20127eab9512bee7679052b44027b8df118a2b79732e08f8f0b"
+    }
+  ]
+}

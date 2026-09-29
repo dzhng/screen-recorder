@@ -36,3 +36,7 @@ The immediate action is this evidence correction, not a decoder patch or another
 parameter sweep. The exact frozen-decoder arithmetic controls remain valid. Any
 future claim about current-runtime source reproducibility needs a separately
 scoped test of these retained bytes and requests; no such run is inferred here.
+
+A separately scoped [current-worker cohort](current-source-cohort/README.md) now
+records eight exact repeats for the same retained source/request. It does not
+change the historical findings or establish universal reproducibility.
