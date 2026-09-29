@@ -42,8 +42,10 @@ Historical workers and measurements retain their own identities below.
   180-second managed-preparation failure and cancellation observation deadline
   also remain unresolved; later diagnostics do not erase those failures.
   New entry controls will receive a distinct immutable registration, not retarget
-  the private checkpoint's ID. Excerpts19e is active in prepared-package-transfer;
-  its finite conversion19e1 and shared asset staging prerequisites are integrated.
+  the private checkpoint's ID. Excerpts19e is integrated with root63 focused tests
+  and the complete public journey passing. Its fresh weak-model consumer retained
+  the same WAV after donor deletion. Prepared-package-transfer now owns public
+  voice jobs19f, coordinating the settings dependency before final acceptance.
   Candidate native worker there has SHA256
   `2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3`;
   the root binary remains frozen8a until coordinated integration. Root reproduced

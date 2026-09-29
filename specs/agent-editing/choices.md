@@ -3703,3 +3703,19 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   preserves measured valid behavior without changing model precision.
 - **Confidence:** medium; this is a narrow compatibility choice. A future change
   to ideal nucleus filtering needs its own identity and output comparison.
+
+## Independent audio extraction operation
+
+- **When:** retained excerpts19e (`b12372b2`).
+- **Choice:** expose `audio.extract` separately from `audio.prepare`. For example,
+  an agent retaining seven seconds of a processed project receives an ordinary
+  audio asset that stays usable after deleting that project. Its historical
+  source information describes where the sound came from without keeping the
+  donor project alive. Full-output preparation retains its existing purpose.
+- **Gap:** the plan required a consolidated preparation seam but did not name the
+  public operation or decide whether optional arguments should change its lifetime.
+- **Reach:** callers choose durable extraction explicitly; source rendering,
+  conversion, jobs and immutable asset publication remain shared owners.
+- **Verdict:** sound; the operation name makes the different lifetime visible
+  without adding a separate renderer or voice-reference registry.
+- **Confidence:** high.

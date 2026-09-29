@@ -53,3 +53,9 @@ repository's supported Node 24 runtime parses redirected stdin correctly and
 reaches the service; the CLI shebang and package engine already specify Node.
 This runtime deviation is not counted as a successful Node request or hidden by
 the later pipe workaround.
+
+[Root integration verification](root-verification.json) repeats the complete public
+journey on the combined branch, with63 focused core and55 protocol/CLI tests
+passing without skips. The [compressed raw report](root-public-report.json.gz)
+retains requests and results; the isolated candidate worker was used without
+rebuilding the root worker.

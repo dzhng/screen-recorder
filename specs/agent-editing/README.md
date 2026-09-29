@@ -18,8 +18,9 @@ requirement below remains in scope. Read [contracts](contracts.md),
 verified public operations only; the installed app has not switched engines.
 
 Current pickup: implement [measured voice controls](slices/19d-voice-settings.md)
-and [retained audio excerpts](slices/19e-retained-audio-excerpts.md) in parallel,
-then [public durable generation](slices/19f-public-voice-jobs.md).
+then complete [public durable generation](slices/19f-public-voice-jobs.md).
+[Retained audio excerpts](slices/19e-retained-audio-excerpts.md) now pass their
+public lifecycle and fresh agent skill checks.
 [Common model preparation](slices/19c-common-model-preparation.md) passes the
 public local-adoption journey, frozen voice parity and existing ASR preservation.
 The [combined512-code resource corner](assets/19d-voice-corner/README.md) and
@@ -36,7 +37,8 @@ Preserve whole parent19 contextual/listening acceptance.
 [shared asset publication](assets/19e-asset-publication/README.md) pass their
 prerequisites. Root retains the frozen8a native worker for current voice checks;
 use the isolated candidate named in the pickup for the new conversion operation.
-No public installer, voice generation or excerpt operation is claimed yet.
+Public `audio.extract` is verified in the isolated service. The installed app
+and public voice generation remain separate gates.
 
 Continue independent remaining [scale work](slices/24-scale.md), then dependency-ready
 speech, retiming, voice, camera, cutover and autonomous workflow gates. Every open
@@ -302,7 +304,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [19d — Measured voice settings and bounded work](slices/19d-voice-settings.md)
 - [ ] [19d1 — Nonempty probability-filter support](slices/19d1-probability-filter.md)
 - [x] [19e1 — Canonical finite audio conversion](slices/19e1-finite-audio-conversion.md)
-- [ ] [19e — Retained audio excerpts](slices/19e-retained-audio-excerpts.md)
+- [x] [19e — Retained audio excerpts](slices/19e-retained-audio-excerpts.md)
 - [ ] [19f — Public durable voice generation](slices/19f-public-voice-jobs.md)
 - [x] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — offline scope; physical acceptance remains20.
 - [x] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)

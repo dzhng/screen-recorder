@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-29",
+  "sourceCommit": "b12372b2",
+  "publicJourneyPassed": true,
+  "checks": {
+    "exactWholeSourceFrames": true,
+    "convertedDifferentExtensionDedup": true,
+    "nonFloatContainerSelection": true,
+    "sourceAndProjectClocks": true,
+    "acquisitionSupport": true,
+    "cancellationFenceAndRetry": true,
+    "crashRecoveryFence": true,
+    "rawConversion": true,
+    "currentHistoricalAndMultiOrigin": true,
+    "canonicalWholeWavAndRestart": true,
+    "portableWithoutDonors": true
+  },
+  "nativeSha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3",
+  "rootNativeUnchanged": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "focusedCoreTests": 63,
+  "skipped": 0,
+  "archiveMembersRehashed": 744,
+  "archiveSha256": "66f9afbdd493e1bb65e0b40f8b17de4302b547572d2de2a7d404cee2a3e89df2",
+  "harnessSha256": "c6ee721989f8acfa556e5e8f0b229a845d4594fc680854214047950c0259be85",
+  "publicReportSha256": "1dd42e51ed937c50dbd934f7146db3b9b65344bb55ef3954e3d27f0d0f7f73a5",
+  "limitations": "No listening or public voice-generation claim; installed app unchanged.",
+  "protocolAndCliTests": 55
+}
