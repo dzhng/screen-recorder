@@ -17,31 +17,30 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations only; the installed app has not switched engines.
 
-Current pickup and priority:
+Current pickup: implement the private [voice entry parity checkpoint](slices/19a-voice-entry-parity.md).
+[Two fresh offline processes](slices/18a-voice-repeatability.md) preserve the frozen
+main candidate exactly. Reuse the existing process/output owners and explicit
+local preparation. Keep public generation, managed reference origins and listening
+acceptance separate; do not change the recipe or install/download another model.
 
-[Explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
-now passes the combined public/native journey and [fresh agent skill use](assets/15a3b-mix-skill/README.md).
-[Voice repeatability](slices/18a-voice-repeatability.md) now preserves the frozen candidate across two fresh offline processes; implement the private [voice entry parity checkpoint](slices/19a-voice-entry-parity.md) without enabling public generation or closing listening gates.
+Continue independent remaining [scale work](slices/24-scale.md), then dependency-ready
+speech, retiming, voice, camera, cutover and autonomous workflow gates. Every open
+slice remains in scope. Numerical parity does not replace listening evidence.
 
-1. Continue general [scale](slices/24-scale.md), including complete two-hour
-   [prepared-package transfer](slices/24j-prepared-package-scale.md), remaining query families, large-document/package history and unresolved load-sensitive budgets. [Finite decoder demand](slices/24q-finite-decoder-demand.md) and [inherited audio identification](slices/24p-audio-format-admission.md) now pass combined preservation. [Fixed-size history pages](slices/24r-history-query-scale.md) now pass their scoped cardinality and cursor gates.
-   The exact two-hour recipe has been reconstructed against its original hash;
-   available disk is insufficient for its transfer preflight. Do not restore multi-GB PCM
-   before the measured preflight passes. Generic [package closure](slices/22-portable-projects.md)
-   is verified, including changed learned settings refusing stale audio after adoption.
-2. [Capture rollout](slices/20d-capture-publication.md) is verified for its
-   prerecorded scope, including both-role pause and absent/torn-terminal recovery
-   in [20d8](slices/20d8-pause-terminal-boundaries.md). Physical camera acceptance
-   and installed cutover remain separate.
-3. [Routed scale](slices/24k-routing-scale.md) now passes500/10,000 occurrence
-   placement, bounded250-row inspection, exact late PCM and queue/cancellation
-   checks on the combined root. [Warm1080p preview](slices/24l-preview-budget.md)
-   also meets its15s/4GiB budget, and [fixed-size timeline queries](slices/24m-query-duration-memory.md)
-   remain below2x sampled memory when duration doubles. The complete two-hour learned workload,
-   combined fragmented-source/history package, and bounded public job inspection
-   now pass their scoped gates. Continue speech/denoise/retiming/voice acceptance,
-   then remaining camera, package, cutover and autonomous workflow gates. Every
-   open slice stays in scope; numerical parity does not replace listening evidence.
+The complete two-hour [prepared-package transfer](slices/24j-prepared-package-scale.md)
+still lacks the free space required by its measured preflight. Its exact recipe
+is reconstructed; do not restore multi-GB PCM until the preflight passes. Generic
+[package closure](slices/22-portable-projects.md) already passes, including refusal
+to reuse stale learned audio after adoption. Do not repeat completed DSP research.
+
+Recent scoped passes are banked: [finite source reads](slices/24q-finite-decoder-demand.md)
+and [inherited audio identification](slices/24p-audio-format-admission.md),
+[history pages](slices/24r-history-query-scale.md), [routed scale](slices/24k-routing-scale.md),
+[warm preview](slices/24l-preview-budget.md), [timeline query memory](slices/24m-query-duration-memory.md),
+and [denoise transitions](slices/15a3b-denoise-transitions.md) with
+[fresh skill use](assets/15a3b-mix-skill/README.md). [Capture rollout](slices/20d-capture-publication.md)
+is verified for prerecorded recovery, including [both-role pause/terminal boundaries](slices/20d8-pause-terminal-boundaries.md).
+Physical capture, broader scale and installed cutover remain separate gates.
 
 The user found the unfamiliar cropped speech confusing. No action on those clips
 is required; future comparisons use complete meaningful sentences from their

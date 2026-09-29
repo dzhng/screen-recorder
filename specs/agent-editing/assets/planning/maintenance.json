@@ -3,7 +3,7 @@
   "date": "2026-09-29",
   "specMarkdownFiles": 583,
   "slices": 95,
-  "dependencyEdges": 191,
+  "dependencyEdges": 192,
   "checks": [
     "local file links",
     "acyclic dependencies",

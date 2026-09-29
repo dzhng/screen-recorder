@@ -1,6 +1,6 @@
 # 18a — Frozen voice candidate process repeatability
 
-Status: bounded prerequisite verified. Dependency: [18](18-voice-reproduction.md).
+Status: bounded prerequisite verified. Dependencies: frozen [18](18-voice-reproduction.md).
 [Evidence](../assets/18a-voice-repeatability/README.md).
 
 ## Contract
