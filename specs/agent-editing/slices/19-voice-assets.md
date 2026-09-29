@@ -5,6 +5,12 @@ Status: public durable integration not started. The private [entry-parity checkp
 The next prerequisite is [runtime relocation](19b-voice-runtime-relocation.md):
 the verified development venv is not yet a standalone preparation artifact.
 
+Implementation proceeds through [common preparation](19c-common-model-preparation.md),
+[measured settings](19d-voice-settings.md), [retained excerpts](19e-retained-audio-excerpts.md)
+and [public durable jobs](19f-public-voice-jobs.md). The [independent plan synthesis](../assets/19-public-plan/README.md)
+records accepted/rejected alternatives. This parent retains whole contextual and
+listening acceptance; child completion does not close it.
+
 ## Contract
 
 Local generation is a durable, retryable asset job; agents can place its result without partial edits or dependence on the donor project.

@@ -17,13 +17,13 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations only; the installed app has not switched engines.
 
-Current pickup: prove [voice runtime relocation](slices/19b-voice-runtime-relocation.md)
-using existing local bytes with original interpreter/venv paths denied. The
-private [voice entry](slices/19a-voice-entry-parity.md) is integrated and verified;
-its venv still points to a development interpreter outside that directory.
-Then integrate preparation through the existing model owner and durable jobs.
-Public settings expose supported controls; the frozen private recipe and
-five-second reference envelope are not the final API. Preserve listening gates.
+Current pickup: implement [common model preparation](slices/19c-common-model-preparation.md)
+and independently measure [supported voice settings](slices/19d-voice-settings.md).
+The private entry and [runtime relocation](slices/19b-voice-runtime-relocation.md)
+are verified; the retained runtime bundle is an explicit local artifact, not a
+public installer. Reuse existing model/jobs/assets owners. [Retained excerpts](slices/19e-retained-audio-excerpts.md)
+then feed [public durable generation](slices/19f-public-voice-jobs.md). Keep the
+whole parent19 contextual/listening gate and all other open slices in scope.
 
 Continue independent remaining [scale work](slices/24-scale.md), then dependency-ready
 speech, retiming, voice, camera, cutover and autonomous workflow gates. Every open
@@ -279,7 +279,11 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [18a — Frozen voice repeatability across fresh processes](slices/18a-voice-repeatability.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
 - [x] [19a — Frozen voice worker entry parity](slices/19a-voice-entry-parity.md)
-- [ ] [19b — Relocatable prepared voice runtime](slices/19b-voice-runtime-relocation.md)
+- [x] [19b — Relocatable prepared voice runtime](slices/19b-voice-runtime-relocation.md)
+- [ ] [19c — Common local model preparation](slices/19c-common-model-preparation.md)
+- [ ] [19d — Measured voice settings and bounded work](slices/19d-voice-settings.md)
+- [ ] [19e — Retained audio excerpts](slices/19e-retained-audio-excerpts.md)
+- [ ] [19f — Public durable voice generation](slices/19f-public-voice-jobs.md)
 - [x] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — offline scope; physical acceptance remains20.
 - [x] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
 - [x] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)

@@ -21,11 +21,13 @@ Historical workers and measurements retain their own identities below.
   reds remain retained; arbitrary codec I/O and positive AAC tail-retry execution
   are not inferred. The release capture-test compiler assertion is separate from
   the passing debug prerecorded materializer and production release build.
-- **Voice18a/19a:** integrated. Root actual-entry13 and shared lifecycle30 checks
-  pass; full WAV/PCM matches the frozen candidate, including isolated imports.
-  The next pass proves [runtime relocation](../slices/19b-voice-runtime-relocation.md)
-  before public durable generation reuses existing model/jobs and retained references. Public voice.generate, listening and managed reference
-  origins remain open; the private five-second envelope is not a public policy.
+- **Voice18a/19a/19b:** integrated. Root actual-entry13 and lifecycle30 pass;
+  relocated runtime produces both frozen outputs under donor/network denial.
+  Root reverified all11,427 bundle entries and21 archive members. Preserve
+  `/private/tmp/screenrec-19b-relocation/bundle` for common preparation work;
+  its model is separate, and no public readiness/distribution claim follows.
+  Next: common preparation19c and independent settings19d; excerpts19e and
+  public durable jobs19f follow. Public generation and listening remain open.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).

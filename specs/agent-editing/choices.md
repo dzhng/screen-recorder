@@ -3639,3 +3639,27 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   bounds constrain this entry test, not the final editing workflow or model ability.
   **Verdict: sound; confidence medium.** A bounded checkpoint preserves parity
   while the full public settings contract remains open.
+
+## Voice relocation and public integration plan
+
+- **Choice:** Package the effective Python environment as installed bytes. The
+  standalone interpreter uses its adjacent library and the original venv's full
+  effective package set; base-only pip and unused activation tools are excluded.
+  The model remains a separate verified input. **Gap:** Relocation layout and
+  artifact supply were unspecified. **Reach:** This yields an explicit local
+  preparation artifact without claiming a downloadable or cross-machine release.
+  **Verdict: sound; confidence medium.** Original bytes and exact outputs survive;
+  public distribution remains separate work, not an implicit install.
+- **Choice:** Keep reference transcripts in frozen generation requests. An agent
+  can reuse the same excerpt with different explicit transcripts; each request
+  has its own identity. Historical extraction origins remain typed metadata, not
+  a second voice library. **Gap:** Parent19 did not fix reference handle shape.
+  **Reach:** Ordinary assets and shared jobs own lifetime and replay. **Verdict:
+  sound; confidence high.** This supports reuse without another mutable registry.
+- **Choice:** Resolve saved generation before installed-model readiness. The same
+  immutable model/preset/reference request returns its completed audio even after
+  model deletion. Only work needing inference checks local preparation. **Gap:**
+  The parent required replay but did not specify admission order. **Reach:**
+  Defaults and chosen origin identities cannot mutate underneath deduplication.
+  **Verdict: sound; confidence high.** It preserves saved-byte authority and the
+  existing queue identity rather than adding a request-ID database.

@@ -1,0 +1,9 @@
+{
+  "integrationCommit": "b098b524",
+  "archiveMembersVerified": 21,
+  "runtimeEntriesReverified": 11427,
+  "exactFrozenOutputs": 2,
+  "allowDonorFailsBeforeGeneration": true,
+  "productionChanges": false,
+  "inferenceRerun": false
+}

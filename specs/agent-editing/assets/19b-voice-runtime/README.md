@@ -56,3 +56,8 @@ including the complete relative manifest, import/dependency reports, effective
 profiles, negative controls, failed attempts and both pairs of full output WAVs.
 Observed free-space deltas can include unrelated machine activity; clonefile success
 and distinct inodes establish copy-on-write use without writable donor aliases.
+
+[Root integration verification](root-verification.json) rechecks every archived
+member and all current bundle entries, confirms both frozen outputs and the
+no-generation permissive-policy failure. No new inference was needed for this
+test-only integration.
