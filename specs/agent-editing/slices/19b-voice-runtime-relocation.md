@@ -1,6 +1,9 @@
 # 19b — Relocatable prepared voice runtime
 
-Status: planned. Parent: [19](19-voice-assets.md). Dependencies: [19a](19a-voice-entry-parity.md).
+Status: local installed-byte closure and exact donor-denied parity verified; reviewed evidence retained. Parent: [19](19-voice-assets.md). Dependencies: [19a](19a-voice-entry-parity.md).
+
+[Evidence](../assets/19b-voice-runtime/README.md). Assembly, import probing and exact-output
+gates live with the existing editing harnesses.
 
 ## Contract
 

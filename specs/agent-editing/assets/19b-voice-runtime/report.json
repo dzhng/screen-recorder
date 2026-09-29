@@ -1,0 +1,207 @@
+{
+  "passed": true,
+  "specSource": "0c0e81fe",
+  "bundlePath": "/private/tmp/screenrec-19b-relocation/bundle",
+  "manifestSha256": "0402e09d4aee7da3cd028bf65fb624fd8da0b1aeac47aca0d49437c268278cab",
+  "manifestEntries": 11427,
+  "regularFiles": 10035,
+  "logicalBytes": 488265326,
+  "freeBefore": 797184000,
+  "freeAfter": 786935808,
+  "observedFreeDelta": 10248192,
+  "allocationMeaning": "clonefile only; observed free-space delta includes possible unrelated machine activity, and stat blocks may count shared extents",
+  "platform": {
+    "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "system": "Darwin",
+    "release": "25.6.0",
+    "machine": "arm64"
+  },
+  "postExecutionManifestUnchanged": true,
+  "denial": {
+    "files": [
+      {
+        "path": "/Users/david/.local/share/uv/python/cpython-3.12.14-macos-aarch64-none/bin/python3.12",
+        "denied": true,
+        "errno": 1
+      },
+      {
+        "path": "/private/tmp/screenrec-voice-venv/pyvenv.cfg",
+        "denied": true,
+        "errno": 1
+      },
+      {
+        "path": "/private/tmp/screenrec-voice-venv/lib/python3.12/site-packages/mlx_audio/tts/utils.py",
+        "denied": true,
+        "errno": 1
+      }
+    ],
+    "networkDenied": true
+  },
+  "profileSha256": "7f9d4c10dbd12df5a5d0bf622be9a22e654cf2db0a4e874fe4d90cd917cad88e",
+  "outputs": [
+    {
+      "id": "word",
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "bytes": 84538,
+      "exactWAVAndPCM": true
+    },
+    {
+      "id": "phrase",
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "bytes": 322618,
+      "exactWAVAndPCM": true
+    }
+  ],
+  "external": "Explicit unchanged model directory and macOS system frameworks; model write-denied; no old HF cache dependency",
+  "attempts": [
+    {
+      "phase": "assembly",
+      "result": "pass",
+      "change": "standalone binary/lib layout with exact frozen effective site-packages; relative executable link; original sources unchanged"
+    },
+    {
+      "phase": "initial import probe",
+      "result": "instrumentation failure",
+      "reason": "None module __file__; corrected probe only"
+    },
+    {
+      "phase": "donor-denied import probe",
+      "result": "pass"
+    },
+    {
+      "phase": "nested service sandbox",
+      "result": "failure before Python start; no output",
+      "reason": "sandbox_apply EPERM under outer file-denial policy"
+    },
+    {
+      "phase": "single combined profile with shared owners",
+      "result": "pass, two exact outputs; separately run donor control retained"
+    },
+    {
+      "phase": "review allow-donor negative",
+      "result": "expected failure before generation; zero outputs"
+    },
+    {
+      "phase": "integrated exact-profile controls + two outputs",
+      "result": "pass"
+    },
+    {
+      "phase": "full post-run manifest",
+      "result": "pass; initial scratch verifier needed canonical /private/tmp prefix rather than lexical /tmp"
+    }
+  ],
+  "review": "Independent review found profile verification gap; fixed with readable-outside/denied-inside controls before generation and captured exact policy; allow-donor negative fails",
+  "archive": {
+    "path": "evidence.tar.xz",
+    "bytes": 822660,
+    "sha256": "3886c2b7f703b0fad1283d3376f02f391cd7cf0d7f7bef7d04b245dcca90eab1",
+    "members": [
+      {
+        "path": "manifest.json",
+        "bytes": 2157560,
+        "sha256": "0402e09d4aee7da3cd028bf65fb624fd8da0b1aeac47aca0d49437c268278cab"
+      },
+      {
+        "path": "assembly.json",
+        "bytes": 1227,
+        "sha256": "6acae167d9dc302d9426bc91836eced4fe8bb6cfba8f29bb85db00bbed933a68"
+      },
+      {
+        "path": "imports.json",
+        "bytes": 128456,
+        "sha256": "f7e23350cdda22b6981d41f7ab5e47cbccc17c92a3053791fec639e5ac446d68"
+      },
+      {
+        "path": "imports.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "imports-initial.log",
+        "bytes": 407,
+        "sha256": "e17315bfdb141a20a181746132306c2ad07981425a90abda1ab5f4fcaf0263d1"
+      },
+      {
+        "path": "native-dependencies.json",
+        "bytes": 37414,
+        "sha256": "1094103b4b88560e32a5cc90a73add4b88978b2d459cd82106a5f1eecb942a76"
+      },
+      {
+        "path": "denial.sb",
+        "bytes": 583,
+        "sha256": "7f9d4c10dbd12df5a5d0bf622be9a22e654cf2db0a4e874fe4d90cd917cad88e"
+      },
+      {
+        "path": "denial-control.json",
+        "bytes": 45,
+        "sha256": "cc05e28e6dbe26712403c5fb6b6c18f55d23f5843ab9af6a8802aaedd011db8a"
+      },
+      {
+        "path": "post-run-manifest.json",
+        "bytes": 154,
+        "sha256": "45abb231b2d3a141ec7dc08df14b3d3100fab5d9ef726d7170c47ddef5db379d"
+      },
+      {
+        "path": "overlap-control.json",
+        "bytes": 124,
+        "sha256": "83dcfef2cd7c9e7c7f6fa2d47f07590feba5119ac1847862776c37227e754daa"
+      },
+      {
+        "path": "synthesis/report.json",
+        "bytes": 1655,
+        "sha256": "00cccdd6ddae47bdc1459dd03cb26daaca51b6a25fcdadcc2a03fe3e225b476d"
+      },
+      {
+        "path": "synthesis.log",
+        "bytes": 1438,
+        "sha256": "dd4c9a053a185d6ef5a7b7985ac945d71e3e837552df802f40f91b4f92dda674"
+      },
+      {
+        "path": "combined/report.json",
+        "bytes": 2677,
+        "sha256": "24a5264ea29f929dd85f7cb3196e379cb504e6a67abb8ba469c392eadf193b08"
+      },
+      {
+        "path": "combined/word.wav",
+        "bytes": 84538,
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+      },
+      {
+        "path": "combined/phrase.wav",
+        "bytes": 322618,
+        "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+      },
+      {
+        "path": "allow-donor-control/report.json",
+        "bytes": 1829,
+        "sha256": "a32bc980777bbcf295f12857205137d5ee0b1c897e701cc8c38db8e1d9279d27"
+      },
+      {
+        "path": "allow-donor-control/effective.sb",
+        "bytes": 42,
+        "sha256": "5ac04c9658b2480511ce670079ea4e68c7e2e6bf546d6dbdc6d5ce22207d1e88"
+      },
+      {
+        "path": "verified/report.json",
+        "bytes": 4180,
+        "sha256": "943efa158e39a5ea0e228ec653a60094379122a3cdbbf7a9820dbd8247668109"
+      },
+      {
+        "path": "verified/effective.sb",
+        "bytes": 583,
+        "sha256": "7f9d4c10dbd12df5a5d0bf622be9a22e654cf2db0a4e874fe4d90cd917cad88e"
+      },
+      {
+        "path": "verified/word.wav",
+        "bytes": 84538,
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca"
+      },
+      {
+        "path": "verified/phrase.wav",
+        "bytes": 322618,
+        "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01"
+      }
+    ]
+  }
+}
