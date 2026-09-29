@@ -19,11 +19,12 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Correct the newly exposed non-grid phase full/window mismatch in the shared
-   audio reader. Continue the declared capture admission/journal contract in [20b](slices/20b-exact-capture-audio.md),
+1. Continue the declared capture admission/journal contract in [20b](slices/20b-exact-capture-audio.md),
    then shared canonical storage/recovery and publication in20c/20d. The
-   [shared reader phase correction](assets/08-rational-segment-phase/README.md)
-   now passes original-sample and combined sparse-container gates. The [actual writer reproduction](assets/20a-capture-owner-gap/README.md)
+   [native sample-address correction](assets/08-native-sample-address/README.md)
+   now passes arbitrary-phase full/window and combined sparse-container gates.
+   [Accepted media survives journal failure](assets/20b-journal-failure/README.md),
+   with combined-root verification. The [actual writer reproduction](assets/20a-capture-owner-gap/README.md)
    shows later PCM packed early after a missing buffer or pause. Preserve exact
    sample positions and truthful unavailable gaps; no silence padding, offset
    patch or second reader timeline. Physical capture remains a separate gate.

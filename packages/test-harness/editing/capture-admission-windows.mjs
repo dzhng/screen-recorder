@@ -95,3 +95,4 @@ for (const rate of [44100, 48000]) {
 report.windowGatePassed = report.cases.every(c => c.nativeWindowParity && c.projectWindowParity);
 save(join(out, 'report.json'), report);
 console.log(JSON.stringify(report, null, 2));
+assert.ok(report.windowGatePassed, 'Native and project windows must equal their full-render slices');

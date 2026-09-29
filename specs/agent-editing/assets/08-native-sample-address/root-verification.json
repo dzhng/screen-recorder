@@ -1,0 +1,513 @@
+{
+  "scope": "combined-root correction gate and existing sparse/capture preservation; no capture rollout or listening claim",
+  "redExitCode": 1,
+  "greenExitCode": 0,
+  "red": {
+    "scope": "offline admitted phase100001us; native and actual project resampling/window consumers; no writer rollout",
+    "workerSha256": "7d92f7c7494e333b05ffd826905bb963c10beca54fcf0b19e5f8df71f142965a",
+    "storageWorkerSha256": "1fd812ff9c26590f1c252c71a18f5fcbf6fcbd043b386f42128dee48d092949b",
+    "cases": [
+      {
+        "rate": 44100,
+        "inputSha256": "2a05df8e4dab13bde96caf3b54618f9766e08b9aeeaf24825063d6022de57a0a",
+        "canonicalSha256": "2f7041538f5150b7152ec609bba1618642e8a7ccc1819443f05c9e17d97bd063",
+        "owner": {
+          "candidateAnchorUs": 100001,
+          "declaredOriginUs": 100000000,
+          "groups": [
+            {
+              "anchorUs": 100001,
+              "chunk": 1024,
+              "frames": 88200,
+              "runs": 1
+            },
+            {
+              "anchorUs": 100001,
+              "chunk": 8192,
+              "frames": 88200,
+              "runs": 1
+            }
+          ],
+          "originPolicyEquivalent": false,
+          "rate": 44100,
+          "rawFirstAudioValue": 100100000501,
+          "rawRelativeRoundedOnceUs": 100000,
+          "rawVideoOrigin": {
+            "timescale": 1000000000,
+            "value": 100000000499
+          },
+          "scope": "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+        },
+        "nativeFullOriginalPCMExact": true,
+        "nativeWindowParity": false,
+        "nativeWindowMatchesMinusOne": true,
+        "projectWindowParity": false,
+        "projectWindowMatchesMinusOne": false
+      },
+      {
+        "rate": 48000,
+        "inputSha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2",
+        "canonicalSha256": "5dd35e4c5ce17d70f2b2fa72392a79bae217e79f565c1167fd274e4b46350396",
+        "owner": {
+          "candidateAnchorUs": 100001,
+          "declaredOriginUs": 100000000,
+          "groups": [
+            {
+              "anchorUs": 100001,
+              "chunk": 1024,
+              "frames": 96000,
+              "runs": 1
+            },
+            {
+              "anchorUs": 100001,
+              "chunk": 8192,
+              "frames": 96000,
+              "runs": 1
+            }
+          ],
+          "originPolicyEquivalent": false,
+          "rate": 48000,
+          "rawFirstAudioValue": 100100000501,
+          "rawRelativeRoundedOnceUs": 100000,
+          "rawVideoOrigin": {
+            "timescale": 1000000000,
+            "value": 100000000499
+          },
+          "scope": "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+        },
+        "nativeFullOriginalPCMExact": true,
+        "nativeWindowParity": false,
+        "nativeWindowMatchesMinusOne": true,
+        "projectWindowParity": false,
+        "projectWindowMatchesMinusOne": true
+      }
+    ],
+    "windowGatePassed": false
+  },
+  "green": {
+    "scope": "offline admitted phase100001us; native and actual project resampling/window consumers; no writer rollout",
+    "workerSha256": "98823458b58d44682e4bcb4a0fe1dd93ec40042c85962e3a9a0eb4a63eff6ea8",
+    "storageWorkerSha256": "711a4d85d98e82d45ebbc1b859d9871e1037aee10d88febf0885dc121afe3f3e",
+    "cases": [
+      {
+        "rate": 44100,
+        "inputSha256": "2a05df8e4dab13bde96caf3b54618f9766e08b9aeeaf24825063d6022de57a0a",
+        "canonicalSha256": "4943ddd9f5f4a83ff42360a7854afba231a87d704cf12ede8bab6692368f7df8",
+        "owner": {
+          "candidateAnchorUs": 100001,
+          "declaredOriginUs": 100000000,
+          "groups": [
+            {
+              "anchorUs": 100001,
+              "chunk": 1024,
+              "frames": 88200,
+              "runs": 1
+            },
+            {
+              "anchorUs": 100001,
+              "chunk": 8192,
+              "frames": 88200,
+              "runs": 1
+            }
+          ],
+          "originPolicyEquivalent": false,
+          "rate": 44100,
+          "rawFirstAudioValue": 100100000501,
+          "rawRelativeRoundedOnceUs": 100000,
+          "rawVideoOrigin": {
+            "timescale": 1000000000,
+            "value": 100000000499
+          },
+          "scope": "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+        },
+        "nativeFullOriginalPCMExact": true,
+        "nativeWindowParity": true,
+        "nativeWindowMatchesMinusOne": false,
+        "projectWindowParity": true,
+        "projectWindowMatchesMinusOne": false
+      },
+      {
+        "rate": 48000,
+        "inputSha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2",
+        "canonicalSha256": "a3c38aac002b955ec6040778d4c631a7c5754c2116f968beb222473eb7372122",
+        "owner": {
+          "candidateAnchorUs": 100001,
+          "declaredOriginUs": 100000000,
+          "groups": [
+            {
+              "anchorUs": 100001,
+              "chunk": 1024,
+              "frames": 96000,
+              "runs": 1
+            },
+            {
+              "anchorUs": 100001,
+              "chunk": 8192,
+              "frames": 96000,
+              "runs": 1
+            }
+          ],
+          "originPolicyEquivalent": false,
+          "rate": 48000,
+          "rawFirstAudioValue": 100100000501,
+          "rawRelativeRoundedOnceUs": 100000,
+          "rawVideoOrigin": {
+            "timescale": 1000000000,
+            "value": 100000000499
+          },
+          "scope": "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+        },
+        "nativeFullOriginalPCMExact": true,
+        "nativeWindowParity": true,
+        "nativeWindowMatchesMinusOne": false,
+        "projectWindowParity": true,
+        "projectWindowMatchesMinusOne": false
+      }
+    ],
+    "windowGatePassed": true
+  },
+  "sparse": {
+    "scope": "Offline storage proof with explicitly probe-known frame mapping; no production repair or physical sync",
+    "binarySha256": "711a4d85d98e82d45ebbc1b859d9871e1037aee10d88febf0885dc121afe3f3e",
+    "checks": [
+      {
+        "name": "continuous-owner",
+        "exactSegments": [
+          {
+            "firstFrame": 0,
+            "frames": 96000,
+            "mediaDuration": {
+              "timescale": 6000000,
+              "value": 12000000
+            },
+            "mediaStart": {
+              "timescale": 6000000,
+              "value": 0
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": 12000000
+            },
+            "sourceStart": {
+              "timescale": 6000000,
+              "value": 600000
+            }
+          }
+        ],
+        "packedFrames": 96000,
+        "fullFrames": 100800,
+        "unavailable": [
+          {
+            "endUs": 100000,
+            "startUs": 0
+          }
+        ],
+        "canonicalSha256": "48afd9b854be6c309a63977bbf97c2e4fb676a2f8f466e851ecc4d6efe1dc3c4"
+      },
+      {
+        "name": "omitted-rounded",
+        "exactSegments": [
+          {
+            "firstFrame": 0,
+            "frames": 32768,
+            "mediaDuration": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "mediaStart": {
+              "timescale": 6000000,
+              "value": 0
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "sourceStart": {
+              "timescale": 6000000,
+              "value": 600000
+            }
+          },
+          {
+            "firstFrame": 32768,
+            "frames": 55040,
+            "mediaDuration": {
+              "timescale": 6000000,
+              "value": 6880000
+            },
+            "mediaStart": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": 6880000
+            },
+            "sourceStart": {
+              "timescale": 6000000,
+              "value": 5719998
+            }
+          }
+        ],
+        "packedFrames": 87808,
+        "fullFrames": 100800,
+        "unavailable": [
+          {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          {
+            "endUs": 953333,
+            "startUs": 782667
+          }
+        ],
+        "canonicalSha256": "a2a37927e813106ae1f6254eedb92f701fa7c8bc99396cd442a30bc282e3f057"
+      },
+      {
+        "name": "omitted-rational",
+        "exactSegments": [
+          {
+            "firstFrame": 0,
+            "frames": 32768,
+            "mediaDuration": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "mediaStart": {
+              "timescale": 6000000,
+              "value": 0
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "sourceStart": {
+              "timescale": 6000000,
+              "value": 600000
+            }
+          },
+          {
+            "firstFrame": 32768,
+            "frames": 55040,
+            "mediaDuration": {
+              "timescale": 6000000,
+              "value": 6880000
+            },
+            "mediaStart": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": 6880000
+            },
+            "sourceStart": {
+              "timescale": 6000000,
+              "value": 5720000
+            }
+          }
+        ],
+        "packedFrames": 87808,
+        "fullFrames": 100800,
+        "unavailable": [
+          {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          {
+            "endUs": 953333,
+            "startUs": 782667
+          }
+        ],
+        "canonicalSha256": "92dcd820f7c966584875bfca6d7fb76ce48a50f78005190b6842db8c2c6bdbfe"
+      },
+      {
+        "name": "pause-rational",
+        "exactSegments": [
+          {
+            "firstFrame": 0,
+            "frames": 32768,
+            "mediaDuration": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "mediaStart": {
+              "timescale": 6000000,
+              "value": 0
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "sourceStart": {
+              "timescale": 6000000,
+              "value": 600000
+            }
+          },
+          {
+            "firstFrame": 32768,
+            "frames": 55040,
+            "mediaDuration": {
+              "timescale": 6000000,
+              "value": 6880000
+            },
+            "mediaStart": {
+              "timescale": 6000000,
+              "value": 4096000
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": 6880000
+            },
+            "sourceStart": {
+              "timescale": 6000000,
+              "value": 5589596
+            }
+          }
+        ],
+        "packedFrames": 87808,
+        "fullFrames": 99756,
+        "unavailable": [
+          {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          {
+            "endUs": 931599,
+            "startUs": 782667
+          }
+        ],
+        "canonicalSha256": "1c77122d475e30524db5e62e7955532724dba1b0c76e793b8bd5cff19d096c84"
+      },
+      {
+        "name": "continuous-44100",
+        "exactSegments": [
+          {
+            "firstFrame": 0,
+            "frames": 88200,
+            "mediaDuration": {
+              "timescale": 441000000,
+              "value": 882000000
+            },
+            "mediaStart": {
+              "timescale": 441000000,
+              "value": 0
+            },
+            "sourceDuration": {
+              "timescale": 441000000,
+              "value": 882000000
+            },
+            "sourceStart": {
+              "timescale": 441000000,
+              "value": 0
+            }
+          }
+        ],
+        "packedFrames": 88200,
+        "fullFrames": 88200,
+        "unavailable": [],
+        "canonicalSha256": "df29d68f96ed78c8b2d3c7cccd62852646be54a12966cc304ba651700ac0f718"
+      },
+      {
+        "name": "continuous-48000",
+        "exactSegments": [
+          {
+            "firstFrame": 0,
+            "frames": 96000,
+            "mediaDuration": {
+              "timescale": 6000000,
+              "value": 12000000
+            },
+            "mediaStart": {
+              "timescale": 6000000,
+              "value": 0
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": 12000000
+            },
+            "sourceStart": {
+              "timescale": 6000000,
+              "value": 0
+            }
+          }
+        ],
+        "packedFrames": 96000,
+        "fullFrames": 96000,
+        "unavailable": [],
+        "canonicalSha256": "4ada5545ac7140bd2cb8ef9ed29f21f0e824f1b1155319994aa98448eb363aab"
+      },
+      {
+        "name": "interrupted-export",
+        "freshProcessResume": true,
+        "stablePublication": true,
+        "changedIntentRefused": true
+      },
+      {
+        "name": "interrupted-rename",
+        "freshProcessResume": true,
+        "stablePublication": true,
+        "changedIntentRefused": true
+      },
+      {
+        "name": "interrupted-diagnostic",
+        "freshProcessResume": true,
+        "stablePublication": true,
+        "changedIntentRefused": true
+      },
+      {
+        "name": "overlap",
+        "refused": true
+      },
+      {
+        "name": "beyond-tail",
+        "refused": true
+      },
+      {
+        "name": "unsupported-phase-scale",
+        "refused": true
+      },
+      {
+        "name": "too-many-runs",
+        "refused": true
+      },
+      {
+        "name": "damaged-export",
+        "refused": true,
+        "originalRetained": true
+      }
+    ],
+    "phase": {
+      "roundedPreservesOriginalSamples": false,
+      "roundedSecondStartFrame": 45759,
+      "rationalContainerSecondStartFrame": 45760,
+      "rationalReadSecondStartFrame": 45760,
+      "rationalPreservesOriginalSamples": true,
+      "originalLateFirstFrame": 52800,
+      "roundedLateFirstFrame": 52801
+    },
+    "mechanismsVerified": true,
+    "productionRepairReady": false
+  },
+  "defaultCaptureSuiteExitCode": 0,
+  "cliBuild": {
+    "tasksSucceeded": 6,
+    "tasksCached": 6
+  },
+  "archiveMembersVerified": 292,
+  "greenWAVHashes": {
+    "44100-canonical/full.wav": "6a13c22388ec1b0b4467d031049b54a0159720d023f56457ec76b6b5ab5dcead",
+    "44100-canonical/late.wav": "241aed1ec8141dcd46fbf6b82c2444ae485ed44ee95139d2163c92576aeb5d5b",
+    "44100-canonical/reference.wav": "bbbfab464da6897f67af273dadbc646f04211f039dd3db0ae4b2eed2d1b3ad4c",
+    "44100-consumer/native-full.wav": "6a13c22388ec1b0b4467d031049b54a0159720d023f56457ec76b6b5ab5dcead",
+    "44100-consumer/native-window.wav": "baa9d6d13d3eaae01fdc8cd73efab30cc8d29c63745515dc5427d8dbf5e889ac",
+    "44100-consumer/project-full.wav": "db90c6747708a9745eb577881c449b42306b9e703683b58a018ee3ecc60a66d1",
+    "44100-consumer/project-window.wav": "bff13378322d620f77635cde026f53b0f5a07547dabcc044a1748b4b9cc41dcc",
+    "48000-canonical/full.wav": "51901538590aebbf65313e046a6079a7c68c4504cce9f93a591948176ddaff4c",
+    "48000-canonical/late.wav": "5c82669fcfbd72e1c78a2978b511af1eb05fbfcb9d726bd57b5be28e0ef7a203",
+    "48000-canonical/reference.wav": "3a67e5bc55fbf32d73f68fcd751766f16b1363769a51c54a2298be9de779ea7e",
+    "48000-consumer/native-full.wav": "51901538590aebbf65313e046a6079a7c68c4504cce9f93a591948176ddaff4c",
+    "48000-consumer/native-window.wav": "864706e3ed2f5a95cf37ddb5e9cc5a541412c0edbc26c73e793e51802db845d8",
+    "48000-consumer/project-full.wav": "ef423e0d3b3f770ae5fa1fadd38110cbbf85e8583e9997c3d28941e2ed6d4775",
+    "48000-consumer/project-window.wav": "f4e7624eb4ab321c41edf1e8e73f3d57068e019f91d12139e44d3c86e4a1e0e2"
+  }
+}

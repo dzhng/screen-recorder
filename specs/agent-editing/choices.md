@@ -2713,3 +2713,14 @@ real process-local filesystem limit rather than a test-only production failure
 hook. The opt-in offline test restores limits before inspecting retained media.
 This adds no persistent format or new recording path. Confidence: high; both first
 journal boundaries preserve exact decoded input PCM while recovery keeps support empty.
+
+### Native sample addresses survive rounded decoder timestamps (sound)
+
+When an agent requests a later excerpt, the reader now keeps the physical run's
+sample origin and counts samples from it. A platform timestamp can describe two
+different returned payloads, so it cannot identify the sample by itself. The
+decoder seeks to a provably interior point of the selected sample cell; this
+changes neither authored placement nor acquisition support. The
+[reader decisions](assets/08-native-sample-address/choices.md) cover bounded seek,
+continuity checks and cache invalidation. Confidence: high; this avoids a fitted
+offset or a new restriction on ordinary integral-rate audio.

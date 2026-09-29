@@ -1,11 +1,10 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: correct arbitrary-phase audio excerpt selection while advancing
-accepted-append journal bookkeeping independently, then canonical sparse
-storage/recovery and safe publication.
-The aligned reader phase correction is integrated and root-confirmed; a broader
-non-grid phase/window inconsistency is now the next reader correction. Fractional-rate execution now refuses
+Current priority: finish accepted-append journal integration, then canonical sparse
+storage/recovery and safe publication. The arbitrary-phase reader correction is
+integrated and root-confirmed, including the previously failing window gate.
+Fractional-rate execution now refuses
 with cache invalidation and combined-root confirmation. Settings09b,
 scoped06/15 and caption17 are verified; whole16/22 and final acceptance remain open.
 
@@ -22,9 +21,9 @@ controls, delivered clocks and discriminating phase/geometry negatives. Fresh
 review found edge fringes most apparent when magnified; continuous playback,
 real-speech listening and delivered retime/gain remain unverified.
 
-Current native worker: `/tmp/screenrec-rational-audio-native`, SHA256
-`3a9a91153d5cf2ec1a1149d59c5fbf7509d1ba6ea70fd160a1e81b1583561e90`.
-Source audio is v3, composition audio v5, movie v15 and transcript decoder v3;
+Current native worker: `/tmp/screenrec-native-sample-address`, SHA256
+`910f990be2310daaf82ceb2acfdd6fbe0b510e42645527c9d8bdc7a08a598bc6`.
+Source audio is v4, composition audio v6, movie v16 and transcript decoder v4;
 prepared/acoustic identity follows the corrected upstream execution. Picture-only
 identity remains unchanged. Prior integral-rate worker provenance remains in its leaf.
 Earlier caption/output proofs used frozen `/tmp/screenrec-caption-output-combined-native`
@@ -68,21 +67,16 @@ No production deadline or transaction guarantee changed.
   export path must refuse the new layout until canonical prefix evidence is wired.
   The production packed writer
   remains disconnected until canonical admission/recovery passes.
-- Shared audio reader / stretch: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  [Exact aligned source phase](08-rational-segment-phase/README.md) is integrated
-  and root-confirmed, but the [100001µs phase fixture](20b-window-phase/README.md)
-  exposes full/range mismatch at44.1/48k and44.1→48k resampling.
-  [Root retained-evidence verification](20b-window-phase/root-retained-verification.json)
-  confirms the original/full identity and window failures. A separate
-  [combined-root native rerun](20b-window-phase/root-rerun.json) reproduces all eight
-  retained WAVs byte-for-byte; the window gate remains red.
-  Packet probes in `/tmp/source-arbitrary-phase`
-  isolate physical seek phase loss before conversion: distinct seek coordinates
-  can return different payload samples with the same reported packet timestamp.
-  The correction must distinguish physical seek from packet sample addressing;
-  merely passing an exact seek time is insufficient above half a sample. Resolve
-  representation without a new supported-input restriction or capture-anchor
-  snapping. Keep previous exact/aligned and legacy gates.
+- Shared reader / canonical materialization: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  [Native sample addresses](08-native-sample-address/README.md) resolve the
+  arbitrary-phase failure without changing capture placement. The
+  [root correction gate](08-native-sample-address/root-verification.json) fails
+  before the fix and passes afterward, with original PCM, exact full/window
+  comparisons, sparse storage and capture preservation. The historical
+  [100001µs red](20b-window-phase/README.md) remains frozen. Next measure bounded
+  canonical segment materialization and reconcile accepted journal mappings with
+  decoded committed prefixes in20c; coordinate the streaming API with the journal
+  owner. No packed writer rollout until20d.
   [Native stretch parity](13b-native-stretch-parity/README.md) is also integrated
   and root-confirmed:65 complete-byte/error gates pass. Public retiming remains
   unavailable; no listening, stereo or long-input policy acceptance is inferred.
