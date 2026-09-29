@@ -328,6 +328,15 @@ export class ProjectStore {
         .get(projectId, revisionId),
     );
   }
+  /** Require a live project and its pinned revision without hydrating the document. */
+  requireRevision(projectId: string, revisionId: string): void {
+    this.get(projectId);
+    if (!this.hasRevision(projectId, revisionId))
+      throw new CatalogError("NOT_FOUND", "Revision does not exist in project", {
+        projectId,
+        revisionId,
+      });
+  }
   revision(projectId: string, revisionId?: string): ProjectRevision {
     const project = this.get(projectId);
     const row = this.store.catalog
@@ -723,7 +732,7 @@ export class ProjectStore {
     return documentAcquisitionIds(document).map((id) => this.acquisitions.context(id));
   }
   revisionDependencies(projectId: string, revisionId: string) {
-    this.revision(projectId, revisionId);
+    this.requireRevision(projectId, revisionId);
     return this.references.dependencies({ kind: "revision", id: revisionId });
   }
   private insertRevision(

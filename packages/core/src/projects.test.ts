@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { backup } from "node:sqlite";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
-import { Catalog } from "./catalog.js";
+import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore, compositionAsset } from "./assets.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -628,4 +628,41 @@ test("pinned revision availability respects exact membership and deletion withou
   expect(store.hasRevision(id, first.revision.id)).toBe(true);
   store.markDeleting(id);
   expect(store.hasRevision(id, first.revision.id)).toBe(false);
+});
+
+test("pinned revision ownership preserves missing, foreign and deleted project refusals", async () => {
+  const { store } = await setup();
+  const first = store.create({ requestId: "first", canvas });
+  const second = store.create({ requestId: "second", canvas });
+  const projectId = first.project.projectId,
+    revisionId = first.revision.id;
+  expect(store.requireRevision(projectId, revisionId)).toBeUndefined();
+  expect(store.revisionDependencies(projectId, revisionId)).toEqual([]);
+  const error = (run: () => unknown) => {
+    try {
+      run();
+    } catch (failure) {
+      if (!(failure instanceof CatalogError)) throw failure;
+      return {
+        code: failure.code,
+        message: failure.message,
+        details: failure.details,
+        retryable: failure.retryable,
+      };
+    }
+    throw new Error("Expected ownership refusal");
+  };
+  for (const [project, revision] of [
+    [projectId, "missing"],
+    [projectId, second.revision.id],
+    ["missing", revisionId],
+  ]) {
+    const expected = error(() => store.revision(project!, revision!));
+    expect(error(() => store.requireRevision(project!, revision!))).toEqual(expected);
+    expect(error(() => store.revisionDependencies(project!, revision!))).toEqual(expected);
+  }
+  store.markDeleting(projectId);
+  const expected = error(() => store.revision(projectId, revisionId));
+  expect(error(() => store.requireRevision(projectId, revisionId))).toEqual(expected);
+  expect(error(() => store.revisionDependencies(projectId, revisionId))).toEqual(expected);
 });

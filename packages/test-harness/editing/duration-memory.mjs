@@ -1,13 +1,16 @@
 import assert from "node:assert/strict";
-import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile, realpath } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { JourneyService, poll, run, hash } from "./source-evidence-fixture.mjs";
-import { writeSourceWave } from "./audio-project-fixture.mjs";
+import { writeSourceWave, sample } from "./audio-project-fixture.mjs";
 
-const { values } = parseArgs({ options: { out: { type: "string" } } });
+const { values } = parseArgs({
+  options: { out: { type: "string" }, query: { type: "string", default: "timeline" } },
+});
 assert.ok(process.env.SCREENREC_NATIVE);
+assert.ok(["timeline", "waveform"].includes(values.query));
 const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/screenrec-duration-memory-");
 await mkdir(out, { recursive: true });
 const source = join(out, "source.wav");
@@ -18,7 +21,10 @@ const occurrences = 10000,
 const report = {
   passed: false,
   scope:
-    "Sampled service resident memory for equal-cardinality two/four-hour timeline queries; no native decode or movie memory claim",
+    "Sampled service resident memory for equal-cardinality two/four-hour " +
+    values.query +
+    " queries; no native decode or movie memory claim",
+  query: values.query,
   sourceSha256: hash(await readFile(source)),
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   nodeVersion: process.version,
@@ -30,7 +36,7 @@ const save = () => writeFile(join(out, "report.json"), JSON.stringify(report, nu
 try {
   // Alternate order to avoid assigning all earlier/later machine conditions to one duration.
   for (const seconds of [7200, 14400, 14400, 7200, 7200, 14400]) {
-    const home = await mkdtemp("/tmp/sr-duration-memory-");
+    const home = await realpath(await mkdtemp("/tmp/sr-duration-memory-"));
     const trial = { seconds, home, trace: [], samples: [], queryMs: [] };
     report.cases.push(trial);
     const service = new JourneyService(home, trial);
@@ -121,7 +127,7 @@ try {
         .filter((x) => x > 0 && x < durationUs)
         .sort((a, b) => a - b)
         .slice(0, rowsPerQuery);
-      const read = async () => {
+      const readTimeline = async () => {
         const rows = [];
         let cursor,
           pages = 0;
@@ -152,6 +158,85 @@ try {
         );
         return hash(Buffer.from(JSON.stringify(rows)));
       };
+      const waveformRange = { startUs: durationUs - 250000, endUs: durationUs };
+      const windowStart = seconds * 48000 - 12000;
+      const expectedBuckets =
+        values.query === "waveform"
+          ? Array.from({ length: rowsPerQuery }, (_, bucket) => {
+              const gridStart = windowStart + bucket * 48;
+              return {
+                gridStart,
+                sampleRange: { start: gridStart, end: gridStart + 48 },
+                partial: false,
+                channels: [0, 1].map((channel) => {
+                  // The last 100ms occurrence begins after 150ms of authored empty space.
+                  const samples = Array.from({ length: 48 }, (_, i) => {
+                    const local = bucket * 48 + i - 7200;
+                    return local < 0 ? 0 : sample(0, local, channel) / 32768;
+                  });
+                  return {
+                    min: Math.min(...samples),
+                    max: Math.max(...samples),
+                    rms: Math.sqrt(
+                      samples.reduce((sum, value) => sum + value * value, 0) / samples.length,
+                    ),
+                  };
+                }),
+              };
+            })
+          : undefined;
+      const readWaveform = async () => {
+        const params = {
+          projectId,
+          revisionId,
+          range: waveformRange,
+          bucketFrames: 48,
+          format: "json",
+        };
+        let delivered;
+        const ready = await poll(
+          async () => {
+            delivered = await service.mcp.callTool({ name: "waveform.get", arguments: params });
+            assert.equal(delivered.structuredContent?.ok, true);
+            trial.trace.push({
+              operation: "waveform.get",
+              transport: "mcp",
+              state: delivered.structuredContent.data.state,
+            });
+            return delivered.structuredContent.data;
+          },
+          (value) => value.state === "ready",
+          "waveform delivery",
+        );
+        assert.equal(delivered.content.length, 2);
+        assert.equal(delivered.content[1].type, "text");
+        const text = delivered.content[1].text,
+          document = JSON.parse(text);
+        assert.equal(document.domain, "project");
+        assert.equal(document.projectId, projectId);
+        assert.equal(document.revisionId, revisionId);
+        assert.deepEqual(document.range, waveformRange);
+        assert.deepEqual(document.sampleRange, { start: windowStart, end: seconds * 48000 });
+        assert.equal(document.sampleRate, 48000);
+        assert.equal(document.channels, 2);
+        assert.equal(document.bucketFrames, 48);
+        assert.deepEqual(document.buckets, expectedBuckets);
+        assert.equal(ready.published.waveform.bytes, Buffer.byteLength(text));
+        if (!trial.waveform) {
+          const file = `waveform-${report.cases.length}-${seconds}.json`;
+          await writeFile(join(out, file), text);
+          trial.waveform = {
+            file,
+            receipt: ready,
+            buckets: document.buckets.length,
+            measurementSha256: hash(
+              Buffer.from(JSON.stringify(document.buckets.map((row) => row.channels))),
+            ),
+          };
+        }
+        return hash(Buffer.from(text));
+      };
+      const read = values.query === "waveform" ? readWaveform : readTimeline;
       const coldAt = performance.now();
       trial.rowsSha256 = await read();
       trial.coldMs = performance.now() - coldAt;
@@ -159,6 +244,15 @@ try {
         const at = performance.now();
         assert.equal(await read(), trial.rowsSha256);
         trial.queryMs.push(performance.now() - at);
+      }
+      if (values.query === "waveform") {
+        trial.queryP95Ms = [...trial.queryMs].sort((a, b) => a - b)[
+          Math.ceil(trial.queryMs.length * 0.95) - 1
+        ];
+        assert.ok(
+          trial.queryP95Ms <= 250,
+          "Cached250-row inspection exceeded unchanged250ms p95 budget",
+        );
       }
       stopped = true;
       await sampling;

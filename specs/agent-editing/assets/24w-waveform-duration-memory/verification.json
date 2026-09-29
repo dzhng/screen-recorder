@@ -1,0 +1,24 @@
+{
+  "members": 45,
+  "expandedBytes": 98882647,
+  "completeMemberHashVerification": true,
+  "archiveSha256": "645d88c77c69fa9b127f583485853c0877999087c14bed275d2879cbdd16ea59",
+  "base": "a1377207",
+  "nativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node packages/test-harness/editing/duration-memory.mjs --query waveform --out /tmp/screenrec-24w-waveform-duration-fixed",
+  "coreTests": 13,
+  "serviceTests": 15,
+  "builds": [
+    "core",
+    "service"
+  ],
+  "independentReview": "clean",
+  "originalLatencyRedPreserved": true,
+  "productionChange": "Ownership-only guards use existing get/hasRevision; cached waveform path hydrates revision once instead of three times",
+  "limitations": [
+    "Sampled service memory only",
+    "Latency includes public delivery and independent validation",
+    "No native-memory or other-family scaling claim",
+    "No causal speedup inferred from unmatched timing runs"
+  ]
+}

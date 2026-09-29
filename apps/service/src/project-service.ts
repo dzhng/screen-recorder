@@ -130,7 +130,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
         if (target.kind === "import") assets.intent(target.importId);
         else if (target.kind === "acquisition") acquisitions.intent(target.acquisitionId);
         else if (target.kind === "asset") assets.get(target.assetId);
-        else if (target.kind === "project") projects.revision(target.projectId, target.revisionId);
+        else if (target.kind === "project")
+          projects.requireRevision(target.projectId, target.revisionId);
         else throw new CatalogError("NOT_READY", "Unsupported project service job target");
         return target;
       },
