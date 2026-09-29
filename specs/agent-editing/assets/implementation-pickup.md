@@ -1,84 +1,67 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Explicit output settings09b and font admission17b are verified within their named
-scopes. Prioritize matched encoded-appearance verification, historical package
-export and caption integration in parallel. No full editor or whole16/17/22
-completion is claimed.
+Current priority: transcript-seeded captions, animated encoded verification and
+remaining speech/prepared-audio consumers. Settings09b, font17b, literal text17c
+and scoped06/15 are verified; whole16/17/22 and final acceptance remain open.
 
-## Output controls complete; appearance verification next
+## Current combined state
 
-Root8144117d integrates encoder selection and concrete native AAC discovery on
-68e25d9d/0e86ecd0's settings owner. Combined build,212 composition/preview tests,
-13 export-lifecycle tests and the complete CLI/MCP/native settings journey pass.
-Fresh skill consumption discovers software controls, uses custom values and
-null defaults, exports/replays and independently probes formats without reading
-implementation for behavior. Exact evidence and limitations are retained in
-09b-encoder-selection. Presets remain editable defaults; actual writer selection
-constraints and unsupported combinations are explicit. No encoder telemetry is
-invented from preflight, and failed resampling-algorithm requests are unavailable.
+Root21eb0bca integrates literal text (8ea64fce), complete static encoded evidence
+(6394d742/370f0bbc), historical package export and focused CLI help (f262689c).
+Root49a3647d confirms prepared-audio portability after01884997. The static
+[acceptance disposition](09b-encoded-appearance/acceptance.md) and fresh audit
+separate documented codec loss from exact geometry/timing contracts.
 
-Frozen combined native worker: `/tmp/screenrec-combined-output-font-native`,
-SHA256 `d5190b6dad3258e57dfd0f6d6306b1d3a25f1a25fbae2540ea7c305c9f721f99`.
-It includes font admission and final output controls. The8Mbps balanced quality
-cohort retains sampled decoded parity after control expansion.
+Frozen combined native worker: `/tmp/screenrec-caption-output-combined-native`,
+SHA256 `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`.
+It includes final explicit encoding controls, exact-font text and PNG canvas alpha.
+Combined targeted build and243 composition/core checks pass. Public literal text,
+alpha, Unicode and anchor journeys pass on that worker; font-package and general
+historical-package combined checks are finishing. Prepared PCM relocation passes
+again with the text-aware manifest; its public preparation/DSP consumers stay open.
+Do not rebuild root dist while those two native public harnesses are running.
 
-The appearance delegate works in
-`/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-The [acceptance audit](09b-output-quality/acceptance-boundary.md) defines remaining
-full/range, negative-control and visual/playback evidence. Frozen pointer-chain
-pre-encode pixels and compiler/pointer records reproduce exactly. Complete full/range decoded cohorts and shifted/missing-pointer controls are
-retained with the frozen selection worker. Fresh visual review is running against
-ICC-normalized composites; raw originals preserve their profiles. Continuous
-playback and older strict landmark diagnostics remain open. Historical diagnostics and exact pre-encode gates stay intact.
-Use a fresh read-only CLI review for visual critique if the agent thread limit
-still prevents a new fork; sparse frames are not continuous playback acceptance.
+Historical root owner/service checks pass48/49; the unchanged large deletion
+fixture exceeds its default five-second deadline. The read-only audit localizes
+that cost to1500 individual disk-backed setup edits, while deletion itself takes
+under half a second. A test-only in-memory construction/backup/reopen correction
+is underway, preserving all actual edits, disk deletion/restart assertions and the
+original deadline. No production durability change is justified by that evidence.
 
-## Portability and font integration
+## Active owners
 
-Rootb999ffce integrates project screenshot-index adoption (delegateb76e847c) on
-the transient adoption prerequisite032b9f7a. Delegate public relocation retains
-current/history rows, coverage and exact PNGs after donor/archive removal and
-restart, including all prior source/transcript/journal controls. Imported published
-receipts no longer start replacement jobs. Combined root targeted build,53 owner/portable tests and full native relocation
-pass with expanded output settings. Donor/adopted media match within this cohort;
-old fixed-profile video hashes are not claimed identical.
+- Caption seeding: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
+  Literal text is committed and integrated. Implement `text.seed` at core to resolve pinned
+  source word generations and explicit occurrence selections into one ordinary
+  placement batch. Immutable origin provenance stays separate from editable
+  literal/style. Validate new origins at pre-edit occurrences; preserve origins
+  through structural edits and verify them against retained history on adoption.
+  Inject the existing TranscriptStore owner and retain generation resources in
+  the normal revision transaction; no new occurrence store or private edit language.
+- Animated appearance: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
+  Reuse frozen zoom/pose/crop cohorts with current explicit settings, exact
+  pre-encode/curve controls, full/range clocks and shifted-phase/geometry negatives.
+  Retain complete media/decoded evidence and fresh neutral review. No bitrate grid;
+  static appearance does not prove animated trajectory or continuous playback.
+- History fixture maintenance: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  Historical export21eb0bca preserves selected-prefix undo state and excludes later
+  indexes. Next is only the measured test-fixture correction described above;
+  coordinate ProjectStore constructor changes with caption seeding.
 
-Prepared-audio portability is integrated at root01884997. Combined build,104
-focused tests and the full native prepared-package journey pass; evidence is in
-[the prepared portability leaf](14a-prepared-portable/README.md). Public preparation
-and actual model-dependent DSP output remain open. The portable delegate now
-implements non-current revision package export in
-`/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`: snapshot
-the selected historical moment with its retained history prefix and undo state,
-leaving later donor revisions untouched. Fonts and final skill journeys still
-belong to whole22.
+## Remaining acceptance
 
-Roote779d7df integrates font admission: exact asset bytes plus explicit PostScript
-face identity, empty playable streams, native collection probing and portable asset
-metadata. Combined targeted build and17 asset/portable/package tests pass. Fresh public skill consumption passes13 checks; its retained review states
-infrastructure exposure and verification limits. No installed font or user library
-was changed.
+16 still needs delivered retime/gain and15a denoise transitions plus animated
+encoded evidence. Fade/zoom conveniences already have public/skill proof.14a has
+exact retained unit-rate/gain PCM and portable receipts, but no public prepare
+command or model-dependent DSP adoption. Follow08/11 audio conformance,12/12b
+speech evidence,12c/15a protected denoise,13/13a/14 stretch and18/19 voice joins;
+then camera20/21, remaining22 closure, cutover23, scale24 and autonomous25.
+Segmentation remains a future placeholder.
 
-The font delegate now implements caption integration in
-`/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
-Text will use an ordinary typed clip source and shared anchor/routing/edit owners,
-removing the unshipped empty captions array. The contract revision is intentional;
-update active fixtures while preserving historical evidence. Port the frozen17a
-renderer with parity, retain exact font faces and history/package dependencies,
-then add occurrence seeding. Literal text integration is in final visual/public-skill review; its worker and
-dist are frozen while the fresh consumer runs. Whole17 occurrence seeding remains
-next, using pinned transcript evidence expanded by core into ordinary placements.
-Do not claim whole17 complete from literal text parity. Segmentation stays future-only.
-
-## Other retained checkpoints
-
-Fade/zoom root4dacce6a expands into ordinary ordered processing steps; full build
-and197 composition tests plus delegate public/visual/skill checks pass. Gain,
-prepared PCM lifecycle, source indexes and sampling evidence remain linked from
-the README. Listening, accepted stretch/denoise integration, captions/voice,
-camera, cutover, scale and final acceptance remain in the full spec queue.
-
-An optional listening question covers the original,0.8× and1.25× phrase-0 stretch
-auditions in13a-endpoint-verification. No answer has arrived; listening acceptance
-and independent protected-word boundaries remain open.
+The optional original/0.8×/1.25× phrase-0 stretch listening question has no answer;
+listening and independent protected-word labels remain open. The CLI help change
+passes its three focused offline cases and all30 adapter checks at a bounded
+20-second diagnostic deadline; original-deadline multi-command timing failures
+remain retained in25-cli-discovery. Do not call that diagnostic a default-suite
+pass or infer listening/playback from numerical or still-image verification.

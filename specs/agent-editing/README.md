@@ -26,8 +26,8 @@ See the [implementation pickup](assets/implementation-pickup.md) for exact check
 
 1. [Agent-controlled output settings](slices/09b-output-settings.md) and their
    fresh public skill gate pass. The [balanced policy](assets/09b-output-quality/README.md)
-   is selected; finish matched encoded-appearance verification for [06](slices/06-render-reproduction.md),
-   [15](slices/15-layer-geometry.md) and [16](slices/16-keyframes.md). Source and
+   is selected; [scoped encoded acceptance](assets/09b-encoded-appearance/acceptance.md)
+   closes06/15. Continue matched animated geometry for [16](slices/16-keyframes.md). Source and
    finished-canvas sampling corrections now pass their native/public gates.
    [Recorded decoder evidence](assets/16-zoom/writer/codec/recorded/README.md)
    separates encoding loss from image-generator artifacts. ProRes is a diagnostic
@@ -143,7 +143,7 @@ Never pad missing samples, truncate support or relax thresholds to conceal a
 failure. Numerical checks cannot close listening or physical-camera acceptance.
 [Early encoding trials](assets/06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
 the later [output quality study](assets/09b-output-quality/README.md) selects an
-editable balanced default while broader appearance acceptance remains open. Broader encoding/color (06), audio conformance/scale (08), camera (20/21),
+editable balanced default while broader appearance acceptance remains open. Animated encoding (16), audio conformance/scale (08), camera (20/21),
 portability (22), cutover (23), scale (24) and autonomous acceptance (25) remain
 explicit gates. No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,
@@ -224,7 +224,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [03c — Ordered stack authoring and lifecycle](slices/03c-processing-stacks.md)
 - [x] [04 — Durable projects and shared commands](slices/04-projects.md)
 - [x] [05 — Compile bounded execution plans](slices/05-compiler.md)
-- [ ] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
+- [x] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
 - [x] [07 — Execute video plans](slices/07-video-execution.md)
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
@@ -243,7 +243,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
 - [ ] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
-- [ ] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
+- [x] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [ ] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)
 - [ ] [15a — Adopt verified noise processing](slices/15a-noise-processing.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
@@ -251,6 +251,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
 - [x] [17a — Explicit font and text layout reproduction](slices/17a-text-layout.md)
 - [x] [17b — Immutable font admission](slices/17b-font-admission.md)
+- [x] [17c — Literal text clips](slices/17c-literal-text.md)
 - [ ] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)

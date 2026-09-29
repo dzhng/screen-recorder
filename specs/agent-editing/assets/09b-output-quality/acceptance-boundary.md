@@ -1,23 +1,22 @@
 # Encoding acceptance boundary
 
-The independent [read-only acceptance audit](acceptance-audit.log.gz) confirms
-that choosing a reversible preset does not close slices 06, 15 or 16. The binding
+The [scoped disposition](../09b-encoded-appearance/acceptance.md) accepts the
+verified06 temporal and15 static geometry contracts with documented codec loss.
+The [complete matched capture](../09b-encoded-appearance/README.md) preserves
+full/range H.264 outputs, all decoded frames and clocks, frozen source/program/
+pointer identities, shifted/missing controls and fresh still-frame critique.
+Animation16 and continuous-playback acceptance remain separate.
+
+The independent [initial acceptance audit](acceptance-audit.log.gz) established
+that selecting a reversible preset alone could not close06/15/16. The binding
 [verification contract](../../verification.md) allows documented codec error
 between different encodes while requiring correct source selection, transforms,
 timestamps and range/full behavior. No audited source establishes a universal
 four-RGB-code-level encoded-output requirement from the user.
 
-The existing whole-image and thin-colored-pointer diagnostics remain failed and
-retained. They expose actual changes in encoded appearance; matching writer inputs
-show why they cannot alone establish an upstream geometry defect. Exact pre-encode
-selection and geometry gates remain unchanged. This distinction does not pronounce
-the encoded appearance acceptable, change a numeric oracle or add a codec.
-
-Next verify the chosen explicit settings on matched full/range H.264 outputs from
-the frozen pointer/transform cohort and broader recorded content. Preserve writer
-identity, ICC interpretation, timestamps and original diagnostics. Pair encoded
-thin-line/text/pointer review with deliberately shifted and missing-pointer
-negative controls so a tolerant appearance check cannot pass a real edit defect.
-Continuous playback remains separate from the sparse still-frame quality study.
-Only then resolve encoded-quality acceptance explicitly; do not perform another
-blind bitrate sweep or relabel historical failures as passes.
+Existing whole-image and thin-colored-pointer diagnostics remain failed and
+retained. They measure real appearance changes; matching writer inputs show why
+they cannot alone establish an upstream geometry defect. Exact pre-encode
+selection and geometry gates remain unchanged. The later scoped disposition is an
+explicit perceptual judgment backed by the expanded evidence, not a changed
+numeric oracle, extra codec or silent waiver of missing playback evidence.

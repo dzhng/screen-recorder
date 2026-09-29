@@ -2511,3 +2511,21 @@ older selected head should also carry its future. Keeping those later edits woul
 introduce a different branch model and unclear undo behavior. The reach: package
 revision selection is a historical snapshot, and each adopted project continues
 its ordinary append-only revision sequence from that selected moment.
+
+## Scoped encoded appearance disposition
+
+- **Choice:** Accept the measured fine-line/text softening for the tested balanced
+  MP4 static compositions while retaining exact selection, geometry and timing
+  gates. A pointer still lands on the intended target; its thin colored trail may
+  soften through lossy encoding. Agents can choose explicit settings for another
+  tradeoff. This does not accept motion playback or speech quality by implication.
+- **Gap:** The plan allowed documented codec error but did not prescribe a universal
+  numeric color threshold or a perceptual loss cutoff. Earlier experimental
+  thresholds had been treated too broadly as unfinished feature requirements.
+- **Reach:** Closes06/15's named contracts using complete retained evidence and
+  independent critique; failed diagnostics remain failed.16,24 and final acceptance
+  keep their own boundaries. No source or renderer behavior changes.
+- **Verdict:** Sound: measured loss is compatible with the user's balanced policy
+  and does not conceal a demonstrated edit defect. Reversible through explicit
+  encoding settings. **Confidence:** Medium, because acceptable loss depends on
+  content and viewing conditions beyond this corpus.

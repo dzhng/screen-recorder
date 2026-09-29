@@ -76,5 +76,5 @@ follow-up review are retained. The initial harness failure is also retained: it
 wrongly expected a pointer-stream file for the deliberately missing-pointer case;
 the corrected capture checks whether the native request declares that stream. The [independent still-frame critique](visual-review.md) records visible
 compression loss and successful defect discrimination, with a scratch-image
-presentation limitation preserved and investigated. Encoded appearance and
-continuous-playback acceptance remain open.
+presentation limitation preserved and investigated. [Static encoded appearance is accepted within its named scope](acceptance.md).
+Animated geometry and continuous-playback acceptance remain open.
