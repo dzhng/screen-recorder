@@ -3,7 +3,9 @@
 Status: in progress; compiled-plan delivery, active audio scheduling, independent
 edit batching and compact public delivery pass their prerequisites. The
 [two-hour learned checkpoint](24f-successful-learned-scale.md) passes complete
-PCM comparison; [routed500/10,000 occurrence reads](24k-routing-scale.md) now pass their scoped
+PCM comparison; [complete prepared-package transfer](24j-prepared-package-scale.md)
+passes full-file ownership and new receiver edit/undo without repeated DSP.
+[routed500/10,000 occurrence reads](24k-routing-scale.md) now pass their scoped
 placement, cached inspection and queue gates. [Warm1080p preview](24l-preview-budget.md) and [fixed-cardinality timeline query
 memory](24m-query-duration-memory.md) also pass. [Actual decoder/read accounting](24n-decoder-work.md) and the
 [metadata prefix correction](24o-descriptor-metadata.md) pass their scoped gates.

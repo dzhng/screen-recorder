@@ -1,0 +1,137 @@
+{
+  "scope": "Root integration verification of retained full-transfer evidence; no repeated DSP or multi-GB restore",
+  "manifestEntriesVerified": 19,
+  "archives": [
+    {
+      "path": "full-transfer.tar.xz",
+      "members": [
+        {
+          "path": "adopted-late.wav",
+          "bytes": 388096,
+          "sha256": "b9e3b865eff4bd4b957cce40a3d536d924a1dedd0e7394548cf13b81c773358e"
+        },
+        {
+          "path": "document.json",
+          "bytes": 4095161,
+          "sha256": "8a9b47147701bbf45faeb0a4cb06ec7005666ab23b073d8dac7036351b205894"
+        },
+        {
+          "path": "donor-publication.json",
+          "bytes": 18652936,
+          "sha256": "1e66c9c4cfdc0b8d46dc409cfca4636f8abb25589b1904cffa7c40bba05f2fc1"
+        },
+        {
+          "path": "late.wav",
+          "bytes": 388096,
+          "sha256": "b9e3b865eff4bd4b957cce40a3d536d924a1dedd0e7394548cf13b81c773358e"
+        },
+        {
+          "path": "original-report.json",
+          "bytes": 3202730,
+          "sha256": "9255f0e5e490d5bc98bea6b9b2540165329abacbd843151e3e86d2e668c7fa89"
+        },
+        {
+          "path": "receiver-publication.json",
+          "bytes": 18652936,
+          "sha256": "c82561847c6e3058d8bd4165754403d26ea261e7c69961d5c29fb7d06cc723ae"
+        },
+        {
+          "path": "recipe.json",
+          "bytes": 15944124,
+          "sha256": "75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb"
+        },
+        {
+          "path": "report.json",
+          "bytes": 1423637,
+          "sha256": "2b17bf5eb83f5b440e2ba212db5f8cc581acc5df1a89b0a85aba120e164da775"
+        },
+        {
+          "path": "source.wav",
+          "bytes": 192044,
+          "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+        }
+      ]
+    },
+    {
+      "path": "failed-transfer-metadata.tar.xz",
+      "members": [
+        {
+          "path": "manifest-failure/document.json",
+          "bytes": 4095161,
+          "sha256": "8a9b47147701bbf45faeb0a4cb06ec7005666ab23b073d8dac7036351b205894"
+        },
+        {
+          "path": "manifest-failure/late.wav",
+          "bytes": 388096,
+          "sha256": "b9e3b865eff4bd4b957cce40a3d536d924a1dedd0e7394548cf13b81c773358e"
+        },
+        {
+          "path": "manifest-failure/original-report.json",
+          "bytes": 3202730,
+          "sha256": "9255f0e5e490d5bc98bea6b9b2540165329abacbd843151e3e86d2e668c7fa89"
+        },
+        {
+          "path": "manifest-failure/recipe.json",
+          "bytes": 15944124,
+          "sha256": "75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb"
+        },
+        {
+          "path": "manifest-failure/report.json",
+          "bytes": 1411666,
+          "sha256": "514df4ce87093b8b56f61dd595a7f89081decc7e1bcfe26bbef0a5a2da987996"
+        },
+        {
+          "path": "manifest-failure/source.wav",
+          "bytes": 192044,
+          "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+        },
+        {
+          "path": "revision-selection-failure/document.json",
+          "bytes": 4095161,
+          "sha256": "8a9b47147701bbf45faeb0a4cb06ec7005666ab23b073d8dac7036351b205894"
+        },
+        {
+          "path": "revision-selection-failure/donor-publication.json",
+          "bytes": 18652936,
+          "sha256": "f10918d618a68cfbf27c22f05117bae91a79cab4f61e374d4f4f1109baebfad4"
+        },
+        {
+          "path": "revision-selection-failure/late.wav",
+          "bytes": 388096,
+          "sha256": "b9e3b865eff4bd4b957cce40a3d536d924a1dedd0e7394548cf13b81c773358e"
+        },
+        {
+          "path": "revision-selection-failure/original-report.json",
+          "bytes": 3202730,
+          "sha256": "9255f0e5e490d5bc98bea6b9b2540165329abacbd843151e3e86d2e668c7fa89"
+        },
+        {
+          "path": "revision-selection-failure/recipe.json",
+          "bytes": 15944124,
+          "sha256": "75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb"
+        },
+        {
+          "path": "revision-selection-failure/report.json",
+          "bytes": 1422759,
+          "sha256": "bb3731ae093a82f5478cdb3f3436073b72f84e5183974095d4b40f4acb236c23"
+        },
+        {
+          "path": "revision-selection-failure/source.wav",
+          "bytes": 192044,
+          "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+        }
+      ]
+    }
+  ],
+  "newProductChoices": [],
+  "checks": {
+    "exactOriginalRecipe": true,
+    "authenticatedOwnerRestoration": true,
+    "publicExportAndAdoption": true,
+    "fullOriginalWavHash": true,
+    "exactLatePCM": true,
+    "retainedProjectPlayback": true,
+    "newHistoryUndo": true,
+    "donorAndArchiveRemoved": true
+  }
+}

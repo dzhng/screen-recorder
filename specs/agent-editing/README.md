@@ -20,7 +20,9 @@ verified public operations only; the installed app has not switched engines.
 Current pickup: implement [common model preparation](slices/19c-common-model-preparation.md)
 and independently measure [supported voice settings](slices/19d-voice-settings.md).
 The [settings/termination experiment](assets/19d-voice-settings/README.md)
-passes its scoped15 trials; resource limits and public controls remain open.
+passes its scoped15 trials; the [resource experiment](assets/19d-voice-envelope/README.md)
+exceeds the memory target at1,024 output tokens. The combined512-token candidate
+and public controls remain open.
 The private entry and [runtime relocation](slices/19b-voice-runtime-relocation.md)
 are verified; the retained runtime bundle is an explicit local artifact, not a
 public installer. Reuse existing model/jobs/assets owners. [Retained excerpts](slices/19e-retained-audio-excerpts.md)
@@ -32,8 +34,9 @@ speech, retiming, voice, camera, cutover and autonomous workflow gates. Every op
 slice remains in scope. Numerical parity does not replace listening evidence.
 
 The complete two-hour [prepared-package transfer](slices/24j-prepared-package-scale.md)
-still lacks the free space required by its measured preflight. Its exact recipe
-is reconstructed; do not restore multi-GB PCM until the preflight passes. Generic
+now passes its full export/open/adopt gate with the original complete audio hash,
+late-window PCM and newly authored edit/undo. Original missing history is not
+reconstructed. Generic
 [package closure](slices/22-portable-projects.md) already passes, including refusal
 to reuse stale learned audio after adoption. Do not repeat completed DSP research.
 
@@ -316,7 +319,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24g — Bounded fragmented-source selections](slices/24g-fragmented-selection.md)
 - [x] [24h — Bounded public job inspection](slices/24h-job-inspection.md)
 - [x] [24i — Independent processing batches](slices/24i-processing-batches.md)
-- [ ] [24j — Complete two-hour prepared-package transfer](slices/24j-prepared-package-scale.md)
+- [x] [24j — Complete two-hour prepared-package transfer](slices/24j-prepared-package-scale.md)
 - [x] [24k — Routed placement and bounded queued reads](slices/24k-routing-scale.md)
 - [x] [24l — Warm1080p preview budget](slices/24l-preview-budget.md)
 - [x] [24m — Query memory across doubled timeline duration](slices/24m-query-duration-memory.md)

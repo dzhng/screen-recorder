@@ -29,6 +29,9 @@ Historical workers and measurements retain their own identities below.
   Common preparation19c is active in the reused two-hour-package-transfer worktree
   on `codex/common-model-preparation`; settings19d is active in capture-pause-recovery
   on `codex/voice-settings`. Coordinate actual inference between those owners.
+  The exact pinned model is hash-restored at
+  `/Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519`;
+  use this explicit source rather than the missing temporary path.
   Fifteen control/termination trials are integrated, including identical-WAV
   EOS/budget boundary cases. Measured public envelope and typed adoption remain. Excerpts19e and public jobs19f
   follow. The native19e probe preserves canonical PCM but rewrites WAV headers;
@@ -39,13 +42,14 @@ Historical workers and measurements retain their own identities below.
   Continue actual decoded-work measurement and remaining query families/history.
 - **History queries24r:** the [public history scale check](../slices/24r-history-query-scale.md) passes with real compact revisions and fresh services. Existing cursors exclude new edits; fixed250-row query memory remains stable between5,000 and10,000 revisions. This does not close arbitrary document-size, package-history or job-retirement gates.
 - **Streaming24s:** the original debug300-second streaming harness now passes unchanged, including its60-second child deadlines and memory/sample/sink checks. Storage-inventory contention remains separate and unresolved.
-- **Two-hour package24j:** exact recipe reconstruction is verified; full transfer
-  still lacks the free disk required by its measured preflight. Run its measured preflight before restoring PCM.
-  No large restore or repeated DSP has run. The prerequisite worktree is
-  `/Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder`.
+- **Two-hour package24j:** integrated full transfer passes. Original complete WAV,
+  recipe, late PCM and newly authored receiver edit/undo survive donor removal
+  with processing unavailable. No missing original history is inferred.
+  Its clean prepared-package-transfer worktree is reused for finite canonical
+  PCM conversion19e1; build there without replacing the root frozen worker.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
-  remain open. Continue dependency-ready work while the transfer lacks capacity.
+  remain open. Continue dependency-ready work.
 
 Preserve the older project-still-composition worktree's integrated diffs.
 The completed acquisition-picture-journey and noise-prepared-output worktrees
@@ -53,7 +57,7 @@ were recoverably archived at the user's request; do not restore them merely for
 new work. Historical native executables/resources are hash-preserved under
 `/tmp/screenrec-preserved-workers` with a source-to-copy manifest. The
 [cleanup receipt](maintenance/space-cleanup-2026-09-29.json) records reclaimed
-Docker cache/images and safe branch deletion. About72GiB free was measured;
+Docker cache/images, safe branch deletion and exact model recovery. About68GiB free was measured;
 recheck capacity before large work. Root owns this handoff and parent checklist.
 
 ## Banked contracts and evidence
@@ -146,7 +150,7 @@ absent/torn-terminal recovery through native and public owners.
 and exact PCM with processing unavailable. [Generic22 acceptance](22-acceptance/README.md)
 includes changed learned settings refusing stale retained audio and undo restoring
 it. [24j](../slices/24j-prepared-package-scale.md) retains exact original two-hour
-recipe authentication, reviewed transfer harness and the unpassed capacity gate.
+recipe authentication and full public transfer with exact complete retained audio.
 
 A complete familiar sentence was presented for optional denoise word/naturalness
 feedback. No answer has arrived; listening remains unverified.
