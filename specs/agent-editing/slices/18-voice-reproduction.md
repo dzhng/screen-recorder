@@ -46,3 +46,5 @@ Independent [local recognizer evidence](../assets/18-voice-lexical/README.md)
 now matches both generated requested texts and the supplied reference transcript.
 This closes only the ASR lexical cross-check; pronunciation, identity, delivery,
 protected joins and listening remain open. Missing required outputs fail the probe.
+
+The [acceptance handoff audit](../assets/18-voice-handoff/audit.md) separates the accepted ending, rejected conditioning mode and unanswered entrance audition, and identifies current-candidate calibrated timing evidence as the smallest non-listening follow-up. No new synthesis or listening verdict is implied.
