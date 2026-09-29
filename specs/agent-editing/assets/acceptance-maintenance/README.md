@@ -15,3 +15,7 @@ The [finite audio-domain audit](audio-domain.md) distinguishes asset admission
 from executable composition and raw-window restrictions. Remaining representative
 checks cover real negative occupied origins and low/high integral rates; no
 exhaustive codec/rate matrix or new admission policy is implied.
+
+The [job-reference audit](job-references.md) finds the retirement safety rule
+already implemented. It identifies stale cutover prose rather than a reachable
+forgotten-job leak; no new cleanup owner or expiration policy is justified.

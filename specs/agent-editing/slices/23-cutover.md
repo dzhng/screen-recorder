@@ -34,12 +34,15 @@ Judge **preserved source presentation**, using existing source/pointer landmark 
 
 For human review use [preview-shots](../../../.agents/skills/preview-shots/SKILL.md), allow about five minutes while progressing independent work, then decide from evidence and close the shots if there is no response. Missing listening/capture evidence remains unverified; silence is not a pass.
 
-Retired asset jobs must release their asset/acquisition references in the same
-domain transaction that forgets the drained job. Existing asset transcript/audio
-jobs retain these references while their durable job identity permits retry;
-`JobQueue.forgetJob` does not itself own that resource-reference policy. Preserve
-active attempts and retained retry identities, and prove forgotten jobs cannot
-leave permanent references that block asset cleanup.
+Job retirement already releases ordinary and input references inside the queue's
+single-job transaction, after all attempts close. Whole-owner deletion uses
+fenced, restartable reference pages and removes job markers only after their
+references are gone. Domain owners still fence retries and release independently
+owned revision/export resources. Preserve this existing contract through cutover;
+reads, cancellation and cache eviction do not authorize forgetting retry identity.
+The [reference-lifetime audit](../assets/acceptance-maintenance/job-references.md)
+maps current callers and distinguishes retained identities from orphan leaks.
+No new asset-GC or expiration policy is implied by this verification requirement.
 
 ## Failure boundary and discretion
 
