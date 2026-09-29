@@ -120,3 +120,13 @@ pass was integrated and verified by root. Capture target/full-service continuati
 catalog18. Actual cleanup remains next. Retained-project playback changes remain
 uncommitted in their named worktree; inspect the actual diff and retained logs
 before resuming. Frozen catalog17 fixtures remain unchanged.
+
+Portable-consumer resume: the existing22b worktree builds and passes36 focused
+tests (one native-dependent check initially skipped; its subsequent worker-enabled
+run passes). With processing capability unavailable, three historical preparations,
+audio reads and previews plus undo now reach ready. Delivered historical range PCM
+matches each retained asset exactly. Root fixed lease acquisition outside the
+output-reservation cleanup scope. Evidence is retained in that worktree under
+`assets/22b-retained-consumers/resume-verification.json`; this is partial, not a
+finished integration. Next verify export/full PCM, malformed/stale native operands
+and lifetime failures, then review and port to current catalog18.
