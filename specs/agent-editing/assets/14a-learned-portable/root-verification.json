@@ -1,0 +1,14 @@
+{
+  "commit": "6959e8f3",
+  "workerSHA256": "805bcb52a3652b9ff1042c26613d3680494282f24f0a6b6eaa56a4c42e34db92",
+  "scope": "Combined-root public learned preparation and package transfer with exact retained full/late PCM and unavailable processing. Generated one-second stereo; no listening or scale claim.",
+  "checks": {
+    "publicPassed": true,
+    "verifiedArchiveMembers": 11
+  },
+  "archiveSHA256": "f3fe77050ad9cc4e8b0dc9ee4f2f547f2264dc248ccaaee68e33608b8a14da89",
+  "files": {
+    "0-report.json": "b426657e2180dcdea53bd9b8e7c4e4dd27b63a3ec5825c8c9d53f63c5e92117d",
+    "1-learned-portable-root.log": "bcb2b57f23bc861ae7441251fd8e31934fe7d4bf5754a1e780916ccf568ba8a7"
+  }
+}

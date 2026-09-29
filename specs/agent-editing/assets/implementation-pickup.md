@@ -1,13 +1,13 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: exercise the real recording lifetime with prerecorded input,
-complete recording-package verification, then activate the accepted-append writer
-and recovery. In parallel, implement independent audio channels and complete the
-remaining temporal and prepared-consumer contracts.
+Current priority: finish shared normal/recovery publication and recording-package
+verification, then activate the accepted-append writer. Prerecorded input now exercises
+the real recording lifetime. In parallel, complete successful learned-output scaling
+and the remaining temporal and prepared-consumer contracts.
 Settings09b, scoped06/15 and caption17 are verified; whole16/22 and final acceptance
-remain open. Packed-writer activation is pending; RNNoise execution is limited to
-verified mono sources and their structural dual-mono mixes.
+remain open. Packed-writer activation is pending; RNNoise supports verified mono/stereo sources
+with independent state per output channel. Listening acceptance remains open.
 
 ## Active owners and next action
 
@@ -20,10 +20,10 @@ verified mono sources and their structural dual-mono mixes.
   cancellation repair has [combined-root preservation and client-deadline checks](20d-cancel-recovery/root-verification.json):
   native absence, a missing header or zero decoded duration cannot erase retained
   or ambiguous source bytes. Without a native owner, only a proven empty source can
-  cancel. Next extract the
-  physical input lifetime to exercise actual NativeCapture/writer/publisher using
-  prerecorded media; include cursor acquisition in that boundary. Then wire typed
-  unavailable-role outcomes, recovery and layout activation. Preserve existing
+  cancel. The [input-session separation](20d-input-session/README.md) now exercises
+  actual NativeCapture/writer with prerecorded media while keeping physical cursor
+  acquisition outside the fixture. Next wire typed unavailable-role outcomes, shared
+  recovery and layout activation. Preserve existing
   termination ownership, deadlines and generation boundaries. Actual public work
   beyond old deadlines and remaining recording-package closure still gate activation.
   No live device input or interim dual writer mode is authorized.
@@ -59,11 +59,13 @@ verified mono sources and their structural dual-mono mixes.
   [Selected-input/tap isolation](15a2e-state-isolation/README.md) has
   [combined-root confirmation](15a2e-state-isolation/root-verification.json), including
   matched48k poison controls, distinct authored windows, gain order and public
-  bypass/history. Next implement independent channels, then complete temporal,
-  retiming, long-output and portable prepared-use gates.
+  bypass/history. [Independent channels](15a2f-independent-channels/README.md) and
+  [learned package transfer](14a-learned-portable/README.md) now pass their scoped
+  native/public combined-root checks. Next complete successful long-output scaling,
+  temporal and retiming gates.
   The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires
-  explicit local model preparation, without edit-time downloads. Full independent
-  channel policy and listening acceptance remain open.
+  explicit local model preparation, without edit-time downloads. Spatial channel quality and
+  protected-speech listening acceptance remain open.
 
 ## Banked contracts and evidence
 

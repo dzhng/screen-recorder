@@ -1,0 +1,19 @@
+{
+  "commit": "6959e8f3",
+  "workerSHA256": "805bcb52a3652b9ff1042c26613d3680494282f24f0a6b6eaa56a4c42e34db92",
+  "scope": "Combined-root independent per-channel numerical/state, public preparation/cancellation and retained-output gates. No listening, successful scale or post-retime acceptance.",
+  "checks": {
+    "native": 50,
+    "publicGroups": 17,
+    "focusedPassed": 68,
+    "focusedSkipped": 1,
+    "verifiedArchives": 4,
+    "verifiedLogicalFiles": 343
+  },
+  "archiveSHA256": "2e346042fef83e017051ad8a04c6cabd465c2927fdab11b8d0903313e5894c0d",
+  "files": {
+    "0-report.json": "323d5c257456d7022c26446466385e006ffb6a9b966462a2e882cb801eca3aec",
+    "1-report.json": "286ebd10c2d1812edbc258bea06bc5103bb5f1609f25d981b063af17bbcf1461",
+    "2-independent-channels-root-unit.log": "2b5a7b175bd7e1c9be27fb915fac92078f1da9ed4b02536116bdfe56ff50096d"
+  }
+}

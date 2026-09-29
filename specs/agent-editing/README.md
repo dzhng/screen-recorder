@@ -72,8 +72,8 @@ Compact evidence ledger:
   through restart. The [transient adoption boundary](slices/22a-portable-snapshots.md)
   now prepares independent identities before staging and rechecks replay at publication.
   [Project-index relocation](assets/22-project-index/README.md) now preserves current
-  and historical generations, including read replay without donor jobs. Prepared
-  model-dependent results remain open; exact-font history relocation passes the
+  and historical generations, including read replay without donor jobs. [Learned prepared results](assets/14a-learned-portable/README.md) now survive
+  public package transfer with processing unavailable; exact-font history relocation passes the
   [literal-caption package journey](assets/17c-literal-text/README.md); [historical package export](assets/22-historical-export/README.md)
   now retains the selected moment and its undo stack without later donor edits.
 - [Real narration preservation](assets/08-narration-preservation/README.md) verifies
@@ -255,6 +255,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [15a2c — State input bindings and channel provenance](slices/15a2c-state-input-bindings.md)
 - [x] [15a2d — Linked mono state execution](slices/15a2d-linked-denoise-runtime.md)
 - [x] [15a2e — Selected input and ordered consumer isolation](slices/15a2e-state-isolation.md)
+- [x] [15a2f — Independent learned state per channel](slices/15a2f-independent-channels.md)
 - [ ] [15a3 — Combined, temporal and protected-speech acceptance](slices/15a3-denoise-acceptance.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)

@@ -24,3 +24,5 @@ executor establish retained-read independence, not a model-absent executable.
 `model.status` concerns the separate speech-model owner. No new store, queue,
 package format or production behavior was needed. Long-output scaling and
 combined retiming remain separate acceptance gates.
+
+[Combined-root verification](root-verification.json) retains the scoped replay results and logs.

@@ -3011,3 +3011,9 @@ Root approved the change; public terminal duration still comes from native outco
 - **Verdict:** Sound; isolates preservation from execution and retains the earlier
   independent numerical gates.
 - **Confidence:** High.
+
+### Independent channel state (sound, medium confidence)
+
+**Sound, medium confidence: fixed independent state for each output lane.** When a project contains different left/right speech or noise, each lane now receives its own instance of the already selected mono algorithm over the same authored state interval. A quiet or opposite-polarity right channel cannot alter the left detector. The existing mixer still maps mono sources into the stereo project rendition; this adds no downmix, linked detector, normalization or channel control. The native identity names the policy so earlier mono-only recipes cannot silently acquire a different meaning. This was explicitly approved as the implementation direction and is now numerically verified; it is not a user listening verdict or a claim that stereo balance is perceptually unchanged.
+
+Paired output remains one transaction in the existing attempt-local spool. Processing lanes sequentially avoids another scheduler and preserves the unchanged synchronous adapter; only complete paired counts expose a component to its dependents. This internal buffering choice keeps the same state graph and prepared publication owner.

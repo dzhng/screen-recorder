@@ -1,0 +1,19 @@
+{
+  "commit": "6959e8f3",
+  "workerSHA256": "805bcb52a3652b9ff1042c26613d3680494282f24f0a6b6eaa56a4c42e34db92",
+  "scope": "Actual prerecorded NativeCapture/CaptureWriter default tests and app compilation; no physical device input or schema2 activation.",
+  "checks": {
+    "captureExit": 0,
+    "initialAppBuildExit": 1,
+    "plainAppRetryExit": 1,
+    "replannedAppBuildExit": 0
+  },
+  "note": "Swift dependency build manifest omitted the new input-session source. Rebuilding with --disable-build-manifest-caching succeeded without source changes.",
+  "archiveSHA256": "d0e6caeb38019ff0930435f5dde65573fa6abec7192feb019991308812ff2177",
+  "files": {
+    "0-input-channels-root-capture.log": "df9b7409d4ccf619306dc3c88dfdf730aca13f84d0266471b35ab98d6104d8ce",
+    "1-input-channels-root-app-build.log": "5800201db12123e93c410686247bce90e6aa34b608fdb08d04a16f311b86f5dc",
+    "2-input-channels-root-app-retry.log": "bbeb43291e9d7a8b2fcafe99de931fd746b2001e2c253360b98b29cdb4ec47f5",
+    "3-input-channels-root-app-replan.log": "a3484ea1bb8ff173a9d2a3aa6e200b34c7ffba78dce46c298685a4036c2ba474"
+  }
+}

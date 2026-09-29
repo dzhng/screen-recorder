@@ -2,6 +2,8 @@
 
 Status: verified fixed-policy mono/stereo execution; [evidence](../assets/15a2f-independent-channels/README.md). Extends [15a2e](15a2e-state-isolation.md). This does not close the parent speech/spatial listening, retiming, portability or successful long-output acceptance gates.
 
+Dependencies: [15a2e](15a2e-state-isolation.md).
+
 The existing stereo project mixer still owns source channel mapping and resampling. RNNoise consumes each resulting lane independently with the frozen mono adapter, using the same complete connected component and sample clock. Mono sources keep the existing duplication into the stereo rendition; differing channels are never averaged, linked, normalized or detected by sampled signal similarity. The policy is fixed and identified in the native recipe identity.
 
 One attempt-owned input file holds the interleaved prefix. Each lane rewinds that input and runs the unchanged mono adapter. The same output spool holds separate lane spans; paired offsets become readable only when both complete counts pass. Dependent components read corresponding lanes through the ordinary native prefix views. Cancellation or failure of either lane cannot publish a partial pair. No additional graph, preparation store, job queue or model owner is introduced.

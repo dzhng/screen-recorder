@@ -25,3 +25,5 @@ capture, permission prompt, installation or download was performed.
 Run the existing CaptureTests executable after building it; its default suite owns
 this fixture. The app build and existing controller fixture pin the unchanged public
 construction and controller consumers. Logs and worker identity are retained here.
+
+[Combined-root verification](root-verification.json) retains the scoped replay results and logs.
