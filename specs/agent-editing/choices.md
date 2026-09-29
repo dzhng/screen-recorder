@@ -3735,8 +3735,39 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 - **Reach:** the request keeps the selected object; portable generated provenance
   records its derived hash alongside the retained reference asset identity. It
   does not embed a recursively growing tree of generated origins.
+  Equivalent selected metadata uses canonical record-key ordering, so adding
+  another equivalent stored origin cannot change saved-request identity.
 - **Verdict:** sound; explicit structured input uses the existing origin schema
   and preserves stable replay without another reference registry.
+- **Confidence:** high.
+
+## Start queued execution after service recovery
+
+- **When:** public durable voice jobs19f.
+- **Choice:** assembled services explicitly release the shared queue after their
+  owners and recovery are ready. Installing dependency admission alone does not
+  start execution. Existing standalone initialized queues retain eager execution.
+- **Gap:** durable queued work can survive restart before its executor owner has
+  been constructed. The plan did not specify an assembly barrier.
+- **Reach:** both service entry points use the same barrier. After recording-service
+  startup is reported, retryable catalog contention is logged and durable work
+  remains eligible for ordinary scheduling; fatal errors remain visible. No new
+  polling loop or automatic failed-job retry is introduced.
+- **Verdict:** sound; execution readiness belongs to service assembly and the
+  existing queue, rather than per-feature retry workarounds.
+- **Confidence:** high.
+
+## Preserve voice evidence independently of execution readiness
+
+- **When:** public durable voice jobs19f.
+- **Choice:** historical voice receipts use structural validation independent of
+  the currently installed execution profile. Exact PCM frames remain authoritative;
+  the worker's rounded duration metadata is preserved without changing samples.
+  Generated assets retain their reference bytes through existing resource ownership.
+- **Gap:** future profile changes must not invalidate old saved evidence, and the
+  measured output is not always a whole number of microseconds.
+- **Verdict:** sound; historical evidence describes what ran, while current profile
+  checks govern new work. Existing fenced publication prevents partial results.
 - **Confidence:** high.
 
 ## Publish the selected head once when importing history

@@ -17,11 +17,12 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: finish [public durable voice generation](slices/19f-public-voice-jobs.md)
-using the integrated [measured controls](slices/19d-voice-settings.md) and
-[retained excerpts](slices/19e-retained-audio-excerpts.md). The repaired runtime
-passes unchanged preparation/lifecycle gates and exact default/filtered audio
-parity. Earlier failures remain evidence, not missing final gates. Keep parent
+Current pickup: verify deep/wide routing with learned processing through existing
+public preparation and retained delivery. Gain-only topology and shallow learned
+duration proofs do not establish this combined case. Public durable
+[voice generation](slices/19f-public-voice-jobs.md), measured controls and retained
+excerpts are integrated, including model-free generated/reference package transfer.
+Earlier failures remain evidence, not missing final gates. Keep parent
 [18](slices/18-voice-reproduction.md)/[19](slices/19-voice-assets.md) pronunciation,
 identity, contextual replacement, room tone and listening acceptance open.
 
@@ -32,8 +33,8 @@ negative occupied-origin conformance remains unverified after zero-origin candid
 Advance speech/denoise and stretch
 evidence toward12b/14/15a, then16. Physical20→21 remains a required branch. These
 converge at23 installed cutover, final24 scale and25 autonomous full workflow.
-Generic22 portability is verified; generated voice still needs its own model-free
-package journey. Do not repeat completed two-hour DSP or transfer experiments.
+Generic22 and generated-voice portability are verified. Do not repeat completed
+two-hour DSP or transfer experiments.
 
 Use [implementation pickup](assets/implementation-pickup.md) for active worktrees,
 prepared runtime and frozen worker identities. The root worker remains frozen;
@@ -176,7 +177,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [19d1 — Nonempty probability-filter support](slices/19d1-probability-filter.md)
 - [x] [19e1 — Canonical finite audio conversion](slices/19e1-finite-audio-conversion.md)
 - [x] [19e — Retained audio excerpts](slices/19e-retained-audio-excerpts.md)
-- [ ] [19f — Public durable voice generation](slices/19f-public-voice-jobs.md)
+- [x] [19f — Public durable voice generation](slices/19f-public-voice-jobs.md)
 - [x] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — offline scope; physical acceptance remains20.
 - [x] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
 - [x] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)

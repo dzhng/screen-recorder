@@ -1,6 +1,6 @@
 # 19 — Durable local generation and replacement
 
-Status: public durable integration19f is active; runtime relocation, common preparation, measured controls and retained excerpts are verified. Contextual replacement and listening acceptance remain open. The private [entry-parity checkpoint](19a-voice-entry-parity.md) is verified on frozen candidate identities and [clean-process repeatability](18a-voice-repeatability.md), without enabling public generation or closing18 listening. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
+Status: public durable integration19f, model-free generated/reference transfer and explicit contextual replacement preservation are verified. Runtime relocation, common preparation, measured controls and retained excerpts are verified. Perceived continuity and listening acceptance remain open. The private [entry-parity checkpoint](19a-voice-entry-parity.md) is verified on frozen candidate identities and [clean-process repeatability](18a-voice-repeatability.md), as a historical prerequisite to19f, without closing18 listening. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
 
 [Runtime relocation](19b-voice-runtime-relocation.md) and
 [registered adoption](19d-voice-settings.md) provide the standalone prepared

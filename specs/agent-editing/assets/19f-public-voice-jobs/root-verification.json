@@ -1,0 +1,45 @@
+{
+  "archiveSha256": "fd4e5102552f4bc5020a0d82c70cae3a2c4aa364303bd82c172ee16d3f5aee48",
+  "members": 307,
+  "expandedBytes": 57546883,
+  "allHashesVerified": true,
+  "integratedCommit": "5e555584",
+  "build": {
+    "command": "bunx turbo run build --filter=@screenrec/cli --filter=@screenrec/service",
+    "passed": 6
+  },
+  "tests": {
+    "core": {
+      "passed": 123,
+      "files": [
+        "jobs",
+        "voice-generation",
+        "audio-wave",
+        "audio-inspection",
+        "assets"
+      ]
+    },
+    "service": {
+      "passed": 91,
+      "files": [
+        "project-service",
+        "lifetime",
+        "capture",
+        "capture-lifetime",
+        "capture-finalizing",
+        "deletion",
+        "project-deletion"
+      ]
+    },
+    "cli": 36,
+    "protocol": 19
+  },
+  "scope": "Root combined-source build/tests and independent complete archive rehash. Actual native generation, saved-only contextual/package journey and fresh skill consumer ran in the source-identical isolated checkout; no additional inference. Parent listening remains open.",
+  "nativeWorkers": {
+    "rootSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+    "isolatedSha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3",
+    "bothRehashed": true
+  },
+  "currentPrerequisite": "The released /tmp/screenrec-19d-repaired-managed/home is now absent; archived evidence remains valid, but future live voice runs must recover exact preparation prerequisites. No inference was attempted.",
+  "documentation": "274 local links in changed Markdown resolved. Previous temporary full-spec checker was absent; no new whole-graph verification claimed."
+}

@@ -18,6 +18,9 @@ The changed-setting result has 51,841 frames at 24kHz and rounded duration
 preserves the worker's duration metadata policy and authoritative exact frames;
 it does not change PCM, stretch audio or use a fitted tolerance.
 
+[Root verification](root-verification.json) records combined build/tests and an
+independent rehash of every archived evidence file after integration.
+
 ## Durable behavior
 
 CLI/MCP replay agrees. Complete saved assets remain inspectable and exportable when

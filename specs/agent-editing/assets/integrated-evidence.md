@@ -103,8 +103,7 @@ failure. Numerical checks cannot close listening or physical-camera acceptance.
 [Early encoding trials](06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
 the later [output quality study](09b-output-quality/README.md) selects an
 editable balanced default while broader appearance acceptance remains open. Remaining animation delivery (16), audio conformance/scale (08), camera (20/21),
-the generated-voice package journey (19f), cutover (23), scale (24) and autonomous acceptance (25) remain
+voice listening acceptance (18/19), cutover (23), scale (24) and autonomous acceptance (25) remain
 explicit gates. No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,
 choices and the active pickup; the global checklist is the completion boundary.
-

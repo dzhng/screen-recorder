@@ -37,9 +37,14 @@ Historical workers and measurements retain their own identities below.
   audio parity and numerical controls pass; earlier failures remain retained.
   [Adoption evidence](19d-voice-adoption/README.md) and root checks distinguish
   execution correctness from parent listening acceptance. The prepared home
-  `/tmp/screenrec-19d-repaired-managed/home` is released to the19f owner.
+  `/tmp/screenrec-19d-repaired-managed/home` was restored and released after19f,
+  but is absent at root's subsequent integration check. Revalidate/recover exact
+  prerequisites from durable sources before another live voice run; archived
+  evidence remains intact. Scratch paths are not durable model distribution.
   Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
-  Prepared-package-transfer now owns public voice jobs19f; capture-pause-recovery
+  [Public voice jobs19f](19f-public-voice-jobs/README.md) is integrated, including
+  saved replay, stable explicit origins, queued restart and model-free transfer of
+  generated/reference audio. Prepared-package-transfer is released; capture-pause-recovery
   owns deep/wide learned-routing scale after completing24u history transfer. Shared voice metadata is
   strict and independent of the active execution profile.
   Candidate native worker there has SHA256
