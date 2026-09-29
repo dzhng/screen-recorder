@@ -31,9 +31,11 @@ explicit selected target, not the whole original source.
 
 ## What integration still needs
 
-Core needs one **durable prepared-derivative owner shared by stretch and processors**,
-scheduled by the existing job queue. The current disposable cache helper can
-regenerate evicted data and is not that owner. Durable identity must include the
+[14a](../../slices/14a-prepared-audio.md) now supplies the **durable prepared-audio
+owner shared by stretch and processors**, scheduled by the existing job queue,
+with public preparation and portable unit-rate/gain receipts. This research proof
+did not implement that lifecycle, and RNNoise is not yet bound to it. Its durable
+identity constraints still require the
 ordered upstream signal, retained selection, timing/rendition and pinned recipe;
 new clip IDs alone cannot imply new DSP state. The resampling context helper does
 not define authored DSP context. These are constraints for 14/15a, not a second
@@ -65,7 +67,8 @@ batch deadlines remain bounded; the measured short run is not a scale claim.
 are separate RMS-matched audition copies. [Dry split context](dry-mixture-split-context.wav)
 and [learned split context](learned-split-context.wav) retain their corresponding
 whole-copy gain. The report records gains, peaks, intervals and hashes. These
-excerpts are not protected-phoneme labels; no independent listening occurred and
+excerpts are not protected-phoneme labels. The [protected-speech packet](../12c-protected-speech/README.md)
+now indexes exact contexts for annotation; no independent listening occurred and
 no audio was played automatically.
 
 [Review](review.md) records independent code review and retained-byte verification.

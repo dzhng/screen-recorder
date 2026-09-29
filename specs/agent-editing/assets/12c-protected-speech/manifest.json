@@ -1,0 +1,370 @@
+{
+  "scope": "Retained PCM listening/annotation packet; no inference or listening verdict",
+  "sampleRate": 48000,
+  "channels": 1,
+  "gain": 1,
+  "labelsConfirmed": false,
+  "files": [
+    {
+      "file": "original-reference-whole.wav",
+      "sha256": "b1218fd583d33245b9d47f2719b369fcfc068a8b0cc9470eef6459b6ba0a70cc",
+      "source": "12c-matched-noise/audio/reference.f32.gz",
+      "sourceContainerSha256": "660089399b4cd163525f27ee58edb65784ec0538fbd4c073684d3e7bdd1d4976",
+      "sourcePcmSha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769",
+      "report": "12c-matched-noise/report.json.gz",
+      "reportSha256": "f8fcfc064e0151f22a5c64275b6d41abdab1cd6787dae90f8711285e2a5d1ad0",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 240000
+      },
+      "frames": 240000,
+      "pcmSha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.0879649817943573,
+      "rms": 0.010273766392624829,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "original-mixture-whole.wav",
+      "sha256": "14d1b9c98f6575f7631748d93599d8518a84fbbc87c1b015ed34b7615a7f8b93",
+      "source": "12c-matched-noise/audio/mixture.f32.gz",
+      "sourceContainerSha256": "3793d6748bd70df7852f9eb9fb7baa3b1afa7c8356f06b447abc4e6154e48380",
+      "sourcePcmSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+      "report": "12c-matched-noise/report.json.gz",
+      "reportSha256": "f8fcfc064e0151f22a5c64275b6d41abdab1cd6787dae90f8711285e2a5d1ad0",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 240000
+      },
+      "frames": 240000,
+      "pcmSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.09265188872814178,
+      "rms": 0.01086429178768413,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "original-mixture-split-context.wav",
+      "sha256": "834782e4abec923120e0239888c30d11f1873c36811bedd5f1261003fe84171c",
+      "source": "12c-matched-noise/audio/mixture.f32.gz",
+      "sourceContainerSha256": "3793d6748bd70df7852f9eb9fb7baa3b1afa7c8356f06b447abc4e6154e48380",
+      "sourcePcmSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+      "report": "12c-matched-noise/report.json.gz",
+      "reportSha256": "f8fcfc064e0151f22a5c64275b6d41abdab1cd6787dae90f8711285e2a5d1ad0",
+      "sourceSampleRange": {
+        "start": 100002,
+        "end": 124002
+      },
+      "frames": 24000,
+      "pcmSha256": "4a0e7d81d0d413969258db941412983a5822fcff82982c09c0a01beec10d8706",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.05248407647013664,
+      "rms": 0.010799297605353796,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "original-rnnoise-reference-whole.wav",
+      "sha256": "1a1900f6f623ed0d6f7fc85bf03f3ab34899aa2f1e4f634235efbd8ec02fe655",
+      "source": "12c-matched-noise/audio/rnnoise-reference.f32.gz",
+      "sourceContainerSha256": "4c21a3fe283e19a0351bcc2ccbf1151f55d388f14cc7ad0a987591e5c26e73db",
+      "sourcePcmSha256": "59fb92e6c1359fc905e6f9f1b144c3d9eb807337e1f7f97404a9b6af40bbff94",
+      "report": "12c-matched-noise/report.json.gz",
+      "reportSha256": "f8fcfc064e0151f22a5c64275b6d41abdab1cd6787dae90f8711285e2a5d1ad0",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 240000
+      },
+      "frames": 240000,
+      "pcmSha256": "59fb92e6c1359fc905e6f9f1b144c3d9eb807337e1f7f97404a9b6af40bbff94",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.07989281415939331,
+      "rms": 0.00699258953934196,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    },
+    {
+      "file": "original-rnnoise-mixture-whole.wav",
+      "sha256": "c747d2f794e751efc7ff7b9c2eddcad9dd304ef114c0264bd3949a43e6d7b499",
+      "source": "12c-matched-noise/audio/rnnoise-mixture.f32.gz",
+      "sourceContainerSha256": "32fb2d0ddc1dd01b7c3281fe4ac32957b413327b06f689fb89492a063ce8edd6",
+      "sourcePcmSha256": "64323229c2b4d4b8412cff23972920e216c029a777c59e567ebf5e24a222d4c2",
+      "report": "12c-matched-noise/report.json.gz",
+      "reportSha256": "f8fcfc064e0151f22a5c64275b6d41abdab1cd6787dae90f8711285e2a5d1ad0",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 240000
+      },
+      "frames": 240000,
+      "pcmSha256": "64323229c2b4d4b8412cff23972920e216c029a777c59e567ebf5e24a222d4c2",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.08302928507328033,
+      "rms": 0.006956073461527795,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    },
+    {
+      "file": "original-rnnoise-mixture-split-context.wav",
+      "sha256": "77f58f245f2b9a9aa4b7c288a538dca5c47bd6c75e06b4634c604319fb212d85",
+      "source": "12c-matched-noise/audio/rnnoise-mixture.f32.gz",
+      "sourceContainerSha256": "32fb2d0ddc1dd01b7c3281fe4ac32957b413327b06f689fb89492a063ce8edd6",
+      "sourcePcmSha256": "64323229c2b4d4b8412cff23972920e216c029a777c59e567ebf5e24a222d4c2",
+      "report": "12c-matched-noise/report.json.gz",
+      "reportSha256": "f8fcfc064e0151f22a5c64275b6d41abdab1cd6787dae90f8711285e2a5d1ad0",
+      "sourceSampleRange": {
+        "start": 100002,
+        "end": 124002
+      },
+      "frames": 24000,
+      "pcmSha256": "0c4eac49412210d16ae026f36a2867e1b6c1fd17c4102d3cf3c344f933c295cb",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.04518241435289383,
+      "rms": 0.007159280744758955,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    },
+    {
+      "file": "clean-reference-whole.wav",
+      "sha256": "be13acab3320dd92085f1959fe9b2f15e43df5acb95840c37ededa29c2ad8c48",
+      "source": "12c-clean-reference/native-level/audio/reference.f32.gz",
+      "sourceContainerSha256": "3353034aadc2e735da39b44756c932622dda77f1f72c7b8ce2c52b20d7dc7ef7",
+      "sourcePcmSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 281040
+      },
+      "frames": 281040,
+      "pcmSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.4270284175872803,
+      "rms": 0.061800730440011296,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "clean-reference-start-candidate.wav",
+      "sha256": "810692ed159a8c3a8d28eb1a3d22f04c66f2e68038a202f28a53c3c3f77ad826",
+      "source": "12c-clean-reference/native-level/audio/reference.f32.gz",
+      "sourceContainerSha256": "3353034aadc2e735da39b44756c932622dda77f1f72c7b8ce2c52b20d7dc7ef7",
+      "sourcePcmSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 72000
+      },
+      "frames": 72000,
+      "pcmSha256": "dd0514c6b84e787f138adc8c73cccbde3400fd474ea55a828564a2fa7ec89067",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.383880615234375,
+      "rms": 0.06901945818388457,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "clean-reference-end-candidate.wav",
+      "sha256": "3a5f438c0f7dbde3fbb95d48b5439c13e1422fe20c770d05106f1a19141eebff",
+      "source": "12c-clean-reference/native-level/audio/reference.f32.gz",
+      "sourceContainerSha256": "3353034aadc2e735da39b44756c932622dda77f1f72c7b8ce2c52b20d7dc7ef7",
+      "sourcePcmSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 209040,
+        "end": 281040
+      },
+      "frames": 72000,
+      "pcmSha256": "5296128f94b1d287b28bac986d9828901f35a5758d681b818cb37f3dba9d6100",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.331637442111969,
+      "rms": 0.0481504981189288,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "clean-mixture-whole.wav",
+      "sha256": "e84eefa1c023345c5fc0821f18f21ce5f26b270f1bef3a4eaf8c50253db19f59",
+      "source": "12c-clean-reference/native-level/audio/mixture.f32.gz",
+      "sourceContainerSha256": "6384eff8dd32f9e93633bcbbbcdc18375f0e471dcedb0341c446831e258a6c47",
+      "sourcePcmSha256": "cb7e5b00c6ce749a83451d1afa358225e45b47ca2800c072e5dcfb901ff33e8a",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 281040
+      },
+      "frames": 281040,
+      "pcmSha256": "cb7e5b00c6ce749a83451d1afa358225e45b47ca2800c072e5dcfb901ff33e8a",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.4238695502281189,
+      "rms": 0.06500640923902536,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "clean-mixture-start-candidate.wav",
+      "sha256": "f15fc14215da2ce07399a36b1681c3e67808a99d0872218a3683b167b64a2ede",
+      "source": "12c-clean-reference/native-level/audio/mixture.f32.gz",
+      "sourceContainerSha256": "6384eff8dd32f9e93633bcbbbcdc18375f0e471dcedb0341c446831e258a6c47",
+      "sourcePcmSha256": "cb7e5b00c6ce749a83451d1afa358225e45b47ca2800c072e5dcfb901ff33e8a",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 72000
+      },
+      "frames": 72000,
+      "pcmSha256": "7c450651f68bfee6b75ce0a1777005298202cf7bcd854ac699ab17d0ec28410c",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.3773627281188965,
+      "rms": 0.07202627002683898,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "clean-mixture-end-candidate.wav",
+      "sha256": "062c16bbfc990d40c9f5e7ba37feb1dcb8a4ca8905eb07d392d6ca13c80100a1",
+      "source": "12c-clean-reference/native-level/audio/mixture.f32.gz",
+      "sourceContainerSha256": "6384eff8dd32f9e93633bcbbbcdc18375f0e471dcedb0341c446831e258a6c47",
+      "sourcePcmSha256": "cb7e5b00c6ce749a83451d1afa358225e45b47ca2800c072e5dcfb901ff33e8a",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 209040,
+        "end": 281040
+      },
+      "frames": 72000,
+      "pcmSha256": "a9d1d0160aa3cedf87824892731872057f162fec91fb923a9cc8226f6f251684",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.3411674201488495,
+      "rms": 0.052029931332914364,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 0
+    },
+    {
+      "file": "clean-rnnoise-reference-whole.wav",
+      "sha256": "832daa8f309ca98452a9ee1fab5e91a4592c0589526881e830189f6c2eccfb6c",
+      "source": "12c-clean-reference/native-level/audio/rnnoise-reference.f32.gz",
+      "sourceContainerSha256": "cab1963b00b814e0668d0f1bd5ecdc17957f68466c07cf263af1e8fb8724ffee",
+      "sourcePcmSha256": "230fdca50bec780cebf517110155a184a71678307b97cbda5c869ac84b7a199c",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 281040
+      },
+      "frames": 281040,
+      "pcmSha256": "230fdca50bec780cebf517110155a184a71678307b97cbda5c869ac84b7a199c",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.40140390396118164,
+      "rms": 0.0606486303265488,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    },
+    {
+      "file": "clean-rnnoise-reference-start-candidate.wav",
+      "sha256": "63e46b227f918d9add42b1e72562f166e67e230b91c47be99f16eb11c7a63ef2",
+      "source": "12c-clean-reference/native-level/audio/rnnoise-reference.f32.gz",
+      "sourceContainerSha256": "cab1963b00b814e0668d0f1bd5ecdc17957f68466c07cf263af1e8fb8724ffee",
+      "sourcePcmSha256": "230fdca50bec780cebf517110155a184a71678307b97cbda5c869ac84b7a199c",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 72000
+      },
+      "frames": 72000,
+      "pcmSha256": "bda3704d8bb70b2ca86880a1093011b3911be452ece281324753274d20890d79",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.38978496193885803,
+      "rms": 0.06781947196053731,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    },
+    {
+      "file": "clean-rnnoise-reference-end-candidate.wav",
+      "sha256": "0c793ee84a1dfd50a532c3ebff4575149f09bea6f11da81e5146be66c73a1705",
+      "source": "12c-clean-reference/native-level/audio/rnnoise-reference.f32.gz",
+      "sourceContainerSha256": "cab1963b00b814e0668d0f1bd5ecdc17957f68466c07cf263af1e8fb8724ffee",
+      "sourcePcmSha256": "230fdca50bec780cebf517110155a184a71678307b97cbda5c869ac84b7a199c",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 209040,
+        "end": 281040
+      },
+      "frames": 72000,
+      "pcmSha256": "ec170bede320acd8c8c3a7d0681aa7b68a35249b2dcd1ece0997af5b722c7fab",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.3464337885379791,
+      "rms": 0.04708136690229231,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    },
+    {
+      "file": "clean-rnnoise-mixture-whole.wav",
+      "sha256": "e45fc4382fe7b5376f72cc0f1ca0ba64631c136cdf6ae5f9766cdce70e678323",
+      "source": "12c-clean-reference/native-level/audio/rnnoise-mixture.f32.gz",
+      "sourceContainerSha256": "551c44d29485e9cd349cd07dcdd532df3479634029d6a025a4563c3e660e7ca6",
+      "sourcePcmSha256": "74bafb3b1fc5616d8f39ca8fbcd069dda24259f5cbb23ddb7623b8905978fe28",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 281040
+      },
+      "frames": 281040,
+      "pcmSha256": "74bafb3b1fc5616d8f39ca8fbcd069dda24259f5cbb23ddb7623b8905978fe28",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.38990145921707153,
+      "rms": 0.05884417778294611,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    },
+    {
+      "file": "clean-rnnoise-mixture-start-candidate.wav",
+      "sha256": "681efe432ab1b86ddd60373ce74eaae4d722c9b89819eec23d7ef0cb5af4b8d9",
+      "source": "12c-clean-reference/native-level/audio/rnnoise-mixture.f32.gz",
+      "sourceContainerSha256": "551c44d29485e9cd349cd07dcdd532df3479634029d6a025a4563c3e660e7ca6",
+      "sourcePcmSha256": "74bafb3b1fc5616d8f39ca8fbcd069dda24259f5cbb23ddb7623b8905978fe28",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 0,
+        "end": 72000
+      },
+      "frames": 72000,
+      "pcmSha256": "a30a5afd49180e4968a3f027787a1cb441bf98843a93d7de39da2f731f4f60fa",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.3873266279697418,
+      "rms": 0.06681890326107116,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    },
+    {
+      "file": "clean-rnnoise-mixture-end-candidate.wav",
+      "sha256": "2347ee4b6369a3475bc5a12ee3c309de3dccae376975452aa50b3f50bea5031e",
+      "source": "12c-clean-reference/native-level/audio/rnnoise-mixture.f32.gz",
+      "sourceContainerSha256": "551c44d29485e9cd349cd07dcdd532df3479634029d6a025a4563c3e660e7ca6",
+      "sourcePcmSha256": "74bafb3b1fc5616d8f39ca8fbcd069dda24259f5cbb23ddb7623b8905978fe28",
+      "report": "12c-clean-reference/native-level/report.json.gz",
+      "reportSha256": "994380c6a39748b0530cf1b0975c43b06a87e99a3a16f8399780f01e232c28e8",
+      "sourceSampleRange": {
+        "start": 209040,
+        "end": 281040
+      },
+      "frames": 72000,
+      "pcmSha256": "62b8728136f6b74341c5cff661b634be8b53fec6e43a0975bac9bf485939d263",
+      "unityGainPcmSliceExact": true,
+      "peak": 0.34729301929473877,
+      "rms": 0.04499696373978025,
+      "clippedSamples": 0,
+      "alreadyCompensatedByFrames": 960
+    }
+  ],
+  "generatorSha256": "4e861fb74a91b52e34f2c36d2df4bf6e462fdf07432c27dc4dd6cc49c975e6ad"
+}

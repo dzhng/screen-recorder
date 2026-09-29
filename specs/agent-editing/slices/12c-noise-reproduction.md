@@ -1,6 +1,6 @@
 # 12c — Reproduce local noise reduction
 
-Status: research in progress; conventional and learned candidates have measured timing mechanisms, but speech quality and production state policy remain unverified. No processor is adopted. Dependencies: [00](./00-corpus.md).
+Status: frozen user-preferred RNNoise has measured timing and mono retained-output state evidence; protected speech, listening, general target/channel policy and production adoption remain open. No processor is adopted. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -72,9 +72,11 @@ the candidates’ attenuation/reference-distortion tradeoff with exact repeatabi
 [Independent clean speech and a matched-level control](../assets/12c-clean-reference/README.md)
 now separate input-level sensitivity from the earlier recording-specific change.
 The user [prefers the learned audition](../assets/12c-matched-noise/audition/README.md)
-on the original-recording cohort. Carry that frozen RNNoise recipe forward; next
-verify protected phonemes, joins and broader listening, then
-freeze a state policy that preserves pure splits while excluding removed input.
+on the original-recording cohort. Carry that frozen RNNoise recipe forward. The
+mono retained-output mechanism below preserves tested pure splits and excluded
+neighbors; general target/channel/transition policy remains open. The
+[protected-speech packet](../assets/12c-protected-speech/README.md) now supplies
+exact retained contexts and unconfirmed annotation targets for phoneme/join listening.
 Neither measured noise attenuation nor surviving impulse peaks closes listening,
 protected-phoneme, retimed/combined-input or production integration acceptance.
 
@@ -87,15 +89,16 @@ identical, inverted and half-level channels without adopting independent stereo
 processing. The small measured balance change is not an audible acceptance verdict.
 
 [Range-origin evidence](../assets/12c-range-origin/README.md) rejects the tested
-one-second warmup for exact range/full equality. Investigate retained prepared
-output or verified checkpoints; do not silently replay an unbounded prefix.
+one-second warmup for exact range/full equality. The retained-output proof below
+supplies the tested alternative; do not silently replay an unbounded prefix.
 
 [Retained-output reproduction](../assets/12c-prepared-output/README.md) now proves
 exact pure-split/excluded-neighbor preservation through compiled native upstream
 PCM, fixed-recipe parity and bounded reads of the prepared result. Fresh trim
 processing differs from stale cropped output; gain/RNNoise order differs in real
 PCM. This is an output-target mono research proof, not production preparation or
-speech acceptance. Next label protected words/onsets/ends and obtain independent
-listening; carry the retained-output constraints into the single durable owner
-shared with stretch. Clip-level state domains, stereo policy, retimed/combined
-speech and 15a integration remain open.
+speech acceptance. Use the protected-speech packet to confirm word/onset/end
+annotations and obtain independent listening. [14a](./14a-prepared-audio.md) now
+provides the single durable owner, public preparation and portable unit-rate/gain
+receipts; RNNoise is not yet bound to it. Clip-level state domains, stereo policy,
+retimed/combined speech and 15a integration remain open.

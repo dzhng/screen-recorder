@@ -1,0 +1,68 @@
+{
+  "listeningPerformed": false,
+  "wordBoundariesConfirmed": false,
+  "previousCandidatePreference": "Learned filter sounds better; retained earlier preference, not being solicited again",
+  "items": [
+    {
+      "id": "clean-opening",
+      "cohort": "clean",
+      "sampleRange": {
+        "start": 0,
+        "end": 72000
+      },
+      "candidateWords": "MISTER QUILTER",
+      "authority": "Known full-utterance transcript; location and crop containment unconfirmed",
+      "confirmedWordInterval": null,
+      "observedReferenceWords": null,
+      "observedProcessedWords": null,
+      "qualityObservation": null,
+      "reviewer": null
+    },
+    {
+      "id": "clean-ending",
+      "cohort": "clean",
+      "sampleRange": {
+        "start": 209040,
+        "end": 281040
+      },
+      "candidateWords": "HIS GOSPEL",
+      "authority": "Known full-utterance transcript; location and crop containment unconfirmed",
+      "confirmedWordInterval": null,
+      "observedReferenceWords": null,
+      "observedProcessedWords": null,
+      "qualityObservation": null,
+      "reviewer": null
+    },
+    {
+      "id": "clean-interior",
+      "cohort": "clean",
+      "sampleRange": {
+        "start": 0,
+        "end": 281040
+      },
+      "candidateWords": "APOSTLE / CLASSES",
+      "authority": "Known transcript only; no localized interval asserted",
+      "confirmedWordInterval": null,
+      "observedReferenceWords": null,
+      "observedProcessedWords": null,
+      "qualityObservation": null,
+      "reviewer": null
+    },
+    {
+      "id": "original-split-vicinity",
+      "cohort": "original",
+      "sampleRange": {
+        "start": 100002,
+        "end": 124002
+      },
+      "markerSample": 112002,
+      "candidateWords": null,
+      "authority": "Existing pure-split coordinate; no phonetic label or new splice",
+      "confirmedWordInterval": null,
+      "observedReferenceWords": null,
+      "observedProcessedWords": null,
+      "qualityObservation": null,
+      "reviewer": null
+    }
+  ]
+}

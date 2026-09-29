@@ -1,0 +1,1943 @@
+2026-09-29T02:58:23.940050Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-29T02:58:23.940127Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0eb19-6021-75f1-8468-911af4023527
+--------
+user
+<task>Independent read-only metadata and preservation review of uncommitted protected-speech packet. Inspect all new WAVs/manifest against retained source gzip PCM and source reports: exact hashes/sample intervals/unity gain/WAV headers/compensation. Check candidate word labels remain explicitly unconfirmed and original voice reference transcript is not misassigned to context. Check12c/15a stale-owner handoffs accurately distinguish verified14a from unavailableRNNoise. No audio playback, DSP/inference/model/build/tests, edits or quality/listening claims. Return actionable defects or clean scoped result.</task>
+exec
+/bin/zsh -lc 'pwd; git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+2026-09-29T02:58:31.349139Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0eb19-6021-75f1-8468-911af4023527 turn_id=01a0eb19-60ed-7b70-9ce2-47ce6c810079 item_id="exec-fe354d90-1a71-40e6-902f-8248e34e5c0d"
+ succeeded in 0ms:
+/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ M specs/agent-editing/assets/12c-prepared-output/README.md
+ M specs/agent-editing/slices/12c-noise-reproduction.md
+ M specs/agent-editing/slices/15a-noise-processing.md
+?? specs/agent-editing/assets/12c-protected-speech/
+# Project instructions
+
+Use the repository-local skills in [.agents/skills](.agents/skills) for implementation,
+review and verification. Read the relevant SKILL.md before applying it. The Claude
+skill links point to those same copies.
+
+The active product plan and implementation handoff are in
+[specs/recording-for-ai/README.md](specs/recording-for-ai/README.md). Keep its scope,
+verification evidence and next pickup current as implementation progresses.
+---
+name: code-review
+description: Review changed code for naming, stale references, unnecessary complexity, and comment quality. Use after completing implementation work, before committing, or when the user asks to review or audit code.
+allowed-tools: Read Grep Glob Bash
+---
+
+# Code Review
+
+Review the diff or specified files against these principles.
+
+## 1. Names must reflect current reality
+
+- Variable and function names should describe what they ARE, not what they used to be.
+- If the underlying mechanism changed (e.g. FUSE → NFS), all related names must update.
+- Ask: would a new reader be confused by this name?
+
+## 2. No stale references
+
+- After refactoring, grep for references to the old approach — dead detection logic, abandoned feature flags, comments mentioning removed code.
+- If something was tried and reverted, remove ALL traces. The codebase should look like the current approach was always the plan.
+
+## 3. Simplify detection and guard logic
+
+- A gate like "can this feature run" should check the ONE thing that actually matters.
+- Don't chain fallback detections (binary exists OR source exists OR toolchain exists) when one check covers it.
+
+## 4. Comments document WHY, not WHAT HAPPENED
+
+- **Keep:** non-obvious technical discoveries, platform quirks, "if you remove this, X breaks because Y."
+  - Good: `// com.apple.provenance causes SIGKILL when spawned as child process`
+  - Good: `// umount while server is alive panics the macOS NFS client`
+  - Good: `// NFS client uses cookie verifier to decide if cached readdir is valid`
+- **Remove:** narrative of what was tried, what was abandoned, what was renamed.
+  - Bad: `// We changed this from cp to cat to work around the provenance issue`
+  - Bad: `// Wrapper added because FUSE-T was zero-padding (see commit abc123)`
+  - Bad: `// Previously this was called fuseAvailable but we renamed it`
+- **Remove:** comments that just restate what the code does without adding reasoning.
+- Often no comment is needed at all.
+
+## 5. Separate install-time from runtime
+
+- Install scripts set up prerequisites (toolchains, system deps).
+- Runtime commands handle compilation, caching, binary management.
+- Don't mix these. If the install script is compiling binaries that the runtime also compiles, one of them is wrong.
+
+## 6. No intermediary artifacts
+
+- After iterating through multiple approaches, audit for logic that only existed as a stepping stone.
+- If a workaround was added for approach A and you switched to approach B, remove the workaround even if it's harmless.
+- The code should read as if written from scratch by someone who already knew the right answer.
+
+## 7. Tighten guarantees after changes
+
+- When a change makes something guaranteed (e.g. a variable is now always set, a file is always created, a function always returns), audit downstream code that still guards against the old "maybe" state.
+- Redundant null checks, fallback defaults, and `if (x)` guards on values that can no longer be null are misleading — they imply a possibility that doesn't exist.
+- Prefer `const` over `let` when reassignment is no longer needed.
+- **Never suppress a signal — fix the root cause.** `_` prefix on unused params, `// @ts-ignore`, `eslint-disable`, `as any` — these all hide real issues. If a parameter is unused, DELETE it and cascade the removal to every caller. If a type doesn't match, fix the type. Run the checker, fix every error, repeat. Mechanical changes across many files is exactly what an agent excels at — there is no "too many callers."
+
+## 8. When changes are tangled, start clean
+
+- If a file has been through 3+ rounds of conflicting edits, `git restore` it and re-apply only what's needed.
+- Don't try to surgically fix a mess — starting clean is faster and less error-prone.
+
+## 9. Tests must verify actual values, not just collection sizes
+
+- When testing deduplication, normalization, or idempotent operations, assert on the **stored value**, not just `toHaveLength(1)`.
+- Length alone doesn't prove the logic worked — a broken normalizer could silently drop one input, or store two different normalized forms that happen to match.
+- Pattern: add value in format A, re-add in format B, then assert both that the count is 1 AND that the stored value equals the expected normalized form.
+- Bad: `expect(data.phones).toHaveLength(1)` — passes even if normalization is broken
+- Good: `expect(data.phones).toHaveLength(1); expect(data.phones[0]).toBe('+12125551234')` — proves normalization recognized both formats
+
+## 10. No thin wrappers or re-export-only modules
+
+- If a module only forwards another package's functions or types, delete it and import the original package directly.
+- Do not preserve local compatibility shims for scaffold code or unshipped branch work. Replace the scaffold outright.
+- Re-export barrels are not useful unless they define a real public boundary with project-specific semantics. Avoid creating files whose only job is `export * from ...`.
+- Prefer using the upstream API name directly over inventing local aliases like `discoverAll()` for `loadSkills()`.
+
+## 11. Extract only around real ownership boundaries
+
+- Do not split files just to reduce line count. A new file should own a coherent responsibility that a reader can name.
+- Extract modules when they concentrate related policy, state transitions, resource handling, or domain-specific behavior.
+- Avoid moving one-off helper functions into a new file if the caller still needs to understand all the details to use them.
+- A good split usually reduces import pressure in the original file because dependencies move with the responsibility they serve.
+- If extraction increases total indirection without clarifying ownership, keep the code local.
+
+## 12. Decouple tests from implementation — drive the system end-to-end
+
+The most valuable test suite is the one most decoupled from the implementation it covers. Decoupled to the point where you exercise the backend by driving the frontend, and exercise a module by going through the same entry point a user goes through. A test that pokes at internals freezes the internals; a test that drives the public surface frees you to refactor everything underneath.
+
+- **Prefer the outermost entry point that still gives a fast, deterministic signal.** CLI binary > top-level exported function > internal helper > private method. If the CLI is what users invoke, write the test against the CLI. If a TUI is what users see, drive it through the same input pipeline real keystrokes hit, and assert on the rendered frame, not on intermediate state.
+- **Test behavior, not structure.** Assert on observable outcomes — exit codes, stdout, rendered output, files on disk, HTTP responses, persisted rows. Do not assert on which functions were called, in what order, with which intermediate shapes. Those are implementation details that should be free to change.
+- **A passing test should mean a real user gets the right result.** If a test can pass while the production path is broken, the test is wired wrong. Common smells: stubbing the thing under test, bypassing the router/dispatcher/parser, hand-constructing internal events that production would have built from input.
+- **Harnesses must wire the system the way production wires it.** Optional inputs that are always set in practice are part of the contract — pass equivalents in the harness (e.g. a settled status stream, the modal config, the same env vars). If you found a bug only by running against a real environment, the harness skipped something production sets; fix the harness so the next regression in the same shape is caught by the test suite, not by a user.
+- **Coupled tests are a refactor tax.** When renaming an internal function or moving a module breaks dozens of tests without changing any user-visible behavior, the suite is testing the wrong layer. Rewrite those tests against the outer surface and delete the brittle ones.
+- **Reserve unit tests for genuinely tricky pure logic** — parsers, normalizers, schedulers, state machines with subtle invariants. Everything else earns more value as an integration or end-to-end test.
+
+## 13. A failing check can be a toolchain defect, not a code defect
+
+Before hand-writing a type, adding a cast, pinning a value, or restructuring code to make a checker (type-checker, compiler, linter, test runner, build) pass, confirm the failure is a CODE defect and not a toolchain/environment artifact. Patching code to satisfy a broken or mismatched tool is a workaround that masks the real problem — the never-suppress-a-signal rule, one level up.
+
+- **Reproduce under the exact toolchain that reports the failure** — the CI/deploy version and config, not just your local one. A green local check proves nothing if it ran a different version: a pinned prerelease, a preview build, or version drift between your machine and CI can pass locally and fail in CI on identical source (or the reverse).
+- **If the same source passes under the real/pinned tool, the code is correct** — the fix belongs in the toolchain (pin the version, fix the config), not the code. When the output is ambiguous, probe the tool directly — force it to print the value, type, or error it actually computed — instead of guessing at the cause.
+- **Keep local == CI.** Confirm the checks that gate merge/deploy run the same toolchain the deploy runs; version drift makes every green check suspect, and "it passed locally" stops being evidence the deploy will.
+
+## 14. Identity comes from auth, never from the caller
+
+- Resolve the acting identity — org/tenant/workspace id, user id, actor — from the authenticated request (API key, session, or a verified internal key), never from a caller-supplied argument. A public mutation that reads `actorId`/`orgId` from its args is spoofing surface, not a feature.
+- The only exception is a trusted internal call: accept a caller-supplied actor ONLY when a valid internal key is present; otherwise derive it from auth and reject the supplied id.
+- To scope to a child inside the authed scope (a specific channel, share, app), take the _child_ id and verify it belongs to the auth-derived parent — don't trust a parallel parent id from the body.
+
+## 15. Public API actions are thin auth + dispatch, not inlined business logic
+
+- A public route authenticates, validates, derives identity, and dispatches to a model function or an internal action that owns the work. Keep that wrapper thin — it is the auth/runtime boundary.
+- Don't inline third-party SDK / analytics / email logic into the public boundary because "it's only 3 lines." Push it behind the dispatch.
+- In Convex specifically: do NOT add `'use node'` to a file holding many actions just to satisfy one — it forces every action in the file into the Node runtime. Split: auth+dispatch (default runtime) → `services/<thing>.ts` (`'use node'`, owns the SDK call).
+
+## 16. Public endpoints ship at minimum scope
+
+- One route, one item per request. Don't preemptively add `/batch` variants, paginated listings, or filter params before a concrete second caller needs them.
+- Inline the schema in the route; don't hoist a 4-line schema into a shared `schemas.ts` "for reuse" when nothing reuses it. Skip body-size caps unless the body is genuinely unbounded.
+
+## 17. Reuse existing types — derive, don't redeclare
+
+- If a type already exists upstream (a schema validator, protocol package, generated client, SDK), use it directly — don't redeclare its shape inline, even partially. Redeclared shapes drift.
+- For a variant, derive it: `Pick`/`Omit`/`Partial`/`Parameters`/`ReturnType`/indexed access/`Extract`/`Exclude`; Convex/Zod equivalents `Infer<typeof V>`, `FunctionArgs<typeof api.x.y>`, `z.input/z.output`.
+- Bad: `type UserSummary = { id: string; name: string; email: string }` next to an existing `User`. Good: `Pick<User, 'id' | 'name' | 'email'>`.
+
+## 18. Filter at the index, never `take()` + post-filter
+
+- When a list query returns rows from a sub-bucket of a table (active vs. archived, `status === X`), the **index** must do the filtering. Don't `.take(N)` the unfiltered query and `.filter()` in JS for the bucket you want.
+- Why it breaks: `.take(N)` returns the N rows at the head of the index's order. If the head is full of the _other_ bucket, the post-filter returns zero even when the bucket has hundreds of older rows. `take(N*2)` only delays the failure.
+- Pattern: put the discriminator in an index and use `.withIndex(..., q => q.eq(...))`, or `q.gt(field, 0)` for the "present" bucket (Convex sorts `undefined` before defined values). Same for `.first()`/`.unique()` and "is there any X" probes.
+
+## 19. Never `.collect()` — bound the read with `.take(N)`
+
+- Convex `.collect()` reads every matching row with no upper bound. For anything that accumulates per-tenant over time (sessions, events, ledger rows, audit rows), a query fine on day one eventually pulls thousands of rows on one reactive tick and silently degrades reactivity for the whole client.
+- Replace `.collect()` with `.take(N)` where N is a safety ceiling clearly above today's working set (100, 1000) — a cap against pathological data, not a UX paginator. Same for `.withIndex(...).filter(...).collect()`.
+- If you genuinely need every row (a migration, admin dump, one-shot maintenance), say so with a comment and run it from a cancellable mutation/action, never a reactive `query`.
+
+## 20. Don't remap rows just to rename or default fields
+
+- Object-literal `.map()`s that copy every field through to rename two or coalesce `undefined → false` are noise, and they drop new columns silently until someone updates the map. If the consumer needs every field, return the row; if a subset, `Pick`/`Omit` or destructure-and-rest. Only rename when the new name materially clarifies; only default when downstream truly can't handle absence.
+- Strip storage-only fields (`_id`, `_creationTime`, internal ids) once with a destructure-rest. Good: `return rows.map(({ _id, _creationTime, ...row }) => row)`.
+
+## 21. Internal APIs carry no version or compat machinery
+
+- When we own both producer and consumer (our own apps, services, and functions), do not add `protocolVersion` fields, version negotiation, capability flags, or "in case the other side is older" branches. Deploying is the version.
+- The one real compat axis is fields, not versions — and it's an asymmetry, not a knob: parse **requests strictly** (reject unknown fields), parse **responses/events tolerantly** (ignore unknown fields). That lets the producer add fields without a lockstep consumer release, which covers the only skew we actually have (components that update on their own schedule).
+- Smells: a version literal in a wire schema that nothing reads; an `if (payload.v >= 2)` branch whose only caller is code we deploy ourselves; a strict parser on a response, which turns every additive server change into a breaking one.
+- Exception: a genuinely external API (consumers we cannot redeploy) versions at the route (`/v1/`), never per-field.
+
+## 22. Things that must agree need one owner
+
+- When two declarations must stay consistent but each can change alone, they drift. Give the shared decision one home and have each site compose from it — a parallel enum, picker list, or switch that restates a set living elsewhere is the common case (deriving the shape is rule 17; this is the wider rule for any values that must agree).
+- The harder half: where near-twins legitimately differ, justify the difference in the code. An undocumented divergence between otherwise-identical things is indistinguishable from a drift bug — a reader can't tell intent from oversight.
+
+## 23. Don't hoist a single-use value into a named const unless it earns the name
+
+- A `const` extracted to module scope but referenced exactly once adds indirection without payoff: the reader has to jump to the declaration to learn the value, and the name restates what an inline value + short comment would say anyway. Inline it at the one call site and let a comment carry the WHY.
+- A single-use named const IS justified when at least one of these holds:
+  - It's **configuration that changes often** or that an operator/reader is expected to tune (timeouts/limits grouped as knobs, feature thresholds, retry budgets that get adjusted).
+  - It **sits next to related consts** and gains meaning from the cluster (a block of `*_TIMEOUT_MS`, a table of limits, sibling enum members) — the grouping is the documentation.
+  - Declaring it independently is **structurally meaningful**: it's exported as part of a module's public surface, referenced by a type, or co-located with the data/file it parameterizes so a future second caller finds it.
+- Otherwise inline. The reviewer test: if the name only exists to label a literal used once, and it neither changes often nor lives beside kin, it's noise — fold it into the call site with a comment explaining the value.
+- Bad: `const STOP_SESSION_CONNECT_TIMEOUT_MS = 5_000` declared on its own, used in exactly one `runAction({ connectTimeoutMs: STOP_SESSION_CONNECT_TIMEOUT_MS })`.
+- Good: `connectTimeoutMs: 5_000, // 5s: a cold sandbox must not hang on the 60s default connect` at the call site.
+
+## 24. Batch loops isolate per-item failures — one bad item never starves the rest
+
+- Any loop over independent work items (sweep, cron batch, queue drain, fleet pass, fanout) must catch per item and continue — collect failures into the result (a `failed` list) or log them. An uncaught per-item throw aborts the pass, and because the runner (cron, scheduler, sync rail) re-selects the same ordered set next tick, a deterministically-failing item becomes a permanent head-of-line blocker: everything behind it re-queues forever while metrics show the job "retrying".
+- In transactional contexts (e.g. a database mutation that processes a page and advances a cursor) the failure is worse: the uncaught throw also rolls back the cursor/progress writes, so the same page re-runs forever. A caught error keeps the transaction alive — but the failed item's own pre-throw writes persist, so catch at item boundaries whose writes are idempotent or safe to re-run.
+- Early-exit on failure is only correct when the failure is provably batch-wide (the shared downstream is unreachable), never for item-specific errors. If the pass's caller needs failure visibility, catch-record-continue and rethrow the first error after the pass completes.
+- Watch the ordering trap even with isolation: if successful items stay in the candidate set (e.g. re-snapshotting everything before the blocker each retry), the sweep also needs its selection to exclude already-done work.
+- Accepted shapes: per-item try/catch + `failed` in the result; `Promise.allSettled` keyed by item; catch-record-continue then rethrow-after-pass.
+- Bad: `for (const ws of candidates) { await archive(ws); await mark(ws) }` inside an hourly cron — one unreachable VM freezes every candidate behind it, forever.
+- Good: the same loop with the whole per-item body in try/catch pushing `{ workspaceId, error }` onto a `failed` array returned to the caller.
+
+## 25. Renaming what users see means sweeping what tests see
+
+- User-facing copy, accessible names, routes, and `data-*` attributes are load-bearing for test layers that do not run in your gates — live-staging harnesses, journey suites, external monitors. A rename that keeps every local gate green can silently break them hours later in someone else's session.
+- When a change renames visible copy or restructures a surface, repo-wide grep the OLD strings/selectors — explicitly including test-harness and e2e packages — and update every anchor in the same pass. The diff that renames is the diff that sweeps.
+- The reviewer test: pick a renamed string from the diff and grep the repo for it. Any surviving hit outside the diff is a break waiting for the next live run.
+- Structural beats copy: where a journey needs an anchor, prefer an owned `data-*` attribute on the surface over its display text — then product copy can change freely without touching tests. Flag journeys that anchor on copy when a structural attribute already exists.
+
+## 26. Leave the code better than you found it — a tidy diff is not worth an untidy repo
+
+- **Never revert an incidental improvement to keep your diff focused.** If the formatter, the linter, or a codemod also cleans files your change didn't touch, **commit that too** (as its own commit if it's noisy). Reverting it optimizes for how the diff reads at review time and taxes every future pass, which pays the same cost again and re-reverts it again. The repo's health outranks the diff's tidiness.
+- **Dead things go in the pass that finds them.** A dead column, argument, function, export, or a test whose only callers are tests — delete it, plus any comment defending it, right there. Don't file it; a note is a deferral, and the next reader has to re-derive that it's dead.
+- **A comment you discover is false is a defect.** Fix it in place. A wrong comment outlives the diff that would have corrected it and actively misleads — worse than no comment at all.
+- **Fix latent bugs your change surfaces.** Work that makes a rarely-run path run every time will expose ordering bugs, unreachable cleanup, and assertions that never fired. That is your bug now: it became reachable because of you.
+- **Verify before you "improve".** Confirm the thing is actually dead, wrong, or broken before deleting or rewriting it — grep for consumers, run the test. A confident deletion of something load-bearing is far worse than the untidiness you were fixing.
+- The limits: don't smuggle unrelated *behavior* changes into a feature commit, and don't rewrite a neighbouring module because you dislike its shape. This rule covers mechanical tidiness, dead code, false comments, and bugs you made reachable — not opportunistic redesign.
+- The reviewer test: after this change lands, is any file in the repo **worse off**, or carrying a known-wrong statement, than before it started? If yes, the pass isn't done.
+
+## Your task
+
+Review: $ARGUMENTS
+
+If no arguments given, review `git diff --staged` or `git diff` (unstaged changes).
+
+For each issue found, cite the file and line number. Group by category. End with a clean/not-clean verdict.
+
+exec
+/bin/zsh -lc 'find specs -name AGENTS.md -o -name AGENTS.override.md; git diff; find specs/agent-editing/assets/12c-protected-speech -type f' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+diff --git a/specs/agent-editing/assets/12c-prepared-output/README.md b/specs/agent-editing/assets/12c-prepared-output/README.md
+index 5b366789..8fe5b94c 100644
+--- a/specs/agent-editing/assets/12c-prepared-output/README.md
++++ b/specs/agent-editing/assets/12c-prepared-output/README.md
+@@ -31,9 +31,11 @@ explicit selected target, not the whole original source.
+ 
+ ## What integration still needs
+ 
+-Core needs one **durable prepared-derivative owner shared by stretch and processors**,
+-scheduled by the existing job queue. The current disposable cache helper can
+-regenerate evicted data and is not that owner. Durable identity must include the
++[14a](../../slices/14a-prepared-audio.md) now supplies the **durable prepared-audio
++owner shared by stretch and processors**, scheduled by the existing job queue,
++with public preparation and portable unit-rate/gain receipts. This research proof
++did not implement that lifecycle, and RNNoise is not yet bound to it. Its durable
++identity constraints still require the
+ ordered upstream signal, retained selection, timing/rendition and pinned recipe;
+ new clip IDs alone cannot imply new DSP state. The resampling context helper does
+ not define authored DSP context. These are constraints for 14/15a, not a second
+@@ -65,7 +67,8 @@ batch deadlines remain bounded; the measured short run is not a scale claim.
+ are separate RMS-matched audition copies. [Dry split context](dry-mixture-split-context.wav)
+ and [learned split context](learned-split-context.wav) retain their corresponding
+ whole-copy gain. The report records gains, peaks, intervals and hashes. These
+-excerpts are not protected-phoneme labels; no independent listening occurred and
++excerpts are not protected-phoneme labels. The [protected-speech packet](../12c-protected-speech/README.md)
++now indexes exact contexts for annotation; no independent listening occurred and
+ no audio was played automatically.
+ 
+ [Review](review.md) records independent code review and retained-byte verification.
+diff --git a/specs/agent-editing/slices/12c-noise-reproduction.md b/specs/agent-editing/slices/12c-noise-reproduction.md
+index 1d4505be..1ecac633 100644
+--- a/specs/agent-editing/slices/12c-noise-reproduction.md
++++ b/specs/agent-editing/slices/12c-noise-reproduction.md
+@@ -1,6 +1,6 @@
+ # 12c — Reproduce local noise reduction
+ 
+-Status: research in progress; conventional and learned candidates have measured timing mechanisms, but speech quality and production state policy remain unverified. No processor is adopted. Dependencies: [00](./00-corpus.md).
++Status: frozen user-preferred RNNoise has measured timing and mono retained-output state evidence; protected speech, listening, general target/channel policy and production adoption remain open. No processor is adopted. Dependencies: [00](./00-corpus.md).
+ 
+ ## Contract
+ 
+@@ -72,9 +72,11 @@ the candidates’ attenuation/reference-distortion tradeoff with exact repeatabi
+ [Independent clean speech and a matched-level control](../assets/12c-clean-reference/README.md)
+ now separate input-level sensitivity from the earlier recording-specific change.
+ The user [prefers the learned audition](../assets/12c-matched-noise/audition/README.md)
+-on the original-recording cohort. Carry that frozen RNNoise recipe forward; next
+-verify protected phonemes, joins and broader listening, then
+-freeze a state policy that preserves pure splits while excluding removed input.
++on the original-recording cohort. Carry that frozen RNNoise recipe forward. The
++mono retained-output mechanism below preserves tested pure splits and excluded
++neighbors; general target/channel/transition policy remains open. The
++[protected-speech packet](../assets/12c-protected-speech/README.md) now supplies
++exact retained contexts and unconfirmed annotation targets for phoneme/join listening.
+ Neither measured noise attenuation nor surviving impulse peaks closes listening,
+ protected-phoneme, retimed/combined-input or production integration acceptance.
+ 
+@@ -87,15 +89,16 @@ identical, inverted and half-level channels without adopting independent stereo
+ processing. The small measured balance change is not an audible acceptance verdict.
+ 
+ [Range-origin evidence](../assets/12c-range-origin/README.md) rejects the tested
+-one-second warmup for exact range/full equality. Investigate retained prepared
+-output or verified checkpoints; do not silently replay an unbounded prefix.
++one-second warmup for exact range/full equality. The retained-output proof below
++supplies the tested alternative; do not silently replay an unbounded prefix.
+ 
+ [Retained-output reproduction](../assets/12c-prepared-output/README.md) now proves
+ exact pure-split/excluded-neighbor preservation through compiled native upstream
+ PCM, fixed-recipe parity and bounded reads of the prepared result. Fresh trim
+ processing differs from stale cropped output; gain/RNNoise order differs in real
+ PCM. This is an output-target mono research proof, not production preparation or
+-speech acceptance. Next label protected words/onsets/ends and obtain independent
+-listening; carry the retained-output constraints into the single durable owner
+-shared with stretch. Clip-level state domains, stereo policy, retimed/combined
+-speech and 15a integration remain open.
++speech acceptance. Use the protected-speech packet to confirm word/onset/end
++annotations and obtain independent listening. [14a](./14a-prepared-audio.md) now
++provides the single durable owner, public preparation and portable unit-rate/gain
++receipts; RNNoise is not yet bound to it. Clip-level state domains, stereo policy,
++retimed/combined speech and 15a integration remain open.
+diff --git a/specs/agent-editing/slices/15a-noise-processing.md b/specs/agent-editing/slices/15a-noise-processing.md
+index 3aace323..f764f00d 100644
+--- a/specs/agent-editing/slices/15a-noise-processing.md
++++ b/specs/agent-editing/slices/15a-noise-processing.md
+@@ -7,7 +7,11 @@ Status: not started. Dependencies: [03c](./03c-processing-stacks.md), [08](./08-
+ Optional noise reduction is an ordinary typed, reorderable, bypassable processor
+ using the same revision, preparation, inspection, preview and export paths.
+ 
+-Shared preparation prerequisite: [14a](./14a-prepared-audio.md).
++Shared preparation owner: [14a](./14a-prepared-audio.md) already verifies durable
++publication, public preparation and portable unit-rate/gain assets. Reuse that
++owner; model-dependent RNNoise execution and consumers remain this slice’s work.
++The [protected-speech packet](../assets/12c-protected-speech/README.md) is a
++listening/annotation handoff, not acceptance or processor readiness.
+ 
+ ## Seam and ownership
+ 
+@@ -22,7 +26,7 @@ Add only the verified variant and supported parameter/target/channel contracts.
+ Retain model-dependent outputs and provenance; handle explicit model preparation,
+ missing dependencies, cancel/retry/restart and publication fencing. Implement dry
+ and after-instance inspection taps through the same plan, including waveform and
+-spectrogram consumers when 11 lands. Keep raw source reads unchanged.
++spectrogram consumers already supplied by 11. Keep raw source reads unchanged.
+ 
+ Create this planned probe:
+ 
+specs/agent-editing/assets/12c-protected-speech/clean-rnnoise-mixture-start-candidate.wav
+specs/agent-editing/assets/12c-protected-speech/original-mixture-whole.wav
+specs/agent-editing/assets/12c-protected-speech/clean-mixture-start-candidate.wav
+specs/agent-editing/assets/12c-protected-speech/clean-mixture-whole.wav
+specs/agent-editing/assets/12c-protected-speech/clean-rnnoise-reference-end-candidate.wav
+specs/agent-editing/assets/12c-protected-speech/clean-reference-end-candidate.wav
+specs/agent-editing/assets/12c-protected-speech/assemble.py
+specs/agent-editing/assets/12c-protected-speech/clean-rnnoise-reference-whole.wav
+specs/agent-editing/assets/12c-protected-speech/README.md
+specs/agent-editing/assets/12c-protected-speech/original-rnnoise-mixture-whole.wav
+specs/agent-editing/assets/12c-protected-speech/original-rnnoise-reference-whole.wav
+specs/agent-editing/assets/12c-protected-speech/original-mixture-split-context.wav
+specs/agent-editing/assets/12c-protected-speech/clean-rnnoise-reference-start-candidate.wav
+specs/agent-editing/assets/12c-protected-speech/manifest.json
+specs/agent-editing/assets/12c-protected-speech/clean-rnnoise-mixture-whole.wav
+specs/agent-editing/assets/12c-protected-speech/clean-reference-whole.wav
+specs/agent-editing/assets/12c-protected-speech/acceptance-audit.md
+specs/agent-editing/assets/12c-protected-speech/clean-mixture-end-candidate.wav
+specs/agent-editing/assets/12c-protected-speech/clean-rnnoise-mixture-end-candidate.wav
+specs/agent-editing/assets/12c-protected-speech/original-rnnoise-mixture-split-context.wav
+specs/agent-editing/assets/12c-protected-speech/clean-reference-start-candidate.wav
+specs/agent-editing/assets/12c-protected-speech/annotations.json
+specs/agent-editing/assets/12c-protected-speech/original-reference-whole.wav
+
+2026-09-29T02:58:35.010141Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0eb19-6021-75f1-8468-911af4023527 turn_id=01a0eb19-60ed-7b70-9ce2-47ce6c810079 item_id="exec-b162217c-a450-4328-943b-ceacc8d5e196"
+exec
+/bin/zsh -lc 'cat specs/agent-editing/assets/12c-protected-speech/{README.md,acceptance-audit.md,annotations.json,assemble.py}' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+# Protected-speech review packet
+
+This packet makes the remaining word/onset/end review concrete. It does **not**
+repeat the candidate-choice question: the user's [learned-filter preference](../12c-matched-noise/audition/README.md)
+stands. No audio was auditioned during assembly, and no speech-quality verdict or
+confirmed word boundary is recorded here.
+
+All new WAVs are mono 48 kHz float PCM at **unity gain**, with no filtering,
+normalization, resampling, fades or new inference. Full views reproduce the retained
+PCM bytes exactly; short views are exact slices of those full views. Learned PCM
+already carries the frozen 960-sample compensation; it is not shifted again.
+Original raw gain/clipping evidence remains intact. The earlier separately
+RMS-matched [original auditions](../12c-matched-noise/audition/README.md) and
+[prepared whole/split auditions](../12c-prepared-output/README.md) remain available;
+the new unity-gain views may be quieter, and volume changes must not be mistaken
+for a quality judgment.
+
+## Independent clean utterance
+
+The [dataset transcript and source identity](../12c-clean-reference/selection.json)
+are retained: “MISTER QUILTER IS THE APOSTLE OF THE MIDDLE CLASSES AND WE ARE GLAD
+TO WELCOME HIS GOSPEL.” This is a known transcript, **not** word-level timing.
+The complete 5.855-second context is available in every row. Opening/ending crops
+are fixed 1.5-second review windows, not asserted complete-word boundaries.
+
+| Signal | Complete context | Opening candidate | Ending candidate |
+| --- | --- | --- | --- |
+| Clean reference | [Whole](clean-reference-whole.wav) | [0–1.5s](clean-reference-start-candidate.wav) | [4.355–5.855s](clean-reference-end-candidate.wav) |
+| Reference through learned filter | [Whole](clean-rnnoise-reference-whole.wav) | [Opening](clean-rnnoise-reference-start-candidate.wav) | [Ending](clean-rnnoise-reference-end-candidate.wav) |
+| Reference with known added noise | [Whole](clean-mixture-whole.wav) | [Opening](clean-mixture-start-candidate.wav) | [Ending](clean-mixture-end-candidate.wav) |
+| Noisy mixture through learned filter | [Whole](clean-rnnoise-mixture-whole.wav) | [Opening](clean-rnnoise-mixture-start-candidate.wav) | [Ending](clean-rnnoise-mixture-end-candidate.wav) |
+
+Candidate annotation targets are the opening “MISTER QUILTER,” ending “HIS GOSPEL,”
+and consonants in “APOSTLE”/“CLASSES” within the full utterance. Their exact locations
+and crop containment are **unconfirmed**. Use the whole utterance if a crop cuts a
+word; do not accept or reject an endpoint based on an arbitrary crop edge. First
+confirm the reference words, then compare reference-only learned output and noisy
+learned output for missing consonants/onsets/ends, altered words, pumping or echo.
+A quieter noise floor alone does not answer those questions.
+
+## Original recorded cohort and existing split marker
+
+This is the same five-second retained recorded context used by the earlier
+matched-noise and preferred audition. The reference includes its original ambience;
+it is not a clean studio ground truth. No transcript is assigned to this context:
+the voice experiment's separate 1–6s reference transcript does not describe this
+71.5–76.5s context excerpt. The packet's authoritative coordinates are local PCM
+samples; the earlier recording interval is provenance from its retained manifest.
+
+| Signal | Full five-second context | Existing split vicinity |
+| --- | --- | --- |
+| Recorded reference | [Whole](original-reference-whole.wav) | — |
+| Reference through learned filter | [Whole](original-rnnoise-reference-whole.wav) | — |
+| Reference with known added noise | [Whole](original-mixture-whole.wav) | [Context](original-mixture-split-context.wav) |
+| Noisy mixture through learned filter | [Whole](original-rnnoise-mixture-whole.wav) | [Context](original-rnnoise-mixture-split-context.wav) |
+
+The retained pure-split marker is frame112002 (2.333375s), inside the view
+[100002,124002), or2.083375–2.583375s. This packet creates no cut, splice or new
+processing boundary. Prior numerical evidence already proves split/whole equality;
+these excerpts expose the surrounding speech for annotation, not another state
+experiment. Which words/consonants occupy it remains unconfirmed. Compare against
+full context before recording any lost-word or artifact concern.
+
+## Annotation and evidence boundary
+
+[Annotation prompts](annotations.json) deliberately leave boundary confirmation,
+observed words and quality judgments empty. Reviewers can record a source-relative
+interval and observation, distinguishing uncertainty from a confirmed omission.
+No listener is asked to repeat the earlier overall filter preference.
+
+[Manifest](manifest.json) pins every source/report/WAV hash, exact sample interval,
+gain, RMS and peak. [Assembler](assemble.py) only decompresses, validates retained
+identities and writes WAV headers/slices. [Acceptance audit](acceptance-audit.md)
+separates missing behavior from stale handoffs. Metadata and byte-preservation review
+can verify this packet; it cannot judge intelligibility or naturalness.
+
+The durable preparation owner, public preparation and portable unit-rate/gain
+receipts now exist in14a. Actual RNNoise adoption, target/channel/transition policy,
+post-retime/combined speech and independent listening remain open in12c/15a.
+This packet neither advertises a processor nor closes those gates.
+# 12c / 15a remaining acceptance
+
+Read-only audit of main `41d80a70`. No builds, native/model execution, downloads,
+audio playback, code or spec edits. Paths below are repository-relative.
+
+## Current conclusion
+
+RNNoise is the user-preferred **frozen candidate**, not an accepted production
+processor. The missing work is no longer “find a denoiser,” “try another warmup,”
+or “build a durable preparation owner.” It is protected-speech evidence and
+listening, explicit remaining state/channel semantics, then actual typed DSP
+adoption through the existing owner. `15a` being unimplemented is accurate;
+several older infrastructure/state pickup sentences are stale.
+
+## Banked evidence; do not repeat it
+
+- `assets/12c-matched-noise/audition/{README.md,user-feedback.json}` records the
+  user's “Learned filter sounds better” preference on the original five-second,
+  separately RMS-matched cohort. Keep the source/model/build identities in
+  `assets/12c-rnnoise/preparation.json`: source revision
+  `70f1d256acd4b34a572f999a05c87bf00b67730d`, fixed model archive and build flags.
+  Do not reopen conventional-versus-learned selection or change gain/model/recipe.
+- `assets/12c-rnnoise-timing/` proves the measured frame adapter: mono 48 kHz float,
+  two zero flush frames, fixed 960-sample compensation, exact selected counts,
+  first/interior/end impulse positions, 1/17/479-sample cases, repeatability and
+  extra-tail equivalence. One-frame skip/no-flush negatives remain failures.
+  Its poisoned-input and independent-half-reset controls reject process-before-
+  selection and reset-per-clip policies. Surviving impulse peaks are not speech
+  protection: the model removes most impulse energy.
+- `12c-matched-noise`, `12c-clean-reference`, and `12c-transient-noise` retain
+  stationary/transient and clean/native-versus-quiet controls. The clean source
+  has a pinned original FLAC and known transcript (`selection.json`). Metrics
+  separate noise-only attenuation from mixed/reference changes; they do not
+  separate residual noise in speech or certify intelligibility.
+- `12c-channel-relations` proves identical/inverted-channel equality and measured
+  half-level nonlinearity for correlated mono-derived channels. It neither chooses
+  independent stereo processing nor covers different speech/noise per channel.
+- `12c-range-origin` rejects the tested one-second warmup: 47,999/48,000 late-window
+  samples differ (max0.0029093); full-origin control is exact. This is not a proof
+  that every finite context fails. `12c-prepared-output` then provides the useful
+  alternative: compiled selected input and frozen recipe parity, exact pure split
+  and poisoned-neighbor preservation, fresh trim differing from stale crop, real
+  noncommuting gain/RNNoise order, and bounded positional reads with inference
+  unavailable. Root confirmation reproduces raw hashes. This is output-target
+  mono research evidence, not production denoise bypass or clip-state adoption.
+- `14a-prepared-audio`, `14a-prepared-portable`, and `14a-public-preparation` now
+  establish the durable PreparedAudioStore/JobQueue/AssetStore owner, fencing,
+  revision/upstream retention, restart, bounded reads, portable unit-rate/gain
+  assets, public explicit-revision `audio.prepare`, ordinary asset/audio/acoustic
+  inspection, CLI/MCP and fresh skill use. Those infrastructure gates do not need
+  another parallel implementation or repetition just to add RNNoise.
+
+## Actual remaining requirements
+
+1. **Protected speech and listening (binding):** localize complete words, quiet
+   consonants, onsets/ends and joins; assess loss, pumping, musical artifacts,
+   naturalness and introduced echo on original and independent clean/noisy
+   controls. No protected-phoneme labels or independent listening verdict exists
+   in the retained-output proof (`verification.json` says so). The preference on
+   one audition is real evidence but cannot stand in for these judgments. Raw gain,
+   clipping and separately normalized audition provenance must remain visible.
+2. **State/channel contract (binding, only partly proved):** the mono full-output
+   prepared domain works for the tested pure split/trim/poison cases. Clip/track/
+   group state domains, sentence activation and transitions, supported strength
+   automation, dry neighbors, real stereo relation and channel policy are still
+   unspecified/unverified. Do not infer them from resampling context or invent a
+   linked-channel implementation. Existing research constraints should guide the
+   later typed recipe, not be rerun as another warmup grid.
+3. **Real stack inputs (binding):** post-retime speech and combined overlapping
+   speech/noise inputs remain open. A gain-before/after noncommuting proof is not
+   combined-parent DSP meaning; gain-only14a is not RNNoise-on-retimed audio.
+   Accepted retiming/DSP domains are a separate dependency; do not fake them with
+   synthetic timing metadata or make them a reason to block annotation work.
+4. **Production adoption (genuinely absent):** `packages/composition/src/schema.ts`
+   registers pointer/gain/geometry/opacity only; no RNNoise type is authorable.
+   The research driver remains external. `15a` still needs frozen-entry parity,
+   supported typed parameters/targets, model preparation/provenance and explicit
+   unavailability, actual bypass/reorder/history/undo, preview/export/tap consumers,
+   model-aware cancel/retry/restart/concurrent revision cases, poisoned selections
+   and long/late bounded reads through the shared owner. Reuse14a lifecycle tests
+   and add DSP-specific joins to that path rather than repeating every owner test.
+   Retained model-dependent portability/scale/agent acceptance remain22/24/25.
+
+These are grounded in `slices/12c-noise-reproduction.md`, `slices/15a-noise-processing.md`,
+`processing.md` (Noise acceptance), `verification.md` (12c/15a), and the live
+`journeys.md` rows for sentence treatment, optional denoise and processed tracks.
+
+## Stale narrative versus invented diagnostics
+
+- Stale: prepared-output README's “Core needs one durable owner” and its plan's
+  “next ... single core owner”; that owner, public preparation and relocation now
+  exist. Still true: the research result itself did not implement those services,
+  and actual RNNoise preparation is unavailable. Link historical scope to14a
+  rather than rewriting old reports as broader successes.
+- Overbroad: “freeze a state policy” as if no useful policy were measured. The
+  retained mono output-target mechanism is established; general target/channel/
+  transition policy is not. “Investigate retained output” is likewise historical
+  after12c-prepared-output. Conversely15a's “when11 lands” is stale: source/project
+  acoustic consumers already exist, although RNNoise tap integration is missing.
+- Agent-selected diagnostics, **not extra user quality bars**: global correlation,
+  mixture-error/noise ratios, a particular one-second warmup, half-level channel
+  max/RMS differences, impulse amplitude and ASR agreement. Preserve their values
+  and failed experiments; do not promote arbitrary numeric limits, demand bitwise
+  dry-versus-denoised speech equality, or require all stereo nonlinear differences
+  to vanish. Exact duration, declared latency, kept-input isolation, pure-split
+  preservation and range/full equality are binding invariants, not optional
+  diagnostics to loosen. Listening is also binding and cannot be replaced by ASR.
+
+## Smallest useful next pass without listening or new DSP
+
+Create a **protected-speech review packet solely from retained PCM**, beginning
+with the independent clean utterance and the already preferred original cohort.
+Use `12c-clean-reference/selection.json`'s verified transcript (starts “MISTER
+QUILTER”, ends “HIS GOSPEL”) and retain complete utterance context. Index the raw
+reference, noisy, reference-only processed and noisy processed outputs by existing
+hash, exact sample bounds and declared960-sample compensation. Add separately
+labeled matched-level listening copies and short context windows only by lossless
+cropping/constant audition gain; never rerun or normalize the numerical outputs.
+Expose starts/ends and candidate quiet-consonant/word regions with annotation
+status: the transcript is verified, but precise word/phoneme boundaries require
+human confirmation. A waveform/ASR guess must remain a candidate, not a trusted
+phoneme label. Keep the complete source audio available so crop choices cannot
+hide defects; reuse the existing prepared whole/split-context auditions.
+
+The deliverable is an addressable annotation/listening handoff with raw identities,
+window definitions, gains/peaks, explicit unanswered quality questions and no
+speech-quality verdict. This fills the current absence of localized evidence and
+makes the next listening judgment concrete. It can proceed while retiming/channel
+contracts remain open and without adopting RNNoise prematurely. It does not close
+12c or justify marking15a ready. If implementation is pursued afterward, first
+slice a constrained production-entry parity seam on the existing prepared owner;
+keep readiness/refusals honest until its supported quality/state/channel contract
+is accepted. No new denoiser, model download, warmup sweep or recipe change is
+needed for the immediate pass.
+{
+  "listeningPerformed": false,
+  "wordBoundariesConfirmed": false,
+  "previousCandidatePreference": "Learned filter sounds better; retained earlier preference, not being solicited again",
+  "items": [
+    {
+      "id": "clean-opening",
+      "cohort": "clean",
+      "sampleRange": {
+        "start": 0,
+        "end": 72000
+      },
+      "candidateWords": "MISTER QUILTER",
+      "authority": "Known full-utterance transcript; location and crop containment unconfirmed",
+      "confirmedWordInterval": null,
+      "observedReferenceWords": null,
+      "observedProcessedWords": null,
+      "qualityObservation": null,
+      "reviewer": null
+    },
+    {
+      "id": "clean-ending",
+      "cohort": "clean",
+      "sampleRange": {
+        "start": 209040,
+        "end": 281040
+      },
+      "candidateWords": "HIS GOSPEL",
+      "authority": "Known full-utterance transcript; location and crop containment unconfirmed",
+      "confirmedWordInterval": null,
+      "observedReferenceWords": null,
+      "observedProcessedWords": null,
+      "qualityObservation": null,
+      "reviewer": null
+    },
+    {
+      "id": "clean-interior",
+      "cohort": "clean",
+      "sampleRange": {
+        "start": 0,
+        "end": 281040
+      },
+      "candidateWords": "APOSTLE / CLASSES",
+      "authority": "Known transcript only; no localized interval asserted",
+      "confirmedWordInterval": null,
+      "observedReferenceWords": null,
+      "observedProcessedWords": null,
+      "qualityObservation": null,
+      "reviewer": null
+    },
+    {
+      "id": "original-split-vicinity",
+      "cohort": "original",
+      "sampleRange": {
+        "start": 100002,
+        "end": 124002
+      },
+      "markerSample": 112002,
+      "candidateWords": null,
+      "authority": "Existing pure-split coordinate; no phonetic label or new splice",
+      "confirmedWordInterval": null,
+      "observedReferenceWords": null,
+      "observedProcessedWords": null,
+      "qualityObservation": null,
+      "reviewer": null
+    }
+  ]
+}
+"""Wrap retained float PCM and exact sample slices in unity-gain WAV headers."""
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import struct
+
+here = Path(__file__).resolve().parent
+assets = here.parent
+sha = lambda value: hashlib.sha256(value).hexdigest()
+manifest = {"scope": "Retained PCM listening/annotation packet; no inference or listening verdict",
+            "sampleRate": 48000, "channels": 1, "gain": 1,
+            "labelsConfirmed": False, "files": []}
+roles = ["reference", "mixture", "rnnoise-reference", "rnnoise-mixture"]
+for cohort, folder in [("original", "12c-matched-noise"), ("clean", "12c-clean-reference/native-level")]:
+    root = assets / folder
+    report_path = root / "report.json.gz"
+    report = json.loads(gzip.decompress(report_path.read_bytes()))
+    assert report["sampleRate"] == 48000
+    count = report["frames"]
+    for role in roles:
+        source = root / "audio" / (role + ".f32.gz")
+        data = gzip.decompress(source.read_bytes())
+        assert sha(data) == report["files"][role + ".f32"]["sha256"]
+        assert len(data) == count * 4
+        windows = [("whole", 0, count)]
+        if cohort == "clean":
+            windows += [("start-candidate", 0, 72000), ("end-candidate", count - 72000, count)]
+        elif role in ["mixture", "rnnoise-mixture"]:
+            windows += [("split-context", 100002, 124002)]
+        for name, first, last in windows:
+            pcm = data[first * 4:last * 4]
+            header = struct.pack("<4sI4s4sIHHIIHH4sI", b"RIFF", 36 + len(pcm), b"WAVE", b"fmt ", 16,
+                                 3, 1, 48000, 192000, 4, 32, b"data", len(pcm))
+            target = here / f"{cohort}-{role}-{name}.wav"
+            target.write_bytes(header + pcm)
+            values = [v[0] for v in struct.iter_unpack("<f", pcm)]
+            peak = max(abs(v) for v in values)
+            assert peak < 1
+            manifest["files"].append({"file": target.name, "sha256": sha(header + pcm),
+                "source": str(source.relative_to(assets)), "sourceContainerSha256": sha(source.read_bytes()),
+                "sourcePcmSha256": sha(data), "report": str(report_path.relative_to(assets)),
+                "reportSha256": sha(report_path.read_bytes()), "sourceSampleRange": {"start": first, "end": last},
+                "frames": last - first, "pcmSha256": sha(pcm), "unityGainPcmSliceExact": True,
+                "peak": peak, "rms": (sum(v * v for v in values) / len(values)) ** 0.5,
+                "clippedSamples": sum(abs(v) >= 1 for v in values),
+                "alreadyCompensatedByFrames": 960 if role.startswith("rnnoise") else 0})
+manifest["generatorSha256"] = sha(Path(__file__).read_bytes())
+(here / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+print(f"Wrote {len(manifest['files'])} exact WAV views without processing")
+
+2026-09-29T02:58:39.888531Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0eb19-6021-75f1-8468-911af4023527 turn_id=01a0eb19-60ed-7b70-9ce2-47ce6c810079 item_id="exec-ad1edc5c-a566-4f6c-aa10-e98c3af109c3"
+exec
+/bin/zsh -lc 'cat specs/agent-editing/slices/14a-prepared-audio.md; cat specs/agent-editing/assets/12c-clean-reference/selection.json; cat specs/agent-editing/assets/12c-matched-noise/README.md; cat specs/agent-editing/assets/12c-prepared-output/verification.json; find . -name AGENTS.override.md -o -name AGENTS.md' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+2026-09-29T02:58:44.832747Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0eb19-6021-75f1-8468-911af4023527 turn_id=01a0eb19-60ed-7b70-9ce2-47ce6c810079 item_id="exec-3d33f885-c602-4a31-bd0f-664195e5b29c"
+ succeeded in 278ms:
+./AGENTS.md
+./apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+./helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+import gzip,json
+from pathlib import Path
+for p in ['12c-matched-noise','12c-clean-reference/native-level']:
+ r=json.loads(gzip.decompress((Path('specs/agent-editing/assets')/p/'report.json.gz').read_bytes()))
+ print(p, json.dumps({k:v for k,v in r.items() if k"'!='"'files'},indent=2)[:14000]);print('files',[(k,list(v) if isinstance(v,dict) else v) for k,v in r['files'].items()])
+PY" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+2026-09-29T02:58:51.008769Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0eb19-6021-75f1-8468-911af4023527 turn_id=01a0eb19-60ed-7b70-9ce2-47ce6c810079 item_id="exec-462975da-352b-4fe0-a1ca-311627e6753b"
+ succeeded in 0ms:
+12c-matched-noise {
+  "productionAdoption": false,
+  "speechQuality": "unverified; no listening; reference includes original ambience",
+  "sampleRate": 48000,
+  "frames": 240000,
+  "inputSnrDb": 10.00000000046896,
+  "recipe": "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+  "identity": {
+    "runnerSha256": "6acd5fd97ec458e1ca0509aa85009a815d89494be65011963704f572c1f72f95",
+    "processorSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+    "driverSha256": "9b6c83bb61a1a8b1ae945900187cb8c282f637fc103e0852be1d690ebab674a7",
+    "speechSha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+    "ffmpegSha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-i",
+        "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice/context.wav",
+        "-map",
+        "0:a:0",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "stdinSha256": null,
+      "stdoutSha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=241200",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "stdinSha256": "769fcacbf9f510f01e8ad77543c3b6b7a859950e3fb730c9a93d9c58db1a4769",
+      "stdoutSha256": "429508f9714d62b2dfdedab6a3255849179aa1eb52cdd53b3031e5fd546f9c4e",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=241200",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "stdinSha256": "1ae7ae4c5e1d1088d15e54da6fbf14b38d74fa9e45e3d4ee1db73a6e45182f1c",
+      "stdoutSha256": "179b4f98b08c8a42df5931f38a9f34b21b95b7755e348d89223b55d950ca92ad",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=241200",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "stdinSha256": "9e63c6b9b22d31873d11b4c638c03698de4dcebebb770b6b3e1fcd6091bb4855",
+      "stdoutSha256": "6e4f3df0893e43cacdefe8c09dc68c29db6a9bc8a0a2c9a3c57327be93be329f",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/private/tmp/screenrec-rnnoise-api",
+        "/private/tmp/screenrec-denoise-mixture-confirm/reference.f32",
+        "/private/tmp/screenrec-denoise-mixture-confirm/rnnoise-reference-raw.f32",
+        "2"
+      ],
+      "stdinSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/private/tmp/screenrec-rnnoise-api",
+        "/private/tmp/screenrec-denoise-mixture-confirm/noise.f32",
+        "/private/tmp/screenrec-denoise-mixture-confirm/rnnoise-noise-raw.f32",
+        "2"
+      ],
+      "stdinSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/private/tmp/screenrec-rnnoise-api",
+        "/private/tmp/screenrec-denoise-mixture-confirm/mixture.f32",
+        "/private/tmp/screenrec-denoise-mixture-confirm/rnnoise-mixture-raw.f32",
+        "2"
+      ],
+      "stdinSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": ""
+    }
+  ],
+  "methods": {
+    "afftdn": {
+      "mixtureErrorRms": 0.003177430000301697,
+      "mixtureErrorRelativeToInputNoiseDb": -0.19307389371419945,
+      "referenceOnlyErrorRms": 0.0007632240573177997,
+      "referenceOnlyErrorRelativeToReferenceDb": -22.581552705044356,
+      "noiseOnlyAttenuationDb": -0.48405934300319914,
+      "addedNoiseOutputSensitivityRms": 0.003087551701609248,
+      "sensitivityRelativeToInputNoiseDb": -0.4423089543334249,
+      "inputReferenceRms": 0.010273766392624829,
+      "outputs": {
+        "reference": {
+          "rms": 0.010167157689399279,
+          "peak": 0.08492711931467056,
+          "clipped": 0,
+          "frames": 240000
+        },
+        "noise": {
+          "rms": 0.0030727464049845827,
+          "peak": 0.0049958075396716595,
+          "clipped": 0,
+          "frames": 240000
+        },
+        "mixture": {
+          "rms": 0.010718118854968987,
+          "peak": 0.0892881378531456,
+          "clipped": 0,
+          "frames": 240000
+        }
+      },
+      "referenceGainDiagnostic": {
+        "correlation": 0.9972660689778061,
+        "bestFitOutputGain": 1.0077229976133693,
+        "gainCorrectedErrorDb": -22.627765230399373,
+        "appliedToOutputs": false
+      }
+    },
+    "rnnoise": {
+      "mixtureErrorRms": 0.006386351298118966,
+      "mixtureErrorRelativeToInputNoiseDb": 5.870462359816516,
+      "referenceOnlyErrorRms": 0.00621383838343285,
+      "referenceOnlyErrorRelativeToReferenceDb": -4.367394659328045,
+      "noiseOnlyAttenuationDb": -48.32114478125349,
+      "addedNoiseOutputSensitivityRms": 0.0013104692591259213,
+      "sensitivityRelativeToInputNoiseDb": -7.8860569724944725,
+      "inputReferenceRms": 0.010273766392624829,
+      "outputs": {
+        "reference": {
+          "rms": 0.00699258953934196,
+          "peak": 0.07989281415939331,
+          "clipped": 0,
+          "frames": 240000
+        },
+        "noise": {
+          "rms": 1.2464430699457598e-05,
+          "peak": 0.0009220319916494191,
+          "clipped": 0,
+          "frames": 240000
+        },
+        "mixture": {
+          "rms": 0.006956073461527795,
+          "peak": 0.08302928507328033,
+          "clipped": 0,
+          "frames": 240000
+        }
+      },
+      "referenceGainDiagnostic": {
+        "correlation": 0.8061972702486421,
+        "bestFitOutputGain": 1.1844942956119544,
+        "gainCorrectedErrorDb": -4.5587492853299105,
+        "appliedToOutputs": false
+      }
+    }
+  },
+  "windows10ms": {
+    "reference": [
+      0.0012814525593204322,
+      0.0028125090729735234,
+      0.0022666275367391516,
+      0.003310165066480217,
+      0.001903481607358204,
+      0.0016194380948680598,
+      0.0028439035550844732,
+      0.004302377006668702,
+      0.002364527913557571,
+      0.0029707240970918607,
+      0.0025354572505556275,
+      0.0028064950607464443,
+      0.0017610600442528553,
+      0.002889865741500013,
+      0.002956134931152102,
+      0.002126968125450275,
+      0.0026701110351940553,
+      0.002728334721808224,
+      0.0032059046709500805,
+      0.002496043905903248,
+      0.0031151528599244528,
+      0.00459409402346491,
+      0.0023304305468630033,
+      0.0026841262981942074,
+      0.002954919041938689,
+      0.0028961147253539436,
+      0.0033286512356859614,
+      0.003702649997921534,
+      0.0024642071195436995,
+      0.0043403870081796464,
+      0.002999326591351151,
+      0.0036688279033570154,
+      0.0027400395249557587,
+      0.004274743908264418,
+      0.004132939713252944,
+      0.018548802356278822,
+      0.021431462073825798,
+      0.011076027930503926,
+      0.002799425954744065,
+      0.006814770340413239,
+      0.008552854335570776,
+      0.0054636265547944795,
+      0.0021668331664954302,
+      0.006670250601225612,
+      0.008696487674361467,
+      0.00733243720708498,
+      0.013782549780616075,
+      0.018633799929903033,
+      0.011423870340046943,
+      0.01066649664299647,
+      0.010471710805288244,
+      0.011431475163905259,
+      0.007293959958729324,
+      0.005116423079936724,
+      0.004755903245319212,
+      0.0033985095550088324,
+      0.004051104065399066,
+      0.006072812582993928,
+      0.003925887970112639,
+      0.004409229122380049,
+      0.0059539160358149995,
+      0.006243860110295983,
+      0.008963553139175733,
+      0.006672209886554402,
+      0.0056583444231919815,
+      0.003698255272501653,
+      0.0016482024993769104,
+      0.0019610735013163415,
+      0.0038025091807440173,
+      0.0024759623992225,
+      0.002966002454760531,
+      0.0030517991634720246,
+      0.003420685219110356,
+      0.0053438019617133735,
+      0.003472577734889485,
+      0.002525872152107927,
+      0.003684858839559833,
+      0.004379976914377945,
+      0.004799355913692604,
+      0.003520210470733597,
+      0.0033696228750798355,
+      0.003440483171879951,
+      0.0024803897143284032,
+      0.0019436794294981857,
+      0.0013554146044245765,
+      0.0016019508110742056,
+      0.0015538925172465768,
+      0.0018570319687679308,
+      0.001832532114605372,
+      0.0017004485187076255,
+      0.00085636116868741,
+      0.0014423863501581216,
+      0.0042572178290217165,
+      0.0026566781826726235,
+      0.00530654244063721,
+      0.020830196016874,
+      0.014145006597335362,
+      0.0206571481766365,
+      0.02079552187494692,
+      0.016413223021160127,
+      0.012313544285749045,
+      0.017130626511745208,
+      0.019184237078618653,
+      0.01695029508994425,
+      0.016719491297587576,
+      0.019179462020048433,
+      0.01823879403294843,
+      0.01676250181259248,
+      0.01583395924970256,
+      0.014674076824025164,
+      0.010510181335576681,
+      0.008045063443698205,
+      0.007051539765727964,
+      0.0085868018583337,
+      0.008912068283599408,
+      0.006102848836898902,
+      0.005698512425583846,
+      0.008609531600569414,
+      0.009175758469496835,
+      0.009561137824140168,
+      0.007101567835586348,
+      0.005998828805242647,
+      0.004417758727759309,
+      0.005436580583043722,
+      0.008011347033143643,
+      0.020707139420569343,
+      0.01687385583113872,
+      0.01477770450626821,
+      0.02359166799225675,
+      0.016402041581547726,
+      0.013105009546547782,
+      0.020406455699076648,
+      0.01888756874151256,
+      0.01378824559955705,
+      0.017867813431627022,
+      0.015058811141098048,
+      0.008488423834276553,
+      0.010765957843611049,
+      0.008991622116989093,
+      0.003872155756529897,
+      0.007273520984300927,
+      0.009442008508465112,
+      0.006370458165765441,
+      0.004424552427497935,
+      0.007265772129542886,
+      0.007476007814516404,
+      0.003958284513747266,
+      0.01562550853157097,
+      0.02282447185999616,
+      0.021160147025791366,
+      0.015287420758849693,
+      0.020700867501058463,
+      0.01787855244669086,
+      0.01861445470062565,
+      0.019944739255786343,
+      0.014151544869244963,
+      0.00812388716525339,
+      0.014126238848358317,
+      0.01931108924532286,
+      0.01024409085503227,
+      0.016648928351267845,
+      0.013748541416868336,
+      0.012860709707147535,
+      0.025290788482228866,
+      0.01967290009749334,
+      0.027306271187295044,
+      0.022611231609833804,
+      0.02652969250283084,
+      0.02284950075060109,
+      0.024344936250621788,
+      0.015040179548472199,
+      0.012796406458562988,
+      0.008708818963675905,
+      0.0141552853174145,
+      0.009406615895064032,
+      0.007701821022322805,
+      0.0072996139800169235,
+      0.0064276175803668215,
+      0.005079887153848815,
+      0.009104535422876483,
+      0.010428343718976172,
+      0.009129924831086524,
+      0.02010682818254831,
+      0.012172180995387166,
+      0.0161295162140821,
+      0.01685552787341423,
+      0.01686296768927217,
+      0.015732041229002448,
+      0.012043694636074787,
+      0.011870991272691539,
+      0.008358799177513523,
+      0.00912715343614782,
+      0.008455023963306866,
+      0.010746765073736946,
+      0.00659931936629933,
+      0.007334382981878195,
+      0.010567383171854853,
+      0.0073250783707304494,
+      0.011052647227408641,
+      0.01314026929835007,
+      0.00955587196893294,
+      0.007492781722937159,
+      0.009730890424521545,
+      0.016722141530681123,
+      0.009785879311017405,
+      0.016748130965400405,
+      0.01658853626011526,
+      0.018302231700692322,
+      0.015565490297793349,
+      0.017983752289979622,
+      0.015215990907455115,
+      0.019727157314048276,
+      0.015119970363484366,
+      0.0157628188794518,
+      0.01315219441232084,
+      0.012585419724142375,
+      0.012858415045138693,
+      0.010934159429711708,
+      0.011223715131924276,
+      0.012536767750062386,
+      0.011007154177971957,
+      0.010078633392486734,
+      0.008758039596716286,
+      0.006965498523070415,
+      0.006798252773553819,
+      0.006434297612976803,
+      0.010382948466659641,
+      0.007010494568023169,
+      0.0063802112254868855,
+      0.003705845685573151,
+      0.0028531288082686546,
+      0.0029295764084994076,
+      0.008110890301770379,
+      0.01114232131330555,
+      0.011166869002957935,
+      0.01704537289224679,
+
+files [('afftdn-mixture.f32', ['bytes', 'sha256']), ('afftdn-noise.f32', ['bytes', 'sha256']), ('afftdn-reference.f32', ['bytes', 'sha256']), ('mixture.f32', ['bytes', 'sha256']), ('noise.f32', ['bytes', 'sha256']), ('reference.f32', ['bytes', 'sha256']), ('rnnoise-mixture-raw.f32', ['bytes', 'sha256']), ('rnnoise-mixture.f32', ['bytes', 'sha256']), ('rnnoise-noise-raw.f32', ['bytes', 'sha256']), ('rnnoise-noise.f32', ['bytes', 'sha256']), ('rnnoise-reference-raw.f32', ['bytes', 'sha256']), ('rnnoise-reference.f32', ['bytes', 'sha256'])]
+12c-clean-reference/native-level {
+  "productionAdoption": false,
+  "speechQuality": "unverified; no listening; reference includes original ambience",
+  "sampleRate": 48000,
+  "frames": 281040,
+  "inputSnrDb": 9.999999999252445,
+  "recipe": "afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0",
+  "identity": {
+    "runnerSha256": "6acd5fd97ec458e1ca0509aa85009a815d89494be65011963704f572c1f72f95",
+    "processorSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+    "driverSha256": "9b6c83bb61a1a8b1ae945900187cb8c282f637fc103e0852be1d690ebab674a7",
+    "speechSha256": "4e25e22555cd16e90edb0a3b49fdcf1fe652b2a1250ab643634db33895c75b41",
+    "ffmpegSha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-i",
+        "/private/tmp/screenrec-clean-speech-preparation/1272-128104-0000.flac",
+        "-map",
+        "0:a:0",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "stdinSha256": null,
+      "stdoutSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=282240",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "stdinSha256": "2ec139e448a8a9045a7fcfb592fbee71ccaf21d44bef11bc01ea523757822493",
+      "stdoutSha256": "8f52d4838f9c48b7da1ce3612c1d85d20082e6871bd00ee9dcc55a70266c1b4e",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=282240",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "stdinSha256": "5efcbc8addc070daec33b6f6ada8861f43e8f11f29296dc04271936ee6f889e7",
+      "stdoutSha256": "51df3d0691ab92e79f92b5511718d37ae8a1af47ce2a0874f5efffde15bf5950",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/opt/homebrew/Cellar/ffmpeg/8.1.2_1/bin/ffmpeg",
+        "-nostdin",
+        "-v",
+        "error",
+        "-f",
+        "f32le",
+        "-ar",
+        "48000",
+        "-ac",
+        "1",
+        "-i",
+        "pipe:0",
+        "-af",
+        "apad=pad_len=1200,afftdn=nr=12:nf=-50:tn=0:tr=0:om=o:ad=0.5:fo=1:nl=min:bm=1.25:gs=0,atrim=start_sample=1200:end_sample=282240",
+        "-c:a",
+        "pcm_f32le",
+        "-f",
+        "f32le",
+        "pipe:1"
+      ],
+      "stdinSha256": "cb7e5b00c6ce749a83451d1afa358225e45b47ca2800c072e5dcfb901ff33e8a",
+      "stdoutSha256": "2638d59dcd38a38e71ccc1b7f431355fc78d57a0cc8af9d789792d69b69a7b9a",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/private/tmp/screenrec-rnnoise-api",
+        "/private/tmp/screenrec-denoise-clean-trial/reference.f32",
+        "/private/tmp/screenrec-denoise-clean-trial/rnnoise-reference-raw.f32",
+        "2"
+      ],
+      "stdinSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/private/tmp/screenrec-rnnoise-api",
+        "/private/tmp/screenrec-denoise-clean-trial/noise.f32",
+        "/private/tmp/screenrec-denoise-clean-trial/rnnoise-noise-raw.f32",
+        "2"
+      ],
+      "stdinSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/sandbox-exec",
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        "/private/tmp/screenrec-rnnoise-api",
+        "/private/tmp/screenrec-denoise-clean-trial/mixture.f32",
+        "/private/tmp/screenrec-denoise-clean-trial/rnnoise-mixture-raw.f32",
+        "2"
+      ],
+      "stdinSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": ""
+    }
+  ],
+  "methods": {
+    "afftdn": {
+      "mixtureErrorRms": 0.01904544166532997,
+      "mixtureErrorRelativeToInputNoiseDb": -0.22405119531763915,
+      "referenceOnlyErrorRms": 0.0006803059167932558,
+      "referenceOnlyErrorRelativeToReferenceDb": -39.16578720040001,
+      "noiseOnlyAttenuationDb": -0.2779301159796912,
+      "addedNoiseOutputSensitivityRms": 0.01904931856142012,
+      "sensitivityRelativeToInputNoiseDb": -0.22228327282682403,
+      "inputReferenceRms": 0.061800730440011296,
+      "outputs": {
+        "reference": {
+          "rms": 0.06176978050412437,
+          "peak": 0.4275272488594055,
+          "clipped": 0,
+          "frames": 281040
+        },
+        "noise": {
+          "rms": 0.01892766768528976,
+          "peak": 0.0354338176548481,
+          "clipped": 0,
+          "frames": 281040
+        },
+        "mixture": {
+          "rms": 0.06483361410326462,
+          "peak": 0.42366188764572144,
+          "clipped": 0,
+          "frames": 281040
+        }
+      },
+      "referenceGainDiagnostic": {
+        "correlation": 0.9999395064549081,
+        "bestFitOutputGain": 1.0004405291777185,
+        "gainCorrectedErrorDb": -39.17274104409998,
+        "appliedToOutputs": false
+      }
+    },
+    "rnnoise": {
+      "mixtureErrorRms": 0.013745877926902468,
+      "mixtureErrorRelativeToInputNoiseDb": -3.0564225091015027,
+      "referenceOnlyErrorRms": 0.011051628531028944,
+      "referenceOnlyErrorRelativeToReferenceDb": -14.951346584936914,
+      "noiseOnlyAttenuationDb": -45.85468987752783,
+      "addedNoiseOutputSensitivityRms": 0.009055597103738244,
+      "sensitivityRelativeToInputNoiseDb": -6.681530326050286,
+      "inputReferenceRms": 0.061800730440011296,
+      "outputs": {
+        "reference": {
+          "rms": 0.0606486303265488,
+          "peak": 0.40140390396118164,
+          "clipped": 0,
+          "frames": 281040
+        },
+        "noise": {
+          "rms": 9.959994860631903e-05,
+          "peak": 0.006182354409247637,
+          "clipped": 0,
+          "frames": 281040
+        },
+        "mixture": {
+          "rms": 0.05884417778294611,
+          "peak": 0.38990145921707153,
+          "clipped": 0,
+          "frames": 281040
+        }
+      },
+      "referenceGainDiagnostic": {
+        "correlation": 0.9838838074385252,
+        "bestFitOutputGain": 1.00257396812444,
+        "gainCorrectedErrorDb": -14.952213194576405,
+        "appliedToOutputs": false
+      }
+    }
+  },
+  "windows10ms": {
+    "reference": [
+      0.001005285875070589,
+      0.0007762711721478571,
+      0.001148010300608088,
+      0.000979533984483353,
+      0.0008285495935075152,
+      0.0007091728973923975,
+      0.0010363772072926377,
+      0.0010136959222064091,
+      0.0009068077648109032,
+      0.000665784222603267,
+      0.0008140714949842734,
+      0.0008078390898401457,
+      0.0005423470286718713,
+      0.0008696308992982853,
+      0.0005238527056351018,
+      0.0006647905093262062,
+      0.000742717849816413,
+      0.0005093890966901248,
+      0.0007619634314355859,
+      0.0005556800608348253,
+      0.000529310520426494,
+      0.0006080879643315767,
+      0.0004135087590415883,
+      0.0005254586690630315,
+      0.0004730543458299196,
+      0.00035391295393248726,
+      0.0007595663462084916,
+      0.000602178240730393,
+      0.000622867668113751,
+      0.00035925427887052106,
+      0.0005872214262886121,
+      0.0006428494362599664,
+      0.00043792722633468294,
+      0.0004354025498366797,
+      0.0004354103458309541,
+      0.0005223922836504788,
+      0.0006201886120207272,
+      0.00024763216770901157,
+      0.0007310824965149141,
+      0.0006041449718543093,
+      0.0005512063203743942,
+      0.0006598687645427378,
+      0.0005548605185075402,
+      0.0006149153609434626,
+      0.00037470265053169983,
+      0.00046637936239069216,
+      0.0006859370089699972,
+      0.00033602076998238305,
+      0.0006603689512472682,
+      0.00034387690480481436,
+      0.0004629545360847148,
+      0.0006480345259040596,
+      0.00044385835745947575,
+      0.0008976253992985057,
+      0.0023219937256662862,
+      0.004574915295531738,
+      0.03712505372048749,
+      0.04664481610444309,
+      0.0628556833730533,
+      0.0826929095023305,
+      0.07981818702434675,
+      0.09538183629198782,
+      0.08533883367097139,
+      0.07090338138566601,
+      0.06255775360706577,
+      0.06107164061219624,
+      0.021560831516339744,
+      0.004296523951626362,
+      0.002113563721599504,
+      0.0019221496454813172,
+      0.002064000586365682,
+      0.01414084488232746,
+      0.03617482309669168,
+      0.04869529992536781,
+      0.03238540545072062,
+      0.06717344102348784,
+      0.05440898222748099,
+      0.031760240035148046,
+      0.024934312988576773,
+      0.01848392148665355,
+      0.008089615223508352,
+      0.003936771117636532,
+      0.0024587031053266302,
+      0.012822561647214027,
+      0.034077628485447105,
+      0.08429838874727796,
+      0.05643412087023249,
+      0.021389732687462,
+      0.022913195386314002,
+      0.02327617428416212,
+      0.024607701129331146,
+      0.02365993604857714,
+      0.023040583417195313,
+      0.10692294733560284,
+      0.18821595870395805,
+      0.1882346097110874,
+      0.17067481333268733,
+      0.16347794351166886,
+      0.18993122305445242,
+      0.1845225133783501,
+      0.15579071682798404,
+      0.1474295748747842,
+      0.12872653220151495,
+      0.09975544487243101,
+      0.05683313788500672,
+      0.03751601438791149,
+      0.02308951346277527,
+      0.01469441409077062,
+      0.03964839160080864,
+      0.03935131347322365,
+      0.06234849064927525,
+      0.10775088239536754,
+      0.10929757780285343,
+      0.10757418602424866,
+      0.1335922100209222,
+      0.13018704121569868,
+      0.11553348356470979,
+      0.09187490215597886,
+      0.0880294393398941,
+      0.09074145728186546,
+      0.08384669951901563,
+      0.09694341848837093,
+      0.10318297588162118,
+      0.10392087624294032,
+      0.12036977925935304,
+      0.11605259971455366,
+      0.12761909853567116,
+      0.1128195852700438,
+      0.10280297277853154,
+      0.12379216635716567,
+      0.11101770824200019,
+      0.10443834564461181,
+      0.09790810850677745,
+      0.0946340915352969,
+      0.08261563789928526,
+      0.0709718377325616,
+      0.11385524138208644,
+      0.06261659342036749,
+      0.03998229114937848,
+      0.036349078040898916,
+      0.04502398666342371,
+      0.04397942409751395,
+      0.04524573718163495,
+      0.025038669336564717,
+      0.02793244439323324,
+      0.04094649397113653,
+      0.06051424667444315,
+      0.08699777922152162,
+      0.09691013269625459,
+      0.10082186942545447,
+      0.10072750075929043,
+      0.09710946887322759,
+      0.07607256684623454,
+      0.08480327142638178,
+      0.08853905450962503,
+      0.07862644686226694,
+      0.05167389291001235,
+      0.032018648036774885,
+      0.019016598946418,
+      0.011680028504738255,
+      0.008937831757550104,
+      0.001445974227528872,
+      0.0006080382458925175,
+      0.0008120084978192812,
+      0.000623061210844531,
+      0.001252720932355528,
+      0.03184344789082715,
+      0.01732994695537669,
+      0.0144667801035884,
+      0.02272520522674187,
+      0.026585856590775454,
+      0.021945243913044143,
+      0.0184918222967868,
+      0.013235888088839319,
+      0.01187715288327964,
+      0.06395769567267422,
+      0.07624006902116354,
+      0.08571663993854824,
+      0.0975245022571866,
+      0.1124252017863732,
+      0.11299790599570282,
+      0.12749647066453706,
+      0.11145081488738308,
+      0.05912059415009488,
+      0.027041263333021363,
+      0.05714824589244487,
+      0.06502126101383048,
+      0.10209416055453091,
+      0.12632280943760674,
+      0.07913103436135793,
+      0.06417877548701574,
+      0.10680433715900381,
+      0.05139117807966332,
+      0.026771900044833142,
+      0.0292278705960011,
+      0.010898739710416543,
+      0.007548259461195539,
+      0.030667886161017104,
+      0.05700992304085448,
+      0.06849715273648857,
+      0.07099402599344387,
+      0.07268543656867445,
+      0.06745900068226213,
+      0.0658478633778459,
+      0.06607050498585157,
+      0.06339285350309756,
+      0.06930326303691484,
+      0.07030355988703058,
+      0.07189969534822278,
+      0.06953852968514314,
+      0.055048076253821174,
+      0.043664119456453244,
+      0.04210408545719186,
+      0.044044156470242374,
+      0.049730867106689294,
+      0.05338660899920664,
+      0.059783292369497955,
+      0.05519331751454146,
+      0.05808268710771616,
+      0.0292579909442636,
+      0.015582685232493733,
+      0.010668105836586013,
+      0.0076909690438029315,
+      0.005329248929838029,
+      0.004181010318644132,
+      0.005669258364737892,
+      0.0038970267426895614,
+      0.004279089278142529,
+      0.012166769105264137,
+      0.011479321550649875,
+      0.011108424003747529,
+      0.02578183071983963,
+      0.04685330560558219,
+      0.04346384415540243,
+      0.03876811189027622,
+      0.04569311126642524,
+      0.06477966467472684,
+      0.056931534914664864,
+      0.04913425308707586,
+      0.04888270738600579,
+      0.05157722254834759,
+
+files [('afftdn-mixture.f32', ['bytes', 'sha256']), ('afftdn-noise.f32', ['bytes', 'sha256']), ('afftdn-reference.f32', ['bytes', 'sha256']), ('mixture.f32', ['bytes', 'sha256']), ('noise.f32', ['bytes', 'sha256']), ('reference.f32', ['bytes', 'sha256']), ('rnnoise-mixture-raw.f32', ['bytes', 'sha256']), ('rnnoise-mixture.f32', ['bytes', 'sha256']), ('rnnoise-noise-raw.f32', ['bytes', 'sha256']), ('rnnoise-noise.f32', ['bytes', 'sha256']), ('rnnoise-reference-raw.f32', ['bytes', 'sha256']), ('rnnoise-reference.f32', ['bytes', 'sha256'])]
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from pathlib import Path
+import json,gzip,hashlib,struct,math
+base=Path('specs/agent-editing/assets'); packet=base/'12c-protected-speech'; m=json.loads((packet/'manifest.json').read_text()); sha=lambda b:hashlib.sha256(b).hexdigest()
+issues=[]
+def check(ok,label):
+ if not ok: issues.append(label)
+check(m['generatorSha256']==sha((packet/'assemble.py').read_bytes()),'generator hash')
+check((m['sampleRate'],m['channels'],m['gain'],m['labelsConfirmed'])==(48000,1,1,False),'global metadata')
+check({p.name for p in packet.glob('*.wav')}=={e['file'] for e in m['files']},'WAV inventory')
+for e in m['files']:
+ name=e['file']; w=(packet/name).read_bytes(); container=(base/e['source']).read_bytes(); pcm=gzip.decompress(container); rc=(base/e['report']).read_bytes(); r=json.loads(gzip.decompress(rc)); sourceName=Path(e['source']).name[:-3]
+ for label,a,b in [('wav hash',sha(w),e['sha256']),('gzip hash',sha(container),e['sourceContainerSha256']),('source PCM hash',sha(pcm),e['sourcePcmSha256']),('report hash',sha(rc),e['reportSha256']),('report PCM identity',sha(pcm),r['files'][sourceName]['sha256']),('report bytes',len(pcm),r['files'][sourceName]['bytes']),('report frames',len(pcm)//4,r['frames'])]: check(a==b,name+' '+label)
+ h=struct.unpack('<4sI4s4sIHHIIHH4sI',w[:44]);check(h==(b'RIFF',len(w)-8,b'WAVE',b'fmt ',16,3,1,48000,192000,4,32,b'data',len(w)-44),name+' header')
+ start,end=e['sourceSampleRange'].values(); expected=(0,r['frames']) if '-whole.' in name else ((0,72000) if '-start-candidate.' in name else ((r['frames']-72000,r['frames']) if '-end-candidate.' in name else (100002,124002)))
+ check((start,end)==expected,name+' intended interval');check(0<=start<end<=r['frames'],name+' bounds');check(w[44:]==pcm[start*4:end*4],name+' exact unity slice');check(e['frames']==end-start==len(w[44:])//4,name+' frames');check(e['pcmSha256']==sha(w[44:]),name+' slice hash');check(e['unityGainPcmSliceExact'] is True,name+' slice assertion')
+ vals=[x[0] for x in struct.iter_unpack('<f',w[44:])];check(all(map(math.isfinite,vals)),name+' finite');check(e['peak']==max(map(abs,vals)),name+' peak');check(e['rms']==math.sqrt(sum(x*x for x in vals)/len(vals)),name+' rms');check(e['clippedSamples']==sum(abs(x)>=1 for x in vals),name+' clipping')
+ learned=sourceName.startswith('rnnoise');check(e['alreadyCompensatedByFrames']==(960 if learned else 0),name+' compensation metadata')
+ if learned:
+  rawName=sourceName.replace('.f32','-raw.f32');raw=gzip.decompress((base/e['source']).with_name(rawName+'.gz').read_bytes());check(sha(raw)==r['files'][rawName]['sha256'],name+' raw identity');check(pcm==raw[960*4:(960+r['frames'])*4],name+' exact compensation')
+ print(name, 'frames',end-start,'interval',start,end)
+print('ISSUES',issues)
+PY
+cat specs/agent-editing/assets/18-voice/manifest.json | head -80
+rg -n '112002|100002|124002|71.5|76.5' specs/agent-editing/assets/{12c-prepared-output,18-voice} --glob '*.json' --glob '*.md'" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+2026-09-29T02:59:23.879473Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0eb19-6021-75f1-8468-911af4023527 turn_id=01a0eb19-60ed-7b70-9ce2-47ce6c810079 item_id="exec-9c6f4c31-0adb-43d8-89c4-6a3e9eac08ef"
+ succeeded in 1190ms:
+original-reference-whole.wav frames 240000 interval 0 240000
+original-mixture-whole.wav frames 240000 interval 0 240000
+original-mixture-split-context.wav frames 24000 interval 100002 124002
+original-rnnoise-reference-whole.wav frames 240000 interval 0 240000
+original-rnnoise-mixture-whole.wav frames 240000 interval 0 240000
+original-rnnoise-mixture-split-context.wav frames 24000 interval 100002 124002
+clean-reference-whole.wav frames 281040 interval 0 281040
+clean-reference-start-candidate.wav frames 72000 interval 0 72000
+clean-reference-end-candidate.wav frames 72000 interval 209040 281040
+clean-mixture-whole.wav frames 281040 interval 0 281040
+clean-mixture-start-candidate.wav frames 72000 interval 0 72000
+clean-mixture-end-candidate.wav frames 72000 interval 209040 281040
+clean-rnnoise-reference-whole.wav frames 281040 interval 0 281040
+clean-rnnoise-reference-start-candidate.wav frames 72000 interval 0 72000
+clean-rnnoise-reference-end-candidate.wav frames 72000 interval 209040 281040
+clean-rnnoise-mixture-whole.wav frames 281040 interval 0 281040
+clean-rnnoise-mixture-start-candidate.wav frames 72000 interval 0 72000
+clean-rnnoise-mixture-end-candidate.wav frames 72000 interval 209040 281040
+ISSUES []
+{
+  "config": {
+    "runtimeCommit": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+    "model": "mlx-community/Qwen3-TTS-12Hz-0.6B-Base-bf16",
+    "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+    "source": "fixtures/narrated-workbench/narration.mov",
+    "sourceOriginUs": 48675,
+    "reference": {
+      "sourceRange": {
+        "startUs": 1000000,
+        "endUs": 6000000
+      },
+      "text": "Okay, so this is the recorder workbench.",
+      "textAuthority": "inherited ASR, not independently auditioned",
+      "evidence": "specs/recording-for-ai/assets/speech/boundaries/transcript.json"
+    },
+    "origins": [
+      "same-take",
+      "external-file",
+      "past-project"
+    ],
+    "replacements": [
+      {
+        "id": "word",
+        "text": "paid",
+        "range": {
+          "startUs": 74128675,
+          "endUs": 74528675
+        },
+        "boundaryAuthority": "ASR-only; word boundary remains unverified"
+      },
+      {
+        "id": "phrase",
+        "text": "This is available at no cost.",
+        "range": {
+          "startUs": 73808675,
+          "endUs": 74768675
+        },
+        "boundaryAuthority": "historically auditioned phrase-removal range; new generation splice unverified"
+      }
+    ],
+    "generation": {
+      "temperature": 0.9,
+      "top_k": 50,
+      "top_p": 1.0,
+      "repetition_penalty": 1.05,
+      "max_tokens": 256,
+      "lang_code": "english",
+      "stream": false
+    },
+    "seed": 18,
+    "contextRange": {
+      "startUs": 71500000,
+      "endUs": 76500000
+    },
+    "splice": "direct concatenation, original duration removed; no trim, stretch, loudness adjustment or crossfade"
+  },
+  "sourceSha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+  "requestSha256": "58c164ae5cf079139f7ce653ec76fdbd540ab60c08910c2db5d2ea54eace4116",
+  "runnerSha256": "f5ab0381645fa9e7f2a2e3ad71aaa6bd6c4607fea1a68528fce4534df1b249bd",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]",
+  "device": {
+    "device_name": "Apple M5 Pro",
+    "max_recommended_working_set_size": 40200896512,
+    "memory_size": 51539607552,
+    "architecture": "applegpu_g17s",
+    "max_buffer_length": 30150672384,
+    "resource_limit": 499000
+  },
+  "dependencies": {
+    "shellingham": "1.5.4",
+    "numpy": "2.5.3",
+    "click": "8.5.0",
+    "packaging": "26.3",
+    "mlx": "0.32.2",
+    "Pygments": "2.21.0",
+    "sounddevice": "0.5.6",
+    "hf-xet": "1.6.0",
+    "rich": "15.0.0",
+specs/agent-editing/assets/18-voice/manifest.json:118:    "speech_tokenizer/configuration.json": "6bc26d64eb5024b4d1dab5a52371958b429256d6c9d59787f1f5294a54e0cebd",
+specs/agent-editing/assets/18-voice/manifest.json:119:    "speech_tokenizer/model.safetensors": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258",
+specs/agent-editing/assets/18-voice/manifest.json:267:  "preparationAndImportSeconds": 15.518377125030383,
+specs/agent-editing/assets/12c-prepared-output/plan.json:8:    "pure split at 2333375 us (112002 frames, not an RNNoise frame boundary)",
+
+exec
+/bin/zsh -lc "cat specs/agent-editing/assets/14a-public-preparation/README.md specs/agent-editing/assets/14a-prepared-portable/README.md; rg -n 'Status:|spectrogram|waveform' specs/agent-editing/slices/11*; rg -n 'rnnoise|RNNoise|unavailable|pointer|geometry|opacity' packages/composition/src/schema.ts packages/core/src/*prepared*; git status --short" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+# Public retained audio preparation
+
+`audio.prepare` admits a full processed output for an explicit project revision
+through the existing PreparedAudioStore and JobQueue. The result is an immutable
+lossless audio asset, so existing asset, audio and acoustic inspection consume it
+without a new delivery path. Preparation does not alter a document or current head.
+
+The shared public schema requires a revision. Repeated calls reuse the same
+compiled recipe; failed/canceled work needs explicit job retry. Missing execution
+support refuses before admission. This checkpoint exposes verified unit-rate/gain
+preparation, not accepted noise reduction, stretch or speech quality.
+
+The public native journey exercises CLI/MCP equivalence, published asset inspection,
+waveforms, exact PCM, cancellation after a real native reply, explicit retry,
+unchanged revisions, historical/restart reads and unresolved retiming refusal.
+The [owner and portable proofs](../14a-prepared-portable/README.md) retain their
+fencing, bounded-read and relocation scope. The [fresh public skill trial](skill-review.md) independently prepares a chosen
+half-gain mix, verifies every delivered sample and all1022 waveform buckets,
+and confirms receipt/revision reuse without implementation discovery. It uses
+CLI; the separate native journey covers MCP too. Its help-size friction is
+nonblocking and retained; no listening is inferred.
+
+The service regression fails before registration and passes afterward. All37
+focused protocol, preparation-owner and service tests pass. Independent read-only
+review found no actionable defect. Early harness errors (incorrect new-step ID,
+retime request shape and counting cleanup calls as renderer attempts) are retained
+as harness failures; they are not product regressions or accepted negative controls.
+
+The final native report compares all48000 frames of both original and gained
+output and a12000-frame historical excerpt after restart. All comparisons are
+exact. Tests, build, types and lint pass; full worker identity is in the report.
+The fresh trial's externally owned scratch service was stopped after completion.
+Actual model-dependent DSP and full scale acceptance remain open in14a.
+# Portable prepared PCM
+
+Prepared unit-rate and constant-gain output moves through the public package
+operations without losing its original recipe, implementation identity or exact
+PCM. The [native receipt](report.json.gz) records the worker digest and independent
+sample oracles. The [harness](../../../../packages/test-harness/editing/prepared-package.mjs)
+seeds the existing core owner explicitly: this is not a public preparation command,
+RNNoise/stretch adoption or a speech-quality claim.
+
+After donor/archive removal and receiver restart, current and historical receipts
+read their exact samples with the original executor unavailable. A late read reads
+only its selected PCM interval, and public asset-audio inspection also delivers
+exact requested samples. The copied file receives a receiver-local identity after AssetStore
+staging links close. Byte identity, recipe provenance and local filesystem identity
+remain separate authorities.
+
+The package resource follows the existing asset/reference graph. Staged validation
+compares the retained recipe's composition meaning with its immutable revision,
+without substituting current implementation identities. Asset publication, adopted
+revision references and queue receipts share one transaction. An adopted ready
+receipt does not create a replacement job. Unknown recipes, unresolved execution
+requirements, missing upstream references and invalid PCM are refused.
+
+The public journey verifies canceled adoption stays invisible and the same request
+can retry. Core negative controls fail when the cancellation fence or exact-ready
+read guard is removed. Missing and replaced retained PCM remains a read error.
+The first corruption-control attempt hit the immutable asset's write permission;
+the corrected control replaces the file and confirms the owner refuses it.
+
+Whole-project recipes use the enclosing package manifest budget. The retained
+many-clip regression shows why applying the small publication-input budget would
+reject an otherwise valid short project; no graph is truncated to fit it.
+
+The [preservation receipt](preservation-report.json.gz) keeps every existing package
+check, including source/project indexes, real transcripts with models absent,
+acquisition journals, current/history media, undo, replay and corrupt members.
+Independent review found no actionable defect. Its service test could not bind a
+socket in its sandbox; the normal service run passes and is recorded separately.
+
+Public preparation/processing consumers, actual 15a output, full scale acceptance,
+non-current package export and caption/font dependencies remain their own gates.
+
+Final focused checks pass 80 core tests and 11 service tests; core types and the
+CLI/service build pass. One earlier core run timed out in the unchanged queue
+history test at its existing five-second deadline. The same test passes from the
+baseline checkout, and the complete focused rerun passes without deadline changes;
+both the timeout and subsequent results are retained here.
+
+Combined-root confirmation builds the shared packages and passes 104 focused
+core/service tests. The [root native journey](root-report.json.gz) repeats every
+prepared relocation check with the combined font/output-settings worker. This
+confirms integration; it does not broaden the DSP or public-preparation scope.
+
+The root text-aware combined worker also passes every prepared relocation check;
+[root confirmation](root-text-combined-report.gz) preserves exact current/history
+PCM after the manifest/font dependency changes.
+specs/agent-editing/slices/11a-audio-delivery.md:3:Status: verified for the admitted source formats and current constant-gain project execution. Actual source and multi-source project WAV journeys, processing taps, shared capacity checks and combined-runtime preservation pass. Dependencies: [08](./08-audio-mixing.md), [09](./09-first-preview.md), [10b](./10b-source-acquisition.md).
+specs/agent-editing/slices/11-audio-inspection.md:1:# 11 — Audio, waveforms and spectrograms
+specs/agent-editing/slices/11-audio-inspection.md:3:[Source/project rate-axis evidence](../assets/08-11-rate-conformance/README.md) covers public 44.1k source and 48k project PCM/buckets/images, with scoped fresh visual review; it does not establish listening or low-amplitude waveform readability.
+specs/agent-editing/slices/11-audio-inspection.md:5:Status: cached waveform JSON jobs and [actual public CLI/MCP delivery](../assets/11-waveform-public/README.md) are verified. [Public acoustic images and spectral lifecycle](../assets/11-acoustic-lifecycle/README.md) are verified; [fresh image-based skill use](../assets/11-acoustic-skill/README.md) also passes; future retimed conformance remains. Actual PCM/WAV delivery is owned by [11a](./11a-audio-delivery.md). Transcript/events from [10](./10-project-evidence.md) are optional contextual evidence, not a dependency of PCM-only acoustic analysis.
+specs/agent-editing/slices/11-audio-inspection.md:15:The shared PCM/WAV owner from 11a feeds waveform buckets/images and bounded spectrogram images. There is no legacy production acoustic artifact owner to adapt: reuse the existing job queue, derived cache and media delivery owners. Source reads use asset/stream IDs; project reads reuse the exact audio compiler/mixer. Acoustic reducers consume a retained validated PCM file, never decode sources or invent a project.
+specs/agent-editing/slices/11-audio-inspection.md:17:The [core waveform reducer](../../../packages/core/src/audio-wave.ts) owns sample-domain reduction and shares WAV validation with audio publication. Its absolute bucket grid is independent of the selected range and byte header. Edge buckets explicitly report their clipped sample support; channels remain separate. Bucket count is bounded before reading sample data, and sample blocks yield for cancellation while the caller retains the cache lease.
+specs/agent-editing/slices/11-audio-inspection.md:21:1. Add timestamped waveform images derived from the same pinned waveform evidence. Verify absolute axes, partial edge bins and range/full agreement through the visual acceptance below.
+specs/agent-editing/slices/11-audio-inspection.md:24:The [cached waveform owner](../../../packages/core/src/acoustic-inspection.ts) uses the audio owner's canonical recipe and existing jobs/cache. A surviving waveform needs retained audio provenance, not resident PCM bytes. Rebuilding missing waveform data holds a PCM lease during reduction, then permits PCM eviction before waveform publication. Audio-generation changes fence publication; an explicit waveform retry retries its single audio prerequisite, while ordinary reads preserve terminal failures. JSON has an independent byte ceiling and preserves unavailable-support metadata rather than pretending missing capture context is silence. [Lifecycle evidence](../assets/11-waveform-jobs/README.md) covers the core boundary; it does not replace public delivery acceptance.
+specs/agent-editing/slices/11-audio-inspection.md:28:The [first core pass evidence](../assets/11-waveform-core/README.md) verifies an independent mechanism, not public waveform acceptance. The larger retained-file test uses a sparse WAV to prove positioned I/O; actual native project-tap WAVs separately prove reducer integration. No listening claim follows from either.
+specs/agent-editing/slices/11-audio-inspection.md:32:Provide raw-source and processed-target dry/after-step taps through the same execution plan. Compare bounded waveform/spectrogram and audio results against full output, including nested group treatment and bypass.
+specs/agent-editing/slices/11-audio-inspection.md:56:A full-track waveform PNG that hides short phonemes is not sufficient. Add selectable resolution/windowing within the same contract; don't return enormous JSON sample arrays or let raw file paths stand in for actual media delivery.
+specs/agent-editing/slices/11-audio-inspection.md:58:Delegated: Bucket pyramid and spectrogram implementation after axis/energy conformance. The agent chooses references and cuts.
+specs/agent-editing/slices/11-audio-inspection.md:65:[Blind skill use](../assets/11-waveform-skill/README.md) verifies that a fresh agent
+specs/agent-editing/slices/11-audio-inspection.md:68:spectrogram use and listening remain separate open gates.
+specs/agent-editing/slices/11-audio-inspection.md:75:[Actual public acoustic evidence](../assets/11-public-acoustic-images/README.md) verifies CLI/MCP waveform and spectrogram PNG delivery, independent source/project measurements and pixels, all nested processing taps, outside-view missing FFT context, cancellation/retry, history, restart and temporary sidecar cleanup. Speech/listening and fresh-agent product-use acceptance remain separate.
+packages/core/src/prepared-audio.ts:253:      throw new CatalogError("NOT_FOUND", "Prepared audio publication is unavailable");
+packages/composition/src/schema.ts:1:import { pointerSchema } from "./pointer.js";
+packages/composition/src/schema.ts:2:import { geometrySchemaWithScalars } from "./geometry.js";
+packages/composition/src/schema.ts:221:  pointer: {
+packages/composition/src/schema.ts:222:    schema: pointerSchema,
+packages/composition/src/schema.ts:228:  geometry: {
+packages/composition/src/schema.ts:229:    schema: geometrySchemaWithScalars({
+packages/composition/src/schema.ts:256:  opacity: {
+packages/composition/src/schema.ts:259:        type: z.literal("opacity"),
+packages/composition/src/schema.ts:260:        opacity: z.union([
+packages/composition/src/schema.ts:269:    units: { opacity: "linear alpha multiplier" },
+packages/composition/src/schema.ts:305:      processorRegistry.pointer.schema,
+packages/composition/src/schema.ts:307:      processorRegistry.geometry.schema,
+packages/composition/src/schema.ts:308:      processorRegistry.opacity.schema,
+packages/core/src/prepared-audio.test.ts:120:            unavailable: [...window.audio()]
+packages/core/src/prepared-audio.test.ts:345:  expect(() => f.current.prepared.open(value.resourceId)).toThrow("unavailable");
+packages/core/src/prepared-audio.test.ts:350:  expect(value.unavailable).toEqual([
+ M specs/agent-editing/assets/12c-prepared-output/README.md
+ M specs/agent-editing/slices/12c-noise-reproduction.md
+ M specs/agent-editing/slices/15a-noise-processing.md
+?? specs/agent-editing/assets/12c-protected-speech/
+
+2026-09-29T02:59:31.484398Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0eb19-6021-75f1-8468-911af4023527 turn_id=01a0eb19-60ed-7b70-9ce2-47ce6c810079 item_id="exec-559a2fd9-28d1-4fb3-8c19-feda82ec7158"
+codex
+Clean within the requested scope: all 18 WAVs match retained source PCM at the declared intervals and unity gain; hashes, headers, levels and existing 960-sample compensation agree. Labels remain unconfirmed, transcripts are correctly scoped, and handoffs distinguish verified 14a infrastructure from unavailable RNNoise integration. No playback, DSP/inference, builds, tests or edits were performed; no listening-quality judgment is implied.
+Clean within the requested scope: all 18 WAVs match retained source PCM at the declared intervals and unity gain; hashes, headers, levels and existing 960-sample compensation agree. Labels remain unconfirmed, transcripts are correctly scoped, and handoffs distinguish verified 14a infrastructure from unavailable RNNoise integration. No playback, DSP/inference, builds, tests or edits were performed; no listening-quality judgment is implied.

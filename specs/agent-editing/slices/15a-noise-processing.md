@@ -7,7 +7,11 @@ Status: not started. Dependencies: [03c](./03c-processing-stacks.md), [08](./08-
 Optional noise reduction is an ordinary typed, reorderable, bypassable processor
 using the same revision, preparation, inspection, preview and export paths.
 
-Shared preparation prerequisite: [14a](./14a-prepared-audio.md).
+Shared preparation owner: [14a](./14a-prepared-audio.md) already verifies durable
+publication, public preparation and portable unit-rate/gain assets. Reuse that
+owner; model-dependent RNNoise execution and consumers remain this slice’s work.
+The [protected-speech packet](../assets/12c-protected-speech/README.md) is a
+listening/annotation handoff, not acceptance or processor readiness.
 
 ## Seam and ownership
 
@@ -22,7 +26,7 @@ Add only the verified variant and supported parameter/target/channel contracts.
 Retain model-dependent outputs and provenance; handle explicit model preparation,
 missing dependencies, cancel/retry/restart and publication fencing. Implement dry
 and after-instance inspection taps through the same plan, including waveform and
-spectrogram consumers when 11 lands. Keep raw source reads unchanged.
+spectrogram consumers already supplied by 11. Keep raw source reads unchanged.
 
 Create this planned probe:
 
