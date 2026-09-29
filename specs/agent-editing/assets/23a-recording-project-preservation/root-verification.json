@@ -1,0 +1,96 @@
+{
+  "integrationCommit": "0919256c",
+  "archive": {
+    "archiveSha256": "a409ddc78be5fe6df04b57873eb7ec59edbca9a69ec7e979344d9cb3e5b2eb0e",
+    "compressedBytes": 154995432,
+    "parts": 3,
+    "membersVerified": 575,
+    "logicalBytes": 352437354,
+    "scope": "Streamed every archived file and backward hardlink; all declared hashes and sizes match"
+  },
+  "syntaxChecks": [
+    "cutover.mjs",
+    "cutover-presentation.mjs"
+  ],
+  "savedVerification": {
+    "passed": true,
+    "reportSha256": "2c4cd413a2c876312a4f3d4931fd92fa9b0703e85b04ba75a5d3e9c77d373b00",
+    "scope": "Saved-only verification on integrated root; complete pages already retained, no service/native capture/render/inference startup. FFmpeg decodes saved media.",
+    "sourceAudio": {
+      "frames": 6433227,
+      "sourceFrames": 6430720,
+      "offsetFrames": 2336,
+      "sha256": "ae0c6d300a5f4aa7468cd3e7e084f25d017dd7726f8ff6b7a7bb5e6a4bbf043d",
+      "completeExact": true,
+      "oneFrameMutationRejected": true
+    },
+    "words": 306,
+    "rawTokenTimingsExact": true,
+    "currentWordProjectionExact": true,
+    "exportAudio": [
+      {
+        "side": "legacy",
+        "decodedFrames": 6433728,
+        "presentationFrames": 6433228,
+        "paddingFrames": 500,
+        "rms": 0.0003281616571696508,
+        "silenceRms": 0.012411062437286353,
+        "halfGainRms": 0.006205531218643177,
+        "policy": "Existing first-preview recovered audio RMS < 0.002; here measured across complete presentation support, without shifting"
+      },
+      {
+        "side": "project",
+        "decodedFrames": 6433728,
+        "presentationFrames": 6433227,
+        "paddingFrames": 501,
+        "rms": 0.00011894637702925911,
+        "silenceRms": 0.01241106340189067,
+        "halfGainRms": 0.006205531700945335,
+        "policy": "Existing first-preview recovered audio RMS < 0.002; here measured across complete presentation support, without shifting"
+      }
+    ]
+  },
+  "independentMedia": {
+    "matchedSourceImages": [
+      {
+        "atUs": 1000000,
+        "rgbaSha256": "ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49"
+      },
+      {
+        "atUs": 67000000,
+        "rgbaSha256": "772875696182cc6bb9e731c79761a8a9c7c86066b4c78be0e6ff6281a3252c02"
+      },
+      {
+        "atUs": 134000000,
+        "rgbaSha256": "d9086f6fee752a7d2bd24c0f411028138a19b2a748973dee2196ba9c617e040b"
+      }
+    ],
+    "pointerAndCleanCompleteDecodedAudioExact": true,
+    "completeDecodedAudio": {
+      "bytes": 51469824,
+      "pcmSha256": "d420314275c5577636c1509401c1852f110416aefb11ed8e6c92607bc01337d4"
+    },
+    "scope": "Independent root FFmpeg decode of retained PNGs and both full exported audio streams; no native/service/capture/inference run"
+  },
+  "visualReview": {
+    "completeFullImages": 39,
+    "completeDetailCrops": 156,
+    "unprimedReport": "visual-review.md",
+    "mainInspection": "Matched-source and public-decoded pointer export examples inspected; source landmarks and cursor remain readable.",
+    "scope": "Sampled content/geometry/readability; no universal color, playback or timing identity claim"
+  },
+  "optionalPreview": {
+    "openedUtc": "2026-09-29 22:51:15 UTC",
+    "closedUtc": "2026-09-29 22:56:33 UTC",
+    "userFeedbackReceived": false,
+    "decision": "Proceed on recorded source/media gates and independent visual review; no human acceptance inferred"
+  },
+  "productionChanges": false,
+  "maintenance": {
+    "changedMarkdownLinks": 226,
+    "explicitDependencySentenceSlices": 110,
+    "explicitDependencySentenceEdges": 218,
+    "cycles": 0,
+    "scope": "First explicit Dependencies sentence; prose-only/overview relationships excluded"
+  }
+}

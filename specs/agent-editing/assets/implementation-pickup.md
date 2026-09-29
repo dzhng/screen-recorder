@@ -83,6 +83,12 @@ Historical workers and measurements retain their own identities below.
   bounded revision availability rather than hydrate documents. [Evidence](24w-waveform-duration-memory/README.md)
   retains the original latency red, profiles and six-cohort rerun; no model cache
   or general host-contention immunity is claimed.
+- **Retained recording23a:** [the integrated checkpoint](23a-recording-project-preservation/README.md)
+  verifies full source PCM, word projection, exports and explicit pointer presentation
+  using the real installed-format baseline in an isolated selected-row copy. Root
+  rehashed all575 archive members and reran saved-output gates. Legacy timing,
+  outer transcript gaps and color-route differences remain explicit; full23 remains
+  open. Prepared-package-transfer is released with its saved homes retained.
 - **Selected-device preparation20e:** [the scoped probe](../slices/20e-selected-device-probe.md)
   is now being implemented in capture-pause-recovery. Its physical input stop,
   camera media closure and audio publication share existing termination ordering;

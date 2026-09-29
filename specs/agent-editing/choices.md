@@ -3816,3 +3816,22 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   without presenting untested capacity as supported.
 - **Confidence:** medium; capacity is host/profile specific and may be widened by
   new evidence, while voice quality remains an independent acceptance gate.
+
+## Read the real recording baseline in an isolated selected-recording copy
+
+- **When:** retained-recording preservation23a.
+- **Choice:** when the new service cannot open an old-format library, the comparison
+  runs the genuine installed service against a backup taken read-only from the
+  original library and projected to the
+  selected recording's existing rows. Original export intents are excluded so old
+  absolute destinations cannot resume; writes are confined to the copied home.
+  The original library remains intact. This avoids inventing an old recording's
+  history or adding migration code merely to produce a test baseline.
+- **Gap:** the plan required matched public old/new behavior but did not choose how
+  to access a genuine old catalog after the development format had changed.
+- **Reach:** this is a preservation fixture strategy, not a supported migration or
+  second production engine. Clock, source selection, explicit cursor processing
+  and encoding policies remain their already-recorded contracts.
+- **Verdict:** sound; actual source/history provenance survives without resuming
+  unrelated work or changing the installed app.
+- **Confidence:** high.

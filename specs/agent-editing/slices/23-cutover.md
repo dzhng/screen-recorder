@@ -1,6 +1,6 @@
 # 23 — Cut over all consumers and remove old owners
 
-Status: scoped preparatory preservation verified in [23a](23a-recording-project-preservation.md); installed switching and owner deletion have not started. Final cutover dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
+Status: scoped preparatory preservation verified in [23a](23a-recording-project-preservation.md); installed switching and owner deletion have not started. Dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 
 ## Contract
 

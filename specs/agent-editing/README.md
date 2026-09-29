@@ -17,35 +17,24 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations; the installed app has not switched engines.
 
-Current pickup: build matched-input preservation evidence for [cutover23](slices/23-cutover.md),
-starting with one retained recording through the old recording service and isolated
-project service. Keep both homes isolated and the original library untouched;
-this preparatory work does not switch the installed app or enable gated processors.
-In parallel, implement the [selected-device probe](slices/20e-selected-device-probe.md)
-and its offline activation/lifecycle checks. Its live execution and physical
-clock acceptance remain separate; unavailable live capture does not block building
-the probe needed to request a concrete take.
-[Waveform duration memory](slices/24w-waveform-duration-memory.md) now passes after
-bounded ownership checks removed redundant document loads; the original red remains retained.
-The [exact voice runtime](assets/19d-runtime-recovery/README.md) is restored in
-durable storage and passes public preparation/restart under unchanged identities.
-[Deep/wide learned routing](slices/24v-learned-routing-scale.md) is verified for
-its short cohort, using the original run and its saved-publication continuation. Public durable
-[voice generation](slices/19f-public-voice-jobs.md), measured controls and retained
-excerpts are integrated, including model-free generated/reference package transfer.
-Earlier failures remain evidence, not missing final gates. Keep parent
-[18](slices/18-voice-reproduction.md)/[19](slices/19-voice-assets.md) pronunciation,
-identity, contextual replacement, room tone and listening acceptance open.
+Current pickup: implement the [selected-device probe](slices/20e-selected-device-probe.md)
+with offline request, clock-ingress and media-closure tests. The probe must be
+reviewable before requesting a concrete live take; physical execution and
+clock acceptance remain separate. Its shared lifecycle keeps camera evidence
+outside production capture tracks and preserves canonical microphone publication.
 
-Remaining branches include the [audio-domain gaps](assets/acceptance-maintenance/audio-domain.md)
-and speech/physical acceptance below. Combined document/history transfer
-is verified in [24u](slices/24u-package-history-scale.md). Low/high rate cohorts are banked;
-negative occupied-origin conformance remains unverified after zero-origin candidates.
-Advance speech/denoise and stretch
-evidence toward12b/14/15a, then16. Physical20→21 remains a required branch. These
-converge at23 installed cutover, final24 scale and25 autonomous full workflow.
-Generic22 and generated-voice portability are verified. Do not repeat completed
-two-hour DSP or transfer experiments.
+[Retained-recording preservation](slices/23a-recording-project-preservation.md)
+is verified through full source PCM, all transcript words, full exports and an
+explicit cursor processor. Original/new timing and evidence-representation
+differences remain documented. This closes one preparatory checkpoint, not the
+remaining [23](slices/23-cutover.md) matrix, installed switch or old-owner removal.
+
+Remaining priorities are speech/denoise and stretch acceptance toward12b/14/15a,
+then16; measured physical20→21; final23 cutover, post-cutover24 scale and25 autonomous
+workflow. The [audio-domain limits](assets/acceptance-maintenance/audio-domain.md)
+remain explicit. Generic22, full-history transfer24u, scoped learned routing24v,
+waveform memory24w and public voice jobs19f are banked; do not repeat those passed
+cohorts. Parent18/19 pronunciation, identity, contextual joins and listening stay open.
 
 Use [implementation pickup](assets/implementation-pickup.md) for active worktrees,
 prepared runtime and frozen worker identities. The root worker remains frozen;

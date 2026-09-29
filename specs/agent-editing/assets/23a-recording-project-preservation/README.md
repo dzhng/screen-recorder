@@ -133,3 +133,10 @@ shape, diff and documentation review. Syntax, formatting and focused lint pass;
 the actual public journeys and saved-media gates are the behavior tests. No
 production implementation changed. [Verification](verification.json) records
 archive/member hashes, executable identities, checks and remaining ownership.
+
+[Integrated root verification](root-verification.json) rehashed all archive parts
+and members, reran saved-output checks, independently decoded the three matched
+source image pairs, and found complete decoded audio identical between the clean
+and pointer-enabled project exports. No service, native render or inference rerun
+was required. Optional Preview review closed without a user response; acceptance
+rests on the scoped evidence, not inferred human approval.
