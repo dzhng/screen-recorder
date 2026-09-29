@@ -423,7 +423,7 @@ and selected implementation/model versions. No automatic model downloads during
 an ordinary read/render; explicit preparation follows the existing model pattern.
 
 Import, generation and retime preparation return a shared jobId and use
-job.get/retry/cancel rather than separate job-control implementations per feature.
+job.get/retry/cancel rather than separate job-control implementations per feature. Job status exposes `inputSha256` for the frozen internal recipe; serialized execution inputs remain with the queue/executor. Status, retry and cancellation share this response projection, preserving target, attempt, failure diagnostics and published result.
 Job retry preserves the frozen input identity; changing inputs creates a new job.
 Exports keep their specialized durable publication controls and exportId because
 recovery of an uncertain external publication is different from recomputing media.

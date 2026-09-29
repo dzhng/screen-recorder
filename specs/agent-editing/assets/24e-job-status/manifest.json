@@ -1,0 +1,151 @@
+{
+  "archiveSha256": "10f69ed5bacc5fa2a3bdb816ae5e6d94731f0b6ee775046a14f2ccf2cd77a70f",
+  "archiveBytes": 311672,
+  "files": [
+    {
+      "storedAs": "screenrec-job-receipt-internal.json",
+      "bytes": 17664853,
+      "sha256": "d41e144795d6b5262745ee19cdcda792b040b6f8c8fc9af1662987e8a0f66b7d"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-scene.log",
+      "bytes": 226,
+      "sha256": "c623f0652e2ed040d332efd966a8e385b182c14c24fffbfaf7eea15fe344f094"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-service-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-transcript-final.log",
+      "bytes": 237,
+      "sha256": "181fc6ec530dda35ffbe415360c03b20aeb38a198860b77bca3a4e6d0576dccd"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-public.json",
+      "bytes": 3208,
+      "sha256": "3cb0a17cb79719467955f0d9e0e0b4e726e6242f6b06e872bc78c5abaeedcb32"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-protocol-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-cli-build.log",
+      "bytes": 48,
+      "sha256": "a8ceec05c719c5fcf68b15e843137799dddb6c2fa86d717e894c81837be2ef04"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-public.mjs",
+      "bytes": 2342,
+      "sha256": "63399a701232c23c4877ef386ab46b627c2ef4552c4074222337977b62058c53"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-service-test.log",
+      "bytes": 442,
+      "sha256": "387cf3b4d2f79674b97ed0588cfcb4b67c5f861d600e1ec03e84e8587fdadf04"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-review.log",
+      "bytes": 99009,
+      "sha256": "32869175292d33a8351598e8ad90801d2ea164149933373fcd43abcfc1ec898a"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-help.json",
+      "bytes": 1355,
+      "sha256": "58ddaad210a87abfa42795e7fdef81264dc7d755081f522f52660f8f7a3949ef"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-transcript.log",
+      "bytes": 231,
+      "sha256": "24e91a3aafbc618912b36c0961b7d1b2e25fc0c69c3042d06da2eb1e7381f2b2"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-scene-final.log",
+      "bytes": 232,
+      "sha256": "d888a6373f5c01a5cf716ca2cbf92aac3a0c7c93c1dbab0a577c4958c35f0b7e"
+    },
+    {
+      "storedAs": "screenrec-job-receipt-public.log",
+      "bytes": 3002,
+      "sha256": "7a3c9b4319dea9abdcb67a3aa7e6e224077a06bc862554cbfd3c6037e6db3794"
+    },
+    {
+      "storedAs": "original-scale-failure.json",
+      "bytes": 3898,
+      "sha256": "47fbea4644726b380af2dceec946cfe9453b70a265aa31748d8fefbe0446307e"
+    },
+    {
+      "storedAs": "original-scale-failure.log",
+      "bytes": 1002,
+      "sha256": "017c8d9c09852dcd92ce5516904c342d28ed53e694dd7c3e8685362089780cbf"
+    },
+    {
+      "storedAs": "scene/report.json",
+      "bytes": 14251,
+      "sha256": "a6e7cdc3037dff317ed595ea39e8bb75b41a6ae85dc9fb70c7bcaaee52c3b549"
+    },
+    {
+      "storedAs": "scene/source.json",
+      "bytes": 4860,
+      "sha256": "9b8b1112ca789b72a1a71ff68a0e0fc04eca1deb9562cd589422a37324b1ec61"
+    },
+    {
+      "storedAs": "scene/project.json",
+      "bytes": 36347,
+      "sha256": "6031498557d132a992a7f1358b8880af20f515589f645fe2a1e3fb3594cdfb2c"
+    },
+    {
+      "storedAs": "scene/mixed.json",
+      "bytes": 6717,
+      "sha256": "240add1c6e846b6e8725f8260cd3952872bdf98e6e65dff1c544cdfe7ca9b9dc"
+    },
+    {
+      "storedAs": "scene/journal.json",
+      "bytes": 863,
+      "sha256": "652c24a9ed9fc1b15847c6ea4142099ef49294343a415967b2ab4217f72fb7c4"
+    },
+    {
+      "storedAs": "scene/generation.json",
+      "bytes": 32591,
+      "sha256": "0c0368bdca09e257398b641ff51ac02a3df1444f1a43e09b8d4f70dc9ca288aa"
+    },
+    {
+      "storedAs": "transcript/report.json",
+      "bytes": 27015,
+      "sha256": "ec0e5a77771f1698e60a572caf1bf401f6d2a53f8b07cef61b91a99f4b6ab1d6"
+    },
+    {
+      "storedAs": "transcript/project.json",
+      "bytes": 147935,
+      "sha256": "3401387d53e84ceed1fcea8dcb9438c136a8fc0733fd00ce2f05f735d3a872f8"
+    },
+    {
+      "storedAs": "transcript/late-source-reads.json",
+      "bytes": 4590,
+      "sha256": "4461812bd31f70c2921d0887b1a7355ea7e765d75b3ea422ce808f9c3a4a9855"
+    },
+    {
+      "storedAs": "transcript/frozen-calls-baseline.json",
+      "bytes": 2155,
+      "sha256": "3ecaf1b1ea6f21ce85c44677d3e6f1d6dbac4d83533bda70ebed77315686f71e"
+    },
+    {
+      "storedAs": "transcript/frozen-calls.json",
+      "bytes": 1419,
+      "sha256": "f80671d96e871579746ce102b8f2e7523507eee6cb7e797e1f007c15bf62361f"
+    },
+    {
+      "storedAs": "transcript/generation.json",
+      "bytes": 90221,
+      "sha256": "e1379d1d4cc5dd077f55e14411b5c8a44e4c1eb14f4336514c6d4b0a8169cda6"
+    },
+    {
+      "storedAs": "transcript/frozen-config.json",
+      "bytes": 2701,
+      "sha256": "d6c23d0538f3400e4f6e48e0f4a5b7d7199a0334ffda8ea80762a04097d0500f"
+    }
+  ]
+}

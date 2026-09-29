@@ -14,6 +14,7 @@ MCP retains its standard text and structured forms. Removing the internal duplic
 makes the declared timeline fit the existing public limits without raising SDK or
 service bounds. This does not promise unbounded project documents or responses.
 
+The [job-status prerequisite](24e-job-status.md) addresses the next observed large-response refusal.
 Next: successful two-hour learned preparation, full independent PCM validation,
 resource observations and cleanup through the existing scale harness. Parent scale,
 retiming and listening gates remain open.

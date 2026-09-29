@@ -3154,3 +3154,13 @@ shape. Full historical byte equality across this release is not a contract. MCP'
 standard text/structured representations remain, and actual 10,000-clip delivery
 fits existing bounds. This fixes redundant ownership instead of increasing global
 response limits or inventing a second receipt protocol.
+
+### Public job status identifies rather than embeds execution recipes (sound, high confidence)
+
+The existing public status owner returns a SHA-256 of exact stored input bytes
+instead of copying the serialized execution plan. This preserves queue identity,
+retry/cancel behavior and publication while allowing declared large projects to be
+inspected under existing transport limits. Raw recipes remain internal. Test-only
+recipe comparisons read the catalog and authenticate against the public digest;
+there is no product escape hatch. Full-input query work remains, explicitly outside
+this delivery correction's claim. A cache or global frame increase was unnecessary.

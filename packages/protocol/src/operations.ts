@@ -381,17 +381,19 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("job.get"), params: z.object({ jobId: id }).strict() })
     .strict()
     .describe(
-      "Read a preparation job's current attempt and published result without restarting it.",
+      "Read a preparation job's current attempt and published result without restarting it. inputSha256 identifies its frozen internal recipe; the serialized execution input is not returned.",
     ),
   z
     .object({ operation: z.literal("job.retry"), params: z.object({ jobId: id }).strict() })
     .strict()
-    .describe("Explicitly retry a failed preparation job with its frozen inputs."),
+    .describe(
+      "Explicitly retry a failed preparation job with its frozen inputs. Returns the same job status shape as job.get, with inputSha256 instead of internal execution input.",
+    ),
   z
     .object({ operation: z.literal("job.cancel"), params: z.object({ jobId: id }).strict() })
     .strict()
     .describe(
-      "Cancel a preparation job; occupied resources drain before their execution capacity is reused.",
+      "Cancel a preparation job; occupied resources drain before their execution capacity is reused. Returns the same job status shape as job.get, including inputSha256.",
     ),
 
   z

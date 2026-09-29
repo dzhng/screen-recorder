@@ -1,4 +1,5 @@
 import { assetProbe } from "./media-probe.js";
+import { createHash } from "node:crypto";
 import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { projectComposition } from "@screenrec/core/project-window";
@@ -511,7 +512,12 @@ export async function startProjectService(options: { home: string; worker?: Medi
     const status = (jobId: string) => {
       const job = queue.job(jobId);
       const publication = queue.status(job).published;
-      return { ...job, result: publication ? (JSON.parse(publication.result) as unknown) : null };
+      const { input, ...summary } = job;
+      return {
+        ...summary,
+        inputSha256: createHash("sha256").update(input).digest("hex"),
+        result: publication ? (JSON.parse(publication.result) as unknown) : null,
+      };
     };
     const pending = new Set<Promise<OperationResult>>();
     let closing = false;

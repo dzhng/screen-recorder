@@ -1,4 +1,22 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { DatabaseSync } from "node:sqlite";
+import { join } from "node:path";
+
+// Internal recipe comparison is diagnostic evidence; public status exposes only its digest.
+function recipe(service, job) {
+  const catalog = new DatabaseSync(join(service.home, "library/catalog.sqlite"), {
+    readOnly: true,
+  });
+  try {
+    const { input } = catalog.prepare("SELECT input FROM jobs WHERE jobId=?").get(job.jobId);
+    assert.equal(createHash("sha256").update(input).digest("hex"), job.inputSha256);
+    assert(!("input" in job));
+    return JSON.parse(input);
+  } finally {
+    catalog.close();
+  }
+}
 
 /** Public consumption across a simulated recipe release; production queue/store publication stays real. */
 export async function changedSceneGeneration({
@@ -45,8 +63,8 @@ export async function changedSceneGeneration({
   assert.notEqual(replacementJob.jobId, originalJob.jobId);
   assert.notEqual(replacementGeneration, originalGeneration);
   assert.equal(replacementGeneration, replacementJob.attemptId);
-  const oldRecipe = JSON.parse(originalJob.input),
-    newRecipe = JSON.parse(replacementJob.input);
+  const oldRecipe = recipe(service, originalJob),
+    newRecipe = recipe(service, replacementJob);
   assert.notEqual(oldRecipe.implementationId, newRecipe.implementationId);
   assert.deepEqual({ ...newRecipe, implementationId: oldRecipe.implementationId }, oldRecipe);
   assert.deepEqual(replacementSource.rows, source.rows);
@@ -179,20 +197,22 @@ export async function changedTranscriptGeneration({ service, query, text, poll }
     assert.deepEqual(normalize(rows), full.page[request.field]);
     fresh.push({ operation: request.operation, first, rows });
   }
-  const replacementJobs = [];
+  const replacementJobs = [],
+    recipeEvidence = [];
   for (let i = 0; i < dependencies.length; i++) {
     const dependency = fresh[0].first.dependencies[i];
     assert.deepEqual(dependency.selection, dependencies[i].selection);
     const job = await call("job.get", { jobId: dependency.jobId });
     assert.notEqual(job.jobId, originalJobs[i].jobId);
     assert.equal(job.attemptId, dependency.transcript.generation);
-    const before = JSON.parse(originalJobs[i].input),
-      after = JSON.parse(job.input);
+    const before = recipe(service, originalJobs[i]),
+      after = recipe(service, job);
     assert.notEqual(after.decoderExecution, before.decoderExecution);
     assert.deepEqual({ ...after, decoderExecution: before.decoderExecution }, before);
     assert.deepEqual(await call("job.get", { jobId: originalJobs[i].jobId }), originalJobs[i]);
     assert.deepEqual(await call("job.retry", { jobId: job.jobId }), job);
     replacementJobs.push(job);
+    recipeEvidence.push({ before, after });
   }
   assert.deepEqual(await call("revision.get", query), document);
   return {
@@ -200,6 +220,7 @@ export async function changedTranscriptGeneration({ service, query, text, poll }
       "Simulated decoder recipe release. Native ASR responses are frozen; actual queue, raw ingestion and CLI/MCP transcript/phrase consumers execute. No fresh native ASR, shipped second binary or cache eviction is claimed.",
     baseline,
     originalJobs,
+    recipeEvidence,
     replacementJobs,
     replacements,
     refusals,

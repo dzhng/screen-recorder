@@ -76,7 +76,12 @@ async function setup(worker: MediaWorker) {
   });
   cleanups.push(() => service.close());
   async function call(operation: string, params: Record<string, unknown>) {
-    return callLocal(service.socketPath, { id: "test", operation, params });
+    const result = await callLocal(service.socketPath, { id: "test", operation, params });
+    if (result.ok && ["job.get", "job.retry", "job.cancel", "asset.import"].includes(operation)) {
+      expect(result.data).not.toHaveProperty("input");
+      expect(result.data).toHaveProperty("inputSha256", expect.stringMatching(/^[a-f0-9]{64}$/));
+    }
+    return result;
   }
   async function job(jobId: string, state: string) {
     const deadline = performance.now() + 3000;
@@ -149,6 +154,17 @@ test("audio preparation pins its revision and reuses failed work until explicit 
   expect(pending.data).toMatchObject(selection);
   const { jobId } = pending.data as { jobId: string };
   await f.job(jobId, "failed");
+  const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
+  try {
+    const input = catalog.catalog.prepare("SELECT input FROM jobs WHERE jobId=?").get(jobId)!
+      .input as string;
+    expect(await f.call("job.get", { jobId })).toMatchObject({
+      ok: true,
+      data: { inputSha256: createHash("sha256").update(input).digest("hex") },
+    });
+  } finally {
+    catalog.close();
+  }
   const failed = await f.call("audio.prepare", selection);
   expect(failed).toMatchObject({
     ok: true,
