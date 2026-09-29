@@ -1,0 +1,82 @@
+[
+  {
+    "file": "measured/expected.json",
+    "bytes": 3508892,
+    "sha256": "74353beba71fa6e1b1e3a555f69f88ace6dc897ec904b395cdc469d064c1f08d"
+  },
+  {
+    "file": "measured/history-5000.sqlite",
+    "bytes": 9064448,
+    "sha256": "1794cc7d4fe09735b3c470c76d30acbe588d57fbc58dc29e9b69a37c1511f94e"
+  },
+  {
+    "file": "measured/history-10000.sqlite",
+    "bytes": 17993728,
+    "sha256": "e7857b334cd22b63b3dd7bd4c665624154776fcc1bebf7a5f5116481dd32e17d"
+  },
+  {
+    "file": "measured/report.json",
+    "bytes": 296916,
+    "sha256": "611549a93a1dda4f29736cf1050db015967cc7db541243f6dd0a33ef99e0cadf"
+  },
+  {
+    "file": "unpinned/expected.json",
+    "bytes": 3508892,
+    "sha256": "a0f45b598669408ff4da6dff393570d6caa8dd9654a9715d6b1b34f218263a96"
+  },
+  {
+    "file": "unpinned/history-5000.sqlite",
+    "bytes": 9064448,
+    "sha256": "a26c98de7e4a4932122847107f30d222fe5d7a96f59dbc84b263a60d371daa57"
+  },
+  {
+    "file": "unpinned/history-10000.sqlite",
+    "bytes": 17985536,
+    "sha256": "440357b73b4e3a310c8a138f0d86360f0311454f16be4c5d3e7b10ae74cdefe6"
+  },
+  {
+    "file": "unpinned/report.json",
+    "bytes": 283244,
+    "sha256": "cad859ebd8a162df02e837b447cadd427639f3a367f21a7c216053b5acb0c822"
+  },
+  {
+    "file": "unlimited/expected.json",
+    "bytes": 3508892,
+    "sha256": "996de3a7f861a8624639b65e58cd9e4b3d56a0a6cf4dfda34b859803cbc10a8d"
+  },
+  {
+    "file": "unlimited/history-5000.sqlite",
+    "bytes": 9068544,
+    "sha256": "0e33f83556dc45d2ebe95a02e3fbcb4d3c594ce1e6e316c9849f0da0c67891bd"
+  },
+  {
+    "file": "unlimited/history-10000.sqlite",
+    "bytes": 17993728,
+    "sha256": "14c54b0d03a11b97b0ac8ce45c0014509f3c5a64937efa0ecb8918d5b6bbbbc8"
+  },
+  {
+    "file": "unlimited/report.json",
+    "bytes": 303201,
+    "sha256": "37f251c0611005d2fdbd785d2d0ba7686e4934f2f26a3792f64dde94580e02ab"
+  },
+  {
+    "file": "restored/expected.json",
+    "bytes": 3508892,
+    "sha256": "50b1d80878158aff370c1aee15abfff716b509e217aa8dafc58cc94df57c4960"
+  },
+  {
+    "file": "restored/history-5000.sqlite",
+    "bytes": 9068544,
+    "sha256": "c9ec3500f47d04fcdc8a8e2b8b98ce5d3b5d7e8bad9381f75888e3d716501217"
+  },
+  {
+    "file": "restored/history-10000.sqlite",
+    "bytes": 17997824,
+    "sha256": "e136b395c7b02b198dc1e49723e2818fe54d2480229ed27da2ebc3c0d302413e"
+  },
+  {
+    "file": "restored/report.json",
+    "bytes": 297053,
+    "sha256": "0cc0b3a6941510c401637c572e71f2fd64ff43b0f5f68a348fd21d61ddf3486b"
+  }
+]

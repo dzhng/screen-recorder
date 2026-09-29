@@ -3563,3 +3563,15 @@ original failure stays retained. The new sparse read-ahead bound is still failed
 and remains unchanged. Separate verdicts permit the metadata repair to land
 without treating its success as proof of bounded decoder demand. This resolves
 the plan's unspecified measurement method, not its open performance requirement.
+
+## 24r — Isolate history size from revision size and authoring cost (sound, high confidence)
+
+When an agent reads one page of edits, a longer history should not require
+loading all earlier revisions. Compare 5,000 and 10,000 real revisions with the
+same small canvas document, then restart before reading the same fixed 250-row
+pages. Generate edits through the real owner in memory and back up its catalog
+for public disk-backed reads, avoiding thousands of durable setup commits without
+inventing database rows. The plan left the history measurement method open;
+this isolates that query contract without claiming arbitrary document-size or
+package-history performance. Use three alternating cohorts and preserve sampled
+memory/latency distributions instead of equating one fast read with a guarantee.

@@ -1,6 +1,6 @@
 # 24r — Bounded public history queries
 
-Status: planned. Dependencies: [24h](24h-job-inspection.md), [24m](24m-query-duration-memory.md).
+Status: scoped public cardinality and cursor gates verified; [evidence](../assets/24r-history-query-scale/README.md). Dependencies: [24h](24h-job-inspection.md), [24m](24m-query-duration-memory.md).
 
 ## Contract and owner
 

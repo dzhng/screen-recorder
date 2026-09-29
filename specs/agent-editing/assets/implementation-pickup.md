@@ -28,7 +28,7 @@ Historical workers and measurements retain their own identities below.
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
   Continue actual decoded-work measurement and remaining query families/history.
-- **History queries24r:** root owns the [public history scale check](../slices/24r-history-query-scale.md), using real compact revisions and fresh services to isolate bounded page reads.
+- **History queries24r:** the [public history scale check](../slices/24r-history-query-scale.md) passes with real compact revisions and fresh services. Existing cursors exclude new edits; fixed250-row query memory remains stable between5,000 and10,000 revisions. This does not close arbitrary document-size, package-history or job-retirement gates.
 - **Two-hour package24j:** exact recipe reconstruction is verified; full transfer
   still lacks the free disk required by its measured preflight. Run its measured preflight before restoring PCM.
   No large restore or repeated DSP has run. The prerequisite worktree is

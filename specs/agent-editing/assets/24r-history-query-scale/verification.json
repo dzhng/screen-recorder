@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "scope": "Fixed-size public managed-project history queries; sampled service RSS, not render memory",
+  "nodeVersion": "v24.14.0",
+  "controls": {
+    "histories": [
+      5000,
+      10000
+    ],
+    "pageSize": 250,
+    "repeats": 100,
+    "trialsPerSize": 3
+  },
+  "comparison": {
+    "peakRatio": 1.0009727626459144,
+    "growthRatio": 0.997979797979798,
+    "maximumPageBytes": 87873
+  },
+  "projectId": "a4782130-6d0c-4f94-bab9-55cf4e78645a",
+  "expectedSha256": "74353beba71fa6e1b1e3a555f69f88ace6dc897ec904b395cdc469d064c1f08d",
+  "trials": [
+    {
+      "size": 5000,
+      "pinnedRevisionCount": 5000,
+      "sampledPeakBytes": 117899264,
+      "sampledGrowthBytes": 16220160,
+      "p95Ms": 2.11462500000016,
+      "maximumPageBytes": 87873
+    },
+    {
+      "size": 10000,
+      "pinnedRevisionCount": 10000,
+      "sampledPeakBytes": 118439936,
+      "sampledGrowthBytes": 16777216,
+      "p95Ms": 2.0122919999998885,
+      "maximumPageBytes": 87873
+    },
+    {
+      "size": 10000,
+      "pinnedRevisionCount": 10000,
+      "sampledPeakBytes": 118013952,
+      "sampledGrowthBytes": 15794176,
+      "p95Ms": 1.8925830000002861,
+      "maximumPageBytes": 87873
+    },
+    {
+      "size": 5000,
+      "pinnedRevisionCount": 5000,
+      "sampledPeakBytes": 118980608,
+      "sampledGrowthBytes": 18186240,
+      "p95Ms": 1.9616670000004888,
+      "maximumPageBytes": 87873
+    },
+    {
+      "size": 5000,
+      "pinnedRevisionCount": 5000,
+      "sampledPeakBytes": 117473280,
+      "sampledGrowthBytes": 15695872,
+      "p95Ms": 1.885124999999789,
+      "maximumPageBytes": 87873
+    },
+    {
+      "size": 10000,
+      "pinnedRevisionCount": 10000,
+      "sampledPeakBytes": 117751808,
+      "sampledGrowthBytes": 16187392,
+      "p95Ms": 2.0623750000004293,
+      "maximumPageBytes": 87873
+    }
+  ],
+  "sourceSHA256": "2bad4e17f1bddca49e773377a81ada99418f6d24a21eb6f29436a02397376938",
+  "mutation": "Module-load hook removes ordinal upper bound in isolated processes; public cursor oracle fails and scratch service home is removed.",
+  "review": "Independent Codex review: no actionable defects; execution blocked by sandbox socket permission. Root real service runs pass.",
+  "baseCommit": "17185d28",
+  "runtimeModules": {
+    "packages/core/dist/projects.js": "826adbf577e923066bf822eb71e372af5d588eca4f1602d1b1f4998ce8060d21",
+    "apps/service/dist/project-service.js": "ff6a869feeba2365d445f8135a7636b89164ceb2386cd09fca7474ef13a10791",
+    "apps/cli/dist/main.js": "c59e8a3929f7ade8492db7dc1cd701e819773a979c2d368767e24dac99c3f7ee"
+  },
+  "restoredConfirmation": {
+    "passed": true,
+    "comparison": {
+      "peakRatio": 0.9977774690929295,
+      "growthRatio": 0.9662363455809335,
+      "maximumPageBytes": 87873
+    }
+  },
+  "unlimitedMutation": {
+    "passed": false,
+    "comparison": {
+      "peakRatio": 1.4408329660643455,
+      "growthRatio": 2.436858860983375,
+      "maximumPageBytes": 87873
+    },
+    "error": "Doubling history doubled observed fixed-page memory"
+  },
+  "reviewFollowup": "Read-only agent identified missing full-history-fetch sensitivity control. Isolated no-LIMIT mutation now fails unchanged memory-growth gate, with restored confirmation green."
+}
