@@ -1,0 +1,67 @@
+{
+  "commit": "614145611aa6f1b635cbb56e16be05eab415ff00",
+  "workerSha256": "953c5bbbad82560400717ea6cd7db11d4e2369193040a976a5c8a57560844b53",
+  "authenticatedArtifacts": 19,
+  "checks": {
+    "cliBuild": "passed",
+    "focusedTests": 31,
+    "actualOrphanCases": 5,
+    "recordingPackageCases": 5,
+    "publicSourceCancel": {
+      "passed": true,
+      "calls": [
+        {
+          "operation": "service.health",
+          "seconds": 0.002201917000000037,
+          "response": {
+            "ok": true,
+            "data": {
+              "status": "ready",
+              "pid": 29854,
+              "socketPath": "/tmp/source-budget-MXcMKz/run/service.sock",
+              "home": "/tmp/source-budget-MXcMKz",
+              "node": "24.14.0",
+              "uptimeMs": 104
+            },
+            "id": "50493271-d06e-4d97-9fa5-c0905b6d975b"
+          }
+        },
+        {
+          "operation": "recording.delete",
+          "seconds": 0.023865499999999998,
+          "response": {
+            "ok": true,
+            "data": {
+              "recordingId": "02d7b20b-5a0e-401c-a815-a58fc81827a1",
+              "deleted": true
+            },
+            "id": "59089b1a-a084-494e-912f-efca2785e8b1"
+          }
+        }
+      ],
+      "workerSHA256": "953c5bbbad82560400717ea6cd7db11d4e2369193040a976a5c8a57560844b53",
+      "inputs": {
+        "capture.journal.jsonl": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5",
+        "narration.mov": "e83523233b5b60dbfc70334f80a4dec3f38aab52ea8451afbdb459123c06ca04",
+        "narration.publication.json": "612fe08e480bd0baba50d72f6593e81d413880b8a1799f4973fb7cd50aa60cae"
+      },
+      "submitted": {
+        "recordingId": "02d7b20b-5a0e-401c-a815-a58fc81827a1",
+        "sourceId": "materializer-scale",
+        "sourceRevisionId": "r0",
+        "state": "processing",
+        "jobId": "58b48aac-2f2c-4b4c-899e-6b49ab543936",
+        "reason": null,
+        "retryable": false,
+        "published": null
+      },
+      "canceledNativePid": 29863,
+      "cancellation": {
+        "recordingId": "02d7b20b-5a0e-401c-a815-a58fc81827a1",
+        "deleted": true
+      },
+      "seconds": 0.15913820800000003
+    }
+  },
+  "scope": "Combined root source-generation and whole-recording lifetime; capture activation and complete bulk metadata delivery remain open."
+}

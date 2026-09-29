@@ -3094,3 +3094,16 @@ the fixed RNNoise model recipe.
 - **Verdict:** Sound; bounds the resource actually consumed while preserving
   earlier numerical, routing and cancellation contracts.
 - **Confidence:** High.
+
+### Retain both source-generation and recording lifetime (sound, high confidence)
+
+When the service dies while a native reader continues, the restarted service cannot
+use its own job list to decide that files are unused. The reader now holds an
+operating-system lock on both its temporary generation and the recording root.
+Cleanup may remove unrelated abandoned generations, but must preserve the held one;
+whole-recording deletion must wait for the broader root lock before purging files
+or evidence. Native deletion children inherit that authority too. These are two
+different deletion scopes, sharing the existing file-owner lock primitive rather
+than a new process registry. The plan required safe recovery but left these orphan
+lifetimes unspecified. Busy outcomes are retryable; explicit retry after the child
+exits completes cleanup. An already-missing root still permits deletion recovery.

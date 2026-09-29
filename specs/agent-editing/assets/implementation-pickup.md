@@ -43,8 +43,9 @@ with independent state per output channel. Listening acceptance remains open.
   [combined-root orphan/restart verification](20d-acquisition-lifetime/root-verification.json).
   [Large-work source verification](20d-source-budget/README.md) now has
   [combined-root readiness/cancellation evidence](20d-source-budget/root-verification.json).
-  Next protect recording-source generation cleanup and resolve complete large-source
-  metadata delivery. The100k canonical probe also exceeds the response-frame bound; that
+  [Recording source lifetime](20d-source-lifetime/README.md) now has
+  [combined-root orphan/deletion confirmation](20d-source-lifetime/root-verification.json).
+  Next resolve complete large-source metadata delivery. The100k canonical probe also exceeds the response-frame bound; that
   metadata delivery gap remains separate from the measured source-verification timeout. Existing consumer interval limits remain separate integration gates.
   Readable prefixes never authorize deleting ambiguous tails; cleanup requires
   matching accepted/committed/represented counts and clean indexed decode.
