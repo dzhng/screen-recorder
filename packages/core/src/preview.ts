@@ -202,8 +202,8 @@ export class PreviewInspection extends PreviewInspectionBase<
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.target.kind !== "recording")
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    if (job.target.kind !== "recording" || job.target.revisionId === null)
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing requires a pinned revision");
     const options = JSON.parse(job.input) as PreviewOptions;
     if (
       job.artifact !== artifact ||

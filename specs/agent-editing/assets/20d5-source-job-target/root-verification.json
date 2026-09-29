@@ -1,0 +1,17 @@
+{
+  "base": "96e4cb70",
+  "catalog": 18,
+  "passed": true,
+  "coreTests": 146,
+  "serviceTests": 15,
+  "publicCLIAndMCP": true,
+  "authenticatedInheritedFiles": 28,
+  "files": {
+    "root-build.log.gz": "b9515ebe418cf2e7b35396b9e75850a15d05517a62b241d0040c89f82677a594",
+    "root-core.log.gz": "7ae698c914e6ee042dc8029f19ce2adea8e6c6d9815c69cad96d3c1b36a8566d",
+    "root-service.log.gz": "a011dd72a85c0fd131d66b35d307d73992c13b11661db0b533cb76776232bf30",
+    "root-public.log.gz": "9d51fbfbd38b79f86760067d500fb7b6595c13b83aae94d9cd40708bbbcc794e",
+    "root-public-report.json.gz": "6611b8db57cd444ba37bdfe09b5492fd93abe6f3ba1c8f820a03a84f5127fee3"
+  },
+  "scope": "No-revision target and existing job continuations; no cleanup executor or native mutation."
+}

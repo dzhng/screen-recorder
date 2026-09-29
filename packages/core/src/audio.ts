@@ -345,8 +345,8 @@ export class LibraryAudioInspection extends AudioInspection<
     );
   }
   async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.target.kind !== "recording")
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    if (job.target.kind !== "recording" || job.target.revisionId === null)
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing requires a pinned revision");
     if (job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Audio inspector cannot execute this job");
     const target = job.target;

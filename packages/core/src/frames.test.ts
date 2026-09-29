@@ -1041,3 +1041,20 @@ test("shared rendering forwards failure identity and discards publication cancel
   expect(discarded).toEqual([failure, canceled]);
   await expect(readFile(output)).rejects.toMatchObject({ code: "ENOENT" });
 });
+
+test("a source-owned job cannot fall back to the current revision for frame work", async () => {
+  const f = await fixture();
+  const job = f.jobs.submit({
+    target: { kind: "recording", recordingId: f.take.recordingId, revisionId: null },
+    artifact: "frame",
+    lane: "frame",
+    input: "{}",
+  });
+  await f.jobs.idle();
+  expect(f.jobs.job(job.jobId)).toMatchObject({
+    state: "failed",
+    errorCode: "UNSUPPORTED_JOB",
+    retryable: false,
+  });
+  expect(f.calls()).toBe(0);
+});

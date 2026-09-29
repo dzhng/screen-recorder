@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { ResourceReferences, type ResourceKind } from "./references.js";
 import { setImmediate } from "node:timers/promises";
-import { type RevisionStore } from "./library.js";
+import { isSettled, type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 
 /** What an attempt occupies while it runs. Frame work is small and parallel; heavy work is not. */
@@ -43,12 +43,14 @@ export type JobOwner =
   | Readonly<{ kind: "acquisition"; acquisitionId: string }>
   | Readonly<{ kind: "project"; projectId: string }>
   | Readonly<{ kind: "recording"; recordingId: string }>;
+/** A null recording revision selects its settled source lifetime; request omission still pins a revision. */
 export type JobTarget =
   | Extract<JobOwner, { kind: "import" | "asset" | "acquisition" }>
-  | (Extract<JobOwner, { kind: "project" | "recording" }> & Readonly<{ revisionId: string }>);
+  | (Extract<JobOwner, { kind: "project" }> & Readonly<{ revisionId: string }>)
+  | (Extract<JobOwner, { kind: "recording" }> & Readonly<{ revisionId: string | null }>);
 export type JobRequestTarget =
   | Exclude<JobTarget, { kind: "recording" }>
-  | (Extract<JobOwner, { kind: "recording" }> & Readonly<{ revisionId?: string }>);
+  | (Extract<JobOwner, { kind: "recording" }> & Readonly<{ revisionId?: string | null }>);
 
 /** Domain owners validate existence and deletion intent in the same catalog transaction as admission. */
 export type JobTargets = {
@@ -64,6 +66,19 @@ export function recordingJobTargets(store: RevisionStore): JobTargets {
     pin(target) {
       if (target.kind !== "recording")
         throw new CatalogError("INVALID_REQUEST", "Unsupported job target");
+      if (target.revisionId === null) {
+        const recording = store.get(target.recordingId);
+        if (
+          !isSettled(recording.state) ||
+          recording.state === "canceled" ||
+          store.isDeleting(target.recordingId)
+        )
+          throw new CatalogError(
+            "INVALID_STATE",
+            "Source-owned work requires a settled available recording",
+          );
+        return { ...target, revisionId: null };
+      }
       return { ...target, revisionId: store.revision(target.recordingId, target.revisionId).id };
     },
     isAvailable: (target) => target.kind === "recording" && store.isAvailable(target.recordingId),
@@ -205,7 +220,7 @@ export function ownerIdentity(owner: JobOwner): [JobOwner["kind"], string] {
   }
 }
 function targetValues(target: JobTarget): [JobOwner["kind"], string, string] {
-  return [...ownerIdentity(target), "revisionId" in target ? target.revisionId : ""];
+  return [...ownerIdentity(target), "revisionId" in target ? (target.revisionId ?? "") : ""];
 }
 export function ownerFromIdentity(kind: JobOwner["kind"], id: string): JobOwner {
   switch (kind) {
@@ -223,7 +238,9 @@ export function ownerFromIdentity(kind: JobOwner["kind"], id: string): JobOwner 
 }
 function targetFrom({ targetKind, targetId, revisionId }: TargetRow): JobTarget {
   const owner = ownerFromIdentity(targetKind, targetId);
-  return owner.kind === "project" || owner.kind === "recording" ? { ...owner, revisionId } : owner;
+  if (owner.kind === "recording")
+    return { ...owner, revisionId: revisionId === "" ? null : revisionId };
+  return owner.kind === "project" ? { ...owner, revisionId } : owner;
 }
 function toArtifact({
   targetKind,

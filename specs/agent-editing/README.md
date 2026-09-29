@@ -277,6 +277,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [20d2 — Public immutable asset metadata pages](slices/20d2-asset-metadata-pages.md)
 - [x] [20d3 — Inventory-bound project package JSON](slices/20d3-package-asset-metadata.md)
 - [x] [20d4 — Operational source-evidence retry](slices/20d4-source-admission-retry.md)
+- [x] [20d5 — Source-owned recording job controls](slices/20d5-recording-source-job-target.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)

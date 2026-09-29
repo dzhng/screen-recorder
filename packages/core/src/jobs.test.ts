@@ -2553,3 +2553,135 @@ test("inspection keeps a previous publication during replacement and hides it af
   f.targets.isAvailable = () => false;
   expect(f.queue.inspect(job.jobId)).toMatchObject({ state: "canceled", result: null });
 });
+
+test("source-owned recording jobs retain null identity without manufacturing a revision", async () => {
+  const { store, queue, started, path } = fixture();
+  const recording = store.allocate().recording;
+  store.ingestLifecycle(recording.recordingId, {
+    sourceId: recording.sourceId,
+    sequence: 1,
+    state: "interrupted",
+    reason: "NO_VIDEO",
+    sourceDurationUs: null,
+  });
+  const request = {
+    target: { kind: "recording" as const, recordingId: recording.recordingId, revisionId: null },
+    artifact: "capture-cleanup",
+    lane: "heavy" as const,
+    input: recording.sourceId,
+  };
+  const job = queue.submit(request);
+  expect(job.target).toEqual(request.target);
+  expect(() => store.revision(recording.recordingId)).toThrow();
+  (await started(job.attemptId)).finish(JSON.stringify({ state: "retained" }));
+  await queue.idle();
+  expect(queue.status(request).published).toMatchObject({
+    target: request.target,
+    result: JSON.stringify({ state: "retained" }),
+  });
+  expect(queue.inspect(job.jobId).target).toEqual(request.target);
+  await queue.close();
+  const reopened = open(path, "retained");
+  expect(reopened.queue.inspect(job.jobId)).toMatchObject({
+    target: request.target,
+    state: "ready",
+    result: { state: "retained" },
+  });
+  expect(reopened.queue.status(request).published?.target).toEqual(request.target);
+});
+
+test("source targets stay distinct from omitted and explicit revisions", async () => {
+  const { store, queue, started } = fixture();
+  const recordingId = finished(store);
+  const base = { artifact: "target-proof", lane: "heavy" as const, input: "same input" };
+  const source = queue.submit({
+    ...base,
+    target: { kind: "recording", recordingId, revisionId: null },
+  });
+  const revision = queue.submit({ ...base, target: { kind: "recording", recordingId } });
+  expect(source.target).toEqual({ kind: "recording", recordingId, revisionId: null });
+  expect(revision.target).toEqual({ kind: "recording", recordingId, revisionId: "r0" });
+  expect(source.jobId).not.toBe(revision.jobId);
+  expect(
+    queue.submit({ ...base, target: { kind: "recording", recordingId, revisionId: "r0" } }).jobId,
+  ).toBe(revision.jobId);
+  (await started(source.attemptId)).finish("{}");
+  (await started(revision.attemptId)).finish("{}");
+  await queue.idle();
+});
+
+test("source-owned targets survive reopen, retry, cancellation and owner deletion fencing", async () => {
+  const f = fixture();
+  const recording = f.store.allocate().recording;
+  f.store.ingestLifecycle(recording.recordingId, {
+    sourceId: recording.sourceId,
+    sequence: 1,
+    state: "interrupted",
+    reason: "NO_VIDEO",
+    sourceDurationUs: null,
+  });
+  const request = {
+    target: { kind: "recording" as const, recordingId: recording.recordingId, revisionId: null },
+    artifact: "capture-cleanup",
+    lane: "heavy" as const,
+    input: recording.sourceId,
+  };
+  const first = f.queue.submit(request);
+  (await f.started(first.attemptId)).fail(
+    new CatalogError("MEDIA_UNAVAILABLE", "access denied", {}, true),
+  );
+  await f.queue.idle();
+  await f.queue.close();
+  const reopened = open(f.path, "reopened");
+  expect(reopened.queue.inspect(first.jobId)).toMatchObject({
+    target: request.target,
+    state: "failed",
+    retryable: true,
+  });
+  const retried = reopened.queue.retry(first.jobId);
+  expect(retried.target).toEqual(request.target);
+  const running = await reopened.started(retried.attemptId);
+  reopened.queue.cancel(first.jobId);
+  expect(running.signal.aborted).toBe(true);
+  running.finish("{}");
+  await reopened.queue.idle();
+  expect(reopened.queue.status(request).published).toBeNull();
+  const again = reopened.queue.retry(first.jobId);
+  const deleting = await reopened.started(again.attemptId);
+  reopened.store.markDeleting(recording.recordingId);
+  let closed = false;
+  const drained = reopened.queue
+    .drainOwner({ kind: "recording", recordingId: recording.recordingId })
+    .then(() => {
+      closed = true;
+    });
+  await Promise.resolve();
+  expect(deleting.signal.aborted).toBe(true);
+  expect(closed).toBe(false);
+  expect(() => reopened.queue.submit(request)).toThrow();
+  deleting.finish("{}");
+  await drained;
+  expect(reopened.queue.status(request).published).toBeNull();
+  await reopened.queue.forgetOwner({ kind: "recording", recordingId: recording.recordingId });
+  expect(() => reopened.queue.inspect(first.jobId)).toThrow(
+    expect.objectContaining({ code: "NOT_FOUND" }),
+  );
+});
+
+test("source-owned work refuses live or discarded recordings without pinning a revision", () => {
+  const { store, queue } = fixture();
+  const take = store.allocate().recording;
+  const request = {
+    target: { kind: "recording" as const, recordingId: take.recordingId, revisionId: null },
+    artifact: "capture-cleanup",
+    lane: "heavy" as const,
+    input: take.sourceId,
+  };
+  expect(() => queue.submit(request)).toThrow(expect.objectContaining({ code: "INVALID_STATE" }));
+  store.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 1,
+    state: "canceled",
+  });
+  expect(() => queue.submit(request)).toThrow();
+});

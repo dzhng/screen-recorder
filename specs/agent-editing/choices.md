@@ -3318,3 +3318,24 @@ input document. It then sends the same operations with the new revision and requ
 IDs required by that restore. The original receipt remains intact and supplies the
 complete expected result. The plan left fixture reset mechanics open; this avoids
 direct database rewrites while preserving honest replay and latency evidence.
+
+## 20d5 — Recording-owned work without a video revision
+
+### Keep cleanup work under the recording's existing owner (sound, high confidence)
+
+An interrupted recording may retain audio but have no playable video revision.
+Its source-owned jobs now explicitly use revisionId:null; ordinary requests that
+omit the revision still select the current revision. The recording's existing
+cancellation and deletion ownership applies to both. The plan required cleanup
+of these recordings but left the job representation open. Reusing the existing
+nonrevision storage value avoids inventing a revision or a second job registry.
+Catalog18 identifies this changed interpretation; project jobs remain revision-bound.
+
+### Expose existing job controls in the recording service (sound, high confidence)
+
+An agent could previously inspect jobs in the isolated editing service, while the
+recording service refused the same commands. It now routes inspect, retry and
+cancel directly to its existing queue. Cancel waits for the existing worker-drain
+budget; inspect and retry remain short calls. This makes source-owned work
+manageable through the shared public API without adding a new continuation system.
+The actual cleanup operation remains a separate implementation checkpoint.

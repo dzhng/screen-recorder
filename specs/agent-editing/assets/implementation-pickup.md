@@ -2,7 +2,7 @@
 
 The full editor goal remains active; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
-catalog format is 17. The combined native worker is
+catalog format is 18. The combined native worker is
 `/tmp/screenrec-source-retry-root-aba4b5bf646a`, SHA256
 `aba4b5bf646af2d81ca1923a75fd018c3e1e0d78f11d4833720c1274d3946a32`.
 Historical workers and measurements keep their own identities in the linked evidence.
@@ -116,7 +116,7 @@ owners after speech recipes earn their required acceptance.
 ## Interrupted delegate pickup
 
 The three delegate sessions ended before their final commits. The processing batch
-pass was integrated and verified by root. Capture target/full-service continuation
-changes and retained-project playback changes remain in their named worktrees;
-inspect their actual diffs and retained logs before resuming. Catalog18 is reserved
-by the capture target pass; main remains17 until that pass is integrated.
+pass was integrated and verified by root. Capture target/full-service continuation changes now pass root verification under
+catalog18. Actual cleanup remains next. Retained-project playback changes remain
+uncommitted in their named worktree; inspect the actual diff and retained logs
+before resuming. Frozen catalog17 fixtures remain unchanged.

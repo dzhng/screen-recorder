@@ -815,8 +815,8 @@ export class IndexProcessing {
   async execute({ job, signal }: JobExecution): Promise<string> {
     if (job.target.kind === "asset") return this.executeSource({ job, signal });
     if (job.target.kind === "project") return this.executeProject({ job, signal });
-    if (job.target.kind !== "recording")
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
+    if (job.target.kind !== "recording" || job.target.revisionId === null)
+      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing requires a pinned revision");
     const input = JSON.parse(job.input) as IndexInput;
     if (
       job.artifact !== artifact ||

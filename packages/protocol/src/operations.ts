@@ -1080,6 +1080,7 @@ const waits: Partial<Record<OperationName, number>> = {
   "package.open": drain,
   "package.close": drain,
   "recording.delete": drain,
+  "job.cancel": drain,
   "project.delete": drain,
   "storage.usage": drain,
 };

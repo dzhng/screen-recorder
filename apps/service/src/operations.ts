@@ -26,9 +26,11 @@ import {
   type OperationRequest,
   type OperationResult,
 } from "@screenrec/protocol";
+import type { JobQueue } from "@screenrec/core/jobs";
 import type { CaptureService } from "./capture.js";
 
 export type OperationContext = {
+  jobs: JobQueue;
   exports: MediaExports;
   packages: PackageInspection;
   deletion: RecordingDeletion;
@@ -105,6 +107,7 @@ export async function operate(
   request: OperationRequest,
   {
     store,
+    jobs,
     packages,
     exports,
     deletion,
@@ -158,13 +161,18 @@ export async function operate(
       case "asset.segments":
       case "asset.origins":
       case "asset.list":
-      case "job.get":
-      case "job.retry":
-      case "job.cancel":
         return operationError(
           "NOT_READY",
           "Project operations require the isolated project service until production cutover",
         );
+      case "job.get":
+        return { ok: true, data: jobs.inspect(operation.params.jobId) };
+      case "job.retry":
+        jobs.retry(operation.params.jobId);
+        return { ok: true, data: jobs.inspect(operation.params.jobId) };
+      case "job.cancel":
+        await jobs.drainJob(operation.params.jobId);
+        return { ok: true, data: jobs.inspect(operation.params.jobId) };
       case "export.create":
         return { ok: true, data: await exports.create(operation.params) };
       case "export.list":

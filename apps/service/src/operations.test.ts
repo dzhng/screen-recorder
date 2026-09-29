@@ -13,6 +13,8 @@ import {
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
+import { CatalogError } from "@screenrec/core/catalog";
 import { RevisionStore } from "@screenrec/core/library";
 import { parakeetModel, SpeechModels } from "@screenrec/core/speech-models";
 import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
@@ -584,4 +586,77 @@ it("an unprepared model starts no transcript and says how to proceed", async () 
     error: { code: "MODEL_NOT_PREPARED", retryable: true },
   });
   await expect(lstat(log)).rejects.toMatchObject({ code: "ENOENT" });
+});
+
+it("public recording jobs preserve source-owned continuation and revision jobs across restart", async () => {
+  const { home, failedId, recordingId } = await seed();
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => "fixture",
+    newId: randomUUID,
+  });
+  const queue = new JobQueue({
+    store,
+    targets: { ...recordingJobTargets(store), isCapturing: () => false },
+    providers: { newId: randomUUID },
+    execute: async ({ job }) => {
+      if (job.target.kind === "recording" && job.target.revisionId === null)
+        throw new CatalogError("MEDIA_UNAVAILABLE", "fixture retained access error", {}, true);
+      return JSON.stringify({ fixture: "ready revision job" });
+    },
+  });
+  const source = queue.submit({
+    target: { kind: "recording", recordingId: failedId, revisionId: null },
+    artifact: "target-contract-proof",
+    lane: "heavy",
+    input: "source",
+  });
+  const revision = queue.submit({
+    target: { kind: "recording", recordingId },
+    artifact: "target-contract-proof",
+    lane: "heavy",
+    input: "revision",
+  });
+  await queue.idle();
+  await queue.close();
+  store.close();
+  let service = await start(home);
+  expect(await service.call("job.get", { jobId: source.jobId })).toMatchObject({
+    ok: true,
+    data: { state: "failed", target: source.target, retryable: true },
+  });
+  expect(await service.call("job.retry", { jobId: source.jobId })).toMatchObject({
+    ok: true,
+    data: { state: "queued", target: source.target },
+  });
+  expect(await service.call("job.cancel", { jobId: source.jobId })).toMatchObject({
+    ok: true,
+    data: { state: "canceled", target: source.target },
+  });
+  for (const operation of ["job.get", "job.retry", "job.cancel"])
+    expect(await service.call(operation, { jobId: revision.jobId })).toMatchObject({
+      ok: true,
+      data: {
+        state: "ready",
+        attemptId: revision.attemptId,
+        target: { kind: "recording", recordingId, revisionId: "r0" },
+      },
+    });
+  expect(await service.call("job.get", { jobId: "absent-job" })).toMatchObject({
+    ok: false,
+    error: { code: "NOT_FOUND" },
+  });
+  await service.close();
+  service = await start(home);
+  expect(await service.call("job.get", { jobId: source.jobId })).toMatchObject({
+    ok: true,
+    data: { state: "canceled", target: source.target },
+  });
+  expect(await service.call("job.retry", { jobId: source.jobId })).toMatchObject({
+    ok: true,
+    data: { state: "queued", target: source.target },
+  });
+  expect(await service.call("job.cancel", { jobId: source.jobId })).toMatchObject({
+    ok: true,
+    data: { state: "canceled", target: source.target },
+  });
 });

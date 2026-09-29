@@ -427,6 +427,7 @@ async function main(): Promise<void> {
           storage: storageOwner,
           deletion,
           store: catalog,
+          jobs: queue,
           capture,
           health: () => healthData(started, socketPath, home),
           processing,
