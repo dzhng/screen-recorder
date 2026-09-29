@@ -101,6 +101,21 @@ existing step. Structural edits retain its original clock, so re-read the edited
 settings instead of rebuilding the curve from a preview range. For gain changes,
 compare bounded dry/after-step/processed WAVs before judging level or joins.
 
+For a simple fade or uniform zoom, discover the `fade`/`zoom` variants in
+`edit.apply`. Choose explicit start/end values and an anchor window. Fade requires
+an audio/video choice even at output. Use whole microseconds for project/source
+convenience endpoints; normalized clip windows use fractions. Zoom accepts crop, rectangle, fit, pivot and
+rotation for its new geometry step. These append ordinary steps: inspect the
+returned full stack and keep existing IDs when editing or bypassing them later.
+Outside the window the new step is dry; an interior fade-out returns to full level
+at its end. To remain faded out, author ordinary keys through the intended end.
+Pair fades on already overlapping tracks in one batch for a crossfade; arrange
+overlap yourself and inspect the result. Audio sums while video uses alpha-over,
+so opposing ramps do not promise constant perceived loudness or brightness. Zoom
+consumes the preceding image in stack order; inspect existing geometry before
+choosing its crop and rectangle. Retimed delivery still requires advertised
+executor readiness.
+
 For visual layout, change the canvas for the output aspect ratio and place overlapping
 footage on separately ordered video tracks. Place imported PNG/JPEG images with
 `source: { kind: "hold", atUs: 0 }` and a project placement duration; that zero

@@ -10,11 +10,13 @@ import {
   routingNodeSchema,
   processingTargetSchema,
   processingStepSchema,
+  processorRegistry,
+  interpolationSchema,
 } from "./schema.js";
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
 import { partitionClips } from "./partition.js";
-import { compare, fromTime, subtract, toTime } from "./rational.js";
+import { compare, fromTime, toTime } from "./rational.js";
 import { rippleTimeline, insertGap } from "./ripple.js";
 import { transformSelection } from "./transform.js";
 import { duplicateClips } from "./duplicate.js";
@@ -67,7 +69,25 @@ const placedClip = z.union([
   placedMedia,
   silenceClipSchema.omit({ id: true }).extend({ trackId: reference, placement }),
 ]);
+const transition = {
+  target: processingTarget,
+  window: authoredStep.shape.window.unwrap(),
+  from: z.number().finite(),
+  to: z.number().finite(),
+  interpolation: interpolationSchema.default("linear"),
+  label,
+};
 export const editOperationSchema = z.discriminatedUnion("operation", [
+  z
+    .object({ operation: z.literal("fade"), ...transition, mediaKind: z.enum(["audio", "video"]) })
+    .strict(),
+  z
+    .object({
+      operation: z.literal("zoom"),
+      ...transition,
+      geometry: processorRegistry.geometry.schema.omit({ type: true, scale: true }).optional(),
+    })
+    .strict(),
   z
     .object({
       operation: z.literal("processing.set"),
@@ -339,10 +359,51 @@ export function applyBatch(
       if (!allowMissing && !known.has(id)) invalid("Unknown clip", { clipId: id });
     return ids;
   };
-  for (const [operationIndex, operation] of parsed.data.entries()) {
+  for (const [operationIndex, authored] of parsed.data.entries()) {
     const before = model.document;
     let next: Document;
     try {
+      let operation = authored;
+      if (operation.operation === "fade" || operation.operation === "zoom") {
+        const target =
+          operation.target.kind === "output"
+            ? operation.target
+            : {
+                kind: operation.target.kind,
+                id: resolve(operation.target.id, operation.target.kind),
+              };
+        const window = operation.window;
+        const [start, end] =
+          window.kind === "clip"
+            ? [window.start, window.end]
+            : window.kind === "content"
+              ? [window.sourceRange.startUs, window.sourceRange.endUs]
+              : [window.range.startUs, window.range.endUs];
+        if (window.kind !== "clip" && (typeof start !== "number" || typeof end !== "number"))
+          invalid(
+            "Transition source/project endpoints must be whole microseconds; use ordinary keys with fractional activation bounds",
+          );
+        const curve = {
+          keys: [
+            { at: start, value: operation.from, interpolation: operation.interpolation },
+            { at: end, value: operation.to, interpolation: "hold" as const },
+          ],
+        };
+        const processor =
+          operation.operation === "zoom"
+            ? { type: "geometry" as const, ...operation.geometry, scale: { x: curve, y: curve } }
+            : operation.mediaKind === "audio"
+              ? { type: "gain" as const, gain: curve }
+              : { type: "opacity" as const, opacity: curve };
+        operation = {
+          operation: "processing.set",
+          target,
+          steps: [
+            ...getProcessing(model, target),
+            { enabled: true, label: operation.label, window, processor },
+          ],
+        };
+      }
       switch (operation.operation) {
         case "processing.set": {
           const target =

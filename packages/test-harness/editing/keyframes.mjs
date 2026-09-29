@@ -7,8 +7,15 @@ import { tmpdir } from "node:os";
 import { parseArgs } from "node:util";
 import { fileURLToPath } from "node:url";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
-const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
+const { values } = parseArgs({
+  options: {
+    case: { type: "string" },
+    out: { type: "string" },
+    convenience: { type: "boolean", default: false },
+  },
+});
 assert.ok(["moved-split-zoom", "moved-split-pose", "moved-split-geometry"].includes(values.case));
+assert.ok(!values.convenience || values.case === "moved-split-zoom");
 const pose = values.case !== "moved-split-zoom";
 const box = values.case === "moved-split-geometry";
 assert.ok(values.out && process.env.SCREENREC_NATIVE);
@@ -19,6 +26,7 @@ const home = await mkdtemp(join(tmpdir(), "zoom-public-"));
 const report = {
   passed: false,
   case: values.case,
+  convenience: values.convenience,
   trace: [],
   pictures: [],
   checks: {},
@@ -154,11 +162,21 @@ try {
         placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
       },
     },
-    {
-      operation: "processing.set",
-      target: { kind: "clip", id: ref("clip") },
-      steps: [{ label: "zoom", processor: geometry() }],
-    },
+    values.convenience
+      ? {
+          operation: "zoom",
+          target: { kind: "clip", id: ref("clip") },
+          from: 0.5,
+          to: 1.5,
+          interpolation: { cubic: [1 / 3, 0, 2 / 3, 1] },
+          window: { kind: "clip", clipId: ref("clip"), start: fraction(0), end: fraction(1) },
+          label: "zoom",
+        }
+      : {
+          operation: "processing.set",
+          target: { kind: "clip", id: ref("clip") },
+          steps: [{ label: "zoom", processor: geometry() }],
+        },
   ]);
   const clipId = authored.edit.labels.clip,
     stepId = authored.edit.labels.zoom;

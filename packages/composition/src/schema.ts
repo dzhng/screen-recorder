@@ -54,7 +54,7 @@ export const anchorSchema = z.discriminatedUnion("kind", [
 ]);
 const finite = z.number().finite();
 const handle = finite.min(0).max(1);
-const interpolation = z.union([
+export const interpolationSchema = z.union([
   z.enum(["hold", "linear"]),
   z.object({ cubic: z.tuple([handle, finite, handle, finite]).readonly() }).strict(),
 ]);
@@ -68,7 +68,7 @@ export function scalarCurveSchema(domain: "project" | "content" | "clip") {
         )
       : z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
   const keys = z
-    .array(z.object({ at, value: finite, interpolation }).strict())
+    .array(z.object({ at, value: finite, interpolation: interpolationSchema }).strict())
     .min(1)
     .readonly();
   return z

@@ -63,7 +63,9 @@ Compact evidence ledger:
   [zoom](assets/16-zoom/README.md) and [position/rotation](assets/16-pose/README.md)
   frame/edit controls pass on the combined build. [Crop/size/pivot curves](assets/16-geometry/README.md)
   also preserve all numeric geometry domains, including subnormal validation;
-  neither closes full keyframes or encoded quality. [Portable archive relocation](assets/22-portable-projects/README.md)
+  neither closes full keyframes or encoded quality. [Explicit fade/zoom conveniences](assets/16-conveniences/README.md)
+  pass scoped public PCM/PNG/edit and fresh product-skill checks; listening and
+  encoded quality remain separate acceptance gates. [Portable archive relocation](assets/22-portable-projects/README.md)
   and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
   their respective checkpoints, retaining workflow failures and handoff-ID errors.
   Relocation now preserves acquisition identities, raw/normalized evidence and retained

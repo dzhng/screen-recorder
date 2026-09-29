@@ -1,0 +1,609 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "dry",
+      "sha256": "871e440dfc1fa7cde563fa1f94072232709e14a6e7a2216733b3e7be9339ceb8",
+      "frames": 48000
+    },
+    {
+      "name": "fade",
+      "sha256": "a472da0fb447411a4fd74ae6a0dff3d4d32e4e6d0d6099a97555c9b93a831e27",
+      "frames": 48000
+    },
+    {
+      "name": "range",
+      "sha256": "545db768e4a55f66dd43b0f7c94fd5bf7711c6c3b10a543f9a0516ed3ddd9675",
+      "frames": 16001
+    },
+    {
+      "name": "fade-0",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "name": "fade-1",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "name": "fade-2",
+      "sha256": "33a159538fd51e2d27294a70e69654ae5b2bd5460532cace1e3a5d4530689cd9"
+    },
+    {
+      "name": "fade-3",
+      "sha256": "6e7fc9345b1f6c3c7cb5004506788de60ea59520096a50f1d3f2b9282902fb95"
+    },
+    {
+      "name": "fade-4",
+      "sha256": "622c79a67feaa0905cf3409dddec36f457ea276dd5dd40a5e85652f4993af6c7"
+    },
+    {
+      "name": "fade-5",
+      "sha256": "49786418da19c419b86586a498f738b4ff55fe877c8d74c1afb4b52fffb3fe7c"
+    },
+    {
+      "name": "fade-6",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "name": "fade-7",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "name": "static-0",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "name": "static-1",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "name": "static-2",
+      "sha256": "33a159538fd51e2d27294a70e69654ae5b2bd5460532cace1e3a5d4530689cd9"
+    },
+    {
+      "name": "static-3",
+      "sha256": "6e7fc9345b1f6c3c7cb5004506788de60ea59520096a50f1d3f2b9282902fb95"
+    },
+    {
+      "name": "static-4",
+      "sha256": "622c79a67feaa0905cf3409dddec36f457ea276dd5dd40a5e85652f4993af6c7"
+    },
+    {
+      "name": "static-5",
+      "sha256": "49786418da19c419b86586a498f738b4ff55fe877c8d74c1afb4b52fffb3fe7c"
+    },
+    {
+      "name": "static-6",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "name": "static-7",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f"
+    },
+    {
+      "name": "bypass",
+      "sha256": "992958562e2c533f6c526db01e017749df20efa4a5489dc7ff22ab0c355c44e7",
+      "frames": 48000
+    },
+    {
+      "name": "crossfade",
+      "sha256": "636e04455652a6e32f06205b0c520fc8e168ce7c4e779b2dde04aefc391daf29",
+      "frames": 48000
+    }
+  ],
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "INVALID_EDIT",
+        "message": "Processor is incompatible with target media",
+        "retryable": false,
+        "details": {
+          "target": {
+            "kind": "clip",
+            "id": "clip:d598da5466f77437b99420435850a5ac8e20950732077315d06819454c211084:1"
+          },
+          "stepId": "processingStep:3c1954f2221b297fabc12e5ba40c2bc2229d5ef5eddc121ade33ca8c9b8f1503:1",
+          "operationIndex": 1,
+          "cause": "INVALID_COMPOSITION"
+        }
+      }
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "workerSha256": "d0f3e72d5443bc7c9a295cbf8f2b5034284a364343d1a1eeecfccdcd33368e15",
+  "runnerSha256": "542b22f3039685a240d00b52fd68b3dfacc2c9eb6a0bf1081afc72a28512355c"
+}

@@ -1,0 +1,3507 @@
+{
+  "passed": true,
+  "case": "moved-split-zoom",
+  "convenience": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.restore",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "processing.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "project.delete",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "pictures": [
+    {
+      "name": "zoom-0",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "atUs": 0
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/zoom-0.png",
+      "sha256": "05207ec5904671362b52c52832a67eb1c6ac275adcdb0e752140831117ea6e3b",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/8c4e3c4a-c61e-4913-b29f-2911aa33ae2e.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 381,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "cacheId": "8c4e3c4a-c61e-4913-b29f-2911aa33ae2e"
+      }
+    },
+    {
+      "name": "zoom-1",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "atUs": 125000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/zoom-1.png",
+      "sha256": "43ab9707e119eee4b55e4b5eb65ae1cd334e7ec2735f2f117997a16a7fb3c120",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/e3da916f-2384-4c5c-9adf-3ce7a8894e44.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 558,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 1,
+          "sampleAtUs": 125000,
+          "visibleRange": {
+            "startUs": 125000,
+            "endUs": 250000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 125000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "cacheId": "e3da916f-2384-4c5c-9adf-3ce7a8894e44"
+      }
+    },
+    {
+      "name": "zoom-2",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "atUs": 250000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/zoom-2.png",
+      "sha256": "7a2ee47453156fd3cb20b81d9f6d236967f488cc1c8394f5158f2d212f6da5d6",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/88e3ed38-9862-4683-932a-13a13266206e.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 500,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 2,
+          "sampleAtUs": 250000,
+          "visibleRange": {
+            "startUs": 250000,
+            "endUs": 375000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 250000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "cacheId": "88e3ed38-9862-4683-932a-13a13266206e"
+      }
+    },
+    {
+      "name": "zoom-3",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "atUs": 375000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/zoom-3.png",
+      "sha256": "dbcda9860740be2743ba7e947f356fd3a2a80bccdd52bb9bf0c4990422fa0f36",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/d560fbe5-84f6-4ae3-a3fa-b38fa291c43b.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 543,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 3,
+          "sampleAtUs": 375000,
+          "visibleRange": {
+            "startUs": 375000,
+            "endUs": 500000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 375000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "cacheId": "d560fbe5-84f6-4ae3-a3fa-b38fa291c43b"
+      }
+    },
+    {
+      "name": "zoom-4",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "atUs": 500000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/zoom-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/a4e0e5da-dd9f-40b2-a5b0-d75206a68b1d.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 370,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "cacheId": "a4e0e5da-dd9f-40b2-a5b0-d75206a68b1d"
+      }
+    },
+    {
+      "name": "zoom-5",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "atUs": 625000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/zoom-5.png",
+      "sha256": "257b931671b5b4beea87ab095f3c59544bff5457637c73dfb49b3bff08a30baf",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/23570c6c-aa2f-42c3-8f0f-10c80a5c8248.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 502,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 5,
+          "sampleAtUs": 625000,
+          "visibleRange": {
+            "startUs": 625000,
+            "endUs": 750000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 625000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "cacheId": "23570c6c-aa2f-42c3-8f0f-10c80a5c8248"
+      }
+    },
+    {
+      "name": "zoom-6",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "atUs": 750000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/zoom-6.png",
+      "sha256": "ed59ee06e4a5a1b33ee4272beca1d4f290d5faa86f6b9672cf7dc40c0a669aae",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/b5e3d9f1-f213-442a-8352-424bd2c9829b.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 440,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 6,
+          "sampleAtUs": 750000,
+          "visibleRange": {
+            "startUs": 750000,
+            "endUs": 875000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 750000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "cacheId": "b5e3d9f1-f213-442a-8352-424bd2c9829b"
+      }
+    },
+    {
+      "name": "zoom-7",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "atUs": 875000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/zoom-7.png",
+      "sha256": "ece6249da526fd04cb158728968590cb233e5a85ee07db18b82f8f3696ab570e",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/84817137-4c31-4e32-b2e1-a1ad019ab09f.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 438,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 7,
+          "sampleAtUs": 875000,
+          "visibleRange": {
+            "startUs": 875000,
+            "endUs": 1000000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 875000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "89d46cd9-92e6-4556-a0be-c5bd55a73d5f",
+        "cacheId": "84817137-4c31-4e32-b2e1-a1ad019ab09f"
+      }
+    },
+    {
+      "name": "constant-0",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "15cbc825-b42a-4dcb-801c-5235ffbf3059",
+        "atUs": 0
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/constant-0.png",
+      "sha256": "05207ec5904671362b52c52832a67eb1c6ac275adcdb0e752140831117ea6e3b",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/1fc65017-4d42-4546-a1eb-bb3758872dd2.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 381,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 0,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "15cbc825-b42a-4dcb-801c-5235ffbf3059",
+        "cacheId": "1fc65017-4d42-4546-a1eb-bb3758872dd2"
+      }
+    },
+    {
+      "name": "constant-1",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "989b32c1-6ee8-4a1c-856c-d80eebdfc6e0",
+        "atUs": 125000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/constant-1.png",
+      "sha256": "43ab9707e119eee4b55e4b5eb65ae1cd334e7ec2735f2f117997a16a7fb3c120",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/81aa7437-976c-4a32-bfff-7d4916ebe39c.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 558,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 1,
+          "sampleAtUs": 125000,
+          "visibleRange": {
+            "startUs": 125000,
+            "endUs": 250000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 125000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "989b32c1-6ee8-4a1c-856c-d80eebdfc6e0",
+        "cacheId": "81aa7437-976c-4a32-bfff-7d4916ebe39c"
+      }
+    },
+    {
+      "name": "constant-2",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "2d7ee84c-e453-468e-92dd-2f671768cab1",
+        "atUs": 250000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/constant-2.png",
+      "sha256": "7a2ee47453156fd3cb20b81d9f6d236967f488cc1c8394f5158f2d212f6da5d6",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/ff4acc80-3501-47fe-8297-90ff65b52418.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 500,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 2,
+          "sampleAtUs": 250000,
+          "visibleRange": {
+            "startUs": 250000,
+            "endUs": 375000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 250000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "2d7ee84c-e453-468e-92dd-2f671768cab1",
+        "cacheId": "ff4acc80-3501-47fe-8297-90ff65b52418"
+      }
+    },
+    {
+      "name": "constant-3",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "47fd83e1-d654-4614-93c6-5254889fffb9",
+        "atUs": 375000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/constant-3.png",
+      "sha256": "dbcda9860740be2743ba7e947f356fd3a2a80bccdd52bb9bf0c4990422fa0f36",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/234df642-53a0-49f0-87d3-3b63bfd94f03.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 543,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 3,
+          "sampleAtUs": 375000,
+          "visibleRange": {
+            "startUs": 375000,
+            "endUs": 500000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 375000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "47fd83e1-d654-4614-93c6-5254889fffb9",
+        "cacheId": "234df642-53a0-49f0-87d3-3b63bfd94f03"
+      }
+    },
+    {
+      "name": "constant-4",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "6f65c98e-bf97-48d3-8370-1853225b7242",
+        "atUs": 500000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/constant-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/bc4e349f-9d54-41bc-ad61-60395a870250.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 370,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 500000,
+          "visibleRange": {
+            "startUs": 500000,
+            "endUs": 625000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "6f65c98e-bf97-48d3-8370-1853225b7242",
+        "cacheId": "bc4e349f-9d54-41bc-ad61-60395a870250"
+      }
+    },
+    {
+      "name": "constant-5",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "b66c14f8-24af-4030-ad79-791ceb944de0",
+        "atUs": 625000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/constant-5.png",
+      "sha256": "257b931671b5b4beea87ab095f3c59544bff5457637c73dfb49b3bff08a30baf",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/a376ea1b-945f-40d2-b63c-8e2a3360f92d.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 502,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 5,
+          "sampleAtUs": 625000,
+          "visibleRange": {
+            "startUs": 625000,
+            "endUs": 750000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 625000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "b66c14f8-24af-4030-ad79-791ceb944de0",
+        "cacheId": "a376ea1b-945f-40d2-b63c-8e2a3360f92d"
+      }
+    },
+    {
+      "name": "constant-6",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "e8ed1b07-b604-40f1-a3d9-9cf95425efa9",
+        "atUs": 750000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/constant-6.png",
+      "sha256": "ed59ee06e4a5a1b33ee4272beca1d4f290d5faa86f6b9672cf7dc40c0a669aae",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/1bc0591b-2246-4495-a148-bac401c365f4.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 440,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 6,
+          "sampleAtUs": 750000,
+          "visibleRange": {
+            "startUs": 750000,
+            "endUs": 875000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 750000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "e8ed1b07-b604-40f1-a3d9-9cf95425efa9",
+        "cacheId": "1bc0591b-2246-4495-a148-bac401c365f4"
+      }
+    },
+    {
+      "name": "constant-7",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "98b6f591-2463-4991-a7c0-57b46b4413b0",
+        "atUs": 875000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/constant-7.png",
+      "sha256": "ece6249da526fd04cb158728968590cb233e5a85ee07db18b82f8f3696ab570e",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/9c392d02-0abd-4d92-a3ba-b8897b76c728.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 438,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 7,
+          "sampleAtUs": 875000,
+          "visibleRange": {
+            "startUs": 875000,
+            "endUs": 1000000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 875000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "98b6f591-2463-4991-a7c0-57b46b4413b0",
+        "cacheId": "9c392d02-0abd-4d92-a3ba-b8897b76c728"
+      }
+    },
+    {
+      "name": "moved-0",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "atUs": 2000000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/moved-0.png",
+      "sha256": "05207ec5904671362b52c52832a67eb1c6ac275adcdb0e752140831117ea6e3b",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/0bf39e2f-5f3f-4c02-b6d9-05604bc330d1.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 381,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 16,
+          "sampleAtUs": 2000000,
+          "visibleRange": {
+            "startUs": 2000000,
+            "endUs": 2125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2000000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "cacheId": "0bf39e2f-5f3f-4c02-b6d9-05604bc330d1"
+      }
+    },
+    {
+      "name": "moved-1",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "atUs": 2125000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/moved-1.png",
+      "sha256": "43ab9707e119eee4b55e4b5eb65ae1cd334e7ec2735f2f117997a16a7fb3c120",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/54aab2dd-c21a-498e-a9ff-5beb0e54f5d3.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 558,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 17,
+          "sampleAtUs": 2125000,
+          "visibleRange": {
+            "startUs": 2125000,
+            "endUs": 2250000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2125000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "cacheId": "54aab2dd-c21a-498e-a9ff-5beb0e54f5d3"
+      }
+    },
+    {
+      "name": "moved-2",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "atUs": 2250000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/moved-2.png",
+      "sha256": "7a2ee47453156fd3cb20b81d9f6d236967f488cc1c8394f5158f2d212f6da5d6",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/53387e23-503c-42e3-9bc6-257efb557c90.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 500,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 18,
+          "sampleAtUs": 2250000,
+          "visibleRange": {
+            "startUs": 2250000,
+            "endUs": 2375000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2250000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "cacheId": "53387e23-503c-42e3-9bc6-257efb557c90"
+      }
+    },
+    {
+      "name": "moved-3",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "atUs": 2375000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/moved-3.png",
+      "sha256": "dbcda9860740be2743ba7e947f356fd3a2a80bccdd52bb9bf0c4990422fa0f36",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/591b17b9-266d-478a-bb79-f4baf0a41ea7.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 543,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 19,
+          "sampleAtUs": 2375000,
+          "visibleRange": {
+            "startUs": 2375000,
+            "endUs": 2500000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2375000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "cacheId": "591b17b9-266d-478a-bb79-f4baf0a41ea7"
+      }
+    },
+    {
+      "name": "moved-4",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "atUs": 2500000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/moved-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/6c370347-71fd-4e08-9915-ca0d86f1bd6c.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 370,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 20,
+          "sampleAtUs": 2500000,
+          "visibleRange": {
+            "startUs": 2500000,
+            "endUs": 2625000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "cacheId": "6c370347-71fd-4e08-9915-ca0d86f1bd6c"
+      }
+    },
+    {
+      "name": "moved-5",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "atUs": 2625000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/moved-5.png",
+      "sha256": "257b931671b5b4beea87ab095f3c59544bff5457637c73dfb49b3bff08a30baf",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/4115de65-49de-4f83-b2db-8279887822eb.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 502,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 21,
+          "sampleAtUs": 2625000,
+          "visibleRange": {
+            "startUs": 2625000,
+            "endUs": 2750000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2625000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "cacheId": "4115de65-49de-4f83-b2db-8279887822eb"
+      }
+    },
+    {
+      "name": "moved-6",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "atUs": 2750000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/moved-6.png",
+      "sha256": "ed59ee06e4a5a1b33ee4272beca1d4f290d5faa86f6b9672cf7dc40c0a669aae",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/45fc347e-4a36-478f-b46c-617786ea34b7.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 440,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 22,
+          "sampleAtUs": 2750000,
+          "visibleRange": {
+            "startUs": 2750000,
+            "endUs": 2875000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2750000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "cacheId": "45fc347e-4a36-478f-b46c-617786ea34b7"
+      }
+    },
+    {
+      "name": "moved-7",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "atUs": 2875000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/moved-7.png",
+      "sha256": "ece6249da526fd04cb158728968590cb233e5a85ee07db18b82f8f3696ab570e",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/afbf2006-807a-42b4-b305-95516ef4b544.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 438,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 23,
+          "sampleAtUs": 2875000,
+          "visibleRange": {
+            "startUs": 2875000,
+            "endUs": 3000000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2875000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "d5c63022-5a34-4b2a-87b1-c94e93995f89",
+        "cacheId": "afbf2006-807a-42b4-b305-95516ef4b544"
+      }
+    },
+    {
+      "name": "split-0",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "atUs": 2000000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/split-0.png",
+      "sha256": "05207ec5904671362b52c52832a67eb1c6ac275adcdb0e752140831117ea6e3b",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/b72812d0-b200-4fc2-a819-d222f96d6578.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 381,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 16,
+          "sampleAtUs": 2000000,
+          "visibleRange": {
+            "startUs": 2000000,
+            "endUs": 2125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2000000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "cacheId": "b72812d0-b200-4fc2-a819-d222f96d6578"
+      }
+    },
+    {
+      "name": "split-1",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "atUs": 2125000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/split-1.png",
+      "sha256": "43ab9707e119eee4b55e4b5eb65ae1cd334e7ec2735f2f117997a16a7fb3c120",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/a79f7c38-4a90-4623-8ab5-8f7f96db0449.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 558,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 17,
+          "sampleAtUs": 2125000,
+          "visibleRange": {
+            "startUs": 2125000,
+            "endUs": 2250000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2125000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "cacheId": "a79f7c38-4a90-4623-8ab5-8f7f96db0449"
+      }
+    },
+    {
+      "name": "split-2",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "atUs": 2250000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/split-2.png",
+      "sha256": "7a2ee47453156fd3cb20b81d9f6d236967f488cc1c8394f5158f2d212f6da5d6",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/cfdaf0c2-b171-4f56-a5fb-70711217298a.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 500,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 18,
+          "sampleAtUs": 2250000,
+          "visibleRange": {
+            "startUs": 2250000,
+            "endUs": 2375000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2250000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "cacheId": "cfdaf0c2-b171-4f56-a5fb-70711217298a"
+      }
+    },
+    {
+      "name": "split-3",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "atUs": 2375000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/split-3.png",
+      "sha256": "dbcda9860740be2743ba7e947f356fd3a2a80bccdd52bb9bf0c4990422fa0f36",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/2aa571b0-bffc-4c42-bb6e-2169dd603b79.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 543,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 19,
+          "sampleAtUs": 2375000,
+          "visibleRange": {
+            "startUs": 2375000,
+            "endUs": 2500000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2375000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "cacheId": "2aa571b0-bffc-4c42-bb6e-2169dd603b79"
+      }
+    },
+    {
+      "name": "split-4",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "atUs": 2500000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/split-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/9b76b556-0024-4f53-9521-3e23f26acfea.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 370,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 20,
+          "sampleAtUs": 2500000,
+          "visibleRange": {
+            "startUs": 2500000,
+            "endUs": 2625000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "cacheId": "9b76b556-0024-4f53-9521-3e23f26acfea"
+      }
+    },
+    {
+      "name": "split-5",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "atUs": 2625000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/split-5.png",
+      "sha256": "257b931671b5b4beea87ab095f3c59544bff5457637c73dfb49b3bff08a30baf",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/cb7af433-a455-47c4-9e75-7aec860b9e2c.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 502,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 21,
+          "sampleAtUs": 2625000,
+          "visibleRange": {
+            "startUs": 2625000,
+            "endUs": 2750000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2625000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "cacheId": "cb7af433-a455-47c4-9e75-7aec860b9e2c"
+      }
+    },
+    {
+      "name": "split-6",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "atUs": 2750000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/split-6.png",
+      "sha256": "ed59ee06e4a5a1b33ee4272beca1d4f290d5faa86f6b9672cf7dc40c0a669aae",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/2c4f77a8-4763-4bda-8f10-8f6ac12a7451.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 440,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 22,
+          "sampleAtUs": 2750000,
+          "visibleRange": {
+            "startUs": 2750000,
+            "endUs": 2875000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2750000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "cacheId": "2c4f77a8-4763-4bda-8f10-8f6ac12a7451"
+      }
+    },
+    {
+      "name": "split-7",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "atUs": 2875000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/split-7.png",
+      "sha256": "ece6249da526fd04cb158728968590cb233e5a85ee07db18b82f8f3696ab570e",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/44190a45-a741-4a79-a57b-b813005cf151.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 438,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 23,
+          "sampleAtUs": 2875000,
+          "visibleRange": {
+            "startUs": 2875000,
+            "endUs": 3000000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2875000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "02db3bf4-82c2-4f47-94e0-6ad28933f3a4",
+        "cacheId": "44190a45-a741-4a79-a57b-b813005cf151"
+      }
+    },
+    {
+      "name": "trim-4",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "cb1a66d0-0d6c-4fc7-b0bd-b11fc40f97a2",
+        "atUs": 2500000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/trim-4.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/0c19b44a-119e-42e4-8ee8-2dfa87540a1c.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 370,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 20,
+          "sampleAtUs": 2500000,
+          "visibleRange": {
+            "startUs": 2500000,
+            "endUs": 2625000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2500000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "cb1a66d0-0d6c-4fc7-b0bd-b11fc40f97a2",
+        "cacheId": "0c19b44a-119e-42e4-8ee8-2dfa87540a1c"
+      }
+    },
+    {
+      "name": "trim-5",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "cb1a66d0-0d6c-4fc7-b0bd-b11fc40f97a2",
+        "atUs": 2625000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/trim-5.png",
+      "sha256": "257b931671b5b4beea87ab095f3c59544bff5457637c73dfb49b3bff08a30baf",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/d16cebfb-e991-4b66-a8c6-d53d30e7b058.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 502,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 21,
+          "sampleAtUs": 2625000,
+          "visibleRange": {
+            "startUs": 2625000,
+            "endUs": 2750000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2625000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "cb1a66d0-0d6c-4fc7-b0bd-b11fc40f97a2",
+        "cacheId": "d16cebfb-e991-4b66-a8c6-d53d30e7b058"
+      }
+    },
+    {
+      "name": "trim-6",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "cb1a66d0-0d6c-4fc7-b0bd-b11fc40f97a2",
+        "atUs": 2750000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/trim-6.png",
+      "sha256": "ed59ee06e4a5a1b33ee4272beca1d4f290d5faa86f6b9672cf7dc40c0a669aae",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/b3dc683d-51e6-4dc6-9713-29f3892ac046.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 440,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 22,
+          "sampleAtUs": 2750000,
+          "visibleRange": {
+            "startUs": 2750000,
+            "endUs": 2875000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2750000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "cb1a66d0-0d6c-4fc7-b0bd-b11fc40f97a2",
+        "cacheId": "b3dc683d-51e6-4dc6-9713-29f3892ac046"
+      }
+    },
+    {
+      "name": "trim-7",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "cb1a66d0-0d6c-4fc7-b0bd-b11fc40f97a2",
+        "atUs": 2875000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/trim-7.png",
+      "sha256": "ece6249da526fd04cb158728968590cb233e5a85ee07db18b82f8f3696ab570e",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/ca90e106-85e5-45d8-962d-05499bab1aa8.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 438,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 23,
+          "sampleAtUs": 2875000,
+          "visibleRange": {
+            "startUs": 2875000,
+            "endUs": 2900000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:1c59ffb24f3f31a2352e32f65b14a7d5b1e5d84744daa2f66d8860077a0aa68e:0",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2875000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "cb1a66d0-0d6c-4fc7-b0bd-b11fc40f97a2",
+        "cacheId": "ca90e106-85e5-45d8-962d-05499bab1aa8"
+      }
+    },
+    {
+      "name": "window-0",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "4f6b02e0-2a15-4cc7-ae2f-1586d7f8ff23",
+        "atUs": 2000000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/window-0.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/d3308c76-b105-47a8-9f90-8741fbbfc47d.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 370,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 16,
+          "sampleAtUs": 2000000,
+          "visibleRange": {
+            "startUs": 2000000,
+            "endUs": 2125000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2000000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "4f6b02e0-2a15-4cc7-ae2f-1586d7f8ff23",
+        "cacheId": "d3308c76-b105-47a8-9f90-8741fbbfc47d"
+      }
+    },
+    {
+      "name": "window-1",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "4f6b02e0-2a15-4cc7-ae2f-1586d7f8ff23",
+        "atUs": 2125000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/window-1.png",
+      "sha256": "43ab9707e119eee4b55e4b5eb65ae1cd334e7ec2735f2f117997a16a7fb3c120",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/6b630ec4-767b-4f16-b5f2-df63e6f7f386.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 558,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 17,
+          "sampleAtUs": 2125000,
+          "visibleRange": {
+            "startUs": 2125000,
+            "endUs": 2250000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2125000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "4f6b02e0-2a15-4cc7-ae2f-1586d7f8ff23",
+        "cacheId": "6b630ec4-767b-4f16-b5f2-df63e6f7f386"
+      }
+    },
+    {
+      "name": "window-2",
+      "selection": {
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "4f6b02e0-2a15-4cc7-ae2f-1586d7f8ff23",
+        "atUs": 2250000
+      },
+      "file": "/tmp/screenrec-convenience-zoom-final/window-2.png",
+      "sha256": "250830a8729b86ed153c8388c0f9e82715ef4a1a1e63034f948217c57021a88f",
+      "receipt": {
+        "file": "/private/var/folders/3p/k21gnpt573b8yy45xvy27nd00000gn/T/zoom-public-zUY3UR/library/cache/derived/407620d4-7c3a-4f57-b052-197f0ef20aff.cache",
+        "mediaType": "image/png",
+        "width": 40,
+        "height": 64,
+        "sourceWidth": 40,
+        "sourceHeight": 64,
+        "bytes": 370,
+        "profile": "h264-rec709",
+        "frame": {
+          "index": 18,
+          "sampleAtUs": 2250000,
+          "visibleRange": {
+            "startUs": 2250000,
+            "endUs": 2375000
+          },
+          "layers": [
+            {
+              "kind": "image",
+              "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+              "trackId": "track:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:0",
+              "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+              "streamId": "image:0",
+              "availability": "available",
+              "width": 40,
+              "height": 64
+            }
+          ]
+        },
+        "decodedSamples": 0,
+        "readerOpens": 1,
+        "decodedImages": 1,
+        "pictures": [
+          {
+            "kind": "image",
+            "clipId": "clip:ef76273934d3c0eade0c90c4e8230d6ecdbc1ae96ff04893f79a41ad8ae6c604:1",
+            "assetId": "b7723ef2e3ef8f6afa41811aaa819362e903a9c17448bcd9e58612fd913d3c12",
+            "streamId": "image:0",
+            "status": "available"
+          }
+        ],
+        "atUs": 2250000,
+        "maxLongEdge": 1600,
+        "tap": {
+          "target": {
+            "kind": "output"
+          },
+          "point": {
+            "kind": "processed"
+          }
+        },
+        "implementationId": "native-composition-picture-v13",
+        "projectId": "0a4173f3-eb16-44eb-bc15-db2bdb47338b",
+        "revisionId": "4f6b02e0-2a15-4cc7-ae2f-1586d7f8ff23",
+        "cacheId": "407620d4-7c3a-4f57-b052-197f0ef20aff"
+      }
+    }
+  ],
+  "checks": {
+    "wholeCurveRefusals": 0,
+    "analyticStaticControls": 8,
+    "movedPictures": 8,
+    "splitPictures": 8,
+    "trimmedPictures": 4,
+    "activationPictures": 3,
+    "previewExportExact": true,
+    "movieErrors": [
+      {
+        "mean": 0.528125,
+        "max": 18
+      },
+      {
+        "mean": 2.580859375,
+        "max": 221
+      },
+      {
+        "mean": 3.7680989583333333,
+        "max": 240
+      },
+      {
+        "mean": 4.657552083333333,
+        "max": 200
+      },
+      {
+        "mean": 1.5666666666666667,
+        "max": 15
+      },
+      {
+        "mean": 3.693229166666667,
+        "max": 163
+      },
+      {
+        "mean": 3.83984375,
+        "max": 202
+      },
+      {
+        "mean": 3.6395833333333334,
+        "max": 126
+      }
+    ],
+    "rangeErrors": [
+      {
+        "mean": 1.3309895833333334,
+        "max": 26
+      },
+      {
+        "mean": 1.23046875,
+        "max": 37
+      },
+      {
+        "mean": 0.430078125,
+        "max": 13
+      },
+      {
+        "mean": 0.39596354166666664,
+        "max": 9
+      },
+      {
+        "mean": 0.400390625,
+        "max": 10
+      }
+    ],
+    "encodedGate": "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance"
+  },
+  "runnerSha256": "d58f82703bf445f7c04979a99e727c1c47e114016295937a1b9a48d617b5b902",
+  "workerSha256": "d0f3e72d5443bc7c9a295cbf8f2b5034284a364343d1a1eeecfccdcd33368e15",
+  "decoderSha256": "dad4b30b36a1a999bfa4b6ffbde138bd17ee496c69e12eef638227dff2c6415c",
+  "serviceLogs": [
+    "(node:31136) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+  ]
+}

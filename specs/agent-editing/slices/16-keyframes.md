@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Unit-rate gain has scoped public PCM/edit evidence; delivered retime+gain, transitions, convenience commands and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
+Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Unit-rate gain has scoped public PCM/edit evidence; explicit fade/zoom conveniences have scoped public delivery evidence; delivered retime+gain, denoise transitions and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
 
 ## Contract
 
@@ -51,6 +51,50 @@ Delegated: Numerical solver and curve compilation optimizations within declared 
 
 User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
 
+## Convenience transition expansion
+
+`fade` and `zoom` are reducer conveniences inside the existing atomic edit batch.
+They append one ordinary processing step at the addressed target and return the
+complete resulting stack through the existing normalized change receipt. They do
+not persist a macro or create another mutation/storage owner. Existing steps and
+their order remain intact; later get/set can edit, move or bypass the expanded step.
+
+Both take an explicit `window` using the existing anchor, scalar `from` and `to`,
+and optional outgoing `interpolation` (linear by default) and step `label`. The
+two generated keys occupy the anchor's start and end in its existing domain:
+source microseconds, project microseconds or clip fractions. The second key is
+hold. Outside the half-open window the step is dry; within it the ordinary curve
+rules apply. A fade 0→1 over a clip's full normalized [0,1] smoothly enters; a
+fade 1→0 over [3/4,1] leaves at the clip end. A fade 1→0 over [1/4,1/2] returns
+to dry gain/opacity one at 1/2: that explicit temporary window is not a request
+to mute the rest of the clip. Agents needing a held terminal value use ordinary
+keys over a larger window. No implicit pre-roll, post-roll or smoothing is added.
+
+`fade` requires `mediaKind: "audio" | "video"` to choose gain or opacity,
+including at mixed output targets. Gain is linear amplitude, opacity linear alpha;
+their existing full-curve domains remain authoritative. A crossfade is two
+explicit fades in one atomic batch on already overlapping tracks; the engine does
+not create overlap, choose curves, attenuate other tracks or normalize the result.
+
+`zoom` generates equal x/y scale curves. Its optional `geometry` exposes the
+existing typed geometry settings other than scale/type: crop, rect, fit, pivot
+and rotation. Omission uses existing geometry defaults; it never rewrites an
+earlier geometry step. Geometry still consumes the preceding image in stack order,
+so a caller choosing a crop must account for that domain. Nonuniform or independently
+keyed scale remains available through ordinary `processing.set`.
+
+[Convenience evidence](../assets/16-conveniences/README.md) owns the scoped public
+CLI/MCP/native journeys and remaining acceptance. Whole-microsecond endpoints are
+required for project/content convenience windows because ordinary curve keys in
+those domains use integer microseconds. Fractional activation remains available
+with ordinary processing keys; the macro does not round an endpoint.
+
+The public gate compares macro media against independently authored ordinary edits,
+including dry neighbors, interior samples, target compatibility, exact receipts,
+split/trim/move, bypass and ranged output. Crossfade controls must distinguish
+alpha-over composition from summed audio amplitude. This convenience pass does
+not establish denoise wet/dry transitions, retimed PCM, or complete slice16 readiness.
+
 
 ## First delivered vertical: opacity timing
 
@@ -94,7 +138,7 @@ failed attempts and reviews. [Retained-index integration](../assets/16-opacity-i
 now proves tap-aware boundary selection, direct/retained PNG equality and fresh
 visual review. The service/native projection is shared with direct worker harnesses;
 no authoring easing is sent for native reinterpretation. Gain has its own delivery
-gate below; transitions and full-slice journeys stay open.
+gate below; denoise transitions and full-slice journeys stay open.
 
 ## Animated zoom vertical
 
@@ -114,7 +158,7 @@ primitives carry execution. The shared native-boundary projection and recipe IDs
 advance together. This pass's public `keyframes.mjs --case moved-split-zoom` journey
 must prove actual zoom, exact static controls, movement, split/trim, window activation
 and full/range preview/export correspondence. Position and rotation use the same
-owner below; gain has its own delivery gate below and convenience commands remain open.
+owner below; gain and explicit conveniences have their own scoped gates.
 
 
 The [zoom evidence](../assets/16-zoom/README.md) retains 39 exact public PNG checks,
@@ -136,7 +180,7 @@ is no additional translation object. Each scalar uses the same step window and
 retained clock, but keeps its own curve program. Full-curve values must stay finite,
 and sampled geometry still passes the numeric compiler's existing precision checks.
 The remaining crop/dimension/pivot fields share that clock as described below.
-Gain, transitions and convenience edits stay open.
+Gain and explicit conveniences have separate scoped evidence; denoise transitions remain open.
 
 [Public pose evidence](../assets/16-pose/README.md) retains exact animated/static
 frames and move/split/trim/window preservation, plus independent pivot/angle
@@ -162,7 +206,7 @@ review pass; fresh scoped geometry review passes with movie edge/color defects
 explicitly open. All 64 public static tap PNGs retain prior bytes. Tiny-coefficient
 extrema normalization rejects subnormal interior-zero sizes; final public
 confirmation preserves every reviewed picture and verifies seven curve refusals.
-Gain, transitions and convenience commands remain open; this is not whole-slice16
+Gain and explicit conveniences have separate scoped evidence; this is not whole-slice16
 acceptance.
 
 
@@ -194,7 +238,7 @@ not merely another render through the same compiler. Measure actual mixer cost a
 preserve the constant baseline. Retimed phase is checked through the edit reducer;
 delivered retime+gain PCM remains a dependency of slice14 and must retain its
 current NOT_READY result until stretching is accepted. This does not close
-transitions, convenience commands or the full-slice journey gate.
+denoise transitions or the full-slice journey gate.
 
 
 The [gain evidence](../assets/16-gain/README.md) retains actual debug/release native

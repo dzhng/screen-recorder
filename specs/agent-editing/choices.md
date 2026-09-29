@@ -2308,3 +2308,33 @@ existing lifetime owner.
   gain envelopes. A duration-changing edit still needs the unaccepted stretch
   executor, so its existing not-ready result remains. Pure timing checks support
   later integration; they are not evidence that stretched speech is deliverable.
+
+
+### Convenience edits append a new ordinary step
+
+When: slice16 explicit fade/zoom pass.
+
+The choice: adding a zoom after an existing crop leaves the crop intact and adds
+another geometry step consuming its output. Adding a fade likewise keeps previous
+level adjustments. The caller receives the complete updated stack and can move,
+edit or bypass the new step by its ordinary ID. The plan required inspectable
+expansion but did not select replacement versus append or the convenience shape.
+Replacing an existing geometry step would silently change unrelated authored work.
+The reach: callers must inspect the current stack and choose crop/rectangle settings
+for the image at that point. Verdict: sound; preserves explicit authorship and the
+single stack owner. Confidence: high.
+
+### Convenience windows do not invent a terminal hold or round time
+
+When: slice16 explicit fade/zoom pass.
+
+The choice: a fade-out from one-quarter to one-half of a clip is active only in
+that interval, then the original unfaded level returns. To stay silent after it,
+the caller authors an ordinary curve through the intended end. Source/project
+convenience endpoints must be whole microseconds; a fractional endpoint is refused
+instead of shifting the requested animation. Normalized clip fractions remain
+supported. The plan left the shorthand's behavior at its edges unspecified.
+The reach: the shorthand keeps existing dry-outside-window and integer-key rules;
+it adds no hidden end key, second clock or rounding policy. Verdict: sound, because
+ordinary processing remains the complete expressive path and receipts describe
+exactly what executes. Confidence: medium.
