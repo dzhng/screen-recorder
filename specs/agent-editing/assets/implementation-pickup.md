@@ -59,11 +59,14 @@ No production deadline or transaction guarantee changed.
   candidate, with grouping/gaps/window/resampling gates before rollout.
   The [bounded owner prototype](20b-admission/README.md) is integrated; root
   [confirmation](20b-admission/root-verification.json) preserves grouping, original
-  late PCM and a real1µs acquisition exclusion. Root reviewed the prospective
-  clock-copy/accepted-append journal proposal. Commit accepted physical counters
-  immediately after media acceptance; a later journal failure stops the take and
-  preserves the unmapped suffix. Test first-append track-start failure separately
-  from rejection before append. The production writer
+  late PCM and a real1µs acquisition exclusion. The
+  [accepted-media correction](20b-journal-failure/README.md) is integrated with
+  [combined-root verification](20b-journal-failure/root-verification.json): real
+  first track-start and acquisition-record write failures preserve accepted PCM
+  while reporting no acquired support for unjournaled audio. Continue the approved
+  prospective clock-copy and streaming exact-journal format; the existing source
+  export path must refuse the new layout until canonical prefix evidence is wired.
+  The production packed writer
   remains disconnected until canonical admission/recovery passes.
 - Shared audio reader / stretch: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
   [Exact aligned source phase](08-rational-segment-phase/README.md) is integrated

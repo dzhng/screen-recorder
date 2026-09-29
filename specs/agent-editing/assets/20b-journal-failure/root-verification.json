@@ -1,0 +1,56 @@
+{
+  "scope": "combined-root real filesystem failure and default capture preservation",
+  "workerSha256": "884ef606e66fa35c6032aa6205f630a748a4efe43e9e4afa9280e78a8de45593",
+  "artifactHashesVerified": 35,
+  "cases": [
+    {
+      "acceptedReportedBuffers": 1,
+      "decodedPCMBytes": 32768,
+      "errnoName": "none",
+      "exactInputPCM": true,
+      "expectedInputFrames": 8192,
+      "journaledAcquisitionRecords": 1,
+      "journalPrefixBytes": 524622,
+      "mediaBytesDuringLimit": {},
+      "mode": "healthy",
+      "observedErrno": 0,
+      "softLimitBytes": 524622,
+      "trackStartBytes": 148
+    },
+    {
+      "acceptedReportedBuffers": 1,
+      "decodedPCMBytes": 32768,
+      "errnoName": "EFBIG",
+      "exactInputPCM": true,
+      "expectedInputFrames": 8192,
+      "journaledAcquisitionRecords": 0,
+      "journalPrefixBytes": 524634,
+      "mediaBytesDuringLimit": {
+        "narration.mov": 32804,
+        "video.mov": 0
+      },
+      "mode": "track-start-failure",
+      "observedErrno": 27,
+      "softLimitBytes": 524634,
+      "trackStartBytes": 148
+    },
+    {
+      "acceptedReportedBuffers": 1,
+      "decodedPCMBytes": 32768,
+      "errnoName": "EFBIG",
+      "exactInputPCM": true,
+      "expectedInputFrames": 8192,
+      "journaledAcquisitionRecords": 0,
+      "journalPrefixBytes": 524636,
+      "mediaBytesDuringLimit": {
+        "narration.mov": 32804,
+        "video.mov": 0
+      },
+      "mode": "append-record-failure",
+      "observedErrno": 27,
+      "softLimitBytes": 524784,
+      "trackStartBytes": 148
+    }
+  ],
+  "defaultCaptureSuiteExitCode": 0
+}
