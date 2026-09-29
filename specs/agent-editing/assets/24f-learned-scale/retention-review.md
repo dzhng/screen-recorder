@@ -2,7 +2,7 @@
 
 I checked stored sizes, all small-file and metadata hashes, archive membership, and manifest/report identities. They agree. The restore script correctly streams ordered volumes, preserves four-byte sample words, restores prefixes and repeated inputs, and rehashes all four materialized files. The retained verification reports the expected full WAV hash and four restored originals.
 
-Two minor robustness issues remain in [restore.py](/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder/specs/agent-editing/assets/24f-learned-scale/restore.py):
+Two minor robustness issues remain in [restore.py](restore.py):
 
 - Integrity checks use `assert`; run without `-O` or `PYTHONOPTIMIZE`. Explicit failures would prevent accidentally disabling verification.
 - Failed extraction can leave partial outputs. Only accept outputs after successful completion; retries require fresh output paths.
