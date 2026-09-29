@@ -62,8 +62,9 @@ No production deadline or transaction guarantee changed.
   actual CLI/MCP checks and a fresh help-only consumer. External client support
   is not established by SDK schema acceptance alone.
 
-The capture proposal and independent audit are being retained with the storage
-checkpoint. The real-narration/music checkpoint is integrated; complete PCM
+The [sparse storage checkpoint](20a-sparse-storage/README.md) retains the capture
+proposal, independent audit and process-restart evidence; its original sample-phase
+gate remains red pending the shared reader correction. The real-narration/music checkpoint is integrated; complete PCM
 mix/dry-neighbor/undo and public negative controls pass without a listening claim.
 The [job-reference audit](acceptance-maintenance/job-references.md) confirms the
 existing retirement owner; no new garbage collector is needed for the audited paths.
@@ -102,3 +103,8 @@ their own recording and one clear question. Prior learned-filter preference
 stands; candidate boundaries remain unconfirmed and no new inference was run.
 
 [Fractional audio execution](08-fractional-rate-refusal/README.md) now refuses nonintegral native rates after a localized late-window defect; public audio/preview/preparation cache invalidation and named integer preservation pass. Fractional import remains available, with no offset/tolerance workaround or layout-policy expansion.
+
+[Current phrase timing](18-voice-boundary-timing/README.md) now has calibrated
+waveform/spectral figures and independent numerical/visual review. The accepted
+ending remains sample-exact. No entrance listening verdict or voice-generation
+readiness is inferred; no new audio or user audition was produced.

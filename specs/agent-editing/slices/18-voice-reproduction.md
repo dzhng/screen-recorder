@@ -1,6 +1,6 @@
 # 18 — Reproduce local reference speech
 
-Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode. With extracted background hum, the phrase ending sounds fine but its entrance remains too long. A [120ms shorter entrance](../assets/18-voice-phrase-lead/README.md) preserves the accepted ending sample-exact; acoustic/listening acceptance, visual review and managed origin retention remain open. Dependencies: [00](./00-corpus.md).
+Status: offline candidate reproduced; numerical/runtime and lexical checks pass. User rejects speaker-only mode. With extracted background hum, the phrase ending sounds fine but its entrance remains too long. A [120ms shorter entrance](../assets/18-voice-phrase-lead/README.md) preserves the accepted ending sample-exact; acoustic/listening acceptance and managed origin retention remain open. [Current phrase timing figures](../assets/18-voice-boundary-timing/README.md) now pass calibrated numerical and independent visual checks; this does not close listening or all-candidate visual acceptance. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -47,4 +47,4 @@ now matches both generated requested texts and the supplied reference transcript
 This closes only the ASR lexical cross-check; pronunciation, identity, delivery,
 protected joins and listening remain open. Missing required outputs fail the probe.
 
-The [acceptance handoff audit](../assets/18-voice-handoff/audit.md) separates the accepted ending, rejected conditioning mode and unanswered entrance audition, and identifies current-candidate calibrated timing evidence as the smallest non-listening follow-up. No new synthesis or listening verdict is implied.
+The [acceptance handoff audit](../assets/18-voice-handoff/audit.md) separates the accepted ending, rejected conditioning mode and unanswered entrance audition, and identified the now-retained current-phrase timing evidence as a non-listening follow-up. No new synthesis or listening verdict is implied.

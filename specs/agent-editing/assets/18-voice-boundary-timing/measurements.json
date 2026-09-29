@@ -1,0 +1,109 @@
+{
+  "rate": 24000,
+  "inputs": [
+    {
+      "path": "18-voice/context.wav",
+      "sha256": "779cbc2c8b034ec8aff96879cda49c0042ca4401ac25aab8e41abae3de79bb45",
+      "frames": 120000
+    },
+    {
+      "path": "18-voice-roomtone/phrase-room-context.wav",
+      "sha256": "0c7ecf33de2d3d6ac9b43a15400e5e65372ba94ea302f5f6999059caf0946574",
+      "frames": 154800
+    },
+    {
+      "path": "18-voice-phrase-lead/phrase-shorter-lead-context.wav",
+      "sha256": "97e80d9879d38b9368322bd355e49c7d32487fbacb8ca95f666d1ad6baf07500",
+      "frames": 151920
+    }
+  ],
+  "transitionFrames": 120,
+  "removedEntranceFrames": 2880,
+  "suffixExact": true,
+  "suffixFrames": 97952,
+  "boundaries": [
+    {
+      "boundary": "entrance",
+      "amplitudeLimits": [
+        -0.1,
+        0.1
+      ],
+      "rows": [
+        {
+          "label": "Original recorded context",
+          "anchorFrame": 53848,
+          "windowFrames": [
+            45448,
+            62248
+          ],
+          "peak": 0.06999309360980988,
+          "rms": 0.010642139195532299
+        },
+        {
+          "label": "Previous phrase + recorded hum",
+          "anchorFrame": 53848,
+          "windowFrames": [
+            45448,
+            62248
+          ],
+          "peak": 0.06999309360980988,
+          "rms": 0.011234565437504717
+        },
+        {
+          "label": "Current phrase: 120 ms shorter entrance",
+          "anchorFrame": 53848,
+          "windowFrames": [
+            45448,
+            62248
+          ],
+          "peak": 0.06999309360980988,
+          "rms": 0.011641852561018712
+        }
+      ],
+      "previousCurrentWindowExact": false,
+      "previousCurrentMaxAbsDifference": 0.05563040147535503
+    },
+    {
+      "boundary": "exit",
+      "amplitudeLimits": [
+        -0.05,
+        0.05
+      ],
+      "rows": [
+        {
+          "label": "Original recorded context",
+          "anchorFrame": 76528,
+          "windowFrames": [
+            68128,
+            84928
+          ],
+          "peak": 0.03425034508109093,
+          "rms": 0.006110142603179947
+        },
+        {
+          "label": "Previous phrase + recorded hum",
+          "anchorFrame": 111328,
+          "windowFrames": [
+            102928,
+            119728
+          ],
+          "peak": 0.042995188385248184,
+          "rms": 0.006612913602067844
+        },
+        {
+          "label": "Current phrase: 120 ms shorter entrance",
+          "anchorFrame": 108448,
+          "windowFrames": [
+            100048,
+            116848
+          ],
+          "peak": 0.042995188385248184,
+          "rms": 0.006612913602067844
+        }
+      ],
+      "previousCurrentWindowExact": true,
+      "previousCurrentMaxAbsDifference": 0.0
+    }
+  ],
+  "scope": "Frozen candidate timing and sample preservation only; no listening, phoneme boundary, voice identity or naturalness verdict."
+}
