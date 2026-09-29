@@ -24,5 +24,93 @@
     "vmAllocatedAfterApproxGiB": 107
   },
   "freeSpaceAfterApproxGiB": 72,
-  "scopeNote": "Docker logical accounting can include shared layers; host free-space delta also includes unrelated system activity. No claim all logical removed bytes are additional physical reclamation. Active implementation worktrees, model/runtime artifacts, user recordings and named images/volumes retained."
+  "scopeNote": "Docker logical accounting can include shared layers; host free-space delta also includes unrelated system activity. No claim all logical removed bytes are additional physical reclamation. Active implementation worktrees, user recordings and named images/volumes were excluded from cleanup.",
+  "subsequentModelObservation": {
+    "missingPaths": [
+      "/tmp/screenrec-voice-model",
+      "/tmp/screenrec-speech-align-model",
+      "/tmp/screenrec-speech-verbatim-model"
+    ],
+    "cause": "Unknown; these paths were not targeted by the recorded cleanup actions. Earlier blanket model-preservation claim withdrawn.",
+    "recovery": {
+      "status": "Restored and verified all 14 pinned files",
+      "path": "/Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519",
+      "revision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+      "bytes": 2516143009,
+      "files": [
+        {
+          "path": ".gitattributes",
+          "bytes": 1519,
+          "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+        },
+        {
+          "path": "README.md",
+          "bytes": 1026,
+          "sha256": "d0c0b25c2cc544e864cafccee9d2447a04d1fba561060c0d88bd5c2bc1e5ea86"
+        },
+        {
+          "path": "config.json",
+          "bytes": 5317,
+          "sha256": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4"
+        },
+        {
+          "path": "generation_config.json",
+          "bytes": 245,
+          "sha256": "f1b90b4513f3b34c62851049e2492d7b4c5940daf1276f89c82b8ef04127f3aa"
+        },
+        {
+          "path": "merges.txt",
+          "bytes": 1671839,
+          "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        {
+          "path": "model.safetensors",
+          "bytes": 1829344448,
+          "sha256": "d7c7ed3e3464e3e59de0f955b3755891fa8319ff061c3f0307fe2e1343bc122d"
+        },
+        {
+          "path": "model.safetensors.index.json",
+          "bytes": 38573,
+          "sha256": "e02433c97b2894586e8842af2b40381c5bb644bc1c6bf71a6a52a727efe92313"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 127,
+          "sha256": "efdde1022ea9d76928bf7a9cd53139138f5ba2e466e837f08f6105ab1af1c119"
+        },
+        {
+          "path": "speech_tokenizer/config.json",
+          "bytes": 2336,
+          "sha256": "ee65bb901c876664ab8707c487157aa1a6ee57c65969b28fb5ec9dc211e68167"
+        },
+        {
+          "path": "speech_tokenizer/configuration.json",
+          "bytes": 76,
+          "sha256": "6bc26d64eb5024b4d1dab5a52371958b429256d6c9d59787f1f5294a54e0cebd"
+        },
+        {
+          "path": "speech_tokenizer/model.safetensors",
+          "bytes": 682293092,
+          "sha256": "836b7b357f5ea43e889936a3709af68dfe3751881acefe4ecf0dbd30ba571258"
+        },
+        {
+          "path": "speech_tokenizer/preprocessor_config.json",
+          "bytes": 234,
+          "sha256": "fcb3805e597e786d4067706e602f6688524640f8d3396790e2e09b5942fcbdfb"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "bytes": 7344,
+          "sha256": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670"
+        },
+        {
+          "path": "vocab.json",
+          "bytes": 2776833,
+          "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+        }
+      ],
+      "runtimeChanged": false
+    }
+  },
+  "freeBytesAfterModelRecovery": 72898449408
 }
