@@ -117,7 +117,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
         }
     }
 
-    func pause() {
+    package func pause() {
         queue.sync {
             sampler?.suspend()
             let hostUs = CaptureHostTime.nowUs()
@@ -126,7 +126,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
             _ = record { try self.journal.recordPauseBegan(hostUs: hostUs) }
         }
     }
-    func resume() {
+    package func resume() {
         queue.sync {
             resumeClock(at: CaptureHostTime.nowUs())
             if !finishing { sampler?.resume() }

@@ -1,0 +1,74 @@
+{
+  "durationUs" : 2500000,
+  "journal" : {
+    "completion" : {
+      "durationUs" : 2500000,
+      "failureCode" : "INTERRUPTED",
+      "sequence" : 17,
+      "state" : "interrupted"
+    },
+    "cursorSamples" : 0,
+    "file" : "capture.journal.jsonl",
+    "finished" : true,
+    "geometryEpochs" : 0,
+    "header" : {
+      "height" : 96,
+      "microphone" : true,
+      "schemaVersion" : 1,
+      "sessionID" : "continuous",
+      "source" : {
+        "kind" : "offline-prerecorded"
+      },
+      "systemAudio" : false,
+      "width" : 160
+    },
+    "incompleteTail" : false,
+    "lastSequence" : 17,
+    "originHostUs" : 512841937030,
+    "pauses" : [
+
+    ]
+  },
+  "tracks" : [
+    {
+      "acquisitionVerified" : true,
+      "decodeReachedEnd" : true,
+      "decodedSamples" : 2,
+      "file" : "video.mov",
+      "intervals" : [
+        {
+          "endUs" : 2500000,
+          "startUs" : 0
+        }
+      ],
+      "role" : "video"
+    },
+    {
+      "acquisitionVerified" : true,
+      "decodeReachedEnd" : true,
+      "decodedSamples" : 13,
+      "file" : "narration.mov",
+      "intervals" : [
+        {
+          "endUs" : 2100000,
+          "startUs" : 100000
+        }
+      ],
+      "role" : "narration"
+    },
+    {
+      "acquisitionVerified" : true,
+      "decodeReachedEnd" : false,
+      "decodedSamples" : 0,
+      "failure" : {
+        "code" : "NOT_REQUESTED",
+        "message" : "This take did not request system audio."
+      },
+      "file" : "system.mov",
+      "intervals" : [
+
+      ],
+      "role" : "system"
+    }
+  ]
+}

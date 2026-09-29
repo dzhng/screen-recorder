@@ -1,0 +1,53 @@
+{
+  "cursor" : {
+    "droppedReadings" : 0,
+    "forgottenPlacements" : 0,
+    "geometryEpochs" : 0,
+    "omittedPaused" : 0,
+    "sampled" : 0,
+    "skippedTicks" : 0
+  },
+  "durationUs" : 2478266,
+  "failure" : {
+    "code" : "INTERRUPTED",
+    "message" : "Offline probe stops at its known video tail"
+  },
+  "height" : 96,
+  "hostOriginUs" : 512844671734,
+  "pauses" : [
+    {
+      "atSourceUs" : 800000,
+      "elapsedPauseUs" : 21734
+    }
+  ],
+  "source" : {
+    "kind" : "offline-prerecorded"
+  },
+  "state" : "interrupted",
+  "systemAudioScope" : "disabled",
+  "tracks" : [
+    {
+      "channelCount" : 1,
+      "droppedSamples" : 0,
+      "file" : "narration.mov",
+      "firstSampleUs" : 100000,
+      "heldTailUs" : 0,
+      "lastSampleEndUs" : 2078266,
+      "omittedSamples" : 1,
+      "role" : "narration",
+      "sampleRate" : 48000,
+      "samples" : 11
+    },
+    {
+      "droppedSamples" : 0,
+      "file" : "video.mov",
+      "firstSampleUs" : 0,
+      "heldTailUs" : 0,
+      "lastSampleEndUs" : 2478266,
+      "omittedSamples" : 0,
+      "role" : "video",
+      "samples" : 2
+    }
+  ],
+  "width" : 160
+}

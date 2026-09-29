@@ -45,12 +45,17 @@ therefore reports `completed: true` and `deliveredTimelinesPreserved: false`.
 There is no generic pass or physical synchronization claim. [Evidence](../assets/20a-offline-clock/README.md)
 separates these outcomes.
 
-Next: reproduce the same discontinuous PCM buffers through the actual
-CaptureWriter callback seam without starting SCStream, using production settings
-and observed control timestamps. Compare input buffer grouping, admitted support,
-container segments and decoded sample positions/values with this feature-owned
-writer. Establish the causal owner before proposing a fix. Do not conceal the
-hole with a new clock, invented padding, or journal-only relabelling of later audio.
+The [actual CaptureWriter reproduction](../assets/20a-capture-owner-gap/README.md)
+now confirms the same issue through the production callback, journal, pause and
+finalization owner with prerecorded PCM. Continuous input aligns; omitting one
+known buffer packs later sample values early with no backpressure drop. This is
+production-owner evidence for those buffers, not physical device measurement.
+
+Next: experimentally establish a sparse container/run representation that keeps
+actual PCM sample positions in the existing source clock, including crash recovery.
+The retained proposal requires explicit occupied/empty segments and truthful
+physical-run mapping if needed. No production timing fix is included; do not use
+silence padding, another clock or journal-only relabelling to hide shifted audio.
 
 The probe's role-isolated directories and offline journal headers are test evidence,
 not final capture asset mapping. Native video recovery treats decodable sample

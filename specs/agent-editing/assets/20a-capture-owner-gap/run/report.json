@@ -1,0 +1,98 @@
+{
+  "completed": true,
+  "scope": "Actual CaptureWriter callbacks with prerecorded buffers; no live capture",
+  "binarySha256": "278f8cbf044aecc828273a492f96cbd38ddde609bf4e4d57c9baec92a2631555",
+  "inputSha256": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+  "modes": [
+    {
+      "mode": "continuous",
+      "suppliedBuffers": 12,
+      "submittedBuffers": 12,
+      "admittedBuffers": 12,
+      "omittedIndices": [],
+      "productionDropped": 0,
+      "productionOmitted": 0,
+      "pauses": [],
+      "requestedEndUs": 2100000,
+      "actualStartUs": 100000,
+      "actualEndUs": 2100000,
+      "deficitUs": 0,
+      "decodedFrames": 96000,
+      "packedIdentity": true,
+      "decodedSha256": "8569fcee1664e29ef7f73ae2e05f1077c83442f8425b8a582454a9f4181c924c",
+      "recoveredSupport": [
+        {
+          "endUs": 2100000,
+          "startUs": 100000
+        }
+      ],
+      "timelineEndpointPreserved": true
+    },
+    {
+      "mode": "omitted-buffer",
+      "suppliedBuffers": 12,
+      "submittedBuffers": 11,
+      "admittedBuffers": 11,
+      "omittedIndices": [
+        4
+      ],
+      "productionDropped": 0,
+      "productionOmitted": 0,
+      "pauses": [],
+      "requestedEndUs": 2100000,
+      "actualStartUs": 100000,
+      "actualEndUs": 1929333,
+      "deficitUs": 170667,
+      "decodedFrames": 87808,
+      "packedIdentity": true,
+      "decodedSha256": "b6abf2f253c5d43157fd50ff65ca8f2b47abb5b7448b46597cba79912ffe6fe3",
+      "recoveredSupport": [
+        {
+          "endUs": 782667,
+          "startUs": 100000
+        },
+        {
+          "endUs": 1929333,
+          "startUs": 953333
+        }
+      ],
+      "timelineEndpointPreserved": false
+    },
+    {
+      "mode": "pause",
+      "suppliedBuffers": 12,
+      "submittedBuffers": 12,
+      "admittedBuffers": 11,
+      "omittedIndices": [
+        4
+      ],
+      "productionDropped": 0,
+      "productionOmitted": 1,
+      "pauses": [
+        {
+          "atSourceUs": 800000,
+          "elapsedPauseUs": 21734
+        }
+      ],
+      "requestedEndUs": 2078266,
+      "actualStartUs": 100000,
+      "actualEndUs": 1929333,
+      "deficitUs": 148933,
+      "decodedFrames": 87808,
+      "packedIdentity": true,
+      "decodedSha256": "b6abf2f253c5d43157fd50ff65ca8f2b47abb5b7448b46597cba79912ffe6fe3",
+      "recoveredSupport": [
+        {
+          "endUs": 782667,
+          "startUs": 100000
+        },
+        {
+          "endUs": 1929333,
+          "startUs": 931599
+        }
+      ],
+      "timelineEndpointPreserved": false
+    }
+  ],
+  "deliveredTimelinesPreserved": false
+}

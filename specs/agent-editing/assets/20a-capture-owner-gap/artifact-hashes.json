@@ -1,0 +1,39 @@
+{
+  "files": {
+    "README.md": "b37fad23e8b98a5b045dd4232784d6bf6971fad47a67c19852c7b628095af57a",
+    "preservation.log.gz": "ec485c73041549c2a8529de29e7a39fa22d888481e97a42bd2131463c4b09e55",
+    "review.log.gz": "2259972b33ea2418c480e8553d593d0c45ab0c5bcc139e4f90c08530ec0800f5",
+    "reviewed-initial-report.json": "5bb9847fde863234367b649213960eba1a337ae43e4339d49afe7ad386171106",
+    "run/build.log.gz": "058cd709cc275e6f4aba956d52042ef21d428834ef92f1b3fa3db19d9ca8a8db",
+    "run/native/continuous/capture-result.json": "3f3f013ea66f5f3a248c47eae3af4adf03544a89f8680f07f1cd151afa5267c5",
+    "run/native/continuous/capture.journal.jsonl.gz": "776379b0757d3e155354aa6f92e3fd9f730216b2d6602cf2c465643fde5a477b",
+    "run/native/continuous/decoded.f32.gz": "e1b052a97406d550a92d046e90b54c8db9ce9a2446e2da28a8812fc36a62487e",
+    "run/native/continuous/input.json": "b243b0a436ecd4732e6ee85e9ba32032d6d87d6a6579338f1026aa28d7350171",
+    "run/native/continuous/narration.mov": "457226055bc3a6ac3e4749d02c09b3aee70e0504c5b1a7d4bc94456b39beb4dc",
+    "run/native/continuous/packets.json.gz": "f6743950cbb9ebe819c8a82d9c8407b49ceb90967b02c5d2f68c7da8d3338c2c",
+    "run/native/continuous/recovery.json": "bb9714eddacbd4cf7c0fd92fc01aafe85d780007798a614ab6caf664055026fa",
+    "run/native/continuous/video.mov": "d25015cffd24257e71b3d11ffacfda696edebfaaab29fe1f1d26b5478e69c6f7",
+    "run/native/omitted-buffer/capture-result.json": "cb6d829e9e7912fda0197cb5a7c16c86ab4c12d42b1cc473e7421c8306c8b695",
+    "run/native/omitted-buffer/capture.journal.jsonl.gz": "147b7070b24d921069501409b4a3bc04b6140102b5eb488ea11edea4f45c6d51",
+    "run/native/omitted-buffer/decoded.f32.gz": "d42f0d6920a7b01490da28f0a67fbde5c79f9081a80117a36d66cca745b52e03",
+    "run/native/omitted-buffer/input.json": "bcdc9f97c678241672d8fb2ec47c50b41c82ad655fcde35c084543dfcbdc4d1f",
+    "run/native/omitted-buffer/narration.mov": "b12961f5ec11d49854a7e676291929565b16020d77188d5eb7c194cab3a95256",
+    "run/native/omitted-buffer/packets.json.gz": "fa83d9623a0483e79942b26ca892aab314bd99f72c6d98af549f15b96988d801",
+    "run/native/omitted-buffer/recovery.json": "3aece5a402aee948a80ffe79a44c5c6c171a99f63066933f744c9f88209ab630",
+    "run/native/omitted-buffer/video.mov": "74f2de57a0ebe86f2ebd974a832e17616f32cf5b2105d4561c7b242a4702f9ab",
+    "run/native/pause/capture-result.json": "801caba02387e2d378670bc5a37638e2960d189c7bb096e3b82bb64217c54020",
+    "run/native/pause/capture.journal.jsonl.gz": "d8147da03c75b2e7b0506b8b466f0d96177e0fcb8e481f3c3fb9a9ec80acc101",
+    "run/native/pause/decoded.f32.gz": "d42f0d6920a7b01490da28f0a67fbde5c79f9081a80117a36d66cca745b52e03",
+    "run/native/pause/input.json": "562ed576b0ebe4a851b13d75f5c0007f0ac31a2fc024308e41d30f151433a60a",
+    "run/native/pause/narration.mov": "c181522318ef0e58115037356e402a1883781ef5589252db92438f698ed983f2",
+    "run/native/pause/packets.json.gz": "fa83d9623a0483e79942b26ca892aab314bd99f72c6d98af549f15b96988d801",
+    "run/native/pause/recovery.json": "ff1bc0031c81ca6afa3d02901f580c90fa25d532ee94024fc55dcbf26cd56d03",
+    "run/native/pause/video.mov": "dacd987a19218440a4c52734e90231f31cbf135d017041a00efb695904fadbdc",
+    "run/report.json": "7369f544de39fc6b332a8e89eea1dd7be3d8f8a7c7755e1770738309c38ac7b5"
+  },
+  "sources": {
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureAudioGapProbe.swift": "b89c999ef22cc87b2668bfbfa9f4c6571a647c31009675576b89ab7cc87a79ad",
+    "packages/test-harness/editing/capture-audio-gap.mjs": "8928c92487139ba2eec1b0438373873a6658d6d82d9ec2ad8985cc4d271bb1fd",
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift": "64efd778913b0fd83ba4ddb1e367087cba26c90718b92302e2bb46c752e4aa8c"
+  }
+}
