@@ -50,3 +50,8 @@ resident memory to 3,574,104,064 bytes using float16 with the original frozen te
 All marked errors are unchanged and timing still fails; one unmarked onset moves
 80 ms. This is a provisional numerical candidate, not production or listening
 acceptance. The larger OS footprint remains separately reported.
+
+[The complete-sentence packet](12d-complete-sentence-cleanup.md) replaces the
+cropped filler presentation while preserving its original evidence. It verifies
+an explicit cut and exact retained PCM; independent labels and join quality
+remain open.

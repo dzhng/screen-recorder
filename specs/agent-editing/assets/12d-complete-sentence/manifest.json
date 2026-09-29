@@ -1,0 +1,299 @@
+{
+  "scope": "Complete proposed sentence context and explicit filler candidate, not cleanup quality acceptance",
+  "source": {
+    "path": "fixtures/narrated-workbench/narration.mov",
+    "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+    "trackOriginUsFromInheritedLabels": 48675,
+    "available": [
+      {
+        "startUs": 48675,
+        "endUs": 134022008
+      }
+    ]
+  },
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+  },
+  "harnessSha256": "7f7ae03533cd7180a37107594e6b088f26b6cf520f8ec1fa7010d2e822e015c5",
+  "transcriptSha256": "7792ed28400e645a75a1f607a023c02e1a40fb546fd3fdf48865d2eabd84b005",
+  "labelsSha256": "d6b4188e7a461a36e937e3018fb4e707233a986561c4fe02636fe88416c61faf",
+  "context": {
+    "startUs": 50518675,
+    "endUs": 57658675
+  },
+  "contextPolicy": "250ms before w111 and after w123; ASR-derived selection, not independent boundaries",
+  "cut": {
+    "startUs": 54128675,
+    "endUs": 54548675
+  },
+  "mapping": [
+    {
+      "source": {
+        "startUs": 50518675,
+        "endUs": 54128675
+      },
+      "outputFrames": [
+        0,
+        173280
+      ]
+    },
+    {
+      "source": {
+        "startUs": 54548675,
+        "endUs": 57658675
+      },
+      "outputFrames": [
+        173280,
+        322560
+      ]
+    }
+  ],
+  "sampleRate": 48000,
+  "channels": 1,
+  "removedFrames": 20160,
+  "joinFrame": 173280,
+  "nativeJoinRampFramesPerSide": 240,
+  "exactRetainedOutsideRamps": true,
+  "checkerMutationRejected": true,
+  "poison": {
+    "sourceSha256": "64747e42354713e16d0b9802ef60e07f527cf52956faccf028cf11fc32a32c31",
+    "payloadOffset": 9690240,
+    "changedSourceBytes": [
+      [
+        10386005,
+        10388565
+      ],
+      [
+        10388565,
+        10392661
+      ],
+      [
+        10392661,
+        10396757
+      ],
+      [
+        10396757,
+        10400853
+      ],
+      [
+        10400853,
+        10404949
+      ],
+      [
+        10404949,
+        10409045
+      ],
+      [
+        10409045,
+        10413141
+      ],
+      [
+        10413141,
+        10417237
+      ],
+      [
+        10417237,
+        10421333
+      ],
+      [
+        10421333,
+        10425429
+      ],
+      [
+        10425429,
+        10429525
+      ],
+      [
+        10429525,
+        10433621
+      ],
+      [
+        10433621,
+        10437717
+      ],
+      [
+        10437717,
+        10441813
+      ],
+      [
+        10441813,
+        10445909
+      ],
+      [
+        10445909,
+        10450005
+      ],
+      [
+        10450005,
+        10454101
+      ],
+      [
+        10454101,
+        10458197
+      ],
+      [
+        10458197,
+        10462293
+      ],
+      [
+        10462293,
+        10466389
+      ],
+      [
+        10466389,
+        10466645
+      ]
+    ],
+    "positiveControlChangedOnlyRemovedFrames": true,
+    "candidatePcmExactlyUnchanged": true,
+    "sourceCopyRemovedAfterVerification": true
+  },
+  "artifacts": [
+    {
+      "file": "original.wav",
+      "sha256": "38ad96206360f48ece6ded712f0a1d72b18efb9eae3dfd5e01b49721e67c8dfb",
+      "pcmSha256": "36f7d1cc88ae5366012566699f2093c679e8715bc5f0f1b3a5bf8922b1bf266a",
+      "frames": 342720,
+      "bytes": 1374976,
+      "dataOffset": 4096,
+      "response": {
+        "bytes": 1374976,
+        "channels": 1,
+        "durationUs": 7140000,
+        "file": "/tmp/screenrec-12d-complete-sentence-v2/original.wav",
+        "frames": 342720,
+        "mediaType": "audio/wav",
+        "sampleRate": 48000,
+        "spans": [
+          {
+            "endUs": 57658675,
+            "startUs": 50518675
+          }
+        ],
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 1,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      }
+    },
+    {
+      "file": "candidate-remove-uh.wav",
+      "sha256": "a16a92434c5e8bccbe6b527e3e938b9186d5055867d0fa2682317d3425b2b9fd",
+      "pcmSha256": "a9ce919f3552f7d84e1fc5f2cb041b94ef347640e7328c43fd39fcf69057a87a",
+      "frames": 322560,
+      "bytes": 1294336,
+      "dataOffset": 4096,
+      "response": {
+        "bytes": 1294336,
+        "channels": 1,
+        "durationUs": 6720000,
+        "file": "/tmp/screenrec-12d-complete-sentence-v2/candidate-remove-uh.wav",
+        "frames": 322560,
+        "mediaType": "audio/wav",
+        "sampleRate": 48000,
+        "spans": [
+          {
+            "endUs": 54128675,
+            "startUs": 50518675
+          },
+          {
+            "endUs": 57658675,
+            "startUs": 54548675
+          }
+        ],
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 1,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      }
+    },
+    {
+      "file": "poison-original-control.wav",
+      "sha256": "bd1239d4964373af598a502f3620d791d15da71f04c6cdf0a3b913e535d6c61f",
+      "pcmSha256": "e8704181134abba262c2fbccb9e59199f2f69d1ae881174adaa0b66d9aa21926",
+      "frames": 342720,
+      "bytes": 1374976,
+      "dataOffset": 4096,
+      "response": {
+        "bytes": 1374976,
+        "channels": 1,
+        "durationUs": 7140000,
+        "file": "/tmp/screenrec-12d-complete-sentence-v2/poison-original-control.wav",
+        "frames": 342720,
+        "mediaType": "audio/wav",
+        "sampleRate": 48000,
+        "spans": [
+          {
+            "endUs": 57658675,
+            "startUs": 50518675
+          }
+        ],
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 1,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      }
+    },
+    {
+      "file": "poison-candidate-control.wav",
+      "sha256": "a16a92434c5e8bccbe6b527e3e938b9186d5055867d0fa2682317d3425b2b9fd",
+      "pcmSha256": "a9ce919f3552f7d84e1fc5f2cb041b94ef347640e7328c43fd39fcf69057a87a",
+      "frames": 322560,
+      "bytes": 1294336,
+      "dataOffset": 4096,
+      "response": {
+        "bytes": 1294336,
+        "channels": 1,
+        "durationUs": 6720000,
+        "file": "/tmp/screenrec-12d-complete-sentence-v2/poison-candidate-control.wav",
+        "frames": 322560,
+        "mediaType": "audio/wav",
+        "sampleRate": 48000,
+        "spans": [
+          {
+            "endUs": 54128675,
+            "startUs": 50518675
+          },
+          {
+            "endUs": 57658675,
+            "startUs": 54548675
+          }
+        ],
+        "tracks": [
+          {
+            "channels": 1,
+            "gain": 1,
+            "role": "narration",
+            "sampleRate": 48000,
+            "unavailable": []
+          }
+        ]
+      }
+    }
+  ],
+  "network": "OS sandbox denies network for every native invocation",
+  "playback": "not performed",
+  "selectedSpeechEngine": null,
+  "remaining": [
+    "independent labels for all audible fillers including ASR omissions",
+    "independent repeated-word removal versus deliberate-emphasis labels",
+    "manual protected-neighbor ranges around filler and repetition cuts",
+    "independent auditions of filler and repetition joins"
+  ]
+}

@@ -1,0 +1,173 @@
+{
+  "textAuthority": "Frozen ASR proposal; no fresh transcription or independent audition",
+  "originalText": "So let’s do the first paragraph, uh, this page is a recording fixture.",
+  "candidateText": "So let’s do the first paragraph, this page is a recording fixture.",
+  "punctuation": "Commas around uh are presentation only; spoken word tokens below remain unchanged.",
+  "words": [
+    {
+      "id": "w111",
+      "type": "word",
+      "text": "So",
+      "sourceRange": {
+        "endUs": 50928675,
+        "startUs": 50768675
+      },
+      "partial": false
+    },
+    {
+      "id": "w112",
+      "type": "word",
+      "text": "let's",
+      "sourceRange": {
+        "endUs": 51328675,
+        "startUs": 51008675
+      },
+      "partial": false
+    },
+    {
+      "id": "w113",
+      "type": "word",
+      "text": "do",
+      "sourceRange": {
+        "endUs": 51568675,
+        "startUs": 51328675
+      },
+      "partial": false
+    },
+    {
+      "id": "w114",
+      "type": "word",
+      "text": "the",
+      "sourceRange": {
+        "endUs": 51808675,
+        "startUs": 51568675
+      },
+      "partial": false
+    },
+    {
+      "id": "w115",
+      "type": "word",
+      "text": "first",
+      "sourceRange": {
+        "endUs": 52288675,
+        "startUs": 51968675
+      },
+      "partial": false
+    },
+    {
+      "id": "w116",
+      "type": "word",
+      "text": "paragraph,",
+      "sourceRange": {
+        "endUs": 53088675,
+        "startUs": 52288675
+      },
+      "partial": false
+    },
+    {
+      "id": "w117",
+      "type": "word",
+      "text": "uh",
+      "sourceRange": {
+        "endUs": 54448675,
+        "startUs": 54128675
+      },
+      "partial": false
+    },
+    {
+      "id": "w118",
+      "type": "word",
+      "text": "this",
+      "sourceRange": {
+        "endUs": 55408675,
+        "startUs": 55088675
+      },
+      "partial": false
+    },
+    {
+      "id": "w119",
+      "type": "word",
+      "text": "page",
+      "sourceRange": {
+        "endUs": 55728675,
+        "startUs": 55408675
+      },
+      "partial": false
+    },
+    {
+      "id": "w120",
+      "type": "word",
+      "text": "is",
+      "sourceRange": {
+        "endUs": 55888675,
+        "startUs": 55728675
+      },
+      "partial": false
+    },
+    {
+      "id": "w121",
+      "type": "word",
+      "text": "a",
+      "sourceRange": {
+        "endUs": 56048675,
+        "startUs": 55888675
+      },
+      "partial": false
+    },
+    {
+      "id": "w122",
+      "type": "word",
+      "text": "recording",
+      "sourceRange": {
+        "endUs": 56448675,
+        "startUs": 56048675
+      },
+      "partial": false
+    },
+    {
+      "id": "w123",
+      "type": "word",
+      "text": "fixture.",
+      "sourceRange": {
+        "endUs": 57408675,
+        "startUs": 56448675
+      },
+      "partial": false
+    }
+  ],
+  "target": {
+    "id": "filler-uh-54s",
+    "text": "uh",
+    "kind": "filler",
+    "sourceRange": {
+      "startUs": 54128675,
+      "endUs": 54548675
+    },
+    "fileRange": {
+      "startUs": 54080000,
+      "endUs": 54500000
+    },
+    "evidence": "specs/recording-for-ai/assets/speech/boundaries/marks.json",
+    "evidenceWords": [
+      "w117"
+    ],
+    "boundaryAuthority": "inherited-manual-visual-marks",
+    "audition": "not-performed-for-this-cut"
+  },
+  "protectedNeighbors": [
+    {
+      "wordId": "w116",
+      "text": "paragraph",
+      "independentRange": null
+    },
+    {
+      "wordId": "w118",
+      "text": "this",
+      "independentRange": null
+    }
+  ],
+  "independentFillerInventory": null,
+  "independentRepetitionIntent": null,
+  "joinListening": "UNVERIFIED",
+  "audibleSentenceCompleteness": "UNVERIFIED; all w111–w123 proposed word ranges are included with 250ms outer guards"
+}
