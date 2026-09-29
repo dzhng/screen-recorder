@@ -1,0 +1,19 @@
+{
+  "scope": "combined-root pure clip domains, project history and unavailable-execution admission; no RNNoise rendering",
+  "archiveMembersVerified": 20,
+  "build": {
+    "exitCode": 0,
+    "tasks": 6
+  },
+  "tests": {
+    "exitCode": 0,
+    "passed": 30,
+    "skipped": 1,
+    "skip": "pre-existing native-only test"
+  },
+  "initialAttempt": {
+    "exitCode": 1,
+    "cause": "root incorrectly ran core tests concurrently with their dependency build; old dist schema rejected RNNoise",
+    "disposition": "completed build then reran unchanged source/tests; retained setup failure is not a product red"
+  }
+}

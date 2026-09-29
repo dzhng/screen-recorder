@@ -94,9 +94,13 @@ No production deadline or transaction guarantee changed.
   used processing.capabilities, so this is not a help-only-session claim. Other
   external clients and rendered motion remain outside this checkpoint. The frozen
   native [learned adapter](15a1-denoise-entry/README.md) now has combined-root
-  confirmation of25 exact comparisons and error/cleanup gates.15a2 state-domain
-  semantics are the next pure edit/compiler checkpoint; reuse existing prepared
-  ownership for runtime integration. Public readiness remains unchanged. No
+  confirmation of25 exact comparisons and error/cleanup gates. The
+  [clip state-domain checkpoint](15a2a-state-domains/README.md) is integrated with
+  [root history/readiness verification](15a2a-state-domains/root-verification.json).
+  Shared split state, independent copies and bounded edit repair are metadata
+  contracts; no rendered RNNoise is implied. Next extend this same owner through
+  parent routing and connected authored windows, then channel admission and existing
+  prepared ownership for runtime integration. Public readiness remains unchanged. No
   protected-word acceptance follows from the user's no-artifacts feedback.
 
 The [sparse storage checkpoint](20a-sparse-storage/README.md) retains the capture
