@@ -19,15 +19,14 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-Active work is split between remaining encoder controls, prepared-audio portability
-and caption integration. Font admission and project screenshot-index relocation are
+Active work is split between encoded-appearance verification, prepared-audio
+portability and caption integration. Explicit output controls are verified. Font admission and project screenshot-index relocation are
 integrated; their final combined checks are tracked in the pickup.
 See the [implementation pickup](assets/implementation-pickup.md) for exact checkpoints.
 
-1. Complete encoder-selection/discovery and final fresh skill use for
-   [agent-controlled output settings](slices/09b-output-settings.md). The
-   [balanced policy](assets/09b-output-quality/README.md) is selected; finish
-   matched encoded-appearance verification for [06](slices/06-render-reproduction.md),
+1. [Agent-controlled output settings](slices/09b-output-settings.md) and their
+   fresh public skill gate pass. The [balanced policy](assets/09b-output-quality/README.md)
+   is selected; finish matched encoded-appearance verification for [06](slices/06-render-reproduction.md),
    [15](slices/15-layer-geometry.md) and [16](slices/16-keyframes.md). Source and
    finished-canvas sampling corrections now pass their native/public gates.
    [Recorded decoder evidence](assets/16-zoom/writer/codec/recorded/README.md)
@@ -225,7 +224,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
-- [ ] [09b — Agent-controlled output settings](slices/09b-output-settings.md)
+- [x] [09b — Agent-controlled output settings](slices/09b-output-settings.md)
 - [x] [10a — Exact source-range occurrences](slices/10a-source-range-projection.md)
 - [x] [10b — Source acquisition and selected-stream transcripts](slices/10b-source-acquisition.md)
 - [x] [10c — Bounded occurrence evidence and phrase search](slices/10c-occurrence-queries.md)

@@ -1,0 +1,11 @@
+{
+  "commit": "8144117d",
+  "targetedBuild": "passed",
+  "compositionAndPreviewTests": 212,
+  "exportLifecycleTests": 13,
+  "combinedNativeBuild": "passed",
+  "combinedNativeSHA256": "d5190b6dad3258e57dfd0f6d6306b1d3a25f1a25fbae2540ea7c305c9f721f99",
+  "publicSettingsJourney": "passed including encoder selection and AAC discovery",
+  "freshSkill": "custom software policy and audio settings, resolved export/replay, actual format probing and incompatible-combination refusal passed",
+  "wholeEditorComplete": false
+}

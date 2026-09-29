@@ -2416,3 +2416,33 @@ high for identity/ownership, medium for the conservative face-count limit.
   generation while the caller is reading its pictures. The plan left the read-side
   admission decision unspecified; explicit retry and new recipes retain their
   ordinary execution paths.
+
+## Explicit encoder control decisions
+
+- **Sound, high confidence — preserve full GPU identities as decimal strings.**
+  A machine can identify its graphics device with a 64-bit number that JSON
+  cannot represent exactly as an ordinary JavaScript number. The agent sends
+  the discovered decimal string, and native code validates its unsigned range
+  before creating the writer. This prevents a valid device choice from silently
+  rounding to another ID; the plan did not specify the wire representation.
+- **Sound, high confidence — distinguish required selection from preference and telemetry.**
+  A required software, hardware or GPU policy goes into both preflight and the
+  actual writer. Successful writing under that hard constraint establishes
+  enforcement. A preferred GPU explicitly permits fallback. The platform does
+  not expose the writer's selected encoder session, so receipts do not invent
+  an observed ID from a separate preflight session. This retains the existing
+  writer owner rather than replacing it solely for telemetry.
+- **Sound, high confidence — explicit null requests the encoder default.**
+  A software encoder can reject an optional hardware-oriented property even
+  when the requested value is false. Agents inspect per-encoder capabilities
+  and set a nullable control to null when they intend to leave it unspecified.
+  Default presets remain intact, unsupported explicit values still fail, and
+  the resolved receipt preserves the null. The alternative of silently omitting
+  unsupported preset values would conceal which request was actually honored.
+- **Sound, high confidence — unavailable public controls remain discoverable.**
+  An SDK resampling key passed admission but failed actual AAC writing. Discovery
+  explains that it requires another conversion path rather than presenting a
+  working knob or pretending an accepted dictionary proves support. Read-only,
+  private and separate realtime/multipass workflows likewise remain distinct
+  from verified offline controls. No unverified DSP or codec is added by this
+  settings feature.

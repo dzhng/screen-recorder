@@ -243,6 +243,10 @@ returned resolved settings. Keep canvas dimensions/frame rate in the composition
 Read the actual encoded profile/level and audio format in the result; requested
 average bitrate is not measured file bitrate. Preserve the original request for
 export retries, and report unsupported combinations instead of silently substituting.
+When selecting an encoder, inspect its own control availability and the discovered
+AAC format choices. For controls that advertise it, explicit null leaves the encoder
+default instead of requesting an unsupported preset value. Required selection
+constraints must be honored; preferred selection can fall back as documented.
 
 For an editable project transfer, discover `export.create` package support and
 poll its durable export intent until committed. Open the resulting ZIP, inspect

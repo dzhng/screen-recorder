@@ -1,6 +1,6 @@
 # 09b — Agent-controlled output settings
 
-Status: explicit controls and expanded public SDK coverage integrated; balanced preset selected. Encoder-selection/AAC discovery completion and final fresh skill use remain open. Dependencies:
+Status: verified within the supported offline H.264/AAC output path: explicit controls, native encoder/AAC discovery, enforced selection, balanced preset policy, combined public checks and fresh agent skill use pass. Documented unavailable controls remain explicit. Dependencies:
 [09](09-first-preview.md), [05](05-compiler.md), [08a](08a-derived-cache.md).
 
 ## Contract
@@ -24,7 +24,8 @@ geometry semantics. If output-only resizing is added, it must reuse the existing
 geometry owner and specify its coordinate/timing behavior before implementation.
 
 [Functional and combined evidence](../assets/09b-output-settings/README.md),
-[expanded controls](../assets/09b-public-controls/README.md), and
+[expanded controls](../assets/09b-public-controls/README.md),
+[encoder selection and fresh skill verification](../assets/09b-encoder-selection/README.md), and
 [quality/size decision](../assets/09b-output-quality/README.md) retain current verification boundaries.
 
 ## Work and review surface

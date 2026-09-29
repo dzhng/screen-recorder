@@ -1,35 +1,37 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Prioritize remaining explicit encoder controls and their fresh public skill gate,
-then matched encoded-appearance verification. Prepared-audio portability and
-caption integration progress independently. No full editor or whole09b/16/17/22
+Explicit output settings09b and font admission17b are verified within their named
+scopes. Prioritize matched encoded-appearance verification, prepared-audio
+portability and caption integration in parallel. No full editor or whole16/17/22
 completion is claimed.
 
-## Output settings
+## Output controls complete; appearance verification next
 
-Root68e25d9d integrates the functional settings owner;95f54d82 retains the measured
-8 Mbps balanced policy. Public CLI/MCP settings, actual encoded format, canonical
-cache identity and pinned export retries pass combined native verification.
-Root0e86ecd0 adds documented automatic/zero semantics, look-ahead, constrained
-profiles and native AAC format acceptance. The combined targeted build and
-210 composition/preview tests pass. The original13 export-lifecycle tests and
-complete settings journey passed before this additive expansion.
+Root8144117d integrates encoder selection and concrete native AAC discovery on
+68e25d9d/0e86ecd0's settings owner. Combined build,212 composition/preview tests,
+13 export-lifecycle tests and the complete CLI/MCP/native settings journey pass.
+Fresh skill consumption discovers software controls, uses custom values and
+null defaults, exports/replays and independently probes formats without reading
+implementation for behavior. Exact evidence and limitations are retained in
+09b-encoder-selection. Presets remain editable defaults; actual writer selection
+constraints and unsupported combinations are explicit. No encoder telemetry is
+invented from preflight, and failed resampling-algorithm requests are unavailable.
 
-The output delegate owns production settings/native/tests in
+Frozen combined native worker: `/tmp/screenrec-combined-output-font-native`,
+SHA256 `d5190b6dad3258e57dfd0f6d6306b1d3a25f1a25fbae2540ea7c305c9f721f99`.
+It includes font admission and final output controls. The8Mbps balanced quality
+cohort retains sampled decoded parity after control expansion.
+
+The appearance delegate works in
 `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-Next: verified hardware/software/GPU/encoder selection through the same
-specification in preflight and actual writer, plus concrete discoverable AAC
-rates/bitrates rather than prose. Report requested/enforced selection, not an
-unavailable observed encoder ID. Explicit resampling-algorithm writer requests
-failed actual encoding and remain unavailable with a reason.
-
-Frozen expanded-control worker: `/tmp/screenrec-public-controls-native` (hash in
-09b-public-controls). Opening default reference/decoded hashes and file size match
-the frozen quality cohort. Final fresh output-skill use follows selection/discovery.
-The [encoding acceptance audit](09b-output-quality/acceptance-boundary.md) names
-remaining full/range, negative-control and visual/playback verification. Historical
-codec-loss diagnostics and exact pre-encode gates remain unchanged.
+The [acceptance audit](09b-output-quality/acceptance-boundary.md) defines remaining
+full/range, negative-control and visual/playback evidence. Frozen pointer-chain
+pre-encode pixels and compiler/pointer records reproduce exactly. Full/range
+encoded cohorts and shifted/missing-pointer controls are running with the frozen
+selection worker. Historical diagnostics and exact pre-encode gates stay intact.
+Use a fresh read-only CLI review for visual critique if the agent thread limit
+still prevents a new fork; sparse frames are not continuous playback acceptance.
 
 ## Portability and font integration
 

@@ -54,3 +54,12 @@ selection-type rename removes a protocol-name collision. These do not alter the
 successful encoding settings used by the retained native journey. The final frozen
 worker is `/tmp/screenrec-encoder-selection-native` with SHA-256
 `843b3bc21bc901e3bf24fc9c3ebd5bdfb9361b628c8e4a5403bd707df17a8270`.
+
+[Combined-root confirmation](root-integration.json) passes the targeted build,
+212 composition/preview tests,13 export-lifecycle tests, a fresh combined native
+build including font admission, and the complete public settings journey.
+[Fresh public skill review](skill-review.md) independently discovers software
+selection and AAC choices, exports with custom controls, replays exact intent and
+probes actual media. [Raw evidence](skill-evidence.zip) retains every attempt.
+No implementation-based discovery or repair was used; its review states startup
+infrastructure exposure, CLI-only scope and absent playback/listening.
