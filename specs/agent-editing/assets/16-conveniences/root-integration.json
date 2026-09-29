@@ -1,0 +1,11 @@
+{
+  "commit": "4dacce6a",
+  "build": "full repository build passed",
+  "compositionTests": 197,
+  "priorAdoption": {
+    "commit": "032b9f7a",
+    "focusedTests": 23,
+    "build": "targeted packages passed"
+  },
+  "scope": "Combined-build confirmation; delegate public and independent review evidence remains separately retained."
+}

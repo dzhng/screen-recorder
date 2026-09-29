@@ -19,9 +19,9 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-Parallel agents stopped with usage-limit errors. Their work remains recoverable;
-see the [interrupted implementation pickup](assets/implementation-pickup.md).
-Do not assume those agents or old processes are still running.
+Active work is split between output-settings verification and project screenshot-index
+portability. Transition conveniences are integrated; combined build and 197 composition tests pass.
+See the [implementation pickup](assets/implementation-pickup.md) for exact checkpoints.
 
 1. Implement [agent-controlled output settings](slices/09b-output-settings.md), then
    select and verify the required H.264 quality/size policy for [06](slices/06-render-reproduction.md),
