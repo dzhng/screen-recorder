@@ -26,7 +26,7 @@ An existing candidate is never overwritten: the same owner recomputes pinned evi
 
 `ExactTime` and `AudioSourceReader` moved to Media because Audio and this verifier both consume their native-address semantics. Audio conversion remains in Audio. Decoder phase/selection behavior is unchanged; the added asset constructor argument allows a dense composition while retaining the actual source input's resource loader and errors.
 
-Some integral rates and admitted phases require a container timescale beyond Int32. That refusal is explicit and leaves working media intact. Prospective packed capture admission must reuse this representability preflight **before** accepting frames when writer rollout lands; this checkpoint does not claim every integral rate/phase can be materialized.
+Some integral rates and admitted phases require a container timescale beyond Int32. That refusal is explicit and leaves working media intact. The [prospective clock gate](../20b-container-preflight/README.md) now reuses this exact preflight before accepted phase mutation. Actual writer rollout remains coupled to20d; not every integral rate/phase is materializable.
 
 ## Retained evidence
 

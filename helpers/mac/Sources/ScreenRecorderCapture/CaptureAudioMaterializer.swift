@@ -95,7 +95,7 @@ package enum CaptureAudioMaterializer {
     let format = mapping.format
     var runs = mapping.runs
     let accepted = mapping.accepted
-    let scale = try timescale(format)
+    let timing = try PCMContainerTime(phaseUs: format.phaseUs, rate: format.rate)
     let payloadURL = URL(fileURLWithPath: directory).appendingPathComponent(format.file)
     let payload = try CaptureMediaIdentity.read(payloadURL)
     let input = try MediaInput(url: payloadURL, purpose: .streaming)
@@ -118,12 +118,12 @@ package enum CaptureAudioMaterializer {
             withMediaType: .audio,
             preferredTrackID: kCMPersistentTrackID_Invalid)
         else { throw invalid("Cannot create canonical audio track.") }
-        target.naturalTimeScale = scale
+        target.naturalTimeScale = timing.timescale
         var pieces: [AVCompositionTrackSegment] = []
         var previous = CMTime.zero
         for run in runs {
           try Task.checkCancellation()
-          let at = try placement(run.declared, format: format, scale: scale)
+          let at = try timing.time(at: run.declared)
           let duration = CMTime(value: run.count, timescale: format.rate)
           if at > previous {
             pieces.append(
@@ -137,7 +137,7 @@ package enum CaptureAudioMaterializer {
               sourceTimeRange: CMTimeRange(
                 start: CMTime(value: run.physical, timescale: format.rate), duration: duration),
               targetTimeRange: CMTimeRange(start: at, duration: duration)))
-          previous = try placement(run.declared + run.count, format: format, scale: scale)
+          previous = try timing.time(at: run.declared + run.count)
         }
         try target.validateSegments(pieces)
         target.segments = pieces
@@ -150,7 +150,7 @@ package enum CaptureAudioMaterializer {
         try await exporter.export(to: candidate, as: .mov)
         try Task.checkCancellation()
       }
-      let verified = try await verify(candidate, format: format, runs: runs, scale: scale)
+      let verified = try await verify(candidate, format: format, runs: runs, timing: timing)
       guard verified.pcm == physical.pcm else {
         throw invalid("Canonical PCM differs from its physical prefix.")
       }
@@ -191,7 +191,8 @@ package enum CaptureAudioMaterializer {
     }
     let runs = clipped(mapping.runs, to: representedFrames)
     let verified = try await verify(
-      candidate, format: mapping.format, runs: runs, scale: timescale(mapping.format))
+      candidate, format: mapping.format, runs: runs,
+      timing: PCMContainerTime(phaseUs: mapping.format.phaseUs, rate: mapping.format.rate))
     _ = try CaptureJournal.streamAcceptedPCM(lease: lease, through: prefix) { _ in
       try Task.checkCancellation()
     }
@@ -397,7 +398,7 @@ package enum CaptureAudioMaterializer {
     return Physical(frames: frames, cleanEOF: clean, pcm: hex(hash.finalize()), diagnostic: problem)
   }
 
-  private static func verify(_ url: URL, format: JournalPCMTrack, runs: [Run], scale: Int32)
+  private static func verify(_ url: URL, format: JournalPCMTrack, runs: [Run], timing: PCMContainerTime)
     async throws -> (pcm: String, identity: CaptureMediaIdentity)
   {
     let identity = try CaptureMediaIdentity.read(url)
@@ -415,7 +416,7 @@ package enum CaptureAudioMaterializer {
     let trackRange = try await track.load(.timeRange)
     guard let lastRun = runs.last,
       CMTimeRangeGetEnd(trackRange)
-        == (try placement(lastRun.declared + lastRun.count, format: format, scale: scale))
+        == (try timing.time(at: lastRun.declared + lastRun.count))
     else {
       throw invalid("Canonical media extent differs from its declared support.")
     }
@@ -438,7 +439,7 @@ package enum CaptureAudioMaterializer {
         for index in first..<last {
           let run = runs[index]
           let segment = segments[index]
-          let start = try placement(run.declared, format: format, scale: scale)
+          let start = try timing.time(at: run.declared)
           guard segment.asset.start == start,
             segment.asset.duration == CMTime(value: run.count, timescale: format.rate)
           else { throw invalid("Canonical support changed.") }
@@ -477,32 +478,6 @@ package enum CaptureAudioMaterializer {
     return (hex(hash.finalize()), identity)
   }
 
-  private static func timescale(_ format: JournalPCMTrack) throws -> Int32 {
-    func gcd(_ first: Int64, _ second: Int64) -> Int64 {
-      var a = first
-      var b = second
-      while b != 0 { (a, b) = (b, a % b) }
-      return a
-    }
-    let phaseScale = 1_000_000 / gcd(format.phaseUs, 1_000_000)
-    let divisor = gcd(Int64(format.rate), phaseScale)
-    guard let scale = Int32(exactly: Int64(format.rate) / divisor * phaseScale) else {
-      throw invalid(
-        "Accepted sample phase cannot be represented exactly by this container timescale.")
-    }
-    return scale
-  }
-  private static func placement(_ frame: Int64, format: JournalPCMTrack, scale: Int32) throws
-    -> CMTime
-  {
-    let value =
-      Int128(format.phaseUs) * Int128(scale) / 1_000_000
-      + Int128(frame) * Int128(scale / format.rate)
-    guard let value = Int64(exactly: value) else {
-      throw invalid("Canonical timing exceeds container capacity.")
-    }
-    return CMTime(value: value, timescale: scale)
-  }
   private static func digest(_ domain: String, format: JournalPCMTrack) -> SHA256 {
     var hash = SHA256()
     hash.update(data: Data((domain + "\0").utf8))

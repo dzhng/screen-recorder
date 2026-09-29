@@ -113,6 +113,9 @@ public struct CaptureClock: Sendable {
         guard !end.overflow else {
             throw CaptureFailure("INVALID_AUDIO_TIMING", "PCM frame count overflow.")
         }
+        let container = try PCMContainerTime(phaseUs: anchor, rate: rate)
+        _ = try container.time(at: first)
+        _ = try container.time(at: end.partialValue)
         let placement = PCMPlacement(
             anchorUs: anchor, firstFrame: first, frames: frames, rate: rate,
             joinsPrevious: prior.map { first == $0.endFrame && removedUs == $0.removedUs } ?? false)

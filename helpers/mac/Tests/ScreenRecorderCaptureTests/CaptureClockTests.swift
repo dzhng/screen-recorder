@@ -1,7 +1,9 @@
+import CoreMedia
 import ScreenRecorderCapture
 
 func runCaptureClockTests() {
     runElapsedTests()
+    try! runPCMRepresentationTests()
     var prologue = CaptureClock()
     prologue.pause(at: 10)
     precondition(
@@ -130,4 +132,50 @@ private func runElapsedTests() {
     precondition(paused.elapsedSourceUs(at: 100) == 10,
                  "Sealing a paused take retains its paused endpoint")
     print("PASS elapsed playback time freezes across pauses and finalization")
+}
+
+private func runPCMRepresentationTests() throws {
+    let origin: Int64 = 100_000_000
+    for rate: Int32 in [44100, 48000, 192000] {
+        var clock = CaptureClock()
+        clock.start(at: origin)
+        let first = try clock.recordAcceptedPCM(role: "narration",
+            hostPTS: CMTime(value: origin + 100001, timescale: 1_000_000), frames: 1024, rate: rate)!
+        let nanoseconds = Int64((Int128(1024) * 1_000_000_000 + Int128(rate) / 2) / Int128(rate))
+        let next = try clock.recordAcceptedPCM(role: "narration",
+            hostPTS: CMTime(value: (origin + 100001) * 1000 + nanoseconds, timescale: 1_000_000_000),
+            frames: 1024, rate: rate)!
+        precondition(first.anchorUs == 100001 && first.firstFrame == 0)
+        precondition(next.anchorUs == first.anchorUs && next.firstFrame == 1024 && next.joinsPrevious)
+        if rate == 48000 {
+            var capacityRefused = false
+            do {
+                _ = try clock.recordAcceptedPCM(role: "narration",
+                    hostPTS: CMTime(value: 2_000_000_000_000, timescale: 1), frames: 1, rate: rate)
+            } catch let failure as CaptureFailure {
+                capacityRefused = failure.code == "INVALID_AUDIO_TIMING" && failure.message.contains("capacity")
+            }
+            precondition(capacityRefused, "An endpoint outside exact container capacity cannot advance state")
+            let delta = Int64((Int128(2048) * 1_000_000_000 + Int128(rate) / 2) / Int128(rate))
+            let following = try clock.recordAcceptedPCM(role: "narration",
+                hostPTS: CMTime(value: (origin + 100001) * 1000 + delta, timescale: 1_000_000_000),
+                frames: 1, rate: rate)!
+            precondition(following.firstFrame == 2048 && following.joinsPrevious)
+        }
+    }
+    var unusual = CaptureClock()
+    unusual.start(at: origin)
+    var refused = false
+    do {
+        _ = try unusual.recordAcceptedPCM(role: "narration",
+            hostPTS: CMTime(value: origin + 100001, timescale: 1_000_000), frames: 1024, rate: 47999)
+    } catch let failure as CaptureFailure {
+        refused = failure.code == "INVALID_AUDIO_TIMING" && failure.message.contains("timescale")
+    }
+    precondition(refused, "An unpublishable phase must be refused before prospective acceptance")
+    let valid = try unusual.recordAcceptedPCM(role: "narration",
+        hostPTS: CMTime(value: origin + 100000, timescale: 1_000_000), frames: 1024, rate: 47999)!
+    precondition(valid.anchorUs == 100000 && valid.firstFrame == 0 && !valid.joinsPrevious,
+        "A refused phase must not advance or establish accepted state")
+    print("PASS exact container representability precedes PCM acceptance without changing common native phase")
 }

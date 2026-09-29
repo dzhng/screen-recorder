@@ -1,0 +1,38 @@
+{
+  "verifiedArtifacts": 62,
+  "archiveSHA256": "b50a0fb48228edb377889198f4cf46e243fc01035cb20723dab9598de35fff44",
+  "oldWorkerSHA256": "2785f80b0c2525aa94dcd6eb27412c044a85d6727a288563091c517fcfb8e665",
+  "newWorkerSHA256": "2a9dd85dcc88f637c7eef326499b20681fb257ee370694918dcf92c5754b046f",
+  "parity": {
+    "comparisons": [
+      {
+        "control": "admission-48000",
+        "files": 3,
+        "equal": true
+      },
+      {
+        "control": "windows-44100",
+        "files": 11,
+        "equal": true
+      },
+      {
+        "control": "windows-48000",
+        "files": 11,
+        "equal": true
+      }
+    ],
+    "normalized": [
+      "output directory paths",
+      "peakResidentBytes process telemetry"
+    ],
+    "allPCMBytesExact": true
+  },
+  "gates": [
+    "default CaptureTests red before acceptance preflight, green after",
+    "failed initial phase and later endpoint leave state unchanged",
+    "44.1/48/192k common admission",
+    "frozen admission/non-grid windows exact PCM parity",
+    "existing unrepresentable materializer keeps payload",
+    "independent read-only review: no findings"
+  ]
+}

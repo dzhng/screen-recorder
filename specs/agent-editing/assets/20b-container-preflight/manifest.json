@@ -1,0 +1,250 @@
+{
+  "admission-48000-new.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "admission-48000-new/baseline.wav": {
+    "bytes": 42496,
+    "sha256": "5c82669fcfbd72e1c78a2978b511af1eb05fbfcb9d726bd57b5be28e0ef7a203"
+  },
+  "admission-48000-new/masked.wav": {
+    "bytes": 42496,
+    "sha256": "431e9aca85f4294b6181cdeab2ab049f4ae31f9be7e773570544b9c5266ee2ea"
+  },
+  "admission-48000-new/report.json": {
+    "bytes": 2007,
+    "sha256": "8df1ce7aba7abc9fe9d4d7b815cf71d32c9e0588aaba7ea8ce57c1b94f89af7e"
+  },
+  "admission-48000-old.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "admission-48000-old/baseline.wav": {
+    "bytes": 42496,
+    "sha256": "5c82669fcfbd72e1c78a2978b511af1eb05fbfcb9d726bd57b5be28e0ef7a203"
+  },
+  "admission-48000-old/masked.wav": {
+    "bytes": 42496,
+    "sha256": "431e9aca85f4294b6181cdeab2ab049f4ae31f9be7e773570544b9c5266ee2ea"
+  },
+  "admission-48000-old/report.json": {
+    "bytes": 2007,
+    "sha256": "8df1ce7aba7abc9fe9d4d7b815cf71d32c9e0588aaba7ea8ce57c1b94f89af7e"
+  },
+  "canonical-44100.mov": {
+    "bytes": 353497,
+    "sha256": "ab3d8512d633afa27a2864f97848e46f137aab55357b9c26f2703af22007e1f1"
+  },
+  "canonical-48000.mov": {
+    "bytes": 384697,
+    "sha256": "b3ed3bf077d47f016b1d26a6d7a420839b79f4dac3bd6289665d36b5d087de49"
+  },
+  "comparison.json": {
+    "bytes": 407,
+    "sha256": "55c26ec5f578d2cea90175c663c611f46360d2a03faa8e131b776c3744dff449"
+  },
+  "pcm-representation-green.log": {
+    "bytes": 4190,
+    "sha256": "ef567e3d2d7f61b7fe851ee303ceb2ee58142145d922b87d870137d36273e597"
+  },
+  "pcm-representation-red.log": {
+    "bytes": 793,
+    "sha256": "546ece4f4b57c2dbdf7b4d7ab5105cefd7479fd7ffa30d054b43668d4dbcf411"
+  },
+  "pcm-representation-review.log": {
+    "bytes": 105287,
+    "sha256": "dc048a9f3ca9c431bbc1c16848dcbf9fac17e9d7a1ba99685a319aae99c76522"
+  },
+  "windows-44100-new.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "windows-44100-new/native-full.json": {
+    "bytes": 446,
+    "sha256": "df81482228930f9c17e9e65acc4383ca48be2db96e80b8791adaebcc18be210b"
+  },
+  "windows-44100-new/native-full.wav": {
+    "bytes": 374536,
+    "sha256": "6a13c22388ec1b0b4467d031049b54a0159720d023f56457ec76b6b5ab5dcead"
+  },
+  "windows-44100-new/native-window.json": {
+    "bytes": 400,
+    "sha256": "a627d4e7e5f93d4f0124f1dc5129980875662d6726d40efd994d7ec69a95d739"
+  },
+  "windows-44100-new/native-window.wav": {
+    "bytes": 21656,
+    "sha256": "baa9d6d13d3eaae01fdc8cd73efab30cc8d29c63745515dc5427d8dbf5e889ac"
+  },
+  "windows-44100-new/project-full.json": {
+    "bytes": 604,
+    "sha256": "b1df293746b0fffc6d585b0ed973e7cc077de0db5424e55c54c5b277787955ad"
+  },
+  "windows-44100-new/project-full.request.json": {
+    "bytes": 1801,
+    "sha256": "7c8604d7208abf48b3788f6808ab0055df599347d3f148287d30a9dd1e682f6d"
+  },
+  "windows-44100-new/project-full.wav": {
+    "bytes": 810496,
+    "sha256": "db90c6747708a9745eb577881c449b42306b9e703683b58a018ee3ecc60a66d1"
+  },
+  "windows-44100-new/project-window.json": {
+    "bytes": 544,
+    "sha256": "5cb0dd0af990a9e2950a88982efc355150c81e81d25c09606fddc7f99c1cd90b"
+  },
+  "windows-44100-new/project-window.request.json": {
+    "bytes": 1812,
+    "sha256": "a43a31d130aca0cdf1fa610c739dcd0c9882a2f576d3829bcf98cfde2a4d68f7"
+  },
+  "windows-44100-new/project-window.wav": {
+    "bytes": 42320,
+    "sha256": "bff13378322d620f77635cde026f53b0f5a07547dabcc044a1748b4b9cc41dcc"
+  },
+  "windows-44100-new/report.json": {
+    "bytes": 607,
+    "sha256": "7226bcb243d6b50981bc1e7f4cc22f2b42acc096cc664202bc2a4bc99e818442"
+  },
+  "windows-44100-old.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "windows-44100-old/native-full.json": {
+    "bytes": 446,
+    "sha256": "d8fb0a1745fe24ee8c41221304d36397ff886629a586ecd960f9fdf57f15885e"
+  },
+  "windows-44100-old/native-full.wav": {
+    "bytes": 374536,
+    "sha256": "6a13c22388ec1b0b4467d031049b54a0159720d023f56457ec76b6b5ab5dcead"
+  },
+  "windows-44100-old/native-window.json": {
+    "bytes": 400,
+    "sha256": "610c7ba5da9b18b2813e0aa6ad13b33419b53de4d93f15eb323da4ee2212d5fd"
+  },
+  "windows-44100-old/native-window.wav": {
+    "bytes": 21656,
+    "sha256": "baa9d6d13d3eaae01fdc8cd73efab30cc8d29c63745515dc5427d8dbf5e889ac"
+  },
+  "windows-44100-old/project-full.json": {
+    "bytes": 604,
+    "sha256": "39c263acc4d22eef86006fb4182a98bf28838935e7f23431d0c82fbf616ab415"
+  },
+  "windows-44100-old/project-full.request.json": {
+    "bytes": 1801,
+    "sha256": "5fd4d596d949f99947147216cbdab68fa5197ef375e84a0a031f45100e0d0633"
+  },
+  "windows-44100-old/project-full.wav": {
+    "bytes": 810496,
+    "sha256": "db90c6747708a9745eb577881c449b42306b9e703683b58a018ee3ecc60a66d1"
+  },
+  "windows-44100-old/project-window.json": {
+    "bytes": 544,
+    "sha256": "424bb2bc2f69566ca36a02f5efca1b49a1ddeeca71cca8d9be26e913ff8b00d0"
+  },
+  "windows-44100-old/project-window.request.json": {
+    "bytes": 1812,
+    "sha256": "0296f94549819c9e8bcf865ecefe1217ca7ce1b7d772f90d383c366a888c3d88"
+  },
+  "windows-44100-old/project-window.wav": {
+    "bytes": 42320,
+    "sha256": "bff13378322d620f77635cde026f53b0f5a07547dabcc044a1748b4b9cc41dcc"
+  },
+  "windows-44100-old/report.json": {
+    "bytes": 607,
+    "sha256": "7226bcb243d6b50981bc1e7f4cc22f2b42acc096cc664202bc2a4bc99e818442"
+  },
+  "windows-48000-new.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "windows-48000-new/native-full.json": {
+    "bytes": 448,
+    "sha256": "bde145f9da3d6f58868787ae151faaa44b173b393fdba7de11f0d4468ac1c16c"
+  },
+  "windows-48000-new/native-full.wav": {
+    "bytes": 407296,
+    "sha256": "51901538590aebbf65313e046a6079a7c68c4504cce9f93a591948176ddaff4c"
+  },
+  "windows-48000-new/native-window.json": {
+    "bytes": 400,
+    "sha256": "df4d2e0691de2754e0c43d205c1668d3f23094965bff889b32aa095224e5a505"
+  },
+  "windows-48000-new/native-window.wav": {
+    "bytes": 23212,
+    "sha256": "864706e3ed2f5a95cf37ddb5e9cc5a541412c0edbc26c73e793e51802db845d8"
+  },
+  "windows-48000-new/project-full.json": {
+    "bytes": 595,
+    "sha256": "e21bee48f4ad9a5d85930bce47500e7e8f0f4f6cd94d32f896ab970dcc1ea9e6"
+  },
+  "windows-48000-new/project-full.request.json": {
+    "bytes": 1801,
+    "sha256": "4237b4ba9116bd5c69a2007b5cb32deb9b58053181e59d147024a8c1a69bdf64"
+  },
+  "windows-48000-new/project-full.wav": {
+    "bytes": 810496,
+    "sha256": "ef423e0d3b3f770ae5fa1fadd38110cbbf85e8583e9997c3d28941e2ed6d4775"
+  },
+  "windows-48000-new/project-window.json": {
+    "bytes": 529,
+    "sha256": "f9894cbcb67dc431626afb1feaaaca48567e3658debce61c19110ca4ef207a23"
+  },
+  "windows-48000-new/project-window.request.json": {
+    "bytes": 1812,
+    "sha256": "391600ae8b02e4e1542c41f38d93bba883fb340977d67aea3c6c49fa63759d82"
+  },
+  "windows-48000-new/project-window.wav": {
+    "bytes": 42320,
+    "sha256": "f4e7624eb4ab321c41edf1e8e73f3d57068e019f91d12139e44d3c86e4a1e0e2"
+  },
+  "windows-48000-new/report.json": {
+    "bytes": 607,
+    "sha256": "c04b094c7b9edf143a3eb86470e87978887afd470be56082d7945da651751251"
+  },
+  "windows-48000-old.log": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "windows-48000-old/native-full.json": {
+    "bytes": 448,
+    "sha256": "84b84556ba72209336aed425628f4723dbe905eccca6390ef34fcb668aecc647"
+  },
+  "windows-48000-old/native-full.wav": {
+    "bytes": 407296,
+    "sha256": "51901538590aebbf65313e046a6079a7c68c4504cce9f93a591948176ddaff4c"
+  },
+  "windows-48000-old/native-window.json": {
+    "bytes": 400,
+    "sha256": "0e6be913da63e1e0389e70cfdd42cf980150cd46cf98311180cf7ed176beec48"
+  },
+  "windows-48000-old/native-window.wav": {
+    "bytes": 23212,
+    "sha256": "864706e3ed2f5a95cf37ddb5e9cc5a541412c0edbc26c73e793e51802db845d8"
+  },
+  "windows-48000-old/project-full.json": {
+    "bytes": 595,
+    "sha256": "6f8836ac0dafe42a13e809f67d1fbec13fcc48de9eceef055338ad379d19d4b1"
+  },
+  "windows-48000-old/project-full.request.json": {
+    "bytes": 1801,
+    "sha256": "aa89497193f8662252a8d0ad321830b7496d5afc32a91b5da1e14f7468a4e569"
+  },
+  "windows-48000-old/project-full.wav": {
+    "bytes": 810496,
+    "sha256": "ef423e0d3b3f770ae5fa1fadd38110cbbf85e8583e9997c3d28941e2ed6d4775"
+  },
+  "windows-48000-old/project-window.json": {
+    "bytes": 529,
+    "sha256": "3de5f5f618db297bab23d85797dba874c832fc0f4711ce77649a2af6ca1ccef5"
+  },
+  "windows-48000-old/project-window.request.json": {
+    "bytes": 1812,
+    "sha256": "527df0e46d0edd1358e140a81a7c3d172bcbc0488456c757350048bea1968cdc"
+  },
+  "windows-48000-old/project-window.wav": {
+    "bytes": 42320,
+    "sha256": "f4e7624eb4ab321c41edf1e8e73f3d57068e019f91d12139e44d3c86e4a1e0e2"
+  },
+  "windows-48000-old/report.json": {
+    "bytes": 607,
+    "sha256": "c04b094c7b9edf143a3eb86470e87978887afd470be56082d7945da651751251"
+  }
+}

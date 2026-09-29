@@ -92,3 +92,5 @@ composition coordinates. Record any required contract change before implementati
 
 Root architecture review and an [independent read-only plan review](../assets/20b-exact-capture-audio/plan-review.log.gz)
 confirmed this owner sequence; production implementation remains gated above.
+
+Exact container capacity is shared by prospective admission and materialization through `PCMContainerTime`; see [preflight evidence and refusal-state proof](../assets/20b-container-preflight/README.md). Actual packed-writer activation remains coupled to20d.
