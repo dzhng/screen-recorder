@@ -66,3 +66,33 @@ test("automatic encoder guidance and low-rate AAC remain authored choices", () =
   expect(resolved.audio).toMatchObject(request.audio);
   expect(resolveOutputSettings(resolved)).toEqual(resolved);
 });
+
+test("encoder selection keeps 64-bit GPU identity and rejects conflicting hardware policy", () => {
+  expect(
+    resolveOutputSettings({ video: { encoder: { hardware: "required" } } }).video.encoder,
+  ).toEqual({ hardware: "required", id: null, gpu: null });
+  const encoder = {
+    hardware: "required" as const,
+    id: "test.encoder",
+    gpu: { policy: "required" as const, registryId: "18446744073709551615" },
+  };
+  expect(resolveOutputSettings({ video: { encoder } }).video.encoder).toEqual(encoder);
+  expect(() =>
+    resolveOutputSettings({ video: { encoder: { ...encoder, hardware: "disabled" } } }),
+  ).toThrow(/GPU/);
+  expect(() =>
+    resolveOutputSettings({
+      video: {
+        encoder: { ...encoder, gpu: { ...encoder.gpu, registryId: "18446744073709551616" } },
+      },
+    }),
+  ).toThrow();
+});
+
+test("look-ahead intent is refused when the SDK would ignore it", () => {
+  expect(() =>
+    resolveOutputSettings({
+      video: { rateControl: { mode: "quality", quality: 1 }, lookAheadFrames: 8 },
+    }),
+  ).toThrow(/Look-ahead/);
+});

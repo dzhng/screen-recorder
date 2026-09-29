@@ -206,6 +206,26 @@ try {
     ],
     ["baseline-profile", { video: { profile: "baseline", entropy: "cavlc" } }],
     ["main-profile", { video: { profile: "main" } }],
+    ["required-hardware", { video: { encoder: { hardware: "required" } } }],
+    [
+      "preferred-gpu-fallback",
+      { video: { encoder: { gpu: { policy: "preferred", registryId: "18446744073709551615" } } } },
+    ],
+    [
+      "software",
+      {
+        video: {
+          encoder: { hardware: "disabled" },
+          openGop: null,
+          prioritizeSpeed: null,
+          spatialAdaptiveQuantization: null,
+        },
+      },
+    ],
+    [
+      "specific-encoder",
+      { video: { encoder: { id: report.capabilities.encoderSelection.encoders[0].id } } },
+    ],
     ["constrained-baseline", { video: { profile: "constrained-baseline", entropy: "cavlc" } }],
     ["constrained-high", { video: { profile: "constrained-high" } }],
     [
@@ -237,6 +257,19 @@ try {
   ])
     await preview(projectId, settings, name);
   await preview(projectId, { video: { level: "4.0" } }, "explicit-level");
+  const impossible = await poll(
+    () =>
+      call("preview.get", {
+        projectId,
+        settings: {
+          video: { encoder: { gpu: { policy: "required", registryId: "18446744073709551615" } } },
+        },
+      }),
+    (value) => value.state === "failed",
+    "impossible GPU refusal",
+  );
+  assert.match(impossible.reason, /encoder unavailable/i);
+  report.impossibleSelection = impossible;
   const cancellationSettings = { video: { keyframeInterval: 29 } };
   const hit = await service.arm("media.renderCompositionMovie");
   const pending = await call("preview.get", { projectId, settings: cancellationSettings });

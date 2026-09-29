@@ -13,9 +13,33 @@ const rateControl = z.discriminatedUnion("mode", [
     .strict(),
   z.object({ mode: z.literal("quality"), quality: z.number().min(0).max(1) }).strict(),
 ]);
+const encoder = z
+  .object({
+    hardware: z.enum(["auto", "required", "disabled"]).default("auto"),
+    id: z.string().min(1).nullable().default(null),
+    gpu: z
+      .object({
+        policy: z.enum(["preferred", "required"]),
+        registryId: z
+          .string()
+          .regex(/^(0|[1-9][0-9]*)$/)
+          .refine((value) => {
+            try {
+              return BigInt(value) <= 0xffff_ffff_ffff_ffffn;
+            } catch {
+              return false;
+            }
+          }, "GPU registry ID must be an unsigned 64-bit decimal string"),
+      })
+      .strict()
+      .nullable()
+      .default(null),
+  })
+  .strict();
 const video = z
   .object({
     codec: z.literal("h264"),
+    encoder: encoder.default({ hardware: "auto", id: null, gpu: null }),
     color: z.literal("rec709"),
     rateControl,
     profile: z.enum(["baseline", "constrained-baseline", "main", "high", "constrained-high"]),
@@ -25,15 +49,15 @@ const video = z
     frameReordering: z.boolean(),
     entropy: z.enum(["cavlc", "cabac"]),
     temporalCompression: z.boolean(),
-    openGop: z.boolean(),
-    prioritizeSpeed: z.boolean(),
+    openGop: z.boolean().nullable(),
+    prioritizeSpeed: z.boolean().nullable(),
     powerEfficient: z.boolean(),
     dataRateLimits: z
       .array(z.object({ bytes: z.int().positive(), seconds: z.number().positive() }).strict())
       .max(2),
     bufferDurationSeconds: z.number().positive().nullable().default(null),
     initialBufferDelayPercent: z.number().min(0).max(100).nullable().default(null),
-    spatialAdaptiveQuantization: z.boolean(),
+    spatialAdaptiveQuantization: z.boolean().nullable(),
     lookAheadFrames: z.int().nonnegative().max(0x7fff_ffff).nullable().default(null),
     nonDroppableFrameRate: z.number().positive().nullable().default(null),
     minimumQuantizer: z.int().min(0).max(51).nullable().default(null),
@@ -67,6 +91,14 @@ export const resolvedOutputSettingsSchema = z
   .strict()
   .superRefine((value, context) => {
     const issue = (message: string) => context.addIssue({ code: "custom", message });
+    if (
+      value.video.lookAheadFrames !== null &&
+      value.video.rateControl.mode === "quality" &&
+      value.video.rateControl.quality === 1
+    )
+      issue("Look-ahead is ignored by the encoder at quality 1; omit it or select a lower quality");
+    if (value.video.encoder.hardware === "disabled" && value.video.encoder.gpu !== null)
+      issue("GPU selection requires hardware encoding");
     if (
       (value.video.bufferDurationSeconds !== null ||
         value.video.initialBufferDelayPercent !== null) &&
@@ -109,13 +141,14 @@ export const outputSettingsSchema = z
     audio: audio.partial().optional(),
   })
   .strict();
-export type OutputSettingsInput = z.infer<typeof outputSettingsSchema>;
+export type OutputSettingsInput = z.input<typeof outputSettingsSchema>;
 
 function preset(bits: number): OutputSettings {
   return {
     container: "mp4",
     video: {
       codec: "h264",
+      encoder: { hardware: "auto", id: null, gpu: null },
       color: "rec709",
       rateControl: { mode: "average", bitrate: bits },
       profile: "high",
@@ -192,7 +225,29 @@ export const outputVideoControls = {
   minimumQuantizer: "MinAllowedFrameQP",
   maximumQuantizer: "MaxAllowedFrameQP",
 } as const;
-export function outputCapabilities(properties: Record<string, unknown>) {
+export function outputCapabilities(inventory: Record<string, unknown>) {
+  const properties = inventory.properties as Record<string, unknown>;
+  const audio = inventory.audio as { sampleRates: number[]; formats: unknown[] };
+  const controlsFor = (properties: Record<string, unknown>) =>
+    Object.fromEntries(
+      Object.entries(outputVideoControls).map(([name, property]) => {
+        const metadata = properties[property] as
+          | { ReadWriteStatus?: string; SupportedValueList?: unknown[] }
+          | undefined;
+        return [
+          name,
+          {
+            backendSupported:
+              metadata?.ReadWriteStatus === "ReadWrite"
+                ? true
+                : metadata?.ReadWriteStatus === "ReadOnly" || !metadata
+                  ? false
+                  : null,
+            supportedValues: metadata?.SupportedValueList ?? null,
+          },
+        ];
+      }),
+    );
   return {
     target: "project",
     container: ["mp4"],
@@ -201,7 +256,10 @@ export function outputCapabilities(properties: Record<string, unknown>) {
     audioCodecs: ["aac"],
     internalAudio: { sampleRate: 48000, channels: 2 },
     encodedAudio: {
-      sampleRates: "Queried and validated against the selected native AAC converter",
+      sampleRates: audio.sampleRates,
+      formats: audio.formats,
+      semantics:
+        "Native AAC converter capabilities by format and strategy; actual writer validation remains authoritative for each combination. Variable strategy uses quality rather than bitrate.",
       resampling: {
         exposed: false,
         publicAlgorithms: ["normal", "mastering", "minimum-phase"],
@@ -212,26 +270,22 @@ export function outputCapabilities(properties: Record<string, unknown>) {
       bitrateStrategies: ["constant", "long-term-average", "constrained-variable", "variable"],
     },
     presets: outputPresets,
-    video: Object.fromEntries(
-      Object.entries(outputVideoControls).map(([name, property]) => [
-        name,
-        {
-          backendSupported:
-            (properties[property] as { ReadWriteStatus?: string } | undefined)?.ReadWriteStatus ===
-            "ReadWrite",
-        },
-      ]),
-    ),
+    video: controlsFor(properties),
     semantics: {
       bitrate:
         "Requested encoder rate, not measured file bitrate; static content may be much smaller.",
-      keyframes: "Maximum frame and time spacing; scene changes may add keyframes.",
+      keyframes:
+        "Maximum frame and time spacing; zero requests automatic/no-limit behavior. Scene changes may add keyframes.",
+      optionalControls:
+        "Null openGop, prioritizeSpeed or spatialAdaptiveQuantization leaves that optional property to the selected encoder, including encoders that do not implement it.",
       quality: "Codec quality target, not lossless or a guaranteed pixel error.",
+      lookAheadFrames:
+        "Suggested analysis window, not an exact retained-frame count. Null lets the encoder choose. An explicit value with quality 1 is rejected because the encoder would ignore it.",
       audio:
         "Encoded AAC conversion follows internal 48000 Hz stereo composition mixing; AAC packet padding is distinct from project duration.",
       geometry: "Canvas dimensions and rational frame rate belong to the composition.",
       backend:
-        "Availability describes this host. Incompatible combinations are rejected by encoder preflight; no substitution.",
+        "Top-level video availability describes the default encoder; encoderSelection lists individual encoders. Null support means the SDK did not report writability. Incompatible combinations are rejected by encoder preflight; no substitution.",
     },
     conditionalVideo: Object.fromEntries(
       Object.entries({
@@ -255,14 +309,21 @@ export function outputCapabilities(properties: Record<string, unknown>) {
       ]),
     ),
     encoderSelection: {
-      exposed: false,
-      publicProperties: [
-        "EnableHardwareAcceleratedVideoEncoder",
-        "RequireHardwareAcceleratedVideoEncoder",
-        "PreferredEncoderGPURegistryID",
-        "RequiredEncoderGPURegistryID",
-      ],
-      reason: "Requires verified selection in the actual writer, not only its preflight session",
+      exposed: true,
+      encoders: (inventory.encoders as Record<string, unknown>[]).map(
+        ({ properties, ...encoder }) => ({
+          ...encoder,
+          video: properties ? controlsFor(properties as Record<string, unknown>) : null,
+        }),
+      ),
+      hardware: ["auto", "required", "disabled"],
+      gpu: ["preferred", "required"],
+      reportedGpuRegistryIds: (inventory.encoders as Record<string, unknown>[]).flatMap(
+        (encoder) => (typeof encoder.gpuRegistryId === "string" ? [encoder.gpuRegistryId] : []),
+      ),
+      semantics:
+        "The same selection specification is enforced by preflight and the actual writer. Successful output proves acceptance of the policy, not observed encoder telemetry. Preferred GPU selection permits fallback; required selection does not.",
+      unavailable: ["Low-latency rate control belongs to realtime encoding"],
     },
     unavailable: [
       "HDR and other color transforms",

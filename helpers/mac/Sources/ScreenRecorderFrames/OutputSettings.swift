@@ -19,8 +19,52 @@ public struct OutputSettings: Codable, Sendable {
         let bytes: Int
         let seconds: Double
     }
+    public struct EncoderSelection: Codable, Sendable {
+        let hardware: String
+        let id: String?
+        let gpu: GPU?
+        struct GPU: Codable, Sendable {
+            let policy: String
+            let registryId: String
+        }
+        func dictionary() throws -> [String: Any] {
+            var values: [String: Any] = [:]
+            switch hardware {
+            case "auto": break
+            case "required":
+                values[kVTVideoEncoderSpecification_RequireHardwareAcceleratedVideoEncoder as String] = true
+            case "disabled":
+                values[kVTVideoEncoderSpecification_EnableHardwareAcceleratedVideoEncoder as String] = false
+            default: throw invalid("Unknown hardware encoding policy")
+            }
+            if let id { values[kVTVideoEncoderSpecification_EncoderID as String] = id }
+            if let gpu {
+                guard hardware != "disabled", let registryId = UInt64(gpu.registryId),
+                    ["preferred", "required"].contains(gpu.policy)
+                else { throw invalid("Invalid encoder GPU selection") }
+                let key = gpu.policy == "required"
+                    ? kVTVideoEncoderSpecification_RequiredEncoderGPURegistryID
+                    : kVTVideoEncoderSpecification_PreferredEncoderGPURegistryID
+                values[key as String] = NSNumber(value: registryId)
+            }
+            return values
+        }
+    }
+    /// A null flag is an authored encoder-default choice and must survive the response round trip.
+    public struct EncoderFlag: Codable, Sendable {
+        let value: Bool?
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            value = container.decodeNil() ? nil : try container.decode(Bool.self)
+        }
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            if let value { try container.encode(value) } else { try container.encodeNil() }
+        }
+    }
     public struct Video: Codable, Sendable {
         let codec: String
+        let encoder: EncoderSelection
         let color: String
         let rateControl: RateControl
         let profile: String
@@ -30,14 +74,14 @@ public struct OutputSettings: Codable, Sendable {
         let frameReordering: Bool
         let entropy: String
         let temporalCompression: Bool
-        let openGop: Bool
-        let prioritizeSpeed: Bool
+        let openGop: EncoderFlag
+        let prioritizeSpeed: EncoderFlag
         let powerEfficient: Bool
         let dataRateLimits: [DataLimit]
         let bufferDurationSeconds: Double?
         let initialBufferDelayPercent: Double?
         let lookAheadFrames: Int?
-        let spatialAdaptiveQuantization: Bool
+        let spatialAdaptiveQuantization: EncoderFlag
         let nonDroppableFrameRate: Double?
         let minimumQuantizer: Int?
         let maximumQuantizer: Int?
@@ -127,9 +171,6 @@ public struct OutputSettings: Codable, Sendable {
             kVTCompressionPropertyKey_H264EntropyMode as String: video.entropy == "cabac"
                 ? kVTH264EntropyMode_CABAC : kVTH264EntropyMode_CAVLC,
             kVTCompressionPropertyKey_AllowTemporalCompression as String: video.temporalCompression,
-            kVTCompressionPropertyKey_AllowOpenGOP as String: video.openGop,
-            kVTCompressionPropertyKey_PrioritizeEncodingSpeedOverQuality as String: video
-                .prioritizeSpeed,
             kVTCompressionPropertyKey_MaximizePowerEfficiency as String: video.powerEfficient,
         ]
         // AVAssetWriter rejects explicit zero for these VT automatic values; omission has the same meaning.
@@ -165,8 +206,15 @@ public struct OutputSettings: Codable, Sendable {
             values[kVTCompressionPropertyKey_Quality as String] = quality
         default: throw Self.invalid("Unsupported video rate control")
         }
-        values[kVTCompressionPropertyKey_SpatialAdaptiveQPLevel as String] =
-            video.spatialAdaptiveQuantization ? -1 : 0
+        if let openGop = video.openGop.value {
+            values[kVTCompressionPropertyKey_AllowOpenGOP as String] = openGop
+        }
+        if let prioritizeSpeed = video.prioritizeSpeed.value {
+            values[kVTCompressionPropertyKey_PrioritizeEncodingSpeedOverQuality as String] = prioritizeSpeed
+        }
+        if let spatial = video.spatialAdaptiveQuantization.value {
+            values[kVTCompressionPropertyKey_SpatialAdaptiveQPLevel as String] = spatial ? -1 : 0
+        }
         if let frames = video.lookAheadFrames {
             values[kVTCompressionPropertyKey_SuggestedLookAheadFrameCount as String] = frames
         }
@@ -199,11 +247,12 @@ public struct OutputSettings: Codable, Sendable {
     public func videoDictionary(width: Int, height: Int, frameRate: Double) throws -> [String: Any]
     {
         let compression = try compression(frameRate: frameRate)
+        let specification = try video.encoder.dictionary()
         var session: VTCompressionSession?
         let status = VTCompressionSessionCreate(
             allocator: nil, width: Int32(width), height: Int32(height),
             codecType: kCMVideoCodecType_H264,
-            encoderSpecification: nil, imageBufferAttributes: nil, compressedDataAllocator: nil,
+            encoderSpecification: specification as CFDictionary, imageBufferAttributes: nil, compressedDataAllocator: nil,
             outputCallback: nil, refcon: nil, compressionSessionOut: &session)
         guard status == noErr, let session else {
             throw Self.invalid("H.264 encoder unavailable (\(status))")
@@ -225,6 +274,7 @@ public struct OutputSettings: Codable, Sendable {
             AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: width,
             AVVideoHeightKey: height,
             AVVideoCompressionPropertiesKey: compression,
+            AVVideoEncoderSpecificationKey: specification,
             AVVideoColorPropertiesKey: [
                 AVVideoColorPrimariesKey: AVVideoColorPrimaries_ITU_R_709_2,
                 AVVideoTransferFunctionKey: AVVideoTransferFunction_ITU_R_709_2,
@@ -297,7 +347,66 @@ public struct OutputSettings: Codable, Sendable {
                 session, supportedPropertyDictionaryOut: &properties)
                 == noErr, let properties
         else { throw invalid("Cannot inspect encoder capabilities") }
-        return properties as! [String: Any]
+        var encoderList: CFArray?
+        guard VTCopyVideoEncoderList(nil, &encoderList) == noErr, let encoderList else {
+            throw invalid("Cannot inspect encoder selection capabilities")
+        }
+        let encoders = (encoderList as! [[String: Any]]).filter {
+            ($0[kVTVideoEncoderList_CodecType as String] as? NSNumber)?.uint32Value == kCMVideoCodecType_H264
+        }.map { entry -> [String: Any] in
+            var value: [String: Any] = [
+                "id": entry[kVTVideoEncoderList_EncoderID as String]!,
+                "name": entry[kVTVideoEncoderList_EncoderName as String] ?? "H.264",
+            ]
+            if let hardware = entry[kVTVideoEncoderList_IsHardwareAccelerated as String] {
+                value["hardwareAccelerated"] = hardware
+            }
+            if let gpu = entry[kVTVideoEncoderList_GPURegistryID as String] as? NSNumber {
+                value["gpuRegistryId"] = gpu.stringValue
+            }
+            var selected: VTCompressionSession?
+            let status = VTCompressionSessionCreate(
+                allocator: nil, width: 1280, height: 720, codecType: kCMVideoCodecType_H264,
+                encoderSpecification: [kVTVideoEncoderSpecification_EncoderID: value["id"]!] as CFDictionary,
+                imageBufferAttributes: nil, compressedDataAllocator: nil,
+                outputCallback: nil, refcon: nil, compressionSessionOut: &selected)
+            if status == noErr, let selected {
+                defer { VTCompressionSessionInvalidate(selected) }
+                var supported: CFDictionary?
+                if VTSessionCopySupportedPropertyDictionary(selected, supportedPropertyDictionaryOut: &supported) == noErr,
+                    let supported {
+                    value["properties"] = supported as! [String: Any]
+                }
+            }
+            value["probeStatus"] = status
+            return value
+        }
+        guard let input = AVAudioFormat(standardFormatWithSampleRate: 48000, channels: 2),
+            let baseline = AVAudioFormat(settings: [AVFormatIDKey: kAudioFormatMPEG4AAC,
+                                                   AVSampleRateKey: 48000, AVNumberOfChannelsKey: 2]),
+            let converter = AVAudioConverter(from: input, to: baseline),
+            let rates = converter.availableEncodeSampleRates
+        else { throw invalid("Cannot inspect AAC capabilities") }
+        var audioFormats: [[String: Any]] = []
+        for rate in rates {
+            for channels in [1, 2] {
+                guard let format = AVAudioFormat(settings: [AVFormatIDKey: kAudioFormatMPEG4AAC,
+                                                           AVSampleRateKey: rate, AVNumberOfChannelsKey: channels]),
+                    let audio = AVAudioConverter(from: input, to: format)
+                else { continue }
+                for (mode, strategy) in ["constant": AVAudioBitRateStrategy_Constant,
+                                          "long-term-average": AVAudioBitRateStrategy_LongTermAverage,
+                                          "constrained-variable": AVAudioBitRateStrategy_VariableConstrained] {
+                    audio.bitRateStrategy = strategy
+                    if let bitrates = audio.applicableEncodeBitRates {
+                        audioFormats.append(["sampleRate": rate, "layout": channels == 1 ? "mono" : "stereo",
+                                             "strategy": mode, "bitrates": bitrates])
+                    }
+                }
+            }
+        }
+        return ["properties": properties as! [String: Any], "encoders": encoders,
+                "audio": ["sampleRates": rates, "formats": audioFormats]]
     }
     private static func invalid(_ message: String) -> NativeFailure {
         NativeFailure("UNSUPPORTED_FORMAT", message)

@@ -34,13 +34,10 @@ this is decoded-pixel parity, not byte-identical containers. The [new cohort](de
 records inputs and worker provenance. This does not replace longer-cohort fidelity
 evidence or promote a different preset.
 
-Next checkpoint: expose public encoder selection through one typed specification
-lowered identically to VT preflight and AVVideoEncoderSpecificationKey on the real
-writer. Verify completion under hard selection constraints and refusal under an
-impossible selection. Report requested/enforced policy, not an observed encoder ID:
-AVAssetWriter does not expose its selected VT session. Preferred selection explicitly
-allows fallback. An independently owned resampling stage remains separate work if
-algorithm selection is required; adding its rejected dictionary key is not sufficient.
+The [encoder-selection checkpoint](../09b-encoder-selection/README.md) continues
+this audit with enforced writer policies and concrete AAC discovery. An independent
+resampling stage remains separate work if algorithm selection is required; adding
+the rejected dictionary key is not sufficient.
 
 [Combined-root verification](root-integration.json) passes the targeted build and
 210 composition/preview tests with previously integrated fade/zoom behavior.
