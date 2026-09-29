@@ -3259,7 +3259,40 @@ settings remain complete.
 
 ## 24h — Compact job inspection
 
-- **Sound; high confidence:** keep exact recipes in JobQueue, persist their SHA-256 once, and use digest identity indexes instead of copying complete plans into indexes. Compare original candidate inputs on admission/adoption/publication and refuse collisions; public polling trusts that write invariant rather than rehashing every plan.
-- **Sound; high confidence:** project availability means exact retained revision membership under a non-deleted project, not parsing its content; asset availability means row presence, not loading physical segments. Keep public status/result semantics and the existing owner boundary.
-- **Sound; high confidence:** preserve ordered export recovery with a partial index containing only its bounded export/attempt keys. Exact SQL joins call the queue's deterministic digest helper; no second hash policy or export pagination implementation.
-- **Sound; high confidence:** catalog17 explicitly refuses older development catalogs rather than mutating frozen evidence or adding migration paths. Raw execution recipes remain durable; this is not a claim that all history/query costs are bounded.
+### Store a short recipe fingerprint for job lookup (sound, high confidence)
+
+When an agent polls a large render, the job may contain a many-megabyte recipe.
+The queue keeps that complete recipe for execution, but stores its SHA-256
+fingerprint once for lookup and status. A fingerprint is a short identifier
+computed from the recipe bytes. When admitting or publishing a result, the queue
+still compares the complete recipe and refuses a fingerprint collision. Polling
+uses the established write invariant instead of reading and hashing the complete
+recipe again. The scale plan left the lookup mechanism open; this replaces large
+identity indexes without introducing another job registry or losing exact inputs.
+
+### Check owner existence without loading its media plan (sound, high confidence)
+
+A status request needs to know whether the job's project revision or asset still
+exists. It now checks that exact retained revision under a nondeleted project,
+or the asset row, without parsing the revision document or its physical media
+segments. Execution and admission retain their full validation. The plan required
+truthful status but did not prescribe its database reads; this keeps repeated
+inspection bounded without weakening the checks that produce or consume media.
+
+### Keep export recovery ordered through its own compact index (sound, high confidence)
+
+After a restart, exports must find their attempts in the existing recovery order.
+The database retains a partial index containing only those exports' bounded
+identity and attempt keys. Its exact joins use the same deterministic fingerprint
+helper as the queue. This avoids rebuilding huge general recipe indexes or adding
+a separate recovery registry. The plan left the index shape open; ordinary job
+inspection becomes cheaper while export retirement keeps its existing ordering.
+
+### Identify the changed development catalog explicitly (sound, high confidence)
+
+A library created by this version stores the new recipe fingerprints and indexes
+under catalog format17. An older incompatible development library is refused
+explicitly rather than modified in place. The project already requires this
+unshipped-format policy; applying it here prevents old binaries from interpreting
+new storage incorrectly. Complete execution recipes remain durable. This format
+change does not establish that all history and execution work is bounded.
