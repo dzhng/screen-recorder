@@ -1,0 +1,23 @@
+{
+  "scope": "combined-root default capture suite and exact native/JavaScript journal serialization; no schema2 writer rollout",
+  "nativeExitCode": 0,
+  "javascriptExitCode": 0,
+  "retainedHashesVerified": 9,
+  "javascript": {
+    "passed": true,
+    "boundaries": {
+      "removedPauseUs": "9007199254740993",
+      "physicalFirstFrame": "9223372036854775806",
+      "frameCount": "1",
+      "declaredFirstFrame": "9223372036854775806",
+      "role": "system",
+      "rawPTS": {
+        "timescale": 44100,
+        "epoch": "9223372036854775807",
+        "flags": 1,
+        "value": "-9223372036854775808"
+      }
+    }
+  },
+  "workerSha256": "78a83ce00870f7665fa0e8383906a20fa046aa0807fcae3f26d6a014237bb142"
+}

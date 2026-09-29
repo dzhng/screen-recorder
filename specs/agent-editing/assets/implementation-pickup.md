@@ -62,9 +62,13 @@ No production deadline or transaction guarantee changed.
   [accepted-media correction](20b-journal-failure/README.md) is integrated with
   [combined-root verification](20b-journal-failure/root-verification.json): real
   first track-start and acquisition-record write failures preserve accepted PCM
-  while reporting no acquired support for unjournaled audio. Continue the approved
-  prospective clock-copy and streaming exact-journal format; the existing source
-  export path must refuse the new layout until canonical prefix evidence is wired.
+  while reporting no acquired support for unjournaled audio. The
+  [exact mapping journal](20b-pcm-journal/README.md) now has
+  [root native/JavaScript confirmation](20b-pcm-journal/root-verification.json).
+  It streams accepted addresses without claiming acquisition; ordinary source
+  export still refuses the new layout. Next probe established output-format
+  changes before append. Actual prospective-clock/callback wiring stays coupled
+  to canonical publication, with no interim dual writer mode.
   The production packed writer
   remains disconnected until canonical admission/recovery passes.
 - Shared reader / canonical materialization: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
