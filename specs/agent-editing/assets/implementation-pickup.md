@@ -67,9 +67,11 @@ No production deadline or transaction guarantee changed.
   remains disconnected until canonical admission/recovery passes.
 - Shared audio reader / stretch: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
   [Exact aligned source phase](08-rational-segment-phase/README.md) is integrated
-  and root-confirmed, but a new100001µs phase fixture exposes full/range mismatch
-  at44.1/48k and44.1→48k resampling. Controls currently at
-  `/tmp/capture-admission-windows`. Packet probes in `/tmp/source-arbitrary-phase`
+  and root-confirmed, but the [100001µs phase fixture](20b-window-phase/README.md)
+  exposes full/range mismatch at44.1/48k and44.1→48k resampling.
+  [Root retained-evidence verification](20b-window-phase/root-retained-verification.json)
+  confirms the original/full identity and window failures; it is not a native rerun.
+  Packet probes in `/tmp/source-arbitrary-phase`
   isolate physical seek phase loss before conversion: distinct seek coordinates
   can return different payload samples with the same reported packet timestamp.
   The correction must distinguish physical seek from packet sample addressing;

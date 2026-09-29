@@ -1,0 +1,20 @@
+{
+  "scope": "independent verification of retained evidence; no native rerun or correction claim",
+  "artifactHashesVerified": 48,
+  "cases": [
+    {
+      "rate": 44100,
+      "originalFullExact": true,
+      "nativeWindowOneEarlier": true,
+      "projectWindowMismatch": true,
+      "projectWindowOneEarlier": false
+    },
+    {
+      "rate": 48000,
+      "originalFullExact": true,
+      "nativeWindowOneEarlier": true,
+      "projectWindowMismatch": true,
+      "projectWindowOneEarlier": true
+    }
+  ]
+}
