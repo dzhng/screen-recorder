@@ -61,6 +61,15 @@ export async function verifySourceEvidence(input: {
       input.lifetime ? [input.lifetime.fd] : undefined,
     );
     const { file: _file, ...receipt } = derived;
+    // Historical receipts predate message disclosure. Reproduce that declared format
+    // without weakening publication proofs, normalized bytes, or current-format equality.
+    if (expected.normalizationVersion === undefined && receipt.normalizationVersion === 2) {
+      delete receipt.normalizationVersion;
+      if (receipt.completion) {
+        const { failureMessage: _message, ...completion } = receipt.completion;
+        receipt.completion = completion;
+      }
+    }
     const handle = await open(output, constants.O_RDONLY | constants.O_NOFOLLOW);
     try {
       const digest = await hashFile(handle, derived.bytes, signal);

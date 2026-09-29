@@ -29,6 +29,7 @@ export type EvidenceIdentity = Readonly<{
   generation: string;
 }>;
 export type SourceEvidenceReceipt = Readonly<{
+  normalizationVersion?: 2;
   file: string;
   journal: string;
   header?: Record<string, unknown> | null;
@@ -52,6 +53,7 @@ export type SourceEvidenceReceipt = Readonly<{
     state: "complete" | "interrupted";
     durationUs: number;
     failureCode?: string | null;
+    failureMessage?: string | null;
   }> | null;
   publications?: Partial<
     Record<
@@ -171,6 +173,7 @@ export function validateSourceReceipt(value: unknown, sourceId: string): SourceE
       receipt.lastSequence,
     ].every(integer) ||
     !integer(receipt.bytes) ||
+    (receipt.normalizationVersion !== undefined && receipt.normalizationVersion !== 2) ||
     receipt.bytes > maxBytes ||
     typeof receipt.incompleteTail !== "boolean" ||
     typeof receipt.finished !== "boolean" ||
@@ -195,6 +198,7 @@ export function validateSourceReceipt(value: unknown, sourceId: string): SourceE
   if (receipt.completion != null) {
     const completion = object(receipt.completion);
     if (
+      (receipt.normalizationVersion === undefined && completion.failureMessage !== undefined) ||
       !receipt.finished ||
       !integer(completion.sequence) ||
       completion.sequence < 1 ||
@@ -202,7 +206,12 @@ export function validateSourceReceipt(value: unknown, sourceId: string): SourceE
       !["complete", "interrupted"].includes(completion.state as string) ||
       !integer(completion.durationUs) ||
       (completion.failureCode != null && typeof completion.failureCode !== "string") ||
-      (completion.state === "complete" && completion.failureCode != null)
+      (completion.failureMessage != null &&
+        (typeof completion.failureMessage !== "string" ||
+          completion.failureMessage.length > 4096 ||
+          completion.failureCode == null)) ||
+      (completion.state === "complete" &&
+        (completion.failureCode != null || completion.failureMessage != null))
     )
       invalid("Invalid capture completion provenance");
   }

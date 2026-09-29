@@ -42,6 +42,7 @@ async function fixture({
     acquisitions.intent(identity.owner.acquisitionId);
   });
   const importer = new AcquisitionImporter(catalog, acquisitions, assets, records, home);
+  await importer.recover(new AbortController().signal);
   const capture = new CaptureSourceRead(assets, acquisitions, records);
   const projects = projectStoreFixture(catalog, assets, home, acquisitions);
   const cache = new DerivedCache(catalog, home, (owner) => {
@@ -148,6 +149,7 @@ async function fixture({
           const body = normalized.map((row) => JSON.stringify(row) + "\n").join("");
           await writeFile(output, body);
           return {
+            normalizationVersion: 2,
             file: output,
             journal: "capture.journal.jsonl",
             header: { sessionID: id },
@@ -236,7 +238,13 @@ async function fixture({
   };
 }
 const interrupted = (durationUs = 1500, sequence = 2): Partial<SourceEvidenceReceipt> => ({
-  completion: { state: "interrupted", durationUs, sequence, failureCode: "DEVICE_LOST" },
+  completion: {
+    state: "interrupted",
+    durationUs,
+    sequence,
+    failureCode: "DEVICE_LOST",
+    failureMessage: "Microphone disconnected",
+  },
   lastLifecycle: { state: "interrupted", reason: "DEVICE_LOST" },
 });
 const coverage = (value: ReturnType<CaptureSourceRead["events"]>) =>
@@ -312,7 +320,11 @@ test("source boundaries keep capture offset and closing ownership without reloca
   expect(result.page!.rows[1]).toMatchObject({
     captureAtUs: 1500,
     sourceSequence: 2,
-    observation: { durationUs: 1500, failureCode: "DEVICE_LOST" },
+    observation: {
+      durationUs: 1500,
+      failureCode: "DEVICE_LOST",
+      failureMessage: "Microphone disconnected",
+    },
   });
   expect(f.capture.events(source.audio).page!.rows).toEqual([]);
   expect(

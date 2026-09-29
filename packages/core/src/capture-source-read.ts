@@ -199,6 +199,9 @@ export class CaptureSourceRead {
                 state: completion.state,
                 durationUs: completion.durationUs,
                 ...(completion.failureCode == null ? {} : { failureCode: completion.failureCode }),
+                ...(completion.failureMessage == null
+                  ? {}
+                  : { failureMessage: completion.failureMessage }),
               },
             };
           }

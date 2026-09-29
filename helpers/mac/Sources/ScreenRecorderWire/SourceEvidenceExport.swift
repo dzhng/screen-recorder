@@ -5,6 +5,7 @@ import ScreenRecorderMedia
 
 /// Compact receipt for a caller-owned derivative. Timing arrays and raw records stay off the wire.
 package struct SourceEvidenceExport: Encodable {
+    package let normalizationVersion = 2
     package let file: String
     package let journal = "capture.journal.jsonl"
     package let header: CaptureJournalHeader?

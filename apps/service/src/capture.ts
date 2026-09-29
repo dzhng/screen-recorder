@@ -29,7 +29,12 @@ import { publicationDeadlineMs } from "./publication.js";
 type AuthoredOutcome =
   | { state: "canceled" }
   | { state: "finalizing"; finalizationError: FinalizationError | null }
-  | { state: "interrupted"; reason: string; sourceDurationUs: number | null };
+  | {
+      state: "interrupted";
+      reason: string;
+      message?: string | null;
+      sourceDurationUs: number | null;
+    };
 
 export function recordingDirectory(home: string, recordingId: string): string {
   return join(home, "recordings", recordingId);
@@ -301,6 +306,7 @@ export class CaptureService {
     const failed = this.author(recording, {
       state: "interrupted",
       reason: code,
+      message: (error instanceof Error ? error.message : String(error)).slice(0, 4096),
       sourceDurationUs: null,
     });
     return new CatalogError(
@@ -560,7 +566,13 @@ export class CaptureService {
 
   private settleRecovered(
     recording: Recording,
-    { durationUs, captured, failureCode, cleanupFailure }: ReturnType<typeof readRecovery>,
+    {
+      durationUs,
+      captured,
+      failureCode,
+      failureMessage,
+      cleanupFailure,
+    }: ReturnType<typeof readRecovery>,
   ): Recording {
     return this.author(recording, {
       state: "interrupted",
@@ -571,6 +583,9 @@ export class CaptureService {
           : captured
             ? "NO_RECOVERABLE_VIDEO"
             : "NO_SOURCE_MEDIA"),
+      message:
+        (failureCode != null ? failureMessage : durationUs > 0 ? cleanupFailure?.message : null) ??
+        null,
       sourceDurationUs: durationUs > 0 ? durationUs : null,
     });
   }
@@ -674,6 +689,7 @@ function lifecycleEvent(report: CaptureReport): LifecycleEvent {
       ...identity,
       state: "interrupted",
       reason: report.reason ?? "CAPTURE_INTERRUPTED",
+      message: report.message ?? null,
       sourceDurationUs: report.sourceDurationUs ?? null,
     };
   if (report.state === "finalizing")
@@ -692,11 +708,15 @@ function readRecovery(data: unknown): {
   durationUs: number;
   captured: boolean;
   failureCode: string | undefined;
+  failureMessage: string | undefined;
   cleanupFailure: { code: string; message: string } | undefined;
 } {
   const value = data as {
     durationUs?: unknown;
-    journal?: { header?: unknown; completion?: { failureCode?: unknown } } | null;
+    journal?: {
+      header?: unknown;
+      completion?: { failureCode?: unknown; failureMessage?: unknown };
+    } | null;
     tracks?: { failure?: unknown }[];
     cleanupFailure?: unknown;
   };
@@ -708,10 +728,16 @@ function readRecovery(data: unknown): {
     if (input == null) return undefined;
     const item = input as { code?: unknown; message?: unknown };
     if (typeof item.code !== "string" || typeof item.message !== "string") throw invalid();
-    return { code: item.code, message: item.message };
+    return { code: item.code, message: item.message.slice(0, 4096) };
   };
   const completion = value.journal?.completion?.failureCode;
   if (completion != null && typeof completion !== "string") throw invalid();
+  const completionMessage = value.journal?.completion?.failureMessage;
+  if (
+    completionMessage != null &&
+    (typeof completionMessage !== "string" || completionMessage.length > 4096 || completion == null)
+  )
+    throw invalid();
   if (value.tracks !== undefined && !Array.isArray(value.tracks)) throw invalid();
   const roleFailure = value.tracks
     ?.map((track) => failure(track.failure))
@@ -720,6 +746,7 @@ function readRecovery(data: unknown): {
     durationUs: value.durationUs as number,
     captured: Boolean(value.journal?.header),
     failureCode: completion ?? roleFailure?.code,
+    failureMessage: completion != null ? (completionMessage ?? undefined) : roleFailure?.message,
     cleanupFailure: failure(value.cleanupFailure),
   };
 }

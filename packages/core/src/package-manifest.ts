@@ -25,6 +25,7 @@ const snapshotSchema = z.strictObject({
     state: z.enum(["complete", "interrupted"]),
     createdAt: text,
     interruptionReason: text.nullable(),
+    interruptionMessage: z.string().max(4096).nullish(),
   }),
 });
 export type PackageSnapshot = z.infer<typeof snapshotSchema>;

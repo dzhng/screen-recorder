@@ -1,3 +1,4 @@
+import { sourcePolicy } from "@screenrec/core/processing";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { RevisionStore } from "@screenrec/core/library";
@@ -136,7 +137,7 @@ export async function seedPublicRecording(home, snapshot) {
     },
   });
   for (const [artifact, input, lane] of [
-    ["source-evidence", "native-source-v1", "heavy"],
+    ["source-evidence", sourcePolicy, "heavy"],
     ["source-scenes", scenePolicy.id, "frame"],
   ]) {
     const job = jobs.submit({

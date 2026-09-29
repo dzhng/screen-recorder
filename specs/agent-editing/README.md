@@ -19,13 +19,14 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Complete the remaining [capture rollout](slices/20d-capture-publication.md):
-   terminal diagnostic detail. [Explicit settled cleanup](slices/20d6-settled-cleanup.md), responsive recovery,
-   actual prerecorded writer publication and [source-admission retry](slices/20d4-source-admission-retry.md)
-   pass integrated native/service gates. Physical camera acceptance remains separate.
-2. Retained **project** playback now passes [22b](slices/22b-retained-project-consumers.md)
-   with processing unavailable, including historical output and undo. Continue the
-   remaining package acceptance and large prepared-recipe metadata limits.
+1. Continue the remaining [package acceptance](slices/22-portable-projects.md),
+   starting with the complete prepared-recipe metadata limit. Retained **project**
+   playback passes [22b](slices/22b-retained-project-consumers.md) with processing
+   unavailable, including historical output and undo.
+2. [Terminal diagnostics](slices/20d7-terminal-diagnostics.md), explicit cleanup,
+   responsive recovery and source-admission retry now pass their scoped native/
+   public gates. Reconcile the aggregate [capture rollout](slices/20d-capture-publication.md)
+   acceptance before closing its parent. Physical camera acceptance stays separate.
 3. [Independent processing batches](slices/24i-processing-batches.md) now complete
    the previously timed-out 1,000-operation edit within its unchanged deadline,
    preserving exact edit receipts and PCM. Continue [general scale](slices/24-scale.md)
@@ -277,6 +278,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [20d4 — Operational source-evidence retry](slices/20d4-source-admission-retry.md)
 - [x] [20d5 — Source-owned recording job controls](slices/20d5-recording-source-job-target.md)
 - [x] [20d6 — Explicit settled recording cleanup](slices/20d6-settled-cleanup.md)
+- [x] [20d7 — Preserve terminal capture diagnostics](slices/20d7-terminal-diagnostics.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)

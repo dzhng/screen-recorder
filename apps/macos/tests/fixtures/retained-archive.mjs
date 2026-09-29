@@ -1,3 +1,4 @@
+import { sourcePolicy } from "@screenrec/core/processing";
 import { recordingSceneIdentity } from "@screenrec/core/scene-evidence";
 import assert from "node:assert/strict";
 import { hash } from "node:crypto";
@@ -132,7 +133,7 @@ export async function archiveFixture(original, destination) {
     evidence: [],
   };
   for (const [kind, generation, policy] of [
-    ["source", source.generation, "native-source-v1"],
+    ["source", source.generation, sourcePolicy],
     ["scenes", old.scenes.generation, old.scenes.policy],
     ["index", old.index.generation, selectionPolicy.id],
     ["events", 1, timelineEventPolicy],

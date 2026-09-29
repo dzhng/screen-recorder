@@ -1,0 +1,19 @@
+{
+  "scope": "20d7 terminal diagnostics",
+  "passed": true,
+  "catalogFormat": 19,
+  "sourcePolicy": "native-source-v2",
+  "normalizationVersion": 2,
+  "coreTests": 90,
+  "serviceTests": 23,
+  "nativeSourceTests": 20,
+  "controller": "actual body with scripted device boundary; message forwarding and existing race cases",
+  "public": "actual native recovery on copied prerecorded media; explicit terminal journal failure fixture; CLI/MCP/restart with and without video",
+  "package": "exact native current/historical receipt verification plus changed-message rejection; snapshot persistence; relocated public timeline journey",
+  "review": "first finding live policy fixture literals fixed; followup no findings",
+  "limits": [
+    "no physical device failure claimed",
+    "no installed application cutover",
+    "no new listening acceptance"
+  ]
+}

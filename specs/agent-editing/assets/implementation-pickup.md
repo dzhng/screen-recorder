@@ -115,10 +115,16 @@ owners after speech recipes earn their required acceptance.
 
 ## Next execution
 
-No delegate is currently running. Main includes24i,20d5,22b and the verified
-[20d6 cleanup checkpoint](20d6-settled-cleanup/README.md). Older worktree diffs
-are preserved; do not reapply them. Next expose the original terminal failure
-message through existing source/recording evidence, including no-r0/zero-duration
-reach and portable provenance. Do not reuse finalizationError for completed takes.
-The full editor goal and all open acceptance gates remain active. Frozen older
-catalog evidence is immutable; no installed-app cutover has occurred.
+Main includes24i,20d5,22b and the verified20d6 cleanup checkpoint. The20d7
+terminal diagnostic pass now passes core90, service23, native20, controller,
+prerecorded public CLI/MCP/restart and native historical/current package-proof
+checks. A first review's live fixture policy finding is fixed; followup has no
+findings. Evidence is in [20d7](20d7-terminal-diagnostics/README.md). Catalog19
+and source-policy-v2 are current; frozen older catalogs remain immutable.
+
+Next align the prepared-audio recipe metadata bound with the existing project
+resource/history JSON budget, preserving complete recipes and aggregate limits.
+A read-only delegate is locating the earlier scale red evidence. Reconcile the
+aggregate20d acceptance afterward. Older worktree diffs are preserved; do not
+reapply them. The full editor goal and all remaining acceptance gates are active;
+no installed-app cutover has occurred.

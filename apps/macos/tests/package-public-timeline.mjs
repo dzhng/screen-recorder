@@ -1,3 +1,4 @@
+import { sourcePolicy } from "@screenrec/core/processing";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { cp, mkdir, mkdtemp, readFile, writeFile, realpath, rename, rm } from "node:fs/promises";
@@ -41,7 +42,7 @@ async function seed(home, portable, context) {
     sourceDurationUs: context.snapshot.sourceDurationUs,
   });
   const sourceRoot = join(home, "recordings", recording.recordingId, "source");
-  await mkdir(sourceRoot, { recursive: true });
+  await mkdir(sourceRoot, { recursive: true, mode: 0o700 });
   for (const name of ["video.mov", "system.mov", "capture.journal.jsonl"])
     await cp(join(portable, "source", name), join(sourceRoot, name));
   const source = new SourceEvidenceStore(store, recordingEvidenceOwner(store)),
@@ -69,7 +70,7 @@ async function seed(home, portable, context) {
           job.attemptId,
           "observations.jsonl",
         );
-        await mkdir(dirname(file), { recursive: true });
+        await mkdir(dirname(file), { recursive: true, mode: 0o700 });
         await cp(join(portable, "source/normalized.jsonl"), file);
         return JSON.stringify(
           await source.ingest({
@@ -105,7 +106,7 @@ async function seed(home, portable, context) {
   });
   try {
     for (const [artifact, input] of [
-      ["source-evidence", "native-source-v1"],
+      ["source-evidence", sourcePolicy],
       ["source-scenes", scenePolicy.id],
     ])
       jobs.submit({
@@ -116,7 +117,7 @@ async function seed(home, portable, context) {
       });
     await jobs.idle();
     for (const [artifact, input] of [
-      ["source-evidence", "native-source-v1"],
+      ["source-evidence", sourcePolicy],
       ["source-scenes", scenePolicy.id],
     ])
       assert.equal(

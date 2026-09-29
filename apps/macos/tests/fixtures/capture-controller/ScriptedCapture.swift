@@ -88,9 +88,9 @@ final class ServiceHost {
             finalizingEntered.release()
             await finalizingRelease.wait()
         }
-        if params["state"] as? String == "complete", holdTerminal {
+        if ["complete", "interrupted"].contains(params["state"] as? String ?? "") {
             terminalEntered.release()
-            await terminalRelease.wait()
+            if holdTerminal { await terminalRelease.wait() }
         }
         return try! JSONSerialization.data(withJSONObject: params)
     }

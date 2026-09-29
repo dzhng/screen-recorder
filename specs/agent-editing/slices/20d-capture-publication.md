@@ -1,6 +1,6 @@
 # 20d — Canonical capture publication and recovery rollout
 
-Status: partial; prerecorded native publication/admission and operational source retry verified. Explicit settled cleanup is verified in [20d6](20d6-settled-cleanup.md); terminal-message disclosure remains open. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md), [20d2](20d2-asset-metadata-pages.md), [20d3](20d3-package-asset-metadata.md).
+Status: partial; prerecorded native publication/admission and operational source retry verified. Explicit settled cleanup is verified in [20d6](20d6-settled-cleanup.md); terminal-message disclosure is verified in [20d7](20d7-terminal-diagnostics.md). Aggregate rollout acceptance still needs reconciliation before parent closure. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md), [20d2](20d2-asset-metadata-pages.md), [20d3](20d3-package-asset-metadata.md).
 
 ## Contract and owner
 
@@ -154,18 +154,11 @@ complete resource/history hydration before package readiness. Their combined
 public journey preserves all rows and selected undo history. None of these
 metadata gates substitutes for physical capture or the remaining cleanup work.
 
-### Remaining terminal diagnostic disclosure
+### Terminal diagnostic disclosure
 
-The fresh product-only recovery trial could read an interrupted take's
-`PUBLICATION_CONFLICT` code and inspect valid clean video, but could not retrieve
-its explanatory completion message. Do not overload unfinished `finalizationError`
-or replace machine-readable `interruptionReason` with prose. The raw journal's
-finished `CaptureResult.failure.message` is the existing authoritative diagnostic.
-A subsequent bounded disclosure seam should preserve that provenance through the
-existing source-evidence/recording owners and package relocation, then prove public
-inspection of the message without authoring a new take or reading private files.
-Generic help may explain a conflict class; it cannot diagnose a specific conflict.
-Parent 20d remains open for this public usability gate.
+[20d7](20d7-terminal-diagnostics.md) preserves the original bounded diagnostic
+through recording reads, timed evidence and portable receipt verification,
+including no-video recordings. It does not overload unfinished finalization errors.
 
 ### Native activation checkpoint
 
@@ -183,12 +176,8 @@ finalizationError owner.
 controller/writer/publication and recovery parity, real journal failures, independent
 PCM, long finalization/cancellation, public acquisition/audio/clean-frame delivery,
 and the scoped native one-microsecond mask gate. No physical capture was activated.
-The remaining terminal-message disclosure and settled cleanup replay requirements
-remain open; this checkpoint does not close full20d or physical20/21.
-
-Source-admission retry diagnostics also remain a named gate: its generic Wire
-CaptureFailure fallback still defaults to nonretryable. Audit the source-evidence
-call sites before mapping the explicit operational `MEDIA_UNAVAILABLE` and
-`JOURNAL_UNAVAILABLE` cases; preserve NativeFailure's own semantics and prove public
-job retry after restored access, with invalid/corrupt source negatives. Do not apply
-finalization's unknown-error retry default indiscriminately to immutable admission.
+[20d6](20d6-settled-cleanup.md) verifies settled cleanup replay and
+[20d7](20d7-terminal-diagnostics.md) verifies terminal disclosure. Source-admission
+operational retry is verified by [20d4](20d4-source-admission-retry.md). These scoped
+checkpoints require a combined acceptance reconciliation before closing full20d;
+physical20/21 remains separate.

@@ -455,7 +455,8 @@ public final class CaptureJournal {
                 if let state = finished.state, let durationUs = finished.durationUs {
                     summary.completion = JournalCompletion(
                         sequence: record.sequence,
-                        state: state, durationUs: durationUs, failureCode: finished.failure?.code)
+                        state: state, durationUs: durationUs, failureCode: finished.failure?.code,
+                        failureMessage: finished.failure?.message.map { String(decoding: $0.utf16.prefix(4096), as: UTF16.self) })
                 } else {
                     summary.completion = nil
                 }
@@ -679,10 +680,11 @@ public struct JournalCompletion: Codable, Sendable {
     public let state: String
     public let durationUs: Int64
     public let failureCode: String?
+    public let failureMessage: String?
 }
 
 private struct JournalFinished: Decodable {
-    struct Failure: Decodable { let code: String }
+    struct Failure: Decodable { let code: String; let message: String? }
     let state: String?
     let durationUs: Int64?
     let failure: Failure?

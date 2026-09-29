@@ -328,7 +328,8 @@ final class CaptureController {
                     outcome = try report(
                         state: interrupted ? "interrupted" : "complete",
                         reason: interrupted ? result.failure?.code ?? reason : (result.cleanupFailure == nil ? nil : "CLEANUP_PENDING"),
-                        durationUs: interrupted && result.durationUs == 0 ? nil : result.durationUs,
+                        message: result.failure?.message,
+                durationUs: interrupted && result.durationUs == 0 ? nil : result.durationUs,
                         take: active)
                 }
                 let receipt = try JSONSerialization.data(withJSONObject: outcome)
@@ -358,7 +359,7 @@ final class CaptureController {
     }
 
     private func report(
-        state: String, reason: String? = nil, durationUs: Int64? = nil, take existing: Take? = nil, finalizationError: CaptureFinalizationError? = nil
+        state: String, reason: String? = nil, message: String? = nil, durationUs: Int64? = nil, take existing: Take? = nil, finalizationError: CaptureFinalizationError? = nil
     ) throws -> [String: Any] {
         guard let take = existing ?? self.take else {
             throw CaptureFailure("INVALID_STATE", "No take is capturing.")
@@ -372,6 +373,7 @@ final class CaptureController {
             "state": state,
         ]
         if let reason { report["reason"] = reason }
+        if let message { report["message"] = String(decoding: message.utf16.prefix(4096), as: UTF16.self) }
         if state == "finalizing" {
             report["finalizationError"] = try finalizationError.map {
                 try JSONSerialization.jsonObject(with: JSONEncoder().encode($0))

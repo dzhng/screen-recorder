@@ -67,6 +67,8 @@ if CommandLine.arguments.contains("stop-ack") || CommandLine.arguments.contains(
     }
     exit(0)
 }
+let diagnosticHost = ServiceHost()
+controller.attach(to: diagnosticHost)
 let initialRequest = try request("first")
 let start = Task { await controller.handle("capture.start", initialRequest) }
 await native.entered.wait()
@@ -92,7 +94,9 @@ if fails {
         fatalError("Pending-start interruption was dropped: writer never stopped")
     }
     await native.stopped.wait()
+    await diagnosticHost.terminalEntered.wait()
     deadline.cancel()
     precondition(native.stopCount == 1)
+    precondition(diagnosticHost.reports.last?["message"] as? String == "controlled failure")
     print("PASS pending-start interruption waits then finalizes the successful take")
 }

@@ -1,0 +1,124 @@
+{
+  "passed": true,
+  "current": {
+    "audioIntervals": 4,
+    "bytes": 340,
+    "completion": {
+      "durationUs": 3194231,
+      "failureCode": "DEVICE_LOST",
+      "failureMessage": "The microphone disconnected during the demonstration.",
+      "sequence": 30,
+      "state": "interrupted"
+    },
+    "cursorSamples": 0,
+    "displaySpaces": 0,
+    "finished": true,
+    "geometryRecords": 0,
+    "header": {
+      "height": 120,
+      "microphone": true,
+      "schemaVersion": 2,
+      "sessionID": "source-offline",
+      "source": {
+        "kind": "window",
+        "windowID": 1
+      },
+      "systemAudio": true,
+      "width": 160
+    },
+    "incompleteTail": false,
+    "journal": "capture.journal.jsonl",
+    "lastLifecycle": {
+      "state": "complete"
+    },
+    "lastSequence": 31,
+    "normalizationVersion": 2,
+    "originHostUs": 539568953337,
+    "pauseEvents": 0,
+    "publications": {
+      "narration": {
+        "canonical": {
+          "bytes": "351965",
+          "sha256": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e"
+        },
+        "receipt": {
+          "bytes": "651",
+          "sha256": "44a09af4a46a698785cb0714c8e7d1496af2c5994ca321e41786f31d297a8e99"
+        }
+      },
+      "system": {
+        "canonical": {
+          "bytes": "351965",
+          "sha256": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e"
+        },
+        "receipt": {
+          "bytes": "648",
+          "sha256": "beff1476583b29c4cf3e1f57f846749c29eb880baf2a297eacf0c49c0a58abde"
+        }
+      }
+    }
+  },
+  "historical": {
+    "audioIntervals": 4,
+    "bytes": 340,
+    "completion": {
+      "durationUs": 3194231,
+      "failureCode": "DEVICE_LOST",
+      "sequence": 30,
+      "state": "interrupted"
+    },
+    "cursorSamples": 0,
+    "displaySpaces": 0,
+    "finished": true,
+    "geometryRecords": 0,
+    "header": {
+      "height": 120,
+      "microphone": true,
+      "schemaVersion": 2,
+      "sessionID": "source-offline",
+      "source": {
+        "kind": "window",
+        "windowID": 1
+      },
+      "systemAudio": true,
+      "width": 160
+    },
+    "incompleteTail": false,
+    "journal": "capture.journal.jsonl",
+    "lastLifecycle": {
+      "state": "complete"
+    },
+    "lastSequence": 31,
+    "originHostUs": 539568953337,
+    "pauseEvents": 0,
+    "publications": {
+      "narration": {
+        "canonical": {
+          "bytes": "351965",
+          "sha256": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e"
+        },
+        "receipt": {
+          "bytes": "651",
+          "sha256": "44a09af4a46a698785cb0714c8e7d1496af2c5994ca321e41786f31d297a8e99"
+        }
+      },
+      "system": {
+        "canonical": {
+          "bytes": "351965",
+          "sha256": "cc18b3d6cb5e7e2ee0fd102d6a24915b809691b679bc03ea20e3d18cf9ab840e"
+        },
+        "receipt": {
+          "bytes": "648",
+          "sha256": "beff1476583b29c4cf3e1f57f846749c29eb880baf2a297eacf0c49c0a58abde"
+        }
+      }
+    }
+  },
+  "normalized": "9cc878d0b2a80246ed70fbefa79726c42d9b66b2e6a5ffe0b9052633aea985ed",
+  "source": "/tmp/screenrec-terminal-public-IgomQS/video/recordings/f627e227-42f4-4d1c-a9ac-c94e33e813b2/source",
+  "checks": [
+    "current exact native proof",
+    "historical exact native proof",
+    "changed current message refused"
+  ]
+}

@@ -13,7 +13,7 @@ import type {
 } from "./evidence.js";
 
 export const sourceArtifact = "source-evidence";
-export const sourcePolicy = "native-source-v1";
+export const sourcePolicy = "native-source-v2";
 
 export type SourceExporter = (
   directory: string,

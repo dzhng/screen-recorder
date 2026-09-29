@@ -392,7 +392,7 @@ test("terminal provenance preserves the recorded capture endpoint, independently
       sequence: 5,
       state,
       durationUs: 700,
-      ...(failure ? { failureCode: failure.code } : {}),
+      ...(failure ? { failureCode: failure.code, failureMessage: failure.message } : {}),
     });
     assert.deepEqual(result.data.lastLifecycle, {
       state,
@@ -407,6 +407,23 @@ test("terminal provenance preserves the recorded capture endpoint, independently
     ];
     assert.deepEqual(readFileSync(f.output, "utf8").trim().split("\n").map(JSON.parse), expected);
   }
+});
+
+test("long historical diagnostics retain their journal prefix and bound only disclosure", (t) => {
+  const message = "lost input ".repeat(600);
+  const f = fixture(t, [
+    {
+      event: "finished",
+      data: { state: "interrupted", durationUs: 0, failure: { code: "DEVICE_LOST", message } },
+    },
+  ]);
+  const result = request(f.directory, f.output);
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.equal(result.data.normalizationVersion, 2);
+  assert.equal(result.data.lastSequence, 2);
+  assert.equal(result.data.invalidAtSequence, undefined);
+  assert.equal(result.data.completion.failureMessage, message.slice(0, 4096));
+  assert.equal(readFileSync(f.journal, "utf8"), f.text);
 });
 
 test("missing or partial completion never fabricates a timed interruption", (t) => {
@@ -496,8 +513,11 @@ test("source evidence retries actual journal access failures without changing so
   for (const path of [f.journal, f.directory]) {
     chmodSync(path, 0);
     let denied;
-    try { denied = request(f.directory, f.output); }
-    finally { chmodSync(path, path === f.directory ? 0o700 : 0o600); }
+    try {
+      denied = request(f.directory, f.output);
+    } finally {
+      chmodSync(path, path === f.directory ? 0o700 : 0o600);
+    }
     assert.equal(denied.ok, false);
     assert.equal(denied.error.retryable, true, JSON.stringify(denied));
     assert.equal(denied.error.code, "JOURNAL_UNAVAILABLE");

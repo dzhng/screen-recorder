@@ -712,9 +712,16 @@ test("capture completion provenance survives ingestion without fabricating timin
     state: "interrupted" as const,
     durationUs: 700,
     failureCode: "DEVICE_LOST",
+    failureMessage: "Microphone disconnected",
   };
   const lastLifecycle = { state: "interrupted", reason: "DEVICE_LOST" };
-  const receipt = { ...f.receipt, finished: true, completion, lastLifecycle };
+  const receipt = {
+    ...f.receipt,
+    normalizationVersion: 2 as const,
+    finished: true,
+    completion,
+    lastLifecycle,
+  };
   const admitted = await f.evidence.ingest({ ...f.identity, file: f.file, receipt });
   expect(admitted.receipt.completion).toEqual(completion);
   expect(admitted.receipt.lastLifecycle).toEqual(lastLifecycle);
@@ -741,6 +748,7 @@ test("malformed terminal provenance refuses evidence publication", async () => {
     state: "interrupted",
     durationUs: 700,
     failureCode: "DEVICE_LOST",
+    failureMessage: "Microphone disconnected",
   };
   const cases = [
     { completion },
@@ -751,6 +759,9 @@ test("malformed terminal provenance refuses evidence publication", async () => {
       { durationUs: -1 },
       { durationUs: Number.MAX_SAFE_INTEGER + 1 },
       { failureCode: 7 },
+      { failureMessage: 7 },
+      { failureMessage: "x".repeat(4097) },
+      { failureCode: null },
       { state: "complete" },
     ].map((change) => ({ finished: true, completion: { ...completion, ...change } })),
     { lastLifecycle: { state: 7 } },
@@ -763,7 +774,7 @@ test("malformed terminal provenance refuses evidence publication", async () => {
       f.evidence.ingest({
         ...identity,
         file: f.file,
-        receipt: { ...f.receipt, ...change } as never,
+        receipt: { ...f.receipt, normalizationVersion: 2, ...change } as never,
       }),
     ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
     expect(() =>

@@ -24,6 +24,7 @@ export type Recording = Readonly<{
   state: RecordingState;
   lifecycleSequence: number;
   interruptionReason: string | null;
+  interruptionMessage: string | null;
   finalizationError: FinalizationError | null;
   sourceDurationUs: number | null;
   currentRevisionId: string | null;
@@ -34,7 +35,12 @@ export type LifecycleEvent = Readonly<{ sourceId: string; sequence: number }> &
     | { state: "recording" | "paused" | "canceled" }
     | { state: "finalizing"; finalizationError?: FinalizationError | null }
     | { state: "complete"; sourceDurationUs: number }
-    | { state: "interrupted"; reason: string; sourceDurationUs: number | null }
+    | {
+        state: "interrupted";
+        reason: string;
+        message?: string | null;
+        sourceDurationUs: number | null;
+      }
   >;
 const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = {
   preparing: ["recording", "finalizing", "interrupted", "canceled"],
@@ -46,7 +52,7 @@ const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = 
   canceled: ["canceled"],
 };
 const recordingColumns =
-  "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,finalizationError,sourceDurationUs,currentRevisionId";
+  "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,interruptionMessage,finalizationError,sourceDurationUs,currentRevisionId";
 type RecordingRow = Omit<Recording, "finalizationError"> & { finalizationError: string | null };
 function readRecording(row: RecordingRow): Recording {
   return {
@@ -112,7 +118,7 @@ export class RevisionStore extends Catalog {
    CREATE TABLE IF NOT EXISTS recordings (
     creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
     allocationRequestId TEXT UNIQUE,allocationArguments TEXT,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
-    interruptionReason TEXT,finalizationError TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
+    interruptionReason TEXT,interruptionMessage TEXT,finalizationError TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
    ) STRICT;
    CREATE INDEX IF NOT EXISTS recordings_state_sequence ON recordings(state,creationSequence);
    CREATE TABLE IF NOT EXISTS recording_deletions (
@@ -240,10 +246,16 @@ export class RevisionStore extends Catalog {
       if (isSettled(recording.state)) return recording;
       this.catalog
         .prepare(
-          "UPDATE recordings SET state='canceled',interruptionReason=NULL,finalizationError=NULL WHERE recordingId=?",
+          "UPDATE recordings SET state='canceled',interruptionReason=NULL,interruptionMessage=NULL,finalizationError=NULL WHERE recordingId=?",
         )
         .run(recordingId);
-      return { ...recording, state: "canceled", interruptionReason: null, finalizationError: null };
+      return {
+        ...recording,
+        state: "canceled",
+        interruptionReason: null,
+        interruptionMessage: null,
+        finalizationError: null,
+      };
     });
   }
   /** Whether work for this take may still start or publish: it was neither discarded nor marked for deletion. */
@@ -343,9 +355,11 @@ export class RevisionStore extends Catalog {
   }
   /** One retained finalization for status when no current recovery or native take owns the view. */
   pendingFinalization(): Recording | null {
-    const row = this.catalog.prepare(`SELECT ${recordingColumns} FROM recordings
+    const row = this.catalog
+      .prepare(`SELECT ${recordingColumns} FROM recordings
       WHERE state='finalizing' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
-      ORDER BY creationSequence LIMIT 1`).get() as RecordingRow | undefined;
+      ORDER BY creationSequence LIMIT 1`)
+      .get() as RecordingRow | undefined;
     return row ? readRecording(row) : null;
   }
   /**
@@ -357,11 +371,25 @@ export class RevisionStore extends Catalog {
       throw new RangeError("A lifecycle sequence must be a positive safe integer");
     if (event.state === "finalizing" && event.finalizationError != null) {
       const failure = event.finalizationError;
-      if (typeof failure.code !== "string" || failure.code.length < 1 || failure.code.length > 128
-        || typeof failure.message !== "string" || failure.message.length > 4096
-        || typeof failure.retryable !== "boolean")
-        throw new CatalogError("INVALID_PARAMS", "Finalization failure must be a bounded public error");
+      if (
+        typeof failure.code !== "string" ||
+        failure.code.length < 1 ||
+        failure.code.length > 128 ||
+        typeof failure.message !== "string" ||
+        failure.message.length > 4096 ||
+        typeof failure.retryable !== "boolean"
+      )
+        throw new CatalogError(
+          "INVALID_PARAMS",
+          "Finalization failure must be a bounded public error",
+        );
     }
+    if (
+      event.state === "interrupted" &&
+      event.message != null &&
+      (typeof event.message !== "string" || event.message.length > 4096)
+    )
+      throw new CatalogError("INVALID_PARAMS", "Interruption message must be bounded text");
     return this.transaction(() => {
       const recording = this.get(recordingId);
       if (event.sourceId !== recording.sourceId)
@@ -380,12 +408,13 @@ export class RevisionStore extends Catalog {
         this.attachSource(recording, event.sourceDurationUs);
       this.catalog
         .prepare(
-          "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=?,finalizationError=? WHERE recordingId=?",
+          "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=?,interruptionMessage=?,finalizationError=? WHERE recordingId=?",
         )
         .run(
           event.state,
           event.sequence,
           event.state === "interrupted" ? event.reason : null,
+          event.state === "interrupted" ? (event.message ?? null) : null,
           event.state === "finalizing"
             ? JSON.stringify(
                 event.finalizationError === undefined
@@ -486,6 +515,7 @@ export class RevisionStore extends Catalog {
             state: recording.state as "complete" | "interrupted",
             createdAt: recording.createdAt,
             interruptionReason: recording.interruptionReason,
+            interruptionMessage: recording.interruptionMessage,
           },
         },
         historyCursor: { recordingId, afterOrdinal: -1, throughOrdinal },

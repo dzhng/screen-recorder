@@ -20,6 +20,44 @@ afterEach(() => {
   for (const store of stores.splice(0)) store.close();
   for (const root of roots.splice(0)) rmSync(root, { recursive: true, force: true });
 });
+test("terminal diagnostics survive reopen and duplicate delivery without a video revision", () => {
+  const { store, path, providers } = fixture();
+  const take = store.allocate().recording;
+  const event = {
+    sourceId: take.sourceId,
+    sequence: 1,
+    state: "interrupted" as const,
+    reason: "AUDIO_WRITE_FAILED",
+    message: "Narration stopped after a disk write failed.",
+    sourceDurationUs: null,
+  };
+  store.ingestLifecycle(take.recordingId, event);
+  store.close();
+  const reopened = new RevisionStore(path, providers);
+  stores.push(reopened);
+  const expected = {
+    interruptionReason: event.reason,
+    interruptionMessage: event.message,
+    currentRevisionId: null,
+    sourceDurationUs: null,
+  };
+  expect(reopened.get(take.recordingId)).toMatchObject(expected);
+  expect(reopened.latest()).toMatchObject(expected);
+  expect(reopened.list().recordings[0]).toMatchObject(expected);
+  expect(
+    reopened.ingestLifecycle(take.recordingId, { ...event, message: "duplicate" }),
+  ).toMatchObject(expected);
+  const withVideo = reopened.allocate().recording;
+  reopened.ingestLifecycle(withVideo.recordingId, {
+    ...event,
+    sourceId: withVideo.sourceId,
+    sourceDurationUs: 100,
+  });
+  expect(reopened.pinPackageSnapshot(withVideo.recordingId).snapshot.capture).toMatchObject({
+    interruptionReason: event.reason,
+    interruptionMessage: event.message,
+  });
+});
 test("new incomplete allocation remains latest ahead of a finalized older take", () => {
   const { store } = fixture();
   const first = store.allocate().recording;

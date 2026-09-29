@@ -3390,3 +3390,25 @@ byte-based publication budget, capped by the media-worker maximum. The request
 itself remains asynchronous. The plan required bounded cancellable work but left
 this budget open; using the measured recovery allowance avoids a short control
 timeout without introducing an unbounded cleanup worker.
+
+## 20d7 — Terminal diagnostic ownership (sound, medium confidence)
+
+When a capture fails before usable video exists, the agent still needs to learn
+why. Store one nullable message beside the recording's existing interruption code,
+so ordinary status reads work without a revision or a journal scan. The plan
+required disclosure but did not choose storage. This adds one catalog column and
+extends existing reports and snapshots; it adds no endpoint or background task.
+The choice is sound because the recording already owns terminal state and survives
+restart independently of media processing.
+
+## 20d7 — Historical receipt verification (sound, high confidence)
+
+An older exported package can contain a raw failure message that its original
+normalized receipt never disclosed. Recomputing with the new reader must still
+verify that package. New receipts declare normalization version 2; absence denotes
+the original format. Only when verifying that original format, the verifier removes
+the newly disclosed message and version before comparing the complete receipt.
+It still compares every earlier field and the normalized file hash exactly, and
+new-format verification includes the message. The plan required immutable source
+preservation but left format handling unspecified. This decision preserves existing
+packages without silently rewriting their proofs or broadly ignoring differences.

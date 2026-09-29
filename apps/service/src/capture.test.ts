@@ -195,7 +195,12 @@ async function startService(
 
 /** A native peer that accepts one take and reports the sequences its journal would have. */
 function capturingPeer(
-  options: { durationUs?: number | null; reason?: string; answerStart?: boolean } = {},
+  options: {
+    durationUs?: number | null;
+    reason?: string;
+    message?: string;
+    answerStart?: boolean;
+  } = {},
 ): NativePeer {
   let take: { recordingId: string; sourceId: string } | undefined;
   let selection: ReturnType<typeof captureSelectionSchema.parse> | null = null;
@@ -230,7 +235,7 @@ function capturingPeer(
       const answer = report(
         options.reason ? "interrupted" : "complete",
         options.reason
-          ? { reason: options.reason, sourceDurationUs: duration }
+          ? { reason: options.reason, message: options.message, sourceDurationUs: duration }
           : { sourceDurationUs: duration },
       );
       take = undefined;
@@ -268,6 +273,76 @@ function capturingPeer(
 }
 
 const fixtureSource = { kind: "window", windowId: 7 };
+
+it("preserves a terminal report's message through public reads and restart", async () => {
+  const home = await temporaryHome();
+  const service = await startService(
+    home,
+    capturingPeer({ reason: "DEVICE_LOST", message: "The microphone disconnected." }),
+  );
+  const started = await service.call("capture.start", {
+    requestId: "diagnostic",
+    source: fixtureSource,
+  });
+  if (!started.ok) throw new Error("start failed");
+  const recordingId = (started.data as { recordingId: string }).recordingId;
+  const expected = {
+    interruptionReason: "DEVICE_LOST",
+    interruptionMessage: "The microphone disconnected.",
+  };
+  expect(await service.call("capture.stop", { recordingId })).toMatchObject({
+    ok: true,
+    data: expected,
+  });
+  expect(await service.call("recording.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: expected,
+  });
+  await service.close();
+  const reopened = await startService(home);
+  expect(await reopened.call("recording.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: expected,
+  });
+});
+
+it("recovery keeps diagnostic code and message paired even without usable video", async () => {
+  for (const completion of [
+    undefined,
+    { failureCode: "DEVICE_LOST" },
+    { failureCode: "DEVICE_LOST", failureMessage: "Original device failure" },
+  ]) {
+    const home = await temporaryHome();
+    const abandoned = await startService(home, capturingPeer());
+    const started = await abandoned.call("capture.start", {
+      requestId: "diagnostic",
+      source: fixtureSource,
+    });
+    if (!started.ok) throw new Error("start failed");
+    const recordingId = (started.data as { recordingId: string }).recordingId;
+    await abandoned.close();
+    const recovered = await startService(home, capturingPeer(), {
+      SCREENREC_NATIVE: await recovers({
+        durationUs: 0,
+        journal: { header: {}, completion },
+        tracks: [{ failure: { code: "ROLE_FAILED", message: "Role decode failed" } }],
+      }),
+    });
+    await recovered.waitForDiagnostic(/reconciliation complete/);
+    expect(await recovered.call("recording.get", { recordingId })).toMatchObject({
+      ok: true,
+      data: {
+        state: "interrupted",
+        currentRevisionId: null,
+        interruptionReason: completion?.failureCode ?? "ROLE_FAILED",
+        interruptionMessage: completion
+          ? (completion.failureMessage ?? null)
+          : "Role decode failed",
+      },
+    });
+    await recovered.close();
+  }
+});
 
 it("allocates one take per start request and replays a repeated request onto it", async () => {
   const home = await temporaryHome();
@@ -344,7 +419,12 @@ it("gives concurrent start requests one capturing take and one honest terminal f
   // The refused take keeps its identity and a terminal reason, with no original revision.
   expect(await service.call("recording.get", { recordingId: failedId })).toMatchObject({
     ok: true,
-    data: { state: "interrupted", interruptionReason: "INVALID_STATE", currentRevisionId: null },
+    data: {
+      state: "interrupted",
+      interruptionReason: "INVALID_STATE",
+      interruptionMessage: "Another take is already capturing.",
+      currentRevisionId: null,
+    },
   });
   expect(await service.call("revision.get", { recordingId: failedId })).toMatchObject({
     ok: false,
