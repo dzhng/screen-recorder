@@ -12,6 +12,9 @@ retention remain unverified. No further action on these clips was requested.
 Future user comparisons should use complete meaningful sentences from the user's
 recording with one clear listening question. Do not re-present this crop packet
 as required user QA.
+A [complete familiar sentence](../12c-familiar-sentence/README.md) now provides
+original/processed public outputs for optional future review; it has no listening
+verdict.
 
 The original two short pairs remain below as archived evidence; other files
 provide optional technical context:

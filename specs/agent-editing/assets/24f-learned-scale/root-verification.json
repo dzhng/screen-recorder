@@ -1,0 +1,11 @@
+{
+  "commit": "156ea206c16d2b8c4b36b9dc3413bc5f9224fd37",
+  "retainedIntegrity": {
+    "passed": true,
+    "wavBytes": 2764804096,
+    "wavSha256": "63629739a587e5d699afef408d3c2e46992de7017be9e806ea82274597d792f8",
+    "restoredOracleFiles": 0,
+    "scope": "Retained evidence integrity; no new DSP oracle comparison"
+  },
+  "scope": "Root verifies complete retained WAV and archive integrity after integration; no new DSP execution or claim of root rerunning the full two-hour public journey."
+}

@@ -1,8 +1,9 @@
 # 24 — Verify bounded work and long projects
 
 Status: in progress; compiled-plan delivery, active audio scheduling, independent
-edit batching and compact edit receipts pass their scoped prerequisites. Two-hour
-preparation and the full budgets below remain open. Carry the unresolved inherited
+edit batching and compact public delivery pass their prerequisites. The
+[two-hour learned checkpoint](24f-successful-learned-scale.md) passes complete
+PCM comparison; broader routing/query/history and the full budgets below remain open. Carry the unresolved inherited
 300-second audio streaming
 deadline from [baseline maintenance](../assets/00-baseline/audio-fix/review.md);
 neither baseline nor changed diagnostic establishes a pass. The inherited storage

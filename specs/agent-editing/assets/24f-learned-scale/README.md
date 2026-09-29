@@ -74,3 +74,5 @@ use the manifest's exact command after composition/core/protocol/service/CLI bui
 and the pinned native worker. Earlier structural-bound, edit-timeout, duplicate-edit
 receipt and oversized-job failures remain in their prerequisite evidence. No failed
 measurement was replaced by this later pass, and no deadline or codec was changed.
+
+[Root archive verification](root-verification.json) streams the entire retained WAV after integration and confirms its original digest. This is evidence-integrity verification, not a repeated DSP experiment.

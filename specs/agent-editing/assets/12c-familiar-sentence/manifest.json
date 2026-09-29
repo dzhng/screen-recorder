@@ -1,0 +1,27 @@
+{
+  "source": {
+    "path": "../18-voice/reference.wav",
+    "sha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+    "textAuthority": "Inherited ASR; no fresh listening annotation",
+    "sourceRecordingRangeUs": [
+      1000000,
+      6000000
+    ]
+  },
+  "workerSha256": "541c6761ac2bc763e3029c4856a6d19699fd7357196a837bac36fff99bd2567e",
+  "files": [
+    {
+      "path": "original.wav",
+      "bytes": 1924096,
+      "sha256": "ce6e823447e5b739216543b2b33ec040cc51cff9f70138cf1b3666b8bd2d8b58"
+    },
+    {
+      "path": "learned.wav",
+      "bytes": 1924096,
+      "sha256": "1c00c0ed579c03b755c76d248616344166f1ef4b8e3eb725008745080a738dd4"
+    }
+  ],
+  "gain": "Unity in both paths; no loudness matching or normalization",
+  "processing": "Same public48k stereo pipeline, empty output stack versus frozen learned processor",
+  "qualityAcceptance": "Not established; no audition performed during assembly"
+}

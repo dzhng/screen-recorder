@@ -1,0 +1,300 @@
+{
+  "purpose": "Complete familiar sentence for optional future listening, not quality acceptance",
+  "text": "Okay, so this is the recorder workbench.",
+  "textAuthority": "Inherited ASR, not independently auditioned",
+  "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+  "sourceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+  "nativeSha256": "541c6761ac2bc763e3029c4856a6d19699fd7357196a837bac36fff99bd2567e",
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "receipts": [
+    {
+      "projectId": "75d0268e-8932-4ec0-b4c0-88ebeb2e9a08",
+      "revisionId": "ee7b08b3-1f00-40b6-87c6-4e2caf65069c",
+      "state": "ready",
+      "jobId": "1e0ba98b-8b27-470c-9280-bf484a64175f",
+      "reason": null,
+      "retryable": false,
+      "published": {
+        "generation": 1,
+        "audio": {
+          "bytes": 1924096,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 240000,
+          "peak": 0.236561581492424,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 27000832,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:fa5ee7bf0cd2379d0e8230ed981e8aae670b67fcff73b442729c1e3521f9fe94:1",
+              "ranges": []
+            }
+          ],
+          "dependencies": [
+            {
+              "kind": "asset",
+              "id": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+            }
+          ],
+          "resourceId": "[\"75d0268e-8932-4ec0-b4c0-88ebeb2e9a08\",\"aa30b45a-0b57-4885-97ed-68f875198d3d\"]",
+          "assetId": "ce6e823447e5b739216543b2b33ec040cc51cff9f70138cf1b3666b8bd2d8b58",
+          "identity": {
+            "device": "16777229",
+            "inode": "325800021",
+            "modifiedNs": "1790674486974740144",
+            "changedNs": "1790674486984378686"
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 240000
+          }
+        }
+      }
+    },
+    {
+      "projectId": "75d0268e-8932-4ec0-b4c0-88ebeb2e9a08",
+      "revisionId": "7b245dcd-803a-4be8-b053-8a85c9addbc3",
+      "state": "ready",
+      "jobId": "a0112023-e008-45fc-afc5-071b111c6d90",
+      "reason": null,
+      "retryable": false,
+      "published": {
+        "generation": 1,
+        "audio": {
+          "bytes": 1924096,
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 240000,
+          "peak": 0.17756910622119904,
+          "clippedSamples": 0,
+          "maximumBlockFrames": 8192,
+          "peakResidentBytes": 30261248,
+          "decoderContext": {
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000,
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:fa5ee7bf0cd2379d0e8230ed981e8aae670b67fcff73b442729c1e3521f9fe94:1",
+              "ranges": []
+            }
+          ],
+          "dependencies": [
+            {
+              "kind": "asset",
+              "id": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15"
+            }
+          ],
+          "resourceId": "[\"75d0268e-8932-4ec0-b4c0-88ebeb2e9a08\",\"6fdb57b1-4253-46f5-9315-9be1b2d5e504\"]",
+          "assetId": "1c00c0ed579c03b755c76d248616344166f1ef4b8e3eb725008745080a738dd4",
+          "identity": {
+            "device": "16777229",
+            "inode": "325800069",
+            "modifiedNs": "1790674488074146295",
+            "changedNs": "1790674488083293125"
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 240000
+          }
+        }
+      }
+    }
+  ],
+  "files": [
+    {
+      "mode": "original",
+      "path": "/tmp/screenrec-sentence-comparison/original.wav",
+      "bytes": 1924096,
+      "sha256": "ce6e823447e5b739216543b2b33ec040cc51cff9f70138cf1b3666b8bd2d8b58",
+      "header": {
+        "offset": 4096,
+        "bytes": 1920000,
+        "frames": 240000
+      },
+      "peak": 0.236561581492424,
+      "rms": 0.022560502705581152
+    },
+    {
+      "mode": "learned",
+      "path": "/tmp/screenrec-sentence-comparison/learned.wav",
+      "bytes": 1924096,
+      "sha256": "1c00c0ed579c03b755c76d248616344166f1ef4b8e3eb725008745080a738dd4",
+      "header": {
+        "offset": 4096,
+        "bytes": 1920000,
+        "frames": 240000
+      },
+      "peak": 0.17756910622119904,
+      "rms": 0.015811106604916456
+    }
+  ],
+  "listeningAcceptance": false,
+  "passed": true
+}

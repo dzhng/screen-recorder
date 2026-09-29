@@ -1,6 +1,6 @@
 # 14a — Durable prepared audio shared by retiming and processors
 
-Status: core lifecycle, [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md), and [public preparation/asset inspection](../assets/14a-public-preparation/README.md) verified, including fresh skill use. Linked learned processing now uses this owner through [15a2d–f](15a2f-independent-channels.md); [learned package transfer](../assets/14a-learned-portable/README.md) verifies retained delivery separately from DSP quality. Stretch binding, successful long-output scaling and full listening acceptance remain open. Dependencies: 02a, 04,
+Status: core lifecycle, [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md), and [public preparation/asset inspection](../assets/14a-public-preparation/README.md) verified, including fresh skill use. Linked learned processing now uses this owner through [15a2d–f](15a2f-independent-channels.md); [learned package transfer](../assets/14a-learned-portable/README.md) verifies retained delivery separately from DSP quality. The [two-hour learned workload](24f-successful-learned-scale.md) now verifies successful long output. Stretch binding, broader scale coverage and full listening acceptance remain open. Dependencies: 02a, 04,
 05, 08 and 22a. This storage/publication prerequisite does not depend on accepting
 RNNoise or stretch quality; actual DSP adoption remains gated by 12c/13a.
 

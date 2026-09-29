@@ -2,7 +2,7 @@
 
 Status: five-minute/500-occurrence and two-hour/10,000-occurrence shallow repeated-source
 preparation verified through public owners. [Full two-hour evidence](../assets/24f-learned-scale/README.md).
-Prerequisites: [active audio work](24b-active-audio-work.md), [edit batching](24c-edit-batch-work.md),
+Dependencies: [active audio work](24b-active-audio-work.md), [edit batching](24c-edit-batch-work.md),
 [single-document receipts](24d-edit-receipts.md), [compact job status](24e-job-status.md).
 
 The complete delivered PCM agrees bit-for-bit with the independently executed frozen

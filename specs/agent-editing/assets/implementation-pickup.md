@@ -82,8 +82,11 @@ with independent state per output channel. Listening acceptance remains open.
   remains unobserved. [Single-document receipts](24d-edit-receipts/README.md) now
   deliver10k clips through actual MCP/CLI and restart replay within existing limits.
   [Compact job status](24e-job-status/README.md) now delivers recipe identity
-  through the existing response owner. Finish the actual two-hour full-PCM gate,
-  then temporal and retiming gates; internal input query cost still belongs to24. [Compiled-plan delivery](24a-compiled-plan/README.md)
+  through the existing response owner. [Two-hour full PCM](24f-learned-scale/README.md)
+  now matches the independent C reference in every channel sample, with late
+  retained delivery and successful scratch cleanup. Next fill the audited missing
+  unit-rate temporal/combined public join; retiming and general24 query/history
+  costs stay open. [Compiled-plan delivery](24a-compiled-plan/README.md)
   removes the separate control-message size obstacle. Audio/movie executor identities
   advanced for expanded admission so prior nonretryable failures cannot strand new requests.
   The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires

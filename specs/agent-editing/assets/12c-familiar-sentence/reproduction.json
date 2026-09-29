@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "method": "Fresh isolated public service rerun through retained assemble.mjs before formatting; both complete WAV hashes match",
+  "files": [
+    {
+      "path": "original.wav",
+      "bytes": 1924096,
+      "sha256": "ce6e823447e5b739216543b2b33ec040cc51cff9f70138cf1b3666b8bd2d8b58"
+    },
+    {
+      "path": "learned.wav",
+      "bytes": 1924096,
+      "sha256": "1c00c0ed579c03b755c76d248616344166f1ef4b8e3eb725008745080a738dd4"
+    }
+  ],
+  "claim": "Delivery reproducibility only; no listening/word-retention verdict"
+}
