@@ -19,6 +19,8 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup: implement [common model preparation](slices/19c-common-model-preparation.md)
 and independently measure [supported voice settings](slices/19d-voice-settings.md).
+The [settings/termination experiment](assets/19d-voice-settings/README.md)
+passes its scoped15 trials; resource limits and public controls remain open.
 The private entry and [runtime relocation](slices/19b-voice-runtime-relocation.md)
 are verified; the retained runtime bundle is an explicit local artifact, not a
 public installer. Reuse existing model/jobs/assets owners. [Retained excerpts](slices/19e-retained-audio-excerpts.md)

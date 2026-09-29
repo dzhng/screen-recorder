@@ -80,3 +80,8 @@ for all fifteen trials. No original trial was rerun for this boundary check.
 A [returned-token mutation](token-count-mutation.log.gz) also changes the cap
 receipt to report fewer tokens; verification rejects its disagreement with the
 observed branch. Neither mutation changes frozen evidence.
+
+[Root integration](root-verification.json) rechecks all69 archive members and
+all three tranches with the integrated offline verifier. Fifteen returned token
+counts agree with the executed stop branches. This added no inference and does
+not adopt a public input envelope.

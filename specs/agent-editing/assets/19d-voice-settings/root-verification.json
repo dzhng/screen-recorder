@@ -1,0 +1,85 @@
+{
+  "integrationCommit": "124de2d5",
+  "archiveMembersVerified": 69,
+  "offlineTranchesPassed": 3,
+  "inferenceRerun": false,
+  "tokenCountMatchesObservedStop": [
+    {
+      "trial": "frozen-word",
+      "returnedTokens": 11,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "frozen-phrase",
+      "returnedTokens": 42,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "effective-clamp",
+      "returnedTokens": 42,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "sentence",
+      "returnedTokens": 35,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "token-cap",
+      "returnedTokens": 1,
+      "observedStop": "token-budget"
+    },
+    {
+      "trial": "seed",
+      "returnedTokens": 63,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "seed-replay",
+      "returnedTokens": 63,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "greedy",
+      "returnedTokens": 57,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "top-k-disabled",
+      "returnedTokens": 32,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "top-k-one",
+      "returnedTokens": 57,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "top-p",
+      "returnedTokens": 35,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "penalty",
+      "returnedTokens": 35,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "language-auto",
+      "returnedTokens": 35,
+      "observedStop": "eos"
+    },
+    {
+      "trial": "word-cap",
+      "returnedTokens": 11,
+      "observedStop": "token-budget"
+    },
+    {
+      "trial": "word-last-eos",
+      "returnedTokens": 11,
+      "observedStop": "eos"
+    }
+  ],
+  "verifierSetupCorrection": "First extraction containment check compared canonical /private/tmp path against /tmp alias; corrected output root resolution before extracting. Archive hash/member checks pass unchanged.",
+  "scope": "Parameter and termination evidence only; no public envelope or quality acceptance."
+}

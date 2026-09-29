@@ -26,8 +26,13 @@ Historical workers and measurements retain their own identities below.
   Root reverified all11,427 bundle entries and21 archive members. Preserve
   `/private/tmp/screenrec-19b-relocation/bundle` for common preparation work;
   its model is separate, and no public readiness/distribution claim follows.
-  Next: common preparation19c and independent settings19d; excerpts19e and
-  public durable jobs19f follow. Public generation and listening remain open.
+  Common preparation19c is active in the reused two-hour-package-transfer worktree
+  on `codex/common-model-preparation`; settings19d is active in capture-pause-recovery
+  on `codex/voice-settings`. Coordinate actual inference between those owners.
+  Fifteen control/termination trials are integrated, including identical-WAV
+  EOS/budget boundary cases. Measured public envelope and typed adoption remain. Excerpts19e and public jobs19f
+  follow. The native19e probe preserves canonical PCM but rewrites WAV headers;
+  explicit24kHz mono conversion is still missing. Public generation/listening open.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
