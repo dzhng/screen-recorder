@@ -82,3 +82,20 @@ coverage extension, reuse, empty-origin handling or retry. Shape review keeps
 coverage state in AudioSourceReader and strengthens the existing probes instead
 of adding another scheduler or decoder. All scratch trace instrumentation is
 excluded from production; its patch/log remains evidence.
+
+## Combined root preservation
+
+The combined 24p/24q debug worker passes all 16 enforced decoder/metadata controls,
+five native descriptor tests, the SourceAudio owner, 31 core audio/preparation
+tests, five-format public import/inspection preservation and 50 public denoise
+checks. Sparse marker reads remain 16,020 bytes, the late 60s WAV reads 12,170 bytes,
+and the retained AAC numerical comparison is exact in this run. No processing
+recipe or sampling tolerance changes.
+
+`root-verification.json` records the exact combined worker and compact outcomes.
+`root-media.json` maps all 151 complete files to verified archive members. It
+reuses 218,513,946 bytes already retained byte-identically in the denoise and
+finite-demand archives; `root-evidence.tar.xz` holds only 28 new members. Every
+referenced member and new archive member was rehashed against the actual root
+files. This preserves complete evidence without copying identical media again.
+Build, source, descriptor, core and public logs are compressed alongside it.

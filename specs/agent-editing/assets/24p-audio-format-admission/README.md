@@ -22,3 +22,5 @@ the platform skips sparse tag padding rather than reading it.
 Read the adjacent reports/logs for commands, exact worker hashes, original failure,
 selected PCM hashes, byte-allowance mutation and completed test outcomes. Fixture
 construction is owned by the native tests and public journey linked from the slice.
+
+The [combined root preservation](../24q-finite-decoder-demand/README.md#combined-root-preservation) verifies this identification repair together with finite decoder demand, retaining complete public media and native source/budget logs.

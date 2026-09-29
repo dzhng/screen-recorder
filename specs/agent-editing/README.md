@@ -23,7 +23,7 @@ Current pickup and priority:
 now passes the combined public/native journey and [fresh agent skill use](assets/15a3b-mix-skill/README.md).
 
 1. Continue general [scale](slices/24-scale.md), including complete two-hour
-   [prepared-package transfer](slices/24j-prepared-package-scale.md), finite decoder demand after the [metadata correction](slices/24o-descriptor-metadata.md) and remaining query families/history. [Fixed-size history pages](slices/24r-history-query-scale.md) now pass their scoped cardinality and cursor gates.
+   [prepared-package transfer](slices/24j-prepared-package-scale.md), remaining query families, large-document/package history and unresolved load-sensitive budgets. [Finite decoder demand](slices/24q-finite-decoder-demand.md) and [inherited audio identification](slices/24p-audio-format-admission.md) now pass combined preservation. [Fixed-size history pages](slices/24r-history-query-scale.md) now pass their scoped cardinality and cursor gates.
    The exact two-hour recipe has been reconstructed against its original hash;
    available disk is insufficient for its transfer preflight. Do not restore multi-GB PCM
    before the measured preflight passes. Generic [package closure](slices/22-portable-projects.md)
@@ -310,6 +310,8 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24m — Query memory across doubled timeline duration](slices/24m-query-duration-memory.md)
 - [x] [24n — Actual decoder and descriptor work accounting](slices/24n-decoder-work.md)
 - [x] [24o — Immediately available descriptor metadata](slices/24o-descriptor-metadata.md)
+- [x] [24p — Inherited audio container identification](slices/24p-audio-format-admission.md)
+- [x] [24q — Finite native decoder demand](slices/24q-finite-decoder-demand.md)
 - [x] [24r — Bounded public history queries](slices/24r-history-query-scale.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 

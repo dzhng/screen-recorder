@@ -1,8 +1,8 @@
 [
   {
     "file": "README.md",
-    "bytes": 5118,
-    "sha256": "7fb8799d98b2a05eabdf426cd805552610ea4a1c10ff71c8eba19ba09a98aa8e"
+    "bytes": 6146,
+    "sha256": "eb5f06f459df31240630bbf1136be952dffb31e8f7de6888990ebf46e503845b"
   },
   {
     "file": "aac-parity.tar.xz",
@@ -38,6 +38,51 @@
     "file": "report.json",
     "bytes": 66380,
     "sha256": "a25a377e0e36e163bddb4c379a8c0f1ede8f2a5e117c86dc23e8e0d1c14c42d1"
+  },
+  {
+    "file": "root-build.log.gz",
+    "bytes": 1079,
+    "sha256": "b9b5cab1b692ed02084d10d5c977f9ca9df6c7eb3e69beeac247ed31d5a0cedd"
+  },
+  {
+    "file": "root-core.log.gz",
+    "bytes": 327,
+    "sha256": "a5c17d5c6a25e3d1b7b67168c994441379d095306b4875529f8cf5bf56a30c3f"
+  },
+  {
+    "file": "root-denoise.log.gz",
+    "bytes": 20,
+    "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  {
+    "file": "root-descriptor.log.gz",
+    "bytes": 394,
+    "sha256": "131de9802f0ae4a5ee0433e6662bf9201e1ee1a2210e4c75963ce7645f3651d2"
+  },
+  {
+    "file": "root-evidence.tar.xz",
+    "bytes": 665784,
+    "sha256": "4a75eec97ef024ba60eaffd85911a4b7f905e8fb139c1abb264b3c69e3ebb5b7"
+  },
+  {
+    "file": "root-formats.log.gz",
+    "bytes": 150,
+    "sha256": "03da9381eb8c6dbb1acce3269afdea0bb457c53039b9a5be7874b72e820fc046"
+  },
+  {
+    "file": "root-media.json",
+    "bytes": 40356,
+    "sha256": "9a873103271d3ec2aeffb457eadbc3f2576d706f9cfcfdb97620acd2c0e9c7d1"
+  },
+  {
+    "file": "root-source.log.gz",
+    "bytes": 769,
+    "sha256": "c9ddebcdfbfa4c0edbd01c5abcd1af69037f30c716e0a832400f5f743d579271"
+  },
+  {
+    "file": "root-verification.json",
+    "bytes": 1068,
+    "sha256": "9d168d8047800863ff085eb8a3370f02d3b9c47e6a96c7ca15fc194767f4238e"
   },
   {
     "file": "screenrec-24q-audio-mix.log.gz",

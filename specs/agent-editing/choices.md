@@ -3575,3 +3575,35 @@ inventing database rows. The plan left the history measurement method open;
 this isolates that query contract without claiming arbitrary document-size or
 package-history performance. Use three alternating cohorts and preserve sampled
 memory/latency distributions instead of equating one fast read with a guarantee.
+
+## 24p — Identify ambiguous audio through the platform parser (sound, high confidence)
+
+A file handle has no useful filename, and an ID3 header can precede more than MP3.
+Use known container signatures only to select a path, then ask AudioToolbox to
+identify ambiguous audio through positional reads on the already-owned handle.
+Use its registered type and suffix for AVFoundation. This fills the existing
+loader's format gap without a second decoder or a handwritten tag/frame parser.
+Actual packet, rate and channel support remains the audio reader's decision;
+ordinary pathname imports are a preservation control, not the original defect.
+
+## 24p — Bound identification even during whole-file streaming (sound, high confidence)
+
+Streaming a long movie may legitimately consume its entire contents, but merely
+recognizing a malformed audio header must not scan indefinitely. Require a finite
+identification allowance for both modes. Inspection charges sniffing,
+identification and subsequent reads to one 64 MiB ceiling; streaming may continue
+reading after its bounded identification. The plan did not specify recognition
+cost. Making the helper's allowance mandatory prevents an unbounded recognition
+path from reappearing, and the parser never changes the caller's file position.
+
+## 24q — End decoding at the demand already computed by its caller (sound, high confidence)
+
+When an agent asks for a short excerpt, its caller already knows the exact native
+sample interval, including necessary conversion context. Give that finite end to
+AVFoundation rather than an infinite range. Preserve the existing packet
+lookbehind and source-time representation; discard any endpoint rounding cell
+before conversion. Later adjacent requests first consume reusable pending samples,
+then open a new finite reader only when coverage ends. Keep that ordinary
+extension separate from the one-time premature-end retry, and let empty requests
+leave the physical origin untouched. This resolves the previously unspecified
+reader coverage policy without guessed padding, new caches or altered PCM meaning.

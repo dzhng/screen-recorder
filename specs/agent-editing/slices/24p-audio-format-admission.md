@@ -1,6 +1,6 @@
 # 24p — Inherited audio container identification
 
-Status: implemented and verified. Dependency: descriptor media input.
+Status: implemented and verified. Dependencies: [24n](24n-decoder-work.md).
 
 ## Contract
 

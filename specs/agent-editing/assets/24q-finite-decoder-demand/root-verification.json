@@ -1,0 +1,53 @@
+{
+  "workerSHA256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "accountingPassed": true,
+  "metadataPassed": true,
+  "descriptorIO": {
+    "sourceBytes": 11520044,
+    "lateReadBytes": 12170,
+    "smallerThanWholeSource": true
+  },
+  "readAhead": {
+    "passed": true,
+    "enforced": true,
+    "maximumBytes": 1601552,
+    "observations": [
+      {
+        "second": 1,
+        "readBytes": 16020,
+        "passed": true
+      },
+      {
+        "second": 3600,
+        "readBytes": 16020,
+        "passed": true
+      },
+      {
+        "second": 7199,
+        "readBytes": 16020,
+        "passed": true
+      }
+    ]
+  },
+  "aacComparison": {
+    "maximum": 0,
+    "rms": 0,
+    "comparedSamples": 1920
+  },
+  "nativeCases": 16,
+  "descriptorTests": 5,
+  "sourceOwner": "passed",
+  "coreAudioPreparationTests": 31,
+  "publicFormats": [
+    "wav",
+    "aiff",
+    "m4a",
+    "mp3",
+    "flac"
+  ],
+  "publicFormatExactPCM": true,
+  "denoiseChecks": 50,
+  "denoisePassed": true,
+  "retainedFiles": 151,
+  "existingBytesReused": 218513946
+}

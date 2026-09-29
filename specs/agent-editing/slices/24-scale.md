@@ -8,8 +8,10 @@ placement, cached inspection and queue gates. [Warm1080p preview](24l-preview-bu
 memory](24m-query-duration-memory.md) also pass. [Actual decoder/read accounting](24n-decoder-work.md) and the
 [metadata prefix correction](24o-descriptor-metadata.md) pass their scoped gates.
 [Fixed-size managed-history pages](24r-history-query-scale.md) also pass cursor
-pinning and cardinality gates. General decoder read-ahead remains red; other
-query families, large-document/package history and remaining budgets stay open. Carry the unresolved inherited
+pinning and cardinality gates. [Finite decoder demand](24q-finite-decoder-demand.md)
+resolves the sparse read-ahead failure; [container identification](24p-audio-format-admission.md)
+preserves descriptor-backed audio admission. Other query families, large-document/
+package history and remaining budgets stay open. Carry the unresolved inherited
 300-second audio streaming
 deadline from [baseline maintenance](../assets/00-baseline/audio-fix/review.md);
 neither baseline nor changed diagnostic establishes a pass. The inherited storage

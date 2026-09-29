@@ -5,25 +5,27 @@ Root integrates committed passes and verifies their consumer contracts. Current
 catalog format is19, source policy is native-source-v2 and produced audio/movie
 policies arev9/v19. The combined worker is
 `helpers/mac/.build/debug/screenrec-native`, SHA256
-`78db46aea09523156a989ec9e01fb19f8f37454a82708f79145fb51219d77fa6`.
+`8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186`.
 Historical workers and measurements retain their own identities below.
 
 ## Active owners and next action
 
 - **Denoise transitions15a3b:** integrated. Combined244 composition/31 native
-  audio/preparation tests and50 public checks pass; [fresh skill use](15a3b-mix-skill/README.md)
+  audio/preparation tests and 50 public checks pass; [fresh skill use](15a3b-mix-skill/README.md)
   independently preserves the complete split PCM and dry-source samples. No
   listening or retiming acceptance is inferred.
-- **Decoder work24n/24o:** integrated; all 16 root accounting/metadata/PCM controls
-  and 12 native project-audio tests pass. Metadata no longer scans the full WAV
-  prefix. General read-ahead remains red on the sparse two-hour middle window;
-  the `codex/decoder-scale` delegate is assessing finite decoder demand for planned24q
-  in capture-pause-recovery. Preserve exact source phase, packet/context semantics,
-  descriptor identity and the 64 MiB inspection guard; do not raise fixture bounds.
-- **Audio format admission (planned24p):** the two-hour-package-transfer delegate owns
-  `codex/audio-format-admission`. Platform identification repaired MP3/AIFF/FLAC
-  in scratch controls; production constructor and public import proof are underway.
-  Identification never substitutes for codec/packet/rate/channel admission.
+- **Source reads24n–24q:** integrated. Combined 16 enforced decoder/metadata
+  controls, 5 descriptor tests, SourceAudio owner, 31 core audio/preparation tests,
+  five-format public preservation and 50 denoise public checks pass. Sparse
+  two-hour selections now read 16,020 bytes with exact PCM. Original read-ahead
+  reds remain retained; arbitrary codec I/O and positive AAC tail-retry execution
+  are not inferred. The release capture-test compiler assertion is separate from
+  the passing debug prerecorded materializer and production release build.
+- **Voice repeatability (planned18a):** `codex/voice-entry-parity` in the reused
+  two-hour-package-transfer worktree has matched the frozen main candidate in
+  two fresh offline processes without recipe changes. Evidence/leaf banking and
+  a 19a isolated entry-port proposal are underway; public voice.generate remains
+  unavailable, with listening and managed reference-origin retention still open.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).

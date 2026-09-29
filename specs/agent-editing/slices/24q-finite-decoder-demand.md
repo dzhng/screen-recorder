@@ -1,6 +1,6 @@
 # 24q — Bound native readers by exact decoder demand
 
-Status: verified in [evidence](../assets/24q-finite-decoder-demand/README.md).
+Status: verified in [evidence](../assets/24q-finite-decoder-demand/README.md), including combined root preservation with 24p. Dependencies: [24o](24o-descriptor-metadata.md).
 Root owns parent24 and choices integration. Preserve the [24o read-ahead red](../assets/24o-descriptor-metadata/README.md).
 
 ## Contract and owner
