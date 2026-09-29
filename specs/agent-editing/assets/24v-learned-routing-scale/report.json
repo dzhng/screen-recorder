@@ -1,0 +1,72 @@
+{
+  "cohortVerified": true,
+  "finalCorrectedFreshHarnessRun": false,
+  "proof": "bounded/report.json plus continuation/report.json for same retained publication",
+  "fixture": {
+    "seconds": 8,
+    "occurrences": 512,
+    "depth": 128,
+    "width": 32,
+    "rootGainSteps": 128
+  },
+  "nativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "dry": {
+    "sha256": "0b00e37f710cb0bbd09e43c85afa597a9a910e250de11f028b813ba3d7c989bf",
+    "exact": true,
+    "missingLaneOracleRejected": true
+  },
+  "inspection": {
+    "samples": [
+      12.484416999999667,
+      12.437709000001632,
+      11.512041999998473,
+      12.308082999999897,
+      10.963666999999987,
+      11.06512500000099,
+      11.221958000001905,
+      11.05975000000035,
+      12.3537499999984,
+      11.598458000000392,
+      11.213041999999405,
+      12.513459000001603,
+      11.27491700000246,
+      10.894667000000481,
+      11.46600000000035,
+      11.133207999999286,
+      10.42237500000192,
+      10.568999999999505,
+      14.076042000000598,
+      11.422249999999622
+    ],
+    "p95Ms": 12.513459000001603,
+    "rows": 250
+  },
+  "learned": {
+    "frames": 384000,
+    "sha256": "f46f291f43c56f99f4a94ceb036655ab3cd4996782cb84ccd49230edbf6e1ad0",
+    "exact": true
+  },
+  "retainedAssetLate": {
+    "frames": 12000,
+    "sha256": "00f91de57578c00b33cf49eda5b68b3e1893c22836e69ae05f649d50e6845127",
+    "exact": true
+  },
+  "nativePeakRSS": 95518720,
+  "sampledServicePeakRSS": 406798336,
+  "continuationControllerPeakRSS": 101580800,
+  "retainedLookupMs": 69.469,
+  "referenceMs": 509.12812500000007,
+  "lateDeliveryMs": 212.0294580000002,
+  "preparationWallTime": null,
+  "sourceWorkMeasured": false,
+  "selection": {
+    "projectId": "305c496a-e74e-4a9b-a5aa-ec0e056df3b7",
+    "revisionId": "bbbf9602-ccac-4fcc-af6f-f273797ddc2f"
+  },
+  "publication": {
+    "jobId": "81c6ed83-d514-4715-ad2c-5905ee6de29b",
+    "resourceId": "[\"305c496a-e74e-4a9b-a5aa-ec0e056df3b7\",\"f179d194-ffd4-4ea8-901c-27b044f86ea8\"]",
+    "assetId": "26a54cba9fb4399a589acecf0a698b7f937e3db1f9b68930c3e3bf6c52a37c0e"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "members": 56,
+  "expandedBytes": 37457303,
+  "completeMemberHashVerification": true,
+  "archiveSha256": "59b1926455578cd7ab12dbabe3c825f4f3b393371401a2789f84a7f2740fdfe5",
+  "base": "5e555584",
+  "node": "v24.14.0",
+  "nativeConfiguration": "existing debug worker; no new build or timing SLA",
+  "nativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "boundedCommand": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node packages/test-harness/editing/denoise-topology.mjs --out /tmp/screenrec-24v-learned-topology-bounded --reference /Users/david/.cache/screen-recorder/test-prerequisites/rnnoise-api-697657e249b1",
+  "continuationCommand": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native SCREENREC_TEST_UNAVAILABLE_OPERATIONS='[\"media.audioCapabilities\",\"media.mixCompositionAudio\"]' node /tmp/screenrec-24v-continue.mjs",
+  "finalFreshHarnessRun": false,
+  "finalSourceReview": "independent review clean; node --check passes; bounded assertion control passes; topology operations equal previous implementation"
+}

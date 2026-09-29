@@ -1,3 +1,4 @@
+import { routingTopology } from "./routing-topology.mjs";
 import assert from "node:assert/strict";
 import { previewScale } from "./preview-scale.mjs";
 import { mkdtemp, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
@@ -84,39 +85,7 @@ try {
       revisionId = response.revision.id;
       return response;
     };
-    const topology = [];
-    for (let i = 0; i < depth; i++)
-      topology.push({
-        operation: "group.add",
-        label: `g${i}`,
-        group: { kind: "audio", order: 0, ...(i ? { parentId: { label: `g${i - 1}` } } : {}) },
-      });
-    for (let i = 0; i < width; i++)
-      topology.push(
-        {
-          operation: "group.add",
-          label: `leaf${i}`,
-          group: { kind: "audio", order: i, parentId: { label: `g${depth - 1}` } },
-        },
-        {
-          operation: "track.add",
-          label: `t${i}`,
-          track: { kind: "audio", order: 0, parentId: { label: `leaf${i}` } },
-        },
-        {
-          operation: "processing.set",
-          target: { kind: "track", id: { label: `t${i}` } },
-          steps: [{ processor: { type: "gain", gain: 1 / width } }],
-        },
-      );
-    for (let i = 0; i < depth; i++)
-      topology.push({
-        operation: "processing.set",
-        target: { kind: "group", id: { label: `g${i}` } },
-        steps: Array.from({ length: i === 0 ? 128 : 2 }, (_, j) => ({
-          processor: { type: "gain", gain: j % 2 ? 2 : 0.5 },
-        })),
-      });
+    const topology = routingTopology(depth, width);
     const topologyResult = await apply(topology, "topology"),
       tracks = Array.from({ length: width }, (_, i) => topologyResult.edit.labels[`t${i}`]);
     const sequential = occurrences - width,

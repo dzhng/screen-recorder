@@ -1,0 +1,282 @@
+[
+  {
+    "file": "bounded/dry.wav",
+    "bytes": 3076096,
+    "sha256": "2dd4045cc44c496e2d43a4c63440cefd59c4dcba276007da447cd925c5ac8833"
+  },
+  {
+    "file": "bounded/independent-dry.f32",
+    "bytes": 3072000,
+    "sha256": "0b00e37f710cb0bbd09e43c85afa597a9a910e250de11f028b813ba3d7c989bf"
+  },
+  {
+    "file": "bounded/learned-request.json",
+    "bytes": 19017,
+    "sha256": "c38ff363055702b173ec17c380f4b99a902dcaa42cdabcc9e6704ea46dc59399"
+  },
+  {
+    "file": "bounded/place-first-request.json",
+    "bytes": 178147,
+    "sha256": "8c49c73ff1fcab1c1e715a9d28ee946fb356d3b7559bb45d60fb58ed3904acf5"
+  },
+  {
+    "file": "bounded/place-last-request.json",
+    "bytes": 4430,
+    "sha256": "3ee1802a7e7654eb128103d1dee3d3ce7aa6b6b81351555968900b53d560ab06"
+  },
+  {
+    "file": "bounded/report.json",
+    "bytes": 149930,
+    "sha256": "cce28c95c9d7f2b626edb84a265812322cf031973fbd6039feac2fbfb2a5b935"
+  },
+  {
+    "file": "bounded/source-0.wav",
+    "bytes": 192044,
+    "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+  },
+  {
+    "file": "bounded/source-1.wav",
+    "bytes": 192044,
+    "sha256": "860a30532fc13978fd86f8beec269cde0751805e6a5bc24d1abf52d83dca4d28"
+  },
+  {
+    "file": "bounded/topology-request.json",
+    "bytes": 50766,
+    "sha256": "c0a2191dce654366809ef778978b64d7c88cb32d4d5030600b3676a5220d6604"
+  },
+  {
+    "file": "continuation/combined-lane-0-input.f32",
+    "bytes": 1536000,
+    "sha256": "0d6809280522ac6a42eb2544b8e4529b9966cd9d98346c3b8578f7138ef4b5f6"
+  },
+  {
+    "file": "continuation/combined-lane-0-raw.f32",
+    "bytes": 1539840,
+    "sha256": "260d8f9a8ee9fa2d7b00e58c75f294b40eda1f41480173ec753e22f86f8d61ba"
+  },
+  {
+    "file": "continuation/combined-lane-1-input.f32",
+    "bytes": 1536000,
+    "sha256": "5fddf4e9aa7f08b9a9a887527d80a8e6607c1648592c213855d4ca6c3ab6c47b"
+  },
+  {
+    "file": "continuation/combined-lane-1-raw.f32",
+    "bytes": 1539840,
+    "sha256": "24829914082138e0354f5e3c1540b35cf06047cc7992c353497bb7f2a73f7b8a"
+  },
+  {
+    "file": "continuation/prepared.wav",
+    "bytes": 3076096,
+    "sha256": "26a54cba9fb4399a589acecf0a698b7f937e3db1f9b68930c3e3bf6c52a37c0e"
+  },
+  {
+    "file": "continuation/report.json",
+    "bytes": 81053,
+    "sha256": "0df07e58b2d9b3f286af59c528b4b53fe620c6ef5c895ab176e7eacd0e07dcf5"
+  },
+  {
+    "file": "continuation/retained-late.wav",
+    "bytes": 100096,
+    "sha256": "e0a1aa0347e921f707a6a6f29be5acf869888190312f015d8c0852c10e1e8238"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-bounded-assert-control.json",
+    "bytes": 193,
+    "sha256": "e6edcf055911d97f271d7f96ae2d7bef355bdee3900e60ecf30c47cf12b97180"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-bounded-assert-control.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-bounded-assert-control.mjs",
+    "bytes": 1204,
+    "sha256": "bd79ddd6afdba7354b5a2c4474347b366f1a760d40c78bebe52664e5007b7b84"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-bounded.log",
+    "bytes": 1006,
+    "sha256": "00001dc85a3a0d76010e091e450b0a77904f03c8929d4b49752ea181e8598c3e"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-cli-build.log",
+    "bytes": 48,
+    "sha256": "a8ceec05c719c5fcf68b15e843137799dddb6c2fa86d717e894c81837be2ef04"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-composition-build.log",
+    "bytes": 23,
+    "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-continuation.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-continue.mjs",
+    "bytes": 3332,
+    "sha256": "d1a3644c13c3174fc629fc7ac27e43f82164cd4c3dd42753ece6d1cd03de3ec6"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-core-build.log",
+    "bytes": 23,
+    "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-final-review.log",
+    "bytes": 116138,
+    "sha256": "aa4a58b24e96cbc8e85ced0a8eb84b21ced2429f06daf091fcaa639ce5084a52"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-format.log",
+    "bytes": 136,
+    "sha256": "f344f863a18b371cc255063eea3d1fe7b8e020f49656dfa10ce4c9da75d6474f"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-live.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-owner-diagnostic.json",
+    "bytes": 594,
+    "sha256": "65100efb51f15990939b1199838890a7bfda7ea7a87ffd36ea635573a52451f4"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-owner-diagnostic.log",
+    "bytes": 169,
+    "sha256": "f6fe9c15541f8efaa080374c3906c00bd77cb805febb57bd9fd6c2582b53dc89"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-owner-diagnostic.mjs",
+    "bytes": 612,
+    "sha256": "1d9e5c931849722bb2cbcc5f674ddbddfe6f6f7a103026d63787cf3c1cae37da"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-owner-errors.jsonl",
+    "bytes": 4854,
+    "sha256": "529ad4792e04301084389749c0d81392f2cb9f6bc4b82560ce9e3a1f8b553048"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-owner-preload.mjs",
+    "bytes": 542,
+    "sha256": "e759257d0fec612ff2ebd5f9e5a77ef8a100e485bfbb3d41ca9cf271f5240240"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-protocol-build.log",
+    "bytes": 23,
+    "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-reference-missing.log",
+    "bytes": 551,
+    "sha256": "6565019417b6228b457d26873e4431653f018ea8a9cc2ee302620ff8a56800cf"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-review.log",
+    "bytes": 107428,
+    "sha256": "f8db690e600b83510fe8f002c313bf54ccde924ca079228ea7067160a22c43e5"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-service-build.log",
+    "bytes": 23,
+    "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+  },
+  {
+    "file": "diagnostics/screenrec-24v-topology-control.json",
+    "bytes": 147,
+    "sha256": "a3f581ffc17f4df33cd15ba1400acc5bc8261f88cc942906fe06201773c66207"
+  },
+  {
+    "file": "interrupted/dry.wav",
+    "bytes": 3076096,
+    "sha256": "2dd4045cc44c496e2d43a4c63440cefd59c4dcba276007da447cd925c5ac8833"
+  },
+  {
+    "file": "interrupted/independent-dry.f32",
+    "bytes": 3072000,
+    "sha256": "0b00e37f710cb0bbd09e43c85afa597a9a910e250de11f028b813ba3d7c989bf"
+  },
+  {
+    "file": "interrupted/interruption.json",
+    "bytes": 162,
+    "sha256": "4cea6bcbaf642f896f467f8e93702d2f96bd61881f5b43b063cef366a2d96f4c"
+  },
+  {
+    "file": "interrupted/place-first-request.json",
+    "bytes": 178147,
+    "sha256": "3976c343de38544a4b8f154b2944e24f86dba2d1203fec1d4393db2f1146f8f0"
+  },
+  {
+    "file": "interrupted/place-last-request.json",
+    "bytes": 4430,
+    "sha256": "3d815254b99b22b49aea5f38107255642cf7bd41c2447f9705a234b729b06f9d"
+  },
+  {
+    "file": "interrupted/source-0.wav",
+    "bytes": 192044,
+    "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+  },
+  {
+    "file": "interrupted/source-1.wav",
+    "bytes": 192044,
+    "sha256": "860a30532fc13978fd86f8beec269cde0751805e6a5bc24d1abf52d83dca4d28"
+  },
+  {
+    "file": "interrupted/topology-request.json",
+    "bytes": 50766,
+    "sha256": "7de1dd9e7be233fc08b4adb4f8a02e8d11d895d9fe18981e88a7384d8effbce5"
+  },
+  {
+    "file": "reference-binary",
+    "bytes": 3654872,
+    "sha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee"
+  },
+  {
+    "file": "retained/assets/26a54cba9fb4399a589acecf0a698b7f937e3db1f9b68930c3e3bf6c52a37c0e.wav",
+    "bytes": 3076096,
+    "sha256": "26a54cba9fb4399a589acecf0a698b7f937e3db1f9b68930c3e3bf6c52a37c0e"
+  },
+  {
+    "file": "retained/assets/7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4.wav",
+    "bytes": 192044,
+    "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+  },
+  {
+    "file": "retained/assets/860a30532fc13978fd86f8beec269cde0751805e6a5bc24d1abf52d83dca4d28.wav",
+    "bytes": 192044,
+    "sha256": "860a30532fc13978fd86f8beec269cde0751805e6a5bc24d1abf52d83dca4d28"
+  },
+  {
+    "file": "retained/catalog.sqlite",
+    "bytes": 6967296,
+    "sha256": "1ec78cba88823d3b807fcaa05a37e794324d8eaccb90e941fa7b7565ec9c9610"
+  },
+  {
+    "file": "source/audio-project-fixture.mjs",
+    "bytes": 5635,
+    "sha256": "33188123789c921c9e7d4b573b72e3529795aac0491caf02a579dd6c5e1b8f08"
+  },
+  {
+    "file": "source/denoise-reference.mjs",
+    "bytes": 1628,
+    "sha256": "d8c1df5bf21826f10160c11ce671c236fff106a4d30aa6262c26a65ee58cc8ab"
+  },
+  {
+    "file": "source/denoise-topology.mjs",
+    "bytes": 10136,
+    "sha256": "1701334b5e8a50a65a2436969f0e3163a29de32a8eb2142a1604ff98c4f5a793"
+  },
+  {
+    "file": "source/routing-topology.mjs",
+    "bytes": 1224,
+    "sha256": "b5b552725cd178863c3e1ae44a897ec22572dd300312cdcb69bfa809f43eb5aa"
+  },
+  {
+    "file": "source/scale.mjs",
+    "bytes": 10194,
+    "sha256": "10b69597115afee651cbf8db5799d9c19274cf39320f7c09110434185fc7dfb5"
+  }
+]
