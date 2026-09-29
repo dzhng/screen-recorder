@@ -370,10 +370,90 @@ export function applyBatch(
       if (!allowMissing && !known.has(id)) invalid("Unknown clip", { clipId: id });
     return ids;
   };
-  for (const [operationIndex, authored] of parsed.data.entries()) {
+  const placeClip = (
+    operation: Extract<z.infer<typeof editOperationSchema>, { operation: "place" }>,
+  ) => {
+    const id = allocate("clip");
+    bind(operation.label, "clip", id);
+    const anchor = operation.clip.placement;
+    return {
+      ...operation.clip,
+      id,
+      trackId: resolve(operation.clip.trackId, "track"),
+      placement:
+        anchor.kind === "project" ? anchor : { ...anchor, clipId: resolve(anchor.clipId, "clip") },
+    };
+  };
+  for (let operationIndex = 0; operationIndex < parsed.data.length; operationIndex++) {
+    const authored = parsed.data[operationIndex]!;
     const before = model.document;
     let next: Document;
     try {
+      // Independent project appends cannot repair an invalid earlier prefix. Empty processing
+      // also excludes state/window normalization that could change earlier operation receipts.
+      if (
+        before.processing.length === 0 &&
+        authored.operation === "place" &&
+        authored.clip.placement.kind === "project"
+      ) {
+        const start = operationIndex;
+        const appended: ReturnType<typeof placeClip>[] = [];
+        let constructionFailure: { index: number; error: unknown } | undefined;
+        let end = start;
+        for (; end < parsed.data.length; end++) {
+          const item = parsed.data[end]!;
+          if (item.operation !== "place" || item.clip.placement.kind !== "project") break;
+          try {
+            appended.push(placeClip(item));
+          } catch (error) {
+            constructionFailure = { index: end, error };
+            break;
+          }
+        }
+        if (appended.length) {
+          const resolvePrefix = (count: number) =>
+            resolveComposition(
+              { ...before, clips: [...before.clips, ...appended.slice(0, count)] },
+              model.assets,
+              model.acquisitions,
+            );
+          try {
+            model = resolvePrefix(appended.length);
+          } catch (error) {
+            if (!(error instanceof CompositionError)) throw error;
+            let first = 1,
+              last = appended.length,
+              failure = error;
+            while (first < last) {
+              const middle = Math.floor((first + last) / 2);
+              try {
+                resolvePrefix(middle);
+                first = middle + 1;
+              } catch (error) {
+                if (!(error instanceof CompositionError)) throw error;
+                last = middle;
+                failure = error;
+              }
+            }
+            operationIndex = start + first - 1;
+            throw failure;
+          }
+        }
+        if (constructionFailure) {
+          operationIndex = constructionFailure.index;
+          throw constructionFailure.error;
+        }
+        // Capture the frozen run result before a later operation can replace/remove these clips.
+        for (let offset = 0; offset < appended.length; offset++) {
+          const clip = model.document.clips[before.clips.length + offset]!;
+          normalized.push({
+            operationIndex: start + offset,
+            changes: [{ kind: "clip", id: clip.id, value: clip }],
+          });
+        }
+        operationIndex = end - 1;
+        continue;
+      }
       let operation = authored;
       if (operation.operation === "fade" || operation.operation === "zoom") {
         const target =
@@ -874,19 +954,7 @@ export function applyBatch(
           break;
         }
         case "place": {
-          const id = allocate("clip");
-          bind(operation.label, "clip", id);
-          const anchor = operation.clip.placement;
-          const clip = {
-            ...operation.clip,
-            id,
-            trackId: resolve(operation.clip.trackId, "track"),
-            placement:
-              anchor.kind === "project"
-                ? anchor
-                : { ...anchor, clipId: resolve(anchor.clipId, "clip") },
-          };
-          next = { ...before, clips: [...before.clips, clip] };
+          next = { ...before, clips: [...before.clips, placeClip(operation)] };
           break;
         }
         case "link": {

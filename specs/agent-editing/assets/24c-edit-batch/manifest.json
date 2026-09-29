@@ -1,0 +1,151 @@
+{
+  "archiveSha256": "1ea3ffe6764860df799d1798f9ed3092ced6495c167b49b3b94097a9df658e96",
+  "archiveBytes": 189544,
+  "files": [
+    {
+      "storedAs": "screenrec-edit-batch-composition.log",
+      "bytes": 283,
+      "sha256": "5288f8f23daf4720c7dd685003ce82469338f2ef79a63363f2f6285937c6ab1c"
+    },
+    {
+      "storedAs": "screenrec-edit-batch-core.log",
+      "bytes": 658,
+      "sha256": "6b748dc0616fb59676dd4b7c8fe2af3e46081f785120dad633ce540d9a8d9e7f"
+    },
+    {
+      "storedAs": "screenrec-edit-batch-design-review.log",
+      "bytes": 134654,
+      "sha256": "2ae6d329b0b696fb607cd4add3cd0bc12b5ea74a837191c69d510c4a89a4e8c6"
+    },
+    {
+      "storedAs": "screenrec-edit-batch-design-review.md",
+      "bytes": 5457,
+      "sha256": "b65a78fc872156287b78a47415cd318e626a66efa03d2628c7017e699eb294f6"
+    },
+    {
+      "storedAs": "screenrec-edit-batch-design.md",
+      "bytes": 3689,
+      "sha256": "5a73c236d316ed15cda3f223ac2219ab71de257ddae0b532103425960a6688b8"
+    },
+    {
+      "storedAs": "original-request-receipt.json",
+      "bytes": 7068404,
+      "sha256": "5e3f4e1d950b9af5c89b74a649e0567e59a9b98a3a5e8ca0e9c4e6093d5c1be4"
+    },
+    {
+      "storedAs": "screenrec-edit-batch-review.log",
+      "bytes": 129804,
+      "sha256": "ef7f592d05365a1054462c1562bc2e7e29bcc5b1ad624e35c88c53c679561243"
+    },
+    {
+      "storedAs": "screenrec-edit-batch-types.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "storedAs": "screenrec-edit-differential.json",
+      "bytes": 857265,
+      "sha256": "0b0cd312a5e1ebd0255bc79922c5b5574f0ad605a387717d3b9800c6428414e8"
+    },
+    {
+      "storedAs": "screenrec-edit-differential.log",
+      "bytes": 54,
+      "sha256": "0627235419c7110ef1a73f07d33dc584103786e310ac83ca46d85ebf80cadc90"
+    },
+    {
+      "storedAs": "screenrec-edit-differential.mjs",
+      "bytes": 4896,
+      "sha256": "04c939664f065d930f18db8560af2d4bd8b90ae85c8966bdab47449b6bcd0130"
+    },
+    {
+      "storedAs": "screenrec-edit-public-resume.json",
+      "bytes": 316660,
+      "sha256": "788cfa4509fe93e100c3667f320761d558a6ddc168fd0c0852a31bd57883f83d"
+    },
+    {
+      "storedAs": "screenrec-edit-public-resume.log",
+      "bytes": 1249,
+      "sha256": "3677a7b2d6a2d2e763da6669bb7328eee9aa72e5d93a124acaa116b03178238d"
+    },
+    {
+      "storedAs": "screenrec-edit-public-resume.mjs",
+      "bytes": 2448,
+      "sha256": "5e118c950c4d66eb9dc4febaf9b3773cb44293d7ac1f95e220e776b9558ef505"
+    },
+    {
+      "storedAs": "screenrec-edit-retained-parity.json",
+      "bytes": 202,
+      "sha256": "a221d092f2641974828c5786a8a1df0e17b1f8892516c72ad34a555b0fb5c5d3"
+    },
+    {
+      "storedAs": "screenrec-edit-retained-parity.log",
+      "bytes": 360,
+      "sha256": "58869d749f82eb3b897913c821651275dbf0d3342d2de5bba151fce17399ce78"
+    },
+    {
+      "storedAs": "screenrec-edit-retained-parity.mjs",
+      "bytes": 2006,
+      "sha256": "aae8decbc0b222e76f8b1746e51f9cf245136ab0a6e5dbd9b6de540f5829b746"
+    },
+    {
+      "storedAs": "screenrec-edit-scalar.json",
+      "bytes": 3237,
+      "sha256": "9b88e3761165e74042a98ca2c85a39695f3955b82234e9a5da7009ba1b0d756d"
+    },
+    {
+      "storedAs": "screenrec-edit-size-replay.json",
+      "bytes": 466,
+      "sha256": "ac485dca2d8c90c15cd50212b3b48a173bd15c13c49e0b60f7cd019948bf5734"
+    },
+    {
+      "storedAs": "screenrec-edit-size-replay.log",
+      "bytes": 700,
+      "sha256": "62ff69be59bf85fa6819999e8d0d853617983802a58f6c65f6406e10c407e75a"
+    },
+    {
+      "storedAs": "screenrec-edit-size-replay.mjs",
+      "bytes": 2200,
+      "sha256": "d9e0b41a28a2a0f6664b2ae8b715fdc0f1a5568bac95af9bbca1d284c82e0011"
+    },
+    {
+      "storedAs": "screenrec-edit-timeout-replay.json",
+      "bytes": 770,
+      "sha256": "7e0931052c3cd6780698a26ec11880d823978b9238a10c67500cb343cc87b00a"
+    },
+    {
+      "storedAs": "screenrec-edit-timeout-replay.log",
+      "bytes": 1042,
+      "sha256": "7a0850a1940c96cfaa581f43046243b1d58c4c11ef1685012d37cb817eadb12b"
+    },
+    {
+      "storedAs": "screenrec-edit-timeout-replay.mjs",
+      "bytes": 2127,
+      "sha256": "caddf1736656d7b8f29eedc4ba37936352cb7ffe9288371acbd27773128b171d"
+    },
+    {
+      "storedAs": "screenrec-edit-timeout-request.json",
+      "bytes": 292696,
+      "sha256": "b9ede6bf6de1a7ed95f6dfa51008f7530e675e0d96b80c7dc4bdab8f44ee34de"
+    },
+    {
+      "storedAs": "CPU.20260929.013232.10635.0.001.cpuprofile",
+      "bytes": 574130,
+      "sha256": "84d57a0fe48b1dee96d014297138473482185ed3cc2e136163c2fa0d44106c8a"
+    },
+    {
+      "storedAs": "CPU.20260929.013233.10644.0.001.cpuprofile",
+      "bytes": 705001,
+      "sha256": "2ab2f70a664c3513a1b3f9b6e610292aac918a51d680f097bdf57da821eaa8ac"
+    },
+    {
+      "storedAs": "original-timeout-report.json",
+      "bytes": 2650,
+      "sha256": "ab046da6b88f69e683f703786cdd82a6dbec82a627efbd43af6f1e7f279ac8ee"
+    },
+    {
+      "storedAs": "screenrec-public-edit-timeout.log",
+      "bytes": 868,
+      "sha256": "e98d2ca593f3588511c2252510d69cafea47f38998f8b4b5aa5fdd5186efe411"
+    }
+  ]
+}

@@ -2422,3 +2422,105 @@ test("padding expansion drops old attachments unless explicitly detached first",
     range: { startUs: 0, endUs: 4000000 },
   });
 });
+
+test("independent placements retain their own receipts before a following dependent removal", () => {
+  const placements = [0, 1, 2].map((index) => ({
+    operation: "place",
+    label: `placed${index}`,
+    clip: {
+      assetId: "source",
+      streamId: "a",
+      trackId: { label: "sound" },
+      source: { kind: "range", range: { startUs: 200000, endUs: 300000 } },
+      placement: {
+        kind: "project",
+        range: { startUs: index * 100000, endUs: (index + 1) * 100000 },
+      },
+    },
+  }));
+  const operations = [
+    { operation: "track.add", track: { kind: "audio", order: 0 }, label: "sound" },
+    ...placements,
+    { operation: "remove", clipIds: [{ label: "placed0" }], scope: "selected", ripple: "none" },
+  ];
+  const result = applyBatch(input, operations, context);
+  const placed = result.normalized.slice(1, 4).map((operation) => operation.changes);
+  expect(placed).toEqual(
+    [0, 1, 2].map((index) => [
+      {
+        kind: "clip",
+        id: `clip:transaction:${index + 1}`,
+        value: {
+          ...placements[index]!.clip,
+          id: `clip:transaction:${index + 1}`,
+          trackId: "track:transaction:0",
+        },
+      },
+    ]),
+  );
+  expect(result.normalized[4]!.changes).toEqual([
+    { kind: "clip", id: result.labels.placed0, value: null },
+  ]);
+  expect(result.document.clips.map((clip) => clip.id)).toEqual([
+    result.labels.placed1,
+    result.labels.placed2,
+  ]);
+  expect(input.clips).toEqual([]);
+});
+
+test.each(["source", "label", "identity"])(
+  "an earlier append error precedes a later %s error",
+  (later) => {
+    const clip = {
+      id: "existing",
+      trackId: "audio",
+      assetId: "source",
+      streamId: "a",
+      source: { kind: "range", range: { startUs: 200000, endUs: 300000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 100000 } },
+    };
+    const document = {
+      ...input,
+      tracks: [{ id: "audio", kind: "audio", order: 0 }],
+      clips: [
+        clip,
+        ...(later === "identity"
+          ? [
+              {
+                ...clip,
+                id: "clip:transaction:1",
+                placement: { kind: "project", range: { startUs: 300000, endUs: 400000 } },
+              },
+            ]
+          : []),
+      ],
+    };
+    const placed = {
+      trackId: "audio",
+      assetId: "source",
+      streamId: "a",
+      source: clip.source,
+      placement: clip.placement,
+    };
+    const operations = [
+      { operation: "place", label: "first", clip: placed },
+      {
+        operation: "place",
+        label: later === "label" ? "first" : "second",
+        clip: {
+          ...placed,
+          streamId: later === "source" ? "missing" : "a",
+          placement: { kind: "project", range: { startUs: 100000, endUs: 200000 } },
+        },
+      },
+    ];
+    expect(() => applyBatch(document, operations, context)).toThrow(
+      expect.objectContaining({
+        code: "INVALID_EDIT",
+        message: "Overlapping clips on track: audio",
+        details: { operationIndex: 0, cause: "INVALID_COMPOSITION" },
+      }),
+    );
+    expect(document.clips[0]).toEqual(clip);
+  },
+);

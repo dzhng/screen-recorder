@@ -26,7 +26,7 @@ resource observations and cleanup, not independent speech quality. General deep
 routing still costs events × depth; no claim of whole-24 bounded query acceptance
 or listening follows from one shallow repeated-source fixture.
 
-Next: localize public edit setup cost at the unchanged deadline, preserve/read
-any revision committed after timeout, then complete the declared two-hour/10,000
-occurrence preparation. Post-retime processing remains dependent on 14's native
+The [edit batching checkpoint](24c-edit-batch-work.md) localizes and repairs repeated
+resolution while preserving the timed-out committed revision. Public receipt delivery
+is the next prerequisite before the declared two-hour/10,000-occurrence preparation. Post-retime processing remains dependent on 14's native
 stretch binding; the isolated 13b adapter does not enable that execution path.

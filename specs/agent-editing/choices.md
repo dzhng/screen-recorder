@@ -3107,3 +3107,14 @@ different deletion scopes, sharing the existing file-owner lock primitive rather
 than a new process registry. The plan required safe recovery but left these orphan
 lifetimes unspecified. Busy outcomes are retryable; explicit retry after the child
 exits completes cleanup. An already-missing root still permits deletion recovery.
+
+### Resolve independent placement runs once (sound, high confidence)
+
+The atomic editor now groups contiguous project-anchored placements only when no
+processing normalization is present. It reuses the existing resolver and placement
+construction; failed runs locate the earliest invalid prefix so error ordering and
+receipts remain those of sequential edits. This is narrower than a lazy mutable
+model/cache, which would need invalidation and intermediate-validity rules across
+all edit kinds. Exact frozen scalar comparisons and original large receipt identity
+support the choice. The public deadline remains unchanged. The separate duplicate
+public-document/MCP response-size failure is not counted as fixed by faster edits.
