@@ -1,0 +1,178 @@
+[
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/authored-0.png",
+    "label": "authored-0",
+    "crop": [
+      74,
+      0,
+      194,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/authored-1000000.png",
+    "label": "authored-1000000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/authored-1500000.png",
+    "label": "authored-1500000",
+    "crop": [
+      74,
+      0,
+      194,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/authored-500000.png",
+    "label": "authored-500000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/repeated-2250000.png",
+    "label": "repeated-2250000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/repeated-2500000.png",
+    "label": "repeated-2500000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/repeated-2750000.png",
+    "label": "repeated-2750000",
+    "crop": [
+      74,
+      0,
+      194,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/retimed-1250000.png",
+    "label": "retimed-1250000",
+    "crop": [
+      0,
+      3,
+      118,
+      48
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/retimed-250000.png",
+    "label": "retimed-250000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/retimed-500000.png",
+    "label": "retimed-500000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/retimed-750000.png",
+    "label": "retimed-750000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/split-0.png",
+    "label": "split-0",
+    "crop": [
+      74,
+      0,
+      194,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/split-1000000.png",
+    "label": "split-1000000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/split-1500000.png",
+    "label": "split-1500000",
+    "crop": [
+      74,
+      0,
+      194,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/split-500000.png",
+    "label": "split-500000",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/17c-literal-text/anchors/trimmed-attachment.png",
+    "label": "trimmed-attachment",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  }
+]

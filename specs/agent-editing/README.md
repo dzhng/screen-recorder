@@ -260,7 +260,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [17b — Immutable font admission](slices/17b-font-admission.md)
 - [x] [17c — Literal text clips](slices/17c-literal-text.md)
 - [x] [17d — Occurrence-specific transcript seeding](slices/17d-transcript-seeding.md)
-- [ ] [17 — Text and attached captions](slices/17-text-captions.md)
+- [x] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)

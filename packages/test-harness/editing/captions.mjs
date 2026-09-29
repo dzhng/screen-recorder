@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { captionClock } from "./caption-clock.mjs";
 import { captionSeeds } from "./caption-seeds.mjs";
 import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
@@ -7,9 +8,15 @@ import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
 assert.ok(
-  ["literal-text", "alpha", "faces", "anchors", "unicode", "repeated-retimed-speech"].includes(
-    values.case,
-  ),
+  [
+    "literal-text",
+    "alpha",
+    "faces",
+    "anchors",
+    "unicode",
+    "repeated-retimed-speech",
+    "caption-clock",
+  ].includes(values.case),
 );
 assert.ok(values.out && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out),
@@ -719,6 +726,8 @@ try {
     ]);
     await preview("transparent-gap-movie-refused", "failed");
   }
+  if (values.case === "caption-clock")
+    await captionClock({ call, out, font, project, admit, picture, report });
   report.passed = true;
 } finally {
   await service.stop();

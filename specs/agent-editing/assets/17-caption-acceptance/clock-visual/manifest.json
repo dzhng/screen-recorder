@@ -1,0 +1,200 @@
+[
+  {
+    "raw": "/tmp/caption-clock-public-final/full-500000.png",
+    "label": "500000 A",
+    "crop": [
+      0,
+      0,
+      119,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-500000.png",
+    "label": "500000 B",
+    "crop": [
+      0,
+      0,
+      119,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/full-625000.png",
+    "label": "625000 A",
+    "crop": [
+      70,
+      0,
+      190,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-625000.png",
+    "label": "625000 B",
+    "crop": [
+      70,
+      0,
+      190,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/full-750000.png",
+    "label": "750000 A",
+    "crop": [
+      69,
+      0,
+      189,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-750000.png",
+    "label": "750000 B",
+    "crop": [
+      69,
+      0,
+      189,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/full-875000.png",
+    "label": "875000 A",
+    "crop": [
+      69,
+      0,
+      189,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-875000.png",
+    "label": "875000 B",
+    "crop": [
+      69,
+      0,
+      189,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/full-1000000.png",
+    "label": "1000000 A",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-1000000.png",
+    "label": "1000000 B",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/full-1125000.png",
+    "label": "1125000 A",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-1125000.png",
+    "label": "1125000 B",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/full-1250000.png",
+    "label": "1250000 A",
+    "crop": [
+      69,
+      0,
+      189,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-1250000.png",
+    "label": "1250000 B",
+    "crop": [
+      69,
+      0,
+      189,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/full-1375000.png",
+    "label": "1375000 A",
+    "crop": [
+      73,
+      0,
+      193,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-1375000.png",
+    "label": "1375000 B",
+    "crop": [
+      73,
+      0,
+      193,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/full-1500000.png",
+    "label": "1500000 A",
+    "crop": [
+      73,
+      0,
+      193,
+      43
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-clock-public-final/range-1500000.png",
+    "label": "1500000 B",
+    "crop": [
+      73,
+      0,
+      193,
+      43
+    ],
+    "sourceICC": false
+  }
+]

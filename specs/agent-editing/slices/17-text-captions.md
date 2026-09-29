@@ -1,42 +1,56 @@
 # 17 — Text and attached captions
 
-Status: scoped font/layout reproduction verified; [font admission](17b-font-admission.md) has scoped public evidence. [Literal text integration](17c-literal-text.md) is verified; [Occurrence-specific seeding](17d-transcript-seeding.md) is verified through public edit/relocation, fresh skill and scoped visual evidence. Dependencies: [17b](./17b-font-admission.md), [17a](./17a-text-layout.md), [10](./10-project-evidence.md), [16](./16-keyframes.md).
+Status: caption authoring, occurrence attachment and retained dependency closure verified
+within the [acceptance evidence](../assets/17-caption-acceptance/README.md).
+Dependencies: [17a](17a-text-layout.md), [17b](17b-font-admission.md),
+[17c](17c-literal-text.md), [17d](17d-transcript-seeding.md),
+[10](10-project-evidence.md), [16](16-keyframes.md).
 
-## Contract
+## Contract and rationale
 
-Explicit text overlays and transcript-seeded captions render legibly and follow occurrence-specific edits.
+Explicit text overlays and transcript-seeded captions use ordinary video clips.
+One anchor graph determines project, source-content and normalized-clip timing;
+text has no media stream or source clock. This avoids a second caption timeline
+whose edits could diverge from media attachments. The unshipped empty captions
+container was removed when the ordinary text source became the public contract.
 
-## Seam and ownership
+Literal text, exact imported font file/face, size, color, alignment, wrapping and
+raster box are explicit. Ordinary geometry positions/scales that raster. File-backed
+Core Text runs must use the requested face without ambient registration or silent
+fallback. Selected-font missing glyphs are a separate refusal from fallback.
+Font dependencies follow the immutable asset owner through history and packages.
+The [literal checkpoint](17c-literal-text.md) records frozen reproduction parity.
 
-Text clips use the existing anchor algebra and compiler. Native text rasterization executes explicit styles. Fonts are resolved dependencies, not ambient fallbacks. Source transcript is never overwritten by caption corrections.
+Seeding resolves explicit groups of pinned word occurrences into one atomic batch
+of ordinary placements. Repeated source speech is disambiguated by occurrence ID.
+Immutable origin evidence remains separate from corrected display text; corrections
+do not rewrite source words or synthesize audio. Origin clips may later disappear,
+while retained source generations and historical origin evidence remain valid.
+The [seeding checkpoint](17d-transcript-seeding.md) owns this provenance contract.
 
-## Work and review surface
+The required visual processing and anchor primitives from dependency 16 are
+verified. Its still-open audio-transition/retime/denoise acceptance belongs to
+separate audio owners; an aggregate dependency checkbox does not invalidate these
+caption-specific capabilities.
 
-Support literal text, font identity, size/color/alignment/box/wrapping and source/project anchors. Seed captions from pinned word occurrences including repeated speech; edits to display text remain distinct from regenerated audio. Render a native text primitive through the same layer pipeline.
+## Verification boundary
 
-Create this planned probe in this slice:
+Retained public journeys cover explicit styles, finite-box layout, exact face
+selection/refusal, all three anchor domains through split/trim/retime/repeat,
+source/display separation, replay, fresh-store package history and undo. The
+final acceptance closes the two remaining finite gates: fresh critique of text
+over the frozen video fixture and delivered off-grid range/full caption samples.
+The existing compiler owns frame phase; a clipped first picture retains its
+original project sample even when its caption has ended before the preview starts.
 
-```sh
-node packages/test-harness/editing/captions.mjs --case repeated-retimed-speech
-```
+Fresh critique and implementer/root inspection establish scoped layout and
+legibility, including requested clipping and sampled encoded edges. They do not
+establish continuous playback, every glyph/language, ASR accuracy, speech
+synchronization quality or retimed audio execution. Those omissions are explicit
+in the evidence and do not replace their separate owners' acceptance gates.
 
-## Acceptance
-
-Repeated occurrences appear twice; captions survive split/trim/retime with correct ranges. Test punctuation, long words, multiline wrap, clipped boxes, mixed dimensions and missing fonts. Verify legibility and exact requested text at matched preview/export times.
-
-Keep the relevant [preservation gates](../verification.md#preservation-matrix) green. The [contracts](../contracts.md) and [single-owner rules](../architecture.md) are binding. Record evidence and remaining limitations in this Status line and the [README handoff](../README.md) before ending the pass.
-
-## Visual acceptance
-
-Judge **text layout and legibility**, using caption and title bounding boxes over previously accepted footage; underlying animation/layout are frozen. Use [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) against the named fixture/reproduction or prior accepted shot. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual check before accepting this slice**. Preserve shots and verdicts under this slice's assets folder.
-
-For human review use [preview-shots](../../../.agents/skills/preview-shots/SKILL.md), allow about five minutes while progressing independent work, then decide from evidence and close the shots if there is no response. Missing listening/capture evidence remains unverified; silence is not a pass.
-
-## Failure boundary and discretion
-
-If font or layout results differ by host, pin/retain usable dependencies or report the missing font. Do not silently switch fonts or hard-code a house caption style.
-
-Delegated: Text rasterization API and internal glyph cache. Text, placement, typography settings and missing-dependency behavior are explicit.
-
-User feedback changing the named contract or judged variable requires updating this slice and its dependent contracts before expanding implementation. Reversible presentation feedback does not block independent work.
-
+The durable probe is `packages/test-harness/editing/captions.mjs`; its named cases
+consume public CLI/MCP operations. Production owners are composition text/anchor
+schemas, the core text-seed resolver and transactional ProjectStore, and the
+native text raster in the shared picture executor. Preserve the shared
+[contracts](../contracts.md) and [preservation gates](../verification.md#preservation-matrix).

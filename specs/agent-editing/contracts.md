@@ -330,10 +330,13 @@ in the render contract; dB convenience commands convert once in core.
 
 Captions support explicit text, font, size, color, box, alignment, line wrapping
 and anchor. Correcting caption/transcript text does not synthesize audio. Voice
-generation is a separate job. Fonts are dependencies: retain the selected font's
-identity, reject unavailable fonts instead of silent substitution, and include
-redistributable font assets or an explicit required-system-font declaration in
-portable packages.
+generation is a separate job. Fonts are immutable asset dependencies identified
+by exact byte hash and case-sensitive PostScript face name. Reject unavailable
+faces, fallback and missing glyphs rather than silently substituting an ambient
+font. Portable projects carry the selected font bytes through the existing asset
+closure; admission does not install fonts or infer redistribution rights. Seed
+origin pins remain distinct from the editable literal and retain source evidence
+through history and relocation.
 
 ## Managed commands, revision transactions and jobs
 

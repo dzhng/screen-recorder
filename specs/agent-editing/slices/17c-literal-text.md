@@ -1,7 +1,7 @@
 # 17c — Literal text through the ordinary clip pipeline
 
 Status: literal vertical verified, including fresh scoped visual and public skill reviews. Dependencies: [17a](17a-text-layout.md),
-[17b](17b-font-admission.md). Parent17 remains open through occurrence seeding.
+[17b](17b-font-admission.md). Occurrence seeding is verified in [17d](17d-transcript-seeding.md).
 
 ## Approved ownership
 
@@ -49,7 +49,6 @@ Audio retiming readiness is unchanged. Text timing is proven independently of
 unbound stretch. Native glyph-zero refusal is implemented separately from fallback;
 the public unsupported-character fixtures exercised fallback, not glyph zero.
 
-Next, parent17 must seed these same clips from pinned word occurrences, including
-repeated speech, with occurrence provenance and explicit display-text correction.
-This checkpoint is not completion of parent17 and cannot become a permanent
-project-only subset.
+[Parent17](17-text-captions.md) reconciles this literal checkpoint with the later
+seeding and finite delivered-clock/footage acceptance. The historical evidence
+here remains a literal-only checkpoint; it is not relabelled as seeding proof.
