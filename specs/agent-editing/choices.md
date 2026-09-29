@@ -3143,3 +3143,14 @@ to the common import schema, with no canonical-only exception or dropped rows.
 It changes metadata admission capacity; public page and package budgets remain
 separate. Measured parsing and persisted round-trip work support this bound, without
 claiming a universal memory limit for native probing.
+
+### Public revisions own the committed document (sound, high confidence)
+
+Public edit results no longer repeat the full document inside their operation
+receipt. The same canonical projection applies to newly produced and saved results;
+old persisted bytes are not migrated or executed again. This preserves committed
+identity and result meaning while intentionally changing developmental response
+shape. Full historical byte equality across this release is not a contract. MCP's
+standard text/structured representations remain, and actual 10,000-clip delivery
+fits existing bounds. This fixes redundant ownership instead of increasing global
+response limits or inventing a second receipt protocol.

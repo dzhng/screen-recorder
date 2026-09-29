@@ -281,7 +281,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Atomically edit a managed project using revision pinning and replay-safe request identity; returns complete normalized changes and labels.",
+      "Atomically edit a managed project using revision pinning and replay-safe request identity; returns revision.document as the sole document, plus edit receipts with complete normalized changes and labels.",
     ),
   z
     .object({
@@ -290,7 +290,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Seed explicitly grouped text clips from pinned transcript generations and occurrence word rows. Supply each cue's source, original occurrence clip ID, exact word ordinals/source ranges, separator, style and project/content/clip anchor domain. Expands one atomic ordinary placement batch with normalized edits and labels. Display text remains editable independently of retained transcript origin. Reuse requestId only for the same pinned request. At most 1000 cues and 10000 total word pins.",
+      "Seed explicitly grouped text clips from pinned transcript generations and occurrence word rows. Supply each cue's source, original occurrence clip ID, exact word ordinals/source ranges, separator, style and project/content/clip anchor domain. Expands one atomic ordinary placement batch; returns revision.document as the sole document, plus edit receipts with normalized edits and labels. Display text remains editable independently of retained transcript origin. Reuse requestId only for the same pinned request. At most 1000 cues and 10000 total word pins.",
     ),
   z
     .object({

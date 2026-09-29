@@ -210,8 +210,12 @@ adjacency. Each match identifies all contributing occurrences and generations.
 then commits once. All operation coordinates refer to the document produced by
 earlier operations in that batch. A multi-range removal interprets its ranges
 together against its own pre-operation state and removes their union. Omitting
-ranges removes the addressed occurrences; removing an absent ID is a no-op. The response returns created IDs,
-clip lineage, removed attachments, changed sync groups and the normalized edits.
+ranges removes the addressed occurrences; removing an absent ID is a no-op. The response carries the committed document only at `revision.document`. Its `edit`
+receipt returns created IDs, clip lineage, removed attachments, changed sync groups
+and normalized edits. Replaying a persisted request preserves committed identities
+and result meaning without executing again; historical redundant `edit.document`
+fields are omitted by the current response contract, so byte identity across this
+developmental response-shape change is not promised.
 Clients can bind IDs with operation-local labels rather than invent hidden IDs.
 A split can bind right-child labels for explicitly named original occurrences,
 including linked members; requesting a label for an occurrence that did not split

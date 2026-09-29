@@ -1,3 +1,4 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { projectResourceRoots } from "./project-package.js";
 import { assetTranscriptOwner } from "./transcript-processing.js";
 import { afterEach, expect, test } from "vitest";
@@ -143,7 +144,7 @@ async function fixture() {
       wrap: true,
     },
   });
-  return { catalog, assets, records, store, media, font, identity, projectId, authored, cue };
+  return { home, catalog, assets, records, store, media, font, identity, projectId, authored, cue };
 }
 
 test("seeding keeps repeated occurrence identity, mutable display and transcript resource closure", async () => {
@@ -154,7 +155,28 @@ test("seeding keeps repeated occurrence identity, mutable display and transcript
     cues: [f.cue(0), f.cue(1, "clip")],
   };
   const seeded = f.store.seedText(f.projectId, request);
+  expect(seeded.edit).not.toHaveProperty("document");
+  const reopened = new Catalog(join(f.home, "catalog.sqlite"));
+  try {
+    const fresh = projectStoreFixture(reopened, new AssetStore(reopened, f.home), f.home);
+    expect(fresh.seedText(f.projectId, request)).toEqual(seeded);
+  } finally {
+    reopened.close();
+  }
   expect(f.store.seedText(f.projectId, request)).toEqual(seeded);
+  const historical = JSON.stringify({
+    ...seeded,
+    edit: { ...seeded.edit, document: seeded.revision.document },
+  });
+  f.catalog.catalog
+    .prepare("UPDATE project_requests SET result=? WHERE projectId=? AND requestId=?")
+    .run(historical, f.projectId, request.requestId);
+  expect(f.store.seedText(f.projectId, request)).toEqual(seeded);
+  expect(
+    f.catalog.catalog
+      .prepare("SELECT result FROM project_requests WHERE projectId=? AND requestId=?")
+      .get(f.projectId, request.requestId)!.result,
+  ).toBe(historical);
   expect(() => f.store.seedText(f.projectId, { ...request, cues: [f.cue(0)] })).toThrow(
     /different arguments/,
   );

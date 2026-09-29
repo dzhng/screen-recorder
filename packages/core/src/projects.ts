@@ -108,7 +108,17 @@ export function validateProjectSnapshot(value: unknown): ProjectSnapshot {
   }
   return snapshot;
 }
-export type ProjectEditResult = { revision: ProjectRevision; edit: EditBatchResult };
+export type ProjectEditResult = {
+  revision: ProjectRevision;
+  edit: Omit<EditBatchResult, "document">;
+};
+function editResult(
+  result: ProjectEditResult & { edit: { document?: EditBatchResult["document"] } },
+): ProjectEditResult {
+  // Historical request receipts may contain the same document inside edit.
+  const { document: _document, ...edit } = result.edit;
+  return { revision: result.revision, edit };
+}
 export type ProjectHistoryCursor = {
   projectId: string;
   afterOrdinal: number;
@@ -326,11 +336,13 @@ export class ProjectStore {
   ): ProjectEditResult {
     const operations = parsed(z.array(editOperationSchema).max(1000), request.operations);
     const args = { operation: "apply", expectedRevisionId: request.expectedRevisionId, operations };
-    return this.mutate(projectId, request.requestId, args, () =>
-      this.applyOperations(
-        this.current(projectId, request.expectedRevisionId),
-        request.requestId,
-        operations,
+    return editResult(
+      this.mutate(projectId, request.requestId, args, () =>
+        this.applyOperations(
+          this.current(projectId, request.expectedRevisionId),
+          request.requestId,
+          operations,
+        ),
       ),
     );
   }
@@ -339,23 +351,25 @@ export class ProjectStore {
     request: { requestId: string; expectedRevisionId: string; cues: unknown },
   ): ProjectEditResult {
     const cues = parsed(textSeedCuesSchema, request.cues);
-    return this.mutate(
-      projectId,
-      request.requestId,
-      { operation: "text.seed", expectedRevisionId: request.expectedRevisionId, cues },
-      () => {
-        const current = this.current(projectId, request.expectedRevisionId);
-        const model = validateComposition(
-          current.document,
-          documentAssetIds(current.document).map((id) => compositionAsset(this.assets.get(id))),
-          this.contexts(current.document),
-        );
-        const operations = parsed(
-          z.array(editOperationSchema).max(1000),
-          seedTextOperations(model, cues, this.transcripts),
-        );
-        return this.applyOperations(current, request.requestId, operations);
-      },
+    return editResult(
+      this.mutate(
+        projectId,
+        request.requestId,
+        { operation: "text.seed", expectedRevisionId: request.expectedRevisionId, cues },
+        () => {
+          const current = this.current(projectId, request.expectedRevisionId);
+          const model = validateComposition(
+            current.document,
+            documentAssetIds(current.document).map((id) => compositionAsset(this.assets.get(id))),
+            this.contexts(current.document),
+          );
+          const operations = parsed(
+            z.array(editOperationSchema).max(1000),
+            seedTextOperations(model, cues, this.transcripts),
+          );
+          return this.applyOperations(current, request.requestId, operations);
+        },
+      ),
     );
   }
   private applyOperations(
@@ -388,7 +402,7 @@ export class ProjectStore {
       namespace,
       acquisitions: [...contextIds].map((id) => this.acquisitions.context(id)),
     });
-    if (!edit.changed) return { revision: current, edit };
+    if (!edit.changed) return editResult({ revision: current, edit });
     this.pushUndo(projectId, current.id);
     const revision: ProjectRevision = {
       id: randomUUID(),
@@ -402,7 +416,7 @@ export class ProjectStore {
       origins: current.document.clips,
       inherited: textSeeds(current.document),
     });
-    return { revision, edit };
+    return editResult({ revision, edit });
   }
 
   undo(

@@ -44,6 +44,26 @@ test("project edits survive restart and replay before stale-head checks with com
   };
   const edited = store.apply(created.project.projectId, request);
   expect(edited.edit.labels.gain).toBeTruthy();
+  expect(edited.edit).not.toHaveProperty("document");
+  const saved = catalog.catalog
+    .prepare("SELECT result FROM project_requests WHERE projectId=? AND requestId=?")
+    .get(created.project.projectId, request.requestId)!;
+  expect(JSON.parse(saved.result as string)).toEqual(edited);
+  const freshCatalog = new Catalog(path);
+  try {
+    const fresh = projectStoreFixture(freshCatalog, new AssetStore(freshCatalog, home), home);
+    expect(fresh.apply(created.project.projectId, request)).toEqual(edited);
+  } finally {
+    freshCatalog.close();
+  }
+  // A pre-change persisted receipt projects to the same current response without re-execution.
+  const historical = JSON.stringify({
+    ...edited,
+    edit: { ...edited.edit, document: edited.revision.document },
+  });
+  catalog.catalog
+    .prepare("UPDATE project_requests SET result=? WHERE projectId=? AND requestId=?")
+    .run(historical, created.project.projectId, request.requestId);
   expect(edited.revision.document.processing[0]!.steps[0]!.processor).toEqual({
     type: "gain",
     gain: 0.5,
@@ -54,6 +74,11 @@ test("project edits survive restart and replay before stale-head checks with com
   cleanup.push(async () => nextCatalog.close());
   const reopened = projectStoreFixture(nextCatalog, new AssetStore(nextCatalog, home), home);
   expect(reopened.apply(created.project.projectId, request)).toEqual(edited);
+  expect(
+    nextCatalog.catalog
+      .prepare("SELECT result FROM project_requests WHERE projectId=? AND requestId=?")
+      .get(created.project.projectId, request.requestId)!.result,
+  ).toBe(historical);
   expect(
     reopened.create({ canvas: { ...canvas }, title: "Tutorial", requestId: "create" }),
   ).toEqual(created);

@@ -1,0 +1,111 @@
+{
+  "archiveSha256": "e9b03490e7db95cc97c8c1883457c9326aa655c1d0d2d3567c2ea9bc61f39354",
+  "archiveBytes": 26688,
+  "files": [
+    {
+      "storedAs": "screenrec-edit-receipt-cli-build.log",
+      "bytes": 48,
+      "sha256": "a8ceec05c719c5fcf68b15e843137799dddb6c2fa86d717e894c81837be2ef04"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-cli-test.log",
+      "bytes": 425,
+      "sha256": "2cf6d7391bdbda54f37aa71376a478b266f68d9b3a22912d2790fbfb701fe3c6"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-core-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-core-test.log",
+      "bytes": 643,
+      "sha256": "b0741629adab09aa4b2d0f7ddda1c2352659ad59c5c00d530406affb963874c3"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-discovery.json",
+      "bytes": 1000,
+      "sha256": "234cf3dcbe90c78f76239456824cc8ab20e78a291761fe9bdc92e92ea56ce8b4"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-discovery.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-discovery.mjs",
+      "bytes": 1144,
+      "sha256": "ec33d240aac05746059ab36e7cfe8b896876d58b927682a32b1f7dd75508a416"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-help.json",
+      "bytes": 70156,
+      "sha256": "fdbee7f78b4b7dfc354cd2afa9b86e6b50144cce5321b11fa9c5eecee75b5ae2"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-historical.json",
+      "bytes": 517,
+      "sha256": "9e55dea651cdf43cab6a810db2fbec381880595f48b695c6be09595de2261ccc"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-historical.log",
+      "bytes": 749,
+      "sha256": "0dd707f3a246aec8422b30a6e997fbca758ce5613393c1af494c74964949fc13"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-historical.mjs",
+      "bytes": 2567,
+      "sha256": "eb688651f7dfd1eba462522049d50ffe53a4c548c0dcbf6ecd82d90a0ca08efe"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-pending.json",
+      "bytes": 292886,
+      "sha256": "045e4d4a243be1c5ee332e1a272268d0d86be7ae0f16e877c544f129e15598e0"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-protocol-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-public.json",
+      "bytes": 317266,
+      "sha256": "acf48fd5678e1a487d7d67dc51fdba502016ec022090404d537289461723588e"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-public.log",
+      "bytes": 1289,
+      "sha256": "f70193004bb7586d9897460596d5cfc99b9094df4e3b029f365006b3bc490eba"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-public.mjs",
+      "bytes": 3179,
+      "sha256": "ce2ff4832d6f79ac067770481a2a0afc0cdd2e3cff678d21eb3ef3c3a65babd3"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-review.log",
+      "bytes": 49967,
+      "sha256": "9f15f0bd78b6b22200e5f074056f9be064ac9ec22ba03dfa7c00404ad78bed7c"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-service-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-service-test.log",
+      "bytes": 441,
+      "sha256": "9aa34c1e9960ed8848ccfb3fea04fec116e0e014f3e7878c031ba8d85166afa4"
+    },
+    {
+      "storedAs": "screenrec-edit-receipt-types.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "storedAs": "screenrec-text-receipt-help.json",
+      "bytes": 7278,
+      "sha256": "1f31d124fead56b698ee45919f94d446be04c63cfc13fa6d00646d4b98e8a14a"
+    }
+  ]
+}
