@@ -6,5 +6,11 @@
   "controlsOfflineVerification": true,
   "falseEosMutationRejected": true,
   "productionChanges": false,
-  "publicEnvelopeAdopted": false
+  "publicEnvelopeAdopted": false,
+  "boundaryArchiveSha256": "a477d1747843e3637b717df7003892aeac45bd205fe1bd58871034380faebb2e",
+  "boundaryMembersVerified": 9,
+  "returnedTokenCountsMatchTrace": 15,
+  "lastIterationEosExactWav": true,
+  "returnedTokenMutationRejected": true,
+  "boundaryIndependentReview": "No actionable defects; all3 tranches verified offline, both archives hashverified, all15 report entries match receipts"
 }

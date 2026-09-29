@@ -1,5 +1,5 @@
 {
-  "scope": "Observed termination and thirteen bounded settings trials; no public envelope, naturalness or RTF acceptance",
+  "scope": "Observed termination and fifteen bounded settings trials; no public envelope, naturalness or RTF acceptance",
   "sentence": "Okay, so this is the recorder workbench.",
   "sourceCommit": "132308d4",
   "trials": [
@@ -58,6 +58,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 42,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -115,6 +121,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 42,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -172,6 +184,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 11,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -229,6 +247,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 35,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -286,6 +310,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 1,
+        "budget": 1,
+        "derivedReason": "token-budget",
+        "matchesActualBranch": true
       }
     },
     {
@@ -343,6 +373,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 57,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -400,6 +436,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 35,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -457,6 +499,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 35,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -514,6 +562,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 63,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -571,6 +625,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 63,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -628,6 +688,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 32,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -685,6 +751,12 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 57,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     },
     {
@@ -742,6 +814,138 @@
         "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
         "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
         "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 35,
+        "budget": 256,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
+      }
+    },
+    {
+      "id": "word-cap",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "paid",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 11,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 11,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "token-budget",
+        "step": 10,
+        "generatedCodes": 11,
+        "effectiveMaxTokens": 11
+      },
+      "output": {
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+        "frames": 21120,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 0.88,
+        "resultTokens": [
+          11
+        ],
+        "mlxPeakBytes": 5986177617
+      },
+      "processSeconds": 3.339384292019531,
+      "peakResidentBytes": 2757558272,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 11,
+        "budget": 11,
+        "derivedReason": "token-budget",
+        "matchesActualBranch": true
+      }
+    },
+    {
+      "id": "word-last-eos",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "paid",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 12,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 12,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "termination": {
+        "reason": "eos",
+        "step": 11,
+        "generatedCodes": 11,
+        "effectiveMaxTokens": 12
+      },
+      "output": {
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+        "frames": 21120,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 0.88,
+        "resultTokens": [
+          11
+        ],
+        "mlxPeakBytes": 5986177617
+      },
+      "processSeconds": 2.8270530418958515,
+      "peakResidentBytes": 2756837376,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "f873f855503dc6988dde0254340e611368f73b959a41f5efa0ba1ef6a846818a",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "tokenCountCrosscheck": {
+        "returnedTokenCount": 11,
+        "budget": 12,
+        "derivedReason": "eos",
+        "matchesActualBranch": true
       }
     }
   ],
@@ -752,5 +956,6 @@
     "topP": "Enabled only when 0 < p < 1, and bypassed by temperature <= 0",
     "repetition": "First book only, recent64 generated IDs; ICL max(requested,1.5)"
   },
-  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O"
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "tokenCountProofScope": "Pinned nonstream ICL only: only early break is EOS, before generated-code append; GenerationResult.token_count is generated-code count. No inference from PCM duration. Budget11/12 frozen-word pair returns identical token_count11 and identical frozenWAV; first hitscap, second reachesEOSlastiteration."
 }

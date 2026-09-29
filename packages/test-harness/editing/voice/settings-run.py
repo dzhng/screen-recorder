@@ -13,7 +13,7 @@ def main():
     for key in ("out", "bundle", "model"):
         parser.add_argument("--" + key, required=True)
     parser.add_argument("--verify-only", action="store_true")
-    parser.add_argument("--tranche", choices=("termination", "controls"), default="termination")
+    parser.add_argument("--tranche", choices=("termination", "controls", "boundary"), default="termination")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[4]
     out, bundle, model = (Path(getattr(args, key)).resolve() for key in ("out", "bundle", "model"))
@@ -27,6 +27,9 @@ def main():
                   ("frozen-phrase", cases["replacements"][1]["text"], {}),
                   ("effective-clamp", cases["replacements"][1]["text"], {"repetition_penalty": 1.5}),
                   ("sentence", sentence, {}), ("token-cap", sentence, {"max_tokens": 1})]
+    elif args.tranche == "boundary":
+        trials = [("word-cap", cases["replacements"][0]["text"], {"max_tokens": 11}),
+                  ("word-last-eos", cases["replacements"][0]["text"], {"max_tokens": 12})]
     else:
         trials = [(name, sentence, change) for name, change in [
             ("seed", {"seed": 19}), ("seed-replay", {"seed": 19}),
@@ -74,11 +77,19 @@ def main():
                 assert len(eos) <= 1 and events[-1]["event"] == "loopExit"
                 assert result["termination"]["reason"] == ("eos" if eos else "token-budget")
                 assert result["output"]["sha256"] == hashlib.sha256((out / (name + ".wav")).read_bytes()).hexdigest()
-                if args.tranche == "termination":
-                    assert result["termination"]["reason"] == ("token-budget" if name == "token-cap" else "eos")
+                returned_tokens = sum(result["output"]["resultTokens"])
+                budget = generation["max_tokens"]
+                assert 0 < returned_tokens <= budget
+                assert result["termination"]["reason"] == ("eos" if returned_tokens < budget else "token-budget")
+                if args.tranche in ("termination", "boundary"):
+                    assert result["termination"]["reason"] == ("token-budget" if name in ("token-cap", "word-cap") else "eos")
+                if args.tranche == "boundary":
+                    assert result["termination"]["step"] == budget - 1
                 oracle = None
                 if name.startswith("frozen-"):
                     oracle = frozen / ("same-take-" + name.removeprefix("frozen-") + ".wav")
+                elif args.tranche == "boundary":
+                    oracle = frozen / "same-take-word.wav"
                 elif name == "effective-clamp":
                     oracle = frozen / "same-take-phrase.wav"
                 elif name == "seed-replay":

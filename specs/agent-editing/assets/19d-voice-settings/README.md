@@ -31,7 +31,7 @@ reference/context envelopes remain unverified.
 ## Reproduction and evidence
 
 [The runner](../../../../packages/test-harness/editing/voice/settings-run.py)
-accepts explicit `--bundle`, `--model`, `--out` and `--tranche termination|controls`.
+accepts explicit `--bundle`, `--model`, `--out` and `--tranche termination|controls|boundary`.
 It starts fresh serial sandboxed processes and retains every attempt; preparation
 must already exist. Use `--verify-only` with an existing output directory to
 validate receipts and complete WAVs without inference. It writes a separate
@@ -57,3 +57,26 @@ must establish its incomplete-output refusal before publication.
 The independent [harness review](review.log.gz) found no actionable correctness
 issues. Shape review kept this as one experimental observer and one serial
 controller; no alternate production worker or lifecycle was added.
+
+## Returned-token termination rule
+
+The pinned nonstream ICL loop has only one early exit: EOS breaks before appending
+that code. The yielded `GenerationResult.token_count` is the number of appended
+codes. Consequently a positive returned count below the requested budget implies
+observed EOS; a count equal to the budget means no EOS was observed. Every
+retained initial trial crosschecks that metadata against the executed branch.
+This uses returned generator metadata, not audio length, and applies only to this
+pinned single-result nonstream path. Streaming, batching or a future early-exit
+rule requires a new proof. EOS alone does not prove lexical correctness.
+
+The additional [boundary archive](boundary.tar.xz), checked against its
+[member manifest](boundary-files.json), tests the frozen word with budgets11/12.
+Both return eleven codes and the exact same complete frozen WAV. Budget11 reaches
+the cap without observing EOS; budget12 executes EOS at its last allowed iteration.
+A cap therefore does not necessarily mean missing words, and identical audio does
+not determine termination. The metadata rule agrees with actual branch tracing
+for all fifteen trials. No original trial was rerun for this boundary check.
+
+A [returned-token mutation](token-count-mutation.log.gz) also changes the cap
+receipt to report fewer tokens; verification rejects its disagreement with the
+observed branch. Neither mutation changes frozen evidence.
