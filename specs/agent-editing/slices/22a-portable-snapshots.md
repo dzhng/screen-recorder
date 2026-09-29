@@ -42,11 +42,12 @@ and historical picture receipts, source evidence, rendered results and failed-im
 controls. Identity preparation remains invisible; a concurrent publication loser
 returns the winning receipt without publishing its own staged evidence.
 
-Prepared model-dependent output retention and fonts remain parent-22 work. Actual 15a output is still a final acceptance gate.
+Prepared model-dependent output retention, actual learned output and exact fonts are
+verified by the [parent acceptance](../assets/22-acceptance/README.md).
 
 ## Failure boundary and discretion
 
 No missing dependency may be silently omitted or replaced by an external donor path.
-Core refusal for unsupported owners remains an unfinished parent22 obligation, not
-a smaller package promise. Internal staging and identity remapping are delegated;
+Unsupported dependencies must remain an explicit refusal, never a smaller package
+promise. Internal staging and identity remapping are delegated;
 editable history, atomic visibility and complete dependency retention are fixed.

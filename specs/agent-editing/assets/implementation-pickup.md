@@ -127,10 +127,20 @@ recipes (2.6MB unit/gain and6.2MB learned) and exact PCM with receiver processin
 unavailable. Core22 and the actual native public package journey pass; independent
 review has no findings. The two-hour package gate remains separate.
 
-The `terminal_package_policy` delegate is implementing20d8 in the isolated
-`/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder` checkout:
-both-role pause preservation and post-publication absent/torn-terminal recovery.
-These were the aggregate20d audit's two missing prerecorded proofs. Root owns
-integration, parent status and handoff. Older worktree diffs remain preserved;
-do not reapply them. Continue remaining package/scale and audio acceptance while
-that pass runs. The full editor goal remains active; no installed cutover occurred.
+[20d8](20d8-pause-terminal-boundaries/README.md) is integrated: both-role pause
+preservation and post-publication absent/torn-terminal recovery pass combined-root
+native and CLI/MCP/source-evidence/restart checks. Parent20d's prerecorded scope
+is now verified. Generic22 closure also passes its final changed-model-recipe
+refusal and undo journey; physical/quality/autonomous gates are not implied.
+
+The two-hour transfer delegate committed an exact reconstruction prerequisite in
+`/Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder` (b18aec04).
+Root must integrate it under scale24j, review the unexecuted full transfer harness,
+and keep its full gate open. Recipe SHA matches the original ready job exactly;
+actual preflight lacks about3GiB free space. User was asked optionally to free it;
+no answer or elapsed time is permission or available disk. No large restore ran.
+Continue wide routing/queue scale and audio acceptance while space is unavailable.
+Older worktree diffs are preserved; do not reapply them. No installed cutover occurred.
+
+A complete familiar sentence was presented for optional denoise word/naturalness
+feedback. No answer has arrived; listening remains unverified.

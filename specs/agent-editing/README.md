@@ -19,16 +19,16 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Continue the remaining [package acceptance](slices/22-portable-projects.md),
-   after the verified [complete prepared-recipe metadata limit](slices/22c-prepared-recipe-budget.md).
-   That checkpoint transfers 4,000-clip recipes and exact historical/current PCM;
-   the full two-hour package gate remains separate. Retained **project**
-   playback passes [22b](slices/22b-retained-project-consumers.md) with processing
-   unavailable, including historical output and undo.
-2. [Terminal diagnostics](slices/20d7-terminal-diagnostics.md), explicit cleanup,
-   responsive recovery and source-admission retry now pass their scoped native/
-   public gates. Reconcile the aggregate [capture rollout](slices/20d-capture-publication.md)
-   acceptance before closing its parent. Physical camera acceptance stays separate.
+1. Continue general [scale](slices/24-scale.md), including complete two-hour
+   prepared-package transfer, wide routing and queue/cancellation interactions.
+   The exact two-hour recipe has been reconstructed against its original hash;
+   transfer preflight needs about3GiB more free disk. Do not restore multi-GB PCM
+   before the measured preflight passes. Generic [package closure](slices/22-portable-projects.md)
+   is verified, including changed learned settings refusing stale audio after adoption.
+2. [Capture rollout](slices/20d-capture-publication.md) is verified for its
+   prerecorded scope, including both-role pause and absent/torn-terminal recovery
+   in [20d8](slices/20d8-pause-terminal-boundaries.md). Physical camera acceptance
+   and installed cutover remain separate.
 3. [Independent processing batches](slices/24i-processing-batches.md) now complete
    the previously timed-out 1,000-operation edit within its unchanged deadline,
    preserving exact edit receipts and PCM. Continue [general scale](slices/24-scale.md)
@@ -273,7 +273,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — partial; PCM delivery unresolved.
 - [ ] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
 - [ ] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)
-- [ ] [20d — Canonical capture publication and recovery rollout](slices/20d-capture-publication.md)
+- [x] [20d — Canonical capture publication and recovery rollout](slices/20d-capture-publication.md)
 - [x] [20d1 — Responsive capture recovery lifecycle](slices/20d1-recovery-continuation.md)
 - [x] [20d2 — Public immutable asset metadata pages](slices/20d2-asset-metadata-pages.md)
 - [x] [20d3 — Inventory-bound project package JSON](slices/20d3-package-asset-metadata.md)
@@ -281,12 +281,13 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [20d5 — Source-owned recording job controls](slices/20d5-recording-source-job-target.md)
 - [x] [20d6 — Explicit settled recording cleanup](slices/20d6-settled-cleanup.md)
 - [x] [20d7 — Preserve terminal capture diagnostics](slices/20d7-terminal-diagnostics.md)
+- [x] [20d8 — Prerecorded pause and terminal persistence](slices/20d8-pause-terminal-boundaries.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)
-- [ ] [22 — Relocatable editable projects](slices/22-portable-projects.md)
+- [x] [22 — Relocatable editable projects](slices/22-portable-projects.md)
 - [ ] [23 — Cut over all consumers and remove old owners](slices/23-cutover.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)

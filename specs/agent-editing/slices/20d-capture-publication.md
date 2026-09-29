@@ -1,6 +1,6 @@
 # 20d — Canonical capture publication and recovery rollout
 
-Status: partial; prerecorded native publication/admission and operational source retry verified. Explicit settled cleanup is verified in [20d6](20d6-settled-cleanup.md); terminal-message disclosure is verified in [20d7](20d7-terminal-diagnostics.md). Aggregate rollout acceptance still needs reconciliation before parent closure. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md), [20d2](20d2-asset-metadata-pages.md), [20d3](20d3-package-asset-metadata.md).
+Status: verified prerecorded canonical-publication rollout. [20d8](20d8-pause-terminal-boundaries.md) closes the aggregate audit's pause and interrupted-terminal gaps; its tests and public journey also pass on integrated main. Physical20/21 and installed cutover remain separate. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md), [20d2](20d2-asset-metadata-pages.md), [20d3](20d3-package-asset-metadata.md).
 
 ## Contract and owner
 
@@ -178,12 +178,9 @@ PCM, long finalization/cancellation, public acquisition/audio/clean-frame delive
 and the scoped native one-microsecond mask gate. No physical capture was activated.
 [20d6](20d6-settled-cleanup.md) verifies settled cleanup replay and
 [20d7](20d7-terminal-diagnostics.md) verifies terminal disclosure. Source-admission
-operational retry is verified by [20d4](20d4-source-admission-retry.md). These scoped
-checkpoints require a combined acceptance reconciliation before closing full20d;
-physical20/21 remains separate.
-
-The aggregate audit identifies two remaining prerecorded proofs: both-role pause
-runs through actual packed finalization/recovery, and recovery after canonical
-publication with an absent or torn terminal diagnostic record. Omitted input,
-clock-only pause tests and a complete injected terminal record do not establish
-those gates. They are the next20d work; no physical device action is needed.
+operational retry is verified by [20d4](20d4-source-admission-retry.md). The aggregate acceptance audit found two missing prerecorded proofs; both now pass
+[20d8](20d8-pause-terminal-boundaries.md): both-role pause runs through actual packed
+finalization/recovery, and recovery after canonical publication with an absent or
+torn terminal diagnostic record. Integrated native and CLI/MCP/restart gates pass.
+Physical20/21 remains separate; reconstructed filesystem states do not claim
+hardware power-loss testing.

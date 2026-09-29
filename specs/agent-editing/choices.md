@@ -3424,3 +3424,22 @@ This supersedes14a's manifest-sized recipe cap now that20d3 has moved resource
 metadata out of the manifest. The earlier cap would reject valid editable projects;
 truncating their recipes would erase the evidence needed to reuse their audio.
 No new memory budget, storage owner or package format is introduced.
+
+## 20d8 — Exercise real pause timing with prerecorded input (sound, high confidence)
+
+A deterministic input fixture delivers decoded audio after the recorder has observed
+an actual pause/resume interval. It independently removes the offered buffers that
+intersect that interval and derives the expected source positions. This tests the
+production clock, writer and publisher for both audio roles without recording the
+user's devices. The plan required both-role pause preservation but left the offline
+fixture method open. The result establishes sample/support preservation, not
+physical synchronization or listening.
+
+## 20d8 — Reconstruct interrupted terminal persistence (sound, high confidence)
+
+After canonical media and receipts are durable, a copied fixture omits the final
+journal record or retains only its torn prefix. Recovery must retain all media and
+report incomplete capture rather than inventing a successful finish. The plan
+required the boundary but did not choose the fault mechanism. Reconstructed disk
+states directly exercise recovery without claiming an actual process kill or
+hardware power-loss experiment.

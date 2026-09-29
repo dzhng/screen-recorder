@@ -81,7 +81,7 @@ async function close() {
   await service?.close();
   service = undefined;
 }
-async function call(operation, params, output) {
+async function call(operation, params, output, expectedError) {
   const reply = await cliReply([
     cli,
     operation,
@@ -92,7 +92,11 @@ async function call(operation, params, output) {
     ...(output ? ["--output", output] : []),
   ]);
   report.trace.push({ operation, params, reply });
-  assert(reply.ok, JSON.stringify(reply));
+  assert.equal(reply.ok, expectedError === undefined, JSON.stringify(reply));
+  if (expectedError !== undefined) {
+    assert.equal(reply.error.code, expectedError);
+    return reply.error;
+  }
   return reply.data;
 }
 async function poll(read, done) {
@@ -391,6 +395,47 @@ try {
   const history = await call("revision.history", { projectId: adopted.result.projectId });
   await call("package.close", { admissionId: admission.id });
   await rm(archive);
+  const changed = await call("edit.apply", {
+    projectId: adopted.result.projectId,
+    requestId: "changed-learned",
+    expectedRevisionId: adopted.result.revisionId,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "rnnoise" } }, { processor: { type: "gain", gain: 0.5 } }],
+      },
+    ],
+  });
+  const changedSelection = { projectId: adopted.result.projectId, revisionId: changed.revision.id };
+  for (const operation of ["audio.prepare", "audio.get"]) {
+    const failure = await call(
+      operation,
+      {
+        ...changedSelection,
+        ...(operation === "audio.get" ? { range: { startUs: 0, endUs: 1000000 } } : {}),
+      },
+      undefined,
+      "NOT_READY",
+    );
+    assert(
+      failure.details.requirements.some(
+        (r) =>
+          r.kind === "processor" && r.processor.type === "rnnoise" && r.implementationId === null,
+      ),
+    );
+  }
+  const undone = await call("edit.undo", {
+    projectId: adopted.result.projectId,
+    expectedRevisionId: changed.revision.id,
+    requestId: "undo-changed-learned",
+  });
+  const restored = await call("audio.prepare", {
+    projectId: adopted.result.projectId,
+    revisionId: undone.id,
+  });
+  assert.equal(restored.state, "ready");
+  assert.equal(restored.published.audio.assetId, learnedAsset.id);
   await close();
   await owner(receiver, false, async ({ prepared, assets, projects, calls }) => {
     for (const [i, original] of values.entries()) {
@@ -491,6 +536,8 @@ try {
     learnedTamperedPCMRefused: true,
     unavailableExecutorNotInvoked: true,
     exactHistoricalAndCurrentPCM: true,
+    changedRecipeRequiresPreparation: true,
+    undoRestoresPreparedOutput: true,
     boundedLatePCM: true,
     publicAssetAudioExact: true,
     missingAndCorruptRetainedPCMRefused: true,

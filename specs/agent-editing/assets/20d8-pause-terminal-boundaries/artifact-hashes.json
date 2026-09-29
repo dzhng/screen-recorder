@@ -3,6 +3,7 @@
   "native-fixtures.tar.xz": "a912f81deefb5f7fd821788d8e2650786bceaa35c5f7715530f4351e618a1c8e",
   "pause-parity-fixture.tar.xz": "c5a55aa9565e824f32b71eaab1a037793c74122c54225d9e436440cc31acaca4",
   "public-report.json.gz": "fb60c5bc95768663c7afa7037bf70fd2b746342a9b240f39f8ad375cbcc241a1",
+  "root-public-report.json.gz": "3c6d4b41254b28fda8355c7455a723c44b23dec3a0b89d7453297bed4acac292",
   "screenrec-20d8-build-final.log.gz": "564a52ad9051174bd72f0eff9497d62bc5d2d83b615d61ee9a70ce271925c1f8",
   "screenrec-20d8-build-parity.log.gz": "8311c97a3aa43789716a2c415ed59aa2dc054b1af5758cfb89c1469a20bc1d74",
   "screenrec-20d8-default.log.gz": "90d1fcf894b9fb64413014300b6304eb1e6e20d46567a932ba5bea308111c11b",
@@ -11,6 +12,9 @@
   "screenrec-20d8-pause-mutation.log.gz": "51b910b1b4de62d9176cba6e09d9241673894db287a3a6ddecbe04c4d6c05f07",
   "screenrec-20d8-public-evidence.log.gz": "12afdea77fd922eaa50b1093e3f258bcc8ca64861a87172f0fbde60cf1c25cda",
   "screenrec-20d8-review.log.gz": "2eb1f4ce1100cfeee0c9665ef3501ea25e3a793085bba9f6419949a16932ac83",
+  "screenrec-20d8-root-build.log.gz": "71744e6c19568c915c663cb58fc148b2e11883e134411e2840b63fb2898af11e",
+  "screenrec-20d8-root-native.log.gz": "7b8445bccc98a388c4963585cba8d37e272ac3e06a849a36828758ef80ba3633",
+  "screenrec-20d8-root-public.log.gz": "a286a944a8ca3db1ba66e08ec958bdb70c372b37d9bb4bd0062707212bf6cb97",
   "screenrec-20d8-terminal-mutation.log.gz": "bd07194416e02c14efcd70b848a61cb85a843ab10457f1d2f66490792b4dc80e",
   "verification.json": "203131cfb32178e9af91e8eb4eac8b34684964b375a5bab7e4c1ab66df5d3455"
 }
