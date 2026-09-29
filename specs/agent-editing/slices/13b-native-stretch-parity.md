@@ -2,8 +2,9 @@
 
 Status: [isolated native parity verified](../assets/13b-native-stretch-parity/README.md);
 public readiness and speech acceptance remain unchanged.
-Dependencies: the frozen numerical recipe and retained evidence from13/13a.
-Public14 adoption still depends on13a speech acceptance and14a publication.
+Dependencies: the frozen numerical recipe and retained evidence from [13](13-stretch-reproduction.md)
+and [13a](13a-stretch-endpoints.md). Public [14](14-retiming.md) adoption still
+depends on13a speech acceptance and [14a](14a-prepared-audio.md) publication.
 
 ## Contract and boundary
 

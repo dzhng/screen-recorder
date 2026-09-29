@@ -19,7 +19,8 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Implement the declared capture admission/journal contract in [20b](slices/20b-exact-capture-audio.md),
+1. Correct the newly exposed non-grid phase full/window mismatch in the shared
+   audio reader. Continue the declared capture admission/journal contract in [20b](slices/20b-exact-capture-audio.md),
    then shared canonical storage/recovery and publication in20c/20d. The
    [shared reader phase correction](assets/08-rational-segment-phase/README.md)
    now passes original-sample and combined sparse-container gates. The [actual writer reproduction](assets/20a-capture-owner-gap/README.md)
@@ -241,6 +242,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [12c — Reproduce local noise reduction](slices/12c-noise-reproduction.md)
 - [ ] [13 — Reproduce pitch-preserving stretch](slices/13-stretch-reproduction.md)
 - [ ] [13a — Preserve selected speech at stretch endpoints](slices/13a-stretch-endpoints.md)
+- [x] [13b — Native stretch recipe parity](slices/13b-native-stretch-parity.md)
 - [ ] [14 — Integrate independent and linked retiming](slices/14-retiming.md)
 - [x] [15 — Layers, crop and pointer geometry](slices/15-layer-geometry.md)
 - [ ] [14a — Durable prepared audio lifecycle](slices/14a-prepared-audio.md)

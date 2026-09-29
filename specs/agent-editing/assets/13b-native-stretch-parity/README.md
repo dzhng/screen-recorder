@@ -33,3 +33,12 @@ package boundary and source ownership.
 The responsibility-named `SignalsmithProcessor` follow-up repeats all65 checks
 and matches every prior PCM hash. `named-adapter.json` pins its binary and
 command-receipt archive; identical PCM remains in the original evidence archive.
+
+## Combined-root confirmation
+
+The [root receipt](root-verification.json) confirms the final named adapter after
+integration: release build passed and all65 checks equal the retained renamed
+adapter, including PCM hashes and error outcomes. Emitted PCM matches existing
+retained objects; root command receipts are archived without another PCM copy.
+Both original197-member and renamed-receipt archive hashes were verified. This
+adds no public retime, long-input cancellation or listening acceptance.

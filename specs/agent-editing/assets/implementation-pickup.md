@@ -3,7 +3,8 @@
 The full editor goal remains active. The installed app has not switched engines.
 Current priority: implement and verify declared capture admission and exact
 journal addresses, then canonical sparse storage/recovery and safe publication.
-The shared reader phase correction is integrated and root-confirmed. Fractional-rate execution now refuses
+The aligned reader phase correction is integrated and root-confirmed; a broader
+non-grid phase/window inconsistency is now the next reader correction. Fractional-rate execution now refuses
 with cache invalidation and combined-root confirmation. Settings09b,
 scoped06/15 and caption17 are verified; whole16/22 and final acceptance remain open.
 
@@ -60,12 +61,15 @@ No production deadline or transaction guarantee changed.
   late PCM and a real1µs acquisition exclusion. Next validate broader admission
   and prospective append/phase/journal transaction semantics. The production writer
   remains disconnected until canonical admission/recovery passes.
-- Shared audio reader: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  [Exact source phase](08-rational-segment-phase/README.md) is integrated at e03ed4ad.
-  Native red/green, legacy lookahead preservation, public cache invalidation and
-  integer-rate checks pass. Root builds and upgraded sparse-storage oracle confirm
-  exact original placement and all 14 storage groups. No capture writer repair or
-  broad listening claim follows. Earlier fractional-rate refusal remains intact.
+- Shared audio reader / stretch: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  [Exact aligned source phase](08-rational-segment-phase/README.md) is integrated
+  and root-confirmed, but a new100001µs phase fixture exposes full/range mismatch
+  at44.1/48k and44.1→48k resampling. Controls currently at
+  `/tmp/capture-admission-windows`; localize in the common reader without changing
+  capture admission to hide it. Keep previous exact/aligned and legacy gates.
+  [Native stretch parity](13b-native-stretch-parity/README.md) is also integrated
+  and root-confirmed:65 complete-byte/error gates pass. Public retiming remains
+  unavailable; no listening, stereo or long-input policy acceptance is inferred.
 - Agent discovery / denoise pickup: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
   [Shared references](25-discovery-references/README.md) are integrated and
   root-confirmed: full settings, local closure and CLI/MCP parity pass. A fresh

@@ -2686,3 +2686,18 @@ for later captured audio. Actual append/journal transaction wiring is still a
 required integration gate. Confidence is medium for the candidate as a whole:
 its native tracer passes, but public support projection, resampling and recovery
 must be judged before production adoption. No per-reader correction is authorized.
+
+
+### Native stretch parity: complete buffers stay an explicit checkpoint bound (sound, scoped)
+
+When the agent asks this native adapter to stretch selected audio, the adapter
+holds the selected input and result in memory because the pinned upstream exact
+algorithm needs both. The parity checkpoint keeps the research60s mono48k bound;
+it is not a new product duration limit. Cancellation is checked before and after
+the synchronous call, so a canceled result is refused but the algorithm cannot
+stop mid-call. Public integration must solve longer inputs and cancellation
+without silently changing the verified recipe. Confidence is medium for this
+bounded prerequisite, not a claim that it is the final public execution policy.
+The [checkpoint decisions](assets/13b-native-stretch-parity/choices.md) retain
+source ownership, refusal and feedback boundaries; no new renderer or queue owns
+this adapter.
