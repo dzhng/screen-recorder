@@ -1,0 +1,27 @@
+{
+  "output": "/tmp/camera-offline-reviewed/restart",
+  "inputs": [
+    {
+      "role": "screen",
+      "path": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/00-corpus/a.mov",
+      "offsetUs": 0,
+      "simulatedRate": 1,
+      "simulatedAnchorUs": 7000000
+    },
+    {
+      "role": "camera",
+      "path": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/00-corpus/b.mov",
+      "offsetUs": 200000,
+      "simulatedRate": 1.0002,
+      "simulatedAnchorUs": 23000000
+    },
+    {
+      "role": "microphone",
+      "path": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/00-corpus/a-audio.wav",
+      "offsetUs": 100000,
+      "simulatedRate": 0.9997,
+      "simulatedAnchorUs": 43000000
+    }
+  ],
+  "bypassConversion": false
+}

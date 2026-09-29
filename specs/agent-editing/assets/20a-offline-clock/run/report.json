@@ -1,0 +1,152 @@
+{
+  "completed": true,
+  "scope": "offline simulations only; no capture APIs activated",
+  "binarySha256": "5227ad98b381e55a43aed1482bb830eb1746264079853ee5964bb2162541c4c2",
+  "inputs": [
+    {
+      "role": "screen",
+      "path": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/00-corpus/a.mov",
+      "offsetUs": 0,
+      "simulatedRate": 1,
+      "simulatedAnchorUs": 7000000,
+      "sha256": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd"
+    },
+    {
+      "role": "camera",
+      "path": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/00-corpus/b.mov",
+      "offsetUs": 200000,
+      "simulatedRate": 1.0002,
+      "simulatedAnchorUs": 23000000,
+      "sha256": "f6168f39077c4783d7be17c472f99e3c74b8f8368bb9cad30d6d23b3b63b2607"
+    },
+    {
+      "role": "microphone",
+      "path": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/00-corpus/a-audio.wav",
+      "offsetUs": 100000,
+      "simulatedRate": 0.9997,
+      "simulatedAnchorUs": 43000000,
+      "sha256": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+    }
+  ],
+  "runs": [
+    {
+      "name": "offline",
+      "status": 0,
+      "roles": [
+        {
+          "role": "screen",
+          "admitted": 6,
+          "omitted": 2,
+          "firstUs": 0,
+          "endUs": 1600000,
+          "decodedSamples": 6,
+          "recoveredIntervals": [
+            {
+              "endUs": 1600000,
+              "startUs": 0
+            }
+          ],
+          "deliveredEndpointMatches": true
+        },
+        {
+          "role": "camera",
+          "admitted": 8,
+          "omitted": 2,
+          "firstUs": 200000,
+          "endUs": 1800000,
+          "decodedSamples": 9,
+          "recoveredIntervals": [
+            {
+              "endUs": 1800000,
+              "startUs": 200000
+            }
+          ],
+          "deliveredEndpointMatches": true
+        },
+        {
+          "role": "microphone",
+          "admitted": 9,
+          "omitted": 3,
+          "firstUs": 100000,
+          "endUs": 1700000,
+          "decodedSamples": 10,
+          "recoveredIntervals": [
+            {
+              "endUs": 782667,
+              "startUs": 100000
+            },
+            {
+              "endUs": 1588000,
+              "startUs": 894667
+            }
+          ],
+          "deliveredEndpointMatches": false
+        }
+      ]
+    },
+    {
+      "name": "restart",
+      "status": 0,
+      "roles": [
+        {
+          "role": "screen",
+          "admitted": 6,
+          "omitted": 2,
+          "firstUs": 0,
+          "endUs": 1600000,
+          "decodedSamples": 6,
+          "recoveredIntervals": [
+            {
+              "endUs": 1600000,
+              "startUs": 0
+            }
+          ],
+          "deliveredEndpointMatches": true
+        },
+        {
+          "role": "camera",
+          "admitted": 8,
+          "omitted": 2,
+          "firstUs": 200000,
+          "endUs": 1800000,
+          "decodedSamples": 9,
+          "recoveredIntervals": [
+            {
+              "endUs": 1800000,
+              "startUs": 200000
+            }
+          ],
+          "deliveredEndpointMatches": true
+        },
+        {
+          "role": "microphone",
+          "admitted": 9,
+          "omitted": 3,
+          "firstUs": 100000,
+          "endUs": 1700000,
+          "decodedSamples": 10,
+          "recoveredIntervals": [
+            {
+              "endUs": 782667,
+              "startUs": 100000
+            },
+            {
+              "endUs": 1588000,
+              "startUs": 894667
+            }
+          ],
+          "deliveredEndpointMatches": false
+        }
+      ]
+    },
+    {
+      "name": "conversion-bypass",
+      "status": 2
+    },
+    {
+      "name": "missing-microphone",
+      "status": 2
+    }
+  ],
+  "deliveredTimelinesPreserved": false
+}

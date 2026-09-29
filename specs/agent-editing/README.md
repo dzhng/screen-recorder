@@ -252,6 +252,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
+- [ ] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — partial; PCM delivery unresolved.
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
