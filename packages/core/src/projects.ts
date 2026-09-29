@@ -426,6 +426,7 @@ export class ProjectStore {
       origins: current.document.clips,
       inherited: textSeeds(current.document),
     });
+    this.publishHead(revision);
     return editResult({ revision, edit });
   }
 
@@ -708,6 +709,7 @@ export class ProjectStore {
           operation,
         };
         this.insertRevision(revision);
+        this.publishHead(revision);
         const prepared = this.references
           .dependencies({ kind: "revision", id: target.id })
           .filter((reference) => reference.kind === "prepared-audio")
@@ -740,6 +742,8 @@ export class ProjectStore {
     this.store.catalog
       .prepare("INSERT INTO project_revisions VALUES(?,?,?,?)")
       .run(revision.id, revision.projectId, revision.ordinal, JSON.stringify(revision));
+  }
+  private publishHead(revision: ProjectRevision) {
     this.store.catalog
       .prepare("UPDATE projects SET currentRevisionId=? WHERE projectId=?")
       .run(revision.id, revision.projectId);

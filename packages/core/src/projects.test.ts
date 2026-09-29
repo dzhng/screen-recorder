@@ -355,6 +355,7 @@ test("portable adoption preserves history and active undo independently and publ
   expect(receiver.store.list().projects).toEqual([]);
   const adopted = receiver.store.prepareAdoption(input).publish(() => {});
   expect(adopted.project.projectId).not.toBe(id);
+  expect(receiver.store.get(adopted.project.projectId).currentRevisionId).toBe(adopted.revision.id);
   expect(
     receiver.store.prepareAdoption(input).publish(() => {
       throw new Error("must not publish twice");
@@ -369,6 +370,7 @@ test("portable adoption preserves history and active undo independently and publ
     expectedRevisionId: adopted.revision.id,
   });
   expect(undone.document).toEqual(initial.revision.document);
+  expect(receiver.store.get(adopted.project.projectId).currentRevisionId).toBe(undone.id);
   expect(() =>
     receiver.store.prepareAdoption({ ...input, packageIdentity: "other" }).publish(() => {}),
   ).toThrow(/another package/);
