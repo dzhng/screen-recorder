@@ -269,7 +269,7 @@ async function main() {
           timeUnits:
             "Microseconds. Text-placement endpoints also accept exact reduced fractions; other command coordinates remain integers. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
           mutations:
-            "Supply a stable params.requestId and expectedRevisionId. Retry uncertain writes with the same requestId and arguments.",
+            "When the operation schema accepts requestId, supply a stable value and reuse it with identical arguments after an uncertain write. Supply expectedRevisionId only where its schema requires it.",
           operations: capabilities(operation),
         },
         null,

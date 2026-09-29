@@ -1,0 +1,22 @@
+{
+  "trace": [
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    }
+  ]
+}

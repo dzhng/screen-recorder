@@ -10,21 +10,25 @@ non-destructive edits and verify the result.
 
 ## Workflow
 
-1. Discover the installed interface with `screenrec --help`. It returns JSON
-   descriptions and parameter schemas without launching the app. Use
-   `screenrec <operation> --help` to inspect one operation without loading the
-   entire catalog. If the launcher
-   is missing and you are in the built source checkout, use
-   `bun run screenrec --help`. If neither works, report the missing build or
-   installation. Use the advertised operations; do not assume proposed editing
-   features exist. For JSON files, use `--params - < request.json`. Reserve
-   `--output` for advertised media delivery; redirect stdout to save JSON metadata.
+1. Inspect the operation you need with `screenrec <operation> --help`. It returns
+   its JSON description and parameter schema without launching the app. If you
+   need to discover operation names, save `screenrec --help` to a file and select
+   relevant entries; the full catalog is large. In a built source checkout,
+   `bun run screenrec <operation> --help` is the launcher fallback. If neither
+   works, report the missing build or installation. Use advertised operations;
+   do not assume proposed features exist. For JSON files, use
+   `--params - < request.json`. Reserve `--output` for advertised media delivery;
+   redirect stdout to save JSON metadata.
+
 2. Resolve the intended recording with the discovery operations, then inspect
    its state and revision. The latest recording may still be capturing or
    processing. Pin the recording ID and revision for subsequent reads. A stop can
    acknowledge `finalizing`; wait for the reported terminal state before importing
-   or treating the take as ready. A completed take remains available even if it
-   reports pending cleanup; do not cancel a completed take to retry cleanup.
+   or treating the take as ready. Inspect a finalizing take's `finalizationError`;
+   `capture.stop` explicitly retries failed recovery, while ordinary reads do not.
+   Canceling recovery retains ambiguous media; use explicit library deletion to
+   remove it. A completed take remains available even if it reports pending cleanup;
+   do not cancel a completed take to retry cleanup.
 3. Inspect transcript and visual evidence to locate the requested content.
    Follow returned pagination cursors, including empty pages with a next cursor.
    Preserve the transcript generation when using word identities. An empty

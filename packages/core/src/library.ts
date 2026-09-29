@@ -15,6 +15,7 @@ export type RecordingState =
   | "complete"
   | "interrupted"
   | "canceled";
+export type FinalizationError = Readonly<{ code: string; message: string; retryable: boolean }>;
 export type Recording = Readonly<{
   recordingId: string;
   sourceId: string;
@@ -23,13 +24,15 @@ export type Recording = Readonly<{
   state: RecordingState;
   lifecycleSequence: number;
   interruptionReason: string | null;
+  finalizationError: FinalizationError | null;
   sourceDurationUs: number | null;
   currentRevisionId: string | null;
 }>;
 /** A capture session reports its device transitions here; core never derives them itself. */
 export type LifecycleEvent = Readonly<{ sourceId: string; sequence: number }> &
   Readonly<
-    | { state: "recording" | "paused" | "finalizing" | "canceled" }
+    | { state: "recording" | "paused" | "canceled" }
+    | { state: "finalizing"; finalizationError?: FinalizationError | null }
     | { state: "complete"; sourceDurationUs: number }
     | { state: "interrupted"; reason: string; sourceDurationUs: number | null }
   >;
@@ -43,7 +46,17 @@ const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = 
   canceled: ["canceled"],
 };
 const recordingColumns =
-  "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,sourceDurationUs,currentRevisionId";
+  "recordingId,sourceId,creationSequence,createdAt,state,lifecycleSequence,interruptionReason,finalizationError,sourceDurationUs,currentRevisionId";
+type RecordingRow = Omit<Recording, "finalizationError"> & { finalizationError: string | null };
+function readRecording(row: RecordingRow): Recording {
+  return {
+    ...row,
+    finalizationError:
+      row.finalizationError === null
+        ? null
+        : (JSON.parse(row.finalizationError) as FinalizationError),
+  };
+}
 export type EditRequest = { requestId: string; expectedRevisionId: string } & (
   | { operation: "cut"; ranges: readonly TimeRange[] }
   | { operation: "trim"; range: TimeRange }
@@ -99,8 +112,9 @@ export class RevisionStore extends Catalog {
    CREATE TABLE IF NOT EXISTS recordings (
     creationSequence INTEGER PRIMARY KEY AUTOINCREMENT,recordingId TEXT UNIQUE NOT NULL,sourceId TEXT UNIQUE NOT NULL,
     allocationRequestId TEXT UNIQUE,allocationArguments TEXT,createdAt TEXT NOT NULL,state TEXT NOT NULL,lifecycleSequence INTEGER NOT NULL,
-    interruptionReason TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
+    interruptionReason TEXT,finalizationError TEXT,sourceDurationUs INTEGER,currentRevisionId TEXT
    ) STRICT;
+   CREATE INDEX IF NOT EXISTS recordings_state_sequence ON recordings(state,creationSequence);
    CREATE TABLE IF NOT EXISTS recording_deletions (
     recordingId TEXT PRIMARY KEY REFERENCES recordings(recordingId)
    ) STRICT;
@@ -165,7 +179,7 @@ export class RevisionStore extends Catalog {
       )
       .get(recordingId);
     if (!row) throw new CatalogError("NOT_FOUND", "Recording does not exist", { recordingId });
-    return row as Recording;
+    return readRecording(row as RecordingRow);
   }
   /** Durable intent fences public access before asynchronous producer shutdown begins. */
   markDeleting(recordingId: string): Recording | null {
@@ -179,12 +193,11 @@ export class RevisionStore extends Catalog {
   }
   /** Deletion and storage accounting may inspect a marked recording's retained identity. */
   deleting(recordingId: string): Recording | null {
-    return (
-      (this.catalog
-        .prepare(`SELECT ${recordingColumns} FROM recordings
+    const row = this.catalog
+      .prepare(`SELECT ${recordingColumns} FROM recordings
       WHERE recordingId=? AND recordingId IN (SELECT recordingId FROM recording_deletions)`)
-        .get(recordingId) as Recording | undefined) ?? null
-    );
+      .get(recordingId) as RecordingRow | undefined;
+    return row ? readRecording(row) : null;
   }
   deletionsPage(afterId = "", limit = 50): { recordings: Recording[]; nextAfterId: string | null } {
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > 200)
@@ -193,9 +206,9 @@ export class RevisionStore extends Catalog {
       .prepare(`SELECT ${recordingColumns} FROM recording_deletions JOIN recordings USING(recordingId)
       WHERE recordingId>?
       ORDER BY recordingId LIMIT ?`)
-      .all(afterId, limit + 1) as Recording[];
+      .all(afterId, limit + 1) as RecordingRow[];
     return {
-      recordings: rows.slice(0, limit),
+      recordings: rows.slice(0, limit).map(readRecording),
       nextAfterId: rows.length > limit ? rows[limit - 1]!.recordingId : null,
     };
   }
@@ -227,10 +240,10 @@ export class RevisionStore extends Catalog {
       if (isSettled(recording.state)) return recording;
       this.catalog
         .prepare(
-          "UPDATE recordings SET state='canceled',interruptionReason=NULL WHERE recordingId=?",
+          "UPDATE recordings SET state='canceled',interruptionReason=NULL,finalizationError=NULL WHERE recordingId=?",
         )
         .run(recordingId);
-      return { ...recording, state: "canceled", interruptionReason: null };
+      return { ...recording, state: "canceled", interruptionReason: null, finalizationError: null };
     });
   }
   /** Whether work for this take may still start or publish: it was neither discarded nor marked for deletion. */
@@ -295,8 +308,8 @@ export class RevisionStore extends Catalog {
        WHERE state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions) AND creationSequence < ?
        ORDER BY creationSequence DESC LIMIT ?`,
       )
-      .all(cursor?.beforeSequence ?? Number.MAX_SAFE_INTEGER, limit + 1) as Recording[];
-    const recordings = rows.slice(0, limit);
+      .all(cursor?.beforeSequence ?? Number.MAX_SAFE_INTEGER, limit + 1) as RecordingRow[];
+    const recordings = rows.slice(0, limit).map(readRecording);
     return {
       recordings,
       nextCursor:
@@ -310,22 +323,30 @@ export class RevisionStore extends Catalog {
    * against their own durable media; nothing else may be left describing a capture that ended.
    */
   unsettled(): Recording[] {
-    return this.catalog
-      .prepare(
-        `SELECT ${recordingColumns} FROM recordings WHERE state IN (${unsettledStates
-          .map(() => "?")
-          .join(",")}) ORDER BY creationSequence`,
-      )
-      .all(...unsettledStates) as Recording[];
+    return (
+      this.catalog
+        .prepare(
+          `SELECT ${recordingColumns} FROM recordings WHERE state IN (${unsettledStates
+            .map(() => "?")
+            .join(",")}) ORDER BY creationSequence`,
+        )
+        .all(...unsettledStates) as RecordingRow[]
+    ).map(readRecording);
   }
   latest(): Recording | null {
-    return (
-      (this.catalog
-        .prepare(
-          `SELECT ${recordingColumns} FROM recordings WHERE state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions) ORDER BY creationSequence DESC LIMIT 1`,
-        )
-        .get() as Recording | undefined) ?? null
-    );
+    const row = this.catalog
+      .prepare(
+        `SELECT ${recordingColumns} FROM recordings WHERE state!='canceled' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions) ORDER BY creationSequence DESC LIMIT 1`,
+      )
+      .get() as RecordingRow | undefined;
+    return row ? readRecording(row) : null;
+  }
+  /** One retained finalization for status when no current recovery or native take owns the view. */
+  pendingFinalization(): Recording | null {
+    const row = this.catalog.prepare(`SELECT ${recordingColumns} FROM recordings
+      WHERE state='finalizing' AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
+      ORDER BY creationSequence LIMIT 1`).get() as RecordingRow | undefined;
+    return row ? readRecording(row) : null;
   }
   /**
    * Applies one reported capture transition. Re-delivery of an already applied sequence keeps the
@@ -334,6 +355,13 @@ export class RevisionStore extends Catalog {
   ingestLifecycle(recordingId: string, event: LifecycleEvent): Recording {
     if (!Number.isSafeInteger(event.sequence) || event.sequence < 1)
       throw new RangeError("A lifecycle sequence must be a positive safe integer");
+    if (event.state === "finalizing" && event.finalizationError != null) {
+      const failure = event.finalizationError;
+      if (typeof failure.code !== "string" || failure.code.length < 1 || failure.code.length > 128
+        || typeof failure.message !== "string" || failure.message.length > 4096
+        || typeof failure.retryable !== "boolean")
+        throw new CatalogError("INVALID_PARAMS", "Finalization failure must be a bounded public error");
+    }
     return this.transaction(() => {
       const recording = this.get(recordingId);
       if (event.sourceId !== recording.sourceId)
@@ -352,12 +380,19 @@ export class RevisionStore extends Catalog {
         this.attachSource(recording, event.sourceDurationUs);
       this.catalog
         .prepare(
-          "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=? WHERE recordingId=?",
+          "UPDATE recordings SET state=?,lifecycleSequence=?,interruptionReason=?,finalizationError=? WHERE recordingId=?",
         )
         .run(
           event.state,
           event.sequence,
           event.state === "interrupted" ? event.reason : null,
+          event.state === "finalizing"
+            ? JSON.stringify(
+                event.finalizationError === undefined
+                  ? recording.finalizationError
+                  : event.finalizationError,
+              )
+            : null,
           recordingId,
         );
       return this.get(recordingId);

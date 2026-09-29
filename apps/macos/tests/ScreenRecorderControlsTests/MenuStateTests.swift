@@ -135,6 +135,19 @@ func runMenuStateTests() {
             .contains("Last take interrupted — SOURCE_LOST"),
         "A take that ended badly says so instead of reading as idle")
 
+    var recovering = ready()
+    recovering.take = ControlsState.TakeStatus(
+        recordingId: "rec-recovery", state: "finalizing", interruptionReason: nil,
+        sourceDurationUs: nil, finalizationError: ControlsState.FinalizationError(
+            code: "MEDIA_WORKER_TIMEOUT", message: "Recovery can be retried", retryable: true))
+    let recoveryMenu = RecordingMenu.entries(for: recovering)
+    precondition(recovering.isLive && statusLines(recoveryMenu).first == "Finalization needs attention")
+    precondition(row(recoveryMenu, "capture.startOrStop").title == "Retry Finalization"
+        && row(recoveryMenu, "capture.startOrStop").enabled)
+    precondition(row(recoveryMenu, "capture.cancel").title == "Cancel Finalization"
+        && !row(recoveryMenu, "capture.restart").enabled)
+    precondition(statusLines(recoveryMenu).contains("Finalization failed — MEDIA_WORKER_TIMEOUT: Recovery can be retried"))
+
     var refused = ready()
     refused.failure = "PERMISSION_REQUIRED: Screen recording permission is not authorized."
     precondition(

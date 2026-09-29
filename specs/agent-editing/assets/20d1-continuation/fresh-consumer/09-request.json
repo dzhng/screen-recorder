@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "node",
+    "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/apps/cli/dist/main.js",
+    "frame.get",
+    "--socket",
+    "/tmp/capture-recovery-skill-brVJMi/home/run/service.sock",
+    "--params",
+    "-",
+    "--output",
+    "/tmp/capture-recovery-consumer-q0axsljg/clean-frame.png"
+  ],
+  "params": {
+    "recordingId": "3f731a91-ff01-40db-9532-bcb990717062",
+    "revisionId": "r0",
+    "atUs": 1000000,
+    "clean": true
+  }
+}

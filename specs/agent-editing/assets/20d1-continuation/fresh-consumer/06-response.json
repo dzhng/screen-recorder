@@ -1,0 +1,1 @@
+{"ok":false,"error":{"code":"INVALID_STATE","message":"A finished take is removed through the library, not canceled","retryable":false,"details":{"state":"interrupted"}},"id":"5bf16070-5ff8-4bd7-aedb-ce513e70616d"}

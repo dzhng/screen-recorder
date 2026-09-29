@@ -1,0 +1,304 @@
+{
+  "usage": "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH]",
+  "service": "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
+  "timeUnits": "Microseconds. Text-placement endpoints also accept exact reduced fractions; other command coordinates remain integers. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
+  "mutations": "Supply a stable params.requestId and expectedRevisionId. Retry uncertain writes with the same requestId and arguments.",
+  "operations": [
+    {
+      "name": "frame.get",
+      "description": "Request a raw PNG/JPEG image with assetId, streamId and optional maxLongEdge; omit atUs and acquisitionId for images. The delivered PNG is upright; its receipt retains source orientation and has no sample clock. Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Recording/package selectors request a frame at edited playback time with an observed pointer and two-second trail by default. Use clean:true for no overlay or trailUs:0 for pointer only. Pin the returned revision when polling.",
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "projectId": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "revisionId": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "atUs": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "maxLongEdge": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "tap": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "clip",
+                              "track",
+                              "group"
+                            ]
+                          },
+                          "id": {
+                            "$ref": "#/$defs/__schema3"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "id"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "output"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "point": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "dry"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "processed"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "after-step"
+                          },
+                          "stepId": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "stepId"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "target",
+                  "point"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "projectId",
+              "atUs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "recordingId": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "revisionId": {
+                "$ref": "#/$defs/__schema4"
+              },
+              "atUs": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "clean": {
+                "$ref": "#/$defs/__schema5"
+              },
+              "trailUs": {
+                "$ref": "#/$defs/__schema6"
+              },
+              "maxLongEdge": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "crop": {
+                "$ref": "#/$defs/__schema7"
+              }
+            },
+            "required": [
+              "recordingId",
+              "atUs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "packageHandle": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "revisionId": {
+                "$ref": "#/$defs/__schema4"
+              },
+              "atUs": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "clean": {
+                "$ref": "#/$defs/__schema5"
+              },
+              "trailUs": {
+                "$ref": "#/$defs/__schema6"
+              },
+              "maxLongEdge": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "crop": {
+                "$ref": "#/$defs/__schema7"
+              }
+            },
+            "required": [
+              "packageHandle",
+              "atUs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "assetId": {
+                "$ref": "#/$defs/__schema3"
+              },
+              "streamId": {
+                "$ref": "#/$defs/__schema3"
+              },
+              "acquisitionId": {
+                "$ref": "#/$defs/__schema3"
+              },
+              "atUs": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "maxLongEdge": {
+                "$ref": "#/$defs/__schema2"
+              }
+            },
+            "required": [
+              "assetId",
+              "streamId",
+              "atUs"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "assetId": {
+                "$ref": "#/$defs/__schema3"
+              },
+              "streamId": {
+                "$ref": "#/$defs/__schema3"
+              },
+              "maxLongEdge": {
+                "$ref": "#/$defs/__schema2"
+              }
+            },
+            "required": [
+              "assetId",
+              "streamId"
+            ],
+            "additionalProperties": false
+          }
+        ],
+        "$defs": {
+          "__schema0": {
+            "type": "string",
+            "minLength": 1
+          },
+          "__schema1": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "__schema2": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8192
+          },
+          "__schema3": {
+            "type": "string",
+            "minLength": 1
+          },
+          "__schema4": {
+            "$ref": "#/$defs/__schema0"
+          },
+          "__schema5": {
+            "type": "boolean"
+          },
+          "__schema6": {
+            "maximum": 10000000,
+            "$ref": "#/$defs/__schema1"
+          },
+          "__schema7": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "width": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "height": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  ]
+}

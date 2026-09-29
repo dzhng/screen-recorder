@@ -1,0 +1,6 @@
+{
+  "file": "/tmp/capture-recovery-consumer-q0axsljg/clean-frame.png",
+  "bytes": 31705,
+  "sha256": "afe9896e5d13f41db81589fc36c9cbaeb2995016d382a09f3b646a275bb97337",
+  "visualInspection": "Opened with view_image: 160x120 diagonal grayscale stripe fixture, no visible pointer or trail. Receipt clean:true, annotation:null. Requested 1000000us; returned actual playback/source 500000us."
+}

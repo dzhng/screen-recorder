@@ -63,6 +63,14 @@ export const captureReportSchema = z
       .max(NATIVE_SEQUENCE_LIMIT - 1),
     state: z.enum(["recording", "paused", "finalizing", "complete", "interrupted"]),
     reason: z.string().min(1).nullish(),
+    finalizationError: z
+      .object({
+        code: z.string().min(1).max(128),
+        message: z.string().max(4096),
+        retryable: z.boolean(),
+      })
+      .nullable()
+      .optional(),
     sourceDurationUs: z.int().nonnegative().nullish(),
   })
   .strict();

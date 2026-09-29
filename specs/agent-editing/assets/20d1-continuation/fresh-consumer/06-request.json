@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "node",
+    "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/apps/cli/dist/main.js",
+    "capture.cancel",
+    "--socket",
+    "/tmp/capture-recovery-skill-brVJMi/home/run/service.sock",
+    "--params",
+    "-"
+  ],
+  "params": {
+    "recordingId": "3f731a91-ff01-40db-9532-bcb990717062"
+  }
+}

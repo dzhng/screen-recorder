@@ -22,25 +22,41 @@ afterEach(async () => {
 });
 
 it(
-  "waits for absent-native recovery before returning cancellation",
+  "acknowledges absent-native cancellation while slow recovery proves absence",
   { timeout: 25_000 },
   async () => {
     const peer = capturingPeer();
+    let absent = false;
     const service = await startService(
       await temporaryHome(),
-      (operation, params) =>
-        operation === "capture.cancel"
-          ? {
-              ok: false,
-              error: {
-                code: "INVALID_STATE",
-                message: "No take held",
-                retryable: false,
-                details: {},
-              },
-            }
-          : peer(operation, params),
-      // Recovery is within its worker budget but exceeds the old control-only client deadline.
+      (operation, params) => {
+        if (operation === "capture.status" && absent)
+          return {
+            ok: true,
+            data: {
+              state: "idle",
+              recordingId: null,
+              sourceId: null,
+              elapsedUs: null,
+              selection: null,
+              permissions: { screen: true, microphone: "authorized" },
+            },
+          };
+        if (operation === "capture.cancel") {
+          absent = true;
+          return {
+            ok: false,
+            error: {
+              code: "INVALID_STATE",
+              message: "No take held",
+              retryable: false,
+              details: {},
+            },
+          };
+        }
+        return peer(operation, params);
+      },
+      // Real worker wait exceeds the old control-only deadline; acknowledgment must not.
       { SCREENREC_NATIVE: await recovers({ durationUs: 0, journal: null }, 16) },
     );
     const started = await service.call("capture.start", {
@@ -49,10 +65,18 @@ it(
     });
     if (!started.ok) throw new Error("start failed");
     const { recordingId } = started.data as { recordingId: string };
+    const before = Date.now();
     expect(await service.call("capture.cancel", { recordingId })).toMatchObject({
       ok: true,
-      data: { recordingId, state: "canceled" },
+      data: { recordingId, state: "finalizing" },
     });
+    expect(Date.now() - before).toBeLessThan(DEFAULT_CALL_TIMEOUT_MS);
+    await expect
+      .poll(() => service.call("recording.get", { recordingId }), { timeout: 20_000 })
+      .toMatchObject({
+        ok: true,
+        data: { recordingId, state: "canceled" },
+      });
   },
 );
 
@@ -509,11 +533,11 @@ it("leaves a take alone when its recovery cannot run, and settles it once one ca
   const blind = await startService(home, capturingPeer(), {
     SCREENREC_NATIVE: await nativeWorker("exit 3"),
   });
-  await blind.waitForDiagnostic(/reconcile failed/);
-  // An unprovable outcome is never published: the take keeps the state it actually had.
+  await blind.waitForDiagnostic(/recovery failed/);
+  // Failed recovery remains discoverable and retryable without inventing a terminal outcome.
   expect(await blind.call("recording.get", { recordingId })).toMatchObject({
     ok: true,
-    data: { state: "recording", sourceDurationUs: null },
+    data: { state: "finalizing", sourceDurationUs: null, finalizationError: { retryable: true } },
   });
   await blind.close();
 
@@ -553,7 +577,7 @@ it("settles a native call whose answer is unreadable as soon as that answer arri
 });
 
 it(
-  "settles a stranded take before it accepts a start replayed onto it",
+  "acknowledges a replay onto a stranded take while recovery continues",
   { timeout: 30_000 },
   async () => {
     const home = await temporaryHome();
@@ -581,10 +605,10 @@ it(
     });
     expect(replayed).toMatchObject({
       ok: true,
-      data: { recordingId, state: "interrupted", sourceDurationUs: 3_000_000 },
+      data: { recordingId, state: "finalizing", sourceDurationUs: null },
     });
-    // Recovery held the capture order, so nothing restarted the device behind its back.
-    expect(service.asked).toEqual([]);
+    // Recovery proves native absence without restarting the device.
+    expect(service.asked).toEqual(["capture.status"]);
     // The receipt outlived the service that wrote it, so the same ID asking for a different take
     // is still refused rather than answered with this one.
     expect(
@@ -594,6 +618,10 @@ it(
       }),
     ).toMatchObject({ ok: false, error: { code: "REQUEST_CONFLICT" } });
     await service.waitForDiagnostic(/reconciliation complete/);
+    expect(await service.call("recording.get", { recordingId })).toMatchObject({
+      ok: true,
+      data: { state: "interrupted", sourceDurationUs: 3_000_000 },
+    });
   },
 );
 
@@ -618,14 +646,16 @@ it(
     // The deadline proved nothing about the device, so the take is ended on it and settled from
     // the media that ending left behind.
     expect(service.asked).toContain("capture.stop");
-    expect(await service.call("recording.get", { recordingId })).toMatchObject({
-      ok: true,
-      data: {
-        state: "interrupted",
-        interruptionReason: "CAPTURE_INTERRUPTED",
-        sourceDurationUs: 6_000_000,
-      },
-    });
+    await expect
+      .poll(() => service.call("recording.get", { recordingId }))
+      .toMatchObject({
+        ok: true,
+        data: {
+          state: "interrupted",
+          interruptionReason: "CAPTURE_INTERRUPTED",
+          sourceDurationUs: 6_000_000,
+        },
+      });
     expect(await service.call("capture.status")).toMatchObject({
       ok: true,
       data: { device: { state: "idle", recordingId: null } },
@@ -744,16 +774,18 @@ it(
     });
 
     const replayed = await service.call("capture.start", request);
-    // The replay ended and settled the take it already named, from that take's own media.
-    expect(replayed).toMatchObject({
-      ok: true,
-      data: {
-        recordingId,
-        state: "interrupted",
-        interruptionReason: "CAPTURE_INTERRUPTED",
-        sourceDurationUs: 6_000_000,
-      },
-    });
+    expect(replayed).toMatchObject({ ok: true, data: { recordingId, state: "finalizing" } });
+    await expect
+      .poll(() => service.call("recording.get", { recordingId }))
+      .toMatchObject({
+        ok: true,
+        data: {
+          recordingId,
+          state: "interrupted",
+          interruptionReason: "CAPTURE_INTERRUPTED",
+          sourceDurationUs: 6_000_000,
+        },
+      });
     expect(service.asked.filter((operation) => operation === "capture.start")).toHaveLength(1);
     expect(await readdir(join(home, "recordings"))).toEqual([recordingId]);
   },
@@ -880,15 +912,18 @@ it(
     if (!latest.ok) throw new Error("Allocated take must be discoverable");
     const { recordingId } = latest.data as { recordingId: string };
     const stopped = await service.call("capture.stop", { recordingId });
-    expect(stopped).toMatchObject({
-      ok: true,
-      data: {
-        recordingId,
-        state: "interrupted",
-        sourceDurationUs: 6_000_000,
-        currentRevisionId: "r0",
-      },
-    });
+    expect(stopped).toMatchObject({ ok: true, data: { recordingId, state: "finalizing" } });
+    await expect
+      .poll(() => service.call("recording.get", { recordingId }))
+      .toMatchObject({
+        ok: true,
+        data: {
+          recordingId,
+          state: "interrupted",
+          sourceDurationUs: 6_000_000,
+          currentRevisionId: "r0",
+        },
+      });
     expect(await service.call("capture.status")).toMatchObject({
       ok: true,
       data: { device: { state: "idle", recordingId: null } },

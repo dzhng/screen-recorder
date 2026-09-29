@@ -145,6 +145,7 @@ public enum RecordingMenu {
     static func workingTitle(for state: ControlsState) -> String? {
         if case .unavailable = state.service { return statusTitle(for: state) }
         if state.service == .starting { return statusTitle(for: state) }
+        if state.take?.state == "finalizing" { return statusTitle(for: state) }
         if let device = state.device, device.state != .idle { return statusTitle(for: state) }
         return state.processing?.summary.map { "Preparing the last take — \($0)" }
     }
@@ -153,6 +154,9 @@ public enum RecordingMenu {
     /// the device's own clock, so it stops while the take is paused.
     public static func statusTitle(for state: ControlsState) -> String {
         if case .unavailable(let message) = state.service { return "Unavailable — \(message)" }
+        if state.take?.state == "finalizing" {
+            return state.take?.finalizationError == nil ? "Finishing take…" : "Finalization needs attention"
+        }
         guard let device = state.device else {
             return state.service == .starting ? "Starting…" : "Idle"
         }
@@ -171,6 +175,9 @@ public enum RecordingMenu {
     static func notes(for state: ControlsState) -> [String] {
         var notes: [String] = []
         if let failure = state.failure { notes.append(failure) }
+        if let failure = state.take?.finalizationError {
+            notes.append("Finalization failed — \(failure.code): \(failure.message)")
+        }
         if let take = state.take, take.state == "interrupted", !state.isLive {
             notes.append(
                 "Last take interrupted — \(take.interruptionReason ?? "reason unavailable")")
@@ -302,10 +309,12 @@ public enum RecordingMenu {
         let paused = state.device?.state == .paused
         let ready = state.service == .ready
         let canStart = ready && state.selection.source != nil
+        let recovering = state.take?.state == "finalizing" && state.device?.state == .idle
+        let finishTitle = state.take?.finalizationError == nil ? "Finish Recording" : "Retry Finalization"
         var rows = [
             MenuEntry(
                 .command(.startOrStop),
-                state.counting ? "Cancel Countdown" : (live ? "Finish Recording" : "Start Recording"),
+                state.counting ? "Cancel Countdown" : (live ? finishTitle : "Start Recording"),
                 enabled: state.counting || (live ? ready : canStart),
                 shortcut: shortcuts.display(of: .startOrStop)),
             MenuEntry(
@@ -313,10 +322,10 @@ public enum RecordingMenu {
                 enabled: ready && (state.device?.state == .recording || state.device?.state == .paused),
                 shortcut: shortcuts.display(of: .pauseOrResume)),
             MenuEntry(
-                .command(.cancel), "Cancel Take", enabled: live && ready,
+                .command(.cancel), recovering ? "Cancel Finalization" : "Cancel Take", enabled: live && ready,
                 shortcut: shortcuts.display(of: .cancel)),
             MenuEntry(
-                .command(.restart), "Restart Take", enabled: live && ready,
+                .command(.restart), "Restart Take", enabled: live && ready && !recovering,
                 shortcut: shortcuts.display(of: .restart)),
         ]
         if ready && !live && state.selection.source == nil {
@@ -338,6 +347,9 @@ public enum RecordingMenu {
             let request = state.deletions[take.recordingId]
             let pending = request?.isPending == true
             var details = [MenuEntry(.status, take.recordingId, enabled: false)]
+            if let failure = take.finalizationError {
+                details.append(MenuEntry(.status, "Finalization failed — \(failure.code): \(failure.message)", enabled: false))
+            }
             if let failure = request?.failure {
                 details.append(MenuEntry(.status, "Delete not confirmed — \(failure)", enabled: false))
             }

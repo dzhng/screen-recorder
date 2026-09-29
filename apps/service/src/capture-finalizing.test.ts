@@ -6,6 +6,18 @@ import { RevisionStore } from "@screenrec/core/library";
 import type { OperationResult } from "@screenrec/protocol";
 import { CaptureService, sourceDirectory } from "./capture.js";
 
+const idleNative: OperationResult = {
+  ok: true,
+  data: {
+    state: "idle",
+    recordingId: null,
+    sourceId: null,
+    elapsedUs: null,
+    selection: null,
+    permissions: { screen: true, microphone: "authorized" },
+  },
+};
+
 // This pins the service half of asynchronous stop. The native termination/publisher and
 // full controller deadline gates are separate: this fixture neither captures nor verifies media.
 test("finalizing acknowledgment releases control order while cancellation waits for actual unwind", async () => {
@@ -117,9 +129,8 @@ test("unproved start keeps finalizing media out of recovery until the native ter
     },
   );
   try {
-    await expect(service.stop(recording.recordingId)).rejects.toMatchObject({
-      code: "UNRESOLVED_START",
-      details: { state: "finalizing" },
+    await expect(service.stop(recording.recordingId)).resolves.toMatchObject({
+      state: "finalizing",
     });
     expect(recoveries).toBe(0);
     expect(store.get(recording.recordingId).state).toBe("finalizing");
@@ -138,6 +149,463 @@ test("unproved start keeps finalizing media out of recovery until the native ter
       sourceDurationUs: 1234,
     });
     expect(recoveries).toBe(0);
+  } finally {
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test.each(["cleanup", "completion", "role"] as const)(
+  "recovery retains cleanup detail with %s precedence",
+  async (mode) => {
+    const home = await mkdtemp("/tmp/screenrec-recovery-cleanup-");
+    const store = new RevisionStore(join(home, "library.sqlite"), {
+      now: () => new Date().toISOString(),
+      newId: randomUUID,
+    });
+    const recording = store.allocate().recording;
+    store.ingestLifecycle(recording.recordingId, {
+      sourceId: recording.sourceId,
+      sequence: 1,
+      state: "finalizing",
+    });
+    const logs: string[] = [];
+    const service = new CaptureService(
+      store,
+      home,
+      async (operation) =>
+        operation === "capture.status"
+          ? idleNative
+          : {
+              ok: false,
+              error: { code: "INVALID_STATE", message: "closed", retryable: false, details: {} },
+            },
+      async () => ({
+        ok: true,
+        data: {
+          durationUs: 1234,
+          journal: {
+            header: {},
+            completion: { failureCode: mode === "completion" ? "JOURNAL_FAILED" : null },
+          },
+          tracks:
+            mode === "role"
+              ? [{ failure: { code: "AUDIO_UNAVAILABLE", message: "no mapped audio" } }]
+              : [],
+          cleanupFailure: { code: "CLEANUP_PENDING", message: "Retained owned working files" },
+        },
+      }),
+      (line) => logs.push(line),
+    );
+    try {
+      expect(await service.stop(recording.recordingId)).toMatchObject({ state: "finalizing" });
+      await expect
+        .poll(() => store.get(recording.recordingId))
+        .toMatchObject({
+          state: "interrupted",
+          sourceDurationUs: 1234,
+          interruptionReason:
+            mode === "completion"
+              ? "JOURNAL_FAILED"
+              : mode === "role"
+                ? "AUDIO_UNAVAILABLE"
+                : "CLEANUP_PENDING",
+        });
+      expect(logs.some((line) => line.includes("Retained owned working files"))).toBe(true);
+    } finally {
+      await service.close();
+      store.close();
+      await rm(home, { recursive: true, force: true });
+    }
+  },
+);
+
+test("absent-native recovery acknowledges finalizing before media finishes and retains failure for retry", async () => {
+  const home = await mkdtemp("/tmp/screenrec-recovery-continuation-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const take = store.allocate().recording;
+  store.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 1,
+    state: "recording",
+  });
+  let finish!: (value: OperationResult) => void;
+  let entered!: () => void;
+  const workerEntered = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  const work = new Promise<OperationResult>((resolve) => {
+    finish = resolve;
+  });
+  const service = new CaptureService(
+    store,
+    home,
+    async (operation) =>
+      operation === "capture.status"
+        ? {
+            ok: true,
+            data: {
+              state: "idle",
+              recordingId: null,
+              sourceId: null,
+              elapsedUs: null,
+              selection: null,
+              permissions: { screen: true, microphone: "authorized" },
+            },
+          }
+        : {
+            ok: false,
+            error: {
+              code: "INVALID_STATE",
+              message: "No native take",
+              retryable: false,
+              details: {},
+            },
+          },
+    async () => {
+      entered();
+      return work;
+    },
+  );
+  const failure: OperationResult = {
+    ok: false,
+    error: {
+      code: "MEDIA_WORKER_TIMEOUT",
+      message: "Recovery exceeded its attempt budget",
+      retryable: true,
+      details: {},
+    },
+  };
+  const release = setTimeout(() => finish(failure), 1000);
+  try {
+    const stopped = service.stop(take.recordingId);
+    await workerEntered;
+    expect(await stopped).toMatchObject({ state: "finalizing", finalizationError: null });
+    expect(await service.status()).toMatchObject({
+      device: { state: "idle" },
+      recording: { recordingId: take.recordingId, state: "finalizing" },
+    });
+    finish(failure);
+    await new Promise((resolve) => setImmediate(resolve));
+    expect(store.get(take.recordingId)).toMatchObject({
+      state: "finalizing",
+      finalizationError: { code: "MEDIA_WORKER_TIMEOUT", retryable: true },
+    });
+  } finally {
+    clearTimeout(release);
+    finish(failure);
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test.each(["recording", "finalizing", "idle"] as const)(
+  "service restart does not fence a surviving native take in %s",
+  async (state) => {
+    const home = await mkdtemp("/tmp/screenrec-survived-native-");
+    const store = new RevisionStore(join(home, "library.sqlite"), {
+      now: () => new Date().toISOString(),
+      newId: randomUUID,
+    });
+    const take = store.allocate().recording;
+    store.ingestLifecycle(take.recordingId, {
+      sourceId: take.sourceId,
+      sequence: 1,
+      state: "recording",
+    });
+    let recoveries = 0;
+    const service = new CaptureService(
+      store,
+      home,
+      async (operation) => {
+        expect(operation).toBe("capture.status");
+        return {
+          ok: true,
+          data: {
+            state,
+            recordingId: take.recordingId,
+            sourceId: take.sourceId,
+            elapsedUs: 10,
+            selection: null,
+            permissions: { screen: true, microphone: "authorized" },
+          },
+        };
+      },
+      async () => {
+        recoveries++;
+        throw new Error("Native still owns this take");
+      },
+    );
+    try {
+      await service.reconcileStranded();
+      expect(recoveries).toBe(0);
+      expect(store.get(take.recordingId)).toMatchObject({
+        state: "recording",
+        lifecycleSequence: 1,
+        finalizationError: null,
+      });
+      service.report({
+        recordingId: take.recordingId,
+        sourceId: take.sourceId,
+        sequence: 2,
+        state: "finalizing",
+      });
+      service.report({
+        recordingId: take.recordingId,
+        sourceId: take.sourceId,
+        sequence: 3,
+        state: "complete",
+        sourceDurationUs: 10,
+      });
+      expect(store.get(take.recordingId).state).toBe("complete");
+    } finally {
+      await service.close();
+      store.close();
+      await rm(home, { recursive: true, force: true });
+    }
+  },
+);
+
+test("explicit stop retries retained recovery failure and completed result wins cancellation", async () => {
+  const home = await mkdtemp("/tmp/screenrec-recovery-retry-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const take = store.allocate().recording;
+  store.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 1,
+    state: "finalizing",
+  });
+  let attempts = 0;
+  let complete!: (value: OperationResult) => void;
+  const result = new Promise<OperationResult>((resolve) => {
+    complete = resolve;
+  });
+  const service = new CaptureService(
+    store,
+    home,
+    async (operation) =>
+      operation === "capture.status"
+        ? idleNative
+        : {
+            ok: false,
+            error: { code: "INVALID_STATE", message: "No take", retryable: false, details: {} },
+          },
+    async () => {
+      attempts++;
+      return attempts === 1
+        ? {
+            ok: false,
+            error: {
+              code: "MEDIA_WORKER_FAILED",
+              message: "Retained for retry",
+              retryable: true,
+              details: {},
+            },
+          }
+        : result;
+    },
+  );
+  try {
+    expect(await service.stop(take.recordingId)).toMatchObject({ state: "finalizing" });
+    await expect
+      .poll(() => store.get(take.recordingId).finalizationError?.code)
+      .toBe("MEDIA_WORKER_FAILED");
+    expect((await service.status()) as object).toMatchObject({
+      recording: { finalizationError: { code: "MEDIA_WORKER_FAILED" } },
+    });
+    expect(attempts).toBe(1);
+    expect(await service.stop(take.recordingId)).toMatchObject({
+      state: "finalizing",
+      finalizationError: null,
+    });
+    expect(await service.stop(take.recordingId)).toMatchObject({
+      state: "finalizing",
+      finalizationError: null,
+    });
+    await expect.poll(() => attempts).toBe(2);
+    complete({
+      ok: true,
+      data: { durationUs: 10, journal: { header: { sessionID: take.sourceId } } },
+    });
+    await expect.poll(() => store.get(take.recordingId).state).toBe("interrupted");
+    await expect(service.cancel(take.recordingId)).rejects.toMatchObject({ code: "INVALID_STATE" });
+    expect(store.get(take.recordingId)).toMatchObject({
+      state: "interrupted",
+      sourceDurationUs: 10,
+      finalizationError: null,
+    });
+  } finally {
+    complete({
+      ok: false,
+      error: { code: "CANCELED", message: "fixture ended", retryable: true, details: {} },
+    });
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test("status follows the active recovery ahead of an older retained failure", async () => {
+  const home = await mkdtemp("/tmp/screenrec-recovery-status-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const older = store.allocate().recording;
+  store.ingestLifecycle(older.recordingId, {
+    sourceId: older.sourceId,
+    sequence: 1,
+    state: "finalizing",
+    finalizationError: { code: "OLDER_FAILURE", message: "Explicit retry needed", retryable: true },
+  });
+  const selected = store.allocate().recording;
+  store.ingestLifecycle(selected.recordingId, {
+    sourceId: selected.sourceId,
+    sequence: 1,
+    state: "recording",
+  });
+  let finish!: (value: OperationResult) => void;
+  const work = new Promise<OperationResult>((resolve) => {
+    finish = resolve;
+  });
+  const service = new CaptureService(
+    store,
+    home,
+    async (operation) =>
+      operation === "capture.status"
+        ? idleNative
+        : {
+            ok: false,
+            error: { code: "INVALID_STATE", message: "No take", retryable: false, details: {} },
+          },
+    async () => work,
+  );
+  try {
+    expect(await service.stop(selected.recordingId)).toMatchObject({ state: "finalizing" });
+    expect(await service.status()).toMatchObject({
+      recording: { recordingId: selected.recordingId, finalizationError: null },
+    });
+    finish({ ok: true, data: { durationUs: 10, journal: { header: {} } } });
+    await expect.poll(() => store.get(selected.recordingId).state).toBe("interrupted");
+    expect(await service.status()).toMatchObject({
+      recording: { recordingId: older.recordingId, finalizationError: { code: "OLDER_FAILURE" } },
+    });
+  } finally {
+    finish({
+      ok: false,
+      error: { code: "CANCELED", message: "fixture ended", retryable: true, details: {} },
+    });
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test("startup drains each recovery before continuing past a retained failure", async () => {
+  const home = await mkdtemp("/tmp/screenrec-recovery-startup-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const first = store.allocate().recording;
+  const second = store.allocate().recording;
+  for (const take of [first, second])
+    store.ingestLifecycle(take.recordingId, {
+      sourceId: take.sourceId,
+      sequence: 1,
+      state: "recording",
+    });
+  let release!: (value: OperationResult) => void;
+  const held = new Promise<OperationResult>((resolve) => {
+    release = resolve;
+  });
+  let attempts = 0;
+  const service = new CaptureService(
+    store,
+    home,
+    async () => idleNative,
+    async () => {
+      attempts++;
+      if (attempts === 1) return held;
+      return { ok: true, data: { durationUs: 20, journal: { header: {} } } };
+    },
+  );
+  const startup = service.reconcileStranded();
+  try {
+    await expect.poll(() => attempts).toBe(1);
+    expect(store.get(second.recordingId).state).toBe("recording");
+    expect(await service.status()).toMatchObject({ recording: { recordingId: first.recordingId } });
+    release({
+      ok: false,
+      error: { code: "RETRY_MEDIA", message: "Retained", retryable: true, details: {} },
+    });
+    await startup;
+    expect(store.get(first.recordingId)).toMatchObject({
+      state: "finalizing",
+      finalizationError: { code: "RETRY_MEDIA" },
+    });
+    expect(store.get(second.recordingId)).toMatchObject({
+      state: "interrupted",
+      sourceDurationUs: 20,
+    });
+    expect(attempts).toBe(2);
+  } finally {
+    release({
+      ok: false,
+      error: { code: "CANCELED", message: "fixture ended", retryable: true, details: {} },
+    });
+    await startup;
+    await service.close();
+    store.close();
+    await rm(home, { recursive: true, force: true });
+  }
+});
+
+test("native finalization failures persist until a reported new attempt or terminal outcome", async () => {
+  const home = await mkdtemp("/tmp/screenrec-native-finalization-error-");
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    now: () => new Date().toISOString(),
+    newId: randomUUID,
+  });
+  const take = store.allocate().recording;
+  const service = new CaptureService(
+    store,
+    home,
+    async () => idleNative,
+    async () => {
+      throw new Error("Native still owns this take");
+    },
+  );
+  const identity = { recordingId: take.recordingId, sourceId: take.sourceId };
+  const error = {
+    code: "INVALID_OUTPUT",
+    message: "Publication permission denied",
+    retryable: true,
+  };
+  try {
+    service.report({ ...identity, sequence: 1, state: "recording" });
+    service.report({ ...identity, sequence: 2, state: "finalizing", finalizationError: error });
+    expect(store.get(take.recordingId)).toMatchObject({
+      state: "finalizing",
+      finalizationError: error,
+    });
+    service.report({ ...identity, sequence: 3, state: "finalizing" });
+    expect(store.get(take.recordingId).finalizationError).toEqual(error);
+    service.report({ ...identity, sequence: 4, state: "finalizing", finalizationError: null });
+    expect(store.get(take.recordingId).finalizationError).toBeNull();
+    service.report({ ...identity, sequence: 5, state: "complete", sourceDurationUs: 100 });
+    expect(store.get(take.recordingId)).toMatchObject({
+      state: "complete",
+      finalizationError: null,
+    });
   } finally {
     await service.close();
     store.close();

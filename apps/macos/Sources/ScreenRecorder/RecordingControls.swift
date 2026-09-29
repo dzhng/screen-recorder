@@ -215,7 +215,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     /// The take the device is working on. Capture control names its recording, so an action with
     /// no live take is refused here rather than sent without one.
     private func live() -> [String: Any]? {
-        guard let recordingId = state.device?.recordingId else { return nil }
+        guard let recordingId = state.device?.recordingId
+            ?? (state.take?.state == "finalizing" ? state.take?.recordingId : nil) else { return nil }
         return ["recordingId": recordingId]
     }
 
@@ -475,7 +476,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         state.take = answer.recording.map {
             ControlsState.TakeStatus(
                 recordingId: $0.recordingId, state: $0.state,
-                interruptionReason: $0.interruptionReason, sourceDurationUs: $0.sourceDurationUs)
+                interruptionReason: $0.interruptionReason, sourceDurationUs: $0.sourceDurationUs,
+                finalizationError: $0.finalizationError)
         }
     }
 
@@ -508,7 +510,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         state.recent = answer.recordings.map {
             ControlsState.RecentTake(
                 recordingId: $0.recordingId, createdAt: $0.createdAt, state: $0.state,
-                sourceDurationUs: $0.sourceDurationUs, interruptionReason: $0.interruptionReason)
+                sourceDurationUs: $0.sourceDurationUs, interruptionReason: $0.interruptionReason,
+                finalizationError: $0.finalizationError)
         }
     }
 
@@ -623,6 +626,7 @@ private struct StatusAnswer: Decodable {
         let state: String
         let interruptionReason: String?
         let sourceDurationUs: Int64?
+        let finalizationError: ControlsState.FinalizationError?
     }
     let device: Device
     let recording: Take?
@@ -657,6 +661,7 @@ private struct RecentAnswer: Decodable {
         let state: String
         let sourceDurationUs: Int64?
         let interruptionReason: String?
+        let finalizationError: ControlsState.FinalizationError?
     }
     let recordings: [Take]
 }

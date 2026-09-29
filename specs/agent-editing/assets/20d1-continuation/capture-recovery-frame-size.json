@@ -1,0 +1,7 @@
+{
+  "intervalsPerRole": 100000,
+  "singleRoleIntervalBytes": 4177875,
+  "twoRoleIntervalArraysBytes": 8355750,
+  "workerFrameLimit": 8388608,
+  "boundary": "Exact retained native-normalized support; interval arrays only, excluding all envelope/other fields. CaptureJournalSummary CodingKeys already omits acquiredAudio; no wire duplication claim."
+}

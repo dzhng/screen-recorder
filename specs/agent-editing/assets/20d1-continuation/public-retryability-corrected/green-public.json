@@ -1,0 +1,49 @@
+{
+  "receipts": [
+    {
+      "args": [
+        "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/apps/cli/dist/main.js",
+        "recording.get",
+        "--socket",
+        "/tmp/capture-recovery-skill-CRKqHa/home/run/service.sock",
+        "--params",
+        "{\"recordingId\":\"4cbd1e65-622b-42a4-a9d4-894b4ce86a68\"}"
+      ],
+      "raw": "{\"ok\":true,\"data\":{\"recordingId\":\"4cbd1e65-622b-42a4-a9d4-894b4ce86a68\",\"sourceId\":\"publication-conflict\",\"creationSequence\":1,\"createdAt\":\"2026-09-29T09:52:02.916Z\",\"state\":\"finalizing\",\"lifecycleSequence\":1099511627778,\"interruptionReason\":null,\"finalizationError\":{\"code\":\"INVALID_OUTPUT\",\"message\":\"Cannot create private staging beside /private/tmp/capture-recovery-skill-CRKqHa/home/recordings/4cbd1e65-622b-42a4-a9d4-894b4ce86a68/source/.capture-publication-narration/intent.json: Permission denied.\",\"retryable\":true},\"sourceDurationUs\":null,\"currentRevisionId\":null},\"id\":\"559467f8-56d9-4e90-9b9c-ecf4e8dcada5\"}\n"
+    },
+    {
+      "args": [
+        "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/apps/cli/dist/main.js",
+        "capture.stop",
+        "--socket",
+        "/tmp/capture-recovery-skill-CRKqHa/home/run/service.sock",
+        "--params",
+        "{\"recordingId\":\"4cbd1e65-622b-42a4-a9d4-894b4ce86a68\"}"
+      ],
+      "raw": "{\"ok\":true,\"data\":{\"recordingId\":\"4cbd1e65-622b-42a4-a9d4-894b4ce86a68\",\"sourceId\":\"publication-conflict\",\"creationSequence\":1,\"createdAt\":\"2026-09-29T09:52:02.916Z\",\"state\":\"finalizing\",\"lifecycleSequence\":1099511627779,\"interruptionReason\":null,\"finalizationError\":null,\"sourceDurationUs\":null,\"currentRevisionId\":null},\"id\":\"86907078-33ed-4b30-821e-72c1e901bb82\"}\n"
+    },
+    {
+      "args": [
+        "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/apps/cli/dist/main.js",
+        "recording.get",
+        "--socket",
+        "/tmp/capture-recovery-skill-CRKqHa/home/run/service.sock",
+        "--params",
+        "{\"recordingId\":\"4cbd1e65-622b-42a4-a9d4-894b4ce86a68\"}"
+      ],
+      "raw": "{\"ok\":true,\"data\":{\"recordingId\":\"4cbd1e65-622b-42a4-a9d4-894b4ce86a68\",\"sourceId\":\"publication-conflict\",\"creationSequence\":1,\"createdAt\":\"2026-09-29T09:52:02.916Z\",\"state\":\"finalizing\",\"lifecycleSequence\":1099511627779,\"interruptionReason\":null,\"finalizationError\":null,\"sourceDurationUs\":null,\"currentRevisionId\":null},\"id\":\"9a8415b1-8a0a-4c69-9608-699cabffe147\"}\n"
+    },
+    {
+      "args": [
+        "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/apps/cli/dist/main.js",
+        "recording.get",
+        "--socket",
+        "/tmp/capture-recovery-skill-CRKqHa/home/run/service.sock",
+        "--params",
+        "{\"recordingId\":\"4cbd1e65-622b-42a4-a9d4-894b4ce86a68\"}"
+      ],
+      "raw": "{\"ok\":true,\"data\":{\"recordingId\":\"4cbd1e65-622b-42a4-a9d4-894b4ce86a68\",\"sourceId\":\"publication-conflict\",\"creationSequence\":1,\"createdAt\":\"2026-09-29T09:52:02.916Z\",\"state\":\"interrupted\",\"lifecycleSequence\":1099511627780,\"interruptionReason\":\"PUBLICATION_CONFLICT\",\"finalizationError\":null,\"sourceDurationUs\":3176938,\"currentRevisionId\":\"r0\"},\"id\":\"95ee2adf-1cb4-4b15-80da-066a548d03b8\"}\n"
+    }
+  ],
+  "help": "{\n  \"usage\": \"screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH]\",\n  \"service\": \"Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.\",\n  \"timeUnits\": \"Microseconds. Text-placement endpoints also accept exact reduced fractions; other command coordinates remain integers. Ranges are half-open in the selected anchor domain and expectedRevisionId.\",\n  \"mutations\": \"When the operation schema accepts requestId, supply a stable value and reuse it with identical arguments after an uncertain write. Supply expectedRevisionId only where its schema requires it.\",\n  \"operations\": [\n    {\n      \"name\": \"capture.stop\",\n      \"description\": \"Begin finalizing the named take or explicitly retry its failed recovery. A finalizing acknowledgment is not completion: inspect recording.get/status, including finalizationError, and await terminal state before importing. A settled take answers with its stored outcome.\",\n      \"inputSchema\": {\n        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n        \"type\": \"object\",\n        \"properties\": {\n          \"recordingId\": {\n            \"type\": \"string\",\n            \"minLength\": 1\n          }\n        },\n        \"required\": [\n          \"recordingId\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  ]\n}\n"
+}

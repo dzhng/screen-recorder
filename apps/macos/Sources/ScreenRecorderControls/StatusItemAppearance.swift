@@ -6,6 +6,8 @@ import Foundation
 public enum StatusItemAppearance {
     public static func symbolName(for state: ControlsState) -> String {
         if case .unavailable = state.service { return "exclamationmark.triangle" }
+        if state.take?.finalizationError != nil { return "exclamationmark.triangle" }
+        if state.take?.state == "finalizing" { return "circle.dotted" }
         switch state.device?.state {
         case .recording: return "record.circle.fill"
         case .paused: return "pause.circle"
@@ -16,6 +18,6 @@ public enum StatusItemAppearance {
 
     /// The text beside the symbol: a live take's clock, and nothing at all when none is running.
     public static func title(for state: ControlsState) -> String {
-        state.isLive ? ElapsedTime.format(state.device?.elapsedUs) : ""
+        state.isLive && state.device?.state != .idle ? ElapsedTime.format(state.device?.elapsedUs) : ""
     }
 }

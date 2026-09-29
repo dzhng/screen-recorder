@@ -1,0 +1,2161 @@
+{
+  "trace": [
+    {
+      "operation": "capture.stop",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "finalizing"
+    },
+    {
+      "operation": "capture.status",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "recording.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "interrupted"
+    }
+  ],
+  "boundary": "Full service with authoritative idle native-control fixture; actual media.recover worker and banked100k canonical media. No live capture.",
+  "ack": {
+    "recordingId": "91b3a82b-5ff5-4a54-9163-da463da2ef44",
+    "sourceId": "materializer-scale",
+    "creationSequence": 1,
+    "createdAt": "2026-09-29T09:26:45.308Z",
+    "state": "finalizing",
+    "lifecycleSequence": 1099511627777,
+    "interruptionReason": null,
+    "finalizationError": null,
+    "sourceDurationUs": null,
+    "currentRevisionId": null
+  },
+  "ackMs": 117.09387499999997,
+  "terminal": {
+    "recordingId": "91b3a82b-5ff5-4a54-9163-da463da2ef44",
+    "sourceId": "materializer-scale",
+    "creationSequence": 1,
+    "createdAt": "2026-09-29T09:26:45.308Z",
+    "state": "interrupted",
+    "lifecycleSequence": 1099511627778,
+    "interruptionReason": "CAPTURE_INTERRUPTED",
+    "finalizationError": null,
+    "sourceDurationUs": 2000000,
+    "currentRevisionId": "r0"
+  },
+  "elapsedMs": 254112.779959,
+  "passed": true
+}

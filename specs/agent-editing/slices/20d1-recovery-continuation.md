@@ -85,3 +85,23 @@ Retain requests, state/error receipts, input/worker hashes, actual decoded/sampl
 proof and independent review. Keep 20d open until this continuation and its existing
 admission/package/cleanup gates pass; keep physical ten-minute camera synchronization
 and webcam integration in 20/21 open independently.
+
+## Implementation checkpoint
+
+The existing service owns one in-flight recovery attempt and the recording owns its
+nullable bounded error. Public control acknowledges finalizing; native absence is
+checked before service sequencing. Status prefers the active attempt over older
+retained failures, and startup drains each selected attempt before proceeding to the
+next. Actual long recovery evidence is retained under
+[`20d1-continuation`](../assets/20d1-continuation/README.md). The coordinated native
+activation checkpoint owns prerecorded controller/media evidence.
+
+The Wire recovery receipt carries bounded lifecycle/track facts, while native models
+and existing source-evidence readers retain detailed support. Recovery budgets are
+operation-owned, with a fragmentation allowance for two roles plus existing byte
+work arithmetic; global/client timeouts are unchanged. Catalog format 16 follows
+indexed assets format 15 and preserves explicit incompatible-library refusal.
+
+Service cancellation/restart, combined review and fresh public skill verification
+are retained. Native activation/diagnostic producers remain a coordinated next
+commit; this leaf and parent20d are not marked complete by this service checkpoint.

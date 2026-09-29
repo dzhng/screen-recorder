@@ -23,7 +23,7 @@ public struct ControlsState: Equatable, Sendable {
     }
     /// What the capture device reports about itself, once a status answer has arrived.
     public var device: DeviceStatus?
-    /// The take the device is working on, as the library holds it.
+    /// The take native or service recovery is finalizing, as the library holds it.
     public var take: TakeStatus?
     /// Read from native capture in this process, so it is known before the service is.
     public var permissions: Permissions?
@@ -74,19 +74,33 @@ public struct ControlsState: Equatable, Sendable {
         public let elapsedUs: Int64?
     }
 
+    public struct FinalizationError: Codable, Equatable, Sendable {
+        public init(code: String, message: String, retryable: Bool) {
+            self.code = code
+            self.message = message
+            self.retryable = retryable
+        }
+        public let code: String
+        public let message: String
+        public let retryable: Bool
+    }
+
     public struct TakeStatus: Equatable, Sendable {
         public init(
-            recordingId: String, state: String, interruptionReason: String?, sourceDurationUs: Int64?
+            recordingId: String, state: String, interruptionReason: String?, sourceDurationUs: Int64?,
+            finalizationError: FinalizationError? = nil
         ) {
             self.recordingId = recordingId
             self.state = state
             self.interruptionReason = interruptionReason
             self.sourceDurationUs = sourceDurationUs
+            self.finalizationError = finalizationError
         }
         public let recordingId: String
         public let state: String
         public let interruptionReason: String?
         public let sourceDurationUs: Int64?
+        public let finalizationError: FinalizationError?
     }
 
     public struct Display: Equatable, Sendable {
@@ -184,19 +198,21 @@ public struct ControlsState: Equatable, Sendable {
     public struct RecentTake: Equatable, Sendable {
         public init(
             recordingId: String, createdAt: String, state: String, sourceDurationUs: Int64?,
-            interruptionReason: String?
+            interruptionReason: String?, finalizationError: FinalizationError? = nil
         ) {
             self.recordingId = recordingId
             self.createdAt = createdAt
             self.state = state
             self.sourceDurationUs = sourceDurationUs
             self.interruptionReason = interruptionReason
+            self.finalizationError = finalizationError
         }
         public let recordingId: String
         public let createdAt: String
         public let state: String
         public let sourceDurationUs: Int64?
         public let interruptionReason: String?
+        public let finalizationError: FinalizationError?
     }
 
     public struct DeleteRequest: Equatable, Sendable {
@@ -278,8 +294,9 @@ public struct ControlsState: Equatable, Sendable {
         }
     }
 
-    /// Whether native still owns a take, including durable finalization after input stops.
+    /// Native acquisition and service recovery both retain a take until finalization settles.
     public var isLive: Bool {
+        if take?.state == "finalizing" { return true }
         guard let device else { return false }
         return device.state == .recording || device.state == .paused || device.state == .selecting || device.state == .finalizing
     }

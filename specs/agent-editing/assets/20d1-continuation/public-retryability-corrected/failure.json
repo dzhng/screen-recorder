@@ -1,0 +1,16 @@
+{
+  "recordingId": "4cbd1e65-622b-42a4-a9d4-894b4ce86a68",
+  "sourceId": "publication-conflict",
+  "creationSequence": 1,
+  "createdAt": "2026-09-29T09:52:02.916Z",
+  "state": "finalizing",
+  "lifecycleSequence": 1099511627778,
+  "interruptionReason": null,
+  "finalizationError": {
+    "code": "INVALID_OUTPUT",
+    "message": "Cannot create private staging beside /private/tmp/capture-recovery-skill-CRKqHa/home/recordings/4cbd1e65-622b-42a4-a9d4-894b4ce86a68/source/.capture-publication-narration/intent.json: Permission denied.",
+    "retryable": true
+  },
+  "sourceDurationUs": null,
+  "currentRevisionId": null
+}

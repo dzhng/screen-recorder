@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "node",
+    "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/apps/cli/dist/main.js",
+    "capture.status",
+    "--socket",
+    "/tmp/capture-recovery-skill-brVJMi/home/run/service.sock",
+    "--params",
+    "-"
+  ],
+  "params": {}
+}

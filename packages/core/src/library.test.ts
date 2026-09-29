@@ -750,3 +750,51 @@ test("deletion replay pages use stable recording IDs and survive restart", () =>
     expect.objectContaining({ code: "INVALID_PARAMS" }),
   );
 });
+
+test("finalization failure survives reopen and reads until an explicit attempt or terminal result", () => {
+  const { store, path, providers } = fixture();
+  const take = store.allocate().recording;
+  const failure = { code: "RECOVERY_IO", message: "Retained media needs a retry", retryable: true };
+  store.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 1,
+    state: "finalizing",
+    finalizationError: failure,
+  });
+  store.close();
+  const reopened = new RevisionStore(path, providers);
+  stores.push(reopened);
+  expect(reopened.get(take.recordingId).finalizationError).toEqual(failure);
+  expect(reopened.latest()!.finalizationError).toEqual(failure);
+  expect(reopened.list().recordings[0]!.finalizationError).toEqual(failure);
+  reopened.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 2,
+    state: "finalizing",
+  });
+  expect(reopened.get(take.recordingId).finalizationError).toEqual(failure);
+  reopened.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 3,
+    state: "finalizing",
+    finalizationError: null,
+  });
+  expect(reopened.get(take.recordingId).finalizationError).toBeNull();
+  reopened.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 4,
+    state: "finalizing",
+    finalizationError: failure,
+  });
+  reopened.ingestLifecycle(take.recordingId, {
+    sourceId: take.sourceId,
+    sequence: 5,
+    state: "interrupted",
+    reason: "NO_SOURCE_MEDIA",
+    sourceDurationUs: null,
+  });
+  expect(reopened.get(take.recordingId)).toMatchObject({
+    finalizationError: null,
+    interruptionReason: "NO_SOURCE_MEDIA",
+  });
+});

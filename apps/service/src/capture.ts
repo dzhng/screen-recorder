@@ -1,10 +1,11 @@
-import { mkdir, readdir, rm } from "node:fs/promises";
+import { lstat, mkdir, readdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import {
   isSettled,
   type LifecycleEvent,
   type Recording,
   type RevisionStore,
+  type FinalizationError,
 } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
 import {
@@ -18,7 +19,8 @@ import {
   type OperationResult,
 } from "@screenrec/protocol";
 import type { ControlChannel } from "./control.js";
-import type { MediaWorker } from "./worker.js";
+import { MAX_MEDIA_TIMEOUT_MS, type MediaWorker } from "./worker.js";
+import { publicationDeadlineMs } from "./publication.js";
 
 /**
  * The only outcomes this service states on its own behalf: a take it discarded, and a take whose
@@ -26,6 +28,7 @@ import type { MediaWorker } from "./worker.js";
  */
 type AuthoredOutcome =
   | { state: "canceled" }
+  | { state: "finalizing"; finalizationError: FinalizationError | null }
   | { state: "interrupted"; reason: string; sourceDurationUs: number | null };
 
 export function recordingDirectory(home: string, recordingId: string): string {
@@ -45,6 +48,9 @@ export class CaptureService {
   private queue: Promise<unknown> = Promise.resolve();
   private stopping = false;
   private readonly lifetime = new AbortController();
+  private recovery:
+    | { recordingId: string; controller: AbortController; work: Promise<void> }
+    | undefined;
 
   constructor(
     private readonly store: RevisionStore,
@@ -74,6 +80,7 @@ export class CaptureService {
     this.stopping = true;
     this.lifetime.abort();
     await this.queue;
+    await this.recovery?.work;
   }
 
   // Reading what the device can see, and what it is doing, changes nothing and so does not
@@ -84,13 +91,19 @@ export class CaptureService {
 
   async status(): Promise<unknown> {
     const device = captureDeviceSchema.parse(await this.ask("capture.status", {}));
+    const recovering =
+      this.recovery && !this.store.isDeleting(this.recovery.recordingId)
+        ? this.store.get(this.recovery.recordingId)
+        : null;
     return {
       device,
       // A take awaiting deletion is no longer discoverable, though native may still be ending it.
       recording:
-        device.recordingId === null || this.store.isDeleting(device.recordingId)
-          ? null
-          : this.store.get(device.recordingId),
+        device.recordingId === null
+          ? (recovering ?? this.store.pendingFinalization())
+          : this.store.isDeleting(device.recordingId)
+            ? null
+            : this.store.get(device.recordingId),
     };
   }
 
@@ -105,7 +118,13 @@ export class CaptureService {
         requestId: selection.requestId,
         arguments: allocationArguments("capture.start", selection),
       });
-      return replay ? this.resolve(recording) : this.begin(recording, selection);
+      if (replay) return this.resolve(recording);
+      try {
+        this.requireRecoveryQuiet();
+      } catch (error) {
+        throw this.refused(recording, error);
+      }
+      return this.begin(recording, selection);
     });
   }
 
@@ -121,7 +140,15 @@ export class CaptureService {
       });
       if (replay) return this.resolve(recording);
       try {
-        await this.discard(selection.recordingId);
+        this.requireRecoveryQuiet();
+        const discarded = await this.discard(selection.recordingId);
+        if (discarded.state !== "canceled")
+          throw new CatalogError(
+            "CAPTURE_RECOVERY_PENDING",
+            "The previous take is still finalizing; inspect it before restarting",
+            { recordingId: discarded.recordingId },
+            true,
+          );
       } catch (error) {
         // The take this restart named could not be discarded, so its replacement never reached
         // the device: it is settled with that refusal instead of left as an unresolvable receipt.
@@ -140,7 +167,7 @@ export class CaptureService {
   private async resolve(recording: Recording): Promise<Recording> {
     if (recording.state !== "preparing") return recording;
     const settled = await this.abandon(recording);
-    if (!isSettled(settled.state))
+    if (!isSettled(settled.state) && settled.state !== "finalizing")
       throw new CatalogError(
         "UNRESOLVED_START",
         "This take's start is still unproved; retry the same request",
@@ -162,7 +189,8 @@ export class CaptureService {
     return this.serialize(async () => {
       const recording = this.store.get(recordingId);
       if (isSettled(recording.state)) return recording;
-      if (recording.state === "preparing") return this.resolve(recording);
+      if (this.recovery?.recordingId === recordingId) return recording;
+      if (recording.state === "preparing") return this.abandon(recording);
       const answer = await this.native("capture.stop", { recordingId });
       if (answer.ok) return this.apply(recording, answer.data);
       if (answer.error.code !== "INVALID_STATE") throw fromNative(answer);
@@ -182,6 +210,10 @@ export class CaptureService {
       if (!recording)
         throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
       if (isSettled(recording.state)) return;
+      if (this.recovery?.recordingId === recordingId) {
+        this.recovery.controller.abort();
+        await this.recovery.work;
+      }
       await this.endNativeCapture(recording);
       // A cancel response carries its pre-discard finalizing event. Check the device after that
       // ordered call, including when native refused because it no longer owns this take.
@@ -209,27 +241,22 @@ export class CaptureService {
     return this.observed(this.store.ingestLifecycle(report.recordingId, lifecycleEvent(report)));
   }
 
-  /**
-   * Settles every take the catalog still describes as live against its own durable media. A take
-   * is only ever settled from a validated recovery, so a service that cannot reach its native
-   * worker leaves the take alone for the next startup instead of publishing a state it has not
-   * proved. It takes the capture order ahead of every mutation, so a take being recovered cannot
-   * be restarted on the device underneath its own recovery.
-   */
-  reconcileStranded(): Promise<void> {
-    return this.serialize(async () => {
-      for (const recording of this.store.unsettled()) {
-        if (this.store.isDeleting(recording.recordingId)) continue;
-        try {
-          const settled = await this.reconcile(recording);
-          this.log(
-            `reconciled ${settled.recordingId} state=${settled.state} reason=${settled.interruptionReason} durationUs=${settled.sourceDurationUs}`,
-          );
-        } catch (error) {
-          this.log(`reconcile failed for ${recording.recordingId}: ${(error as Error).message}`);
-        }
+  /** Reconcile takes in order while releasing control between owned recovery attempts. */
+  async reconcileStranded(): Promise<void> {
+    if (this.stopping) throw new CatalogError("SERVICE_STOPPED", "Capture service is closing");
+    for (const recording of this.store.unsettled()) {
+      if (this.stopping) break;
+      if (this.store.isDeleting(recording.recordingId)) continue;
+      try {
+        const started = await this.serialize(async () => {
+          await this.reconcile(recording);
+          return { work: this.recovery?.work };
+        });
+        await started.work;
+      } catch (error) {
+        this.log(`reconcile failed for ${recording.recordingId}: ${(error as Error).message}`);
       }
-    });
+    }
   }
 
   private async begin(recording: Recording, selection: CaptureSelection): Promise<Recording> {
@@ -343,29 +370,25 @@ export class CaptureService {
         "A finished take is removed through the library, not canceled",
         { state: recording.state },
       );
+    if (this.recovery?.recordingId === recordingId) {
+      const attempt = this.recovery;
+      attempt.controller.abort();
+      await attempt.work;
+      const current = this.store.get(recordingId);
+      if (isSettled(current.state))
+        throw new CatalogError(
+          "INVALID_STATE",
+          "A finished take is removed through the library, not canceled",
+          { state: current.state },
+        );
+      return current;
+    }
     let current = recording;
     if (current.state !== "canceled") {
       const report = await this.endNativeCapture(current);
       if (report) current = this.report(report);
       else {
-        const recovered = await this.readRecoveredSource(current);
-        if (recovered.captured || recovered.durationUs > 0)
-          current = this.settleRecovered(current, recovered);
-        else {
-          const entries = await readdir(sourceDirectory(this.home, current.recordingId)).catch(
-            (error: NodeJS.ErrnoException) => {
-              if (error.code === "ENOENT") return [];
-              throw error;
-            },
-          );
-          if (entries.length > 0)
-            throw new CatalogError(
-              "CAPTURE_RECOVERY_UNRESOLVED",
-              "Source bytes remain but recovery could not prove their outcome",
-              { recordingId },
-              true,
-            );
-        }
+        return this.reconcile(current, true);
       }
       // A cancel that joined finalization can receive a finished take. The catalog's terminal
       // rule refuses that cancellation, preserving media for an explicit library deletion.
@@ -384,36 +407,170 @@ export class CaptureService {
     throw fromNative(answer);
   }
 
-  private async reconcile(recording: Recording): Promise<Recording> {
-    return this.settleRecovered(recording, await this.readRecoveredSource(recording));
+  private requireRecoveryQuiet(): void {
+    if (this.recovery)
+      throw new CatalogError(
+        "CAPTURE_RECOVERY_PENDING",
+        "A take is still finalizing; inspect its status before starting another",
+        { recordingId: this.recovery.recordingId },
+        true,
+      );
+  }
+
+  private async reconcile(recording: Recording, discardIfEmpty = false): Promise<Recording> {
+    if (this.recovery?.recordingId === recording.recordingId)
+      return this.store.get(recording.recordingId);
+    this.requireRecoveryQuiet();
+    // The app can outlive its service. Never fence its native sequence merely because this service restarted.
+    const device = captureDeviceSchema.parse(await this.ask("capture.status", {}));
+    if (device.state !== "idle" || device.recordingId !== null || device.sourceId !== null)
+      throw new CatalogError(
+        "CAPTURE_NOT_QUIET",
+        "Native capture has not proved recovery can begin",
+        { recordingId: recording.recordingId, deviceRecordingId: device.recordingId },
+        true,
+      );
+    const current = this.store.get(recording.recordingId);
+    if (isSettled(current.state)) return current;
+    const finalizing = this.author(current, { state: "finalizing", finalizationError: null });
+    const controller = new AbortController();
+    const attempt = { recordingId: current.recordingId, controller, work: Promise.resolve() };
+    this.recovery = attempt;
+    attempt.work = Promise.resolve()
+      .then(async () => {
+        const recovered = await this.readRecoveredSource(
+          current,
+          AbortSignal.any([controller.signal, this.lifetime.signal]),
+        );
+        if (this.store.isDeleting(current.recordingId)) return;
+        const selected = this.store.get(current.recordingId);
+        if (isSettled(selected.state)) return;
+        if (discardIfEmpty && !recovered.captured && recovered.durationUs === 0) {
+          const entries = await readdir(sourceDirectory(this.home, current.recordingId)).catch(
+            (error: NodeJS.ErrnoException) => {
+              if (error.code === "ENOENT") return [];
+              throw error;
+            },
+          );
+          if (entries.length > 0)
+            throw new CatalogError(
+              "CAPTURE_RECOVERY_UNRESOLVED",
+              "Source bytes remain but recovery could not prove their outcome",
+              { recordingId: current.recordingId },
+              true,
+            );
+          this.author(selected, { state: "canceled" });
+          await rm(recordingDirectory(this.home, current.recordingId), {
+            recursive: true,
+            force: true,
+          });
+        } else {
+          this.settleRecovered(selected, recovered);
+        }
+      })
+      .catch((error: unknown) => {
+        if (this.store.isDeleting(current.recordingId)) return;
+        const selected = this.store.get(current.recordingId);
+        if (isSettled(selected.state)) return;
+        const finalizationError = {
+          code:
+            controller.signal.aborted || this.lifetime.signal.aborted
+              ? "RECOVERY_CANCELED"
+              : error instanceof CatalogError
+                ? error.code
+                : "RECOVERY_FAILED",
+          message: (error instanceof Error ? error.message : String(error)).slice(0, 4096),
+          retryable:
+            controller.signal.aborted ||
+            this.lifetime.signal.aborted ||
+            !(error instanceof CatalogError) ||
+            error.retryable,
+        };
+        if (finalizationError.code.length > 128) finalizationError.code = "RECOVERY_FAILED";
+        this.author(selected, { state: "finalizing", finalizationError });
+        this.log(
+          `recovery failed for ${selected.recordingId}: ${finalizationError.code}: ${finalizationError.message}`,
+        );
+      })
+      .finally(() => {
+        if (this.recovery === attempt) this.recovery = undefined;
+      });
+    return finalizing;
   }
 
   private async readRecoveredSource(
     recording: Recording,
+    signal: AbortSignal = this.lifetime.signal,
   ): Promise<ReturnType<typeof readRecovery>> {
+    const timeoutMs = await this.recoveryDeadline(recording);
     const recovered = await this.worker(
       "media.recover",
       {
         directory: sourceDirectory(this.home, recording.recordingId),
       },
-      { signal: this.lifetime.signal },
+      { signal, timeoutMs },
     );
     if (!recovered.ok) throw fromNative(recovered);
-    return readRecovery(recovered.data);
+    const result = readRecovery(recovered.data);
+    if (result.cleanupFailure)
+      this.log(
+        `cleanup pending for ${recording.recordingId}: ${result.cleanupFailure.code}: ${result.cleanupFailure.message}`,
+      );
+    return result;
+  }
+
+  private async recoveryDeadline(recording: Recording): Promise<number> {
+    const directory = sourceDirectory(this.home, recording.recordingId);
+    const names = [
+      "capture.journal.jsonl",
+      "video.mov",
+      ...["narration", "system"].flatMap((role) => [
+        `${role}.packed.mov`,
+        `${role}.mov`,
+        `${role}.publication.json`,
+        `.capture-publication-${role}/intent.json`,
+        `.capture-publication-${role}/candidate.mov`,
+        `.capture-publication-${role}/prepared.json`,
+      ]),
+    ];
+    const members = await Promise.all(
+      names.map(async (name) => {
+        const info = await lstat(join(directory, name)).catch((error: NodeJS.ErrnoException) => {
+          if (error.code === "ENOENT") return null;
+          throw error;
+        });
+        return { name, bytes: info?.isFile() ? info.size : 0, exists: info !== null };
+      }),
+    );
+    const canonicalWork = members.some(
+      (member) =>
+        member.exists &&
+        (member.name.includes(".packed.") ||
+          member.name.includes(".publication.") ||
+          member.name.startsWith(".capture-publication-")),
+    );
+    // Two roles can each materialize and verify repeatedly for publication and cleanup.
+    // Fragmentation dominates measured 100k-run work; byte passes also scale with recording size.
+    return Math.min(
+      MAX_MEDIA_TIMEOUT_MS,
+      (canonicalWork ? 1_200_000 : 0) +
+        publicationDeadlineMs(members.reduce((bytes, member) => bytes + member.bytes, 0)),
+    );
   }
 
   private settleRecovered(
     recording: Recording,
-    { durationUs, captured }: ReturnType<typeof readRecovery>,
+    { durationUs, captured, failureCode, cleanupFailure }: ReturnType<typeof readRecovery>,
   ): Recording {
     return this.author(recording, {
       state: "interrupted",
       reason:
-        durationUs > 0
-          ? "CAPTURE_INTERRUPTED"
+        failureCode ??
+        (durationUs > 0
+          ? (cleanupFailure?.code ?? "CAPTURE_INTERRUPTED")
           : captured
             ? "NO_RECOVERABLE_VIDEO"
-            : "NO_SOURCE_MEDIA",
+            : "NO_SOURCE_MEDIA"),
       sourceDurationUs: durationUs > 0 ? durationUs : null,
     });
   }
@@ -519,16 +676,50 @@ function lifecycleEvent(report: CaptureReport): LifecycleEvent {
       reason: report.reason ?? "CAPTURE_INTERRUPTED",
       sourceDurationUs: report.sourceDurationUs ?? null,
     };
+  if (report.state === "finalizing")
+    return {
+      ...identity,
+      state: "finalizing",
+      ...(report.finalizationError === undefined
+        ? {}
+        : { finalizationError: report.finalizationError }),
+    };
   return { ...identity, state: report.state };
 }
 
-/** Reads only what settling a take needs: the validated video extent and whether a take ran. */
-function readRecovery(data: unknown): { durationUs: number; captured: boolean } {
-  const value = data as { durationUs?: unknown; journal?: { header?: unknown } | null };
+/** Recovery owns media proof; the service only preserves its outcome and diagnostic precedence. */
+function readRecovery(data: unknown): {
+  durationUs: number;
+  captured: boolean;
+  failureCode: string | undefined;
+  cleanupFailure: { code: string; message: string } | undefined;
+} {
+  const value = data as {
+    durationUs?: unknown;
+    journal?: { header?: unknown; completion?: { failureCode?: unknown } } | null;
+    tracks?: { failure?: unknown }[];
+    cleanupFailure?: unknown;
+  };
+  const invalid = () =>
+    new CatalogError("MEDIA_WORKER_FAILED", "Recovery returned an invalid outcome");
   if (!value || !Number.isSafeInteger(value.durationUs) || (value.durationUs as number) < 0)
-    throw new CatalogError("MEDIA_WORKER_FAILED", "Recovery returned no usable source duration");
+    throw invalid();
+  const failure = (input: unknown): { code: string; message: string } | undefined => {
+    if (input == null) return undefined;
+    const item = input as { code?: unknown; message?: unknown };
+    if (typeof item.code !== "string" || typeof item.message !== "string") throw invalid();
+    return { code: item.code, message: item.message };
+  };
+  const completion = value.journal?.completion?.failureCode;
+  if (completion != null && typeof completion !== "string") throw invalid();
+  if (value.tracks !== undefined && !Array.isArray(value.tracks)) throw invalid();
+  const roleFailure = value.tracks
+    ?.map((track) => failure(track.failure))
+    .find((item) => item && item.code !== "NOT_REQUESTED");
   return {
     durationUs: value.durationUs as number,
     captured: Boolean(value.journal?.header),
+    failureCode: completion ?? roleFailure?.code,
+    cleanupFailure: failure(value.cleanupFailure),
   };
 }

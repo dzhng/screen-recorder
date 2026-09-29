@@ -1,0 +1,56 @@
+{
+  "donor": {
+    "capture.journal.jsonl": {
+      "bytes": 23450495,
+      "sha256": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5"
+    },
+    "video.mov": {
+      "bytes": 4419,
+      "sha256": "b56a096acd4faf9ab43691e29960eaa4631b3be3ea85fab85861447cbcfaedf7"
+    },
+    "narration.mov": {
+      "bytes": 3168705,
+      "sha256": "e83523233b5b60dbfc70334f80a4dec3f38aab52ea8451afbdb459123c06ca04"
+    },
+    "narration.publication.json": {
+      "bytes": 663,
+      "sha256": "612fe08e480bd0baba50d72f6593e81d413880b8a1799f4973fb7cd50aa60cae"
+    }
+  },
+  "completed": {
+    "capture.journal.jsonl": {
+      "bytes": 23450495,
+      "sha256": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5"
+    },
+    "video.mov": {
+      "bytes": 4419,
+      "sha256": "b56a096acd4faf9ab43691e29960eaa4631b3be3ea85fab85861447cbcfaedf7"
+    },
+    "narration.mov": {
+      "bytes": 3168705,
+      "sha256": "e83523233b5b60dbfc70334f80a4dec3f38aab52ea8451afbdb459123c06ca04"
+    },
+    "narration.publication.json": {
+      "bytes": 663,
+      "sha256": "612fe08e480bd0baba50d72f6593e81d413880b8a1799f4973fb7cd50aa60cae"
+    }
+  },
+  "canceledThenRestarted": {
+    "capture.journal.jsonl": {
+      "bytes": 23450495,
+      "sha256": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5"
+    },
+    "video.mov": {
+      "bytes": 4419,
+      "sha256": "b56a096acd4faf9ab43691e29960eaa4631b3be3ea85fab85861447cbcfaedf7"
+    },
+    "narration.mov": {
+      "bytes": 3168705,
+      "sha256": "e83523233b5b60dbfc70334f80a4dec3f38aab52ea8451afbdb459123c06ca04"
+    },
+    "narration.publication.json": {
+      "bytes": 663,
+      "sha256": "612fe08e480bd0baba50d72f6593e81d413880b8a1799f4973fb7cd50aa60cae"
+    }
+  }
+}

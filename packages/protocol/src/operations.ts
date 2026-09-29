@@ -949,7 +949,9 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("capture.status"), params: z.object({}).strict() })
     .strict()
-    .describe("Read the capture device state and the take it is working on."),
+    .describe(
+      "Read native device state and the active or recovering take. A finalizing take can retain finalizationError across service restart; stop explicitly retries failed recovery.",
+    ),
   z
     .object({ operation: z.literal("capture.pause"), params: recording })
     .strict()
@@ -962,19 +964,23 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("capture.stop"), params: recording })
     .strict()
     .describe(
-      "Begin finalizing the named take. A finalizing acknowledgment is not completion: inspect the reported terminal state before importing. A settled take answers with its stored outcome.",
+      "Begin finalizing the named take or explicitly retry its failed recovery. A finalizing acknowledgment is not completion: inspect recording.get/status, including finalizationError, and await terminal state before importing. A settled take answers with its stored outcome.",
     ),
   z
     .object({ operation: z.literal("capture.cancel"), params: recording })
     .strict()
-    .describe("Discard the named take, remove its media, and drop it from discovery."),
+    .describe(
+      "Cancel the named live take. During recovery, abort and drain finalization while retaining ambiguous media and its finalizationError; use stop to retry or explicit library deletion to remove retained bytes. A take that already finished cannot be canceled.",
+    ),
   z
     .object({
       operation: z.literal("capture.restart"),
       params: captureSelectionSchema.extend({ recordingId: id, requestId: id }).strict(),
     })
     .strict()
-    .describe("Discard the named take and start a distinct new one."),
+    .describe(
+      "Discard the named take and start a distinct new one. Pending recovery returns a retryable refusal and does not start a replacement; inspect the previous take before a new restart request.",
+    ),
   z
     .object({ operation: z.literal("recording.latest"), params: z.object({}).strict() })
     .strict()
@@ -996,7 +1002,9 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("recording.get"), params: recording })
     .strict()
-    .describe("Read one recording by its stable identity."),
+    .describe(
+      "Read one recording by its stable identity, including unfinished finalizationError and terminal interruptionReason. PUBLICATION_CONFLICT denotes conflicting publication media or proof identities; the code alone does not identify the particular file or establish which streams remain readable.",
+    ),
   z
     .object({
       operation: z.literal("revision.get"),
@@ -1061,14 +1069,12 @@ const waits: Partial<Record<OperationName, number>> = {
   "capture.status": nativeCall,
   "capture.pause": nativeCall,
   "capture.resume": nativeCall,
-  // An absent native take requires recovery before cancellation can discard its source.
-  "capture.cancel": nativeCall + workerRun,
-  // A stop native cannot perform is settled from the take's media by a recovery run.
-  "capture.stop": nativeCall + workerRun,
-  // An unanswered start is stopped and then recovered the same way.
-  "capture.start": 2 * nativeCall + workerRun,
-  // Discard and an unanswered replacement start can each require recovery.
-  "capture.restart": 3 * nativeCall + 2 * workerRun,
+  // Recovery is acknowledged; only native termination and authoritative quiet inspection wait here.
+  "capture.cancel": 2 * nativeCall,
+  "capture.stop": 2 * nativeCall,
+  // An unanswered start can require stop and quiet inspection before recovery acknowledgment.
+  "capture.start": 3 * nativeCall,
+  "capture.restart": 4 * nativeCall,
   "export.create": workerRun,
   "export.abandon": drain,
   "package.open": drain,

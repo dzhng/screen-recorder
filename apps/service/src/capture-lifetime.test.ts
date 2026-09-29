@@ -6,6 +6,18 @@ import { RevisionStore } from "@screenrec/core/library";
 import type { OperationResult } from "@screenrec/protocol";
 import { CaptureService } from "./capture.js";
 
+const idleNative: OperationResult = {
+  ok: true,
+  data: {
+    state: "idle",
+    recordingId: null,
+    sourceId: null,
+    elapsedUs: null,
+    selection: null,
+    permissions: { screen: true, microphone: "authorized" },
+  },
+};
+
 test("closing capture aborts recovery and waits for its worker before releasing the catalog", async () => {
   const home = await mkdtemp("/tmp/screenrec-capture-close-");
   const store = new RevisionStore(join(home, "library.sqlite"), {
@@ -22,8 +34,9 @@ test("closing capture aborts recovery and waits for its worker before releasing 
   const service = new CaptureService(
     store,
     home,
-    async () => {
-      throw new Error("Recovery must not call the capture device");
+    async (operation) => {
+      expect(operation).toBe("capture.status");
+      return idleNative;
     },
     async (_operation, _params, options) => {
       signal = options?.signal;
@@ -49,7 +62,10 @@ test("closing capture aborts recovery and waits for its worker before releasing 
     });
     await closing;
     await recovery;
-    expect(store.get(recording.recordingId).state).toBe("preparing");
+    expect(store.get(recording.recordingId)).toMatchObject({
+      state: "finalizing",
+      finalizationError: { code: "RECOVERY_CANCELED" },
+    });
     await expect(service.reconcileStranded()).rejects.toMatchObject({ code: "SERVICE_STOPPED" });
   } finally {
     store.close();
@@ -266,7 +282,7 @@ test("deletion waits for running recovery and does not admit recovery for anothe
     store.markDeleting(other.recordingId);
     const quiet = service.quiesce(recording.recordingId);
     await Promise.resolve();
-    expect(nativeCalls).toBe(0);
+    expect(nativeCalls).toBe(1); // Authoritative idle inspection preceded recovery.
     finish({ ok: true, data: { durationUs: 100, journal: { header: {} } } });
     await recovering;
     await quiet;
@@ -512,10 +528,18 @@ test.each(["media", "empty", "failed", "ambiguous"] as const)(
     const service = new CaptureService(
       store,
       home,
-      async () => ({
-        ok: false,
-        error: { code: "INVALID_STATE", message: "No take held", retryable: false, details: {} },
-      }),
+      async (operation) =>
+        operation === "capture.status"
+          ? idleNative
+          : {
+              ok: false,
+              error: {
+                code: "INVALID_STATE",
+                message: "No take held",
+                retryable: false,
+                details: {},
+              },
+            },
       async () => {
         if (mode === "failed")
           return {
@@ -537,26 +561,28 @@ test.each(["media", "empty", "failed", "ambiguous"] as const)(
       },
     );
     try {
+      expect(await service.cancel(recording.recordingId)).toMatchObject({ state: "finalizing" });
       if (finished) {
-        const result = await service.cancel(recording.recordingId).catch((error: unknown) => error);
+        if (mode === "media") {
+          await expect
+            .poll(() => store.get(recording.recordingId))
+            .toMatchObject({ state: "interrupted", sourceDurationUs: 1234 });
+        } else {
+          await expect
+            .poll(() => store.get(recording.recordingId))
+            .toMatchObject({
+              state: "finalizing",
+              sourceDurationUs: null,
+              finalizationError: {
+                code: mode === "failed" ? "MEDIA_WORKER_FAILED" : "CAPTURE_RECOVERY_UNRESOLVED",
+              },
+            });
+        }
         expect(await readFile(sentinel, "utf8")).toBe(
           "canonical media whose terminal report was lost",
         );
-        expect(result).toMatchObject({
-          code:
-            mode === "failed"
-              ? "MEDIA_WORKER_FAILED"
-              : mode === "ambiguous"
-                ? "CAPTURE_RECOVERY_UNRESOLVED"
-                : "INVALID_STATE",
-        });
-        expect(store.get(recording.recordingId)).toMatchObject(
-          mode !== "media"
-            ? { state: "finalizing", sourceDurationUs: null }
-            : { state: "interrupted", sourceDurationUs: 1234 },
-        );
       } else {
-        expect(await service.cancel(recording.recordingId)).toMatchObject({ state: "canceled" });
+        await expect.poll(() => store.get(recording.recordingId).state).toBe("canceled");
       }
     } finally {
       await service.close();
