@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "base": "0f411fb9",
+  "build": {
+    "configuration": "release",
+    "command": "swift build -c release --package-path helpers/mac --product screenrec-native",
+    "workerSHA256": "45203b2845a2560562953555eccee1c3ed3bc45c44b2c7ec28ede584e38b8ca2",
+    "compiler": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0"
+  },
+  "publicCommand": "SCREENREC_NATIVE=<release worker> node packages/test-harness/editing/scale.mjs --case long-project --out <new output>",
+  "budgets": {
+    "inspectionP95Ms": 250,
+    "warmPreviewMs": 15000,
+    "workerRSSBytes": 4294967296
+  },
+  "project": {
+    "seconds": 7200,
+    "audioOccurrences": 10000,
+    "videoOccurrences": 20,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "renders": [
+    {
+      "name": "cold",
+      "range": {
+        "startUs": 7180000000,
+        "endUs": 7190000000
+      },
+      "readyMs": 2283.1426659999997,
+      "deliveryMs": 297.0278330000001,
+      "jobId": "8f9f583b-3102-4657-b979-2086401c9576",
+      "sha256": "eabc69a887d1a9879a3abe97ed06fcab2d1e1a74faa9a4e7fb1b8dcf8ff07f00",
+      "verifiedVideoFrames": 300,
+      "maximumMaskDifference": 19
+    },
+    {
+      "name": "warm",
+      "range": {
+        "startUs": 7190000000,
+        "endUs": 7200000000
+      },
+      "readyMs": 2325.848541000001,
+      "deliveryMs": 286.2956660000018,
+      "jobId": "2df92b44-4703-4e7c-8a20-7b9536ab75d7",
+      "sha256": "f583758082f6514a6f7c92af984b89b29e4808bc3455455054d265189ac348ac",
+      "verifiedVideoFrames": 300,
+      "maximumMaskDifference": 19
+    },
+    {
+      "name": "cache-hit",
+      "range": {
+        "startUs": 7190000000,
+        "endUs": 7200000000
+      },
+      "readyMs": 170.23949999999968,
+      "deliveryMs": 308.3919999999998,
+      "jobId": "2df92b44-4703-4e7c-8a20-7b9536ab75d7",
+      "sha256": "f583758082f6514a6f7c92af984b89b29e4808bc3455455054d265189ac348ac",
+      "verifiedVideoFrames": 0,
+      "maximumMaskDifference": null
+    }
+  ],
+  "nativeReceipts": [
+    {
+      "range": {
+        "startUs": 7180000000,
+        "endUs": 7190000000
+      },
+      "frameCount": 300,
+      "frames": 480000,
+      "peakResidentBytes": 51101696
+    },
+    {
+      "range": {
+        "startUs": 7190000000,
+        "endUs": 7200000000
+      },
+      "frameCount": 300,
+      "frames": 480000,
+      "peakResidentBytes": 94453760
+    }
+  ],
+  "preserved24k": {
+    "passed": true,
+    "inspectionP95Ms": [
+      13.703167000000008,
+      158.22149999999965
+    ]
+  },
+  "review": "No actionable regression; syntax/whitespace passed, reviewer did not rerun native journey.",
+  "limitations": [
+    "1080p output from small corpus sources, not1080p decoding.",
+    "First movie in journey rather than cold boot/cache eviction.",
+    "Native worker RSS high-water mark, not GPU memory or duration-doubling measurement.",
+    "Separate decoded-byte/history/storage/physical/cutover gates remain open."
+  ],
+  "fixtureCorrection": "Reference glyphs must be fitted at1080p before downsampling; direct tiny-reference rounding confusedB3/B8. Existing tolerance unchanged."
+}

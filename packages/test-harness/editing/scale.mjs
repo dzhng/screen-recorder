@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { previewScale } from "./preview-scale.mjs";
 import { mkdtemp, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
@@ -17,7 +18,7 @@ const report = {
   cases: [],
   home,
   observations: {},
-  limits: { inspectionP95Ms: 250, workerRSSBytes: 4 * 1024 ** 3 },
+  limits: { inspectionP95Ms: 250, warmPreviewMs: 15000, workerRSSBytes: 4 * 1024 ** 3 },
 };
 const service = new JourneyService(home, report, join(out, "native"));
 const call = (operation, params, extra = {}) =>
@@ -250,6 +251,13 @@ try {
       assert.equal((await call("asset.get", { assetId: asset.id })).id, asset.id);
     }
   }
+  report.preview = await previewScale(
+    service,
+    out,
+    report.limits,
+    report.cases.at(-1).selection,
+    report.cases.at(-1).seconds * 1e6,
+  );
   report.observations.sampledServicePeakRSS = sampledRSS;
   const mixes = [];
   for (const name of await readdir(join(out, "native")))
@@ -271,11 +279,12 @@ try {
   report.observations.mixes = mixes;
   const renders = await readdir(join(home, "library/render"), { recursive: true }).catch(() => []);
   assert.equal(renders.length, 0, "Canceled and completed work must reclaim render staging");
-  report.passed = report.cases.every((value) => value.inspection.withinBudget);
+  report.passed =
+    report.cases.every((value) => value.inspection.withinBudget) && report.preview.withinBudget;
   await save("report.json", report);
   assert.ok(
     report.passed,
-    "Observed 250-row inspection budget failed; retain report and profile owner",
+    "Observed inspection or warm-preview budget failed; retain report and profile owner",
   );
 } catch (error) {
   report.error = { message: error.message, stack: error.stack };
