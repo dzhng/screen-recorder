@@ -1,6 +1,6 @@
 # 20d — Canonical capture publication and recovery rollout
 
-Status: partial prerequisite; publication/admission rollout remains open. Dependencies: [20c](20c-sparse-capture-materialization.md).
+Status: partial prerequisite; publication/admission rollout remains open. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md).
 
 ## Contract and owner
 
@@ -76,6 +76,9 @@ and cancellation. Preserve truthful finalizing state and existing attempt owners
 do not widen every operation's timeout or infer public success from an unbounded
 standalone native call. Any per-operation budget must cover its actual consumed
 work and remain consistent with the outer client wait.
+The concrete service continuation, persisted finalization error and survived-native
+restart boundary are owned by [20d1](20d1-recovery-continuation.md); its gates are
+required before enabling this rollout.
 
 Run public source get/list, audio evidence/read, asset adoption and project placement
 on the canonical files; cover restart, history/package dependency closure and take
