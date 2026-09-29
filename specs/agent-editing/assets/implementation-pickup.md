@@ -36,8 +36,8 @@ Historical workers and measurements retain their own identities below.
   `qwen3-tts-icl-v1`. Final unchanged preparation/lifecycle gates, default/filtered
   audio parity and numerical controls pass; earlier failures remain retained.
   [Adoption evidence](19d-voice-adoption/README.md) and root checks distinguish
-  execution correctness from parent listening acceptance. The prepared home
-  The former `/tmp/screenrec-19d-repaired-managed/home` disappeared after19f.
+  execution correctness from parent listening acceptance. The former
+  `/tmp/screenrec-19d-repaired-managed/home` disappeared after19f.
   [Exact recovery](19d-runtime-recovery/README.md) restored the registered runtime
   under `~/.cache/screen-recorder/prepared-sources/voice-runtime-3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001`.
   The ready durable home is `~/.cache/screen-recorder/verification/voice-runtime-3f20d26c/home`;
@@ -161,6 +161,11 @@ conformance,12/12b speech,12c/15a denoise,13/13a/14 stretch,18/19 voice; then ph
 camera20/21, cutover23, scale24 and autonomous25. Generic22 closure is verified.16 still needs
 delivered retime/gain and full journeys; unit-rate15a transitions are verified. Segmentation stays a future
 placeholder. These checkpoints do not establish physical capture or installed-app cutover.
+
+Current AAC source-repeat provenance is corrected in the
+[archived-byte reinspection](08-11-rate-conformance/aac-repeat-reinspection.md).
+One historical source decode differs before composition; current-runtime
+reproducibility and the earlier mixed-range cause remain unverified.
 
 The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)
 they heard no obvious artifacts but found the unfamiliar cropped words confusing

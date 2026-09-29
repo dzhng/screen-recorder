@@ -5,6 +5,8 @@ source repeat 5 differs from source 0; the other source repeats and all eight
 isolated resampled repeats match their first member. The [receipt](aac-repeat-reinspection.json)
 authenticates the archive and 21 selected members and recomputes every complete
 PCM comparison. No native process, codec, tolerance or artifact was changed.
+The [root verification](aac-repeat-root-verification.json) independently rehashed
+the archive and recomputed the differing complete PCM pair after integration.
 
 Both differing outputs contain 74,480 mono Float32 frames at 44.1 kHz. Their 1,486
 changed samples lie at returned indices 72,399–74,479. Maximum error is

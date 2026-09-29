@@ -1,0 +1,24 @@
+{
+  "scope": "Rehash original archive and independently compare deduplicated retained source0/source5 PCM; no native execution",
+  "archiveSha256": "80988c0df64f2f7f306750c0c2057b46c0c13ea95cde2b25613dfcb18c2900de",
+  "fileHashes": [
+    "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+    "54fc959061387652dddde3fb9b4fdd442d46e58e6dda0dddef8d45490798449f"
+  ],
+  "frames": [
+    74480,
+    74480
+  ],
+  "changed": 1486,
+  "first": 72399,
+  "last": 74479,
+  "max": 6.705522537231445e-08,
+  "rms": 2.346948173843623e-09,
+  "lastSamples": [
+    0.12011029571294785,
+    0.12011028081178665
+  ],
+  "integrationCommit": "7c7ce592",
+  "productionChanges": false,
+  "testScope": "Independent archive SHA and exact PCM comparison; no native rerun or new tolerance"
+}
