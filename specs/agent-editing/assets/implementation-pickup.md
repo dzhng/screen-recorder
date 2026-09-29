@@ -55,7 +55,11 @@ No production deadline or transaction guarantee changed.
   Raw timestamp digits remain provenance; the playable container must preserve
   one declared admitted timeline. Initial-phase/native-grid policy is only a
   candidate, with grouping/gaps/window/resampling gates before rollout.
-  No production packed-file rollout until canonical admission/recovery passes.
+  The [bounded owner prototype](20b-admission/README.md) is integrated; root
+  [confirmation](20b-admission/root-verification.json) preserves grouping, original
+  late PCM and a real1µs acquisition exclusion. Next validate broader admission
+  and prospective append/phase/journal transaction semantics. The production writer
+  remains disconnected until canonical admission/recovery passes.
 - Shared audio reader: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
   [Exact source phase](08-rational-segment-phase/README.md) is integrated at e03ed4ad.
   Native red/green, legacy lookahead preservation, public cache invalidation and
@@ -68,10 +72,11 @@ No production deadline or transaction guarantee changed.
   public-discovery consumer authored a nested curve with exact readback; it also
   used processing.capabilities, so this is not a help-only-session claim. Other
   external clients and rendered motion remain outside this checkpoint. The frozen
-  native learned-denoise adapter and 15a reslice are in progress in an
-  isolated dependency package; public readiness remains unchanged. Reuse existing
-  prepared ownership for later state/channel integration. No protected-word
-  acceptance follows from the user's no-artifacts feedback.
+  native [learned adapter](15a1-denoise-entry/README.md) now has combined-root
+  confirmation of25 exact comparisons and error/cleanup gates.15a2 state-domain
+  semantics are the next pure edit/compiler checkpoint; reuse existing prepared
+  ownership for runtime integration. Public readiness remains unchanged. No
+  protected-word acceptance follows from the user's no-artifacts feedback.
 
 The [sparse storage checkpoint](20a-sparse-storage/README.md) retains the capture
 proposal, independent audit and historical process-restart/phase evidence. The

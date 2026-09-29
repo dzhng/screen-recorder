@@ -1,0 +1,14 @@
+{
+  "rootCodeCommit": "cec1dc14",
+  "command": "node packages/test-harness/editing/capture-pcm-admission.mjs --out /tmp/screenrec-root-capture-admission",
+  "exitCode": 0,
+  "retainedHashesChecked": 24,
+  "pcmEqualsRetained": {
+    "owner/baseline.wav": "5f05ba3dcb517da1086b6591abe2ba244f57641ca9b09add80ce7796e1b5edf1",
+    "owner/masked.wav": "1fef8143b1ad428fc47b1f381693d439fdf552703fc251cd868c8255387c5d35",
+    "canonical/full.wav": "1c293f6da1a331568448dce4b7479ef41bcc3bd87e6da82b11dea8ca8b30320c",
+    "canonical/late.wav": "5f05ba3dcb517da1086b6591abe2ba244f57641ca9b09add80ce7796e1b5edf1"
+  },
+  "productionWriterConnected": false,
+  "limitations": "Candidate only; journal, append transaction, public support projection, resampling and recovery remain open."
+}

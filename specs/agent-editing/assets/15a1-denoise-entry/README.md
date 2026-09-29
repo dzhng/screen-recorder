@@ -19,3 +19,13 @@ The initial independent static review found three test-caller/harness defects: p
 The [evidence archive](evidence.tar.xz), checked by [SHA256SUMS](SHA256SUMS), retains complete PCM with content deduplication, command reports, original and follow-up review, successful and failed build logs, the deliberate mutation and restoration, model/source verification and the existing native test result. `manifest.json` maps every original artifact name to its stored member and exact SHA-256; duplicate bytes remain addressable. No new audition or visual was produced. The [review resolution](review.md) distinguishes independent static review from executed gates.
 
 The [pre-implementation audit](adoption-audit.md) records why adoption was resliced. Remaining work follows [15a2](../../slices/15a2-denoise-prepared-consumers.md) and [15a3](../../slices/15a3-denoise-acceptance.md). The parent retains the full contract. The user's learned preference remains, and later no-obvious-artifact feedback still does not establish intelligibility or word retention.
+
+## Combined-root confirmation
+
+The [root receipt](root-verification.json) verifies the final named adapter at
+bd54f149. Explicit local model staging and a fresh package build passed; the build
+reported143.18s under the observed load. All25 parity/control comparisons and
+named error/cleanup checks passed in5.93s. All54 emitted PCM files match content
+already retained in the evidence archive; all372 archive mappings to85 unique
+objects were verified. Root logs and the complete report are retained compressed.
+This adds no public readiness or listening verdict.
