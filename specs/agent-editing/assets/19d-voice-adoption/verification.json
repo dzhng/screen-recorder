@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "members": 108,
+  "archiveSha256": "181a520ba8e01ee886e0e601b448ae2c8c361caffe8d0413c19654aaf1d4c67d",
+  "coreTests": 35,
+  "serviceTests": 14,
+  "workerTests": 3
+}

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { mkdir, readFile, realpath, statfs, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
+import { voiceProfile } from "../../core/dist/voice-profile.js";
 import { Models } from "../../core/dist/models.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
 import { voiceRenderer } from "../../../apps/service/dist/voice.js";
@@ -41,14 +42,18 @@ try {
   const discovered = await call("model.list", {});
   assert.deepEqual(await call("model.list", {}, { transport: "mcp" }), discovered);
   report.discovery = discovered;
-  for (const modelId of ["parakeet", "qwen3-tts"])
+  assert.deepEqual(
+    discovered.find((entry) => entry.modelId === voiceProfile.id)?.generationProfile,
+    voiceProfile,
+  );
+  for (const modelId of ["parakeet", "qwen3-tts-icl-v1"])
     assert.deepEqual(await call("model.status", { modelId }), { state: "absent" });
   assert.equal(
     (await call("model.status", { modelId: "missing" }, { error: true })).code,
     "UNKNOWN_MODEL",
   );
   const params = {
-    modelId: "qwen3-tts",
+    modelId: "qwen3-tts-icl-v1",
     runtimeSource: resolve(values.runtime),
     modelSource: resolve(values.model),
   };
@@ -56,18 +61,22 @@ try {
   assert.equal((await call("model.prepare", params, { transport: "mcp" })).state, "preparing");
   assert.deepEqual(await call("model.status", { modelId: "parakeet" }), { state: "absent" });
   await poll(
-    () => call("model.status", { modelId: "qwen3-tts" }, { transport: "mcp" }),
+    () => call("model.status", { modelId: "qwen3-tts-icl-v1" }, { transport: "mcp" }),
     (value) => value.state === "ready",
     "managed preparation",
   );
-  assert.deepEqual(await call("model.prepare", { modelId: "qwen3-tts" }), { state: "ready" });
+  assert.deepEqual(await call("model.prepare", { modelId: "qwen3-tts-icl-v1" }), {
+    state: "ready",
+  });
   const started = performance.now();
   let verificationFinished = false;
-  const readiness = call("model.status", { modelId: "qwen3-tts" }, { transport: "mcp" }).finally(
-    () => {
-      verificationFinished = true;
-    },
-  );
+  const readiness = call(
+    "model.status",
+    { modelId: "qwen3-tts-icl-v1" },
+    { transport: "mcp" },
+  ).finally(() => {
+    verificationFinished = true;
+  });
   await call("project.list", {}, { transport: "mcp" });
   assert.equal(
     verificationFinished,
@@ -78,11 +87,11 @@ try {
   assert.deepEqual(await readiness, { state: "ready" });
   await service.stop();
   await service.start();
-  assert.deepEqual(await call("model.status", { modelId: "qwen3-tts" }), { state: "ready" });
+  assert.deepEqual(await call("model.status", { modelId: "qwen3-tts-icl-v1" }), { state: "ready" });
   assert.deepEqual(await call("model.list", {}), discovered);
   await service.stop();
   const models = new Models(join(home, "library"));
-  const prepared = await models.voice("qwen3-tts");
+  const prepared = await models.voice("qwen3-tts-icl-v1");
   report.prepared = prepared;
   assert.notEqual(await realpath(prepared.model), await realpath(values.model));
   const cases = JSON.parse(
@@ -92,7 +101,7 @@ try {
   const renderer = voiceRenderer(
     mediaWorker({ SCREENREC_NATIVE: resolve(values.native) }),
     models,
-    "qwen3-tts",
+    "qwen3-tts-icl-v1",
     join(out, "workspace"),
   );
   for (const item of cases.replacements) {
@@ -103,7 +112,7 @@ try {
         referenceText: cases.reference.text,
         text: item.text,
         generation: cases.generation,
-        seed: cases.seed,
+        seed: String(cases.seed),
         output,
       },
       new AbortController().signal,
@@ -168,14 +177,19 @@ try {
   alteredEntry[0] ^= 0xff;
   try {
     await writeFile(prepared.entry, alteredEntry);
-    assert.deepEqual(await call("model.status", { modelId: "qwen3-tts" }), { state: "invalid" });
-    assert.deepEqual(await call("model.status", { modelId: "qwen3-tts" }, { transport: "mcp" }), {
+    assert.deepEqual(await call("model.status", { modelId: "qwen3-tts-icl-v1" }), {
       state: "invalid",
     });
+    assert.deepEqual(
+      await call("model.status", { modelId: "qwen3-tts-icl-v1" }, { transport: "mcp" }),
+      {
+        state: "invalid",
+      },
+    );
   } finally {
     await writeFile(prepared.entry, originalEntry);
   }
-  assert.deepEqual(await call("model.status", { modelId: "qwen3-tts" }), { state: "ready" });
+  assert.deepEqual(await call("model.status", { modelId: "qwen3-tts-icl-v1" }), { state: "ready" });
   report.sameSizeRuntimeMutation = { cli: "invalid", mcp: "invalid", restored: "ready" };
   report.capacityAfter = (await statfs(out)).bavail * capacity.bsize;
   report.passed = true;

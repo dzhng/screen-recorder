@@ -284,6 +284,10 @@
       "types": "./dist/asset-origins.d.ts",
       "default": "./dist/asset-origins.js"
     },
+    "./voice-profile": {
+      "types": "./dist/voice-profile.d.ts",
+      "default": "./dist/voice-profile.js"
+    },
     "./voice-types": {
       "types": "./dist/voice-types.d.ts",
       "default": "./dist/voice-types.js"

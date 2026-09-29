@@ -729,7 +729,7 @@
     "mlx_audio/tts/models/qwen3_tts/__init__.py": "ceabfeadabf291e2284f9fb276be056960ace161b62797718c3979e94d22366d",
     "mlx_audio/tts/models/qwen3_tts/config.py": "25e947faf6163764bce2d2061afe508801352b6b821479f570fd410dd493d9fe",
     "mlx_audio/tts/models/qwen3_tts/continuous_batching.py": "4c7ef219721b9974634146151bb769e07f6b11a324aecba76949a90d632d90d6",
-    "mlx_audio/tts/models/qwen3_tts/qwen3_tts.py": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+    "mlx_audio/tts/models/qwen3_tts/qwen3_tts.py": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
     "mlx_audio/tts/models/qwen3_tts/speaker_encoder.py": "2670d94d67e189514b5eab30d0aada63dd2648092964cadf4d5ad9ad13fdfe4e",
     "mlx_audio/tts/models/qwen3_tts/speech_tokenizer.py": "b7ba5f695e9f6e8d8e235d6b78488eec085ad0582c1e6111614739f1de56f3b9",
     "mlx_audio/tts/models/qwen3_tts/talker.py": "68fd1a980dd9dc4fae6346b26919957642f3fb04b65ab32d4e8bcee3f84fd02e",

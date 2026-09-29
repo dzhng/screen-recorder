@@ -78,7 +78,7 @@ const voice = jsonWorker(
   600000,
 );
 const worker = (operation, params, options) =>
-  (operation === "voice.generatePrivate" ? voice : native)(operation, params, options);
+  (operation === "voice.generate" ? voice : native)(operation, params, options);
 const generate = (request, signal) =>
   withRenderedFile(
     worker,
@@ -87,7 +87,7 @@ const generate = (request, signal) =>
     async (output, execute) =>
       nativeResult(
         await execute(
-          "voice.generatePrivate",
+          "voice.generate",
           { ...request, model: preparation.model, output },
           { signal },
         ),
@@ -160,7 +160,7 @@ print(json.dumps({"ok":True,"data":{"files":results,"networkDenied":network}}),f
         referenceText: cases.reference.text,
         text: replacement.text,
         generation: cases.generation,
-        seed: cases.seed,
+        seed: String(cases.seed),
         output,
       },
       new AbortController().signal,

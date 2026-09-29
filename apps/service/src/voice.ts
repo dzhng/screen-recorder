@@ -1,3 +1,12 @@
+import { isDeepStrictEqual } from "node:util";
+import {
+  resolveVoiceSettings,
+  voiceReceiptSchema,
+  type VoiceReceipt,
+  voiceProfile,
+  voiceProfileSha256,
+  type VoiceGeneration,
+} from "@screenrec/core/voice-profile";
 import { lstat, open } from "node:fs/promises";
 import { dirname, isAbsolute, join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
@@ -6,29 +15,46 @@ import { withRenderedFile } from "./render.js";
 import { jsonWorker, nativeResult, type MediaWorker } from "./worker.js";
 import type { Models } from "@screenrec/core/models";
 
+// Worker responses may add fields; durable receipts retain only this registered semantic shape.
+const workerReceiptSchema = voiceReceiptSchema.strip().extend({
+  generation: voiceReceiptSchema.shape.generation.strip(),
+  effectiveGeneration: voiceReceiptSchema.shape.effectiveGeneration.strip(),
+  filterModes: voiceReceiptSchema.shape.filterModes.strip(),
+  prefill: voiceReceiptSchema.shape.prefill.strip(),
+});
+
 export type VoiceRequest = Readonly<{
   reference: string;
   referenceText: string;
   text: string;
-  generation: Readonly<Record<string, string | number | boolean>>;
-  seed: number;
+  generation?: Partial<VoiceGeneration>;
+  seed?: string;
   output: string;
 }>;
 
-/** Private entry checkpoint; durable jobs and asset admission remain separate owners. */
+/** Registered generation executor; durable jobs and asset admission remain separate owners. */
 export function voiceRenderer(
   native: MediaWorker,
   models: Models,
   modelId: string,
   workspace: string,
 ) {
-  return async (request: VoiceRequest, signal: AbortSignal, timeoutMs = 600_000) => {
+  return async (
+    request: VoiceRequest,
+    signal: AbortSignal,
+    timeoutMs = 600_000,
+  ): Promise<VoiceReceipt> => {
     if (![workspace, request.reference, request.output].every(isAbsolute))
       throw new CatalogError(
         "INVALID_REQUEST",
         "Voice preparation and media paths must be absolute",
       );
     signal.throwIfAborted();
+    if (modelId !== voiceProfile.id)
+      throw new CatalogError("UNKNOWN_MODEL", "Voice execution profile is not registered", {
+        modelId,
+      });
+    const settings = resolveVoiceSettings(request.generation, request.seed);
     const destination = await lstat(request.output).catch((error: NodeJS.ErrnoException) => {
       if (error.code !== "ENOENT") throw error;
       return null;
@@ -61,8 +87,8 @@ export function voiceRenderer(
     );
     // Workspace cleanup stays native; both bindings share the exact process lifetime owner.
     const worker: MediaWorker = (operation, params, options) =>
-      (operation === "voice.generatePrivate" ? voice : native)(operation, params, options);
-    return withRenderedFile(
+      (operation === "voice.generate" ? voice : native)(operation, params, options);
+    return (await withRenderedFile(
       worker,
       { attemptParent: workspace, output: request.output, filename: "audio.wav" },
       signal,
@@ -73,33 +99,57 @@ export function voiceRenderer(
           reference,
           signal,
           undefined,
-          1024 * 1024,
+          voiceProfile.reference.maximumEncodedBytes,
         );
-        const receipt = nativeResult(
+        const raw = nativeResult(
           await execute(
-            "voice.generatePrivate",
+            "voice.generate",
             {
               model: preparation.model,
               reference,
               referenceText: request.referenceText,
               text: request.text,
-              generation: request.generation,
-              seed: request.seed,
+              generation: settings.requested,
+              seed: settings.seed,
               output,
             },
             { signal, timeoutMs },
           ),
         ) as Record<string, unknown>;
+        const parsed = workerReceiptSchema.safeParse({
+          ...raw,
+          descriptorDigest: preparation.descriptorDigest,
+          runtimeDigest: preparation.runtimeDigest,
+          modelDigest: preparation.modelDigest,
+        });
+        if (!parsed.success)
+          throw new CatalogError("INVALID_RESPONSE", "Voice receipt has an invalid shape", {
+            issues: parsed.error.issues,
+          });
+        const receipt = parsed.data;
         if (
-          !receipt ||
           receipt.file !== output ||
           receipt.referenceSha256 !== retained.sha256 ||
+          receipt.profileId !== settings.profileId ||
+          receipt.profileSha256 !== voiceProfileSha256 ||
+          receipt.seed !== settings.seed ||
+          receipt.text !== request.text ||
+          receipt.referenceText !== request.referenceText ||
+          !isDeepStrictEqual(receipt.generation, settings.requested) ||
+          !isDeepStrictEqual(receipt.effectiveGeneration, settings.effective) ||
+          !isDeepStrictEqual(receipt.filterModes, settings.filterModes) ||
+          receipt.sampleRate !== voiceProfile.reference.sampleRate ||
+          receipt.channels !== voiceProfile.reference.channels ||
+          receipt.referenceFrames > voiceProfile.reference.maximumFrames ||
+          receipt.prefill.referenceTextTokens > voiceProfile.maximumPrefillPositions ||
+          receipt.prefill.targetTextTokens > voiceProfile.maximumTargetTokens ||
+          receipt.prefill.referenceCodes > voiceProfile.reference.maximumCodecPositions ||
+          receipt.prefill.inputTokens > voiceProfile.maximumPrefillPositions ||
+          Object.keys(receipt.tokenizerIdentity).length !== voiceProfile.tokenizerFiles.length ||
+          !voiceProfile.tokenizerFiles.every((file) => file in receipt.tokenizerIdentity) ||
+          receipt.generatedTokens >= settings.requested.max_tokens ||
           receipt.runtimeRevision !== preparation.runtimeRevision ||
-          receipt.modelRevision !== preparation.modelRevision ||
-          receipt.sampleRate !== 24000 ||
-          receipt.channels !== 1 ||
-          !Number.isSafeInteger(receipt.frames) ||
-          (receipt.frames as number) <= 0
+          receipt.modelRevision !== preparation.modelRevision
         )
           throw new CatalogError(
             "INVALID_RESPONSE",
@@ -116,6 +166,6 @@ export function voiceRenderer(
         }
         return receipt;
       },
-    );
+    )) as VoiceReceipt;
   };
 }

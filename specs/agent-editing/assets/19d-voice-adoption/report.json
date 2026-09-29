@@ -1,0 +1,735 @@
+{
+  "scope": "Measured registered voice settings and pinned single-helper numeric repair; no public19f job, listening/naturalness or universal model capacity acceptance",
+  "passed": true,
+  "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+  "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+  "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9",
+  "profileId": "qwen3-tts-icl-v1",
+  "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+  "sourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+  "managedPreparationAndClosurePassed": true,
+  "entryChecks": [
+    {
+      "label": "word",
+      "exactWAVAndPCM": true,
+      "ignoresAmbientPythonPath": true,
+      "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+      "receipt": {
+        "file": "/tmp/screenrec-19d-repaired-entry/word.wav",
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 21120,
+        "durationUs": 880000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "referenceFrames": 120000,
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "profileId": "qwen3-tts-icl-v1",
+        "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+        "tokenizerIdentity": {
+          "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+          "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        "iclSourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveGeneration": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "filterModes": {
+          "sampling": "categorical",
+          "firstBookTopK": "enabled",
+          "residualTopK": "enabled",
+          "nucleus": "disabled"
+        },
+        "seed": "18",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 1,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "a5be1eaa439e4269f5c1f234e8eb30b3db81ac38d0c48f66ad8be6676d3d542f",
+          "referenceCodes": 63,
+          "inputTokens": 85
+        },
+        "stopReason": "eos",
+        "generatedTokens": 11,
+        "text": "paid",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+        "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+        "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9"
+      }
+    },
+    {
+      "label": "phrase",
+      "exactWAVAndPCM": true,
+      "ignoresAmbientPythonPath": true,
+      "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+      "receipt": {
+        "file": "/tmp/screenrec-19d-repaired-entry/phrase.wav",
+        "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 80640,
+        "durationUs": 3360000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "referenceFrames": 120000,
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "profileId": "qwen3-tts-icl-v1",
+        "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+        "tokenizerIdentity": {
+          "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+          "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        "iclSourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveGeneration": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "filterModes": {
+          "sampling": "categorical",
+          "firstBookTopK": "enabled",
+          "residualTopK": "enabled",
+          "nucleus": "disabled"
+        },
+        "seed": "18",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 7,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "fc601fd75d706f9c1872bf596c8eb616fcf42bd42fbc6ea42673e2d43655c871",
+          "referenceCodes": 63,
+          "inputTokens": 91
+        },
+        "stopReason": "eos",
+        "generatedTokens": 42,
+        "text": "This is available at no cost.",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+        "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+        "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9"
+      }
+    },
+    {
+      "label": "token budget 1",
+      "code": "VOICE_INCOMPLETE",
+      "details": {
+        "stopReason": "token-budget",
+        "generatedTokens": 1,
+        "maxTokens": 1,
+        "profileId": "qwen3-tts-icl-v1",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 1,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "a5be1eaa439e4269f5c1f234e8eb30b3db81ac38d0c48f66ad8be6676d3d542f",
+          "referenceCodes": 63,
+          "inputTokens": 85
+        }
+      }
+    },
+    {
+      "label": "token budget 11",
+      "code": "VOICE_INCOMPLETE",
+      "details": {
+        "stopReason": "token-budget",
+        "generatedTokens": 11,
+        "maxTokens": 11,
+        "profileId": "qwen3-tts-icl-v1",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 1,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "a5be1eaa439e4269f5c1f234e8eb30b3db81ac38d0c48f66ad8be6676d3d542f",
+          "referenceCodes": 63,
+          "inputTokens": 85
+        }
+      }
+    },
+    {
+      "label": "EOS at final permitted iteration",
+      "receipt": {
+        "file": "/tmp/screenrec-19d-repaired-entry/eos-boundary.wav",
+        "sha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 21120,
+        "durationUs": 880000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "referenceFrames": 120000,
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "profileId": "qwen3-tts-icl-v1",
+        "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+        "tokenizerIdentity": {
+          "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+          "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        "iclSourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.05,
+          "max_tokens": 12,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveGeneration": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.5,
+          "max_tokens": 12,
+          "lang_code": "english",
+          "stream": false
+        },
+        "filterModes": {
+          "sampling": "categorical",
+          "firstBookTopK": "enabled",
+          "residualTopK": "enabled",
+          "nucleus": "disabled"
+        },
+        "seed": "18",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 1,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "a5be1eaa439e4269f5c1f234e8eb30b3db81ac38d0c48f66ad8be6676d3d542f",
+          "referenceCodes": 63,
+          "inputTokens": 85
+        },
+        "stopReason": "eos",
+        "generatedTokens": 11,
+        "text": "paid",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+        "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+        "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9"
+      },
+      "exactWAVAndPCM": true
+    },
+    {
+      "label": "unsupported numeric or ignored control",
+      "code": "INVALID_REQUEST",
+      "details": {
+        "profileId": "qwen3-tts-icl-v1",
+        "issues": [
+          {
+            "origin": "number",
+            "code": "too_small",
+            "minimum": 0,
+            "inclusive": true,
+            "path": [
+              "top_p"
+            ],
+            "message": "Too small: expected number to be >=0"
+          }
+        ]
+      }
+    },
+    {
+      "label": "unsupported numeric or ignored control",
+      "code": "INVALID_REQUEST",
+      "details": {
+        "profileId": "qwen3-tts-icl-v1",
+        "issues": [
+          {
+            "origin": "number",
+            "code": "too_big",
+            "maximum": 3.3895313892515355e+38,
+            "inclusive": true,
+            "path": [
+              "repetition_penalty"
+            ],
+            "message": "Too big: expected number to be <=3.3895313892515355e+38"
+          }
+        ]
+      }
+    },
+    {
+      "label": "unsupported numeric or ignored control",
+      "code": "INVALID_REQUEST",
+      "details": {
+        "profileId": "qwen3-tts-icl-v1",
+        "issues": [
+          {
+            "code": "unrecognized_keys",
+            "keys": [
+              "speed"
+            ],
+            "path": [],
+            "message": "Unrecognized key: \"speed\""
+          }
+        ]
+      }
+    },
+    {
+      "label": "actual target token budget",
+      "code": "LIMIT_EXCEEDED",
+      "details": {}
+    },
+    {
+      "label": "changed-seed",
+      "receipt": {
+        "file": "/tmp/screenrec-19d-repaired-entry/changed-seed.wav",
+        "sha256": "2bb163e50d2357e0d0ee306fde795d1a07b79c9bf94c2ddb0d66990f1e5d09bd",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 120960,
+        "durationUs": 5040000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "referenceFrames": 120000,
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "profileId": "qwen3-tts-icl-v1",
+        "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+        "tokenizerIdentity": {
+          "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+          "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        "iclSourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveGeneration": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "filterModes": {
+          "sampling": "categorical",
+          "firstBookTopK": "enabled",
+          "residualTopK": "enabled",
+          "nucleus": "disabled"
+        },
+        "seed": "19",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 10,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "referenceCodes": 63,
+          "inputTokens": 94
+        },
+        "stopReason": "eos",
+        "generatedTokens": 63,
+        "text": "Okay, so this is the recorder workbench.",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+        "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+        "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9"
+      },
+      "sha256": "2bb163e50d2357e0d0ee306fde795d1a07b79c9bf94c2ddb0d66990f1e5d09bd"
+    },
+    {
+      "label": "changed-seed-replay",
+      "receipt": {
+        "file": "/tmp/screenrec-19d-repaired-entry/changed-seed-replay.wav",
+        "sha256": "2bb163e50d2357e0d0ee306fde795d1a07b79c9bf94c2ddb0d66990f1e5d09bd",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 120960,
+        "durationUs": 5040000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "referenceFrames": 120000,
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "profileId": "qwen3-tts-icl-v1",
+        "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+        "tokenizerIdentity": {
+          "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+          "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        "iclSourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveGeneration": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "filterModes": {
+          "sampling": "categorical",
+          "firstBookTopK": "enabled",
+          "residualTopK": "enabled",
+          "nucleus": "disabled"
+        },
+        "seed": "19",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 10,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "referenceCodes": 63,
+          "inputTokens": 94
+        },
+        "stopReason": "eos",
+        "generatedTokens": 63,
+        "text": "Okay, so this is the recorder workbench.",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+        "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+        "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9"
+      },
+      "sha256": "2bb163e50d2357e0d0ee306fde795d1a07b79c9bf94c2ddb0d66990f1e5d09bd"
+    },
+    {
+      "label": "filtered",
+      "exactOldWAVAndPCM": true,
+      "sha256": "f313e12e99228f2c7385beeb8f09c022e297829acfff6eaebf1f5635ba4c0692",
+      "receipt": {
+        "file": "/tmp/screenrec-19d-repaired-entry/filtered.wav",
+        "sha256": "f313e12e99228f2c7385beeb8f09c022e297829acfff6eaebf1f5635ba4c0692",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 67200,
+        "durationUs": 2800000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "referenceFrames": 120000,
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "profileId": "qwen3-tts-icl-v1",
+        "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+        "tokenizerIdentity": {
+          "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+          "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        "iclSourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 0.8,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveGeneration": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 0.8,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "filterModes": {
+          "sampling": "categorical",
+          "firstBookTopK": "enabled",
+          "residualTopK": "enabled",
+          "nucleus": "enabled"
+        },
+        "seed": "18",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 10,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "referenceCodes": 63,
+          "inputTokens": 94
+        },
+        "stopReason": "eos",
+        "generatedTokens": 35,
+        "text": "Okay, so this is the recorder workbench.",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+        "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+        "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9"
+      }
+    },
+    {
+      "label": "filtered-replay",
+      "exactOldWAVAndPCM": true,
+      "sha256": "f313e12e99228f2c7385beeb8f09c022e297829acfff6eaebf1f5635ba4c0692",
+      "receipt": {
+        "file": "/tmp/screenrec-19d-repaired-entry/filtered-replay.wav",
+        "sha256": "f313e12e99228f2c7385beeb8f09c022e297829acfff6eaebf1f5635ba4c0692",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 67200,
+        "durationUs": 2800000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "referenceFrames": 120000,
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "profileId": "qwen3-tts-icl-v1",
+        "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+        "tokenizerIdentity": {
+          "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+          "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        "iclSourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 0.8,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveGeneration": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 0.8,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "filterModes": {
+          "sampling": "categorical",
+          "firstBookTopK": "enabled",
+          "residualTopK": "enabled",
+          "nucleus": "enabled"
+        },
+        "seed": "18",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 10,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "referenceCodes": 63,
+          "inputTokens": 94
+        },
+        "stopReason": "eos",
+        "generatedTokens": 35,
+        "text": "Okay, so this is the recorder workbench.",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+        "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+        "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9"
+      }
+    },
+    {
+      "label": "smallest positive top-p admitted and completed",
+      "receipt": {
+        "file": "/tmp/screenrec-19d-repaired-entry/smallest-positive-top-p.wav",
+        "sha256": "1637c156b24c1e60b08a7ec14524ff9628277f0b35a603b2d1ae427503fdea93",
+        "sampleRate": 24000,
+        "channels": 1,
+        "frames": 107520,
+        "durationUs": 4480000,
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "referenceFrames": 120000,
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "profileId": "qwen3-tts-icl-v1",
+        "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+        "tokenizerIdentity": {
+          "config.json": "ee1871ab778c89645f8806df736cb35958619c40276598a41aeaa014615656a4",
+          "tokenizer_config.json": "dc3c31c3bdaedd5016382bb3cbe07323026775ad51f5a4fb564505992ae4a670",
+          "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+          "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+        },
+        "iclSourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 0,
+          "top_p": 5e-324,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "effectiveGeneration": {
+          "temperature": 0.9,
+          "top_k": 0,
+          "top_p": 5e-324,
+          "repetition_penalty": 1.5,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "filterModes": {
+          "sampling": "categorical",
+          "firstBookTopK": "disabled",
+          "residualTopK": "disabled",
+          "nucleus": "enabled"
+        },
+        "seed": "18",
+        "prefill": {
+          "referenceTextTokens": 10,
+          "targetTextTokens": 10,
+          "referenceTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "targetTextTokenSha256": "d4dcd012e008cb5bd03a4fc9f10e3aa20b18cbf886fff31ce0dbe3e4e1ea4350",
+          "referenceCodes": 63,
+          "inputTokens": 94
+        },
+        "stopReason": "eos",
+        "generatedTokens": 56,
+        "text": "Okay, so this is the recorder workbench.",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "descriptorDigest": "a5795fea222f39b7a8f69185868e9a2af52e40ce0998066614042d1702681377",
+        "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+        "modelDigest": "552386a41acdd3e29266a9a6fac90b4a26021c1d2888cdaa5cf16e796024c1b9"
+      },
+      "sha256": "1637c156b24c1e60b08a7ec14524ff9628277f0b35a603b2d1ae427503fdea93"
+    },
+    {
+      "label": "preexisting destination",
+      "code": "INVALID_REQUEST",
+      "details": {}
+    },
+    {
+      "label": "input/output collision",
+      "code": "INVALID_REQUEST",
+      "details": {}
+    },
+    {
+      "label": "missing runtime",
+      "code": "MODEL_NOT_PREPARED",
+      "details": {}
+    },
+    {
+      "label": "wrong runtime",
+      "code": "MODEL_NOT_PREPARED",
+      "details": {}
+    },
+    {
+      "label": "missing model",
+      "code": "MODEL_NOT_PREPARED",
+      "details": {}
+    },
+    {
+      "label": "mismatched model bytes",
+      "code": "MODEL_NOT_PREPARED",
+      "details": {}
+    },
+    {
+      "label": "unsupported reference rate",
+      "code": "INVALID_REFERENCE",
+      "details": {}
+    },
+    {
+      "label": "malformed reference",
+      "code": "INVALID_REFERENCE",
+      "details": {}
+    },
+    {
+      "label": "reference exceeds measured frames",
+      "code": "INVALID_REFERENCE",
+      "details": {}
+    },
+    {
+      "label": "cancel",
+      "pid": 60691,
+      "partialOutput": true,
+      "setupToMarkerMs": 2666.1383329999953,
+      "interruptionToSettlementMs": 10.734624999997322,
+      "closedBeforeReturn": true,
+      "code": "CANCELED"
+    },
+    {
+      "label": "deadline",
+      "pid": 60716,
+      "partialOutput": true,
+      "setupToMarkerMs": 2677.3145829999994,
+      "interruptionToSettlementMs": 8646.805583000008,
+      "closedBeforeReturn": true,
+      "code": "MEDIA_WORKER_TIMEOUT"
+    }
+  ],
+  "installedNumerics": {
+    "passed": true,
+    "python": "/private/tmp/screenrec-19d-repaired-managed/home/library/models/qwen3-tts-icl-v1/1eccf1cb2519b5a4e8a95b5f0544f3303568164f/runtime/python/bin/python3.12",
+    "sourceSha256": "fac706fcb8d9a4d3087a74de769b8173accffa4bf750712b19dc9c67d2df7116",
+    "rows": [
+      {
+        "cohort": "extremes",
+        "oldValidTokensPreserved": 135,
+        "oldEmptyNowValid": 54,
+        "cases": 189
+      },
+      {
+        "cohort": "uniform",
+        "oldValidTokensPreserved": 82,
+        "oldEmptyNowValid": 8,
+        "cases": 90
+      }
+    ]
+  },
+  "retainedFailures": [
+    "Original180s managed preparation deadline; cause not established. Diagnostic completion used explicit600s horizon, not a changed acceptance gate. Final public gate retains180s.",
+    "Original8s partial-output observation failure; cause not established. Final gates retain8s setup and10s worker timeout.",
+    "Draft tiny top-p and partial-uniform empty-distribution failures; fixed by conditional support repair, not a fitted minimum.",
+    "Inherited unsupported-rate fixture used same input/output and tested destination collision. Corrected distinctoutput reaches INVALID_REFERENCE.",
+    "Isolated lifecycle diagnostic first omitted workspace, then incorrectly created0755 workspace. Both setup errors retained; corrected0700 setup and final original gates pass.",
+    "Signed-zero request/receipt mismatch caught by independent review and fixed before final gates."
+  ],
+  "review": "Independent review found no remaining defects; canonical-regex trailing-newline claim dismissed by actual Node/Zod tests without multiline flag.",
+  "commands": {
+    "preparation": "node packages/test-harness/editing/model-preparation.mjs --out /tmp/screenrec-19d-repaired-managed --runtime /private/tmp/screenrec-19d-repaired-bundle --model /Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519 --native /Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native --assembly /private/tmp/screenrec-19b-relocation/assembly.json --profile /private/tmp/screenrec-19b-relocation/denial.sb",
+    "entry": "node packages/test-harness/editing/voice-entry.mjs --out /tmp/screenrec-19d-repaired-entry --model-home /tmp/screenrec-19d-repaired-managed/home/library --native /Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native"
+  },
+  "toolchain": {
+    "node": "v24.14.0",
+    "bun": "1.3.14"
+  },
+  "nativeIdentityRecordedAfterGates": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+}

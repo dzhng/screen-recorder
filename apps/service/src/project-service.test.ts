@@ -894,13 +894,13 @@ test("model discovery crosses the public wire before either model is prepared", 
         descriptorDigest: expect.stringMatching(/^[a-f0-9]{64}$/),
       }),
       expect.objectContaining({
-        modelId: "qwen3-tts",
+        modelId: "qwen3-tts-icl-v1",
         purpose: "voice",
         preparation: expect.objectContaining({ runtimeSourceRequired: true }),
       }),
     ]),
   });
-  expect(await f.call("model.status", { modelId: "qwen3-tts" })).toMatchObject({
+  expect(await f.call("model.status", { modelId: "qwen3-tts-icl-v1" })).toMatchObject({
     ok: true,
     data: { state: "absent" },
   });

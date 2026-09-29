@@ -1,6 +1,8 @@
 # 19d — Measured voice settings and bounded work
 
-Status: bounded termination/control experiment verified; [evidence](../assets/19d-voice-settings/README.md) retains fifteen fresh-process trials, including identical-audio cap/EOS boundary controls, exact frozen/clamp parity and changed-seed replay. The subsequent [resource tranche](../assets/19d-voice-envelope/README.md) retains a 1,024-output-token MLX memory failure above12GiB; seven cases completed and the combined corner was not run. A later single [512-code joint corner](../assets/19d-voice-corner/README.md) stayed below12GiB while exercising all512 codes, with noEOS. [Admission probes](../assets/19d-voice-admission/README.md) verify tiny-input refusal, a real1.3s utterance and temperature endpoints1e-6/1e6. Explicit policy agreement and public resolver/worker adoption remain open. Parent: [19](19-voice-assets.md). Dependencies: [19a](19a-voice-entry-parity.md).
+Status: implemented and verified for the registered measured profile. [Adoption evidence](../assets/19d-voice-adoption/README.md) covers strict settings, actual prefill accounting, truthful EOS refusal, exact frozen/filtered audio parity, repaired numerical controls and unchanged final preparation/lifecycle gates. Original timing and numeric failures remain retained with their scope. Public durable generation remains owned by19f. Parent: [19](19-voice-assets.md). Dependencies: [19a](19a-voice-entry-parity.md), [19d1](19d1-probability-filter.md).
+
+Resource justification remains in the [termination/control trials](../assets/19d-voice-settings/README.md), [larger-output memory red](../assets/19d-voice-envelope/README.md), [measured joint corner](../assets/19d-voice-corner/README.md) and [reference/temperature probes](../assets/19d-voice-admission/README.md). These are not quality or universal capacity claims.
 
 The [probability-filter repair](19d1-probability-filter.md) preserves the measured
 empty-distribution failures and a bounded candidate. Its numerical checks do not
@@ -56,3 +58,45 @@ Deliver an inspectable capability report, retained experiment evidence and focus
 resolver/worker checks. Delegated: bounded trial ordering and instrumentation.
 Public numeric limits are an evidence-backed outcome recorded before adoption;
 user feedback on acceptable latency or quality changes the acceptance verdict.
+
+## Registered execution contract
+
+The active immutable registration is `qwen3-tts-icl-v1`; its authoritative
+[profile](../../../packages/core/src/model-data/voice-profile-v1.json) is embedded
+in discovery and included byte-for-byte in the runtime artifact. The old private
+registration is replaced, while its frozen evidence remains untouched. A new
+registration identifies the measured execution contract, not an internal module
+revision. Runtime entry changes require a new inventory identity.
+
+The profile is a measured work and numerical envelope, not universal model
+capacity or a quality guarantee. The joint corner evidence supplies its reference,
+actual target/prefill and output limits; the earlier larger-output memory red
+remains open outside that profile. Seed uses canonical unsigned decimal text so
+JavaScript cannot lose bits. Greedy temperature bypasses probability filters;
+top-k disables independently when it reaches each codebook's vocabulary. The
+receipt preserves requested settings and the pinned repetition clamp.
+
+The pinned backend compares an ascending bfloat16 cumulative distribution against
+`1-top_p`. Tiny positive top-p values can round that threshold to one and remove
+every candidate. An endpoint sweep initially supported a candidate lower bound, but broader
+partial-uniform distributions still produced empty support, including at0.01.
+The [numeric-filter repair](19d1-probability-filter.md) preserves valid sampling
+and frozen defaults while restoring a candidate only for otherwise-empty valid
+support. The entire positive binary64 top-p domain is admitted; zero and one
+retain the backend's disabled-filter semantics. Signed zeros are canonicalized
+before JSON receipt comparison. Final default and filtered audio parity passes with zero tolerance.
+Admission remains one domain regardless of greedy mode. The
+repetition ceiling prevents a nonfinite bfloat16 scalar; it does not promise
+natural speech. Output finite-sample checks remain mandatory.
+
+One narrow instance adapter observes the pinned backend's existing preparation
+and encode calls, calls each original once, returns the original values and
+restores the encoder in `finally`. It records actual token counts and identities
+and refuses excessive context before the talker loop. No prompt reconstruction,
+second encoding or alternate tokenizer owner is introduced. This deliberately
+depends on the pinned private API and rejects unexpected shapes.
+
+Completion comes from the pinned nonstream result token count and its verified
+EOS-before-append loop: exhausting the requested budget is refused before output
+publication. Identical audible content can occur with and without observed EOS,
+so this is termination truth, not a claim that every capped clip misses a word.

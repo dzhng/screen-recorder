@@ -1,3 +1,4 @@
+import type { voiceProfile } from "./voice-profile.js";
 export type SpeechModelFile = Readonly<{ path: string; bytes: number; sha256: string }>;
 /** The runtime and decoder evaluated with a model; native reports the same identity per transcript. */
 export type SpeechRuntime = Readonly<{
@@ -14,6 +15,7 @@ export type ModelManifest = Readonly<{
   purpose: "transcription" | "voice";
   platform: Readonly<{ system: string; architecture: string }>;
   runtimeArtifact?: RuntimeArtifact;
+  generationProfile?: typeof voiceProfile;
   repo: string;
   revision: string;
   /** FluidAudio loads from the parent directory joined with this exact folder name. */

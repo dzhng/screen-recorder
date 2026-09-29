@@ -207,6 +207,7 @@ class Preparation {
           purpose: this.manifest.purpose,
           platform: this.manifest.platform,
           runtimeDigest: this.manifest.runtimeArtifact?.digest,
+          generationProfile: this.manifest.generationProfile,
         }),
       )
       .digest("hex");
@@ -511,6 +512,9 @@ export class Models {
       descriptorDigest: model.descriptorDigest,
       modelDigest: model.modelDigest,
       pins: model.pins,
+      ...(model.manifest.generationProfile
+        ? { generationProfile: model.manifest.generationProfile }
+        : {}),
       ...(model.manifest.runtimeArtifact
         ? { runtimeDigest: model.manifest.runtimeArtifact.digest }
         : {}),

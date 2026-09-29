@@ -1,3 +1,4 @@
+import { voiceProfile } from "./voice-profile.js";
 import runtimeEntries from "./model-data/voice-runtime.json" with { type: "json" };
 import type { ModelManifest, RuntimeEntry } from "./model-types.js";
 /**
@@ -133,7 +134,8 @@ export const parakeetModel: ModelManifest = {
 };
 
 export const qwenVoiceModel: ModelManifest = {
-  name: "qwen3-tts",
+  name: voiceProfile.id,
+  generationProfile: voiceProfile,
   purpose: "voice",
   platform: {
     system: "darwin",
@@ -146,7 +148,7 @@ export const qwenVoiceModel: ModelManifest = {
     runtime: "mlx-audio",
     runtimeVersion: "0.5.6",
     runtimeRevision: "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
-    decoder: "qwen3-tts-reference",
+    decoder: voiceProfile.id,
   },
   files: [
     {
@@ -221,7 +223,7 @@ export const qwenVoiceModel: ModelManifest = {
     },
   ],
   runtimeArtifact: {
-    digest: "0402e09d4aee7da3cd028bf65fb624fd8da0b1aeac47aca0d49437c268278cab",
+    digest: "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
     entries: runtimeEntries as RuntimeEntry[],
     python: "python/bin/python3.12",
     entry: "voice/worker.py",
