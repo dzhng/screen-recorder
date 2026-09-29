@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "baseCommit": "b1333068",
+  "nativeSha256": "aefefafc9fa2ac16083ebb1a951a3b78e4c9368120efb80f8b4575c39d699faa",
+  "worker": "/tmp/screenrec-rnnoise-independent-native",
+  "command": "SCREENREC_NATIVE=/tmp/screenrec-rnnoise-independent-native node packages/test-harness/editing/prepared-package.mjs --out /tmp/screenrec-learned-package-retained",
+  "buildPrerequisites": "Existing combined composition/core/service/CLI dist and linked native worker from 15a2f; no new production changes/build. Fresh checkout: build composition, core, service and CLI dependency closure before harness.",
+  "harnessSha256": "3652dc17fc41a10ca5dc559262d1fae5db340dd9593fa9b3a81e93350933cafb",
+  "harnessNote": "Final formatter expanded whitespace after the passing run; independent review syntax/diff checks passed.",
+  "archiveSha256": "7a7e79cf6dda730f10af40f5bdce6575234a9cc1d9665d7b52444b2e9917c7b4",
+  "archiveBytes": 70824,
+  "checks": {
+    "exactNativeUnitRateAndGain": true,
+    "publicLearnedPreparationAndRepeat": true,
+    "learnedFullAndLateTransferExact": true,
+    "receiverProcessingUnavailable": true,
+    "unchangedRevisionDocuments": true,
+    "publicRelocationAndReplay": true,
+    "canceledAdoptionInvisibleAndSameRequestRetry": true,
+    "donorAndArchiveRemoved": true,
+    "originalRecipeIdentitiesRetained": true,
+    "adoptedRevisionReferences": true,
+    "speechModelAbsentOnly": true,
+    "learnedTamperedPCMRefused": true,
+    "unavailableExecutorNotInvoked": true,
+    "exactHistoricalAndCurrentPCM": true,
+    "boundedLatePCM": true,
+    "publicAssetAudioExact": true,
+    "missingAndCorruptRetainedPCMRefused": true
+  },
+  "review": "Read-only Codex review found no actionable defects; reviewer did not run native harness.",
+  "failuresRetained": {
+    "initial-receipt-failure.json": "Harness used published.resourceId instead of published.audio.resourceId; corrected without production change.",
+    "initial-readonly-tamper-failure.json": "Harness attempted writing immutable asset in place; filesystem EACCES. Corrected negative replaces file after unlink, matching prior negative pattern."
+  },
+  "scope": "Exact public learned preparation/package transfer/retained PCM for one second generated stereo; no listening, successful scale, source acquisition package or model-absent executable claim."
+}

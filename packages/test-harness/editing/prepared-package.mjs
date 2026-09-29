@@ -2,7 +2,16 @@ import assert from "node:assert/strict";
 import { createHash, randomUUID } from "node:crypto";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import { mkdtemp, mkdir, realpath, readFile, writeFile, rm, rename } from "node:fs/promises";
+import {
+  mkdtemp,
+  mkdir,
+  realpath,
+  readFile,
+  writeFile,
+  rm,
+  rename,
+  copyFile,
+} from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { Catalog } from "../../core/dist/catalog.js";
 import { AssetStore } from "../../core/dist/assets.js";
@@ -15,7 +24,7 @@ import { PreparedAudioStore, preparedAudioResource } from "../../core/dist/prepa
 import { projectAudioRenderer } from "../../../apps/service/dist/project-render.js";
 import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
-import { writeSourceWave, sourcePeriod } from "./audio-project-fixture.mjs";
+import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixture.mjs";
 import { cliReply } from "./first-preview-transport.mjs";
 const run = promisify(execFile),
   hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
@@ -31,14 +40,31 @@ const report = {
   passed: false,
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   scope:
-    "owner-seeded native unit-rate/gain PCM; public package transfer and asset audio; no public preparation or DSP readiness",
+    "historical owner-seeded unit-rate/gain plus public learned preparation; exact portable PCM preservation with processing unavailable; no listening or model-absent binary claim",
   trace: [],
   checks: {},
   publications: [],
 };
 let service;
 async function start(home) {
-  service = await startProjectService({ home, worker });
+  const selected =
+    home === receiver
+      ? async (operation, ...args) => {
+          if (["media.audioCapabilities", "media.mixCompositionAudio"].includes(operation)) {
+            report.trace.push({ refusedNativeOperation: operation });
+            return {
+              ok: false,
+              error: {
+                code: "NOT_READY",
+                message: "Processing unavailable for transfer verification",
+                retryable: false,
+              },
+            };
+          }
+          return worker(operation, ...args);
+        }
+      : worker;
+  service = await startProjectService({ home, worker: selected });
 }
 async function close() {
   await service?.close();
@@ -54,7 +80,7 @@ async function call(operation, params, output) {
     JSON.stringify(params),
     ...(output ? ["--output", output] : []),
   ]);
-  report.trace.push({ operation, ok: reply.ok, state: reply.data?.state });
+  report.trace.push({ operation, params, reply });
   assert(reply.ok, JSON.stringify(reply));
   return reply.data;
 }
@@ -74,7 +100,12 @@ async function owner(home, execute, use) {
   const assets = new AssetStore(catalog, library);
   await assets.recover();
   const acquisitions = new AcquisitionStore(catalog);
-  const projects = new ProjectStore(catalog, assets, new TranscriptStore(catalog, library, assetTranscriptOwner(assets, acquisitions)), acquisitions);
+  const projects = new ProjectStore(
+    catalog,
+    assets,
+    new TranscriptStore(catalog, library, assetTranscriptOwner(assets, acquisitions)),
+    acquisitions,
+  );
   let prepared,
     calls = 0;
   const jobs = new JobQueue({
@@ -136,6 +167,7 @@ try {
   await start(donor);
   const source = join(scratch, "source.wav");
   await writeSourceWave(source, { source: 0, seconds: 1 });
+  await copyFile(source, join(out, "source.wav"));
   const imported = await call("asset.import", { requestId: "source", path: source });
   const importedJob = await poll(
     () => call("job.get", { jobId: imported.jobId }),
@@ -202,6 +234,65 @@ try {
     return values;
   });
   await start(donor);
+  const learned = await call("edit.apply", {
+    projectId,
+    requestId: "learned",
+    expectedRevisionId: latest.revision.id,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "rnnoise" } }],
+      },
+    ],
+  });
+  const selection = { projectId, revisionId: learned.revision.id };
+  const publication = await poll(
+    () => call("audio.prepare", selection),
+    (value) => value.state === "ready",
+  );
+  assert.deepEqual(await call("audio.prepare", selection), publication);
+  report.learnedPublication = publication;
+  const learnedAsset = await call("asset.get", { assetId: publication.published.audio.assetId });
+  const learnedPath = join(out, "donor-learned.wav");
+  await poll(
+    () =>
+      call(
+        "audio.get",
+        {
+          assetId: learnedAsset.id,
+          streamId: learnedAsset.streams[0].id,
+          range: { startUs: 0, endUs: 1000000 },
+        },
+        learnedPath,
+      ),
+    (value) => value.state === "ready",
+  );
+  const learnedWave = await readFile(learnedPath),
+    header = waveHeader(learnedWave, learnedWave.length);
+  const learnedPCM = learnedWave.subarray(header.offset, header.offset + header.bytes);
+  assert.equal(learnedPCM.length, 48000 * 8);
+  assert.notDeepEqual(
+    learnedPCM,
+    expected[0],
+    "A dry substitution must fail the learned preservation oracle",
+  );
+  expected.push(Buffer.from(learnedPCM));
+  originals.push(learned.revision);
+  await close();
+  values.push(
+    await owner(donor, false, async ({ prepared, projects }) => {
+      assert.deepEqual(projects.revision(projectId, learned.revision.id), learned.revision);
+      const portable = prepared.portable(publication.published.audio.resourceId);
+      assert(
+        JSON.parse(portable.publication.input).requirements.some((r) =>
+          r.implementationId?.startsWith("rnnoise-"),
+        ),
+      );
+      return { value: { assetId: publication.published.audio.assetId }, portable };
+    }),
+  );
+  await start(donor);
   const exportId = randomUUID();
   await call("export.create", {
     projectId,
@@ -216,6 +307,7 @@ try {
   );
   const archive = join(out, "relocated.zip");
   await rename(exported.output, archive);
+  await copyFile(archive, join(out, "evidence-only-package.zip"));
   await close();
   await rm(donor, { recursive: true });
   await rm(source);
@@ -338,17 +430,33 @@ try {
     await rm(assets.path(values[1].value.assetId));
     await writeFile(assets.path(values[1].value.assetId), "corrupt PCM");
     assert.throws(() => prepared.open(report.publications[1].resourceId));
+    const learnedFile = assets.path(values[2].value.assetId);
+    const originalBytes = await readFile(learnedFile);
+    const corrupted = Buffer.from(originalBytes);
+    corrupted[corrupted.length - 1] ^= 1;
+    await rm(learnedFile);
+    await writeFile(learnedFile, corrupted);
+    assert.throws(() => prepared.open(report.publications[2].resourceId));
     assert.equal(calls(), 0);
   });
+  assert.equal(
+    report.trace.filter((v) => v.refusedNativeOperation === "media.mixCompositionAudio").length,
+    0,
+  );
+  assert(report.trace.some((v) => v.refusedNativeOperation === "media.audioCapabilities"));
   report.checks = {
     exactNativeUnitRateAndGain: true,
+    publicLearnedPreparationAndRepeat: true,
+    learnedFullAndLateTransferExact: true,
+    receiverProcessingUnavailable: true,
     unchangedRevisionDocuments: true,
     publicRelocationAndReplay: true,
     canceledAdoptionInvisibleAndSameRequestRetry: true,
     donorAndArchiveRemoved: true,
     originalRecipeIdentitiesRetained: true,
     adoptedRevisionReferences: true,
-    modelAbsent: true,
+    speechModelAbsentOnly: true,
+    learnedTamperedPCMRefused: true,
     unavailableExecutorNotInvoked: true,
     exactHistoricalAndCurrentPCM: true,
     boundedLatePCM: true,

@@ -1,6 +1,6 @@
 # 14a — Durable prepared audio shared by retiming and processors
 
-Status: core lifecycle, [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md), and [public preparation/asset inspection](../assets/14a-public-preparation/README.md) verified, including fresh skill use. Actual model-dependent processing consumers and output remain open. Dependencies: 02a, 04,
+Status: core lifecycle, [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md), and [public preparation/asset inspection](../assets/14a-public-preparation/README.md) verified, including fresh skill use. Linked learned processing now uses this owner through [15a2d–f](15a2f-independent-channels.md); [learned package transfer](../assets/14a-learned-portable/README.md) verifies retained delivery separately from DSP quality. Stretch binding, successful long-output scaling and full listening acceptance remain open. Dependencies: 02a, 04,
 05, 08 and 22a. This storage/publication prerequisite does not depend on accepting
 RNNoise or stretch quality; actual DSP adoption remains gated by 12c/13a.
 
@@ -25,8 +25,9 @@ revision and the compiler's entire execution manifest: exact selected support,
 sample range/rendition, routing/ordered processing, windows/curves and implementation
 identities. No caller-provided filter string or inferred model/channel policy.
 The renderer uses decode/select, resample/map, accepted retime, then ordered stacks;
-unresolved requirements keep failing before job admission. RNNoise and stretch
-remain unavailable. Preview subranges do not redefine preparation origin.
+unresolved requirements keep failing before job admission. At this historical
+unit-rate/gain checkpoint RNNoise and stretch were unavailable; current learned
+readiness is owned by 15a2, not inferred from these storage tests. Preview subranges do not redefine preparation origin.
 
 Retain current float32 WAV bytes in AssetStore and verify the exact receipt with
 the shared WAV validator. File limits derive from the existing RIFF writer and
@@ -69,7 +70,7 @@ and queue receipt atomically. Public relocation preserves current and historical
 unit-rate/gain results after donor removal; retained reads need no renderer or
 model. The [portable evidence](../assets/14a-prepared-portable/README.md) separates
 these owner-level checks from the separately verified public preparation and
-unbuilt DSP integration.
+the subsequent linked learned integration.
 
 The public preparation entry point is `audio.prepare` with required `projectId`
 and `revisionId`. It prepares the full processed output domain at the existing
@@ -84,8 +85,8 @@ not restart failed or canceled work. The prepared result is an ordinary retained
 asset: `asset.get` discovers its stream, and existing `audio.get`, waveform and
 spectrogram selectors inspect it without a new delivery owner. Historical assets
 remain readable after newer edits and relocation. An unresolved processor/retime
-requirement refuses before admission; this public vertical does not advertise
-RNNoise/stretch readiness or introduce caller-provided recipes.
+requirement refuses before admission; this storage contract does not itself establish processor readiness or introduce
+caller-provided recipes.
 
 Verify actual CLI/MCP preparation, exact native unit-rate/gain PCM, repeat identity,
 unchanged revision/head, inspection through the prepared asset, historical/restart
@@ -95,7 +96,7 @@ portable receipt publication. Agent-visible schemas/help/skill must describe the
 supported output domain and limits, rather than implying arbitrary target/DSP
 support from the command name.
 
-Then 14 and 15a bind accepted typed recipes and native executors to this owner,
+Slices 14 and 15a own binding accepted typed recipes and native executors to this owner,
 with production-entry parity against the frozen reproductions. Clip-level state
 domains, denoise transitions, stereo behavior, post-retime/combined speech,
 protected phonemes and listening remain their acceptance gates. A lifecycle pass
@@ -107,5 +108,6 @@ The [retained evidence](../assets/14a-prepared-audio/README.md) records actual n
 unit-rate, split and constant-gain output, bounded reads after restart, lifecycle
 tests and the broad-suite verification limits. The public command and ordinary retained-asset inspection now exercise the
 production native renderer through the existing owner. Package export now retains supported prepared receipts through the existing owner.
-Actual model-dependent output, scale/deletion acceptance and public processor
-integration remain required before closure.
+The linked learned runtime and portable retained results are verified in their
+scoped leaves. Successful long-output scaling, remaining lifecycle/processor
+combinations and listening acceptance remain required before full closure.

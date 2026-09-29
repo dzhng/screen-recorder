@@ -1,0 +1,46 @@
+{
+  "donor-learned.wav": {
+    "bytes": 388096,
+    "sha256": "921d9c149e586ff00ee854b2a2cdeeb3572bc523ca4bd997ec381b2459069978"
+  },
+  "evidence-only-package.zip": {
+    "bytes": 1376727,
+    "sha256": "7c89a1910c9f916e227d3fe69ac6fe5e8c1785e6c737882354da22c0ddbaffad"
+  },
+  "initial-readonly-tamper-failure.json": {
+    "bytes": 203893,
+    "sha256": "9686aedcec1d471f7e1ee3da9565261598b6a6caf82e80914e1951674aaf4101"
+  },
+  "initial-readonly-tamper-failure.log": {
+    "bytes": 1218,
+    "sha256": "7ce1b3aa59676e90b608b562178713b25bf7ec78f05be30c2e94510dfde61e58"
+  },
+  "initial-receipt-failure.json": {
+    "bytes": 1453,
+    "sha256": "f335af80f1953d7d048be6ba8929144a04541e081f17aec241e568427f196bf6"
+  },
+  "public-prepared-0.wav": {
+    "bytes": 100096,
+    "sha256": "2237ffca39723af0985f669629953df75f0cbe489c9f565de615b1a824ea6f11"
+  },
+  "public-prepared-1.wav": {
+    "bytes": 100096,
+    "sha256": "e5cc8ded6932cac6431733524c9daba202701236f7eec23af0f3cc13c94bc618"
+  },
+  "public-prepared-2.wav": {
+    "bytes": 100096,
+    "sha256": "2dec1ad87081016d2e2f6bf97af97aac0475869961939328e9f730e06ec8a804"
+  },
+  "report.json": {
+    "bytes": 204634,
+    "sha256": "67b7962d00f06174fbc3bbdddce84e2432a1dbdb1d06f89ada77c34e07ace508"
+  },
+  "run.log": {
+    "bytes": 842,
+    "sha256": "b995deec7a1c4434b9914bfaa6aa34d0aaa513feebdec88703f0d59f83facac8"
+  },
+  "source.wav": {
+    "bytes": 192044,
+    "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+  }
+}

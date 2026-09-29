@@ -2997,3 +2997,17 @@ sequence checks; no invented recording event fills the missing response. Otherwi
 recovery could inspect a still-owned writer and permanently override its later
 completion. The old transition table left this legitimate state jump unspecified.
 Root approved the change; public terminal duration still comes from native outcome.
+### Learned portable preservation oracle
+
+- **When:** 14a learned prepared-package checkpoint.
+- **Choice:** Compare the receiver with the donor's actual publicly delivered
+  learned PCM. A package should preserve the sound already prepared: exporting,
+  adopting and reading it must not run the denoiser again or change its samples.
+  The earlier frozen-adapter comparisons remain the separate proof that the
+  denoiser computes the accepted recipe; this transfer pass does not replace them.
+- **Gap:** The package follow-up did not prescribe a second DSP oracle.
+- **Reach:** Reuses the existing package and prepared-audio harness with a short
+  generated stereo fixture; does not infer speech quality or long-output behavior.
+- **Verdict:** Sound; isolates preservation from execution and retains the earlier
+  independent numerical gates.
+- **Confidence:** High.

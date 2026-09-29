@@ -1,0 +1,1305 @@
+2026-09-29T07:52:22.089868Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-29T07:52:22.089934Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0ec26-833a-7650-985f-e55c086a34c7
+--------
+user
+current changes
+2026-09-29T07:52:22.726465Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-29T07:52:22.726494Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+exec
+/bin/zsh -lc 'git status --short; cat AGENTS.md; cat .agents/skills/code-review/SKILL.md; find . -name AGENTS.md -o -name AGENTS.override.md' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+2026-09-29T07:52:29.667095Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ec26-833a-7650-985f-e55c086a34c7 turn_id=01a0ec26-83b3-7681-97bb-281dc8e0e9cb item_id="exec-c29d4e60-e313-4f7d-9d15-575fdaddcada"
+ succeeded in 455ms:
+./AGENTS.md
+./apps/macos/.build/checkouts/FluidAudio/AGENTS.md
+./helpers/mac/.build/checkouts/FluidAudio/AGENTS.md
+
+exec
+/bin/zsh -lc 'git diff --stat; git diff -- packages/test-harness/editing/prepared-package.mjs; git diff -- specs/agent-editing/slices/14a-prepared-audio.md; find specs/agent-editing/assets/14a-learned-portable -type f; cat .agents/skills/write-tests/SKILL.md' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+ packages/test-harness/editing/prepared-package.mjs | 122 +++++++++++++++++++--
+ specs/agent-editing/slices/14a-prepared-audio.md   |  20 ++--
+ 2 files changed, 126 insertions(+), 16 deletions(-)
+diff --git a/packages/test-harness/editing/prepared-package.mjs b/packages/test-harness/editing/prepared-package.mjs
+index dd9d47f3..ca2c0d45 100644
+--- a/packages/test-harness/editing/prepared-package.mjs
++++ b/packages/test-harness/editing/prepared-package.mjs
+@@ -2,7 +2,16 @@ import assert from "node:assert/strict";
+ import { createHash, randomUUID } from "node:crypto";
+ import { execFile } from "node:child_process";
+ import { promisify } from "node:util";
+-import { mkdtemp, mkdir, realpath, readFile, writeFile, rm, rename } from "node:fs/promises";
++import {
++  mkdtemp,
++  mkdir,
++  realpath,
++  readFile,
++  writeFile,
++  rm,
++  rename,
++  copyFile,
++} from "node:fs/promises";
+ import { join, resolve } from "node:path";
+ import { Catalog } from "../../core/dist/catalog.js";
+ import { AssetStore } from "../../core/dist/assets.js";
+@@ -15,7 +24,7 @@ import { PreparedAudioStore, preparedAudioResource } from "../../core/dist/prepa
+ import { projectAudioRenderer } from "../../../apps/service/dist/project-render.js";
+ import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
+ import { startProjectService } from "../../../apps/service/dist/project-service.js";
+-import { writeSourceWave, sourcePeriod } from "./audio-project-fixture.mjs";
++import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixture.mjs";
+ import { cliReply } from "./first-preview-transport.mjs";
+ const run = promisify(execFile),
+   hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+@@ -31,14 +40,31 @@ const report = {
+   passed: false,
+   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+   scope:
+-    "owner-seeded native unit-rate/gain PCM; public package transfer and asset audio; no public preparation or DSP readiness",
++    "historical owner-seeded unit-rate/gain plus public learned preparation; exact portable PCM preservation with processing unavailable; no listening or model-absent binary claim",
+   trace: [],
+   checks: {},
+   publications: [],
+ };
+ let service;
+ async function start(home) {
+-  service = await startProjectService({ home, worker });
++  const selected =
++    home === receiver
++      ? async (operation, ...args) => {
++          if (["media.audioCapabilities", "media.mixCompositionAudio"].includes(operation)) {
++            report.trace.push({ refusedNativeOperation: operation });
++            return {
++              ok: false,
++              error: {
++                code: "NOT_READY",
++                message: "Processing unavailable for transfer verification",
++                retryable: false,
++              },
++            };
++          }
++          return worker(operation, ...args);
++        }
++      : worker;
++  service = await startProjectService({ home, worker: selected });
+ }
+ async function close() {
+   await service?.close();
+@@ -54,7 +80,7 @@ async function call(operation, params, output) {
+     JSON.stringify(params),
+     ...(output ? ["--output", output] : []),
+   ]);
+-  report.trace.push({ operation, ok: reply.ok, state: reply.data?.state });
++  report.trace.push({ operation, params, reply });
+   assert(reply.ok, JSON.stringify(reply));
+   return reply.data;
+ }
+@@ -74,7 +100,12 @@ async function owner(home, execute, use) {
+   const assets = new AssetStore(catalog, library);
+   await assets.recover();
+   const acquisitions = new AcquisitionStore(catalog);
+-  const projects = new ProjectStore(catalog, assets, new TranscriptStore(catalog, library, assetTranscriptOwner(assets, acquisitions)), acquisitions);
++  const projects = new ProjectStore(
++    catalog,
++    assets,
++    new TranscriptStore(catalog, library, assetTranscriptOwner(assets, acquisitions)),
++    acquisitions,
++  );
+   let prepared,
+     calls = 0;
+   const jobs = new JobQueue({
+@@ -136,6 +167,7 @@ try {
+   await start(donor);
+   const source = join(scratch, "source.wav");
+   await writeSourceWave(source, { source: 0, seconds: 1 });
++  await copyFile(source, join(out, "source.wav"));
+   const imported = await call("asset.import", { requestId: "source", path: source });
+   const importedJob = await poll(
+     () => call("job.get", { jobId: imported.jobId }),
+@@ -202,6 +234,65 @@ try {
+     return values;
+   });
+   await start(donor);
++  const learned = await call("edit.apply", {
++    projectId,
++    requestId: "learned",
++    expectedRevisionId: latest.revision.id,
++    operations: [
++      {
++        operation: "processing.set",
++        target: { kind: "output" },
++        steps: [{ processor: { type: "rnnoise" } }],
++      },
++    ],
++  });
++  const selection = { projectId, revisionId: learned.revision.id };
++  const publication = await poll(
++    () => call("audio.prepare", selection),
++    (value) => value.state === "ready",
++  );
++  assert.deepEqual(await call("audio.prepare", selection), publication);
++  report.learnedPublication = publication;
++  const learnedAsset = await call("asset.get", { assetId: publication.published.audio.assetId });
++  const learnedPath = join(out, "donor-learned.wav");
++  await poll(
++    () =>
++      call(
++        "audio.get",
++        {
++          assetId: learnedAsset.id,
++          streamId: learnedAsset.streams[0].id,
++          range: { startUs: 0, endUs: 1000000 },
++        },
++        learnedPath,
++      ),
++    (value) => value.state === "ready",
++  );
++  const learnedWave = await readFile(learnedPath),
++    header = waveHeader(learnedWave, learnedWave.length);
++  const learnedPCM = learnedWave.subarray(header.offset, header.offset + header.bytes);
++  assert.equal(learnedPCM.length, 48000 * 8);
++  assert.notDeepEqual(
++    learnedPCM,
++    expected[0],
++    "A dry substitution must fail the learned preservation oracle",
++  );
++  expected.push(Buffer.from(learnedPCM));
++  originals.push(learned.revision);
++  await close();
++  values.push(
++    await owner(donor, false, async ({ prepared, projects }) => {
++      assert.deepEqual(projects.revision(projectId, learned.revision.id), learned.revision);
++      const portable = prepared.portable(publication.published.audio.resourceId);
++      assert(
++        JSON.parse(portable.publication.input).requirements.some((r) =>
++          r.implementationId?.startsWith("rnnoise-"),
++        ),
++      );
++      return { value: { assetId: publication.published.audio.assetId }, portable };
++    }),
++  );
++  await start(donor);
+   const exportId = randomUUID();
+   await call("export.create", {
+     projectId,
+@@ -216,6 +307,7 @@ try {
+   );
+   const archive = join(out, "relocated.zip");
+   await rename(exported.output, archive);
++  await copyFile(archive, join(out, "evidence-only-package.zip"));
+   await close();
+   await rm(donor, { recursive: true });
+   await rm(source);
+@@ -338,17 +430,33 @@ try {
+     await rm(assets.path(values[1].value.assetId));
+     await writeFile(assets.path(values[1].value.assetId), "corrupt PCM");
+     assert.throws(() => prepared.open(report.publications[1].resourceId));
++    const learnedFile = assets.path(values[2].value.assetId);
++    const originalBytes = await readFile(learnedFile);
++    const corrupted = Buffer.from(originalBytes);
++    corrupted[corrupted.length - 1] ^= 1;
++    await rm(learnedFile);
++    await writeFile(learnedFile, corrupted);
++    assert.throws(() => prepared.open(report.publications[2].resourceId));
+     assert.equal(calls(), 0);
+   });
++  assert.equal(
++    report.trace.filter((v) => v.refusedNativeOperation === "media.mixCompositionAudio").length,
++    0,
++  );
++  assert(report.trace.some((v) => v.refusedNativeOperation === "media.audioCapabilities"));
+   report.checks = {
+     exactNativeUnitRateAndGain: true,
++    publicLearnedPreparationAndRepeat: true,
++    learnedFullAndLateTransferExact: true,
++    receiverProcessingUnavailable: true,
+     unchangedRevisionDocuments: true,
+     publicRelocationAndReplay: true,
+     canceledAdoptionInvisibleAndSameRequestRetry: true,
+     donorAndArchiveRemoved: true,
+     originalRecipeIdentitiesRetained: true,
+     adoptedRevisionReferences: true,
+-    modelAbsent: true,
++    speechModelAbsentOnly: true,
++    learnedTamperedPCMRefused: true,
+     unavailableExecutorNotInvoked: true,
+     exactHistoricalAndCurrentPCM: true,
+     boundedLatePCM: true,
+diff --git a/specs/agent-editing/slices/14a-prepared-audio.md b/specs/agent-editing/slices/14a-prepared-audio.md
+index 71af2f96..cff76410 100644
+--- a/specs/agent-editing/slices/14a-prepared-audio.md
++++ b/specs/agent-editing/slices/14a-prepared-audio.md
+@@ -1,6 +1,6 @@
+ # 14a — Durable prepared audio shared by retiming and processors
+ 
+-Status: core lifecycle, [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md), and [public preparation/asset inspection](../assets/14a-public-preparation/README.md) verified, including fresh skill use. Actual model-dependent processing consumers and output remain open. Dependencies: 02a, 04,
++Status: core lifecycle, [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md), and [public preparation/asset inspection](../assets/14a-public-preparation/README.md) verified, including fresh skill use. Linked learned processing now uses this owner through [15a2d–f](15a2f-independent-channels.md); [learned package transfer](../assets/14a-learned-portable/README.md) verifies retained delivery separately from DSP quality. Stretch binding, successful long-output scaling and full listening acceptance remain open. Dependencies: 02a, 04,
+ 05, 08 and 22a. This storage/publication prerequisite does not depend on accepting
+ RNNoise or stretch quality; actual DSP adoption remains gated by 12c/13a.
+ 
+@@ -25,8 +25,9 @@ revision and the compiler's entire execution manifest: exact selected support,
+ sample range/rendition, routing/ordered processing, windows/curves and implementation
+ identities. No caller-provided filter string or inferred model/channel policy.
+ The renderer uses decode/select, resample/map, accepted retime, then ordered stacks;
+-unresolved requirements keep failing before job admission. RNNoise and stretch
+-remain unavailable. Preview subranges do not redefine preparation origin.
++unresolved requirements keep failing before job admission. At this historical
++unit-rate/gain checkpoint RNNoise and stretch were unavailable; current learned
++readiness is owned by 15a2, not inferred from these storage tests. Preview subranges do not redefine preparation origin.
+ 
+ Retain current float32 WAV bytes in AssetStore and verify the exact receipt with
+ the shared WAV validator. File limits derive from the existing RIFF writer and
+@@ -69,7 +70,7 @@ and queue receipt atomically. Public relocation preserves current and historical
+ unit-rate/gain results after donor removal; retained reads need no renderer or
+ model. The [portable evidence](../assets/14a-prepared-portable/README.md) separates
+ these owner-level checks from the separately verified public preparation and
+-unbuilt DSP integration.
++the subsequent linked learned integration.
+ 
+ The public preparation entry point is `audio.prepare` with required `projectId`
+ and `revisionId`. It prepares the full processed output domain at the existing
+@@ -84,8 +85,8 @@ not restart failed or canceled work. The prepared result is an ordinary retained
+ asset: `asset.get` discovers its stream, and existing `audio.get`, waveform and
+ spectrogram selectors inspect it without a new delivery owner. Historical assets
+ remain readable after newer edits and relocation. An unresolved processor/retime
+-requirement refuses before admission; this public vertical does not advertise
+-RNNoise/stretch readiness or introduce caller-provided recipes.
++requirement refuses before admission; this storage contract does not itself establish processor readiness or introduce
++caller-provided recipes.
+ 
+ Verify actual CLI/MCP preparation, exact native unit-rate/gain PCM, repeat identity,
+ unchanged revision/head, inspection through the prepared asset, historical/restart
+@@ -95,7 +96,7 @@ portable receipt publication. Agent-visible schemas/help/skill must describe the
+ supported output domain and limits, rather than implying arbitrary target/DSP
+ support from the command name.
+ 
+-Then 14 and 15a bind accepted typed recipes and native executors to this owner,
++Slices 14 and 15a own binding accepted typed recipes and native executors to this owner,
+ with production-entry parity against the frozen reproductions. Clip-level state
+ domains, denoise transitions, stereo behavior, post-retime/combined speech,
+ protected phonemes and listening remain their acceptance gates. A lifecycle pass
+@@ -107,5 +108,6 @@ The [retained evidence](../assets/14a-prepared-audio/README.md) records actual n
+ unit-rate, split and constant-gain output, bounded reads after restart, lifecycle
+ tests and the broad-suite verification limits. The public command and ordinary retained-asset inspection now exercise the
+ production native renderer through the existing owner. Package export now retains supported prepared receipts through the existing owner.
+-Actual model-dependent output, scale/deletion acceptance and public processor
+-integration remain required before closure.
++The linked learned runtime and portable retained results are verified in their
++scoped leaves. Successful long-output scaling, remaining lifecycle/processor
++combinations and listening acceptance remain required before full closure.
+specs/agent-editing/assets/14a-learned-portable/README.md
+---
+name: write-tests
+description: Write tests that pin real behavior instead of implementation details, config values, or lucky samples. Use when adding tests for new behavior, writing a regression test, fixing a brittle or flaky test, reviewing a test diff, or when a test breaks after a refactor or config change that didn't change behavior.
+---
+
+# Write Tests
+
+A good test fails **only** when real behavior breaks, and passes through every
+refactor or config change that preserves it. Most bad tests fail the opposite
+way: red on harmless changes, green while the real path is broken. Every rule
+below serves that one goal.
+
+## Workflow: tracer bullets, not a batch
+
+1. **Write ONE test at a time.** Assert first, watch it go red on the un-fixed
+   code, make the code earn green, learn, then write the next. Never a batch up
+   front: a batch written against *imagined* behavior pins what you guessed —
+   those tests pass when the mechanism breaks and fail when it's fine. Each
+   green cycle tells you what the next test should actually assert.
+2. **Iterate on the fastest focused runner** (one file, one test name), and run
+   the full suite only as a final gate before handing off. Check the exit code,
+   not just the output — a runner that prints nothing and a green run look the
+   same. On failures, read EVERY red test before fixing one; they often share a
+   root cause.
+3. **Before calling it done**, prove the test can fail (below) and walk the
+   review checklist.
+
+## What to assert
+
+- **Observable behavior through the outermost practical entry point** — return
+  values, exit codes, persisted rows, HTTP responses, rendered output — never
+  which internal functions ran or how a value is computed. A test on the public
+  surface survives a rewrite of everything underneath; a test that reaches into
+  internals breaks on every refactor and pins implementation, not behavior.
+  Reserve isolated unit tests for genuinely tricky pure logic (parsers,
+  schedulers, state machines).
+- **Nothing the compiler already guarantees.** A test that re-asserts a type
+  signature — field shapes, rejected argument types — can only fail if the
+  compiler failed first. Spend the budget on business rules, arithmetic,
+  branching, ordering, edge cases, side effects.
+- **Actual values, not collection sizes.** For dedup/normalize/idempotency
+  paths, `length == 1` passes even when normalization is broken; also assert
+  the stored value equals the expected canonical form.
+- **The smallest scale that can show the behavior.** Two entities and one
+  mechanism before crowds and integration; small tests fail fast with readable
+  state and don't entangle five behaviors in one assert.
+- **The design contract, not current behavior.** When a test goes red, the
+  reflex is to re-measure and pin the new number — resist it: a bar calibrated
+  to whatever the code currently does silently encodes bugs as baseline. Write
+  the assert from the stated contract and make the code earn it; if no contract
+  exists, that's a question for the owner, not a number to measure-and-pin.
+  Recalibrating is legitimate only when the contract itself changed.
+- **Deterministic claims tight, stochastic claims as distributions.** An
+  invariant that holds every run gets an exact threshold. Anything noisy or
+  tuning-dependent ("A usually beats B", "load balances evenly") must be
+  asserted over a set of runs/seeds as a band — a single-sample pin on a
+  stochastic outcome is not a weak test, it is a **blind** one: it certifies
+  whatever the lucky sample did and can mask a systematic bias for months. If
+  you must assert a noisy differential, widen the margin and name it
+  chaos-marginal in a comment.
+
+## Seams and mocks
+
+- **Don't couple tests to config — mock the seam.** A test keyed to a live
+  config value (which flag is on, which tier is default) breaks when someone
+  legitimately edits config. The fix is never `skipIf`/conditionals — a skipped
+  assertion hides the coupling and stops covering the path. Feed the function
+  fixed inputs, or stub the lookup so fixture ids resolve to fixed values.
+  Litmus: "would this break if a config value changed with no logic change?"
+- **Don't over-mock — every mock is a frozen assumption.** Mock at the system's
+  edges (network, clock, filesystem, third-party SDK, config lookup), never
+  internal collaborators. Stubbing an internal hard-codes its current contract;
+  refactor it and the test lies. Never make "was called with" the primary
+  assertion when an observable outcome exists. Mocking three internal modules
+  to test one function means: test one layer up, where they're real.
+- **Harnesses must wire the system the way production does.** If a bug only
+  showed up against a real environment, the harness skipped an input production
+  always sets — fix the harness, don't just fix the bug.
+
+## Control variables and probes
+
+- **One variable per comparison.** Pin everything else — same seed, same
+  counts, same configuration on both arms; disable mechanisms that aren't the
+  subject. When a comparison test breaks, first ask whether an unrelated
+  mechanism leaked into the experiment before touching the code under test.
+- **Validate, don't assume.** Never reason your way to a conclusion about
+  *cause* — which path fired, where the failures come from — and act on it.
+  Write a throwaway probe that reads public state and prints; the plausible
+  story is wrong often enough to burn a session, and one probe redirects the
+  whole effort. Probes are scratch: put them where they cannot be committed,
+  delete them the moment the question is answered, or promote them into a real
+  test if the behavior deserves a permanent guard.
+
+## Tests run on someone's live machine
+
+A suite that grabs the desktop is a suite people stop running. Whatever the test
+needs, it takes the least intrusive form of it:
+
+- **Never take focus.** No activating the app, no `makeKeyAndOrderFront`, no
+  raising, no moving the pointer, no simulated clicks into the session, no audio
+  playback. A UI a person must not be interrupted by is still fully testable:
+  build the window, drive its model, and assert on the rendered view. Where a
+  screenshot is the evidence, capture the window's own image offscreen rather
+  than photographing the screen. Keep activation on the code path a person
+  triggers, and exercise it by calling the handler, not by launching the app
+  repeatedly.
+- **Write nowhere the person keeps their own state.** Point every test at a
+  scratch home, a scratch preferences domain or suite, and scratch install
+  locations. A test must never modify the real config, library, login items or
+  installed applications. Production may read an override the tests set; it must
+  behave normally when that override is absent.
+- **Batch anything unavoidably visible.** If a check genuinely needs a real
+  launch, do all of its observations in one run instead of one relaunch per
+  assertion, and say in the evidence that it was visible.
+- **Leave nothing running.** Every process, window, server and temporary file the
+  test started is stopped and removed, including on failure.
+
+## Prove the test can fail
+
+A test you never saw fail is decoration. For any regression test — especially
+one written *after* the fix — falsify it once: revert or break the production
+code the way the bug would, confirm red *for the expected reason*, restore,
+confirm green. Verify the revert actually took: a stash or checkout with a
+wrong pathspec reverts nothing, silently, and the "red" run quietly tests the
+fixed code. The tell: the "red" numbers equal the green numbers.
+
+## When a test goes red after a change
+
+Triage in order of likelihood before editing anything:
+
+1. The test encodes **deleted semantics** — it pinned an accident of the old
+   implementation. Re-spec it to the contract's real claim.
+2. The experiment **lost control of a variable** — a new mechanism leaks in.
+   Pin the variable.
+3. The **margin was chaos-tight**. Widen it, with a comment saying so.
+4. The code is **actually wrong**. Probe the state, find the mechanism.
+
+Never tune constants to make one test pass without rerunning the neighbors:
+coupled systems reshuffle. If two consecutive tweaks each break different
+tests, stop poking — the control surface is wrong; find the mechanism.
+
+## Review checklist
+
+Walk this on any test diff, apply fixes in the same pass, re-run the suite:
+
+1. Does an assertion restate a type guarantee? → delete it.
+2. Would it break on a config edit with no logic change, or is it
+   `skipIf`-conditional on config? → mock the seam.
+3. Are assertions mostly mocked-internal "called with"? → test a layer up
+   against observable output.
+4. Does it pin a single sample of a stochastic outcome? → assert a
+   distribution.
+5. Does it assert a count without the value on a dedup/normalize path? → add
+   the value assertion.
+6. Is the function under test still called in production? → if the only
+   callers are tests, delete the function and the test together.
+7. Can it fail for the right reason? → falsify once to confirm.
+8. Does it take focus, move the pointer, play sound, or write the person's real
+   config, library or applications? → drive the model and a scratch location
+   instead, and capture windows offscreen.
+
+2026-09-29T07:52:34.157944Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ec26-833a-7650-985f-e55c086a34c7 turn_id=01a0ec26-83b3-7681-97bb-281dc8e0e9cb item_id="exec-d25823fd-a77b-4dd3-9fa2-74294f6a416c"
+exec
+/bin/zsh -lc 'cat packages/test-harness/editing/prepared-package.mjs; cat specs/agent-editing/assets/14a-learned-portable/README.md; cat packages/test-harness/editing/audio-project-fixture.mjs' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+import assert from "node:assert/strict";
+import { createHash, randomUUID } from "node:crypto";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+import {
+  mkdtemp,
+  mkdir,
+  realpath,
+  readFile,
+  writeFile,
+  rm,
+  rename,
+  copyFile,
+} from "node:fs/promises";
+import { join, resolve } from "node:path";
+import { Catalog } from "../../core/dist/catalog.js";
+import { AssetStore } from "../../core/dist/assets.js";
+import { AcquisitionStore } from "../../core/dist/acquisitions.js";
+import { ProjectStore } from "../../core/dist/projects.js";
+import { TranscriptStore } from "../../core/dist/transcript.js";
+import { assetTranscriptOwner } from "../../core/dist/transcript-processing.js";
+import { JobQueue } from "../../core/dist/jobs.js";
+import { PreparedAudioStore, preparedAudioResource } from "../../core/dist/prepared-audio.js";
+import { projectAudioRenderer } from "../../../apps/service/dist/project-render.js";
+import { mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
+import { startProjectService } from "../../../apps/service/dist/project-service.js";
+import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixture.mjs";
+import { cliReply } from "./first-preview-transport.mjs";
+const run = promisify(execFile),
+  hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+assert(process.env.SCREENREC_NATIVE && process.argv[2] === "--out" && process.argv[3]);
+await mkdir(resolve(process.argv[3]), { recursive: true });
+const out = await realpath(resolve(process.argv[3]));
+const scratch = await realpath(await mkdtemp("/tmp/prepared-package-"));
+const donor = join(scratch, "donor"),
+  receiver = join(scratch, "receiver");
+const worker = mediaWorker(process.env);
+const cli = new URL("../../../apps/cli/dist/main.js", import.meta.url).pathname;
+const report = {
+  passed: false,
+  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  scope:
+    "historical owner-seeded unit-rate/gain plus public learned preparation; exact portable PCM preservation with processing unavailable; no listening or model-absent binary claim",
+  trace: [],
+  checks: {},
+  publications: [],
+};
+let service;
+async function start(home) {
+  const selected =
+    home === receiver
+      ? async (operation, ...args) => {
+          if (["media.audioCapabilities", "media.mixCompositionAudio"].includes(operation)) {
+            report.trace.push({ refusedNativeOperation: operation });
+            return {
+              ok: false,
+              error: {
+                code: "NOT_READY",
+                message: "Processing unavailable for transfer verification",
+                retryable: false,
+              },
+            };
+          }
+          return worker(operation, ...args);
+        }
+      : worker;
+  service = await startProjectService({ home, worker: selected });
+}
+async function close() {
+  await service?.close();
+  service = undefined;
+}
+async function call(operation, params, output) {
+  const reply = await cliReply([
+    cli,
+    operation,
+    "--socket",
+    service.socketPath,
+    "--params",
+    JSON.stringify(params),
+    ...(output ? ["--output", output] : []),
+  ]);
+  report.trace.push({ operation, params, reply });
+  assert(reply.ok, JSON.stringify(reply));
+  return reply.data;
+}
+async function poll(read, done) {
+  const end = Date.now() + 60000;
+  while (Date.now() < end) {
+    const value = await read();
+    if (done(value)) return value;
+    assert(!["failed", "unavailable"].includes(value.state), JSON.stringify(value));
+    await new Promise((resolve) => setTimeout(resolve, 40));
+  }
+  throw Error("Public operation did not settle");
+}
+async function owner(home, execute, use) {
+  const library = join(home, "library"),
+    catalog = new Catalog(join(library, "catalog.sqlite"));
+  const assets = new AssetStore(catalog, library);
+  await assets.recover();
+  const acquisitions = new AcquisitionStore(catalog);
+  const projects = new ProjectStore(
+    catalog,
+    assets,
+    new TranscriptStore(catalog, library, assetTranscriptOwner(assets, acquisitions)),
+    acquisitions,
+  );
+  let prepared,
+    calls = 0;
+  const jobs = new JobQueue({
+    store: catalog,
+    providers: { newId: randomUUID },
+    targets: {
+      pin: (target) => {
+        assert.equal(target.kind, "project");
+        projects.revision(target.projectId, target.revisionId);
+        return target;
+      },
+      isAvailable: (target) => target.kind === "project" && !projects.isDeleting(target.projectId),
+      isDeleting: (target) => target.kind === "project" && projects.isDeleting(target.projectId),
+      isCapturing: () => false,
+    },
+    execute: (execution) => prepared.execute(execution),
+  });
+  const renderer = projectAudioRenderer(worker, join(library, "prepared-workspace"));
+  prepared = new PreparedAudioStore({
+    catalog,
+    assets,
+    projects,
+    jobs,
+    staging: join(library, "staging", "prepared-audio"),
+    probe: async (path, signal) => {
+      assert(execute, "Retained reads must not probe");
+      return nativeResult(await worker("media.probe", { path }, { signal }));
+    },
+    renderer: {
+      ...renderer,
+      implementationId: execute ? renderer.implementationId : "original-executor-unavailable",
+      render: (request, signal) => {
+        calls++;
+        assert(execute, "Retained reads must not execute");
+        return renderer.render(request, signal);
+      },
+    },
+  });
+  try {
+    if (execute) await prepared.recover();
+    return await use({ assets, projects, jobs, prepared, calls: () => calls });
+  } finally {
+    await jobs.close();
+    catalog.close();
+  }
+}
+function samples(prepared, id, range) {
+  const read = prepared.open(id, range);
+  try {
+    const bytes = Buffer.alloc(read.bytes);
+    assert.equal(read.read(bytes, 0), bytes.length);
+    assert.equal(read.read(bytes, bytes.length), 0);
+    return bytes;
+  } finally {
+    read.release();
+  }
+}
+try {
+  await start(donor);
+  const source = join(scratch, "source.wav");
+  await writeSourceWave(source, { source: 0, seconds: 1 });
+  await copyFile(source, join(out, "source.wav"));
+  const imported = await call("asset.import", { requestId: "source", path: source });
+  const importedJob = await poll(
+    () => call("job.get", { jobId: imported.jobId }),
+    (value) => value.state === "ready",
+  );
+  const asset = await call("asset.get", { assetId: importedJob.result.assetId });
+  const created = await call("project.create", {
+    requestId: "create",
+    canvas: {
+      width: 64,
+      height: 48,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  const projectId = created.project.projectId;
+  const first = await call("edit.apply", {
+    projectId,
+    requestId: "place",
+    expectedRevisionId: created.revision.id,
+    operations: [
+      { operation: "track.add", label: "audio", track: { kind: "audio", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "audio" },
+          assetId: asset.id,
+          streamId: asset.streams[0].id,
+          source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+  });
+  const latest = await call("edit.apply", {
+    projectId,
+    requestId: "gain",
+    expectedRevisionId: first.revision.id,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "gain", gain: 0.5 } }],
+      },
+    ],
+  });
+  const originals = [first.revision, latest.revision];
+  await close();
+  const expected = [sourcePeriod(0), Buffer.from(sourcePeriod(0))];
+  for (let at = 0; at < expected[1].length; at += 4)
+    expected[1].writeFloatLE(Math.fround(expected[1].readFloatLE(at) * 0.5), at);
+  const values = await owner(donor, true, async ({ prepared, jobs, projects }) => {
+    const values = [];
+    for (const [i, revision] of originals.entries()) {
+      prepared.request({ projectId, revisionId: revision.id });
+      await jobs.idle();
+      const status = prepared.request({ projectId, revisionId: revision.id });
+      assert.equal(status.state, "ready");
+      const value = JSON.parse(status.published.result);
+      assert.deepEqual(samples(prepared, value.resourceId), expected[i]);
+      assert.deepEqual(projects.revision(projectId, revision.id), revision);
+      values.push({ value, portable: prepared.portable(value.resourceId) });
+    }
+    return values;
+  });
+  await start(donor);
+  const learned = await call("edit.apply", {
+    projectId,
+    requestId: "learned",
+    expectedRevisionId: latest.revision.id,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "rnnoise" } }],
+      },
+    ],
+  });
+  const selection = { projectId, revisionId: learned.revision.id };
+  const publication = await poll(
+    () => call("audio.prepare", selection),
+    (value) => value.state === "ready",
+  );
+  assert.deepEqual(await call("audio.prepare", selection), publication);
+  report.learnedPublication = publication;
+  const learnedAsset = await call("asset.get", { assetId: publication.published.audio.assetId });
+  const learnedPath = join(out, "donor-learned.wav");
+  await poll(
+    () =>
+      call(
+        "audio.get",
+        {
+          assetId: learnedAsset.id,
+          streamId: learnedAsset.streams[0].id,
+          range: { startUs: 0, endUs: 1000000 },
+        },
+        learnedPath,
+      ),
+    (value) => value.state === "ready",
+  );
+  const learnedWave = await readFile(learnedPath),
+    header = waveHeader(learnedWave, learnedWave.length);
+  const learnedPCM = learnedWave.subarray(header.offset, header.offset + header.bytes);
+  assert.equal(learnedPCM.length, 48000 * 8);
+  assert.notDeepEqual(
+    learnedPCM,
+    expected[0],
+    "A dry substitution must fail the learned preservation oracle",
+  );
+  expected.push(Buffer.from(learnedPCM));
+  originals.push(learned.revision);
+  await close();
+  values.push(
+    await owner(donor, false, async ({ prepared, projects }) => {
+      assert.deepEqual(projects.revision(projectId, learned.revision.id), learned.revision);
+      const portable = prepared.portable(publication.published.audio.resourceId);
+      assert(
+        JSON.parse(portable.publication.input).requirements.some((r) =>
+          r.implementationId?.startsWith("rnnoise-"),
+        ),
+      );
+      return { value: { assetId: publication.published.audio.assetId }, portable };
+    }),
+  );
+  await start(donor);
+  const exportId = randomUUID();
+  await call("export.create", {
+    projectId,
+    exportId,
+    kind: "processed-package",
+    directory: out,
+    leaf: "prepared.zip",
+  });
+  const exported = await poll(
+    () => call("export.status", { exportId }),
+    (value) => value.state === "committed",
+  );
+  const archive = join(out, "relocated.zip");
+  await rename(exported.output, archive);
+  await copyFile(archive, join(out, "evidence-only-package.zip"));
+  await close();
+  await rm(donor, { recursive: true });
+  await rm(source);
+  await start(receiver);
+  const cancelAdmission = await call("package.open", { path: archive });
+  const cancelReady = await poll(
+    () => call("package.status", { admissionId: cancelAdmission.id }),
+    (value) => value.state === "ready",
+  );
+  const originalStage = service.assets.stagePortable.bind(service.assets);
+  let staged = false;
+  service.assets.stagePortable = async (...input) => {
+    const result = await originalStage(...input),
+      signal = input[2];
+    staged = true;
+    await new Promise((resolve) => {
+      if (signal.aborted) resolve();
+      else signal.addEventListener("abort", resolve, { once: true });
+    });
+    await result.close();
+    signal.throwIfAborted();
+    throw Error("Cancellation barrier resumed without cancellation");
+  };
+  await call("package.adopt", { packageHandle: cancelReady.packageHandle, requestId: "adopt" });
+  await poll(
+    async () => ({ staged }),
+    (value) => value.staged,
+  );
+  await call("package.close", { admissionId: cancelAdmission.id });
+  service.assets.stagePortable = originalStage;
+  assert.deepEqual((await call("project.list", {})).projects, []);
+  assert.deepEqual((await call("asset.list", {})).assets, []);
+  await close();
+  await start(receiver);
+  const admission = await call("package.open", { path: archive });
+  const opened = await poll(
+    () => call("package.status", { admissionId: admission.id }),
+    (value) => value.state === "ready",
+  );
+  const adopted = await poll(
+    () => call("package.adopt", { packageHandle: opened.packageHandle, requestId: "adopt" }),
+    (value) => value.state === "ready",
+  );
+  assert.deepEqual(
+    (await call("package.adopt", { packageHandle: opened.packageHandle, requestId: "adopt" }))
+      .result,
+    adopted.result,
+  );
+  const history = await call("revision.history", { projectId: adopted.result.projectId });
+  await call("package.close", { admissionId: admission.id });
+  await rm(archive);
+  await close();
+  await owner(receiver, false, async ({ prepared, assets, projects, calls }) => {
+    for (const [i, original] of values.entries()) {
+      const revisionId = history.revisions.find(
+        (revision) => revision.ordinal === originals[i].ordinal,
+      ).id;
+      const resourceId = preparedAudioResource(
+        adopted.result.projectId,
+        original.portable.publication.attemptId,
+      );
+      const portable = prepared.portable(resourceId);
+      assert.equal(portable.revisionId, revisionId);
+      assert.deepEqual(JSON.parse(portable.publication.input), {
+        ...JSON.parse(original.portable.publication.input),
+        revisionId,
+      });
+      assert.deepEqual(portable.audio, original.portable.audio);
+      assert.deepEqual(samples(prepared, resourceId), expected[i]);
+      assert.deepEqual(
+        samples(prepared, resourceId, { start: 47743, end: 48000 }),
+        expected[i].subarray(47743 * 8),
+      );
+      assert(
+        projects
+          .revisionDependencies(adopted.result.projectId, revisionId)
+          .some((reference) => reference.kind === "prepared-audio" && reference.id === resourceId),
+      );
+      report.publications.push({
+        revisionId,
+        resourceId,
+        assetId: portable.audio.assetId,
+        recipe: JSON.parse(portable.publication.input),
+        pcmSha256: hash(expected[i]),
+        lateSha256: hash(expected[i].subarray(47743 * 8)),
+      });
+      assert(assets.path(portable.audio.assetId).startsWith(receiver));
+    }
+    assert.equal(calls(), 0);
+  });
+  await start(receiver);
+  assert.equal((await call("model.status", {})).state, "absent");
+  for (const [i, original] of values.entries()) {
+    const asset = await call("asset.get", { assetId: original.value.assetId });
+    const output = join(out, `public-prepared-${i}.wav`);
+    await poll(
+      () =>
+        call(
+          "audio.get",
+          {
+            assetId: asset.id,
+            streamId: asset.streams[0].id,
+            range: { startUs: 750000, endUs: 1000000 },
+          },
+          output,
+        ),
+      (value) => value.state === "ready",
+    );
+    const decoded = await run(
+      "ffmpeg",
+      ["-v", "error", "-nostdin", "-i", output, "-f", "f32le", "-c:a", "pcm_f32le", "pipe:1"],
+      { encoding: "buffer" },
+    );
+    assert.deepEqual(decoded.stdout, expected[i].subarray(36000 * 8));
+  }
+  await close();
+  await owner(receiver, false, async ({ prepared, assets, calls }) => {
+    await rm(assets.path(values[0].value.assetId));
+    assert.throws(() => prepared.open(report.publications[0].resourceId));
+    await rm(assets.path(values[1].value.assetId));
+    await writeFile(assets.path(values[1].value.assetId), "corrupt PCM");
+    assert.throws(() => prepared.open(report.publications[1].resourceId));
+    const learnedFile = assets.path(values[2].value.assetId);
+    const originalBytes = await readFile(learnedFile);
+    const corrupted = Buffer.from(originalBytes);
+    corrupted[corrupted.length - 1] ^= 1;
+    await rm(learnedFile);
+    await writeFile(learnedFile, corrupted);
+    assert.throws(() => prepared.open(report.publications[2].resourceId));
+    assert.equal(calls(), 0);
+  });
+  assert.equal(
+    report.trace.filter((v) => v.refusedNativeOperation === "media.mixCompositionAudio").length,
+    0,
+  );
+  assert(report.trace.some((v) => v.refusedNativeOperation === "media.audioCapabilities"));
+  report.checks = {
+    exactNativeUnitRateAndGain: true,
+    publicLearnedPreparationAndRepeat: true,
+    learnedFullAndLateTransferExact: true,
+    receiverProcessingUnavailable: true,
+    unchangedRevisionDocuments: true,
+    publicRelocationAndReplay: true,
+    canceledAdoptionInvisibleAndSameRequestRetry: true,
+    donorAndArchiveRemoved: true,
+    originalRecipeIdentitiesRetained: true,
+    adoptedRevisionReferences: true,
+    speechModelAbsentOnly: true,
+    learnedTamperedPCMRefused: true,
+    unavailableExecutorNotInvoked: true,
+    exactHistoricalAndCurrentPCM: true,
+    boundedLatePCM: true,
+    publicAssetAudioExact: true,
+    missingAndCorruptRetainedPCMRefused: true,
+  };
+  report.passed = true;
+} finally {
+  await close();
+  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  await rm(scratch, { recursive: true, force: true });
+}
+console.log(JSON.stringify(report.checks, null, 2));
+# Learned prepared audio survives package transfer
+
+The existing public package and prepared-audio owners preserve a learned result
+without recomputing it. The receiver has no available RNNoise capability or
+composition-audio executor. It adopts the original implementation identity and
+recipe, rebinds revision references, and delivers the same full and late PCM.
+This extends the historical unit-rate/gain transfer proof; those gates remain.
+
+[Verification](verification.json) pins the worker, harness, command and retained
+files. The archive includes the generated stereo source, public request/reply
+trace, donor prepared WAV, transferred package and delivered excerpts. The
+package copy named `evidence-only` is not opened by the receiver; its actual
+admission archive, donor home and source are removed before retained reads.
+
+The transfer oracle is the donor's publicly delivered PCM. Frozen-adapter parity
+belongs to the linked-runtime/channel evidence, not this preservation check.
+Dry substitution differs; missing, corrupt and replaced learned files refuse
+without execution. Adoption cancellation leaves no visible project/assets and
+the same request succeeds after restart.
+
+This is a short generated differing-stereo fixture, not speech or listening
+approval. The linked worker still contains RNNoise; an unavailable capability and
+executor establish retained-read independence, not a model-absent executable.
+`model.status` concerns the separate speech-model owner. No new store, queue,
+package format or production behavior was needed. Long-output scaling and
+combined retiming remain separate acceptance gates.
+import assert from "node:assert/strict";
+import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
+import { once } from "node:events";
+import { createReadStream } from "node:fs";
+import { open } from "node:fs/promises";
+
+export function sample(source, frame, channel, rate = 48000, poison = false) {
+  if (poison && frame >= rate * 0.4 && frame < rate * 0.6) return channel ? -30000 : 30000;
+  const phase = frame % rate;
+  const base = source === 0 ? [4096, -8192] : [-2048, 1024];
+  const marker = source === 0 ? [12000, -4000] : [-14000, 15000];
+  return phase === 13 || phase === Math.floor(rate / 2) || phase === rate - 1
+    ? marker[channel]
+    : base[channel];
+}
+export function sourcePeriod(source, rate = 48000, poison = false) {
+  const bytes = Buffer.alloc(rate * 8);
+  for (let frame = 0; frame < rate; frame++)
+    for (let c = 0; c < 2; c++)
+      bytes.writeFloatLE(sample(source, frame, c, rate, poison) / 32768, frame * 8 + c * 4);
+  return bytes;
+}
+export function projectPeriod() {
+  const bytes = Buffer.alloc(48000 * 8);
+  for (let frame = 0; frame < 48000; frame++)
+    for (let c = 0; c < 2; c++) {
+      const a = sample(0, frame, c) / 32768,
+        b = sample(1, frame + 12000, c) / 32768;
+      const mixed = Math.fround(Math.fround(a * 0.5) + Math.fround(b * 0.25));
+      bytes.writeFloatLE(Math.fround(mixed * 2), frame * 8 + c * 4);
+    }
+  return bytes;
+}
+export function periodicBytes(period, start, frames) {
+  assert.ok(frames <= 128000, "Only bounded excerpts may be assembled");
+  const bytes = Buffer.alloc(frames * 8),
+    count = period.length / 8;
+  for (let at = 0; at < frames;) {
+    const from = (start + at) % count,
+      take = Math.min(frames - at, count - from);
+    period.copy(bytes, at * 8, from * 8, (from + take) * 8);
+    at += take;
+  }
+  return bytes;
+}
+export function periodicHash(period, seconds) {
+  const hash = createHash("sha256");
+  for (let i = 0; i < seconds; i++) hash.update(period);
+  return hash.digest("hex");
+}
+export async function digest(path, options = {}) {
+  const hash = createHash("sha256");
+  for await (const chunk of createReadStream(path, { highWaterMark: 65536, ...options }))
+    hash.update(chunk);
+  return hash.digest("hex");
+}
+export async function writeSourceWave(
+  path,
+  { source, rate = 48000, seconds = 61, poison = false },
+) {
+  const frames = rate * seconds,
+    header = Buffer.alloc(44),
+    block = Buffer.alloc(4096 * 4);
+  header.write("RIFF");
+  header.writeUInt32LE(36 + frames * 4, 4);
+  header.write("WAVEfmt ", 8);
+  header.writeUInt32LE(16, 16);
+  header.writeUInt16LE(1, 20);
+  header.writeUInt16LE(2, 22);
+  header.writeUInt32LE(rate, 24);
+  header.writeUInt32LE(rate * 4, 28);
+  header.writeUInt16LE(4, 32);
+  header.writeUInt16LE(16, 34);
+  header.write("data", 36);
+  header.writeUInt32LE(frames * 4, 40);
+  const file = await open(path, "wx");
+  async function write(bytes) {
+    for (let at = 0; at < bytes.length;) {
+      const { bytesWritten } = await file.write(bytes, at, bytes.length - at);
+      assert.ok(bytesWritten > 0);
+      at += bytesWritten;
+    }
+  }
+  try {
+    await write(header);
+    for (let start = 0; start < frames; start += 4096) {
+      const count = Math.min(4096, frames - start);
+      for (let f = 0; f < count; f++)
+        for (let c = 0; c < 2; c++)
+          block.writeInt16LE(sample(source, start + f, c, rate, poison), f * 4 + c * 2);
+      await write(block.subarray(0, count * 4));
+    }
+  } finally {
+    await file.close();
+  }
+}
+export async function decodedHash(path) {
+  const child = spawn(
+    "ffmpeg",
+    [
+      "-v",
+      "error",
+      "-nostdin",
+      "-i",
+      path,
+      "-map",
+      "0:a:0",
+      "-c:a",
+      "pcm_f32le",
+      "-f",
+      "f32le",
+      "pipe:1",
+    ],
+    { stdio: ["ignore", "pipe", "pipe"] },
+  );
+  const closed = once(child, "close");
+  let error = "",
+    bytes = 0;
+  child.stderr.on("data", (value) => {
+    error += value;
+  });
+  const timeout = setTimeout(() => child.kill("SIGKILL"), 30000);
+  const hash = createHash("sha256");
+  try {
+    for await (const block of child.stdout) {
+      hash.update(block);
+      bytes += block.length;
+    }
+    const [code, signal] = await closed;
+    assert.equal(signal, null, "Independent decoder deadline");
+    assert.equal(code, 0, error);
+    return { sha256: hash.digest("hex"), frames: bytes / 8 };
+  } finally {
+    clearTimeout(timeout);
+    if (child.exitCode === null) child.kill("SIGKILL");
+    await closed;
+  }
+}
+export function waveHeader(bytes, totalBytes, rate = 48000) {
+  assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
+  assert.equal(bytes.toString("ascii", 8, 12), "WAVE");
+  assert.equal(bytes.readUInt32LE(4) + 8, totalBytes);
+  let format = false;
+  for (let at = 12; at + 8 <= bytes.length;) {
+    const name = bytes.toString("ascii", at, at + 4),
+      size = bytes.readUInt32LE(at + 4);
+    at += 8;
+    if (name === "fmt ") {
+      assert.ok(size >= 16 && at + size <= bytes.length);
+      assert.equal(bytes.readUInt16LE(at), 3);
+      assert.equal(bytes.readUInt16LE(at + 2), 2);
+      assert.equal(bytes.readUInt32LE(at + 4), rate);
+      assert.equal(bytes.readUInt32LE(at + 8), rate * 8);
+      assert.equal(bytes.readUInt16LE(at + 12), 8);
+      assert.equal(bytes.readUInt16LE(at + 14), 32);
+      format = true;
+    }
+    if (name === "data") {
+      assert.ok(format);
+      assert.equal(size % 8, 0);
+      assert.equal(at + size, totalBytes);
+      return { offset: at, bytes: size, frames: size / 8 };
+    }
+    at += size + (size % 2);
+  }
+  assert.fail("WAV data header exceeds bounded header read");
+}
+
+2026-09-29T07:52:37.610301Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ec26-833a-7650-985f-e55c086a34c7 turn_id=01a0ec26-83b3-7681-97bb-281dc8e0e9cb item_id="exec-177bdd24-01a9-45f4-a8b2-3de890fda481"
+exec
+/bin/zsh -lc "ls -la specs/agent-editing/assets/14a-learned-portable; cat specs/recording-for-ai/README.md | head -55; rg 'prepared-package|audioCapabilities' apps/service/src/project-service.ts packages/test-harness/package.json package.json; cat specs/agent-editing/assets/14a-prepared-portable/README.md; ls helpers/mac/.build/release/ | head; printenv SCREENREC_NATIVE; cat .gitignore" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+total 8
+drwxr-xr-x@   3 david  staff    96 Sep 29 00:52 .
+drwxr-xr-x@ 265 david  staff  8480 Sep 29 00:52 ..
+-rw-r--r--@   1 david  staff  1628 Sep 29 00:52 README.md
+# Recording for AI — personal release spec
+
+Status: spec complete; implementation partial. Last updated: 2026-09-26.
+Everything the personal release needs is implemented and has run end to end on this person's own
+narrated take: capture, transcription, evidence, editing, both exports and the installed journey.
+What remains is acceptance that needs either a person at the Mac or a physical condition a check
+cannot stage — named under the pickup below. The checklist separates verified internal behavior
+from full personal-release acceptance.
+
+## Next Agent Prompt
+
+The active new-feature plan is [agent-operated video editing](../agent-editing/README.md),
+with the current implementation pickup in its live Next Agent Prompt. Its [processing contract](../agent-editing/processing.md) includes the accepted
+ordered-stack API. It defers the editing UI and replaces
+the editing model through explicit preservation gates. This recording spec remains
+the source of existing release evidence and unfinished acceptance; its status is
+not upgraded by the new plan. Follow the new plan for editing work. The instructions
+below apply when specifically continuing the original recording-release acceptance.
+
+You are implementing the personal Mac release. Read this spec, its
+[contracts](contracts.md), [architecture](architecture.md), and
+[verification](verification.md), then resume from the current pickup below.
+Honor the product decisions in the [discovery map](MAP.md); this spec resolves its
+technical OPEN entries through concrete contracts or named gated slices.
+
+Use Bun workspaces and the factory/photoctl monorepo pattern. Keep native capture
+and media execution in Swift, and shared library/edit/timeline behavior in one
+TypeScript core. CLI and MCP expose the same full operation registry. The future
+editing UI calls the CLI.
+
+Work through dependency-ready slices, committing focused green checkpoints. Do not
+invent a remote, push target or distribution step. Collect real native, speech and
+client evidence: a protocol mock is not an image-visibility result, and an untested
+ASR engine is not a solution to removing fillers. If a feasibility gate fails,
+reslice its bounded alternative; do not quietly reduce scope. Continue independent
+work while an actual user recording or permission is pending, but do not call that
+gate passed.
+
+Each slice's Status line is the one home for what it verified, its evidence and
+what remains open. Before ending a pass, update the owning Status lines and the
+checklist box, then replace the pickup below.
+
+Current pickup: nothing here is waiting on a machine. A slice-by-slice audit against the code on
+2026-09-19 found two things the contract named that the code did not do, and both were then
+built: a relocated package now renders and plays its own edit, and a key combination macOS itself
+holds is refused rather than silently taken. What cannot be detected at all — another
+application's private hot-key registration — is [recorded](choices.md) with its measurement.
+Everything else unticked is acceptance that needs a person, a second display, sound playing, or an
+agent that is not this one.
+
+The installed app includes the requested Downloads default and the retained-index
+remount fix. The person's current AI package exported successfully; evidence and the
+remaining save-dialog check are recorded in [14d](slices/14d-export-publication.md).
+Readable root documents and their verification are tracked in
+[14d3](slices/14d3-processed-package.md); the package keeps the deeper evidence for
+# Portable prepared PCM
+
+Prepared unit-rate and constant-gain output moves through the public package
+operations without losing its original recipe, implementation identity or exact
+PCM. The [native receipt](report.json.gz) records the worker digest and independent
+sample oracles. The [harness](../../../../packages/test-harness/editing/prepared-package.mjs)
+seeds the existing core owner explicitly: this is not a public preparation command,
+RNNoise/stretch adoption or a speech-quality claim.
+
+After donor/archive removal and receiver restart, current and historical receipts
+read their exact samples with the original executor unavailable. A late read reads
+only its selected PCM interval, and public asset-audio inspection also delivers
+exact requested samples. The copied file receives a receiver-local identity after AssetStore
+staging links close. Byte identity, recipe provenance and local filesystem identity
+remain separate authorities.
+
+The package resource follows the existing asset/reference graph. Staged validation
+compares the retained recipe's composition meaning with its immutable revision,
+without substituting current implementation identities. Asset publication, adopted
+revision references and queue receipts share one transaction. An adopted ready
+receipt does not create a replacement job. Unknown recipes, unresolved execution
+requirements, missing upstream references and invalid PCM are refused.
+
+The public journey verifies canceled adoption stays invisible and the same request
+can retry. Core negative controls fail when the cancellation fence or exact-ready
+read guard is removed. Missing and replaced retained PCM remains a read error.
+The first corruption-control attempt hit the immutable asset's write permission;
+the corrected control replaces the file and confirms the owner refuses it.
+
+Whole-project recipes use the enclosing package manifest budget. The retained
+many-clip regression shows why applying the small publication-input budget would
+reject an otherwise valid short project; no graph is truncated to fit it.
+
+The [preservation receipt](preservation-report.json.gz) keeps every existing package
+check, including source/project indexes, real transcripts with models absent,
+acquisition journals, current/history media, undo, replay and corrupt members.
+Independent review found no actionable defect. Its service test could not bind a
+socket in its sandbox; the normal service run passes and is recorded separately.
+
+Public preparation/processing consumers, actual 15a output, full scale acceptance,
+non-current package export and caption/font dependencies remain their own gates.
+
+Final focused checks pass 80 core tests and 11 service tests; core types and the
+CLI/service build pass. One earlier core run timed out in the unchanged queue
+history test at its existing five-second deadline. The same test passes from the
+baseline checkout, and the complete focused rerun passes without deadline changes;
+both the timeout and subsequent results are retained here.
+
+Combined-root confirmation builds the shared packages and passes 104 focused
+core/service tests. The [root native journey](root-report.json.gz) repeats every
+prepared relocation check with the combined font/output-settings worker. This
+confirms integration; it does not broaden the DSP or public-preparation scope.
+
+The root text-aware combined worker also passes every prepared relocation check;
+[root confirmation](root-text-combined-report.gz) preserves exact current/history
+PCM after the manifest/font dependency changes.
+FastClusterWrapper.build
+FluidAudio.build
+FluidAudioCLI.build
+FluidAudio_FluidAudio.bundle
+MachTaskSelfWrapper.build
+ModuleCache
+Modules
+ScreenRecorderAudio.build
+ScreenRecorderAudioTests
+ScreenRecorderAudioTests.build
+node_modules/
+dist/
+.turbo/
+.build/
+.swiftpm/
+.DS_Store
+*.tsbuildinfo
+.claude/worktrees/
+
+2026-09-29T07:52:42.934119Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ec26-833a-7650-985f-e55c086a34c7 turn_id=01a0ec26-83b3-7681-97bb-281dc8e0e9cb item_id="exec-163ed224-a5c8-450d-8388-4ac3b6a672c1"
+exec
+/bin/zsh -lc "rg 'media.audioCapabilities|media.mixCompositionAudio' apps/service/src -n; rg 'export async function cliReply' -A35 packages/test-harness/editing/first-preview-transport.mjs; node --check packages/test-harness/editing/prepared-package.mjs; git diff --check; git diff --cached --stat" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+apps/service/src/render.test.ts:384:      nativeResult(await worker("media.mixCompositionAudio", { source: "success", output: file }));
+apps/service/src/render.test.ts:427:      nativeResult(await worker("media.mixCompositionAudio", { source: "hold", output: file })),
+apps/service/src/render.test.ts:460:      new AbortController().signal,async(output,worker)=>nativeResult(await worker('media.mixCompositionAudio',{source:'hold',output})));
+apps/service/src/render.test.ts:537:        nativeResult(await worker("media.mixCompositionAudio", { source: "hold", output })),
+apps/service/src/project-render.ts:23:    const result = nativeResult(await worker("media.audioCapabilities", {}, { timeoutMs: 5000 }));
+apps/service/src/project-render.ts:215:              "media.mixCompositionAudio",
+apps/service/src/project-service.test.ts:49:      return operation === "media.audioCapabilities"
+apps/service/src/project-service.test.ts:84:    expect(operation).toBe("media.mixCompositionAudio");
+export async function cliReply(args) {
+  let stdout,
+    code = 0;
+  try {
+    ({ stdout } = await run(process.execPath, args, { timeout: 30000, maxBuffer: 8 * 1024 ** 2 }));
+  } catch (failure) {
+    assert.ok(
+      !failure.signal && !failure.killed && Number.isInteger(failure.code),
+      `CLI terminated abnormally: ${failure.message}`,
+    );
+    assert.ok(failure.stdout, `CLI exited without a response: ${failure.message}`);
+    stdout = failure.stdout;
+    code = failure.code;
+  }
+  const response = JSON.parse(stdout);
+  assert.equal(typeof response.ok, "boolean");
+  assert.equal(code, response.ok ? 0 : 1, "CLI exit status contradicts its response");
+  return response;
+}
+
+2026-09-29T07:52:50.232387Z  WARN codex_analytics::reducer: dropping turn tool count update: missing turn state thread_id=01a0ec26-833a-7650-985f-e55c086a34c7 turn_id=01a0ec26-83b3-7681-97bb-281dc8e0e9cb item_id="exec-8b0bd71e-8494-4f6c-a07f-9c00d5415725"
+codex
+No actionable defects were found in the current changes. Syntax and diff checks passed; the native integration harness was not run.
+No actionable defects were found in the current changes. Syntax and diff checks passed; the native integration harness was not run.
