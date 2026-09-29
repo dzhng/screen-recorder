@@ -47,9 +47,14 @@ Historical workers and measurements retain their own identities below.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work while the transfer lacks capacity.
 
-Preserve integrated older diffs in the project-still-composition,
-acquisition-picture-journey and noise-prepared-output worktrees. Do not reapply
-or discard them. Root owns this handoff and the parent checklist.
+Preserve the older project-still-composition worktree's integrated diffs.
+The completed acquisition-picture-journey and noise-prepared-output worktrees
+were recoverably archived at the user's request; do not restore them merely for
+new work. Historical native executables/resources are hash-preserved under
+`/tmp/screenrec-preserved-workers` with a source-to-copy manifest. The
+[cleanup receipt](maintenance/space-cleanup-2026-09-29.json) records reclaimed
+Docker cache/images and safe branch deletion. About72GiB free was measured;
+recheck capacity before large work. Root owns this handoff and parent checklist.
 
 ## Banked contracts and evidence
 

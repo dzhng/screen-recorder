@@ -284,6 +284,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [19b — Relocatable prepared voice runtime](slices/19b-voice-runtime-relocation.md)
 - [ ] [19c — Common local model preparation](slices/19c-common-model-preparation.md)
 - [ ] [19d — Measured voice settings and bounded work](slices/19d-voice-settings.md)
+- [ ] [19e1 — Canonical finite audio conversion](slices/19e1-finite-audio-conversion.md)
 - [ ] [19e — Retained audio excerpts](slices/19e-retained-audio-excerpts.md)
 - [ ] [19f — Public durable voice generation](slices/19f-public-voice-jobs.md)
 - [x] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — offline scope; physical acceptance remains20.

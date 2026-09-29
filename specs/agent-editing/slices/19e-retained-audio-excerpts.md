@@ -1,10 +1,11 @@
 # 19e — Retained audio excerpts
 
-Status: planned. Parent: [19](19-voice-assets.md). Dependencies: [11](11-audio-inspection.md), [02](02-assets.md).
+Status: planned. Parent: [19](19-voice-assets.md). Dependencies: [11](11-audio-inspection.md), [02](02-assets.md), [19e1](19e1-finite-audio-conversion.md).
 
 The [native prerequisite probe](../assets/19e-native-extraction/README.md) preserves
 canonical PCM but rewrites WAV headers; current source/project operations do not
-accept requested rate/channel conversion. This is an explicit implementation gap.
+accept requested rate/channel conversion. This is an explicit implementation gap, owned by the
+[finite conversion prerequisite](19e1-finite-audio-conversion.md).
 
 ## Contract and seam
 

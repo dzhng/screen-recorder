@@ -1,0 +1,28 @@
+{
+  "requestedByUser": true,
+  "date": "2026-09-29",
+  "archivedWorktrees": [
+    "/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder",
+    "/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder"
+  ],
+  "archiveMethod": "Codex archive_worktree; list_artifacts verified both archived, preserving recoverable Git snapshots including uncommitted changes",
+  "preservedWorkersManifest": "/tmp/screenrec-preserved-workers/manifest.json",
+  "deletedMergedBranches": [
+    "codex/capture-publication-design",
+    "codex/cli-timing-audit",
+    "codex/processing-batches"
+  ],
+  "docker": {
+    "buildCacheReportedRemovedGB": 67.38,
+    "untaggedImageCountRemoved": 9,
+    "imagePruneReportedReclaimedGB": 2.848,
+    "buildCacheAfter": 0,
+    "namedImagesPreserved": 32,
+    "volumesPreserved": 18,
+    "activeContainersAfter": 1,
+    "vmAllocatedBeforeApproxGiB": 157,
+    "vmAllocatedAfterApproxGiB": 107
+  },
+  "freeSpaceAfterApproxGiB": 72,
+  "scopeNote": "Docker logical accounting can include shared layers; host free-space delta also includes unrelated system activity. No claim all logical removed bytes are additional physical reclamation. Active implementation worktrees, model/runtime artifacts, user recordings and named images/volumes retained."
+}
