@@ -1,6 +1,6 @@
 # 25 — Autonomous agent acceptance
 
-Status: not started. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
+Status: whole-workflow acceptance not started. [Focused CLI discovery](../assets/25-cli-discovery/README.md) follows per-feature skill trials; it is not the final autonomous journey. Dependencies: [24](./24-scale.md), [09b](./09b-output-settings.md).
 
 ## Contract
 

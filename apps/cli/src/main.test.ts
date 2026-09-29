@@ -140,9 +140,15 @@ function expectCallableContract(tools: AdvertisedTool[]) {
     ["recordingId", "atUs"],
     ["packageHandle", "atUs"],
     ["assetId", "streamId", "atUs"],
+    ["assetId", "streamId"],
   ]);
   expect(required("frame.retry")).toEqual(required("frame.get"));
-  expect(required("frame.batch")).toEqual(required("frame.get"));
+  expect(required("frame.batch")).toEqual([
+    ["projectId", "atUs"],
+    ["recordingId", "atUs"],
+    ["packageHandle", "atUs"],
+    ["assetId", "streamId", "atUs"],
+  ]);
   expect(required("timeline.events")).toEqual([
     ["projectId"],
     ["recordingId"],
@@ -198,6 +204,31 @@ it("help lists registry schemas without opening an app or service, and MCP start
   expect(reordered.status).toBe(1);
   expect(reordered.stdout).toBe("");
   expect(JSON.parse(reordered.stderr).error.code).toBe("INVALID_REQUEST");
+});
+
+it("operation help returns its canonical schema and refuses unknown names", () => {
+  const help = spawnSync(process.execPath, [entry, "--help"], {
+    cwd: "/",
+    encoding: "utf8",
+    timeout: 3_000,
+  });
+  expect(help.status).toBe(0);
+  const selected = spawnSync(process.execPath, [entry, "asset.import", "--help"], {
+    cwd: "/",
+    encoding: "utf8",
+    timeout: 3_000,
+  });
+  expect(selected.status).toBe(0);
+  expect(JSON.parse(selected.stdout).operations).toEqual(
+    JSON.parse(help.stdout).operations.filter((op: { name: string }) => op.name === "asset.import"),
+  );
+  const unknown = spawnSync(process.execPath, [entry, "not-an-operation", "--help"], {
+    cwd: "/",
+    encoding: "utf8",
+    timeout: 3_000,
+  });
+  expect(unknown.status).toBe(1);
+  expect(JSON.parse(unknown.stdout).error.code).toBe("UNKNOWN_OPERATION");
 });
 
 it("CLI and real MCP transport share edits, replay, history and structured failures", async () => {
@@ -391,6 +422,8 @@ it("help, MCP tools/list and invalid tools never contact the default socket", as
   cleanup.push(() => new Promise<void>((resolve) => server.close(() => resolve())));
   const env = { ...process.env, SCREENREC_HOME: home, SCREENREC_APP: "must-not-launch" };
   expect((await runCli(["--help"], env)).status).toBe(0);
+  expect((await runCli(["asset.import", "--help"], env)).status).toBe(0);
+  expect((await runCli(["not-an-operation", "--help"], env)).status).toBe(1);
   const transport = new StdioClientTransport({
     command: process.execPath,
     args: [entry, "mcp"],

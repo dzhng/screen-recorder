@@ -2457,3 +2457,16 @@ high for identity/ownership, medium for the conservative face-count limit.
   The plan required bounded metadata but did not choose a separate recipe limit.
   This keeps one enclosing budget and forbids truncating ordered processing or
   provenance merely to satisfy an unrelated small-recipe bound.
+
+## Operation help selection (CLI discovery follow-up)
+
+- **Choice:** Keep one registry and let an agent request one operation with
+  `screenrec <operation> --help`. For example, importing a font needs the asset
+  import schema, without loading every curve and editing schema first. Bare help
+  still supplies the full catalog; an unknown operation is an explicit error.
+- **Gap:** The plan required discoverable schemas but did not specify how a
+  caller narrows an increasingly large catalog.
+- **Reach:** This changes offline CLI discovery only. MCP and service operations
+  retain their existing schemas, and no preset restricts explicit settings.
+- **Verdict:** Sound: reduces irrelevant output without adding a second schema
+  owner or hiding any capability. **Confidence:** High.

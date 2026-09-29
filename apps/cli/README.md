@@ -18,6 +18,8 @@ code-signing certificate; builds then keep one identity, and macOS keeps the scr
 and microphone access granted to it. Without that certificate a build signs ad hoc,
 and every install asks for those permissions again. The help lists
 implemented operations and their JSON schemas without connecting to the app.
+`screenrec <operation> --help` returns only that operation's schema; bare
+`--help` retains the complete catalog.
 `--params -` reads bounded JSON from stdin. Edit timestamps are integer microseconds
 in the named revision's playback coordinates, with half-open ranges.
 

@@ -59,13 +59,17 @@ function failure(
   return { id, ...operationError(code, message, retryable) };
 }
 
-function capabilities() {
-  return operationSchema.options.map((definition) => ({
-    name: definition.shape.operation.value,
-    description: definition.description ?? "",
-    // What a caller must send, so a parameter the service defaults stays optional.
-    inputSchema: z.toJSONSchema(definition.shape.params, { io: "input" }),
-  }));
+function capabilities(operation?: string) {
+  return operationSchema.options
+    .filter(
+      (definition) => operation === undefined || definition.shape.operation.value === operation,
+    )
+    .map((definition) => ({
+      name: definition.shape.operation.value,
+      description: definition.description ?? "",
+      // What a caller must send, so a parameter the service defaults stays optional.
+      inputSchema: z.toJSONSchema(definition.shape.params, { io: "input" }),
+    }));
 }
 
 class UsageError extends Error {
@@ -241,6 +245,13 @@ async function main() {
   errorOutput = positionals[0] === "mcp" ? process.stderr : process.stdout;
   responseId = values.id || randomUUID();
   if (values.help || positionals.length === 0) {
+    if (positionals.length > 1) throw new Error("Expected one operation name or mcp");
+    const operation = positionals[0] === "mcp" ? undefined : positionals[0];
+    if (operation !== undefined && !operationNames.has(operation))
+      throw new UsageError(
+        "UNKNOWN_OPERATION",
+        `Unknown service operation: ${operation.slice(0, 120)}`,
+      );
     process.stdout.write(
       JSON.stringify(
         {
@@ -252,7 +263,7 @@ async function main() {
             "Integer microseconds. Edit ranges are half-open playback ranges in expectedRevisionId.",
           mutations:
             "Supply a stable params.requestId and expectedRevisionId. Retry uncertain writes with the same requestId and arguments.",
-          operations: capabilities(),
+          operations: capabilities(operation),
         },
         null,
         2,

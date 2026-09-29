@@ -11,7 +11,9 @@ non-destructive edits and verify the result.
 ## Workflow
 
 1. Discover the installed interface with `screenrec --help`. It returns JSON
-   descriptions and parameter schemas without launching the app. If the launcher
+   descriptions and parameter schemas without launching the app. Use
+   `screenrec <operation> --help` to inspect one operation without loading the
+   entire catalog. If the launcher
    is missing and you are in the built source checkout, use
    `bun run screenrec --help`. If neither works, report the missing build or
    installation. Use the advertised operations; do not assume proposed editing
@@ -37,8 +39,9 @@ non-destructive edits and verify the result.
 6. Inspect the returned revision and request its audio, frames, or playable
    preview around changed joins. Poll the same pinned request without `--output`
    while processing is pending; deliver once ready. A directory destination must
-   not already exist, including when repeating an inspection. A failed job requires
-   diagnosis and an explicit supported retry.
+   not already exist, including when repeating an inspection. Check the returned
+   job state and reason: `ok: true` and exit zero can report a failed job. Diagnose
+   failures before an explicit supported retry.
    If your tools cannot listen to audio or play video, disclose that verification
    limit. A successful render alone does not establish a clean-sounding cut.
 7. Export the requested revision and format only after checking the changes.
