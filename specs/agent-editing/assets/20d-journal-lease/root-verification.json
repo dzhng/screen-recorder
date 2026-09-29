@@ -1,0 +1,15 @@
+{
+  "commit": "22166512",
+  "workerSHA256": "364586fb5d3680662ac754fde6549d2a76704e59763fc1685a40cf7ce25a7b26",
+  "exitCodes": {
+    "build": 0,
+    "defaultSuite": 0,
+    "journalFailureProbe": 0
+  },
+  "retainedArtifactsVerified": 24,
+  "failureFrames": 8192,
+  "failurePCMExact": true,
+  "failureAcquisitionRecords": 0,
+  "archiveSHA256": "6a5289d9da0af07ec8029968a185c234e98d4864656e214aca6f12be34bca752",
+  "scope": "Offline combined-root lease/prefix/schema1 and actual writer failure preservation; no publication or schema2 rollout"
+}

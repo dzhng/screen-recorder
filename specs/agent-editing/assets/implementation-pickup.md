@@ -73,9 +73,11 @@ No production deadline or transaction guarantee changed.
   [root actual-writer confirmation](20b-pcm-format/root-verification.json):
   representation changes preserve input PCM, and rate/channel changes refuse
   before acceptance. The journal's [validated prefix token](20b-journal-prefix/README.md)
-  now supports candidate provenance. Publication design now uses the existing journal inode for exclusive process
-  ownership and existing no-clobber publication. Next implement lease and pinned
-  prefix validation, then receipt/admission ordering with the materializer owner. Actual prospective-clock/callback wiring stays coupled
+  now supports candidate provenance. The [journal lease and exact-prefix checkpoint](20d-journal-lease/README.md)
+  is integrated with [combined-root confirmation](20d-journal-lease/root-verification.json),
+  including actual process exclusion, exec inheritance and accepted-PCM preservation
+  on journal failure. Next implement durable receipt/publication and retry continuation
+  through existing owners, coordinating candidate verification with the materializer. Actual prospective-clock/callback wiring stays coupled
   to canonical publication, with no interim dual writer mode.
   The production packed writer
   remains disconnected until canonical admission/recovery passes.
