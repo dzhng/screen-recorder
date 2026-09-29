@@ -22,17 +22,15 @@ prerequisite checkpoints below.
   Immutable import/package closure remains20d work. Do not activate the new
   callback/layout through an interim dual writer mode.
 - **Shared reader/materializer:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  Implement [20c](../slices/20c-sparse-capture-materialization.md) under the existing
-  journal lease, reconciling accepted mappings with proven physical prefixes.
-  [Platform feasibility](20c-platform-feasibility/README.md) supports bulk
-  Composition export, sequential roles and retained originals on interruption.
-  It does not establish the complete production verifier's cost or a new recording
-  cap. Current work checks hidden physical tails, exact per-run counts and a dense
-  sequential verification candidate against original PCM. Keep physical completeness
-  separate from a readable presentation EOF. Full canonical verification through
-  immutable descriptors must deliberately support long streams; the existing64MiB
-  inspection budget is not a recording limit. Preserve the bounded inspection
-  default and verify descriptor ownership, cancellation and memory behavior.
+  The [shared materializer/verifier](20c-materializer/README.md) is integrated with
+  [combined-root checks](20c-materializer/root-verification.json): capture/source/audio
+  preservation and descriptor-only verification beyond the inspection budget pass.
+  Full100k-run and cancellation measurements are scoped in the leaf. Next share
+  container representability preflight with prospective clock admission before
+  accepted appends, then support publication/admission rollout. Existing consumer
+  interval limits and public operation deadlines remain separate integration gates.
+  Readable prefixes never authorize deleting ambiguous tails; cleanup requires
+  matching accepted/committed/represented counts and clean indexed decode.
 - **Denoise input/runtime:** `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
   The [clip](15a2a-state-domains/README.md) and
   [parent/window](15a2b-parent-state-windows/README.md) metadata contracts are

@@ -1,0 +1,27 @@
+{
+  "commit": "414eaa62",
+  "exitCodes": {
+    "build": 0,
+    "capture": 0,
+    "sourceAudio": 0,
+    "audio": 0,
+    "largeDescriptor": 0
+  },
+  "retainedArtifactsVerified": 68,
+  "workerSHA256": "944184c54d25aed069d342e6875865ab3ab1d022b21debb6ede9c0323a8223e0",
+  "descriptor": {
+    "cancellationObserved": true,
+    "canonicalBytes": 76802313,
+    "canonicalSHA256": "ac2ad41e487a881243f6c39144785324c43b586890b7ccc2d89f07be1fc0ed98",
+    "descriptorVerificationSeconds": 0.104522416,
+    "fixture": "200 exact repeats of banked 2-second actual-writer PCM; synthetic duration control",
+    "frames": 19200000,
+    "inspectionBudgetPreserved": true,
+    "pcmSHA256": "c656aabb7e9aa504c7b2aa7b88eb8e34e9edd8428f32630966252d0ad8c2e357",
+    "sourcePathnamesRemoved": true,
+    "supportSHA256": "e3bc8c3de7f9c224fc41f7ac41127f0bd362c501aef9d16fc43e9c5e512ced54",
+    "workerPeakResidentBytes": 89915392
+  },
+  "archiveSHA256": "6401ce9cc2ad4ae13ed0833f6d760d7f51f22019043b288156e9299c395a5fcb",
+  "scope": "Combined-root materializer, reader preservation and descriptor streaming; full100k measurement is retained delegate evidence, not repeated root run. No capture rollout or public deadline claim."
+}

@@ -2887,3 +2887,19 @@ be published while its working input remains retained. This corrects the earlier
 non-strict count condition; it adds no forensic container parser and does not
 claim knowledge of arbitrary unindexed bytes. Confidence: high. The publisher's
 retention tests must cover both accepted-beyond-EOF and unjournaled physical tails.
+
+### Verify complete audio through bounded reader batches (sound, medium confidence)
+
+A highly fragmented recording made one giant native reader spend tens of seconds
+opening before cancellation could be checked. The canonical verifier now reads
+small batches of occupied runs through the same native decoder, carrying one
+continuous sample hash across them. Every sample and global placement still has
+to match; batching bounds working setup rather than shortening the recording.
+Whole-file descriptor verification explicitly selects streaming in the existing
+input owner, while ordinary inspections retain their original byte budget.
+The proof's byte identity and placement identity are separate and include the
+fixed format: regrouping callbacks cannot change the meaning of identical audio.
+The [reviewed materializer choices](assets/20c-materializer/choices.md) retain the
+encoding and ownership details. These internal choices enable cancellation and
+immutable long-file verification; they do not remove public deadlines, establish
+a new recording cap or claim forensic knowledge of unindexed container bytes.
