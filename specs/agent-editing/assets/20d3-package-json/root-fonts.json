@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "workerSha256": "8f5241244e4eebda40d9c8d21311f82fddaaf3f4c186ef823aec3c60dd6bea55",
+  "command": "SCREENREC_NATIVE=/tmp/screenrec-package-json-current-native node packages/test-harness/editing/captions.mjs --case faces --out NEW",
+  "scope": "Existing font identity/current+historical raster/package relocation preservation under package v2; no new visual design or broad Unicode quality claim.",
+  "archiveSha256": "84e90673c6cfac44d752c0b3502634cb479d47caf8c5ec77e7083b643486b96b",
+  "files": {
+    "AlBayan-Bold.png": "22ff04e16bf27e482be2b25a09892cbf875c02114e637ae37713d52dc3523e65",
+    "AlBayan.png": "9708a98668024d41f4b597c8d0267b5bd8cb9e9c838c4fa3a02825b821f9b954",
+    "adopted-distinct-asset.png": "9c17f9869bbe86b0c5853e2118d5b056c0674992dbfff6e1cbdeb34165f017c4",
+    "adopted-original-history.png": "d493bb87d9bb1d3617fb997e066f862da6e9f0d4af8d964dede210eeb2e398ac",
+    "original-face.png": "d493bb87d9bb1d3617fb997e066f862da6e9f0d4af8d964dede210eeb2e398ac",
+    "report.json": "74e34b20fc528c80b084a09d93deea69ffccda60947288d251d8cd17b5a9e6bb",
+    "same-name-distinct-asset.png": "9c17f9869bbe86b0c5853e2118d5b056c0674992dbfff6e1cbdeb34165f017c4"
+  }
+}

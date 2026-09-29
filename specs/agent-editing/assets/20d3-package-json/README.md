@@ -25,3 +25,7 @@ package scale, or completion of the broader capture and editing plans.
 [Integrated root verification](root-verification.json) confirms the focused and
 real native owner/archive gates; [reports](root-verification.tar.gz) retain their output.
 The combined fragmented-source/history journey remains a separate acceptance gate.
+
+[Exact font preservation](root-fonts.json) verifies distinct font bytes and collection
+faces, plus current and historical text rasters after fresh-store package transfer.
+[Retained artifacts](root-fonts.tar.xz) include the complete public trace and images.
