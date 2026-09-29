@@ -10,3 +10,8 @@ adds a separate public real-narration preservation journey. Model-dependent
 retiming follows independently judged speech evidence and the existing prepared
 audio owner. These audits freeze their checkpoint; current integration status
 lives in the implementation pickup. No new engine or policy is selected here.
+
+The [finite audio-domain audit](audio-domain.md) distinguishes asset admission
+from executable composition and raw-window restrictions. Remaining representative
+checks cover real negative occupied origins and low/high integral rates; no
+exhaustive codec/rate matrix or new admission policy is implied.
