@@ -1,3 +1,13 @@
+import { acquisitionContext } from "@screenrec/core/acquisitions";
+import { indexGenerationResource } from "@screenrec/core/screenshot-index";
+import { portableIndexRecords } from "./portable-index.js";
+import { projectCompositionFromRevision } from "@screenrec/core/project-window";
+import {
+  projectIndexDomain,
+  portableProjectIndexMetadataSchema,
+  portableProjectIndexRecordSchema,
+  type ProjectIndexRecords,
+} from "@screenrec/core/project-index";
 import { selectSourceMetadata } from "@screenrec/core/source-selection";
 import {
   sourceIndexDomain,
@@ -5,7 +15,7 @@ import {
   portableSourceIndexRecordSchema,
   type SourceIndexRecords,
 } from "@screenrec/core/source-index";
-import type { ScreenshotIndexStore, PortableIndexRecord } from "@screenrec/core/screenshot-index";
+import type { ScreenshotIndexStore, IndexRecords } from "@screenrec/core/screenshot-index";
 import type { IndexProcessing } from "@screenrec/core/index-processing";
 import { createHash } from "node:crypto";
 import { fstatSync, readFileSync, constants } from "node:fs";
@@ -32,6 +42,7 @@ import type { ProjectStore, ProjectSnapshot } from "@screenrec/core/projects";
 import type { AssetStore } from "@screenrec/core/assets";
 import type { AcquisitionImporter, PortableAcquisitionFiles } from "@screenrec/core/acquisitions";
 import {
+  sceneGenerationResource,
   type PortableSceneMetadata,
   type SceneEvidenceStore,
 } from "@screenrec/core/scene-evidence";
@@ -67,7 +78,7 @@ type Owners = {
   jobs: JobQueue;
   worker: MediaWorker;
   delivery: DerivativeDelivery;
-  assertPortable(projectId: string): void;
+  projectIndexRecords: ScreenshotIndexStore<ProjectIndexRecords>;
 };
 
 /** Archive lifetimes remain in the registry; durable adoption remains in the project and asset owners. */
@@ -230,7 +241,7 @@ export class ProjectPackages {
       });
     const indexInventory = new Map<
       string,
-      Extract<PortableDependency, { kind: "index-generation" }>
+      Extract<PortableDependency, { kind: "index-generation" | "project-index-generation" }>
     >();
     const indexesForAsset = (assetId: string) =>
       this.owners.indexRecords.portableGenerations({ kind: "asset", assetId }).map((metadata) => {
@@ -253,6 +264,40 @@ export class ProjectPackages {
         }
         return identity;
       });
+    for (const metadata of this.owners.projectIndexRecords.portableGenerations({
+      kind: "project",
+      projectId,
+    })) {
+      const resource: Extract<PortableDependency, { kind: "project-index-generation" }> = {
+        kind: "project-index-generation",
+        metadata: portableProjectIndexMetadataSchema.parse(metadata),
+        publication: this.owners.indexes.portableProject(metadata),
+      };
+      const identity = resourceIdentity(resource);
+      const reference = snapshot.references.find(
+        (value) => value.revisionId === metadata.revisionId,
+      );
+      if (!reference)
+        throw new CatalogError(
+          "INVALID_STORAGE",
+          "Project index revision is outside retained history",
+        );
+      if (
+        !reference.resources.some(
+          (value) => value.kind === identity.kind && value.id === identity.id,
+        )
+      )
+        reference.resources.push(identity);
+      const entries = metadata.candidateCount * 2 + metadata.coverageCount;
+      members += entries;
+      metadataBytes += Buffer.byteLength(JSON.stringify(resource)) + entries * 128;
+      if (members >= archiveLimits.entries || metadataBytes > archiveLimits.manifestBytes)
+        throw new CatalogError(
+          "LIMIT_EXCEEDED",
+          "Screenshot index inventory exceeds archive budget",
+        );
+      indexInventory.set(identity.id, resource);
+    }
     const resources = collectPortableResources(projectResourceRoots(snapshot), (identity) => {
       let resource: PortableDependency;
       if (identity.kind === "asset") {
@@ -326,7 +371,6 @@ export class ProjectPackages {
         );
       return resource;
     });
-    this.owners.assertPortable(projectId);
     return {
       revisionId: snapshot.project.currentRevisionId,
       snapshot,
@@ -343,6 +387,8 @@ export class ProjectPackages {
         this.owners.transcriptRecords.portableFile(resource.metadata);
       if (resource.kind === "index-generation")
         this.owners.indexRecords.metadata(resource.metadata);
+      if (resource.kind === "project-index-generation")
+        this.owners.projectIndexRecords.metadata(resource.metadata);
     }
   }
   adopt(packageHandle: string, requestId: string) {
@@ -362,6 +408,10 @@ export class ProjectPackages {
         const transcripts: {
           stage: Awaited<ReturnType<TranscriptStore["stagePortable"]>>;
           resource: Extract<PortableResource, { kind: "transcript-generation" }>;
+        }[] = [];
+        const projectIndexes: {
+          stage: Awaited<ReturnType<ScreenshotIndexStore<ProjectIndexRecords>["stagePortable"]>>;
+          resource: Extract<PortableResource, { kind: "project-index-generation" }>;
         }[] = [];
         const indexes: {
           stage: Awaited<ReturnType<ScreenshotIndexStore<SourceIndexRecords>["stagePortable"]>>;
@@ -517,97 +567,145 @@ export class ProjectPackages {
                   : { acquisitionId: resource.metadata.acquisitionId }),
               },
             );
-            async function* records(
-              resource: Extract<PortableResource, { kind: "index-generation" }>,
-            ): AsyncGenerator<PortableIndexRecord<SourceIndexRecords>> {
-              for (let ordinal = 0; ordinal < resource.records.length; ordinal++) {
-                signal.throwIfAborted();
-                const file = context.files.open(indexMemberPath(resource, "records", ordinal));
-                let record;
-                try {
-                  const parsed = portableSourceIndexRecordSchema.safeParse(
-                    JSON.parse(
-                      new TextDecoder("utf-8", { fatal: true }).decode(readFileSync(file.fd)),
-                    ),
-                  );
-                  if (!parsed.success)
-                    throw new CatalogError(
-                      "INVALID_PACKAGE",
-                      "Invalid retained screenshot index record",
-                    );
-                  record = parsed.data;
-                } finally {
-                  file.close();
-                }
-                if (record.kind === "coverage") {
-                  yield record;
-                  continue;
-                }
-                const path = indexMemberPath(resource, "images", record.candidate.ordinal),
-                  source = context.files.open(path);
-                try {
-                  const stat = fstatSync(source.fd, { bigint: true });
-                  yield {
-                    ...record,
-                    source: {
-                      path: context.files.path(path),
-                      bytes: Number(stat.size),
-                      identity: fileIdentity(stat),
-                    },
-                    sha256: resource.images[record.candidate.ordinal]!.sha256,
-                  };
-                } finally {
-                  source.close();
-                }
-              }
-            }
             indexes.push({
               resource,
               stage: await this.owners.indexRecords.stagePortable(
                 resource.metadata,
-                records(resource),
+                portableIndexRecords<SourceIndexRecords>(
+                  context.files,
+                  resource,
+                  (value) => portableSourceIndexRecordSchema.parse(value),
+                  signal,
+                ),
                 signal,
                 sourceIndexDomain(
                   () => selected,
-                  sceneReads.get(
-                    JSON.stringify([
-                      "asset",
-                      resource.metadata.scenes.owner.assetId,
-                      resource.metadata.scenes.generation,
-                    ]),
-                  )!,
+                  sceneReads.get(sceneGenerationResource(resource.metadata.scenes))!,
                   null,
                 ),
               ),
             });
           }
+          for (const resource of manifest.resources) {
+            if (resource.kind !== "project-index-generation") continue;
+            const revisionId = adoption.revisionIds[resource.metadata.revisionId]!;
+            const metadata = {
+              ...resource.metadata,
+              projectId: adoption.project.projectId,
+              revisionId,
+            };
+            const revision = adoption.revisions.find((value) => value.id === revisionId)!;
+            const validation = projectIndexDomain(
+              {
+                composition: () =>
+                  projectCompositionFromRevision(
+                    revision,
+                    {
+                      get: (id) => portableAssets.get(id)!,
+                      path: (id) => assetPaths.get(id)!,
+                    },
+                    [...portableAcquisitions.values()].map(acquisitionContext),
+                  ),
+                source: (selection) =>
+                  selectSourceMetadata(
+                    portableAssets.get(selection.assetId)!,
+                    assetPaths.get(selection.assetId)!,
+                    selection.acquisitionId
+                      ? portableAcquisitions.get(selection.acquisitionId)
+                      : undefined,
+                    selection,
+                  ),
+                scenes: {
+                  metadata: (identity) =>
+                    sceneReads.get(sceneGenerationResource(identity))!.metadata(identity),
+                },
+                isDeleting: () => false,
+              },
+              { implementationId: resource.metadata.implementationId },
+            );
+            const stage = await this.owners.projectIndexRecords.stagePortable(
+              metadata,
+              portableIndexRecords<ProjectIndexRecords>(
+                context.files,
+                resource,
+                (value) => {
+                  const parsed = portableProjectIndexRecordSchema.parse(value);
+                  if (parsed.kind === "coverage") return parsed;
+                  if (
+                    parsed.frame.projectId !== resource.metadata.projectId ||
+                    parsed.frame.revisionId !== resource.metadata.revisionId
+                  )
+                    throw new CatalogError(
+                      "INVALID_PACKAGE",
+                      "Project index receipt belongs to another revision",
+                    );
+                  return {
+                    ...parsed,
+                    frame: { ...parsed.frame, projectId: metadata.projectId, revisionId },
+                  };
+                },
+                signal,
+              ),
+              signal,
+              validation,
+            );
+            projectIndexes.push({ resource, stage });
+          }
           signal.throwIfAborted();
-          const result = adoption.publish(() => {
-            for (const asset of staged) asset.publish();
-            for (const acquisition of acquisitions) acquisition.publish();
-            for (const { resource, stage } of transcripts) {
-              stage.publish();
-              this.owners.transcripts.adoptPublication(
-                stage.metadata,
-                resource.available,
-                resource.publication,
-              );
-            }
-            for (const { resource, stage } of scenes) {
-              stage.publish();
-              if (resource.publication)
-                this.owners.scenes.adoptPublication(resource.metadata, resource.publication);
-            }
-            for (const { resource, stage } of indexes) {
-              stage.publish();
-              this.owners.indexes.adoptSourcePublication(resource.metadata, resource.publication);
-            }
-          });
+          const projectIndexIds = new Map(
+            projectIndexes.map(({ resource, stage }) => [
+              resourceIdentity(resource).id,
+              indexGenerationResource(
+                { kind: "project", projectId: adoption.project.projectId },
+                stage.metadata.generation,
+              ),
+            ]),
+          );
+          const result = adoption.publish(
+            () => {
+              for (const asset of staged) asset.publish();
+              for (const acquisition of acquisitions) acquisition.publish();
+              for (const { resource, stage } of transcripts) {
+                stage.publish();
+                this.owners.transcripts.adoptPublication(
+                  stage.metadata,
+                  resource.available,
+                  resource.publication,
+                );
+              }
+              for (const { resource, stage } of scenes) {
+                stage.publish();
+                if (resource.publication)
+                  this.owners.scenes.adoptPublication(resource.metadata, resource.publication);
+              }
+              for (const { resource, stage } of indexes) {
+                stage.publish();
+                this.owners.indexes.adoptSourcePublication(resource.metadata, resource.publication);
+              }
+            },
+            {
+              reference: (reference) =>
+                reference.kind === "index-generation" && projectIndexIds.has(reference.id)
+                  ? { kind: "index-generation", id: projectIndexIds.get(reference.id)! }
+                  : reference,
+              publish: () => {
+                for (const { resource, stage } of projectIndexes) {
+                  stage.publish();
+                  this.owners.indexes.adoptProjectPublication(
+                    resource.metadata,
+                    stage.metadata,
+                    resource.publication,
+                  );
+                }
+              },
+            },
+          );
           return JSON.stringify({
             projectId: result.project.projectId,
             revisionId: result.revision.id,
           });
         } finally {
+          await Promise.all(projectIndexes.map(({ stage }) => stage.close()));
           await Promise.all(indexes.map(({ stage }) => stage.close()));
           await Promise.all(transcripts.map(({ stage }) => stage.close()));
           await Promise.all(scenes.map(({ stage }) => stage.close()));
@@ -670,7 +768,8 @@ export class ProjectPackages {
     const declared = pinned.resources.flatMap((resource) =>
       resource.kind === "scene-generation" ||
       resource.kind === "transcript-generation" ||
-      resource.kind === "index-generation"
+      resource.kind === "index-generation" ||
+      resource.kind === "project-index-generation"
         ? []
         : resourceMembers(resource),
     );
@@ -681,6 +780,65 @@ export class ProjectPackages {
       declared.reduce((sum, entry) => sum + entry.bytes, expanded) > archiveLimits.expandedBytes
     )
       throw new CatalogError("LIMIT_EXCEEDED", "Project resources exceed archive budget");
+    const assembleIndex = async <D extends IndexRecords>(
+      entry: Extract<PortableDependency, { kind: "index-generation" | "project-index-generation" }>,
+      recordsStore: ScreenshotIndexStore<D>,
+      identity: D["identity"],
+    ) => {
+      const records: Extract<PortableResource, { kind: "index-generation" }>["records"] = [],
+        images: Extract<PortableResource, { kind: "index-generation" }>["images"] = [];
+      const record = async (value: unknown) => {
+        const body = JSON.stringify(value),
+          path = indexMemberPath(entry, "records", records.length);
+        if (Buffer.byteLength(body) > 262144)
+          throw new CatalogError(
+            "LIMIT_EXCEEDED",
+            "Screenshot index record exceeds package budget",
+          );
+        await mkdir(dirname(join(input.directory, path)), { recursive: true, mode: 0o700 });
+        await text(path, body);
+        records.push({
+          bytes: Buffer.byteLength(body),
+          sha256: createHash("sha256").update(body).digest("hex"),
+        });
+      };
+      for (let ordinal = 0; ordinal < entry.metadata.candidateCount; ordinal++) {
+        signal.throwIfAborted();
+        const value = recordsStore.readEntry(identity, ordinal),
+          source = recordsStore.portableImage(identity, ordinal),
+          path = indexMemberPath(entry, "images", ordinal);
+        await mkdir(dirname(join(input.directory, path)), { recursive: true, mode: 0o700 });
+        const copied = await copyImportedFile(
+          source.path,
+          join(input.directory, path),
+          signal,
+          source,
+          32 * 1024 * 1024,
+        );
+        await add(path, copied.bytes, copied.sha256);
+        images.push(copied);
+        await record({
+          kind: "entry",
+          candidate: value.candidate,
+          frame: { ...value.frame, file: `${ordinal}.png` },
+        });
+      }
+      let afterSequence: number | undefined;
+      do {
+        const page = recordsStore.coveragePage({
+          identity,
+          ...(afterSequence === undefined ? {} : { afterSequence }),
+          limit: 100,
+        });
+        for (const { sequence: _sequence, ...coverage } of page.coverage)
+          await record({ kind: "coverage", coverage });
+        if (page.nextSequence === null) break;
+        afterSequence = page.nextSequence;
+      } while (true);
+      if (records.length !== entry.metadata.candidateCount + entry.metadata.coverageCount)
+        throw new CatalogError("INVALID_STORAGE", "Screenshot index inventory changed");
+      return { ...entry, records, images };
+    };
     for (const entry of pinned.resources) {
       if (entry.kind === "scene-generation") {
         const chunks: Extract<PortableResource, { kind: "scene-generation" }>["chunks"] = [];
@@ -736,59 +894,11 @@ export class ProjectPackages {
         continue;
       }
       if (entry.kind === "index-generation") {
-        const records: Extract<PortableResource, { kind: "index-generation" }>["records"] = [],
-          images: Extract<PortableResource, { kind: "index-generation" }>["images"] = [];
-        const record = async (value: unknown) => {
-          const body = JSON.stringify(value),
-            path = indexMemberPath(entry, "records", records.length);
-          if (Buffer.byteLength(body) > 262144)
-            throw new CatalogError(
-              "LIMIT_EXCEEDED",
-              "Screenshot index record exceeds package budget",
-            );
-          await mkdir(dirname(join(input.directory, path)), { recursive: true, mode: 0o700 });
-          await text(path, body);
-          records.push({
-            bytes: Buffer.byteLength(body),
-            sha256: createHash("sha256").update(body).digest("hex"),
-          });
-        };
-        for (let ordinal = 0; ordinal < entry.metadata.candidateCount; ordinal++) {
-          signal.throwIfAborted();
-          const value = this.owners.indexRecords.readEntry(entry.metadata, ordinal),
-            source = this.owners.indexRecords.portableImage(entry.metadata, ordinal),
-            path = indexMemberPath(entry, "images", ordinal);
-          await mkdir(dirname(join(input.directory, path)), { recursive: true, mode: 0o700 });
-          const copied = await copyImportedFile(
-            source.path,
-            join(input.directory, path),
-            signal,
-            source,
-            32 * 1024 * 1024,
-          );
-          await add(path, copied.bytes, copied.sha256);
-          images.push(copied);
-          await record({
-            kind: "entry",
-            candidate: value.candidate,
-            frame: { ...value.frame, file: `${ordinal}.png` },
-          });
-        }
-        let afterSequence: number | undefined;
-        do {
-          const page = this.owners.indexRecords.coveragePage({
-            identity: entry.metadata,
-            ...(afterSequence === undefined ? {} : { afterSequence }),
-            limit: 100,
-          });
-          for (const { sequence: _sequence, ...coverage } of page.coverage)
-            await record({ kind: "coverage", coverage });
-          if (page.nextSequence === null) break;
-          afterSequence = page.nextSequence;
-        } while (true);
-        if (records.length !== entry.metadata.candidateCount + entry.metadata.coverageCount)
-          throw new CatalogError("INVALID_STORAGE", "Screenshot index inventory changed");
-        resources.push({ ...entry, records, images });
+        resources.push(await assembleIndex(entry, this.owners.indexRecords, entry.metadata));
+        continue;
+      }
+      if (entry.kind === "project-index-generation") {
+        resources.push(await assembleIndex(entry, this.owners.projectIndexRecords, entry.metadata));
         continue;
       }
       resources.push(entry);

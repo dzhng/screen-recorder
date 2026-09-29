@@ -1,3 +1,4 @@
+import { selectSource } from "@screenrec/core/source-selection";
 import { mkdtemp, readFile, rm, unlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -12,7 +13,7 @@ import { AcquisitionStore } from "@screenrec/core/acquisitions";
 import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evidence";
 import { ScreenshotIndexStore } from "@screenrec/core/screenshot-index";
 import { projectIndexDomain, projectIndexPlan } from "@screenrec/core/project-index";
-import { projectComposition } from "../../../packages/core/dist/project-window.js";
+import { projectComposition } from "@screenrec/core/project-window";
 import { DerivativeDelivery } from "./delivery.js";
 import { ProjectDeletion } from "./project-deletion.js";
 
@@ -34,7 +35,15 @@ test("deletion drains canceled executors before releasing shared media; interrup
   const index = new ScreenshotIndexStore(
     catalog,
     home,
-    projectIndexDomain(projects, assets, acquisitions, scenes, { implementationId: "deletion-test" }),
+    projectIndexDomain(
+      {
+        composition: (identity) => projectComposition(projects, assets, identity),
+        source: (selection) => selectSource(assets, acquisitions, selection),
+        scenes,
+        isDeleting: (id) => projects.isDeleting(id),
+      },
+      { implementationId: "deletion-test" },
+    ),
   );
   const started = deferred();
   const aborted = deferred();
@@ -113,8 +122,11 @@ test("deletion drains canceled executors before releasing shared media; interrup
     const one = create("one"),
       two = create("two");
     const indexIdentity = (projectId: string, generation: string) => ({
-      ...projectIndexPlan(projectComposition(projects, assets, { projectId }), {}, { implementationId: "deletion-test" })
-        .identity,
+      ...projectIndexPlan(
+        projectComposition(projects, assets, { projectId }),
+        {},
+        { implementationId: "deletion-test" },
+      ).identity,
       generation,
       scenes: [],
     });

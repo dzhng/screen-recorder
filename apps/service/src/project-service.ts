@@ -1,3 +1,4 @@
+import { projectComposition } from "@screenrec/core/project-window";
 import { selectSource } from "@screenrec/core/source-selection";
 import { outputCapabilities } from "@screenrec/composition";
 import { ProjectPackages } from "./project-packages.js";
@@ -371,7 +372,15 @@ export async function startProjectService(options: { home: string; worker?: Medi
     const projectIndex = new ScreenshotIndexStore<ProjectIndexRecords>(
       catalog,
       library,
-      projectIndexDomain(projects, assets, acquisitions, sceneRecords, projectPictures),
+      projectIndexDomain(
+        {
+          composition: (identity) => projectComposition(projects, assets, identity),
+          source: (selection) => selectSource(assets, acquisitions, selection),
+          scenes: sceneRecords,
+          isDeleting: (id) => projects.isDeleting(id),
+        },
+        projectPictures,
+      ),
     );
     const sourceIndex = new ScreenshotIndexStore<SourceIndexRecords>(
       catalog,
@@ -451,13 +460,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       jobs: queue,
       worker,
       delivery,
-      assertPortable(projectId) {
-        if (projectIndex.hasGenerations({ kind: "project", projectId }))
-          throw new CatalogError(
-            "UNSUPPORTED_PACKAGE_DEPENDENCY",
-            "Project screenshot index adoption is not yet implemented",
-          );
-      },
+      projectIndexRecords: projectIndex,
     });
     packages = projectPackages;
     const mediaExports = new MediaExports({

@@ -1,19 +1,21 @@
+import { z } from "zod";
+import { timeValueSchema } from "@screenrec/composition";
+import { sourceSceneClockSchema } from "./source-scene-chunks.js";
 import { isDeepStrictEqual } from "node:util";
 import { isMediaClip } from "@screenrec/composition";
-import type { AssetStore } from "./assets.js";
-import type { AcquisitionStore } from "./acquisitions.js";
-import type { ProjectStore } from "./projects.js";
 import { CatalogError } from "./catalog.js";
 import { compositionPointerSources } from "./composition-pointer.js";
 import { projectComposition, type ProjectRenderSupport } from "./project-window.js";
 import {
   projectPictureOptionsSchema,
+  retainedProjectFrameSchema,
   validateRetainedProjectFrameReceipt,
   type ProjectFrameArtifact,
   type ProjectFrameInput,
 } from "./frame-inspection.js";
 import {
   sourceSceneDescriptor,
+  portableSceneMetadataSchema,
   type SceneEvidenceMetadata,
   type SceneEvidenceStore,
 } from "./scene-evidence.js";
@@ -37,11 +39,89 @@ export type ProjectIndexRecords = {
   coverage: ProjectIndexCoverage;
 };
 
+const portableTime = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+const portableRange = z
+  .strictObject({ startUs: portableTime, endUs: portableTime })
+  .refine((r) => r.endUs > r.startUs);
+export const portableProjectIndexMetadataSchema = projectPictureOptionsSchema
+  .extend({
+    projectId: z.string().min(1),
+    revisionId: z.string().min(1),
+    generation: z.string().min(1).max(256),
+    selectionPolicy: z.literal(projectIndexPolicy.id),
+    scenes: z.array(portableSceneMetadataSchema).max(25000),
+    durationUs: portableTime,
+    candidateCount: portableTime.max(25000),
+    coverageCount: portableTime.max(25000),
+    bytes: portableTime,
+  })
+  .strict();
+export const portableProjectIndexRecordSchema = z.discriminatedUnion("kind", [
+  z.strictObject({
+    kind: z.literal("entry"),
+    candidate: z.strictObject({
+      ordinal: portableTime,
+      index: portableTime,
+      sampleAtUs: portableTime,
+      visibleRange: portableRange,
+      reasons: z
+        .array(
+          z.union([
+            z.strictObject({
+              kind: z.literal("scene"),
+              clipId: z.string().min(1),
+              generation: z.string().min(1),
+              observedSourceUs: portableTime,
+              projectAtUs: timeValueSchema,
+              side: z.enum(["before", "after"]),
+              sample: sourceSceneClockSchema,
+              originUs: z.int().min(-Number.MAX_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER),
+            }),
+            z.strictObject({
+              kind: z.enum(["first", "last", "coverage"]),
+              projectAtUs: timeValueSchema,
+            }),
+            z.strictObject({
+              kind: z.literal("processing"),
+              projectAtUs: timeValueSchema,
+              side: z.enum(["before", "after"]),
+            }),
+            z.strictObject({
+              kind: z.enum(["clip", "availability"]),
+              clipId: z.string().min(1),
+              edge: z.enum(["start", "end"]),
+              projectAtUs: timeValueSchema,
+              side: z.enum(["before", "after"]),
+            }),
+          ]),
+        )
+        .max(100000),
+    }),
+    frame: retainedProjectFrameSchema,
+  }),
+  z.strictObject({
+    kind: z.literal("coverage"),
+    coverage: z.union([
+      z.strictObject({
+        project: portableRange,
+        ordinal: portableTime,
+        equality: z.literal("sampled"),
+      }),
+      z.strictObject({
+        project: portableRange,
+        ordinal: z.null(),
+        equality: z.literal("unproven"),
+      }),
+    ]),
+  }),
+]);
+
 /** Empty targets validate their real processing scope without a synthetic render window. */
 export function projectIndexPlan(
   composition: ReturnType<typeof projectComposition>,
   input: Pick<ProjectFrameInput, "tap" | "maxLongEdge">,
   support: ProjectRenderSupport,
+  admission: "produced" | "retained" = "produced",
 ) {
   const parsed = projectPictureOptionsSchema.safeParse({
     tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
@@ -51,7 +131,8 @@ export function projectIndexPlan(
   if (!parsed.success) throw new CatalogError("INVALID_PARAMS", "Invalid project picture options");
   const { model, compiler } = composition;
   const processing = model.durationUs
-    ? composition.window({ tap: parsed.data.tap }, support, "video").window.manifest.processing
+    ? composition.window({ tap: parsed.data.tap }, support, "video", admission).window.manifest
+        .processing
     : compiler.tapPlan(parsed.data.tap, "video");
   const selected = new Set(
     processing.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
@@ -99,10 +180,12 @@ function invalid(message: string): never {
 
 /** Retained pixels keep their admitted identities even after their source analysis is reclaimed. */
 export function projectIndexDomain(
-  projects: ProjectStore,
-  assets: AssetStore,
-  acquisitions: AcquisitionStore,
-  scenes: SceneEvidenceStore,
+  read: {
+    composition(identity: ProjectIndexIdentity): ReturnType<typeof projectComposition>;
+    source(selection: SourceSelection): ReturnType<typeof selectSource>;
+    scenes: Pick<SceneEvidenceStore, "metadata">;
+    isDeleting(projectId: string): boolean;
+  },
   support: ProjectRenderSupport,
 ): IndexDomain<ProjectIndexRecords> {
   // One write context bounds residency and avoids rebuilding a full revision for every appended PNG.
@@ -111,10 +194,13 @@ export function projectIndexDomain(
         key: string;
         composition: ReturnType<typeof projectComposition>;
         plan: ReturnType<typeof projectIndexPlan>;
+        admission: "produced" | "retained";
       }
     | undefined;
-  function resolve(identity: ProjectIndexIdentity) {
-    projects.get(identity.projectId);
+  function resolve(
+    identity: ProjectIndexIdentity,
+    admission: "produced" | "retained" = active?.admission ?? "produced",
+  ) {
     const key = JSON.stringify([
       identity.projectId,
       identity.revisionId,
@@ -122,15 +208,21 @@ export function projectIndexDomain(
       identity.maxLongEdge,
       identity.implementationId,
     ]);
-    if (active?.key !== key) {
-      const composition = projectComposition(projects, assets, identity);
+    if (active?.key !== key || active.admission !== admission) {
+      const composition = read.composition(identity);
       active = {
         key,
         composition,
-        plan: projectIndexPlan(composition, identity, {
-          ...support,
-          implementationId: identity.implementationId,
-        }),
+        admission,
+        plan: projectIndexPlan(
+          composition,
+          identity,
+          {
+            ...support,
+            implementationId: identity.implementationId,
+          },
+          admission,
+        ),
       };
     }
     return active;
@@ -152,7 +244,7 @@ export function projectIndexDomain(
         throw new CatalogError("NOT_READY", "Pinned picture renderer is unavailable", {}, true);
       if (!identity.generation || identity.selectionPolicy !== projectIndexPolicy.id)
         invalid("Project index selection identity is unavailable");
-      const { plan } = resolve(identity);
+      const { plan } = resolve(identity, admission);
       const bindings = new Map(
         plan.sources.map((selection) => [sourceSelectionKey(selection), selection]),
       );
@@ -171,20 +263,17 @@ export function projectIndexDomain(
         if (seen.has(key) || !bindings.has(key))
           invalid("Project index scene dependency is duplicated or outside its tap");
         seen.add(key);
-        const retained = scenes.metadata(dependency);
+        const retained = read.scenes.metadata(dependency);
         if (
           !isDeepStrictEqual(retained, dependency) ||
-          !isDeepStrictEqual(
-            dependency.source,
-            sourceSceneDescriptor(selectSource(assets, acquisitions, selection)),
-          )
+          !isDeepStrictEqual(dependency.source, sourceSceneDescriptor(read.source(selection)))
         )
           invalid("Project index scenes differ from their pinned source");
       }
       return plan.model.durationUs;
     },
     candidate(identity, candidate, frame, path, previous) {
-      const { composition, plan } = resolve(identity);
+      const { composition, plan, admission } = resolve(identity);
       const expected = plan.compiler.frameBoundary(candidate.sampleAtUs).after;
       if (
         !expected ||
@@ -214,6 +303,7 @@ export function projectIndexDomain(
           },
           { ...support, implementationId: identity.implementationId },
           "video",
+          admission,
         ),
         path,
         identity.maxLongEdge,
@@ -248,6 +338,6 @@ export function projectIndexDomain(
         invalid("A nonempty project index requires a delivered picture");
       active = undefined;
     },
-    isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
+    isDeleting: (owner) => owner.kind === "project" && read.isDeleting(owner.projectId),
   };
 }

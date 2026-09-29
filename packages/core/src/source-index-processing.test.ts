@@ -1,6 +1,6 @@
 import { portableSourceIndexMetadataSchema } from "./source-index.js";
 import { expect, test } from "vitest";
-import { readFile } from "node:fs/promises";
+import { readFile, unlink } from "node:fs/promises";
 import { CatalogError } from "./catalog.js";
 import { fixture, gate, png } from "./index-processing.fixture.js";
 test("shared jobs publish source PNGs and exact gap coverage with bounded canonical pages", async () => {
@@ -301,4 +301,26 @@ test("explicit index retry recovers its canceled frame child instead of repeatin
   } finally {
     release.resolve();
   }
+});
+
+test("reading an adopted source index preserves its generation without a donor job", async () => {
+  const f = await fixture();
+  const { pending } = await f.prepare();
+  await f.jobs.idle();
+  const original = f.index.getSource(f.selection).page!.metadata;
+  const publication = f.index.portableSource(original)!;
+  f.jobs.forgetJob(pending.jobId!);
+  f.index.adoptSourcePublication(original, publication);
+  expect(f.index.getSource(f.selection).page!.metadata.generation).toBe(original.generation);
+  await f.jobs.idle();
+  expect(f.index.getSource(f.selection).page!.metadata.generation).toBe(original.generation);
+  expect(
+    f.index.frameSource({ ...f.selection, generation: original.generation, ordinal: 0 }).state,
+  ).toBe("ready");
+  const reference = { ...f.selection, generation: original.generation, ordinal: 0 };
+  f.index.openReadSource(reference).release();
+  await unlink(f.retained.readEntry(original, 0).frame.file);
+  expect(() => f.index.openReadSource(reference)).toThrow();
+  await f.jobs.idle();
+  expect(f.index.getSource(f.selection).page!.metadata.generation).toBe(original.generation);
 });

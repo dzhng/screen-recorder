@@ -267,6 +267,10 @@
     "./prepared-audio": {
       "types": "./dist/prepared-audio.d.ts",
       "default": "./dist/prepared-audio.js"
+    },
+    "./project-window": {
+      "types": "./dist/project-window.d.ts",
+      "default": "./dist/project-window.js"
     }
   },
   "scripts": {

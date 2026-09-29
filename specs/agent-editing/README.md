@@ -31,7 +31,7 @@ See the [implementation pickup](assets/implementation-pickup.md) for exact check
    separates encoding loss from image-generator artifacts. ProRes is a diagnostic
    control, not an added release requirement. Preserve all existing measured failures
    and use the [remaining media audit](assets/15-acceptance-audit/README.md).
-2. Continue transition/convenience delivery and portable project screenshot-index closure
+2. Continue transition/convenience delivery and portable prepared-audio closure
    in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json).
    The shared [scalar prerequisite](slices/16b-scalar-program.md) and
    retained source transcripts pass combined-build confirmation. The [font/layout reproduction](slices/17a-text-layout.md) is verified within its
@@ -72,7 +72,9 @@ Compact evidence ledger:
   source-scene, real source-transcript and [source screenshot-index generations](assets/22-source-index/README.md)
   through restart. The [transient adoption boundary](slices/22a-portable-snapshots.md)
   now prepares independent identities before staging and rechecks replay at publication.
-  Project-index staged validation, archive/public relocation and other dependencies remain open.
+  [Project-index relocation](assets/22-project-index/README.md) now preserves current
+  and historical generations, including read replay without donor jobs. Prepared audio,
+  fonts and non-current package export remain open.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.

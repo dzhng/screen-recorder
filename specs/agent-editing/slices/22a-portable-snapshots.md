@@ -35,26 +35,14 @@ existing archive framing/path/byte limits stay with the archive owner.
 
 ## Verification and next pass
 
-The transient identity preparation checkpoint passes 12 focused project/package/asset
-tests, core type checking and the service build. The concurrency test first failed
-without preparation, then verified invisible preparation, winning identities and
-publication replay. Independent Codex review found no actionable regressions.
-Project-index staged validation and archive/public relocation remain the next step;
-this boundary alone does not add portable project-index support.
+The [public project-index relocation](../assets/22-project-index/README.md) now
+exercises this boundary through CLI/MCP and the native worker, including current
+and historical picture receipts, source evidence, rendered results and failed-import
+controls. Identity preparation remains invisible; a concurrent publication loser
+returns the winning receipt without publishing its own staged evidence.
 
-Root integration also passes all 11 tests across the three affected test files
-and the targeted CLI/service build. Focused core tests cover history/undo
-independence, replay/conflict, dependency
-publication rollback, byte preservation, pre-canceled staging, hash conflicts,
-reference chains and manifest rejection. These are core behavior checks, not the
-public CLI/MCP relocation or delivered-media gate.
-
-The next pass connects this boundary to the existing bounded archive worker,
-retained package registry and export publication owner. It must prove actual
-export/open/adopt/render/edit/undo through CLI and MCP. Acquisition/source evidence,
-scene/transcript generations, prepared processing outputs and fonts need complete
-owner-specific export/adoption support before full slice 22 acceptance. Explicit
-fixture coverage remains allowed; actual 15a output remains a final gate.
+Prepared model-dependent output retention, fonts and non-current package export
+remain parent-22 work. Actual 15a output is still a final acceptance gate.
 
 ## Failure boundary and discretion
 

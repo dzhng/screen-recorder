@@ -1,3 +1,4 @@
+import { portableProjectIndexMetadataSchema } from "./project-index.js";
 import { portableSourceIndexMetadataSchema } from "./source-index.js";
 import { indexGenerationResource } from "./screenshot-index.js";
 import { createHash } from "node:crypto";
@@ -14,7 +15,7 @@ import { portableSceneMetadataSchema, sceneGenerationResource } from "./scene-ev
 import { portableScenePublicationSchema } from "./scene-processing.js";
 import { portableTranscriptSchema, transcriptGenerationResource } from "./transcript.js";
 import { retainedPublicationSchema } from "./jobs.js";
-import { portableAcquisitionSchema } from "./acquisitions.js";
+import { acquisitionContext, portableAcquisitionSchema } from "./acquisitions.js";
 import type { ResourceReference } from "./references.js";
 import type { ArchiveLimits } from "./package-archive.js";
 
@@ -23,6 +24,23 @@ const member = z.strictObject({
   path: z.string(),
   bytes: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER),
   sha256: digest,
+});
+const indexMembersSchema = z.strictObject({
+  publication: retainedPublicationSchema.nullable(),
+  records: z
+    .array(z.strictObject({ bytes: z.int().nonnegative().max(262144), sha256: digest }))
+    .max(25000),
+  images: z
+    .array(
+      z.strictObject({
+        bytes: z
+          .int()
+          .positive()
+          .max(32 * 1024 * 1024),
+        sha256: digest,
+      }),
+    )
+    .max(25000),
 });
 const resourceSchema = z.discriminatedUnion("kind", [
   portableAssetSchema.extend({ kind: z.literal("asset") }),
@@ -44,32 +62,14 @@ const resourceSchema = z.discriminatedUnion("kind", [
       .min(1)
       .max(25000),
   }),
-  z
-    .strictObject({
-      kind: z.literal("index-generation"),
-      metadata: portableSourceIndexMetadataSchema,
-      publication: retainedPublicationSchema.nullable(),
-      records: z
-        .array(z.strictObject({ bytes: z.int().nonnegative().max(262144), sha256: digest }))
-        .max(25000),
-      images: z
-        .array(
-          z.strictObject({
-            bytes: z
-              .int()
-              .positive()
-              .max(32 * 1024 * 1024),
-            sha256: digest,
-          }),
-        )
-        .max(25000),
-    })
-    .refine(
-      (value) =>
-        value.images.length === value.metadata.candidateCount &&
-        value.records.length === value.metadata.candidateCount + value.metadata.coverageCount,
-      "Screenshot index members differ from its counts",
-    ),
+  indexMembersSchema.extend({
+    kind: z.literal("index-generation"),
+    metadata: portableSourceIndexMetadataSchema,
+  }),
+  indexMembersSchema.extend({
+    kind: z.literal("project-index-generation"),
+    metadata: portableProjectIndexMetadataSchema,
+  }),
   z.strictObject({
     kind: z.literal("transcript-generation"),
     metadata: portableTranscriptSchema,
@@ -97,13 +97,28 @@ export type PortableResource = z.infer<typeof resourceSchema>;
 export type PortableDependency =
   | Exclude<
       PortableResource,
-      { kind: "scene-generation" | "transcript-generation" | "index-generation" }
+      {
+        kind:
+          | "scene-generation"
+          | "transcript-generation"
+          | "index-generation"
+          | "project-index-generation";
+      }
     >
   | Omit<Extract<PortableResource, { kind: "scene-generation" }>, "chunks">
   | Omit<Extract<PortableResource, { kind: "transcript-generation" }>, "receipt">
-  | Omit<Extract<PortableResource, { kind: "index-generation" }>, "records" | "images">;
+  | Omit<Extract<PortableResource, { kind: "index-generation" }>, "records" | "images">
+  | Omit<Extract<PortableResource, { kind: "project-index-generation" }>, "records" | "images">;
 export function resourceIdentity(resource: PortableDependency): ResourceReference {
   switch (resource.kind) {
+    case "project-index-generation":
+      return {
+        kind: "index-generation",
+        id: indexGenerationResource(
+          { kind: "project", projectId: resource.metadata.projectId },
+          resource.metadata.generation,
+        ),
+      };
     case "index-generation":
       return {
         kind: "index-generation",
@@ -125,6 +140,11 @@ export function resourceIdentity(resource: PortableDependency): ResourceReferenc
 const key = (identity: ResourceReference) => `${identity.kind}:${identity.id}`;
 export function resourceDependencies(resource: PortableDependency): ResourceReference[] {
   switch (resource.kind) {
+    case "project-index-generation":
+      return resource.metadata.scenes.map((scene) => ({
+        kind: "scene-generation",
+        id: sceneGenerationResource(scene),
+      }));
     case "index-generation":
       return [
         { kind: "asset", id: resource.metadata.assetId },
@@ -153,7 +173,7 @@ export function resourceDependencies(resource: PortableDependency): ResourceRefe
 export function resourceMembers(
   resource: PortableResource,
 ): { path: string; bytes: number; sha256: string | null }[] {
-  if (resource.kind === "index-generation")
+  if (resource.kind === "index-generation" || resource.kind === "project-index-generation")
     return [
       ...resource.records.map((value, index) => ({
         path: indexMemberPath(resource, "records", index),
@@ -206,7 +226,7 @@ export function sceneMemberPath(
   return `scenes/${id}/${ordinal}.json`;
 }
 export function indexMemberPath(
-  resource: Extract<PortableDependency, { kind: "index-generation" }>,
+  resource: Extract<PortableDependency, { kind: "index-generation" | "project-index-generation" }>,
   kind: "records" | "images",
   ordinal: number,
 ): string {
@@ -372,6 +392,19 @@ export function validateProjectPackage(
   });
   const resources = new Map<string, PortableResource>();
   for (const resource of manifest.resources) {
+    if (
+      (resource.kind === "index-generation" || resource.kind === "project-index-generation") &&
+      (resource.images.length !== resource.metadata.candidateCount ||
+        resource.records.length !==
+          resource.metadata.candidateCount + resource.metadata.coverageCount)
+    )
+      invalid("Screenshot index members differ from its counts");
+    if (
+      resource.kind === "project-index-generation" &&
+      (resource.metadata.projectId !== snapshot.project.projectId ||
+        !snapshot.revisions.some((revision) => revision.id === resource.metadata.revisionId))
+    )
+      invalid("Project screenshot index belongs to another history");
     const identity = key(resourceIdentity(resource));
     if (resources.has(identity)) invalid("Duplicate project dependency");
     if (resource.kind === "asset" && !resource.asset.fileName.startsWith(resource.asset.id))
@@ -399,18 +432,7 @@ export function validateProjectPackage(
     resource.kind === "asset" ? [compositionAsset(resource.asset)] : [],
   );
   const acquisitions = closure.flatMap((resource) =>
-    resource.kind === "acquisition"
-      ? [
-          {
-            id: resource.acquisition.id,
-            bindings: resource.acquisition.bindings.map(({ assetId, streamId, available }) => ({
-              assetId,
-              streamId,
-              available,
-            })),
-          },
-        ]
-      : [],
+    resource.kind === "acquisition" ? [acquisitionContext(resource.acquisition)] : [],
   );
   for (const revision of snapshot.revisions)
     validateComposition(revision.document, assets, acquisitions);

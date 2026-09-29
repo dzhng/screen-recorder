@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { afterEach, expect, test } from "vitest";
 import type { CompiledFrame } from "@screenrec/composition";
 import { validateProjectFrameReceipt } from "./frame-inspection.js";
@@ -9,7 +10,7 @@ import { AcquisitionStore } from "./acquisitions.js";
 import { ProjectStore } from "./projects.js";
 import { SceneEvidenceStore, assetSceneOwner, sourceSceneDescriptor } from "./scene-evidence.js";
 import { ScreenshotIndexStore, encodeIndexRecord } from "./screenshot-index.js";
-import { projectComposition } from "./project-window.js";
+import { projectComposition, projectCompositionFromRevision } from "./project-window.js";
 import {
   projectIndexPlan,
   projectIndexDomain,
@@ -44,9 +45,17 @@ async function fixture() {
   let index = new ScreenshotIndexStore(
     catalog,
     home,
-    projectIndexDomain(projects, assets, acquisitions, scenes, {
-      implementationId: "picture-test",
-    }),
+    projectIndexDomain(
+      {
+        composition: (identity) => projectComposition(projects, assets, identity),
+        source: (selection) => selectSource(assets, acquisitions, selection),
+        scenes: scenes,
+        isDeleting: (id) => projects.isDeleting(id),
+      },
+      {
+        implementationId: "picture-test",
+      },
+    ),
   );
   const identity = (generation = "index"): ProjectIndexIdentity => ({
     ...projectIndexPlan(
@@ -94,7 +103,15 @@ async function fixture() {
       index = new ScreenshotIndexStore(
         catalog,
         home,
-        projectIndexDomain(projects, assets, acquisitions, scenes, { implementationId: renderer }),
+        projectIndexDomain(
+          {
+            composition: (identity) => projectComposition(projects, assets, identity),
+            source: (selection) => selectSource(assets, acquisitions, selection),
+            scenes: scenes,
+            isDeleting: (id) => projects.isDeleting(id),
+          },
+          { implementationId: renderer },
+        ),
       );
     },
   };
@@ -573,9 +590,17 @@ test("historical index validation preserves its renderer while new execution req
   const identity = f.identity();
   f.index.begin(identity);
   const first = await append(f, identity, 0, 0);
-  const domain = projectIndexDomain(f.projects, f.assets, f.acquisitions, f.scenes, {
-    implementationId: "new-picture-renderer",
-  });
+  const domain = projectIndexDomain(
+    {
+      composition: (identity) => projectComposition(f.projects, f.assets, identity),
+      source: (selection) => selectSource(f.assets, f.acquisitions, selection),
+      scenes: f.scenes,
+      isDeleting: (id) => f.projects.isDeleting(id),
+    },
+    {
+      implementationId: "new-picture-renderer",
+    },
+  );
   expect(() => domain.begin(identity, "produced")).toThrow("Pinned picture renderer");
   expect(domain.begin(identity, "retained")).toBe(1000000);
   expect(() =>
@@ -596,4 +621,136 @@ test("historical index validation preserves its renderer while new execution req
   expect(() =>
     domain.begin({ ...identity, selectionPolicy: "unknown-policy" }, "retained"),
   ).toThrow("selection identity");
+});
+
+test("staged project indexes validate adopted revisions before atomic publication", async () => {
+  const donor = await fixture(),
+    receiver = await fixture();
+  addSilence(donor);
+  const original = donor.identity();
+  donor.index.begin(original);
+  await append(donor, original, 0, 0);
+  await append(donor, original, 1, 900000);
+  coverage(donor, original);
+  const metadata = await donor.index.finish(original);
+  const adoption = receiver.projects.prepareAdoption({
+    requestId: "index-adoption",
+    packageIdentity: "archive",
+    snapshot: donor.projects.snapshot(donor.projectId),
+  });
+  const adopted = {
+    ...metadata,
+    projectId: adoption.project.projectId,
+    revisionId: adoption.revisionIds[metadata.revisionId]!,
+  };
+  const validation = projectIndexDomain(
+    {
+      composition: (identity) =>
+        projectCompositionFromRevision(
+          adoption.revisions.find((r) => r.id === identity.revisionId)!,
+          receiver.assets,
+          [],
+        ),
+      source: () => {
+        throw new Error("No sources in audio-only fixture");
+      },
+      scenes: receiver.scenes,
+      isDeleting: () => false,
+    },
+    { implementationId: "unavailable-renderer" },
+  );
+  async function* records() {
+    for (let ordinal = 0; ordinal < metadata.candidateCount; ordinal++) {
+      const value = donor.index.readEntry(original, ordinal);
+      yield {
+        kind: "entry" as const,
+        candidate: value.candidate,
+        frame: {
+          ...value.frame,
+          projectId: adopted.projectId,
+          revisionId: adopted.revisionId,
+          file: `${ordinal}.png`,
+        },
+        source: donor.index.portableImage(original, ordinal),
+        sha256: createHash("sha256").update(png).digest("hex"),
+      };
+    }
+    for (const { sequence: _sequence, ...coverage } of donor.index.coveragePage({
+      identity: original,
+    }).coverage)
+      yield { kind: "coverage" as const, coverage };
+  }
+  const stage = await receiver.index.stagePortable(
+    adopted,
+    records(),
+    new AbortController().signal,
+    validation,
+  );
+  expect(() => receiver.index.metadata(adopted)).toThrow();
+  expect(() => receiver.projects.get(adopted.projectId)).toThrow();
+  expect(() =>
+    adoption.publish(() => {}, {
+      reference: (r) => r,
+      publish: () => {
+        stage.publish();
+        throw new Error("publication canceled");
+      },
+    }),
+  ).toThrow("publication canceled");
+  expect(() => receiver.index.metadata(adopted)).toThrow();
+  expect(() => receiver.projects.get(adopted.projectId)).toThrow();
+  adoption.publish(() => {}, { reference: (r) => r, publish: () => stage.publish() });
+  expect(receiver.index.metadata(adopted)).toEqual(adopted);
+  await stage.close();
+  receiver.reopen("unavailable-renderer");
+  expect(receiver.index.metadata(adopted)).toEqual(adopted);
+  expect(receiver.index.readEntry(adopted, 0).frame).toMatchObject({
+    projectId: adopted.projectId,
+    revisionId: adopted.revisionId,
+  });
+});
+
+test("retained picture validation does not turn unavailable execution requirements into readiness", async () => {
+  const f = await fixture();
+  const { asset } = await addVideo(f);
+  const original = f.projects.revision(f.projectId);
+  const clip = original.document.clips[0]!;
+  if (!("assetId" in clip)) throw new Error("Expected media fixture");
+  const revision: typeof original = {
+    ...original,
+    document: {
+      ...original.document,
+      clips: [{ ...clip, acquisitionId: "capture" }],
+      processing: [
+        {
+          target: { kind: "clip", id: clip.id },
+          steps: [
+            { id: "pointer", enabled: true, processor: { type: "pointer", trailUs: 100000 } },
+          ],
+        },
+      ],
+    },
+  };
+  const composition = projectCompositionFromRevision(revision, f.assets, [
+    {
+      id: "capture",
+      bindings: [{ assetId: asset.id, streamId: "v", available: [{ startUs: 0, endUs: 1000000 }] }],
+    },
+  ]);
+  const support = { implementationId: "retained-renderer" };
+  expect(() => projectIndexPlan(composition, {}, support)).toThrow();
+  const retained = projectIndexPlan(composition, {}, support, "retained");
+  expect(retained.sources).toEqual([
+    { assetId: asset.id, streamId: "v", acquisitionId: "capture" },
+  ]);
+  const window = composition.window(
+    { range: { startUs: 0, endUs: 1 } },
+    support,
+    "video",
+    "retained",
+  );
+  expect(window.window.manifest.requirements).toContainEqual(
+    expect.objectContaining({ kind: "processor", implementationId: null }),
+  );
+  expect(window.window.frames().next().value!.layers[0]!.assetId).toBe(asset.id);
 });

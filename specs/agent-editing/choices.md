@@ -2394,3 +2394,25 @@ pair from retained bytes rather than use an installed font by name, and project
 caption references must later retain this ordinary asset dependency. Verdict:
 sound, preserving one blob/reference owner and explicit font identity. Confidence:
 high for identity/ownership, medium for the conservative face-count limit.
+## Slice 22 — Retained project screenshot indexes
+
+- **Sound, high confidence — bind portable indexes to the revision they describe.**
+  A project can keep pictures for both its current edit and an older edit. The
+  package snapshot adds each retained generation to that exact revision's dependency
+  references. Adoption changes project/revision identities and those references
+  together; the picture times, clip identities and pixels keep their meaning. The
+  plan required complete history but left these dependency roots unspecified. This
+  makes future deletion and re-export follow the existing reference graph.
+- **Sound, high confidence — inspect retained pictures without granting execution.**
+  A receiver may lack a pointer executor while already holding its validated PNGs.
+  Retained validation compiles the original picture meaning without requiring that
+  executor to run, and keeps the unavailable requirement explicitly unavailable.
+  Ordinary rendering still requires readiness. The plan did not prescribe this
+  compiler read boundary; sharing it prevents a second interpretation of history.
+- **Sound, high confidence — a ready receipt does not need its donor job.**
+  Importing an index preserves the queue's published result, but does not invent
+  a completed worker job. An inspection now uses that exact result immediately.
+  Submitting fresh work solely because the donor job is absent would replace the
+  generation while the caller is reading its pictures. The plan left the read-side
+  admission decision unspecified; explicit retry and new recipes retain their
+  ordinary execution paths.

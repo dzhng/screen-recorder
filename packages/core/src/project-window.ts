@@ -9,7 +9,7 @@ import {
   type ProcessorImplementations,
 } from "@screenrec/composition";
 import { AssetStore, compositionAsset } from "./assets.js";
-import { ProjectStore } from "./projects.js";
+import { ProjectStore, type ProjectRevision } from "./projects.js";
 import { CatalogError } from "./catalog.js";
 import type { PointerPreparation } from "./pointer-preparation.js";
 import { compositionPointerSources } from "./composition-pointer.js";
@@ -39,16 +39,25 @@ export function projectComposition(
   input: { projectId: string; revisionId?: string | undefined },
 ) {
   const revision = projects.revision(input.projectId, input.revisionId);
+  return projectCompositionFromRevision(revision, assets, projects.contexts(revision.document));
+}
+
+/** Staged and catalog revisions share compilation; file publication is not a read prerequisite. */
+export function projectCompositionFromRevision(
+  revision: ProjectRevision,
+  assets: Pick<AssetStore, "get" | "path">,
+  contexts: Parameters<typeof validateComposition>[2],
+) {
   const ids = [...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId))];
   const metadata = new Map(ids.map((id) => [id, assets.get(id)]));
   const model = validateComposition(
     revision.document,
     [...metadata.values()].map(compositionAsset),
-    projects.contexts(revision.document),
+    contexts,
   );
   const compiler = createCompiler(model, revision.id);
   return {
-    projectId: input.projectId,
+    projectId: revision.projectId,
     revisionId: revision.id,
     model,
     compiler,
@@ -59,6 +68,7 @@ export function projectComposition(
       },
       support: ProjectRenderSupport,
       component?: "audio" | "video",
+      admission: "produced" | "retained" = "produced",
     ) {
       const parsed = rangeSchema.safeParse(input.range ?? { startUs: 0, endUs: model.durationUs });
       if (!parsed.success || parsed.data.endUs > model.durationUs)
@@ -87,7 +97,7 @@ export function projectComposition(
               : null,
       }));
       const bound = { ...window, manifest: { ...window.manifest, requirements } };
-      requireWindowReady(bound.manifest);
+      if (admission === "produced") requireWindowReady(bound.manifest);
       const bindings = new Map<string, CompositionAssetBinding>();
       for (const source of bound.manifest.sources) {
         const asset = metadata.get(source.assetId)!;

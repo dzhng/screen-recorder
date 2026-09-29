@@ -71,6 +71,17 @@ export type ProjectIndexReference = Pick<
 >;
 export type ProjectIndexInput = Omit<ProjectFrameInput, "atUs">;
 type ProjectIndexRecipe = Omit<ProjectIndexIdentity, "generation">;
+function projectRecipe(metadata: ProjectIndexRecipe): ProjectIndexRecipe {
+  return {
+    projectId: metadata.projectId,
+    revisionId: metadata.revisionId,
+    maxLongEdge: metadata.maxLongEdge,
+    tap: metadata.tap,
+    implementationId: metadata.implementationId,
+    selectionPolicy: metadata.selectionPolicy,
+    scenes: metadata.scenes,
+  };
+}
 type MediaIndexOwners = {
   catalog: Catalog;
   assets: AssetStore;
@@ -155,10 +166,10 @@ export class IndexProcessing {
         published: null,
         dependencies,
       };
-    const recipe: ProjectIndexRecipe = {
+    const recipe = projectRecipe({
       ...plan.identity,
       scenes: dependencies.map((value) => value.published!.evidence),
-    };
+    });
     const identity = {
       target: {
         kind: "project" as const,
@@ -171,14 +182,15 @@ export class IndexProcessing {
     const submit = plan.pointerSources.length
       ? this.jobs.submitDeferred.bind(this.jobs)
       : this.jobs.submit.bind(this.jobs);
-    submit({ ...identity, lane: "heavy" }, (job) => {
-      encodeIndexRecord({ ...recipe, generation: job.attemptId });
-      this.jobs.retainInputs(
-        job.jobId,
-        "scene-generation",
-        recipe.scenes.map(sceneGenerationResource),
-      );
-    });
+    if (!this.jobs.status(identity).published)
+      submit({ ...identity, lane: "heavy" }, (job) => {
+        encodeIndexRecord({ ...recipe, generation: job.attemptId });
+        this.jobs.retainInputs(
+          job.jobId,
+          "scene-generation",
+          recipe.scenes.map(sceneGenerationResource),
+        );
+      });
     const status = this.jobs.status(identity);
     return {
       ...plan.identity,
@@ -331,6 +343,65 @@ export class IndexProcessing {
       pointers ? await pointers.withReady(plan.pointerSources, materialize) : await materialize(),
     );
   }
+  portableProject(metadata: ScreenshotIndexMetadata<ProjectIndexRecords>) {
+    const publication = this.jobs.retainedArtifact(
+      { kind: "project", projectId: metadata.projectId },
+      artifact,
+      metadata.generation,
+    );
+    if (publication && !isDeepStrictEqual(JSON.parse(publication.result), metadata))
+      throw new CatalogError(
+        "INVALID_STORAGE",
+        "Project screenshot publication differs from retained rows",
+      );
+    return publication
+      ? {
+          generation: publication.generation,
+          attemptId: publication.attemptId,
+          input: publication.input,
+        }
+      : null;
+  }
+  adoptProjectPublication(
+    original: ScreenshotIndexMetadata<ProjectIndexRecords>,
+    adopted: ScreenshotIndexMetadata<ProjectIndexRecords>,
+    publication: Pick<RetainedArtifact, "generation" | "attemptId" | "input"> | null,
+  ) {
+    if (!publication) return;
+    let saved: ProjectIndexRecipe;
+    try {
+      saved = JSON.parse(publication.input) as ProjectIndexRecipe;
+    } catch {
+      throw new CatalogError("INVALID_PACKAGE", "Invalid project screenshot recipe");
+    }
+    if (
+      publication.attemptId !== original.generation ||
+      !isDeepStrictEqual(saved, projectRecipe(original))
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Project screenshot recipe differs from retained evidence",
+      );
+    const scenes = original.scenes.map((metadata, index) => {
+      const retained = this.project.scenes.portablePublication(metadata);
+      const scene = retained
+        ? (JSON.parse(retained.result) as SceneEvidenceMetadata)
+        : saved.scenes[index]!;
+      if (!isDeepStrictEqual(scene, metadata))
+        throw new CatalogError(
+          "INVALID_PACKAGE",
+          "Project screenshot scene recipe differs from retained evidence",
+        );
+      return scene;
+    });
+    this.jobs.adoptArtifact({
+      ...publication,
+      target: { kind: "project", projectId: adopted.projectId, revisionId: adopted.revisionId },
+      input: encodeIndexRecord(projectRecipe({ ...adopted, scenes })),
+      artifact,
+      result: JSON.stringify(this.project.index.metadata(adopted)),
+    });
+  }
   portableSource(metadata: ScreenshotIndexMetadata<SourceIndexRecords>) {
     const publication = this.jobs.retainedArtifact(
       { kind: "asset", assetId: metadata.assetId },
@@ -426,15 +497,16 @@ export class IndexProcessing {
       artifact,
       input: encodeIndexRecord(input),
     };
-    this.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
-      encodeIndexRecord({ ...input, generation: job.attemptId });
-      this.jobs.retainInputs(job.jobId, "scene-generation", [
-        sceneGenerationResource(input.scenes),
-      ]);
-      const owner = { kind: "job" as const, id: job.jobId };
-      this.asset.assets.retain(owner, [input.assetId]);
-      if (input.acquisitionId) this.asset.acquisitions.retain(owner, [input.acquisitionId]);
-    });
+    if (!this.jobs.status(identity).published)
+      this.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
+        encodeIndexRecord({ ...input, generation: job.attemptId });
+        this.jobs.retainInputs(job.jobId, "scene-generation", [
+          sceneGenerationResource(input.scenes),
+        ]);
+        const owner = { kind: "job" as const, id: job.jobId };
+        this.asset.assets.retain(owner, [input.assetId]);
+        if (input.acquisitionId) this.asset.acquisitions.retain(owner, [input.acquisitionId]);
+      });
     const status = this.jobs.status(identity);
     return {
       ...selection,

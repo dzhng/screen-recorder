@@ -502,7 +502,10 @@ export class ProjectStore {
     return {
       ...structuredClone(result),
       revisions: structuredClone(revisions),
-      publish: (publishDependencies: () => void) =>
+      publish: (
+        publishDependencies: () => void,
+        evidence?: { publish(): void; reference(resource: ResourceReference): ResourceReference },
+      ) =>
         this.store.transaction(() => {
           const existing = replay();
           if (existing) return existing;
@@ -532,13 +535,16 @@ export class ProjectStore {
             );
           for (const revision of revisions) this.insertRevision(revision);
           for (const dependency of snapshot.references)
-            for (const resource of dependency.resources)
+            for (const resource of dependency.resources) {
+              const retained = evidence?.reference(resource) ?? resource;
               this.references.retain(
-                resource.kind,
+                retained.kind,
                 { kind: "revision", id: revisionIds[dependency.revisionId]! },
-                [resource.id],
+                [retained.id],
               );
+            }
           for (const id of snapshot.undo) this.pushUndo(projectId, revisionIds[id]!);
+          evidence?.publish();
           return result;
         }),
     };

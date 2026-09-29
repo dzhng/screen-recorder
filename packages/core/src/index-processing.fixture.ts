@@ -1,3 +1,4 @@
+import { projectComposition } from "./project-window.js";
 import { selectSource } from "./source-selection.js";
 import type { CompiledFrame } from "@screenrec/composition";
 import { afterEach } from "vitest";
@@ -283,9 +284,17 @@ export async function fixture(
     projectRetained = new ScreenshotIndexStore(
       catalog,
       home,
-      projectIndexDomain(projects, assets, acquisitions, records, {
-        implementationId: projectRendererId,
-      }),
+      projectIndexDomain(
+        {
+          composition: (identity) => projectComposition(projects, assets, identity),
+          source: (selection) => selectSource(assets, acquisitions, selection),
+          scenes: records,
+          isDeleting: (id) => projects.isDeleting(id),
+        },
+        {
+          implementationId: projectRendererId,
+        },
+      ),
     );
     index = new IndexProcessing({
       jobs,

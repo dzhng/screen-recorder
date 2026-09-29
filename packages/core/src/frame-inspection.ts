@@ -90,6 +90,13 @@ export const projectPictureOptionsSchema = z.strictObject({
   implementationId: z.string().min(1),
 });
 const optionsSchema = z.strictObject({ atUs: time, ...projectPictureOptionsSchema.shape });
+export const retainedProjectFrameSchema = projectReceiptSchema
+  .extend({
+    ...optionsSchema.shape,
+    projectId: z.string().min(1),
+    revisionId: z.string().min(1),
+  })
+  .strict();
 export type ProjectFrameInput = {
   projectId: string;
   revisionId?: string | undefined;

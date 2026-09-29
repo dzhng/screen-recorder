@@ -1,3 +1,5 @@
+import { unlink } from "node:fs/promises";
+import { portableProjectIndexMetadataSchema } from "./project-index.js";
 import { expect, test } from "vitest";
 import { fixture, gate, png } from "./index-processing.fixture.js";
 import { CatalogError } from "./catalog.js";
@@ -355,4 +357,40 @@ test("an oversized pinned identity refuses admission without a job or input refe
       .get(),
   ).toBeUndefined();
   expect(f.calls).toBe(0);
+});
+
+test("portable project publication preserves scene-owned recipe ordering across schema parsing", async () => {
+  const f = await fixture();
+  videos(f);
+  f.index.requestProject({ projectId: f.projectId });
+  await f.jobs.idle();
+  f.index.requestProject({ projectId: f.projectId });
+  await f.jobs.idle();
+  const original = f.index.requestProject({ projectId: f.projectId }).published!.evidence;
+  const publication = f.index.portableProject(original)!;
+  const parsed = portableProjectIndexMetadataSchema.parse(original);
+  expect(parsed).toEqual(original);
+  f.jobs.forgetJob(f.index.requestProject({ projectId: f.projectId }).jobId!);
+  f.index.adoptProjectPublication(parsed, parsed, publication);
+  expect(f.index.getProject({ projectId: f.projectId }).page!.metadata.generation).toBe(
+    original.generation,
+  );
+  await f.jobs.idle();
+  expect(f.index.getProject({ projectId: f.projectId }).page!.metadata.generation).toBe(
+    original.generation,
+  );
+  expect(() =>
+    f.index.adoptProjectPublication(parsed, parsed, {
+      ...publication,
+      input: JSON.stringify({ ...JSON.parse(publication.input), maxLongEdge: 1 }),
+    }),
+  ).toThrow("recipe differs");
+  const reference = { ...original, ordinal: 0 };
+  f.index.openReadProject(reference).release();
+  await unlink(f.projectRetained.readEntry(original, 0).frame.file);
+  expect(() => f.index.openReadProject(reference)).toThrow();
+  await f.jobs.idle();
+  expect(f.index.getProject({ projectId: f.projectId }).page!.metadata.generation).toBe(
+    original.generation,
+  );
 });

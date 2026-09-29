@@ -42,14 +42,10 @@ const run = promisify(execFile),
 const report = {
   passed: false,
   scope:
-    "actual CLI/MCP/native project package relocation with retained acquisition, source-scene, source screenshot-index and real source-transcript generations; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
+    "actual CLI/MCP/native project package relocation with retained acquisition, source-scene, source/project screenshot-index and real source-transcript generations; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
   checks: {},
   trace: [],
-  remaining: [
-    "project screenshot-index generations",
-    "prepared 15a outputs and fonts",
-    "fresh autonomous skill journey",
-  ],
+  remaining: ["prepared 15a outputs and fonts", "fresh autonomous skill journey"],
 };
 let service, mcp;
 async function start(home) {
@@ -305,6 +301,30 @@ try {
       placed(a, { label: "audio" }, "audio", "audioA"),
     ],
   });
+  async function projectIndexSnapshot(revisionId, label) {
+    const params = { projectId, revisionId };
+    const result = await poll(
+      () => call("index.get", { ...params, limit: 100 }, { transport: "mcp" }),
+      (value) => value.state === "ready",
+    );
+    assert.equal(result.page.nextCursor, null);
+    const reference = {
+      projectId,
+      revisionId,
+      generation: result.generation,
+      tap: result.tap,
+      maxLongEdge: result.maxLongEdge,
+    };
+    const coverage = await call("index.coverage", { ...reference, limit: 100 });
+    const hashes = [];
+    for (const entry of result.page.entries) {
+      const output = join(out, `${label}-index-${entry.candidate.ordinal}.png`);
+      await call("index.frame", { ...reference, ordinal: entry.candidate.ordinal }, { output });
+      hashes.push(hash(await readFile(output)));
+    }
+    return { result, coverage, hashes };
+  }
+  const historicalProjectIndex = await projectIndexSnapshot(first.revision.id, "donor-history");
   const before = await render(projectId, first.revision.id, "donor-history");
   const latest = await call(
     "edit.apply",
@@ -326,6 +346,7 @@ try {
   );
   const current = await render(projectId, latest.revision.id, "donor-current");
   assert.notEqual(current.video, before.video);
+  const currentProjectIndex = await projectIndexSnapshot(latest.revision.id, "donor-current");
   const history = await call("revision.history", { projectId });
   const directory = await realpath(out),
     exportId = randomUUID();
@@ -514,6 +535,55 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     imageHashes: indexHashes,
   };
 
+  const normalizeProjectIndex = (value) =>
+    JSON.parse(
+      JSON.stringify(value, (key, value) =>
+        key === "projectId"
+          ? "project"
+          : key === "revisionId"
+            ? "revision"
+            : key === "file"
+              ? "retained.png"
+              : value,
+      ),
+    );
+  report.projectIndexes = [];
+  for (const original of [historicalProjectIndex, currentProjectIndex]) {
+    const ordinal = history.revisions.find(
+      (value) => value.id === original.result.revisionId,
+    ).ordinal;
+    const revisionId = adoptedHistory.revisions.find((value) => value.ordinal === ordinal).id;
+    const result = await call(
+      "index.get",
+      { projectId: adopted.project.projectId, revisionId, limit: 100 },
+      { transport: "mcp" },
+    );
+    assert.equal(result.state, "ready");
+    assert.equal(result.generation, original.result.generation);
+    assert.deepEqual(normalizeProjectIndex(result), normalizeProjectIndex(original.result));
+    const reference = {
+      projectId: adopted.project.projectId,
+      revisionId,
+      generation: result.generation,
+      tap: result.tap,
+      maxLongEdge: result.maxLongEdge,
+    };
+    assert.deepEqual(
+      normalizeProjectIndex(await call("index.coverage", { ...reference, limit: 100 })),
+      normalizeProjectIndex(original.coverage),
+    );
+    for (const entry of result.page.entries) {
+      const output = join(out, `adopted-project-${ordinal}-index-${entry.candidate.ordinal}.png`);
+      await call("index.frame", { ...reference, ordinal: entry.candidate.ordinal }, { output });
+      assert.equal(hash(await readFile(output)), original.hashes[entry.candidate.ordinal]);
+    }
+    report.projectIndexes.push({
+      revisionId,
+      generation: result.generation,
+      hashes: original.hashes,
+    });
+  }
+
   assert.equal((await call("model.status", {}, { transport: "mcp" })).state, "absent");
   const adoptedTranscript = await call("transcript.get", transcriptParams);
   assert.equal(adoptedTranscript.state, "ready");
@@ -618,6 +688,7 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     retainedSceneEventsReadyWithoutPreparation: true,
     realTranscriptReadyWithModelsAbsent: true,
     sourceIndexPixelsRowsCoverageRetained: true,
+    currentAndHistoricalProjectIndexPixelsRowsCoverageRetained: true,
     existingProducedEvidenceAdoption: true,
     revisionOnlyReferenceRestored: true,
     transcriptRawBytesAndWordsRetained: true,

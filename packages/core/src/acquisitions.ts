@@ -111,6 +111,19 @@ function portableAcquisition(value: Acquisition): PortableAcquisition {
 }
 const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
 
+export function acquisitionContext(
+  value: Pick<Acquisition, "id" | "bindings">,
+): AcquisitionContext {
+  return {
+    id: value.id,
+    bindings: value.bindings.map(({ assetId, streamId, available }) => ({
+      assetId,
+      streamId,
+      available,
+    })),
+  };
+}
+
 /** An explicit capture adoption owns its media and journal independently of the donor library. */
 export class AcquisitionStore {
   private readonly dependencies: ResourceReferences;
@@ -213,15 +226,7 @@ export class AcquisitionStore {
     return JSON.parse(row.metadata as string);
   }
   context(acquisitionId: string): AcquisitionContext {
-    const value = this.get(acquisitionId);
-    return {
-      id: value.id,
-      bindings: value.bindings.map(({ assetId, streamId, available }) => ({
-        assetId,
-        streamId,
-        available,
-      })),
-    };
+    return acquisitionContext(this.get(acquisitionId));
   }
   retain(owner: ResourceOwner, ids: readonly string[]): void {
     for (const id of ids) this.get(id);
