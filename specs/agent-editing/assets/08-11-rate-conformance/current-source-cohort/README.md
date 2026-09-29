@@ -39,3 +39,7 @@ all complete PCM comparisons and checked receipt clocks/formats against the
 historical archive: no findings. Execution provenance was not independently
 reproduced; review performed no decoding or native rerun. Shape/diff/docs review
 introduced no production surface, new policy or acceptance threshold.
+
+[Integrated root verification](root-verification.json) rehashed the complete archive
+and every member, and independently compared all eight retained current PCM
+outputs with historical source 0. No additional native execution was performed.

@@ -164,7 +164,9 @@ placeholder. These checkpoints do not establish physical capture or installed-ap
 
 Current AAC source-repeat provenance is corrected in the
 [archived-byte reinspection](08-11-rate-conformance/aac-repeat-reinspection.md).
-One historical source decode differs before composition; current-runtime
+One historical source decode differs before composition. The bounded
+[current-worker cohort](08-11-rate-conformance/current-source-cohort/README.md)
+returns exact PCM for the same retained request eight times; broader
 reproducibility and the earlier mixed-range cause remain unverified.
 
 The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)
