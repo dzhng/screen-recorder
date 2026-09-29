@@ -70,7 +70,7 @@ func runDeferredPauseTests() async throws {
             streamed == clock.pauses && summary.pauses.isEmpty && summary.openPauseHostUs == 700)
         let before = try Data(contentsOf: directory.appendingPathComponent("capture.journal.jsonl"))
         let output = root.appendingPathComponent("evidence.jsonl")
-        let receipt = try SourceEvidenceExport.write(directory: directory.path, output: output.path)
+        let receipt = try await SourceEvidenceExport.write(directory: directory.path, output: output.path)
         let normalized = try String(contentsOf: output, encoding: .utf8).split(separator: "\n").map
         {
             try JSONDecoder().decode(NormalizedPause.self, from: Data($0.utf8))

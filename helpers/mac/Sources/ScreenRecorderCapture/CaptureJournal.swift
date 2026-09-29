@@ -301,7 +301,7 @@ public final class CaptureJournal {
         try readEvidence(
             directory: directory, maximumBytes: nil, retainTiming: false,
             geometry: { _ in }, samples: { _ in }, displaySpace: { _ in },
-            pcmOrigin: origin, pcmTrack: track, pcmAppend: accepted, through: prefix)
+            pcmOrigin: origin, pcmTrack: track, pcmAppend: accepted, through: prefix, layout: 2)
     }
 
     /// Callbacks are provisional until this returns: discard staged work on prefix or identity failure.
@@ -316,7 +316,7 @@ public final class CaptureJournal {
             directory: lease.directory, maximumBytes: nil, retainTiming: false,
             geometry: { _ in }, samples: { _ in }, displaySpace: { _ in },
             pcmOrigin: origin, pcmTrack: track, pcmAppend: accepted,
-            through: prefix, descriptor: lease.descriptor)
+            through: prefix, descriptor: lease.descriptor, layout: 2)
         try lease.check()
         return summary
     }
@@ -331,7 +331,7 @@ public final class CaptureJournal {
         pcmOrigin: (JournalPCMOrigin) throws -> Void = { _ in },
         pcmTrack: (JournalPCMTrack) throws -> Void = { _ in },
         pcmAppend: ((JournalPCMAppend) throws -> Void)? = nil,
-        through prefix: JournalPrefix? = nil, descriptor: Int32? = nil
+        through prefix: JournalPrefix? = nil, descriptor: Int32? = nil, layout: Int = 1
     ) throws -> CaptureJournalSummary {
         if let prefix {
             guard pcmAppend != nil, prefix.bytes > 0,
@@ -371,7 +371,7 @@ public final class CaptureJournal {
                         if case .header(let header) = record.event { return header.schemaVersion }
                         return 1
                     }()
-                guard schema == (pcmAppend == nil ? 1 : 2) else {
+                guard schema == layout else {
                     throw CaptureFailure("INVALID_JOURNAL", "Unsupported journal layout for this reader.")
                 }
                 switch record.event {
@@ -478,6 +478,23 @@ public final class CaptureJournal {
             throw CaptureFailure("INVALID_JOURNAL_PREFIX", "Journal does not match the declared validated prefix.")
         }
         return summary
+    }
+
+    /// Read only the persisted discriminant through the same bounded record decoder.
+    package static func layout(directory: String) throws -> Int {
+        var schema: Int?
+        _ = try readRecords(directory: directory, maximumBytes: maximumRecordBytes) { line in
+            do {
+                let record = try JSONDecoder().decode(JournalEntry.self, from: line)
+                try record.check(following: 0)
+                if case .header(let header) = record.event { schema = header.schemaVersion }
+            } catch {
+                throw CaptureFailure("INVALID_JOURNAL", "Invalid journal header.")
+            }
+            return false
+        }
+        guard let schema else { throw CaptureFailure("INVALID_JOURNAL", "Missing journal header.") }
+        return schema
     }
 
     /// The same read with nothing streamed, for a consumer that only wants the summary.

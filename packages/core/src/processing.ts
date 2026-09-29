@@ -1,3 +1,5 @@
+import type { MediaProbe } from "./assets.js";
+import type { IdentifiedFile } from "./files.js";
 import { readRawCursor, type RawCursorOptions } from "./raw-cursor.js";
 import { lstat, mkdir, opendir, rm } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
@@ -17,6 +19,7 @@ export type SourceExporter = (
   directory: string,
   output: string,
   signal: AbortSignal,
+  canonical?: Partial<Record<"narration" | "system", IdentifiedFile & { metadata?: MediaProbe }>>,
 ) => Promise<SourceEvidenceReceipt>;
 
 /** Source processing pins r0; edits only change how later readers project this evidence. */

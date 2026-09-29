@@ -1,10 +1,11 @@
+import { fileIdentity } from "./files.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { CaptureSourceRead } from "./capture-source-read.js";
 import { selectSource } from "./source-selection.js";
 import { compositionAsset } from "./assets.js";
 import { createSourceRangeProjection, validateComposition } from "@screenrec/composition";
 import { afterEach, expect, test } from "vitest";
-import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile, lstat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
@@ -504,6 +505,27 @@ test("pointer history derives the capture clock and full selected stream at the 
   ).toThrow(/captured-video authority/);
 });
 
+async function portableNative(f: Awaited<ReturnType<typeof fixture>>) {
+  const values = f.assets.list().assets.map((value) => f.assets.get(value.id));
+  const assetFiles = new Map(
+    await Promise.all(
+      values.map(async (asset) => {
+        const path = f.assets.path(asset.id),
+          stat = await lstat(path, { bigint: true });
+        return [
+          asset.id,
+          { path, bytes: Number(stat.size), identity: fileIdentity(stat) },
+        ] as const;
+      }),
+    ),
+  );
+  return {
+    exportSource: f.native.exportSource,
+    assetFiles,
+    assets: new Map(values.map((asset) => [asset.id, asset])),
+  };
+}
+
 test("portable acquisition adoption preserves source identities, evidence and bound asset ownership", async () => {
   const donor = await fixture(),
     receiver = await fixture();
@@ -515,6 +537,7 @@ test("portable acquisition adoption preserves source identities, evidence and bo
     signal(),
   );
   const pinned = donor.importer.portable(original.id);
+  const native = await portableNative(donor);
   const hashed = async (file: typeof pinned.files.journal) => ({
     ...file,
     sha256: createHash("sha256")
@@ -530,13 +553,14 @@ test("portable acquisition adoption preserves source identities, evidence and bo
       { ...pinned.acquisition, id: original.id.toUpperCase() },
       portableFiles,
       signal(),
+      native,
     ),
   ).rejects.toThrow(/canonical/);
   const collisionDirectory = join(receiver.root, "acquisitions", original.id);
   await mkdir(collisionDirectory);
   await writeFile(join(collisionDirectory, "retained"), "must survive failed staging");
   await expect(
-    receiver.importer.stagePortable(pinned.acquisition, portableFiles, signal()),
+    receiver.importer.stagePortable(pinned.acquisition, portableFiles, signal(), native),
   ).rejects.toThrow(/EEXIST/);
   expect(await readFile(join(collisionDirectory, "retained"), "utf8")).toBe(
     "must survive failed staging",
@@ -547,7 +571,12 @@ test("portable acquisition adoption preserves source identities, evidence and bo
       receiver.assets.stagePortable(donor.assets.portable(id), donor.assets.path(id), signal()),
     ),
   );
-  const staged = await receiver.importer.stagePortable(pinned.acquisition, portableFiles, signal());
+  const staged = await receiver.importer.stagePortable(
+    pinned.acquisition,
+    portableFiles,
+    signal(),
+    native,
+  );
   expect(() => receiver.acquisitions.get(original.id)).toThrow(/not completed/);
   expect(receiver.assets.list().assets).toEqual([]);
   receiver.catalog.transaction(() => {
@@ -582,6 +611,7 @@ test("portable acquisition adoption preserves source identities, evidence and bo
       },
       portableFiles,
       signal(),
+      native,
     ),
   ).rejects.toThrow(/conflict/);
 });
@@ -597,6 +627,7 @@ test("unpublished portable acquisitions recover and transactional failures leave
     signal(),
   );
   const pinned = donor.importer.portable(original.id);
+  const native = await portableNative(donor);
   const files = {
     journal: {
       ...pinned.files.journal,
@@ -616,7 +647,7 @@ test("unpublished portable acquisitions recover and transactional failures leave
       receiver.assets.stagePortable(donor.assets.portable(id), donor.assets.path(id), signal()),
     ),
   );
-  const stage = await receiver.importer.stagePortable(pinned.acquisition, files, signal());
+  const stage = await receiver.importer.stagePortable(pinned.acquisition, files, signal(), native);
   expect(() =>
     receiver.catalog.transaction(() => {
       assets.forEach((asset) => asset.publish());
@@ -630,9 +661,57 @@ test("unpublished portable acquisitions recover and transactional failures leave
   for (const asset of assets) await asset.close();
   expect(() => receiver.acquisitions.intent(original.id)).toThrow(/does not exist/);
   // Restart recovery also reclaims a staged acquisition whose caller never closed it.
-  await receiver.importer.stagePortable(pinned.acquisition, files, signal());
+  await receiver.importer.stagePortable(pinned.acquisition, files, signal(), native);
   await receiver.importer.recover(signal());
   expect(() => receiver.acquisitions.intent(original.id)).toThrow(/does not exist/);
-  const retry = await receiver.importer.stagePortable(pinned.acquisition, files, signal());
+  const retry = await receiver.importer.stagePortable(pinned.acquisition, files, signal(), native);
   await retry.close();
 });
+
+test("publication receipt absence is frozen before queued capture admission", async () => {
+  const f = await fixture();
+  const intent = await f.admit();
+  await writeFile(join(f.donor, "narration.publication.json"), "new proof after admission");
+  await expect(
+    f.importer.executeImport(intent.acquisitionId, "changed-proof", f.native, signal()),
+  ).rejects.toMatchObject({ code: "SOURCE_CHANGED" });
+  expect(f.assets.list().assets).toEqual([]);
+  expect(() => f.acquisitions.get(intent.acquisitionId)).toThrow(/not completed/);
+});
+
+test.each(["layout", "duplicate-role", "support"] as const)(
+  "portable readiness independently verifies %s metadata",
+  async (change) => {
+    const f = await fixture();
+    const intent = await f.admit();
+    const original = await f.importer.executeImport(
+      intent.acquisitionId,
+      "proof",
+      f.native,
+      signal(),
+    );
+    const pinned = f.importer.portable(original.id);
+    const files = Object.fromEntries(
+      await Promise.all(
+        Object.entries(pinned.files).map(async ([key, file]) => [
+          key,
+          {
+            ...file,
+            sha256: createHash("sha256")
+              .update(await readFile(file.path))
+              .digest("hex"),
+          },
+        ]),
+      ),
+    ) as import("./acquisitions.js").PortableAcquisitionFiles;
+    const forged = structuredClone(pinned.acquisition);
+    const binding = forged.bindings.find((row) => row.sourceRoles.includes("narration"))!;
+    if (change === "layout") forged.receipt.header = { ...forged.receipt.header, schemaVersion: 1 };
+    if (change === "duplicate-role") forged.bindings.push(structuredClone(binding));
+    if (change === "support") binding.available[0]!.startUs += 1;
+    await expect(
+      f.importer.verifyPortable(forged, files, signal(), await portableNative(f)),
+    ).rejects.toMatchObject({ code: "INVALID_PACKAGE" });
+    await f.importer.verifyPortable(pinned.acquisition, files, signal(), await portableNative(f));
+  },
+);

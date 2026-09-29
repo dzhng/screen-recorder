@@ -63,7 +63,7 @@ public enum NativeWire {
                     let request = try WireRequest.decode(SourceEvidenceRequest.self, from: params)
                     try WireRequest.requireAbsolute(request.directory, request.output)
                     return try json(
-                        SourceEvidenceExport.write(directory: request.directory, output: request.output))
+                        await SourceEvidenceExport.write(directory: request.directory, output: request.output, canonical: request.canonical))
                 },
                 unexpected: { _ in NativeFailure(
                     "EVIDENCE_FAILED", "Cannot export source evidence.") }),
@@ -160,5 +160,6 @@ public enum NativeWire {
     private struct SourceEvidenceRequest: Codable {
         let directory: String
         let output: String
+        let canonical: [String: String]?
     }
 }

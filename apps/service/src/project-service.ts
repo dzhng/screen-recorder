@@ -1,3 +1,4 @@
+import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { projectComposition } from "@screenrec/core/project-window";
 import { selectSource } from "@screenrec/core/source-selection";
@@ -23,7 +24,7 @@ import { TranscriptStore, type SpeechTranscriptionReceipt } from "@screenrec/cor
 import { TranscriptProcessing, assetTranscriptOwner } from "@screenrec/core/transcript-processing";
 import { SourceTranscriptRead } from "@screenrec/core/transcript-read";
 import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisitions";
-import { SourceEvidenceStore, type SourceEvidenceReceipt } from "@screenrec/core/evidence";
+import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { MediaExports } from "./exports.js";
 import { PointerPreparation } from "@screenrec/core/pointer-preparation";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
@@ -206,10 +207,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             {
               probe: async (path, signal) =>
                 nativeResult(await worker("media.probe", { path }, { signal })),
-              exportSource: async (directory, output, signal) =>
-                nativeResult(
-                  await worker("media.sourceEvidence", { directory, output }, { signal }),
-                ) as SourceEvidenceReceipt,
+              exportSource: sourceExporter(worker),
             },
             signal,
           );

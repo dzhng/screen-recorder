@@ -1,3 +1,4 @@
+import { sourceExporter } from "./source-export.js";
 import { preparedAudioResource, type PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { acquisitionContext } from "@screenrec/core/acquisitions";
 import { indexGenerationResource } from "@screenrec/core/screenshot-index";
@@ -41,7 +42,11 @@ import {
 } from "@screenrec/core/project-package";
 import type { ProjectStore, ProjectSnapshot } from "@screenrec/core/projects";
 import type { AssetStore } from "@screenrec/core/assets";
-import type { AcquisitionImporter, PortableAcquisitionFiles } from "@screenrec/core/acquisitions";
+import type {
+  AcquisitionImporter,
+  AcquisitionMember,
+  PortableAcquisitionFiles,
+} from "@screenrec/core/acquisitions";
 import {
   sceneGenerationResource,
   type PortableSceneMetadata,
@@ -61,7 +66,7 @@ export type PinnedProjectPackage = {
   revisionId: string;
   snapshot: ProjectSnapshot;
   resources: PortableDependency[];
-  acquisitionFiles: Record<string, Record<"journal" | "normalized", IdentifiedFile>>;
+  acquisitionFiles: Record<string, ReturnType<AcquisitionImporter["portable"]>["files"]>;
   transcriptFiles: Record<string, IdentifiedFile>;
 };
 type Workspace = { directory: string; handle: FileHandle };
@@ -102,6 +107,64 @@ export class ProjectPackages {
         worker: this.owners.worker,
         delivery: this.owners.delivery,
         validate: validateProjectPackage,
+        inspect: async (context, signal = new AbortController().signal) => {
+          for (const entry of context.manifest.resources) {
+            if (entry.kind !== "acquisition") continue;
+            const leases: ReturnType<typeof context.files.open>[] = [];
+            try {
+              const assetFiles = new Map<string, IdentifiedFile>();
+              for (const binding of entry.acquisition.bindings) {
+                const asset = context.manifest.resources.find(
+                  (resource) => resource.kind === "asset" && resource.asset.id === binding.assetId,
+                );
+                if (!asset || asset.kind !== "asset")
+                  throw new CatalogError("INVALID_PACKAGE", "Missing canonical asset");
+                const member = `assets/${asset.asset.fileName}`,
+                  lease = context.files.open(member);
+                leases.push(lease);
+                const stat = fstatSync(lease.fd, { bigint: true });
+                assetFiles.set(binding.assetId, {
+                  path: context.files.path(member),
+                  bytes: Number(stat.size),
+                  identity: fileIdentity(stat),
+                });
+              }
+              const files = Object.fromEntries(
+                resourceMembers(entry).map((member, index) => {
+                  const lease = context.files.open(member.path);
+                  leases.push(lease);
+                  const stat = fstatSync(lease.fd, { bigint: true });
+                  return [
+                    index === 0
+                      ? "journal"
+                      : index === 1
+                        ? "normalized"
+                        : member.path.split("/").at(-1)!,
+                    {
+                      path: context.files.path(member.path),
+                      bytes: Number(stat.size),
+                      identity: fileIdentity(stat),
+                      sha256: context.manifest.inventory.find(
+                        (value) => value.path === member.path,
+                      )!.sha256,
+                    },
+                  ];
+                }),
+              ) as PortableAcquisitionFiles;
+              await this.owners.acquisitions.verifyPortable(entry.acquisition, files, signal, {
+                exportSource: sourceExporter(this.owners.worker),
+                assetFiles,
+                assets: new Map(
+                  context.manifest.resources.flatMap((value) =>
+                    value.kind === "asset" ? [[value.asset.id, value.asset] as const] : [],
+                  ),
+                ),
+              });
+            } finally {
+              for (const lease of leases) lease.close();
+            }
+          }
+        },
       });
       try {
         await registry.recover();
@@ -482,7 +545,11 @@ export class ProjectPackages {
                 members.map((member, index) => {
                   const stat = fstatSync(leases[index]!.fd, { bigint: true });
                   return [
-                    index === 0 ? "journal" : "normalized",
+                    index === 0
+                      ? "journal"
+                      : index === 1
+                        ? "normalized"
+                        : (member.path.split("/").at(-1)! as AcquisitionMember),
                     {
                       path: context.files.path(member.path),
                       bytes: Number(stat.size),
@@ -492,8 +559,31 @@ export class ProjectPackages {
                   ];
                 }),
               ) as PortableAcquisitionFiles;
+              const assetFiles = new Map<string, IdentifiedFile>();
+              for (const binding of entry.acquisition.bindings) {
+                const path = assetPaths.get(binding.assetId)!;
+                const file = await open(path, constants.O_RDONLY | constants.O_NOFOLLOW);
+                try {
+                  const stat = await file.stat({ bigint: true });
+                  assetFiles.set(binding.assetId, {
+                    path,
+                    bytes: Number(stat.size),
+                    identity: fileIdentity(stat),
+                  });
+                } finally {
+                  await file.close();
+                }
+              }
               acquisitions.push(
-                await this.owners.acquisitions.stagePortable(entry.acquisition, files, signal),
+                await this.owners.acquisitions.stagePortable(entry.acquisition, files, signal, {
+                  exportSource: sourceExporter(this.owners.worker),
+                  assetFiles,
+                  assets: new Map(
+                    context.manifest.resources.flatMap((value) =>
+                      value.kind === "asset" ? [[value.asset.id, value.asset] as const] : [],
+                    ),
+                  ),
+                }),
               );
             } finally {
               for (const lease of leases) lease.close();
@@ -950,7 +1040,11 @@ export class ProjectPackages {
           entry.kind === "asset"
             ? undefined
             : pinned.acquisitionFiles[entry.acquisition.id]![
-                index === 0 ? "journal" : "normalized"
+                index === 0
+                  ? "journal"
+                  : index === 1
+                    ? "normalized"
+                    : (member.path.split("/").at(-1)! as AcquisitionMember)
               ];
         const path = join(input.directory, member.path);
         await mkdir(dirname(path), { recursive: true, mode: 0o700 });

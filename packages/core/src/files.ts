@@ -259,7 +259,7 @@ export async function copyImportedFile(
   path: string,
   destination: string,
   signal: AbortSignal,
-  expected?: IdentifiedFile,
+  expected?: IdentifiedFile & { sha256?: string },
   maximumBytes = Number.MAX_SAFE_INTEGER,
 ): Promise<{ sha256: string; bytes: number }> {
   signal.throwIfAborted();
@@ -325,7 +325,13 @@ export async function copyImportedFile(
     } finally {
       await output.close();
     }
-    return { sha256: hash.digest("hex"), bytes };
+    const sha256 = hash.digest("hex");
+    if (expected?.sha256 !== undefined && sha256 !== expected.sha256)
+      throw new CatalogError(
+        "SOURCE_CHANGED",
+        "Imported bytes differ from verified source identity",
+      );
+    return { sha256, bytes };
   } finally {
     await input.close();
   }

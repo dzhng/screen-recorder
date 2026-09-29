@@ -229,6 +229,11 @@ export function resourceMembers(
       bytes: acquisition.receipt.bytes,
       sha256: null,
     },
+    ...Object.entries(acquisition.receipt.publications ?? {}).map(([role, proof]) => ({
+      path: `acquisitions/${acquisition.id}/${role}.publication.json`,
+      bytes: Number(proof.receipt.bytes),
+      sha256: proof.receipt.sha256,
+    })),
   ];
 }
 export function sceneMemberPath(

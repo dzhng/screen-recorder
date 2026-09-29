@@ -43,6 +43,7 @@ package struct CaptureMediaIdentity: Codable, Sendable, Equatable {
 }
 
 package struct CaptureCanonicalAudio: Sendable {
+  package let acquiredAudio: [JournalAudioSamples]
   package let identity: CaptureMediaIdentity
   package let representedFrames: Int64
   package let pcmSHA256: String
@@ -197,8 +198,14 @@ package enum CaptureAudioMaterializer {
       try Task.checkCancellation()
     }
     try Task.checkCancellation()
+    let timing = try PCMContainerTime(phaseUs: mapping.format.phaseUs, rate: mapping.format.rate)
+    let acquired = try runs.map { run in
+      JournalAudioSamples(role: role,
+        startUs: microseconds(try timing.time(at: run.declared)),
+        endUs: microseconds(try timing.time(at: run.declared + run.count)))
+    }
     return CaptureCanonicalAudio(
-      identity: verified.identity, representedFrames: representedFrames,
+      acquiredAudio: acquired, identity: verified.identity, representedFrames: representedFrames,
       pcmSHA256: verified.pcm, supportSHA256: supportHash(format: mapping.format, runs: runs))
   }
 

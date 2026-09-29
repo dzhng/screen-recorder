@@ -369,7 +369,7 @@ export class AssetStore {
     value: unknown,
     path: string,
     signal: AbortSignal,
-    expected?: IdentifiedFile,
+    expected?: IdentifiedFile & { sha256?: string },
   ) {
     const parsed = portableAssetSchema.safeParse(value);
     if (!parsed.success)
@@ -481,7 +481,7 @@ export class AssetStore {
     probe: AssetProbe,
     signal: AbortSignal = new AbortController().signal,
     published?: (asset: Asset) => void,
-    expected?: IdentifiedFile,
+    expected?: IdentifiedFile & { sha256?: string },
   ): Promise<Asset> {
     if (!isAbsolute(path))
       throw new CatalogError("INVALID_PATH", "Asset import requires an absolute local path");

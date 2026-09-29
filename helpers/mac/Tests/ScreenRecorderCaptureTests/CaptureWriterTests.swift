@@ -5,7 +5,7 @@ import ScreenRecorderCapture
 import ScreenRecorderMedia
 import ScreenRecorderWire
 
-func runCaptureWriterTests() throws {
+func runCaptureWriterTests() async throws {
     for canceled in [false, true] {
         let directory = RecoveryFixture.directory("quiet-writer")
         defer { try? FileManager.default.removeItem(at: directory) }
@@ -71,7 +71,7 @@ func runCaptureDurationTests() async throws {
         if interrupted { precondition(result.durationUs == 33_333) }
         let evidenceFile = directory.deletingLastPathComponent().appendingPathComponent(UUID().uuidString + ".jsonl")
         defer { try? FileManager.default.removeItem(at: evidenceFile) }
-        let evidence = try SourceEvidenceExport.write(directory: directory.path, output: evidenceFile.path)
+        let evidence = try await SourceEvidenceExport.write(directory: directory.path, output: evidenceFile.path)
         precondition(evidence.completion?.durationUs == result.durationUs
             && evidence.completion?.state == result.state
             && evidence.completion?.failureCode == result.failure?.code

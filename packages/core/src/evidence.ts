@@ -53,6 +53,15 @@ export type SourceEvidenceReceipt = Readonly<{
     durationUs: number;
     failureCode?: string | null;
   }> | null;
+  publications?: Partial<
+    Record<
+      "narration" | "system",
+      {
+        canonical: { bytes: string; sha256: string };
+        receipt: { bytes: string; sha256: string };
+      }
+    >
+  >;
   bytes: number;
 }>;
 export type SourceEvidenceMetadata = EvidenceIdentity & { receipt: SourceEvidenceReceipt };
@@ -197,7 +206,102 @@ export function validateSourceReceipt(value: unknown, sourceId: string): SourceE
     )
       invalid("Invalid capture completion provenance");
   }
+  if (receipt.publications !== undefined) {
+    if (header.schemaVersion !== 2) invalid("Publication proof requires the packed journal layout");
+    for (const [role, proof] of Object.entries(object(receipt.publications))) {
+      if (!["narration", "system"].includes(role)) invalid("Invalid publication role");
+      const identity = object(proof);
+      for (const kind of ["canonical", "receipt"]) {
+        const file = object(identity[kind]);
+        if (
+          typeof file.bytes !== "string" ||
+          !/^[1-9][0-9]*$/.test(file.bytes) ||
+          BigInt(file.bytes) > BigInt(kind === "receipt" ? 65536 : Number.MAX_SAFE_INTEGER) ||
+          typeof file.sha256 !== "string" ||
+          !/^[a-f0-9]{64}$/.test(file.sha256)
+        )
+          invalid("Invalid verified publication identity");
+      }
+    }
+  } else if (header.schemaVersion === 2) invalid("Packed evidence requires verified publications");
   return receipt as SourceEvidenceReceipt;
+}
+
+/** One bounded normalized-record validator for indexing and portable source admission. */
+export async function* sourceEvidenceRecords(
+  file: string,
+  receipt: SourceEvidenceReceipt,
+  signal?: AbortSignal,
+): AsyncGenerator<RecordRow> {
+  let bytes = 0,
+    sequence = 0,
+    cursors = 0,
+    geometries = 0,
+    displays = 0,
+    pauses = 0,
+    audio = 0;
+  const audioEnds = new Map<string, number>();
+  let first: number | null = null,
+    last: number | null = null;
+  let pending = Buffer.alloc(0);
+  for await (const chunk of createReadStream(file, { highWaterMark: 65536, signal })) {
+    bytes += chunk.length;
+    if (bytes > maxBytes || bytes > receipt.bytes) invalid("Evidence exceeds its byte receipt");
+    pending = Buffer.concat([pending, chunk]);
+    let newline: number;
+    while ((newline = pending.indexOf(10)) >= 0) {
+      if (newline > 65536) invalid("Evidence record exceeds read budget");
+      const line = pending.subarray(0, newline);
+      let record: Record<string, unknown>;
+      try {
+        record = object(JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(line)));
+      } catch {
+        invalid("Malformed normalized evidence JSON");
+      }
+      pending = pending.subarray(newline + 1);
+      const event = record.event as string,
+        data = object(record.data);
+      validateRecord(event, data);
+      if (event === "cursorSample") {
+        cursors++;
+        first ??= data.sourceUs as number;
+        last = data.sourceUs as number;
+      } else if (event === "geometry") geometries++;
+      else if (event === "displaySpace") displays++;
+      else if (event === "pause") pauses++;
+      else {
+        audio++;
+        const role = data.role as string;
+        const previous = audioEnds.get(role);
+        if (previous !== undefined && (data.startUs as number) <= previous + 1)
+          invalid("Audio acquisition intervals must be ordered and coalesced per role");
+        audioEnds.set(role, data.endUs as number);
+      }
+      yield {
+        sequence: ++sequence,
+        event,
+        sourceUs:
+          (data.sourceUs as number) ??
+          (data.atSourceUs as number) ??
+          (data.startUs as number) ??
+          null,
+        content: JSON.stringify(data),
+      };
+    }
+    if (pending.length > 65536) invalid("Evidence record exceeds read budget");
+  }
+  if (
+    pending.length ||
+    bytes !== receipt.bytes ||
+    cursors !== receipt.cursorSamples ||
+    geometries !== receipt.geometryRecords ||
+    displays !== receipt.displaySpaces ||
+    pauses !== receipt.pauseEvents ||
+    audio !== receipt.audioIntervals ||
+    first !== (receipt.firstCursorSourceUs ?? null) ||
+    last !== (receipt.lastCursorSourceUs ?? null)
+  )
+    invalid("Evidence file does not match its receipt");
 }
 
 /** Indexes native-normalized evidence; the artifact queue alone decides whether to publish it. */
@@ -258,16 +362,6 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
       "INSERT INTO source_evidence_records VALUES(?,?,?,?,?,?,?,?)",
     );
     let batch: RecordRow[] = [];
-    let bytes = 0,
-      sequence = 0,
-      cursors = 0,
-      geometries = 0,
-      displays = 0,
-      pauses = 0,
-      audio = 0;
-    const audioEnds = new Map<string, number>();
-    let first: number | null = null,
-      last: number | null = null;
     const flush = async () => {
       signal?.throwIfAborted();
       this.store.transaction(() => {
@@ -288,66 +382,10 @@ export class SourceEvidenceStore extends SourceEvidenceReader {
       signal?.throwIfAborted();
     };
     try {
-      let pending = Buffer.alloc(0);
-      for await (const chunk of createReadStream(input.file, { highWaterMark: 65536, signal })) {
-        bytes += chunk.length;
-        if (bytes > maxBytes || bytes > receipt.bytes) invalid("Evidence exceeds its byte receipt");
-        pending = Buffer.concat([pending, chunk]);
-        let newline: number;
-        while ((newline = pending.indexOf(10)) >= 0) {
-          if (newline > 65536) invalid("Evidence record exceeds read budget");
-          const line = pending.subarray(0, newline);
-          let record: Record<string, unknown>;
-          try {
-            record = object(JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(line)));
-          } catch {
-            invalid("Malformed normalized evidence JSON");
-          }
-          pending = pending.subarray(newline + 1);
-          const event = record.event as string,
-            data = object(record.data);
-          validateRecord(event, data);
-          if (event === "cursorSample") {
-            cursors++;
-            first ??= data.sourceUs as number;
-            last = data.sourceUs as number;
-          } else if (event === "geometry") geometries++;
-          else if (event === "displaySpace") displays++;
-          else if (event === "pause") pauses++;
-          else {
-            audio++;
-            const role = data.role as string;
-            const previous = audioEnds.get(role);
-            if (previous !== undefined && (data.startUs as number) <= previous + 1)
-              invalid("Audio acquisition intervals must be ordered and coalesced per role");
-            audioEnds.set(role, data.endUs as number);
-          }
-          batch.push({
-            sequence: ++sequence,
-            event,
-            sourceUs:
-              (data.sourceUs as number) ??
-              (data.atSourceUs as number) ??
-              (data.startUs as number) ??
-              null,
-            content: JSON.stringify(data),
-          });
-          if (batch.length === 256) await flush();
-        }
-        if (pending.length > 65536) invalid("Evidence record exceeds read budget");
+      for await (const row of sourceEvidenceRecords(input.file, receipt, signal)) {
+        batch.push(row);
+        if (batch.length === 256) await flush();
       }
-      if (
-        pending.length ||
-        bytes !== receipt.bytes ||
-        cursors !== receipt.cursorSamples ||
-        geometries !== receipt.geometryRecords ||
-        displays !== receipt.displaySpaces ||
-        pauses !== receipt.pauseEvents ||
-        audio !== receipt.audioIntervals ||
-        first !== (receipt.firstCursorSourceUs ?? null) ||
-        last !== (receipt.lastCursorSourceUs ?? null)
-      )
-        invalid("Evidence file does not match its receipt");
       await flush();
       this.store.transaction(() => {
         this.validateOwner(input);

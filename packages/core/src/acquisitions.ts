@@ -5,18 +5,33 @@ import { constants, openSync, fstatSync, closeSync } from "node:fs";
 import { chmod, lstat, mkdir, open, opendir, realpath, rm } from "node:fs/promises";
 import { dirname, isAbsolute, join } from "node:path";
 import { acquisitionContextSchema, type AcquisitionContext } from "@screenrec/composition";
-import { AssetStore, compositionAsset, type Asset, type AssetProbe } from "./assets.js";
+import {
+  AssetStore,
+  compositionAsset,
+  mediaProbeSchema,
+  type Asset,
+  type AssetProbe,
+} from "./assets.js";
 import { Catalog, CatalogError } from "./catalog.js";
 import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";
 import {
   validateSourceReceipt,
+  sourceEvidenceRecords,
   type SourceEvidenceMetadata,
   type SourceEvidenceStore,
 } from "./evidence.js";
 import type { SourceExporter } from "./processing.js";
 import { ResourceReferences, type ResourceOwner } from "./references.js";
 
-const members = ["capture.journal.jsonl", "video.mov", "narration.mov", "system.mov"] as const;
+const publicationMembers = ["narration.publication.json", "system.publication.json"] as const;
+const members = [
+  "capture.journal.jsonl",
+  "video.mov",
+  "narration.mov",
+  "system.mov",
+  ...publicationMembers,
+] as const;
+export type AcquisitionMember = "journal" | "normalized" | (typeof publicationMembers)[number];
 type Member = (typeof members)[number];
 type SourceFiles = Record<Member, IdentifiedFile | null>;
 export type PreparedAcquisition = { requestId: string; path: string; files: SourceFiles };
@@ -88,7 +103,8 @@ export type PortableAcquisition = z.infer<typeof portableAcquisitionSchema>;
 export type PortableAcquisitionFiles = Record<
   "journal" | "normalized",
   IdentifiedFile & { sha256: string }
->;
+> &
+  Partial<Record<(typeof publicationMembers)[number], IdentifiedFile & { sha256: string }>>;
 function portableAcquisition(value: Acquisition): PortableAcquisition {
   if (
     value.evidence.owner.kind !== "acquisition" ||
@@ -277,7 +293,8 @@ export class AcquisitionImporter {
         source,
         constants.O_RDONLY | constants.O_NONBLOCK | constants.O_NOFOLLOW,
       ).catch((error) => {
-        if (missing(error) && (member === "narration.mov" || member === "system.mov")) return null;
+        if (missing(error) && member !== "video.mov" && member !== "capture.journal.jsonl")
+          return null;
         throw new CatalogError(
           missing(error) ? "NOT_FOUND" : "INVALID_PATH",
           `Cannot admit capture member: ${member}`,
@@ -307,7 +324,8 @@ export class AcquisitionImporter {
 
   portable(id: string): {
     acquisition: PortableAcquisition;
-    files: Record<"journal" | "normalized", IdentifiedFile>;
+    files: Record<"journal" | "normalized", IdentifiedFile> &
+      Partial<Record<(typeof publicationMembers)[number], IdentifiedFile>>;
   } {
     const value = this.store.get(id),
       acquisition = portableAcquisition(value);
@@ -328,10 +346,136 @@ export class AcquisitionImporter {
       files: {
         journal: identify(paths.journal, value.journal.bytes),
         normalized: identify(paths.normalized, value.evidence.receipt.bytes),
+        ...Object.fromEntries(
+          Object.entries(value.evidence.receipt.publications ?? {}).map(([role, proof]) => [
+            `${role}.publication.json`,
+            identify(
+              join(dirname(paths.journal), `${role}.publication.json`),
+              Number(proof.receipt.bytes),
+            ),
+          ]),
+        ),
       },
     };
   }
-  async stagePortable(value: unknown, files: PortableAcquisitionFiles, signal: AbortSignal) {
+  /** Transient package readiness and durable adoption share the same canonical admission proof. */
+  async verifyPortable(
+    value: unknown,
+    files: PortableAcquisitionFiles,
+    signal: AbortSignal,
+    native: {
+      exportSource: SourceExporter;
+      assetFiles: ReadonlyMap<string, IdentifiedFile>;
+      assets: ReadonlyMap<string, Asset>;
+    },
+  ) {
+    const acquisition = portableAcquisitionSchema.parse(value);
+    const canonical: NonNullable<Parameters<SourceExporter>[3]> = {};
+    const roles = new Set<string>();
+    for (const binding of acquisition.bindings) {
+      for (const role of binding.sourceRoles) {
+        if (roles.has(role))
+          throw new CatalogError("INVALID_PACKAGE", "Acquisition repeats a source role");
+        roles.add(role);
+        if (role === "video") continue;
+        const file = native.assetFiles.get(binding.assetId);
+        if (!file) throw new CatalogError("INVALID_PACKAGE", "Missing canonical source input");
+        const proof = acquisition.receipt.publications?.[role];
+        if (
+          proof &&
+          (binding.assetId !== proof.canonical.sha256 ||
+            file.bytes !== Number(proof.canonical.bytes))
+        )
+          throw new CatalogError(
+            "INVALID_PACKAGE",
+            "Canonical asset differs from publication proof",
+          );
+        canonical[role] = {
+          ...file,
+          ...(proof
+            ? { metadata: mediaProbeSchema.parse(native.assets.get(binding.assetId)) }
+            : {}),
+        };
+      }
+    }
+    const directory = join(this.directory, `verify-${randomUUID()}`);
+    const sourceDirectory = join(directory, "source");
+    await mkdir(sourceDirectory, { recursive: true, mode: 0o700 });
+    const output = join(directory, "source.jsonl");
+    try {
+      for (const [name, file] of [
+        ["capture.journal.jsonl", files.journal],
+        ...Object.entries(acquisition.receipt.publications ?? {}).map(([role, proof]) => {
+          const name = `${role}.publication.json` as (typeof publicationMembers)[number];
+          const file = files[name];
+          if (
+            !file ||
+            file.bytes !== Number(proof.receipt.bytes) ||
+            file.sha256 !== proof.receipt.sha256
+          )
+            throw new CatalogError("INVALID_PACKAGE", "Publication proof differs from inventory");
+          return [name, file] as const;
+        }),
+      ] as const) {
+        await copyImportedFile(file.path, join(sourceDirectory, name), signal, file, 268_435_456);
+      }
+      const derived = await native.exportSource(sourceDirectory, output, signal, canonical);
+      const { file: _file, ...receipt } = derived;
+      const handle = await open(output, constants.O_RDONLY | constants.O_NOFOLLOW);
+      try {
+        const digest = await hashFile(handle, derived.bytes, signal);
+        if (
+          digest.sha256 !== files.normalized.sha256 ||
+          !isDeepStrictEqual(receipt, acquisition.receipt)
+        )
+          throw new CatalogError(
+            "INVALID_PACKAGE",
+            "Canonical verification differs from retained evidence",
+          );
+      } finally {
+        await handle.close();
+      }
+      const audio = new Map<string, { startUs: number; endUs: number }[]>();
+      for await (const row of sourceEvidenceRecords(output, derived, signal)) {
+        if (row.event !== "audioAcquired") continue;
+        const interval = JSON.parse(row.content) as {
+          role: string;
+          startUs: number;
+          endUs: number;
+        };
+        const intervals = audio.get(interval.role) ?? [];
+        if (intervals.length === 100_000)
+          throw new CatalogError("LIMIT_EXCEEDED", "Capture acquisition interval limit exceeded");
+        intervals.push(interval);
+        audio.set(interval.role, intervals);
+      }
+      for (const binding of acquisition.bindings) {
+        const asset = native.assets.get(binding.assetId);
+        if (!asset) throw new CatalogError("INVALID_PACKAGE", "Missing bound asset metadata");
+        for (const role of binding.sourceRoles) {
+          const expected = this.binding(asset, role, audio.get(role) ?? []);
+          if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
+            throw new CatalogError(
+              "INVALID_PACKAGE",
+              "Acquisition binding differs from verified source evidence",
+            );
+        }
+      }
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  }
+
+  async stagePortable(
+    value: unknown,
+    files: PortableAcquisitionFiles,
+    signal: AbortSignal,
+    native: {
+      exportSource: SourceExporter;
+      assetFiles: ReadonlyMap<string, IdentifiedFile>;
+      assets: ReadonlyMap<string, Asset>;
+    },
+  ) {
     const acquisition = portableAcquisitionSchema.parse(value);
     signal.throwIfAborted();
     if (
@@ -343,6 +487,31 @@ export class AcquisitionImporter {
     const packageIdentity = createHash("sha256")
       .update(JSON.stringify([acquisition, files.journal.sha256, files.normalized.sha256]))
       .digest("hex");
+    const proofMembers = Object.entries(acquisition.receipt.publications ?? {}).map(
+      ([role, proof]) => {
+        const name = `${role}.publication.json` as (typeof publicationMembers)[number];
+        const member = files[name];
+        if (
+          !member ||
+          member.sha256 !== proof.receipt.sha256 ||
+          member.bytes !== Number(proof.receipt.bytes)
+        )
+          throw new CatalogError(
+            "INVALID_PACKAGE",
+            "Publication proof differs from package inventory",
+          );
+        return [name, member] as const;
+      },
+    );
+    if (
+      this.store.ready(acquisition.id) &&
+      !isDeepStrictEqual(portableAcquisition(this.store.get(acquisition.id)), acquisition)
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Existing acquisition metadata conflicts with package identity",
+      );
+    await this.verifyPortable(acquisition, files, signal, native);
     const reservation = this.catalog.transaction(() =>
       this.store.admitPortable(acquisition.id, packageIdentity),
     );
@@ -356,6 +525,10 @@ export class AcquisitionImporter {
       for (const [path, member] of [
         [this.journalPath(acquisition.id), files.journal],
         [reservation.existing.evidence.receipt.file, files.normalized],
+        ...proofMembers.map(
+          ([name, member]) =>
+            [join(dirname(this.journalPath(acquisition.id)), name), member] as const,
+        ),
       ] as const) {
         const file = await open(
           path,
@@ -400,6 +573,7 @@ export class AcquisitionImporter {
       for (const [path, member] of [
         [join(sourceDirectory, "capture.journal.jsonl"), files.journal],
         [normalized, files.normalized],
+        ...proofMembers.map(([name, member]) => [join(sourceDirectory, name), member] as const),
       ] as const) {
         const copied = await copyImportedFile(member.path, path, signal, member, 268_435_456);
         if (copied.sha256 !== member.sha256 || copied.bytes !== member.bytes)
@@ -449,7 +623,11 @@ export class AcquisitionImporter {
             if (new Set(binding.sourceRoles).size !== binding.sourceRoles.length)
               throw new CatalogError("INVALID_PACKAGE", "Acquisition repeats a source role");
             for (const role of binding.sourceRoles) {
-              const expected = this.binding(this.assets.get(binding.assetId), role, evidence);
+              const expected = this.binding(
+                this.assets.get(binding.assetId),
+                role,
+                this.acquired(evidence, role),
+              );
               if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
                 throw new CatalogError(
                   "INVALID_PACKAGE",
@@ -490,7 +668,7 @@ export class AcquisitionImporter {
     let indexed: SourceEvidenceMetadata | undefined;
     let published = false;
     try {
-      for (const member of ["narration.mov", "system.mov"] as const) {
+      for (const member of ["narration.mov", "system.mov", ...publicationMembers] as const) {
         if (intent.files[member]) continue;
         const path = join(dirname(intent.files["video.mov"]!.path), member);
         const present = await lstat(path).then(
@@ -514,8 +692,19 @@ export class AcquisitionImporter {
         journal,
         268_435_456,
       );
+      for (const name of publicationMembers) {
+        const proof = intent.files[name];
+        if (proof)
+          await copyImportedFile(proof.path, join(sourceDirectory, name), signal, proof, 65_536);
+      }
+      const canonical = Object.fromEntries(
+        (["narration", "system"] as const).flatMap((role) => {
+          const file = intent.files[`${role}.mov`];
+          return file ? [[role, file]] : [];
+        }),
+      );
       const output = join(directory, "source.jsonl");
-      const receipt = await native.exportSource(sourceDirectory, output, signal);
+      const receipt = await native.exportSource(sourceDirectory, output, signal, canonical);
       const sourceId = receipt.header?.sessionID;
       if (typeof sourceId !== "string" || !sourceId)
         throw new CatalogError("INVALID_EVIDENCE", "Capture journal has no session identity");
@@ -531,15 +720,29 @@ export class AcquisitionImporter {
       for (const sourceRole of ["video", "narration", "system"] as const) {
         const source = intent.files[`${sourceRole}.mov`];
         if (!source) continue;
+        if (
+          receipt.header?.schemaVersion === 2 &&
+          sourceRole !== "video" &&
+          !receipt.publications?.[sourceRole]
+        )
+          throw new CatalogError(
+            "INVALID_EVIDENCE",
+            "Canonical audio lacks verified publication proof",
+          );
         const asset = await this.assets.import(
           source.path,
           { kind: "capture", source: sourceId },
           native.probe,
           signal,
           (value) => this.assets.retain(owner, [value.id]),
-          source,
+          {
+            ...source,
+            ...(sourceRole !== "video" && receipt.publications?.[sourceRole]
+              ? { sha256: receipt.publications[sourceRole]!.canonical.sha256 }
+              : {}),
+          },
         );
-        const binding = this.binding(asset, sourceRole, indexed);
+        const binding = this.binding(asset, sourceRole, this.acquired(indexed, sourceRole));
         const same = bindings.find(
           (row) => row.assetId === binding.assetId && row.streamId === binding.streamId,
         );
@@ -589,10 +792,15 @@ export class AcquisitionImporter {
       }
     }
   }
+  private *acquired(identity: SourceEvidenceMetadata, role: "video" | "narration" | "system") {
+    if (role === "video") return;
+    for (const page of this.evidence.exportRecords(identity, role))
+      for (const row of page) yield JSON.parse(row.content) as { startUs: number; endUs: number };
+  }
   private binding(
     asset: Asset,
     sourceRole: Acquisition["bindings"][number]["sourceRoles"][number],
-    identity: SourceEvidenceMetadata,
+    intervals: Iterable<{ startUs: number; endUs: number }>,
   ): Acquisition["bindings"][number] {
     const kind = sourceRole === "video" ? "video" : "audio";
     const streams = compositionAsset(asset).streams.filter((stream) => stream.kind === kind);
@@ -606,18 +814,15 @@ export class AcquisitionImporter {
     let available = stream.available;
     if (sourceRole !== "video") {
       available = [];
-      for (const page of this.evidence.exportRecords(identity, sourceRole)) {
-        for (const row of page) {
-          const interval = JSON.parse(row.content) as { startUs: number; endUs: number };
-          const startUs = Math.max(0, interval.startUs - asset.originUs);
-          const endUs = interval.endUs - asset.originUs;
-          if (!Number.isSafeInteger(startUs) || !Number.isSafeInteger(endUs))
-            throw new CatalogError(
-              "UNSUPPORTED_MEDIA",
-              "Capture timing exceeds the normalized source clock",
-            );
-          if (startUs < endUs) available.push({ startUs, endUs });
-        }
+      for (const interval of intervals) {
+        const startUs = Math.max(0, interval.startUs - asset.originUs);
+        const endUs = interval.endUs - asset.originUs;
+        if (!Number.isSafeInteger(startUs) || !Number.isSafeInteger(endUs))
+          throw new CatalogError(
+            "UNSUPPORTED_MEDIA",
+            "Capture timing exceeds the normalized source clock",
+          );
+        if (startUs < endUs) available.push({ startUs, endUs });
         if (available.length > 100_000)
           throw new CatalogError("LIMIT_EXCEEDED", "Capture acquisition interval limit exceeded");
       }

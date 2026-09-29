@@ -23,11 +23,12 @@ package struct SourceEvidenceExport: Encodable {
     package let finished: Bool
     package let lastLifecycle: JournalLifecycle?
     package let completion: JournalCompletion?
+    package let publications: [String: CaptureAudioPublication.VerifiedSource]?
     package let bytes: Int
 
     /// The caller supplies a finalized/recovered source. A missing finished record remains visible
     /// because recovery may retain a trustworthy prefix after the capture process died.
-    package static func write(directory: String, output: String) throws -> Self {
+    package static func write(directory: String, output: String, canonical: [String: String]? = nil) async throws -> Self {
         let source = URL(fileURLWithPath: directory).resolvingSymlinksInPath().standardizedFileURL
         let parent = URL(fileURLWithPath: output).standardizedFileURL.deletingLastPathComponent()
             .resolvingSymlinksInPath().standardizedFileURL
@@ -44,6 +45,29 @@ package struct SourceEvidenceExport: Encodable {
         }
         guard info.st_size <= 268_435_456 else {
             throw CaptureFailure("EVIDENCE_LIMIT", "Journal exceeds the evidence read budget.")
+        }
+        let layout = try CaptureJournal.layout(directory: source.path)
+        var publications: [String: CaptureAudioPublication.VerifiedSource] = [:]
+        var acquired: [JournalAudioSamples] = []
+        // Staged imports supply a closed set of immutable descriptor locators. Recording-owned
+        // reads resolve only the two fixed canonical members under the journal lease.
+        let lease = layout == 2 ? try CaptureJournalLease(directory: source.path) : nil
+        if let lease {
+            if let canonical, !Set(canonical.keys).isSubset(of: ["narration", "system"]) {
+                throw CaptureFailure("INVALID_REQUEST", "Unexpected canonical audio role.")
+            }
+            for role in ["narration", "system"] {
+                let receipt = source.appendingPathComponent("\(role).publication.json")
+                let audio = canonical.map { $0[role] } ??
+                    (FileManager.default.fileExists(atPath: source.appendingPathComponent("\(role).mov").path)
+                        ? source.appendingPathComponent("\(role).mov").path : nil)
+                guard audio != nil || FileManager.default.fileExists(atPath: receipt.path) else { continue }
+                guard let audio else { throw CaptureFailure("PUBLICATION_FAILED", "Canonical audio is missing.") }
+                let verified = try await CaptureAudioPublication.readPublished(
+                    lease: lease, role: role, canonical: URL(fileURLWithPath: audio))
+                publications[role] = verified.identity
+                acquired += verified.audio
+            }
         }
         let destination = try NewFile(at: output, assembledAs: "observations.jsonl")
         defer { destination.discard() }
@@ -86,7 +110,13 @@ package struct SourceEvidenceExport: Encodable {
             audioAcquired: {
                 try emit("audioAcquired", $0)
                 audioIntervals += 1
-            })
+            }, pcmAppend: layout == 2 ? { _ in } : nil,
+            descriptor: lease?.descriptor, layout: layout)
+        for interval in acquired {
+            try emit("audioAcquired", interval)
+            audioIntervals += 1
+        }
+        try lease?.check()
         guard summary.header != nil else {
             throw CaptureFailure("INVALID_JOURNAL", "Evidence requires a readable journal header.")
         }
@@ -111,7 +141,7 @@ package struct SourceEvidenceExport: Encodable {
             lastCursorSourceUs: summary.lastCursorSourceUs, lastSequence: summary.lastSequence,
             incompleteTail: summary.incompleteTail, invalidAtSequence: summary.invalidAtSequence,
             finished: summary.finished, lastLifecycle: summary.lastLifecycle,
-            completion: summary.completion, bytes: bytes)
+            completion: summary.completion, publications: layout == 2 ? publications : nil, bytes: bytes)
     }
 }
 

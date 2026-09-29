@@ -103,3 +103,9 @@ The rollout gate includes actual public stop/recovery work beyond their old 10s/
 outer deadlines and cancellation. Existing finalizing/attempt ownership must allow
 completion or actionable continuation; repeated timeout/restart without progress is
 not support. Keep any justified work deadline specific to these operations.
+
+[Canonical admission evidence](../assets/20d-canonical-admission/README.md) now binds
+acquisition support and project-package readiness/adoption to native-verified R,
+immutable canonical bytes and actual media metadata. Recording-domain processed
+package inventory/revalidation remains the next admission pickup; packed writer
+activation still waits on that path and the lifecycle/large-work gates above.

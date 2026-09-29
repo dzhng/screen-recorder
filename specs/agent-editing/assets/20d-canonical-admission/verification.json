@@ -1,0 +1,46 @@
+{
+  "workerSha256": "fe5f39ea4fa4fd3dc989e4591e46acfe4d65662ad000f4c12a557da2f6c1c9e1",
+  "sourceSha256": {
+    "apps/service/src/project-packages.ts": "fb19e1b4504a5ce2f60d67549b574a790c2be0c74ccf2de6c6188786b37fe480",
+    "apps/service/src/project-service.ts": "ac5a5c190bb4f5ba404beace35fb11b4f1599aa0ee2f1c867a42ac1291762bc5",
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift": "c4e58a833c1b9a8d0a2483b0482636137b04cae83de71a01f9db80b43aa6ce4d",
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioPublication.swift": "333b07a85dfce773adf8a8f8c84268f6372e782cddec2e22a501de85b9e39e45",
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift": "cac51a9714d3d1742d0a2f365f0d21bd01683d5f2537563c8f9266c7060793fb",
+    "helpers/mac/Sources/ScreenRecorderWire/SourceEvidenceExport.swift": "6a1613d5d286cdc2844affb2abc6d5d75b497ba6ca47218b69f64ba1404c13e3",
+    "helpers/mac/Sources/ScreenRecorderWire/Wire.swift": "e9d034aa556ce684fc3c917d3293add15d49898bd922a8dce711f9ccdd6e6b43",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureAudioPublicationTests.swift": "c0dd9231357b8b29fba2aba1b42ef653654b3b608fcb76f9ebf6078b641f2e7b",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/CaptureWriterTests.swift": "0b73993b7ce9dbf4f386602ae43039b01db8c4da5b88f11da1c9f05b509e4d00",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/DeferredPauseTests.swift": "6b769fe7da09b03761a92ef8b0cc824f08703938d1c7a99f45dddeae34a10322",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/main.swift": "e37412c8631db068f108b02a61224f4a178e73fef9af306e83b48342c952f78e",
+    "packages/core/src/acquisitions.test.ts": "162250ba51c0e6075158e439b26174ccb4f8e6cdf91b8a8bb6b9b0b0f0001e58",
+    "packages/core/src/acquisitions.ts": "5d647546c2b064acf2d0f2a4928bf175c70fdb6f6bd62bcb6a8e57191c487bf1",
+    "packages/core/src/assets.test.ts": "95df2fcbb61b589eab9ba4de847762f060454835824eb1fe4b00b2f46a27c1c1",
+    "packages/core/src/assets.ts": "3b20a0a805f4ad4386f6fe3f288d2662c021034229d3d8a515c9604a9f6a5013",
+    "packages/core/src/evidence.ts": "0961f2f613ae8ce53ab222889d14f5a24567c10a837e02bfa0b8858e746c0cd2",
+    "packages/core/src/files.ts": "4ad3fe89af29f2afc46b2e57912d9eb6f8c12a0b55ef5992542b61d82d1c2c1f",
+    "packages/core/src/processing.ts": "d59490f12c1ef8a36af042a0247aa716c859b4c0a508c8829f42f4f7edd6a393",
+    "packages/core/src/project-package.ts": "036d6e91c95beec111835b000de3ed45dd95e332756e218a524b22fa6008652b",
+    "apps/service/src/source-export.ts": "e18b2736c79a1956c3c3654d44fa7334f3f8818f8c8c5c7a88c5d34406639d88",
+    "packages/test-harness/editing/capture-canonical-admission.mjs": "dc5650ca6ae64f957a99be954bf7f56d98ed39fde31176e176f4b5e2d4138bde"
+  },
+  "artifacts": 93,
+  "commands": {
+    "nativeDefault": "swift run --package-path helpers/mac ScreenRecorderCaptureTests",
+    "legacySourceEvidence": "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node --test helpers/mac/Tests/source-evidence.test.mjs",
+    "unit": "node node_modules/vitest/vitest.mjs run packages/core/src/acquisitions.test.ts packages/core/src/evidence.test.ts packages/core/src/assets.test.ts packages/core/src/project-package.test.ts",
+    "public": "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node packages/test-harness/editing/capture-canonical-admission.mjs --out NEW_DIRECTORY --fixture /tmp/canonical-admission-fixtures/complete"
+  },
+  "results": {
+    "nativeDefault": "pass",
+    "legacySourceEvidence": "17/17 pass",
+    "unit": "52/52 pass",
+    "public": "pass",
+    "independentReview": "four findings fixed; final clean"
+  },
+  "limits": [
+    "No live capture, listening or codec-quality claim",
+    "Recording-domain processed package proof inventory/reverification remains next",
+    "No arbitrary public external-mask API; native 1us proof separate from schema1 tolerance",
+    "Existing short worker budget is not a large-fragmented-case acceptance claim"
+  ]
+}

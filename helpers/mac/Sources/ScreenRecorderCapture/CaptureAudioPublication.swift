@@ -218,8 +218,9 @@ package enum CaptureAudioPublication {
   }
 
   /// Rechecks canonical bytes and delivered support without requiring already-cleaned working media.
+  @discardableResult
   package static func verify(_ receipt: Receipt, lease: CaptureJournalLease, canonical: URL)
-    async throws
+    async throws -> CaptureCanonicalAudio
   {
     let accepted = try validate(receipt.intent, lease: lease, role: receipt.intent.role)
     guard accepted == receipt.acceptedFrames, receipt.committedFrames >= 0,
@@ -232,6 +233,26 @@ package enum CaptureAudioPublication {
     guard result.identity == receipt.canonical, result.pcmSHA256 == receipt.pcmSHA256,
       result.supportSHA256 == receipt.supportSHA256
     else { throw failure("Published media no longer matches its receipt.") }
+    return result
+  }
+
+  package struct VerifiedSource: Encodable, Sendable {
+    package let canonical: CaptureMediaIdentity
+    package let receipt: CaptureMediaIdentity
+  }
+
+  /// Admission reuses publication validation without retrying publication or touching working media.
+  package static func readPublished(lease: CaptureJournalLease, role: String, canonical: URL)
+    async throws -> (identity: VerifiedSource, audio: [JournalAudioSamples])
+  {
+    guard ["narration", "system"].contains(role) else { throw failure("Invalid publication role.") }
+    let path = URL(fileURLWithPath: lease.directory).appendingPathComponent("\(role).publication.json")
+    let before = try CaptureMediaIdentity.read(path)
+    let receipt: Receipt = try read(path)
+    guard receipt.intent.role == role else { throw failure("Published receipt names a different role.") }
+    let verified = try await verify(receipt, lease: lease, canonical: canonical)
+    guard try CaptureMediaIdentity.read(path) == before else { throw failure("Publication receipt changed.") }
+    return (VerifiedSource(canonical: verified.identity, receipt: before), verified.acquiredAudio)
   }
 
   private static func validate(_ intent: Intent, lease: CaptureJournalLease, role: String) throws

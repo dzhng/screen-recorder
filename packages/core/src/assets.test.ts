@@ -387,3 +387,56 @@ test("font metadata rejects ambiguous identities and cannot smuggle timed stream
     expect(store.list().assets).toEqual([]);
   }
 });
+
+test("verified byte digest is enforced before both fresh and cached asset publication", async () => {
+  const { root, store } = await setup();
+  const path = join(root, "verified.png");
+  await writeFile(path, "original pixels");
+  const { fileIdentity } = await import("./files.js");
+  const file = await open(path, "r");
+  const stat = await file.stat({ bigint: true });
+  await file.close();
+  const expected = {
+    path,
+    bytes: Number(stat.size),
+    identity: fileIdentity(stat),
+    sha256: "0".repeat(64),
+  };
+  const observed = vi.fn(probe);
+  const publish = vi.fn();
+  await expect(
+    store.import(
+      path,
+      { kind: "capture", source: "wrong-proof" },
+      observed,
+      new AbortController().signal,
+      publish,
+      expected,
+    ),
+  ).rejects.toMatchObject({ code: "SOURCE_CHANGED" });
+  expect(store.list().assets).toEqual([]);
+  expect(observed).not.toHaveBeenCalled();
+  const correct = await store.import(path, { kind: "import" }, probe);
+  await expect(
+    store.import(
+      path,
+      { kind: "capture", source: "wrong-proof" },
+      observed,
+      new AbortController().signal,
+      publish,
+      expected,
+    ),
+  ).rejects.toMatchObject({ code: "SOURCE_CHANGED" });
+  expect(store.origins(correct.id).origins).toEqual([{ kind: "import" }]);
+  expect(publish).not.toHaveBeenCalled();
+  const accepted = await store.import(
+    path,
+    { kind: "capture", source: "verified" },
+    observed,
+    new AbortController().signal,
+    publish,
+    { ...expected, sha256: correct.id },
+  );
+  expect(accepted.id).toBe(correct.id);
+  expect(store.origins(correct.id).origins).toContainEqual({ kind: "capture", source: "verified" });
+});

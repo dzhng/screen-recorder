@@ -1,6 +1,7 @@
 import Foundation
 import ScreenRecorderCapture
 import ScreenRecorderMedia
+import ScreenRecorderWire
 
 func runCaptureAudioPublicationTests(output: String? = nil) async throws {
   let root: URL
@@ -35,6 +36,37 @@ func runCaptureAudioPublicationTests(output: String? = nil) async throws {
 
   let complete = try fixture("complete")
   let original = try await publish(complete)
+  let exported = try await SourceEvidenceExport.write(
+    directory: complete.path, output: root.appendingPathComponent("published-evidence.jsonl").path)
+  precondition(exported.header?.schemaVersion == 2 && exported.audioIntervals == 2,
+               "Source admission must export verified canonical support")
+  let exportedRows = try String(contentsOfFile: exported.file, encoding: .utf8)
+    .split(separator: "\n").map { try JSONSerialization.jsonObject(with: Data($0.utf8)) as! [String: Any] }
+  let spans = exportedRows.filter { $0["event"] as? String == "audioAcquired" }
+    .map { $0["data"] as! [String: Any] }
+  precondition(spans.map { $0["startUs"] as! Int } == [100001, 1141668])
+  precondition(spans.map { $0["endUs"] as! Int } == [782668, 2459001])
+  precondition(exported.publications?["narration"]?.canonical == original.canonical)
+  let unproven = try fixture("unproven-source")
+  try FileManager.default.copyItem(at: complete.appendingPathComponent("narration.mov"),
+                                 to: unproven.appendingPathComponent("narration.mov"))
+  do {
+    _ = try await SourceEvidenceExport.write(directory: unproven.path,
+      output: root.appendingPathComponent("unproven-evidence.jsonl").path)
+    preconditionFailure("A canonical-looking filename must not admit accepted-only support")
+  } catch { precondition(!FileManager.default.fileExists(atPath: root.appendingPathComponent("unproven-evidence.jsonl").path)) }
+  let clipped = try captureMaterializerFixture(in: root, name: "clipped-source", accepted: 120000)
+  _ = try await publish(clipped)
+  let clippedExport = try await SourceEvidenceExport.write(directory: clipped.path,
+    output: root.appendingPathComponent("clipped-evidence.jsonl").path)
+  let clippedBytes = try Data(contentsOf: URL(fileURLWithPath: clippedExport.file))
+  let completeBytes = try Data(contentsOf: URL(fileURLWithPath: exported.file))
+  precondition(clippedBytes == completeBytes, "Accepted-only tail must not expand verified support")
+  do {
+    _ = try await SourceEvidenceExport.write(directory: complete.path,
+      output: root.appendingPathComponent("omitted-canonical.jsonl").path, canonical: [:])
+    preconditionFailure("A closed admitted set must not fall back to a donor pathname")
+  } catch let failure as CaptureFailure { precondition(failure.code == "PUBLICATION_FAILED") }
   let repeated = try await publish(complete)
   precondition(original == repeated && original.representedFrames == 96000)
   precondition(
