@@ -1,0 +1,9 @@
+{
+  "archive": "captures.tar.xz",
+  "sha256": "80988c0df64f2f7f306750c0c2057b46c0c13ea95cde2b25613dfcb18c2900de",
+  "bytes": 7673256,
+  "paths": 390,
+  "uniqueFiles": 195,
+  "capturedBytes": 108497203,
+  "uniqueBytes": 26807212
+}

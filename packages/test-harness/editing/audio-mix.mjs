@@ -1,3 +1,4 @@
+import { verifyMixedCodecRates } from "./audio-mixed-codec-rates.mjs";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
@@ -36,7 +37,7 @@ function call(operation, params, expectedError) {
   assert.equal(response.ok, true, JSON.stringify(response));
   return response.data;
 }
-function wave(path, decode = true, channels = 2) {
+function wave(path, decode = true, channels = 2, rate = 48000) {
   const bytes = readFileSync(path);
   assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
   let format, pcm;
@@ -54,7 +55,7 @@ function wave(path, decode = true, channels = 2) {
     if (name === "data") pcm = chunk;
     position += 8 + length + (length % 2);
   }
-  assert.deepEqual(format, { tag: 3, channels, rate: 48000, bits: 32 });
+  assert.deepEqual(format, { tag: 3, channels, rate, bits: 32 });
   assert(pcm);
   if (!decode) return pcm.length / 8;
   return Array.from({ length: pcm.length / 4 }, (_, i) => pcm.readFloatLE(i * 4));
@@ -151,7 +152,13 @@ const evidence = {
 };
 try {
   const sources = [];
-  function render(document, range = { startUs: 0, endUs: 1000000 }, expectedError, decode = true) {
+  function render(
+    document,
+    range = { startUs: 0, endUs: 1000000 },
+    expectedError,
+    decode = true,
+    onRendered,
+  ) {
     const model = validateComposition(
       document,
       sources.map((source) => source.asset),
@@ -172,6 +179,7 @@ try {
       assets: sources.map((source) => source.binding),
     };
     const result = call("media.mixCompositionAudio", params, expectedError);
+    if (!expectedError) onRendered?.(result, params);
     return expectedError ? result : { result, samples: wave(result.file, decode), params };
   }
   const silence = render(empty);
@@ -582,6 +590,20 @@ try {
   evidence.checks.push(
     "simultaneous44.1k mono and48k stereo sum exactly after resampling, retaining fractional window and split phase",
   );
+  if (process.env.SCREENREC_RATE_EVIDENCE)
+    evidence.mixedCodecRates = verifyMixedCodecRates({
+      out: process.env.SCREENREC_RATE_EVIDENCE,
+      worker,
+      fixture,
+      sources,
+      call,
+      render,
+      clip,
+      empty,
+      scratch,
+      wave,
+      reference48: b,
+    });
   const excludedImpulse = fixture("excluded-impulse", 44100, 1, (i) => (i === 22049 ? 0.75 : 0));
   sources.push(excludedImpulse);
   const impulseDoc = {

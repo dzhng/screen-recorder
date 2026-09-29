@@ -137,7 +137,7 @@ export async function decodedHash(path) {
     await closed;
   }
 }
-export function waveHeader(bytes, totalBytes) {
+export function waveHeader(bytes, totalBytes, rate = 48000) {
   assert.equal(bytes.toString("ascii", 0, 4), "RIFF");
   assert.equal(bytes.toString("ascii", 8, 12), "WAVE");
   assert.equal(bytes.readUInt32LE(4) + 8, totalBytes);
@@ -150,8 +150,8 @@ export function waveHeader(bytes, totalBytes) {
       assert.ok(size >= 16 && at + size <= bytes.length);
       assert.equal(bytes.readUInt16LE(at), 3);
       assert.equal(bytes.readUInt16LE(at + 2), 2);
-      assert.equal(bytes.readUInt32LE(at + 4), 48000);
-      assert.equal(bytes.readUInt32LE(at + 8), 384000);
+      assert.equal(bytes.readUInt32LE(at + 4), rate);
+      assert.equal(bytes.readUInt32LE(at + 8), rate * 8);
       assert.equal(bytes.readUInt16LE(at + 12), 8);
       assert.equal(bytes.readUInt16LE(at + 14), 32);
       format = true;

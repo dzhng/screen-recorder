@@ -1,3 +1,4 @@
+import { verifyAcousticRateAxes } from "./acoustic-rate-axes.mjs";
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -41,7 +42,7 @@ wave.writeUInt32LE(frames * 8, 40);
 for (let i = 0; i < frames; i++)
   for (let c = 0; c < 2; c++) wave.writeFloatLE(sample(i, c), 44 + i * 8 + c * 4);
 let ordinal = 0;
-async function delivered(operation, params) {
+async function delivered(operation, params, expectedRate = rate) {
   const ready = await poll(
     () => call(operation, params, { transport: "mcp" }),
     (v) => v.state === "ready",
@@ -67,7 +68,7 @@ async function delivered(operation, params) {
   assert.equal(metadata.bytes, bytes.length);
   assert.deepEqual(metadata.sampleRange, ready.published[key].sampleRange);
   assert.equal(metadata.channels, 2);
-  assert.equal(metadata.sampleRate, rate);
+  assert.equal(metadata.sampleRate, expectedRate);
   report.artifacts.push({ name, sha256: hash(bytes), metadata, jobId: receipt.jobId });
   return {
     metadata,
@@ -474,6 +475,8 @@ try {
     "render attempt or sidecar leaked",
   );
   report.checks.renderWorkspaceClean = true;
+  if (process.env.SCREENREC_ACOUSTIC_RATES)
+    report.checks.rateAxes = await verifyAcousticRateAxes({ out, call, delivered });
   report.passed = true;
 } finally {
   try {
