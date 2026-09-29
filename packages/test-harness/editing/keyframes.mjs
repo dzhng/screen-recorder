@@ -6,12 +6,15 @@ import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { parseArgs } from "node:util";
 import { fileURLToPath } from "node:url";
+import { resolveOutputSettings } from "../../composition/dist/index.js";
+import { captureKeyframeAppearance } from "./keyframe-appearance.mjs";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({
   options: {
     case: { type: "string" },
     out: { type: "string" },
     convenience: { type: "boolean", default: false },
+    appearance: { type: "boolean", default: false },
   },
 });
 assert.ok(["moved-split-zoom", "moved-split-pose", "moved-split-geometry"].includes(values.case));
@@ -27,6 +30,7 @@ const report = {
   passed: false,
   case: values.case,
   convenience: values.convenience,
+  settings: resolveOutputSettings({ preset: "balanced" }),
   trace: [],
   pictures: [],
   checks: {},
@@ -34,7 +38,11 @@ const report = {
   workerSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   decoderSha256: hash(await readFile("/opt/homebrew/bin/ffmpeg")),
 };
-const service = new JourneyService(home, report),
+const service = new JourneyService(
+    home,
+    report,
+    values.appearance ? join(out, "native") : undefined,
+  ),
   call = service.call.bind(service);
 const ref = (label) => ({ label }),
   fraction = (numerator, denominator = 1) => ({ numerator, denominator });
@@ -347,7 +355,7 @@ try {
       expected.sha256,
       "Window activation differs from exact processed/dry control",
     );
-  const selection = { projectId, revisionId: split.revision.id };
+  const selection = { projectId, revisionId: split.revision.id, settings: report.settings };
   const fullPath = join(out, "full.mp4"),
     rangePath = join(out, "range.mp4");
   await poll(
@@ -443,6 +451,22 @@ try {
     encodedGate:
       "existing meanRGB<=12 still-image membership/layout tolerance; not strict color conformance",
   };
+  if (values.appearance)
+    report.appearance = await captureKeyframeAppearance({
+      out,
+      home,
+      report,
+      call,
+      geometry,
+      original,
+      projectId,
+      clipId,
+      stepId,
+      movedRevisionId: moved.revision.id,
+      head,
+      fullPath,
+      rangePath,
+    });
   report.passed = true;
   await call("project.delete", { projectId });
 } catch (error) {
