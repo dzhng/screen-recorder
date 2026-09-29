@@ -36,8 +36,11 @@ project frames for the same requested microsecond interval; their distinct
 sample-grid endpoints are intentional. Both impulse clocks resolve to 0.64s.
 
 `aac-repeat` contains eight fresh source reads and eight fresh isolated resampled
-reads of one fixed AAC file. Each set measured zero difference from its first
-member. The earlier scratch probe's unknown-operation error and already-produced
+reads of one fixed AAC file, each in an independent native process. The resampled
+set is exact; source repeat 5 has a retained nonzero difference from source 0.
+[Reinspection](aac-repeat-reinspection.md) verifies all complete PCM comparisons
+and records the correction to the earlier all-zero summary. The earlier scratch
+probe's unknown-operation error and already-produced
 WAVs are also retained (`repeat-initial`); this was a diagnostic command typo, not
 a product refusal. The corrected probe is retained alongside its receipts.
 

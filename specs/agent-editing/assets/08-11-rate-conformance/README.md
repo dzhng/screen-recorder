@@ -16,9 +16,12 @@ selected for resampled AAC composition.
 **An AAC reproducibility gap remains open.** One run failed an agent-created
 zero-delta comparison between a ranged mix and a separately decoded/resampled
 component: maximum difference `5.960464477539063e-8`. The initial and two subsequent
-runs measured zero. Eight additional source and eight isolated resampled repeats
-also measured zero. Frozen-decoder controls isolate exact arithmetic for those
-inputs; they do not establish the cause of the earlier mismatch. The original red
+runs measured zero. All eight isolated resampled repeats measured zero, but
+source repeat 5 differs from the first source read in 1,486 samples, including
+the last sample. The [archived-byte reinspection](aac-repeat-reinspection.md)
+corrects the earlier all-zero source-repeat claim. Frozen-decoder controls isolate
+exact arithmetic; neither these controls nor the source-only discrepancy establish
+the cause of the earlier mixed-output mismatch. The original red
 report and log remain, and independent AAC comparison values remain visible
 measurements. This is not whole compressed-composition exactness acceptance.
 The early failing run discarded its ranged scratch WAV before retention; its

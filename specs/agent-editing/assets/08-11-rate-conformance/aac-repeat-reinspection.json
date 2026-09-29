@@ -1,0 +1,331 @@
+{
+  "scope": "Read-only reinspection of retained historical bytes; no decoding or current-runtime test",
+  "archive": {
+    "archive": "captures.tar.xz",
+    "sha256": "80988c0df64f2f7f306750c0c2057b46c0c13ea95cde2b25613dfcb18c2900de",
+    "bytes": 7673256,
+    "paths": 390,
+    "uniqueFiles": 195,
+    "capturedBytes": 108497203,
+    "uniqueBytes": 26807212
+  },
+  "declaredHistoricalWorkerSha256": "6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9",
+  "workerInvocation": "Each request independently spawnSyncs /tmp/screenrec-caption-output-combined-native; no native worker process or application reader instance reused; platform internal state not inspected",
+  "nativeOperation": "media.sourceAudio",
+  "sourceRequestExcludingOutput": {
+    "source": {
+      "source": "/tmp/screenrec-audio-rates-controlled/m4a-encoded.m4a",
+      "streamId": "track:1",
+      "sourceOffsetUs": 0,
+      "available": [
+        {
+          "startUs": 0,
+          "endUs": 2000000
+        }
+      ]
+    },
+    "range": {
+      "startUs": 123457,
+      "endUs": 1812349
+    }
+  },
+  "sourceDecodedFrames": [
+    81920,
+    81920,
+    81920,
+    81920,
+    81920,
+    81920,
+    81920,
+    81920
+  ],
+  "observations": [
+    {
+      "kind": "source",
+      "index": 0,
+      "sampleRate": 44100,
+      "channels": 1,
+      "frames": 74480,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "source",
+      "index": 1,
+      "sampleRate": 44100,
+      "channels": 1,
+      "frames": 74480,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "source",
+      "index": 2,
+      "sampleRate": 44100,
+      "channels": 1,
+      "frames": 74480,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "source",
+      "index": 3,
+      "sampleRate": 44100,
+      "channels": 1,
+      "frames": 74480,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "source",
+      "index": 4,
+      "sampleRate": 44100,
+      "channels": 1,
+      "frames": 74480,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "source",
+      "index": 5,
+      "sampleRate": 44100,
+      "channels": 1,
+      "frames": 74480,
+      "maximum": 6.705522537231445e-08,
+      "rms": 2.346948173843623e-09,
+      "changedSamples": 1486,
+      "firstChangedReturnedSample": 72399,
+      "lastChangedReturnedSample": 74479,
+      "maximumAtReturnedSample": 73652,
+      "firstSamples": [
+        0.061580296605825424,
+        0.061580296605825424
+      ],
+      "lastSamples": [
+        0.12011029571294785,
+        0.12011028081178665
+      ]
+    },
+    {
+      "kind": "source",
+      "index": 6,
+      "sampleRate": 44100,
+      "channels": 1,
+      "frames": 74480,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "source",
+      "index": 7,
+      "sampleRate": 44100,
+      "channels": 1,
+      "frames": 74480,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "resampled",
+      "index": 0,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 81067,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "resampled",
+      "index": 1,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 81067,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "resampled",
+      "index": 2,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 81067,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "resampled",
+      "index": 3,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 81067,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "resampled",
+      "index": 4,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 81067,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "resampled",
+      "index": 5,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 81067,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "resampled",
+      "index": 6,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 81067,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    },
+    {
+      "kind": "resampled",
+      "index": 7,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 81067,
+      "maximum": 0.0,
+      "rms": 0.0,
+      "changedSamples": 0
+    }
+  ],
+  "verifiedMembers": {
+    "aac-repeat/report.json": {
+      "bytes": 39309,
+      "sha256": "bdcd54fb8fea0c171c966f197b3fd4eeb013483d384182858fdd2a81a91598bb",
+      "storedAs": "aac-repeat/report.json"
+    },
+    "diagnostics/screenrec-rate-repeat.mjs": {
+      "bytes": 2071,
+      "sha256": "5f42610c6f6cc9410bbb7906a69865996cabdbfb863631df25e0320f0e1cc334",
+      "storedAs": "diagnostics/screenrec-rate-repeat.mjs"
+    },
+    "mix-controlled/report.json": {
+      "bytes": 171527,
+      "sha256": "dc6dc3f309d995291a174a4e28ad45cf12cdbb697996c51ab03c69751e917a01",
+      "storedAs": "mix-controlled/report.json"
+    },
+    "mix-controlled/m4a-encoded.m4a": {
+      "bytes": 35057,
+      "sha256": "6df398ba0d8adad30d05334bb9a0c9213e5f8993b93947b6acd75cfd643f8c18",
+      "storedAs": "mix-initial/m4a-encoded.m4a"
+    },
+    "mix-failed/report.json": {
+      "bytes": 86365,
+      "sha256": "4f5fc7ffdcb7f842b06da06947d9ba7d6e5d58e4c6262c9da9b2328aefb2bfe9",
+      "storedAs": "mix-failed/report.json"
+    },
+    "aac-repeat/source-0.wav": {
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "storedAs": "mix-initial/m4a-native-range.wav"
+    },
+    "aac-repeat/source-1.wav": {
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "storedAs": "mix-initial/m4a-native-range.wav"
+    },
+    "aac-repeat/source-2.wav": {
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "storedAs": "mix-initial/m4a-native-range.wav"
+    },
+    "aac-repeat/source-3.wav": {
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "storedAs": "mix-initial/m4a-native-range.wav"
+    },
+    "aac-repeat/source-4.wav": {
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "storedAs": "mix-initial/m4a-native-range.wav"
+    },
+    "aac-repeat/source-5.wav": {
+      "bytes": 302016,
+      "sha256": "54fc959061387652dddde3fb9b4fdd442d46e58e6dda0dddef8d45490798449f",
+      "storedAs": "aac-repeat/source-5.wav"
+    },
+    "aac-repeat/source-6.wav": {
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "storedAs": "mix-initial/m4a-native-range.wav"
+    },
+    "aac-repeat/source-7.wav": {
+      "bytes": 302016,
+      "sha256": "a3ec5cc431cdde292b43b0ea703174bc19a7880a07be587ae9bbf63d3c01e337",
+      "storedAs": "mix-initial/m4a-native-range.wav"
+    },
+    "aac-repeat/resampled-0.wav": {
+      "bytes": 652632,
+      "sha256": "a686dd2b5f7fb5f9ac7c969d8bcef9a671fea9642ed9c76a8b81f6dbecb7b855",
+      "storedAs": "mix-initial/m4a-resampled-range.wav"
+    },
+    "aac-repeat/resampled-1.wav": {
+      "bytes": 652632,
+      "sha256": "a686dd2b5f7fb5f9ac7c969d8bcef9a671fea9642ed9c76a8b81f6dbecb7b855",
+      "storedAs": "mix-initial/m4a-resampled-range.wav"
+    },
+    "aac-repeat/resampled-2.wav": {
+      "bytes": 652632,
+      "sha256": "a686dd2b5f7fb5f9ac7c969d8bcef9a671fea9642ed9c76a8b81f6dbecb7b855",
+      "storedAs": "mix-initial/m4a-resampled-range.wav"
+    },
+    "aac-repeat/resampled-3.wav": {
+      "bytes": 652632,
+      "sha256": "a686dd2b5f7fb5f9ac7c969d8bcef9a671fea9642ed9c76a8b81f6dbecb7b855",
+      "storedAs": "mix-initial/m4a-resampled-range.wav"
+    },
+    "aac-repeat/resampled-4.wav": {
+      "bytes": 652632,
+      "sha256": "a686dd2b5f7fb5f9ac7c969d8bcef9a671fea9642ed9c76a8b81f6dbecb7b855",
+      "storedAs": "mix-initial/m4a-resampled-range.wav"
+    },
+    "aac-repeat/resampled-5.wav": {
+      "bytes": 652632,
+      "sha256": "a686dd2b5f7fb5f9ac7c969d8bcef9a671fea9642ed9c76a8b81f6dbecb7b855",
+      "storedAs": "mix-initial/m4a-resampled-range.wav"
+    },
+    "aac-repeat/resampled-6.wav": {
+      "bytes": 652632,
+      "sha256": "a686dd2b5f7fb5f9ac7c969d8bcef9a671fea9642ed9c76a8b81f6dbecb7b855",
+      "storedAs": "mix-initial/m4a-resampled-range.wav"
+    },
+    "aac-repeat/resampled-7.wav": {
+      "bytes": 652632,
+      "sha256": "a686dd2b5f7fb5f9ac7c969d8bcef9a671fea9642ed9c76a8b81f6dbecb7b855",
+      "storedAs": "mix-initial/m4a-resampled-range.wav"
+    }
+  },
+  "conclusions": {
+    "sourcePathVariabilityBeforeComposition": true,
+    "allResampledRepeatsExact": true,
+    "originalMixedRangeCauseEstablished": false,
+    "platformInternalCauseEstablished": false,
+    "currentRuntimeApplicabilityVerified": false,
+    "endpointEqualityForSourceRepeat5": false,
+    "toleranceChanged": false
+  }
+}
