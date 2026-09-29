@@ -1,0 +1,11 @@
+{
+  "commit": "77186a30",
+  "verifiedArtifacts": 72,
+  "focusedPassed": 92,
+  "testFiles": 5,
+  "scope": "Combined root core library, capture service lifecycle/finalization and CLI tests plus build; no claim of root repeating long native recovery, rendered UI or physical capture. Coordinated native activation remains pending.",
+  "logs": {
+    "root-build.log.gz": "cc1277ddf6eb89602f4311ec1226b25f29b8ecb9cb951a21f056612c62a69919",
+    "root-tests.log.gz": "7371b526e592385af87f17e2970bd3f60145f73d78425d95cd797f3451768766"
+  }
+}

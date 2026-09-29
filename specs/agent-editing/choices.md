@@ -3201,3 +3201,25 @@ This prevents two paths sharing a wrong prefix from certifying each other. Held
 transitions bound this proof; existing interpolation contracts and later listening
 judgments remain separate. One shared test reference runner retains the recipe and
 raw files for both native/public harnesses, without adding a production audio owner.
+
+### Keep unfinished recovery in the capture lifecycle (sound, high confidence)
+
+When a take stops but publication still needs minutes, CaptureService retains one
+owned cancellable attempt and returns finalizing promptly. The recording stores a
+bounded error when that attempt fails; reads preserve it, explicit retry clears it
+when work begins, and terminal state clears it. This implements20d1 without another
+job registry for a take whose revision does not yet exist. Catalog16 identifies the
+added field; older layouts are refused under the existing development policy.
+The plan required durable failure but left the concrete lifecycle storage open.
+This gives control, restart and deletion one owner rather than a parallel tracker.
+
+### Give canonical recovery a finite work allowance (sound, medium confidence)
+
+A very fragmented take may require much more work than its duration suggests.
+Canonical publication receives a20-minute fragmentation allowance plus the existing
+byte-based allowance, capped by the media-worker maximum. Control calls still return
+promptly. The observed100,000-run recovery needed about254seconds; this allowance is
+conservative rather than a universal performance guarantee. Expiry keeps source bytes
+and reports a retryable failure. The plan required fragmentation-aware budgeting but
+did not specify this allowance; later scale evidence may revise it without changing
+editing semantics or global client deadlines.

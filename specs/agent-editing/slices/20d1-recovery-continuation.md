@@ -105,3 +105,7 @@ indexed assets format 15 and preserves explicit incompatible-library refusal.
 Service cancellation/restart, combined review and fresh public skill verification
 are retained. Native activation/diagnostic producers remain a coordinated next
 commit; this leaf and parent20d are not marked complete by this service checkpoint.
+
+[Integrated service verification](../assets/20d1-continuation/root-verification.json)
+confirms the core/service/CLI checkpoint. Native activation and the remaining
+coordinated gates still control whole-slice completion.
