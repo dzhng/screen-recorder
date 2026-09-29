@@ -1,3 +1,4 @@
+import { projectComposition, projectCompositionFromRevision } from "./project-window.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { spectralWindows } from "./audio-spectrum.js";
 import { AcousticInspection } from "./acoustic-inspection.js";
@@ -18,23 +19,23 @@ const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const cleanup of cleanups.splice(0).reverse()) await cleanup();
 });
-async function wave(file: string, frames: number) {
-  const bytes = Buffer.alloc(44 + frames * 8);
+async function wave(file: string, frames: number, channels: 1 | 2 = 2) {
+  const bytes = Buffer.alloc(44 + frames * channels * 4);
   bytes.write("RIFF");
   bytes.writeUInt32LE(bytes.length - 8, 4);
   bytes.write("WAVEfmt ", 8);
   bytes.writeUInt32LE(16, 16);
   bytes.writeUInt16LE(3, 20);
-  bytes.writeUInt16LE(2, 22);
+  bytes.writeUInt16LE(channels, 22);
   bytes.writeUInt32LE(48000, 24);
-  bytes.writeUInt32LE(384000, 28);
-  bytes.writeUInt16LE(8, 32);
+  bytes.writeUInt32LE(48000 * channels * 4, 28);
+  bytes.writeUInt16LE(channels * 4, 32);
   bytes.writeUInt16LE(32, 34);
   bytes.write("data", 36);
-  bytes.writeUInt32LE(frames * 8, 40);
+  bytes.writeUInt32LE(frames * channels * 4, 40);
   for (let i = 0; i < frames; i++) {
-    bytes.writeFloatLE(0.25, 44 + i * 8);
-    bytes.writeFloatLE(-0.125, 48 + i * 8);
+    bytes.writeFloatLE(0.25, 44 + i * channels * 4);
+    if (channels === 2) bytes.writeFloatLE(-0.125, 48 + i * channels * 4);
   }
   await writeFile(file, bytes, { flag: "wx" });
   return bytes.length;
@@ -63,7 +64,12 @@ const render: ProjectAudioRenderer["render"] = async ({ window, output }, signal
       .map((clip) => ({ clipId: clip.clipId, ranges: [] })),
   };
 };
-async function fixture(renderer = render, budget?: number, durationUs = 1000000) {
+async function fixture(
+  renderer = render,
+  budget?: number,
+  durationUs = 1000000,
+  sourceChannels: 1 | 2 | null = 2,
+) {
   const home = await mkdtemp("/tmp/project-audio-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
@@ -119,7 +125,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
     await rm(home, { recursive: true, force: true });
   });
   const source = join(home, "source.wav");
-  await wave(source, 48000);
+  await wave(source, 48000, sourceChannels ?? 2);
   const asset = await assets.import(source, { kind: "import" }, async () => ({
     originUs: 0,
     streams: [
@@ -132,7 +138,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
         endUs: durationUs,
         segments: [{ startUs: 0, endUs: durationUs, empty: false }],
         sampleRate: 48000,
-        channels: 2,
+        ...(sourceChannels === null ? {} : { channels: sourceChannels }),
       },
       {
         id: "picture",
@@ -205,6 +211,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
   });
   return {
     home,
+    assets,
     projects,
     cache,
     jobs,
@@ -623,4 +630,209 @@ test("parent RNNoise inside an internal audio gap refuses before renderer admiss
     f.inspection.request({ projectId: f.projectId, range: { startUs: 1000000, endUs: 1500000 } }),
   ).toThrow(expect.objectContaining({ code: "NOT_READY" }));
   expect(calls).toBe(0);
+});
+
+test("a narrow parent-state plan binds mono sources outside its requested output", async () => {
+  const f = await fixture(render, undefined, 1000000, 1);
+  const other = join(f.home, "other.wav");
+  await wave(other, 24000, 1);
+  const asset = await f.assets.import(other, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [
+      {
+        id: "sound",
+        kind: "audio",
+        codec: "pcm",
+        decodable: true,
+        startUs: 0,
+        endUs: 500000,
+        segments: [{ startUs: 0, endUs: 500000, empty: false }],
+        sampleRate: 48000,
+        channels: 1,
+      },
+    ],
+  }));
+  const added = f.projects.apply(f.projectId, {
+    requestId: "state-sources",
+    expectedRevisionId: f.placed.revision.id,
+    operations: [
+      {
+        operation: "place",
+        clip: {
+          trackId: f.placed.edit.labels.voice!,
+          assetId: asset.id,
+          streamId: "sound",
+          source: { kind: "range", range: { startUs: 0, endUs: 500000 } },
+          placement: { kind: "project", range: { startUs: 2000000, endUs: 2500000 } },
+        },
+      },
+      {
+        operation: "place",
+        clip: {
+          trackId: f.placed.edit.labels.voice!,
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 2500000, endUs: 3000000 } },
+        },
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "track", id: f.placed.edit.labels.voice! },
+        steps: [{ processor: { type: "rnnoise" } }],
+      },
+    ],
+  });
+  const plan = projectComposition(f.projects, f.assets, {
+    projectId: f.projectId,
+    revisionId: added.revision.id,
+  }).window(
+    { range: { startUs: 2000000, endUs: 2500000 } },
+    { implementationId: "fixture" },
+    "audio",
+    "retained",
+  );
+  expect(plan.assets.map((a) => a.assetId).sort()).toEqual([f.asset.id, asset.id].sort());
+  expect(plan.window.manifest.state!.inputs.map((i) => i.channels)).toEqual([1, 1, undefined]);
+  expect(plan.window.manifest.state!.inputs[0]!.selected).toEqual([{ startUs: 0, endUs: 1000000 }]);
+  expect(() =>
+    f.inspection.request({ projectId: f.projectId, range: { startUs: 2000000, endUs: 2500000 } }),
+  ).toThrow(
+    expect.objectContaining({
+      code: "NOT_READY",
+      details: expect.objectContaining({ requirements: expect.any(Array) }),
+    }),
+  );
+});
+
+test("state channel admission refuses stereo and unknown probes without blocking retained metadata", async () => {
+  for (const channels of [2, null] as const) {
+    const f = await fixture(render, undefined, 1000000, channels);
+    const revision = f.projects.apply(f.projectId, {
+      requestId: "channel-state",
+      expectedRevisionId: f.placed.revision.id,
+      operations: [
+        {
+          operation: "processing.set",
+          target: { kind: "output" },
+          steps: [{ processor: { type: "rnnoise" } }],
+        },
+      ],
+    });
+    expect(() => f.inspection.request({ projectId: f.projectId })).toThrow(
+      expect.objectContaining({
+        code: "NOT_READY",
+        details: {
+          stateInputs: [
+            {
+              kind: "unverified-mono-input",
+              clipId: f.placed.edit.labels["voice-clip"],
+              channels,
+              sampleRate: 48000,
+            },
+          ],
+        },
+      }),
+    );
+    const retained = projectComposition(f.projects, f.assets, {
+      projectId: f.projectId,
+      revisionId: revision.revision.id,
+    }).window({}, { implementationId: "fixture" }, "audio", "retained");
+    expect(retained.window.manifest.state!.inputs[0]!.channels ?? null).toBe(channels);
+  }
+});
+
+test("state support diagnostics preserve acquisition holes only inside consumed input", async () => {
+  const f = await fixture(render, undefined, 1000000, 1);
+  const original = f.placed.revision,
+    clipId = f.placed.edit.labels["voice-clip"]!;
+  const revision = {
+    ...original,
+    document: {
+      ...original.document,
+      clips: original.document.clips.map((c) =>
+        c.id === clipId ? { ...c, acquisitionId: "capture" } : c,
+      ),
+      processing: [
+        {
+          target: { kind: "output" as const },
+          steps: [{ id: "noise", enabled: true, processor: { type: "rnnoise" as const } }],
+        },
+      ],
+    },
+  };
+  const contexts = [
+    {
+      id: "capture",
+      bindings: [
+        {
+          assetId: f.asset.id,
+          streamId: "track:1",
+          available: [
+            { startUs: 0, endUs: 250000 },
+            { startUs: 500000, endUs: 1000000 },
+          ],
+        },
+      ],
+    },
+  ];
+  const composition = projectCompositionFromRevision(revision, f.assets, contexts);
+  const retained = composition.window(
+    { range: { startUs: 750000, endUs: 1000000 } },
+    { implementationId: "fixture" },
+    "audio",
+    "retained",
+  );
+  expect(retained.window.manifest.state!.inputs[0]).toMatchObject({
+    clip: { acquisitionId: "capture" },
+    channels: 1,
+    selected: [{ startUs: 0, endUs: 1000000 }],
+    unavailable: [{ startUs: 250000, endUs: 500000 }],
+  });
+  expect(() =>
+    composition.window(
+      { range: { startUs: 750000, endUs: 1000000 } },
+      { implementationId: "fixture" },
+      "audio",
+    ),
+  ).toThrow(
+    expect.objectContaining({
+      code: "NOT_READY",
+      details: {
+        stateInputs: [
+          { kind: "unavailable-support", clipId, ranges: [{ startUs: 250000, endUs: 500000 }] },
+        ],
+      },
+    }),
+  );
+  const narrowed = {
+    ...revision,
+    document: {
+      ...revision.document,
+      processing: [
+        {
+          ...revision.document.processing[0]!,
+          steps: [
+            {
+              ...revision.document.processing[0]!.steps[0]!,
+              window: { kind: "project" as const, range: { startUs: 750000, endUs: 1000000 } },
+            },
+          ],
+        },
+      ],
+    },
+  };
+  const selected = projectCompositionFromRevision(narrowed, f.assets, contexts);
+  expect(
+    selected.window({}, { implementationId: "fixture" }, "audio", "retained").window.manifest.state!
+      .inputs[0]!.unavailable,
+  ).toEqual([]);
+  expect(() => selected.window({}, { implementationId: "fixture" }, "audio")).toThrow(
+    expect.objectContaining({
+      code: "NOT_READY",
+      details: expect.objectContaining({ requirements: expect.any(Array) }),
+    }),
+  );
+  expect(
+    composition.window({}, { implementationId: "fixture" }, "audio", "retained").window.manifest
+      .state!.inputs[0]!.unavailable,
+  ).toEqual([{ startUs: 250000, endUs: 500000 }]);
 });

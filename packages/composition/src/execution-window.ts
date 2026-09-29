@@ -3,11 +3,11 @@ import type { CompiledProcessingInstruction } from "./temporal-processing.js";
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
 import { audioContextSchema, type CompiledAudio, type CompiledFrame } from "./compiled-records.js";
-import { type ValidatedComposition } from "./model.js";
+import { type ValidatedComposition, type ExactRange } from "./model.js";
 import { processingInstructionSchema, type ProcessingInstruction } from "./processing-plan.js";
 import type { audioContexts } from "./audio-context.js";
 import { sampleAt } from "./sample-clock.js";
-import { compare, fromTime, toTime } from "./rational.js";
+import { compare, fromTime, toTime, subtract } from "./rational.js";
 import {
   compositionSchema,
   isMediaClip,
@@ -145,6 +145,35 @@ export function executionWindow(
           implementationId: null,
         });
       }
+  const retimed = new Set<string>();
+  function requireRetime(clip: ValidatedComposition["clips"][number]["clip"], range: ExactRange) {
+    if (
+      !isMediaClip(clip) ||
+      clip.source.kind !== "range" ||
+      retimed.has(clip.id) ||
+      compare(
+        subtract(fromTime(clip.source.range.endUs), fromTime(clip.source.range.startUs)),
+        subtract(range.end, range.start),
+      ) === 0
+    )
+      return;
+    retimed.add(clip.id);
+    const sample = (at: ExactRange["start"]) =>
+      (at.numerator * BigInt(request.rendition.sampleRate)) / (at.denominator * 1000000n);
+    const count = sample(range.end) - sample(range.start);
+    if (count > BigInt(Number.MAX_SAFE_INTEGER))
+      throw new CompositionError(
+        "INVALID_TIME",
+        "Prepared audio sample count exceeds safe-integer precision",
+      );
+    requirements.push({
+      kind: "retime",
+      clipId: clip.id,
+      sampleCount: Number(count),
+      pitch: clip.pitch ?? "preserve",
+      implementationId: null,
+    });
+  }
   for (const value of clips) {
     const clip = value.clip;
     if (clip.source.kind === "text") {
@@ -172,24 +201,14 @@ export function executionWindow(
           }
         : {}),
     });
-    if (value.track.kind === "audio" && value.rate && compare(value.rate, fromTime(1)) !== 0) {
-      const sample = (at: typeof value.range.start) =>
-        (at.numerator * BigInt(request.rendition.sampleRate)) / (at.denominator * 1000000n);
-      const count = sample(value.range.end) - sample(value.range.start);
-      if (count > BigInt(Number.MAX_SAFE_INTEGER))
-        throw new CompositionError(
-          "INVALID_TIME",
-          "Prepared audio sample count exceeds safe-integer precision",
-        );
-      requirements.push({
-        kind: "retime",
-        clipId: clip.id,
-        sampleCount: Number(count),
-        pitch: clip.pitch ?? "preserve",
-        implementationId: null,
-      });
-    }
+    if (value.track.kind === "audio") requireRetime(clip, value.range);
   }
+  for (const input of state?.inputs ?? [])
+    requireRetime(input.clip, {
+      start: fromTime(input.range.startUs),
+      end: fromTime(input.range.endUs),
+    });
+
   const manifest = executionWindowManifestSchema.parse({
     revisionId,
     ...request,

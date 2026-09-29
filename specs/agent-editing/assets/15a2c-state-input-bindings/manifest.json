@@ -1,0 +1,115 @@
+{
+  "scope": "Declared-probe structural binding/admission; no native DSP or publication",
+  "members": [
+    {
+      "path": "logs/ranges-red.log",
+      "bytes": 1758,
+      "sha256": "950d25b3266d567e6f65c5bcab7c17dfd6f7cee96a8c352c0a7d1bd86362a3c2"
+    },
+    {
+      "path": "logs/ranges-green.log",
+      "bytes": 241,
+      "sha256": "68e258075bc517d9ad6f8f534999e3987fb8a584b17a117eac22b02a15cf7205"
+    },
+    {
+      "path": "logs/assets-red.log",
+      "bytes": 1132,
+      "sha256": "7e9af293e7b47907c3a5aec4149d296aabf6636dc90bf6976a373118fa8aada4"
+    },
+    {
+      "path": "logs/assets-green.log",
+      "bytes": 399,
+      "sha256": "7c21b86ab769871c3c28ff3003a9a3f08702663eb692440465941e580c6c1a3e"
+    },
+    {
+      "path": "logs/channel.log",
+      "bytes": 399,
+      "sha256": "a6f1fa30ac7f4bd883296db682e0a25a60ffe91bd6f55c27b28a2251be495194"
+    },
+    {
+      "path": "logs/support.log",
+      "bytes": 411,
+      "sha256": "755a5fb38b644375c33063e2c0cc0a8a46b2fc07f8611caaecf0ac710e756654"
+    },
+    {
+      "path": "logs/retime-red.log",
+      "bytes": 1336,
+      "sha256": "93495f321f398f11d7c6110535756bf8b7b5ae6c529fe28731ed9f574c491aac"
+    },
+    {
+      "path": "logs/retime-green.log",
+      "bytes": 241,
+      "sha256": "b1aff8799c1e36e79e82b7fd4e7ad4b32e1cac8b6225178c3f1d8c00458ec89c"
+    },
+    {
+      "path": "logs/final-tests.log",
+      "bytes": 1166,
+      "sha256": "0dfbfbb3688dbd3784e15aca412fe6c84291962cb8679c652171aab15aca52e1"
+    },
+    {
+      "path": "logs/core-types-final.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "logs/types2.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "logs/core-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "path": "logs/cli-build.log",
+      "bytes": 1042,
+      "sha256": "a8692cbed4b566a8d3e5e1a7e18ca7701f1f6473a2340f96c0d9ed08a4ac32b6"
+    },
+    {
+      "path": "logs/help.log",
+      "bytes": 398,
+      "sha256": "1c26fc5de69c11bb8c0aebfabcbf1f05030760a95ff3ed2b11d18d968433d02c"
+    },
+    {
+      "path": "logs/review.log",
+      "bytes": 171407,
+      "sha256": "a661ecf057de09bf44d36dfba4eb7d074c85023d4d836c9373f3d3e066da8d33"
+    },
+    {
+      "path": "logs/admission-negative.log",
+      "bytes": 3419,
+      "sha256": "365f4956724fd5bfdc164c3d9705a1c2767acbfb8f2c47c25c2ad75fd652cfd7"
+    },
+    {
+      "path": "logs/admission-restored.log",
+      "bytes": 410,
+      "sha256": "282079e1d0465cf49f5caac58dd2dc8a4d4835a155db7d6130709116c3e4cda5"
+    },
+    {
+      "path": "trace/mono-44100.wav",
+      "bytes": 176444,
+      "sha256": "4a77a354cf3f1a5c7446f414b68fd8788d81150e1e2fc9d417c6566910658268"
+    },
+    {
+      "path": "trace/mono-48000.wav",
+      "bytes": 192044,
+      "sha256": "cd2cedc48c6db2103ccc05df599adfc1ca579add43da2068af39081965da2d10"
+    },
+    {
+      "path": "trace/replay.ts",
+      "bytes": 3910,
+      "sha256": "68196ac815261919ed7051af6b334d13281d81fffe1a46dde66e13b45262b002"
+    },
+    {
+      "path": "trace/results.json",
+      "bytes": 74565,
+      "sha256": "76d40fc4cd07e1a3aeed135fee2666ef1c707c973f2f80c5ce549f10c3808c6b"
+    },
+    {
+      "path": "trace/stereo-44100.wav",
+      "bytes": 352844,
+      "sha256": "a3ab95b6dec369eed6328ee3d46baaa0c664b381ec933459f24fde621cb03a68"
+    }
+  ]
+}

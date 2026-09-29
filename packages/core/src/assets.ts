@@ -629,7 +629,11 @@ export function compositionAsset(asset: Asset): CompositionAsset {
                 height: stream.orientedHeight!,
                 ...(stream.orientedPixelBounds ? { pixelBounds: stream.orientedPixelBounds } : {}),
               }
-            : { kind: "audio" as const }),
+            : {
+                kind: "audio" as const,
+                ...(stream.channels !== undefined ? { channels: stream.channels } : {}),
+                ...(stream.sampleRate !== undefined ? { sampleRate: stream.sampleRate } : {}),
+              }),
           bounds: { startUs: stream.startUs!, endUs: stream.endUs! },
           available,
         },

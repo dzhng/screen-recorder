@@ -1,6 +1,6 @@
 # 15a2 — Typed learned state and prepared consumers
 
-Status: [pure clip state-domain checkpoint](./15a2a-state-domains.md) verified; [parent/window checkpoint](./15a2b-parent-state-windows.md) verified; runtime execution remains unavailable. Parent: [15a](./15a-noise-processing.md). Dependencies: [15a1](./15a1-denoise-entry-parity.md), [14a](./14a-prepared-audio.md), accepted state/channel contract from [12c](./12c-noise-reproduction.md).
+Status: [pure clip state-domain checkpoint](./15a2a-state-domains.md) verified; [parent/window checkpoint](./15a2b-parent-state-windows.md) verified; [input-binding checkpoint](./15a2c-state-input-bindings.md) verified; runtime execution remains unavailable. Parent: [15a](./15a-noise-processing.md). Dependencies: [15a1](./15a1-denoise-entry-parity.md), [14a](./14a-prepared-audio.md), accepted state/channel contract from [12c](./12c-noise-reproduction.md).
 
 The first checkpoint owns explicit clip membership and edit/compiler meaning. Parent track/group/output domains will span first through last structural retained audio contributions, including authored silence/internal known gaps; never find boundaries by amplitude. Connected authored active windows select DSP input with no outside-window context. Source missing-support diagnostics remain authoritative. Independent channel state is the intended full policy, but initial runtime proof is mono/structural dual mono until real stereo gates pass; pure metadata currently has no channel provenance and claims no admission.
 
@@ -10,7 +10,7 @@ Add the typed recipe to the existing composition registry/compiler, pinned model
 
 Verify real gain-before/after noncommutation, dry bypass, split/trim/poison isolation, exact duration/latency and bounded range/full equality, historical revision identities and model-free retained reads. Add only model-specific joins to existing cancellation/retry/restart/fencing/portability tests; no second store or queue. Verify public authoring/discovery/refusal and prepared inspection through CLI/MCP. Runtime scope must remain discoverably constrained until the complete [15a3](./15a3-denoise-acceptance.md) and parent contract is verified.
 
-Next pickup: acquire actual channel provenance through existing prepared/native input owners and bind the fixed RNNoise adapter at the derived ordered prefixes. Do not infer mono or structural dual mono from the existing stereo prepared output format. The complete parent requirements above remain open.
+Next pickup: link the fixed native adapter and prove actual prepared execution. Include state prerequisites outside requested output in file bindings, missing-support checks and resource retention. Do not infer mono or structural dual mono from the existing stereo prepared output format. Explicit model preparation is a build prerequisite, with no runtime download or implicit model conversion. The complete parent requirements above remain open.
 
 ## Native build adoption
 

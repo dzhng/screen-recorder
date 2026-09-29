@@ -2857,3 +2857,19 @@ appends cannot expand a pinned recovery attempt. Ordinary schema1 writing holds
 the lease already; canonical publication, retry continuation and schema2 adoption
 remain separate gates. [Evidence](assets/20d-journal-lease/README.md) includes actual
 contenders and exec inheritance with a failing negative control.
+
+## 15a2c — Input provenance before native binding
+
+**Accepted initial admission boundary; full native/channel policy remains open.**
+Stored probe channels/rate travel through the existing normalized audio stream and
+selected state inputs. Unknown provenance stays unknown; stereo output does not
+prove dual mono. Mono duplication, common scalar gain, authored silence and mixing
+preserve the intended channel relation, but actual native opening must verify that
+premise before DSP execution. Other channel-changing prefixes are not assumed safe.
+
+Consumed support is exact, including prerequisites outside the requested output.
+Selected missing support blocks new learned processing instead of being padded;
+retained reads keep their existing independence from live processor availability.
+File binding and prepared resource retention share the same media-input union.
+Actual learned publication/retention proof remains with native integration, not a
+fake successful backend or a test-only exported dependency collector.

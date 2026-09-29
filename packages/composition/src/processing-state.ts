@@ -25,6 +25,10 @@ export const statePlanSchema = z
           clip: compositionSchema.shape.clips.element,
           range: selectionRangeSchema,
           available: z.array(selectionRangeSchema),
+          selected: z.array(selectionRangeSchema),
+          unavailable: z.array(selectionRangeSchema),
+          sampleRate: z.number().finite().positive().optional(),
+          channels: z.int().positive().optional(),
         })
         .strict(),
     ),
@@ -60,6 +64,48 @@ function intersection(a: Range, b: Range): Range | undefined {
   const startUs = compare(fromTime(a.startUs), fromTime(b.startUs)) > 0 ? a.startUs : b.startUs;
   const endUs = compare(fromTime(a.endUs), fromTime(b.endUs)) < 0 ? a.endUs : b.endUs;
   return compare(fromTime(startUs), fromTime(endUs)) < 0 ? { startUs, endUs } : undefined;
+}
+
+function unionRanges(ranges: Range[]): Range[] {
+  const result: Range[] = [];
+  for (const range of [...ranges].sort((a, b) =>
+    compare(fromTime(a.startUs), fromTime(b.startUs)),
+  )) {
+    const last = result.at(-1);
+    if (!last || compare(fromTime(last.endUs), fromTime(range.startUs)) < 0)
+      result.push({ ...range });
+    else if (compare(fromTime(range.endUs), fromTime(last.endUs)) > 0) last.endUs = range.endUs;
+  }
+  return result;
+}
+function missingRanges(selected: Range[], available: Range[]): Range[] {
+  const support = unionRanges(available),
+    missing: Range[] = [];
+  let index = 0;
+  for (const range of selected) {
+    let start = range.startUs;
+    while (index < support.length && compare(fromTime(support[index]!.endUs), fromTime(start)) <= 0)
+      index++;
+    let next = index;
+    while (
+      next < support.length &&
+      compare(fromTime(support[next]!.startUs), fromTime(range.endUs)) < 0
+    ) {
+      const part = support[next]!;
+      if (compare(fromTime(start), fromTime(part.startUs)) < 0)
+        missing.push({ startUs: start, endUs: part.startUs });
+      if (compare(fromTime(part.endUs), fromTime(range.endUs)) >= 0) {
+        start = range.endUs;
+        break;
+      }
+      start = part.endUs;
+      next++;
+    }
+    index = next;
+    if (compare(fromTime(start), fromTime(range.endUs)) < 0)
+      missing.push({ startUs: start, endUs: range.endUs });
+  }
+  return missing;
 }
 
 /** Traverse a member's current exclusive prefix, never a downstream caller's expanded prefix. */
@@ -203,6 +249,14 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
       clip: clip.clip,
       range: stored(clip.range),
       available: clip.available.map(stored),
+      selected: [],
+      unavailable: [],
+      ...(clip.stream?.kind === "audio" && clip.stream.channels !== undefined
+        ? { channels: clip.stream.channels }
+        : {}),
+      ...(clip.stream?.kind === "audio" && clip.stream.sampleRate !== undefined
+        ? { sampleRate: clip.stream.sampleRate }
+        : {}),
     })),
   };
   const byStep = new Map<string, { index: number; range: Range }[]>();
@@ -276,14 +330,14 @@ export function selectStatePlan(
     ...plan.domains[i]!,
     dependencies: plan.domains[i]!.dependencies.map((d) => remap.get(d)!),
   }));
-  const needed = new Map<string, { end: number; children: Set<string> }>();
+  const needed = new Map<string, { end: number; children: Set<string>; ranges: Range[] }>();
   const byTarget = new Map(plan.nodes.map((node) => [processingKey(node.target), node]));
   const visitPrefix = prefixInputs(plan);
   for (const domain of domains)
     for (const member of domain.members) {
       visitPrefix(member.target, member.stepId, member.range, (node, end, range) => {
         const key = processingKey(node.target);
-        const prior = needed.get(key) ?? { end: 0, children: new Set<string>() };
+        const prior = needed.get(key) ?? { end: 0, children: new Set<string>(), ranges: [] };
         // Include the member itself as recipe identity; its input still ends immediately before it.
         prior.end = Math.max(prior.end, end + (key === processingKey(member.target) ? 1 : 0));
         for (const child of node.inputs) {
@@ -291,6 +345,7 @@ export function selectStatePlan(
           if (childNode && intersection(range, childNode.range))
             prior.children.add(processingKey(child));
         }
+        prior.ranges.push(range);
         needed.set(key, prior);
       });
     }
@@ -309,9 +364,12 @@ export function selectStatePlan(
   return {
     domains,
     nodes,
-    inputs: plan.inputs.filter((input) =>
-      needed.has(processingKey({ kind: "clip", id: input.clip.id })),
-    ),
+    inputs: plan.inputs.flatMap((input) => {
+      const need = needed.get(processingKey({ kind: "clip", id: input.clip.id }));
+      if (!need) return [];
+      const selected = unionRanges(need.ranges);
+      return [{ ...input, selected, unavailable: missingRanges(selected, input.available) }];
+    }),
   };
 }
 

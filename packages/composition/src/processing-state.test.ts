@@ -952,3 +952,180 @@ test("out-of-range state input prefixes retain enabled stateless execution requi
     }),
   );
 });
+
+test("selected state inputs retain exact consumed spans and distinguish unavailable support", () => {
+  const source = {
+    ...document,
+    clips: [
+      {
+        id: "clip",
+        trackId: "audio",
+        assetId: "source",
+        streamId: "sound",
+        source: { kind: "range", range: { startUs: 0, endUs: 4000000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [
+          {
+            id: "noise",
+            enabled: true,
+            processor: { type: "rnnoise" },
+            window: { kind: "project", range: { startUs: 1000000, endUs: 3000000 } },
+          },
+        ],
+      },
+    ],
+  };
+  const assets = [
+    {
+      id: "source",
+      streams: [
+        {
+          id: "sound",
+          kind: "audio",
+          bounds: { startUs: 0, endUs: 4000000 },
+          available: [
+            { startUs: 0, endUs: 1500000 },
+            { startUs: 2000000, endUs: 4000000 },
+          ],
+        },
+      ],
+    },
+  ];
+  const input = createCompiler(validateComposition(source, assets), "revision").audioWindow({
+    range: { startUs: 2500000, endUs: 2800000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  }).manifest.state!.inputs[0]!;
+  expect(input).toMatchObject({
+    selected: [{ startUs: 1000000, endUs: 3000000 }],
+    unavailable: [{ startUs: 1500000, endUs: 2000000 }],
+  });
+});
+
+test("disconnected state windows do not consume the source hole between components", () => {
+  const source = {
+    ...document,
+    clips: [
+      {
+        id: "clip",
+        trackId: "audio",
+        assetId: "asset",
+        streamId: "sound",
+        source: { kind: "range", range: { startUs: 0, endUs: 4000000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [
+          {
+            id: "a",
+            enabled: true,
+            processor: { type: "rnnoise" },
+            window: { kind: "project", range: { startUs: 0, endUs: 500000 } },
+          },
+          {
+            id: "b",
+            enabled: true,
+            processor: { type: "rnnoise" },
+            window: { kind: "project", range: { startUs: 2000000, endUs: 3000000 } },
+          },
+        ],
+      },
+    ],
+  };
+  const assets = [
+    {
+      id: "asset",
+      streams: [
+        {
+          id: "sound",
+          kind: "audio",
+          channels: 1,
+          sampleRate: 44100,
+          bounds: { startUs: 0, endUs: 4000000 },
+          available: [
+            { startUs: 0, endUs: 500000 },
+            { startUs: 2000000, endUs: 4000000 },
+          ],
+        },
+      ],
+    },
+  ];
+  const state = createCompiler(validateComposition(source, assets), "revision").audioWindow({
+    range: { startUs: 0, endUs: 4000000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  }).manifest.state!;
+  expect(state.inputs[0]).toMatchObject({
+    channels: 1,
+    sampleRate: 44100,
+    selected: [
+      { startUs: 0, endUs: 500000 },
+      { startUs: 2000000, endUs: 3000000 },
+    ],
+    unavailable: [],
+  });
+  expect(state.domains.map((d) => d.dependencies)).toEqual([[], []]);
+});
+
+test("out-of-range retimed state inputs keep their existing preparation requirement", () => {
+  const source = {
+    ...document,
+    clips: [
+      {
+        id: "fast",
+        trackId: "audio",
+        assetId: "asset",
+        streamId: "sound",
+        source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+      },
+      {
+        id: "plain",
+        trackId: "audio",
+        assetId: "asset",
+        streamId: "sound",
+        source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+        placement: { kind: "project", range: { startUs: 2000000, endUs: 3000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "track", id: "audio" },
+        steps: [{ id: "parent", enabled: true, processor: { type: "rnnoise" } }],
+      },
+    ],
+  };
+  const assets = [
+    {
+      id: "asset",
+      streams: [
+        {
+          id: "sound",
+          kind: "audio",
+          bounds: { startUs: 0, endUs: 2000000 },
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    },
+  ];
+  const manifest = createCompiler(validateComposition(source, assets), "revision").audioWindow({
+    range: { startUs: 2000000, endUs: 3000000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  }).manifest;
+  expect(manifest.requirements).toContainEqual({
+    kind: "retime",
+    clipId: "fast",
+    sampleCount: 48000,
+    pitch: "preserve",
+    implementationId: null,
+  });
+});

@@ -1,6 +1,7 @@
 import {
   createCompiler,
   documentAssetIds,
+  isMediaClip,
   processingCapabilities,
   rangeSchema,
   requireWindowReady,
@@ -23,6 +24,54 @@ export type CompositionAssetBinding = {
   path: string;
   originUs: number;
 };
+
+/** Every file consumed by the requested output or a selected DSP prerequisite. */
+export function compositionMediaInputs(manifest: CompositionWindow["manifest"]) {
+  const inputs = new Map(
+    manifest.sources.map(({ clipId, assetId, streamId }) => [
+      clipId,
+      { clipId, assetId, streamId },
+    ]),
+  );
+  for (const { clip } of manifest.state?.inputs ?? [])
+    if (isMediaClip(clip))
+      inputs.set(clip.id, { clipId: clip.id, assetId: clip.assetId, streamId: clip.streamId });
+  return [...inputs.values()];
+}
+function requireStateInputsReady(manifest: CompositionWindow["manifest"]) {
+  if (!manifest.state) return;
+  const issues: Record<string, unknown>[] = [];
+  for (const input of manifest.state.inputs) {
+    if (input.unavailable.length)
+      issues.push({
+        kind: "unavailable-support",
+        clipId: input.clip.id,
+        ranges: input.unavailable,
+      });
+    if (isMediaClip(input.clip) && (input.channels !== 1 || input.sampleRate === undefined))
+      issues.push({
+        kind: "unverified-mono-input",
+        clipId: input.clip.id,
+        channels: input.channels ?? null,
+        sampleRate: input.sampleRate ?? null,
+      });
+  }
+  for (const node of manifest.state.nodes)
+    for (const step of node.steps)
+      if (step.enabled && step.processor.type !== "gain" && step.processor.type !== "rnnoise")
+        issues.push({
+          kind: "unverified-channel-prefix",
+          target: node.target,
+          stepId: step.id,
+          processor: step.processor.type,
+        });
+  if (issues.length)
+    throw new CatalogError(
+      "NOT_READY",
+      "State processing requires complete mono or structurally dual-mono input",
+      { stateInputs: issues },
+    );
+}
 
 const implementations = (support: ProjectRenderSupport): ProcessorImplementations => ({
   geometry: support.implementationId,
@@ -98,9 +147,12 @@ export function projectCompositionFromRevision(
               : null,
       }));
       const bound = { ...window, manifest: { ...window.manifest, requirements } };
-      if (admission === "produced") requireWindowReady(bound.manifest);
+      if (admission === "produced") {
+        requireStateInputsReady(bound.manifest);
+        requireWindowReady(bound.manifest);
+      }
       const bindings = new Map<string, CompositionAssetBinding>();
-      for (const source of bound.manifest.sources) {
+      for (const source of compositionMediaInputs(bound.manifest)) {
         const asset = metadata.get(source.assetId)!;
         bindings.set(JSON.stringify([asset.id, source.streamId]), {
           assetId: asset.id,

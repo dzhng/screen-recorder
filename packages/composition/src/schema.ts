@@ -168,6 +168,8 @@ export const streamSchema = z.discriminatedUnion("kind", [
     .object({
       id,
       kind: z.literal("audio"),
+      sampleRate: z.number().finite().positive().optional(),
+      channels: z.int().positive().optional(),
       bounds: rangeSchema,
       available: z.array(rangeSchema),
     })

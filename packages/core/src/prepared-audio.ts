@@ -14,7 +14,11 @@ import {
   type JobQueue,
   type StagedJobResult,
 } from "./jobs.js";
-import { projectWindow, type projectComposition } from "./project-window.js";
+import {
+  compositionMediaInputs,
+  projectWindow,
+  type projectComposition,
+} from "./project-window.js";
 import {
   projectAudioReceiptSchema,
   checkProjectAudioResult,
@@ -65,11 +69,12 @@ export const preparedAudioResource = (projectId: string, attemptId: string) =>
 function audioDependencies(
   plan: Pick<ReturnType<typeof projectWindow>, "model" | "window">,
 ): ResourceReference[] {
-  const dependencies: ResourceReference[] = plan.window.manifest.sources.map((source) => ({
+  const media = compositionMediaInputs(plan.window.manifest);
+  const dependencies: ResourceReference[] = media.map((source) => ({
     kind: "asset",
     id: source.assetId,
   }));
-  const clips = new Set(plan.window.manifest.sources.map((source) => source.clipId));
+  const clips = new Set(media.map((source) => source.clipId));
   for (const clip of plan.model.document.clips)
     if (isMediaClip(clip) && clips.has(clip.id) && clip.acquisitionId)
       dependencies.push({ kind: "acquisition", id: clip.acquisitionId });
