@@ -1,3 +1,4 @@
+import { sampleScalarSamples } from "./scalar-program.js";
 import { expect, test } from "vitest";
 import { applyBatch, createCompiler, validateComposition } from "./index.js";
 
@@ -1171,4 +1172,59 @@ test("a gap-only state request retains downstream routing and gain after its act
     id: "downstream",
     processor: { type: "gain", gain: 3 },
   });
+});
+
+test("mix clocks restrict through splits without fragmenting learned continuity", () => {
+  const mix = {
+    keys: [
+      { at: { numerator: 0, denominator: 1 }, value: 0, interpolation: "hold" },
+      { at: { numerator: 1, denominator: 2 }, value: 0, interpolation: "linear" },
+      { at: { numerator: 1, denominator: 1 }, value: 1, interpolation: "hold" },
+    ],
+  };
+  const authored = edit(document, [
+    {
+      operation: "processing.set",
+      target: { kind: "clip", id: "clip" },
+      steps: [{ id: "noise", processor: { type: "rnnoise", mix } }],
+    },
+  ]).document;
+  const compile = (doc: unknown) =>
+    createCompiler(validateComposition(doc, []), "revision").audioWindow({
+      range: { startUs: 0, endUs: 4000000 },
+      rendition: { sampleRate: 48000, channels: 2 },
+      tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    });
+  const original = compile(authored);
+  const split = edit(authored, [
+    { operation: "split", clipIds: ["clip"], atUs: 1000000, scope: "selected" },
+  ]).document;
+  const sliced = compile(split);
+  expect(sliced.manifest.state!.domains).toHaveLength(1);
+  expect(sliced.manifest.state!.domains[0]!.sampleRange).toEqual({ start: 0, end: 192000 });
+  const originalMix = original
+    .processing()
+    .flatMap((n) => n.steps)
+    .find((s) => s.processor.type === "rnnoise")!.processor;
+  expect(originalMix.type).toBe("rnnoise");
+  if (originalMix.type !== "rnnoise" || typeof originalMix.mix !== "object")
+    throw Error("Missing original program");
+  for (const step of sliced.processing().flatMap((n) => n.steps)) {
+    if (step.processor.type !== "rnnoise" || typeof step.processor.mix !== "object") continue;
+    for (const range of step.processor.active) {
+      for (const at of [range.start, Math.floor((range.start + range.end) / 2), range.end - 1])
+        expect(sampleScalarSamples(step.processor.mix, at)).toBe(
+          sampleScalarSamples(originalMix.mix, at),
+        );
+    }
+  }
+  const zero = edit(authored, [
+    {
+      operation: "processing.set",
+      target: { kind: "clip", id: "clip" },
+      steps: [{ id: "noise", processor: { type: "rnnoise", mix: 0 } }],
+    },
+  ]).document;
+  expect(domains(zero)).toEqual(domains(authored));
+  expect(compile(zero).manifest).not.toEqual(original.manifest);
 });

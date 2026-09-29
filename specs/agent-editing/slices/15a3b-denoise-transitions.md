@@ -1,6 +1,6 @@
 # 15a3b — Explicit denoise strength and transitions
 
-Status: planned, dependency-ready unit-rate contract. Dependencies: [15a3a](15a3a-unit-rate-combined.md), [16b](16b-scalar-program.md).
+Status: verified scoped unit-rate numeric contract; [evidence](../assets/15a3b-denoise-transitions/README.md). Dependencies: [15a3a](15a3a-unit-rate-combined.md), [16b](16b-scalar-program.md).
 Parent15a/16 keep retiming, speech quality and complete journeys open.
 
 ## Contract and API
@@ -58,3 +58,19 @@ Extend the existing denoise public journey with explicit mix cases; preserve its
 default coverage. Keep composition restriction/state, prepared identity, native
 full-wet parity and public retained-consumer gates green. Review shape, code,
 docs and choices before committing, then integrate and update the hub.
+
+## Verified ownership
+
+RNNoise `mix` uses the existing scalar slot validation and clock compiler. Native
+state preparation blends latency-aligned learned output with the already captured
+immediate upstream PCM, then exposes the mixed spans through the existing prepared
+state owner. Prefix reuse and later learned steps therefore consume the same
+ordered mixed signal. No additional job, resource owner or rendering interpreter
+was introduced.
+
+Produced audio/movie execution identities advance to v9/v19. The frozen learned
+adapter identity is unchanged; omitted mix keeps the compiled state shape and
+full-wet bytes. Original v8 retained preparations remain readable under their
+recorded policy, verified by actual historical package adoption and playback with
+processing capability unavailable. Numerical agreement does not close parent
+listening, retiming or complete-editor acceptance.

@@ -39,6 +39,8 @@ function targetKind(kinds: ReturnType<typeof targetKinds>, target: ProcessingTar
 export function processingScalars(
   processor: ProcessingStep["processor"],
 ): Record<string, number | ScalarCurve> {
+  if (processor.type === "rnnoise")
+    return processor.mix === undefined ? {} : { mix: processor.mix };
   if (processor.type === "gain") return { gain: processor.gain };
   if (processor.type === "opacity") return { opacity: processor.opacity };
   if (processor.type === "geometry")
@@ -117,7 +119,10 @@ export function validateProcessing(document: Document) {
           const bounds =
             step.processor.type === "gain"
               ? [0, 3.4028234663852886e38]
-              : step.processor.type === "opacity" || slot === "pivot.x" || slot === "pivot.y"
+              : step.processor.type === "opacity" ||
+                  step.processor.type === "rnnoise" ||
+                  slot === "pivot.x" ||
+                  slot === "pivot.y"
                 ? [0, 1]
                 : ["rect.width", "rect.height", "crop.width", "crop.height"].includes(slot)
                   ? [Number.MIN_VALUE, Number.MAX_VALUE]

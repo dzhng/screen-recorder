@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "scope": "Explicit unit-rate learned wet/dry scalar control and retained policy compatibility; numerical and public workflow evidence, not listening or retiming acceptance",
+  "nativeSha256": "9206248998155bdf65412bd5109f29be2901b734cb734faf4ffed886d3341dc9",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "publicChecks": 50,
+  "movieExportMatchesPreviewBytes": true,
+  "compositionTests": 244,
+  "coreConsumerTests": {
+    "passed": 39,
+    "nativeSkippedInUnconfiguredRun": 1
+  },
+  "nativeAudioTests": 12,
+  "originalPolicyReceiverPassed": true,
+  "originalPolicyPackageSha256": "ce847bcc156facc1fea1c485500869b07982aa4bbac0b014b54451b69a61400a",
+  "command": "SCREENREC_NATIVE=<combined worker> node packages/test-harness/editing/denoise-runtime-public.mjs --out <new directory> --source <retained source.wav with differing-stereo.wav sibling> --reference <frozen C adapter>",
+  "archive": {
+    "path": "evidence.tar.xz",
+    "bytes": 58779844,
+    "sha256": "c5ef9e859ffc0b0d183f9fb878e38bc4dcbdb664f3a44a536b4576a32faf8607"
+  },
+  "review": "Independent Codex: no actionable regression; composition tests/types pass; native sandbox build unavailable. Local native build and public runtime pass."
+}

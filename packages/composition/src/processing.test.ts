@@ -403,3 +403,47 @@ test("fractional splits and insert boundaries copy gain; replacing a parent remo
   );
   expect(replacement.document.clips.map((c) => c.id)).toEqual([first.labels.parent]);
 });
+
+test("learned mix accepts bounded anchored curves and rejects overshoot", () => {
+  const author = (mix: unknown) =>
+    applyBatch(
+      empty,
+      [
+        {
+          operation: "processing.set",
+          target: { kind: "output" },
+          steps: [{ processor: { type: "rnnoise", mix } }],
+        },
+      ],
+      context,
+    );
+  expect(author(0).document.processing[0]!.steps[0]!.processor).toEqual({
+    type: "rnnoise",
+    mix: 0,
+  });
+  expect(author(1).document.processing[0]!.steps[0]!.processor).toEqual({
+    type: "rnnoise",
+    mix: 1,
+  });
+  const curve = {
+    keys: [
+      { at: 0, value: 0, interpolation: { cubic: [0.2, 0.1, 0.8, 0.9] } },
+      { at: 1000000, value: 1, interpolation: "hold" },
+    ],
+  };
+  expect(author(curve).document.processing[0]!.steps[0]!.processor).toEqual({
+    type: "rnnoise",
+    mix: curve,
+  });
+  for (const mix of [
+    -0.01,
+    1.01,
+    {
+      keys: [
+        { at: 0, value: 0, interpolation: { cubic: [0.2, 4, 0.8, 4] } },
+        { at: 1000000, value: 1, interpolation: "hold" },
+      ],
+    },
+  ])
+    expect(() => author(mix)).toThrow();
+});

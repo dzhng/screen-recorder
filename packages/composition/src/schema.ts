@@ -222,14 +222,23 @@ const allProcessingTargets = ["clip", "track", "group", "output"] as const;
 export const processorRegistry = {
   rnnoise: {
     schema: z
-      .object({ type: z.literal("rnnoise") })
+      .object({
+        type: z.literal("rnnoise"),
+        mix: z
+          .union([
+            z.number().min(0).max(1),
+            scalarCurveSchema("project"),
+            scalarCurveSchema("clip"),
+          ])
+          .optional(),
+      })
       .strict()
       .describe(
-        "Fixed 48 kHz RNNoise recipe over current connected state domains. Native execution applies the fixed mono algorithm independently to each output channel and requires verified mono or stereo sources. Unknown or more-than-two-channel sources are refused; no downmix or linked stereo processing is implied. Availability is reported by execution and implementationId.",
+        "Fixed 48 kHz RNNoise recipe over current connected state domains. Native execution applies the fixed mono algorithm independently to each output channel and requires verified mono or stereo sources. Unknown or more-than-two-channel sources are refused; no downmix or linked stereo processing is implied. Mix defaults to 1 and linearly blends the aligned learned result with its ordered upstream signal; zero does not reset learned state. Availability is reported by execution and implementationId.",
       ),
     targets: allProcessingTargets,
     mediaKind: "audio" as const,
-    units: {},
+    units: { mix: "linear wet/dry fraction; omitted means fully processed" },
   },
   pointer: {
     schema: pointerSchema,

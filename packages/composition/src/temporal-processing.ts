@@ -15,7 +15,11 @@ export type CompiledProcessingInstruction = Omit<ProcessingInstruction, "steps">
     enabled: boolean;
     processor:
       | Exclude<ProcessingStep["processor"], { type: "gain" | "rnnoise" }>
-      | { type: "rnnoise"; active: readonly { start: number; end: number }[] }
+      | {
+          type: "rnnoise";
+          mix?: number | SampleScalarProgram;
+          active: readonly { start: number; end: number }[];
+        }
       | {
           type: "gain";
           gain: number | SampleScalarProgram;
@@ -139,7 +143,20 @@ export function temporalProcessing(model: ValidatedComposition) {
             return {
               id,
               enabled,
-              processor: { type: "rnnoise" as const, active: stateActive.get(id) ?? [] },
+              processor: {
+                type: "rnnoise" as const,
+                active: stateActive.get(id) ?? [],
+                ...(processor.mix === undefined
+                  ? {}
+                  : {
+                      mix:
+                        typeof processor.mix === "number"
+                          ? processor.mix
+                          : (program(step, node.target, "mix", processor.mix)?.samples(
+                              sampleRate,
+                            ) ?? 0),
+                    }),
+              },
             };
           if (processor.type !== "gain") return { id, enabled, processor };
           if (typeof processor.gain === "number" && !step.window)

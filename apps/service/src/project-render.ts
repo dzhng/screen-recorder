@@ -172,7 +172,7 @@ export function projectMovieRenderer(
   rnnoise?: string,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v18",
+    implementationId: "native-composition-movie-v19",
     ...(rnnoise ? { rnnoise } : {}),
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
@@ -257,7 +257,7 @@ export function projectAudioRenderer(
   rnnoise?: string,
 ): ProjectAudioRenderer {
   return {
-    implementationId: "native-composition-audio-v8",
+    implementationId: "native-composition-audio-v9",
     ...(rnnoise ? { rnnoise } : {}),
     render: async ({ window, assets, output, prepared }, signal) =>
       withRenderedFile(

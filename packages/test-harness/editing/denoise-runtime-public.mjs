@@ -1,3 +1,4 @@
+import { denoiseTransitions } from "./denoise-transitions.mjs";
 import { createDenoiseReference } from "./denoise-reference.mjs";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
@@ -13,7 +14,7 @@ const { values } = parseArgs({
 });
 assert(values.out && values.source && values.reference && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out),
-  home = await mkdtemp("/tmp/sr-denoise-public-");
+  home = await realpath(await mkdtemp("/tmp/sr-denoise-public-"));
 await mkdir(out);
 const denoise = createDenoiseReference(resolve(values.reference), out);
 const report = {
@@ -676,6 +677,28 @@ try {
   await inspect(stereoPrepared, 0, 5000000, "independent-stereo-full", 1, stereoExpected, 2);
   await inspect(stereoPrepared, 1000000, 3000000, "independent-stereo-range", 1, stereoExpected, 2);
   await combinedTemporal(stereoAsset);
+  const transitionDry = Buffer.alloc(baseline.length * 2);
+  const transitionRight = gunzipSync(
+    await readFile(
+      join(root, "specs/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
+    ),
+  );
+  for (let frame = 0; frame < baseline.length / 4; frame++) {
+    baseline.copy(transitionDry, frame * 8, frame * 4, frame * 4 + 4);
+    transitionRight.copy(transitionDry, frame * 8 + 4, frame * 4, frame * 4 + 4);
+  }
+  const transitions = await denoiseTransitions({
+    asset: stereoAsset,
+    dry: transitionDry,
+    call,
+    prepare,
+    inspect,
+    projectAudio,
+    denoise,
+    report,
+    out,
+  });
+  report.transitions.movie = await movieDelivery(transitions.current, "transition-");
   const longMade = await call("project.create", {
     requestId: "cancel-project",
     canvas: {
@@ -771,8 +794,42 @@ try {
     stereoExpected,
     2,
   );
-  const refusal = await call("audio.prepare", selected, { error: true });
+  assert.equal((await call("audio.prepare", selected)).state, "ready");
+  const unprepared = await call("edit.apply", {
+    projectId,
+    expectedRevisionId: restored.id,
+    requestId: "new-mix-unavailable",
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "rnnoise", mix: 0.125 } }],
+      },
+    ],
+  });
+  const refusal = await call(
+    "audio.prepare",
+    { projectId, revisionId: unprepared.revision.id },
+    { error: true },
+  );
   assert.equal(refusal.code, "NOT_READY");
+  await service.stop();
+  process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = JSON.stringify(["media.audioCapabilities"]);
+  await service.start();
+  await projectAudio(
+    transitions.initial,
+    outputTap({ kind: "processed" }),
+    "transition-retained-original-unavailable",
+    transitions.expected,
+    2,
+  );
+  await projectAudio(
+    transitions.current,
+    outputTap({ kind: "processed" }),
+    "transition-retained-current-unavailable",
+    transitions.currentExpected,
+    2,
+  );
   report.checks.lifecycle = {
     canceledRealNativeReplyNotPublished: true,
     explicitRetry: true,
@@ -785,6 +842,7 @@ try {
 } finally {
   delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
   await service.stop();
+  await writeFile(join(out, "service.log"), service.logs.join("\n"));
   await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
   await rm(home, { recursive: true, force: true });
 }

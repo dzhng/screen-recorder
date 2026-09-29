@@ -263,7 +263,16 @@ public enum CompositionAudio {
                     else { throw invalid("Only finite nonnegative float gain is supported.") }
                 case .program(let program): try program.validate()
                 }
-                } else if step.processor.active == nil { throw invalid("Missing state activation spans.") }
+                } else {
+                    guard step.processor.active != nil else { throw invalid("Missing state activation spans.") }
+                    if let mix = step.processor.mix {
+                        switch mix {
+                        case .constant(let value):
+                            guard value.isFinite, value >= 0, value <= 1 else { throw invalid("Denoise mix must be within [0,1].") }
+                        case .program(let program): try program.validate()
+                        }
+                    }
+                }
                 if let active = step.processor.active {
                     var end: Int64 = 0
                     for span in active {

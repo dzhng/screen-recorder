@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 import ScreenRecorderDenoise
 import ScreenRecorderMedia
 
@@ -175,6 +176,10 @@ extension CompositionAudio {
             guard received == count, try prepared.input.offset() == UInt64(count) * 8 else {
                 throw invalid("State prefix sample count differs from component.")
             }
+            let mixes = domain.members.map { member in
+                nodes[member.target]!.first!.steps.first(where: { $0.id == member.stepId })!.processor.mix
+            }
+            let fullWet = mixes.allSatisfy { $0 == nil || $0?.constant == 1 }
             var offsets: [UInt64] = []
             // The rendition has two lanes, each with its own instance of the fixed mono algorithm;
             // no component is exposed if either lane fails or cancellation interrupts the pair.
@@ -183,6 +188,7 @@ extension CompositionAudio {
                 try prepared.input.seek(toOffset: 0)
                 let offset = try prepared.output.seekToEnd()
                 var written: Int64 = 0
+                var memberIndex = 0
                 try RNNoiseProcessor.process(sampleCount: count, sampleRate: rate, channels: 1, read: { buffer in
                     try autoreleasepool {
                         let data = try prepared.input.read(upToCount: buffer.count * 8) ?? Data()
@@ -195,7 +201,40 @@ extension CompositionAudio {
                         return data.count / 8
                     }
                 }, write: { buffer in
-                    try autoreleasepool { try prepared.output.write(contentsOf: Data(buffer: buffer)) }
+                    try autoreleasepool {
+                        if fullWet {
+                            try prepared.output.write(contentsOf: Data(buffer: buffer))
+                        } else {
+                            // Positional reads preserve the adapter's independent read cursor and
+                            // pair latency-aligned output with the exact ordered upstream signal.
+                            var dry = [Float](repeating: 0, count: buffer.count * 2)
+                            try dry.withUnsafeMutableBytes { bytes in
+                                var copied = 0
+                                while copied < bytes.count {
+                                    let received = pread(prepared.input.fileDescriptor,
+                                        bytes.baseAddress!.advanced(by: copied), bytes.count - copied,
+                                        off_t(written * 8 + Int64(copied)))
+                                    if received < 0 && errno == EINTR { continue }
+                                    guard received > 0 else { throw invalid("Denoise dry input is unreadable or truncated.") }
+                                    copied += received
+                                }
+                            }
+                            var mixed = Array(buffer)
+                            for frame in buffer.indices {
+                                let position = domain.sampleRange.start + written + Int64(frame)
+                                while domain.members[memberIndex].sampleRange.end <= position { memberIndex += 1 }
+                                let amount = mixes[memberIndex]?.sample(position) ?? 1
+                                guard amount.isFinite, amount >= 0, amount <= 1 else {
+                                    throw invalid("Denoise mix produced a value outside [0,1].")
+                                }
+                                if amount == 0 { mixed[frame] = dry[frame * 2 + channel] }
+                                else if amount != 1 {
+                                    mixed[frame] = Float((1 - amount) * Double(dry[frame * 2 + channel]) + amount * Double(buffer[frame]))
+                                }
+                            }
+                            try mixed.withUnsafeBytes { try prepared.output.write(contentsOf: $0) }
+                        }
+                    }
                     written += Int64(buffer.count)
                 }, checkCancellation: { try Task.checkCancellation() })
                 guard written == count, try prepared.output.offset() == offset + UInt64(count) * 4 else {
