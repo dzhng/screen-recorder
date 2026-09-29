@@ -3296,3 +3296,25 @@ explicitly rather than modified in place. The project already requires this
 unshipped-format policy; applying it here prevents old binaries from interpreting
 new storage incorrectly. Complete execution recipes remain durable. This format
 change does not establish that all history and execution work is bounded.
+
+## 24i — Independent processing updates
+
+### Validate independent stack changes together (sound, high confidence)
+
+When an agent replaces stacks on many distinct existing targets, the editor now
+constructs those stateless updates in order and validates their combined document
+once. Repeated targets, symbolic dependencies and any RNNoise state retain the
+ordinary sequential path. This changes the work performed, not which edits are
+allowed. The plan left batching eligibility open; a narrow rule preserves state
+normalization and prevents a later edit from hiding an earlier invalid operation.
+Both paths share ID allocation, stack construction and composition validation.
+The earliest failing prefix and each operation's frozen receipt remain observable.
+
+### Reproduce a timed-out edit without deleting its receipt (sound, high confidence)
+
+The original large request timed out and later committed. To measure a fresh edit,
+the verification copies that library and uses public restore to recover the exact
+input document. It then sends the same operations with the new revision and request
+IDs required by that restore. The original receipt remains intact and supplies the
+complete expected result. The plan left fixture reset mechanics open; this avoids
+direct database rewrites while preserving honest replay and latency evidence.

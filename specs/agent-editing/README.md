@@ -28,9 +28,9 @@ Current pickup and priority:
    audio/preview consumer. Preserve model/state/upstream identities while resolving
    that boundary through the existing prepared owner. The public capability-disabled
    replay currently fails despite compatible retained output.
-3. Fix repeated processing-stack edit work through the existing batch owner: an
-   admitted 1,000-operation public request times out, then commits once. Preserve
-   exact replay and the 15-second deadline. Continue [general scale](slices/24-scale.md)
+3. [Independent processing batches](slices/24i-processing-batches.md) now complete
+   the previously timed-out 1,000-operation edit within its unchanged deadline,
+   preserving exact edit receipts and PCM. Continue [general scale](slices/24-scale.md)
    with wide routing and queue/cancellation interactions. The complete two-hour learned workload,
    combined fragmented-source/history package, and bounded public job inspection
    now pass their scoped gates. Continue speech/denoise/retiming/voice acceptance,
@@ -291,6 +291,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24f — Successful long learned preparation](slices/24f-successful-learned-scale.md)
 - [x] [24g — Bounded fragmented-source selections](slices/24g-fragmented-selection.md)
 - [x] [24h — Bounded public job inspection](slices/24h-job-inspection.md)
+- [x] [24i — Independent processing batches](slices/24i-processing-batches.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

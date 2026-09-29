@@ -384,11 +384,202 @@ export function applyBatch(
         anchor.kind === "project" ? anchor : { ...anchor, clipId: resolve(anchor.clipId, "clip") },
     };
   };
+  const processingStack = (
+    operation: Extract<z.infer<typeof editOperationSchema>, { operation: "processing.set" }>,
+  ) => {
+    const target =
+      operation.target.kind === "output"
+        ? operation.target
+        : {
+            kind: operation.target.kind,
+            id: resolve(operation.target.id, operation.target.kind),
+          };
+    const previousSteps = new Map(getProcessing(model, target).map((step) => [step.id, step]));
+    const existing = new Set(previousSteps.keys());
+    const used = new Set<string>();
+    const steps = operation.steps.map((step) => {
+      const id =
+        step.id === undefined ? allocate("processingStep") : resolve(step.id, "processingStep");
+      if (step.id !== undefined && !existing.has(id))
+        invalid("Processing step does not belong to this target", { target, stepId: id });
+      if (used.has(id)) invalid("Repeated processing step ID", { stepId: id });
+      used.add(id);
+      bind(step.label, "processingStep", id);
+      const prior = previousSteps.get(id);
+      if (
+        step.stateKey !== undefined &&
+        (step.processor.type !== "rnnoise" || prior?.stateKey !== step.stateKey)
+      )
+        invalid("State continuity metadata may only preserve the existing instance", {
+          target,
+          stepId: id,
+        });
+      return {
+        ...(step.processor.type === "rnnoise" && prior?.stateKey !== undefined
+          ? { stateKey: prior.stateKey }
+          : {}),
+        id,
+        enabled: step.enabled,
+        processor: step.processor,
+        ...(step.window
+          ? {
+              window:
+                step.window.kind === "project"
+                  ? step.window
+                  : { ...step.window, clipId: resolve(step.window.clipId, "clip") },
+            }
+          : {}),
+        ...(step.evaluationRange ? { evaluationRange: step.evaluationRange } : {}),
+      };
+    });
+    return { target, steps };
+  };
+  const replaceProcessing = (
+    before: Document,
+    updates: ReturnType<typeof processingStack>[],
+  ): Document => {
+    const stacks = new Map(before.processing.map((stack) => [processingKey(stack.target), stack]));
+    for (const stack of updates) {
+      const key = processingKey(stack.target);
+      if (stack.steps.length) stacks.set(key, stack);
+      else stacks.delete(key);
+    }
+    return {
+      ...before,
+      processing: [...stacks.values()].sort((a, b) =>
+        processingKey(a.target) < processingKey(b.target)
+          ? -1
+          : processingKey(a.target) > processingKey(b.target)
+            ? 1
+            : 0,
+      ),
+    };
+  };
+  const resolveIndependent = (
+    document: (count: number) => Document,
+    count: number,
+    start: number,
+  ) => {
+    const prefix = (length: number) =>
+      resolveComposition(document(length), model.assets, model.acquisitions);
+    try {
+      return { model: prefix(count) };
+    } catch (error) {
+      if (!(error instanceof CompositionError)) throw error;
+      let first = 1,
+        last = count,
+        failure = error;
+      while (first < last) {
+        const middle = Math.floor((first + last) / 2);
+        try {
+          prefix(middle);
+          first = middle + 1;
+        } catch (error) {
+          if (!(error instanceof CompositionError)) throw error;
+          last = middle;
+          failure = error;
+        }
+      }
+      return { failure, operationIndex: start + first - 1 };
+    }
+  };
   for (let operationIndex = 0; operationIndex < parsed.data.length; operationIndex++) {
     const authored = parsed.data[operationIndex]!;
     const before = model.document;
     let next: Document;
     try {
+      if (
+        authored.operation === "processing.set" &&
+        !before.processing.some((stack) =>
+          stack.steps.some((step) => step.processor.type === "rnnoise"),
+        )
+      ) {
+        const known = new Set([
+          processingKey({ kind: "output" }),
+          ...before.tracks.map((node) => processingKey({ kind: "track", id: node.id })),
+          ...before.groups.map((node) => processingKey({ kind: "group", id: node.id })),
+          ...before.clips.map((clip) => processingKey({ kind: "clip", id: clip.id })),
+        ]);
+        const selected = new Set<string>();
+        const updates: ReturnType<typeof processingStack>[] = [];
+        const start = operationIndex;
+        let end = start;
+        let constructionFailure: { index: number; error: unknown } | undefined;
+        for (; end < parsed.data.length; end++) {
+          const item = parsed.data[end]!;
+          if (item.operation !== "processing.set") break;
+          const target = item.target;
+          let key: string;
+          if (target.kind === "output") key = processingKey(target);
+          else {
+            const id = target.id;
+            if (typeof id !== "string") break;
+            key = processingKey({ kind: target.kind, id });
+          }
+          if (
+            item.steps.some(
+              (step) =>
+                step.processor.type === "rnnoise" ||
+                (step.id !== undefined && typeof step.id !== "string") ||
+                (step.window &&
+                  step.window.kind !== "project" &&
+                  typeof step.window.clipId !== "string"),
+            )
+          )
+            break;
+          if (!known.has(key) || selected.has(key)) break;
+          selected.add(key);
+          try {
+            updates.push(processingStack(item));
+          } catch (error) {
+            constructionFailure = { index: end, error };
+            break;
+          }
+        }
+        if (updates.length) {
+          // Fixed structure and distinct stateless targets cannot repair an invalid prefix.
+          const resolved = resolveIndependent(
+            (count) => replaceProcessing(before, updates.slice(0, count)),
+            updates.length,
+            start,
+          );
+          if (resolved.failure) {
+            operationIndex = resolved.operationIndex;
+            throw resolved.failure;
+          }
+          model = resolved.model;
+        }
+        if (constructionFailure) {
+          operationIndex = constructionFailure.index;
+          throw constructionFailure.error;
+        }
+        if (updates.length) {
+          const previous = new Map(
+            before.processing.map((stack) => [processingKey(stack.target), stack]),
+          );
+          const current = new Map(
+            model.document.processing.map((stack) => [processingKey(stack.target), stack]),
+          );
+          for (const [offset, update] of updates.entries()) {
+            const key = processingKey(update.target),
+              stack = current.get(key);
+            normalized.push({
+              operationIndex: start + offset,
+              changes:
+                JSON.stringify(previous.get(key)) === JSON.stringify(stack)
+                  ? []
+                  : [
+                      {
+                        kind: "processing",
+                        ...(stack ?? { target: previous.get(key)!.target, steps: [] }),
+                      },
+                    ],
+            });
+          }
+          operationIndex = end - 1;
+          continue;
+        }
+      }
       // Independent project appends cannot repair an invalid earlier prefix. Empty processing
       // also excludes state/window normalization that could change earlier operation receipts.
       if (
@@ -411,34 +602,18 @@ export function applyBatch(
           }
         }
         if (appended.length) {
-          const resolvePrefix = (count: number) =>
-            resolveComposition(
-              { ...before, clips: [...before.clips, ...appended.slice(0, count)] },
-              model.assets,
-              model.acquisitions,
-            );
-          try {
-            model = resolvePrefix(appended.length);
-          } catch (error) {
-            if (!(error instanceof CompositionError)) throw error;
-            let first = 1,
-              last = appended.length,
-              failure = error;
-            while (first < last) {
-              const middle = Math.floor((first + last) / 2);
-              try {
-                resolvePrefix(middle);
-                first = middle + 1;
-              } catch (error) {
-                if (!(error instanceof CompositionError)) throw error;
-                last = middle;
-                failure = error;
-              }
-            }
-            operationIndex = start + first - 1;
-            throw failure;
+          const resolved = resolveIndependent(
+            (count) => ({ ...before, clips: [...before.clips, ...appended.slice(0, count)] }),
+            appended.length,
+            start,
+          );
+          if (resolved.failure) {
+            operationIndex = resolved.operationIndex;
+            throw resolved.failure;
           }
+          model = resolved.model;
         }
+
         if (constructionFailure) {
           operationIndex = constructionFailure.index;
           throw constructionFailure.error;
@@ -510,68 +685,7 @@ export function applyBatch(
           break;
         }
         case "processing.set": {
-          const target =
-            operation.target.kind === "output"
-              ? operation.target
-              : {
-                  kind: operation.target.kind,
-                  id: resolve(operation.target.id, operation.target.kind),
-                };
-          const previousSteps = new Map(
-            getProcessing(model, target).map((step) => [step.id, step]),
-          );
-          const existing = new Set(previousSteps.keys());
-          const used = new Set<string>();
-          const steps = operation.steps.map((step) => {
-            const id =
-              step.id === undefined
-                ? allocate("processingStep")
-                : resolve(step.id, "processingStep");
-            if (step.id !== undefined && !existing.has(id))
-              invalid("Processing step does not belong to this target", { target, stepId: id });
-            if (used.has(id)) invalid("Repeated processing step ID", { stepId: id });
-            used.add(id);
-            bind(step.label, "processingStep", id);
-            const prior = previousSteps.get(id);
-            if (
-              step.stateKey !== undefined &&
-              (step.processor.type !== "rnnoise" || prior?.stateKey !== step.stateKey)
-            )
-              invalid("State continuity metadata may only preserve the existing instance", {
-                target,
-                stepId: id,
-              });
-            return {
-              ...(step.processor.type === "rnnoise" && prior?.stateKey !== undefined
-                ? { stateKey: prior.stateKey }
-                : {}),
-              id,
-              enabled: step.enabled,
-              processor: step.processor,
-              ...(step.window
-                ? {
-                    window:
-                      step.window.kind === "project"
-                        ? step.window
-                        : { ...step.window, clipId: resolve(step.window.clipId, "clip") },
-                  }
-                : {}),
-              ...(step.evaluationRange ? { evaluationRange: step.evaluationRange } : {}),
-            };
-          });
-          const key = processingKey(target);
-          const processing = before.processing.filter(
-            (stack) => processingKey(stack.target) !== key,
-          );
-          if (steps.length) processing.push({ target, steps });
-          processing.sort((a, b) =>
-            processingKey(a.target) < processingKey(b.target)
-              ? -1
-              : processingKey(a.target) > processingKey(b.target)
-                ? 1
-                : 0,
-          );
-          next = { ...before, processing };
+          next = replaceProcessing(before, [processingStack(operation)]);
           break;
         }
         case "replace": {

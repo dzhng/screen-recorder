@@ -30,10 +30,9 @@ Historical workers and measurements keep their own identities in the linked evid
   [combined public processing](15a3a-unit-rate-combined/README.md),
   [fragmented-source selection](24g-fragmented-selection/README.md) and
   [bounded job inspection](24h-job-inspection/README.md) pass their scoped gates.
-  Deep routing through 4,096 groups delivers exact full/range PCM, but an admitted
-  1,000-operation processing edit exceeds the 15-second public deadline and later
-  commits once. Optimize independent stack updates in the existing batch owner,
-  retaining exact receipts/errors/replay; wide routing and queue gates remain open.
+  [Independent processing batches](24i-processing-batches/README.md) now pass the
+  integrated 1,000-operation edit, exact receipts/replay and full/range PCM. Wide
+  routing, stateful batch work and queue gates remain open.
   Do not repeat completed DSP research or silently widen deadlines.
 
 ## Banked contracts and evidence
@@ -113,3 +112,11 @@ or still images. [Voice boundary timing](18-voice-boundary-timing/README.md) ret
 numerical/visual evidence and a sample-exact accepted ending; the shortened entrance
 and voice-generation readiness remain unaccepted. Reuse existing14a lifecycle
 owners after speech recipes earn their required acceptance.
+
+## Interrupted delegate pickup
+
+The three delegate sessions ended before their final commits. The processing batch
+pass was integrated and verified by root. Capture target/full-service continuation
+changes and retained-project playback changes remain in their named worktrees;
+inspect their actual diffs and retained logs before resuming. Catalog18 is reserved
+by the capture target pass; main remains17 until that pass is integrated.

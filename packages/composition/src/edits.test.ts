@@ -2524,3 +2524,118 @@ test.each(["source", "label", "identity"])(
     expect(document.clips[0]).toEqual(clip);
   },
 );
+
+test("independent stack updates keep frozen receipts, labels and a following dependent edit", () => {
+  const document = {
+    ...input,
+    groups: [
+      { id: "a", kind: "audio", order: 0 },
+      { id: "b", kind: "audio", order: 1 },
+    ],
+  };
+  const gain = (gain: number, extra = {}) => ({ processor: { type: "gain", gain }, ...extra });
+  const result = applyBatch(
+    document,
+    [
+      {
+        operation: "processing.set",
+        target: { kind: "group", id: "a" },
+        steps: [gain(0.5, { label: "first" })],
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "group", id: "b" },
+        steps: [gain(2, { label: "second" })],
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "group", id: "a" },
+        steps: [gain(0.25, { id: { label: "first" } })],
+      },
+    ],
+    context,
+  );
+  expect(result.labels).toEqual({
+    first: "processingStep:transaction:0",
+    second: "processingStep:transaction:1",
+  });
+  expect(result.createdIds).toEqual([
+    { kind: "processingStep", id: result.labels.first },
+    { kind: "processingStep", id: result.labels.second },
+  ]);
+  expect(result.normalized).toEqual([
+    {
+      operationIndex: 0,
+      changes: [
+        {
+          kind: "processing",
+          target: { kind: "group", id: "a" },
+          steps: [
+            { id: result.labels.first, enabled: true, processor: { type: "gain", gain: 0.5 } },
+          ],
+        },
+      ],
+    },
+    {
+      operationIndex: 1,
+      changes: [
+        {
+          kind: "processing",
+          target: { kind: "group", id: "b" },
+          steps: [
+            { id: result.labels.second, enabled: true, processor: { type: "gain", gain: 2 } },
+          ],
+        },
+      ],
+    },
+    {
+      operationIndex: 2,
+      changes: [
+        {
+          kind: "processing",
+          target: { kind: "group", id: "a" },
+          steps: [
+            { id: result.labels.first, enabled: true, processor: { type: "gain", gain: 0.25 } },
+          ],
+        },
+      ],
+    },
+  ]);
+  expect(result.document.processing[0]!.steps[0]!.processor).toEqual({ type: "gain", gain: 0.25 });
+});
+
+test("an invalid independent processing prefix precedes later construction errors or repair", () => {
+  const document = {
+    ...input,
+    groups: [
+      { id: "a", kind: "audio", order: 0 },
+      { id: "b", kind: "audio", order: 1 },
+    ],
+  };
+  const invalid = {
+    operation: "processing.set",
+    target: { kind: "group", id: "b" },
+    steps: [{ processor: { type: "opacity", opacity: 0.5 } }],
+  };
+  for (const next of [
+    {
+      operation: "processing.set",
+      target: { kind: "group", id: "a" },
+      steps: [{ id: "foreign", processor: { type: "gain", gain: 1 } }],
+    },
+    {
+      operation: "processing.set",
+      target: { kind: "group", id: "b" },
+      steps: [{ processor: { type: "gain", gain: 1 } }],
+    },
+  ]) {
+    try {
+      applyBatch(document, [invalid, next], context);
+      expect.fail("invalid prefix accepted");
+    } catch (error) {
+      expect(error).toBeInstanceOf(CompositionError);
+      expect((error as CompositionError).details).toMatchObject({ operationIndex: 0 });
+    }
+  }
+  expect(document.processing).toEqual([]);
+});

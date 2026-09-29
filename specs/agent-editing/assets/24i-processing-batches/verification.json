@@ -1,0 +1,16 @@
+{
+  "base": "059690d7",
+  "catalog": 17,
+  "passed": true,
+  "compositionTests": 236,
+  "buildPassed": true,
+  "rootApplyMs": 1087.647542,
+  "rootReplayMs": 70.70183400000019,
+  "nativeSha256": "aba4b5bf646af2d81ca1923a75fd018c3e1e0d78f11d4833720c1274d3946a32",
+  "scope": "Same operations and exact input document restored through public API; new request envelope. Exact original edit/document, full/range/missing-gain PCM. No whole-scale acceptance.",
+  "reproduce": "SCREENREC_NATIVE=/path/to/worker node packages/test-harness/editing/processing-batch.mjs --home /extracted/home --request /extracted/pressure1000-request.json --out /new/output",
+  "archives": {
+    "evidence.tar.xz": "f2ba843cc63ace82a1404b2b00d51d9bc6e16aa99d67516c851ab37633579758",
+    "fixture.tar.xz": "ed6371679b72b38c44b8319b2d6572b7421cd40753fd1f86b3646ec3240eadf6"
+  }
+}
