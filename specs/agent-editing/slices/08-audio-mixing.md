@@ -6,6 +6,10 @@ Status: native constant-gain execution and tested fractional unit-rate mapping p
 
 Any admitted audio instances can overlap and replace one another independently of video, producing an exact-duration PCM mix.
 
+[Recorded narration plus authored accompaniment](../assets/08-narration-music/README.md)
+now has scoped public exact-sample, dry-neighbor, gain-negative and undo evidence;
+perceptual balance and join listening remain unverified.
+
 ## Seam and ownership
 
 Native audio execution consumes the independent audio plan from slice 05. Replace recording-role uniqueness inside the new path with stream/clip identity. Mixing is linear float PCM at the declared output rate/channels with explicit constant gain stacks; animated gains and fades belong to 16.

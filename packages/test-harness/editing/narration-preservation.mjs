@@ -1,3 +1,4 @@
+import { verifyNarrationMusic } from "./narration-music-overlap.mjs";
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, writeFile, rm, realpath } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -338,6 +339,17 @@ try {
   };
   report.listening =
     "Optional original/edited excerpts prepared; no listening assessment performed";
+  if (process.env.SCREENREC_NARRATION_MUSIC)
+    report.musicOverlap = await verifyNarrationMusic({
+      out,
+      call,
+      audio,
+      frame,
+      selection: { projectId, revisionId: undo.id },
+      document: undo.document,
+      before,
+      inputs: report.inputs,
+    });
   report.passed = true;
 } finally {
   await service.stop();
