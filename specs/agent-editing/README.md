@@ -58,6 +58,8 @@ and [inherited audio identification](slices/24p-audio-format-admission.md),
 and [denoise transitions](slices/15a3b-denoise-transitions.md) with
 [fresh skill use](assets/15a3b-mix-skill/README.md). [Capture rollout](slices/20d-capture-publication.md)
 is verified for prerecorded recovery, including [both-role pause/terminal boundaries](slices/20d8-pause-terminal-boundaries.md).
+[Retired source-job history](slices/24t-job-reference-retirement.md) also passes
+its scoped reference/retry gate through public consumers and internal retirement.
 Physical capture, broader scale and installed cutover remain separate gates.
 
 The user found the unfamiliar cropped speech confusing. No action on those clips
@@ -345,6 +347,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24q — Finite native decoder demand](slices/24q-finite-decoder-demand.md)
 - [x] [24r — Bounded public history queries](slices/24r-history-query-scale.md)
 - [x] [24s — Retained audio streaming deadline](slices/24s-audio-stream-budget.md)
+- [x] [24t — Retired source-job reference history](slices/24t-job-reference-retirement.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

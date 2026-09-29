@@ -36,6 +36,11 @@ loading recipes, project documents and asset segments during public job polling.
 Full execution/admission work, broader history growth and general inspection remain
 part of the whole-scale gate.
 
+[Retired source-job history](24t-job-reference-retirement.md) verifies explicit
+internal retirement of513 real public jobs with surviving retry identities and
+exact asset references across restart. This adds no public retirement API or
+physical collection policy.
+
 ## Contract
 
 Large projects retain bounded inspection, targeted preview cost, cancellation and storage behavior.

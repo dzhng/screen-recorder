@@ -51,3 +51,8 @@ SCREENREC_NATIVE=/absolute/path/to/screenrec-native node packages/test-harness/e
 No model, speech inference, prepared DSP, two-hour render, transfer, playback or
 installed user state is used. The success library remains in the scratch path
 recorded by the summary for independent inspection.
+
+[Root verification](root-verification.json) independently inspected the retained
+library read-only, confirmed every retired ID absent and the exact four surviving
+references, rehashed the complete managed source and archived before/after WAVs,
+and reran the nine focused owner tests on the combined branch.

@@ -56,6 +56,10 @@ Historical workers and measurements retain their own identities below.
   Continue actual decoded-work measurement and remaining query families/history.
 - **History queries24r:** the [public history scale check](../slices/24r-history-query-scale.md) passes with real compact revisions and fresh services. Existing cursors exclude new edits; fixed250-row query memory remains stable between5,000 and10,000 revisions. This does not close arbitrary document-size, package-history or job-retirement gates.
 - **Streaming24s:** the original debug300-second streaming harness now passes unchanged, including its60-second child deadlines and memory/sample/sink checks. Storage-inventory contention remains separate and unresolved.
+- **Job retirement24t:** integrated;513 real source jobs retire through the existing
+  internal owner with exactly four surviving references, preserved retry IDs and
+  byte-identical audio. Root inspected the retained library and reran owner tests.
+  This is not public asset retirement or physical garbage collection.
 - **Two-hour package24j:** integrated full transfer passes. Original complete WAV,
   recipe, late PCM and newly authored receiver edit/undo survive donor removal
   with processing unavailable. No missing original history is inferred.

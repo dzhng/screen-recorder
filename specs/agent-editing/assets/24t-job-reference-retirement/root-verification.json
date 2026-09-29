@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-29",
+  "sourceCommit": "a037da25",
+  "archivedReportPassed": true,
+  "retiredIdsVerifiedAbsent": 513,
+  "survivingReferencesVerified": [
+    {
+      "kind": "job",
+      "id": "3b49e413-8b8d-4635-9331-694dc57fb682"
+    },
+    {
+      "kind": "job",
+      "id": "54377a33-7d91-4af3-b77c-821dd691d219"
+    },
+    {
+      "kind": "job",
+      "id": "b3cf8bf8-2853-4852-a02e-be0d8e9b23f9"
+    },
+    {
+      "kind": "job",
+      "id": "fc63e2be-6502-42eb-b6f1-02ab4d0ac8c6"
+    }
+  ],
+  "orphanJobOwners": 0,
+  "archivedSurvivorWavsEqual": true,
+  "archiveSha256": "473b63df47b300ec23f2d2681608dbb95d415337f665f515f1a696df5f80debf",
+  "harnessSha256": "d39aa91d3a6bfb07fd367bd058fdd846dea207fbe75fc46c305d5c99413012f4",
+  "focusedTestsPassed": 9,
+  "otherTestsNotSelected": 62,
+  "nativeJourneyRepeated": false,
+  "scope": "Independent readonly verification of retained real library and archived media; focused owner tests on combined branch",
+  "completeManagedSourceSha256": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+}
