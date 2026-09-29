@@ -19,42 +19,26 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-Active work is split between remaining audio-domain coverage, agent gain
-verification and camera feasibility. Caption authoring and its scoped delivery gates pass. Explicit output controls, font admission and
-prepared-audio portability pass their combined checks.
-See the [implementation pickup](assets/implementation-pickup.md) for exact checkpoints.
+1. Fix the reproduced fractional-native-rate late-window inconsistency at the
+   shared source decoder boundary, with explicit unsupported-format behavior and
+   cache invalidation. Preserve ordinary integer-rate and channel-index behavior.
+   The [finite domain audit](assets/acceptance-maintenance/audio-domain.md) and
+   [public boundary cohort](assets/08-admission-boundaries/README.md) explain why
+   correct output counts alone were insufficient. Do not hide phase errors with
+   padding, offsets or relaxed comparisons.
+2. Continue the offline camera-clock/separate-source prerequisite, retaining its
+   delivered-audio gap observation as unresolved; no live capture is authorized
+   by that probe. Prepare a bounded protected-speech review packet from existing
+   RNNoise evidence without inferring listening acceptance or rerunning models.
+3. Reuse the verified prepared-audio/public/portable owner for later accepted DSP.
+   Continue12/12b speech evidence,12c/15a denoise,13/13a/14 stretch,18/19 voice,
+   then remaining camera/package/cutover/scale/autonomous acceptance. Every open
+   slice remains in scope; this order does not replace the dependency graph.
 
-1. [Agent-controlled output settings](slices/09b-output-settings.md) and their
-   fresh public skill gate pass. The [balanced policy](assets/09b-output-quality/README.md)
-   is selected; [scoped encoded acceptance](assets/09b-encoded-appearance/acceptance.md)
-   closes06/15. [Matched animated geometry](assets/16-animated-appearance/README.md) now verifies
-   sampled trajectory and delivered clocks for [16](slices/16-keyframes.md); continuous playback remains unverified. Source and
-   finished-canvas sampling corrections now pass their native/public gates.
-   [Recorded decoder evidence](assets/16-zoom/writer/codec/recorded/README.md)
-   separates encoding loss from image-generator artifacts. ProRes is a diagnostic
-   control, not an added release requirement. Preserve all existing measured failures
-   and use the [remaining media audit](assets/15-acceptance-audit/README.md).
-2. Continue the remaining transition delivery and model-dependent prepared-audio
-   consumers in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json)
-   and [fresh agent use](assets/16-gain-skill/README.md).
-   The shared [scalar prerequisite](slices/16b-scalar-program.md) and
-   retained source transcripts pass combined-build confirmation. The [font/layout reproduction](slices/17a-text-layout.md) is verified within its
-   documented scope; [caption acceptance](assets/17-caption-acceptance/README.md) now closes17,
-   including seeded occurrences and off-grid ranged delivery. No segmentation
-   scope is active.
-3. Complete public consumers and actual model-dependent output proof for the shared
-   [prepared-audio prerequisite](slices/14a-prepared-audio.md). Its first core
-   lifecycle checkpoint passes combined-build tests and exact native PCM/restart
-   checks using existing assets, queue publication and revision references.
-   [Portable unit-rate/gain PCM](assets/14a-prepared-portable/README.md) now preserves
-   current/history receipts and bounded reads without the original executor; the
-   [public preparation command](assets/14a-public-preparation/README.md) is verified;
-   model-dependent DSP integrations remain open.
-   The [retained RNNoise proof](assets/12c-prepared-output/README.md) establishes
-   scoped selection/state behavior, not speech quality or production readiness.
-   Continue 08 codec/rate/narration, 12/12b speech evidence, 12c/15a protected speech,
-   13/13a/14 stretch and 18/19 voice identity/joins. Every later slice and global
-   TODO remains in scope; this priority order does not replace the dependency graph.
+Output controls09b, scoped static06/15, caption17 and the public preparation/gain
+consumer checkpoints pass. The [implementation pickup](assets/implementation-pickup.md)
+records active worktrees and frozen worker identities. Segmentation stays outside
+this run. Completed experiments are evidence, not a queue to rerun.
 
 Compact evidence ledger:
 

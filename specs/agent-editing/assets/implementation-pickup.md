@@ -1,10 +1,9 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: finish finite08/11 audio-domain coverage and fresh agent gain
-verification, then resolve remaining speech-dependent consumers and camera
-reproduction. Settings09b, scoped06/15 and caption17 are verified. Whole16/22 and
-final acceptance remain open.
+Current priority: correct fractional-native-rate seek inconsistency, then continue
+camera clock/gap reproduction and protected-speech evidence. Settings09b,
+scoped06/15 and caption17 are verified; whole16/22 and final acceptance remain open.
 
 ## Current combined state
 
@@ -35,23 +34,31 @@ No production deadline or transaction guarantee changed.
 
 ## Active owners
 
-- Low/high lossless rates: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-  Mixed44.1AAC/MP3 and acoustic axes are integrated66c9d14e. The one-ULP AAC
-  independent-invocation observation stays unresolved. Extend the same mixer
-  harness with one low integral rate and192kHz, preserving full/range/tail/split
-  and exact frozen-input arithmetic; no exhaustive matrix or new resampler.
-- Negative occupied origin: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  Two bounded native candidates normalized to zero or refused insertion. Retain
-  scripts/media/receipts and this non-exercise; no unsupported-policy invention
-  or false public negative-origin proof. Actual narration preservation is already
-  integrated and passes combined-root confirmation.
-- Camera feasibility: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
-  Caption17 closure is integrated69304ade with off-grid clocks and fresh footage
-  review. Read-only20/21 audit now identifies shared-clock reproduction and the
-  physical test boundary; do not activate live capture during that audit.
-- Fresh animated-gain skill: root owns an isolated service and independent public
-  consumer. Root dist stays frozen while it runs. This checks agent authoring and
-  exact PCM expectations, not listening or retimed executor readiness.
+- Fractional native-rate correction: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  Boundary cohort28b68c27 showed different raw/composition readiness without a
+  count error. A later44100.5Hz impulse probe exposes a four-frame late-window
+  phase shift already in AVAssetReader output, before the second converter.
+  Add common safe integral-rate refusal before rounding; retain asset admission
+  and discrete2channel mapping. Bump affected audio/movie/prepared recipe identities
+  so old ready results cannot bypass validation. Preserve red fixtures and run
+  targeted integer-rate/native/public checks on a separately frozen new worker.
+- Camera prerequisite: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
+ 20a offline controlled CMTimebase conversion, pause mapping, separate writers
+  and recovery are under verification. PCM payload packing around omitted pause
+  buffers does not preserve all declared audio timestamps; report the actual
+  delivered support and leave that prerequisite open. No live capture/prompts,
+  installed-app changes or second timing owner.
+- Protected denoise speech: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
+  Low/high8/192kHz lossless proof is integrated41d80a70. Prepare a small listening
+  and annotation packet from retained matching original/clean/learned PCM only;
+  candidate word boundaries remain unconfirmed. Existing14a ownership is built,
+  so remove stale planning to rebuild it. Do not change the frozen RNNoise recipe.
+
+Fresh animated-gain skill use passes and its service is stopped; root dist is free.
+616a1c58 corrects erroneous read-only input annotations for shared CLI/MCP
+capabilities, retaining runtime freezing and validation. Both discovery gates and
+independent review pass. The consumer's own numerical tolerance is explicitly
+scoped; it does not replace native gain conformance or prove listening.
 
 ## Remaining acceptance
 
