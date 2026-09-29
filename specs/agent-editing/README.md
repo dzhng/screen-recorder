@@ -21,6 +21,10 @@ Current pickup: build matched-input preservation evidence for [cutover23](slices
 starting with one retained recording through the old recording service and isolated
 project service. Keep both homes isolated and the original library untouched;
 this preparatory work does not switch the installed app or enable gated processors.
+In parallel, implement the [selected-device probe](slices/20e-selected-device-probe.md)
+and its offline activation/lifecycle checks. Its live execution and physical
+clock acceptance remain separate; unavailable live capture does not block building
+the probe needed to request a concrete take.
 [Waveform duration memory](slices/24w-waveform-duration-memory.md) now passes after
 bounded ownership checks removed redundant document loads; the original red remains retained.
 The [exact voice runtime](assets/19d-runtime-recovery/README.md) is restored in
@@ -198,6 +202,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [20d7 — Preserve terminal capture diagnostics](slices/20d7-terminal-diagnostics.md)
 - [x] [20d8 — Prerecorded pause and terminal persistence](slices/20d8-pause-terminal-boundaries.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
+- [ ] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)

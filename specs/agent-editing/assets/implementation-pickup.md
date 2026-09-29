@@ -83,6 +83,12 @@ Historical workers and measurements retain their own identities below.
   bounded revision availability rather than hydrate documents. [Evidence](24w-waveform-duration-memory/README.md)
   retains the original latency red, profiles and six-cohort rerun; no model cache
   or general host-contention immunity is claimed.
+- **Selected-device preparation20e:** [the scoped probe](../slices/20e-selected-device-probe.md)
+  is now being implemented in capture-pause-recovery. Its physical input stop,
+  camera media closure and audio publication share existing termination ordering;
+  camera evidence stays separate from production capture tracks. Offline build and
+  injected-input tests are authorized; live device/permission actions and installed
+  app changes are not part of this pass. Physical20/21 stays open.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.

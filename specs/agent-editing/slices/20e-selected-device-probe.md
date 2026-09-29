@@ -1,6 +1,6 @@
 # 20e — Prepare selected-device clock reproduction
 
-Status: planned implementation; no physical capture authorized or performed.
+Status: implementation in progress; no physical capture authorized or performed.
 Dependencies: [20a](20a-offline-clock.md), [20b](20b-exact-capture-audio.md),
 [20c](20c-sparse-capture-materialization.md), [20d](20d-capture-publication.md).
 
@@ -36,7 +36,8 @@ Camera is a separate video-only probe sink with its own dimensions, using the sa
 screen-established clock snapshot and serial ingestion queue. It records the
 existing journal shape for its independent video source, not a new production role
 or audio writer. It must not re-zero late camera frames, hold a disconnected camera's
-tail, or invent a source picture across a gap. `CaptureInputSession.stop` remains physical-input drain only. Its probe media
+tail, or invent a source picture across a gap. `CaptureInputSession.stop` remains
+physical-input drain only. Its probe media
 joins NativeCapture's existing termination operation through explicit default-nil
 `finalizeMedia(clock:failure:) -> CaptureFailure?` and default no-op `discardMedia()`
 hooks. Camera results stay in separate probe evidence; no camera role enters
@@ -48,7 +49,8 @@ the closed result and publishing audio. Publication retries must not repeat medi
 finalization. Discard and failed startup cancel probe media, never finalize it.
 A typed queue-owned ingress snapshot includes both CaptureClock and acceptance
 state: sourceTime alone does not reject post-seal samples. Camera callbacks must
-honor the writer seal gate. Partial starts and device loss retain the same owner. Stream raw PTS,
+honor the writer seal gate. Partial starts and device loss retain the same owner.
+Stream raw PTS,
 converted host PTS, callback host time, role, placement/drop reason and clock
 observations to bounded append-only evidence rather than accumulating a take.
 
@@ -82,3 +84,10 @@ verification inherits parent20's compare-screenshots and final unprimed critique
 Delegated: internal file arrangement and reversible diagnostic formatting. Any new
 capture policy, clock correction, device fallback or production camera role requires
 rescoping before implementation. No persistent authorization token is introduced.
+
+Plan review: an independent read-only owner audit found that physical input stop
+cannot also finalize camera media: discard uses that same stop path, and the
+writer closes an outstanding pause afterward. The lifecycle above resolves that
+finding. A failure-only closure result keeps camera evidence from replacing
+production screen/microphone metadata; finalization errors are cached outcomes,
+not reasons to repeat media closure on publication retry.
