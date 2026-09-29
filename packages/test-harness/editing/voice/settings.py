@@ -6,7 +6,6 @@ import hashlib
 import importlib.util
 import inspect
 import json
-import os
 from pathlib import Path
 import resource
 import sys
@@ -25,6 +24,8 @@ def digest(path):
 def observe(model, report):
     """Read executed EOS branch and loop-exit locals, without evaluating MLX values."""
     function = model._generate_icl.__func__
+    prepare = model._prepare_icl_generation_inputs.__func__
+    sampler = model._sample_token.__func__
     lines, first = inspect.getsourcelines(function)
     tree = ast.parse(textwrap.dedent("".join(lines))).body[0]
     loops = [node for node in tree.body if isinstance(node, ast.For)
@@ -46,6 +47,22 @@ def observe(model, report):
             "language", "stream", "streaming_interval")
 
     def trace(frame, event, argument):
+        if frame.f_code is prepare.__code__:
+            if event == "return" and argument is not None:
+                local = frame.f_locals
+                report["prefill"] = {
+                    "referenceFrames": int(local["audio_for_spk"].size),
+                    "referenceCodes": int(local["ref_codes"].shape[2]),
+                    "referenceTextTokens": int(local["ref_text_ids"].shape[1]),
+                    "targetTextTokens": int(local["text_ids"].shape[1]),
+                    "inputTokens": int(local["input_embeds"].shape[1]),
+                    "language": local["language"],
+                }
+            return trace
+        if frame.f_code is sampler.__code__:
+            if event == "call":
+                report.setdefault("logitsDtype", str(frame.f_locals["logits"].dtype))
+            return None
         if frame.f_code is not function.__code__:
             return None
         if event == "call" and "effective" not in report:
@@ -76,24 +93,28 @@ def run(args, report):
     worker = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(worker)
     pins = json.loads((root / "voice/pins.json").read_text())
+    phase_started = time.monotonic()
     worker.prepared(Path(args.model), pins)
+    report["preparationVerificationSeconds"] = time.monotonic() - phase_started
     report["identity"] = {"entrySha256": digest(entry), "pinsSha256": digest(root / "voice/pins.json"),
         "pythonSha256": digest(sys.executable), "runtimeRevision": pins["runtimeCommit"],
         "modelRevision": pins["modelRevision"], "harnessSha256": digest(__file__),
         "referenceSha256": digest(request["reference"]), "python": sys.version}
-    # This experiment admits only the five-second frozen reference and a bounded trial budget.
+    # Experiment limits only; production admission and its frozen entry stay unchanged.
     import numpy as np
     from scipy.io import wavfile
     rate, reference = wavfile.read(request["reference"])
     assert rate == 24000 and reference.dtype == np.float32 and reference.ndim == 1
-    assert 0 < len(reference) <= 120000 and np.isfinite(reference).all()
-    assert 0 < request["generation"]["max_tokens"] <= 256
+    assert 0 < len(reference) <= (480000 if args.envelope else 120000) and np.isfinite(reference).all()
+    assert 0 < request["generation"]["max_tokens"] <= (1024 if args.envelope else 256)
     assert request["generation"]["stream"] is False
     assert 0 < len(request["text"].encode()) <= 16384
     import mlx.core as mx
     from mlx_audio.tts.utils import load_model
+    phase_started = time.monotonic()
     model = load_model(str(Path(args.model).resolve()))
     mx.eval(model.parameters())
+    report["modelLoadSeconds"] = time.monotonic() - phase_started
     path = Path(inspect.getfile(model.__class__))
     relative = "mlx_audio/tts/models/qwen3_tts/qwen3_tts.py"
     assert digest(path) == pins["runtimeFiles"][relative]
@@ -125,6 +146,7 @@ def main():
     parser = argparse.ArgumentParser()
     for name in ("bundle", "model", "request", "output", "report"):
         parser.add_argument("--" + name, required=True)
+    parser.add_argument("--envelope", action="store_true")
     args = parser.parse_args()
     report = {"passed": False, "scope": "Experiment only; no public setting or quality acceptance"}
     started = time.monotonic()

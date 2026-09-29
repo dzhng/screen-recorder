@@ -1,6 +1,6 @@
 # 19d — Measured voice settings and bounded work
 
-Status: bounded termination/control experiment verified; [evidence](../assets/19d-voice-settings/README.md) retains fifteen fresh-process trials, including identical-audio cap/EOS boundary controls, exact frozen/clamp parity and changed-seed replay. Public resolver/worker integration and measured reference/text/output resource envelope remain open. Parent: [19](19-voice-assets.md). Dependencies: [19a](19a-voice-entry-parity.md).
+Status: bounded termination/control experiment verified; [evidence](../assets/19d-voice-settings/README.md) retains fifteen fresh-process trials, including identical-audio cap/EOS boundary controls, exact frozen/clamp parity and changed-seed replay. The subsequent [resource tranche](../assets/19d-voice-envelope/README.md) retains a 1,024-output-token MLX memory failure above12GiB; seven cases completed and the combined corner was not run. Public resolver/worker integration and joint resource limits remain open. Parent: [19](19-voice-assets.md). Dependencies: [19a](19a-voice-entry-parity.md).
 
 ## Contract and seam
 

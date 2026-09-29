@@ -1,0 +1,13 @@
+{
+  "resourceGatePassed": false,
+  "completedCases": 7,
+  "notRun": [
+    "combined"
+  ],
+  "archiveMembersVerified": 39,
+  "archiveSha256": "8fabfd3724df54147d4c73fe58ab2d86d8c3fdeb9b11b77204a09bb2bdd6eb8f",
+  "review": "No actionable regressions; independent syntax/archive/report/observer identity/frozen WAV checks passed; no inference rerun",
+  "allChildProcessesFinished": true,
+  "productionChanges": false,
+  "publicLimitsAdopted": false
+}

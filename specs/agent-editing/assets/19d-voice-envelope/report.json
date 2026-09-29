@@ -1,0 +1,685 @@
+{
+  "passed": false,
+  "sourceCommit": "be9027b7",
+  "reason": "output1024 exceeds12GiB MLX peak; no combinedcorner run or public limits adopted",
+  "targetBytes": 12884901888,
+  "trials": [
+    {
+      "id": "frozen-phrase",
+      "targetTokens": 7,
+      "referenceRepeats": 1,
+      "referenceKind": "frozen continuous5s",
+      "maxTokens": 256,
+      "state": "measured",
+      "scope": "Experiment only; no public setting or quality acceptance",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "This is available at no cost.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "preparationVerificationSeconds": 0.9289584590587765,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "88e8f6357aa939aeed646f57dee638ffc3d2949336090b9262ba08882209091b",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "modelLoadSeconds": 0.9901114170206711,
+      "observer": {
+        "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+        "eosBranchLine": 2349,
+        "loopExitLine": 2402,
+        "events": [
+          {
+            "event": "eosBranch",
+            "step": 42,
+            "generatedCodes": 42
+          },
+          {
+            "event": "loopExit",
+            "reason": "eos",
+            "step": 42,
+            "generatedCodes": 42,
+            "effectiveMaxTokens": 256
+          }
+        ]
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "prefill": {
+        "referenceFrames": 120000,
+        "referenceCodes": 63,
+        "referenceTextTokens": 10,
+        "targetTextTokens": 7,
+        "inputTokens": 91,
+        "language": "english"
+      },
+      "logitsDtype": "mlx.core.bfloat16",
+      "termination": {
+        "reason": "eos",
+        "step": 42,
+        "generatedCodes": 42,
+        "effectiveMaxTokens": 256
+      },
+      "generationSecondsWithObserver": 2.075967959011905,
+      "output": {
+        "sha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+        "frames": 80640,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 3.36,
+        "resultTokens": [
+          42
+        ],
+        "mlxPeakBytes": 6417119673
+      },
+      "processSeconds": 4.1951314160833135,
+      "peakResidentBytes": 2754183168,
+      "withinResidentTarget": true,
+      "withinMlxTarget": true,
+      "workerReportedSuccessfulMedia": true,
+      "resourceGatePassed": true
+    },
+    {
+      "id": "reference-10s",
+      "targetTokens": 10,
+      "referenceRepeats": 2,
+      "referenceKind": "synthetic repeated frozen5s PCM and transcript",
+      "maxTokens": 256,
+      "state": "measured",
+      "scope": "Experiment only; no public setting or quality acceptance",
+      "request": {
+        "reference": "/tmp/screenrec-19d-envelope/reference-2x.wav",
+        "referenceText": "Okay, so this is the recorder workbench. Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "preparationVerificationSeconds": 0.8973312500165775,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "88e8f6357aa939aeed646f57dee638ffc3d2949336090b9262ba08882209091b",
+        "referenceSha256": "fc1545b69bb2110da0f92b37a497af7aad7d9c1f4d35e5d117cb39c41997696f",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "modelLoadSeconds": 0.9962542089633644,
+      "observer": {
+        "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+        "eosBranchLine": 2349,
+        "loopExitLine": 2402,
+        "events": [
+          {
+            "event": "eosBranch",
+            "step": 36,
+            "generatedCodes": 36
+          },
+          {
+            "event": "loopExit",
+            "reason": "eos",
+            "step": 36,
+            "generatedCodes": 36,
+            "effectiveMaxTokens": 256
+          }
+        ]
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "prefill": {
+        "referenceFrames": 240000,
+        "referenceCodes": 125,
+        "referenceTextTokens": 20,
+        "targetTextTokens": 10,
+        "inputTokens": 166,
+        "language": "english"
+      },
+      "logitsDtype": "mlx.core.bfloat16",
+      "termination": {
+        "reason": "eos",
+        "step": 36,
+        "generatedCodes": 36,
+        "effectiveMaxTokens": 256
+      },
+      "generationSecondsWithObserver": 2.5382520830025896,
+      "output": {
+        "sha256": "50b55847d150f5470a64261a89ff940bb3fb254fb75e2a79cec03dc22943b8d5",
+        "frames": 69120,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 2.88,
+        "resultTokens": [
+          36
+        ],
+        "mlxPeakBytes": 6931492179
+      },
+      "processSeconds": 4.618990167044103,
+      "peakResidentBytes": 2757754880,
+      "withinResidentTarget": true,
+      "withinMlxTarget": true,
+      "workerReportedSuccessfulMedia": true,
+      "resourceGatePassed": true
+    },
+    {
+      "id": "reference-20s",
+      "targetTokens": 10,
+      "referenceRepeats": 4,
+      "referenceKind": "synthetic repeated frozen5s PCM and transcript",
+      "maxTokens": 256,
+      "state": "measured",
+      "scope": "Experiment only; no public setting or quality acceptance",
+      "request": {
+        "reference": "/tmp/screenrec-19d-envelope/reference-4x.wav",
+        "referenceText": "Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "preparationVerificationSeconds": 0.9605785419698805,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "88e8f6357aa939aeed646f57dee638ffc3d2949336090b9262ba08882209091b",
+        "referenceSha256": "5bbd588edabb9b0faa9e7bc8a0037e4236d63dc0c1d893c3d79d46011bfe1072",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "modelLoadSeconds": 0.9929415410151705,
+      "observer": {
+        "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+        "eosBranchLine": 2349,
+        "loopExitLine": 2402,
+        "events": [
+          {
+            "event": "eosBranch",
+            "step": 49,
+            "generatedCodes": 49
+          },
+          {
+            "event": "loopExit",
+            "reason": "eos",
+            "step": 49,
+            "generatedCodes": 49,
+            "effectiveMaxTokens": 256
+          }
+        ]
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "prefill": {
+        "referenceFrames": 480000,
+        "referenceCodes": 250,
+        "referenceTextTokens": 40,
+        "targetTextTokens": 10,
+        "inputTokens": 311,
+        "language": "english"
+      },
+      "logitsDtype": "mlx.core.bfloat16",
+      "termination": {
+        "reason": "eos",
+        "step": 49,
+        "generatedCodes": 49,
+        "effectiveMaxTokens": 256
+      },
+      "generationSecondsWithObserver": 3.9074869169853628,
+      "output": {
+        "sha256": "ef0d8083483a012660a819ae5fdb8773cb456c280949581a9604682968fe9f49",
+        "frames": 94080,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 3.92,
+        "resultTokens": [
+          49
+        ],
+        "mlxPeakBytes": 6631673165
+      },
+      "processSeconds": 6.090901375049725,
+      "peakResidentBytes": 2759884800,
+      "withinResidentTarget": true,
+      "withinMlxTarget": true,
+      "workerReportedSuccessfulMedia": true,
+      "resourceGatePassed": true
+    },
+    {
+      "id": "text-256",
+      "targetTokens": 256,
+      "referenceRepeats": 1,
+      "referenceKind": "frozen continuous5s",
+      "maxTokens": 256,
+      "state": "measured",
+      "scope": "Experiment only; no public setting or quality acceptance",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay. Okay. Okay.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "preparationVerificationSeconds": 0.9241601249668747,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "88e8f6357aa939aeed646f57dee638ffc3d2949336090b9262ba08882209091b",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "modelLoadSeconds": 1.0811336659826338,
+      "observer": {
+        "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+        "eosBranchLine": 2349,
+        "loopExitLine": 2402,
+        "events": [
+          {
+            "event": "loopExit",
+            "reason": "token-budget",
+            "step": 255,
+            "generatedCodes": 256,
+            "effectiveMaxTokens": 256
+          }
+        ]
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "prefill": {
+        "referenceFrames": 120000,
+        "referenceCodes": 63,
+        "referenceTextTokens": 10,
+        "targetTextTokens": 256,
+        "inputTokens": 340,
+        "language": "english"
+      },
+      "logitsDtype": "mlx.core.bfloat16",
+      "termination": {
+        "reason": "token-budget",
+        "step": 255,
+        "generatedCodes": 256,
+        "effectiveMaxTokens": 256
+      },
+      "generationSecondsWithObserver": 8.821462666033767,
+      "output": {
+        "sha256": "0e50705a25c3cf3e7ebf3cbc00b142dbe5ff1b0bd561143cba4324fde11cb9be",
+        "frames": 491520,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 20.48,
+        "resultTokens": [
+          256
+        ],
+        "mlxPeakBytes": 7227302133
+      },
+      "processSeconds": 11.477310333051719,
+      "peakResidentBytes": 2760065024,
+      "withinResidentTarget": true,
+      "withinMlxTarget": true,
+      "workerReportedSuccessfulMedia": true,
+      "resourceGatePassed": true
+    },
+    {
+      "id": "text-1024",
+      "targetTokens": 1024,
+      "referenceRepeats": 1,
+      "referenceKind": "frozen continuous5s",
+      "maxTokens": 256,
+      "state": "measured",
+      "scope": "Experiment only; no public setting or quality acceptance",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay. Okay.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 256,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "preparationVerificationSeconds": 1.2617769159842283,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "88e8f6357aa939aeed646f57dee638ffc3d2949336090b9262ba08882209091b",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "modelLoadSeconds": 1.1251171249896288,
+      "observer": {
+        "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+        "eosBranchLine": 2349,
+        "loopExitLine": 2402,
+        "events": [
+          {
+            "event": "loopExit",
+            "reason": "token-budget",
+            "step": 255,
+            "generatedCodes": 256,
+            "effectiveMaxTokens": 256
+          }
+        ]
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 256,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "prefill": {
+        "referenceFrames": 120000,
+        "referenceCodes": 63,
+        "referenceTextTokens": 10,
+        "targetTextTokens": 1024,
+        "inputTokens": 1108,
+        "language": "english"
+      },
+      "logitsDtype": "mlx.core.bfloat16",
+      "termination": {
+        "reason": "token-budget",
+        "step": 255,
+        "generatedCodes": 256,
+        "effectiveMaxTokens": 256
+      },
+      "generationSecondsWithObserver": 8.26267674996052,
+      "output": {
+        "sha256": "1b759e359010580eef9a8f5d7c8fa3f019b675bcc22a5885c46d43986a43507f",
+        "frames": 491520,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 20.48,
+        "resultTokens": [
+          256
+        ],
+        "mlxPeakBytes": 7315400949
+      },
+      "processSeconds": 10.992037374991924,
+      "peakResidentBytes": 2761342976,
+      "withinResidentTarget": true,
+      "withinMlxTarget": true,
+      "workerReportedSuccessfulMedia": true,
+      "resourceGatePassed": true
+    },
+    {
+      "id": "output-512",
+      "targetTokens": 1024,
+      "referenceRepeats": 1,
+      "referenceKind": "frozen continuous5s",
+      "maxTokens": 512,
+      "state": "measured",
+      "scope": "Experiment only; no public setting or quality acceptance",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay. Okay.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 512,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "preparationVerificationSeconds": 0.9750179999973625,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "88e8f6357aa939aeed646f57dee638ffc3d2949336090b9262ba08882209091b",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "modelLoadSeconds": 1.0461515829665586,
+      "observer": {
+        "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+        "eosBranchLine": 2349,
+        "loopExitLine": 2402,
+        "events": [
+          {
+            "event": "loopExit",
+            "reason": "token-budget",
+            "step": 511,
+            "generatedCodes": 512,
+            "effectiveMaxTokens": 512
+          }
+        ]
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 512,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "prefill": {
+        "referenceFrames": 120000,
+        "referenceCodes": 63,
+        "referenceTextTokens": 10,
+        "targetTextTokens": 1024,
+        "inputTokens": 1108,
+        "language": "english"
+      },
+      "logitsDtype": "mlx.core.bfloat16",
+      "termination": {
+        "reason": "token-budget",
+        "step": 511,
+        "generatedCodes": 512,
+        "effectiveMaxTokens": 512
+      },
+      "generationSecondsWithObserver": 15.594053499982692,
+      "output": {
+        "sha256": "1f77edf06616b74b9a952b9f294eb6d154a899136eb6e37d0497b08abcd573c1",
+        "frames": 983040,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 40.96,
+        "resultTokens": [
+          512
+        ],
+        "mlxPeakBytes": 9583071445
+      },
+      "processSeconds": 17.914202959043905,
+      "peakResidentBytes": 2766569472,
+      "withinResidentTarget": true,
+      "withinMlxTarget": true,
+      "workerReportedSuccessfulMedia": true,
+      "resourceGatePassed": true
+    },
+    {
+      "id": "output-1024",
+      "targetTokens": 1024,
+      "referenceRepeats": 1,
+      "referenceKind": "frozen continuous5s",
+      "maxTokens": 1024,
+      "state": "measured",
+      "scope": "Experiment only; no public setting or quality acceptance",
+      "request": {
+        "reference": "/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder/specs/agent-editing/assets/18-voice/reference.wav",
+        "referenceText": "Okay, so this is the recorder workbench.",
+        "text": "Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay, so this is the recorder workbench. Okay. Okay.",
+        "generation": {
+          "temperature": 0.9,
+          "top_k": 50,
+          "top_p": 1.0,
+          "repetition_penalty": 1.05,
+          "max_tokens": 1024,
+          "lang_code": "english",
+          "stream": false
+        },
+        "seed": 18
+      },
+      "preparationVerificationSeconds": 2.237838917062618,
+      "identity": {
+        "entrySha256": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+        "pinsSha256": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+        "pythonSha256": "2d96eb826dc74db4fcd5da6dde045a6fa145e292e07e69d1bdd1a19fa90ffc22",
+        "runtimeRevision": "4ab7e6f7dedd69a136cfaa318c5dc8aed5119446",
+        "modelRevision": "1eccf1cb2519b5a4e8a95b5f0544f3303568164f",
+        "harnessSha256": "88e8f6357aa939aeed646f57dee638ffc3d2949336090b9262ba08882209091b",
+        "referenceSha256": "bfe7a73c2ac5582097295e2d61250e8e942dfdbe14da7853432e1d3ba9676a15",
+        "python": "3.12.14 (main, Sep  1 2026, 14:09:38) [Clang 22.1.3 ]"
+      },
+      "modelLoadSeconds": 1.126822791993618,
+      "observer": {
+        "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+        "eosBranchLine": 2349,
+        "loopExitLine": 2402,
+        "events": [
+          {
+            "event": "loopExit",
+            "reason": "token-budget",
+            "step": 1023,
+            "generatedCodes": 1024,
+            "effectiveMaxTokens": 1024
+          }
+        ]
+      },
+      "effective": {
+        "temperature": 0.9,
+        "top_k": 50,
+        "top_p": 1.0,
+        "repetition_penalty": 1.5,
+        "max_tokens": 1024,
+        "language": "english",
+        "stream": false,
+        "streaming_interval": 2.0
+      },
+      "prefill": {
+        "referenceFrames": 120000,
+        "referenceCodes": 63,
+        "referenceTextTokens": 10,
+        "targetTextTokens": 1024,
+        "inputTokens": 1108,
+        "language": "english"
+      },
+      "logitsDtype": "mlx.core.bfloat16",
+      "termination": {
+        "reason": "token-budget",
+        "step": 1023,
+        "generatedCodes": 1024,
+        "effectiveMaxTokens": 1024
+      },
+      "generationSecondsWithObserver": 34.30440024996642,
+      "output": {
+        "sha256": "a0b459c1643b9706a6b1d218450428f105d21a18660215543fa3817b9ccffef4",
+        "frames": 1966080,
+        "sampleRate": 24000,
+        "channels": 1,
+        "durationSeconds": 81.92,
+        "resultTokens": [
+          1024
+        ],
+        "mlxPeakBytes": 13572007721
+      },
+      "processSeconds": 37.93593979196157,
+      "peakResidentBytes": 2785329152,
+      "withinResidentTarget": true,
+      "withinMlxTarget": false,
+      "workerReportedSuccessfulMedia": true,
+      "resourceGatePassed": false
+    },
+    {
+      "id": "combined",
+      "targetTokens": 1024,
+      "referenceRepeats": 4,
+      "referenceKind": "synthetic repeated frozen5s PCM and transcript",
+      "maxTokens": 1024,
+      "state": "not-run",
+      "reason": "preceding MLX memory gate failed"
+    }
+  ],
+  "timingScope": "fresh processes with existing OS/Metal caches; observer included; cold cache and observer overhead not separately measured; no RTF acceptance",
+  "capacityScope": "No initial free-disk snapshot retained; later hostfree196MiB does not establish cause. Runtime RSS did not represent Metal allocation."
+}

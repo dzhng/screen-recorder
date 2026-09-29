@@ -1,0 +1,554 @@
+{
+  "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+  "scope": "Sampler-only synthetic logits and seed binding, no model weights or speech generation",
+  "seed": [
+    {
+      "input": -1,
+      "pythonType": "int",
+      "accepted": false,
+      "error": "TypeError",
+      "message": "seed(): incompatible function arguments. The following argument types are supported:\n    1. seed(seed: int) -> None\n\nInvoked with types: int"
+    },
+    {
+      "input": 0,
+      "pythonType": "int",
+      "accepted": true,
+      "key": [
+        0,
+        0
+      ]
+    },
+    {
+      "input": 4294967295,
+      "pythonType": "int",
+      "accepted": true,
+      "key": [
+        0,
+        4294967295
+      ]
+    },
+    {
+      "input": 4294967296,
+      "pythonType": "int",
+      "accepted": true,
+      "key": [
+        1,
+        0
+      ]
+    },
+    {
+      "input": 18446744073709551615,
+      "pythonType": "int",
+      "accepted": true,
+      "key": [
+        4294967295,
+        4294967295
+      ]
+    },
+    {
+      "input": 18446744073709551616,
+      "pythonType": "int",
+      "accepted": false,
+      "error": "TypeError",
+      "message": "seed(): incompatible function arguments. The following argument types are supported:\n    1. seed(seed: int) -> None\n\nInvoked with types: int"
+    },
+    {
+      "input": 1.0,
+      "pythonType": "float",
+      "accepted": false,
+      "error": "TypeError",
+      "message": "seed(): incompatible function arguments. The following argument types are supported:\n    1. seed(seed: int) -> None\n\nInvoked with types: float"
+    },
+    {
+      "input": true,
+      "pythonType": "bool",
+      "accepted": true,
+      "key": [
+        0,
+        1
+      ]
+    }
+  ],
+  "sampling": [
+    {
+      "vocabulary": 3072,
+      "parameter": "temperature",
+      "value": 0,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 3072,
+      "accepted": true,
+      "token": [
+        [
+          3067
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "temperature",
+      "value": 1e-45,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": true,
+      "finiteLogits": 0,
+      "accepted": true,
+      "token": [
+        [
+          1579
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "temperature",
+      "value": 1e-38,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": true,
+      "finiteLogits": 0,
+      "accepted": true,
+      "token": [
+        [
+          1579
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "temperature",
+      "value": 1e-06,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          3070
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "temperature",
+      "value": 0.9,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          3066
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "temperature",
+      "value": 1000000.0,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          3064
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "temperature",
+      "value": 1e+38,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          3064
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "temperature",
+      "value": 1e+308,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          43
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "repetition_penalty",
+      "value": 1.5,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          3066
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "repetition_penalty",
+      "value": 1e+38,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          3066
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "repetition_penalty",
+      "value": 1e+308,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          3066
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "top_k",
+      "value": 0,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 3072,
+      "accepted": true,
+      "token": [
+        [
+          3061
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "top_k",
+      "value": 3071,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 3071,
+      "accepted": true,
+      "token": [
+        [
+          3061
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "top_k",
+      "value": 3072,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 3072,
+      "accepted": true,
+      "token": [
+        [
+          3061
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "top_p",
+      "value": 1e-45,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 1,
+      "accepted": true,
+      "token": [
+        [
+          3070
+        ]
+      ]
+    },
+    {
+      "vocabulary": 3072,
+      "parameter": "top_p",
+      "value": 1.0,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          3066
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "temperature",
+      "value": 0,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 2048,
+      "accepted": true,
+      "token": [
+        [
+          2044
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "temperature",
+      "value": 1e-45,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": true,
+      "finiteLogits": 0,
+      "accepted": true,
+      "token": [
+        [
+          1067
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "temperature",
+      "value": 1e-38,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": true,
+      "finiteLogits": 0,
+      "accepted": true,
+      "token": [
+        [
+          1067
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "temperature",
+      "value": 1e-06,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          2046
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "temperature",
+      "value": 0.9,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          2043
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "temperature",
+      "value": 1000000.0,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          2041
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "temperature",
+      "value": 1e+38,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          2041
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "temperature",
+      "value": 1e+308,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          43
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "repetition_penalty",
+      "value": 1.5,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          2042
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "repetition_penalty",
+      "value": 1e+38,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          2042
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "repetition_penalty",
+      "value": 1e+308,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          2042
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "top_k",
+      "value": 0,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 2048,
+      "accepted": true,
+      "token": [
+        [
+          2041
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "top_k",
+      "value": 2047,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 2047,
+      "accepted": true,
+      "token": [
+        [
+          2041
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "top_k",
+      "value": 2048,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 2048,
+      "accepted": true,
+      "token": [
+        [
+          2041
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "top_p",
+      "value": 1e-45,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 0,
+      "accepted": true,
+      "token": [
+        [
+          1789
+        ]
+      ]
+    },
+    {
+      "vocabulary": 2048,
+      "parameter": "top_p",
+      "value": 1.0,
+      "dtype": "bfloat16",
+      "logitsNaN": false,
+      "logitsPositiveInfinity": false,
+      "finiteLogits": 50,
+      "accepted": true,
+      "token": [
+        [
+          2043
+        ]
+      ]
+    }
+  ]
+}
