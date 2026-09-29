@@ -3463,3 +3463,13 @@ restoring gigabytes, and keeps scratch on the checked output volume. This is a
 reversible test safeguard, not a product limit or permission to delete other files.
 The plan left research capacity checks unspecified; the exact transfer remains
 unverified until enough capacity is available and all real owners run successfully.
+
+## 13a — Familiar full-selection stretch listening material (sound, high confidence)
+
+The user could not interpret unfamiliar short word fragments. Use the same retained
+five-second recording selection and inherited transcript as the familiar denoise
+comparison for optional speed listening. The two rendered input channels are
+byte-identical, so one channel supplies the frozen mono research adapter without
+changing sample values. Preserve unity gain and the full selected context, with
+clearly labeled speeds. This is a reversible presentation choice; it does not
+establish protected-word labels, public stereo behavior or speech quality.

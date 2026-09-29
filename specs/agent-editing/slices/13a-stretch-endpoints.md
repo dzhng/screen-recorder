@@ -57,6 +57,11 @@ the actual selected/output counts and recipe, separate from quality acceptance.
 The short-window probe does not authorize automatic window switching or a global
 minimum duration. Keep the fixed pitch gate and selected-source contract.
 
+The [familiar complete sentence](../assets/13a-familiar-sentence/README.md) supplies
+clearly labeled original/slower/faster material for optional listening without
+repeating unfamiliar word-fragment QA. Its numerical/native-file checks do not
+establish word retention or naturalness, and do not enable public retiming.
+
 ## Acceptance
 
 At 0.8×, 0.9×, 1× and 1.25×, preserve the exact compiler-declared output count,

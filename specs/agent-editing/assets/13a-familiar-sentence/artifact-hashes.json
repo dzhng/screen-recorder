@@ -1,0 +1,11 @@
+{
+  "README.md": "d9a87f1c684975c091babfaa26e1a8fb28276c7bfcdc9bced3fbe5304ac251ab",
+  "assemble.mjs": "17cec535f0a20c0d1d864b6c7cfcc5cf78520e94c99d39a32ec2c397e57285c5",
+  "faster-1.25x.wav": "b9e0a999a3425622ca6101ee54d2902cdfa9c3b313c82d690bbcbe60cfd60fac",
+  "manifest.json": "2c174689e9cfe9bf866c429e4b8f99a77a25048747e0ef358e902b176a3e2dc4",
+  "native-probes.json": "85d002e483fcbb99a16ae786d25e7bdc7ad2f2ac3beea76c47e58764122ca1cd",
+  "original.wav": "90710e686ef1f430bf2518535ccbf1955af1ecc858da9367a0931b9b5a3d49a6",
+  "review.log.gz": "75d8c9f22e8e4979a578def71e641908f9553612f0c5a875f3a867665c201874",
+  "slower-0.8x.wav": "4dff0795fec5badd3da0ca9c29f47ae5fd9d8585012e419a0e0330f59c1e47e0",
+  "slower-0.9x.wav": "ee934546cc1976231661562c77208d8f36b6f6bd4de890a7d06f9443bf1fd6ad"
+}

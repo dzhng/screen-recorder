@@ -1,0 +1,110 @@
+[
+  {
+    "path": "original.wav",
+    "probe": {
+      "originUs": 0,
+      "streams": [
+        {
+          "channels": 1,
+          "codec": "lpcm",
+          "decodable": true,
+          "endUs": 5000000,
+          "id": "track:1",
+          "kind": "audio",
+          "sampleRate": 48000,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 5000000,
+              "mediaDurationUs": 5000000,
+              "mediaStartUs": 0,
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      ]
+    }
+  },
+  {
+    "path": "slower-0.8x.wav",
+    "probe": {
+      "originUs": 0,
+      "streams": [
+        {
+          "channels": 1,
+          "codec": "lpcm",
+          "decodable": true,
+          "endUs": 6250000,
+          "id": "track:1",
+          "kind": "audio",
+          "sampleRate": 48000,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 6250000,
+              "mediaDurationUs": 6250000,
+              "mediaStartUs": 0,
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      ]
+    }
+  },
+  {
+    "path": "slower-0.9x.wav",
+    "probe": {
+      "originUs": 0,
+      "streams": [
+        {
+          "channels": 1,
+          "codec": "lpcm",
+          "decodable": true,
+          "endUs": 5555542,
+          "id": "track:1",
+          "kind": "audio",
+          "sampleRate": 48000,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 5555542,
+              "mediaDurationUs": 5555542,
+              "mediaStartUs": 0,
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      ]
+    }
+  },
+  {
+    "path": "faster-1.25x.wav",
+    "probe": {
+      "originUs": 0,
+      "streams": [
+        {
+          "channels": 1,
+          "codec": "lpcm",
+          "decodable": true,
+          "endUs": 4000000,
+          "id": "track:1",
+          "kind": "audio",
+          "sampleRate": 48000,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 4000000,
+              "mediaDurationUs": 4000000,
+              "mediaStartUs": 0,
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      ]
+    }
+  }
+]

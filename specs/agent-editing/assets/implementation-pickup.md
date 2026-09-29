@@ -147,3 +147,8 @@ Older worktree diffs are preserved; do not reapply them. No installed cutover oc
 
 A complete familiar sentence was presented for optional denoise word/naturalness
 feedback. No answer has arrived; listening remains unverified.
+
+A [familiar stretch packet](13a-familiar-sentence/README.md) now supplies the same
+complete selection at1x,0.8x,0.9x and1.25x. Native file checks and an independent
+byte-for-byte reproduction pass. It has not been presented as a quality verdict;
+no new listening question was sent for it, and13a/14 remain open.

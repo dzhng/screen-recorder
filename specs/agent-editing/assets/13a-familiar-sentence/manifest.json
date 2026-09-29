@@ -1,0 +1,56 @@
+{
+  "text": "Okay, so this is the recorder workbench.",
+  "textAuthority": "Inherited ASR; no fresh listening annotation",
+  "sourceSha256": "ce6e823447e5b739216543b2b33ec040cc51cff9f70138cf1b3666b8bd2d8b58",
+  "selectedPcmSha256": "42a4507364670e22de18f4f3bd9a5c59f31dd634366b5c1b57eeb9adbfd95ae7",
+  "workerSha256": "1cf7c24c73ba4b6ca3c05aa41fdccb07d62a5ea8ce65c66236bdf4b75743addc",
+  "policy": "Frozen mono48k selected-only exact recipe; unity gain; no added fade, trimming or context",
+  "listening": "UNVERIFIED; no whole-word timing annotation or naturalness verdict",
+  "publicRetimeEnabled": false,
+  "files": [
+    {
+      "path": "original.wav",
+      "rate": {
+        "numerator": 1,
+        "denominator": 1
+      },
+      "frames": 240000,
+      "bytes": 960044,
+      "sha256": "90710e686ef1f430bf2518535ccbf1955af1ecc858da9367a0931b9b5a3d49a6",
+      "pcmSha256": "42a4507364670e22de18f4f3bd9a5c59f31dd634366b5c1b57eeb9adbfd95ae7"
+    },
+    {
+      "path": "slower-0.8x.wav",
+      "rate": {
+        "numerator": 4,
+        "denominator": 5
+      },
+      "frames": 300000,
+      "bytes": 1200044,
+      "sha256": "4dff0795fec5badd3da0ca9c29f47ae5fd9d8585012e419a0e0330f59c1e47e0",
+      "pcmSha256": "b397cf84ebcd0fb40b6df3c1faba56f9546a1ee9fe0f64532db4b841f6e46ac7"
+    },
+    {
+      "path": "slower-0.9x.wav",
+      "rate": {
+        "numerator": 9,
+        "denominator": 10
+      },
+      "frames": 266666,
+      "bytes": 1066708,
+      "sha256": "ee934546cc1976231661562c77208d8f36b6f6bd4de890a7d06f9443bf1fd6ad",
+      "pcmSha256": "5c00e7b094215774bb3d2d287ea6fe533309ac93a192d671dbbf8b49f2237b07"
+    },
+    {
+      "path": "faster-1.25x.wav",
+      "rate": {
+        "numerator": 5,
+        "denominator": 4
+      },
+      "frames": 192000,
+      "bytes": 768044,
+      "sha256": "b9e0a999a3425622ca6101ee54d2902cdfa9c3b313c82d690bbcbe60cfd60fac",
+      "pcmSha256": "20e997d90838e94d0689b94144bb12a13e9e4de63ff37357cf5d24edfa425619"
+    }
+  ]
+}
