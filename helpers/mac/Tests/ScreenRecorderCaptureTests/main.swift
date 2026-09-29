@@ -1,6 +1,8 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_FORMAT_OUTPUT"] {
+if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
+  runCaptureJournalLeaseChild(directory: CommandLine.arguments[1])
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_FORMAT_OUTPUT"] {
   try await runCaptureAudioFormatProbe(
     output: output,
     corpus: ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_GAP_CORPUS"] ?? "",
@@ -29,6 +31,7 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_FORMAT_OUTP
   runCaptureClockTests()
   await runHeldTailFrameTests()
   try await runCaptureJournalTests()
+  try runCaptureJournalLeaseTests()
   try runPCMJournalTests()
   try await runDeferredPauseTests()
   try runCursorGeometryTests()

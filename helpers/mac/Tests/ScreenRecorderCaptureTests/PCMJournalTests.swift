@@ -78,6 +78,29 @@ func runPCMJournalTests() throws {
   assertPrefix(later.validatedPrefix, bytes: extended)
   precondition(later.validatedPrefix != read.validatedPrefix)
   assertPrefix(read.validatedPrefix, bytes: Data(extended.prefix(frozen.count)))
+  var pinnedFrames: [Int64] = []
+  let pinned = try CaptureJournal.streamAcceptedPCM(lease: journal.lease, through: read.validatedPrefix!) {
+    pinnedFrames.append($0.declaredFirstFrame)
+  }
+  precondition(pinned.validatedPrefix == read.validatedPrefix && pinned.lastSequence == read.lastSequence)
+  precondition(pinnedFrames == [0, 16384])
+  func refusePrefix(_ token: JournalPrefix) throws {
+    do {
+      _ = try CaptureJournal.streamAcceptedPCM(lease: journal.lease, through: token) { _ in }
+      preconditionFailure("Invalid prefix must not return validated evidence")
+    } catch let failure as CaptureFailure { precondition(failure.code == "INVALID_JOURNAL_PREFIX") }
+  }
+  try refusePrefix(JournalPrefix(bytes: Int64(frozen.count), sha256: String(repeating: "0", count: 64)))
+  let partial = Data(frozen.dropLast())
+  try refusePrefix(JournalPrefix(bytes: Int64(partial.count), sha256: SHA256.hash(data: partial).map { String(format: "%02x", $0) }.joined()))
+  try refusePrefix(JournalPrefix(bytes: Int64(extended.count + 100), sha256: read.validatedPrefix!.sha256))
+  try journal.recordPCMAppend(JournalPCMAppend(role: "narration", physicalFirstFrame: 16384,
+    frameCount: 1024, declaredFirstFrame: 32768, rawPTS: raw, removedPauseUs: 500000))
+  var afterAppend: [Int64] = []
+  _ = try CaptureJournal.streamAcceptedPCM(lease: journal.lease, through: read.validatedPrefix!) { afterAppend.append($0.declaredFirstFrame) }
+  precondition(afterAppend == pinnedFrames, "Later accepted appends cannot enlarge the pinned mapping")
+  let stillCurrent = try CaptureJournal.streamAcceptedPCM(lease: journal.lease) { _ in }
+  precondition(stillCurrent.lastSequence == later.lastSequence + 1)
   try frozen.write(to: path, options: .atomic)
   let lines = String(data: frozen, encoding: .utf8)!.split(separator: "\n").map(String.init)
   func checkPrefix(_ altered: [String], acceptedCount: Int, invalid: Int?, torn: Bool = false)

@@ -1,6 +1,6 @@
 # 20d — Canonical capture publication and recovery rollout
 
-Status: planned. Dependencies: [20c](20c-sparse-capture-materialization.md).
+Status: partial prerequisite; publication/admission rollout remains open. Dependencies: [20c](20c-sparse-capture-materialization.md).
 
 ## Contract and owner
 
@@ -73,3 +73,7 @@ No live capture, prompts, installation or permissions are authorized by this pla
 
 Delegated: internal publication helper names and reversible diagnostic presentation.
 Durability/cleanup evidence, canonical-only admission and old-source truth are fixed.
+
+## Banked ownership prerequisite
+
+[Journal lease evidence](../assets/20d-journal-lease/README.md) establishes cooperative inode ownership, close-on-exec release and exact validated-prefix replay through the existing parser. Ordinary schema1 writers now hold that lease; no packed layout or schema2 admission is enabled. The [publication proposal](../assets/20d-journal-lease/publication-proposal.md) defines the remaining caller integration.

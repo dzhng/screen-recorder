@@ -2846,3 +2846,14 @@ The ordinary build must explain missing preparation before opaque compiler
 failures. Native linkage/parity and distribution provenance remain explicit
 gates in [15a2](slices/15a2-denoise-prepared-consumers.md); this decision does not
 claim those gates passed or authorize publishing a distribution.
+
+### Journal inode owns publication exclusion (sound, scoped)
+
+Use the existing take journal inode as the kernel flock owner, with close-on-exec
+and pinned directory/file identities. Process exit releases ownership without a
+PID registry or stale-lock cleaner. Exact-prefix replay shares the bounded journal
+decoder and validates its byte digest before callers accept staged work. Later
+appends cannot expand a pinned recovery attempt. Ordinary schema1 writing holds
+the lease already; canonical publication, retry continuation and schema2 adoption
+remain separate gates. [Evidence](assets/20d-journal-lease/README.md) includes actual
+contenders and exec inheritance with a failing negative control.

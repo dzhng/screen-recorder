@@ -1,0 +1,10 @@
+{
+  "workerSHA256": "c220dd519b6ee8f76f3696d3d635fd3b37b0df8ce0f15fc8cdd38245cd36edd8",
+  "commands": [
+    "swift build --package-path helpers/mac --product ScreenRecorderCaptureTests",
+    "helpers/mac/.build/debug/ScreenRecorderCaptureTests",
+    "SCREENREC_JOURNAL_FAILURE_OUTPUT=/tmp/capture-lease-journal-failure SCREENREC_CAPTURE_GAP_CORPUS=\"$PWD/specs/agent-editing/assets/00-corpus\" helpers/mac/.build/debug/ScreenRecorderCaptureTests"
+  ],
+  "allExitCodes": 0,
+  "scope": "Offline process and native writer tests; no live capture or schema2 rollout"
+}

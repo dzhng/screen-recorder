@@ -83,23 +83,22 @@ public struct CaptureJournalSummary: Codable, Sendable {
 package struct JournalPrefix: Codable, Sendable, Equatable {
     package let bytes: Int64
     package let sha256: String
+    package init(bytes: Int64, sha256: String) { self.bytes = bytes; self.sha256 = sha256 }
 }
 
 // One capture queue owns append order. Media bytes never enter this journal.
 public final class CaptureJournal {
     private static let maximumRecordBytes = 1_048_576
     private let handle: FileHandle
+    package let lease: CaptureJournalLease
     private var sequence = 0
     private let header: CaptureJournalHeader
     private var pcmState = JournalPCMState()
 
     public init(directory: String, header: CaptureJournalHeader) throws {
         self.header = header
-        let path = URL(fileURLWithPath: directory).appendingPathComponent("capture.journal.jsonl")
-            .path
-        let descriptor = Darwin.open(path, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)
-        guard descriptor >= 0 else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
-        handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
+        lease = try CaptureJournalLease.create(directory: directory)
+        handle = FileHandle(fileDescriptor: lease.descriptor, closeOnDealloc: false)
         try append("header", data: header, durable: true)
     }
 
@@ -232,15 +231,24 @@ public final class CaptureJournal {
     /// and the evidence stream read through this one loop so they cannot disagree about where a
     /// journal stops being believable.
     private static func readRecords(
-        directory: String, maximumBytes: Int?, _ body: (Data) throws -> Bool
+        directory: String, maximumBytes: Int?, descriptor: Int32? = nil,
+        throughBytes: Int64? = nil, _ body: (Data) throws -> Bool
     ) throws -> RecordsEnd {
         let url = URL(fileURLWithPath: directory).appendingPathComponent("capture.journal.jsonl")
-        let input = try FileHandle(forReadingFrom: url)
-        defer { try? input.close() }
+        let input = descriptor ?? Darwin.open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
+        guard input >= 0 else { throw CaptureFailure("JOURNAL_UNAVAILABLE", "Cannot read capture journal.") }
+        defer { if descriptor == nil { close(input) } }
         var pending = Data()
-        var bytes = 0
-        while let chunk = try input.read(upToCount: 16_384), !chunk.isEmpty {
-            bytes += chunk.count
+        var bytes: Int64 = 0
+        while throughBytes.map({ bytes < $0 }) ?? true {
+            let capacity = Int(min(16_384, throughBytes.map { $0 - bytes } ?? 16_384))
+            var chunk = Data(count: capacity)
+            let count = chunk.withUnsafeMutableBytes { pread(input, $0.baseAddress!, capacity, off_t(bytes)) }
+            if count < 0 && errno == EINTR { continue }
+            guard count >= 0 else { throw CaptureFailure("JOURNAL_UNAVAILABLE", "Cannot read journal bytes.") }
+            if count == 0 { break }
+            chunk.removeSubrange(count..<chunk.count)
+            bytes += Int64(count)
             if let maximumBytes, bytes > maximumBytes {
                 throw CaptureFailure("EVIDENCE_LIMIT", "Journal exceeds the evidence read budget.")
             }
@@ -282,6 +290,7 @@ public final class CaptureJournal {
     /// Mapping evidence only. It is not proof of committed media or acquired source support.
     package static func streamAcceptedPCM(
         directory: String,
+        through prefix: JournalPrefix? = nil,
         origin: (JournalPCMOrigin) throws -> Void = { _ in },
         track: (JournalPCMTrack) throws -> Void = { _ in },
         accepted: @escaping (JournalPCMAppend) throws -> Void
@@ -289,7 +298,24 @@ public final class CaptureJournal {
         try readEvidence(
             directory: directory, maximumBytes: nil, retainTiming: false,
             geometry: { _ in }, samples: { _ in }, displaySpace: { _ in },
-            pcmOrigin: origin, pcmTrack: track, pcmAppend: accepted)
+            pcmOrigin: origin, pcmTrack: track, pcmAppend: accepted, through: prefix)
+    }
+
+    /// Callbacks are provisional until this returns: discard staged work on prefix or identity failure.
+    package static func streamAcceptedPCM(
+        lease: CaptureJournalLease, through prefix: JournalPrefix? = nil,
+        origin: (JournalPCMOrigin) throws -> Void = { _ in },
+        track: (JournalPCMTrack) throws -> Void = { _ in },
+        accepted: @escaping (JournalPCMAppend) throws -> Void
+    ) throws -> CaptureJournalSummary {
+        try lease.check()
+        let summary = try readEvidence(
+            directory: lease.directory, maximumBytes: nil, retainTiming: false,
+            geometry: { _ in }, samples: { _ in }, displaySpace: { _ in },
+            pcmOrigin: origin, pcmTrack: track, pcmAppend: accepted,
+            through: prefix, descriptor: lease.descriptor)
+        try lease.check()
+        return summary
     }
 
     package static func readEvidence(
@@ -301,8 +327,15 @@ public final class CaptureJournal {
         audioAcquired: (JournalAudioSamples) throws -> Void = { _ in },
         pcmOrigin: (JournalPCMOrigin) throws -> Void = { _ in },
         pcmTrack: (JournalPCMTrack) throws -> Void = { _ in },
-        pcmAppend: ((JournalPCMAppend) throws -> Void)? = nil
+        pcmAppend: ((JournalPCMAppend) throws -> Void)? = nil,
+        through prefix: JournalPrefix? = nil, descriptor: Int32? = nil
     ) throws -> CaptureJournalSummary {
+        if let prefix {
+            guard pcmAppend != nil, prefix.bytes > 0,
+                prefix.sha256.count == 64,
+                prefix.sha256.allSatisfy({ $0.isASCII && ($0.isNumber || ("a"..."f").contains(String($0))) })
+            else { throw CaptureFailure("INVALID_JOURNAL_PREFIX", "Invalid journal prefix token.") }
+        }
         var summary = CaptureJournalSummary()
         var pcm = JournalPCMState()
         var prefixHash = pcmAppend == nil ? nil : SHA256()
@@ -320,7 +353,8 @@ public final class CaptureJournal {
             if retainTiming { summary.pauses.append(completed) }
             try pause(completed)
         }
-        let end = try readRecords(directory: directory, maximumBytes: maximumBytes) {
+        let end = try readRecords(directory: directory, maximumBytes: maximumBytes,
+                                  descriptor: descriptor, throughBytes: prefix?.bytes) {
             line in
             let record: JournalEntry
             do {
@@ -436,6 +470,9 @@ public final class CaptureJournal {
         if let digest = prefixHash?.finalize() {
             summary.validatedPrefix = JournalPrefix(
                 bytes: prefixBytes, sha256: digest.map { String(format: "%02x", $0) }.joined())
+        }
+        if let prefix, summary.validatedPrefix != prefix || summary.incompleteTail || summary.invalidAtSequence != nil {
+            throw CaptureFailure("INVALID_JOURNAL_PREFIX", "Journal does not match the declared validated prefix.")
         }
         return summary
     }
