@@ -16,6 +16,9 @@ its bounded comparison helper was exercised separately. The old gain-only scale
 runner consumes the extracted shared topology; its operation array was checked
 exactly against the prior implementation without repeating the long-duration run.
 
+[Root verification](root-verification.json) rehashes all retained members and checks
+the shared topology against the prior implementation at default and smaller sizes.
+
 ## Evidence and limitations
 
 `report.json` summarizes the evidence boundary; complete original reports,

@@ -44,8 +44,9 @@ Historical workers and measurements retain their own identities below.
   Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
   [Public voice jobs19f](19f-public-voice-jobs/README.md) is integrated, including
   saved replay, stable explicit origins, queued restart and model-free transfer of
-  generated/reference audio. Prepared-package-transfer is released; capture-pause-recovery
-  owns deep/wide learned-routing scale after completing24u history transfer. Shared voice metadata is
+  generated/reference audio. Prepared-package-transfer now owns exact runtime recovery;
+  capture-pause-recovery is investigating remaining bounded-query memory after24v.
+  Shared voice metadata is
   strict and independent of the active execution profile.
   Candidate native worker there has SHA256
   `2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3`;
@@ -65,8 +66,14 @@ Historical workers and measurements retain their own identities below.
   mappings survive public transfer, with one actual undo and exact donor-unavailable
   audio. History insertion no longer redundantly rewrites the project head.
   Existing request limits and atomicity remain unchanged. See the
-  [evidence](24u-package-history-scale/README.md); deeper learned topology is the
-  next independent scale dimension, not another long-duration run.
+  [evidence](24u-package-history-scale/README.md); learned topology has its separate
+  scoped24v proof below.
+- **Learned topology24v:** integrated; complete short-cohort dry/prepared PCM and
+  retained-asset late delivery pass through128 nested groups and32 branches.
+  [Evidence](24v-learned-routing-scale/README.md) combines the original public run
+  with canonical continuation of its same publication. The corrected fresh harness
+  was not rerun end-to-end; syntax, static review and bounded diagnostics were checked.
+  This adds no two-hour topology, listening or source-I/O claim.
 - **Two-hour package24j:** integrated full transfer passes. Original complete WAV,
   recipe, late PCM and newly authored receiver edit/undo survive donor removal
   with processing unavailable. No missing original history is inferred.

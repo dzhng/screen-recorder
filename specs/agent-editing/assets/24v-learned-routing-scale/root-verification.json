@@ -1,0 +1,30 @@
+{
+  "archiveSha256": "59b1926455578cd7ab12dbabe3c825f4f3b393371401a2789f84a7f2740fdfe5",
+  "members": 56,
+  "expandedBytes": 37457303,
+  "allHashesVerified": true,
+  "integratedCommit": "164817fa",
+  "syntaxChecked": [
+    "denoise-topology.mjs",
+    "routing-topology.mjs",
+    "scale.mjs"
+  ],
+  "topologyParity": {
+    "referenceCommit": "5e555584",
+    "exactOperationArrays": [
+      [
+        128,
+        32
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        8,
+        4
+      ]
+    ]
+  },
+  "scope": "No production change. Root rehashed archived original/continuation evidence and verified shared fixture preservation; corrected fresh harness was not rerun."
+}

@@ -12,8 +12,9 @@ memory](24m-query-duration-memory.md) also pass. [Actual decoder/read accounting
 [Fixed-size managed-history pages](24r-history-query-scale.md) also pass cursor
 pinning and cardinality gates. [Finite decoder demand](24q-finite-decoder-demand.md)
 resolves the sparse read-ahead failure; [container identification](24p-audio-format-admission.md)
-preserves descriptor-backed audio admission. Other query families, large-document/
-package history and remaining budgets stay open. The retained300-second audio streaming gate now passes unchanged in
+preserves descriptor-backed audio admission. [Combined document/history transfer](24u-package-history-scale.md)
+and [short deep/wide learned routing](24v-learned-routing-scale.md) pass their scoped
+gates. Other query families and remaining budgets stay open. The retained300-second audio streaming gate now passes unchanged in
 [24s](24s-audio-stream-budget.md), including its original debug deadline, sampled
 accuracy and memory assertions. The earlier87.209s diagnostic remains retained;
 no causal speedup or concurrent-load immunity is inferred. The inherited storage
