@@ -1,0 +1,16 @@
+{
+  "blocks" : 1759,
+  "channels" : 2,
+  "checkedSamples" : 9530,
+  "completedAfterFailure" : false,
+  "finalBlockFrames" : 3840,
+  "frames" : 14397184,
+  "largestBlockFrames" : 8192,
+  "maximumSampleError" : 1.4901161193847656e-08,
+  "peakNativeRSSBytes" : 29999104,
+  "sampleRate" : 48000,
+  "seconds" : 300,
+  "sinkFailureAfterBlocks" : 3,
+  "waveBytes" : 115181568,
+  "waveFrames" : 14397184
+}

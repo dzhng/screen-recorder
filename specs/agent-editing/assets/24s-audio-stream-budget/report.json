@@ -1,0 +1,43 @@
+{
+  "sourceSha256": "212a0502ddc3e9d1da2e8e795d4d2c7d7f1fd7919808fe7c5ea39ddb548caf2c",
+  "sourceUnchanged": true,
+  "scale": [
+    {
+      "blocks": 60,
+      "channels": 2,
+      "checkedSamples": 2734,
+      "completedAfterFailure": false,
+      "finalBlockFrames": 2048,
+      "frames": 477184,
+      "largestBlockFrames": 8192,
+      "maximumSampleError": 0,
+      "peakNativeRSSBytes": 26984448,
+      "sampleRate": 48000,
+      "seconds": 10,
+      "sinkFailureAfterBlocks": 3,
+      "waveBytes": 3821568,
+      "waveFrames": 477184,
+      "independentlyCountedFrames": 477184,
+      "independentWindowMaximumError": 0
+    },
+    {
+      "blocks": 1759,
+      "channels": 2,
+      "checkedSamples": 9530,
+      "completedAfterFailure": false,
+      "finalBlockFrames": 3840,
+      "frames": 14397184,
+      "largestBlockFrames": 8192,
+      "maximumSampleError": 1.4901161193847656e-8,
+      "peakNativeRSSBytes": 29999104,
+      "sampleRate": 48000,
+      "seconds": 300,
+      "sinkFailureAfterBlocks": 3,
+      "waveBytes": 115181568,
+      "waveFrames": 14397184,
+      "independentlyCountedFrames": 14397184,
+      "independentWindowMaximumError": 4.656612873077393e-10
+    }
+  ],
+  "baseline": []
+}

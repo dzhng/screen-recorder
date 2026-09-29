@@ -1,0 +1,32 @@
+[
+  {
+    "file": "report.json",
+    "bytes": 1211,
+    "sha256": "a32cf7eb0c23b7558a55c199abe837ccfee1aa37030ee28ab7aae7d98dc99214"
+  },
+  {
+    "file": "source.mov",
+    "bytes": 115201192,
+    "sha256": "212a0502ddc3e9d1da2e8e795d4d2c7d7f1fd7919808fe7c5ea39ddb548caf2c"
+  },
+  {
+    "file": "stream-10.json",
+    "bytes": 367,
+    "sha256": "cb1765a3d5346e19e692b79f9731eda1650f43d59d74c51f0a988db8f7e6cea0"
+  },
+  {
+    "file": "stream-10.wav",
+    "bytes": 3821568,
+    "sha256": "b5c2260448b8416d8d21518048c375795e5ddee2f41c54635fdc340963714e82"
+  },
+  {
+    "file": "stream-300.json",
+    "bytes": 397,
+    "sha256": "f3c22056756466a096eea973fb7606fdc1cc5029a3ba3a922e5ecd24bdf9a7bb"
+  },
+  {
+    "file": "stream-300.wav",
+    "bytes": 115181568,
+    "sha256": "b61578f638c9c1fbecaa137933a32de1d0bac60b4a1e1016e16ed87b2a843e15"
+  }
+]

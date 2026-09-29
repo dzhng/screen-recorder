@@ -1,0 +1,47 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 2376,
+    "sha256": "4d744f15cccf5ff1d90821f044f61b5ac3be25e42a4106d5431f54ceb3a2c2fe"
+  },
+  {
+    "file": "artifact-files.json",
+    "bytes": 841,
+    "sha256": "f6188e3dc7328f752aba960bc150a535f0b1f2b058bcd5e160dbd404579d78d6"
+  },
+  {
+    "file": "evidence.tar.xz",
+    "bytes": 340684,
+    "sha256": "8d39989ebe6ef68489a4a132e31c2989ca11f71b19b3fe0cdc6afc66a7e9d214"
+  },
+  {
+    "file": "report.json",
+    "bytes": 1211,
+    "sha256": "a32cf7eb0c23b7558a55c199abe837ccfee1aa37030ee28ab7aae7d98dc99214"
+  },
+  {
+    "file": "screenrec-audio-stream-build.log.gz",
+    "bytes": 486,
+    "sha256": "f0cf59d5c197c64bceb822a80bc399644b5e5e9e8b464e7000da8be604effc9a"
+  },
+  {
+    "file": "screenrec-audio-stream-current.log.gz",
+    "bytes": 666,
+    "sha256": "7320fb31136a760ede38b04289c7ddf267c5d70e6b1f9ae0506f513282fa1f84"
+  },
+  {
+    "file": "stream-10.json",
+    "bytes": 367,
+    "sha256": "cb1765a3d5346e19e692b79f9731eda1650f43d59d74c51f0a988db8f7e6cea0"
+  },
+  {
+    "file": "stream-300.json",
+    "bytes": 397,
+    "sha256": "f3c22056756466a096eea973fb7606fdc1cc5029a3ba3a922e5ecd24bdf9a7bb"
+  },
+  {
+    "file": "verification.json",
+    "bytes": 1450,
+    "sha256": "0befa182da575859bb9d552ece1340cf3f68ad1c1de2777c8a493a78d35b9b4c"
+  }
+]
