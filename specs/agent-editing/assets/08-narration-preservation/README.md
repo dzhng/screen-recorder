@@ -43,3 +43,8 @@ matches the committed harness hash and preserves the bounded mismatch control. I
 no actionable defect; its execution was restricted by sandbox socket permissions,
 while the primary run used the actual native service. Timing under concurrent
 host work is not treated as a performance acceptance measurement.
+
+Combined-root confirmation after transcript-owner integration passes all nine
+checks with the same frozen native worker. The [root receipt](root-report.json.gz)
+and log retain actual PCM, revision and encoded-clock measurements; no listening
+or performance claim is added.

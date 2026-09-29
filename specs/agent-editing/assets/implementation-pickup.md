@@ -48,8 +48,8 @@ No production deadline or transaction guarantee changed.
   separately measured seek differences. Reuse the public acoustic journey for
  44.1-source/48-project axes; fresh visual review remains required.
 - Real narration: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  Real narration preservation is integrated with nine public checks; root
-  confirmation is running. Audit the finite admitted audio rate/layout/origin
+  Real narration preservation passes all nine public checks again after root
+  transcript-owner integration. Audit the finite admitted audio rate/layout/origin
   domain next, separating representative gaps from an exhaustive codec matrix.
   Keep AAC observations and listening separate from exact PCM preservation.
 
