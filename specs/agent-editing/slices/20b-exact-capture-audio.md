@@ -2,6 +2,7 @@
 
 Status: [bounded owner prototype](../assets/20b-admission/README.md) verifies addresses, actual omitted-buffer PCM and explicit reader masking. Journal/append integration and broader resample/recovery/support gates remain open. The [100001us window/resampling gate](../assets/20b-window-phase/README.md) is red and owned by the common reader. No writer rollout; no raw-host equivalence claim.
 The [accepted-media journal-failure checkpoint](../assets/20b-journal-failure/README.md) fixes schema1 bookkeeping independently; schema2 and canonical publication remain unenabled.
+The [typed journal checkpoint](../assets/20b-pcm-journal/README.md) banks lossless mapping serialization and bounded valid-prefix reading; actual append integration remains open.
 Dependencies: [08](08-audio-mixing.md).
 
 ## Contract and owner

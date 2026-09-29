@@ -1,0 +1,137 @@
+import CoreMedia
+import Foundation
+import ScreenRecorderCapture
+
+func runPCMJournalTests() throws {
+  let retained = ProcessInfo.processInfo.environment["SCREENREC_PCM_JOURNAL_OUTPUT"]
+  let directory = retained.map { URL(fileURLWithPath: $0) } ?? RecoveryFixture.directory("accepted-pcm-journal")
+  if retained != nil { try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false) }
+  defer { if retained == nil { try? FileManager.default.removeItem(at: directory) } }
+  let journal = try CaptureJournal(
+    directory: directory.path,
+    header: CaptureJournalHeader(
+      schemaVersion: 2, sessionID: "offline-mapping", source: CaptureSource(kind: "fixture"),
+      width: 160, height: 96, microphone: true, systemAudio: true))
+  // Serialization preserves raw flags/epoch; this does not authorize these values for admission.
+  let raw = CMTime(
+    value: Int64.max - 1, timescale: 1_000_000_000,
+    flags: [.valid, .hasBeenRounded], epoch: Int64.min + 1)
+  try journal.recordPCMOrigin(JournalPCMOrigin(rawPTS: raw, declaredHostUs: 100_000_000))
+  try journal.recordPCMTrack(
+    JournalPCMTrack(role: "narration", rate: 48000, channels: 1, phaseUs: 100001))
+  do {
+    try journal.recordAudioSamples(role: "narration", startUs: 0, endUs: 1000)
+    preconditionFailure("Schema2 cannot write legacy acquisition claims")
+  } catch let error as CaptureFailure { precondition(error.code == "INVALID_JOURNAL") }
+  do {
+    try journal.recordPCMAppend(JournalPCMAppend(role: "narration", physicalFirstFrame: 0,
+      frameCount: 1024, declaredFirstFrame: 1, rawPTS: raw, removedPauseUs: 0))
+    preconditionFailure("The first accepted buffer establishes phase at frame zero")
+  } catch let error as CaptureFailure { precondition(error.code == "INVALID_JOURNAL") }
+  var received: [JournalPCMAppend] = []
+  let empty = try CaptureJournal.streamAcceptedPCM(directory: directory.path) {
+    received.append($0)
+  }
+  precondition(received.isEmpty && empty.acquiredAudio.isEmpty)
+  try journal.recordPCMAppend(
+    JournalPCMAppend(
+      role: "narration", physicalFirstFrame: 0,
+      frameCount: 8192, declaredFirstFrame: 0, rawPTS: raw, removedPauseUs: 0))
+  try journal.recordPCMAppend(
+    JournalPCMAppend(
+      role: "narration", physicalFirstFrame: 8192,
+      frameCount: 8192, declaredFirstFrame: 16384, rawPTS: raw, removedPauseUs: 500000))
+  var origin: JournalPCMOrigin?
+  let read = try CaptureJournal.streamAcceptedPCM(
+    directory: directory.path, origin: { origin = $0 }
+  ) {
+    received.append($0)
+  }
+  precondition(read.invalidAtSequence == nil && read.acquiredAudio.isEmpty)
+  precondition(received.map(\.physicalFirstFrame) == [0, 8192])
+  precondition(received.map(\.declaredFirstFrame) == [0, 16384])
+  precondition(received[1].removedPauseUs == 500000)
+  precondition(origin?.rawPTS.value == raw.value && origin?.rawPTS.epoch == raw.epoch)
+  precondition(
+    origin?.rawPTS.flags == raw.flags.rawValue && origin?.rawPTS.timescale == raw.timescale)
+  let legacy = try CaptureJournal.inspect(directory: directory.path)
+  precondition(
+    legacy.header == nil && legacy.invalidAtSequence == 1 && legacy.acquiredAudio.isEmpty)
+  let path = directory.appendingPathComponent("capture.journal.jsonl")
+  let frozen = try Data(contentsOf: path)
+  let lines = String(data: frozen, encoding: .utf8)!.split(separator: "\n").map(String.init)
+  func checkPrefix(_ altered: [String], acceptedCount: Int, invalid: Int?, torn: Bool = false)
+    throws
+  {
+    try (altered.joined(separator: "\n") + (torn ? "" : "\n")).write(
+      to: path, atomically: true, encoding: .utf8)
+    var prefix: [Int64] = []
+    let result = try CaptureJournal.streamAcceptedPCM(directory: directory.path) {
+      prefix.append($0.physicalFirstFrame)
+    }
+    precondition(prefix == Array([Int64(0), 8192].prefix(acceptedCount)))
+    precondition(result.invalidAtSequence == invalid && result.incompleteTail == torn)
+    precondition(result.acquiredAudio.isEmpty)
+  }
+  // Terminated corruption and an uncommitted final line retain the same earlier mapping only.
+  var corrupt = lines
+  corrupt[4] = corrupt[4].replacingOccurrences(
+    of: "\"physicalFirstFrame\":\"8192\"", with: "\"physicalFirstFrame\":\"8193\"")
+  precondition(corrupt != lines)
+  try checkPrefix(corrupt, acceptedCount: 1, invalid: 5)
+  try checkPrefix(lines, acceptedCount: 1, invalid: nil, torn: true)
+  corrupt = lines
+  corrupt[4] = corrupt[4].replacingOccurrences(of: "pcmAppend", with: "unrecognizedMapping")
+  try checkPrefix(corrupt, acceptedCount: 1, invalid: 5)
+  corrupt = lines
+  corrupt[2] = corrupt[2].replacingOccurrences(of: "pcm-f32le-interleaved", with: "unsupported-format")
+  try checkPrefix(corrupt, acceptedCount: 0, invalid: 3)
+  corrupt = lines
+  corrupt[1] = corrupt[1].replacingOccurrences(
+    of: "\"value\":\"9223372036854775806\"", with: "\"value\":9223372036854775806")
+  precondition(corrupt != lines)
+  try checkPrefix(corrupt, acceptedCount: 0, invalid: 2)
+  corrupt = lines
+  corrupt[4] = corrupt[4].replacingOccurrences(of: "\"declaredFirstFrame\":\"16384\"", with: "\"declaredFirstFrame\":\"1\"")
+  try checkPrefix(corrupt, acceptedCount: 1, invalid: 5)
+  // Removing a required phase record is corruption, even with repaired sequence numbers.
+  corrupt = lines
+  corrupt.remove(at: 2)
+  corrupt[2] = corrupt[2].replacingOccurrences(of: "\"sequence\":4", with: "\"sequence\":3")
+  try checkPrefix(corrupt, acceptedCount: 0, invalid: 3)
+  try frozen.write(to: path, options: .atomic)
+  // Large physical addresses are serialization controls, not claimed real buffer sizes.
+  let boundary = JournalPCMAppend(
+    role: "system", physicalFirstFrame: Int64.max - 1,
+    frameCount: 1, declaredFirstFrame: Int64.max - 1,
+    rawPTS: CMTime(value: Int64.min, timescale: 44100, flags: .valid, epoch: Int64.max),
+    removedPauseUs: 9_007_199_254_740_993)
+  let bytes = try JSONEncoder().encode(boundary)
+  if retained != nil { try bytes.write(to: directory.appendingPathComponent("integer-boundaries.json")) }
+  let decoded = try JSONDecoder().decode(JournalPCMAppend.self, from: bytes)
+  let json = try JSONSerialization.jsonObject(with: bytes) as! [String: Any]
+  precondition(json["physicalFirstFrame"] as? String == String(Int64.max - 1))
+  precondition(
+    decoded.physicalFirstFrame == boundary.physicalFirstFrame
+      && decoded.removedPauseUs == boundary.removedPauseUs)
+  precondition(decoded.rawPTS.value == Int64.min && decoded.rawPTS.epoch == Int64.max)
+  let roles = RecoveryFixture.directory("independent-pcm-roles")
+  defer { try? FileManager.default.removeItem(at: roles) }
+  let dual = try CaptureJournal(directory: roles.path, header: CaptureJournalHeader(
+    schemaVersion: 2, sessionID: "roles", source: CaptureSource(kind: "fixture"),
+    width: 160, height: 96, microphone: true, systemAudio: true))
+  try dual.recordPCMOrigin(JournalPCMOrigin(rawPTS: raw, declaredHostUs: 1))
+  for role in ["system", "narration"] {
+    try dual.recordPCMTrack(JournalPCMTrack(role: role, rate: 44100, channels: 2, phaseUs: 100))
+    try dual.recordPCMAppend(JournalPCMAppend(role: role, physicalFirstFrame: 0,
+      frameCount: 1024, declaredFirstFrame: 0, rawPTS: raw, removedPauseUs: 0))
+  }
+  var streamed: [String: Int64] = [:]
+  let roleRead = try CaptureJournal.streamAcceptedPCM(directory: roles.path) {
+    streamed[$0.role] = $0.frameCount
+  }
+  precondition(roleRead.invalidAtSequence == nil && streamed == ["system": 1024, "narration": 1024])
+  print(
+    "PASS accepted PCM journal retains exact raw fields and separate addresses; public inspection refuses schema2"
+  )
+}

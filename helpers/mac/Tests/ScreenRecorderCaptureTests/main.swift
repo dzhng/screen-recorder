@@ -24,6 +24,7 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_FAILURE_O
   runCaptureClockTests()
   await runHeldTailFrameTests()
   try await runCaptureJournalTests()
+  try runPCMJournalTests()
   try await runDeferredPauseTests()
   try runCursorGeometryTests()
   try await runMediaRecoveryTests()

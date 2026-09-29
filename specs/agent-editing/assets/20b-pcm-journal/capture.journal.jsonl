@@ -1,0 +1,5 @@
+{"data":{"height":96,"microphone":true,"schemaVersion":2,"sessionID":"offline-mapping","source":{"kind":"fixture"},"systemAudio":true,"width":160},"event":"header","sequence":1}
+{"data":{"declaredHostUs":"100000000","rawPTS":{"epoch":"-9223372036854775807","flags":3,"timescale":1000000000,"value":"9223372036854775806"}},"event":"pcmOrigin","sequence":2}
+{"data":{"channels":1,"file":"narration.packed.mov","format":"pcm-f32le-interleaved","phaseUs":"100001","rate":48000,"role":"narration"},"event":"pcmTrack","sequence":3}
+{"data":{"declaredFirstFrame":"0","frameCount":"8192","physicalFirstFrame":"0","rawPTS":{"epoch":"-9223372036854775807","flags":3,"timescale":1000000000,"value":"9223372036854775806"},"removedPauseUs":"0","role":"narration"},"event":"pcmAppend","sequence":4}
+{"data":{"declaredFirstFrame":"16384","frameCount":"8192","physicalFirstFrame":"8192","rawPTS":{"epoch":"-9223372036854775807","flags":3,"timescale":1000000000,"value":"9223372036854775806"},"removedPauseUs":"500000","role":"narration"},"event":"pcmAppend","sequence":5}

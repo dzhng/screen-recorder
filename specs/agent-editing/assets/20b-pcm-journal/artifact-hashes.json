@@ -1,0 +1,11 @@
+{
+  "README.md": "4a11c9ad45966ad4dce79b31c48e155c4023fa2aa11e98370cdfc3b8d36c8aea",
+  "build.log.gz": "69bb0ebb697e8faad8d0bb1b88ebaac31523bce0d8ad6d83377120fe2b1de368",
+  "capture.journal.jsonl": "c0bf551f1e992c7bc0dea8d9c5644f4dc57942c780f11cace7b41328d5530773",
+  "integer-boundaries.json": "212b76302c99d98b7e964ccd41a9c1ee73380f65fe56dc34b71f6668b3813d0b",
+  "javascript-roundtrip.json": "6f2b5157bda9ca9efd07d36f9171f57cc1a56ea7ab5421e5269f15116bf9f430",
+  "negative.log.gz": "fb3d0a77f547db246c93f47f57a0bd31c132aba30e8b0fe3c2d2e2d6d6e62bdd",
+  "review.log.gz": "bd3fa8d580b8d12387fe2bfcee6bdba9df704e6b65d7d1a4ab388ec6586d2087",
+  "roundtrip.mjs": "14894fcc4c86ca0cdab15f12da2bd20d8713aab09cf6fa0bd14c1ea084fb66b6",
+  "tests.log.gz": "1acc089d52d2f154850b48388e29eeab997ed11b345a84db59d409cdb89b0f70"
+}

@@ -2724,3 +2724,14 @@ changes neither authored placement nor acquisition support. The
 [reader decisions](assets/08-native-sample-address/choices.md) cover bounded seek,
 continuity checks and cache invalidation. Confidence: high; this avoids a fitted
 offset or a new restriction on ordinary integral-rate audio.
+
+### Packed mapping evidence is not acquired source support (sound)
+
+A schema2 journal may say that an audio buffer was accepted even when its last
+physical bytes never reached a usable container. Its new streaming consumer exposes
+those mappings only to the future materializer; ordinary inspection refuses that
+layout until canonical publication proves which prefix is represented. The summary
+does not turn mapping records into acquired intervals. This fills the staging gap
+between approved format work and later publication without a permissive alternate
+parser or packet array. Confidence: high for the staged isolation; actual committed
+prefix admission remains an explicit20c/20d obligation.
