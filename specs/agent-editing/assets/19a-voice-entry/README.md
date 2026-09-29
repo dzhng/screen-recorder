@@ -28,3 +28,8 @@ with a 1 MiB encoded-file limit and 16 KiB per text field. Generation settings s
 frozen for entry parity. Widening these is future typed integration work, not an
 accidental public API limit. Pins describe this verified preparation rather than
 promising arbitrary Python environments or hardware will reproduce its output.
+
+Root integration at `4724aed5` also passes all 13 actual-entry cases and 30 shared
+process/workspace tests after service and CLI builds. [Root verification](root-verification.json)
+records the actual requests and receipts. Both complete WAVs were compared byte
+for byte with the retained archive; no duplicate media is stored.

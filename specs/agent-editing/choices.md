@@ -3619,3 +3619,23 @@ Use that bounded result for a private worker-entry port, as the earlier denoise
 entry checkpoint did. Keep public generation and the complete parent acceptance
 separate. This resolves whether implementation can progress before listening
 without silently choosing a new voice or upgrading numerical parity to quality.
+
+## Private voice entry19a integration
+
+- **Choice:** Treat the prepared environment as an explicit measured input. When
+  the agent starts synthesis, the service checks executable, entry and manifest
+  bytes; Python checks model bytes, runtime Python sources and dependency versions.
+  Other dependency binaries are not authenticated. The alternative would silently
+  accept a different installed environment and lose the frozen-output guarantee.
+  **Gap:** The plan required preparation identity without specifying its envelope.
+  **Reach:** Public preparation must deliberately replace these private pins with
+  its common owner, preserving the measured recipe. **Verdict: sound; confidence
+  medium.** The scope is explicit and does not promise portable binary identity.
+- **Choice:** Admit only short measured references in this private checkpoint. A
+  request with more than five seconds is refused before inference; future public
+  controls must widen this through measured support rather than inherit it by
+  accident. Encoded references are also capped at1MiB and each text field at16KiB.
+  **Gap:** The parent did not specify private admission budgets. **Reach:** These
+  bounds constrain this entry test, not the final editing workflow or model ability.
+  **Verdict: sound; confidence medium.** A bounded checkpoint preserves parity
+  while the full public settings contract remains open.
