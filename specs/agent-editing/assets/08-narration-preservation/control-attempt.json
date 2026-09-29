@@ -1,0 +1,5 @@
+{
+  "initialControl": "Interrupted during large Buffer.deepEqual diagnostic formatting; not an accepted negative result",
+  "boundedControl": "Public output gain0.5 makes complete Buffer.compare equality fail",
+  "productionChanges": false
+}
