@@ -1,7 +1,8 @@
 # 20e — Prepare selected-device clock reproduction
 
 Status: planned implementation; no physical capture authorized or performed.
-Dependencies: [20a](20a-offline-clock.md)–[20d](20d-capture-publication.md).
+Dependencies: [20a](20a-offline-clock.md), [20b](20b-exact-capture-audio.md),
+[20c](20c-sparse-capture-materialization.md), [20d](20d-capture-publication.md).
 
 ## Contract and boundary
 
@@ -35,8 +36,16 @@ Camera is a separate video-only probe sink with its own dimensions, using the sa
 screen-established clock snapshot and serial ingestion queue. It records the
 existing journal shape for its independent video source, not a new production role
 or audio writer. It must not re-zero late camera frames, hold a disconnected camera's
-tail, or invent a source picture across a gap. One stop drains inputs before closure;
-partial starts and device loss use existing terminal ownership. Stream raw PTS,
+tail, or invent a source picture across a gap. `CaptureInputSession.stop` remains physical-input drain only. Its probe media
+joins NativeCapture's existing termination operation through explicit default
+identity `finalizeMedia(result)` and default no-op `discardMedia()` hooks. Stop
+seals writer ingress, drains inputs, finishes the screen/audio writer (including
+an open pause), then finalizes camera from the final shared clock before caching
+the closed result and publishing audio. Publication retries must not repeat media
+finalization. Discard and failed startup cancel probe media, never finalize it.
+A typed queue-owned ingress snapshot includes both CaptureClock and acceptance
+state: sourceTime alone does not reject post-seal samples. Camera callbacks must
+honor the writer seal gate. Partial starts and device loss retain the same owner. Stream raw PTS,
 converted host PTS, callback host time, role, placement/drop reason and clock
 observations to bounded append-only evidence rather than accumulating a take.
 
@@ -45,7 +54,8 @@ observations to bounded append-only evidence rather than accumulating a take.
 - Pure malformed/incomplete request, explicit selection miss and denied/unknown
   authorization tests prove no source activation or implicit permission request.
 - Prerecorded callbacks exercise the same conversion/ingestion seam, including
-  late camera start, pre-origin samples, pause crossing, failure and teardown.
+  late camera start, pre-origin samples, pause crossing, stop while paused,
+  post-seal delivery, discard, partial startup and publication retry.
   Check separate playable output, exact canonical microphone PCM/support and
   common source origin; simulated clocks never count as physical drift proof.
 - Preserve existing capture writer/clock/journal/termination/recovery gates and
