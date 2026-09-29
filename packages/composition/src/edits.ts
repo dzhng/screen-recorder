@@ -1,4 +1,4 @@
-import { normalizeStateEdit } from "./processing-state.js";
+import { hasStatefulProcessing, normalizeStateEdit } from "./processing-state.js";
 import { resolveComposition } from "./model.js";
 import { getProcessing, processingKey } from "./processing.js";
 import { CompositionError } from "./errors.js";
@@ -488,12 +488,7 @@ export function applyBatch(
     const before = model.document;
     let next: Document;
     try {
-      if (
-        authored.operation === "processing.set" &&
-        !before.processing.some((stack) =>
-          stack.steps.some((step) => step.processor.type === "rnnoise"),
-        )
-      ) {
+      if (authored.operation === "processing.set" && !hasStatefulProcessing(before)) {
         const known = new Set([
           processingKey({ kind: "output" }),
           ...before.tracks.map((node) => processingKey({ kind: "track", id: node.id })),
@@ -580,10 +575,10 @@ export function applyBatch(
           continue;
         }
       }
-      // Independent project appends cannot repair an invalid earlier prefix. Empty processing
-      // also excludes state/window normalization that could change earlier operation receipts.
+      // Project appends cannot repair an invalid earlier prefix or change existing stateless
+      // stacks. Stateful membership normalization can change receipts, so it remains scalar.
       if (
-        before.processing.length === 0 &&
+        !hasStatefulProcessing(before) &&
         authored.operation === "place" &&
         authored.clip.placement.kind === "project"
       ) {

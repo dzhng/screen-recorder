@@ -105,6 +105,14 @@ const worker = async (operation, params, options) => {
     if (params.frames) await copyFile(params.frames, `${prefix}-frames.jsonl`);
     if (result.ok && result.data.file) await copyFile(result.data.file, `${prefix}-output`);
   }
+  if (process.argv[3] && operation === "media.mixCompositionAudio") {
+    await mkdir(process.argv[3], { recursive: true });
+    const request = params.planFile ? JSON.parse(await readFile(params.planFile, "utf8")) : params;
+    await writeFile(
+      join(process.argv[3], `mix-${audioOrdinal++}.json`),
+      JSON.stringify({ request, response: result }),
+    );
+  }
   if (armed?.operation === operation && --armed.remaining === 0) {
     const fault = armed;
     armed = undefined;

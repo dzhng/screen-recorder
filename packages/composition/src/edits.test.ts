@@ -2468,9 +2468,13 @@ test("independent placements retain their own receipts before a following depend
   expect(input.clips).toEqual([]);
 });
 
-test.each(["source", "label", "identity"])(
-  "an earlier append error precedes a later %s error",
-  (later) => {
+test.each(
+  [false, true].flatMap((processing) =>
+    ["source", "label", "identity"].map((later) => ({ processing, later })),
+  ),
+)(
+  "an earlier append error precedes a later $later error with processing=$processing",
+  ({ later, processing }) => {
     const clip = {
       id: "existing",
       trackId: "audio",
@@ -2482,6 +2486,14 @@ test.each(["source", "label", "identity"])(
     const document = {
       ...input,
       tracks: [{ id: "audio", kind: "audio", order: 0 }],
+      processing: processing
+        ? [
+            {
+              target: { kind: "track", id: "audio" },
+              steps: [{ id: "gain", enabled: true, processor: { type: "gain", gain: 0.5 } }],
+            },
+          ]
+        : [],
       clips: [
         clip,
         ...(later === "identity"
@@ -2639,3 +2651,58 @@ test("an invalid independent processing prefix precedes later construction error
   }
   expect(document.processing).toEqual([]);
 });
+
+test.each([
+  { name: "gain", processor: { type: "gain", gain: 0.5 } },
+  {
+    name: "windowed gain",
+    processor: { type: "gain", gain: 2 },
+    window: { kind: "project", range: { startUs: 0, endUs: 200000 } },
+  },
+  { name: "stateful fallback", processor: { type: "rnnoise" } },
+])(
+  "placements beneath $name preserve scalar receipts and dependent edits",
+  ({ name: _name, ...step }) => {
+    const document = applyBatch(
+      { ...input, tracks: [{ id: "audio", kind: "audio", order: 0 }] },
+      [{ operation: "processing.set", target: { kind: "track", id: "audio" }, steps: [step] }],
+      { ...context, namespace: "processing" },
+    ).document;
+    const operations = [0, 1, 2].map((index) => ({
+      operation: "place",
+      label: `placed${index}`,
+      clip: {
+        trackId: "audio",
+        assetId: "source",
+        streamId: "a",
+        source: { kind: "range", range: { startUs: 200000, endUs: 300000 } },
+        placement: {
+          kind: "project",
+          range: { startUs: index * 100000, endUs: (index + 1) * 100000 },
+        },
+      },
+    }));
+    const tail = {
+      operation: "remove",
+      clipIds: [{ label: "placed1" }],
+      scope: "selected",
+      ripple: "none",
+    };
+    const batched = applyBatch(document, [...operations, tail], context);
+    // Canvas no-ops preserve identities but force each placement through the scalar editor path.
+    const scalar = applyBatch(
+      document,
+      [
+        ...operations.flatMap((operation) => [operation, { operation: "canvas.set", canvas: {} }]),
+        tail,
+      ],
+      context,
+    );
+    expect(batched).toEqual({
+      ...scalar,
+      normalized: scalar.normalized
+        .filter((_, index) => index % 2 === 0)
+        .map((entry, operationIndex) => ({ ...entry, operationIndex })),
+    });
+  },
+);

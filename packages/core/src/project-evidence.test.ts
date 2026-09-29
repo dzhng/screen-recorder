@@ -1561,3 +1561,22 @@ test("project-native cuts page without source evidence, survive historical heads
   ).toEqual([200]);
   expect((await eventPages(f, { ...input, range: { startUs: 201, endUs: 400 } })).rows).toEqual([]);
 });
+
+test("known-unavailable source prefixes do not delay ready editorial cuts", async () => {
+  const f = await fixture();
+  const input = f.create([
+    track("a"),
+    ...Array.from({ length: 500 }, (_, index) =>
+      clip(f.asset.id, `c${index}`, "a", index * 2000, index * 2000 + 1000),
+    ),
+  ]);
+  await f.evidence.events({ ...input, limit: 50 });
+  await f.jobs.idle();
+  const first = await f.evidence.events({ ...input, limit: 50 });
+  expect(first.page!.rows.map((row) => [row.kind, row.projectAtUs])).toEqual(
+    Array.from({ length: 50 }, (_, index) => ["cut", (index + 1) * 1000]),
+  );
+  expect(first.page!.nextCursor).not.toBeNull();
+  expect(first.coverage).toMatchObject({ cuts: { state: "ready", basis: "revision" } });
+  expect(first.dependencies.every((dependency) => dependency.state === "unavailable")).toBe(true);
+});

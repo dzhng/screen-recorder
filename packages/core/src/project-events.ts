@@ -78,6 +78,13 @@ export function mergeEvents(
       if (budget.remaining <= 0) return undefined;
       const clip = clips.get(ids[position.clip]!)!,
         context = dependencies.get(sourceSelectionKey(clip))!;
+      // Dependency pins remain checked by the read owner. No source scan is needed when
+      // neither source owner has published evidence; those clips cannot contribute a row.
+      if (!context.evidence && !context.scene?.evidence) {
+        position.clip++;
+        position.source = initialSourceEvents();
+        continue;
+      }
       const row = clip.fragments.length
         ? reader.next(
             context,

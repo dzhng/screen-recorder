@@ -132,14 +132,16 @@ function prefixInputs(plan: Pick<StatePlan, "nodes">) {
   };
 }
 
+/** These processors can change shared state membership when the editor changes their input. */
+export function hasStatefulProcessing(document: ValidatedComposition["document"]): boolean {
+  return document.processing.some((stack) =>
+    stack.steps.some((step) => step.processor.type === "rnnoise"),
+  );
+}
+
 /** Derive current structural audio and ordered prefixes using the existing routing and clock owners. */
 export function deriveStatePlan(model: ValidatedComposition): StatePlan {
-  if (
-    !model.document.processing.some((stack) =>
-      stack.steps.some((step) => step.processor.type === "rnnoise"),
-    )
-  )
-    return { inputs: [], nodes: [], domains: [] };
+  if (!hasStatefulProcessing(model.document)) return { inputs: [], nodes: [], domains: [] };
   const audio = model.clips.filter((clip) => clip.track.kind === "audio");
   const clips = new Map(audio.map((clip) => [clip.clip.id, clip]));
   const nodes: StatePlan["nodes"] = [];

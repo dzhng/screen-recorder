@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "base": "fcd0f0b2",
+  "catalogVersion": 19,
+  "nativeSHA256": "2a2249c371d35a6d182dfe15c84170a8f4871a79af65ccdf4160465cece14bcf",
+  "runtime": "Isolated freshly built composition/core outputs; copied parent service/protocol dist with local @screenrec resolution; existing local CLI and dependency links. No parent output mutated.",
+  "originalPlacementFailure": {
+    "request": "screenrec-24k-second/request-7200-place-5500.json",
+    "state": "Committed once despite15s client TIMEOUT; exact replay retained same head and6000clips. Immutable pre-request revision remains in the banked catalog.",
+    "profile": "screenrec-24k-profile-summary.json.gz"
+  },
+  "inspectionFailure": {
+    "report": "screenrec-24k-green/report.json",
+    "p95Ms": 2776.860375000004,
+    "callsPer250Rows": 80
+  },
+  "final": {
+    "report": "screenrec-24k-verified/report.json",
+    "cases": [
+      {
+        "seconds": 300,
+        "occurrences": 500,
+        "depth": 128,
+        "width": 32,
+        "inspectionP95Ms": 13.858041000000071,
+        "callsPer250Rows": 2,
+        "maximumPlacementMs": 153.92975,
+        "lateAudio": [
+          {
+            "name": "cold",
+            "ms": 560.6292920000001,
+            "sha256": "22495517937d807ea5516ecd4d0e30fd3fa925b2c224385981672a2f67c0e36c",
+            "exactPCM": true,
+            "frames": 4800,
+            "peakResidentBytes": 56655872,
+            "maximumBlockFrames": 4660
+          },
+          {
+            "name": "warm",
+            "ms": 100.69975,
+            "sha256": "22495517937d807ea5516ecd4d0e30fd3fa925b2c224385981672a2f67c0e36c",
+            "exactPCM": true,
+            "frames": 4800,
+            "peakResidentBytes": 56655872,
+            "maximumBlockFrames": 4660
+          }
+        ]
+      },
+      {
+        "seconds": 7200,
+        "occurrences": 10000,
+        "depth": 128,
+        "width": 32,
+        "inspectionP95Ms": 152.18908399999964,
+        "callsPer250Rows": 2,
+        "maximumPlacementMs": 254.89537500000006,
+        "lateAudio": [
+          {
+            "name": "cold",
+            "ms": 881.6198750000003,
+            "sha256": "22495517937d807ea5516ecd4d0e30fd3fa925b2c224385981672a2f67c0e36c",
+            "exactPCM": true,
+            "frames": 4800,
+            "peakResidentBytes": 56606720,
+            "maximumBlockFrames": 4660
+          },
+          {
+            "name": "warm",
+            "ms": 249.7006249999995,
+            "sha256": "22495517937d807ea5516ecd4d0e30fd3fa925b2c224385981672a2f67c0e36c",
+            "exactPCM": true,
+            "frames": 4800,
+            "peakResidentBytes": 56606720,
+            "maximumBlockFrames": 4660
+          }
+        ]
+      }
+    ],
+    "sampledServicePeakRSS": 840564736,
+    "queue": {
+      "refusal": {
+        "code": "LIMIT_EXCEEDED",
+        "message": "Too much work is already waiting; retry once the queue drains",
+        "retryable": true,
+        "details": {
+          "queued": 32
+        }
+      },
+      "queued": 32,
+      "cancelAndDrainMs": 386.48358299999927,
+      "successorAfterReleaseMs": 282.3037080000013
+    }
+  },
+  "tests": {
+    "composition": 242,
+    "corePreservation": 53,
+    "independentReviewFocused": 91,
+    "typechecks": "composition/core passed",
+    "lint": "No new findings; existing unused rgbBase64 destructuring warning in source-acquisition-service.mjs"
+  },
+  "review": "No actionable defects; reviewer did not rerun native scale journey",
+  "limitations": [
+    "No1080p10-second preview measurement",
+    "No controlled doubling of duration at fixed occurrence count",
+    "No actual native decoder byte/frame counter added",
+    "Active cancellation holds an already successful native reply before publication",
+    "No full2h DSP/output allocation; short late windows only",
+    "The cut query selects9968prefix occurrences; existing admission cap is10000"
+  ]
+}
