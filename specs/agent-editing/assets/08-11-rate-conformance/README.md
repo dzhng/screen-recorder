@@ -28,6 +28,14 @@ The early failing run discarded its ranged scratch WAV before retention; its
 reported maximum survives, but that specific delta cannot now be localized from
 PCM. The harness subsequently retains all windows before evaluating comparisons.
 
+The archived `mix-verified` capture also has a retained mixed full/range mismatch:
+4,530 scalar samples differ, maximum `5.960464477539063e-8`. This is distinct from
+the earlier independent-component comparison. The [current-worker matched case](current-mixed-range/README.md)
+reuses those exact compressed/reference inputs and manifests through two native
+requests; its complete range equals its full-mix slice exactly. This supplies
+the named current full/range check without erasing the historical red or claiming
+a causal decoder repair or general cross-invocation determinism.
+
 The public acoustic journey compares one authored 44.1 kHz stereo source with its
 48 kHz project output. Delivered PCM, bucket min/max/RMS and sample clocks agree
 exactly; the authored right-channel impulse remains at 0.64 seconds. Image checks
