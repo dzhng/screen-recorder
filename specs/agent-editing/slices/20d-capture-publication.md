@@ -156,3 +156,8 @@ bound, preserving both edge gaps around N=100,000 occupied spans. The actual
 100,000-run source now reaches ready through public acquisition with a fresh
 request ID. Full public asset metadata and portable manifest delivery remain the
 next independent prerequisite; acquisition readiness alone does not close them.
+
+Remaining metadata delivery is split into [20d2 public asset pages](20d2-asset-metadata-pages.md)
+and [20d3 inventory-bound package metadata](20d3-package-asset-metadata.md). These
+preserve one AssetStore metadata owner and separate response delivery from complete
+pre-ready portable dependency/canonical verification.

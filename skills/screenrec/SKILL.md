@@ -70,6 +70,12 @@ convert each asset timestamp back to capture time by subtracting that binding's
 selects a new complete binding: omitted acquisition means physical support even
 when processing is kept.
 
+Use `asset.get` to discover immutable stream headers and each stream's
+`segmentCount`. Read full physical timing with `asset.segments`, preserving every
+returned ordinal and empty gap. Follow the complete `nextCursor` until null; a
+cursor belongs to its asset and stream. Headers never embed partial segment arrays.
+These rows describe source media, not project time or newly inferred capture support.
+
 For imported speech, select the returned `assetId` and audio `streamId` explicitly
 when requesting a source transcript; include `acquisitionId` only when you intend
 its capture gaps. These ranges are normalized file timestamps, not project time.

@@ -110,3 +110,8 @@ ordered crop/placement/opacity, dry taps, retained indexed PNGs, preview/export 
 cache/history/restart/deletion journeys. Timeless image identity is distinct from
 video sample provenance. Fresh product-skill use passes; combined renderer binding
 and verification remain required; this does not close animated processing or broad color/scale gates.
+
+[Indexed asset metadata inspection](assets/20d2-asset-pages/README.md) reconstructs
+all 200,000 physical rows of the actual 100,000-run admitted source through CLI/MCP.
+`asset.get` supplies headers/counts; `asset.segments` preserves ordinal rows and
+empty gaps. Ordinary media/font import and replay behavior remain covered.

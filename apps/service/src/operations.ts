@@ -155,6 +155,7 @@ export async function operate(
       case "acquisition.get":
       case "asset.import":
       case "asset.get":
+      case "asset.segments":
       case "asset.origins":
       case "asset.list":
       case "job.get":

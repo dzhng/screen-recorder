@@ -346,7 +346,26 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("asset.get"), params: z.object({ assetId: id }).strict() })
     .strict()
     .describe(
-      "Read immutable admitted stream metadata or non-timed fontFaces. Select a font face by assetId and its exact postScriptName; names are scoped to those immutable bytes, not the installed system fonts.",
+      "Read immutable stream headers with segmentCount; use asset.segments for complete physical timing rows, including empty gaps. Non-timed fontFaces remain available. Select a font face by assetId and its exact postScriptName; names are scoped to those immutable bytes, not the installed system fonts.",
+    ),
+  z
+    .object({
+      operation: z.literal("asset.segments"),
+      params: z
+        .object({
+          assetId: id,
+          streamId: z.string().min(1),
+          cursor: z
+            .object({ assetId: id, streamId: z.string().min(1), afterOrdinal: z.int().min(-1) })
+            .strict()
+            .optional(),
+          limit: z.int().min(1).max(1000).optional(),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Read exact physical segment rows in immutable ordinal order, including empty gaps and original media mappings. Use asset.get segmentCount for discovery; follow nextCursor until null. A cursor belongs to its asset and stream. These rows preserve source metadata, not a newly normalized playback timeline.",
     ),
   z
     .object({

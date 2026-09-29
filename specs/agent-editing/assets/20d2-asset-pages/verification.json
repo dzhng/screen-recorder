@@ -1,0 +1,184 @@
+{
+  "passed": true,
+  "catalogFormat": 15,
+  "scope": "Indexed asset inspection; portable metadata inventory remains20d3",
+  "tests": {
+    "coreBeforeIdentityRefinement": 57,
+    "service": 35,
+    "nativeOnlySkipped": 2,
+    "finalSchemaCore": 48
+  },
+  "public": {
+    "passed": true,
+    "traversalSeconds": 15.34624625,
+    "maximumPageMilliseconds": 249.92504199999985,
+    "clientMaxRSSKiB": 239168
+  },
+  "query": {
+    "count": 200000,
+    "pages": 800,
+    "totalSeconds": 0.318056916,
+    "p95Milliseconds": 0.6809999999999832,
+    "maximumMilliseconds": 5.940959000000021,
+    "maxRSSKiB": 91760,
+    "queryPlan": [
+      {
+        "id": 6,
+        "parent": 0,
+        "notused": 47,
+        "detail": "SEARCH asset_segments USING PRIMARY KEY (assetId=? AND streamId=? AND ordinal>?)"
+      }
+    ],
+    "headerBytes": {
+      "bytes": 382
+    },
+    "scope": "Actual AssetStore250-row complete traversal, real public-admitted asset, no complete metadata reconstruction or native work"
+  },
+  "review": {
+    "independent": "no actionable findings",
+    "parent": "duplicate portable stream IDs rejected in shared schema; removal control red"
+  },
+  "limits": [
+    "Public acquisition74.672s ran under concurrent native load; not isolated timing",
+    "No package inventory change or large audio selection closure",
+    "No new inference/listening claim",
+    "Final fresh-consumer skill review remains overall acceptance work"
+  ],
+  "artifacts": [
+    {
+      "path": "public/import.json",
+      "bytes": 20014,
+      "sha256": "eb13cbf50c898f85867fb610568911486418b4e014156d120bc8a3c02ea18ba8"
+    },
+    {
+      "path": "public/import.mjs",
+      "bytes": 1226,
+      "sha256": "e0ff3122c7ad3d0a5b76483bb8e9c1c8add18a6c6496ca2d85f58c676dd27acc"
+    },
+    {
+      "path": "public/pages.jsonl",
+      "bytes": 18766189,
+      "sha256": "1f7a98efe6624d1a16c1764967f6bcf2d1b78ad0cab0ee8523ff50aad600c1eb"
+    },
+    {
+      "path": "public/report.json",
+      "bytes": 50892,
+      "sha256": "48c9f8113e304a9ff95887cb547e3d345e5369b944652e929e3409620299b73d"
+    },
+    {
+      "path": "public/headers.json",
+      "bytes": 500,
+      "sha256": "07b192c476ff7fb22d8ae3c86961b38e2f2c3fff272b8c71c055fe3c56a5f9da"
+    },
+    {
+      "path": "public/small.log",
+      "bytes": 677,
+      "sha256": "fa7ae5468f0d2ff5edc48185855421970b0aaeeba44761a20f059ff1d21514a1"
+    },
+    {
+      "path": "public/fonts.log",
+      "bytes": 346,
+      "sha256": "73520bef217ba0d3991253850d7251341e42b97cf954582c21dae78dd87ed58f"
+    },
+    {
+      "path": "query/large.json",
+      "bytes": 20036,
+      "sha256": "c5f95a0b5413287fb508a2ddf086a071b9db882f6dae8fb631ffa9e185197c1d"
+    },
+    {
+      "path": "query/large.mjs",
+      "bytes": 1655,
+      "sha256": "37ef416596b0b55b6dbcaddd2006c56272d10f451b67351f4eda768dc6da7e31"
+    },
+    {
+      "path": "query/small.json",
+      "bytes": 308,
+      "sha256": "f648bd91a58936e2e935075d1225eabaa820a57338385b13339a797e65806f49"
+    },
+    {
+      "path": "query/small.mjs",
+      "bytes": 1602,
+      "sha256": "089045606cae54225b83f206447953f1e3de84a203e0cf3354e2c2621671dd46"
+    },
+    {
+      "path": "rejected-json/large.json",
+      "bytes": 18603,
+      "sha256": "d00523e22f3223ddbbb079ac28d78b22de85aef9015eeaa8db99f51bc498eec7"
+    },
+    {
+      "path": "rejected-json/small.json",
+      "bytes": 304,
+      "sha256": "31ddb39ba4a0fb261ea10eb14599793c9009a64ea87df8b1888b1457310766b2"
+    },
+    {
+      "path": "rejected-json/public-report.json",
+      "bytes": 50837,
+      "sha256": "a170a30f2bb4fef8be9376d2b76fb82d835b0d4159203795b1607b11e8c2c9a6"
+    },
+    {
+      "path": "checks/initial-public-red.json",
+      "bytes": 451,
+      "sha256": "94b37e0864f8e8d7287cbbd307d0675a1e181525c50ca3f28369bb604fac2563"
+    },
+    {
+      "path": "checks/unit-red.log",
+      "bytes": 1381,
+      "sha256": "c874e7c079fdf5708e9aa73c4f38e9c54ec40715752edd19c832fc6797dbb86c"
+    },
+    {
+      "path": "checks/core.log",
+      "bytes": 1034,
+      "sha256": "cdacf99394d3f8bd771a021d45df25085a64afd7e4a5ee488e7a4e5fa14f0ce9"
+    },
+    {
+      "path": "checks/service.log",
+      "bytes": 840,
+      "sha256": "460a67a5f6ac43434aecd1842fe39b41f7d0ed1fbb6deecd4b8e76620dc2cdf1"
+    },
+    {
+      "path": "checks/final-schema.log",
+      "bytes": 1041,
+      "sha256": "2cb39dc14e63e69d1ad0fadccd7f2c114b1746dcfda75584c6b4c4e705750225"
+    },
+    {
+      "path": "checks/duplicate-red.log",
+      "bytes": 1876,
+      "sha256": "8b153c729d00920b0ce85936d9bc5eb5d820af845214f637760c0e39e8ae5e24"
+    },
+    {
+      "path": "checks/duplicate-green.log",
+      "bytes": 453,
+      "sha256": "396bf4c1ece3d732207baf21d9de60f244f6f91cf21d1d8c11c1b1e54e8b0408"
+    },
+    {
+      "path": "checks/build.log",
+      "bytes": 993,
+      "sha256": "264af5449089f4bc1397d602123538f6cc5717dadebdf24ebdcad25bddbec532"
+    },
+    {
+      "path": "checks/review.log",
+      "bytes": 199465,
+      "sha256": "0fe8c92aab909a4ad39b7e0fe0409a37582afa69236f955d71041461c211412e"
+    },
+    {
+      "path": "checks/old-catalog.log",
+      "bytes": 245,
+      "sha256": "d5bdc584ba9d44addbd6a1cf4bfdaa66a8306ee552c7b9f83199feb5bbe3c993"
+    },
+    {
+      "path": "help/asset-get.json",
+      "bytes": 1475,
+      "sha256": "2ccd0b59ce52076d2e3e1f719cd70478030851eec35feab71481e5d30e17cc75"
+    },
+    {
+      "path": "help/asset-segments.json",
+      "bytes": 2455,
+      "sha256": "7bebd7798296f8beb42889d2c366071e01c71498156ec8439d6bfc69e0582182"
+    },
+    {
+      "path": "rejected-json/assets.ts",
+      "bytes": 27401,
+      "sha256": "26fc39c5d547e66ff6b22d009ff5aed6e49515a4ec621f75387a106c5e75e1d8"
+    }
+  ]
+}

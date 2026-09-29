@@ -26,7 +26,10 @@ const stream = z.object({
   startUs: integer.optional(),
   endUs: integer.optional(),
   // Up to 100,000 occupied runs plus inter-run, leading and trailing empty segments.
-  segments: z.array(segment).max(2 * 100_000 + 1).optional(),
+  segments: z
+    .array(segment)
+    .max(2 * 100_000 + 1)
+    .optional(),
   width: positive.optional(),
   height: positive.optional(),
   orientedWidth: z.number().finite().positive().optional(),
@@ -84,6 +87,10 @@ export const mediaProbeSchema = z
           new Set(fontFaces.map((face) => face.postScriptName)).size === fontFaces.length
         : streams.length > 0,
     "Expected playable streams or unambiguous, non-timed font faces",
+  )
+  .refine(
+    ({ streams }) => new Set(streams.map((stream) => stream.id)).size === streams.length,
+    "Expected unique stream identities",
   );
 export type MediaProbe = z.infer<typeof mediaProbeSchema>;
 export type Asset = MediaProbe & { id: string; bytes: number; createdAt: string; fileName: string };
@@ -146,6 +153,11 @@ export class AssetStore {
         sequence INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT UNIQUE NOT NULL,
         metadata TEXT NOT NULL
       ) STRICT;
+      CREATE TABLE IF NOT EXISTS asset_segments (
+        assetId TEXT NOT NULL REFERENCES assets(id) ON DELETE CASCADE,
+        streamId TEXT NOT NULL, ordinal INTEGER NOT NULL CHECK(ordinal>=0), value TEXT NOT NULL,
+        PRIMARY KEY(assetId,streamId,ordinal)
+      ) STRICT, WITHOUT ROWID;
       CREATE TABLE IF NOT EXISTS asset_origins (
         assetId TEXT NOT NULL, provenance TEXT NOT NULL, PRIMARY KEY(assetId,provenance)
       ) STRICT;
@@ -268,13 +280,111 @@ export class AssetStore {
     );
   }
 
-  get(id: string): Asset {
+  private header(id: string): Asset {
     const row = this.store.catalog.prepare("SELECT metadata FROM assets WHERE id=?").get(id);
     if (!row) throw new CatalogError("NOT_FOUND", "Asset does not exist", { assetId: id });
     return JSON.parse(row.metadata as string) as Asset;
   }
+  /** Complete metadata is reconstructed only for callers that need every physical row. */
+  get(id: string): Asset {
+    const asset = this.header(id);
+    const rows = this.store.catalog.prepare(
+      "SELECT value FROM asset_segments WHERE assetId=? AND streamId=? ORDER BY ordinal",
+    );
+    for (const stream of asset.streams)
+      if (stream.segments !== undefined)
+        stream.segments = rows.all(id, stream.id).map((row) => JSON.parse(row.value as string));
+    return asset;
+  }
+  /** Called inside the existing import/adoption transaction; rows have one authoritative owner. */
+  private insert(asset: Asset): void {
+    const header = {
+      ...asset,
+      streams: asset.streams.map(({ segments, ...stream }) => ({
+        ...stream,
+        ...(segments === undefined ? {} : { segments: [] }),
+      })),
+    };
+    const inserted = this.store.catalog
+      .prepare("INSERT OR IGNORE INTO assets(id,metadata) VALUES(?,?)")
+      .run(asset.id, JSON.stringify(header));
+    if (!inserted.changes) return;
+    const row = this.store.catalog.prepare(
+      "INSERT INTO asset_segments(assetId,streamId,ordinal,value) VALUES(?,?,?,?)",
+    );
+    for (const stream of asset.streams)
+      for (const [ordinal, segment] of (stream.segments ?? []).entries())
+        row.run(asset.id, stream.id, ordinal, JSON.stringify(segment));
+  }
+  /** Public discovery omits physical rows; immutable segment pages retain their full meaning. */
+  describe(id: string): Omit<Asset, "streams"> & {
+    streams: (Omit<Asset["streams"][number], "segments"> & { segmentCount: number })[];
+  } {
+    const asset = this.header(id);
+    const count = this.store.catalog.prepare(
+      "SELECT coalesce(max(ordinal)+1,0) AS count FROM asset_segments WHERE assetId=? AND streamId=?",
+    );
+    return {
+      ...asset,
+      streams: asset.streams.map(({ segments: _segments, ...stream }) => ({
+        ...stream,
+        segmentCount: count.get(id, stream.id)!.count as number,
+      })),
+    };
+  }
+  segments(
+    id: string,
+    streamId: string,
+    input: {
+      cursor?: { assetId: string; streamId: string; afterOrdinal: number };
+      limit?: number;
+    } = {},
+  ): {
+    assetId: string;
+    streamId: string;
+    segments: (z.infer<typeof segment> & { ordinal: number })[];
+    nextCursor: { assetId: string; streamId: string; afterOrdinal: number } | null;
+  } {
+    const limit = input.limit ?? 250,
+      after = input.cursor?.afterOrdinal ?? -1;
+    if (
+      !Number.isSafeInteger(limit) ||
+      limit < 1 ||
+      limit > 1000 ||
+      !Number.isSafeInteger(after) ||
+      after < -1 ||
+      (input.cursor && (input.cursor.assetId !== id || input.cursor.streamId !== streamId))
+    )
+      throw new CatalogError("INVALID_PARAMS", "Invalid asset segment cursor or page bounds");
+    const asset = this.header(id);
+    if (!asset.streams.some((stream) => stream.id === streamId))
+      throw new CatalogError("NOT_FOUND", "Stream does not exist", { assetId: id, streamId });
+    const count = this.store.catalog
+      .prepare(
+        "SELECT coalesce(max(ordinal)+1,0) AS count FROM asset_segments WHERE assetId=? AND streamId=?",
+      )
+      .get(id, streamId)!.count as number;
+    if (after >= count)
+      throw new CatalogError("INVALID_PARAMS", "Asset segment cursor exceeds the stream");
+    const rows = this.store.catalog
+      .prepare(
+        "SELECT ordinal,value FROM asset_segments WHERE assetId=? AND streamId=? AND ordinal>? ORDER BY ordinal LIMIT ?",
+      )
+      .all(id, streamId, after, limit + 1);
+    return {
+      assetId: id,
+      streamId,
+      segments: rows
+        .slice(0, limit)
+        .map((row) => ({ ordinal: row.ordinal as number, ...JSON.parse(row.value as string) })),
+      nextCursor:
+        rows.length > limit
+          ? { assetId: id, streamId, afterOrdinal: rows[limit - 1]!.ordinal as number }
+          : null,
+    };
+  }
   path(id: string): string {
-    return join(this.directory, this.get(id).fileName);
+    return join(this.directory, this.header(id).fileName);
   }
   list(input: { afterSequence?: number; limit?: number } = {}): {
     assets: AssetSummary[];
@@ -322,7 +432,7 @@ export class AssetStore {
     origins: AssetProvenance[];
     nextCursor: { afterProvenance: string } | null;
   } {
-    this.get(id);
+    this.header(id);
     const limit = input.limit ?? 250;
     if (
       !Number.isSafeInteger(limit) ||
@@ -346,14 +456,14 @@ export class AssetStore {
   }
   /** Call inside the revision/job transaction when references must commit with that owner. */
   retain(owner: ResourceOwner, ids: readonly string[]): void {
-    for (const id of ids) this.get(id);
+    for (const id of ids) this.header(id);
     this.dependencies.retain("asset", owner, ids);
   }
   release(owner: ResourceOwner): void {
     this.dependencies.release("asset", owner);
   }
   references(id: string): ResourceOwner[] {
-    this.get(id);
+    this.header(id);
     return this.dependencies.owners("asset", id);
   }
 
@@ -436,7 +546,7 @@ export class AssetStore {
             .prepare("SELECT metadata FROM assets WHERE id=?")
             .get(asset.id);
           if (prior) {
-            const existing = JSON.parse(prior.metadata as string) as Asset;
+            const existing = this.get(asset.id);
             if (existing.fileName !== retainedName)
               throw new CatalogError(
                 "STORAGE_BUSY",
@@ -452,10 +562,7 @@ export class AssetStore {
                 "INVALID_PACKAGE",
                 "Existing asset metadata conflicts with package identity",
               );
-          } else
-            this.store.catalog
-              .prepare("INSERT INTO assets(id,metadata) VALUES(?,?)")
-              .run(asset.id, JSON.stringify({ ...asset, fileName: retainedName }));
+          } else this.insert({ ...asset, fileName: retainedName });
           for (const origin of origins)
             this.store.catalog
               .prepare("INSERT OR IGNORE INTO asset_origins VALUES(?,?)")
@@ -499,7 +606,7 @@ export class AssetStore {
           this.store.catalog
             .prepare("INSERT OR IGNORE INTO asset_origins VALUES(?,?)")
             .run(id, JSON.stringify(provenance));
-          const asset = JSON.parse(existing.metadata as string) as Asset;
+          const asset = this.get(id);
           published?.(asset);
           return asset;
         });
@@ -570,9 +677,7 @@ export class AssetStore {
       }
       signal.throwIfAborted();
       const result = this.store.transaction(() => {
-        this.store.catalog
-          .prepare("INSERT OR IGNORE INTO assets(id,metadata) VALUES(?,?)")
-          .run(id, JSON.stringify(asset));
+        this.insert(asset);
         this.store.catalog
           .prepare("INSERT OR IGNORE INTO asset_origins VALUES(?,?)")
           .run(id, JSON.stringify(provenance));

@@ -171,13 +171,32 @@ test("retry refuses changed source bytes instead of silently changing the frozen
 
 test("failed publication rolls back the receipt and recovery removes the linked orphan", async () => {
   const { root, store } = await setup();
-  const path = join(root, "source.png");
+  const path = join(root, "source.wav");
+  const timedProbe = async () => ({
+    originUs: 0,
+    streams: [
+      {
+        id: "audio:0",
+        kind: "audio",
+        codec: "pcm",
+        decodable: true,
+        startUs: 0,
+        endUs: 20,
+        sampleRate: 48000,
+        channels: 1,
+        segments: [
+          { startUs: 0, endUs: 10, empty: true },
+          { startUs: 10, endUs: 20, empty: false, mediaStartUs: 0, mediaDurationUs: 10 },
+        ],
+      },
+    ],
+  });
   await writeFile(path, "transaction pixels");
   await expect(
     store.import(
       path,
       { kind: "generated", source: "generation" },
-      probe,
+      timedProbe,
       new AbortController().signal,
       () => {
         throw new Error("crash before commit");
@@ -186,8 +205,9 @@ test("failed publication rolls back the receipt and recovery removes the linked 
   ).rejects.toThrow("crash before commit");
   expect(store.list().assets).toEqual([]);
   await store.recover();
-  const asset = await store.import(path, { kind: "import" }, probe);
+  const asset = await store.import(path, { kind: "import" }, timedProbe);
   expect(await readFile(store.path(asset.id), "utf8")).toBe("transaction pixels");
+  expect(store.get(asset.id).streams).toEqual((await timedProbe()).streams);
   expect(store.origins(asset.id).origins).toEqual([{ kind: "import" }]);
 });
 
@@ -486,4 +506,124 @@ test("sparse admission preserves leading, inter-run and trailing physical gaps a
       ],
     })),
   ).rejects.toMatchObject({ code: "INVALID_NATIVE_RESPONSE" });
+});
+
+test("public asset headers and immutable ordinal pages preserve complete physical rows", async () => {
+  const { root, store } = await setup();
+  const path = join(root, "paged.mov");
+  await writeFile(path, "paged metadata");
+  const segments = [
+    { startUs: 0, endUs: 10, empty: true },
+    { startUs: 10, endUs: 30, empty: false, mediaStartUs: 0, mediaDurationUs: 20 },
+    { startUs: 30, endUs: 40, empty: true },
+  ];
+  const asset = await store.import(path, { kind: "import" }, async () => ({
+    originUs: 100001,
+    streams: [
+      {
+        id: "audio:0",
+        kind: "audio",
+        codec: "pcm",
+        decodable: true,
+        startUs: 0,
+        endUs: 40,
+        sampleRate: 48000,
+        channels: 1,
+        segments,
+      },
+    ],
+  }));
+  const { segments: _rows, ...header } = asset.streams[0]!;
+  expect(store.describe(asset.id)).toEqual({ ...asset, streams: [{ ...header, segmentCount: 3 }] });
+  const first = store.segments(asset.id, "audio:0", { limit: 2 });
+  expect(first.segments).toEqual(segments.slice(0, 2).map((row, ordinal) => ({ ordinal, ...row })));
+  expect(first.nextCursor).toEqual({ assetId: asset.id, streamId: "audio:0", afterOrdinal: 1 });
+  expect(store.segments(asset.id, "audio:0", { cursor: first.nextCursor!, limit: 2 })).toEqual({
+    assetId: asset.id,
+    streamId: "audio:0",
+    segments: [{ ordinal: 2, ...segments[2] }],
+    nextCursor: null,
+  });
+  expect(() => store.segments(asset.id, "missing")).toThrow(/Stream does not exist/);
+  expect(() =>
+    store.segments(asset.id, "audio:0", { cursor: { ...first.nextCursor!, assetId: "wrong" } }),
+  ).toThrow(/cursor/);
+  expect(() =>
+    store.segments(asset.id, "audio:0", { cursor: { ...first.nextCursor!, afterOrdinal: 3 } }),
+  ).toThrow(/cursor/);
+  expect(store.get(asset.id)).toEqual(asset);
+});
+
+test("portable physical rows commit atomically, preserve optional fields and reject conflicting deduplication", async () => {
+  const donor = await setup(),
+    receiver = await setup();
+  const path = join(donor.root, "source.mov");
+  await writeFile(path, "portable physical rows");
+  const image = (await probe()).streams[0]!;
+  const asset = await donor.store.import(path, { kind: "import" }, async () => ({
+    originUs: 100001,
+    streams: [
+      image,
+      { ...image, id: "image:empty", segments: [] },
+      {
+        id: "audio:0",
+        kind: "audio",
+        codec: "pcm",
+        decodable: true,
+        startUs: 0,
+        endUs: 40,
+        segments: [
+          { startUs: 0, endUs: 10, empty: true },
+          { startUs: 10, endUs: 40, empty: false, mediaStartUs: 50, mediaDurationUs: 30 },
+        ],
+        sampleRate: 48000,
+        channels: 1,
+      },
+    ],
+  }));
+  const duplicate = donor.store.portable(asset.id);
+  duplicate.asset.streams.push({ ...duplicate.asset.streams[2]!, segments: [] });
+  await expect(
+    receiver.store.stagePortable(
+      duplicate,
+      donor.store.path(asset.id),
+      new AbortController().signal,
+    ),
+  ).rejects.toMatchObject({ code: "INVALID_PACKAGE" });
+  expect(receiver.store.list().assets).toEqual([]);
+  const staged = await receiver.store.stagePortable(
+    donor.store.portable(asset.id),
+    donor.store.path(asset.id),
+    new AbortController().signal,
+  );
+  expect(() =>
+    receiver.catalog.transaction(() => {
+      staged.publish();
+      throw new Error("rollback");
+    }),
+  ).toThrow("rollback");
+  expect(receiver.store.list().assets).toEqual([]);
+  receiver.catalog.transaction(() => staged.publish());
+  await staged.close();
+  expect(receiver.store.get(asset.id)).toEqual(asset);
+  expect(
+    await receiver.store.import(path, { kind: "import" }, async () => {
+      throw new Error("must reuse immutable metadata");
+    }),
+  ).toEqual(asset);
+  const conflicting = donor.store.portable(asset.id);
+  conflicting.asset.streams[2]!.segments![1]!.mediaStartUs = 51;
+  const changed = await receiver.store.stagePortable(
+    conflicting,
+    donor.store.path(asset.id),
+    new AbortController().signal,
+  );
+  try {
+    expect(() => receiver.catalog.transaction(() => changed.publish())).toThrow(
+      /metadata conflicts/,
+    );
+    expect(receiver.store.get(asset.id)).toEqual(asset);
+  } finally {
+    await changed.close();
+  }
 });
