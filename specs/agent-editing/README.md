@@ -19,8 +19,8 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-Active work is split between transcript-seeded caption integration, mixed-rate
-compressed audio and real-narration preservation. Explicit output controls, font admission and
+Active work is split between remaining audio-domain coverage, agent gain
+verification and camera feasibility. Caption authoring and its scoped delivery gates pass. Explicit output controls, font admission and
 prepared-audio portability pass their combined checks.
 See the [implementation pickup](assets/implementation-pickup.md) for exact checkpoints.
 
@@ -38,7 +38,8 @@ See the [implementation pickup](assets/implementation-pickup.md) for exact check
    consumers in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json).
    The shared [scalar prerequisite](slices/16b-scalar-program.md) and
    retained source transcripts pass combined-build confirmation. The [font/layout reproduction](slices/17a-text-layout.md) is verified within its
-   documented scope; literal captions pass their public gates; transcript-seeded captions are in final integration. No segmentation
+   documented scope; [caption acceptance](assets/17-caption-acceptance/README.md) now closes17,
+   including seeded occurrences and off-grid ranged delivery. No segmentation
    scope is active.
 3. Complete public consumers and actual model-dependent output proof for the shared
    [prepared-audio prerequisite](slices/14a-prepared-audio.md). Its first core
@@ -88,6 +89,9 @@ Compact evidence ledger:
 - [Real narration preservation](assets/08-narration-preservation/README.md) verifies
   unchanged complete PCM through visual-only edits, history, restart and fractional
   delivery; listening and encoded quality remain separate.
+- [Mixed compressed rates and acoustic axes](assets/08-11-rate-conformance/README.md)
+  pass their named clock/arithmetic/image gates. One AAC cross-invocation float
+  mismatch remains unresolved; its failed report and verification limits stay visible.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.

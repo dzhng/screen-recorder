@@ -1,10 +1,10 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: finish caption range/footage acceptance and finite08/11 audio
-coverage, then resolve the remaining speech-dependent consumers. Settings09b,
-font17b, literal text17c and scoped06/15 are verified; whole16/17/22 and final
-acceptance remain open.
+Current priority: finish finite08/11 audio-domain coverage and fresh agent gain
+verification, then resolve remaining speech-dependent consumers and camera
+reproduction. Settings09b, scoped06/15 and caption17 are verified. Whole16/22 and
+final acceptance remain open.
 
 ## Current combined state
 
@@ -35,23 +35,23 @@ No production deadline or transaction guarantee changed.
 
 ## Active owners
 
-- Caption seeding: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
-  `text.seed` resolves pinned words and occurrence selections into ordinary edits.
-  Immutable origin stays separate from editable text/style, through structural
-  edits and package adoption. Existing TranscriptStore is mandatory; preserve its
-  constructor integration alongside the deletion fixture's disk reopen path.
-  Combined build/types/public seed checks pass with13 exact retained PNGs.
-  Finish the parent17 off-grid range clock and retained footage visual checks;
-  do not treat source speech accuracy or retimed audio as caption acceptance.
-- Mixed-rate composition/acoustics: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-  Verify44.1kHz AAC/MP3 with48kHz reference, complete counts, tail/range/split and
-  separately measured seek differences. Reuse the public acoustic journey for
- 44.1-source/48-project axes; fresh visual review remains required.
-- Real narration: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  Real narration preservation passes all nine public checks again after root
-  transcript-owner integration. Audit the finite admitted audio rate/layout/origin
-  domain next, separating representative gaps from an exhaustive codec matrix.
-  Keep AAC observations and listening separate from exact PCM preservation.
+- Low/high lossless rates: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
+  Mixed44.1AAC/MP3 and acoustic axes are integrated66c9d14e. The one-ULP AAC
+  independent-invocation observation stays unresolved. Extend the same mixer
+  harness with one low integral rate and192kHz, preserving full/range/tail/split
+  and exact frozen-input arithmetic; no exhaustive matrix or new resampler.
+- Negative occupied origin: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  Two bounded native candidates normalized to zero or refused insertion. Retain
+  scripts/media/receipts and this non-exercise; no unsupported-policy invention
+  or false public negative-origin proof. Actual narration preservation is already
+  integrated and passes combined-root confirmation.
+- Camera feasibility: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
+  Caption17 closure is integrated69304ade with off-grid clocks and fresh footage
+  review. Read-only20/21 audit now identifies shared-clock reproduction and the
+  physical test boundary; do not activate live capture during that audit.
+- Fresh animated-gain skill: root owns an isolated service and independent public
+  consumer. Root dist stays frozen while it runs. This checks agent authoring and
+  exact PCM expectations, not listening or retimed executor readiness.
 
 ## Remaining acceptance
 

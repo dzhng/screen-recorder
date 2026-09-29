@@ -2573,3 +2573,21 @@ its ordinary append-only revision sequence from that selected moment.
   placement input contracts stay unchanged. The shared compiler still owns time.
 - **Verdict:** Sound: one public edit representation preserves exact authored
   placement through retiming. **Confidence:** High.
+
+## Independent codec invocations
+
+- **Choice:** Keep fresh AAC decode/resample comparisons as visible reproducibility
+  measurements while testing mixer arithmetic exactly against frozen decoded PCM.
+  When two separate invocations differ by one Float32 step, that alone does not
+  identify whether decoding, conversion or mixing caused the difference. The
+  original failed comparison remains unresolved; no replacement tolerance or
+  whole-composition acceptance is inferred from the frozen-input control.
+- **Gap:** The new mixed-rate probe initially invented an exact comparison across
+  independent lossy-decoder invocations without separating that claim from exact
+  arithmetic on identical inputs.
+- **Reach:** Existing MP3 exact gates and AAC source bounds remain unchanged.
+  Resampled AAC reproducibility needs its own localization or explicit contract
+  disposition; a later green arithmetic test cannot erase the earlier failure.
+- **Verdict:** Sound for this scoped checkpoint, with medium confidence: separating
+  claims avoids attributing an unexplained difference to the wrong owner, while
+  retaining the failed claim as unfinished work.

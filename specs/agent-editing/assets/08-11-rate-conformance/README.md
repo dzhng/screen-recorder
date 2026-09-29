@@ -45,8 +45,9 @@ requests, receipts, hashes, failed diagnostics and both review logs.
 
 No listening, speech preservation, arbitrary admitted-format matrix, negative-PTS
 media, retiming, general scale or whole-slice 08/11 acceptance follows from this
-checkpoint. The next independent requirement is real narration preservation:
-freeze an actual spoken source, apply video-only replacement with independent
-music while preserving its audio selection, retain before/after delivered PCM and
-media, and obtain a listening judgment. Synthetic tones—even when called voice
-fixtures—cannot satisfy that requirement. Retiming remains a separate dependency.
+checkpoint. [Real narration preservation](../08-narration-preservation/README.md) now verifies
+video-only edits and complete retained PCM separately. Explicit music overlap,
+protected real-speech joins and listening remain separate acceptance work;
+synthetic tones cannot satisfy them. Low/high rates and genuinely negative
+occupied origins follow the [finite domain audit](../acceptance-maintenance/audio-domain.md).
+Retiming remains a separate dependency.
