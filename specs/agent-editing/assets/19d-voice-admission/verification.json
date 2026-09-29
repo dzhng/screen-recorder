@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "archiveMembersVerified": 26,
+  "archiveSha256": "d2fd0a578e1e97ba561a0f4897f45854ae1783a061808aca20686825a34fb15f",
+  "tinyReferenceRefusesBeforeOutput": true,
+  "realShortReferenceReachesEos": true,
+  "bothTemperatureEndpointsReachEos": true,
+  "sourceAndReferenceBytesUnchanged": true,
+  "independentReview": "No findings; all artifact hashes and trial receipts checked",
+  "productionChanges": false,
+  "publicProfileAdopted": false
+}

@@ -1,0 +1,132 @@
+[
+  {
+    "file": "screenrec-19d-admission/attempt-one/attempts.json",
+    "bytes": 4573,
+    "sha256": "bd606a59f817316534494be453a689c4f55e23adb3a8a1af25d1369e1b6d9905"
+  },
+  {
+    "file": "screenrec-19d-admission/attempt-one/controller.log",
+    "bytes": 329,
+    "sha256": "a64d9338585655640b86a75ebd219a18058d9c7ebe0715279ad27067373ba028"
+  },
+  {
+    "file": "screenrec-19d-admission/attempt-one/controller.py",
+    "bytes": 2729,
+    "sha256": "e1c5da05571ef698265c6996efb9e264f02ff0e2b4fad7162f679605ff543b92"
+  },
+  {
+    "file": "screenrec-19d-admission/attempt-one/tiny-reference.json",
+    "bytes": 1893,
+    "sha256": "48c26ee0afa381a6809ebd2f3c7a94320e54f2853b7b822214d2a153fa03f324"
+  },
+  {
+    "file": "screenrec-19d-admission/attempt-one/tiny-reference.log",
+    "bytes": 2600,
+    "sha256": "9554d6d895aac2f3490a70bc78ff9316562a17715c4760273e04d2af4e74f2c4"
+  },
+  {
+    "file": "screenrec-19d-admission/attempts.json",
+    "bytes": 21412,
+    "sha256": "13046248bfdf8160179c581570c299da4ccb7bed0ac10c4d991dd62854043f6e"
+  },
+  {
+    "file": "screenrec-19d-admission/provenance.json",
+    "bytes": 1304,
+    "sha256": "1a6a5d792114d77efa01774b1c335e7277cea731823db3e9202815a69a282528"
+  },
+  {
+    "file": "screenrec-19d-admission/short-reference.json",
+    "bytes": 2649,
+    "sha256": "3dd0c2c37ae708433cb4bf0146585607e4cf337e538949a3551b57a166cf03df"
+  },
+  {
+    "file": "screenrec-19d-admission/short-reference.log",
+    "bytes": 539,
+    "sha256": "f49e5d7c8b46a15322a425542a6acbf75393d33e986053185de7fa1bb8f9e04b"
+  },
+  {
+    "file": "screenrec-19d-admission/short-reference.output.wav",
+    "bytes": 253498,
+    "sha256": "f3652c2264f5f3cbed5bf5d26546e7a6836397d9391ea761f191ba2417b3bd5d"
+  },
+  {
+    "file": "screenrec-19d-admission/short-reference.request.json",
+    "bytes": 374,
+    "sha256": "3859a2f9df1968cd138ef8c0fb9c394ea5632489efbf2b857437933092e18f2e"
+  },
+  {
+    "file": "screenrec-19d-admission/short-reference.wav",
+    "bytes": 124892,
+    "sha256": "799191a27c8b729814bd6b33159c5013a3c8dc1d625e83e0aa285e81d6a6c7a0"
+  },
+  {
+    "file": "screenrec-19d-admission/temperature-high.json",
+    "bytes": 2743,
+    "sha256": "21afc779ac99f571934af1cf15d1f67988a6414307476242d2d7f1ecc9f64ae4"
+  },
+  {
+    "file": "screenrec-19d-admission/temperature-high.log",
+    "bytes": 539,
+    "sha256": "f49e5d7c8b46a15322a425542a6acbf75393d33e986053185de7fa1bb8f9e04b"
+  },
+  {
+    "file": "screenrec-19d-admission/temperature-high.output.wav",
+    "bytes": 499258,
+    "sha256": "d23adbdd161616b668a11af5abd66051084c0f2204b14b3ed38bd5961aeb6ef6"
+  },
+  {
+    "file": "screenrec-19d-admission/temperature-high.request.json",
+    "bytes": 462,
+    "sha256": "5be737fbc5f36f67de6ea10cecf9f08331e87b8fd61107037e403105d030a8f5"
+  },
+  {
+    "file": "screenrec-19d-admission/temperature-low.json",
+    "bytes": 2736,
+    "sha256": "0626e029f84ba5214b56148f58f8ce4bc63dd7f3796202ee5cd69cdd657e4f2f"
+  },
+  {
+    "file": "screenrec-19d-admission/temperature-low.log",
+    "bytes": 539,
+    "sha256": "f49e5d7c8b46a15322a425542a6acbf75393d33e986053185de7fa1bb8f9e04b"
+  },
+  {
+    "file": "screenrec-19d-admission/temperature-low.output.wav",
+    "bytes": 299578,
+    "sha256": "03558a11d31991289cb48e01a0612b7483c89c0b576aada6119822234a6e2cb9"
+  },
+  {
+    "file": "screenrec-19d-admission/temperature-low.request.json",
+    "bytes": 458,
+    "sha256": "32d355ab7e81410d36c4a885057c4b8eac5ba5521520f153390b078309cb65ba"
+  },
+  {
+    "file": "screenrec-19d-admission/tiny-reference.json",
+    "bytes": 1892,
+    "sha256": "8ffb302f8f6707dfa8da6b2310148ee6f12286536a395431e43b4b62b86862ed"
+  },
+  {
+    "file": "screenrec-19d-admission/tiny-reference.log",
+    "bytes": 2600,
+    "sha256": "9554d6d895aac2f3490a70bc78ff9316562a17715c4760273e04d2af4e74f2c4"
+  },
+  {
+    "file": "screenrec-19d-admission/tiny-reference.request.json",
+    "bytes": 385,
+    "sha256": "068eab38a09be760c2210276ee0f9f6c21fddab6a18a52d33c8eaf7b9f85989e"
+  },
+  {
+    "file": "screenrec-19d-admission/tiny-reference.wav",
+    "bytes": 62,
+    "sha256": "3c7b1c6f6d81b4301d1e3a6140bfb61cb01c419e021ec1594c907124fd35f78d"
+  },
+  {
+    "file": "controller-used.py",
+    "bytes": 2743,
+    "sha256": "a28a199bb9d381a9834b2a26da9300cf28bae311973726b74dd3d743a120d6cd"
+  },
+  {
+    "file": "controller.log",
+    "bytes": 783,
+    "sha256": "5414b2541beb3727f8672ec462fdb643e39f9ca92bd301595ac135cb7fbc6690"
+  }
+]
