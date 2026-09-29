@@ -1,6 +1,6 @@
 # 09b — Agent-controlled output settings
 
-Status: newly required by the user, implementation pending. Dependencies:
+Status: explicit controls and expanded public SDK coverage integrated; balanced preset selected. Encoder-selection/AAC discovery completion and final fresh skill use remain open. Dependencies:
 [09](09-first-preview.md), [05](05-compiler.md), [08a](08a-derived-cache.md).
 
 ## Contract
@@ -22,6 +22,10 @@ Canvas dimensions, rational frame rate, crop/fit and processing remain explicit
 controls owned by the composition model. Encoding does not introduce competing
 geometry semantics. If output-only resizing is added, it must reuse the existing
 geometry owner and specify its coordinate/timing behavior before implementation.
+
+[Functional and combined evidence](../assets/09b-output-settings/README.md),
+[expanded controls](../assets/09b-public-controls/README.md), and
+[quality/size decision](../assets/09b-output-quality/README.md) retain current verification boundaries.
 
 ## Work and review surface
 

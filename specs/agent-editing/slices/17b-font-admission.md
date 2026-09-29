@@ -1,6 +1,6 @@
 # 17b — Immutable font admission
 
-Status: scoped public admission/discovery, portable asset boundary and code review pass; fresh product-skill consumption remains pending in the combined font/output trial. Dependencies:
+Status: scoped public admission/discovery, portable asset boundary, combined-root checks and fresh public skill consumption pass. Dependencies:
 [02](02-assets.md), [17a](17a-text-layout.md). This is a prerequisite of
 [17](17-text-captions.md), not caption authoring or rendering.
 

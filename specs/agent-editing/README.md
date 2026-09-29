@@ -19,12 +19,15 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-Active work is split between output-settings verification and project screenshot-index
-portability. Transition conveniences are integrated; combined build and 197 composition tests pass.
+Active work is split between remaining encoder controls, prepared-audio portability
+and caption integration. Font admission and project screenshot-index relocation are
+integrated; their final combined checks are tracked in the pickup.
 See the [implementation pickup](assets/implementation-pickup.md) for exact checkpoints.
 
-1. Implement [agent-controlled output settings](slices/09b-output-settings.md), then
-   select and verify the required H.264 quality/size policy for [06](slices/06-render-reproduction.md),
+1. Complete encoder-selection/discovery and final fresh skill use for
+   [agent-controlled output settings](slices/09b-output-settings.md). The
+   [balanced policy](assets/09b-output-quality/README.md) is selected; finish
+   matched encoded-appearance verification for [06](slices/06-render-reproduction.md),
    [15](slices/15-layer-geometry.md) and [16](slices/16-keyframes.md). Source and
    finished-canvas sampling corrections now pass their native/public gates.
    [Recorded decoder evidence](assets/16-zoom/writer/codec/recorded/README.md)
@@ -243,6 +246,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)
 - [ ] [16 — Keyframes and convenience zooms](slices/16-keyframes.md)
 - [x] [17a — Explicit font and text layout reproduction](slices/17a-text-layout.md)
+- [x] [17b — Immutable font admission](slices/17b-font-admission.md)
 - [ ] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)

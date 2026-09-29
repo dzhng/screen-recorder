@@ -50,6 +50,9 @@ Shape review kept font format probing under native media admission and byte/meta
 ownership in AssetStore. Diff review found no remaining naming, validation or
 second-owner issue. Documentation review links this prerequisite from slice17 and
 keeps glyph/layout/font-reference package closure explicitly downstream. No
-renderer or caption schema was added. Fresh product-skill consumption remains
-pending for the parent's combined font/output-settings trial; this checkpoint
-must not be represented as having passed that gate.
+renderer or caption schema was added. [Fresh public skill consumption](skill-review.md) now passes13 value-based
+identity, replay, listing and clean-restart checks without implementation-based
+discovery. The review states its permitted infrastructure exposure and excludes
+MCP parity, glyph coverage and caption readiness. Its [complete evidence](skill-evidence.zip)
+is retained. [Root integration](root-integration.json) also passes the targeted
+build and17 asset/portable/package tests.

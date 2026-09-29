@@ -1,64 +1,70 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Prioritize explicit output settings and remaining quality gates, with project
-screenshot-index portability progressing independently. Do not infer completion
-of a full slice from one checkpoint.
+Prioritize remaining explicit encoder controls and their fresh public skill gate,
+then matched encoded-appearance verification. Prepared-audio portability and
+caption integration progress independently. No full editor or whole09b/16/17/22
+completion is claimed.
 
 ## Output settings
 
-Functional checkpoint **ce3b80d3** is integrated as root **68e25d9d**;
-quality decision **39ddcd7e** is integrated as **95f54d82**. Four cohorts and
-64 independently reviewed reference/decoded images support an 8 Mbps balanced
-starting point; explicit agent overrides remain the contract. Existing codec-loss
-failures remain open; the quality evidence
-[acceptance-boundary audit](09b-output-quality/acceptance-boundary.md) gives the
-next matched full/range verification without misclassifying lossy RGB differences
-as proof of geometry failure. The combined targeted build, 16 focused settings/preview/
-convenience tests and 13 export-lifecycle tests pass; the full public native settings rerun passes.
+Root68e25d9d integrates the functional settings owner;95f54d82 retains the measured
+8 Mbps balanced policy. Public CLI/MCP settings, actual encoded format, canonical
+cache identity and pinned export retries pass combined native verification.
+Root0e86ecd0 adds documented automatic/zero semantics, look-ahead, constrained
+profiles and native AAC format acceptance. The combined targeted build and
+210 composition/preview tests pass. The original13 export-lifecycle tests and
+complete settings journey passed before this additive expansion.
 
-Control expansion continues in
+The output delegate owns production settings/native/tests in
 `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-Audit found missing public look-ahead/profile/audio options and documented zero
-semantics. The delegate owns production settings/native/tests exclusively. A
-subsequent writer-selection checkpoint must use the same encoder specification
-in preflight and actual writing; it remains an obligation, not a permanent exclusion.
-Unsupported public controls must be discoverable with a specific reason.
-The first limited-context skill consumer passes; a fresh gate follows expansion.
+Next: verified hardware/software/GPU/encoder selection through the same
+specification in preflight and actual writer, plus concrete discoverable AAC
+rates/bitrates rather than prose. Report requested/enforced selection, not an
+unavailable observed encoder ID. Explicit resampling-algorithm writer requests
+failed actual encoding and remain unavailable with a reason.
 
-The shared settings schema owns CLI/MCP preview/export resolution, cache identity
-and stable retry intent. Native preflight precedes media work; actual encoded
-H.264 profile/level and AAC format are checked. Functional evidence is retained in
-that worktree's `09b-output-settings`; quality evidence is in `09b-output-quality`.
+Frozen expanded-control worker: `/tmp/screenrec-public-controls-native` (hash in
+09b-public-controls). Opening default reference/decoded hashes and file size match
+the frozen quality cohort. Final fresh output-skill use follows selection/discovery.
+The [encoding acceptance audit](09b-output-quality/acceptance-boundary.md) names
+remaining full/range, negative-control and visual/playback verification. Historical
+codec-loss diagnostics and exact pre-encode gates remain unchanged.
 
-Frozen worker: `/tmp/screenrec-output-profile-verified-native`. Matching cancellation
-helper: `/tmp/screenrec-output-build/release/ScreenRecorderCompositionVideoTests`.
-Pass `SCREENREC_COMPOSITION_VIDEO_TESTS` for the video/movie harnesses.
+## Portability and font integration
 
-## Integrated prerequisites and conveniences
+Rootb999ffce integrates project screenshot-index adoption (delegateb76e847c) on
+the transient adoption prerequisite032b9f7a. Delegate public relocation retains
+current/history rows, coverage and exact PNGs after donor/archive removal and
+restart, including all prior source/transcript/journal controls. Imported published
+receipts no longer start replacement jobs. Combined root verification is next;
+the live font-skill review has stopped; combined native relocation is now running.
 
-Root **032b9f7a** integrates transient project-adoption preparation from agent
-51ac7502. Build and 23 focused project/package/asset tests pass. Root **4dacce6a**
-integrates fade/zoom conveniences from f8a39248; full repository build and 197 composition tests pass.
-The delegate's 197 tests, public fade/zoom checks and independent code/visual/skill
-reviews are retained in `16-conveniences`. These edits append ordinary processing
-steps with explicit geometry and clocks, without a new persistence or render path.
-Listening, retiming and full slice 16 remain open.
-
-Project screenshot-index portability continues in
+The portable delegate continues prepared-audio closure14a in
 `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-The adoption transaction must publish dependencies, revisions, then project-index
-evidence; staged publication rechecks the live domain. Historical owner/reference
-remapping and exact retained PNG relocation are being exercised. Source-index
-portability already passes combined native relocation at root dbe88a4c; evidence
-is in `22-source-index`. Prepared audio, fonts and autonomous full-package use
-remain later portability work.
+Use existing immutable assets, revision references, queue receipts and adoption
+transaction; no new readiness owner. Fonts, noncurrent package export and full
+skill journeys still belong to whole22.
 
-## Next independent feature
+Roote779d7df integrates font admission: exact asset bytes plus explicit PostScript
+face identity, empty playable streams, native collection probing and portable asset
+metadata. Combined targeted build and17 asset/portable/package tests pass. Fresh public skill consumption passes13 checks; its retained review states
+infrastructure exposure and verification limits. No installed font or user library
+was changed.
 
-Root253bb041 retains scoped17a Core Text reproduction and review. Public font admission is now delegated in
-`/Users/david/.codex/worktrees/project-still-composition/screen-recorder`; captions
-are not implemented. Ownership: immutable font
-files in AssetStore, non-timed font-face metadata, with image/audio/video streams
-unchanged. Full17 occurrence anchors, edits, preview/export and font portability
-remain open. Segmentation stays in its future placeholder spec.
+The font delegate now implements caption integration in
+`/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
+Text will use an ordinary typed clip source and shared anchor/routing/edit owners,
+removing the unshipped empty captions array. The contract revision is intentional;
+update active fixtures while preserving historical evidence. Port the frozen17a
+renderer with parity, retain exact font faces and history/package dependencies,
+then add occurrence seeding. Full17
+caption authoring/rendering is not implemented. Segmentation stays future-only.
+
+## Other retained checkpoints
+
+Fade/zoom root4dacce6a expands into ordinary ordered processing steps; full build
+and197 composition tests plus delegate public/visual/skill checks pass. Gain,
+prepared PCM lifecycle, source indexes and sampling evidence remain linked from
+the README. Listening, accepted stretch/denoise integration, captions/voice,
+camera, cutover, scale and final acceptance remain in the full spec queue.

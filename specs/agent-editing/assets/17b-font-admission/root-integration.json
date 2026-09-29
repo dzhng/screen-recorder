@@ -1,0 +1,8 @@
+{
+  "commit": "e779d7df",
+  "targetedBuild": "passed",
+  "assetPortablePackageTests": 17,
+  "freshSkillValueChecks": 13,
+  "skillScope": "Independent public CLI consumption; startup helper implementation seen only for infrastructure, no product implementation used for behavior discovery",
+  "captionReadiness": false
+}
