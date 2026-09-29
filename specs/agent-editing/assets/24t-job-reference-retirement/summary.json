@@ -1,0 +1,43 @@
+{
+  "scope": "Public source-job creation and consumers; internal explicit drained JobQueue retirement. No public asset-retirement API or GC claim.",
+  "passed": true,
+  "retiredJobs": 513,
+  "beforeReferenceCount": 517,
+  "afterRetirementReferenceCount": 4,
+  "retirementPhases": [
+    257,
+    256
+  ],
+  "timings": {
+    "publicSetupMs": 40855.192625,
+    "firstRetirementMs": 115.6452500000014,
+    "finalRetirementMs": 110.33145800000057
+  },
+  "checks": [
+    "reference checker rejects the unretired source history",
+    "513 distinct real native source jobs retired in two drained phases",
+    "ordinary asset job references exact; zero job/job-input orphan owners",
+    "public partial-reopen and final restart preserve sibling identities",
+    "canceled and interrupted siblings retain sources and explicitly retry same identities",
+    "surviving ready audio is byte exact",
+    "original asset/source unchanged; no GC claim"
+  ],
+  "survivor": {
+    "jobId": "3b49e413-8b8d-4635-9331-694dc57fb682",
+    "sha256": "c840edcbcbc5ce1f0a2553cb985d4abefca1895d089e895d3b57e6fb35f1a341"
+  },
+  "sourceSha256": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+  "nativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "harnessSha256": "d39aa91d3a6bfb07fd367bd058fdd846dea207fbe75fc46c305d5c99413012f4",
+  "commitBeforePass": "0a9b797747c7b513ba014b43b91999a377416142",
+  "retainedLibrary": "/tmp/screenrec-24t-retirement-v2/home/library",
+  "focusedTests": {
+    "passed": 9,
+    "scope": "forget|retirement|preparation inputs|settling one job|deleting a drained owner",
+    "otherTestsNotSelected": 62
+  },
+  "evidence": {
+    "bytes": 35648,
+    "sha256": "473b63df47b300ec23f2d2681608dbb95d415337f665f515f1a696df5f80debf"
+  }
+}

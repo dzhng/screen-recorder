@@ -1,0 +1,6 @@
+{
+  "method": "Read-only assets metadata filename followed by complete managed file SHA256, after service and retirement queue closed",
+  "path": "/tmp/screenrec-24t-retirement-v2/home/library/assets/9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b.wav",
+  "bytes": 192044,
+  "sha256": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b"
+}
