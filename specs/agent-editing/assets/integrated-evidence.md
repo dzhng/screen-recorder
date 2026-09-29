@@ -85,8 +85,10 @@
   [Transient noise](12c-transient-noise/README.md) and
   [channel relations](12c-channel-relations/README.md) extend measured
   coverage without selecting a stereo policy. [Range-origin evidence](12c-range-origin/README.md)
-  rejects a one-second warmup for exact previews; prepared outputs/checkpoints remain
-  the next state mechanism to verify.
+  rejects a one-second warmup for exact previews. The subsequent
+  [prepared consumers](../slices/15a2-denoise-prepared-consumers.md) and
+  [denoise acceptance](../slices/15a3-denoise-acceptance.md) own current state-policy
+  progress; this earlier experiment is not an implementation pickup.
 - [Stretch endpoint and guarded-join evidence](13a-endpoint-verification/README.md)
   retains full-support measurements and real-speech auditions. Root integration
   reproduces all 32 renders and nine retained WAVs exactly. Listening, independent
@@ -101,8 +103,8 @@ failure. Numerical checks cannot close listening or physical-camera acceptance.
 [Early encoding trials](06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
 the later [output quality study](09b-output-quality/README.md) selects an
 editable balanced default while broader appearance acceptance remains open. Remaining animation delivery (16), audio conformance/scale (08), camera (20/21),
-portability (22), cutover (23), scale (24) and autonomous acceptance (25) remain
+the generated-voice package journey (19f), cutover (23), scale (24) and autonomous acceptance (25) remain
 explicit gates. No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,
-choices and this pickup; the global checklist is the completion boundary.
+choices and the active pickup; the global checklist is the completion boundary.
 
