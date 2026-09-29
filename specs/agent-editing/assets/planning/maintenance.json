@@ -1,9 +1,9 @@
 {
   "kind": "maintenance-validation",
   "date": "2026-09-29",
-  "specMarkdownFiles": 561,
-  "slices": 84,
-  "dependencyEdges": 179,
+  "specMarkdownFiles": 562,
+  "slices": 85,
+  "dependencyEdges": 181,
   "checks": [
     "local file links",
     "acyclic dependencies",

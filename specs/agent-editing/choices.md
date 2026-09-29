@@ -3473,3 +3473,14 @@ byte-identical, so one channel supplies the frozen mono research adapter without
 changing sample values. Preserve unity gain and the full selected context, with
 clearly labeled speeds. This is a reversible presentation choice; it does not
 establish protected-word labels, public stereo behavior or speech quality.
+
+## 15a3b — Denoise strength is an explicit wet/dry mix (sound, high confidence)
+
+An agent may want denoising to enter gradually during a sentence. Give the
+existing processor a `mix` scalar using the same keys and clocks as gain:0
+keeps its immediate input,1 keeps the learned result, and values between blend
+them linearly. This adds control without changing the frozen model recipe.
+Keep learned state continuous through zero mix so fading back in does not start
+a new acoustic history. The accepted plan required strength automation but left
+its parameter and arithmetic unspecified; explicit blend avoids inventing a
+model tuning control that the fixed adapter does not provide.

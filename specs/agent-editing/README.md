@@ -19,6 +19,9 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
+Implement [explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
+in parallel with scale review. Reuse ordinary scalar keys and prepared state.
+
 1. Continue general [scale](slices/24-scale.md), including complete two-hour
    [prepared-package transfer](slices/24j-prepared-package-scale.md), wide routing and queue/cancellation interactions.
    The exact two-hour recipe has been reconstructed against its original hash;
@@ -259,6 +262,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [15a2e — Selected input and ordered consumer isolation](slices/15a2e-state-isolation.md)
 - [x] [15a2f — Independent learned state per channel](slices/15a2f-independent-channels.md)
 - [ ] [15a3 — Combined, temporal and protected-speech acceptance](slices/15a3-denoise-acceptance.md)
+- [ ] [15a3b — Explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
 - [x] [15a3a — Public unit-rate combined temporal processing](slices/15a3a-unit-rate-combined.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)
