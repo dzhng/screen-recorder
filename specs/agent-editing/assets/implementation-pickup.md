@@ -3,10 +3,10 @@
 The full editor goal remains active. The installed app has not switched engines.
 Current priority: wire verified canonical publication into stop/recovery and source
 admission, then activate the accepted-append writer. In parallel, integrate the
-fixed denoising adapter through the prepared-audio lifecycle.
+fixed denoising adapter's broader selected-input, temporal and channel contracts.
 Settings09b, scoped06/15 and caption17 are verified; whole16/22 and final acceptance
-remain open. No packed-writer or RNNoise runtime readiness is implied by the
-prerequisite checkpoints below.
+remain open. Packed-writer activation is pending; RNNoise execution is limited to
+verified mono sources and their structural dual-mono mixes.
 
 ## Active owners and next action
 
@@ -42,13 +42,16 @@ prerequisite checkpoints below.
   [State input binding](15a2c-state-input-bindings/README.md) now has
   [combined-root confirmation](15a2c-state-input-bindings/root-verification.json):
   selected media, acquisition support, retiming requirements and stored channel
-  provenance enter existing project/prepared owners. Actual native opening must
-  still verify the channel premise. Next bind the [frozen adapter](15a1-denoise-entry/README.md)
-  through the existing audio graph and prepared lifecycle, proving ordered DSP,
-  full/range parity, cancellation and retained reads through public consumers. The
-  [native build contract](../slices/15a2-denoise-prepared-consumers.md) selects explicit
-  verified preparation and fixed compiled weights, without edit-time downloads.
-  Full independent-channel policy and quality acceptance remain in the parent.
+  provenance enter existing project/prepared owners. The
+  [linked runtime](15a2d-linked-runtime/README.md) now verifies actual opened formats
+  and executes the frozen adapter through the existing mixer and prepared owner.
+  [Combined-root evidence](15a2d-linked-runtime/root-verification.json) covers full
+  frozen PCM, ordered state, public preparation/movie/export, real cancellation
+  and retained reads with execution unavailable. Next extend selected-input/tap
+  isolation, temporal treatment, independent channels and portable prepared use.
+  The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires
+  explicit local model preparation, without edit-time downloads. Full independent
+  channel policy and listening acceptance remain open.
 
 ## Banked contracts and evidence
 
@@ -82,6 +85,10 @@ Earlier caption/output proofs used `/tmp/screenrec-caption-output-combined-nativ
 SHA256 `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`.
 Keep those receipts; do not claim all caption/relocation journeys rerun on the
 new renderer. Their proofs include full encoding settings, exact fonts and alpha.
+The linked-denoise combined worker is `/tmp/screenrec-linked-denoise-root-native`,
+SHA256 `8ca6e7a3f403b6298340ad9a131bf4742980a568e819ac3016f1d3386ecec20d`.
+Its composition audio/movie identities are v7/v17; source and picture-only identities
+remain unchanged. The scoped runtime evidence does not replace earlier visual gates.
 
 [Public preparation](14a-public-preparation/README.md) covers unit-rate/gain
 CLI/MCP, restart/cancel/retry and independent skill use, not model DSP.

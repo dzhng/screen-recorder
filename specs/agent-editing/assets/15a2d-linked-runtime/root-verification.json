@@ -1,0 +1,34 @@
+{
+  "commit": "c9d0496c",
+  "exitCodes": {
+    "modelVerification": 0,
+    "nativeBuild": 0,
+    "compositionBuild": 0,
+    "coreBuild": 0,
+    "serviceBuild": 0,
+    "linkedHarness": 0,
+    "publicHarness": 0,
+    "focusedTests": 0,
+    "nativeAudioTests": 0
+  },
+  "focusedTests": 74,
+  "linkedChecks": 26,
+  "nativeSHA256": "8ca6e7a3f403b6298340ad9a131bf4742980a568e819ac3016f1d3386ecec20d",
+  "retainedLogicalFilesVerified": 162,
+  "retainedUniqueArchiveBlobsVerified": 140,
+  "archiveSHA256": "10169a5d663ce25e99d48db939c498e76331ed15ccdad9dcb53151b0121d62f2",
+  "scope": "Combined root includes capture preflight and linked mono/structural-dual-mono RNNoise. Exact frozen PCM, requested/full equality, public CLI/MCP preparation, movie/export and in-flight cancellation pass; no general stereo, listening, installed-app cutover or broad visual acceptance.",
+  "inFlightCancellation": {
+    "observedOutputSpoolBytes": 1720320,
+    "declaredFrames": 28800000,
+    "canceled": true,
+    "noPublishedResult": true,
+    "scratchRemoved": true,
+    "cancelAndCleanupMs": 353.59229199999936
+  },
+  "retained-with-executor-unavailable": {
+    "frames": 72000,
+    "sha256": "6cd2ce7e243bde5597440dd69b710ef0088bf63b580e352b45722e102bb664bd",
+    "exactPCM": true
+  }
+}

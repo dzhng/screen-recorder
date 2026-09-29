@@ -1,6 +1,6 @@
 # 15a2d — Linked mono state execution
 
-Status: verified initial mono/structural-dual-mono runtime; [retained evidence](../assets/15a2d-linked-runtime/README.md). Extends [15a2c](15a2c-state-input-bindings.md) through the existing native composition and prepared-audio owners. The complete [15a2](15a2-denoise-prepared-consumers.md) and [15a](15a-noise-processing.md) requirements remain open.
+Status: verified initial mono/structural-dual-mono runtime; [retained evidence](../assets/15a2d-linked-runtime/README.md). Extends [15a2c](15a2c-state-input-bindings.md) through the existing native composition and prepared-audio owners. Dependencies: [15a2c](15a2c-state-input-bindings.md). The complete [15a2](15a2-denoise-prepared-consumers.md) and [15a](15a-noise-processing.md) requirements remain open.
 
 The compiler lowers one selected prerequisite forest. Each state component refers to its member's current ordered prefix and exact sample interval; it does not carry a copied graph. Native execution consumes the compiler's dependencies, opens source bindings once, and uses the ordinary mixer for prefix views and final output. Replaced upstream branches are pruned. A resumed decoder cursor repositions through the existing retained-run resampling policy.
 

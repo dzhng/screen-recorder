@@ -1,6 +1,6 @@
 # Agent-operated video editing
 
-Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-28.
+Status: implementation in progress; assets and shared preparation jobs verified in the isolated service, structural edits, stack authoring and durable public project state/deletion verified; native composition rendering and public preview integrated. Updated 2026-09-29.
 The [product CLI skill](../../skills/screenrec/SKILL.md) documents current public
 capabilities only. This plan supersedes the discovery map's operational queue;
 the [map](MAP.md) and [processing map](PROCESSING-MAP.md) record user intent.
@@ -253,6 +253,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [15a2a — Revision-owned clip state domains](slices/15a2a-state-domains.md)
 - [x] [15a2b — Structural parent domains and authored activation](slices/15a2b-parent-state-windows.md)
 - [x] [15a2c — State input bindings and channel provenance](slices/15a2c-state-input-bindings.md)
+- [x] [15a2d — Linked mono state execution](slices/15a2d-linked-denoise-runtime.md)
 - [ ] [15a3 — Combined, temporal and protected-speech acceptance](slices/15a3-denoise-acceptance.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)
