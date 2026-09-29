@@ -97,6 +97,18 @@ func runMenuStateTests() {
         !row(live, "audio.system").enabled && find(live, "source.window.88")?.enabled == false,
         "What a take records is fixed once it is recording")
 
+    var finalizing = recording(elapsedUs: 12_000_000)
+    finalizing.device = .init(state: .finalizing, recordingId: "rec-1", elapsedUs: 12_000_000)
+    finalizing.take = .init(recordingId: "rec-1", state: "finalizing", interruptionReason: nil, sourceDurationUs: nil)
+    let finishing = RecordingMenu.entries(for: finalizing)
+    precondition(finalizing.isLive && row(finishing, "capture.cancel").enabled,
+        "Finalization still owns the take and admits cancellation")
+    precondition(row(finishing, "capture.startOrStop").title == "Finish Recording")
+    precondition(!row(finishing, "capture.pauseOrResume").enabled,
+        "Closed input cannot be paused while publication continues")
+    precondition(!row(finishing, "audio.system").enabled,
+        "Publication cannot change what the take captured")
+
     let paused = RecordingMenu.entries(for: recording(elapsedUs: 12_000_000, paused: true))
     precondition(statusLines(paused).first == "Paused — 0:12", "A paused take shows the time it reached")
     precondition(row(paused, "capture.pauseOrResume").title == "Resume Recording", "A paused take resumes")

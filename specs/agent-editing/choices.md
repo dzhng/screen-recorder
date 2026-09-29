@@ -2956,3 +2956,44 @@ it does not change the policy for unrelated imported asset types. Package readin
 now requires this native verification work, whose large-work deadline remains an
 explicit rollout gate. [Admission choices](assets/20d-canonical-admission/choices.md)
 retain the workspace and legacy-rounding boundaries.
+
+
+## Capture stop continuation (20d)
+
+
+## Sound — medium confidence
+
+**Availability and cleanup have separate outcomes (20d stop continuation).** When
+canonical media is already verified and published but removing working files fails,
+the take remains complete. CaptureResult carries optional cleanupFailure rather
+than mislabeling it as a failed capture. An original capture failure still wins.
+The plan required this distinction but did not choose its result shape. Keeping the
+warning on the existing result avoids a parallel volatile warning owner; recovery
+owns an explicit cleanup retry. Root reviewed this contract. No endpoint is added.
+
+## Sound — high confidence
+
+**Repeated stop returns its authored acknowledgment while completion is being
+reported (20d stop continuation).** If media finishes while the terminal report is
+waiting for service acknowledgment, the controller retains the earlier finalizing
+receipt rather than manufacturing finalizing with the newer terminal sequence. The
+plan did not specify this interleaving. This preserves one meaning per sequence and
+lets the terminal report win normally; it adds one transient receipt to the existing
+controller rather than another state machine.
+
+**Cancellation transfers to the existing native termination task (20d stop
+continuation).** A cancel can arrive while the controller's first finalizing report
+is held, before native stop has created its task. NativeCapture retains that request
+only for an existing packed sink, transfers it when the task starts, and clears it
+for a new take. Otherwise the cancellation disappears and expensive publication
+runs despite the user's request. A cancel after availability settles remains optional
+cleanup cancellation. The plan named the owner but did not specify this await gap.
+There is no new task registry or transport-triggered cancellation.
+
+**A lost start response can advance directly to native-proved finalizing (20d stop
+continuation).** The library may still say preparing when native has captured and
+received stop. Its actual finalizing event is accepted with the same identity and
+sequence checks; no invented recording event fills the missing response. Otherwise
+recovery could inspect a still-owned writer and permanently override its later
+completion. The old transition table left this legitimate state jump unspecified.
+Root approved the change; public terminal duration still comes from native outcome.

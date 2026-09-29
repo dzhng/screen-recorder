@@ -109,3 +109,14 @@ acquisition support and project-package readiness/adoption to native-verified R,
 immutable canonical bytes and actual media metadata. Recording-domain processed
 package inventory/revalidation remains the next admission pickup; packed writer
 activation still waits on that path and the lifecycle/large-work gates above.
+
+
+[Stop continuation evidence](../assets/20d-stop-continuation/README.md) verifies
+finalizing acknowledgment, retained terminal ownership, early explicit cancellation,
+and completion winning optional-cleanup cancellation through existing controller,
+termination and service owners. Native-proved finalizing after an unanswered start
+must not trigger recovery of still-owned media. CaptureResult.cleanupFailure keeps
+optional cleanup distinct from capture failure. Ordinary schema1 remains enabled;
+actual prerecorded NativeCapture/writer/publisher, typed unavailable roles, recovery
+budgets, recording-domain package closure and layout rollout remain required. The physical input
+seam must include cursor acquisition and preserve existing start teardown/geometry.

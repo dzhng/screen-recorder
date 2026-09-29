@@ -1,3 +1,4 @@
+import { finishCapture } from "./harness.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { randomUUID, createHash } from "node:crypto";
@@ -33,7 +34,7 @@ test("real clean frames retain edit identity and reach CLI files and MCP pixels"
     systemAudio: false,
   });
   await waitFor(async () => (await call("capture.status")).device.elapsedUs >= 1000000, 20000);
-  const finished = await call("capture.stop", { recordingId: take.recordingId });
+  const finished = await finishCapture(call, take.recordingId);
   const source = join(home, "recordings", take.recordingId, "source", "video.mov");
   const hash = async () =>
     createHash("sha256")

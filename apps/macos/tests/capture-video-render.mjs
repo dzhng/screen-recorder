@@ -1,3 +1,4 @@
+import { finishCapture } from "./harness.mjs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { spawnSync } from "node:child_process";
@@ -53,7 +54,7 @@ test(
     await delay(600);
     await call("capture.resume", ref);
     await delay(1200);
-    const stopped = await call("capture.stop", ref);
+    const stopped = await finishCapture(call, ref.recordingId);
     assert.equal(stopped.state, "complete");
     const { revision } = await call("revision.get", ref);
     const source = join(home, "recordings", take.recordingId, "source/video.mov");

@@ -78,11 +78,9 @@ test(
     const [stopped, canceled] = await Promise.all([stopping, canceling]);
     assert.equal(stopped.ok, true, JSON.stringify(stopped));
     assert.equal(canceled.ok, true, JSON.stringify(canceled));
-    assert.deepEqual(
-      canceled.data,
-      stopped.data,
-      "Joined terminal callers receive the same pinned receipt",
-    );
+    assert.equal(stopped.data.state, "finalizing");
+    assert.equal(canceled.data.state, "complete");
+    assert.equal(canceled.data.recordingId, stopped.data.recordingId);
     assert.equal(stopped.data.recordingId, first.recordingId);
     assert.equal(stopped.data.sourceId, first.sourceId);
     const firstJournal = join(first.outputDirectory, "capture.journal.jsonl");

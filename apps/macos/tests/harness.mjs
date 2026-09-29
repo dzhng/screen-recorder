@@ -300,3 +300,13 @@ export function exists(path) {
     return false;
   }
 }
+
+/** A stop acknowledgment may precede durable media; consumers read the stored terminal take. */
+export async function finishCapture(call, recordingId) {
+  const params = { recordingId };
+  await call("capture.stop", params);
+  return waitFor(async () => {
+    const take = await call("recording.get", params);
+    return ["complete", "interrupted", "failed"].includes(take.state) && take;
+  }, 30_000);
+}

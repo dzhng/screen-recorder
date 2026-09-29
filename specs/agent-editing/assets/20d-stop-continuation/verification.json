@@ -1,0 +1,15 @@
+{
+  "baseline": "72cc1874",
+  "workerSHA256": "697669d8df604b72f17dd3483dbe8e82d1b13d588cea3819ce4fe7ad0f0f35ea",
+  "nativeDefault": true,
+  "actualJournalFailure": true,
+  "appBuild": true,
+  "menuTests": true,
+  "controllerModes": 5,
+  "physicalCapture": false,
+  "schema2WriterEnabled": false,
+  "red": "Old controller does not acknowledge held stop before closure; new stop-ack fixture exceeds its 5s subprocess deadline.",
+  "focusedServiceCoreTests": 35,
+  "legacyAbandonTests": 1,
+  "independentReview": "no concrete remaining correctness defects"
+}

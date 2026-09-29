@@ -34,7 +34,7 @@ export type LifecycleEvent = Readonly<{ sourceId: string; sequence: number }> &
     | { state: "interrupted"; reason: string; sourceDurationUs: number | null }
   >;
 const nextStates: Readonly<Record<RecordingState, readonly RecordingState[]>> = {
-  preparing: ["recording", "interrupted", "canceled"],
+  preparing: ["recording", "finalizing", "interrupted", "canceled"],
   recording: ["recording", "paused", "finalizing", "interrupted", "canceled"],
   paused: ["paused", "recording", "finalizing", "interrupted", "canceled"],
   finalizing: ["finalizing", "complete", "interrupted", "canceled"],

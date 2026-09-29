@@ -1,3 +1,4 @@
+import { finishCapture } from "./harness.mjs";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
@@ -64,7 +65,7 @@ async function displayTake(origin) {
     "The controls have to be on the display this take records, or this proves nothing",
   );
   await delay(seconds * 1000);
-  await succeeds(home, "capture.stop", { recordingId: started.recordingId });
+  await finishCapture((op, params) => succeeds(home, op, params), started.recordingId);
   instance.kill("SIGTERM");
   await instance.exited;
   return {

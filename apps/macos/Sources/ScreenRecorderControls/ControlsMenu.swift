@@ -310,7 +310,7 @@ public enum RecordingMenu {
                 shortcut: shortcuts.display(of: .startOrStop)),
             MenuEntry(
                 .command(.pauseOrResume), paused ? "Resume Recording" : "Pause Recording",
-                enabled: live && ready && state.device?.state != .selecting,
+                enabled: ready && (state.device?.state == .recording || state.device?.state == .paused),
                 shortcut: shortcuts.display(of: .pauseOrResume)),
             MenuEntry(
                 .command(.cancel), "Cancel Take", enabled: live && ready,

@@ -9,6 +9,8 @@ public final class NativeCapture {
     private var streamDelegate: CaptureStreamDelegate?
     private var generations = CaptureGeneration()
     private var sink: CaptureWriter?
+    private var closedResult: CaptureResult?
+    private var publicationCancellationRequested = false
     private let termination = CaptureTermination<CaptureResult?>()
     private var microphoneObserver: NSObjectProtocol?
     public var onInterruption: ((CaptureFailure) -> Void)?
@@ -70,6 +72,8 @@ public final class NativeCapture {
         guard state == .idle, !termination.isRunning else {
             throw CaptureFailure("INVALID_STATE", "Capture is already active.")
         }
+        closedResult = nil
+        publicationCancellationRequested = false
         let generation = generations.begin()
         state = .selecting
         defer {
@@ -300,38 +304,89 @@ public final class NativeCapture {
         }
     }
 
+    /// Packed publication remembers cancellation even while encoder closure is in flight.
+    /// Transport waiters do not cancel shared work; legacy encoder finish keeps its existing winner.
+    public func cancelPublication() {
+        if sink?.packedJournalLease != nil {
+            if termination.isRunning { termination.requestCancellation() }
+            else { publicationCancellationRequested = true }
+        }
+    }
+
     public func stop() async throws -> CaptureResult {
-        let result = try await termination.run { [self] in
+        let task = termination.start { [self] in
             guard let sink, let generation = generations.current,
-                state == .recording || state == .paused
-            else {
-                throw CaptureFailure("INVALID_STATE", "No capture is ready to stop.")
-            }
+                state == .recording || state == .paused || state == .finalizing
+            else { throw CaptureFailure("INVALID_STATE", "No capture is ready to stop.") }
             state = .finalizing
-            sink.seal()
-            if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
-            microphoneObserver = nil
-            let stopping = streams
-            streams = []
-            for stream in stopping {
-                do { try await stream.stopCapture() } catch {
-                    failure =
-                        failure ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
+            if closedResult == nil {
+                sink.seal()
+                if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
+                microphoneObserver = nil
+                let stopping = streams
+                streams = []
+                for stream in stopping {
+                    do { try await stream.stopCapture() } catch {
+                        failure = failure ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
+                    }
                 }
+                closedResult = await sink.finish(failure: failure)
             }
-            let result = await sink.finish(failure: failure)
-            lifecycleSequence = sink.note(result.state, reason: result.failure?.code)
+            guard let closedResult else { throw CaptureFailure("INVALID_STATE", "Writer did not close.") }
+            var result = try await publish(closedResult, from: sink)
+            if sink.packedJournalLease != nil { result = sink.recordPublishedResult(result) }
+            lifecycleSequence = sink.note(result.state,
+                reason: result.failure?.code ?? (result.cleanupFailure == nil ? nil : "CLEANUP_PENDING"))
             outputSize = nil
             self.sink = nil
+            self.closedResult = nil
             streamDelegate = nil
             generations.end(generation)
             state = .idle
             return result
         }
-        guard let result else {
-            throw CaptureFailure("INVALID_STATE", "The take was discarded.")
+        if publicationCancellationRequested {
+            publicationCancellationRequested = false
+            termination.requestCancellation()
         }
+        let result = try await task.value
+        guard let result else { throw CaptureFailure("INVALID_STATE", "The take was discarded.") }
         return result
+    }
+
+    private func publish(_ closed: CaptureResult, from sink: CaptureWriter) async throws -> CaptureResult {
+        guard let lease = sink.packedJournalLease else { return closed }
+        try Task.checkCancellation()
+        var receipts: [CaptureAudioPublication.Receipt] = []
+        for track in closed.tracks where ["narration", "system"].contains(track.role) && track.samples > 0 {
+            receipts.append(try await CaptureAudioPublication.publish(lease: lease, role: track.role))
+        }
+        // All requested represented media has now crossed its publication boundary. Cancellation
+        // of optional cleanup must return this settled result, never make it discardable again.
+        var cleanupFailure: CaptureFailure?
+        for receipt in receipts {
+            do { try await CaptureAudioPublication.cleanup(lease: lease, receipt: receipt) }
+            catch {
+                cleanupFailure = cleanupFailure ?? CaptureFailure("CLEANUP_PENDING", error.localizedDescription)
+            }
+        }
+        let partial = receipts.first { $0.diagnostic != nil || $0.representedFrames != $0.acceptedFrames }
+        let failure = closed.failure ?? partial.map {
+            CaptureFailure("AUDIO_PUBLICATION_PARTIAL", "\($0.intent.role) retains unresolved audio: \($0.diagnostic ?? "unrepresented accepted frames").")
+        }
+        let roles = Set(receipts.map { $0.intent.role })
+        let tracks = closed.tracks.map { track in
+            CapturedTrack(role: track.role, file: roles.contains(track.role) ? "\(track.role).mov" : track.file,
+                firstSampleUs: track.firstSampleUs, lastSampleEndUs: track.lastSampleEndUs,
+                samples: track.samples, droppedSamples: track.droppedSamples,
+                omittedSamples: track.omittedSamples, heldTailUs: track.heldTailUs,
+                sampleRate: track.sampleRate, channelCount: track.channelCount)
+        }
+        return CaptureResult(state: failure == nil ? "complete" : "interrupted", source: closed.source,
+            width: closed.width, height: closed.height, durationUs: closed.durationUs,
+            hostOriginUs: closed.hostOriginUs, pauses: closed.pauses, tracks: tracks,
+            failure: failure, systemAudioScope: closed.systemAudioScope, cursor: closed.cursor,
+            cleanupFailure: cleanupFailure)
     }
 
     /// Ends a take whose media is being thrown away. The writers are canceled rather than
@@ -340,7 +395,7 @@ public final class NativeCapture {
         _ = try? await termination.run { [self] in
             guard let sink, let generation = generations.current, state != .idle else { return nil }
             state = .finalizing
-            sink.cancel()
+            if closedResult == nil { sink.cancel() }
             if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
             microphoneObserver = nil
             let stopping = streams
@@ -348,6 +403,7 @@ public final class NativeCapture {
             for stream in stopping { try? await stream.stopCapture() }
             outputSize = nil
             self.sink = nil
+            closedResult = nil
             streamDelegate = nil
             generations.end(generation)
             state = .idle

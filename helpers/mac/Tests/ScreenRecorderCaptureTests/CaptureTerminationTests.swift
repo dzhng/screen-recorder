@@ -56,5 +56,43 @@ func runCaptureTerminationTests() async throws {
     precondition(!ending.isRunning, "A failed terminal action releases its own slot")
     let retried = try await ending.run { "retry receipt" }
     precondition(retried == "retry receipt")
+    let cancelEntered = Gate()
+    let cancelRelease = Gate()
+    var closedWriterResult: String?
+    var published = false
+    let cancelable = ending.start {
+        cancelEntered.release()
+        await cancelRelease.wait()
+        closedWriterResult = "closed exactly once"
+        try Task.checkCancellation()
+        published = true
+        return "must not settle"
+    }
+    await cancelEntered.wait()
+    precondition(closedWriterResult == nil)
+    ending.requestCancellation()
+    precondition(ending.isRunning, "Cancellation request does not prove the operation unwound")
+    cancelRelease.release()
+    do { _ = try await cancelable.value; preconditionFailure("Cancellation must be observed") }
+    catch is CancellationError {}
+    precondition(!ending.isRunning && closedWriterResult == "closed exactly once" && !published,
+        "Cancellation before encoder closure must be observed before publication starts")
+    let afterCancellation = try await ending.run { "explicit retry" }
+    precondition(afterCancellation == "explicit retry")
+
+    let settled = Gate()
+    let releaseCleanup = Gate()
+    let completed = ending.start {
+        settled.release()
+        await releaseCleanup.wait()
+        // Cleanup is optional after the owned operation has established availability.
+        do { try Task.checkCancellation() } catch is CancellationError {}
+        return "completed with cleanup pending"
+    }
+    await settled.wait()
+    ending.requestCancellation()
+    releaseCleanup.release()
+    let preserved = try await completed.value
+    precondition(preserved == "completed with cleanup pending")
     print("PASS terminal requests join one owner; old waiters cannot clean up a replacement take")
 }

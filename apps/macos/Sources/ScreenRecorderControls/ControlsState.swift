@@ -278,11 +278,10 @@ public struct ControlsState: Equatable, Sendable {
         }
     }
 
-    /// Whether a take is on the device right now. Only a live take can be stopped, paused,
-    /// canceled or restarted.
+    /// Whether native still owns a take, including durable finalization after input stops.
     public var isLive: Bool {
         guard let device else { return false }
-        return device.state == .recording || device.state == .paused || device.state == .selecting
+        return device.state == .recording || device.state == .paused || device.state == .selecting || device.state == .finalizing
     }
 }
 

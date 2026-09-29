@@ -18,6 +18,8 @@ final class CaptureController {
 
     private let capture = NativeCapture()
     private let termination = CaptureTermination<Data>()
+    /// The exact authored acknowledgment remains valid while a later terminal report is in flight.
+    private var finalizingReceipt: Data?
     private var take: Take?
     /// The take whose `capture.start` has not returned yet, and whoever is waiting for it. A start
     /// in flight is part of this session: the app — not a service that may already be gone — owns
@@ -113,9 +115,21 @@ final class CaptureController {
             return try transition("recording")
         case "capture.stop":
             try await expect(params)
-            return try JSONSerialization.jsonObject(with: await finish(reason: nil))
+            _ = try beginFinish(reason: nil, notify: true)
+            guard let finalizingReceipt else {
+                throw CaptureFailure("JOURNAL_FAILED", "Finalizing could not be recorded.")
+            }
+            return try JSONSerialization.jsonObject(with: finalizingReceipt)
         case "capture.cancel":
             try await expect(params)
+            if let running = termination.current {
+                capture.cancelPublication()
+                // A completed take wins this race. Only an interrupted publication can proceed
+                // to discard; its owner must have actually unwound before files become removable.
+                if let completed = try? await running.value {
+                    return try JSONSerialization.jsonObject(with: completed)
+                }
+            }
             return try JSONSerialization.jsonObject(with: await finish(reason: nil, discard: true))
         default:
             throw CaptureFailure(
@@ -280,37 +294,53 @@ final class CaptureController {
     /// Finalizes the running take: the library hears that it is finalizing before the encoder is
     /// asked to close, and hears the outcome once the media is actually on disk.
     private func finish(reason: String?, discard: Bool = false, notify: Bool = false) async throws -> Data {
-        try await termination.run { [self] in
-            guard let active = take else {
-                throw CaptureFailure("INVALID_STATE", "No take is capturing.")
-            }
+        try await beginFinish(reason: reason, discard: discard, notify: notify).value
+    }
+
+    private func beginFinish(reason: String?, discard: Bool = false, notify: Bool = false) throws -> Task<Data, Error> {
+        if let running = termination.current { return running }
+        guard let active = take else {
+            throw CaptureFailure("INVALID_STATE", "No take is capturing.")
+        }
+        // Record the acknowledgment synchronously; a stop response must not precede its journal
+        // transition, even though potentially long publication runs in the existing task owner.
+        let finalizing = Result { try transition("finalizing", reason: reason) }
+        finalizingReceipt = try? JSONSerialization.data(withJSONObject: finalizing.get())
+        return termination.start { [self] in
             var ended = false
             defer {
                 if ended && take?.sourceId == active.sourceId { take = nil }
             }
-            // Even a journal/report failure must not leave the media writer running.
-            let finalizing = Result { try transition("finalizing", reason: reason) }
-            if !discard, !serviceGone, case .success(let report) = finalizing {
-                await send(report: report)
+            do {
+                // Even a journal/report failure must not leave the media writer running.
+                if !discard, !serviceGone, case .success(let report) = finalizing {
+                    await send(report: report)
+                }
+                let outcome: [String: Any]
+                if discard {
+                    await capture.discard()
+                    ended = true
+                    outcome = try finalizing.get()
+                } else {
+                    let result = try await capture.stop()
+                    ended = true
+                    let interrupted = result.failure != nil
+                    outcome = try report(
+                        state: interrupted ? "interrupted" : "complete",
+                        reason: interrupted ? result.failure?.code ?? reason : (result.cleanupFailure == nil ? nil : "CLEANUP_PENDING"),
+                        durationUs: interrupted && result.durationUs == 0 ? nil : result.durationUs,
+                        take: active)
+                }
+                let receipt = try JSONSerialization.data(withJSONObject: outcome)
+                if notify && !serviceGone { await send(report: outcome) }
+                return receipt
+            } catch {
+                if !discard, !serviceGone, !(error is CancellationError),
+                    let report = try? transition("finalizing", reason: (error as? CaptureFailure)?.code ?? "PUBLICATION_FAILED") {
+                    await send(report: report)
+                }
+                throw error
             }
-            let outcome: [String: Any]
-            if discard {
-                await capture.discard()
-                ended = true
-                outcome = try finalizing.get()
-            } else {
-                let result = try await capture.stop()
-                ended = true
-                let interrupted = result.failure != nil
-                outcome = try report(
-                    state: interrupted ? "interrupted" : "complete",
-                    reason: interrupted ? result.failure?.code ?? reason : nil,
-                    durationUs: interrupted && result.durationUs == 0 ? nil : result.durationUs,
-                    take: active)
-            }
-            let receipt = try JSONSerialization.data(withJSONObject: outcome)
-            if notify && !serviceGone { await send(report: outcome) }
-            return receipt
         }
     }
 

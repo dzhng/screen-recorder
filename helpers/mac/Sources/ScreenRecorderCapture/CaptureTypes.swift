@@ -94,7 +94,8 @@ public struct CaptureResult: Codable, Sendable {
     public init(
         state: String, source: CaptureSource, width: Int, height: Int, durationUs: Int64,
         hostOriginUs: Int64?, pauses: [PauseEvent], tracks: [CapturedTrack],
-        failure: CaptureFailure?, systemAudioScope: String, cursor: CursorStats = CursorStats()
+        failure: CaptureFailure?, systemAudioScope: String, cursor: CursorStats = CursorStats(),
+        cleanupFailure: CaptureFailure? = nil
     ) {
         self.state = state
         self.source = source
@@ -105,6 +106,7 @@ public struct CaptureResult: Codable, Sendable {
         self.pauses = pauses
         self.tracks = tracks
         self.failure = failure
+        self.cleanupFailure = cleanupFailure
         self.systemAudioScope = systemAudioScope
         self.cursor = cursor
     }
@@ -118,6 +120,7 @@ public struct CaptureResult: Codable, Sendable {
     public let pauses: [PauseEvent]
     public let tracks: [CapturedTrack]
     public let failure: CaptureFailure?
+    public let cleanupFailure: CaptureFailure?
     public let systemAudioScope: String
     public let cursor: CursorStats
 }

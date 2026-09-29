@@ -940,7 +940,9 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("capture.stop"), params: recording })
     .strict()
-    .describe("Finalize the named take; a settled take answers with its stored outcome."),
+    .describe(
+      "Begin finalizing the named take. A finalizing acknowledgment is not completion: inspect the reported terminal state before importing. A settled take answers with its stored outcome.",
+    ),
   z
     .object({ operation: z.literal("capture.cancel"), params: recording })
     .strict()

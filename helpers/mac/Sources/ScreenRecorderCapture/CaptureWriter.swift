@@ -55,6 +55,7 @@ private final class TrackWriter {
 package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
     package let queue = DispatchQueue(label: "com.david.screenrec.capture-writer")
     private let journal: CaptureJournal
+    package var packedJournalLease: CaptureJournalLease? { journal.schemaVersion == 2 ? journal.lease : nil }
     private let request: CaptureRequest
     private let width: Int
     private let height: Int
@@ -507,17 +508,24 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                     ? "whole-system-excluding-recorder" : "disabled",
                 cursor: self.cursor.stats
             )
-            if !self.record({ try self.journal.recordFinished(result) }) {
-                let failedResult = CaptureResult(
-                    state: "interrupted", source: result.source, width: result.width,
-                    height: result.height, durationUs: result.durationUs,
-                    hostOriginUs: result.hostOriginUs, pauses: result.pauses, tracks: result.tracks,
-                    failure: self.failure, systemAudioScope: result.systemAudioScope,
-                    cursor: result.cursor)
-                continuation.resume(returning: failedResult)
+            if self.journal.schemaVersion == 1 {
+                continuation.resume(returning: self.recordFinished(result))
             } else {
                 continuation.resume(returning: result)
             }
         }
     }
+    package func recordPublishedResult(_ result: CaptureResult) -> CaptureResult {
+        queue.sync { recordFinished(result) }
+    }
+
+    private func recordFinished(_ result: CaptureResult) -> CaptureResult {
+        guard !record({ try journal.recordFinished(result) }) else { return result }
+        return CaptureResult(state: "interrupted", source: result.source, width: result.width,
+            height: result.height, durationUs: result.durationUs, hostOriginUs: result.hostOriginUs,
+            pauses: result.pauses, tracks: result.tracks, failure: failure,
+            systemAudioScope: result.systemAudioScope, cursor: result.cursor,
+            cleanupFailure: result.cleanupFailure)
+    }
+
 }

@@ -292,6 +292,12 @@ export class CaptureService {
    */
   private async abandon(recording: Recording): Promise<Recording> {
     const stopped = await this.native("capture.stop", { recordingId: recording.recordingId });
+    if (stopped.ok) {
+      const report = this.readReport(recording, stopped.data);
+      // A finalizing acknowledgment still owns live media; only its later terminal report
+      // or a proved absent device can authorize recovery.
+      if (!isSettled(report.state)) return this.report(report);
+    }
     // Either native ended this take now, or it is not holding it; both leave the media in
     // charge of the outcome.
     if (stopped.ok || stopped.error.code === "INVALID_STATE") {

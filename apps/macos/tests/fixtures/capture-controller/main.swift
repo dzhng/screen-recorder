@@ -12,6 +12,61 @@ func request(_ identity: String) throws -> Data {
         "microphone": false, "systemAudio": false,
     ])
 }
+if CommandLine.arguments.contains("stop-ack") || CommandLine.arguments.contains("cancel-publication") || CommandLine.arguments.contains("cancel-before-stop") {
+    native.emitsInterruption = false
+    native.holdStop = true
+    native.completes = true
+    native.cleanupPending = true
+    native.release.release()
+    let host = ServiceHost()
+    host.holdTerminal = true
+    host.holdFinalizing = CommandLine.arguments.contains("cancel-before-stop")
+    controller.attach(to: host)
+    guard case .success = await controller.handle("capture.start", try request("stop")) else { fatalError("Start refused") }
+    let control = try JSONSerialization.data(withJSONObject: ["recordingId": "recording-stop"])
+    func response(_ value: Result<Data, ServiceFailure>) throws -> [String: Any] {
+        guard case .success(let bytes) = value else { fatalError("Control refused: \(value)") }
+        return try JSONSerialization.jsonObject(with: bytes) as! [String: Any]
+    }
+    let first = try response(await controller.handle("capture.stop", control))
+    if host.holdFinalizing {
+        await host.finalizingEntered.wait()
+        precondition(native.stopCount == 0)
+        let cancel = Task { await controller.handle("capture.cancel", control) }
+        await native.cancelObserved.wait()
+        host.finalizingRelease.release()
+        _ = try response(await cancel.value)
+        precondition(native.stopCount == 1 && native.discardCount == 1)
+        print("PASS cancellation before native stop survives held initial finalizing report")
+        exit(0)
+    }
+    await native.stopEntered.wait()
+    precondition(first["state"] as? String == "finalizing" && native.stopCount == 1)
+    let again = try response(await controller.handle("capture.stop", control))
+    precondition(again["sequence"] as? Int == first["sequence"] as? Int && native.stopCount == 1)
+    if CommandLine.arguments.contains("cancel-publication") {
+        let canceled = try response(await controller.handle("capture.cancel", control))
+        precondition(canceled["state"] as? String == "finalizing" && native.discardCount == 1)
+        precondition(native.deviceState == "idle")
+        print("PASS controller cancellation waits for in-progress publication unwind before discard")
+    } else {
+        native.stopRelease.release()
+        await host.terminalEntered.wait()
+        let duringReport = try response(await controller.handle("capture.stop", control))
+        precondition(duringReport["state"] as? String == "finalizing")
+        precondition(duringReport["sequence"] as? Int == first["sequence"] as? Int,
+            "Finalizing acknowledgment cannot borrow a newer terminal sequence")
+        let cancel = Task { await controller.handle("capture.cancel", control) }
+        await native.cancelObserved.wait()
+        precondition(native.discardCount == 0)
+        host.terminalRelease.release()
+        let terminal = try response(await cancel.value)
+        precondition(terminal["state"] as? String == "complete" && terminal["reason"] as? String == "CLEANUP_PENDING")
+        precondition(native.discardCount == 0 && native.stopCount == 1)
+        print("PASS controller acknowledges stable finalizing sequence; completed cleanup-pending take wins cancellation")
+    }
+    exit(0)
+}
 let initialRequest = try request("first")
 let start = Task { await controller.handle("capture.start", initialRequest) }
 await native.entered.wait()

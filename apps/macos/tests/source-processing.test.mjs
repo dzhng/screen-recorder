@@ -1,3 +1,4 @@
+import { finishCapture } from "./harness.mjs";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
@@ -39,7 +40,7 @@ test("a finalized own-window take publishes pageable source evidence once across
     "not_requested",
   );
   await waitFor(async () => (await call("capture.status")).device.elapsedUs >= 1000000, 20000);
-  const finished = await call("capture.stop", { recordingId: take.recordingId });
+  const finished = await finishCapture(call, take.recordingId);
   const ready = await waitFor(async () => {
     const status = await call("processing.status", { recordingId: take.recordingId });
     if (status.state === "failed" || status.state === "unavailable")

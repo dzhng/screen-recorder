@@ -11,7 +11,7 @@ const helper = join(root, "helpers/mac");
 const fixtures = fileURLToPath(new URL("./fixtures/capture-controller/", import.meta.url));
 
 test(
-  "controller preserves interruptions through a successful or refused pending start",
+  "controller preserves pending-start interruptions and finalization races",
   { timeout: 150_000 },
   () => {
     const temporary = mkdtempSync(join(tmpdir(), "screenrec-controller-start-"));
@@ -66,10 +66,17 @@ test(
         ],
         { stdio: "pipe", timeout: 60_000 },
       );
-      for (const args of [[], ["failed-start"]]) {
+      for (const args of [
+        [],
+        ["failed-start"],
+        ["stop-ack"],
+        ["cancel-publication"],
+        ["cancel-before-stop"],
+      ]) {
         const result = spawnSync(executable, args, { encoding: "utf8", timeout: 5_000 });
         assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}\n${result.error ?? ""}`);
         assert.match(result.stdout, /PASS/);
+        process.stdout.write(result.stdout);
       }
     } finally {
       rmSync(temporary, { recursive: true, force: true });

@@ -1,0 +1,21 @@
+{
+  "README.md": "643670c71ddbc4b386faae8b53ee9b2e5f690a0ffb807c16dc3fdbfda74de340",
+  "capture-controller-before.swift.gz": "7f1292fa247d7ad8f554f5b6104aef51a40df359648d084c836b681e6f284b53",
+  "capture-controller-red.test.mjs.gz": "51495ef7b7624e495ff728f51f321a71dcc1d7a5c584093cc0cc66cea183ec74",
+  "capture-stop-final-app-build.log.gz": "99795d06dcc5f0f9e4d2c111088ace8b01078b57fef15ae74a12a6ab79baf1e5",
+  "capture-stop-final-build.log.gz": "7521fca7cbe5285586a6716f94115a835cad797aac9e3860165c294a5960e50c",
+  "capture-stop-final-controller.log.gz": "8110c6b1513595856764d654fee46d50c36e259780b7fe4b7dd2ead475028f5d",
+  "capture-stop-final-failure.log.gz": "2c3556863e1c7dda592bb64448db724397ba21d58d3ae04345be783248f50a31",
+  "capture-stop-final-menu.log.gz": "83a65b93146a147ad764e782cb4e7aaa69a7d43c3899bb96ac0ab885050b98b9",
+  "capture-stop-final-native.log.gz": "3dc03fdb44245b95e4060b5ea4df553109b78e5924f5ddcf4a493b992d867056",
+  "capture-stop-final-service.log.gz": "11e2620b7631a66350cda4c34072c16d35816c4d90b1489dfcf10c35ccc43999",
+  "capture-stop-help.json.gz": "1e14e3c0c278bd70704d1a358c10f4d68fa94eca2b3c249e0e48befd0eca704f",
+  "capture-stop-legacy-abandon.log.gz": "4c0f4c4251c28616c4ff4aec9a0e9f3b864abcb72cc84ccca8ea9ac8a75264d0",
+  "capture-stop-red.log.gz": "6750a01ccc5d7e00be67b006728775e97338d3868a987a99a00c9e2b1bee7454",
+  "capture-stop-review-close.log.gz": "3fbb28605f7844e41875d160e35f75ba0e2a8f9b77cc56cbb66a614ea922b376",
+  "capture-stop-review-final.log.gz": "4a9921ec249fbe827f1fd8fdedf95c76bf587a419318676bc99701b643ae49ff",
+  "capture-stop-review.log.gz": "744594a41597685e486a3193c8596c9f890daca5435d65a70590c856d7ac543c",
+  "capture-stop-ts-build.log.gz": "6ef7e8461582cee1b08908ec9e295e4454c0e3d0a59c22bd75f346e301390723",
+  "journal-failure.tar.gz": "142fc56022965d83817b9426215448fb2b0b4f0219836631a823c09fa3635d6f",
+  "verification.json": "35e1a239cc9c69ea28fa966519ae7ade6254f724b517e30c4a1906bf0ff99f94"
+}

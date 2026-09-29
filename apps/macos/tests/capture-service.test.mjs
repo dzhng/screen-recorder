@@ -1,3 +1,4 @@
+import { finishCapture } from "./harness.mjs";
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -145,7 +146,10 @@ test("records its own window through the service and leaves one inspectable orig
   );
   await delay(1_200);
   const elapsed = Date.now();
-  const stopped = await succeeds(home, "capture.stop", { recordingId: started.recordingId });
+  const stopped = await finishCapture(
+    (op, params) => succeeds(home, op, params),
+    started.recordingId,
+  );
   assert.equal(stopped.state, "complete");
   assert.equal(stopped.recordingId, started.recordingId);
   assert.ok(stopped.sourceDurationUs > 1_000_000, `Short take: ${stopped.sourceDurationUs}us`);
@@ -256,7 +260,7 @@ test("cancel discards only its own take's media and restart names a new one", as
   const { source } = await fixtureApp(home);
   const kept = await succeeds(home, "capture.start", silent("kept", source));
   await delay(1_200);
-  await succeeds(home, "capture.stop", { recordingId: kept.recordingId });
+  await finishCapture((op, params) => succeeds(home, op, params), kept.recordingId);
 
   const discarded = await succeeds(home, "capture.start", silent("discarded", source));
   await delay(600);
