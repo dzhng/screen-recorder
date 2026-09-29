@@ -42,26 +42,30 @@ No production deadline or transaction guarantee changed.
 
 ## Active owners
 
-- Capture audio storage proof: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
-  Actual CaptureWriter reproduces packing after an omitted callback or pause,
-  with exact continuous controls (bfd2c9b3);20a remains partial. Reuse the banked08
-  sparse-container mechanism on frozen actual-writer bytes with explicitly
-  probe-known frame addresses. Prove sample placement, empty occupancy, late
-  seeks and interrupted publication before implementing journal/materializer repair.
-  No live capture, silence padding, reader-specific clock or guessed legacy mapping.
+- Capture audio repair: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
+  [Storage proof](20a-sparse-storage/README.md) is banked with exact physical PCM
+  and process-restart evidence, retaining its reader phase failure. The planned
+  [20b](../slices/20b-exact-capture-audio.md), [20c](../slices/20c-sparse-capture-materialization.md)
+  and [20d](../slices/20d-capture-publication.md) separate clock/journal, materialization
+  and publication. Next resolve ordinary raw timestamp scales and exact continuity
+  before selecting20b representation. Nanosecond timestamps plus48kHz can exceed
+  a signed32-bit common timescale; refusal of normal inputs cannot count as repair.
+  No production packed-file rollout until canonical admission/recovery passes.
 - Shared audio reader: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  Localize the sparse proof's one-sample placement error before changing code.
-  Exact rational container placement survives publication, yet the full and late
-  reader outputs lose one sample of phase. Microsecond projection is a lead,
-  not a proven cause. Keep exact and rounded controls; no offsets or relaxed gates.
+  Trace localizes the sparse proof's one-sample placement error to microsecond
+  projection followed by different output/decoder rounding. Exact-support fix is
+  under preservation review in the isolated worktree, not yet integrated. Check
+  legacy excerpt lookahead/end limits before accepting the common reader change. Keep exact and rounded controls; no offsets or relaxed gates.
   The distinct fractional-native-rate correction is already integrated and
   root-confirmed; ordinary integer-rate decoding remains supported.
-- Agent discovery: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
+- Agent discovery / denoise pickup: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
   [Shared references](25-discovery-references/README.md) are integrated and
   root-confirmed: full settings, local closure and CLI/MCP parity pass. A fresh
   public-discovery consumer authored a nested curve with exact readback; it also
   used processing.capabilities, so this is not a help-only-session claim. Other
-  external clients and rendered motion remain outside this checkpoint.
+  external clients and rendered motion remain outside this checkpoint. Next audit
+  the concrete learned-denoise adoption seam against the existing prepared owner;
+  do not infer protected-word acceptance from the user's no-artifacts feedback.
 
 The [sparse storage checkpoint](20a-sparse-storage/README.md) retains the capture
 proposal, independent audit and process-restart evidence; its original sample-phase
