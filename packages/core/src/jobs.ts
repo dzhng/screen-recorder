@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { z } from "zod";
 import { ResourceReferences, type ResourceKind } from "./references.js";
 import { setImmediate } from "node:timers/promises";
@@ -175,8 +176,16 @@ const contextLimit = 4;
 const contextJobLimit = 32;
 const contextValueBytes = 64 * 1024;
 
-const jobColumns =
-  "jobId,attemptId,targetKind,targetId,revisionId,artifact,lane,input,state,reason,retryable,generation,errorCode,errorDetails";
+const summaryColumns =
+  "jobId,attemptId,targetKind,targetId,revisionId,artifact,lane,state,reason,retryable,generation,errorCode,errorDetails";
+const jobColumns = `${summaryColumns},input`;
+function inputDigest(input: string): string {
+  return createHash("sha256").update(input).digest("hex");
+}
+function requireExactInput(actual: string, expected: string): void {
+  if (actual !== expected)
+    throw new CatalogError("IDENTITY_COLLISION", "Different job inputs have the same digest");
+}
 type TargetRow = { targetKind: JobOwner["kind"]; targetId: string; revisionId: string };
 type JobRow = Omit<Job, "target" | "retryable" | "errorDetails"> &
   TargetRow & { retryable: number; errorDetails: string | null };
@@ -216,7 +225,13 @@ function targetFrom({ targetKind, targetId, revisionId }: TargetRow): JobTarget 
   const owner = ownerFromIdentity(targetKind, targetId);
   return owner.kind === "project" || owner.kind === "recording" ? { ...owner, revisionId } : owner;
 }
-function toArtifact({ targetKind, targetId, revisionId, ...row }: ArtifactRow): Artifact {
+function toArtifact({
+  targetKind,
+  targetId,
+  revisionId,
+  attemptId: _attemptId,
+  ...row
+}: ArtifactRow & { attemptId?: string }): Artifact {
   return { ...row, target: targetFrom({ targetKind, targetId, revisionId }) };
 }
 function toJob({ targetKind, targetId, revisionId, ...row }: JobRow): Job {
@@ -338,6 +353,11 @@ export class JobQueue {
     onCapacity?: () => void;
   }) {
     this.store = options.store;
+    // SQL consumers use the same digest for joins on their bounded identity keys.
+    this.store.catalog.function("job_input_digest", { deterministic: true }, (input) => {
+      if (typeof input !== "string") throw new TypeError("Job input must be text");
+      return inputDigest(input);
+    });
     this.references = new ResourceReferences(this.store);
     this.targets = options.targets;
     this.execute = options.execute;
@@ -346,18 +366,19 @@ export class JobQueue {
     this.store.catalog.exec(`
    CREATE TABLE IF NOT EXISTS jobs (
     jobId TEXT PRIMARY KEY,attemptId TEXT NOT NULL,targetKind TEXT NOT NULL,targetId TEXT NOT NULL,revisionId TEXT NOT NULL,
-    artifact TEXT NOT NULL,lane TEXT NOT NULL,input TEXT NOT NULL,state TEXT NOT NULL,
+    artifact TEXT NOT NULL,lane TEXT NOT NULL,state TEXT NOT NULL,
     reason TEXT,errorCode TEXT,errorDetails TEXT,retryable INTEGER NOT NULL,generation INTEGER NOT NULL,queuedSequence INTEGER NOT NULL,
     deferred INTEGER NOT NULL DEFAULT 0 CHECK(deferred IN (0,1)),
-    readmitted INTEGER NOT NULL DEFAULT 0 CHECK(readmitted IN (0,1))
+    readmitted INTEGER NOT NULL DEFAULT 0 CHECK(readmitted IN (0,1)),
+    inputSha256 TEXT NOT NULL,input TEXT NOT NULL
    ) STRICT;
    CREATE UNIQUE INDEX IF NOT EXISTS jobs_identity
-    ON jobs(targetKind,targetId,revisionId,artifact,input);
+    ON jobs(targetKind,targetId,revisionId,artifact,inputSha256);
    CREATE INDEX IF NOT EXISTS jobs_waiting ON jobs(queuedSequence) WHERE state='waiting';
    CREATE TABLE IF NOT EXISTS artifacts (
     targetKind TEXT NOT NULL,targetId TEXT NOT NULL,artifact TEXT NOT NULL,generation INTEGER NOT NULL,
-    revisionId TEXT NOT NULL,input TEXT NOT NULL,attemptId TEXT NOT NULL,result TEXT NOT NULL,
-    PRIMARY KEY(targetKind,targetId,revisionId,artifact,input)
+    revisionId TEXT NOT NULL,attemptId TEXT NOT NULL,result TEXT NOT NULL,inputSha256 TEXT NOT NULL,input TEXT NOT NULL,
+    PRIMARY KEY(targetKind,targetId,revisionId,artifact,inputSha256)
    ) STRICT;
    CREATE INDEX IF NOT EXISTS artifacts_attempt ON artifacts(targetKind,targetId,artifact,attemptId);
   `);
@@ -563,8 +584,8 @@ export class JobQueue {
       const admittedId = this.newId();
       this.store.catalog
         .prepare(
-          `INSERT INTO jobs(${jobColumns},queuedSequence,deferred)
-           VALUES (?,?,?,?,?,?,?,?,?,NULL,0,?,NULL,NULL,?,?)`,
+          `INSERT INTO jobs(jobId,attemptId,targetKind,targetId,revisionId,artifact,lane,input,state,reason,retryable,generation,errorCode,errorDetails,queuedSequence,deferred,inputSha256)
+           VALUES (?,?,?,?,?,?,?,?,?,NULL,0,?,NULL,NULL,?,?,?)`,
         )
         .run(
           admittedId,
@@ -577,6 +598,7 @@ export class JobQueue {
           this.nextGeneration({ target, artifact: request.artifact, input: request.input }),
           ++this.sequence,
           Number(deferred),
+          inputDigest(request.input),
         );
       admitted?.(this.job(admittedId));
       return admittedId;
@@ -634,9 +656,15 @@ export class JobQueue {
       admitted?.(this.job(jobId));
       this.store.catalog
         .prepare(
-          "DELETE FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=? AND generation=?",
+          "DELETE FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND inputSha256=? AND input=? AND generation=?",
         )
-        .run(...targetValues(current.target), current.artifact, current.input, generation);
+        .run(
+          ...targetValues(current.target),
+          current.artifact,
+          inputDigest(current.input),
+          current.input,
+          generation,
+        );
       changed = true;
     });
     if (changed) this.resumeAdmission();
@@ -693,11 +721,12 @@ export class JobQueue {
   private existing(identity: Pick<Job, "target" | "artifact" | "input">): Job | null {
     const row = this.store.catalog
       .prepare(
-        `SELECT ${jobColumns} FROM jobs WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?`,
+        `SELECT ${jobColumns} FROM jobs WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND inputSha256=?`,
       )
-      .get(...targetValues(identity.target), identity.artifact, identity.input) as
+      .get(...targetValues(identity.target), identity.artifact, inputDigest(identity.input)) as
       | JobRow
       | undefined;
+    if (row) requireExactInput(row.input, identity.input);
     return row ? toJob(row) : null;
   }
 
@@ -719,16 +748,51 @@ export class JobQueue {
     ).readmitted;
   }
 
-  private nextGeneration(identity: Pick<Artifact, "target" | "artifact" | "input">): number {
+  private publication(
+    identity: Pick<Artifact, "target" | "artifact" | "input">,
+  ): (ArtifactRow & { attemptId: string }) | null {
     const row = this.store.catalog
       .prepare(
-        "SELECT generation FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?",
+        "SELECT targetKind,targetId,revisionId,artifact,generation,input,attemptId,result FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND inputSha256=?",
       )
-      .get(...targetValues(identity.target), identity.artifact, identity.input);
-    const generation = Number(row?.generation ?? 0) + 1;
+      .get(...targetValues(identity.target), identity.artifact, inputDigest(identity.input)) as
+      | (ArtifactRow & { attemptId: string })
+      | undefined;
+    if (row) requireExactInput(row.input, identity.input);
+    return row ?? null;
+  }
+
+  private nextGeneration(identity: Pick<Artifact, "target" | "artifact" | "input">): number {
+    const generation = (this.publication(identity)?.generation ?? 0) + 1;
     if (!Number.isSafeInteger(generation))
       throw new CatalogError("LIMIT_EXCEEDED", "Artifact generation limit exceeded");
     return generation;
+  }
+
+  /** Inspect durable state without decoding or rehashing the execution recipe. */
+  inspect(jobId: string): Omit<Job, "input"> & { inputSha256: string; result: unknown } {
+    const row = this.store.catalog
+      .prepare(`SELECT ${summaryColumns},inputSha256 FROM jobs WHERE jobId=?`)
+      .get(jobId) as (Omit<JobRow, "input"> & { inputSha256: string }) | undefined;
+    if (!row) throw new CatalogError("NOT_FOUND", "Job does not exist", { jobId });
+    const { targetKind, targetId, revisionId, retryable, errorDetails, ...summary } = row;
+    const target = targetFrom(row);
+    const publication = this.targets.isAvailable(target)
+      ? (this.store.catalog
+          .prepare(
+            "SELECT result FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND inputSha256=?",
+          )
+          .get(targetKind, targetId, revisionId, row.artifact, row.inputSha256) as
+          | { result: string }
+          | undefined)
+      : undefined;
+    return {
+      ...summary,
+      target,
+      retryable: Boolean(retryable),
+      errorDetails: errorDetails ? JSON.parse(errorDetails) : null,
+      result: publication ? JSON.parse(publication.result) : null,
+    };
   }
 
   retainedArtifact(owner: JobOwner, artifact: string, attemptId: string): RetainedArtifact | null {
@@ -744,11 +808,7 @@ export class JobQueue {
   adoptArtifact(receipt: RetainedArtifact): void {
     this.requireOpen();
     this.targets.pin(receipt.target);
-    const existing = this.store.catalog
-      .prepare(
-        "SELECT generation,attemptId,result FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?",
-      )
-      .get(...targetValues(receipt.target), receipt.artifact, receipt.input);
+    const existing = this.publication(receipt);
     if (existing) {
       if (
         existing.generation !== receipt.generation ||
@@ -779,7 +839,7 @@ export class JobQueue {
       throw new CatalogError("INVALID_PACKAGE", "Invalid retained publication identity");
     this.store.catalog
       .prepare(
-        "INSERT INTO artifacts(targetKind,targetId,revisionId,artifact,generation,input,attemptId,result) VALUES(?,?,?,?,?,?,?,?)",
+        "INSERT INTO artifacts(targetKind,targetId,revisionId,artifact,generation,input,attemptId,result,inputSha256) VALUES(?,?,?,?,?,?,?,?,?)",
       )
       .run(
         ...targetValues(receipt.target),
@@ -788,6 +848,7 @@ export class JobQueue {
         receipt.input,
         receipt.attemptId,
         receipt.result,
+        inputDigest(receipt.input),
       );
   }
 
@@ -795,15 +856,7 @@ export class JobQueue {
   status(identity: Pick<Job, "target" | "artifact" | "input">): ArtifactStatus {
     const job = this.existing(identity);
     const present = this.targets.isAvailable(identity.target);
-    const published = present
-      ? ((this.store.catalog
-          .prepare(
-            "SELECT targetKind,targetId,artifact,generation,revisionId,input,result FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?",
-          )
-          .get(...targetValues(identity.target), identity.artifact, identity.input) as
-          | ArtifactRow
-          | undefined) ?? null)
-      : null;
+    const published = present ? this.publication(identity) : null;
     return {
       state:
         !present || job?.state === "canceled"
@@ -868,9 +921,9 @@ export class JobQueue {
         throw new CatalogError("PROCESSING_BUSY", "Job is still active", {}, true);
       this.store.catalog
         .prepare(
-          "DELETE FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input=?",
+          "DELETE FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND inputSha256=? AND input=?",
         )
-        .run(...targetValues(job.target), job.artifact, job.input);
+        .run(...targetValues(job.target), job.artifact, inputDigest(job.input), job.input);
       for (const kind of ["job", "job-input"] as const)
         while (this.references.releaseOwnerPage({ kind, id: jobId })) {
           /* Atomic retirement. */
@@ -1061,18 +1114,21 @@ export class JobQueue {
       WHERE state IN ('complete','interrupted') AND sourceDurationUs IS NOT NULL
       AND recordingId NOT IN (SELECT recordingId FROM recording_deletions)
       AND NOT EXISTS (SELECT 1 FROM jobs WHERE jobs.targetKind='recording' AND jobs.targetId=recordings.recordingId
-        AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.input=?)
+        AND jobs.revisionId='r0' AND jobs.artifact=? AND jobs.inputSha256=? AND jobs.input=?)
       ${
         dependency
           ? `AND EXISTS (SELECT 1 FROM artifacts WHERE artifacts.targetKind='recording' AND artifacts.targetId=recordings.recordingId
-        AND artifacts.revisionId='r0' AND artifacts.artifact=? AND artifacts.input=?)`
+        AND artifacts.revisionId='r0' AND artifacts.artifact=? AND artifacts.inputSha256=? AND artifacts.input=?)`
           : ""
       }
       ORDER BY creationSequence LIMIT 1`)
       .get(
         request.artifact,
+        inputDigest(request.input),
         request.input,
-        ...(dependency ? [dependency.artifact, dependency.input] : []),
+        ...(dependency
+          ? [dependency.artifact, inputDigest(dependency.input), dependency.input]
+          : []),
       ) as { recordingId: string } | undefined;
     if (!pending) return;
     try {
@@ -1380,11 +1436,12 @@ export class JobQueue {
         this.fail(job.jobId, error, job.attemptId);
         return;
       }
+      this.publication(job);
       outcome.publish?.();
       this.store.catalog
         .prepare(
-          `INSERT INTO artifacts(targetKind,targetId,revisionId,artifact,generation,input,attemptId,result)
-           VALUES (?,?,?,?,?,?,?,?) ON CONFLICT(targetKind,targetId,revisionId,artifact,input) DO UPDATE SET
+          `INSERT INTO artifacts(targetKind,targetId,revisionId,artifact,generation,input,attemptId,result,inputSha256)
+           VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(targetKind,targetId,revisionId,artifact,inputSha256) DO UPDATE SET
            generation=excluded.generation,attemptId=excluded.attemptId,result=excluded.result`,
         )
         .run(
@@ -1394,6 +1451,7 @@ export class JobQueue {
           job.input,
           job.attemptId,
           outcome.result,
+          inputDigest(job.input),
         );
       this.store.catalog
         .prepare(

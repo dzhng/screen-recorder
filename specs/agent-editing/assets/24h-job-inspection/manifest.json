@@ -1,0 +1,292 @@
+{
+  "files": [
+    {
+      "path": "diagnostics/screenrec-job-baseline-gate.log",
+      "source": "/tmp/screenrec-job-baseline-gate.log",
+      "bytes": 616,
+      "sha256": "f07b838d5902b3d4b83470701767590d8b284fc00a698197bc87f9221310cab5"
+    },
+    {
+      "path": "diagnostics/screenrec-job-baseline-gate.mjs",
+      "source": "/tmp/screenrec-job-baseline-gate.mjs",
+      "bytes": 358,
+      "sha256": "eb21a25733255dff771cb222b3ae94ea077d3f7337f1cbf2b84ab12a8c936dac"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-asset-build.log",
+      "source": "/tmp/screenrec-job-inspection-asset-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-asset-final.log",
+      "source": "/tmp/screenrec-job-inspection-asset-final.log",
+      "bytes": 896,
+      "sha256": "a4640fc27c6775e3551105bcbde23253d026976279e4c850944190c0706c7152"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-asset-green.log",
+      "source": "/tmp/screenrec-job-inspection-asset-green.log",
+      "bytes": 400,
+      "sha256": "147f05a30c3c877a0c9bbc1b893a90c0b571fa1b36a8f515b76b81777f0075e1"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-asset-red.log",
+      "source": "/tmp/screenrec-job-inspection-asset-red.log",
+      "bytes": 2173,
+      "sha256": "90eb7b181ad6eff5fe7003ada1ed858935469e94d843e97bc49f94af294be515"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-audit.md",
+      "source": "/tmp/screenrec-job-inspection-audit.md",
+      "bytes": 3754,
+      "sha256": "1658f93fc031a9f0b202e435929428f7c2fcb59d06226e2d8ee696691ead406e"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-catalog14-refusal.json",
+      "source": "/tmp/screenrec-job-inspection-catalog14-refusal.json",
+      "bytes": 539,
+      "sha256": "8e4b73240ea90b6dda0fe6b2ff121a4aa1b6994d07e0cf71a8f7984968c047ee"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-catalog14-refusal.log",
+      "source": "/tmp/screenrec-job-inspection-catalog14-refusal.log",
+      "bytes": 1201,
+      "sha256": "6435ad8279231133b04153d1c99a6fd967e63593c762ae9124ff02fb71d6d237"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-complete-tests.log",
+      "source": "/tmp/screenrec-job-inspection-complete-tests.log",
+      "bytes": 1403,
+      "sha256": "ec82ac8f487468f885dcf91ebce02d2d710719062d00ebe7dcac0f5a5c0817c9"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-core-build.log",
+      "source": "/tmp/screenrec-job-inspection-core-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-cross-table.log",
+      "source": "/tmp/screenrec-job-inspection-cross-table.log",
+      "bytes": 411,
+      "sha256": "a66775e4212b4c2d779e4c7b589546e635414d1939ccd729570a538dc7260d8e"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-export-plans.log",
+      "source": "/tmp/screenrec-job-inspection-export-plans.log",
+      "bytes": 1079,
+      "sha256": "912209f7d6c5f053070e6b531134562b9360693ac3f5fb1a99dda9abbb92b27d"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-export-tests.log",
+      "source": "/tmp/screenrec-job-inspection-export-tests.log",
+      "bytes": 1086,
+      "sha256": "46975afea81dbf995a9ef373a09ee75da43627de1462a52abe631d9202758d9c"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-final-tests.log",
+      "source": "/tmp/screenrec-job-inspection-final-tests.log",
+      "bytes": 1234,
+      "sha256": "7ede53527a7e2bfcdad78131bd8b8efd93cb0b3679c271bad65f37dadeddbbf7"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-first-green.log",
+      "source": "/tmp/screenrec-job-inspection-first-green.log",
+      "bytes": 1233,
+      "sha256": "b0950bfd32d1b841edad5f8d518ddbe39f23490f5dbf790256652d43bef45248"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-lifecycle.log",
+      "source": "/tmp/screenrec-job-inspection-lifecycle.log",
+      "bytes": 895,
+      "sha256": "74ebf4993be32e91732cef152d5985a5a6923f205cfffe959a4c507b77a552d6"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-lint-final.log",
+      "source": "/tmp/screenrec-job-inspection-lint-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-lint.log",
+      "source": "/tmp/screenrec-job-inspection-lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-owner-tests.log",
+      "source": "/tmp/screenrec-job-inspection-owner-tests.log",
+      "bytes": 555,
+      "sha256": "dde8800ec9a1a5b4cadbc7f22bbc3aec1ab7df5b36ce3f0373c79465a1c85ee6"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-profile.json",
+      "source": "/tmp/screenrec-job-inspection-profile.json",
+      "bytes": 13565,
+      "sha256": "454d9ec39659a2da146139aadbcb8645d27edab4a50f530c0ac490c07e916d8a"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-profile.log",
+      "source": "/tmp/screenrec-job-inspection-profile.log",
+      "bytes": 8872,
+      "sha256": "b6bfba8c103c11efa881d088e82b62ba5bde0b413c8baabaa38c27687a907da9"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-profile.mjs",
+      "source": "/tmp/screenrec-job-inspection-profile.mjs",
+      "bytes": 2605,
+      "sha256": "1e6099f6b1fe057dd3b2e0f76dd8da1a06f1912f45e5f2a33f07ba4a61e91255"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-red.log",
+      "source": "/tmp/screenrec-job-inspection-red.log",
+      "bytes": 1295,
+      "sha256": "7c8141a0d35e72229136f1242b4a1e71587a63b9b1cc6a7a2131b95d00fd6b64"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-review.log",
+      "source": "/tmp/screenrec-job-inspection-review.log",
+      "bytes": 138139,
+      "sha256": "6e591201af0a6281c652f43f613383c1d99edfbe832bc3ffd97adb47a00a6cfa"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-reviewed.log",
+      "source": "/tmp/screenrec-job-inspection-reviewed.log",
+      "bytes": 3058,
+      "sha256": "621c921353cdc02553d1a96bf409ac1f024146014cce742261b6bdce558d0d28"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-rich-asset-green.log",
+      "source": "/tmp/screenrec-job-inspection-rich-asset-green.log",
+      "bytes": 399,
+      "sha256": "7a5ab13e061d9c5745c035609c06d2d15c38f0d3fb031d67d5efdc82385b85d5"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-rich-asset-observation.log",
+      "source": "/tmp/screenrec-job-inspection-rich-asset-observation.log",
+      "bytes": 399,
+      "sha256": "4c8b508bf99a61772fce8e4943e8a154c996c17f4046285a10dfa255493a2316"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-rich-asset-red.log",
+      "source": "/tmp/screenrec-job-inspection-rich-asset-red.log",
+      "bytes": 1305,
+      "sha256": "6335ae427fd09a895050fe350ef3a1294c011bdc467811351b8a8c808477c3d1"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-service-build.log",
+      "source": "/tmp/screenrec-job-inspection-service-build.log",
+      "bytes": 668,
+      "sha256": "8562f98d61e48756f465ef1f0dbe5ab412527e08495bb06e111d0f11787a53df"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-service-tests.log",
+      "source": "/tmp/screenrec-job-inspection-service-tests.log",
+      "bytes": 556,
+      "sha256": "8c453f599bebb6a94b39cbea693a8dd68f8213a25c5b6a38684fdbe9e90f7bb7"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-service.mjs",
+      "source": "/tmp/screenrec-job-inspection-service.mjs",
+      "bytes": 1264,
+      "sha256": "8a3574c205f1b45f4f8a741a70618d7af6b4e6aeb34ef62fe085ef74cccc3949"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-setup.json",
+      "source": "/tmp/screenrec-job-inspection-setup.json",
+      "bytes": 4782,
+      "sha256": "2b637da00c12f736ccf165e91ad62abe7cdb52c537baabdfedbf063f9e87ff63"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-setup.log",
+      "source": "/tmp/screenrec-job-inspection-setup.log",
+      "bytes": 211,
+      "sha256": "06bc3eabc6640c30805a823a5c29f3bc1e9384c8946f0db42829917d8dec1f28"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-setup.mjs",
+      "source": "/tmp/screenrec-job-inspection-setup.mjs",
+      "bytes": 2555,
+      "sha256": "639726cf8eb0223ad056f49c6d92a9a40f0f3d4d28be9999f6a62d6afbf5cc6c"
+    },
+    {
+      "path": "diagnostics/screenrec-job-inspection-types.log",
+      "source": "/tmp/screenrec-job-inspection-types.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "diagnostics/screenrec-job-query-plans-63116.json",
+      "source": "/tmp/screenrec-job-query-plans-63116.json",
+      "bytes": 12517,
+      "sha256": "abf9b636a672d6be31f0e2f02c5c0dcfaae84f057b5d20aa8c9ee079d6cc560a"
+    },
+    {
+      "path": "diagnostics/screenrec-job-query-plans.mjs",
+      "source": "/tmp/screenrec-job-query-plans.mjs",
+      "bytes": 932,
+      "sha256": "000557cb9427cf179a1f612e317e46c4aab7e963a485ae41a7686f2bf52a73a1"
+    },
+    {
+      "path": "diagnostics/screenrec-job-storage.json",
+      "source": "/tmp/screenrec-job-storage.json",
+      "bytes": 3019,
+      "sha256": "cf2169192aae35c09125851e45024d8a9debc3ad3af51d8f78bd7ee74256ef25"
+    },
+    {
+      "path": "diagnostics/screenrec-job-storage.mjs",
+      "source": "/tmp/screenrec-job-storage.mjs",
+      "bytes": 1897,
+      "sha256": "36668efd7dd764cd18e3f2c5593de76b0b225f1700945b6fd72510195522289f"
+    },
+    {
+      "path": "harness/job-inspection-service.mjs",
+      "source": "/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder/packages/test-harness/editing/job-inspection-service.mjs",
+      "bytes": 1493,
+      "sha256": "cbe42d9e76c96dbe23b2a4fd7c914d65736196005f8f6b8caed5bd10ef6d443e"
+    },
+    {
+      "path": "harness/job-inspection.mjs",
+      "source": "/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder/packages/test-harness/editing/job-inspection.mjs",
+      "bytes": 6931,
+      "sha256": "92de4dc0a826501fc459d9b634ddcf0a11c1ce019fa8591d57ad34d1e3a0e4c2"
+    },
+    {
+      "path": "inputs/current-15944124-input.json",
+      "source": "/tmp/screenrec-job-inspection-retention/current-15944124-input.json",
+      "bytes": 15944124,
+      "sha256": "c7fbfd30faff74f7f08c505add4889d5c54ef4f24344091f3f41746130fdce87"
+    },
+    {
+      "path": "inputs/current-3736-input.json",
+      "source": "/tmp/screenrec-job-inspection-retention/current-3736-input.json",
+      "bytes": 3736,
+      "sha256": "c93a2ab48dadb5c5fbb393391f816a7b16ff1980f99a3479dbdda68101802148"
+    },
+    {
+      "path": "inputs/format17-15944124-input.json",
+      "source": "/tmp/screenrec-job-inspection-retention/format17-15944124-input.json",
+      "bytes": 15944124,
+      "sha256": "8c60e08d8b553df9a2cbe266a84980f0605957cbd0baed5358c283bf4b60d3ec"
+    },
+    {
+      "path": "inputs/format17-3736-input.json",
+      "source": "/tmp/screenrec-job-inspection-retention/format17-3736-input.json",
+      "bytes": 3736,
+      "sha256": "760cd4f9aad1654dc2891399c0538d65e088512b628512814de90aa6d2106f39"
+    },
+    {
+      "path": "public/report.json",
+      "source": "/tmp/screenrec-job-inspection-reviewed/report.json",
+      "bytes": 17582,
+      "sha256": "ce214f19c854f4bd192c9442a33c02055e275aaec59d870285d6453feb9546e5"
+    },
+    {
+      "path": "public/source.wav",
+      "source": "/tmp/screenrec-job-inspection-reviewed/source.wav",
+      "bytes": 192044,
+      "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+    }
+  ]
+}

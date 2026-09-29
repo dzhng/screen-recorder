@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "archiveSha256": "f8134d72f70b33132dcbee3ccb1d69b87203ac687e25ded1ebd9ce39b43d299e",
+  "membersVerified": 48,
+  "archiveBytes": 369468,
+  "base": "1ca2fc0a",
+  "native": "/tmp/screenrec-indexed-root-native-541c6761ac2b",
+  "nativeSha256": "541c6761ac2bc763e3029c4856a6d19699fd7357196a837bac36fff99bd2567e",
+  "commands": [
+    "node node_modules/typescript/bin/tsc -p packages/protocol/tsconfig.json",
+    "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.json",
+    "node node_modules/typescript/bin/tsc -p apps/service/tsconfig.json",
+    "node node_modules/typescript/bin/tsc -p apps/cli/tsconfig.json",
+    "node node_modules/vitest/vitest.mjs run packages/core/src/jobs.test.ts packages/core/src/projects.test.ts packages/core/src/assets.test.ts packages/core/src/transcript.test.ts packages/core/src/asset-transcript.test.ts packages/core/src/prepared-audio.test.ts apps/service/src/project-service.test.ts",
+    "node node_modules/typescript/bin/tsc -p packages/core/tsconfig.check.json",
+    "SCREENREC_NATIVE=/tmp/screenrec-indexed-root-native-541c6761ac2b node --test --test-name-pattern='export discovery|abandonment drains|canceling recovery|startup admission|recovery failures' apps/service/tests/video-export.mjs",
+    "SCREENREC_NATIVE=/tmp/screenrec-indexed-root-native-541c6761ac2b node packages/test-harness/editing/job-inspection.mjs --out /tmp/NEW-UNIQUE-JOB-INSPECTION"
+  ],
+  "sourceHashes": {
+    "packages/core/src/jobs.ts": "8accb0e02583182c954ba990179d22c4c1756f023238e4961f6989810e68e940",
+    "packages/core/src/assets.ts": "a441e79acdabf2e817eb1fa9d2055521e7814b90e1924a3da02803c81ad70c5e",
+    "apps/service/src/project-service.ts": "ecb1301da52641d3b5256f01eff0e89facdf59c6b934120b766b4e2554b29bcd",
+    "apps/service/src/project-service.test.ts": "f2541acaca650673b2a1b72975fafdbbe0bb2bd36e3ff0a9f1328c1ca1e7f3c5",
+    "apps/service/src/exports.ts": "fa1aaccb1532520b47056ba958e360d6f2881f56f05d7ac2e95ed142c7175f13"
+  },
+  "review": "No actionable regressions; reviewer102 core tests pass, service sockets sandbox blocked. Author final147 focused tests,6 native export lifecycle tests and public workload pass.",
+  "limitations": [
+    "No whole24 closure or new latency threshold.",
+    "Startup/recovery/admission full-input costs and result sizes remain separate.",
+    "Cross-revision export recovery eligibility retains its existing scan scope.",
+    "Storage artifact rows explicitly synthetic; no repeated long DSP.",
+    "Catalog17 developmental refusal; historical libraries unchanged."
+  ]
+}

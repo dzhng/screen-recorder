@@ -307,10 +307,14 @@ test("current decoder work separates source recipes while retained evidence stay
   const oldRecipe = JSON.parse(row.input);
   delete oldRecipe.decoderExecution;
   const oldInput = JSON.stringify(oldRecipe);
-  f.catalog.catalog.prepare("UPDATE jobs SET input=? WHERE jobId=?").run(oldInput, previous.jobId);
   f.catalog.catalog
-    .prepare("UPDATE artifacts SET input=? WHERE targetId=? AND artifact='transcript'")
-    .run(oldInput, f.asset.id);
+    .prepare("UPDATE jobs SET input=?,inputSha256=? WHERE jobId=?")
+    .run(oldInput, createHash("sha256").update(oldInput).digest("hex"), previous.jobId);
+  f.catalog.catalog
+    .prepare(
+      "UPDATE artifacts SET input=?,inputSha256=? WHERE targetId=? AND artifact='transcript'",
+    )
+    .run(oldInput, createHash("sha256").update(oldInput).digest("hex"), f.asset.id);
   expect(f.processing.sourceStatus(f.selection).state).toBe("not_requested");
   f.processing.prepareSource(f.selection);
   await expect.poll(() => f.processing.sourceStatus(f.selection).state).toBe("ready");

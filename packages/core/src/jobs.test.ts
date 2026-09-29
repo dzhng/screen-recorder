@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { test, expect, afterEach } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -2430,4 +2431,125 @@ test("retained publications survive restart without invented jobs and precede la
   expect(reopened.queue.retainsAttempt(identity.target, identity.artifact, "donor-attempt")).toBe(
     false,
   );
+});
+
+test("compact job inspection preserves publication and recipe identity through restart", async () => {
+  const first = fixture("inspect");
+  const recordingId = finished(first.store);
+  const input = "exact input ".repeat(10000);
+  const job = first.queue.submit({
+    target: { kind: "recording", recordingId },
+    artifact: "inspect",
+    lane: "frame",
+    input,
+  });
+  const expected = {
+    ...job,
+    inputSha256: createHash("sha256").update(input).digest("hex"),
+    result: null,
+  };
+  const { input: _input, ...summary } = expected;
+  expect(first.queue.inspect(job.jobId)).toEqual(summary);
+  (await first.started(job.attemptId)).finish('{"ready":true}');
+  await first.queue.idle();
+  expect(first.queue.inspect(job.jobId)).toMatchObject({
+    state: "ready",
+    result: { ready: true },
+    inputSha256: summary.inputSha256,
+  });
+  const ready = first.queue.inspect(job.jobId);
+  await first.queue.close();
+  queues.splice(queues.indexOf(first.queue), 1);
+  first.store.close();
+  const second = open(first.path, "inspect-restart");
+  expect(second.queue.inspect(job.jobId)).toEqual(ready);
+});
+
+test("digest candidates never merge different exact recipes at admission, adoption or publication", async () => {
+  const f = fixture("collision");
+  const target = { kind: "asset" as const, assetId: "asset" };
+  const digest = createHash("sha256").update("candidate").digest("hex");
+  const original = f.queue.submit({ target, artifact: "job", lane: "frame", input: "original" });
+  f.queue.cancel(original.jobId);
+  // Simulate a hash collision at the durable boundary; no test-only hash injection in production.
+  f.store.catalog
+    .prepare("UPDATE jobs SET inputSha256=? WHERE jobId=?")
+    .run(digest, original.jobId);
+  expect(() =>
+    f.queue.submit({ target, artifact: "job", lane: "frame", input: "candidate" }),
+  ).toThrow(/same digest/);
+  expect(f.queue.job(original.jobId).input).toBe("original");
+  expect(() =>
+    f.store.transaction(() =>
+      f.queue.adoptArtifact({
+        target,
+        artifact: "job",
+        input: "candidate",
+        generation: 1,
+        attemptId: "cross-table",
+        result: "{}",
+      }),
+    ),
+  ).toThrow(/same digest/);
+  expect(f.queue.retainedArtifact(target, "job", "cross-table")).toBe(null);
+
+  const receipt = {
+    target,
+    artifact: "publication",
+    input: "original",
+    generation: 1,
+    attemptId: "retained",
+    result: '{"original":true}',
+  };
+  const candidate = f.queue.submit({
+    target,
+    artifact: receipt.artifact,
+    input: "candidate",
+    lane: "frame",
+  });
+  f.store.transaction(() => f.queue.adoptArtifact(receipt));
+  f.store.catalog
+    .prepare("UPDATE artifacts SET inputSha256=? WHERE artifact=?")
+    .run(digest, receipt.artifact);
+  expect(() =>
+    f.store.transaction(() => f.queue.adoptArtifact({ ...receipt, input: "candidate" })),
+  ).toThrow(/same digest/);
+  (await f.started(candidate.attemptId)).finish('{"wrong":true}');
+  await Promise.resolve();
+  // Release canceled executor before waiting for all attempt cleanup.
+  (await f.started(original.attemptId)).fail(new Error("canceled"));
+  await f.queue.idle();
+  expect(f.queue.job(candidate.jobId)).toMatchObject({
+    state: "failed",
+    errorCode: "IDENTITY_COLLISION",
+    retryable: false,
+  });
+  expect(f.queue.retainedArtifact(target, receipt.artifact, receipt.attemptId)).toEqual(receipt);
+});
+
+test("inspection keeps a previous publication during replacement and hides it after owner loss", async () => {
+  const f = fixture("prior-inspection");
+  const target = { kind: "asset" as const, assetId: "asset" };
+  const receipt = {
+    target,
+    artifact: "evidence",
+    input: "same",
+    generation: 7,
+    attemptId: "donor",
+    result: '{"retained":true}',
+  };
+  f.store.transaction(() => f.queue.adoptArtifact(receipt));
+  const job = f.queue.submit({ ...receipt, lane: "frame" });
+  expect(f.queue.inspect(job.jobId)).toMatchObject({
+    state: "running",
+    generation: 8,
+    result: { retained: true },
+  });
+  f.queue.cancel(job.jobId);
+  expect(f.queue.inspect(job.jobId)).toMatchObject({
+    state: "canceled",
+    result: { retained: true },
+  });
+  f.targets.isAvailable = () => false;
+  expect(f.queue.inspect(job.jobId)).toMatchObject({ state: "canceled", result: null });
 });

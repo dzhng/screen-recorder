@@ -1,5 +1,4 @@
 import { assetProbe } from "./media-probe.js";
-import { createHash } from "node:crypto";
 import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { projectComposition } from "@screenrec/core/project-window";
@@ -133,13 +132,10 @@ export async function startProjectService(options: { home: string; worker?: Medi
         return target;
       },
       isAvailable(target) {
-        if (
-          target.kind !== "import" &&
-          target.kind !== "project" &&
-          target.kind !== "acquisition" &&
-          target.kind !== "asset"
-        )
-          return false;
+        if (target.kind === "asset") return assets.has(target.assetId);
+        if (target.kind === "project")
+          return projects.hasRevision(target.projectId, target.revisionId);
+        if (target.kind !== "import" && target.kind !== "acquisition") return false;
         try {
           targets.pin(target);
           return true;
@@ -509,16 +505,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     deletion = projectDeletion;
     await projectDeletion.resume((error) => console.error(error));
     for (const error of mediaExports.resumeRecovery()) console.error(error);
-    const status = (jobId: string) => {
-      const job = queue.job(jobId);
-      const publication = queue.status(job).published;
-      const { input, ...summary } = job;
-      return {
-        ...summary,
-        inputSha256: createHash("sha256").update(input).digest("hex"),
-        result: publication ? (JSON.parse(publication.result) as unknown) : null,
-      };
-    };
+    const status = (jobId: string) => queue.inspect(jobId);
     const pending = new Set<Promise<OperationResult>>();
     let closing = false;
     const handle: LocalHandler = async (request): Promise<OperationResult> => {

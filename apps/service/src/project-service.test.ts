@@ -11,7 +11,8 @@ import { once } from "node:events";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
+import { DatabaseSync } from "node:sqlite";
 import { AssetStore } from "@screenrec/core/assets";
 import { Catalog } from "@screenrec/core/catalog";
 import { callLocal } from "@screenrec/client";
@@ -807,3 +808,71 @@ function projectStoreFixture(catalog: Catalog, assets: AssetStore, home: string)
     acquisitions,
   );
 }
+
+test("asset job diagnostics do not hydrate physical segment metadata", async () => {
+  const f = await setup(async (operation) =>
+    operation === "media.probe"
+      ? {
+          ok: true,
+          data: {
+            originUs: 0,
+            streams: [
+              {
+                ...metadata.streams[0],
+                id: "video:0",
+                kind: "video",
+                codec: "h264",
+                startUs: 0,
+                endUs: 2000010,
+                segments: Array.from({ length: 200001 }, (_, i) => ({
+                  startUs: i * 10,
+                  endUs: (i + 1) * 10,
+                  empty: i % 2 === 0,
+                  ...(i % 2 ? { mediaStartUs: Math.floor(i / 2) * 10, mediaDurationUs: 10 } : {}),
+                })),
+              },
+            ],
+          },
+        }
+      : {
+          ok: false,
+          error: {
+            code: "MEDIA_WORKER_UNAVAILABLE",
+            message: "offline",
+            retryable: true,
+            details: {},
+          },
+        },
+  );
+  const imported = await f.call("asset.import", { requestId: "segmented", path: f.path });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const assetId = (await f.job((imported.data as { jobId: string }).jobId, "ready")).result!
+    .assetId;
+  const frame = await f.call("frame.get", { assetId, streamId: "video:0", atUs: 10 });
+  if (!frame.ok) throw new Error(JSON.stringify(frame));
+  const jobId = (frame.data as { jobId: string }).jobId;
+  const failed = await f.job(jobId, "failed");
+  // Observe valid segment-rich metadata before the separate damage/isolation control.
+  const reads = vi.spyOn(DatabaseSync.prototype, "prepare");
+  try {
+    expect(await f.call("job.get", { jobId })).toEqual({ id: "test", ok: true, data: failed });
+    const sql = reads.mock.calls.map(([statement]) => statement);
+    expect(sql.some((statement) => /FROM assets WHERE id=/.test(statement))).toBe(true);
+    expect(
+      sql.filter((statement) => /asset_segments|SELECT metadata FROM assets/.test(statement)),
+    ).toEqual([]);
+  } finally {
+    reads.mockRestore();
+  }
+
+  const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
+  try {
+    // Even damaged source detail must not hide an already recorded job failure.
+    catalog.catalog
+      .prepare("UPDATE asset_segments SET value=? WHERE assetId=?")
+      .run("not parsed", assetId);
+    expect(await f.call("job.get", { jobId })).toEqual({ id: "test", ok: true, data: failed });
+  } finally {
+    catalog.close();
+  }
+});

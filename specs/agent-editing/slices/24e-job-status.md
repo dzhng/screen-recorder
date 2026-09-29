@@ -11,7 +11,7 @@ failure diagnostics and published result through the existing response owner.
 Internal diagnostic tests may inspect the recipe, but that is not a public escape
 hatch or an alternate execution schema.
 
-This fixes delivery of large job status. It does not bound the queue's internal
-full-input reads or identity queries independently of plan size. General scale
-inspection and retained storage growth remain open. The [two-hour learned preparation](24f-successful-learned-scale.md) and complete
+This checkpoint proves delivery only. [24h](24h-job-inspection.md) separately owns
+recipe-independent inspection and compact identity indexes. General scale and
+retained history growth remain open. The [two-hour learned preparation](24f-successful-learned-scale.md) and complete
 independent PCM gate now pass at unchanged recipes and limits.

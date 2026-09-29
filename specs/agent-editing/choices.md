@@ -3256,3 +3256,10 @@ plan did not prescribe status storage. SQLite maintains this derived index witho
 a second registry, at a measured cost of recomputing it on lifecycle changes. This
 trades infrequent write work for bounded repeated reads; video and recording status
 settings remain complete.
+
+## 24h — Compact job inspection
+
+- **Sound; high confidence:** keep exact recipes in JobQueue, persist their SHA-256 once, and use digest identity indexes instead of copying complete plans into indexes. Compare original candidate inputs on admission/adoption/publication and refuse collisions; public polling trusts that write invariant rather than rehashing every plan.
+- **Sound; high confidence:** project availability means exact retained revision membership under a non-deleted project, not parsing its content; asset availability means row presence, not loading physical segments. Keep public status/result semantics and the existing owner boundary.
+- **Sound; high confidence:** preserve ordered export recovery with a partial index containing only its bounded export/attempt keys. Exact SQL joins call the queue's deterministic digest helper; no second hash policy or export pagination implementation.
+- **Sound; high confidence:** catalog17 explicitly refuses older development catalogs rather than mutating frozen evidence or adding migration paths. Raw execution recipes remain durable; this is not a claim that all history/query costs are bounded.

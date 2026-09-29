@@ -318,6 +318,16 @@ export class ProjectStore {
       return complete;
     });
   }
+  /** Exact pinned revision availability, without hydrating its document. */
+  hasRevision(projectId: string, revisionId: string): boolean {
+    return Boolean(
+      this.store.catalog
+        .prepare(
+          "SELECT 1 FROM project_revisions AS r JOIN projects AS p ON p.projectId=r.projectId WHERE r.projectId=? AND r.id=? AND p.deletedAt IS NULL",
+        )
+        .get(projectId, revisionId),
+    );
+  }
   revision(projectId: string, revisionId?: string): ProjectRevision {
     const project = this.get(projectId);
     const row = this.store.catalog

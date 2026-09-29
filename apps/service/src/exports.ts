@@ -184,7 +184,10 @@ export class MediaExports {
     },
   ) {
     this.references = new ResourceReferences(owners.catalog);
-    owners.catalog.catalog.exec(`CREATE TABLE IF NOT EXISTS export_intents (
+    // Recovery inputs are bounded export/attempt IDs and need ordered prefix retirement.
+    owners.catalog.catalog.exec(`CREATE INDEX IF NOT EXISTS export_recovery_identity
+      ON jobs(targetKind,targetId,revisionId,input) WHERE artifact='${recoveryArtifact}';
+    CREATE TABLE IF NOT EXISTS export_intents (
       exportId TEXT PRIMARY KEY, targetKind TEXT NOT NULL CHECK(targetKind IN ('recording','project')), targetId TEXT NOT NULL,
       kind TEXT NOT NULL CHECK(kind IN ('video','processed-package')),
       request TEXT NOT NULL, snapshot TEXT NOT NULL, destination TEXT NOT NULL,
@@ -326,13 +329,13 @@ export class MediaExports {
       const rows = this.owners.catalog.catalog
         .prepare(
           `SELECT i.exportId,j.attemptId FROM export_intents i
-        JOIN jobs j ON j.targetKind=i.targetKind AND j.targetId=i.targetId AND j.artifact=? AND j.input=i.exportId
+        JOIN jobs j ON j.targetKind=i.targetKind AND j.targetId=i.targetId AND j.artifact=? AND j.inputSha256=job_input_digest(i.exportId) AND j.input=i.exportId
         WHERE ${cleanupPendingSql} AND i.abandoning=0
         AND j.state IN ('failed','canceled','ready','unavailable')
         AND ${this.owners.recording ? "NOT (i.targetKind='recording' AND EXISTS(SELECT 1 FROM recording_deletions d WHERE d.recordingId=i.targetId))" : "i.targetKind<>'recording'"}
         AND ${this.owners.project ? "NOT (i.targetKind='project' AND EXISTS(SELECT 1 FROM projects p WHERE p.projectId=i.targetId AND p.deletedAt IS NOT NULL))" : "i.targetKind<>'project'"}
         AND NOT EXISTS(SELECT 1 FROM jobs r WHERE r.targetKind=j.targetKind AND r.targetId=j.targetId AND r.revisionId=j.revisionId
-          AND r.artifact=? AND r.input=i.exportId || '/' || j.attemptId)
+          AND r.artifact=? AND r.inputSha256=job_input_digest(i.exportId || '/' || j.attemptId) AND r.input=i.exportId || '/' || j.attemptId)
         ORDER BY i.exportId LIMIT 32`,
         )
         .all(artifact, recoveryArtifact) as {
@@ -799,7 +802,7 @@ export class MediaExports {
         ${unfinishedOnly ? `AND ${unfinishedSql}` : ""} ORDER BY exportId LIMIT ?) page
       CROSS JOIN export_intents INDEXED BY export_intents_status_projection ON exportId=page.selectedExportId) selected
       LEFT JOIN jobs j ON j.targetKind=selected.targetKind AND j.targetId=selected.targetId AND j.revisionId=selected.revisionId
-      AND j.artifact=? AND j.input=selected.exportId ORDER BY selected.exportId`,
+      AND j.artifact=? AND j.inputSha256=job_input_digest(selected.exportId) AND j.input=selected.exportId ORDER BY selected.exportId`,
       )
       .all(
         input.cursor?.afterExportId ?? "",
@@ -985,13 +988,12 @@ export class MediaExports {
     const active = this.owners.catalog.catalog
       .prepare(
         `SELECT jobId FROM jobs WHERE targetKind=? AND targetId=?
-      AND revisionId=? AND artifact=? AND input>? AND input<? AND state IN ('queued','running')`,
+      AND revisionId=? AND artifact='${recoveryArtifact}' AND input>? AND input<? AND state IN ('queued','running')`,
       )
       .all(
         intent.targetKind,
         intent.targetId,
         intent.snapshot.revisionId,
-        recoveryArtifact,
         `${exportId}/`,
         `${exportId}0`,
       ) as { jobId: string }[];
@@ -1250,14 +1252,13 @@ export class MediaExports {
     if (jobId) await this.owners.jobs.drainJob(jobId);
     // The durable intent fence stops every recovery identity before any drain begins.
     const recoveryJobs = this.owners.catalog.catalog.prepare(`SELECT jobId,input FROM jobs
-      WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND input>? AND input<? ORDER BY input LIMIT 1`);
+      WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact='${recoveryArtifact}' AND input>? AND input<? ORDER BY input LIMIT 1`);
     let after = `${exportId}/`;
     for (;;) {
       const recovery = recoveryJobs.get(
         intent.targetKind,
         intent.targetId,
         intent.snapshot.revisionId,
-        recoveryArtifact,
         after,
         `${exportId}0`,
       ) as { jobId: string; input: string } | undefined;

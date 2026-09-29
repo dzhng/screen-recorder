@@ -610,3 +610,20 @@ test("shared state membership survives replay, undo and restored history without
   expect(restored.document).toEqual(split.revision.document);
   expect(store.revision(id, split.revision.id).document).toEqual(split.revision.document);
 });
+
+test("pinned revision availability respects exact membership and deletion without document hydration", async () => {
+  const { store, catalog } = await setup();
+  const first = store.create({ requestId: "first", title: "first", canvas });
+  const second = store.create({ requestId: "second", title: "second", canvas });
+  const id = first.project.projectId;
+  expect(store.hasRevision(id, first.revision.id)).toBe(true);
+  expect(store.hasRevision(id, second.revision.id)).toBe(false);
+  expect(store.hasRevision("missing", first.revision.id)).toBe(false);
+  // Availability is a row-membership contract, not a content parser.
+  catalog.catalog
+    .prepare("UPDATE project_revisions SET content=? WHERE id=?")
+    .run("not parsed", first.revision.id);
+  expect(store.hasRevision(id, first.revision.id)).toBe(true);
+  store.markDeleting(id);
+  expect(store.hasRevision(id, first.revision.id)).toBe(false);
+});

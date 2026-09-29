@@ -849,10 +849,14 @@ test("current decoder work does not reuse a prior recording recipe or erase its 
   const original = f.transcripts.wordRecords(recordingTranscriptIdentity(metadata), { limit: 100 });
   // Model a persisted installation before decoder execution was part of the recipe.
   const oldInput = `transcript-v1:${modelDigest}`;
-  f.store.catalog.prepare("UPDATE jobs SET input=? WHERE jobId=?").run(oldInput, previous.jobId);
   f.store.catalog
-    .prepare("UPDATE artifacts SET input=? WHERE targetId=? AND artifact='transcript'")
-    .run(oldInput, recordingId);
+    .prepare("UPDATE jobs SET input=?,inputSha256=? WHERE jobId=?")
+    .run(oldInput, createHash("sha256").update(oldInput).digest("hex"), previous.jobId);
+  f.store.catalog
+    .prepare(
+      "UPDATE artifacts SET input=?,inputSha256=? WHERE targetId=? AND artifact='transcript'",
+    )
+    .run(oldInput, createHash("sha256").update(oldInput).digest("hex"), recordingId);
   expect(f.transcript.status(recordingId).state).toBe("not_requested");
   f.transcript.prepare(recordingId);
   await f.jobs.idle();

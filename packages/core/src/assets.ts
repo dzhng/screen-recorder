@@ -280,6 +280,10 @@ export class AssetStore {
     );
   }
 
+  /** Presence checks do not reconstruct physical segment rows. */
+  has(id: string): boolean {
+    return Boolean(this.store.catalog.prepare("SELECT 1 FROM assets WHERE id=?").get(id));
+  }
   private header(id: string): Asset {
     const row = this.store.catalog.prepare("SELECT metadata FROM assets WHERE id=?").get(id);
     if (!row) throw new CatalogError("NOT_FOUND", "Asset does not exist", { assetId: id });
