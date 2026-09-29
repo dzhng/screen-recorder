@@ -1,0 +1,260 @@
+{
+  "scope": "prerecorded timing and explicit nanosecond quantization controls only; no devices",
+  "cases": [
+    {
+      "rate": 48000,
+      "buffers": 12,
+      "strictExactRuns": 12,
+      "adjacencyDeltaNs": [
+        "-2/3",
+        "1/3"
+      ],
+      "lcmWithNanoseconds": 3000000000,
+      "exceedsCMTimeScale": true,
+      "cmTimeAddRoundedBuffers": 8,
+      "runtimeCMTimeAddScales": [
+        1000000000
+      ],
+      "knownQuantizerRoundTrips": 12,
+      "oneNanosecondPerturbationRejected": true,
+      "omittedBufferDetected": true,
+      "exactAnchorAndFrameRepresentationPreserved": true,
+      "observations": [
+        {
+          "index": 0,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 0,
+          "exactSourceStart": "100000001/1000000000",
+          "observedSourceStart": "100000001/1000000000",
+          "cmTimeAddErrorNs": "0",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 1,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 8192,
+          "exactSourceStart": "812000003/3000000000",
+          "observedSourceStart": "67666667/250000000",
+          "cmTimeAddErrorNs": "1/3",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 2,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 16384,
+          "exactSourceStart": "1324000003/3000000000",
+          "observedSourceStart": "220666667/500000000",
+          "cmTimeAddErrorNs": "-1/3",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 3,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 24576,
+          "exactSourceStart": "612000001/1000000000",
+          "observedSourceStart": "612000001/1000000000",
+          "cmTimeAddErrorNs": "0",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 4,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 32768,
+          "exactSourceStart": "2348000003/3000000000",
+          "observedSourceStart": "195666667/250000000",
+          "cmTimeAddErrorNs": "1/3",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 5,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 40960,
+          "exactSourceStart": "2860000003/3000000000",
+          "observedSourceStart": "476666667/500000000",
+          "cmTimeAddErrorNs": "-1/3",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 6,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 49152,
+          "exactSourceStart": "1124000001/1000000000",
+          "observedSourceStart": "1124000001/1000000000",
+          "cmTimeAddErrorNs": "0",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 7,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 57344,
+          "exactSourceStart": "3884000003/3000000000",
+          "observedSourceStart": "323666667/250000000",
+          "cmTimeAddErrorNs": "1/3",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 8,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 65536,
+          "exactSourceStart": "4396000003/3000000000",
+          "observedSourceStart": "732666667/500000000",
+          "cmTimeAddErrorNs": "-1/3",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 9,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 73728,
+          "exactSourceStart": "1636000001/1000000000",
+          "observedSourceStart": "1636000001/1000000000",
+          "cmTimeAddErrorNs": "0",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 10,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 81920,
+          "exactSourceStart": "5420000003/3000000000",
+          "observedSourceStart": "451666667/250000000",
+          "cmTimeAddErrorNs": "1/3",
+          "secondSampleErrorNs": "-1/3"
+        },
+        {
+          "index": 11,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 90112,
+          "exactSourceStart": "5932000003/3000000000",
+          "observedSourceStart": "988666667/500000000",
+          "cmTimeAddErrorNs": "-1/3",
+          "secondSampleErrorNs": "-1/3"
+        }
+      ]
+    },
+    {
+      "rate": 44100,
+      "buffers": 11,
+      "strictExactRuns": 11,
+      "adjacencyDeltaNs": [
+        "-83/441",
+        "358/441"
+      ],
+      "lcmWithNanoseconds": 441000000000,
+      "exceedsCMTimeScale": true,
+      "cmTimeAddRoundedBuffers": 10,
+      "runtimeCMTimeAddScales": [
+        1000000000
+      ],
+      "knownQuantizerRoundTrips": 11,
+      "oneNanosecondPerturbationRejected": true,
+      "omittedBufferDetected": true,
+      "exactAnchorAndFrameRepresentationPreserved": true,
+      "observations": [
+        {
+          "index": 0,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 0,
+          "exactSourceStart": "100000001/1000000000",
+          "observedSourceStart": "100000001/1000000000",
+          "cmTimeAddErrorNs": "0",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 1,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 8192,
+          "exactSourceStart": "126020000441/441000000000",
+          "observedSourceStart": "142879819/500000000",
+          "cmTimeAddErrorNs": "-83/441",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 2,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 16384,
+          "exactSourceStart": "207940000441/441000000000",
+          "observedSourceStart": "18860771/40000000",
+          "cmTimeAddErrorNs": "-166/441",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 3,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 24576,
+          "exactSourceStart": "96620000147/147000000000",
+          "observedSourceStart": "657278913/1000000000",
+          "cmTimeAddErrorNs": "64/147",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 4,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 32768,
+          "exactSourceStart": "371780000441/441000000000",
+          "observedSourceStart": "16860771/20000000",
+          "cmTimeAddErrorNs": "109/441",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 5,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 40960,
+          "exactSourceStart": "453700000441/441000000000",
+          "observedSourceStart": "1028798187/1000000000",
+          "cmTimeAddErrorNs": "26/441",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 6,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 49152,
+          "exactSourceStart": "178540000147/147000000000",
+          "observedSourceStart": "9488733/7812500",
+          "cmTimeAddErrorNs": "-19/147",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 7,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 57344,
+          "exactSourceStart": "88220000063/63000000000",
+          "observedSourceStart": "1400317461/1000000000",
+          "cmTimeAddErrorNs": "-20/63",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 8,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 65536,
+          "exactSourceStart": "699460000441/441000000000",
+          "observedSourceStart": "1586077099/1000000000",
+          "cmTimeAddErrorNs": "218/441",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 9,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 73728,
+          "exactSourceStart": "86820000049/49000000000",
+          "observedSourceStart": "27684949/15625000",
+          "cmTimeAddErrorNs": "15/49",
+          "secondSampleErrorNs": "116/441"
+        },
+        {
+          "index": 10,
+          "sourceAnchor": "100000001/1000000000",
+          "firstFrame": 81920,
+          "exactSourceStart": "863300000441/441000000000",
+          "observedSourceStart": "1957596373/1000000000",
+          "cmTimeAddErrorNs": "52/441",
+          "secondSampleErrorNs": "116/441"
+        }
+      ]
+    }
+  ],
+  "ordinaryCaptureSupportVerified": false,
+  "inputs": {
+    "specs/agent-editing/assets/00-corpus/a-audio.wav": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+    "specs/agent-editing/assets/20a-sparse-storage/run/continuous-44100.mov": "2a05df8e4dab13bde96caf3b54618f9766e08b9aeeaf24825063d6022de57a0a"
+  },
+  "probeSha256": "ba8206db34c03c810f409dfaafaa692b5cf0ec7b5e336ecbcdcdc1fd70f3ef18"
+}

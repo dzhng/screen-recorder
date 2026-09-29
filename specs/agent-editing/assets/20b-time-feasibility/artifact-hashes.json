@@ -1,0 +1,17 @@
+{
+  "platform": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83",
+  "swift": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0",
+  "sdkVersion": "26.5",
+  "sdkHeaders": {
+    "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreMedia.framework/Headers/CMTime.h": "1d855e51536414de21527e3f505b5fdcb513ffdd1997b5a01af5d783da167248",
+    "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreMedia.framework/Headers/CMSampleBuffer.h": "1747ae422f575714ae072b161af3039c3831176933c553da70c4507f7915a6fa"
+  },
+  "artifacts": {
+    "specs/agent-editing/assets/20b-time-feasibility/review.log.gz": "3842df972ee36b02d7686625bfe7a6f3f720b520b4c77815bfd1ac7d0501441e",
+    "specs/agent-editing/assets/20b-time-feasibility/report.json": "79d41323d2a97f528b95953fd432403cc8a20ea80de1d074df1a9e16da64b1b3",
+    "specs/agent-editing/assets/20b-time-feasibility/probe.swift": "664dd82e7379550d882f5040309b4604cfde62e147fab8488b7b17ae28b434f4",
+    "specs/agent-editing/assets/20b-time-feasibility/README.md": "294ec25ab28c8f0ca09f866a6290508406660754ae71cb382639266d4e581421",
+    "specs/agent-editing/assets/20b-time-feasibility/observations.json": "37e17b2ad6fe8770900dd3393b486add1df2f33e5d3f369130d0d80bbc7bab11",
+    "specs/agent-editing/assets/20b-time-feasibility/analyze.py": "1ebcaaa260cd9b9021c1e76dbef8f87ff1d3325f23fbcb84bffb493cb2fc3934"
+  }
+}

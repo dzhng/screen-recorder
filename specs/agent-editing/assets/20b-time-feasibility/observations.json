@@ -1,0 +1,1770 @@
+{
+  "inputs" : [
+    {
+      "anchor" : {
+        "epoch" : 0,
+        "flags" : 1,
+        "rounded" : false,
+        "timescale" : 1000000000,
+        "value" : 100000000001
+      },
+      "buffers" : [
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100170666668
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000,
+            "value" : 100000000
+          },
+          "frames" : 8192,
+          "index" : 0,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100000001
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 0
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100000000001
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100000000001
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100000000001
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100000020834
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100341333335
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 601024000
+          },
+          "frames" : 8192,
+          "index" : 1,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 270666668
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100170666668
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100170666668
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100170666668
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100170687501
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100512000001
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 602048000
+          },
+          "frames" : 8192,
+          "index" : 2,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 441333334
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 16384
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100341333334
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100341333334
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100341333334
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100341354167
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100682666668
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 603072000
+          },
+          "frames" : 8192,
+          "index" : 3,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 612000001
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 24576
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100512000001
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100512000001
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100512000001
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100512020834
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100853333335
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 604096000
+          },
+          "frames" : 8192,
+          "index" : 4,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 782666668
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 32768
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100682666668
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100682666668
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100682666668
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100682687501
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101024000001
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 605120000
+          },
+          "frames" : 8192,
+          "index" : 5,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 953333334
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 40960
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100853333334
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100853333334
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100853333334
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100853354167
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101194666668
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 606144000
+          },
+          "frames" : 8192,
+          "index" : 6,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1124000001
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 49152
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101024000001
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101024000001
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101024000001
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101024020834
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101365333335
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 607168000
+          },
+          "frames" : 8192,
+          "index" : 7,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1294666668
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 57344
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101194666668
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101194666668
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101194666668
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101194687501
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101536000001
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 608192000
+          },
+          "frames" : 8192,
+          "index" : 8,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1465333334
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 65536
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101365333334
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101365333334
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101365333334
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101365354167
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101706666668
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 609216000
+          },
+          "frames" : 8192,
+          "index" : 9,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1636000001
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 73728
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101536000001
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101536000001
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101536000001
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101536020834
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101877333335
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 610240000
+          },
+          "frames" : 8192,
+          "index" : 10,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1806666668
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 81920
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101706666668
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101706666668
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101706666668
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101706687501
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 102000000001
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 6000000,
+            "value" : 611264000
+          },
+          "frames" : 5888,
+          "index" : 11,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1977333334
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 5888
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 90112
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101877333334
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101877333334
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 48000,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101877333334
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101877354167
+          },
+          "secondSampleStatus" : 0
+        }
+      ],
+      "origin" : {
+        "epoch" : 0,
+        "flags" : 1,
+        "rounded" : false,
+        "timescale" : 1000000000,
+        "value" : 99900000000
+      },
+      "path" : "specs\/agent-editing\/assets\/00-corpus\/a-audio.wav",
+      "rate" : 48000
+    },
+    {
+      "anchor" : {
+        "epoch" : 0,
+        "flags" : 1,
+        "rounded" : false,
+        "timescale" : 1000000000,
+        "value" : 100000000001
+      },
+      "buffers" : [
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100185759638
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000,
+            "value" : 100000000
+          },
+          "frames" : 8192,
+          "index" : 0,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100000001
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 0
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100000000001
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100000000001
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100000000001
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100000022677
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100371519275
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44181920000
+          },
+          "frames" : 8192,
+          "index" : 1,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 285759638
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100185759638
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100185759638
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100185759638
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100185782314
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100557278912
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44263840000
+          },
+          "frames" : 8192,
+          "index" : 2,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 471519275
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 16384
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100371519275
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100371519275
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100371519275
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100371541951
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100743038550
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44345760000
+          },
+          "frames" : 8192,
+          "index" : 3,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 657278913
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 24576
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100557278913
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100557278913
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100557278913
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100557301589
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100928798187
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44427680000
+          },
+          "frames" : 8192,
+          "index" : 4,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 843038550
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 32768
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100743038550
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100743038550
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100743038550
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100743061226
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101114557824
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44509600000
+          },
+          "frames" : 8192,
+          "index" : 5,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1028798187
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 40960
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100928798187
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 100928798187
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100928798187
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 100928820863
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101300317461
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44591520000
+          },
+          "frames" : 8192,
+          "index" : 6,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1214557824
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 49152
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101114557824
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101114557824
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101114557824
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101114580500
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101486077098
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44673440000
+          },
+          "frames" : 8192,
+          "index" : 7,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1400317461
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 57344
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101300317461
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101300317461
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101300317461
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101300340137
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101671836736
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44755360000
+          },
+          "frames" : 8192,
+          "index" : 8,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1586077099
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 65536
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101486077099
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101486077099
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101486077099
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101486099775
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101857596373
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44837280000
+          },
+          "frames" : 8192,
+          "index" : 9,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1771836736
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 8192
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 73728
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101671836736
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101671836736
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101671836736
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101671859412
+          },
+          "secondSampleStatus" : 0
+        },
+        {
+          "bufferEndCMTime" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 102000000001
+          },
+          "existingMicroRecipePTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 441000000,
+            "value" : 44919200000
+          },
+          "frames" : 6280,
+          "index" : 10,
+          "mappedBySameScaleSubtract" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 1957596373
+          },
+          "mediaDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 6280
+          },
+          "mediaPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 81920
+          },
+          "naiveHostAdd" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101857596373
+          },
+          "observedHostPTS" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 1000000000,
+            "value" : 101857596373
+          },
+          "perSampleDuration" : {
+            "epoch" : 0,
+            "flags" : 1,
+            "rounded" : false,
+            "timescale" : 44100,
+            "value" : 1
+          },
+          "sameRecipeNanoPTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101857596373
+          },
+          "secondSamplePTS" : {
+            "epoch" : 0,
+            "flags" : 3,
+            "rounded" : true,
+            "timescale" : 1000000000,
+            "value" : 101857619049
+          },
+          "secondSampleStatus" : 0
+        }
+      ],
+      "origin" : {
+        "epoch" : 0,
+        "flags" : 1,
+        "rounded" : false,
+        "timescale" : 1000000000,
+        "value" : 99900000000
+      },
+      "path" : "specs\/agent-editing\/assets\/20a-sparse-storage\/run\/continuous-44100.mov",
+      "rate" : 44100
+    }
+  ],
+  "scope" : "prerecorded timing and explicit nanosecond quantization controls only; no devices"
+}

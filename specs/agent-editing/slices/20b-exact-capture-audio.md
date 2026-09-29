@@ -1,6 +1,6 @@
 # 20b — Exact capture placement and accepted PCM addresses
 
-Status: planned; production implementation waits for the exact-reader gate below.
+Status: planned; [raw-scale feasibility](../assets/20b-time-feasibility/README.md) exposes unresolved quantizer provenance and container representation. Production implementation waits for the exact-reader gate below.
 Dependencies: [08](08-audio-mixing.md).
 
 ## Contract and owner
@@ -26,9 +26,14 @@ this is a disk-format contract, not internal API version negotiation. No precise
 frame addresses may be inferred from older rounded audioSamples ranges. A journal
 write failure prevents canonical publication and leaves truthful recoverable state.
 
-One active run coalesces only exactly adjacent physical frames, raw PTS advancing
+An exact-continuity baseline coalesces adjacent physical frames with raw PTS advancing
 by the prior frame/rate duration, unchanged format and unchanged pause mapping.
-No epsilon merging. Format changes end the supported epoch with a typed result;
+This baseline is not sufficient for ordinary source support: the raw-scale probe
+shows strict equality can split every quantized continuous
+callback. Any coalescence based on a quantizer requires independently established
+source provenance and exact round-trip evidence; fitting observed timestamps or
+trusting a rounded flag is insufficient. Resolve this before rollout; no epsilon
+merging. Format changes end the supported epoch with a typed result;
 do not mix frame counters across sample rates or silently convert the source clock.
 
 ## Start and rollout gates
