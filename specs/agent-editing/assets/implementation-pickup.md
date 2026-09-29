@@ -67,3 +67,5 @@ The original/0.8x/1.25x phrase-0 listening question remains unanswered. Independ
 complete protected-word labels and listening remain open; do not infer them from
 ASR, waveform support, sample equality or still-image review. Existing14a storage,
 publication and portability are reused after speech recipes earn acceptance.
+
+Negative occupied-origin audio remains unverified after the [bounded fixture feasibility probe](08-negative-origin/README.md); no public mix proof or unsupported-format policy is inferred from normalized/refused fixture construction.

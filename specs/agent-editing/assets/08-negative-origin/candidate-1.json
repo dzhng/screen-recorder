@@ -1,0 +1,19 @@
+{
+  "candidate" : "\/tmp\/screenrec-negative-origin\/negative-session.caf.mov",
+  "requestedPresentationStartSeconds" : -0.25,
+  "requestedSessionStartSeconds" : -0.25,
+  "tracks" : [
+    {
+      "segments" : [
+        {
+          "empty" : false,
+          "sourceDuration" : 1.984,
+          "sourceStart" : 0,
+          "targetDuration" : 1.984,
+          "targetStart" : 0
+        }
+      ],
+      "trackID" : 1
+    }
+  ]
+}

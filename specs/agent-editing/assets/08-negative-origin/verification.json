@@ -1,0 +1,23 @@
+{
+  "baseCommit": "38892ce7",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "nativeSha256": "6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9",
+  "commands": [
+    "swift /tmp/screenrec-negative-origin/candidate.swift > candidate-1.json 2> candidate-1.log",
+    "swift /tmp/screenrec-negative-origin/candidate-2.swift > candidate-2.json 2> candidate-2.log",
+    "/tmp/screenrec-caption-output-combined-native < native-probe-request.json > native-probe-response.json"
+  ],
+  "files": {
+    "candidate.swift": "bd58a9acc3fbfc19524cc1969f8cd21ee5a0ad7a36d4224d4f3df9e5575babdb",
+    "candidate-2.json": "5b7d740327e79d6c933060aab1dc43815e2f694b1781af8695ad1b3a2936717b",
+    "candidate-2.swift": "5b150235180569b1c78bcadc0b9775b8950ad0bad1f82d533d78ef3b0f072a6d",
+    "negative-session.caf.mov": "f6abb904650cd1bf8a35830e1ad6dd4f85d0c50f2d694e116973359ea33127e4",
+    "native-probe.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "negative-session.caf": "7767d56e39cd76e8c29a4748eb0142e2d2136c931827a938492f3bc65df6cbb2",
+    "candidate-1.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "candidate-2.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-probe-response.json": "e7406418650f72dd84f02cea965a1ae07d9e651c1be689ae69a6286544da86df",
+    "native-probe-request.json": "d281e3241c27ce512c2602723a9fd39d9b5ee426f64c64a13171ef96ad23ce99",
+    "candidate-1.json": "6ae31202019cb9e9e75a1622eb6fe8e2fa44409049dfb16da591da1cac3d71f3"
+  }
+}

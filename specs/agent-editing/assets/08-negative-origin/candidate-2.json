@@ -1,0 +1,11 @@
+{
+  "candidate" : "\/tmp\/screenrec-negative-origin\/negative-composition.mov",
+  "error" : {
+    "code" : -11800,
+    "description" : "The operation could not be completed",
+    "details" : "[\"NSUnderlyingError\": Error Domain=NSOSStatusErrorDomain Code=-12780 \"(null)\", \"NSLocalizedDescription\": The operation could not be completed, \"NSLocalizedFailureReason\": An unknown error occurred (-12780)]",
+    "domain" : "AVFoundationErrorDomain"
+  },
+  "outcome" : "refused",
+  "requestedTargetStartSeconds" : -0.25
+}

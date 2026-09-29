@@ -1,0 +1,1 @@
+{"data":{"originUs":0,"streams":[{"channels":1,"codec":"lpcm","decodable":true,"endUs":1984000,"id":"track:1","kind":"audio","sampleRate":48000,"segments":[{"empty":false,"endUs":1984000,"mediaDurationUs":1984000,"mediaStartUs":0,"startUs":0}],"startUs":0}]},"id":"negative-origin-probe","ok":true}

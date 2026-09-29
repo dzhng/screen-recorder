@@ -56,3 +56,5 @@ isolation; source and mixer regression suites pass.
 [Long-project A/V timing](../assets/08-av-drift/README.md) is verified for the
 measured thirty-minute public export. Broader rate/codec coverage and real-narration
 listening remain open.
+
+[Negative-origin feasibility](../assets/08-negative-origin/README.md) exhausted a bounded two-candidate probe: a negative writer session normalized to zero, and negative composition insertion was refused before export. No genuine negative occupied-origin asset was produced; its public mixing proof remains unverified, without a new admission restriction.

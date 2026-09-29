@@ -1,0 +1,15 @@
+{
+  "artifactIntegrity": "all retained original hashes match",
+  "originPrerequisite": "not met; negative-origin support remains unverified",
+  "candidate1": "production probe confirms zero origin",
+  "candidate2": "insertion refusal precedes in-memory description/export",
+  "review": {
+    "shape": "Frozen evidence only; no production owner, registry, harness or dependency added.",
+    "diff": "Retained original media/scripts/requests/results; no test threshold or policy changed.",
+    "docs": "Slice and live pickup link to measured negative result; no unsupported or listening claim.",
+    "choices": "Two candidates and stopping boundary explicitly authorized; no new product decisions."
+  },
+  "swiftVersion": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)\nTarget: arm64-apple-macosx26.0\n",
+  "sdkVersion": "26.5\n",
+  "independentReview": "Codex found no actionable findings; original and decompressed hashes match; no experiments/tests/builds/edits performed by reviewer."
+}
