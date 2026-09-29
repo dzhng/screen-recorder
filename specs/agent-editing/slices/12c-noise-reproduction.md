@@ -1,6 +1,6 @@
 # 12c — Reproduce local noise reduction
 
-Status: frozen user-preferred RNNoise has measured timing and mono retained-output state evidence; protected speech, listening, general target/channel policy and production adoption remain open. No processor is adopted. Dependencies: [00](./00-corpus.md).
+Status: frozen user-preferred RNNoise has measured timing and retained-output state evidence. Scoped production execution, independent mono/stereo lanes and mix transitions are verified through [15a](15a-noise-processing.md); protected speech, spatial listening and post-retime acceptance remain open. Dependencies: [00](./00-corpus.md).
 
 ## Contract
 
@@ -74,19 +74,21 @@ now separate input-level sensitivity from the earlier recording-specific change.
 The user [prefers the learned audition](../assets/12c-matched-noise/audition/README.md)
 on the original-recording cohort. Carry that frozen RNNoise recipe forward. The
 mono retained-output mechanism below preserves tested pure splits and excluded
-neighbors; general target/channel/transition policy remains open. The
+neighbors; production target/channel/transition evidence belongs to [15a](15a-noise-processing.md). The
 [protected-speech packet](../assets/12c-protected-speech/README.md) now supplies
 exact retained contexts and unconfirmed annotation targets for phoneme/join listening.
 Neither measured noise attenuation nor surviving impulse peaks closes listening,
-protected-phoneme, retimed/combined-input or production integration acceptance.
+protected-phoneme or post-retime acceptance. Scoped combined-input and production
+integration results are recorded in 15a.
 
 [Brief transient controls](../assets/12c-transient-noise/README.md) extend the
 stationary comparison with fixed bursts. Noise-only attenuation differs across
 these cohorts; mixed-speech error still cannot establish protected speech quality.
 
 [Channel-relation controls](../assets/12c-channel-relations/README.md) measure
-identical, inverted and half-level channels without adopting independent stereo
-processing. The small measured balance change is not an audible acceptance verdict.
+identical, inverted and half-level channels without itself establishing production adoption. The later
+[independent-channel checkpoint](15a2f-independent-channels.md) owns that policy;
+the small measured balance change is not an audible acceptance verdict.
 
 [Range-origin evidence](../assets/12c-range-origin/README.md) rejects the tested
 one-second warmup for exact range/full equality. The retained-output proof below
@@ -96,9 +98,14 @@ supplies the tested alternative; do not silently replay an unbounded prefix.
 exact pure-split/excluded-neighbor preservation through compiled native upstream
 PCM, fixed-recipe parity and bounded reads of the prepared result. Fresh trim
 processing differs from stale cropped output; gain/RNNoise order differs in real
-PCM. This is an output-target mono research proof, not production preparation or
-speech acceptance. Use the protected-speech packet to confirm word/onset/end
-annotations and obtain independent listening. [14a](./14a-prepared-audio.md) now
-provides the single durable owner, public preparation and portable unit-rate/gain
-receipts; RNNoise is not yet bound to it. Clip-level state domains, stereo policy,
-retimed/combined speech and 15a integration remain open.
+PCM. This is an output-target mono research proof. The later [prepared consumer
+checkpoint](15a2-denoise-prepared-consumers.md) binds the frozen adapter to the
+single durable owner, with public target/channel and portable retained-output
+checks. [Explicit mix transitions](15a3b-denoise-transitions.md) retain learned
+state while blending against the immediate input. Those implementation results
+do not close this slice's speech-quality or post-retime requirements.
+
+The user could not understand the unfamiliar cropped words and reported no
+obvious artifacts. That feedback is not intelligibility acceptance. Future
+listening material uses complete meaningful sentences with a transcript and
+labeled original/edited versions, as specified by [15a3](15a3-denoise-acceptance.md).
