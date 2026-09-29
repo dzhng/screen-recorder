@@ -19,15 +19,16 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Continue the declared capture admission/journal contract in [20b](slices/20b-exact-capture-audio.md),
-   then shared canonical storage/recovery and publication in20c/20d. The
-   [native sample-address correction](assets/08-native-sample-address/README.md)
-   now passes arbitrary-phase full/window and combined sparse-container gates.
-   [Accepted media survives journal failure](assets/20b-journal-failure/README.md),
-   with combined-root verification. The [actual writer reproduction](assets/20a-capture-owner-gap/README.md)
-   shows later PCM packed early after a missing buffer or pause. Preserve exact
-   sample positions and truthful unavailable gaps; no silence padding, offset
-   patch or second reader timeline. Physical capture remains a separate gate.
+1. Finish responsive recovery in [20d1](slices/20d1-recovery-continuation.md),
+   then complete packed capture publication and admission in [20d](slices/20d-capture-publication.md).
+   The actual prerecorded writer now has a verified input seam; activation remains
+   gated on real long-work control responsiveness and recovery. Preserve exact
+   sample positions, unavailable gaps and ambiguous source bytes. In parallel,
+   finish bounded large-source metadata delivery and the two-hour project scale
+   gate; current failures are public metadata/response size and edit setup work.
+   [Source-worker lifetime](assets/20d-source-lifetime/README.md) now passes combined
+   orphan, deletion, package and cancellation checks. Physical capture remains
+   a separate gate.
 2. The [fractional-rate correction](assets/08-fractional-rate-refusal/README.md)
    now refuses that unsupported execution domain and invalidates old ready
    recipes, with combined-root confirmation. The [retirement audit](assets/acceptance-maintenance/job-references.md)
@@ -271,6 +272,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
 - [ ] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)
 - [ ] [20d — Canonical capture publication and recovery rollout](slices/20d-capture-publication.md)
+- [ ] [20d1 — Responsive capture recovery lifecycle](slices/20d1-recovery-continuation.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)

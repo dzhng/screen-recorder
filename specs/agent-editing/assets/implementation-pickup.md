@@ -22,8 +22,9 @@ with independent state per output channel. Listening acceptance remains open.
   or ambiguous source bytes. Without a native owner, only a proven empty source can
   cancel. The [input-session separation](20d-input-session/README.md) now exercises
   actual NativeCapture/writer with prerecorded media while keeping physical cursor
-  acquisition outside the fixture. Next wire typed unavailable-role outcomes, shared
-  recovery and layout activation. Preserve existing
+  acquisition outside the fixture. Typed outcomes, shared recovery and packed layout are being verified in that
+  worktree. Finish [responsive recovery](../slices/20d1-recovery-continuation.md)
+  before integrating layout activation. Preserve existing
   termination ownership, deadlines and generation boundaries. Actual public work
   beyond old deadlines still gates activation.
   No live device input or interim dual writer mode is authorized.
