@@ -134,6 +134,8 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
             info.contentType = contentType
             info.contentLength = length
             info.isByteRangeAccessSupported = true
+            // These pinned regular-file bytes are ready now, not progressively downloaded.
+            info.isEntireLengthAvailableOnDemand = true
         }
         guard request.dataRequest != nil else {
             request.finishLoading()

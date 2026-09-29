@@ -1,0 +1,102 @@
+[
+  {
+    "name": "aac-late.wav",
+    "bytes": 11776,
+    "sha256": "e295a6684a57f9630c8fc8001fa4ab6d91da6aabc75259d85ac4c860010f0429"
+  },
+  {
+    "name": "aac-tail.wav",
+    "bytes": 772096,
+    "sha256": "ad7c5a2c9473f42c1955de3b856d8cb1b1d925ac67a0be46745d351df95de3ff"
+  },
+  {
+    "name": "early.wav",
+    "bytes": 11776,
+    "sha256": "dae2ff8b83d2a997e86ec27247e815f59937f15f0105271205615fbe64001eda"
+  },
+  {
+    "name": "fragmented.wav",
+    "bytes": 27136,
+    "sha256": "fbabd5c86fc8c1f5185fccf8e836fd225e93c27221d64e619b28d3f545e3a9e4"
+  },
+  {
+    "name": "full-url.wav",
+    "bytes": 23044096,
+    "sha256": "3cc06e8f328476473dc4186a17aba3d590fe4ba202ef0d7f2a98870b96087923"
+  },
+  {
+    "name": "late-descriptor.wav",
+    "bytes": 11776,
+    "sha256": "12784391b2dd06e893b17db79d8e23c895acae9d7e7850a85a2ad8f8fd324443"
+  },
+  {
+    "name": "late-url.wav",
+    "bytes": 11776,
+    "sha256": "12784391b2dd06e893b17db79d8e23c895acae9d7e7850a85a2ad8f8fd324443"
+  },
+  {
+    "name": "omitted.wav",
+    "bytes": 11776,
+    "sha256": "dda118f3c852395bb7203fb0ffc79bd13d79142ee1ea8ea37149da4486c67c05"
+  },
+  {
+    "name": "prepared-late.wav",
+    "bytes": 11776,
+    "sha256": "ef96799cd0f745713c96d365075b55de86532fe26b03532ad5875157b11046cf"
+  },
+  {
+    "name": "prepared.wav",
+    "bytes": 27136,
+    "sha256": "29dd3398ca46fb6a000572d2461aaa27cff64174ccf36bd2470d1788136c2406"
+  },
+  {
+    "name": "report.json",
+    "bytes": 66505,
+    "sha256": "e8d3ad46d6cb2ba4aa17347d2dd13d3e9c5de799d1c89ec76fb214667446b04f"
+  },
+  {
+    "name": "resampled-full.wav",
+    "bytes": 23044096,
+    "sha256": "bf3b6e648931186829167af2596dbd0600328ba278525c31b292c41f1749a2ba"
+  },
+  {
+    "name": "resampled-late.wav",
+    "bytes": 11776,
+    "sha256": "87d8c3c2ab6d3bc8d108c858a51d900b73965946f38ff8ca6ad1ecb4ff4bd120"
+  },
+  {
+    "name": "retained-marker.m4a",
+    "bytes": 1425376,
+    "sha256": "e2c2ba6fe062e7bdb06bf73e4f67d8c86c005539c96c802b4ec1994db494f249"
+  },
+  {
+    "name": "same-input-gaps.wav",
+    "bytes": 22283776,
+    "sha256": "725cf0209d7a22cfa05d5dff1b8c8e4fb4a1e6282f057ce7f8a9a243270ef5e7"
+  },
+  {
+    "name": "source-44100.wav",
+    "bytes": 10584078,
+    "sha256": "7b13e9ac4d108b85868f06f08deedc17c4550a8968673f89f25dc64ec567f03c"
+  },
+  {
+    "name": "source.wav",
+    "bytes": 11520044,
+    "sha256": "e6f4b4c954842daa2e03dcfb905fb3b5b6e68c36095b12cfc673a409eaf70f66"
+  },
+  {
+    "name": "two-hour-1.wav",
+    "bytes": 11776,
+    "sha256": "4c13756a9af06ef50162c27f6620a57e1cb0e7ba5bbc2d39b8eb0d44cd85fd35"
+  },
+  {
+    "name": "two-hour-3600.wav",
+    "bytes": 11776,
+    "sha256": "4c13756a9af06ef50162c27f6620a57e1cb0e7ba5bbc2d39b8eb0d44cd85fd35"
+  },
+  {
+    "name": "two-hour-7199.wav",
+    "bytes": 11776,
+    "sha256": "4c13756a9af06ef50162c27f6620a57e1cb0e7ba5bbc2d39b8eb0d44cd85fd35"
+  }
+]

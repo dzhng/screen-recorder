@@ -1,0 +1,467 @@
+{
+  "accountingPassed": false,
+  "scope": "Native source decode/descriptor work; not scratch IO or physical disk bytes",
+  "workerSHA256": "55a9a624189eb7a77537d38bb22e53cf8f33578c7a752e4298a856a17f34300a",
+  "cases": [
+    {
+      "label": "late-url",
+      "request": {
+        "output": "/tmp/screenrec-24o-native-green/late-url.wav",
+        "range": {
+          "start": 2832000,
+          "end": 2832960
+        },
+        "clips": [
+          {
+            "clipId": "c",
+            "trackId": "t",
+            "sampleRange": {
+              "start": 2832000,
+              "end": 2832960
+            },
+            "placement": {
+              "startUs": 0,
+              "endUs": 60000000
+            },
+            "source": {
+              "kind": "range",
+              "assetId": "a",
+              "streamId": "track:1",
+              "range": {
+                "startUs": 0,
+                "endUs": 60000000
+              }
+            },
+            "context": [
+              {
+                "source": {
+                  "startUs": 0,
+                  "endUs": 60000000
+                },
+                "sampleRange": {
+                  "start": 0,
+                  "end": 2880000
+                }
+              }
+            ],
+            "pitch": "preserve",
+            "available": [
+              {
+                "start": 2832000,
+                "end": 2832960
+              }
+            ]
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "c"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "t"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "c"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "t"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "a",
+            "streamId": "track:1",
+            "path": "/tmp/screenrec-24o-native-green/source.wav",
+            "originUs": 0
+          }
+        ]
+      },
+      "receipt": {
+        "bytes": 11776,
+        "channels": 2,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "file": "/tmp/screenrec-24o-native-green/late-url.wav",
+        "frames": 960,
+        "maximumBlockFrames": 960,
+        "peak": 0.21484375,
+        "peakResidentBytes": 23920640,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [
+            {
+              "float32Bytes": 65536,
+              "frames": 8192,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "unknownReadInputs": 1
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      },
+      "sha256": "12784391b2dd06e893b17db79d8e23c895acae9d7e7850a85a2ad8f8fd324443"
+    },
+    {
+      "label": "full-url",
+      "request": {
+        "output": "/tmp/screenrec-24o-native-green/full-url.wav",
+        "range": {
+          "start": 0,
+          "end": 2880000
+        },
+        "clips": [
+          {
+            "clipId": "c",
+            "trackId": "t",
+            "sampleRange": {
+              "start": 0,
+              "end": 2880000
+            },
+            "placement": {
+              "startUs": 0,
+              "endUs": 60000000
+            },
+            "source": {
+              "kind": "range",
+              "assetId": "a",
+              "streamId": "track:1",
+              "range": {
+                "startUs": 0,
+                "endUs": 60000000
+              }
+            },
+            "context": [
+              {
+                "source": {
+                  "startUs": 0,
+                  "endUs": 60000000
+                },
+                "sampleRange": {
+                  "start": 0,
+                  "end": 2880000
+                }
+              }
+            ],
+            "pitch": "preserve",
+            "available": [
+              {
+                "start": 0,
+                "end": 2880000
+              }
+            ]
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "c"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "t"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "c"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "t"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "a",
+            "streamId": "track:1",
+            "path": "/tmp/screenrec-24o-native-green/source.wav",
+            "originUs": 0
+          }
+        ]
+      },
+      "receipt": {
+        "bytes": 23044096,
+        "channels": 2,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "file": "/tmp/screenrec-24o-native-green/full-url.wav",
+        "frames": 2880000,
+        "maximumBlockFrames": 8192,
+        "peak": 0.25,
+        "peakResidentBytes": 37289984,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [
+            {
+              "float32Bytes": 23040000,
+              "frames": 2880000,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "unknownReadInputs": 1
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      },
+      "sha256": "3cc06e8f328476473dc4186a17aba3d590fe4ba202ef0d7f2a98870b96087923"
+    },
+    {
+      "label": "late-descriptor",
+      "request": {
+        "output": "/tmp/screenrec-24o-native-green/late-descriptor.wav",
+        "range": {
+          "start": 2832000,
+          "end": 2832960
+        },
+        "clips": [
+          {
+            "clipId": "c",
+            "trackId": "t",
+            "sampleRange": {
+              "start": 2832000,
+              "end": 2832960
+            },
+            "placement": {
+              "startUs": 0,
+              "endUs": 60000000
+            },
+            "source": {
+              "kind": "range",
+              "assetId": "a",
+              "streamId": "track:1",
+              "range": {
+                "startUs": 0,
+                "endUs": 60000000
+              }
+            },
+            "context": [
+              {
+                "source": {
+                  "startUs": 0,
+                  "endUs": 60000000
+                },
+                "sampleRange": {
+                  "start": 0,
+                  "end": 2880000
+                }
+              }
+            ],
+            "pitch": "preserve",
+            "available": [
+              {
+                "start": 2832000,
+                "end": 2832960
+              }
+            ]
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "c"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "t"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "c"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "t"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "a",
+            "streamId": "track:1",
+            "path": "/dev/fd/3",
+            "originUs": 0
+          }
+        ]
+      },
+      "receipt": {
+        "bytes": 11776,
+        "channels": 2,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "file": "/tmp/screenrec-24o-native-green/late-descriptor.wav",
+        "frames": 960,
+        "maximumBlockFrames": 960,
+        "peak": 0.21484375,
+        "peakResidentBytes": 29130752,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [
+            {
+              "float32Bytes": 65536,
+              "frames": 8192,
+              "sampleRate": 48000
+            }
+          ],
+          "descriptorDeliveredBytes": 200314,
+          "descriptorInputs": 1,
+          "descriptorReadBytes": 200326,
+          "unknownReadInputs": 0
+        },
+        "unavailable": [
+          {
+            "clipId": "c",
+            "ranges": []
+          }
+        ]
+      },
+      "sha256": "12784391b2dd06e893b17db79d8e23c895acae9d7e7850a85a2ad8f8fd324443"
+    },
+    {
+      "label": "omitted",
+      "request": {
+        "output": "/tmp/screenrec-24o-native-green/omitted.wav",
+        "range": {
+          "start": 2880000,
+          "end": 2880960
+        },
+        "clips": [],
+        "processing": [
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "a",
+            "streamId": "track:1",
+            "path": "/tmp/screenrec-24o-native-green/source.wav",
+            "originUs": 0
+          }
+        ]
+      },
+      "receipt": {
+        "bytes": 11776,
+        "channels": 2,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "file": "/tmp/screenrec-24o-native-green/omitted.wav",
+        "frames": 960,
+        "maximumBlockFrames": 960,
+        "peak": 0,
+        "peakResidentBytes": 15220736,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "unknownReadInputs": 0
+        },
+        "unavailable": []
+      },
+      "sha256": "dda118f3c852395bb7203fb0ffc79bd13d79142ee1ea8ea37149da4486c67c05"
+    }
+  ]
+}

@@ -1,7 +1,18 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { closeSync, copyFileSync, mkdirSync, openSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  closeSync,
+  copyFileSync,
+  ftruncateSync,
+  mkdirSync,
+  openSync,
+  readFileSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+  writeSync,
+} from "node:fs";
 import { join, resolve } from "node:path";
 import { createCompiler, validateComposition } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
@@ -11,6 +22,11 @@ assert(worker, "Set SCREENREC_NATIVE to the native worker");
 assert(
   process.env.SCREENREC_LONG_AAC,
   "Set SCREENREC_LONG_AAC to the retained3000s marker; no fixture download or generation",
+);
+const enforceReadAhead = process.argv[3] === "--enforce-read-ahead";
+assert(
+  process.argv.length === 3 || (process.argv.length === 4 && enforceReadAhead),
+  "Unknown argument",
 );
 const out = resolve(process.argv[2]);
 mkdirSync(out, { recursive: true });
@@ -175,6 +191,11 @@ try {
   assert.deepEqual(omitted.receipt.sourceWork.decoded, []);
   assert.equal(omitted.receipt.sourceWork.unknownReadInputs, 0);
   assert(omitted.pcm.every((v) => v === 0));
+  assert(
+    inherited.receipt.sourceWork.descriptorReadBytes <= rate * 4 + 2 * 4 + 64 * 1024,
+    "Late20ms WAV reads at most its physical one-second tail plus bounded metadata",
+  );
+  evidence.metadataPassed = true;
   evidence.descriptorIO = {
     sourceBytes: bytes.length,
     lateReadBytes: inherited.receipt.sourceWork.descriptorReadBytes,
@@ -341,7 +362,82 @@ try {
     );
     assert.equal(narrow.receipt.sourceWork.unknownReadInputs, 0);
   }
+  // A two-hour logical file with only header and late marker allocated; never hash/copy its holes.
+  const sparse = join(out, "two-hour-sparse.wav");
+  const sparseFrames = 7200 * rate;
+  const sparseHeader = Buffer.from(bytes.subarray(0, 44));
+  sparseHeader.writeUInt32LE(36 + sparseFrames * 8, 4);
+  sparseHeader.writeUInt16LE(3, 20);
+  sparseHeader.writeUInt32LE(rate * 8, 28);
+  sparseHeader.writeUInt16LE(8, 32);
+  sparseHeader.writeUInt16LE(32, 34);
+  sparseHeader.writeUInt32LE(sparseFrames * 8, 40);
+  const marker = Buffer.alloc(960 * 8);
+  for (let i = 0; i < 960; i++) {
+    marker.writeFloatLE((i % 32) / 128, i * 8);
+    marker.writeFloatLE(i % 16 === 0 ? 0 : -(i % 16) / 128, i * 8 + 4);
+  }
+  const sparseFD = openSync(sparse, "wx+");
+  try {
+    try {
+      ftruncateSync(sparseFD, 44 + sparseFrames * 8);
+      writeSync(sparseFD, sparseHeader, 0, sparseHeader.length, 0);
+      for (const second of [1, 3600, 7199])
+        writeSync(sparseFD, marker, 0, marker.length, 44 + second * rate * 8);
+    } finally {
+      closeSync(sparseFD);
+    }
+    const storage = statSync(sparse);
+    assert(
+      storage.blocks * 512 < 1024 ** 2,
+      "Sparse fixture unexpectedly allocated its logical size",
+    );
+    const sparseProbe = call("media.probe", { path: "/dev/fd/3" }, sparse);
+    const sparseStream = sparseProbe.streams.find((s) => s.kind === "audio");
+    const sparseAsset = structuredClone(asset);
+    Object.assign(sparseAsset.streams[0], {
+      bounds: { startUs: 0, endUs: 7200e6 },
+      available: [{ startUs: 0, endUs: 7200e6 }],
+    });
+    const sparseDoc = structuredClone(document);
+    sparseDoc.clips[0].source.range.endUs = 7200e6;
+    sparseDoc.clips[0].placement.range.endUs = 7200e6;
+    evidence.readAhead = {
+      passed: true,
+      enforced: enforceReadAhead,
+      maximumBytes: 4 * rate * 8 + 2 * 8 + 64 * 1024,
+      observations: [],
+    };
+    for (const second of [1, 3600, 7199]) {
+      const sparseResult = render(
+        `two-hour-${second}`,
+        { startUs: second * 1e6, endUs: second * 1e6 + 20000 },
+        true,
+        sparseDoc,
+        { source: sparse, asset: sparseAsset, probe: sparseProbe, stream: sparseStream },
+      );
+      assert.deepEqual(sparseResult.pcm, marker);
+      assert(sparseResult.receipt.sourceWork.decoded[0].frames <= rate);
+      const readBytes = sparseResult.receipt.sourceWork.descriptorReadBytes;
+      const passed = readBytes <= evidence.readAhead.maximumBytes;
+      evidence.readAhead.observations.push({ second, readBytes, passed });
+      evidence.readAhead.passed &&= passed;
+    }
+    evidence.sparse = {
+      logicalBytes: storage.size,
+      allocatedBytes: storage.blocks * 512,
+      markerSHA256: createHash("sha256").update(marker).digest("hex"),
+      markerStartFrames: [1, 3600, 7199].map((second) => second * rate),
+    };
+  } finally {
+    unlinkSync(sparse);
+  }
   evidence.accountingPassed = true;
+  if (enforceReadAhead)
+    assert(
+      evidence.readAhead.passed,
+      "Open sparse read-ahead gate exceeded; preserve failure for finite-reader-range owner",
+    );
 } finally {
   writeFileSync(join(out, "report.json"), JSON.stringify(evidence, null, 2));
 }

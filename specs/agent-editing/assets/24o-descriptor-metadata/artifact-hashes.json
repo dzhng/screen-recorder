@@ -1,0 +1,137 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 5012,
+    "sha256": "3dbfd93c30cf27c399cfdf6a169e7ef6fc3c49550f1f11aa9fb0b227b62d894e"
+  },
+  {
+    "file": "enforced-report.json",
+    "bytes": 66418,
+    "sha256": "fd2a041ae27edbef182ae157f837b380ee8245fa6ddaeddfc63d2881cd2d28cb"
+  },
+  {
+    "file": "evidence.tar.xz",
+    "bytes": 1203120,
+    "sha256": "ea9505fe9a9998859814159c15ddc725211caa7a82dbc5efe028290b3070d332"
+  },
+  {
+    "file": "flag-false-report.json",
+    "bytes": 11609,
+    "sha256": "5c4be80d24302d383b032687d19773550b3d1dfe1d88b58712b3347a439a9201"
+  },
+  {
+    "file": "media-hashes.json",
+    "bytes": 2830,
+    "sha256": "b46c0b6766f66082bfdd7df29def45fc2a17603552ed1e82a3078cefc3af600c"
+  },
+  {
+    "file": "rejected-128k-report.json",
+    "bytes": 11686,
+    "sha256": "0d9cb70326756200b972d35d6b5c0122307ae0a564f42423ffece9871530874b"
+  },
+  {
+    "file": "report.json",
+    "bytes": 66505,
+    "sha256": "e8d3ad46d6cb2ba4aa17347d2dd13d3e9c5de799d1c89ec76fb214667446b04f"
+  },
+  {
+    "file": "research.tar.xz",
+    "bytes": 68944,
+    "sha256": "0433f151e7aaa3286be3225a0352e4328b6a3f95c74b82a16a37ed555f338bc8"
+  },
+  {
+    "file": "screenrec-24o-checkpoint.log.gz",
+    "bytes": 3068,
+    "sha256": "abd135b3897043ac2b9ca131bf930a599d2c37d371397a84e8d9236caba2ddc8"
+  },
+  {
+    "file": "screenrec-24o-cleanup-fault.log.gz",
+    "bytes": 433,
+    "sha256": "a158bfda21f5a6c597be36e969817ec00aab99a4017e4ff9de60e6e494a069c3"
+  },
+  {
+    "file": "screenrec-24o-cleanup-fault.mjs.gz",
+    "bytes": 238,
+    "sha256": "26ecad1fcb4392b472910faf6ab1b278da807b3214760154314173149aa826b9"
+  },
+  {
+    "file": "screenrec-24o-enforced.log.gz",
+    "bytes": 3052,
+    "sha256": "13d6ab46fd70cdd2460b6d78bd4e5e4d7adaad905071ecaff49848532c7e9e55"
+  },
+  {
+    "file": "screenrec-24o-false.log.gz",
+    "bytes": 454,
+    "sha256": "72f24e8d0e933f454371bd7867a5521d76161f2358cffdff70065153d663baea"
+  },
+  {
+    "file": "screenrec-24o-final.log.gz",
+    "bytes": 460,
+    "sha256": "67e15e9d470b58abfcc02b0384f78f4f73b13515302228092773f412b8248834"
+  },
+  {
+    "file": "screenrec-24o-mutation-build.log.gz",
+    "bytes": 231,
+    "sha256": "979f31c6472315f0946a8820f73bcf348c62ae3e3bdd219d4ef42337ce2704ff"
+  },
+  {
+    "file": "screenrec-24o-native-build.log.gz",
+    "bytes": 218,
+    "sha256": "ce2b2313ab9025483a45f8e77edf28f4be9295c849eebda82ed007a2c5471fd3"
+  },
+  {
+    "file": "screenrec-24o-native-green.log.gz",
+    "bytes": 453,
+    "sha256": "1f424f7a990ce1e232c09b9db69d80814353bdeadda6e2f0b4c415c6f60e961c"
+  },
+  {
+    "file": "screenrec-24o-native-red.log.gz",
+    "bytes": 453,
+    "sha256": "1f424f7a990ce1e232c09b9db69d80814353bdeadda6e2f0b4c415c6f60e961c"
+  },
+  {
+    "file": "screenrec-24o-native-tests.log.gz",
+    "bytes": 411,
+    "sha256": "76647263fbc67bc0685f515b9286a9e1689c0d718f8308319eeed27b47d7f822"
+  },
+  {
+    "file": "screenrec-24o-restored-build.log.gz",
+    "bytes": 217,
+    "sha256": "ed4120d3b9903480379bbb2596c6b8d73305762e1131e2c7cc12a0c1428a01cc"
+  },
+  {
+    "file": "screenrec-24o-review-closeout.log.gz",
+    "bytes": 28696,
+    "sha256": "fd4df921c4fa594b61647a201c7879efe453f04247c20d403853fa38896eb64c"
+  },
+  {
+    "file": "screenrec-24o-review-final.log.gz",
+    "bytes": 34271,
+    "sha256": "c49781d80b4963359483322036548c29cbf59b3c0032ebf899577ffcf3479deb"
+  },
+  {
+    "file": "screenrec-24o-review.log.gz",
+    "bytes": 37125,
+    "sha256": "0c35426281fd1e92a3511e1c3ffd9d347afe671d63ff56e85e66218e5caa920e"
+  },
+  {
+    "file": "screenrec-24o-source-tests.log.gz",
+    "bytes": 526,
+    "sha256": "803a924f9272049acc5f6f86c72e68e315869818f27f0753b2092f24b6c3bd47"
+  },
+  {
+    "file": "sparse-read-ahead-red.json",
+    "bytes": 58957,
+    "sha256": "e3bb39a7fdcb6161d70169c01de66a0004fd5dad99d75f2931250c72963291d5"
+  },
+  {
+    "file": "sparse-red-harness.mjs.gz",
+    "bytes": 4731,
+    "sha256": "7fb5e515814a49fa592c8404fb17bfe06f8db7c3f1384d747fba32a0df443850"
+  },
+  {
+    "file": "verification.json",
+    "bytes": 801,
+    "sha256": "15fc10ab7bf21cb973ac2ed3288e701dbdf5be5c352b357cbb2cdcca4c9f7cd4"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "parent": "83de7fb7",
+  "productionChange": "isEntireLengthAvailableOnDemand=true",
+  "build": "swift build -c release --package-path helpers/mac --product screenrec-native",
+  "sdk": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+  "scratchProbeSHA256": "7c23e91280afd2f1c0add464bfbc113f9de9a7aa8c9d3bea58a03682cb2a249f",
+  "scratchInterposerSHA256": "966efcc1359b00aae9592c0c6887114769118f527b55275ea4721b14071f1585",
+  "metadataVerdict": "passed",
+  "accountingVerdict": "passed",
+  "generalReadAheadVerdict": "open; retained extra-chunk red, later green does not close",
+  "formatAdmissionVerdict": "unchanged inherited MP3/AIFF/FLAC descriptor refusals",
+  "cleanupFaultVerdict": "injected ENOSPC propagated; sparse file absent",
+  "finalReview": "no remaining actionable findings"
+}
