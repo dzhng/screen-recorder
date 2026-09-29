@@ -35,9 +35,11 @@ function statePayload(
   identity?: string,
 ) {
   const state = window.audioState();
-  if (!state) return undefined;
+  if (!state) return {};
   if (!identity) throw new CatalogError("NOT_READY", "The native RNNoise recipe is unavailable");
-  return { ...state, processing: nativeProcessing(state.processing), implementationId: identity };
+  return {
+    state: { ...state, processing: nativeProcessing(state.processing), implementationId: identity },
+  };
 }
 function audioDeadline(window: Parameters<ProjectAudioRenderer["render"]>[0]["window"]) {
   const workUs = (window.manifest.state?.domains ?? []).reduce(
@@ -166,7 +168,7 @@ export function projectMovieRenderer(
               audio: {
                 range: manifest.sampleRange,
                 clips: [...request.window.audio()],
-                state: statePayload(request.window, rnnoise),
+                ...statePayload(request.window, rnnoise),
               },
             },
             {
@@ -214,7 +216,7 @@ export function projectAudioRenderer(
               {
                 output: file,
                 range: window.manifest.sampleRange,
-                state: statePayload(window, rnnoise),
+                ...statePayload(window, rnnoise),
                 clips: [...window.audio()],
                 processing: nativeProcessing(window.processing()),
                 assets,

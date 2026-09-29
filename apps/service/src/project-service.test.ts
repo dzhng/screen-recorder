@@ -13,6 +13,7 @@ import { afterEach, expect, test } from "vitest";
 import { AssetStore } from "@screenrec/core/assets";
 import { Catalog } from "@screenrec/core/catalog";
 import { callLocal } from "@screenrec/client";
+import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
 import { startProjectService } from "./project-service.js";
 import type { MediaWorker } from "./worker.js";
 const cleanups: (() => Promise<void>)[] = [];
@@ -42,10 +43,13 @@ async function setup(worker: MediaWorker) {
   await writeFile(path, "image bytes");
   const service = await startProjectService({
     home,
-    worker: (operation, params, options) =>
-      operation === "media.audioCapabilities"
+    worker: (operation, params, options) => {
+      // Preserve the real worker's strict wire boundary even when its execution is a fixture.
+      encodeJsonLine({ id: "fixture", operation, params }, REQUEST_FRAME_BYTES);
+      return operation === "media.audioCapabilities"
         ? Promise.resolve({ ok: true, data: {} })
-        : worker(operation, params, options),
+        : worker(operation, params, options);
+    },
   });
   cleanups.push(() => service.close());
   async function call(operation: string, params: Record<string, unknown>) {

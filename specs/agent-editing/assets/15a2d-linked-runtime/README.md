@@ -36,3 +36,9 @@ SCREENREC_NATIVE="$PWD/helpers/mac/.build/debug/screenrec-native" \
 ```
 
 The public runner uses the existing built CLI through JourneyService; build the CLI dependency closure first in a fresh checkout. Local paths recorded in requests are provenance, not portable defaults. No native binary or trained model bytes are committed in this evidence archive.
+
+## Ordinary rendering wire regression
+
+A later public dry-tap check exposed a preservation defect missed by the learned-only journey: requests with no state prerequisites carried an explicit JavaScript `undefined` field. Strict native framing rejected both ordinary audio and ordinary movie requests before execution. The payload now omits that optional field; no encoder tolerance changed. The service fixture preserves the real strict framing boundary so the existing plain-audio unit check catches this regression. The original prepared-audio public journey now also exercises ordinary movie delivery, preserving its audio/gain/retry/history checks.
+
+`wire-absence.json` authenticates the small follow-up archive: original dry/audio and movie red logs, strict-wire unit red/green, all ordinary delivered media/receipts, and actual learned dry-tap media with the exact replay snapshot. All 12 service tests and the real ordinary audio/movie and dry-tap paths pass. This repairs ordinary rendering preservation; it adds no DSP, format policy or listening claim.

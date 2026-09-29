@@ -1,0 +1,68 @@
+{
+  "defect": "Explicit undefined state property failed strict wire encoding for non-state audio and movie requests.",
+  "fix": "Omit the property; no framing/encoder validation changes.",
+  "ordinaryAudioAndMovie": true,
+  "publicDryTap": true,
+  "unitTests": 12,
+  "nativeSha256": "0ebd8b0ff6ae7f5889b3d79651f1fea3e2e380a0368445ae8575c160a6295aa7",
+  "review": "Parent independently reviewed omission fragment and agreed it preserves strict wire.",
+  "files": {
+    "ordinary/historical-after-restart.wav": {
+      "bytes": 100096,
+      "sha256": "2237ffca39723af0985f669629953df75f0cbe489c9f565de615b1a824ea6f11"
+    },
+    "ordinary/original.wav": {
+      "bytes": 388096,
+      "sha256": "5e19511a24cf3de2096e41432348accb84beb6e237eb619f5d4ea1d74e559688"
+    },
+    "ordinary/report.json": {
+      "bytes": 18661,
+      "sha256": "52ea3b733f7380d358ddefaf22b2a62982930805dcf15b87c8174b30511548ac"
+    },
+    "ordinary/gain.wav": {
+      "bytes": 388096,
+      "sha256": "34f346565c96316cb77a05bfae27095749749c82cdba236430d5af7530eb1121"
+    },
+    "ordinary/ordinary-movie.mp4": {
+      "bytes": 27716,
+      "sha256": "0b2ebf6d877ac7529950a0a6ffb557464a627c1f6cd724bdb8946fdf3fcf2f81"
+    },
+    "dry/report.json": {
+      "bytes": 49222,
+      "sha256": "692b9e2a80ef68083e41162affecfe1ee8aa4f996f13f8d4fc214e5dba99f595"
+    },
+    "dry/before-state-tap.wav": {
+      "bytes": 1924096,
+      "sha256": "356536c2d6f6f1480d9d4c5b94f3d07b69dcff156fae47c8e15667db6ee1cd46"
+    },
+    "dry/dry-tap-with-executor-unavailable.wav": {
+      "bytes": 1924096,
+      "sha256": "356536c2d6f6f1480d9d4c5b94f3d07b69dcff156fae47c8e15667db6ee1cd46"
+    },
+    "logs/screenrec-rnnoise-isolation-public.log": {
+      "bytes": 1208,
+      "sha256": "739939e98be6281b05746f332a795f81641eb405daa5093d05bf32a70a26ea95"
+    },
+    "logs/screenrec-rnnoise-wire-movie-red.log": {
+      "bytes": 1749,
+      "sha256": "9ab4a543f2b67662f216e8d19075e58f86e9e3cca3c210c507397aa50538e926"
+    },
+    "logs/screenrec-rnnoise-wire-unit-red.log": {
+      "bytes": 1367,
+      "sha256": "10ea1605ae2eb0b0ce6627f729a2901d6198063e5c2cfa1acdc6b6cf8904631a"
+    },
+    "logs/screenrec-rnnoise-wire-unit-green.log": {
+      "bytes": 441,
+      "sha256": "0e4726b891cbe4b3b47a1450592f436da9d680fc221c20fc61d3e1c1287eb666"
+    },
+    "logs/screenrec-rnnoise-wire-build.log": {
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    "replay/dry-tap-harness.mjs": {
+      "bytes": 13188,
+      "sha256": "7dde4cab83af96b029c434ac2d0bc80158fc46575d99a951ad4dccdd050f7ecb"
+    }
+  },
+  "archiveSha256": "7002eb7a7261dc2d66a197c19b5d41fec464b8dfbd37e3a063245b2b35e17a7d"
+}

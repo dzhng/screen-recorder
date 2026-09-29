@@ -116,6 +116,13 @@ try {
     ],
   });
   const original = { projectId, revisionId: placed.revision.id };
+  const ordinaryMovie = await poll(
+    () => call("preview.get", original, { output: join(out, "ordinary-movie.mp4") }),
+    (value) => value.state === "ready",
+    "ordinary movie with no state prerequisites",
+  );
+  assert.equal(ordinaryMovie.published.preview.durationUs, 1000000);
+  report.checks.ordinaryMovie = ordinaryMovie.published.preview;
   const first = await prepare(original);
   await inspect(first, 1, "original");
   const gained = await call("edit.apply", {
