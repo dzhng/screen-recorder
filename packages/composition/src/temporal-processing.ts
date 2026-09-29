@@ -106,6 +106,14 @@ export function temporalProcessing(model: ValidatedComposition) {
       : (program(step, target, slot, value)?.sample(at) ?? null);
   }
   return {
+    active(step: ProcessingStep, target: ProcessingTarget): readonly ExactRange[] {
+      if (!step.enabled) return [];
+      if (!step.window && !step.evaluationRange) {
+        const { range, empty } = clock(step, target);
+        return empty ? [] : [range];
+      }
+      return program(step, target, "window", 1)?.active ?? [];
+    },
     audio(
       plan: readonly ProcessingInstruction[],
       sampleRate: number,

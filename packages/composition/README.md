@@ -129,10 +129,12 @@ separates compiler domain ownership from native filter and phase verification.
 
 Authored state continuity is separate from resampling context. The
 [state-domain compiler](src/processing-state.ts) derives connected current-revision
-inputs before choosing a requested tap. Its input table stores each current clip
-and stack once; member step IDs select prefixes, and dependencies refer to
-connected domains rather than shared keys. No old graph or prepared cache defines
-that meaning. The [clip checkpoint](../../specs/agent-editing/slices/15a2a-state-domains.md)
-admits fixed RNNoise metadata with execution unavailable. `stateKey` is preserved
-engine metadata, not a caller-supplied grouping control; broader scopes, activation
-and channel execution remain separate acceptance work.
+inputs before choosing a requested tap. Source inputs and existing processing
+instructions are stored once; members select their own ordered prefixes, and
+dependencies refer to connected domains rather than shared keys. Parent extents
+follow structural audio contributions, while the temporal owner resolves authored
+activation independently of missing source support. No old graph or prepared
+cache defines that meaning. The [state/window checkpoint](../../specs/agent-editing/slices/15a2b-parent-state-windows.md)
+admits RNNoise metadata with execution unavailable. `stateKey` is preserved
+clip-only engine metadata, not a caller-supplied grouping control; channel/native
+execution and prepared-consumer acceptance remain separate work.

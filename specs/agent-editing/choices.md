@@ -2806,3 +2806,29 @@ input. Confidence: medium; one host's measurements exclude platform services and
 do not prove every machine's resource envelope. Cancellation must retain the
 original payload and journal; this experiment does not authorize cleanup. See
 [the retained experiment](assets/20c-platform-feasibility/README.md).
+
+## 15a2b — Parent and window state semantics
+
+**Accepted for pure authoring/compiler validation; runtime quality remains open.**
+Parent state spans structural audio children, including internal timeline gaps,
+without using unrelated video or amplitude to choose endpoints. Authored activity
+and missing-source support remain separate: a source hole is not permission to
+reset the learned state or manufacture samples. Existing curve/temporal placement
+owns activation, including empty normalized-window intersections.
+
+Range selection starts from the full structural audio tap plan and intersects the
+same eligible member's active interval. Each prerequisite expands at its own
+ordered prefix. Interval-local edges to earlier stateful steps may be redundant
+transitive edges but cannot acquire disconnected components. Current processing
+instructions are reused once; each member retains its own input prefix instead of
+flattening several recipes into one schedule. This adds no persistent graph owner.
+
+Channel provenance/native preparation is the next gate: two-channel prepared
+output does not establish dual mono. Metadata scopes do not enable execution or
+replace the retained full policy and listening requirements.
+
+The immutable model's placement owner reuses a weakly held clip lookup, and each
+compiler memoizes its own derived state plan. These are disposable indexes of the
+current frozen revision, never membership authority or inputs from an old graph.
+Whole-domain activation uses the temporal owner's existing range directly; authored
+windows still use its anchored placement resolver.

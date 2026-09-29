@@ -285,7 +285,12 @@ test("duplicate, ripple movement and deletion preserve target-owned stacks witho
     }),
   ).toEqual([]);
   expect(processingCapabilities()).toMatchObject([
-    { type: "rnnoise", mediaKind: "audio", targets: ["clip"], execution: false },
+    {
+      type: "rnnoise",
+      mediaKind: "audio",
+      targets: ["clip", "track", "group", "output"],
+      execution: false,
+    },
     {
       type: "pointer",
       mediaKind: "video",

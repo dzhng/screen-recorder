@@ -50,7 +50,10 @@ test("pure splits share current state domains while matching independent clips d
   expect(domains(split.document)).toMatchObject([
     {
       sampleRange: { start: 0, end: 192000 },
-      members: [{ clipId: "clip" }, { clipId: split.clipLineage[0]!.clipIds[1] }],
+      members: [
+        { target: { kind: "clip", id: "clip" } },
+        { target: { kind: "clip", id: split.clipLineage[0]!.clipIds[1] } },
+      ],
     },
   ]);
   const independent = {
@@ -97,7 +100,8 @@ test("current prefixes survive omitted membership metadata; dry taps add no stat
         rendition: { sampleRate: 48000, channels: 2 },
         tap: { target: { kind: "output" }, point: { kind: "processed" } },
       })
-      .manifest.state!.inputs.find((i) => i.clip.id === right)!.steps[0],
+      .manifest.state!.nodes.find((i) => i.target.kind === "clip" && i.target.id === right)!
+      .steps[0],
   ).toMatchObject({ processor: { type: "gain", gain: 2 } });
   expect(
     domains(
@@ -153,7 +157,9 @@ test("moving the shared-token owner detaches it; resplitting cannot reconnect fo
     "resplit",
   );
   expect(domains(again.document)).toHaveLength(2);
-  const state = domains(again.document).find((d) => d.members.some((m) => m.clipId === right))!;
+  const state = domains(again.document).find((d) =>
+    d.members.some((m) => m.target.kind === "clip" && m.target.id === right),
+  )!;
   expect(state.identity.id).not.toBe(rightStep.id);
   expect(state.members).toHaveLength(2);
 });
@@ -462,6 +468,34 @@ test("fractional splits, zero-sample spans and unavailable support retain exact 
   });
   expect(window.manifest.state!.inputs[0]!.available).toEqual(assets[0]!.streams[0]!.available);
   expect(window.manifest.state!.domains[0]!.range).toEqual({ startUs: 0, endUs: 4000000 });
+  const windowed = {
+    ...source,
+    processing: [
+      {
+        ...source.processing[0],
+        steps: [
+          {
+            ...source.processing[0]!.steps[0],
+            window: {
+              kind: "content",
+              clipId: "clip",
+              sourceRange: { startUs: 500000, endUs: 3500000 },
+            },
+          },
+        ],
+      },
+    ],
+  };
+  const selected = createCompiler(
+    validateComposition(windowed, assets),
+    "window-holes",
+  ).audioWindow({
+    range: { startUs: 1500000, endUs: 1800000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  }).manifest.state!;
+  expect(selected.domains.map((d) => d.range)).toEqual([{ startUs: 500000, endUs: 3500000 }]);
+  expect(selected.inputs[0]!.available).toEqual(assets[0]!.streams[0]!.available);
 });
 
 test("dependencies distinguish disconnected domains of the same shared key", () => {
@@ -604,4 +638,317 @@ test("one multi-target move repairs both membership conflicts and newly connecte
     { kind: "clip", id: "c2" },
     { kind: "clip", id: "d2" },
   ]);
+});
+
+test("parent state includes internal audio gaps and stateless prefixes, excluding video extent", () => {
+  const doc = {
+    ...document,
+    tracks: [...document.tracks, { id: "video", kind: "video", order: 1 }],
+    clips: [
+      {
+        ...document.clips[0],
+        id: "a",
+        placement: { kind: "project", range: { startUs: 1000000, endUs: 2000000 } },
+      },
+      {
+        ...document.clips[0],
+        id: "b",
+        placement: { kind: "project", range: { startUs: 3000000, endUs: 4000000 } },
+      },
+      {
+        id: "picture",
+        trackId: "video",
+        assetId: "image",
+        streamId: "still",
+        source: { kind: "hold", atUs: 0 },
+        placement: { kind: "project", range: { startUs: 0, endUs: 9000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "clip", id: "a" },
+        steps: [{ id: "gain", enabled: true, processor: { type: "gain", gain: 0.25 } }],
+      },
+      {
+        target: { kind: "track", id: "audio" },
+        steps: [{ id: "parent", enabled: true, processor: { type: "rnnoise" } }],
+      },
+    ],
+  };
+  const state = createCompiler(
+    validateComposition(doc, [
+      { id: "image", streams: [{ id: "still", kind: "image", width: 64, height: 64 }] },
+    ]),
+    "revision",
+  ).audioWindow({
+    range: { startUs: 2000000, endUs: 3000000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  }).manifest.state!;
+  expect(state.domains).toMatchObject([
+    {
+      range: { startUs: 1000000, endUs: 4000000 },
+      members: [{ target: { kind: "track", id: "audio" } }],
+    },
+  ]);
+  expect(state.inputs.map((i) => i.clip.id)).toEqual(["a", "b"]);
+});
+
+test("windows select authored components and close prerequisites at their own prefixes", () => {
+  const doc = {
+    ...document,
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [
+          { id: "upstream", enabled: true, processor: { type: "rnnoise" } },
+          {
+            id: "downstream",
+            enabled: true,
+            processor: { type: "rnnoise" },
+            window: { kind: "project", range: { startUs: 2000000, endUs: 3000000 } },
+          },
+          { id: "suffix", enabled: true, processor: { type: "gain", gain: 3 } },
+        ],
+      },
+    ],
+  };
+  const plan = domains(doc, { startUs: 2500000, endUs: 2600000 });
+  expect(plan.map((d) => [d.identity.id, d.range, d.dependencies])).toEqual([
+    ["upstream", { startUs: 0, endUs: 4000000 }, []],
+    ["downstream", { startUs: 2000000, endUs: 3000000 }, [0]],
+  ]);
+  expect(domains(doc, { startUs: 3000000, endUs: 4000000 }).map((d) => d.identity.id)).toEqual([
+    "upstream",
+  ]);
+  expect(
+    domains(
+      doc,
+      { startUs: 2500000, endUs: 2600000 },
+      { kind: "after-step", stepId: "upstream" },
+      { kind: "clip", id: "clip" },
+    ).map((d) => d.identity.id),
+  ).toEqual(["upstream"]);
+  const onlyWindow = {
+    ...doc,
+    processing: [{ ...doc.processing[0], steps: doc.processing[0]!.steps.slice(1, 2) }],
+  };
+  expect(domains(onlyWindow, { startUs: 3000000, endUs: 4000000 })).toEqual([]);
+});
+
+test("normalized windows retain their authored clock across split, trim and inactive members", () => {
+  const doc = {
+    ...document,
+    processing: [
+      {
+        ...document.processing[0],
+        steps: [
+          {
+            ...document.processing[0]!.steps[0],
+            window: {
+              kind: "clip",
+              clipId: "clip",
+              start: { numerator: 1, denominator: 4 },
+              end: { numerator: 3, denominator: 4 },
+            },
+          },
+        ],
+      },
+    ],
+  };
+  const split = edit(doc, [
+    { operation: "split", clipIds: ["clip"], atUs: 2000000, scope: "selected" },
+  ]);
+  expect(domains(split.document).map((d) => d.range)).toEqual([
+    { startUs: 1000000, endUs: 3000000 },
+  ]);
+  const right = split.clipLineage[0]!.clipIds[1]!;
+  const cut = edit(
+    split.document,
+    [{ operation: "split", clipIds: [right], atUs: 3000000, scope: "selected" }],
+    "window-cut",
+  );
+  expect(domains(cut.document).map((d) => d.range)).toEqual([{ startUs: 1000000, endUs: 3000000 }]);
+  expect(domains(cut.document, { startUs: 3000000, endUs: 4000000 })).toEqual([]);
+  const trimmed = edit(
+    doc,
+    [
+      {
+        operation: "trim",
+        clipId: "clip",
+        range: { startUs: 1500000, endUs: 4000000 },
+        scope: "selected",
+        ripple: "none",
+      },
+    ],
+    "window-trim",
+  );
+  expect(domains(trimmed.document).map((d) => d.range)).toEqual([
+    { startUs: 1500000, endUs: 3000000 },
+  ]);
+});
+
+test("nested parent windows select interval-relevant child domains and retain stateless child output", () => {
+  const doc = {
+    ...document,
+    tracks: [{ ...document.tracks[0], parentId: "group" }],
+    groups: [{ id: "group", kind: "audio", order: 0 }],
+    clips: [
+      {
+        ...document.clips[0],
+        id: "a",
+        placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+      },
+      {
+        ...document.clips[0],
+        id: "b",
+        placement: { kind: "project", range: { startUs: 2000000, endUs: 3000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "clip", id: "a" },
+        steps: [{ id: "early", enabled: true, processor: { type: "rnnoise" } }],
+      },
+      {
+        target: { kind: "clip", id: "b" },
+        steps: [
+          { id: "late", enabled: true, processor: { type: "rnnoise" } },
+          { id: "gain", enabled: true, processor: { type: "gain", gain: 2 } },
+        ],
+      },
+      {
+        target: { kind: "group", id: "group" },
+        steps: [
+          {
+            id: "parent",
+            enabled: true,
+            processor: { type: "rnnoise" },
+            window: { kind: "project", range: { startUs: 2000000, endUs: 3000000 } },
+          },
+        ],
+      },
+      {
+        target: { kind: "output" },
+        steps: [
+          {
+            id: "master",
+            enabled: true,
+            processor: { type: "rnnoise" },
+            window: { kind: "project", range: { startUs: 2500000, endUs: 3000000 } },
+          },
+        ],
+      },
+    ],
+  };
+  const state = createCompiler(validateComposition(doc, []), "nested").audioWindow({
+    range: { startUs: 2700000, endUs: 2800000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  }).manifest.state!;
+  expect(state.domains.map((d) => d.identity.id)).toEqual(["late", "parent", "master"]);
+  expect(
+    state.domains
+      .find((d) => d.identity.id === "parent")!
+      .dependencies.map((i) => state.domains[i]!.identity.id),
+  ).toEqual(["late"]);
+  expect(state.inputs.map((i) => i.clip.id)).toEqual(["b"]);
+  expect(
+    state.nodes
+      .find((n) => n.target.kind === "clip" && n.target.id === "b")!
+      .steps.map((s) => s.id),
+  ).toEqual(["late", "gain"]);
+  expect(
+    domains(doc, { startUs: 2700000, endUs: 2800000 }, { kind: "dry" }, { kind: "output" }).map(
+      (d) => d.identity.id,
+    ),
+  ).toEqual(["late", "parent"]);
+  expect(() =>
+    validateComposition(
+      {
+        ...doc,
+        processing: [
+          {
+            target: { kind: "output" },
+            steps: [
+              { id: "invalid", enabled: false, stateKey: "shared", processor: { type: "rnnoise" } },
+            ],
+          },
+        ],
+      },
+      [],
+    ),
+  ).toThrow(/clip/);
+});
+
+test("empty parents have no state and positive zero-sample spans still select structural state", () => {
+  const parent = {
+    ...document,
+    processing: [
+      {
+        target: { kind: "output" },
+        steps: [{ id: "parent", enabled: true, processor: { type: "rnnoise" } }],
+      },
+    ],
+  };
+  expect(domains({ ...parent, clips: [] })).toEqual([]);
+  const short = {
+    ...parent,
+    clips: [
+      { ...document.clips[0], placement: { kind: "project", range: { startUs: 0, endUs: 1 } } },
+    ],
+  };
+  expect(domains(short, { startUs: 0, endUs: 1 })).toMatchObject([
+    { range: { startUs: 0, endUs: 1 }, sampleRange: { start: 0, end: 0 } },
+  ]);
+});
+
+test("returned state metadata cannot mutate the compiler's immutable-revision plan", () => {
+  const compiler = createCompiler(validateComposition(document, []), "revision");
+  const request = {
+    range: { startUs: 0, endUs: 1000000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  };
+  const first = compiler.audioWindow(request),
+    expected = structuredClone(first.manifest.state);
+  first.manifest.state!.domains[0]!.members.length = 0;
+  expect(compiler.audioWindow(request).manifest.state).toEqual(expected);
+});
+
+test("out-of-range state input prefixes retain enabled stateless execution requirements", () => {
+  const split = edit(document, [
+    { operation: "split", clipIds: ["clip"], atUs: 2000000, scope: "selected" },
+  ]);
+  const right = split.clipLineage[0]!.clipIds[1]!;
+  const prior = split.document.processing.find(
+    (s) => s.target.kind === "clip" && s.target.id === right,
+  )!.steps;
+  const changed = edit(
+    split.document,
+    [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: right },
+        steps: [{ processor: { type: "gain", gain: 2 } }, ...prior],
+      },
+    ],
+    "requirements",
+  );
+  const manifest = createCompiler(
+    validateComposition(changed.document, []),
+    "revision",
+  ).audioWindow({
+    range: { startUs: 0, endUs: 1000000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "clip", id: "clip" }, point: { kind: "processed" } },
+  }).manifest;
+  expect(manifest.requirements).toContainEqual(
+    expect.objectContaining({
+      kind: "processor",
+      target: { kind: "clip", id: right },
+      processor: { type: "gain", gain: 2 },
+      implementationId: null,
+    }),
+  );
 });

@@ -6,6 +6,7 @@ import {
 } from "./scalar-program.js";
 import {
   resolvePlacement,
+  resolvedClip,
   projectTime,
   type ValidatedComposition,
   type ExactRange,
@@ -72,6 +73,8 @@ export function curveValuesWithin(curve: ScalarCurve, min: number, max: number):
 }
 
 export type CompiledScalarCurve = Readonly<{
+  /** Authored active spans, independent of unavailable-source gaps. */
+  active: readonly ExactRange[];
   /** Active project fragments; unavailable-source gaps remain excluded. */
   available: readonly ExactRange[];
   boundaries: readonly Rational[];
@@ -114,10 +117,7 @@ export function compileScalarCurve(
     model,
     empty && anchor.kind === "clip" ? anchor.clipId : effective,
   );
-  const parent =
-    anchor.kind === "project"
-      ? undefined
-      : model.clips.find((value) => value.clip.id === anchor.clipId)!;
+  const parent = anchor.kind === "project" ? undefined : resolvedClip(model, anchor.clipId);
   const keys = curve.keys.map((key) => ({ ...key, at: fromTime(key.at) }));
   const atProject = (at: Rational) => {
     if (anchor.kind === "project") return at;
@@ -134,7 +134,10 @@ export function compileScalarCurve(
     );
   };
   const program = lowerScalarProgram(keys.map((key) => ({ ...key, at: atProject(key.at) })));
-  function window(available: readonly ExactRange[]): CompiledScalarCurve {
+  function window(
+    available: readonly ExactRange[],
+    active: readonly ExactRange[],
+  ): CompiledScalarCurve {
     const points = [
       ...available.flatMap((range) => [range.start, range.end]),
       ...keys
@@ -148,6 +151,7 @@ export function compileScalarCurve(
         points.filter((at, index) => index === 0 || compare(at, points[index - 1]!) !== 0),
       ),
       available: Object.freeze(available.map((range) => Object.freeze({ ...range }))),
+      active: Object.freeze(active.map((range) => Object.freeze({ ...range }))),
       samples: (sampleRate: number) => lowerSampleScalarProgram(program, sampleRate),
       sample(atUs: TimeValue) {
         const at = fromTime(timeValueSchema.parse(atUs));
@@ -159,15 +163,15 @@ export function compileScalarCurve(
         const range = selectionRangeSchema.parse(input);
         const start = fromTime(range.startUs),
           end = fromTime(range.endUs);
-        return window(
-          available.flatMap((part) => {
+        const restrict = (parts: readonly ExactRange[]) =>
+          parts.flatMap((part) => {
             const a = compare(part.start, start) > 0 ? part.start : start;
             const b = compare(part.end, end) < 0 ? part.end : end;
             return compare(a, b) < 0 ? [{ start: a, end: b }] : [];
-          }),
-        );
+          });
+        return window(restrict(available), restrict(active));
       },
     });
   }
-  return window(empty ? [] : placement.available);
+  return window(empty ? [] : placement.available, empty ? [] : [placement.range]);
 }

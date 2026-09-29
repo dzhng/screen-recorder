@@ -586,3 +586,41 @@ test("RNNoise metadata stays unavailable before job admission while dry inspecti
     }),
   ).not.toThrow();
 });
+
+test("parent RNNoise inside an internal audio gap refuses before renderer admission", async () => {
+  let calls = 0;
+  const f = await fixture(async (request, signal) => {
+    calls++;
+    return render(request, signal);
+  });
+  const clipId = f.placed.edit.labels["voice-clip"]!;
+  const split = f.projects.apply(f.projectId, {
+    requestId: "gap-split",
+    expectedRevisionId: f.placed.revision.id,
+    operations: [{ operation: "split", clipIds: [clipId], atUs: 500000, scope: "selected" }],
+  });
+  const right = split.edit.clipLineage[0]!.clipIds[1]!;
+  f.projects.apply(f.projectId, {
+    requestId: "gap-state",
+    expectedRevisionId: split.revision.id,
+    operations: [
+      {
+        operation: "move",
+        clipIds: [right],
+        atUs: 2000000,
+        scope: "selected",
+        ripple: "none",
+        tracks: [],
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "track", id: f.placed.edit.labels["voice"]! },
+        steps: [{ processor: { type: "rnnoise" } }],
+      },
+    ],
+  });
+  expect(() =>
+    f.inspection.request({ projectId: f.projectId, range: { startUs: 1000000, endUs: 1500000 } }),
+  ).toThrow(expect.objectContaining({ code: "NOT_READY" }));
+  expect(calls).toBe(0);
+});

@@ -391,19 +391,37 @@ export function validateComposition(
   return model;
 }
 
+// The frozen revision owns these resolved objects; this index adds no alternate timing state.
+const clipLookups = new WeakMap<
+  ValidatedComposition,
+  ReadonlyMap<string, ValidatedComposition["clips"][number]>
+>();
+function clipLookup(model: ValidatedComposition) {
+  let lookup = clipLookups.get(model);
+  if (!lookup) {
+    lookup = new Map(model.clips.map((clip) => [clip.clip.id, clip]));
+    clipLookups.set(model, lookup);
+  }
+  return lookup;
+}
+export function resolvedClip(model: ValidatedComposition, id: string) {
+  const clip = clipLookup(model).get(id);
+  if (!clip) throw new CompositionError("UNKNOWN_CLIP", `Unknown clip: ${id}`);
+  return clip;
+}
+
 /** Exact envelope plus source-available fragments; neither closes acquisition gaps. */
 export function resolvePlacement(
   model: ValidatedComposition,
   target: string | Anchor,
 ): ResolvedPlacement {
   if (typeof target === "string") {
-    const found = model.clips.find((value) => value.clip.id === target);
-    if (!found) throw new CompositionError("UNKNOWN_CLIP", `Unknown clip: ${target}`);
+    const found = resolvedClip(model, target);
     return { range: found.range, available: found.available };
   }
   const parsed = anchorSchema.safeParse(target);
   if (!parsed.success) invalid(parsed.error.message);
-  return freeze(placement(parsed.data, new Map(model.clips.map((clip) => [clip.clip.id, clip]))));
+  return freeze(placement(parsed.data, clipLookup(model)));
 }
 function checkTime(atUs: number): Rational {
   if (!Number.isSafeInteger(atUs) || atUs < 0)

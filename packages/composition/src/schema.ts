@@ -222,10 +222,8 @@ export const processorRegistry = {
     schema: z
       .object({ type: z.literal("rnnoise") })
       .strict()
-      .describe(
-        "Fixed-recipe RNNoise metadata; this clip-only checkpoint has no executable backend.",
-      ),
-    targets: ["clip"] as const,
+      .describe("Fixed-recipe RNNoise state metadata; execution remains unavailable."),
+    targets: allProcessingTargets,
     mediaKind: "audio" as const,
     units: {},
   },

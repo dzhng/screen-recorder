@@ -80,11 +80,17 @@ export function validateProcessing(document: Document) {
       if (stepIds.has(step.id)) invalid("Duplicate processing step ID", { stepId: step.id });
       stepIds.add(step.id);
       const definition = processorRegistry[step.processor.type];
-      if (step.stateKey !== undefined && step.processor.type !== "rnnoise")
-        invalid("State continuity requires a stateful processor", { target, stepId: step.id });
+      if (
+        step.stateKey !== undefined &&
+        (step.processor.type !== "rnnoise" || target.kind !== "clip")
+      )
+        invalid("Shared state continuity requires a stateful clip processor", {
+          target,
+          stepId: step.id,
+        });
       if (
         (step.window || step.evaluationRange) &&
-        !["opacity", "geometry", "gain"].includes(step.processor.type)
+        !["opacity", "geometry", "gain", "rnnoise"].includes(step.processor.type)
       )
         invalid("Temporal processing is not supported for this processor", {
           target,

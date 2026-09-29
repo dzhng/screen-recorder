@@ -242,6 +242,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       })
       .sort((a, b) => a.trackRank - b.trackRank || compare(a.range.start, b.range.start));
   }
+  let fullState: ReturnType<typeof deriveStatePlan> | undefined;
   function window(input: unknown, component?: "audio" | "video") {
     const parsed = executionWindowRequestSchema.safeParse(input);
     if (!parsed.success) throw new CompositionError("INVALID_COMPOSITION", parsed.error.message);
@@ -264,6 +265,24 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
     );
     const inputs = clips.filter((value) => selected.has(value.clip.id));
+    let state: ReturnType<typeof deriveStatePlan> | undefined;
+    if (component !== "video" && plan.at(-1)?.mediaKind !== "video") {
+      fullState ??= deriveStatePlan(model);
+      const selectedState = fullState.domains.length
+        ? selectStatePlan(
+            fullState,
+            new Set(
+              processing(
+                model.clips.filter((clip) => clip.track.kind === "audio"),
+                request.tap,
+                "audio",
+              ).flatMap((node) => node.steps.filter((step) => step.enabled).map((step) => step.id)),
+            ),
+            request.range,
+          )
+        : fullState;
+      if (selectedState.domains.length) state = selectedState;
+    }
     const compiled = executionWindow(
       revisionId,
       model.document.canvas,
@@ -281,16 +300,8 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       ),
       () => temporal.audio(plan, request.rendition.sampleRate),
       component,
+      state,
     );
-    if (component !== "video") {
-      const state = selectStatePlan(
-        deriveStatePlan(model),
-        new Set(
-          plan.flatMap((node) => node.steps.filter((step) => step.enabled).map((step) => step.id)),
-        ),
-      );
-      if (state.domains.length) compiled.manifest.state = state;
-    }
     return compiled;
   }
   return {

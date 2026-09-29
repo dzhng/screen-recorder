@@ -1,4 +1,4 @@
-import { statePlanSchema } from "./processing-state.js";
+import { statePlanSchema, type StatePlan } from "./processing-state.js";
 import type { CompiledProcessingInstruction } from "./temporal-processing.js";
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
@@ -123,6 +123,7 @@ export function executionWindow(
   },
   compileProcessing: () => CompiledProcessingInstruction[],
   component?: "audio" | "video",
+  state?: StatePlan,
 ) {
   const mediaKind = component ?? processing.at(-1)!.mediaKind;
   const sources: ExecutionWindowManifest["sources"] = [];
@@ -131,9 +132,11 @@ export function executionWindow(
   for (const kind of ["audio", "video"] as const)
     if (mediaKind === "output" || mediaKind === kind)
       requirements.push({ kind: "executor", mediaKind: kind, implementationId: null });
-  for (const node of processing)
+  const requiredSteps = new Set<string>();
+  for (const node of [...processing, ...(state?.nodes ?? [])])
     for (const step of node.steps)
-      if (step.enabled)
+      if (step.enabled && !requiredSteps.has(step.id)) {
+        requiredSteps.add(step.id);
         requirements.push({
           kind: "processor",
           target: node.target,
@@ -141,6 +144,7 @@ export function executionWindow(
           processor: step.processor,
           implementationId: null,
         });
+      }
   for (const value of clips) {
     const clip = value.clip;
     if (clip.source.kind === "text") {
@@ -199,6 +203,7 @@ export function executionWindow(
     fonts,
     processing,
     requirements,
+    ...(state ? { state } : {}),
   });
   return {
     manifest,

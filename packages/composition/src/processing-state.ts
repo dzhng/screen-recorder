@@ -2,9 +2,17 @@ import { z } from "zod";
 import { CompositionError } from "./errors.js";
 import { compare, fromTime, toTime } from "./rational.js";
 import { sampleAt } from "./sample-clock.js";
-import { compositionSchema, processingStepSchema, selectionRangeSchema } from "./schema.js";
-import type { ProcessingStep } from "./schema.js";
-import type { ValidatedComposition } from "./model.js";
+import {
+  compositionSchema,
+  processingTargetSchema,
+  selectionRangeSchema,
+  type ProcessingStep,
+  type ProcessingTarget,
+} from "./schema.js";
+import { processingInstructionSchema, processingPlanner } from "./processing-plan.js";
+import { processingKey } from "./processing.js";
+import { temporalProcessing } from "./temporal-processing.js";
+import type { ValidatedComposition, ExactRange } from "./model.js";
 
 const id = z.string().min(1);
 const compareId = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
@@ -17,10 +25,10 @@ export const statePlanSchema = z
           clip: compositionSchema.shape.clips.element,
           range: selectionRangeSchema,
           available: z.array(selectionRangeSchema),
-          steps: z.array(processingStepSchema),
         })
         .strict(),
     ),
+    nodes: z.array(processingInstructionSchema.extend({ range: selectionRangeSchema }).strict()),
     domains: z.array(
       z
         .object({
@@ -28,93 +36,153 @@ export const statePlanSchema = z
           range: selectionRangeSchema,
           sampleRange,
           dependencies: z.array(z.int().nonnegative()),
-          members: z.array(z.object({ clipId: id, stepId: id }).strict()),
+          members: z.array(
+            z
+              .object({ target: processingTargetSchema, stepId: id, range: selectionRangeSchema })
+              .strict(),
+          ),
         })
         .strict(),
     ),
   })
   .strict();
 export type StatePlan = z.infer<typeof statePlanSchema>;
+type Range = StatePlan["domains"][number]["range"];
 export const stateIdentity = (step: ProcessingStep) =>
   step.stateKey === undefined
     ? { kind: "instance" as const, id: step.id }
     : { kind: "shared" as const, id: step.stateKey };
-const stored = (range: ValidatedComposition["clips"][number]["range"]) => ({
+const stored = (range: ExactRange): Range => ({
   startUs: toTime(range.start),
   endUs: toTime(range.end),
 });
+function intersection(a: Range, b: Range): Range | undefined {
+  const startUs = compare(fromTime(a.startUs), fromTime(b.startUs)) > 0 ? a.startUs : b.startUs;
+  const endUs = compare(fromTime(a.endUs), fromTime(b.endUs)) < 0 ? a.endUs : b.endUs;
+  return compare(fromTime(startUs), fromTime(endUs)) < 0 ? { startUs, endUs } : undefined;
+}
 
-/** Full current inputs are stored once; a member's step ID selects its actual ordered prefix. */
+/** Traverse a member's current exclusive prefix, never a downstream caller's expanded prefix. */
+function prefixInputs(plan: Pick<StatePlan, "nodes">) {
+  const nodes = new Map(plan.nodes.map((node) => [processingKey(node.target), node]));
+  return (
+    target: ProcessingTarget,
+    before: string,
+    range: Range,
+    visit: (node: StatePlan["nodes"][number], end: number, range: Range) => void,
+  ) => {
+    const first = nodes.get(processingKey(target))!;
+    const pending = [{ node: first, end: first.steps.findIndex((s) => s.id === before), range }];
+    while (pending.length) {
+      const { node, end, range } = pending.pop()!;
+      visit(node, end, range);
+      for (let i = node.inputs.length - 1; i >= 0; i--) {
+        const child = nodes.get(processingKey(node.inputs[i]!));
+        if (!child) continue;
+        const selected = intersection(range, child.range);
+        if (selected) pending.push({ node: child, end: child.steps.length, range: selected });
+      }
+    }
+  };
+}
+
+/** Derive current structural audio and ordered prefixes using the existing routing and clock owners. */
 export function deriveStatePlan(model: ValidatedComposition): StatePlan {
-  type Member = { clip: ValidatedComposition["clips"][number]; step: ProcessingStep };
+  if (
+    !model.document.processing.some((stack) =>
+      stack.steps.some((step) => step.processor.type === "rnnoise"),
+    )
+  )
+    return { inputs: [], nodes: [], domains: [] };
+  const audio = model.clips.filter((clip) => clip.track.kind === "audio");
+  const clips = new Map(audio.map((clip) => [clip.clip.id, clip]));
+  const nodes: StatePlan["nodes"] = [];
+  const ranges = new Map<string, Range>();
+  for (const node of processingPlanner(model)(audio, undefined, "audio")) {
+    const children = node.inputs.flatMap((child) => {
+      const range = ranges.get(processingKey(child));
+      return range ? [range] : [];
+    });
+    let range = node.target.kind === "clip" ? stored(clips.get(node.target.id)!.range) : undefined;
+    for (const child of children)
+      range = range
+        ? {
+            startUs:
+              compare(fromTime(range.startUs), fromTime(child.startUs)) < 0
+                ? range.startUs
+                : child.startUs,
+            endUs:
+              compare(fromTime(range.endUs), fromTime(child.endUs)) > 0 ? range.endUs : child.endUs,
+          }
+        : child;
+    if (range) {
+      ranges.set(processingKey(node.target), range);
+      nodes.push({ ...node, range });
+    }
+  }
+  const temporal = temporalProcessing(model);
+  type Member = { node: StatePlan["nodes"][number]; step: ProcessingStep };
   const groups = new Map<
     string,
     { identity: StatePlan["domains"][number]["identity"]; members: Member[] }
   >();
-  const clips = new Map(model.clips.map((clip) => [clip.clip.id, clip]));
-  const inputs: StatePlan["inputs"] = [];
-  const prior = new Map<string, string>();
-  for (const stack of model.document.processing) {
-    if (stack.target.kind !== "clip" || !stack.steps.some((s) => s.processor.type === "rnnoise"))
-      continue;
-    const clip = clips.get(stack.target.id)!;
-    inputs.push({
-      clip: clip.clip,
-      range: stored(clip.range),
-      available: clip.available.map(stored),
-      steps: [...stack.steps],
-    });
-    let previous: string | undefined;
-    for (const step of stack.steps) {
+  for (const node of nodes)
+    for (const step of node.steps) {
       if (step.processor.type !== "rnnoise") continue;
       const identity = stateIdentity(step),
         key = JSON.stringify(identity);
       const group = groups.get(key) ?? { identity, members: [] };
-      group.members.push({ clip, step });
+      group.members.push({ node, step });
       groups.set(key, group);
-      if (step.enabled) {
-        if (previous !== undefined) prior.set(step.id, previous);
-        previous = step.id;
-      }
     }
-  }
   const domains: StatePlan["domains"] = [];
   const invalidMembers = new Set<string>();
   for (const group of groups.values()) {
     group.members.sort(
-      (a, b) => compare(a.clip.range.start, b.clip.range.start) || compareId(a.step.id, b.step.id),
+      (a, b) =>
+        compare(fromTime(a.node.range.startUs), fromTime(b.node.range.startUs)) ||
+        compareId(a.step.id, b.step.id),
     );
     if (
-      new Set(group.members.map((m) => m.clip.clip.trackId)).size > 1 ||
-      new Set(group.members.map((m) => m.clip.clip.id)).size !== group.members.length
+      group.identity.kind === "shared" &&
+      (group.members.some((m) => m.node.target.kind !== "clip") ||
+        new Set(
+          group.members.map((m) =>
+            m.node.target.kind === "clip" ? clips.get(m.node.target.id)!.clip.trackId : "",
+          ),
+        ).size > 1 ||
+        new Set(group.members.map((m) => processingKey(m.node.target))).size !==
+          group.members.length)
     ) {
       for (const member of group.members) invalidMembers.add(member.step.id);
       continue;
     }
     let domain: StatePlan["domains"][number] | undefined;
-    for (const member of group.members) {
-      if (!member.step.enabled) {
-        domain = undefined;
-        continue;
+    for (const { node, step } of group.members) {
+      const active = temporal.active(step, node.target).flatMap((part) => {
+        const range = intersection(stored(part), node.range);
+        return range ? [range] : [];
+      });
+      if (!active.length) domain = undefined;
+      for (const range of active) {
+        if (!domain || compare(fromTime(domain.range.endUs), fromTime(range.startUs)) !== 0) {
+          domain = {
+            identity: group.identity,
+            range,
+            sampleRange: {
+              start: sampleAt(fromTime(range.startUs), 48000),
+              end: sampleAt(fromTime(range.endUs), 48000),
+            },
+            members: [],
+            dependencies: [],
+          };
+          domains.push(domain);
+        } else {
+          domain.range = { ...domain.range, endUs: range.endUs };
+          domain.sampleRange.end = sampleAt(fromTime(range.endUs), 48000);
+        }
+        domain.members.push({ target: node.target, stepId: step.id, range });
       }
-      const range = stored(member.clip.range);
-      if (!domain || compare(fromTime(domain.range.endUs), member.clip.range.start) !== 0) {
-        domain = {
-          identity: group.identity,
-          range,
-          sampleRange: {
-            start: sampleAt(member.clip.range.start, 48000),
-            end: sampleAt(member.clip.range.end, 48000),
-          },
-          members: [],
-          dependencies: [],
-        };
-        domains.push(domain);
-      } else {
-        domain.range = { ...domain.range, endUs: range.endUs };
-        domain.sampleRange.end = sampleAt(member.clip.range.end, 48000);
-      }
-      domain.members.push({ clipId: member.clip.clip.id, stepId: member.step.id });
     }
   }
   if (invalidMembers.size)
@@ -128,15 +196,35 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
       compare(fromTime(a.range.startUs), fromTime(b.range.startUs)) ||
       compareId(JSON.stringify(a.identity), JSON.stringify(b.identity)),
   );
-  const owners = new Map(domains.flatMap((d, i) => d.members.map((m) => [m.stepId, i] as const)));
-  for (const domain of domains)
-    domain.dependencies = [
-      ...new Set(
-        domain.members.flatMap((m) =>
-          prior.has(m.stepId) ? [owners.get(prior.get(m.stepId)!)!] : [],
-        ),
-      ),
-    ].sort((a, b) => a - b);
+  const plan: StatePlan = {
+    nodes,
+    domains,
+    inputs: audio.map((clip) => ({
+      clip: clip.clip,
+      range: stored(clip.range),
+      available: clip.available.map(stored),
+    })),
+  };
+  const byStep = new Map<string, { index: number; range: Range }[]>();
+  domains.forEach((domain, index) =>
+    domain.members.forEach((member) => {
+      const entries = byStep.get(member.stepId) ?? [];
+      entries.push({ index, range: member.range });
+      byStep.set(member.stepId, entries);
+    }),
+  );
+  const visitPrefix = prefixInputs(plan);
+  for (const domain of domains) {
+    const dependencies = new Set<number>();
+    for (const member of domain.members)
+      visitPrefix(member.target, member.stepId, member.range, (node, end, range) => {
+        for (const step of node.steps.slice(0, end))
+          if (step.enabled)
+            for (const prior of byStep.get(step.id) ?? [])
+              if (intersection(prior.range, range)) dependencies.add(prior.index);
+      });
+    domain.dependencies = [...dependencies].sort((a, b) => a - b);
+  }
   const status = new Uint8Array(domains.length);
   const cycleMembers = new Set<string>();
   for (let start = 0; start < domains.length; start++) {
@@ -152,12 +240,9 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
         continue;
       }
       if (status[dependency] === 1) {
-        const cycle = stack.slice(stack.findIndex((f) => f.index === dependency));
-        for (const frame of cycle)
+        for (const frame of stack.slice(stack.findIndex((f) => f.index === dependency)))
           for (const member of domains[frame.index]!.members) cycleMembers.add(member.stepId);
-        continue;
-      }
-      if (!status[dependency]) {
+      } else if (!status[dependency]) {
         status[dependency] = 1;
         stack.push({ index: dependency, next: 0 });
       }
@@ -167,19 +252,23 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
     throw new CompositionError("INVALID_COMPOSITION", "State domain dependency cycle", {
       stateStepIds: [...cycleMembers],
     });
-  return { inputs, domains };
+  return plan;
 }
 
-export function selectStatePlan(plan: StatePlan, stepIds: ReadonlySet<string>): StatePlan {
+export function selectStatePlan(
+  plan: StatePlan,
+  stepIds: ReadonlySet<string>,
+  range: Range,
+): StatePlan {
   const selected = new Set<number>();
   const pending = plan.domains.flatMap((d, i) =>
-    d.members.some((m) => stepIds.has(m.stepId)) ? [i] : [],
+    d.members.some((m) => stepIds.has(m.stepId) && intersection(m.range, range)) ? [i] : [],
   );
   while (pending.length) {
     const index = pending.pop()!;
     if (selected.has(index)) continue;
     selected.add(index);
-    for (const input of plan.domains[index]!.dependencies) pending.push(input);
+    pending.push(...plan.domains[index]!.dependencies);
   }
   const indices = [...selected].sort((a, b) => a - b),
     remap = new Map(indices.map((old, i) => [old, i]));
@@ -187,24 +276,42 @@ export function selectStatePlan(plan: StatePlan, stepIds: ReadonlySet<string>): 
     ...plan.domains[i]!,
     dependencies: plan.domains[i]!.dependencies.map((d) => remap.get(d)!),
   }));
-  const members = new Map<string, Set<string>>();
+  const needed = new Map<string, { end: number; children: Set<string> }>();
+  const byTarget = new Map(plan.nodes.map((node) => [processingKey(node.target), node]));
+  const visitPrefix = prefixInputs(plan);
   for (const domain of domains)
     for (const member of domain.members) {
-      const steps = members.get(member.clipId) ?? new Set<string>();
-      steps.add(member.stepId);
-      members.set(member.clipId, steps);
+      visitPrefix(member.target, member.stepId, member.range, (node, end, range) => {
+        const key = processingKey(node.target);
+        const prior = needed.get(key) ?? { end: 0, children: new Set<string>() };
+        // Include the member itself as recipe identity; its input still ends immediately before it.
+        prior.end = Math.max(prior.end, end + (key === processingKey(member.target) ? 1 : 0));
+        for (const child of node.inputs) {
+          const childNode = byTarget.get(processingKey(child));
+          if (childNode && intersection(range, childNode.range))
+            prior.children.add(processingKey(child));
+        }
+        needed.set(key, prior);
+      });
     }
+  const nodes = plan.nodes.flatMap((node) => {
+    const need = needed.get(processingKey(node.target));
+    return need
+      ? [
+          {
+            ...node,
+            steps: node.steps.slice(0, need.end),
+            inputs: node.inputs.filter((child) => need.children.has(processingKey(child))),
+          },
+        ]
+      : [];
+  });
   return {
     domains,
-    inputs: plan.inputs.flatMap((input) => {
-      const required = members.get(input.clip.id);
-      if (!required) return [];
-      let end = 0;
-      input.steps.forEach((step, index) => {
-        if (required.has(step.id)) end = index + 1;
-      });
-      return [{ ...input, steps: input.steps.slice(0, end) }];
-    }),
+    nodes,
+    inputs: plan.inputs.filter((input) =>
+      needed.has(processingKey({ kind: "clip", id: input.clip.id })),
+    ),
   };
 }
 

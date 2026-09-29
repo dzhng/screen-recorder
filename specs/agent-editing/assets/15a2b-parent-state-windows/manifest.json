@@ -1,0 +1,165 @@
+{
+  "scope": "Pure parent/window DSP state metadata; execution unavailable",
+  "members": [
+    {
+      "path": "screenrec-state-parent-design.txt",
+      "bytes": 4289,
+      "sha256": "3fbad3479ddc2c41c08a67058a79eaa2d286970472f93f8c95d0e81a060cb8a3"
+    },
+    {
+      "path": "screenrec-state-parent-design-review.md",
+      "bytes": 3935,
+      "sha256": "629641608bc655e74c747565cbe10a51f06dab3eb27f1ab6272a1f9d126e0b05"
+    },
+    {
+      "path": "screenrec-state-parent-design-review.log",
+      "bytes": 158280,
+      "sha256": "65e767a9d9fa89fd092517a08cd8c2b5a00a9f2a7331df7778b49845133286b5"
+    },
+    {
+      "path": "screenrec-state-parent-code-review.log",
+      "bytes": 187400,
+      "sha256": "19c795ad864f1c6c8c2bb71baef4da858ce4dae949f06084558341b7077ce5c6"
+    },
+    {
+      "path": "screenrec-state-parent-followup.md",
+      "bytes": 1044,
+      "sha256": "3edf1e23b8f79642b242961981811ddcacd6279e489c4104c6020fb3b05fb452"
+    },
+    {
+      "path": "screenrec-state-parent-followup.log",
+      "bytes": 124348,
+      "sha256": "03b58eeb9a6a9d514a8453d25cd670b9c7ad77980e5e73fd4f4653a7db75b173"
+    },
+    {
+      "path": "screenrec-state-parent-final-review.md",
+      "bytes": 547,
+      "sha256": "17489af77e316443a436c1f804d66b8fc0f298a29546f07cd5b83a7c4402f6d2"
+    },
+    {
+      "path": "screenrec-state-parent-final-review.log",
+      "bytes": 37149,
+      "sha256": "21f02d49fa006c005c1a4c708133bd12f77e790c82b29215cd2a06e109d849e8"
+    },
+    {
+      "path": "screenrec-state-parent-red.log",
+      "bytes": 1434,
+      "sha256": "7183e661d86fd2909584272efa7bfe2c505636ff5d21dca57e9f9a8764764657"
+    },
+    {
+      "path": "screenrec-state-parent-suite.log",
+      "bytes": 1504,
+      "sha256": "a29c4a6088382b420bfc75eadfab8d2f3408d069ef21c4625a6e29ea17ba1221"
+    },
+    {
+      "path": "screenrec-state-parent-negative-selection.log",
+      "bytes": 1234,
+      "sha256": "8812ddc74ee634fccae1cc69b8aa18ad4b34ba5f0f14bc0c7ca3bcd1d842919a"
+    },
+    {
+      "path": "screenrec-state-parent-negative-support-no-match.log",
+      "bytes": 221,
+      "sha256": "5e4b2be3ff861c2a4a22cc49838660df0c3b1f67978b2e4aeb02ab9b205e7cd8"
+    },
+    {
+      "path": "screenrec-state-parent-negative-support-final.log",
+      "bytes": 1192,
+      "sha256": "d82901a6961e55ee8fc23af17d5feca2851b6f8926883eb605283a126bec877b"
+    },
+    {
+      "path": "screenrec-state-parent-cache-red.log",
+      "bytes": 2647,
+      "sha256": "849d6d26453861cce3db73ebf4bce10c1f73658dc1739781d350de52007b9620"
+    },
+    {
+      "path": "screenrec-state-parent-admission-red.log",
+      "bytes": 1298,
+      "sha256": "3b5dff1430684a2861f6372da95d848b3589ef7cc885fd170ac4c5ca83381eb1"
+    },
+    {
+      "path": "screenrec-state-parent-scale.ts",
+      "bytes": 1793,
+      "sha256": "4a6c7e75e0c7502292a4d1ffd217e3600249106275473dfa88ea06c6a6a70afe"
+    },
+    {
+      "path": "screenrec-state-parent-scale.log",
+      "bytes": 1106,
+      "sha256": "914d9891c8799259ed623c39191ba1897f9c619348542e4b54cbedb98d1f8662"
+    },
+    {
+      "path": "screenrec-state-parent-scale-final.log",
+      "bytes": 1096,
+      "sha256": "b455b94808c855074b05a16fc7aa8965f48a50f40e9877df8c2eccc2f7787b66"
+    },
+    {
+      "path": "screenrec-state-parent-trace.ts",
+      "bytes": 1796,
+      "sha256": "4356ee6633b72280cebd7e2a691e1b8bcb38ea68dd025c650081f4310ddad374"
+    },
+    {
+      "path": "screenrec-state-parent-trace.json",
+      "bytes": 34702,
+      "sha256": "94eba836fd69e9263c82b84f062d17e728910d5414a2440f8b9f71ecf830263c"
+    },
+    {
+      "path": "screenrec-state-parent-final-gates.log",
+      "bytes": 829,
+      "sha256": "522531c820117fe7b5ff1f9c8ebd2a7e9e5937b2bd6db7a2bc135a65f6a259cc"
+    },
+    {
+      "path": "screenrec-state-parent-help.log",
+      "bytes": 400,
+      "sha256": "ad228472be213c134b09d9179fcf97798199c0f561a8173a62194d8fb7fe92b1"
+    },
+    {
+      "path": "screenrec-state-parent-types-final2.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "screenrec-state-parent-core-types-final.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "screenrec-state-parent-restored-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "path": "screenrec-state-parent-cli-build-final.log",
+      "bytes": 1080,
+      "sha256": "7ba0880f158112314405cb97578330c8c463816e7626b01069264615470abd8b"
+    },
+    {
+      "path": "screenrec-state-parent-prefix-requirement-red.log",
+      "bytes": 1634,
+      "sha256": "2d24b1abcd6a3f459acabf59e084ac9faefb3a6ce91005db439311dd3798264a"
+    },
+    {
+      "path": "screenrec-state-parent-prefix-gates.log",
+      "bytes": 839,
+      "sha256": "e9f353b7f2467e307509a5e8456e3edb42b4e4309dbaa927a89373c795790426"
+    },
+    {
+      "path": "screenrec-state-parent-prefix-types.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "screenrec-state-parent-prefix-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "path": "screenrec-state-parent-prefix-review.md",
+      "bytes": 455,
+      "sha256": "2df663c7c3942db7ef6b46755f1975a461d9ef0a5bc8147145990fdcbbc4c46e"
+    },
+    {
+      "path": "screenrec-state-parent-prefix-review.log",
+      "bytes": 9586,
+      "sha256": "554bd30c28f186c0787bbfd736003b4e69ce98e815e3954c77236b66b492de42"
+    }
+  ]
+}
