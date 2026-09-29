@@ -11,7 +11,10 @@ Functional checkpoint **ce3b80d3** is integrated as root **68e25d9d**;
 quality decision **39ddcd7e** is integrated as **95f54d82**. Four cohorts and
 64 independently reviewed reference/decoded images support an 8 Mbps balanced
 starting point; explicit agent overrides remain the contract. Existing codec-loss
-failures remain open. The combined targeted build, 16 focused settings/preview/
+failures remain open; the quality evidence
+[acceptance-boundary audit](09b-output-quality/acceptance-boundary.md) gives the
+next matched full/range verification without misclassifying lossy RGB differences
+as proof of geometry failure. The combined targeted build, 16 focused settings/preview/
 convenience tests and 13 export-lifecycle tests pass; the full public native settings rerun passes.
 
 Control expansion continues in

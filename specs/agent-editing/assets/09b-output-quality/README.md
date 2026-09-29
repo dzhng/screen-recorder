@@ -62,3 +62,7 @@ movie path and output directory. Long uses additional arguments
 verifies raw frame/profile/reference/movie hashes and exact presentation times
 before scoring. Compressed retained raw BGRA files must be decompressed in a
 scratch reproduction directory first. `sha256.json` pins the retained package.
+
+[Acceptance-boundary audit](acceptance-boundary.md) distinguishes the preset
+decision from remaining encoded-appearance verification; no existing diagnostic
+or exact pre-encode gate is weakened.

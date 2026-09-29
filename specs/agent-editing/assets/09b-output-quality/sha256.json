@@ -1,5 +1,7 @@
 {
-  "README.md": "f05fe9d1304afc9d8913c6b3909a9c72082960902e4c0fa276c779bf66e47fcf",
+  "README.md": "981d5a641c022aaeb129ddd06a85748ce6db023f8cc3f14f5b3fc8146575dac8",
+  "acceptance-audit.log.gz": "bbc7573412ce0d39677cb4782398761c677a14410c0c13578ea70f505ae42ef9",
+  "acceptance-boundary.md": "37d40625077acbec68e123d021b63be0f936c665eacd5ec3587aee1491444162",
   "ffmpeg-opening-measurements.json.gz": "1e01de4be07f68d1d75a6b4a9655aa228b4eee99485b8bf9019faccaa0799647",
   "long/balanced-apple/frame-0.bgra.gz": "dcfc7c2e5cb0c91bd14f3533bcb5f4c3bf68593cff05c181f18a8c318a05f633",
   "long/balanced-apple/frame-0.icc": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
