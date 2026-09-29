@@ -19,6 +19,21 @@ public struct CompositionAudioReport: Codable, Sendable {
         let maximumPrerollFrames: Int64
         let maximumTailFrames: Int64
     }
+    /// Request-cumulative source decoder/descriptor work, including preparation and discarded context.
+    /// Excludes internal processing scratch I/O; unknownReadInputs prevents interpreting partial reads as totals.
+    public let sourceWork: SourceWork?
+    public struct SourceWork: Codable, Sendable {
+        public struct Decoded: Codable, Sendable {
+            let sampleRate: Int
+            var frames: Int64
+            var float32Bytes: Int64
+        }
+        let decoded: [Decoded]
+        let descriptorReadBytes: Int64
+        let descriptorDeliveredBytes: Int64
+        let descriptorInputs: Int
+        let unknownReadInputs: Int
+    }
     public let unavailable: [Missing]
     public struct Missing: Codable, Sendable {
         let clipId: String
@@ -99,6 +114,8 @@ public enum CompositionAudio {
     }
     final class Input {
         let source: SourceTrack
+        let sources: Sources
+        var decoder: AudioSourceReader?
         let contexts: [Context]
         let intervals: [Plan.Samples]
         var index = 0
@@ -106,21 +123,29 @@ public enum CompositionAudio {
         var nextPosition: Int64?
         var maximumPreroll: Int64 = 0
         var maximumTail: Int64 = 0
-        init(source: SourceTrack, contexts: [Context], intervals: [Plan.Samples]) {
+        init(source: SourceTrack, contexts: [Context], intervals: [Plan.Samples], sources: Sources) {
+            self.sources = sources
             self.source = source
             self.contexts = contexts
             self.intervals = intervals
         }
-        func suspend() { conversion = nil; nextPosition = nil }
+        private func releaseDecoder() {
+            if let decoder {
+                sources.record(frames: decoder.decodedFrames, rate: source.sampleRate, channels: source.channels)
+            }
+            conversion = nil
+            decoder = nil
+        }
+        func suspend() { releaseDecoder(); nextPosition = nil }
         func mix(into samples: inout [Float], position: Int64, count: Int) throws {
             let end = position + Int64(count)
-            if nextPosition != position { conversion = nil }
+            if nextPosition != position { releaseDecoder() }
             nextPosition = end
             while index < intervals.count {
                 let interval = intervals[index]
                 if interval.end <= position {
                     index += 1
-                    conversion = nil
+                    releaseDecoder()
                     continue
                 }
                 if interval.start >= end { break }
@@ -154,9 +179,11 @@ public enum CompositionAudio {
                         segmentOutputEnd - outputStart, skip + interval.end - first + context)
                     maximumPreroll = max(maximumPreroll, skip)
                     maximumTail = max(maximumTail, max(0, owed - skip - interval.end + first))
+                    let reader = AudioSourceReader(input: source.input, asset: source.asset, track: source.track,
+                        sampleRate: source.sampleRate, packetFrames: source.packetFrames, channels: source.channels)
+                    decoder = reader
                     conversion = try ConvertedAudioInterval(
-                        source: source, decoder: AudioSourceReader(input: source.input, asset: source.asset, track: source.track,
-                            sampleRate: source.sampleRate, packetFrames: source.packetFrames, channels: source.channels),
+                        source: source, decoder: reader,
                         origin: contextRange.origin, start: startSample,
                         outputRate: rate, owed: owed, end: contextRange.sourceEnd)
                     var remaining = skip
@@ -174,7 +201,7 @@ public enum CompositionAudio {
                     gain: 1, channelMap: source.channels == 1 ? [0, 0] : [0, 1])
                 if interval.end <= end {
                     index += 1
-                    conversion = nil
+                    releaseDecoder()
                 } else {
                     break
                 }
@@ -184,8 +211,32 @@ public enum CompositionAudio {
 
     final class Sources {
         var opened: [[String]: SourceTrack] = [:]
+        private var decoded: [Int: CompositionAudioReport.SourceWork.Decoded] = [:]
+        func record(frames: Int64, rate: Int, channels: Int) {
+            guard frames > 0 else { return }
+            var value = decoded[rate] ?? .init(sampleRate: rate, frames: 0, float32Bytes: 0)
+            value.frames += frames
+            value.float32Bytes += frames * Int64(channels) * 4
+            decoded[rate] = value
+        }
+        func report() -> CompositionAudioReport.SourceWork {
+            var seen = Set<ObjectIdentifier>()
+            var read: Int64 = 0, delivered: Int64 = 0
+            var descriptors = 0, unknown = 0
+            for source in opened.values where seen.insert(ObjectIdentifier(source.input)).inserted {
+                if let work = source.input.readWork {
+                    read += work.readBytes
+                    delivered += work.deliveredBytes
+                    descriptors += 1
+                } else { unknown += 1 }
+            }
+            return .init(decoded: decoded.values.sorted { $0.sampleRate < $1.sampleRate },
+                descriptorReadBytes: read, descriptorDeliveredBytes: delivered,
+                descriptorInputs: descriptors, unknownReadInputs: unknown)
+        }
     }
     struct Graph {
+        let sources: Sources
         let nodes: [CompositionProcessing]
         let inputs: [String: Input]
         let missing: [CompositionAudioReport.Missing]
@@ -195,8 +246,8 @@ public enum CompositionAudio {
         let childOrdinals: [Int: Int]
         let support: [Int: [(Plan.Samples, Bool)]]
         func stream(range: Plan.Samples, target: CompositionProcessing.Target, before: String? = nil,
-                    prepared: PreparedState? = nil) -> Stream {
-            Stream(range: range, graph: self, target: target, before: before, prepared: prepared)
+                    prepared: PreparedState? = nil, reportSourceWork: Bool = false) -> Stream {
+            Stream(range: range, graph: self, target: target, before: before, prepared: prepared, reportSourceWork: reportSourceWork)
         }
     }
     static func graph(_ plan: CompositionAudioPlan, forest: Bool = false,
@@ -386,7 +437,7 @@ public enum CompositionAudio {
             }
             missing.append(.init(clipId: clip.clipId, ranges: absent))
             inputs[clip.clipId] = Input(
-                source: source, contexts: contexts, intervals: readable)
+                source: source, contexts: contexts, intervals: readable, sources: sources)
         }
         let byTarget = Dictionary(uniqueKeysWithValues: nodes.enumerated().map { ($0.element.target, $0.offset) })
         let children = nodes.map { $0.inputs.compactMap { byTarget[$0] } }
@@ -400,7 +451,7 @@ public enum CompositionAudio {
             if let input = inputs[clip.clipId] { support[node] = input.intervals.map { ($0, true) } }
             else { support[node] = [(clip.sampleRange, false)] }
         }
-        return Graph(nodes: nodes, inputs: inputs, missing: missing, byTarget: byTarget,
+        return Graph(sources: sources, nodes: nodes, inputs: inputs, missing: missing, byTarget: byTarget,
             children: children, parents: parents, childOrdinals: childOrdinals, support: support)
     }
 
@@ -408,7 +459,7 @@ public enum CompositionAudio {
         let sources = Sources()
         let prepared = try await prepareState(plan, sources: sources)
         let graph = try await graph(plan, sources: sources)
-        return graph.stream(range: plan.range, target: graph.nodes.last!.target, prepared: prepared)
+        return graph.stream(range: plan.range, target: graph.nodes.last!.target, prepared: prepared, reportSourceWork: true)
     }
 
     /// Prepares one bounded PCM source; neither the consumer nor a preview window owns its phase.
@@ -421,17 +472,19 @@ public enum CompositionAudio {
         private let target: CompositionProcessing.Target
         private let before: String?
         private let prepared: PreparedState?
+        private let reportSourceWork: Bool
         private var consumed = false
 
         init(
             range: Plan.Samples, graph: Graph, target: CompositionProcessing.Target,
-            before: String?, prepared: PreparedState?
+            before: String?, prepared: PreparedState?, reportSourceWork: Bool
         ) {
             self.range = range
             self.graph = graph
             self.target = target
             self.before = before
             self.prepared = prepared
+            self.reportSourceWork = reportSourceWork
         }
         public func consume(_ sink: (AudioPCMBlock) async throws -> Void) async throws {
             guard !consumed else { throw invalid("Composition PCM can only be consumed once.") }
@@ -576,7 +629,7 @@ public enum CompositionAudio {
                             firstStep = 0
                             if node.target.kind == "clip", let id = node.target.id {
                                 if liveInputs.contains(index), inputs[index] == nil, let template = graph.inputs[id] {
-                                    inputs[index] = Input(source: template.source, contexts: template.contexts, intervals: template.intervals)
+                                    inputs[index] = Input(source: template.source, contexts: template.contexts, intervals: template.intervals, sources: graph.sources)
                                 }
                                 if liveInputs.contains(index), let input = inputs[index] {
                                     try input.mix(into: &samples, position: position, count: count)
@@ -625,6 +678,7 @@ public enum CompositionAudio {
                 }
             }
             try Task.checkCancellation()
+            for input in inputs.values { input.suspend() }
             report = CompositionAudioReport(
                 sampleRate: rate, channels: 2,
                 frames: range.end - range.start, peak: Double(peak), clippedSamples: clipped,
@@ -634,7 +688,7 @@ public enum CompositionAudio {
                     policy: "bounded-current-retained-run", sampleRate: rate,
                     maximumPrerollFrames: max(inputs.values.map(\.maximumPreroll).max() ?? 0, prepared?.maximumPreroll ?? 0),
                     maximumTailFrames: max(inputs.values.map(\.maximumTail).max() ?? 0, prepared?.maximumTail ?? 0)),
-                unavailable: graph.missing)
+                sourceWork: reportSourceWork ? graph.sources.report() : nil, unavailable: graph.missing)
         }
     }
 

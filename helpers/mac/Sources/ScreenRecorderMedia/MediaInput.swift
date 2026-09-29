@@ -30,6 +30,14 @@ public final class MediaInput: @unchecked Sendable {
         }
     }
 
+    /// Descriptor reads include repeated successful pread bytes and the sniff header.
+    /// URL-backed AVFoundation I/O is unknown; these are not physical disk measurements.
+    public struct ReadWork: Sendable {
+        public let readBytes: Int64
+        public let deliveredBytes: Int64
+    }
+    public var readWork: ReadWork? { loader?.currentReadWork() }
+
     public var failure: NativeFailure? { loader?.currentFailure() }
 
     deinit { loader?.stop() }
@@ -77,12 +85,13 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
     private let descriptor: MediaDescriptor
     private let length: Int64
     private var pending: [ObjectIdentifier: AVAssetResourceLoadingRequest] = [:]
-    private var delivered = 0
+    private var delivered: Int64 = 0
+    private var readBytes: Int64 = 0
     private var stopped = false
     private var failure: NativeFailure?
     // These bound bytes handed to AVFoundation, whose internal caching is opaque.
     // They apply to bounded inspection calls, not a whole-movie streaming contract.
-    private let maximumBytes: Int?
+    private let maximumBytes: Int64?
     private let maximumRequests = 8
     private let chunkBytes = 64 * 1024
 
@@ -92,6 +101,7 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
         length = try descriptor.size
         var prefix = [UInt8](repeating: 0, count: 12)
         let count = pread(descriptor.descriptor, &prefix, prefix.count, 0)
+        readBytes = Int64(max(0, count))
         guard count == prefix.count else {
             throw NativeFailure.decodeFailed("Media handle has no readable container header.")
         }
@@ -149,6 +159,10 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
         pending.removeValue(forKey: ObjectIdentifier(request))
     }
 
+    func currentReadWork() -> MediaInput.ReadWork {
+        queue.sync { .init(readBytes: readBytes, deliveredBytes: delivered) }
+    }
+
     func currentFailure() -> NativeFailure? { queue.sync { failure } }
 
     func stop() {
@@ -186,7 +200,7 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
                 return
             }
             let count = Int(min(Int64(chunkBytes), end - position))
-            if let maximumBytes, count > maximumBytes - delivered {
+            if let maximumBytes, Int64(count) > maximumBytes - delivered {
                 throw NativeFailure(
                     "LIMIT_EXCEEDED", "Media input exceeds its delivered-byte budget.")
             }
@@ -195,10 +209,11 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
                 let actual = chunk.withUnsafeMutableBytes {
                     pread(descriptor.descriptor, $0.baseAddress, count, position)
                 }
+                readBytes += Int64(max(0, actual))
                 guard actual == count else {
                     throw NativeFailure.decodeFailed("Short read from inherited media input.")
                 }
-                if maximumBytes != nil { delivered += count }
+                delivered += Int64(count)
                 data.respond(with: chunk)
             }
             // Yield after every chunk: AVFoundation initially asks for an entire MOV,

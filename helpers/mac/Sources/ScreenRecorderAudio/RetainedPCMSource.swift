@@ -79,7 +79,9 @@ public final class RetainedPCMSource: AudioPCMSource {
             peak: peak, clippedSamples: clipped, maximumBlockFrames: Int(min(8192, range.end - range.start)),
             peakResidentBytes: ProcessResources.peakResidentBytes(),
             decoderContext: .init(policy: "bounded-current-retained-run", sampleRate: 48_000,
-                                  maximumPrerollFrames: 0, maximumTailFrames: 0), unavailable: unavailable)
+                                  maximumPrerollFrames: 0, maximumTailFrames: 0),
+            sourceWork: .init(decoded: [], descriptorReadBytes: 0, descriptorDeliveredBytes: 0,
+                              descriptorInputs: 0, unknownReadInputs: 1), unavailable: unavailable)
     }
     public func write(to output: URL) async throws -> CompositionAudioResult {
         let writer = try AudioWaveWriter(sampleRate: 48_000, frames: range.end - range.start,

@@ -346,6 +346,21 @@ precondition(
 precondition(
     late.decodedFrames <= 48_000, "Late window decoded a source prefix: \(late.decodedFrames)")
 print("Late 20ms window decoded \(late.decodedFrames) native frames from a 60-second source")
+// Descriptor accounting is independent of whether a delivered-byte budget applies.
+let descriptorFile = try FileHandle(forReadingFrom: longSource)
+for purpose in [MediaInput.ReadPurpose.inspection, .streaming] {
+    let input = try MediaInput(url: URL(fileURLWithPath: "/dev/fd/\(descriptorFile.fileDescriptor)"), purpose: purpose)
+    let tracks = try await input.asset.loadTracks(withMediaType: .audio)
+    precondition(!tracks.isEmpty)
+    _ = try await tracks[0].load(.formatDescriptions)
+    let work = input.readWork!
+    FileHandle.standardError.write(Data("Descriptor \(purpose): read=\(work.readBytes) delivered=\(work.deliveredBytes)\n".utf8))
+    precondition(work.deliveredBytes > 0, "Streaming reads must not masquerade as zero I/O")
+    precondition(work.readBytes == work.deliveredBytes + 12)
+}
+try descriptorFile.close()
+let urlInput = try MediaInput(url: longSource)
+precondition(urlInput.readWork == nil, "Opaque AVFoundation URL I/O is unknown")
 let capacitySource = directory.appendingPathComponent("clean-48000.caf")
 let capacitySelection = AudioSourceSelection(
     source: capacitySource.path, sourceOffsetUs: 0, available: [])
