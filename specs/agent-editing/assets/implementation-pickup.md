@@ -40,7 +40,7 @@ Historical workers and measurements retain their own identities below.
   `/tmp/screenrec-19d-repaired-managed/home` is released to the19f owner.
   Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
   Prepared-package-transfer now owns public voice jobs19f; capture-pause-recovery
-  owns the combined package document/history scale gate. Shared voice metadata is
+  owns deep/wide learned-routing scale after completing24u history transfer. Shared voice metadata is
   strict and independent of the active execution profile.
   Candidate native worker there has SHA256
   `2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3`;
@@ -56,6 +56,12 @@ Historical workers and measurements retain their own identities below.
   internal owner with exactly four surviving references, preserved retry IDs and
   byte-identical audio. Root inspected the retained library and reran owner tests.
   This is not public asset retirement or physical garbage collection.
+- **Package history24u:** integrated;1,000 complete revisions and all999 undo
+  mappings survive public transfer, with one actual undo and exact donor-unavailable
+  audio. History insertion no longer redundantly rewrites the project head.
+  Existing request limits and atomicity remain unchanged. See the
+  [evidence](24u-package-history-scale/README.md); deeper learned topology is the
+  next independent scale dimension, not another long-duration run.
 - **Two-hour package24j:** integrated full transfer passes. Original complete WAV,
   recipe, late PCM and newly authored receiver edit/undo survive donor removal
   with processing unavailable. No missing original history is inferred.

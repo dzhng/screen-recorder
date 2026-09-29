@@ -3739,6 +3739,19 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   and preserves stable replay without another reference registry.
 - **Confidence:** high.
 
+## Publish the selected head once when importing history
+
+- **When:** combined document/history scale24u.
+- **Choice:** importing history stores each revision while publishing the selected
+  current revision once. Ordinary edits and undo still advance the current revision
+  within their existing transaction. Request equality, complete history and atomic
+  publication remain unchanged.
+- **Gap:** the plan required complete history and responsiveness but did not specify
+  whether inserting a historical revision should also change the current head.
+- **Verdict:** sound; the two operations have different meanings, and separating
+  them removes repeated writes without dropping history or weakening replay.
+- **Confidence:** high. No new schema, endpoint or configuration is introduced.
+
 ## Measured voice execution envelope
 
 - **When:** registered settings19d (`ca5a4f39`).

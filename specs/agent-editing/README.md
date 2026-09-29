@@ -26,7 +26,8 @@ parity. Earlier failures remain evidence, not missing final gates. Keep parent
 identity, contextual replacement, room tone and listening acceptance open.
 
 Parallel work: address the remaining [audio-domain gaps](assets/acceptance-maintenance/audio-domain.md)
-and combined document/history scale coverage. Low/high rate cohorts are banked;
+and deep/wide routing with learned processing. Combined document/history transfer
+is verified in [24u](slices/24u-package-history-scale.md). Low/high rate cohorts are banked;
 negative occupied-origin conformance remains unverified after zero-origin candidates.
 Advance speech/denoise and stretch
 evidence toward12b/14/15a, then16. Physical20→21 remains a required branch. These
@@ -216,6 +217,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24r — Bounded public history queries](slices/24r-history-query-scale.md)
 - [x] [24s — Retained audio streaming deadline](slices/24s-audio-stream-budget.md)
 - [x] [24t — Retired source-job reference history](slices/24t-job-reference-retirement.md)
+- [x] [24u — Combined document and retained-history transfer](slices/24u-package-history-scale.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

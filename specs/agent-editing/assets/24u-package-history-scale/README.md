@@ -18,6 +18,9 @@ only when PID/start identity still matches. A separate bounded process control
 proves owned parent/child termination, unrelated-process preservation and failed
 report persistence. Acceptance assertions and production source did not change.
 
+[Root verification](root-verification.json) checks the integrated build and
+project/service contracts and independently rehashes every archived member.
+
 ## Failure and attribution
 
 The original public run timed out while adoption nevertheless committed all
