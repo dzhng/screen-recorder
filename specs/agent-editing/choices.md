@@ -2832,3 +2832,17 @@ compiler memoizes its own derived state plan. These are disposable indexes of th
 current frozen revision, never membership authority or inputs from an old graph.
 Whole-domain activation uses the temporal owner's existing range directly; authored
 windows still use its anchored placement resolver.
+
+### Compile the fixed denoiser into the worker (sound, medium confidence)
+
+For local denoising, build the already verified fixed model into the existing
+worker after explicit hash-checked preparation. An agent editing a clip then uses
+the worker's compiled model identity and never triggers a model download. The
+plan required deliberate build adoption but left packaging mechanics open.
+Keeping the earlier isolated package optional would add feature-selection
+machinery; converting weights for runtime loading would require another parity
+proof. Neither is needed merely to preserve the temporary isolated build.
+The ordinary build must explain missing preparation before opaque compiler
+failures. Native linkage/parity and distribution provenance remain explicit
+gates in [15a2](slices/15a2-denoise-prepared-consumers.md); this decision does not
+claim those gates passed or authorize publishing a distribution.

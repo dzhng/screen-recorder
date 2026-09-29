@@ -11,3 +11,25 @@ Add the typed recipe to the existing composition registry/compiler, pinned model
 Verify real gain-before/after noncommutation, dry bypass, split/trim/poison isolation, exact duration/latency and bounded range/full equality, historical revision identities and model-free retained reads. Add only model-specific joins to existing cancellation/retry/restart/fencing/portability tests; no second store or queue. Verify public authoring/discovery/refusal and prepared inspection through CLI/MCP. Runtime scope must remain discoverably constrained until the complete [15a3](./15a3-denoise-acceptance.md) and parent contract is verified.
 
 Next pickup: acquire actual channel provenance through existing prepared/native input owners and bind the fixed RNNoise adapter at the derived ordered prefixes. Do not infer mono or structural dual mono from the existing stereo prepared output format. The complete parent requirements above remain open.
+
+## Native build adoption
+
+Use the frozen compiled model directly in the existing worker. Explicit developer
+and release preparation verifies the local archive and generated source before
+building; the normal app build entry point must report a missing preparation
+prerequisite clearly. The isolated checkpoint's dependency-free app build is not
+a permanent optional-feature requirement. Do not add plugin selection or convert
+weights solely to preserve that temporary arrangement. Worker capability and
+recipe identity must describe the model actually compiled into that worker.
+Preserve direct-entry byte parity before public runtime adoption.
+
+The [pinned upstream notice](https://raw.githubusercontent.com/xiph/rnnoise/70f1d256acd4b34a572f999a05c87bf00b67730d/COPYING)
+must accompany binary distribution. The verified model archive contains generated
+C/headers and training checkpoints, without a separate license file. Its hash
+still matches `helpers/denoise/provenance.json`. The
+[pinned README](https://raw.githubusercontent.com/xiph/rnnoise/70f1d256acd4b34a572f999a05c87bf00b67730d/README)
+describes model downloads but does not explicitly resolve their license. An
+[open upstream request](https://github.com/xiph/rnnoise/issues/284) asks for that
+clarification as of2026-09-28; it is not a maintainer grant. Continue local personal
+integration and retain notices; external model redistribution acceptance remains
+unverified. No upstream contact or new download was performed for this check.
