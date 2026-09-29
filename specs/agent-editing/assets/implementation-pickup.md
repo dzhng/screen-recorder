@@ -1,8 +1,8 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: finish shared normal/recovery publication and recording-package
-verification, then activate the accepted-append writer. Prerecorded input now exercises
+Current priority: finish shared normal/recovery publication and large-work
+operation budgets, then activate the accepted-append writer. Prerecorded input now exercises
 the real recording lifetime. In parallel, complete successful learned-output scaling
 and the remaining temporal and prepared-consumer contracts.
 Settings09b, scoped06/15 and caption17 are verified; whole16/22 and final acceptance
@@ -25,7 +25,7 @@ with independent state per output channel. Listening acceptance remains open.
   acquisition outside the fixture. Next wire typed unavailable-role outcomes, shared
   recovery and layout activation. Preserve existing
   termination ownership, deadlines and generation boundaries. Actual public work
-  beyond old deadlines and remaining recording-package closure still gate activation.
+  beyond old deadlines still gates activation.
   No live device input or interim dual writer mode is authorized.
 - **Canonical source/packages:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
   The [shared materializer/verifier](20c-materializer/README.md) is integrated with
@@ -37,8 +37,11 @@ with independent state per output channel. Listening acceptance remains open.
   impossible timing refuses before phase mutation. Canonical source/acquisition
   and project-package admission now have [combined-root confirmation](20d-canonical-admission/root-verification.json):
   exact PCM, immutable proof/clock verification and relocation/restart pass.
-  Next extend the same proof to recording-domain packages. Existing consumer
-  interval limits and public operation deadlines remain separate integration gates.
+  [Recording-domain packages](20d-recording-package/README.md) now have
+  [combined-root confirmation](20d-recording-package/root-verification.json), including
+  retained-page verification and native workspace lifetime inheritance. Next prove
+  large-work operation budgets and check remaining acquisition-workspace lifetime
+  paths. Existing consumer interval limits remain separate integration gates.
   Readable prefixes never authorize deleting ambiguous tails; cleanup requires
   matching accepted/committed/represented counts and clean indexed decode.
 - **Denoise input/runtime:** `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.

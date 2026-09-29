@@ -1,0 +1,17 @@
+{
+  "commit": "0bdaf7df",
+  "workerSHA256": "805bcb52a3652b9ff1042c26613d3680494282f24f0a6b6eaa56a4c42e34db92",
+  "buildExit": 0,
+  "coreTests": 52,
+  "recordingTests": 5,
+  "publicProjectPassed": true,
+  "verifiedArtifactFiles": 54,
+  "archiveSHA256": "f81142d7b881d7664e5bf4e3ed37ab7c6f112e91799d66553ae2fc80b5d39006",
+  "files": {
+    "0-recording-package-root-build.log": "c26a6d34aafd83f5c75e527e36d4badf052fb4f5847901f529f6e61e5cc5f382",
+    "1-recording-package-root-core.log": "2fc83b5530f4cec0f9fcff7b60436c2cb79429a99ddd914c20346dd5eeb0bec9",
+    "2-recording-package-root-recording.log": "e43f3f0b31e038e1c726251b767f9a67a1d2f20119f9718e12288b9ee54624c0",
+    "3-report.json": "74fb7d269bc3ecf399ca760975a57b153fea2d2f75a9b36b4006def0789a5557"
+  },
+  "scope": "Combined-root canonical recording package source-proof and consumed-page admission, preserved legacy recording cases, project relocation/adoption and exact PCM. No writer activation, physical capture or large-work deadline acceptance."
+}

@@ -15,3 +15,5 @@ An early fixture lacked timed geometry and another assumed stereo where the reco
 ## Remaining rollout
 
 This closes the recording-domain portable source-proof gap alongside the earlier project admission checkpoint. It does not activate packed capture callbacks or close the full publication slice. Typed zero-represented outcomes, writer/recovery integration, long-work operation-specific budgets and physical capture gates remain separate. Verification performs native work during package readiness; existing worker cancellation is retained, and the current short worker deadline is not claimed to cover the measured large fragmented workload.
+
+[Combined-root verification](root-verification.json) confirms the recording and project consumer checks on the integrated build.
