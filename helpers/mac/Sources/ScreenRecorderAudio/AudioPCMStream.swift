@@ -176,7 +176,10 @@ public final class AudioPCMStream: AudioPCMSource {
             throw NativeFailure("INVALID_REQUEST", "Audio stream already consumed.")
         }
         consumed = true
-        let decoders = sources.map { AudioSourceReader(source: $0) }
+        let decoders = sources.map {
+            AudioSourceReader(input: $0.input, asset: $0.asset, track: $0.track,
+                sampleRate: $0.sampleRate, packetFrames: $0.packetFrames, channels: $0.channels)
+        }
         var indices = [Int](repeating: 0, count: sources.count)
         var conversions = [ConvertedAudioInterval?](repeating: nil, count: sources.count)
         defer {

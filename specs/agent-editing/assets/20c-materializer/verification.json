@@ -1,0 +1,46 @@
+{
+  "verifiedArtifacts": 68,
+  "archiveSHA256": "6f2af3b496656684ece121c83d9838ee80e5d17e5c0659fbb83f2863d197ef9c",
+  "workers": {
+    "screenrec-materializer-scale": "796e6ef2420474950fad8191193d41fa828e78c07bace47b42cc5d1d21ff2020",
+    "screenrec-materializer-dense": "d70998d6413cc4813ba6eaf46c2120f5c4fd9e6e1430c0bc4154698d48ac5a81",
+    "screenrec-materializer-batch-measured": "68231564917bef69dd434a1150a78ed48b399c14d98e937747c416acdab87b83",
+    "screenrec-capture-materializer-final": "2785f80b0c2525aa94dcd6eb27412c044a85d6727a288563091c517fcfb8e665"
+  },
+  "finalWorkerArchived": true,
+  "measurementWorkers": "Transient paths/hashes retained; matched outputs and source snapshot archived. Timing instrumentation removed from final worker.",
+  "unchangedCancellationInputs": {
+    "narration.packed.mov": {
+      "before": "e2dcb667e38d35409e18399254f2c1ee808f74d3d91e02cd57df81d3a67b245a",
+      "afterCancellation": "e2dcb667e38d35409e18399254f2c1ee808f74d3d91e02cd57df81d3a67b245a",
+      "equal": true
+    },
+    "capture.journal.jsonl": {
+      "before": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5",
+      "afterCancellation": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5",
+      "equal": true
+    },
+    "candidate.mov": {
+      "before": "78013ec26b6b61b216f5b99956826fcd869f158e353da12fa5a0d495adab6822",
+      "afterCancellation": "78013ec26b6b61b216f5b99956826fcd869f158e353da12fa5a0d495adab6822",
+      "equal": true
+    }
+  },
+  "completeVerificationBatches": 98,
+  "maximumObservedBatchSeconds": 1.685131083,
+  "commands": [
+    "swift run --package-path helpers/mac ScreenRecorderCaptureTests",
+    "swift run --package-path helpers/mac ScreenRecorderSourceAudioTests",
+    "swift run --package-path helpers/mac ScreenRecorderAudioTests",
+    "SCREENREC_MATERIALIZER_OUTPUT=EMPTY SCREENREC_MATERIALIZER_RUNS=100000 SCREENREC_MATERIALIZER_GUARD_SECONDS=180 /tmp/screenrec-materializer-batch-measured",
+    "SCREENREC_MATERIALIZER_DESCRIPTOR_OUTPUT=EMPTY /tmp/screenrec-capture-materializer-final"
+  ],
+  "review": "Independent read-only review findings fixed; no tests run by reviewers. Parent/publication owner coordinates per-record journal cancellation.",
+  "independent100kOracle": {
+    "frames": 192000,
+    "pcmSHA256": "8611dc97095b7d0c9ba1d682ff68de12488753ccf2dec7f370c75cf56f34e4c2",
+    "supportSHA256": "7b822374888f1c7c9034a9edb8997b4ba46a27c0451b97edbf3b4c12c6e9e007",
+    "matched": true,
+    "recipe": "PCM is banked full2sec Float32 bytes repeated twice; run i uses floor(i*192000/100000), next floor as end, declared=physical+i*4800, phase100001us; digest domains/encoding per contract."
+  }
+}

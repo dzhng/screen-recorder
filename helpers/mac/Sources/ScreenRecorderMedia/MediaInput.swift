@@ -6,15 +6,17 @@ import UniformTypeIdentifiers
 /// An inherited handle is a private media address, not a filesystem path to resolve.
 /// Its duplicate outlives the caller's handle; normal paths keep the native URL behavior.
 public final class MediaInput: @unchecked Sendable {
+    /// Whole-file verification keeps descriptor/chunk bounds but may consume more than an inspection budget.
+    public enum ReadPurpose: Sendable { case inspection, streaming }
     public let asset: AVURLAsset
     public let url: URL
     private let loader: DescriptorLoader?
 
-    public init(url: URL) throws {
+    public init(url: URL, purpose: ReadPurpose = .inspection) throws {
         let descriptor = try MediaDescriptor(url: url, writable: false)
         self.url = descriptor?.url ?? url.resolvingSymlinksInPath().standardizedFileURL
         if let descriptor {
-            let loader = try DescriptorLoader(descriptor)
+            let loader = try DescriptorLoader(descriptor, purpose: purpose)
             self.loader = loader
             asset = AVURLAsset(
                 url: URL(
@@ -80,11 +82,12 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
     private var failure: NativeFailure?
     // These bound bytes handed to AVFoundation, whose internal caching is opaque.
     // They apply to bounded inspection calls, not a whole-movie streaming contract.
-    private let maximumBytes = 64 * 1024 * 1024
+    private let maximumBytes: Int?
     private let maximumRequests = 8
     private let chunkBytes = 64 * 1024
 
-    init(_ descriptor: MediaDescriptor) throws {
+    init(_ descriptor: MediaDescriptor, purpose: MediaInput.ReadPurpose) throws {
+        maximumBytes = purpose == .inspection ? 64 * 1024 * 1024 : nil
         self.descriptor = descriptor
         length = try descriptor.size
         var prefix = [UInt8](repeating: 0, count: 12)
@@ -183,7 +186,7 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
                 return
             }
             let count = Int(min(Int64(chunkBytes), end - position))
-            guard count <= maximumBytes - delivered else {
+            if let maximumBytes, count > maximumBytes - delivered {
                 throw NativeFailure(
                     "LIMIT_EXCEEDED", "Media input exceeds its delivered-byte budget.")
             }
@@ -195,7 +198,7 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
                 guard actual == count else {
                     throw NativeFailure.decodeFailed("Short read from inherited media input.")
                 }
-                delivered += count
+                if maximumBytes != nil { delivered += count }
                 data.respond(with: chunk)
             }
             // Yield after every chunk: AVFoundation initially asks for an entire MOV,

@@ -2,6 +2,10 @@ import Foundation
 
 if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
   runCaptureJournalLeaseChild(directory: CommandLine.arguments[1])
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_DESCRIPTOR_OUTPUT"] {
+  try await runCaptureAudioMaterializerDescriptorProbe(output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_OUTPUT"] {
+  try await runCaptureAudioMaterializerScaleProbe(output: output, runs: Int(ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_RUNS"] ?? "128")!)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_FORMAT_OUTPUT"] {
   try await runCaptureAudioFormatProbe(
     output: output,
@@ -33,6 +37,7 @@ if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
   try await runCaptureJournalTests()
   try runCaptureJournalLeaseTests()
   try runPCMJournalTests()
+  try await runCaptureAudioMaterializerTests()
   try await runDeferredPauseTests()
   try runCursorGeometryTests()
   try await runMediaRecoveryTests()

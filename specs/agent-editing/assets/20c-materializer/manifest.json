@@ -1,0 +1,274 @@
+{
+  "materializer-production-scale/10000/candidate.mov": {
+    "bytes": 624697,
+    "sha256": "fe125039114ea7fa44127dced8bf7aa0d8fa0775ad6ee890d635a4a1d8756008"
+  },
+  "materializer-production-scale/10000/capture.journal.jsonl": {
+    "bytes": 2320747,
+    "sha256": "76ada2d6816f4d2afe1cda60c27635b256e695a8ebcbbc795d8bbdfdfc03ecb6"
+  },
+  "materializer-production-scale/10000/narration.packed.mov": {
+    "bytes": 384740,
+    "sha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2"
+  },
+  "materializer-production-scale/10000/report.json": {
+    "bytes": 406,
+    "sha256": "cc5ed130000fe193c7a0ece686fb705ebab0f3f503034a4add8219d3083d7c37"
+  },
+  "materializer-production-scale/10000.log": {
+    "bytes": 356,
+    "sha256": "17571398b45aa7cb83e2e9649ada6317a37698955207cffc3900681497654675"
+  },
+  "materializer-production-scale/1024/candidate.mov": {
+    "bytes": 409249,
+    "sha256": "46e75481f4417cb6eff87385329f63fab5268575a8990605904447d2eb3e1f1d"
+  },
+  "materializer-production-scale/1024/capture.journal.jsonl": {
+    "bytes": 236472,
+    "sha256": "1a4e7f627f409a72860289404f09dece5ad61cb92134a92ba26c2f5d931f7305"
+  },
+  "materializer-production-scale/1024/narration.packed.mov": {
+    "bytes": 384740,
+    "sha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2"
+  },
+  "materializer-production-scale/1024/report.json": {
+    "bytes": 404,
+    "sha256": "ab8ced937a4311c80264d9a5fc2061e110e0262522a20136a670caedb8cdec3c"
+  },
+  "materializer-production-scale/1024.log": {
+    "bytes": 354,
+    "sha256": "ae806390cf024980e252e01b77769b647abb30c6ff7a13132fb3fbb003882c91"
+  },
+  "materializer-production-scale/128/candidate.mov": {
+    "bytes": 387745,
+    "sha256": "b04a218cbd3fae0d4e60c879d43fd259649c8efe5b567b50641e995efe1d0745"
+  },
+  "materializer-production-scale/128/capture.journal.jsonl": {
+    "bytes": 29882,
+    "sha256": "6acc9cb0f949521e2859b206e835bb0493d4eceae322017718934fdd0c6ae08d"
+  },
+  "materializer-production-scale/128/narration.packed.mov": {
+    "bytes": 384740,
+    "sha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2"
+  },
+  "materializer-production-scale/128/report.json": {
+    "bytes": 404,
+    "sha256": "06be13bb5e9e5acbeeff4f88b6169cab72f43374827f98a2c1f7c0b235f9b8e3"
+  },
+  "materializer-production-scale/128.log": {
+    "bytes": 354,
+    "sha256": "692f3df76ad663b2d11a1c81c5978d82dcd79a8d3b1a3f846c1c60548fc691a5"
+  },
+  "materializer-dense-scale/10000/candidate.mov": {
+    "bytes": 624697,
+    "sha256": "dd34079e197bb531aba01010137fce37898712b86772b75c9fbc66975767f7da"
+  },
+  "materializer-dense-scale/10000/capture.journal.jsonl": {
+    "bytes": 2320747,
+    "sha256": "76ada2d6816f4d2afe1cda60c27635b256e695a8ebcbbc795d8bbdfdfc03ecb6"
+  },
+  "materializer-dense-scale/10000/narration.packed.mov": {
+    "bytes": 384740,
+    "sha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2"
+  },
+  "materializer-dense-scale/10000/report.json": {
+    "bytes": 405,
+    "sha256": "eb009cb87a7f088ef7897479a6b4fc12fe9af9b1f3d71fa3d751691415c02be0"
+  },
+  "materializer-dense-scale/10000.log": {
+    "bytes": 355,
+    "sha256": "516c205f8f99de8b4e72ef2a353c68309b1317ec520b0c3663d494280789919b"
+  },
+  "materializer-dense-scale/100000/candidate.mov": {
+    "bytes": 3168705,
+    "sha256": "78013ec26b6b61b216f5b99956826fcd869f158e353da12fa5a0d495adab6822"
+  },
+  "materializer-dense-scale/100000/capture.journal.jsonl": {
+    "bytes": 23450495,
+    "sha256": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5"
+  },
+  "materializer-dense-scale/100000/narration.packed.mov": {
+    "bytes": 768693,
+    "sha256": "e2dcb667e38d35409e18399254f2c1ee808f74d3d91e02cd57df81d3a67b245a"
+  },
+  "materializer-dense-scale/100000/report.json": {
+    "bytes": 207,
+    "sha256": "81f4867e14649549c222d34af30c935fccb8c48fe0ed589f67bc29d9610413c0"
+  },
+  "materializer-dense-scale/100000-sample.log": {
+    "bytes": 120,
+    "sha256": "be0a52a76bb0b583213323bcd55de4f0f07f18365e38a01545cbb7dddf2fc1ab"
+  },
+  "materializer-dense-scale/100000.log": {
+    "bytes": 172,
+    "sha256": "967fd70e4ef2c6798f28c2fdf3e207eb519fbee5edd4faf1d15a68f59dc52244"
+  },
+  "materializer-dense-scale/1024/candidate.mov": {
+    "bytes": 409249,
+    "sha256": "87103be5ac99dc34a5ac4a4a07e011f54f4fbb5d66fd2589f97fb46c2791c2e8"
+  },
+  "materializer-dense-scale/1024/capture.journal.jsonl": {
+    "bytes": 236472,
+    "sha256": "1a4e7f627f409a72860289404f09dece5ad61cb92134a92ba26c2f5d931f7305"
+  },
+  "materializer-dense-scale/1024/narration.packed.mov": {
+    "bytes": 384740,
+    "sha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2"
+  },
+  "materializer-dense-scale/1024/report.json": {
+    "bytes": 397,
+    "sha256": "5adeeda394855b2115dbc660ebb270f68e7e699537b2bdfa5f04a8cb133d14ff"
+  },
+  "materializer-dense-scale/1024.log": {
+    "bytes": 347,
+    "sha256": "1dac9a1e8d6dcc722d1b87ac8864d2f4209aef4e09ff64bffd0623b213a5c0be"
+  },
+  "materializer-dense-scale/128/candidate.mov": {
+    "bytes": 387745,
+    "sha256": "13feda62f5bb77f4a5536e5fe4ddc584d9224ea2b48a2e7e6c0a09e798ba3b5e"
+  },
+  "materializer-dense-scale/128/capture.journal.jsonl": {
+    "bytes": 29882,
+    "sha256": "6acc9cb0f949521e2859b206e835bb0493d4eceae322017718934fdd0c6ae08d"
+  },
+  "materializer-dense-scale/128/narration.packed.mov": {
+    "bytes": 384740,
+    "sha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2"
+  },
+  "materializer-dense-scale/128/report.json": {
+    "bytes": 404,
+    "sha256": "1becc80cfeff8a22a8acf4072be1dd7069ab314ec6c36caa77b02a5f9d1717d0"
+  },
+  "materializer-dense-scale/128.log": {
+    "bytes": 354,
+    "sha256": "8b1e5bcf0eb1eb796e5827f33ecdb6dd78bc2c43a427337271d0d2be74408d8c"
+  },
+  "materializer-dense-localize/candidate.mov": {
+    "bytes": 3168705,
+    "sha256": "78013ec26b6b61b216f5b99956826fcd869f158e353da12fa5a0d495adab6822"
+  },
+  "materializer-dense-localize/capture.journal.jsonl": {
+    "bytes": 23450495,
+    "sha256": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5"
+  },
+  "materializer-dense-localize/narration.packed.mov": {
+    "bytes": 768693,
+    "sha256": "e2dcb667e38d35409e18399254f2c1ee808f74d3d91e02cd57df81d3a67b245a"
+  },
+  "materializer-dense-localize/report.json": {
+    "bytes": 211,
+    "sha256": "debd25463c27a804350ad013a367d53670ecd6fccf4277474359486d62dad37d"
+  },
+  "materializer-batched-100000/candidate.mov": {
+    "bytes": 3168705,
+    "sha256": "78013ec26b6b61b216f5b99956826fcd869f158e353da12fa5a0d495adab6822"
+  },
+  "materializer-batched-100000/capture.journal.jsonl": {
+    "bytes": 23450495,
+    "sha256": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5"
+  },
+  "materializer-batched-100000/narration.packed.mov": {
+    "bytes": 768693,
+    "sha256": "e2dcb667e38d35409e18399254f2c1ee808f74d3d91e02cd57df81d3a67b245a"
+  },
+  "materializer-batched-100000/report.json": {
+    "bytes": 211,
+    "sha256": "a1e7d890beb87ee804ab925fc4e532e37d80b639b2422332a666f3b5636cad37"
+  },
+  "materializer-batched-full100000/candidate.mov": {
+    "bytes": 3168705,
+    "sha256": "e83523233b5b60dbfc70334f80a4dec3f38aab52ea8451afbdb459123c06ca04"
+  },
+  "materializer-batched-full100000/capture.journal.jsonl": {
+    "bytes": 23450495,
+    "sha256": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5"
+  },
+  "materializer-batched-full100000/narration.packed.mov": {
+    "bytes": 768693,
+    "sha256": "acc41d080abdae35db9bf3db6d3336cd8fb01a53cafa910ea60ba99c3f68b279"
+  },
+  "materializer-batched-full100000/report.json": {
+    "bytes": 405,
+    "sha256": "68a43bda45692d522af6a7e84f8932176a1552c5fa9798cef913000373069af4"
+  },
+  "materializer-descriptor-long/long/capture.journal.jsonl": {
+    "bytes": 913,
+    "sha256": "1d5a4c45d235e4c62909095ba026c2ee0a0c47fee69547f497f077bb7b992300"
+  },
+  "materializer-descriptor-long/report.json": {
+    "bytes": 613,
+    "sha256": "9e0a437b8f70cf901d768530773e35ea6e4f29d72aac669c26c3ec60eacdc459"
+  },
+  "materializer-descriptor-long/retained-canonical.mov": {
+    "bytes": 76802313,
+    "sha256": "7bd231f13ef5958eb3a460f98a6221a0a4f1afb107909fbd785e2f7695bd9f35"
+  },
+  "materializer-descriptor-long/retained-packed.mov": {
+    "bytes": 76802277,
+    "sha256": "731523f9ff4be30371c1f16aa5e399053f371d0a3479e741679dfc208980c722"
+  },
+  "materializer-before-dense.swift": {
+    "bytes": 17029,
+    "sha256": "aaa12a4a8e78e336f2b9983f395ddaa19cdc1295b3770ed8d21acfceb5895610"
+  },
+  "packed-marker.swift": {
+    "bytes": 928,
+    "sha256": "c30ed1d990a4d1229cb104d3a1caa307401eb4335fb4adcf90c1093d971b4b18"
+  },
+  "packed-marker.log": {
+    "bytes": 978,
+    "sha256": "97d8db9785924feb17a84d393f9f930a21debdd75e337a83522dde8ddaddaced"
+  },
+  "materializer-hidden-tail-red.log": {
+    "bytes": 2500,
+    "sha256": "e9dee1cfaccd07cf00eefe50dc04d215e5810afe092fe56fb69f4c7c419bbf9c"
+  },
+  "materializer-hidden-tail-red.json": {
+    "bytes": 116,
+    "sha256": "266bbdb1a200d4c668b5b1531d4c32f3aaf2ab07bee26ca5422f1ff6970c66e1"
+  },
+  "materializer-final-capture.log": {
+    "bytes": 4241,
+    "sha256": "867ea28dd67e3c4eacc56b854937973bc581b71c8307a94b07623304da01cb2a"
+  },
+  "materializer-final-source.log": {
+    "bytes": 1174,
+    "sha256": "e704f40f069158ed7705387e50910f6155c8ba683ed7c04e5c6cecf793e1d771"
+  },
+  "materializer-final-audio.log": {
+    "bytes": 1831,
+    "sha256": "a3c4be761d2648ea77883504fd72db6177ddb3d024da04933845cf55ad38e2bf"
+  },
+  "materializer-review.log": {
+    "bytes": 208458,
+    "sha256": "c013b663dc2be65331ddc3e62437949f90064afe2cd3d13fae88588ee09a0970"
+  },
+  "materializer-final-review.log": {
+    "bytes": 182438,
+    "sha256": "03fc92f182dfe32b319df176f3107f595a5c4d9b5a1e0b3fc4d99846989e3a3c"
+  },
+  "materializer-dense-localize.log": {
+    "bytes": 437,
+    "sha256": "ea8ba182146e3a0caae45f75bfa6809b965ccb5ea4e84c3816a8f6cd71b7eddd"
+  },
+  "materializer-batched-100000.log": {
+    "bytes": 176,
+    "sha256": "77af1d425a8f2a72b338972a092d2db7dd3e20fc2637bf1710efa9ff904ce718"
+  },
+  "materializer-batched-full100000.log": {
+    "bytes": 2662,
+    "sha256": "56ae91b060e94880204e89fbbad92b93229dc16bb2b33e27f955cd5718ff78aa"
+  },
+  "materializer-descriptor-long.log": {
+    "bytes": 558,
+    "sha256": "c16d9db0e5718b46c86c170b411e1b2a7a969453546d434f0552d65a45a7c695"
+  },
+  "materializer-platform.txt": {
+    "bytes": 163,
+    "sha256": "8763f1dc3cc77280c1e3004c86903ffcb6a94e572d330943606bce0885fb5bfd"
+  },
+  "screenrec-capture-materializer-final": {
+    "bytes": 23648096,
+    "sha256": "2785f80b0c2525aa94dcd6eb27412c044a85d6727a288563091c517fcfb8e665"
+  }
+}

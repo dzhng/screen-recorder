@@ -1,6 +1,6 @@
 # 20c — Shared sparse capture materialization
 
-Status: planned; [platform feasibility and outer-limit evidence](../assets/20c-platform-feasibility/README.md) retained. Dependencies: [20b](20b-exact-capture-audio.md).
+Status: shared materializer/verifier checkpoint implemented; writer/recovery activation remains pending 20d. [Implementation evidence](../assets/20c-materializer/README.md) and [reviewed choices](../assets/20c-materializer/choices.md); [platform feasibility](../assets/20c-platform-feasibility/README.md) retained. Dependencies: [20b](20b-exact-capture-audio.md).
 
 ## Contract and owner
 

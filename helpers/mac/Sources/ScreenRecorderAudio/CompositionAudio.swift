@@ -151,7 +151,8 @@ public enum CompositionAudio {
                     maximumPreroll = max(maximumPreroll, skip)
                     maximumTail = max(maximumTail, max(0, owed - skip - interval.end + first))
                     conversion = try ConvertedAudioInterval(
-                        source: source, decoder: AudioSourceReader(source: source),
+                        source: source, decoder: AudioSourceReader(input: source.input, asset: source.asset, track: source.track,
+                            sampleRate: source.sampleRate, packetFrames: source.packetFrames, channels: source.channels),
                         origin: contextRange.origin, start: startSample,
                         outputRate: rate, owed: owed, end: contextRange.sourceEnd)
                     var remaining = skip
