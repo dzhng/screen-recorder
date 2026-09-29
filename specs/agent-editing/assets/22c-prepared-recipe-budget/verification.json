@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "nativeSha256": "b95b9bcde50b6a1d0dc83a9bde87ca0ab6d4c8f64d4b0bb179e039a8d4bd5a9c",
+  "occurrences": 4000,
+  "seconds": 1,
+  "completeRecipeBytes": [
+    2625722,
+    2626095,
+    6188505
+  ],
+  "checks": {
+    "exactNativeUnitRateAndGain": true,
+    "publicLearnedPreparationAndRepeat": true,
+    "learnedFullAndLateTransferExact": true,
+    "receiverProcessingUnavailable": true,
+    "unchangedRevisionDocuments": true,
+    "publicRelocationAndReplay": true,
+    "canceledAdoptionInvisibleAndSameRequestRetry": true,
+    "donorAndArchiveRemoved": true,
+    "originalRecipeIdentitiesRetained": true,
+    "adoptedRevisionReferences": true,
+    "speechModelAbsentOnly": true,
+    "learnedTamperedPCMRefused": true,
+    "unavailableExecutorNotInvoked": true,
+    "exactHistoricalAndCurrentPCM": true,
+    "boundedLatePCM": true,
+    "publicAssetAudioExact": true,
+    "missingAndCorruptRetainedPCMRefused": true
+  },
+  "coreTests": 22,
+  "review": "no actionable findings; independently ran19 prepared-audio tests; native journey verified by root",
+  "twoHourPackageAcceptance": false
+}

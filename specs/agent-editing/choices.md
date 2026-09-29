@@ -3412,3 +3412,15 @@ It still compares every earlier field and the normalized file hash exactly, and
 new-format verification includes the message. The plan required immutable source
 preservation but left format handling unspecified. This decision preserves existing
 packages without silently rewriting their proofs or broadly ignoring differences.
+
+
+## 22c — Use the shared resource budget for complete recipes (sound, high confidence)
+
+When thousands of clips produce a multi-megabyte preparation recipe, that recipe
+is stored in its own authenticated package resource, not inside the compact
+manifest. Apply the already selected128MiB aggregate project JSON budget to its
+UTF-8 bytes, retaining the aggregate check across all resources and history.
+This supersedes14a's manifest-sized recipe cap now that20d3 has moved resource
+metadata out of the manifest. The earlier cap would reject valid editable projects;
+truncating their recipes would erase the evidence needed to reuse their audio.
+No new memory budget, storage owner or package format is introduced.

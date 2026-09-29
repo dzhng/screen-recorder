@@ -181,3 +181,9 @@ and the scoped native one-microsecond mask gate. No physical capture was activat
 operational retry is verified by [20d4](20d4-source-admission-retry.md). These scoped
 checkpoints require a combined acceptance reconciliation before closing full20d;
 physical20/21 remains separate.
+
+The aggregate audit identifies two remaining prerecorded proofs: both-role pause
+runs through actual packed finalization/recovery, and recovery after canonical
+publication with an absent or torn terminal diagnostic record. Omitted input,
+clock-only pause tests and a complete injected terminal record do not establish
+those gates. They are the next20d work; no physical device action is needed.

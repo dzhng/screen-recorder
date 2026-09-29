@@ -122,9 +122,15 @@ checks. A first review's live fixture policy finding is fixed; followup has no
 findings. Evidence is in [20d7](20d7-terminal-diagnostics/README.md). Catalog19
 and source-policy-v2 are current; frozen older catalogs remain immutable.
 
-Next align the prepared-audio recipe metadata bound with the existing project
-resource/history JSON budget, preserving complete recipes and aggregate limits.
-A read-only delegate is locating the earlier scale red evidence. Reconcile the
-aggregate20d acceptance afterward. Older worktree diffs are preserved; do not
-reapply them. The full editor goal and all remaining acceptance gates are active;
-no installed-app cutover has occurred.
+[22c](22c-prepared-recipe-budget/README.md) now transfers complete4,000-clip
+recipes (2.6MB unit/gain and6.2MB learned) and exact PCM with receiver processing
+unavailable. Core22 and the actual native public package journey pass; independent
+review has no findings. The two-hour package gate remains separate.
+
+The `terminal_package_policy` delegate is implementing20d8 in the isolated
+`/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder` checkout:
+both-role pause preservation and post-publication absent/torn-terminal recovery.
+These were the aggregate20d audit's two missing prerecorded proofs. Root owns
+integration, parent status and handoff. Older worktree diffs remain preserved;
+do not reapply them. Continue remaining package/scale and audio acceptance while
+that pass runs. The full editor goal remains active; no installed cutover occurred.

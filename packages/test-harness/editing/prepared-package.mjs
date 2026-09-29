@@ -34,6 +34,16 @@ const out = await realpath(resolve(process.argv[3]));
 const scratch = await realpath(await mkdtemp("/tmp/prepared-package-"));
 const donor = join(scratch, "donor"),
   receiver = join(scratch, "receiver");
+const occurrences = Number(process.env.SCREENREC_PREPARED_OCCURRENCES ?? 1);
+assert(
+  Number.isSafeInteger(occurrences) &&
+    occurrences > 0 &&
+    occurrences <= 10000 &&
+    48000 % occurrences === 0 &&
+    1000000 % occurrences === 0,
+  "Occurrences must divide the one-second source into exact samples and microseconds",
+);
+const clipUs = 1000000 / occurrences;
 const worker = mediaWorker(process.env);
 const cli = new URL("../../../apps/cli/dist/main.js", import.meta.url).pathname;
 const report = {
@@ -41,6 +51,7 @@ const report = {
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   scope:
     "historical owner-seeded unit-rate/gain plus public learned preparation; exact portable PCM preservation with processing unavailable; no listening or model-absent binary claim",
+  occurrences,
   trace: [],
   checks: {},
   publications: [],
@@ -184,7 +195,7 @@ try {
     },
   });
   const projectId = created.project.projectId;
-  const first = await call("edit.apply", {
+  let first = await call("edit.apply", {
     projectId,
     requestId: "place",
     expectedRevisionId: created.revision.id,
@@ -196,12 +207,33 @@ try {
           trackId: { label: "audio" },
           assetId: asset.id,
           streamId: asset.streams[0].id,
-          source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
-          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+          source: { kind: "range", range: { startUs: 0, endUs: clipUs } },
+          placement: { kind: "project", range: { startUs: 0, endUs: clipUs } },
         },
       },
     ],
   });
+  const trackId = first.edit.labels.audio;
+  for (let start = 1; start < occurrences; start += 1000) {
+    first = await call("edit.apply", {
+      projectId,
+      requestId: `place-${start}`,
+      expectedRevisionId: first.revision.id,
+      operations: Array.from({ length: Math.min(1000, occurrences - start) }, (_, offset) => {
+        const range = { startUs: (start + offset) * clipUs, endUs: (start + offset + 1) * clipUs };
+        return {
+          operation: "place",
+          clip: {
+            trackId,
+            assetId: asset.id,
+            streamId: asset.streams[0].id,
+            source: { kind: "range", range },
+            placement: { kind: "project", range },
+          },
+        };
+      }),
+    });
+  }
   const latest = await call("edit.apply", {
     projectId,
     requestId: "gain",

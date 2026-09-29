@@ -20,7 +20,9 @@ verified public operations only; the installed app has not switched engines.
 Current pickup and priority:
 
 1. Continue the remaining [package acceptance](slices/22-portable-projects.md),
-   starting with the complete prepared-recipe metadata limit. Retained **project**
+   after the verified [complete prepared-recipe metadata limit](slices/22c-prepared-recipe-budget.md).
+   That checkpoint transfers 4,000-clip recipes and exact historical/current PCM;
+   the full two-hour package gate remains separate. Retained **project**
    playback passes [22b](slices/22b-retained-project-consumers.md) with processing
    unavailable, including historical output and undo.
 2. [Terminal diagnostics](slices/20d7-terminal-diagnostics.md), explicit cleanup,
@@ -283,6 +285,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
+- [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)
 - [ ] [22 — Relocatable editable projects](slices/22-portable-projects.md)
 - [ ] [23 — Cut over all consumers and remove old owners](slices/23-cutover.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)

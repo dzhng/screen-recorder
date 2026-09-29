@@ -653,29 +653,35 @@ test("an adopted ready preparation does not start a replacement job", async () =
 
 test("portable prepared recipes retain a complete many-clip execution graph", async () => {
   const f = await fixture();
-  const revision = f.current.projects.apply(f.input.projectId, {
-    requestId: "many-clips",
-    expectedRevisionId: f.input.revisionId,
-    operations: Array.from({ length: 160 }, (_, index) => ({
-      operation: "place" as const,
-      clip: {
-        trackId: f.placed.edit.labels.track!,
-        assetId: f.asset.id,
-        streamId: "track:1",
-        source: { kind: "range" as const, range: { startUs: 0, endUs: 1000 } },
-        placement: {
-          kind: "project" as const,
-          range: { startUs: 1000000 + index * 1000, endUs: 1000000 + (index + 1) * 1000 },
+  let revision = f.current.projects.revision(f.input.projectId, f.input.revisionId);
+  for (let batch = 0; batch < 4; batch++)
+    revision = f.current.projects.apply(f.input.projectId, {
+      requestId: `many-clips-${batch}`,
+      expectedRevisionId: revision.id,
+      operations: Array.from({ length: 1000 }, (_, index) => ({
+        operation: "place" as const,
+        clip: {
+          trackId: f.placed.edit.labels.track!,
+          assetId: f.asset.id,
+          streamId: "track:1",
+          source: { kind: "range" as const, range: { startUs: 0, endUs: 1000 } },
+          placement: {
+            kind: "project" as const,
+            range: {
+              startUs: 1000000 + (batch * 1000 + index) * 1000,
+              endUs: 1000000 + (batch * 1000 + index + 1) * 1000,
+            },
+          },
         },
-      },
-    })),
-  }).revision;
+      })),
+    }).revision;
   const input = { projectId: f.input.projectId, revisionId: revision.id };
   f.current.prepared.request(input);
   await f.current.jobs.idle();
   const status = f.current.prepared.request(input);
   expect(status.state).toBe("ready");
   const value = JSON.parse(status.published!.result) as PreparedAudio;
+  expect(Buffer.byteLength(status.published!.input)).toBeGreaterThan(2 * 1024 ** 2);
   expect(f.current.prepared.portable(value.resourceId).publication.input).toBe(
     status.published!.input,
   );
