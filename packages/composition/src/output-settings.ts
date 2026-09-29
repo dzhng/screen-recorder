@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-const bitrate = z.int().min(16_000).max(200_000_000);
+const bitrate = z.int().positive().max(0xffff_ffff);
 const rateControl = z.discriminatedUnion("mode", [
-  z.object({ mode: z.literal("average"), bitrate }).strict(),
+  z.object({ mode: z.literal("average"), bitrate: z.int().min(0).max(0x7fff_ffff) }).strict(),
   z.object({ mode: z.literal("constant"), bitrate }).strict(),
   z
     .object({
@@ -18,10 +18,10 @@ const video = z
     codec: z.literal("h264"),
     color: z.literal("rec709"),
     rateControl,
-    profile: z.enum(["baseline", "main", "high"]),
-    level: z.enum(["auto", "3.0", "3.1", "3.2", "4.0", "4.1", "4.2", "5.0", "5.1", "5.2"]),
-    keyframeInterval: z.int().min(1).max(100_000),
-    keyframeIntervalSeconds: z.number().positive().max(3600),
+    profile: z.enum(["baseline", "constrained-baseline", "main", "high", "constrained-high"]),
+    level: z.enum(["auto", "1.3", "3.0", "3.1", "3.2", "4.0", "4.1", "4.2", "5.0", "5.1", "5.2"]),
+    keyframeInterval: z.int().min(0).max(0x7fff_ffff),
+    keyframeIntervalSeconds: z.number().nonnegative(),
     frameReordering: z.boolean(),
     entropy: z.enum(["cavlc", "cabac"]),
     temporalCompression: z.boolean(),
@@ -29,14 +29,13 @@ const video = z
     prioritizeSpeed: z.boolean(),
     powerEfficient: z.boolean(),
     dataRateLimits: z
-      .array(
-        z.object({ bytes: z.int().positive(), seconds: z.number().positive().max(3600) }).strict(),
-      )
-      .max(4),
-    bufferDurationSeconds: z.number().positive().max(60).nullable().default(null),
+      .array(z.object({ bytes: z.int().positive(), seconds: z.number().positive() }).strict())
+      .max(2),
+    bufferDurationSeconds: z.number().positive().nullable().default(null),
     initialBufferDelayPercent: z.number().min(0).max(100).nullable().default(null),
     spatialAdaptiveQuantization: z.boolean(),
-    nonDroppableFrameRate: z.number().positive().max(240).nullable().default(null),
+    lookAheadFrames: z.int().nonnegative().max(0x7fff_ffff).nullable().default(null),
+    nonDroppableFrameRate: z.number().positive().nullable().default(null),
     minimumQuantizer: z.int().min(0).max(51).nullable().default(null),
     maximumQuantizer: z.int().min(0).max(51).nullable().default(null),
   })
@@ -44,13 +43,13 @@ const video = z
 const audio = z
   .object({
     codec: z.literal("aac"),
-    sampleRate: z.union([z.literal(32000), z.literal(44100), z.literal(48000)]),
+    sampleRate: z.int().positive().max(0xffff_ffff),
     layout: z.enum(["mono", "stereo"]),
     rateControl: z.discriminatedUnion("mode", [
       z
         .object({
           mode: z.enum(["constant", "long-term-average", "constrained-variable"]),
-          bitrate: z.int().min(32_000).max(320_000),
+          bitrate: z.int().positive().max(0x7fff_ffff),
         })
         .strict(),
       z
@@ -81,7 +80,7 @@ export const resolvedOutputSettingsSchema = z
     )
       issue("Maximum variable bitrate must not be below target bitrate");
     if (
-      value.video.profile === "baseline" &&
+      ["baseline", "constrained-baseline"].includes(value.video.profile) &&
       (value.video.entropy !== "cavlc" || value.video.frameReordering)
     )
       issue("Baseline profile requires CAVLC and no frame reordering");
@@ -95,12 +94,10 @@ export const resolvedOutputSettingsSchema = z
       value.video.minimumQuantizer > value.video.maximumQuantizer
     )
       issue("Minimum quantizer must not exceed maximum quantizer");
-    if (
-      value.audio.layout === "mono" &&
-      value.audio.rateControl.mode !== "variable" &&
-      value.audio.rateControl.bitrate > 160_000
-    )
-      issue("Mono AAC bitrate must not exceed 160000 bits per second");
+    if (value.video.profile.startsWith("constrained-") && value.video.level !== "auto")
+      issue("Constrained profiles require auto level");
+    if (value.video.level === "1.3" && value.video.profile !== "baseline")
+      issue("Level 1.3 is only available for baseline");
   });
 export type OutputSettings = z.infer<typeof resolvedOutputSettingsSchema>;
 /** An omitted preset selects balanced; individual overrides remain fully inspectable. */
@@ -135,6 +132,7 @@ function preset(bits: number): OutputSettings {
       bufferDurationSeconds: null,
       initialBufferDelayPercent: null,
       spatialAdaptiveQuantization: true,
+      lookAheadFrames: null,
       nonDroppableFrameRate: null,
       minimumQuantizer: null,
       maximumQuantizer: null,
@@ -177,6 +175,7 @@ export const outputVideoControls = {
   bufferDurationSeconds: "VBVBufferDuration",
   initialBufferDelayPercent: "VBVInitialDelayPercentage",
   spatialAdaptiveQuantization: "SpatialAdaptiveQPLevel",
+  lookAheadFrames: "LookAheadFrames",
   "rateControl.quality": "Quality",
   profile: "ProfileLevel",
   level: "ProfileLevel",
@@ -202,7 +201,13 @@ export function outputCapabilities(properties: Record<string, unknown>) {
     audioCodecs: ["aac"],
     internalAudio: { sampleRate: 48000, channels: 2 },
     encodedAudio: {
-      sampleRates: [32000, 44100, 48000],
+      sampleRates: "Queried and validated against the selected native AAC converter",
+      resampling: {
+        exposed: false,
+        publicAlgorithms: ["normal", "mastering", "minimum-phase"],
+        reason:
+          "The writer rejects explicit algorithm selection during encoding; a separate conversion stage is required",
+      },
       layouts: ["mono", "stereo"],
       bitrateStrategies: ["constant", "long-term-average", "constrained-variable", "variable"],
     },
@@ -227,6 +232,37 @@ export function outputCapabilities(properties: Record<string, unknown>) {
       geometry: "Canvas dimensions and rational frame rate belong to the composition.",
       backend:
         "Availability describes this host. Incompatible combinations are rejected by encoder preflight; no substitution.",
+    },
+    conditionalVideo: Object.fromEntries(
+      Object.entries({
+        maxSliceBytes: "MaxH264SliceBytes",
+        maxFrameDelayCount: "MaxFrameDelayCount",
+        referenceBufferCount: "ReferenceBufferCount",
+        baseLayerFrameRate: "BaseLayerFrameRate",
+        baseLayerFrameRateFraction: "BaseLayerFrameRateFraction",
+        baseLayerBitRateFraction: "BaseLayerBitRateFraction",
+      }).map(([name, property]) => [
+        name,
+        {
+          property,
+          exposed: false,
+          backendSupported:
+            (properties[property] as { ReadWriteStatus?: string } | undefined)?.ReadWriteStatus ===
+            "ReadWrite",
+          reason:
+            "Requires a supporting encoder and a verified authored control; unavailable in this output path",
+        },
+      ]),
+    ),
+    encoderSelection: {
+      exposed: false,
+      publicProperties: [
+        "EnableHardwareAcceleratedVideoEncoder",
+        "RequireHardwareAcceleratedVideoEncoder",
+        "PreferredEncoderGPURegistryID",
+        "RequiredEncoderGPURegistryID",
+      ],
+      reason: "Requires verified selection in the actual writer, not only its preflight session",
     },
     unavailable: [
       "HDR and other color transforms",

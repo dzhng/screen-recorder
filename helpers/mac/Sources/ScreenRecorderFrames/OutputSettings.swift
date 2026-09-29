@@ -36,6 +36,7 @@ public struct OutputSettings: Codable, Sendable {
         let dataRateLimits: [DataLimit]
         let bufferDurationSeconds: Double?
         let initialBufferDelayPercent: Double?
+        let lookAheadFrames: Int?
         let spatialAdaptiveQuantization: Bool
         let nonDroppableFrameRate: Double?
         let minimumQuantizer: Int?
@@ -61,7 +62,7 @@ public struct OutputSettings: Codable, Sendable {
                 "constrained-variable": AVAudioBitRateStrategy_VariableConstrained,
                 "variable": AVAudioBitRateStrategy_Variable,
             ]
-            guard codec == "aac", [32000, 44100, 48000].contains(sampleRate),
+            guard codec == "aac", sampleRate > 0,
                 ["mono", "stereo"].contains(layout), let strategy = strategies[rateControl.mode],
                 let quality = qualities[quality]
             else { throw invalid("Unsupported AAC output settings") }
@@ -76,28 +77,49 @@ public struct OutputSettings: Codable, Sendable {
                 }
                 settings[AVEncoderAudioQualityForVBRKey] = vbr
             } else {
-                guard let bits = rateControl.bitrate, bits >= 32000, bits <= channels * 160000
+                guard let bits = rateControl.bitrate, bits > 0
                 else {
                     throw invalid("Unsupported AAC bitrate")
                 }
                 settings[AVEncoderBitRateKey] = bits
+            }
+            guard let input = AVAudioFormat(standardFormatWithSampleRate: 48000, channels: 2),
+                let output = AVAudioFormat(settings: settings),
+                let converter = AVAudioConverter(from: input, to: output)
+            else {
+                throw invalid("AAC cannot convert the requested output format")
+            }
+            converter.bitRateStrategy = strategy
+            if let rates = converter.applicableEncodeSampleRates,
+                !rates.contains(NSNumber(value: sampleRate))
+            {
+                throw invalid("AAC sample rate is not supported for this format")
+            }
+            if rateControl.mode != "variable", let bits = rateControl.bitrate,
+                let rates = converter.applicableEncodeBitRates,
+                !rates.contains(NSNumber(value: bits))
+            {
+                throw invalid("AAC bitrate is not supported for this rate, layout and strategy")
             }
             return settings
         }
     }
     private func compression(frameRate: Double) throws -> [String: Any] {
         guard container == "mp4", video.codec == "h264", video.color == "rec709",
-            ["baseline", "main", "high"].contains(video.profile),
-            ["auto", "3.0", "3.1", "3.2", "4.0", "4.1", "4.2", "5.0", "5.1", "5.2"].contains(
+            ["baseline", "constrained-baseline", "main", "high", "constrained-high"].contains(
+                video.profile),
+            ["auto", "1.3", "3.0", "3.1", "3.2", "4.0", "4.1", "4.2", "5.0", "5.1", "5.2"].contains(
                 video.level)
         else { throw Self.invalid("Unsupported video encoding settings") }
-        let profile = video.profile.prefix(1).uppercased() + video.profile.dropFirst()
+        let profile = video.profile.split(separator: "-")
+            .map { $0.prefix(1).uppercased() + $0.dropFirst() }.joined()
         let level =
             video.level == "auto"
             ? "AutoLevel" : video.level.replacingOccurrences(of: ".", with: "_")
         var values: [String: Any] = [
             kVTCompressionPropertyKey_ProfileLevel as String: "H264_\(profile)_\(level)",
             kVTCompressionPropertyKey_ExpectedFrameRate as String: frameRate,
+            kVTCompressionPropertyKey_RealTime as String: false,
             kVTCompressionPropertyKey_MaxKeyFrameInterval as String: video.keyframeInterval,
             kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration as String: video
                 .keyframeIntervalSeconds,
@@ -110,16 +132,24 @@ public struct OutputSettings: Codable, Sendable {
                 .prioritizeSpeed,
             kVTCompressionPropertyKey_MaximizePowerEfficiency as String: video.powerEfficient,
         ]
+        // AVAssetWriter rejects explicit zero for these VT automatic values; omission has the same meaning.
+        if video.keyframeInterval == 0 {
+            values.removeValue(forKey: kVTCompressionPropertyKey_MaxKeyFrameInterval as String)
+        }
         switch video.rateControl.mode {
         case "average", "constant":
-            guard let bits = video.rateControl.bitrate, bits >= 16000, bits <= 200_000_000 else {
+            guard let bits = video.rateControl.bitrate,
+                bits >= (video.rateControl.mode == "average" ? 0 : 1)
+            else {
                 throw Self.invalid("Unsupported video bitrate")
             }
-            values[
-                (video.rateControl.mode == "average"
-                    ? kVTCompressionPropertyKey_AverageBitRate
-                    : kVTCompressionPropertyKey_ConstantBitRate)
-                    as String] = bits
+            if bits != 0 {
+                values[
+                    (video.rateControl.mode == "average"
+                        ? kVTCompressionPropertyKey_AverageBitRate
+                        : kVTCompressionPropertyKey_ConstantBitRate)
+                        as String] = bits
+            }
         case "variable":
             guard let bits = video.rateControl.bitrate else {
                 throw Self.invalid("Variable bitrate requires a target")
@@ -137,6 +167,9 @@ public struct OutputSettings: Codable, Sendable {
         }
         values[kVTCompressionPropertyKey_SpatialAdaptiveQPLevel as String] =
             video.spatialAdaptiveQuantization ? -1 : 0
+        if let frames = video.lookAheadFrames {
+            values[kVTCompressionPropertyKey_SuggestedLookAheadFrameCount as String] = frames
+        }
         if let duration = video.bufferDurationSeconds {
             values[kVTCompressionPropertyKey_VBVBufferDuration as String] = duration
         }
@@ -225,10 +258,15 @@ public struct OutputSettings: Codable, Sendable {
                 let profile = [0x42: "baseline", 0x4d: "main", 0x64: "high"][Int(pointer[1])]
             else { throw Self.invalid("Encoded H.264 profile cannot be verified") }
             let level = "\(pointer[3] / 10).\(pointer[3] % 10)"
-            guard profile == video.profile, video.level == "auto" || level == video.level else {
+            let constrained = (profile == "baseline" && pointer[2] & 0x40 != 0)
+                || (profile == "high" && pointer[2] & 0x0c == 0x0c)
+            let requestedBase = video.profile.replacingOccurrences(of: "constrained-", with: "")
+            guard profile == requestedBase,
+                !video.profile.starts(with: "constrained-") || constrained,
+                video.level == "auto" || level == video.level else {
                 throw Self.invalid("Encoder changed requested H.264 profile or level")
             }
-            actual = EncodedVideo(profile: profile, level: level)
+            actual = EncodedVideo(profile: video.profile, level: level)
         }
         return actual!
     }

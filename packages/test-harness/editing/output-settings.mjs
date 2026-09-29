@@ -52,6 +52,8 @@ async function preview(projectId, settings, name, extra = {}) {
     baseline: ["Baseline", "Constrained Baseline"],
     main: ["Main"],
     high: ["High"],
+    "constrained-baseline": ["Constrained Baseline"],
+    "constrained-high": ["High", "Constrained High"],
   };
   assert.ok(
     profiles[effective.video.profile].includes(video.profile),
@@ -204,6 +206,33 @@ try {
     ],
     ["baseline-profile", { video: { profile: "baseline", entropy: "cavlc" } }],
     ["main-profile", { video: { profile: "main" } }],
+    ["constrained-baseline", { video: { profile: "constrained-baseline", entropy: "cavlc" } }],
+    ["constrained-high", { video: { profile: "constrained-high" } }],
+    [
+      "automatic-guidance",
+      {
+        video: {
+          keyframeInterval: 0,
+          keyframeIntervalSeconds: 0,
+          lookAheadFrames: 8,
+          rateControl: { mode: "average", bitrate: 0 },
+        },
+      },
+    ],
+    [
+      "low-rate-audio",
+      {
+        audio: {
+          sampleRate: 16000,
+          layout: "mono",
+          rateControl: { mode: "constant", bitrate: 48000 },
+        },
+      },
+    ],
+    [
+      "high-rate-mono",
+      { audio: { layout: "mono", rateControl: { mode: "constant", bitrate: 192000 } } },
+    ],
     ["variable-audio", { audio: { rateControl: { mode: "variable", quality: "high" } } }],
   ])
     await preview(projectId, settings, name);

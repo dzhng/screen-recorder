@@ -23,7 +23,6 @@ test("unknown, contradictory and unsupported settings fail instead of being subs
     { video: { profile: "baseline" } },
     { video: { openGop: true } },
     { video: { minimumQuantizer: 40, maximumQuantizer: 20 } },
-    { audio: { layout: "mono" } },
     {
       video: {
         rateControl: { mode: "constant", bitrate: 4000000 },
@@ -46,4 +45,24 @@ test("authored replay identity is stable when a preset changes", () => {
   } finally {
     outputPresets.balanced.video.rateControl = before;
   }
+});
+
+test("automatic encoder guidance and low-rate AAC remain authored choices", () => {
+  const request = {
+    video: {
+      keyframeInterval: 0,
+      keyframeIntervalSeconds: 0,
+      lookAheadFrames: 8,
+      rateControl: { mode: "average" as const, bitrate: 0 },
+    },
+    audio: {
+      sampleRate: 16000,
+      layout: "mono" as const,
+      rateControl: { mode: "constant" as const, bitrate: 192000 },
+    },
+  };
+  const resolved = resolveOutputSettings(request);
+  expect(resolved.video).toMatchObject(request.video);
+  expect(resolved.audio).toMatchObject(request.audio);
+  expect(resolveOutputSettings(resolved)).toEqual(resolved);
 });
