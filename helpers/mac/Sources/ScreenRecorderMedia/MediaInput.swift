@@ -1,5 +1,6 @@
 @preconcurrency import AVFoundation
 import Darwin
+import AudioToolbox
 import Foundation
 import UniformTypeIdentifiers
 
@@ -30,7 +31,7 @@ public final class MediaInput: @unchecked Sendable {
         }
     }
 
-    /// Descriptor reads include repeated successful pread bytes and the sniff header.
+    /// Descriptor reads include repeated successful pread bytes, header sniffing and type identification.
     /// URL-backed AVFoundation I/O is unknown; these are not physical disk measurements.
     public struct ReadWork: Sendable {
         public let readBytes: Int64
@@ -89,14 +90,16 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
     private var readBytes: Int64 = 0
     private var stopped = false
     private var failure: NativeFailure?
-    // These bound bytes handed to AVFoundation, whose internal caching is opaque.
+    // Identification and AVFoundation delivery share one logical inspection-byte allowance.
     // They apply to bounded inspection calls, not a whole-movie streaming contract.
     private let maximumBytes: Int64?
     private let maximumRequests = 8
     private let chunkBytes = 64 * 1024
 
     init(_ descriptor: MediaDescriptor, purpose: MediaInput.ReadPurpose) throws {
-        maximumBytes = purpose == .inspection ? 64 * 1024 * 1024 : nil
+        // Identification always has a finite cap, including for whole-file streaming.
+        let identificationBudget: Int64 = 64 * 1024 * 1024
+        maximumBytes = purpose == .inspection ? identificationBudget : nil
         self.descriptor = descriptor
         length = try descriptor.size
         var prefix = [UInt8](repeating: 0, count: 12)
@@ -116,6 +119,25 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
             }
             extensionName = "caf"
             contentType = type.identifier
+        } else if prefix.prefix(4).elementsEqual("FORM".utf8),
+            prefix.suffix(4).elementsEqual("AIFF".utf8) || prefix.suffix(4).elementsEqual("AIFC".utf8) {
+            let type = try DescriptorAudioType(prefix.suffix(4).elementsEqual("AIFF".utf8)
+                ? kAudioFileAIFFType : kAudioFileAIFCType)
+            extensionName = type.extensionName
+            contentType = type.contentType
+        } else if prefix.prefix(4).elementsEqual("fLaC".utf8) {
+            let type = try DescriptorAudioType(kAudioFileFLACType)
+            extensionName = type.extensionName
+            contentType = type.contentType
+        } else if prefix.prefix(3).elementsEqual("ID3".utf8)
+            || (prefix[0] == 0xff && prefix[1] & 0xe0 == 0xe0) {
+            // ID3 may prefix other audio, and a sync-looking prefix is not proof of MP3.
+            let headerBytes = readBytes
+            let result = try DescriptorAudioType.identify(descriptor,
+                maximumBytes: identificationBudget - headerBytes)
+            extensionName = result.type.extensionName
+            contentType = result.type.contentType
+            readBytes += result.readBytes
         } else {
             extensionName = "mov"
             contentType = UTType.quickTimeMovie.identifier
@@ -202,9 +224,9 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
                 return
             }
             let count = Int(min(Int64(chunkBytes), end - position))
-            if let maximumBytes, Int64(count) > maximumBytes - delivered {
+            if let maximumBytes, Int64(count) > maximumBytes - readBytes {
                 throw NativeFailure(
-                    "LIMIT_EXCEEDED", "Media input exceeds its delivered-byte budget.")
+                    "LIMIT_EXCEEDED", "Media input exceeds its inspection byte budget.")
             }
             try autoreleasepool {
                 var chunk = Data(count: count)

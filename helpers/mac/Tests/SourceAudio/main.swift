@@ -2,10 +2,11 @@
 import Foundation
 #if DEBUG
 @testable import ScreenRecorderAudio
+@testable import ScreenRecorderMedia
 #else
+import ScreenRecorderMedia
 import ScreenRecorderAudio
 #endif
-import ScreenRecorderMedia
 
 #if DEBUG
 // A seek is an interior point in an already selected native cell, including negative
@@ -346,7 +347,7 @@ precondition(
 precondition(
     late.decodedFrames <= 48_000, "Late window decoded a source prefix: \(late.decodedFrames)")
 print("Late 20ms window decoded \(late.decodedFrames) native frames from a 60-second source")
-// Descriptor accounting is independent of whether a delivered-byte budget applies.
+// Descriptor accounting is independent of whether an inspection-byte budget applies.
 let descriptorFile = try FileHandle(forReadingFrom: longSource)
 for purpose in [MediaInput.ReadPurpose.inspection, .streaming] {
     let input = try MediaInput(url: URL(fileURLWithPath: "/dev/fd/\(descriptorFile.fileDescriptor)"), purpose: purpose)
@@ -359,6 +360,30 @@ for purpose in [MediaInput.ReadPurpose.inspection, .streaming] {
     precondition(work.readBytes == work.deliveredBytes + 12)
 }
 try descriptorFile.close()
+#if DEBUG
+// The platform parser borrows positional reads from a retained descriptor. Its allowance
+// is the caller's remaining inspection budget, including prior header/delivery work.
+let identitySource = try fixture(rate: 48_000, channels: 2, name: "identity", seconds: 0.1)
+let identityFile = try FileHandle(forReadingFrom: identitySource)
+try identityFile.seek(toOffset: 123)
+let identityDescriptor = try MediaDescriptor(
+    url: URL(fileURLWithPath: "/dev/fd/\(identityFile.fileDescriptor)"), writable: false)!
+let identity = try DescriptorAudioType.identify(identityDescriptor, maximumBytes: nil)
+let identityOffset = try identityFile.offset()
+precondition(identityOffset == 123)
+try identityFile.close()
+try FileManager.default.removeItem(at: identitySource)
+let exactIdentity = try DescriptorAudioType.identify(identityDescriptor, maximumBytes: identity.readBytes)
+precondition(exactIdentity.type.contentType == identity.type.contentType)
+precondition(exactIdentity.readBytes == identity.readBytes)
+for remaining in [Int64(0), identity.readBytes - 1] {
+    do {
+        _ = try DescriptorAudioType.identify(identityDescriptor, maximumBytes: remaining)
+        fatalError("Identification exceeded its remaining inspection allowance")
+    } catch let error as NativeFailure { precondition(error.code == "LIMIT_EXCEEDED") }
+}
+print("Container identification exact allowance \(identity.readBytes) bytes; one byte short refused; offset and closed/unlinked lifetime preserved")
+#endif
 let urlInput = try MediaInput(url: longSource)
 precondition(urlInput.readWork == nil, "Opaque AVFoundation URL I/O is unknown")
 let capacitySource = directory.appendingPathComponent("clean-48000.caf")

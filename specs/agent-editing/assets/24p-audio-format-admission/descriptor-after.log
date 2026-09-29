@@ -1,0 +1,13 @@
+✔ inherited video and PNG handles preserve ordinary-path frame bytes after source rename (670.951125ms)
+✔ inherited audio input and WAVE output preserve concatenated PCM after source unlink (167.95425ms)
+✔ descriptor audio fails explicitly at its inspection-byte budget without publishing a partial WAVE (9842.131834ms)
+✔ inherited audio containers preserve selected PCM after unlink, including ID3 and bare MP3 (1052.176541ms)
+✔ malformed ID3 and sync-looking input fail without publishing selected audio (43.70675ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 11807.273791

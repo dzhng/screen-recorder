@@ -1,0 +1,13 @@
+[0/1] Planning build
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write sources
+[3/6] Compiling ScreenRecorderMedia DescriptorAudioType.swift
+[4/6] Emitting module ScreenRecorderMedia
+[4/7] Write Objects.LinkFileList
+[5/7] Linking ScreenRecorderSourceAudioTests
+[6/7] Applying ScreenRecorderSourceAudioTests
+Build of product 'ScreenRecorderSourceAudioTests' complete! (0.73s)
+Descriptor inspection: read=23044110 delivered=23044098
+Descriptor streaming: read=23085070 delivered=23085058
+ScreenRecorderSourceAudioTests/main.swift:382: Fatal error: Identification exceeded its remaining inspection allowance

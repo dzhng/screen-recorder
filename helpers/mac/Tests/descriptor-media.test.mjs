@@ -8,6 +8,7 @@ import {
   rmSync,
   renameSync,
   existsSync,
+  writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -142,7 +143,7 @@ test("inherited audio input and WAVE output preserve concatenated PCM after sour
     rmSync(dir, { recursive: true, force: true });
   }
 });
-test("descriptor audio fails explicitly at its delivered-byte budget without publishing a partial WAVE", () => {
+test("descriptor audio fails explicitly at its inspection-byte budget without publishing a partial WAVE", () => {
   const dir = mkdtempSync(join(tmpdir(), "descriptor-budget-"));
   let fd;
   try {
@@ -186,4 +187,62 @@ test("descriptor audio fails explicitly at its delivered-byte budget without pub
     if (fd !== undefined) closeSync(fd);
     rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test("inherited audio containers preserve selected PCM after unlink, including ID3 and bare MP3", () => {
+  const dir = mkdtempSync(join(tmpdir(), "descriptor-formats-"));
+  try {
+    for (const [extension, codec] of [["wav", "pcm_f32le"], ["aiff", "pcm_s16be"], ["caf", "pcm_f32le"], ["m4a", "aac"], ["mp3", "libmp3lame"], ["flac", "flac"]]) {
+      const source = join(dir, "source." + extension);
+      run("ffmpeg", ["-v", "error", "-f", "lavfi", "-i", "sine=frequency=997:sample_rate=48000:duration=2", "-ac", "2", "-c:a", codec, source]);
+      const variants = [source];
+      if (extension === "mp3") {
+        const b = readFileSync(source);
+        assert.equal(b.subarray(0, 3).toString(), "ID3");
+        const count = 10 + [...b.subarray(6, 10)].reduce((n, v) => n * 128 + v, 0);
+        const bare = join(dir, "bare.mp3"); writeFileSync(bare, b.subarray(count)); variants.push(bare);
+      }
+      if (extension === "flac") {
+        const tagged = join(dir, "tagged.flac");
+        writeFileSync(tagged, Buffer.concat([Buffer.from([73,68,51,4,0,0,0,0,0,0]), readFileSync(source)])); variants.push(tagged);
+      }
+      for (const path of variants) {
+        const selection = { source: path, sourceOffsetUs: 0, available: [{ startUs: 0, endUs: 2000000 }] };
+        const output = path + ".wav", inheritedOutput = path + ".inherited.wav";
+        const ordinary = request("media.sourceAudio", { source: selection, range: { startUs: 500000, endUs: 750000 }, output });
+        assert.equal(ordinary.ok, true, JSON.stringify(ordinary));
+        const fd = openSync(path, "r"); rmSync(path);
+        try {
+          const inherited = request("media.sourceAudio", { source: { ...selection, source: "/dev/fd/3" }, range: { startUs: 500000, endUs: 750000 }, output: inheritedOutput }, [fd]);
+          assert.equal(inherited.ok, true, `${extension}: ${JSON.stringify(inherited)}`);
+          assert.deepEqual(readFileSync(inheritedOutput), readFileSync(output));
+        } finally { closeSync(fd); }
+      }
+    }
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("malformed ID3 and sync-looking input fail without publishing selected audio", () => {
+  const dir = mkdtempSync(join(tmpdir(), "descriptor-malformed-audio-"));
+  try {
+    for (const [name, bytes] of [
+      ["empty-tag", [73, 68, 51, 4, 0, 0, 0, 0, 0, 0, 0, 0]],
+      ["oversize-tag", [73, 68, 51, 4, 0, 0, 127, 127, 127, 127, 0, 0]],
+      ["false-sync", [255, 251, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ]) {
+      const path = join(dir, name), output = path + ".wav";
+      writeFileSync(path, Buffer.from(bytes));
+      const fd = openSync(path, "r");
+      rmSync(path);
+      try {
+        const result = request("media.sourceAudio", {
+          source: { source: "/dev/fd/3", sourceOffsetUs: 0, available: [] },
+          range: { startUs: 0, endUs: 20000 }, output,
+        }, [fd]);
+        assert.equal(result.ok, false, name);
+        assert.equal(result.error.code, "NATIVE_DECODE_FAILED", JSON.stringify(result));
+        assert.equal(existsSync(output), false);
+      } finally { closeSync(fd); }
+    }
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });

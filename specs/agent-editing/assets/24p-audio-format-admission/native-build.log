@@ -1,0 +1,7 @@
+[0/1] Planning build
+Building for debugging...
+[0/3] Write swift-version--1AB21518FC5DEDBE.txt
+[1/4] Write Objects.LinkFileList
+[2/4] Linking screenrec-native
+[3/4] Applying screenrec-native
+Build of product 'screenrec-native' complete! (1.02s)

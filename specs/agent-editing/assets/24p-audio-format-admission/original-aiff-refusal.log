@@ -1,0 +1,3 @@
+ERROR Error Domain=AVFoundationErrorDomain Code=-11829 "Cannot Open" UserInfo={NSUnderlyingError=0x746c3d0e0 {Error Domain=NSOSStatusErrorDomain Code=-12848 "(null)"}, NSLocalizedFailureReason=This media may be damaged., AVErrorFailedDependenciesKey=(
+    "assetProperty_Tracks"
+), NSURL=screenrec-media://F8A6082D-1338-4361-9412-608B341D12DF/source.mov, NSLocalizedDescription=Cannot Open}

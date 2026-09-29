@@ -1,0 +1,30 @@
+✖ inherited audio containers preserve selected PCM after unlink, including ID3 and bare MP3 (235.597541ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 264.425708
+
+✖ failing tests:
+
+test at helpers/mac/Tests/descriptor-media.test.mjs:193:1
+✖ inherited audio containers preserve selected PCM after unlink, including ID3 and bare MP3 (235.597541ms)
+  AssertionError [ERR_ASSERTION]: aiff: {"error":{"code":"NATIVE_DECODE_FAILED","details":{},"message":"Cannot open /dev/fd/3: Cannot Open","retryable":true},"id":"descriptor","ok":false}
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder/helpers/mac/Tests/descriptor-media.test.mjs:218:18)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at Test.start (node:internal/test_runner/test:1015:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:358:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

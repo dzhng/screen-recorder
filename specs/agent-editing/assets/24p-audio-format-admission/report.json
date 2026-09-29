@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "scope": "Inherited descriptor repair; public pathname import preservation only",
+  "base": "0d5e5cbd",
+  "nativeSha256": "22c679a6e4f84a4da8fa844e6336b3561a94d50202ec21629ec38cc763ef7db2",
+  "checks": {
+    "nativeDescriptor": 5,
+    "publicFormats": [
+      "wav",
+      "aiff",
+      "m4a",
+      "mp3",
+      "flac"
+    ],
+    "selectedPCM": "exact bytes; no tolerance",
+    "parserBudget": "exact remaining allowance succeeds, one byte less and zero refuse; guard-bypass mutant fails",
+    "lifetime": "pread leaves offset123; duplicate survives caller close and unlink"
+  },
+  "commands": [
+    "swift build --package-path helpers/mac --disable-automatic-resolution --product screenrec-native",
+    "swift run --package-path helpers/mac --disable-automatic-resolution ScreenRecorderSourceAudioTests",
+    "SCREENREC_NATIVE=helpers/mac/.build/debug/screenrec-native node --test helpers/mac/Tests/descriptor-media.test.mjs",
+    "SCREENREC_NATIVE=<absolute worktree native> node packages/test-harness/editing/audio-format-admission.mjs --out <fresh scratch directory>"
+  ],
+  "review": {
+    "verdict": "No actionable defects",
+    "executionLimit": "Reviewer sandbox could not compile with its toolchain/cache; its existing-worker tests failed even pathname controls. Completed task-run logs independently establish verification."
+  },
+  "limitations": [
+    "Generated FLAC fixture success is not format-wide support.",
+    "Malformed oversized ID3 recognition control limited flag is an out-of-file scratch callback refusal, not evidence of consuming 64 MiB.",
+    "Exact combined inspection accounting is code-reviewed; parser remaining-budget boundary and delivery exhaustion are separate executed gates.",
+    "No dependency installation, live capture or playback."
+  ],
+  "files": {
+    "descriptor-before.log": {
+      "bytes": 1192,
+      "sha256": "609dad954ba48e93c209ac70dd3bb6148b4461e7a9f922fd766adcc5d12d3b01"
+    },
+    "descriptor-after.log": {
+      "bytes": 646,
+      "sha256": "353ae8539b1333e038af89b26c4698fd4a53854bbac1bccf542f63f681e3e717"
+    },
+    "public-before.json": {
+      "bytes": 17369,
+      "sha256": "b1775edc5987866f9ca9b36ef4b78badb4022f665441f523d7edfa036cabc5fa"
+    },
+    "public-after.json": {
+      "bytes": 17369,
+      "sha256": "6e1e4715736815579c383173d8dcd036c34e4960e4c3ad5ee9b75ca5c4cac96f"
+    },
+    "source-audio.log": {
+      "bytes": 1135,
+      "sha256": "efdb3e42d035566ee0c600ff2d059f6f8ba64d7a2096b2f4a36f11e8ac169dc3"
+    },
+    "budget-mutant.log": {
+      "bytes": 641,
+      "sha256": "83992198c9c9b2b44b426b4d7b7a0421ec39fbf29bce70fa2dff6c350b7a94bd"
+    },
+    "native-build.log": {
+      "bytes": 245,
+      "sha256": "4a527b77385a5a730f7b8926ed37138f7d1051093c2809cd291a2ca6f125709c"
+    },
+    "original-mp3-refusal.log": {
+      "bytes": 391,
+      "sha256": "2dbf7d1dd59fb60d5ee28e7997b68a3553c45f70f0ec058fc5760276eb663079"
+    },
+    "original-aiff-refusal.log": {
+      "bytes": 391,
+      "sha256": "97a563c5a42ba641812dbebfd9c342318d05f3195b838ff6669708ac7c2a4ad3"
+    },
+    "recognition-controls.jsonl": {
+      "bytes": 1129,
+      "sha256": "948765b084610324f082c2aaef4f6029e91e0b96fac584cc182b2989e62bc009"
+    }
+  }
+}

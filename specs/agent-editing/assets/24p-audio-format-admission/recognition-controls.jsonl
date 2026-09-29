@@ -1,0 +1,5 @@
+{"extensions":["mp3","mpeg","mpa","m1a","m2a"],"fileType":1297106739,"largestRequest":8192,"limited":false,"offset":123,"path":"\/tmp\/screenrec-format-admission\/bare.mp3","readBytes":16016,"reads":12,"status":0,"utis":["public.mp3"]}
+{"extensions":[],"fileType":0,"largestRequest":8192,"limited":false,"offset":123,"path":"\/tmp\/screenrec-format-admission\/id3-only.bin","readBytes":74,"reads":2,"status":1954115647,"utis":[]}
+{"extensions":["flac"],"fileType":1718378851,"largestRequest":8218,"limited":false,"offset":123,"path":"\/tmp\/screenrec-format-admission\/id3-flac.bin","readBytes":24788,"reads":20,"status":0,"utis":["org.xiph.flac"]}
+{"extensions":[],"fileType":0,"largestRequest":8192,"limited":true,"offset":123,"path":"\/tmp\/screenrec-format-admission\/huge-id3.bin","readBytes":42,"reads":2,"status":1685348671,"utis":[]}
+{"extensions":["m4a","m4r"],"fileType":1832149350,"largestRequest":8192,"limited":false,"offset":123,"path":"\/tmp\/screenrec-audio-rates-verified\/m4a-encoded.m4a","readBytes":9917,"reads":109,"status":0,"utis":["public.mpeg-4-audio","com.apple.m4a-audio","com.apple.mpeg-4-ringtone"]}
