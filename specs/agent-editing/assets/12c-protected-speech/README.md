@@ -5,7 +5,16 @@ repeat the candidate-choice question: the user's [learned-filter preference](../
 stands. No audio was auditioned during assembly, and no speech-quality verdict or
 confirmed word boundary is recorded here.
 
-Start with just these two short pairs; the remaining files are optional context:
+The [user review](user-review.json) found these tiny unfamiliar excerpts confusing.
+The user heard nothing obviously weird but could not understand the words. This
+supplies a scoped no-obvious-artifact observation; intelligibility and word
+retention remain unverified. No further action on these clips was requested.
+Future user comparisons should use complete meaningful sentences from the user's
+recording with one clear listening question. Do not re-present this crop packet
+as required user QA.
+
+The original two short pairs remain below as archived evidence; other files
+provide optional technical context:
 
 1. Opening: [reference](clean-reference-start-candidate.wav), then
    [learned](clean-rnnoise-reference-start-candidate.wav).

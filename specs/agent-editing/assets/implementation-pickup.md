@@ -81,7 +81,9 @@ Negative occupied-origin audio remains unverified after the [bounded fixture fea
 [Audio admission boundaries](08-admission-boundaries/README.md) are characterized through public source/project requests. The original finite cohort showed readiness asymmetry without exposing a defect; the later impulse probe now demonstrates fractional late-window phase inconsistency. Discrete channel-index mapping remains separately preserved.
 
 The [protected-speech packet](12c-protected-speech/README.md) is integratedf1602c26.
-Four short opening/ending reference-versus-learned clips were presented for an
-optional consonant/word-ending check; no answer yet. Prior learned-filter
-preference stands, candidate word boundaries remain unconfirmed, and packet
-assembly did not run new inference or establish listening acceptance.
+The user heard no obvious artifacts in the four short reference/learned clips,
+but found the unfamiliar cropped words confusing and unintelligible. This does
+not close word retention or intelligibility. No further action on those clips
+was requested. Future user comparisons use complete meaningful sentences from
+their own recording and one clear question. Prior learned-filter preference
+stands; candidate boundaries remain unconfirmed and no new inference was run.
