@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "base": "46c45952",
+  "scope": "Prerecorded callback/publisher/recovery and full-service CLI/MCP recovery with idle desktop peer. No physical input, abrupt process kill, power loss, playback or install.",
+  "native": {
+    "workerSHA256": "2a2249c371d35a6d182dfe15c84170a8f4871a79af65ccdf4160465cece14bcf",
+    "testExecutableSHA256": "5ed05a9e7a9cfb0fcec4b42222345a94d93782044a14a95cfe9aaf98c406b2d6",
+    "publicationProbePassed": true,
+    "defaultSuitePassed": true,
+    "normalRecoveryByteParity": true,
+    "parityFixture": "pause-parity-fixture.tar.xz"
+  },
+  "public": {
+    "report": "public-report.json.gz",
+    "cases": [
+      "absent-terminal",
+      "torn-terminal"
+    ],
+    "sourcePolicy": "native-source-v2",
+    "recordingAndSourceEvidence": true,
+    "restart": true,
+    "sourceFilesUnchanged": true,
+    "runtime": "Reused parent built service/CLI/core outputs via temporary local symlinks; newly built isolated native worker. No TypeScript production change in this pass.",
+    "captureJsSHA256": "476e7914f16fdfc98d5e938dc35a274f7b883114f62344eee69fe11a217ba903",
+    "serviceMainJsSHA256": "9657eea091d8cf3e6c899d19aabee941a5efda53f542ddb13cb3984ea0932637"
+  },
+  "falsification": [
+    {
+      "mutation": "recordAcceptedPCM removedPauseUs forced to zero",
+      "expectedFailure": "Canonical source placement must remove exactly the observed pause",
+      "restored": true
+    },
+    {
+      "mutation": "MediaRecovery marks journal finished unconditionally",
+      "expectedFailure": "Native terminal boundary requires finished false and completion nil",
+      "restored": true
+    }
+  ],
+  "setupCorrections": [
+    "Pause-aware duration lower bound replaces unpaused-only fixture expectation.",
+    "Schema2 journal read replaces legacy inspect in the new pause assertion.",
+    "Worktree reuses installed dependency/dist outputs; initial missing model/dependency setup failures were not product failures."
+  ],
+  "review": {
+    "result": "No actionable defects",
+    "limitations": "Reviewer native execution blocked by compiler/SDK mismatch; implementation focused and default native runs passed."
+  },
+  "commands": [
+    "swift build --package-path helpers/mac --product ScreenRecorderCaptureTests",
+    "SCREENREC_NATIVE_PUBLICATION_OUTPUT=<new output> SCREENREC_CAPTURE_GAP_CORPUS=<00-corpus> helpers/mac/.build/debug/ScreenRecorderCaptureTests",
+    "helpers/mac/.build/debug/ScreenRecorderCaptureTests",
+    "SCREENREC_NATIVE=<native worker> node packages/test-harness/editing/capture-terminal-boundaries.mjs <native output>"
+  ]
+}

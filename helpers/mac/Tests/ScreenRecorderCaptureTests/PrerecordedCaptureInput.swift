@@ -16,6 +16,10 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     var onFailure: (@Sendable (CaptureFailure) -> Void)?
     var audio: URL?
     var omittedAudioBuffer: Int?
+    var pauseJournal: URL?
+    var pauseBounds: (start: Int64, end: Int64)?
+    var rejectedAudioBuffers = 0
+    var expectedPlacements: [(first: Int64, frames: Int64, removedUs: Int64)] = []
     var audioRoles: [SCStreamOutputType] = [.microphone]
     var expectedPCM = Data()
     var expectedRate: Int64 = 0
@@ -42,7 +46,19 @@ final class PrerecordedCaptureInput: CaptureInputSession {
         precondition(reader.startReading())
         // An inert SCStream only supplies the existing callback's identity. Never start it.
         let stream = SCStream(filter: SCContentFilter(), configuration: SCStreamConfiguration(), delegate: nil)
-        let origin = CaptureHostTime.nowUs() - (audio == nil ? 400_000 : 3_000_000)
+        var origin = CaptureHostTime.nowUs() - (audio == nil ? 400_000 : 3_000_000)
+        if let pauseJournal {
+            writer.pause()
+            try await Task.sleep(for: .milliseconds(20))
+            writer.resume()
+            let events = try String(contentsOf: pauseJournal, encoding: .utf8).split(separator: "\n").map {
+                try JSONSerialization.jsonObject(with: Data($0.utf8)) as! [String: Any]
+            }
+            let began = events.first { $0["event"] as? String == "pauseBegan" }!["data"] as! [String: Any]
+            let ended = events.first { $0["event"] as? String == "pauseEnded" }!["data"] as! [String: Any]
+            pauseBounds = (began["hostUs"] as! Int64, ended["hostUs"] as! Int64)
+            origin = pauseBounds!.start - 800_000
+        }
         while let sample = output.copyNextSampleBuffer() {
             let timed = try captureFixtureRetimed(sample,
                 at: CMTimeAdd(time(microseconds: origin), sample.presentationTimeStamp))
@@ -80,8 +96,18 @@ final class PrerecordedCaptureInput: CaptureInputSession {
                                 CMBlockBufferCopyDataBytes(block, atOffset: 0, dataLength: $0.count, destination: $0.baseAddress!)
                             }
                             precondition(status == noErr)
-                            expectedPCM.append(bytes)
                             offeredAudioBuffers += 1
+                            let host = microseconds(raw.presentationTimeStamp)
+                            let end = host + Int64((Double(sample.numSamples) * 1_000_000 / format.mSampleRate).rounded())
+                            let excluded = pauseBounds.map { host < $0.end && end > $0.start } ?? false
+                            if excluded { rejectedAudioBuffers += 1 }
+                            else {
+                                expectedPCM.append(bytes)
+                                let removed = pauseBounds.map { host >= $0.end ? $0.end - $0.start : 0 } ?? 0
+                                let relative = CMTimeSubtract(sample.presentationTimeStamp, time(microseconds: removed))
+                                let first = CMTimeConvertScale(relative, timescale: Int32(expectedRate), method: .roundHalfAwayFromZero).value
+                                expectedPlacements.append((first, Int64(sample.numSamples), removed))
+                            }
                         }
                     }
                     index += 1
@@ -90,6 +116,10 @@ final class PrerecordedCaptureInput: CaptureInputSession {
                 }
                 precondition(reader.status == .completed)
             }
+        }
+        if pauseBounds != nil {
+            let waitUs = origin + 2_500_000 - CaptureHostTime.nowUs()
+            if waitUs > 0 { try await Task.sleep(for: .microseconds(waitUs)) }
         }
     }
     func startCursorSampling(writer: CaptureWriter) {}

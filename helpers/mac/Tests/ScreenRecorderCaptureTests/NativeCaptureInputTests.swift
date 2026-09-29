@@ -51,12 +51,13 @@ func runNativeCapturePublicationProbe(output: String, corpus: String) async thro
     }
     var supportHashes: [String] = []
     var normalPCMHash: String?
-    for mode in child ? ["interrupted-before-publication"] : ["normal", "retry-before-publication", "interrupted-before-publication", "publication-conflict", "unreadable-packed", "requested-missing"] {
+    for mode in child ? ["interrupted-before-publication"] : ["normal", "pause", "retry-before-publication", "interrupted-before-publication", "publication-conflict", "unreadable-packed", "requested-missing"] {
         let folder = root.appendingPathComponent(mode)
         let input = PrerecordedCaptureInput(source: video)
         if mode != "requested-missing" {
             input.audio = URL(fileURLWithPath: corpus).appendingPathComponent("a-audio.wav")
-            input.omittedAudioBuffer = 4
+            input.omittedAudioBuffer = mode == "pause" ? nil : 4
+            if mode == "pause" { input.pauseJournal = folder.appendingPathComponent("capture.journal.jsonl") }
             input.audioRoles = [.microphone, .audio]
         }
         input.holdStop = ["interrupted-before-publication", "retry-before-publication", "unreadable-packed"].contains(mode)
@@ -113,16 +114,20 @@ func runNativeCapturePublicationProbe(output: String, corpus: String) async thro
                 if mode == "requested-missing" { precondition(result.failure?.code == "NO_NARRATION") }
                 else {
                     for track in result.tracks where track.role != "video" {
-                        precondition(track.samples == input.offeredAudioBuffers && track.droppedSamples == 0)
+                        precondition(track.samples == input.offeredAudioBuffers - input.rejectedAudioBuffers && track.droppedSamples == 0 && track.omittedSamples == input.rejectedAudioBuffers)
                     }
                 }
                 precondition(result.cursor.sampled == 0)
                 capture = nil
             }
         }
+        let publishedNames = mode == "pause" ? ["narration.mov", "system.mov", "narration.publication.json", "system.publication.json"] : []
+        let normalPublication = try publishedNames.map { try Data(contentsOf: folder.appendingPathComponent($0)) }
         let recovered = try await MediaRecovery.recover(directory: folder.path)
+        let recoveredPublication = try publishedNames.map { try Data(contentsOf: folder.appendingPathComponent($0)) }
+        precondition(normalPublication == recoveredPublication, "Recovery must retain normal pause publications byte-for-byte")
         try JSONEncoder().encode(recovered).write(to: folder.appendingPathComponent("recovery.json"))
-        precondition(recovered.durationUs >= 2500000 || mode == "requested-missing")
+        precondition(recovered.durationUs >= 2500000 - (input.pauseBounds.map { $0.end - $0.start } ?? 0) || mode == "requested-missing")
         if mode == "requested-missing" {
             precondition(recovered.tracks.filter { $0.role != "video" }.allSatisfy { $0.failure?.code == "AUDIO_UNAVAILABLE" && $0.intervals.isEmpty })
             continue
@@ -148,10 +153,77 @@ func runNativeCapturePublicationProbe(output: String, corpus: String) async thro
                 from: Data(contentsOf: folder.appendingPathComponent("\(role).publication.json")))
             precondition(receipt.pcmSHA256 == expectedHash, "Canonical PCM must equal independently decoded offered samples excluding the known omission")
             precondition(receipt.acceptedFrames == receipt.representedFrames)
-            supportHashes.append(receipt.supportSHA256)
+            if mode == "pause" {
+                precondition(input.rejectedAudioBuffers > 0, "The pause must exclude offered audio")
+                let journal = try CaptureJournal.readEvidence(directory: folder.path, maximumBytes: nil, retainTiming: true, geometry: { _ in }, samples: { _ in }, displaySpace: { _ in }, layout: 2)
+                precondition(journal.pauses.count == 1 && journal.pauses[0].atSourceUs == 800000
+                    && journal.pauses[0].elapsedPauseUs == input.pauseBounds!.end - input.pauseBounds!.start)
+                var support = SHA256()
+                support.update(data: Data("screenrec.capture-support.v1\0".utf8))
+                func integer(_ value: Int64) { var little = value.littleEndian; support.update(data: withUnsafeBytes(of: &little) { Data($0) }) }
+                integer(input.expectedRate); integer(input.expectedChannels); integer(100001)
+                var runs: [(physical: Int64, first: Int64, count: Int64, removed: Int64)] = []
+                var physical: Int64 = 0
+                for span in input.expectedPlacements {
+                    if let last = runs.last, last.first + last.count == span.first, last.removed == span.removedUs {
+                        runs[runs.count - 1].count += span.frames
+                    } else { runs.append((physical, span.first, span.frames, span.removedUs)) }
+                    physical += span.frames
+                }
+                precondition(runs.count == 2, "Both sides of the pause must survive")
+                for run in runs { integer(run.physical); integer(run.first); integer(run.count) }
+                let expectedSupport = support.finalize().map { String(format: "%02x", $0) }.joined()
+                precondition(receipt.supportSHA256 == expectedSupport, "Canonical source placement must remove exactly the observed pause")
+                try JSONSerialization.data(withJSONObject: ["pcmSHA256": expectedHash, "supportSHA256": expectedSupport,
+                    "pauseStartHostUs": input.pauseBounds!.start, "pauseEndHostUs": input.pauseBounds!.end,
+                    "acceptedFrames": physical, "excludedBuffers": input.rejectedAudioBuffers,
+                    "runs": runs.map { ["physical": $0.physical, "first": $0.first, "count": $0.count, "removedPauseUs": $0.removed] }],
+                    options: [.prettyPrinted, .sortedKeys]).write(to: folder.appendingPathComponent("\(role)-oracle.json"))
+                precondition(recovered.tracks.first { $0.role == role }!.intervals.count == runs.count)
+            } else { supportHashes.append(receipt.supportSHA256) }
             precondition(recovered.tracks.first { $0.role == role }!.intervals.count == 2)
         }
     }
     precondition(Set(supportHashes).count == 1, "Normal and interrupted recovery preserve the same admitted source support")
+    if !child { try await verifyPublishedTerminalBoundaries(root: root) }
     print("PASS actual NativeCapture normal/interrupted publication preserves independent PCM, both roles, exact shared support and requested-missing refusal")
+}
+
+/// Reconstruct the durable boundary after canonical publication, before its terminal journal append.
+private func verifyPublishedTerminalBoundaries(root: URL) async throws {
+    let donor = root.appendingPathComponent("normal")
+    let journal = try Data(contentsOf: donor.appendingPathComponent("capture.journal.jsonl"))
+    let lines = journal.split(separator: 10)
+    let terminal = try lines.firstIndex { line in
+        let record = try JSONSerialization.jsonObject(with: Data(line)) as! [String: Any]
+        return record["event"] as? String == "finished"
+    }!
+    let prefix = lines.prefix(terminal).reduce(into: Data()) { $0.append(contentsOf: $1); $0.append(10) }
+    let names = ["capture.journal.jsonl", "video.mov", "narration.mov", "system.mov", "narration.publication.json", "system.publication.json"]
+    for boundary in ["absent-terminal", "torn-terminal"] {
+        let folder = root.appendingPathComponent(boundary)
+        try FileManager.default.copyItem(at: donor, to: folder)
+        var bytes = prefix
+        if boundary == "torn-terminal" { bytes.append(contentsOf: lines[terminal].prefix(lines[terminal].count / 2)) }
+        try bytes.write(to: folder.appendingPathComponent("capture.journal.jsonl"))
+        let before = try names.map { try Data(contentsOf: folder.appendingPathComponent($0)) }
+        for _ in 0..<2 {
+            let recovered = try await MediaRecovery.recover(directory: folder.path)
+            precondition(recovered.journal?.finished == false && recovered.journal?.completion == nil)
+            precondition(recovered.journal?.incompleteTail == (boundary == "torn-terminal"))
+            precondition(recovered.journal?.invalidAtSequence == nil && recovered.journalFailure == nil)
+            precondition(recovered.durationUs > 0 && recovered.tracks.allSatisfy { $0.failure == nil })
+            for role in ["narration", "system"] {
+                let retained = try JSONDecoder().decode(CaptureAudioPublication.Receipt.self,
+                    from: Data(contentsOf: folder.appendingPathComponent("\(role).publication.json")))
+                precondition(recovered.tracks.first { $0.role == role }?.representedFrames?.wrappedValue == retained.representedFrames)
+            }
+            let after = try names.map { try Data(contentsOf: folder.appendingPathComponent($0)) }
+            precondition(after == before, "Recovery must not invent a terminal record or change durable publication")
+            try JSONEncoder().encode(recovered).write(to: folder.appendingPathComponent("recovery.json"))
+        }
+    }
+    let unchanged = try Data(contentsOf: donor.appendingPathComponent("capture.journal.jsonl"))
+    precondition(unchanged == journal)
+    print("PASS published canonical audio survives absent/torn terminal journal records with truthful completion and unchanged source bytes")
 }
