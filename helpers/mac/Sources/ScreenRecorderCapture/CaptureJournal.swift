@@ -1,4 +1,5 @@
 import Darwin
+import CryptoKit
 import Foundation
 import ScreenRecorderMedia
 
@@ -73,8 +74,15 @@ public struct CaptureJournalSummary: Codable, Sendable {
     public var invalidAtSequence: Int?
     public var finished = false
     public var completion: JournalCompletion?
+    /// Internal mapping provenance; ordinary inspection never publishes this as acquisition.
+    package var validatedPrefix: JournalPrefix?
 
     public init() {}
+}
+
+package struct JournalPrefix: Codable, Sendable, Equatable {
+    package let bytes: Int64
+    package let sha256: String
 }
 
 // One capture queue owns append order. Media bytes never enter this journal.
@@ -297,6 +305,8 @@ public final class CaptureJournal {
     ) throws -> CaptureJournalSummary {
         var summary = CaptureJournalSummary()
         var pcm = JournalPCMState()
+        var prefixHash = pcmAppend == nil ? nil : SHA256()
+        var prefixBytes: Int64 = 0
         // At most one pending interval per supported role; the stream never accumulates gaps.
         var pendingAudio: [String: JournalAudioSamples] = [:]
         func emitAudio(_ interval: JournalAudioSamples) throws {
@@ -408,6 +418,11 @@ public final class CaptureJournal {
                 }
             case .other: break
             }
+            if pcmAppend != nil {
+                prefixHash?.update(data: line)
+                prefixHash?.update(data: Data([10]))
+                prefixBytes += Int64(line.count) + 1
+            }
             return true
         }
         switch end {
@@ -417,6 +432,10 @@ public final class CaptureJournal {
         }
         for role in ["narration", "system"] {
             if let interval = pendingAudio[role] { try emitAudio(interval) }
+        }
+        if let digest = prefixHash?.finalize() {
+            summary.validatedPrefix = JournalPrefix(
+                bytes: prefixBytes, sha256: digest.map { String(format: "%02x", $0) }.joined())
         }
         return summary
     }

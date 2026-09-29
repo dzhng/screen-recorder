@@ -1,0 +1,21 @@
+{
+  "scope": "exact validated schema2 mapping prefix only; not committed media or publication proof",
+  "redExitCode": 133,
+  "redAssertion": "Accepted journal read must identify its exact validated byte prefix",
+  "greenExitCode": 0,
+  "reviewExitCode": 0,
+  "review": "read-only; no actionable findings",
+  "independentRawPrefixCheck": true,
+  "fixture": "../20b-pcm-journal/capture.journal.jsonl",
+  "sourceHashes": {
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift": "42f9a1fabcd13c7c53e817cadd135828fc5b4af98e1a8656f3639a21bc0eb4da",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/PCMJournalTests.swift": "7c6fd6fac3550124f2421c8f43953a16064ed4c3b8b9689d40eb1fd72158ad99"
+  },
+  "files": {
+    "build.log.gz": "3895076be5cef346fb3c5edd4474d2a494c1d079709098feaffe396041345d73",
+    "review.log.gz": "06a0711aa9c8d6c42994e97caff802e789a25be33f04dbc1a0c06022d5319754",
+    "validated-prefix.json": "18171ee49aafe51e7f612f8d9b811c569245ca9bc5acfb4156d0dd62cfbe55e4",
+    "green.log.gz": "9512a4898930d29e490aca72fc2db2bc49f8dfaddf131f84e051882d393ee30e",
+    "red.log.gz": "d14ca6a86c2ccb02cfbf92a63b281d5a9d0a7e4ebe2163251a3808359db7d0b0"
+  }
+}

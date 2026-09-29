@@ -12,6 +12,8 @@ existing Capture/Media dependency direction. Reuse SourceSegment/container seman
 and extract reusable decode primitives if needed rather than copying recovery.
 
 Input is an immutable packed payload plus a validated streamed journal prefix.
+The journal owner's [exact prefix token](../assets/20b-journal-prefix/README.md)
+identifies validated raw bytes; it is not itself proof of committed media.
 Output identifies the represented physical frame prefix, declared occupied/empty
 source segments, diagnostics and canonical candidate. Source time comes from the
 CaptureClock evidence established by 20b. No inserted silence, per-reader map,

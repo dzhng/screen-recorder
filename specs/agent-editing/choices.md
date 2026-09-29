@@ -2735,3 +2735,13 @@ does not turn mapping records into acquired intervals. This fills the staging ga
 between approved format work and later publication without a permissive alternate
 parser or packet array. Confidence: high for the staged isolation; actual committed
 prefix admission remains an explicit20c/20d obligation.
+
+### Bind recovery to original validated journal bytes (sound)
+
+When a recording gains later lifecycle records, a whole-file hash changes even
+though the mappings used to construct an earlier candidate have not. The existing
+journal decoder now returns the byte count and hash of its validated prefix to
+internal recovery consumers. A candidate can later name those exact bytes instead
+of relying on a sequence number or re-serialized JSON. This token stays out of
+ordinary inspection and does not claim that mapped audio reached disk. Confidence:
+high; it gives20c/20d one provenance owner without another parsing or storage path.

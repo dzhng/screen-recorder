@@ -1,4 +1,5 @@
 import CoreMedia
+import CryptoKit
 import Foundation
 import ScreenRecorderCapture
 
@@ -59,6 +60,25 @@ func runPCMJournalTests() throws {
     legacy.header == nil && legacy.invalidAtSequence == 1 && legacy.acquiredAudio.isEmpty)
   let path = directory.appendingPathComponent("capture.journal.jsonl")
   let frozen = try Data(contentsOf: path)
+  func assertPrefix(_ actual: JournalPrefix?, bytes: Data) {
+    let digest = SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined()
+    precondition(actual?.bytes == Int64(bytes.count) && actual?.sha256 == digest,
+      "Accepted journal read must identify its exact validated byte prefix")
+  }
+  assertPrefix(read.validatedPrefix, bytes: frozen)
+  if retained != nil {
+    try JSONEncoder().encode(read.validatedPrefix).write(to: directory.appendingPathComponent("validated-prefix.json"))
+  }
+  precondition(legacy.validatedPrefix == nil)
+  let serialized = try JSONSerialization.jsonObject(with: JSONEncoder().encode(read)) as! [String: Any]
+  precondition(serialized["validatedPrefix"] == nil, "Mapping provenance must not change ordinary wire summaries")
+  _ = try journal.recordLifecycle(state: "finalizing", reason: nil)
+  let extended = try Data(contentsOf: path)
+  let later = try CaptureJournal.streamAcceptedPCM(directory: directory.path) { _ in }
+  assertPrefix(later.validatedPrefix, bytes: extended)
+  precondition(later.validatedPrefix != read.validatedPrefix)
+  assertPrefix(read.validatedPrefix, bytes: Data(extended.prefix(frozen.count)))
+  try frozen.write(to: path, options: .atomic)
   let lines = String(data: frozen, encoding: .utf8)!.split(separator: "\n").map(String.init)
   func checkPrefix(_ altered: [String], acceptedCount: Int, invalid: Int?, torn: Bool = false)
     throws
@@ -72,7 +92,13 @@ func runPCMJournalTests() throws {
     precondition(prefix == Array([Int64(0), 8192].prefix(acceptedCount)))
     precondition(result.invalidAtSequence == invalid && result.incompleteTail == torn)
     precondition(result.acquiredAudio.isEmpty)
+    let validCount = invalid.map { $0 - 1 } ?? (altered.count - (torn ? 1 : 0))
+    precondition(result.lastSequence == validCount)
+    let validLines = Array(altered.prefix(validCount))
+    let validBytes = Data((validLines.isEmpty ? "" : validLines.joined(separator: "\n") + "\n").utf8)
+    assertPrefix(result.validatedPrefix, bytes: validBytes)
   }
+  try checkPrefix(lines.map { "  " + $0 + " \t\r" }, acceptedCount: 2, invalid: nil)
   // Terminated corruption and an uncommitted final line retain the same earlier mapping only.
   var corrupt = lines
   corrupt[4] = corrupt[4].replacingOccurrences(
