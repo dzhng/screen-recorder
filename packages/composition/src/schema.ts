@@ -119,7 +119,41 @@ export const textSourceSchema = z
     wrap: z.boolean(),
   })
   .strict();
-export const textClipSchema = z.object({ ...clipFields, source: textSourceSchema }).strict();
+export const textSeedSchema = z
+  .object({
+    kind: z.literal("transcript"),
+    source: mediaClipSchema.pick({ assetId: true, streamId: true, acquisitionId: true }),
+    generation: id,
+    occurrenceClipId: id,
+    words: z
+      .array(z.object({ ordinal: time, sourceRange: rangeSchema }).strict())
+      .min(1)
+      .max(1000)
+      .readonly(),
+  })
+  .strict();
+export const textSeedCueSchema = textSeedSchema
+  .omit({ kind: true })
+  .extend({
+    words: textSeedSchema.shape.words.unwrap(),
+    trackId: id,
+    label: id.optional(),
+    separator: z.string().max(32),
+    anchor: z.enum(["project", "content", "clip"]),
+    style: textSourceSchema.omit({ kind: true, text: true }),
+  })
+  .strict();
+export const textSeedCuesSchema = z
+  .array(textSeedCueSchema)
+  .min(1)
+  .max(1000)
+  .refine(
+    (cues) => cues.reduce((count, cue) => count + cue.words.length, 0) <= 10000,
+    "Text seed batch exceeds 10000 word pins",
+  );
+export const textClipSchema = z
+  .object({ ...clipFields, source: textSourceSchema, seed: textSeedSchema.optional() })
+  .strict();
 export const clipSchema = z.union([mediaClipSchema, silenceClipSchema, textClipSchema]);
 export const streamSchema = z.discriminatedUnion("kind", [
   z
@@ -314,13 +348,34 @@ export type Asset = z.infer<typeof assetSchema>;
 export type Composition = z.infer<typeof compositionSchema>;
 
 export type TextSource = z.infer<typeof textSourceSchema>;
-export function clipAssetIds(clip: { source: Clip["source"]; assetId?: string }): string[] {
+export type TextSeed = z.infer<typeof textSeedSchema>;
+export type TextSeedCue = z.infer<typeof textSeedCueSchema>;
+export function clipAssetIds(clip: {
+  source: Clip["source"];
+  assetId?: string;
+  seed?: Pick<TextSeed, "source"> | undefined;
+}): string[] {
   return clip.source.kind === "text"
-    ? [clip.source.font.assetId]
+    ? [clip.source.font.assetId, ...(clip.seed ? [clip.seed.source.assetId] : [])]
     : clip.assetId === undefined
       ? []
       : [clip.assetId];
 }
 export function documentAssetIds(document: { clips: readonly Clip[] }): string[] {
   return [...new Set(document.clips.flatMap(clipAssetIds))];
+}
+
+export function documentAcquisitionIds(document: { clips: readonly Clip[] }): string[] {
+  return [
+    ...new Set(
+      document.clips.flatMap((clip) => {
+        const id = isMediaClip(clip)
+          ? clip.acquisitionId
+          : "seed" in clip
+            ? clip.seed?.source.acquisitionId
+            : undefined;
+        return id ? [id] : [];
+      }),
+    ),
+  ];
 }

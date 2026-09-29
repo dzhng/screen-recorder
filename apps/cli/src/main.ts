@@ -260,7 +260,7 @@ async function main() {
           service:
             "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           timeUnits:
-            "Integer microseconds. Edit ranges are half-open playback ranges in expectedRevisionId.",
+            "Microseconds. Text-placement endpoints also accept exact reduced fractions; other command coordinates remain integers. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
           mutations:
             "Supply a stable params.requestId and expectedRevisionId. Retry uncertain writes with the same requestId and arguments.",
           operations: capabilities(operation),

@@ -35,14 +35,13 @@ const processingTarget = z.union([
   processingTargetSchema.options[0].extend({ id: reference }),
   processingTargetSchema.options[1],
 ]);
+const exactAnchor = z.discriminatedUnion("kind", [
+  anchorSchema.options[0],
+  z.object({ ...anchorSchema.options[1].shape, clipId: reference }).strict(),
+  z.object({ ...anchorSchema.options[2].shape, clipId: reference }).strict(),
+]);
 const authoredStep = processingStepSchema.extend({
-  window: z
-    .discriminatedUnion("kind", [
-      anchorSchema.options[0],
-      z.object({ ...anchorSchema.options[1].shape, clipId: reference }).strict(),
-      z.object({ ...anchorSchema.options[2].shape, clipId: reference }).strict(),
-    ])
-    .optional(),
+  window: exactAnchor.optional(),
   id: reference.optional(),
   enabled: z.boolean().default(true),
   label,
@@ -69,7 +68,7 @@ const placedMedia = mediaClipSchema.omit({ id: true }).extend({
 });
 const placedClip = z.union([
   placedMedia,
-  textClipSchema.omit({ id: true }).extend({ trackId: reference, placement }),
+  textClipSchema.omit({ id: true }).extend({ trackId: reference, placement: exactAnchor }),
   silenceClipSchema.omit({ id: true }).extend({ trackId: reference, placement }),
 ]);
 const transition = {

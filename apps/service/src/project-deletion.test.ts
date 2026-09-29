@@ -1,3 +1,6 @@
+import { ProjectStore } from "@screenrec/core/projects";
+import { TranscriptStore } from "@screenrec/core/transcript";
+import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
 import { selectSource } from "@screenrec/core/source-selection";
 import { mkdtemp, readFile, rm, unlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -7,7 +10,6 @@ import { expect, test } from "vitest";
 import { DerivedCache } from "@screenrec/core/cache";
 import { Catalog } from "@screenrec/core/catalog";
 import { AssetStore } from "@screenrec/core/assets";
-import { ProjectStore } from "@screenrec/core/projects";
 import { JobQueue } from "@screenrec/core/jobs";
 import { AcquisitionStore } from "@screenrec/core/acquisitions";
 import { SceneEvidenceStore, assetSceneOwner } from "@screenrec/core/scene-evidence";
@@ -29,7 +31,7 @@ test("deletion drains canceled executors before releasing shared media; interrup
   const home = await mkdtemp(join(tmpdir(), "sr-del-"));
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
-  const projects = new ProjectStore(catalog, assets);
+  const projects = projectStoreFixture(catalog, assets, home);
   const acquisitions = new AcquisitionStore(catalog);
   const scenes = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
   const index = new ScreenshotIndexStore(
@@ -261,3 +263,8 @@ test("deletion drains canceled executors before releasing shared media; interrup
     await rm(home, { recursive: true, force: true });
   }
 });
+
+function projectStoreFixture(catalog: Catalog, assets: AssetStore, home: string) {
+  const acquisitions = new AcquisitionStore(catalog);
+  return new ProjectStore(catalog, assets, new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)), acquisitions);
+}

@@ -114,7 +114,9 @@ their actual rate/layout and full-track source extraction can preserve them.
 
 ## One time model
 
-Command coordinates and admitted source timestamps are integer microseconds.
+Text placement accepts exact reduced fractional endpoints, including transcript
+seeding after retime or partial-word selection. Other command coordinates and
+admitted source timestamps are integer microseconds.
 Stored selection/placement endpoints also accept reduced fractions of a microsecond
 when an edit requires them. Whole values stay numbers; fractions require safe-integer
 components and denominator greater than one. Reject unrepresentable results rather

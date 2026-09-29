@@ -98,7 +98,6 @@ export async function startProjectService(options: { home: string; worker?: Medi
       evidence,
       library,
     );
-    const projects = new ProjectStore(catalog, assets, acquisitions);
     const capture = new CaptureSourceRead(assets, acquisitions, evidence);
     const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
     const worker = options.worker ?? mediaWorker();
@@ -108,6 +107,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       library,
       assetTranscriptOwner(assets, acquisitions),
     );
+    const projects = new ProjectStore(catalog, assets, transcriptStore, acquisitions);
     const files = new ManagedFiles(library, worker);
     const cache = new DerivedCache(catalog, library, (owner) => {
       if (owner.kind === "project") projects.get(owner.projectId);
@@ -824,6 +824,11 @@ export async function startProjectService(options: { home: string; worker?: Medi
                 ...operation.params.cursor,
                 ...(operation.params.limit === undefined ? {} : { limit: operation.params.limit }),
               }),
+            };
+          case "text.seed":
+            return {
+              ok: true,
+              data: projects.seedText(operation.params.projectId, operation.params),
             };
           case "edit.apply":
             return { ok: true, data: projects.apply(operation.params.projectId, operation.params) };

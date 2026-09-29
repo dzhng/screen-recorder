@@ -1,3 +1,4 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { validateComposition, projectToSource } from "@screenrec/composition";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -6,7 +7,6 @@ import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
 import { Catalog } from "./catalog.js";
 import { AssetStore, compositionAsset } from "./assets.js";
-import { ProjectStore } from "./projects.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const run of cleanup.splice(0).reverse()) await run();
@@ -19,7 +19,7 @@ async function setup({ memory = false } = {}) {
   cleanup.push(async () => catalog.close());
   const assets = new AssetStore(catalog, home);
   await assets.recover();
-  return { home, path, catalog, assets, store: new ProjectStore(catalog, assets) };
+  return { home, path, catalog, assets, store: projectStoreFixture(catalog, assets, home) };
 }
 const canvas = {
   width: 160,
@@ -52,7 +52,7 @@ test("project edits survive restart and replay before stale-head checks with com
   catalog.close();
   const nextCatalog = new Catalog(path);
   cleanup.push(async () => nextCatalog.close());
-  const reopened = new ProjectStore(nextCatalog, new AssetStore(nextCatalog, home));
+  const reopened = projectStoreFixture(nextCatalog, new AssetStore(nextCatalog, home), home);
   expect(reopened.apply(created.project.projectId, request)).toEqual(edited);
   expect(
     reopened.create({ canvas: { ...canvas }, title: "Tutorial", requestId: "create" }),
@@ -186,7 +186,7 @@ test("independent catalog writers reject a stale head and keep project paginatio
   const second = store.create({ requestId: "two", title: "Two", canvas });
   const catalog = new Catalog(path);
   cleanup.push(async () => catalog.close());
-  const competitor = new ProjectStore(catalog, new AssetStore(catalog, home));
+  const competitor = projectStoreFixture(catalog, new AssetStore(catalog, home), home);
   const request = {
     requestId: "writer-one",
     expectedRevisionId: original.revision.id,
@@ -227,7 +227,11 @@ test("deletion fences reads and replayed edits, survives restart, and retains cr
   catalog.close();
   const reopenedCatalog = new Catalog(path);
   cleanup.push(async () => reopenedCatalog.close());
-  const reopened = new ProjectStore(reopenedCatalog, new AssetStore(reopenedCatalog, home));
+  const reopened = projectStoreFixture(
+    reopenedCatalog,
+    new AssetStore(reopenedCatalog, home),
+    home,
+  );
   expect(reopened.deletionsPage().projectIds).toEqual([id]);
   expect(reopened.isDeleting(id)).toBe(true);
   expect(reopened.finishDeletionPage(id)).toBe(true);
@@ -255,7 +259,7 @@ test("large deleted histories retire in restartable pages without losing the tom
   const reopen = () => {
     catalog.close();
     catalog = new Catalog(fixture.path);
-    store = new ProjectStore(catalog, new AssetStore(catalog, fixture.home));
+    store = projectStoreFixture(catalog, new AssetStore(catalog, fixture.home), fixture.home);
   };
   cleanup.push(async () => catalog.close());
   reopen();

@@ -18,7 +18,8 @@ replacement selects a complete new binding independently of processing preservat
 The reducer carries the immutable context collection through each intermediate edit.
 Stored clip and project/content-anchor ranges accept reduced fractional microseconds
 when an edit requires them; whole values remain numbers. This preserves the source
-mapping when a retimed clip is split. Command coordinates and admitted source
+mapping when a retimed clip is split. Text placement accepts those exact anchors so transcript seeding after retime
+can preserve derived boundaries. Other command coordinates and admitted source
 metadata remain integer microseconds. Asset stream bounds and availability use the shared asset clock, including any
 leading stream offset. A still image has no invented duration and uses a hold at
 source time zero. Unsupported processing variants are rejected until their typed capability

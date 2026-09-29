@@ -1,3 +1,4 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { projectComposition } from "./project-window.js";
 import { selectSource } from "./source-selection.js";
 import type { CompiledFrame } from "@screenrec/composition";
@@ -15,7 +16,6 @@ import { SceneEvidenceStore, assetSceneOwner } from "./scene-evidence.js";
 import { SceneProcessing } from "./scene-processing.js";
 import { ScreenshotIndexStore } from "./screenshot-index.js";
 import { sourceIndexDomain } from "./source-index.js";
-import { ProjectStore } from "./projects.js";
 import { projectIndexDomain } from "./project-index.js";
 import { IndexProcessing } from "./index-processing.js";
 export const png = Buffer.from(
@@ -73,7 +73,7 @@ export async function fixture(
           ],
     })),
   }));
-  const projects = new ProjectStore(catalog, assets, acquisitions);
+  const projects = projectStoreFixture(catalog, assets, home, acquisitions);
   const projectId = projects.create({
     requestId: "project",
     canvas: {

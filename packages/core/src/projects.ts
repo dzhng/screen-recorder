@@ -9,12 +9,15 @@ import {
   validateComposition,
   compositionSchema,
   editOperationSchema,
-  isMediaClip,
+  textSeedCuesSchema,
   documentAssetIds,
+  documentAcquisitionIds,
   clipAssetIds,
   type Composition,
   type EditBatchResult,
 } from "@screenrec/composition";
+import { TranscriptStore } from "./transcript.js";
+import { seedTextOperations, textSeeds, validateTextSeeds } from "./text-seeds.js";
 import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore, compositionAsset } from "./assets.js";
 
@@ -111,15 +114,6 @@ export type ProjectHistoryCursor = {
   afterOrdinal: number;
   throughOrdinal: number;
 };
-function acquisitionIds(document: ProjectRevision["document"]): string[] {
-  return [
-    ...new Set(
-      document.clips
-        .filter(isMediaClip)
-        .flatMap((clip) => (clip.acquisitionId ? [clip.acquisitionId] : [])),
-    ),
-  ];
-}
 const projectColumns = "projectId,title,createdAt,currentRevisionId";
 function canonical(value: unknown): string {
   return JSON.stringify(value, (_key, item) =>
@@ -148,6 +142,7 @@ export class ProjectStore {
   constructor(
     private readonly store: Catalog,
     private readonly assets: AssetStore,
+    private readonly transcripts: TranscriptStore,
     private readonly acquisitions = new AcquisitionStore(store),
   ) {
     this.references = new ResourceReferences(store);
@@ -331,46 +326,85 @@ export class ProjectStore {
   ): ProjectEditResult {
     const operations = parsed(z.array(editOperationSchema).max(1000), request.operations);
     const args = { operation: "apply", expectedRevisionId: request.expectedRevisionId, operations };
-    return this.mutate(projectId, request.requestId, args, () => {
-      const current = this.current(projectId, request.expectedRevisionId);
-      const assetIds = new Set(documentAssetIds(current.document));
-      const contextIds = new Set(acquisitionIds(current.document));
-      for (const operation of operations) {
-        if (operation.operation === "place")
-          clipAssetIds(operation.clip).forEach((id) => assetIds.add(id));
-        if (operation.operation === "text.set")
-          clipAssetIds({ source: operation.source }).forEach((id) => assetIds.add(id));
-        if (operation.operation === "replace") {
-          clipAssetIds(operation.media).forEach((id) => assetIds.add(id));
-          if (operation.media.acquisitionId) contextIds.add(operation.media.acquisitionId);
-        }
-        if (operation.operation === "place" && "assetId" in operation.clip) {
-          if (operation.clip.acquisitionId) contextIds.add(operation.clip.acquisitionId);
-        }
-      }
-      const metadata = [...assetIds].map((id) => compositionAsset(this.assets.get(id)));
-      const namespace = createHash("sha256")
-        .update(canonical([projectId, request.requestId]))
-        .digest("hex");
-      const edit = applyBatch(current.document, operations, {
-        assets: metadata,
-        namespace,
-        acquisitions: [...contextIds].map((id) => this.acquisitions.context(id)),
-      });
-      if (!edit.changed) return { revision: current, edit };
-      this.pushUndo(projectId, current.id);
-      const revision: ProjectRevision = {
-        id: randomUUID(),
-        projectId,
-        ordinal: current.ordinal + 1,
-        createdAt: new Date().toISOString(),
-        operation: "apply",
-        document: edit.document,
-      };
-      this.insertRevision(revision);
-      return { revision, edit };
-    });
+    return this.mutate(projectId, request.requestId, args, () =>
+      this.applyOperations(
+        this.current(projectId, request.expectedRevisionId),
+        request.requestId,
+        operations,
+      ),
+    );
   }
+  seedText(
+    projectId: string,
+    request: { requestId: string; expectedRevisionId: string; cues: unknown },
+  ): ProjectEditResult {
+    const cues = parsed(textSeedCuesSchema, request.cues);
+    return this.mutate(
+      projectId,
+      request.requestId,
+      { operation: "text.seed", expectedRevisionId: request.expectedRevisionId, cues },
+      () => {
+        const current = this.current(projectId, request.expectedRevisionId);
+        const model = validateComposition(
+          current.document,
+          documentAssetIds(current.document).map((id) => compositionAsset(this.assets.get(id))),
+          this.contexts(current.document),
+        );
+        const operations = parsed(
+          z.array(editOperationSchema).max(1000),
+          seedTextOperations(model, cues, this.transcripts),
+        );
+        return this.applyOperations(current, request.requestId, operations);
+      },
+    );
+  }
+  private applyOperations(
+    current: ProjectRevision,
+    requestId: string,
+    operations: z.infer<typeof editOperationSchema>[],
+  ): ProjectEditResult {
+    const projectId = current.projectId;
+    const assetIds = new Set(documentAssetIds(current.document));
+    const contextIds = new Set(documentAcquisitionIds(current.document));
+    for (const operation of operations) {
+      if (operation.operation === "place")
+        clipAssetIds(operation.clip).forEach((id) => assetIds.add(id));
+      if (operation.operation === "text.set")
+        clipAssetIds({ source: operation.source }).forEach((id) => assetIds.add(id));
+      if (operation.operation === "replace") {
+        clipAssetIds(operation.media).forEach((id) => assetIds.add(id));
+        if (operation.media.acquisitionId) contextIds.add(operation.media.acquisitionId);
+      }
+      if (operation.operation === "place" && "assetId" in operation.clip) {
+        if (operation.clip.acquisitionId) contextIds.add(operation.clip.acquisitionId);
+      }
+    }
+    const metadata = [...assetIds].map((id) => compositionAsset(this.assets.get(id)));
+    const namespace = createHash("sha256")
+      .update(canonical([projectId, requestId]))
+      .digest("hex");
+    const edit = applyBatch(current.document, operations, {
+      assets: metadata,
+      namespace,
+      acquisitions: [...contextIds].map((id) => this.acquisitions.context(id)),
+    });
+    if (!edit.changed) return { revision: current, edit };
+    this.pushUndo(projectId, current.id);
+    const revision: ProjectRevision = {
+      id: randomUUID(),
+      projectId,
+      ordinal: current.ordinal + 1,
+      createdAt: new Date().toISOString(),
+      operation: "apply",
+      document: edit.document,
+    };
+    this.insertRevision(revision, {
+      origins: current.document.clips,
+      inherited: textSeeds(current.document),
+    });
+    return { revision, edit };
+  }
+
   undo(
     projectId: string,
     request: { requestId: string; expectedRevisionId: string },
@@ -552,7 +586,13 @@ export class ProjectStore {
               key,
               JSON.stringify(result),
             );
-          for (const revision of revisions) this.insertRevision(revision);
+          const origins: ProjectRevision["document"]["clips"][number][] = [];
+          const inherited: ReturnType<typeof textSeeds> = [];
+          for (const revision of revisions) {
+            this.insertRevision(revision, { origins, inherited });
+            origins.push(...revision.document.clips);
+            inherited.push(...textSeeds(revision.document));
+          }
           for (const dependency of snapshot.references)
             for (const resource of dependency.resources) {
               const retained = evidence?.reference(resource) ?? resource;
@@ -648,18 +688,24 @@ export class ProjectStore {
     );
   }
   contexts(document: ProjectRevision["document"]) {
-    return acquisitionIds(document).map((id) => this.acquisitions.context(id));
+    return documentAcquisitionIds(document).map((id) => this.acquisitions.context(id));
   }
   revisionDependencies(projectId: string, revisionId: string) {
     this.revision(projectId, revisionId);
     return this.references.dependencies({ kind: "revision", id: revisionId });
   }
-  private insertRevision(revision: ProjectRevision) {
+  private insertRevision(
+    revision: ProjectRevision,
+    seedOrigins?: Parameters<typeof validateTextSeeds>[2],
+  ) {
+    const resources = validateTextSeeds(revision.document, this.transcripts, seedOrigins);
+    for (const resource of resources)
+      this.references.retain(resource.kind, { kind: "revision", id: revision.id }, [resource.id]);
     const ids = documentAssetIds(revision.document);
     this.assets.retain({ kind: "revision", id: revision.id }, ids);
     this.acquisitions.retain(
       { kind: "revision", id: revision.id },
-      acquisitionIds(revision.document),
+      documentAcquisitionIds(revision.document),
     );
     this.store.catalog
       .prepare("INSERT INTO project_revisions VALUES(?,?,?,?)")

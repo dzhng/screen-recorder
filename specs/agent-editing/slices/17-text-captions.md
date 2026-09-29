@@ -1,6 +1,6 @@
 # 17 — Text and attached captions
 
-Status: scoped font/layout reproduction verified; [font admission](17b-font-admission.md) has scoped public evidence. [Literal text integration](17c-literal-text.md) is verified; occurrence-specific seeding remains required. Dependencies: [17b](./17b-font-admission.md), [17a](./17a-text-layout.md), [10](./10-project-evidence.md), [16](./16-keyframes.md).
+Status: scoped font/layout reproduction verified; [font admission](17b-font-admission.md) has scoped public evidence. [Literal text integration](17c-literal-text.md) is verified; [Occurrence-specific seeding](17d-transcript-seeding.md) is verified through public edit/relocation, fresh skill and scoped visual evidence. Dependencies: [17b](./17b-font-admission.md), [17a](./17a-text-layout.md), [10](./10-project-evidence.md), [16](./16-keyframes.md).
 
 ## Contract
 

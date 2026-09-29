@@ -143,8 +143,7 @@ through `edit.apply`. Supply the literal, exact imported font face and every sty
 field. Put text on a video track and choose the existing project, content or
 normalized clip anchor according to what should move with an edit. Text has no
 media stream or source clock. `text.set` replaces the text/style while preserving
-placement; it does not change a source transcript. Transcript-derived seeding is
-not advertised by this literal authoring checkpoint.
+placement; it does not change a source transcript.
 
 The text box is a transparent source raster. Set an explicit geometry rectangle
 when its font pixels must map one-to-one to output pixels; ordinary fitting may
@@ -154,6 +153,22 @@ text. Unsupported fallback or missing glyphs must be corrected by explicitly
 choosing another admitted face or literal. PNG output preserves canvas alpha;
 H.264 preview/export still requires opaque final pixels, including timeline gaps
 and output processing. Verify text after structural edits and package relocation.
+
+To seed captions, read a pinned project transcript and choose explicit cue groups
+from individual occurrences. Call `text.seed` with each group's source selection,
+generation, occurrence clip ID and exact word ordinals/source ranges, plus its
+separator, style, target video track and anchor domain. Use original source word
+ranges for the pins, not projected project fragments; partial words keep their
+verbatim text while placement is clipped to the chosen occurrence. Review and
+correct display text explicitly. Repeated speech has distinct occurrence clip IDs
+even when it shares one source generation. Save the normalized placement/labels;
+seeding is one atomic edit and replay uses the same request and expected revision.
+
+Seed origin is immutable evidence separate from display text. Split/copy and
+`text.set` preserve it; the original clip may later disappear. New seed claims
+require an occurrence in the pre-edit revision, so re-read the project transcript
+after structural changes before seeding again. Referenced source generations,
+media, acquisition context and fonts stay retained through history and packages.
 
 For visual layout, change the canvas for the output aspect ratio and place overlapping
 footage on separately ordered video tracks. Place imported PNG/JPEG images with
@@ -302,8 +317,10 @@ as complete.
   submitted ID against the saved receipt before diagnosing lost service state.
 - Parse the JSON envelope even on a nonzero exit. `--output` writes delivered
   media or JSON evidence to a file or directory according to the operation.
-- Edit ranges are half-open integer microseconds in the expected revision's
-  playback timeline. Source timestamps and edited playback timestamps differ
+- Edit ranges are half-open in the expected revision and selected anchor domain.
+  Text placements also accept exact reduced fractional microseconds; preserve
+  returned fractional endpoints instead of rounding. Other command coordinates
+  remain integer microseconds. Source and edited playback timestamps differ
   after cuts; use the reported mapping and retained fragments.
 - For operations accepting `params.requestId`, reuse it with identical arguments
   when retrying an uncertain write. A new intended mutation or recomputed edit

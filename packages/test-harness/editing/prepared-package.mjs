@@ -8,6 +8,8 @@ import { Catalog } from "../../core/dist/catalog.js";
 import { AssetStore } from "../../core/dist/assets.js";
 import { AcquisitionStore } from "../../core/dist/acquisitions.js";
 import { ProjectStore } from "../../core/dist/projects.js";
+import { TranscriptStore } from "../../core/dist/transcript.js";
+import { assetTranscriptOwner } from "../../core/dist/transcript-processing.js";
 import { JobQueue } from "../../core/dist/jobs.js";
 import { PreparedAudioStore, preparedAudioResource } from "../../core/dist/prepared-audio.js";
 import { projectAudioRenderer } from "../../../apps/service/dist/project-render.js";
@@ -71,7 +73,8 @@ async function owner(home, execute, use) {
     catalog = new Catalog(join(library, "catalog.sqlite"));
   const assets = new AssetStore(catalog, library);
   await assets.recover();
-  const projects = new ProjectStore(catalog, assets, new AcquisitionStore(catalog));
+  const acquisitions = new AcquisitionStore(catalog);
+  const projects = new ProjectStore(catalog, assets, new TranscriptStore(catalog, library, assetTranscriptOwner(assets, acquisitions)), acquisitions);
   let prepared,
     calls = 0;
   const jobs = new JobQueue({

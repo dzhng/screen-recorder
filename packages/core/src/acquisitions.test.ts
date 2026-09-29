@@ -1,6 +1,6 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { CaptureSourceRead } from "./capture-source-read.js";
 import { selectSource } from "./source-selection.js";
-import { ProjectStore } from "./projects.js";
 import { compositionAsset } from "./assets.js";
 import { createSourceRangeProjection, validateComposition } from "@screenrec/composition";
 import { afterEach, expect, test } from "vitest";
@@ -172,7 +172,7 @@ test("same media keeps explicit contexts through project replay, replacement, un
   expect(b.bindings.find((binding) => binding.sourceRoles.includes("narration"))!.assetId).toBe(
     assetId,
   );
-  const projects = new ProjectStore(f.catalog, f.assets, f.acquisitions);
+  const projects = projectStoreFixture(f.catalog, f.assets, f.root, f.acquisitions);
   const created = projects.create({
     requestId: "project",
     canvas: {
@@ -248,7 +248,11 @@ test("same media keeps explicit contexts through project replay, replacement, un
   );
   const reopenedCatalog = new Catalog(join(f.root, "catalog.sqlite"));
   cleanup.push(async () => reopenedCatalog.close());
-  const reopened = new ProjectStore(reopenedCatalog, new AssetStore(reopenedCatalog, f.root));
+  const reopened = projectStoreFixture(
+    reopenedCatalog,
+    new AssetStore(reopenedCatalog, f.root),
+    f.root,
+  );
   expect(reopened.apply(projectId, request)).toEqual(placed);
   expect(reopened.contexts(reopened.revision(projectId).document)).toEqual([
     f.acquisitions.context(a.id),

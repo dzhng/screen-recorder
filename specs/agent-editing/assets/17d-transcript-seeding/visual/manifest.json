@@ -1,0 +1,189 @@
+[
+  {
+    "raw": "/tmp/caption-seeds-public-final/seeded-0.png",
+    "label": "seeded-0",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/seeded-1.png",
+    "label": "seeded-1",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/seeded-2.png",
+    "label": "seeded-2",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/before-split.png",
+    "label": "before-split",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/after-split.png",
+    "label": "after-split",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/retimed-clip-anchor.png",
+    "label": "retimed-clip-anchor",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/project-anchor-after-parent-retime.png",
+    "label": "project-anchor-after-parent-retime",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/trimmed-retimed-caption.png",
+    "label": "trimmed-retimed-caption",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/repeated-retimed-caption.png",
+    "label": "repeated-retimed-caption",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/display-correction.png",
+    "label": "display-correction",
+    "crop": [
+      140,
+      43,
+      260,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/caption-only-current.png",
+    "label": "caption-only-current",
+    "crop": [
+      140,
+      43,
+      260,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/adopted-correction.png",
+    "label": "adopted-correction",
+    "crop": [
+      140,
+      43,
+      260,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seeds-public-final/adopted-undo-correction.png",
+    "label": "adopted-undo-correction",
+    "crop": [
+      185,
+      43,
+      305,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seed-movie-pictures/seeded-0.png",
+    "label": "seeded-0",
+    "crop": [
+      181,
+      43,
+      301,
+      88
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seed-movie-pictures/seeded-1.png",
+    "label": "seeded-1",
+    "crop": [
+      179,
+      35,
+      299,
+      80
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seed-movie-pictures/seeded-2.png",
+    "label": "seeded-2",
+    "crop": [
+      179,
+      35,
+      299,
+      80
+    ],
+    "sourceICC": false
+  },
+  {
+    "raw": "/tmp/caption-seed-movie-pictures/gap.png",
+    "label": "gap",
+    "crop": [
+      0,
+      0,
+      118,
+      43
+    ],
+    "sourceICC": false
+  }
+]

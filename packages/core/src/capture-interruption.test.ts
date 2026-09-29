@@ -1,3 +1,4 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { SourceEvents } from "./source-events.js";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
@@ -9,7 +10,6 @@ import { AssetStore } from "./assets.js";
 import { AcquisitionStore, AcquisitionImporter } from "./acquisitions.js";
 import { SourceEvidenceStore, type SourceEvidenceReceipt } from "./evidence.js";
 import { CaptureSourceRead } from "./capture-source-read.js";
-import { ProjectStore } from "./projects.js";
 import { DerivedCache } from "./cache.js";
 import { JobQueue } from "./jobs.js";
 import { TranscriptStore } from "./transcript.js";
@@ -43,7 +43,7 @@ async function fixture({
   });
   const importer = new AcquisitionImporter(catalog, acquisitions, assets, records, home);
   const capture = new CaptureSourceRead(assets, acquisitions, records);
-  const projects = new ProjectStore(catalog, assets, acquisitions);
+  const projects = projectStoreFixture(catalog, assets, home, acquisitions);
   const cache = new DerivedCache(catalog, home, (owner) => {
     if (owner.kind !== "project") throw Error("Wrong owner");
     projects.get(owner.projectId);

@@ -1,3 +1,4 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { createHash } from "node:crypto";
 import { afterEach, expect, test } from "vitest";
 import type { CompiledFrame } from "@screenrec/composition";
@@ -7,7 +8,6 @@ import { join } from "node:path";
 import { Catalog } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
-import { ProjectStore } from "./projects.js";
 import { SceneEvidenceStore, assetSceneOwner, sourceSceneDescriptor } from "./scene-evidence.js";
 import { ScreenshotIndexStore, encodeIndexRecord } from "./screenshot-index.js";
 import { projectComposition, projectCompositionFromRevision } from "./project-window.js";
@@ -30,7 +30,7 @@ async function fixture() {
     assets = new AssetStore(catalog, home),
     acquisitions = new AcquisitionStore(catalog);
   await assets.recover();
-  let projects = new ProjectStore(catalog, assets, acquisitions);
+  let projects = projectStoreFixture(catalog, assets, home, acquisitions);
   let scenes = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
   const created = projects.create({
     requestId: "create",
@@ -98,7 +98,7 @@ async function fixture() {
       catalog = new Catalog(path);
       assets = new AssetStore(catalog, home);
       acquisitions = new AcquisitionStore(catalog);
-      projects = new ProjectStore(catalog, assets, acquisitions);
+      projects = projectStoreFixture(catalog, assets, home, acquisitions);
       scenes = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
       index = new ScreenshotIndexStore(
         catalog,

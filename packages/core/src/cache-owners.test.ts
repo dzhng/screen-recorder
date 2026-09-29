@@ -1,10 +1,10 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, readFile, rm, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore } from "./assets.js";
-import { ProjectStore } from "./projects.js";
 import { DerivedCache } from "./cache.js";
 import type { JobOwner } from "./jobs.js";
 
@@ -72,7 +72,7 @@ test("project retirement fences derived files and cannot purge another owner kin
   cleanup.push(async () => catalog.close());
   const assets = new AssetStore(catalog, home);
   await assets.recover();
-  const projects = new ProjectStore(catalog, assets);
+  const projects = projectStoreFixture(catalog, assets, home);
   const project = projects.create({
     requestId: "create",
     canvas: {

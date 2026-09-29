@@ -1,11 +1,16 @@
 import assert from "node:assert/strict";
+import { captionSeeds } from "./caption-seeds.mjs";
 import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
 const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
-assert.ok(["literal-text", "alpha", "faces", "anchors", "unicode"].includes(values.case));
+assert.ok(
+  ["literal-text", "alpha", "faces", "anchors", "unicode", "repeated-retimed-speech"].includes(
+    values.case,
+  ),
+);
 assert.ok(values.out && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out),
   home = await mkdtemp("/tmp/sr-captions-");
@@ -163,6 +168,8 @@ try {
       }
       report.checks.push({ name: test.name, exactFrozenRaster: true, exactLayout: true });
     }
+  if (values.case === "repeated-retimed-speech")
+    await captionSeeds({ service, call, out, home, font, picture, admit, report });
   if (values.case === "unicode") {
     const p = await project({
       width: 320,

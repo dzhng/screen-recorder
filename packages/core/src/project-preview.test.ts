@@ -1,10 +1,10 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { Catalog, CatalogError } from "./catalog.js";
 import { AssetStore } from "./assets.js";
-import { ProjectStore } from "./projects.js";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { ProjectPreviewInspection, type ProjectMovieRenderer } from "./project-preview.js";
@@ -48,7 +48,7 @@ async function fixture(render = renderer) {
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
   await assets.recover();
-  const projects = new ProjectStore(catalog, assets);
+  const projects = projectStoreFixture(catalog, assets, home);
   const cache = new DerivedCache(catalog, home, (owner) => {
     if (owner.kind !== "project") throw new CatalogError("INVALID_TARGET", "Expected project");
     projects.get(owner.projectId);

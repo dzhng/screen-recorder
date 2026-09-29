@@ -1,3 +1,4 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { spectralWindows } from "./audio-spectrum.js";
 import { AcousticInspection } from "./acoustic-inspection.js";
 import { waveformBuckets } from "./audio-wave.js";
@@ -9,7 +10,6 @@ import { afterEach, expect, test } from "vitest";
 import { Catalog } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
-import { ProjectStore } from "./projects.js";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { MediaAudioInspection, type ProjectAudioRenderer } from "./audio-inspection.js";
@@ -69,7 +69,7 @@ async function fixture(renderer = render, budget?: number, durationUs = 1000000)
   const assets = new AssetStore(catalog, home);
   await assets.recover();
   const acquisitions = new AcquisitionStore(catalog);
-  const projects = new ProjectStore(catalog, assets, acquisitions);
+  const projects = projectStoreFixture(catalog, assets, home, acquisitions);
   const cache = new DerivedCache(
     catalog,
     home,

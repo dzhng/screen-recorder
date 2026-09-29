@@ -1,5 +1,8 @@
-import { ResourceReferences } from "@screenrec/core/references";
+import { AcquisitionStore } from "@screenrec/core/acquisitions";
 import { ProjectStore } from "@screenrec/core/projects";
+import { TranscriptStore } from "@screenrec/core/transcript";
+import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
+import { ResourceReferences } from "@screenrec/core/references";
 import { mkdtemp, writeFile, rm, readdir, readFile } from "node:fs/promises";
 import { fork } from "node:child_process";
 import { once } from "node:events";
@@ -386,7 +389,11 @@ test("startup resumes a committed project deletion marker before serving request
   const { project } = created.data as { project: { projectId: string } };
   await f.service.close();
   const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
-  const projects = new ProjectStore(catalog, new AssetStore(catalog, join(f.home, "library")));
+  const projects = projectStoreFixture(
+    catalog,
+    new AssetStore(catalog, join(f.home, "library")),
+    join(f.home, "library"),
+  );
   expect(projects.markDeleting(project.projectId)).toBe(true);
   catalog.close();
   const restarted = await startProjectService({ home: f.home });
@@ -401,7 +408,11 @@ test("startup resumes a committed project deletion marker before serving request
   await restarted.close();
   const check = new Catalog(join(f.home, "library/catalog.sqlite"));
   try {
-    const store = new ProjectStore(check, new AssetStore(check, join(f.home, "library")));
+    const store = projectStoreFixture(
+      check,
+      new AssetStore(check, join(f.home, "library")),
+      join(f.home, "library"),
+    );
     expect(store.deletionsPage().projectIds).toEqual([]);
     expect(store.create(creation)).toEqual(created.data);
     expect(store.list().projects).toEqual([]);
@@ -737,3 +748,8 @@ test("project export refuses a dangling prepared audio reference before native w
     error: { code: "NOT_FOUND", message: "Prepared audio publication is unavailable" },
   });
 });
+
+function projectStoreFixture(catalog: Catalog, assets: AssetStore, home: string) {
+  const acquisitions = new AcquisitionStore(catalog);
+  return new ProjectStore(catalog, assets, new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)), acquisitions);
+}

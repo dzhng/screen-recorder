@@ -1,3 +1,4 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { projectCompositionFromRevision } from "./project-window.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, readFile, readdir, rm, writeFile, rename, realpath } from "node:fs/promises";
@@ -6,7 +7,6 @@ import { randomUUID } from "node:crypto";
 import { Catalog } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
-import { ProjectStore } from "./projects.js";
 import { ResourceReferences } from "./references.js";
 import { JobQueue, type StagedJobResult } from "./jobs.js";
 import { PreparedAudioStore, type PreparedAudio } from "./prepared-audio.js";
@@ -46,7 +46,7 @@ async function fixture(
     const catalog = new Catalog(join(home, "catalog.sqlite"));
     const assets = new AssetStore(catalog, home);
     await assets.recover();
-    const projects = new ProjectStore(catalog, assets, new AcquisitionStore(catalog));
+    const projects = projectStoreFixture(catalog, assets, home, new AcquisitionStore(catalog));
     let prepared!: PreparedAudioStore;
     const jobs = new JobQueue({
       store: catalog,

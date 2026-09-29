@@ -1,3 +1,4 @@
+import { projectStoreFixture } from "./project-store.fixture.js";
 import { SceneProcessing } from "./scene-processing.js";
 import { SourceSceneRead } from "./scene-source-read.js";
 import { SceneEvidenceStore, assetSceneOwner } from "./scene-evidence.js";
@@ -12,7 +13,6 @@ import { SourceEvidenceStore } from "./evidence.js";
 import { CaptureSourceRead } from "./capture-source-read.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
-import { ProjectStore } from "./projects.js";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { TranscriptStore, type TranscriptRecords } from "./transcript.js";
@@ -36,7 +36,7 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
   const assets = new AssetStore(catalog, home);
   await assets.recover();
   const acquisitions = new AcquisitionStore(catalog);
-  const projects = new ProjectStore(catalog, assets, acquisitions);
+  const projects = projectStoreFixture(catalog, assets, home, acquisitions);
   const cache = new DerivedCache(catalog, home, (owner) => {
     if (owner.kind !== "project") throw new Error("Wrong cache owner");
     projects.get(owner.projectId);

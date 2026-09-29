@@ -8,6 +8,9 @@ import { test } from "node:test";
 import { Catalog, CatalogError } from "@screenrec/core/catalog";
 import { AssetStore } from "@screenrec/core/assets";
 import { ProjectStore } from "@screenrec/core/projects";
+import { AcquisitionStore } from "@screenrec/core/acquisitions";
+import { TranscriptStore } from "@screenrec/core/transcript";
+import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
 import { JobQueue } from "@screenrec/core/jobs";
 import { DerivedCache } from "@screenrec/core/cache";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
@@ -45,7 +48,8 @@ async function fixture(t, { render, wrap = (value) => value, admission = true, e
   const catalog = new Catalog(join(home, "catalog.sqlite")),
     assets = new AssetStore(catalog, home);
   await assets.recover();
-  const projects = new ProjectStore(catalog, assets),
+  const acquisitions = new AcquisitionStore(catalog);
+  const projects = new ProjectStore(catalog, assets, new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)), acquisitions),
     cache = new DerivedCache(catalog, home, (owner) => {
       assert.equal(owner.kind, "project");
       projects.get(owner.projectId);

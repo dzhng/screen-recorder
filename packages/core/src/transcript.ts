@@ -391,6 +391,19 @@ export class TranscriptStore implements TranscriptRecords {
       await setImmediate(undefined, { signal });
     }
   }
+  retainedGeneration(
+    identity: Pick<TranscriptIdentity, "owner" | "generation">,
+  ): TranscriptMetadata {
+    const row = this.store.catalog
+      .prepare(`SELECT * FROM transcript_generations WHERE ${where}`)
+      .get(...ownerIdentity(identity.owner), identity.generation) as GenerationRow | undefined;
+    if (!row || row.state !== "complete")
+      throw new CatalogError("NOT_FOUND", "Retained transcript generation is unavailable", {
+        generation: identity.generation,
+      });
+    return metadata(row);
+  }
+
   portableGenerations(assetId: string, limit = 25000): PortableTranscript[] {
     const rows = this.store.catalog
       .prepare(

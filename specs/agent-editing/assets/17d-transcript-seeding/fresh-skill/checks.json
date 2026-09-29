@@ -1,0 +1,52 @@
+{
+  "allChecksPassed": true,
+  "projectId": "f9651ad9-be88-4e1c-9a36-8ac42bb816f9",
+  "finalRevisionId": "cc52d5f6-4731-4a41-8588-5ee6eb5abc20",
+  "finalOrdinal": 4,
+  "sourceWordsCompared": 16,
+  "sourceGeneration": "85b3664d-14fd-4cb2-bc66-8fc9394ffe1f",
+  "sourceRawSHA256": "7b29eccba9e5c3be856e8f785f6371020cccb8a2705ae0165d89ea41763acd63",
+  "projectWordRows": 32,
+  "captions": [
+    {
+      "id": "clip:2f157d4573911148d644e5c72b586f846e7f89388decfd7fe2e8583fcd591d39:0",
+      "text": "Okay, so this is the Recorder Workbench.",
+      "placement": {
+        "kind": "project",
+        "range": {
+          "startUs": 1120000,
+          "endUs": 5600000
+        }
+      }
+    },
+    {
+      "id": "clip:2f157d4573911148d644e5c72b586f846e7f89388decfd7fe2e8583fcd591d39:1",
+      "text": "Okay, so this is the recorder workbench.",
+      "placement": {
+        "kind": "project",
+        "range": {
+          "startUs": {
+            "numerator": 1593333338,
+            "denominator": 125
+          },
+          "endUs": {
+            "numerator": 393333338,
+            "denominator": 25
+          }
+        }
+      }
+    }
+  ],
+  "invalidGenerationError": {
+    "code": "NOT_FOUND",
+    "message": "Retained transcript generation is unavailable",
+    "retryable": false,
+    "details": {
+      "generation": "00000000-0000-0000-0000-000000000000"
+    }
+  },
+  "replayRequestBytesIdentical": true,
+  "replayDataIdentical": true,
+  "headUnchangedAfterInvalidAndReplay": true,
+  "sourceTranscriptDataIdentical": true
+}
