@@ -24,3 +24,6 @@ runs only established fixture correctness and are not the budget result. The
 [verification](verification.json) pins configuration, worker identity and retained
 reports. Original media are small prerecorded corpus assets; no devices, playback,
 installation, model preparation or full two-hour rendering occurred.
+
+[Combined-root verification](root-verification.json) repeats the complete scale
+journey on the integrated service using the matching-source release worker.

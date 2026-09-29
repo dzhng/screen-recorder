@@ -3501,3 +3501,22 @@ without spending the source-read budget. Keep publication dependencies pinned:
 later evidence invalidates the query, and a missing file behind a published pointer
 still fails normally. The existing10,000-occurrence bound contains this traversal;
 no larger page budget, cache or timeout is introduced.
+
+## 24l — Measure a fresh warm render through publication (sound, high confidence)
+
+A repeated preview request can return a cached movie without rendering. Prime one
+window, then measure a different uncached ten-second window on the same long
+project, through ready publication; record cache lookup separately. Sample the
+existing process peak after movie finalization so the memory receipt includes
+encoding. The corpus proves1080p output cost, not decoding1080p source footage.
+This measures the existing budget without adding a new endpoint or renderer.
+
+## 24m — Isolate duration from clip count and authoring memory (sound, high confidence)
+
+A longer project often also has more clips, obscuring what caused extra memory.
+Keep10,000 identical source selections and the250-row query fixed, changing only
+project spacing from two to four hours. Restart after authoring and compare three
+alternating fresh-process trials per duration. Report sampled resident peaks and
+growth above startup, using medians without hiding individual variation. This
+resolves the plan's unspecified measurement method for timeline queries; it does
+not establish memory behavior for other query families or native decoding.

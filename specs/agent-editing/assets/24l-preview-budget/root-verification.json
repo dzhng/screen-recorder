@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "sourceCommit": "5982899e",
+  "nativeSourceMatchesDelegatedCommit": true,
+  "workerSha256": "45203b2845a2560562953555eccee1c3ed3bc45c44b2c7ec28ede584e38b8ca2",
+  "build": "release",
+  "preview": {
+    "selection": {
+      "projectId": "fd4cb550-7c71-4624-8530-04b4e173ee2a",
+      "revisionId": "a99ab84f-d7d8-4d6a-a430-28fd0c0b994d"
+    },
+    "output": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30
+    },
+    "scope": "First movie in this journey, then a distinct uncached window. Native workers are per-request; this is not cold-boot or same-process residency measurement.",
+    "renders": [
+      {
+        "name": "cold",
+        "range": {
+          "startUs": 7180000000,
+          "endUs": 7190000000
+        },
+        "readyMs": 2108.139542000001,
+        "deliveryMs": 261.3871249999993,
+        "jobId": "c9fc23b7-a0dd-43fd-8d08-27ac2bc592d3",
+        "sha256": "ad854779a5fc480a3c7bb71d28ab9b429c4ab2bb1f9396ae6a18e956ba977ca3",
+        "verifiedFrames": 300,
+        "membershipEvidence": "root-public.json.gz"
+      },
+      {
+        "name": "warm",
+        "range": {
+          "startUs": 7190000000,
+          "endUs": 7200000000
+        },
+        "readyMs": 2113.5959169999987,
+        "deliveryMs": 244.14858300000196,
+        "jobId": "79384bfa-75d1-4d2d-9d32-0da8ed8395df",
+        "sha256": "f14f2cba59c341fef5d33c67d104df5c8c9e8603f2b60119d94c8c53513e30fa",
+        "verifiedFrames": 300,
+        "membershipEvidence": "root-public.json.gz"
+      },
+      {
+        "name": "cache-hit",
+        "range": {
+          "startUs": 7190000000,
+          "endUs": 7200000000
+        },
+        "readyMs": 156.34525000000212,
+        "deliveryMs": 251.57766699999775,
+        "jobId": "79384bfa-75d1-4d2d-9d32-0da8ed8395df",
+        "sha256": "f14f2cba59c341fef5d33c67d104df5c8c9e8603f2b60119d94c8c53513e30fa"
+      }
+    ],
+    "receipts": [
+      {
+        "range": {
+          "startUs": 7180000000,
+          "endUs": 7190000000
+        },
+        "frameCount": 300,
+        "frames": 480000,
+        "peakResidentBytes": 51822592
+      },
+      {
+        "range": {
+          "startUs": 7190000000,
+          "endUs": 7200000000
+        },
+        "frameCount": 300,
+        "frames": 480000,
+        "peakResidentBytes": 94928896
+      }
+    ],
+    "withinBudget": true
+  }
+}

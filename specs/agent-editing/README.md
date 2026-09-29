@@ -23,8 +23,7 @@ Implement [explicit denoise strength and transitions](slices/15a3b-denoise-trans
 in parallel with scale review. Reuse ordinary scalar keys and prepared state.
 
 1. Continue general [scale](slices/24-scale.md), including complete two-hour
-   [prepared-package transfer](slices/24j-prepared-package-scale.md), warm1080p preview,
-   measured decoder work and controlled duration-doubling memory.
+   [prepared-package transfer](slices/24j-prepared-package-scale.md), measured decoder work and remaining query families/history.
    The exact two-hour recipe has been reconstructed against its original hash;
    transfer preflight needs about3GiB more free disk. Do not restore multi-GB PCM
    before the measured preflight passes. Generic [package closure](slices/22-portable-projects.md)
@@ -35,7 +34,9 @@ in parallel with scale review. Reuse ordinary scalar keys and prepared state.
    and installed cutover remain separate.
 3. [Routed scale](slices/24k-routing-scale.md) now passes500/10,000 occurrence
    placement, bounded250-row inspection, exact late PCM and queue/cancellation
-   checks on the combined root. The complete two-hour learned workload,
+   checks on the combined root. [Warm1080p preview](slices/24l-preview-budget.md)
+   also meets its15s/4GiB budget, and [fixed-size timeline queries](slices/24m-query-duration-memory.md)
+   remain below2x sampled memory when duration doubles. The complete two-hour learned workload,
    combined fragmented-source/history package, and bounded public job inspection
    now pass their scoped gates. Continue speech/denoise/retiming/voice acceptance,
    then remaining camera, package, cutover and autonomous workflow gates. Every
@@ -305,6 +306,8 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24i — Independent processing batches](slices/24i-processing-batches.md)
 - [ ] [24j — Complete two-hour prepared-package transfer](slices/24j-prepared-package-scale.md)
 - [x] [24k — Routed placement and bounded queued reads](slices/24k-routing-scale.md)
+- [x] [24l — Warm1080p preview budget](slices/24l-preview-budget.md)
+- [x] [24m — Query memory across doubled timeline duration](slices/24m-query-duration-memory.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

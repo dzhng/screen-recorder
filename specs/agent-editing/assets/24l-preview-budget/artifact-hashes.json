@@ -1,6 +1,9 @@
 {
-  "README.md": "7ffb0975aea54553e7e24268b104843737f3a9265bd1578082bac1d38b09ac22",
+  "README.md": "6f6a7c88217e2b836158b67f086b057f7d45f93ac48b240a0939e75335986ea4",
   "public-evidence.tar.xz": "cf78018b6dbd873fdb3122fdd06857a9c050ba083105cd8255dcc4a29122d38f",
+  "root-public.json.gz": "be579ccb67a12940494ee8659fd7242705812213b041768814d0d9cfa15e2ed1",
+  "root-public.log.gz": "2e58a96d5d7bdcfcfbab7003553fcbe75a0fec7296015d4545013543c3c788da",
+  "root-verification.json": "89b42a948e6aa772efd9ff293b837b0d1d7391a0fdbdfcdbb9ba287283a7df52",
   "screenrec-24l-first.log.gz": "ceaf64921dc07d1c796a1adedc695ba6a1bc302d5cd79286b3cfe2fe0e298e12",
   "screenrec-24l-lint.log.gz": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
   "screenrec-24l-long.log.gz": "2e0d68171d4b4a98518b5c3a972157ab3009f401c31de56b1085129bf4c1b91a",

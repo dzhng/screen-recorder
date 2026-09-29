@@ -3,15 +3,16 @@
 The full editor goal remains active; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
 catalog format is19 and source policy is native-source-v2. The combined worker is
-`helpers/mac/.build/debug/screenrec-native`, SHA256
-`b95b9bcde50b6a1d0dc83a9bde87ca0ab6d4c8f64d4b0bb179e039a8d4bd5a9c`.
+`/tmp/screenrec-24l-root-native` (release), SHA256
+`45203b2845a2560562953555eccee1c3ed3bc45c44b2c7ec28ede584e38b8ca2`.
 Historical workers and measurements retain their own identities below.
 
 ## Active owners and next action
 
 - **Routing scale24k:** integrated and reverified on root, including89 composition
-  and30 core tests and the full scoped public journey. Continue warm1080p preview,
-  actual decoded-work measurement and controlled duration-doubling memory.
+  and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
+  Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
+  Continue actual decoded-work measurement and remaining query families/history.
 - **Two-hour package24j:** exact recipe reconstruction is verified; full transfer
   needs about3GiB more free disk. Run its measured preflight before restoring PCM.
   No large restore or repeated DSP has run. The prerequisite worktree is

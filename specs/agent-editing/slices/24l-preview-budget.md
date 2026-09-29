@@ -1,6 +1,6 @@
 # 24l — Warm ten-second 1080p preview budget
 
-Status: verified scoped optimized-build gate; independent review resolved. Dependency: [24k](24k-routing-scale.md).
+Status: verified scoped optimized-build gate; independent review resolved. Dependencies: [24k](24k-routing-scale.md).
 
 ## Contract and ownership
 

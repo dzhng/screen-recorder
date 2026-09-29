@@ -1,0 +1,22 @@
+{
+  "scope": "six isolated public timeline query-memory trials; no decoder/movie-memory claim",
+  "passed": true,
+  "nativeSha256": "45203b2845a2560562953555eccee1c3ed3bc45c44b2c7ec28ede584e38b8ca2",
+  "sourceCommit": "5982899e",
+  "harnessSha256": "ac3d0602d6595e9059c05f6ab7fcb702429550930d6abb933274d12823618f5b",
+  "comparison": {
+    "twoHourMedianPeakBytes": 570785792,
+    "fourHourMedianPeakBytes": 565673984,
+    "twoHourMedianGrowthBytes": 469303296,
+    "fourHourMedianGrowthBytes": 463732736,
+    "peakRatio": 0.9910442620127448,
+    "growthRatio": 0.988130149420472
+  },
+  "review": "initial sampler failure-cleanup finding fixed; followup no actionable defects",
+  "injectedFailure": {
+    "expectedMessage": "injected resident sampler failure",
+    "reportRetained": true,
+    "queryPid": 83340,
+    "serviceStopped": true
+  }
+}
