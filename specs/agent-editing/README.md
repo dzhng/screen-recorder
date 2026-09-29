@@ -17,12 +17,13 @@ requirement below remains in scope. Read [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
 verified public operations only; the installed app has not switched engines.
 
-Current pickup: reslice [durable voice integration](slices/19-voice-assets.md)
-around the existing model preparation, reference retention and shared job owners.
-The private [voice entry](slices/19a-voice-entry-parity.md) is integrated and verified
-against the frozen candidate. Public settings must expose supported controls;
-the private frozen recipe and five-second reference envelope are not the final API.
-Keep listening acceptance separate and preserve the prepared runtime.
+Current pickup: prove [voice runtime relocation](slices/19b-voice-runtime-relocation.md)
+using existing local bytes with original interpreter/venv paths denied. The
+private [voice entry](slices/19a-voice-entry-parity.md) is integrated and verified;
+its venv still points to a development interpreter outside that directory.
+Then integrate preparation through the existing model owner and durable jobs.
+Public settings expose supported controls; the frozen private recipe and
+five-second reference envelope are not the final API. Preserve listening gates.
 
 Continue independent remaining [scale work](slices/24-scale.md), then dependency-ready
 speech, retiming, voice, camera, cutover and autonomous workflow gates. Every open
@@ -278,6 +279,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [18a — Frozen voice repeatability across fresh processes](slices/18a-voice-repeatability.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
 - [x] [19a — Frozen voice worker entry parity](slices/19a-voice-entry-parity.md)
+- [ ] [19b — Relocatable prepared voice runtime](slices/19b-voice-runtime-relocation.md)
 - [x] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — offline scope; physical acceptance remains20.
 - [x] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
 - [x] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)
