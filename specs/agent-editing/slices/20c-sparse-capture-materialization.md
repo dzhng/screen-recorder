@@ -1,6 +1,6 @@
 # 20c — Shared sparse capture materialization
 
-Status: planned. Dependencies: [20b](20b-exact-capture-audio.md).
+Status: planned; [platform feasibility and outer-limit evidence](../assets/20c-platform-feasibility/README.md) retained. Dependencies: [20b](20b-exact-capture-audio.md).
 
 ## Contract and owner
 

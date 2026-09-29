@@ -1,0 +1,8 @@
+{
+  "verifiedArtifacts": 173,
+  "archives": {
+    "evidence.tar.gz": "c2de229f63157919f0353029837932c2afaf3f62a4958f4b2e591c838c679920",
+    "outer-limit.tar.gz": "af7d5beff86f5718733f8fe95e08cd118f24709d22f54f62e087e96f4c3ab01c"
+  },
+  "scope": "Evidence-only; all retained hashes verified, no production implementation claim"
+}
