@@ -43,3 +43,5 @@ owns inventory-bound metadata hydration before readiness. Large source audio
 selection and the remaining capture rollout gates also remain separate. The new
 help/skill contract is exercised by the journey; the final fresh-consumer skill
 review remains part of the overall product acceptance pass.
+
+[Combined-root verification](root-verification.json) confirms native standalone media admission and all-row CLI/MCP reconstruction. Root rows match the already retained `public/pages.jsonl` bytes exactly; the root archive retains its independent request/results and focused test logs.

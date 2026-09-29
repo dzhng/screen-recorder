@@ -3164,3 +3164,18 @@ inspected under existing transport limits. Raw recipes remain internal. Test-onl
 recipe comparisons read the catalog and authenticate against the public digest;
 there is no product escape hatch. Full-input query work remains, explicitly outside
 this delivery correction's claim. A cache or global frame increase was unnecessary.
+
+### Store physical segments once behind indexed pages (sound, high confidence)
+
+An agent inspecting a fragmented asset now reads stream summaries, then requests
+ordinal pages of physical segments. Every asset uses that same public shape.
+Keeping the segments inside one JSON string forced even a small page to parse the
+whole recording and reached about1GiB in the measured traversal. AssetStore now
+stores those rows once in an indexed table; the metadata header keeps only array
+presence so complete internal reads can reconstruct optional-versus-empty fields.
+Import and portable adoption commit the header and rows together. Shared admission
+refuses duplicate stream identities before they can alias rows. The plan left
+bulk representation unspecified; this choice keeps one authoritative owner and
+bounds page work without a second cache. Catalog15 identifies this layout, and the
+subsequent capture column change must use the next version rather than reusing15.
+Old layouts are explicitly refused; no history migration is introduced.

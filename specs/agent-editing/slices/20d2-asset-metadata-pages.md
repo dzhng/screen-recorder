@@ -1,9 +1,10 @@
 # 20d2 — Public immutable asset metadata pages
 
-Status: public/indexed prerequisite verified; depends on [probe file delivery](../assets/20d-probe-file/README.md)
+Status: public/indexed prerequisite verified. Dependencies: [20c](20c-sparse-capture-materialization.md).
+Prerequisite evidence: [probe file delivery](../assets/20d-probe-file/README.md)
 and [physical-row admission](../assets/20d-probe-rows/README.md).
 
-The actual admitted 100,000-run source still makes `asset.get` exceed the unchanged
+The actual admitted 100,000-run source previously made `asset.get` exceed the unchanged
 8 MiB response frame. Keep AssetStore's complete internal metadata authoritative.
 Public `asset.get` returns stream headers and segmentCount; `asset.segments` returns
 exact ordinal pages from AssetStore-owned indexed physical rows. Use this uniform shape for every

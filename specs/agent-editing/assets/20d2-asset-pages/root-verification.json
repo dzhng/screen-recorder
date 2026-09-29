@@ -1,0 +1,27 @@
+{
+  "commit": "7cc90e935a89edc572a7fec3075328e5a84c5c6a",
+  "catalogFormat": 15,
+  "build": "passed",
+  "focusedCoreServiceTests": 74,
+  "authenticatedArtifacts": 27,
+  "public": {
+    "standaloneCanonicalMediaImport": "ready",
+    "rows": 200000,
+    "pages": 200,
+    "transports": [
+      "cli",
+      "mcp"
+    ],
+    "exactRows": "passed",
+    "invalidCursor": "refused",
+    "seconds": 11.385803124999999,
+    "maximumPageMilliseconds": 135.567583
+  },
+  "rows": {
+    "bytes": 18766189,
+    "sha256": "1f7a98efe6624d1a16c1764967f6bcf2d1b78ad0cab0ee8523ff50aad600c1eb",
+    "storedIn": "evidence.tar.gz",
+    "storedAs": "public/pages.jsonl"
+  },
+  "scope": "Root standalone native media admission and complete public indexed traversal; full canonical acquisition provenance remains agent checkpoint evidence. Package metadata delivery remains open."
+}

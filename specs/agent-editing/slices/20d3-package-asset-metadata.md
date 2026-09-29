@@ -1,6 +1,6 @@
 # 20d3 — Inventory-bound portable asset metadata
 
-Status: planned; follows [20d2](20d2-asset-metadata-pages.md).
+Status: planned. Dependencies: [20d2](20d2-asset-metadata-pages.md).
 
 The actual large probe metadata exceeds the unchanged 2 MiB project manifest
 budget. Serialize complete existing portable-asset values into inventory-bound
