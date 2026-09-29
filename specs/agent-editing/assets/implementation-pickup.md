@@ -16,11 +16,10 @@ separate documented codec loss from exact geometry/timing contracts.
 Frozen combined native worker: `/tmp/screenrec-caption-output-combined-native`,
 SHA256 `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`.
 It includes final explicit encoding controls, exact-font text and PNG canvas alpha.
-Combined targeted build and243 composition/core checks pass. Public literal text,
-alpha, Unicode and anchor journeys pass on that worker; font-package and general
-historical-package combined checks are finishing. Prepared PCM relocation passes
+Combined targeted build and243 composition/core checks pass. All five public caption journeys pass on that worker, including font-package
+history. General historical-package relocation also passes all27 checks. Prepared PCM relocation passes
 again with the text-aware manifest; its public preparation/DSP consumers stay open.
-Do not rebuild root dist while those two native public harnesses are running.
+Those root harnesses are finished; dist is free to rebuild.
 
 Historical root owner/service checks pass48/49; the unchanged large deletion
 fixture exceeds its default five-second deadline. The read-only audit localizes

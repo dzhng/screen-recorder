@@ -36,3 +36,12 @@ both retain the same deletion-history timeout. The new snapshot/index checks
 pass at the original deadline. This is a disclosed baseline timing limitation,
 not a claim that the whole focused suite is green. All 11 service tests and all
 27 native journey checks pass.
+
+Combined root confirmation passes all27 public relocation checks with the
+text/output-settings native build; the root report and logs are retained here.
+Owner/service tests pass48/49 with the same disclosed deletion-fixture deadline
+failure. Exact current/history font closure passes separately in the
+[literal-caption package journey](../17c-literal-text/README.md). The retained root
+package report's remaining-font note predates that cross-journey reconciliation;
+it describes no font coverage inside this general package harness. Actual15a
+outputs and final autonomous skill consumption remain open.

@@ -51,3 +51,16 @@ those scopes remain separate. Initial default-sandbox socket EPERM was a harness
 environment failure and is not counted as product evidence. Discovery help volume
 was noted for the parent CLI improvement; asynchronous job state, not CLI exit0,
 determines whether rendering succeeded.
+
+## Combined-root verification
+
+The integrated font/text/output-control native build passes all five public caption
+journeys:36 literal/control PNGs, alpha/movie admission, exact Unicode receipts,
+all anchor domains and fresh-store font-package/history checks. Their root reports
+and build/test logs are retained alongside the original evidence. The combined
+composition/prepared/package/asset/preview checks pass243 tests. Prepared PCM and
+full historical-package relocation also pass with this same text-aware build.
+
+Worker SHA256: `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`.
+Root confirmation broadens integration coverage, not script/font/language or
+whole-caption acceptance beyond the named journeys. Transcript seeding stays open.

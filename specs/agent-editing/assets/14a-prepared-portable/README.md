@@ -50,3 +50,7 @@ Combined-root confirmation builds the shared packages and passes 104 focused
 core/service tests. The [root native journey](root-report.json.gz) repeats every
 prepared relocation check with the combined font/output-settings worker. This
 confirms integration; it does not broaden the DSP or public-preparation scope.
+
+The root text-aware combined worker also passes every prepared relocation check;
+[root confirmation](root-text-combined-report.gz) preserves exact current/history
+PCM after the manifest/font dependency changes.

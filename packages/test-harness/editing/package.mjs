@@ -45,7 +45,8 @@ const report = {
     "actual CLI/MCP/native project package relocation with retained acquisition, source-scene, source/project screenshot-index and real source-transcript generations; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
   checks: {},
   trace: [],
-  remaining: ["prepared 15a outputs and fonts", "fresh autonomous skill journey"],
+  remaining: ["actual prepared 15a outputs", "fresh autonomous skill journey"],
+  separateCoverage: "font dependency closure is verified by captions.mjs --case faces",
 };
 let service, mcp;
 async function start(home) {
