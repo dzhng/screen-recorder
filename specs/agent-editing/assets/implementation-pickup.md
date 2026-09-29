@@ -14,11 +14,13 @@ prerequisite checkpoints below.
   The [journal lease and pinned replay](20d-journal-lease/README.md) has
   [combined-root confirmation](20d-journal-lease/root-verification.json), including
   process exclusion, exec inheritance and accepted-PCM preservation on journal
-  failure. Implement the retained publication proposal through existing no-clobber
-  output and termination owners: intent, verified candidate, canonical file,
-  receipt, restart continuation and eligible cleanup. Reuse20c verification.
-  Account for existing native-control/recovery-worker and outer client deadlines;
-  prove long finalization/retry/cancellation through public operations.
+  failure. The [canonical publisher](20d-publication/README.md) is integrated with
+  [combined-root checks](20d-publication/root-verification.json): retained attempts,
+  no-clobber retries, verified availability and optional cleanup pass offline.
+  Next wire stop continuation through existing termination owners, then canonical
+  source admission and recovery. Account for native-control/recovery-worker and
+  outer client deadlines; prove long finalization/retry/cancellation through public
+  operations. The service queue fixture does not prove native controller behavior.
   Immutable import/package closure remains20d work. Do not activate the new
   callback/layout through an interim dual writer mode.
 - **Shared reader/materializer:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.

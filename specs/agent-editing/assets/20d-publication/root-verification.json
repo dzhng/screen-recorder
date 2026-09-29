@@ -1,0 +1,16 @@
+{
+  "commit": "bfde102e",
+  "exitCodes": {
+    "build": 0,
+    "publisher": 0,
+    "capture": 0,
+    "journalFailure": 0,
+    "service": 0
+  },
+  "serviceTests": 11,
+  "retainedArtifactHashesVerified": 11,
+  "workerSHA256": "d552e8e370d8715610400c0b86b81de9f30af9854bd87227d9c1c18693d968a2",
+  "archiveSHA256": "00bd3c025c33a57ed81847b261ba0aefeeffc750c7cecab4f1bd50f8990ade16",
+  "scope": "Combined-root offline publisher and native preservation checks; service finalizing response fixture. No controller/device, long public recovery, process-kill or power-loss claim.",
+  "retainedFixtureHashesVerified": 59
+}

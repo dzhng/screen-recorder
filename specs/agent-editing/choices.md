@@ -2903,3 +2903,17 @@ The [reviewed materializer choices](assets/20c-materializer/choices.md) retain t
 encoding and ownership details. These internal choices enable cancellation and
 immutable long-file verification; they do not remove public deadlines, establish
 a new recording cap or claim forensic knowledge of unindexed container bytes.
+
+### Keep unfinished publication attempts private and inspectable (sound, high confidence)
+
+In the canonical publisher checkpoint, a stopped export keeps one private folder
+per audio role. Its intent names the exact input, and its prepared receipt says
+which verified output may be published. A partial candidate can be rebuilt before
+that receipt exists; after it exists, retry must verify the same candidate. This
+fills in the proposal's on-disk restart boundary without a second job manager.
+Small metadata records have a fixed size budget because sample placements remain
+in the journal, rather than being copied into each receipt. The budget is not a
+recording length limit. If cleanup encounters an unexpected file in the attempt,
+it retains that file and reports pending cleanup instead of deleting the folder
+recursively. A successfully published recording stays available throughout. These
+choices make future stop/recovery continuation reuse the same inspectable attempt.
