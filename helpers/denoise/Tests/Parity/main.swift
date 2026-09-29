@@ -14,18 +14,18 @@ func main() throws {
     }
     for readResult in [0, -1, 481] {
       try expectFailure("invalidRead") {
-        try FrozenRNNoise.process(
+        try RNNoiseProcessor.process(
           sampleCount: 480, sampleRate: 48000, channels: 1,
           read: { _ in readResult }, write: { _ in fatalError("unexpected write") })
       }
     }
     try expectFailure("read") {
-      try FrozenRNNoise.process(
+      try RNNoiseProcessor.process(
         sampleCount: 1, sampleRate: 48000, channels: 1,
         read: { _ in throw Marker.read }, write: { _ in fatalError("unexpected write") })
     }
     try expectFailure("write") {
-      try FrozenRNNoise.process(
+      try RNNoiseProcessor.process(
         sampleCount: 1, sampleRate: 48000, channels: 1,
         read: {
           $0[0] = 0.5
@@ -34,7 +34,7 @@ func main() throws {
     }
     var checks = 0
     try expectFailure("cancel") {
-      try FrozenRNNoise.process(
+      try RNNoiseProcessor.process(
         sampleCount: 960, sampleRate: 48000, channels: 1,
         read: { b in
           for i in b.indices { b[i] = 0 }
@@ -51,7 +51,7 @@ func main() throws {
   }
   guard arguments.count == 6 || (arguments.count == 7 && arguments[6] == "--cancel-after-output")
   else {
-    throw FrozenRNNoise.Failure.invalidCount
+    throw RNNoiseProcessor.Failure.invalidCount
   }
   let input = try FileHandle(forReadingFrom: URL(fileURLWithPath: arguments[1]))
   defer { try? input.close() }
@@ -61,7 +61,7 @@ func main() throws {
     let chunk = Int(arguments[3]), chunk > 0,
     let rate = Int(arguments[4]), let channels = Int(arguments[5])
   else {
-    throw FrozenRNNoise.Failure.invalidCount
+    throw RNNoiseProcessor.Failure.invalidCount
   }
   let destination = URL(fileURLWithPath: arguments[2])
   let temporary = destination.deletingLastPathComponent().appendingPathComponent(
@@ -71,11 +71,11 @@ func main() throws {
   let output = try FileHandle(forWritingTo: temporary)
   defer { try? output.close() }
   var frames: Int64 = 0
-  try FrozenRNNoise.process(
+  try RNNoiseProcessor.process(
     sampleCount: Int64(bytes / 4), sampleRate: rate, channels: channels,
     read: { buffer in
       let data = try input.read(upToCount: min(chunk, buffer.count) * 4) ?? Data()
-      guard data.count % 4 == 0 else { throw FrozenRNNoise.Failure.invalidRead }
+      guard data.count % 4 == 0 else { throw RNNoiseProcessor.Failure.invalidRead }
       data.withUnsafeBytes { source in
         for i in 0..<(data.count / 4) {
           buffer[i] = source.loadUnaligned(fromByteOffset: i * 4, as: Float.self)

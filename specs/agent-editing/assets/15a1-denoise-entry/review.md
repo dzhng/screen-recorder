@@ -5,3 +5,5 @@ The retained initial static review identified three actionable test-caller/harne
 Both original reports and complete logs remain in the archive. The independent reviewer did not run builds or inference. Implementer verification supplies the actual PCM parity, mutation red/green and scoped existing-native checks. No review claims OOM recovery or public selection/prepared-consumer integration. The shape review preserves one fixed DSP adapter, with existing audio/preparation owners reserved for adoption; documentation retains the parent’s full contract and listening limits.
 
 Upstream trailing whitespace is intentionally preserved for exact vendored-source identity; the authored harness whitespace was corrected and its complete final parity run retained.
+
+The integrating review renamed the native library symbol/file to RNNoiseProcessor so its name describes responsibility, while recipe identity remains in provenance. A fresh focused build and all parity/refusal gates passed unchanged; receipts are retained.

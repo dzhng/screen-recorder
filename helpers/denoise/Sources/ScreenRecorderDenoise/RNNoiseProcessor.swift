@@ -1,7 +1,7 @@
 import CRNNoise
 
 /// Fixed mono recipe over one explicitly selected domain. Caller owns selection and publication.
-public enum FrozenRNNoise {
+public enum RNNoiseProcessor {
   public enum Failure: Error {
     case unsupportedFormat, invalidCount, invalidRead, nonfinite, unavailable
   }
