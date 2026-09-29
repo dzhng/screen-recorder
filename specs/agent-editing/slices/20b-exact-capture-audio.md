@@ -1,9 +1,17 @@
 # 20b — Exact capture placement and accepted PCM addresses
 
-Status: [bounded owner prototype](../assets/20b-admission/README.md) verifies addresses, actual omitted-buffer PCM and explicit reader masking. Journal/append integration and broader resample/recovery/support gates remain open. The [100001us window/resampling gate](../assets/20b-window-phase/README.md) is red and owned by the common reader. No writer rollout; no raw-host equivalence claim.
-The [accepted-media journal-failure checkpoint](../assets/20b-journal-failure/README.md) fixes schema1 bookkeeping independently; schema2 and canonical publication remain unenabled.
-The [typed journal checkpoint](../assets/20b-pcm-journal/README.md) banks lossless mapping serialization and bounded valid-prefix reading; actual append integration remains open.
-The [PCM format boundary](../assets/20b-pcm-format/README.md) now preserves actual writer representation changes and rejects rate/channel epoch changes before append. This does not activate schema2 callback wiring.
+Status: exact accepted-address/journal integration verified through actual packed
+CaptureWriter callbacks and [20d canonical publication](20d-capture-publication.md).
+The [100001us native/project window gate](../assets/08-native-sample-address/root-verification.json)
+is corrected; its [original red](../assets/20b-window-phase/README.md) remains retained.
+[Both-role pause and normal/recovery parity](20d8-pause-terminal-boundaries.md) pass.
+No physical-clock-equivalence claim.
+
+The [admission prototype](../assets/20b-admission/README.md),
+[journal-failure](../assets/20b-journal-failure/README.md),
+[typed journal](../assets/20b-pcm-journal/README.md) and
+[PCM format boundary](../assets/20b-pcm-format/README.md) evidence retain the
+pre-activation checkpoints; schema2 callback wiring is now active through20d.
 Dependencies: [08](08-audio-mixing.md).
 
 ## Contract and owner
@@ -22,7 +30,7 @@ anchor fitting. Exact accepted sample addresses and acquired support together ar
 the contract. Adjacent admitted addresses can coalesce; a backward/overlapping
 classification, explicit gap or pause cannot be silently forced into continuity.
 
-This candidate is **not rollout approval**. First prove the banked omission selects
+The prototype alone did not authorize rollout. First prove the banked omission selects
 original 52800 at 1.2s and callback-grouping invariance on the controlled timestamps,
 then explicit gap/pause/overlap behavior. Report any semantic ambiguity before
 broadening tests. Public microsecond support, resampling, fractional edit boundaries
@@ -91,6 +99,6 @@ Do not duplicate CaptureClock, create a reader-specific offset, or widen public
 composition coordinates. Record any required contract change before implementation.
 
 Root architecture review and an [independent read-only plan review](../assets/20b-exact-capture-audio/plan-review.log.gz)
-confirmed this owner sequence; production implementation remains gated above.
+confirmed this owner sequence; [20d](20d-capture-publication.md) subsequently verified its activation.
 
-Exact container capacity is shared by prospective admission and materialization through `PCMContainerTime`; see [preflight evidence and refusal-state proof](../assets/20b-container-preflight/README.md). Actual packed-writer activation remains coupled to20d.
+Exact container capacity is shared by prospective admission and materialization through `PCMContainerTime`; see [preflight evidence and refusal-state proof](../assets/20b-container-preflight/README.md). Actual packed-writer activation is verified with20d.

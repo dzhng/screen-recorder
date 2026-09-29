@@ -270,9 +270,9 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
-- [ ] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — partial; PCM delivery unresolved.
-- [ ] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
-- [ ] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)
+- [x] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — offline scope; physical acceptance remains20.
+- [x] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
+- [x] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)
 - [x] [20d — Canonical capture publication and recovery rollout](slices/20d-capture-publication.md)
 - [x] [20d1 — Responsive capture recovery lifecycle](slices/20d1-recovery-continuation.md)
 - [x] [20d2 — Public immutable asset metadata pages](slices/20d2-asset-metadata-pages.md)

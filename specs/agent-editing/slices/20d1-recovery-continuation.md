@@ -1,6 +1,6 @@
 # 20d1 — Responsive capture recovery with retained failure
 
-Status: verified responsive recovery checkpoint; parent 20d retains cleanup and terminal-detail work. Dependencies: [20c](20c-sparse-capture-materialization.md).
+Status: verified responsive recovery checkpoint. Parent [20d](20d-capture-publication.md) now also verifies cleanup and terminal details through20d6–20d8; physical capture remains separate. Dependencies: [20c](20c-sparse-capture-materialization.md).
 
 ## Contract and owner
 

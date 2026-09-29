@@ -1,6 +1,6 @@
 # 20c — Shared sparse capture materialization
 
-Status: shared materializer/verifier checkpoint implemented; writer/recovery activation remains pending 20d. [Implementation evidence](../assets/20c-materializer/README.md) and [reviewed choices](../assets/20c-materializer/choices.md); [platform feasibility](../assets/20c-platform-feasibility/README.md) retained. Dependencies: [20b](20b-exact-capture-audio.md).
+Status: shared materializer/verifier and normal/recovery activation verified through [20d](20d-capture-publication.md). Exact-prefix reconciliation, bounded100k-run work, canonical-only admission and cancellation retain their scoped evidence. Physical synchronization remains outside this checkpoint. [Implementation evidence](../assets/20c-materializer/README.md) and [reviewed choices](../assets/20c-materializer/choices.md); [platform feasibility](../assets/20c-platform-feasibility/README.md) retained. Dependencies: [20b](20b-exact-capture-audio.md).
 
 ## Contract and owner
 
@@ -69,8 +69,8 @@ gap, full versus late reads and exact sample length independently of output meta
 
 Run the same source reader and capture preservation gates. Reuse the storage proof's
 matched controls; preserve its historical red while upgrading the active oracle only
-after the reader correction passes. No production packed writer rollout yet; 20d
-owns canonical-only admission and publication safety. No physical-sync claim.
+after the reader correction passes. [20d](20d-capture-publication.md) now verifies
+canonical-only admission and publication safety; its [responsive recovery checkpoint](20d1-recovery-continuation.md) verifies that long finalization does not hold the control queue. No physical-sync claim.
 
 Delegated: extraction/naming of shared native helpers and bounded iteration strategy.
 Representation, truthful uncertainty and no duplicate timing owner are fixed.

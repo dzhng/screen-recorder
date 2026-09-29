@@ -2,38 +2,29 @@
 
 The full editor goal remains active; the installed app has not switched engines.
 Root integrates committed passes and verifies their consumer contracts. Current
-catalog format is 18. The combined native worker is
-`/tmp/screenrec-source-retry-root-aba4b5bf646a`, SHA256
-`aba4b5bf646af2d81ca1923a75fd018c3e1e0d78f11d4833720c1274d3946a32`.
-Historical workers and measurements keep their own identities in the linked evidence.
+catalog format is19 and source policy is native-source-v2. The combined worker is
+`helpers/mac/.build/debug/screenrec-native`, SHA256
+`b95b9bcde50b6a1d0dc83a9bde87ca0ab6d4c8f64d4b0bb179e039a8d4bd5a9c`.
+Historical workers and measurements retain their own identities below.
 
 ## Active owners and next action
 
-- **Capture rollout:** `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
-  Responsive recovery and packed writer publication pass
-  [integrated native/service verification](20d-activation/root-verification.json).
-  [Source-admission retry](20d4-source-retry/root-verification.json) now passes
-  permission restoration and immutable-identity controls. Explicit settled cleanup
-  now covers no-revision recordings through the existing queue and deletion owner.
-  Terminal message disclosure is next; it must preserve original provenance.
-  No live capture or installed-app replacement has occurred.
-- **Portable project consumers:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  [Complete project metadata](20d3-package-json/README.md) and the
-  [combined fragmented-source/history journey](20d3-package-json/combined-public/README.md)
-  now preserve exact metadata, all selected history and undo after donor removal.
-  [Retained project consumers](22b-retained-consumers/README.md) now pass on catalog18
-  with unavailable processing: historical/undo preparation, PCM, previews and exports.
-  Jobs preserve their produced/retained choice. Continue remaining package acceptance
-  and the measured prepared-recipe size boundary; no new processor policy is implied.
-- **Scale and traversal:** `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-  [Complete two-hour learned PCM](24f-learned-scale/README.md),
-  [combined public processing](15a3a-unit-rate-combined/README.md),
-  [fragmented-source selection](24g-fragmented-selection/README.md) and
-  [bounded job inspection](24h-job-inspection/README.md) pass their scoped gates.
-  [Independent processing batches](24i-processing-batches/README.md) now pass the
-  integrated 1,000-operation edit, exact receipts/replay and full/range PCM. Wide
-  routing, stateful batch work and queue gates remain open.
-  Do not repeat completed DSP research or silently widen deadlines.
+- **Routing scale24k:** the delegate is reviewing changes in
+  `/Users/david/.codex/worktrees/capture-pause-recovery/screen-recorder`, branch
+  `codex/routing-scale`. Public500/10,000 occurrence tests exposed and now pass
+  placement and cached timeline budgets in that checkout. Root integration remains
+  pending; no broad scale or real in-flight native cancellation claim follows.
+- **Two-hour package24j:** exact recipe reconstruction is verified; full transfer
+  needs about3GiB more free disk. Run its measured preflight before restoring PCM.
+  No large restore or repeated DSP has run. The prerequisite worktree is
+  `/Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder`.
+- **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
+  Physical20/21, speech quality, installed cutover23, general24 and autonomous25
+  remain open. Continue dependency-ready work while the transfer lacks capacity.
+
+Preserve integrated older diffs in the project-still-composition,
+acquisition-picture-journey and noise-prepared-output worktrees. Do not reapply
+or discard them. Root owns this handoff and the parent checklist.
 
 ## Banked contracts and evidence
 
@@ -96,7 +87,7 @@ retirement ownership, not a new garbage collector.
 
 Follow the [audio/stretch audit](acceptance-maintenance/README.md):08/11 finite
 conformance,12/12b speech,12c/15a denoise,13/13a/14 stretch,18/19 voice; then physical
-camera20/21, remaining22 closure, cutover23, scale24 and autonomous25.16 still needs
+camera20/21, cutover23, scale24 and autonomous25. Generic22 closure is verified.16 still needs
 delivered retime/gain,15a transitions and full journeys. Segmentation stays a future
 placeholder. These checkpoints do not establish physical capture or installed-app cutover.
 
@@ -113,37 +104,19 @@ numerical/visual evidence and a sample-exact accepted ending; the shortened entr
 and voice-generation readiness remain unaccepted. Reuse existing14a lifecycle
 owners after speech recipes earn their required acceptance.
 
-## Next execution
+## Recent integrated evidence
 
-Main includes24i,20d5,22b and the verified20d6 cleanup checkpoint. The20d7
-terminal diagnostic pass now passes core90, service23, native20, controller,
-prerecorded public CLI/MCP/restart and native historical/current package-proof
-checks. A first review's live fixture policy finding is fixed; followup has no
-findings. Evidence is in [20d7](20d7-terminal-diagnostics/README.md). Catalog19
-and source-policy-v2 are current; frozen older catalogs remain immutable.
+[20d7](20d7-terminal-diagnostics/README.md) preserves bounded terminal diagnostics
+through public restart and historical/current package proof. Catalog19 and
+source-policy-v2 are current; older catalogs remain immutable.
+[20d8](20d8-pause-terminal-boundaries/README.md) verifies both-role pause and
+absent/torn-terminal recovery through native and public owners.
 
-[22c](22c-prepared-recipe-budget/README.md) now transfers complete4,000-clip
-recipes (2.6MB unit/gain and6.2MB learned) and exact PCM with receiver processing
-unavailable. Core22 and the actual native public package journey pass; independent
-review has no findings. The two-hour package gate remains separate.
-
-[20d8](20d8-pause-terminal-boundaries/README.md) is integrated: both-role pause
-preservation and post-publication absent/torn-terminal recovery pass combined-root
-native and CLI/MCP/source-evidence/restart checks. Parent20d's prerecorded scope
-is now verified. Generic22 closure also passes its final changed-model-recipe
-refusal and undo journey; physical/quality/autonomous gates are not implied.
-
-The two-hour transfer delegate committed an exact reconstruction prerequisite in
-`/Users/david/.codex/worktrees/two-hour-package-transfer/screen-recorder` (b18aec04).
-Root integrated it as [24j](../slices/24j-prepared-package-scale.md), with two
-independent review findings fixed and full transfer still open. Recipe SHA matches the original ready job exactly;
-actual preflight lacks about3GiB free space. User was asked optionally to free it;
-no answer or elapsed time is permission or available disk. No large restore ran.
-The routing-scale delegate now owns24k in the reused capture-pause-recovery
-worktree, branch `codex/routing-scale` fromfcd0f0b2. It is measuring bounded late
-reads with wide/nested routing and queued cancellation. Root owns integration.
-Continue audio acceptance while space is unavailable.
-Older worktree diffs are preserved; do not reapply them. No installed cutover occurred.
+[22c](22c-prepared-recipe-budget/README.md) transfers complete4,000-clip recipes
+and exact PCM with processing unavailable. [Generic22 acceptance](22-acceptance/README.md)
+includes changed learned settings refusing stale retained audio and undo restoring
+it. [24j](../slices/24j-prepared-package-scale.md) retains exact original two-hour
+recipe authentication, reviewed transfer harness and the unpassed capacity gate.
 
 A complete familiar sentence was presented for optional denoise word/naturalness
 feedback. No answer has arrived; listening remains unverified.

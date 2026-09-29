@@ -1,6 +1,6 @@
 # 20a — Offline clock and separate-source plumbing
 
-Status: partial. Controlled clock conversion/pause mapping, separate-source decode and unfinalized camera recovery verified; delivered PCM timing fails the endpoint check. Dependencies: [00](00-corpus.md).
+Status: offline clock/separate-source checkpoint verified. Its PCM delivery prerequisite is resolved by the common-reader correction and actual-owner [20b](20b-exact-capture-audio.md)–[20d](20d-capture-publication.md) repair chain, including [both-role pause preservation](20d8-pause-terminal-boundaries.md). Dependencies: [00](00-corpus.md).
 Parent [20](20-camera-reproduction.md) remains open through real physical capture.
 
 A feature-owned executable feeds explicit prerecorded screen/camera/audio sources
@@ -30,7 +30,7 @@ explicit selected-camera/microphone/screen authorization and measured shared-eve
 capture. No live mode is necessary to make this offline checkpoint actionable.
 
 
-## Banked mechanism and unresolved delivery
+## Banked mechanism and repaired delivery
 
 The executable and JS oracle convert controlled rates/offsets, preserve one shared
 pause map, retain all raw observations and detect bypassed clock conversion.
@@ -38,7 +38,7 @@ Separate selected inputs decode and survive a fresh-process repeat; an
 unfinalized camera fragment recovers through MediaRecovery. Missing prerecorded
 microphone input refuses, and live mode is unsupported before any native work.
 
-The current PCM output does not preserve the admitted discontinuous timeline.
+The original probe PCM output did not preserve the admitted discontinuous timeline.
 Mapped audio ends at 1.700 s, decoded support at 1.588 s; the existing journal exposes
 the pause-overlap hole but cannot repair packed payload positions. The receipt
 therefore reports `completed: true` and `deliveredTimelinesPreserved: false`.
@@ -52,13 +52,12 @@ known buffer packs later sample values early with no backpressure drop. This is
 production-owner evidence for those buffers, not physical device measurement.
 
 The [bounded sparse storage proof](../assets/20a-sparse-storage/README.md) preserves
-exact container runs and process-publication boundaries, but exposes a one-sample
-phase loss in the existing reader even for a rational container anchor.
-Next: localize that reader projection and review exact CaptureClock/journal ownership
-before production repair, including committed-tail recovery.
-The retained proposal requires explicit occupied/empty segments and truthful
-physical-run mapping if needed. No production timing fix is included; do not use
-silence padding, another clock or journal-only relabelling to hide shifted audio.
+exact container runs and process-publication boundaries, but exposed a one-sample
+phase loss in the earlier reader even for a rational container anchor.
+The [common-reader correction](../assets/08-native-sample-address/root-verification.json)
+resolves the phase loss; the completed repair chain below preserves explicit
+occupied/empty segments and exact physical-run mapping through normal publication
+and recovery. The original failed receipts remain historical evidence.
 
 The probe's role-isolated directories and offline journal headers are test evidence,
 not final capture asset mapping. Native video recovery treats decodable sample
@@ -71,5 +70,5 @@ flag makes prerecorded evidence into physical capture.
 frame journaling after the separate reader gate. [20c](20c-sparse-capture-materialization.md)
 owns shared normal/recovery materialization; [20d](20d-capture-publication.md) owns
 canonical admission, truthful old-source handling and safe staging cleanup. No
-intermediate packed writer rollout is permitted. These complete the unresolved PCM
+intermediate packed writer rollout is permitted. These now complete the PCM
 prerequisite without substituting for parent 20 physical capture or 21 integration.
