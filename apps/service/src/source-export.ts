@@ -109,6 +109,14 @@ export function sourceExporter(
           },
         ),
       ) as SourceEvidenceReceipt;
+    } catch (error) {
+      // Only known access/IO failures are operational. Preserve native and identity refusals.
+      if (
+        !(error instanceof CatalogError) &&
+        ["EACCES", "EPERM", "EIO"].includes((error as NodeJS.ErrnoException)?.code ?? "")
+      )
+        throw new CatalogError("MEDIA_UNAVAILABLE", "Cannot read source evidence input", {}, true);
+      throw error;
     } finally {
       await Promise.all(handles.map((file) => file.close()));
     }

@@ -40,7 +40,12 @@ package struct SourceEvidenceExport: Encodable {
         }
         let journal = source.appendingPathComponent("capture.journal.jsonl")
         var info = stat()
-        guard stat(journal.path, &info) == 0, (info.st_mode & S_IFMT) == S_IFREG else {
+        guard stat(journal.path, &info) == 0 else {
+            let operational = [EACCES, EPERM, EIO].contains(errno)
+            throw CaptureFailure(operational ? "JOURNAL_UNAVAILABLE" : "INVALID_JOURNAL",
+                "Cannot inspect source evidence journal.")
+        }
+        guard (info.st_mode & S_IFMT) == S_IFREG else {
             throw CaptureFailure("INVALID_JOURNAL", "Evidence requires a regular journal file.")
         }
         guard info.st_size <= 268_435_456 else {

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import {
+  chmodSync,
   mkdtempSync,
   mkdirSync,
   writeFileSync,
@@ -487,4 +488,35 @@ test("lifecycle provenance shares the bounded receipt budget and refuses publica
   assert.equal(result.error.code, "EVIDENCE_LIMIT");
   assert.equal(existsSync(f.output), false);
   assert.equal(readFileSync(f.journal, "utf8"), f.text);
+});
+
+test("source evidence retries actual journal access failures without changing source", (t) => {
+  const f = fixture(t, []);
+  const before = readFileSync(f.journal);
+  for (const path of [f.journal, f.directory]) {
+    chmodSync(path, 0);
+    let denied;
+    try { denied = request(f.directory, f.output); }
+    finally { chmodSync(path, path === f.directory ? 0o700 : 0o600); }
+    assert.equal(denied.ok, false);
+    assert.equal(denied.error.retryable, true, JSON.stringify(denied));
+    assert.equal(denied.error.code, "JOURNAL_UNAVAILABLE");
+    assert.equal(existsSync(f.output), false);
+  }
+  assert.equal(request(f.directory, f.output).ok, true);
+  assert.deepEqual(readFileSync(f.journal), before);
+});
+
+test("a linked journal is invalid input rather than an operational retry", (t) => {
+  const f = fixture(t, []);
+  const original = join(f.root, "original.jsonl");
+  writeFileSync(original, f.text);
+  rmSync(f.journal);
+  symlinkSync(original, f.journal);
+  const refused = request(f.directory, f.output);
+  assert.equal(refused.ok, false);
+  assert.equal(refused.error.retryable, false);
+  assert.equal(refused.error.code, "INVALID_JOURNAL");
+  assert.equal(readFileSync(original, "utf8"), f.text);
+  assert.equal(existsSync(f.output), false);
 });

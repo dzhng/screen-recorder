@@ -240,7 +240,9 @@ public final class CaptureJournal {
         let url = URL(fileURLWithPath: directory).appendingPathComponent("capture.journal.jsonl")
         let input = descriptor ?? Darwin.open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
         guard input >= 0 else {
-            throw CaptureFailure(errno == ENOENT ? "JOURNAL_MISSING" : "JOURNAL_UNAVAILABLE", "Cannot read capture journal.")
+            let code = errno == ENOENT ? "JOURNAL_MISSING"
+                : [ELOOP, ENOTDIR].contains(errno) ? "INVALID_JOURNAL" : "JOURNAL_UNAVAILABLE"
+            throw CaptureFailure(code, "Cannot read capture journal.")
         }
         defer { if descriptor == nil { close(input) } }
         var pending = Data()

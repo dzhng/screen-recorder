@@ -68,8 +68,19 @@ public enum NativeWire {
                 run: { params in
                     let request = try WireRequest.decode(SourceEvidenceRequest.self, from: params)
                     try WireRequest.requireAbsolute(request.directory, request.output)
-                    return try json(
-                        await SourceEvidenceExport.write(directory: request.directory, output: request.output, canonical: request.canonical))
+                    do {
+                        return try json(
+                            await SourceEvidenceExport.write(directory: request.directory, output: request.output, canonical: request.canonical))
+                    } catch let failure as NativeFailure { throw failure }
+                    catch let failure as CaptureFailure {
+                        throw NativeFailure(failure.code, failure.message,
+                            retryable: ["MEDIA_UNAVAILABLE", "JOURNAL_UNAVAILABLE"].contains(failure.code))
+                    } catch {
+                        if CaptureFinalizationError.isOperationalRead(error) {
+                            throw NativeFailure("MEDIA_UNAVAILABLE", error.localizedDescription, retryable: true)
+                        }
+                        throw error
+                    }
                 },
                 unexpected: { _ in NativeFailure(
                     "EVIDENCE_FAILED", "Cannot export source evidence.") }),
@@ -122,8 +133,8 @@ public enum NativeWire {
                 do {
                     response = ["id": id, "ok": true, "data": try await operation.run(params)]
                 } catch {
-                    // Capture evidence defaults to a final failure. Recovery translates its
-                    // operational errors explicitly before reaching this fallback.
+                    // Unclassified capture failures are final. Operation owners translate
+                    // their known operational errors before reaching this fallback.
                     let failure =
                         error as? NativeFailure
                         ?? (error as? CaptureFailure).map { NativeFailure($0.code, $0.message) }
