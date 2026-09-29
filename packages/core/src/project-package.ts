@@ -1,3 +1,4 @@
+import { portablePreparedAudioSchema, preparedAudioResource } from "./prepared-audio.js";
 import { portableProjectIndexMetadataSchema } from "./project-index.js";
 import { portableSourceIndexMetadataSchema } from "./source-index.js";
 import { indexGenerationResource } from "./screenshot-index.js";
@@ -44,6 +45,7 @@ const indexMembersSchema = z.strictObject({
 });
 const resourceSchema = z.discriminatedUnion("kind", [
   portableAssetSchema.extend({ kind: z.literal("asset") }),
+  portablePreparedAudioSchema.extend({ kind: z.literal("prepared-audio") }),
   z.strictObject({ kind: z.literal("acquisition"), acquisition: portableAcquisitionSchema }),
   z.strictObject({
     kind: z.literal("scene-generation"),
@@ -111,6 +113,11 @@ export type PortableDependency =
   | Omit<Extract<PortableResource, { kind: "project-index-generation" }>, "records" | "images">;
 export function resourceIdentity(resource: PortableDependency): ResourceReference {
   switch (resource.kind) {
+    case "prepared-audio":
+      return {
+        kind: "prepared-audio",
+        id: preparedAudioResource(resource.projectId, resource.publication.attemptId),
+      };
     case "project-index-generation":
       return {
         kind: "index-generation",
@@ -140,6 +147,8 @@ export function resourceIdentity(resource: PortableDependency): ResourceReferenc
 const key = (identity: ResourceReference) => `${identity.kind}:${identity.id}`;
 export function resourceDependencies(resource: PortableDependency): ResourceReference[] {
   switch (resource.kind) {
+    case "prepared-audio":
+      return [{ kind: "asset", id: resource.audio.assetId }, ...resource.audio.dependencies];
     case "project-index-generation":
       return resource.metadata.scenes.map((scene) => ({
         kind: "scene-generation",
@@ -173,6 +182,7 @@ export function resourceDependencies(resource: PortableDependency): ResourceRefe
 export function resourceMembers(
   resource: PortableResource,
 ): { path: string; bytes: number; sha256: string | null }[] {
+  if (resource.kind === "prepared-audio") return [];
   if (resource.kind === "index-generation" || resource.kind === "project-index-generation")
     return [
       ...resource.records.map((value, index) => ({
@@ -405,6 +415,12 @@ export function validateProjectPackage(
         !snapshot.revisions.some((revision) => revision.id === resource.metadata.revisionId))
     )
       invalid("Project screenshot index belongs to another history");
+    if (
+      resource.kind === "prepared-audio" &&
+      (resource.projectId !== snapshot.project.projectId ||
+        !snapshot.revisions.some((revision) => revision.id === resource.revisionId))
+    )
+      invalid("Prepared audio belongs to another project history");
     const identity = key(resourceIdentity(resource));
     if (resources.has(identity)) invalid("Duplicate project dependency");
     if (resource.kind === "asset" && !resource.asset.fileName.startsWith(resource.asset.id))

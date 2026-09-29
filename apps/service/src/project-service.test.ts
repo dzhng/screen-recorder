@@ -625,7 +625,7 @@ test("selected-source audio publishes verified WAV bytes through artifact delive
   expect(await f.call("artifact.close", { token })).toMatchObject({ ok: true });
 });
 
-test("project export refuses retained prepared audio until its package adapter is ready", async () => {
+test("project export refuses a dangling prepared audio reference before native work", async () => {
   const f = await setup(async () => ({ ok: true, data: metadata }));
   const created = await f.call("project.create", {
     requestId: "prepared-project",
@@ -667,6 +667,6 @@ test("project export refuses retained prepared audio until its package adapter i
   });
   expect(result).toMatchObject({
     ok: false,
-    error: { code: "NOT_READY", message: "Prepared audio package retention is not implemented" },
+    error: { code: "NOT_FOUND", message: "Prepared audio publication is unavailable" },
   });
 });

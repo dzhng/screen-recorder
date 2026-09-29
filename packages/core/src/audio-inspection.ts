@@ -62,7 +62,7 @@ const projectOptionsSchema = z.strictObject({
 const sampleRangeSchema = z
   .object({ start: integer, end: integer })
   .refine((value) => value.end >= value.start);
-const projectAudioReceiptSchema = z.object({
+export const projectAudioReceiptSchema = z.object({
   file: z.string(),
   bytes: integer.positive(),
   sampleRate: z.literal(48000),

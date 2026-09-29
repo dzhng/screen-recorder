@@ -1,3 +1,4 @@
+import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { projectComposition } from "@screenrec/core/project-window";
 import { selectSource } from "@screenrec/core/source-selection";
 import { outputCapabilities } from "@screenrec/composition";
@@ -154,6 +155,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let transcripts: TranscriptProcessing;
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
+    let preparedAudio: PreparedAudioStore;
     let acoustics: AcousticInspection;
     let scenes: SceneProcessing;
     let indexes: IndexProcessing;
@@ -165,6 +167,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.artifact === "prepared-audio") return preparedAudio.execute({ job, signal });
         if (job.artifact === "pointer-presentation") return pointers.execute({ job, signal });
         if (
           (job.target.kind === "asset" || job.target.kind === "project") &&
@@ -245,12 +248,24 @@ export async function startProjectService(options: { home: string; worker?: Medi
           }),
         ) as SpeechTranscriptionReceipt,
     });
+    const audioRenderer = projectAudioRenderer(worker, workspace);
+    preparedAudio = new PreparedAudioStore({
+      catalog,
+      assets,
+      projects,
+      jobs: queue,
+      renderer: audioRenderer,
+      probe: async (path, signal) =>
+        nativeResult(await worker("media.probe", { path }, { signal })),
+      staging: join(library, "staging", "prepared-audio"),
+    });
+    await preparedAudio.recover();
     mediaAudio = new MediaAudioInspection({
       assets,
       acquisitions,
       jobs: queue,
       cache,
-      project: { projects, renderer: projectAudioRenderer(worker, workspace) },
+      project: { projects, renderer: audioRenderer },
       sourceRenderer: {
         implementationId: "native-source-audio-v2",
         render: async (request, signal) =>
@@ -447,6 +462,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         : null,
     });
     const projectPackages = new ProjectPackages({
+      preparedAudio,
       acquisitions: acquisitionImports,
       sceneRecords,
       scenes,

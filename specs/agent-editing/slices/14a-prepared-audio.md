@@ -1,6 +1,6 @@
 # 14a — Durable prepared audio shared by retiming and processors
 
-Status: first core lifecycle checkpoint verified; portable closure and public consumers remain open. Dependencies: 02a, 04,
+Status: core lifecycle and [unit-rate/gain portable transfer](../assets/14a-prepared-portable/README.md) verified; public preparation/processing consumers and actual model-dependent output remain open. Dependencies: 02a, 04,
 05, 08 and 22a. This storage/publication prerequisite does not depend on accepting
 RNNoise or stretch quality; actual DSP adoption remains gated by 12c/13a.
 
@@ -60,15 +60,15 @@ retry, owner deletion, database publication rollback, restart with staged bytes,
 missing/replaced files and concurrent revision identities. Deliberately fail the
 publication oracle before accepting it. No listening or DSP quality claim follows.
 
-## Next checkpoint: portable closure and production consumers
+## Next checkpoint: production consumers
 
-Extend the existing project package resource union with the prepared publication
-and its output/upstream dependencies. Staged import adopts asset bytes and the
-queue's retained publication receipt atomically, preserving recipe/model identity
-while changing local locators. Current and retained revisions must replay with
-original paths and donor model cache removed. Package export must explicitly
-refuse unsupported prepared resources until this checkpoint lands; it must never
-silently omit their bytes. Coordinate the package adapter with slice 22.
+The existing package union now carries prepared publications and their output and
+upstream dependencies. Staged import validates copied PCM and the original recipe,
+then publishes its new local file identity, adopted revision/resource references
+and queue receipt atomically. Public relocation preserves current and historical
+unit-rate/gain results after donor removal; retained reads need no renderer or
+model. The [portable evidence](../assets/14a-prepared-portable/README.md) separates
+these owner-level checks from unbuilt public preparation and DSP integration.
 
 Then 14 and 15a bind accepted typed recipes and native executors to this owner,
 with production-entry parity against the frozen reproductions. Clip-level state
@@ -82,6 +82,6 @@ The [retained evidence](../assets/14a-prepared-audio/README.md) records actual n
 unit-rate, split and constant-gain output, bounded reads after restart, lifecycle
 tests and the broad-suite verification limits. The core owner is exercised through
 the production native renderer but is not yet registered as a public preparation
-command. Package export explicitly refuses revisions carrying prepared resources
-until the next checkpoint supplies its adapter. Full portability, scale/deletion
-verification and public processor integration remain required before closure.
+command. Package export now retains supported prepared receipts through the existing owner.
+Actual model-dependent output, scale/deletion acceptance and public processor
+integration remain required before closure.

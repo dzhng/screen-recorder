@@ -1,13 +1,25 @@
+import { archiveLimits } from "./package-archive.js";
+import { z } from "zod";
+import { isDeepStrictEqual } from "node:util";
 import { mkdir, open, rm } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
-import { isMediaClip } from "@screenrec/composition";
+import { executionWindowManifestSchema, isMediaClip } from "@screenrec/composition";
 import { AssetStore, mediaProbeSchema, type AssetProbe } from "./assets.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { ResourceReferences, resourceKinds, type ResourceReference } from "./references.js";
 import type { ProjectStore } from "./projects.js";
-import type { JobExecution, JobQueue, StagedJobResult } from "./jobs.js";
-import { projectWindow } from "./project-window.js";
-import { checkProjectAudioResult, type ProjectAudioRenderer } from "./audio-inspection.js";
+import {
+  retainedPublicationSchema,
+  type JobExecution,
+  type JobQueue,
+  type StagedJobResult,
+} from "./jobs.js";
+import { projectWindow, type projectComposition } from "./project-window.js";
+import {
+  projectAudioReceiptSchema,
+  checkProjectAudioResult,
+  type ProjectAudioRenderer,
+} from "./audio-inspection.js";
 import {
   fileIdentity,
   hashFile,
@@ -25,6 +37,44 @@ export type PreparedAudio = Omit<ReturnType<typeof checkProjectAudioResult>, "fi
   identity: FileIdentity;
   sampleRange: { start: number; end: number };
 };
+
+const portableSample = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+export const portablePreparedAudioSchema = z.strictObject({
+  projectId: z.string().min(1),
+  revisionId: z.string().min(1),
+  publication: retainedPublicationSchema.extend({
+    input: z.string().max(archiveLimits.manifestBytes),
+  }),
+  audio: projectAudioReceiptSchema
+    .omit({ file: true })
+    .extend({
+      assetId: z.string().regex(/^[a-f0-9]{64}$/),
+      sampleRange: z
+        .strictObject({ start: portableSample, end: portableSample })
+        .refine((r) => r.end > r.start),
+      dependencies: z
+        .array(z.strictObject({ kind: z.enum(resourceKinds), id: z.string().min(1) }))
+        .max(25000),
+    })
+    .strict(),
+});
+export type PortablePreparedAudio = z.infer<typeof portablePreparedAudioSchema>;
+export const preparedAudioResource = (projectId: string, attemptId: string) =>
+  JSON.stringify([projectId, attemptId]);
+
+function audioDependencies(
+  plan: Pick<ReturnType<typeof projectWindow>, "model" | "window">,
+): ResourceReference[] {
+  const dependencies: ResourceReference[] = plan.window.manifest.sources.map((source) => ({
+    kind: "asset",
+    id: source.assetId,
+  }));
+  const clips = new Set(plan.window.manifest.sources.map((source) => source.clipId));
+  for (const clip of plan.model.document.clips)
+    if (isMediaClip(clip) && clips.has(clip.id) && clip.acquisitionId)
+      dependencies.push({ kind: "acquisition", id: clip.acquisitionId });
+  return dependencies;
+}
 
 /** Durable bytes use AssetStore; the queue alone publishes their recipe and revision binding. */
 export class PreparedAudioStore {
@@ -74,21 +124,16 @@ export class PreparedAudioStore {
       artifact: "prepared-audio",
       input: JSON.stringify(plan.window.manifest),
     };
-    const dependencies: ResourceReference[] = plan.window.manifest.sources.flatMap((source) => [
-      { kind: "asset", id: source.assetId },
-    ]);
-    const clips = new Set(plan.window.manifest.sources.map((source) => source.clipId));
-    for (const clip of plan.model.document.clips)
-      if (isMediaClip(clip) && clips.has(clip.id) && clip.acquisitionId)
-        dependencies.push({ kind: "acquisition", id: clip.acquisitionId });
-    this.owners.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
-      for (const kind of resourceKinds)
-        this.owners.jobs.retainInputs(
-          job.jobId,
-          kind,
-          dependencies.filter((value) => value.kind === kind).map((value) => value.id),
-        );
-    });
+    const dependencies = audioDependencies(plan);
+    if (!this.owners.jobs.status(identity).published)
+      this.owners.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
+        for (const kind of resourceKinds)
+          this.owners.jobs.retainInputs(
+            job.jobId,
+            kind,
+            dependencies.filter((value) => value.kind === kind).map((value) => value.id),
+          );
+      });
     return this.owners.jobs.status(identity);
   }
   async execute({ job, signal }: JobExecution): Promise<StagedJobResult> {
@@ -144,7 +189,7 @@ export class PreparedAudioStore {
       const value: PreparedAudio = {
         ...audio,
         dependencies,
-        resourceId: JSON.stringify([job.target.projectId, job.attemptId]),
+        resourceId: preparedAudioResource(job.target.projectId, job.attemptId),
         assetId: digest.sha256,
         bytes: audio.bytes,
         identity,
@@ -155,15 +200,7 @@ export class PreparedAudioStore {
         result: JSON.stringify(value),
         publish: () => {
           publication.publish();
-          const owner = { kind: "revision" as const, id: plan.window.manifest.revisionId };
-          this.references.retain("prepared-audio", owner, [value.resourceId]);
-          this.owners.assets.retain(owner, [value.assetId]);
-          for (const kind of resourceKinds)
-            this.references.retain(
-              kind,
-              owner,
-              dependencies.filter((value) => value.kind === kind).map((value) => value.id),
-            );
+          this.retain(value, plan.window.manifest.revisionId);
           return undefined;
         },
         close: async () => {
@@ -183,9 +220,30 @@ export class PreparedAudioStore {
       throw error;
     }
   }
-  /** Bounded PCM view of an already published result; never invokes the renderer or model. */
-  open(resourceId: string, range?: { start: number; end: number }) {
-    const [projectId, attemptId] = JSON.parse(resourceId) as [string, string];
+  private retain(value: PreparedAudio, revisionId: string) {
+    const owner = { kind: "revision" as const, id: revisionId };
+    this.references.retain("prepared-audio", owner, [value.resourceId]);
+    this.owners.assets.retain(owner, [value.assetId]);
+    for (const kind of resourceKinds)
+      this.references.retain(
+        kind,
+        owner,
+        value.dependencies
+          .filter((reference) => reference.kind === kind)
+          .map((reference) => reference.id),
+      );
+  }
+  private publication(resourceId: string) {
+    let identity: unknown;
+    try {
+      identity = JSON.parse(resourceId);
+    } catch {
+      identity = null;
+    }
+    const parsed = z.tuple([z.string().min(1), z.string().min(1)]).safeParse(identity);
+    if (!parsed.success)
+      throw new CatalogError("INVALID_PARAMS", "Invalid prepared audio identity");
+    const [projectId, attemptId] = parsed.data;
     const publication = this.owners.jobs.retainedArtifact(
       { kind: "project", projectId },
       "prepared-audio",
@@ -193,6 +251,128 @@ export class PreparedAudioStore {
     );
     if (!publication)
       throw new CatalogError("NOT_FOUND", "Prepared audio publication is unavailable");
+    return publication;
+  }
+  portable(resourceId: string): PortablePreparedAudio {
+    const publication = this.publication(resourceId);
+    if (publication.target.kind !== "project")
+      throw new CatalogError("INVALID_STORAGE", "Prepared audio has no project owner");
+    const read = this.open(resourceId);
+    try {
+      const { resourceId: _resource, identity: _identity, ...audio } = read.value;
+      return portablePreparedAudioSchema.parse({
+        projectId: publication.target.projectId,
+        revisionId: publication.target.revisionId,
+        publication: {
+          generation: publication.generation,
+          attemptId: publication.attemptId,
+          input: publication.input,
+        },
+        audio,
+      });
+    } finally {
+      read.release();
+    }
+  }
+  /** Validate copied bytes and original execution meaning before the shared publication transaction. */
+  async stagePortable(
+    input: unknown,
+    composition: ReturnType<typeof projectComposition>,
+    path: string,
+    reference: (value: ResourceReference) => ResourceReference,
+    signal: AbortSignal,
+  ) {
+    const parsed = portablePreparedAudioSchema.safeParse(input);
+    if (!parsed.success)
+      throw new CatalogError("INVALID_PACKAGE", "Invalid prepared audio publication");
+    const portable = parsed.data;
+    let rawRecipe: unknown;
+    try {
+      rawRecipe = JSON.parse(portable.publication.input);
+    } catch {
+      throw new CatalogError("INVALID_PACKAGE", "Invalid prepared audio recipe");
+    }
+    const recipe = executionWindowManifestSchema.safeParse(rawRecipe);
+    if (!recipe.success || !isDeepStrictEqual(recipe.data, rawRecipe))
+      throw new CatalogError("INVALID_PACKAGE", "Unsupported prepared audio recipe");
+    if (recipe.data.requirements.some((requirement) => requirement.implementationId === null))
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Prepared audio recipe has unresolved execution requirements",
+      );
+    const window = composition.compiler.audioWindow({
+      range: { startUs: 0, endUs: composition.model.durationUs },
+      rendition: { sampleRate: 48000, channels: 2 },
+      tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    });
+    const meaning = {
+      ...recipe.data,
+      revisionId: composition.revisionId,
+      requirements: recipe.data.requirements.map((requirement) => ({
+        ...requirement,
+        implementationId: null,
+      })),
+    };
+    if (
+      recipe.data.revisionId !== portable.revisionId ||
+      !isDeepStrictEqual(meaning, window.manifest) ||
+      !isDeepStrictEqual(portable.audio.sampleRange, window.manifest.sampleRange)
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Prepared audio recipe differs from its pinned revision",
+      );
+    const dependencies = new Set(
+      portable.audio.dependencies.map((value) => JSON.stringify([value.kind, value.id])),
+    );
+    const needed = audioDependencies({ model: composition.model, window });
+    if (
+      dependencies.size !== portable.audio.dependencies.length ||
+      needed.some(
+        (value) =>
+          !(value.kind === "asset" && value.id === portable.audio.assetId) &&
+          !dependencies.has(JSON.stringify([value.kind, value.id])),
+      )
+    )
+      throw new CatalogError("INVALID_PACKAGE", "Prepared audio omitted an upstream dependency");
+    signal.throwIfAborted();
+    checkProjectAudioResult({ ...portable.audio, file: path }, window, path);
+    const file = await open(path, "r");
+    let identity: FileIdentity;
+    try {
+      identity = fileIdentity(await file.stat({ bigint: true }));
+    } finally {
+      await file.close();
+    }
+    signal.throwIfAborted();
+    const value: PreparedAudio = {
+      ...portable.audio,
+      identity,
+      resourceId: preparedAudioResource(composition.projectId, portable.publication.attemptId),
+      dependencies: portable.audio.dependencies.map(reference),
+    };
+    return {
+      resourceId: value.resourceId,
+      publish: () => {
+        signal.throwIfAborted();
+        this.owners.jobs.adoptArtifact({
+          ...portable.publication,
+          target: {
+            kind: "project",
+            projectId: composition.projectId,
+            revisionId: composition.revisionId,
+          },
+          artifact: "prepared-audio",
+          input: JSON.stringify({ ...recipe.data, revisionId: composition.revisionId }),
+          result: JSON.stringify(value),
+        });
+        this.retain(value, composition.revisionId);
+      },
+    };
+  }
+  /** Bounded PCM view of an already published result; never invokes the renderer or model. */
+  open(resourceId: string, range?: { start: number; end: number }) {
+    const publication = this.publication(resourceId);
     const value = JSON.parse(publication.result) as PreparedAudio;
     const selection = range ?? value.sampleRange;
     if (

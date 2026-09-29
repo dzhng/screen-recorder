@@ -23,7 +23,8 @@ Core lifecycle tests exercise cancellation, stale completion after retry, databa
 rollback, orphan recovery, changed files, unavailable-source diagnostics, concurrent
 revisions, owner deletion and identical bytes with different upstream sources. The
 publication test was first run before queue support and failed rather than passing
-a disconnected mock. Public package export refuses unsupported prepared retention.
+a disconnected mock. The [portable transfer checkpoint](../14a-prepared-portable/README.md) now carries
+these receipts through public package export/adoption.
 
 Independent review found missing output diagnostics and a portable omission risk;
 both were corrected with regression coverage. A subsequent review found no
@@ -36,9 +37,8 @@ run had timing failures and a subprocess deadline failure. Serial reruns cleared
 all but two deadline failures; a narrower rerun cleared scene ownership. The
 remaining large-history project test also exceeds its unchanged five-second limit
 with the original pre-change ProjectStore restored. No timeout was increased.
-Focused final results are retained in `gates.txt`. Portable relocation and public
-processor integration remain the next checkpoint; RNNoise and stretch quality
-and readiness are unchanged.
+Focused final results are retained in `gates.txt`. Portable relocation is verified in its linked checkpoint; public processor
+integration remains open. RNNoise and stretch quality and readiness are unchanged.
 
 [Combined root confirmation](root-integration.json) reproduces the native oracles
 and focused lifecycle tests after integration. The retained initial test failure

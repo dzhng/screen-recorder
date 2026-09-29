@@ -1,3 +1,4 @@
+import { preparedAudioResource, type PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { acquisitionContext } from "@screenrec/core/acquisitions";
 import { indexGenerationResource } from "@screenrec/core/screenshot-index";
 import { portableIndexRecords } from "./portable-index.js";
@@ -67,6 +68,7 @@ type Workspace = { directory: string; handle: FileHandle };
 type Owners = {
   directory: string;
   projects: ProjectStore;
+  preparedAudio: PreparedAudioStore;
   assets: AssetStore;
   acquisitions: AcquisitionImporter;
   sceneRecords: SceneEvidenceStore;
@@ -164,17 +166,6 @@ export class ProjectPackages {
   }
   pin(projectId: string, revisionId?: string): PinnedProjectPackage {
     const snapshot = this.owners.projects.snapshot(projectId);
-    if (
-      snapshot.references.some((value) =>
-        value.resources.some((reference) => reference.kind === "prepared-audio"),
-      )
-    )
-      throw new CatalogError(
-        "NOT_READY",
-        "Prepared audio package retention is not implemented",
-        {},
-        false,
-      );
     if (revisionId && revisionId !== snapshot.project.currentRevisionId)
       throw new CatalogError(
         "UNSUPPORTED_PACKAGE_REVISION",
@@ -315,6 +306,8 @@ export class ProjectPackages {
             ...new Map(dependencies.map((entry) => [`${entry.kind}:${entry.id}`, entry])).values(),
           ],
         };
+      } else if (identity.kind === "prepared-audio") {
+        resource = { kind: "prepared-audio", ...this.owners.preparedAudio.portable(identity.id) };
       } else if (identity.kind === "acquisition") {
         const pinned = this.owners.acquisitions.portable(identity.id);
         acquisitionFiles[identity.id] = pinned.files;
@@ -360,7 +353,11 @@ export class ProjectPackages {
           );
         resource = scene;
       }
-      if (resource.kind === "asset" || resource.kind === "acquisition") {
+      if (
+        resource.kind === "asset" ||
+        resource.kind === "acquisition" ||
+        resource.kind === "prepared-audio"
+      ) {
         metadataBytes += Buffer.byteLength(JSON.stringify(resource));
         members += resourceMembers(resource).length;
       }
@@ -381,6 +378,8 @@ export class ProjectPackages {
   }
   checkPinned(pinned: PinnedProjectPackage): void {
     for (const resource of pinned.resources) {
+      if (resource.kind === "prepared-audio")
+        this.owners.preparedAudio.portable(resourceIdentity(resource).id);
       if (resource.kind === "scene-generation")
         this.owners.sceneRecords.sourcePage({ identity: resource.metadata, limit: 1 });
       if (resource.kind === "transcript-generation")
@@ -403,6 +402,34 @@ export class ProjectPackages {
           packageIdentity: createHash("sha256").update(JSON.stringify(manifest)).digest("hex"),
           snapshot: manifest.snapshot,
         });
+        const preparedAudio: Awaited<ReturnType<PreparedAudioStore["stagePortable"]>>[] = [];
+        const mappedResources = new Map(
+          manifest.resources.flatMap((resource) => {
+            if (resource.kind === "prepared-audio")
+              return [
+                [
+                  resourceIdentity(resource).id,
+                  preparedAudioResource(adoption.project.projectId, resource.publication.attemptId),
+                ] as const,
+              ];
+            if (resource.kind === "project-index-generation")
+              return [
+                [
+                  resourceIdentity(resource).id,
+                  indexGenerationResource(
+                    { kind: "project", projectId: adoption.project.projectId },
+                    resource.metadata.generation,
+                  ),
+                ] as const,
+              ];
+            return [];
+          }),
+        );
+        const reference = (value: import("@screenrec/core/references").ResourceReference) =>
+          (value.kind === "prepared-audio" || value.kind === "index-generation") &&
+          mappedResources.has(value.id)
+            ? { ...value, id: mappedResources.get(value.id)! }
+            : value;
         const staged: Awaited<ReturnType<AssetStore["stagePortable"]>>[] = [];
         const assetPaths = new Map<string, string>();
         const transcripts: {
@@ -651,16 +678,31 @@ export class ProjectPackages {
             );
             projectIndexes.push({ resource, stage });
           }
-          signal.throwIfAborted();
-          const projectIndexIds = new Map(
-            projectIndexes.map(({ resource, stage }) => [
-              resourceIdentity(resource).id,
-              indexGenerationResource(
-                { kind: "project", projectId: adoption.project.projectId },
-                stage.metadata.generation,
+          // Asset staging links change ctime when closed; capture retained PCM identity afterward.
+          for (const asset of staged) await asset.close();
+          for (const resource of manifest.resources) {
+            if (resource.kind !== "prepared-audio") continue;
+            const revisionId = adoption.revisionIds[resource.revisionId]!;
+            const revision = adoption.revisions.find((value) => value.id === revisionId)!;
+            const { kind: _kind, ...portable } = resource;
+            preparedAudio.push(
+              await this.owners.preparedAudio.stagePortable(
+                portable,
+                projectCompositionFromRevision(
+                  revision,
+                  {
+                    get: (id) => portableAssets.get(id)!,
+                    path: (id) => assetPaths.get(id)!,
+                  },
+                  [...portableAcquisitions.values()].map(acquisitionContext),
+                ),
+                assetPaths.get(resource.audio.assetId)!,
+                reference,
+                signal,
               ),
-            ]),
-          );
+            );
+          }
+          signal.throwIfAborted();
           const result = adoption.publish(
             () => {
               for (const asset of staged) asset.publish();
@@ -684,11 +726,9 @@ export class ProjectPackages {
               }
             },
             {
-              reference: (reference) =>
-                reference.kind === "index-generation" && projectIndexIds.has(reference.id)
-                  ? { kind: "index-generation", id: projectIndexIds.get(reference.id)! }
-                  : reference,
+              reference,
               publish: () => {
+                for (const stage of preparedAudio) stage.publish();
                 for (const { resource, stage } of projectIndexes) {
                   stage.publish();
                   this.owners.indexes.adoptProjectPublication(
@@ -899,6 +939,10 @@ export class ProjectPackages {
       }
       if (entry.kind === "project-index-generation") {
         resources.push(await assembleIndex(entry, this.owners.projectIndexRecords, entry.metadata));
+        continue;
+      }
+      if (entry.kind === "prepared-audio") {
+        resources.push(entry);
         continue;
       }
       resources.push(entry);

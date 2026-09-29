@@ -2446,3 +2446,14 @@ high for identity/ownership, medium for the conservative face-count limit.
   private and separate realtime/multipass workflows likewise remain distinct
   from verified offline controls. No unverified DSP or codec is added by this
   settings feature.
+
+## Slice 14a — Prepared recipe portability
+
+- **Sound, high confidence — bound a whole-project recipe by its package budget.**
+  A short project made of many small clips can have a larger execution description
+  than a long single clip. Export preserves that complete description under the
+  existing package manifest limit. Reusing the smaller input limit for simple
+  artifact recipes would refuse valid prepared results even when the package fits.
+  The plan required bounded metadata but did not choose a separate recipe limit.
+  This keeps one enclosing budget and forbids truncating ordered processing or
+  provenance merely to satisfy an unrelated small-recipe bound.

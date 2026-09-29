@@ -33,16 +33,19 @@ See the [implementation pickup](assets/implementation-pickup.md) for exact check
    separates encoding loss from image-generator artifacts. ProRes is a diagnostic
    control, not an added release requirement. Preserve all existing measured failures
    and use the [remaining media audit](assets/15-acceptance-audit/README.md).
-2. Continue transition/convenience delivery and portable prepared-audio closure
+2. Continue transition/convenience delivery and public prepared-audio consumers
    in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json).
    The shared [scalar prerequisite](slices/16b-scalar-program.md) and
    retained source transcripts pass combined-build confirmation. The [font/layout reproduction](slices/17a-text-layout.md) is verified within its
    documented scope; caption integration still follows animation/evidence contracts. No segmentation
    scope is active.
-3. Complete portable closure and public consumers for the shared
+3. Complete public consumers and actual model-dependent output proof for the shared
    [prepared-audio prerequisite](slices/14a-prepared-audio.md). Its first core
    lifecycle checkpoint passes combined-build tests and exact native PCM/restart
    checks using existing assets, queue publication and revision references.
+   [Portable unit-rate/gain PCM](assets/14a-prepared-portable/README.md) now preserves
+   current/history receipts and bounded reads without the original executor; the
+   public preparation command and DSP integrations remain open.
    The [retained RNNoise proof](assets/12c-prepared-output/README.md) establishes
    scoped selection/state behavior, not speech quality or production readiness.
    Continue 08 codec/rate/narration, 12/12b speech evidence, 12c/15a protected speech,
