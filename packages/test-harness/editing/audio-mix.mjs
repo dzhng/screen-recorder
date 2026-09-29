@@ -593,6 +593,7 @@ try {
   if (process.env.SCREENREC_RATE_EVIDENCE)
     evidence.mixedCodecRates = verifyMixedCodecRates({
       out: process.env.SCREENREC_RATE_EVIDENCE,
+      cohort: process.env.SCREENREC_RATE_COHORT,
       worker,
       fixture,
       sources,

@@ -31,15 +31,21 @@ export function verifyMixedCodecRates({
   scratch,
   wave,
   reference48,
+  cohort = "compressed",
 }) {
+  assert(["compressed", "lossless-boundaries"].includes(cohort), "Unknown rate cohort");
   mkdirSync(out);
   const report = {
     passed: false,
+    cohort,
     workerSHA256: hash(worker),
     cases: [],
     scope:
       "Unit-rate source sample-rate conversion and mixing; no listening or new codec tolerance",
-    gate: "Exact frozen-decoder PCM arithmetic; exact MP3 comparisons; AAC source seek uses existing maximum AND RMS bound. Independent resampled AAC comparisons are reported without a new tolerance.",
+    gate:
+      cohort === "compressed"
+        ? "Exact frozen-decoder PCM arithmetic; exact MP3 comparisons; AAC source seek uses existing maximum AND RMS bound. Independent resampled AAC comparisons are reported without a new tolerance."
+        : "Exact authored source PCM, sample clocks, independent float sum, full/range/tail/split and channel controls; no independent resampler quality claim.",
   };
   const retain = (path, name) => {
     const target = join(out, name);
@@ -48,12 +54,20 @@ export function verifyMixedCodecRates({
   };
   report.reference48 = retain(reference48.binding.path, "reference-48.wav");
   try {
-    for (const [codec, extension, channels] of [
-      ["aac", "m4a", 1],
-      ["libmp3lame", "mp3", 2],
-    ]) {
-      const name = extension,
-        entry = { codec, sourceRate: 44100, channels, checks: {}, media: [] };
+    const cases =
+      cohort === "compressed"
+        ? [
+            ["aac", "m4a", 1, 44100],
+            ["libmp3lame", "mp3", 2, 44100],
+          ]
+        : [
+            ["pcm_s16le", "wav", 1, 8000],
+            ["pcm_s16le", "wav", 2, 192000],
+          ];
+    for (const [codec, extension, channels, rate] of cases) {
+      const lossless = codec === "pcm_s16le",
+        name = lossless ? `${rate}-${channels}ch` : extension,
+        entry = { codec, sourceRate: rate, channels, checks: {}, media: [] };
       report.cases.push(entry);
       const capture = (document, range, label) =>
         render(document, range, undefined, true, (result, request) => {
@@ -64,21 +78,34 @@ export function verifyMixedCodecRates({
           });
         });
       try {
-        const raw = fixture(`rate-${name}`, 44100, channels, (i, c) =>
-          i === 28224 ? 0.75 : 0.125 * Math.sin((2 * Math.PI * (c ? 1700 : 430) * i) / 44100),
+        const raw = fixture(`rate-${name}`, rate, channels, (i, c) =>
+          i === rate * 0.64 ? 0.75 : 0.125 * Math.sin((2 * Math.PI * (c ? 1700 : 430) * i) / rate),
         );
         entry.media.push(retain(raw.binding.path, `${name}-authored.wav`));
-        const path = join(scratch, `rate-${name}.${extension}`);
-        const encoded = spawnSync(
-          "ffmpeg",
-          ["-nostdin", "-v", "error", "-i", raw.binding.path, "-c:a", codec, "-b:a", "192k", path],
-          { encoding: "utf8", timeout: 30000 },
-        );
-        assert.equal(encoded.status, 0, encoded.stderr);
-        entry.media.push(retain(path, `${name}-encoded.${extension}`));
+        const path = lossless ? raw.binding.path : join(scratch, `rate-${name}.${extension}`);
+        if (!lossless) {
+          const encoded = spawnSync(
+            "ffmpeg",
+            [
+              "-nostdin",
+              "-v",
+              "error",
+              "-i",
+              raw.binding.path,
+              "-c:a",
+              codec,
+              "-b:a",
+              "192k",
+              path,
+            ],
+            { encoding: "utf8", timeout: 30000 },
+          );
+          assert.equal(encoded.status, 0, encoded.stderr);
+          entry.media.push(retain(path, `${name}-encoded.${extension}`));
+        }
         const probe = call("media.probe", { path }),
           stream = probe.streams.find((v) => v.kind === "audio");
-        assert.equal(stream.sampleRate, 44100);
+        assert.equal(stream.sampleRate, rate);
         assert.equal(stream.channels, channels);
         const available = [{ startUs: stream.startUs, endUs: stream.endUs }],
           source = {
@@ -112,8 +139,12 @@ export function verifyMixedCodecRates({
         entry.nativeRequest = nativeRequest;
         entry.nativeReceipt = nativeFull;
         entry.media.push(retain(nativeFull.file, `${name}-native-full.wav`));
-        assert.equal(nativeFull.frames, 88200);
-        const nativePcm = wave(nativeFull.file, true, channels, 44100);
+        assert.equal(nativeFull.frames, rate * 2);
+        const nativePcm = wave(nativeFull.file, true, channels, rate);
+        if (lossless) {
+          entry.authoredSourceDifference = difference(nativePcm, raw.samples);
+          assert.equal(entry.authoredSourceDifference.maximum, 0);
+        }
         const isolated = {
           ...empty,
           tracks: [{ id: "compressed", kind: "audio", order: 0 }],
@@ -128,6 +159,41 @@ export function verifyMixedCodecRates({
           component = capture(isolated, { startUs: 0, endUs }, "resampled-full");
         assert.equal(full.result.frames, 96000);
         assert.equal(component.result.frames, 96000);
+        if (lossless) {
+          const power = (channel, hz, pcm = component.samples) => {
+            let re = 0,
+              im = 0;
+            for (let frame = 12000; frame < 24000; frame++) {
+              const value = pcm[frame * 2 + channel],
+                angle = (2 * Math.PI * hz * frame) / 48000;
+              re += value * Math.cos(angle);
+              im += value * Math.sin(angle);
+            }
+            return re * re + im * im;
+          };
+          entry.channelPowers = [0, 1].map((channel) => {
+            const frequency = channels === 2 && channel === 1 ? 1700 : 430;
+            const wanted = power(channel, frequency),
+              other = power(channel, frequency === 430 ? 1700 : 430);
+            assert(wanted > other, "Resampling changed channel identity");
+            return { channel, frequency, wanted, other };
+          });
+          if (channels === 2) {
+            const swapped = component.samples.map((_, index) => component.samples[index ^ 1]);
+            assert.throws(
+              () => assert(power(0, 430, swapped) > power(0, 1700, swapped)),
+              assert.AssertionError,
+            );
+            entry.swappedChannelsRejected = true;
+          }
+          if (channels === 1)
+            for (let frame = 0; frame < 96000; frame++)
+              assert.equal(
+                component.samples[frame * 2],
+                component.samples[frame * 2 + 1],
+                "Mono duplication differs",
+              );
+        }
         const expected = component.samples.map((v, i) => Math.fround(v + reference48.samples[i]));
         entry.fullSumDifference = difference(full.samples, expected);
         entry.checks.fullSumExact = entry.fullSumDifference.maximum === 0;
@@ -156,11 +222,11 @@ export function verifyMixedCodecRates({
           };
           const native = call("media.sourceAudio", nativeRequest);
           entry.media.push(retain(native.file, `${name}-native-${label}.wav`));
-          const sourceStart = Math.floor((range.startUs * 44100) / 1000000),
-            sourceEnd = Math.floor((range.endUs * 44100) / 1000000);
+          const sourceStart = Math.floor((range.startUs * rate) / 1000000),
+            sourceEnd = Math.floor((range.endUs * rate) / 1000000);
           assert.equal(native.frames, sourceEnd - sourceStart);
           const nativeDifference = difference(
-            wave(native.file, true, channels, 44100),
+            wave(native.file, true, channels, rate),
             nativePcm.slice(sourceStart * channels, sourceEnd * channels),
           );
           const row = {
@@ -266,7 +332,7 @@ export function verifyMixedCodecRates({
             (entry.checks.exactFullRange &&
               entry.checks.exactIndependentSum &&
               entry.checks.exactSplit),
-          "MP3 full/range, independent sum or split differs; measurements retained without adding a tolerance",
+          "Lossless/MP3 full/range, independent sum or split differs; measurements retained without adding a tolerance",
         );
         entry.passed = true;
       } catch (error) {
