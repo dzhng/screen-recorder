@@ -6,7 +6,7 @@ import ScreenRecorderCapture
 import ScreenRecorderMedia
 import ScreenRecorderWire
 
-private func gapRetimed(_ sample: CMSampleBuffer, at pts: CMTime, duration: CMTime? = nil) throws
+func captureFixtureRetimed(_ sample: CMSampleBuffer, at pts: CMTime, duration: CMTime? = nil) throws
   -> CMSampleBuffer
 {
   var count = 0
@@ -68,7 +68,7 @@ func runCaptureAudioGapProbe(output rootPath: String, corpus: String) async thro
     videoReader.add(videoOutput)
     precondition(videoReader.startReading())
     let first = videoOutput.copyNextSampleBuffer()!
-    let screen = try gapRetimed(
+    let screen = try captureFixtureRetimed(
       first, at: time(microseconds: origin), duration: time(microseconds: 500_000))
     let attachments =
       CMSampleBufferGetSampleAttachmentsArray(screen, createIfNecessary: true)! as NSArray
@@ -76,7 +76,7 @@ func runCaptureAudioGapProbe(output rootPath: String, corpus: String) async thro
       SCFrameStatus.complete.rawValue
     writer.queue.sync { writer.stream(stream, didOutputSampleBuffer: screen, of: .screen) }
     // A known video tail gives interrupted finalization a bounded media endpoint.
-    let tail = try gapRetimed(
+    let tail = try captureFixtureRetimed(
       screen, at: time(microseconds: origin + 2_300_000), duration: time(microseconds: 200_000))
     writer.queue.sync { writer.stream(stream, didOutputSampleBuffer: tail, of: .screen) }
     let audio = AVURLAsset(url: URL(fileURLWithPath: corpus).appendingPathComponent("a-audio.wav"))
@@ -92,7 +92,7 @@ func runCaptureAudioGapProbe(output rootPath: String, corpus: String) async thro
       let mediaPTS = sample.presentationTimeStamp
       let hostPTS = CMTimeAdd(time(microseconds: origin + 100_000), mediaPTS)
       let delivered = mode != "omitted-buffer" || index != 4
-      let raw = try gapRetimed(sample, at: hostPTS)
+      let raw = try captureFixtureRetimed(sample, at: hostPTS)
       let format = CMAudioFormatDescriptionGetStreamBasicDescription(sample.formatDescription!)!
         .pointee
       observations.append([
@@ -155,7 +155,7 @@ func runCaptureJournalFailureProbe(output rootPath: String, corpus: String) asyn
       outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
     vr.add(vo)
     precondition(vr.startReading())
-    let screen = try gapRetimed(
+    let screen = try captureFixtureRetimed(
       vo.copyNextSampleBuffer()!, at: time(microseconds: origin),
       duration: time(microseconds: 500000))
     let attachments =
@@ -170,7 +170,7 @@ func runCaptureJournalFailureProbe(output rootPath: String, corpus: String) asyn
       track: at, outputSettings: [AVFormatIDKey: kAudioFormatLinearPCM])
     ar.add(ao)
     precondition(ar.startReading())
-    let sample = try gapRetimed(ao.copyNextSampleBuffer()!, at: time(microseconds: origin + 100000))
+    let sample = try captureFixtureRetimed(ao.copyNextSampleBuffer()!, at: time(microseconds: origin + 100000))
     let journal = directory.appendingPathComponent("capture.journal.jsonl")
     let before = try Data(contentsOf: journal).count
     let limit = before + (mode == "append-record-failure" ? trackStartBytes : 0)

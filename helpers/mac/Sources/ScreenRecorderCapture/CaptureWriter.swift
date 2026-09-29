@@ -10,6 +10,7 @@ private final class TrackWriter {
     let input: AVAssetWriterInput
     let sampleRate: Double?
     let channelCount: UInt32?
+    let pcm: CapturePCM?
     var first: Int64?
     var end: Int64?
     var samples = 0
@@ -19,6 +20,7 @@ private final class TrackWriter {
         role: String, directory: String, settings: [String: Any], format: CMFormatDescription? = nil
     ) throws {
         self.role = role
+        pcm = try role == "video" ? nil : format.map { try CapturePCM(format: $0) }
         file = role == "video" ? "video.mov" : "\(role).mov"
         writer = try AVAssetWriter(
             outputURL: URL(fileURLWithPath: directory).appendingPathComponent(file), fileType: .mov)
@@ -29,7 +31,7 @@ private final class TrackWriter {
         writer.initialMovieFragmentInterval = CMTime(value: 1, timescale: 1)
         input = AVAssetWriterInput(
             mediaType: role == "video" ? .video : .audio, outputSettings: settings,
-            sourceFormatHint: format)
+            sourceFormatHint: pcm?.format ?? format)
         if role == "video" { input.mediaTimeScale = 1_000_000 }
         input.expectsMediaDataInRealTime = true
         sampleRate = format.flatMap {
@@ -324,6 +326,7 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                 dropped[role, default: 0] += 1
                 return
             }
+            let sample = try track.pcm?.normalize(sample) ?? sample
             var count = 0
             var status = CMSampleBufferGetSampleTimingInfoArray(
                 sample, entryCount: 0, arrayToFill: nil, entriesNeededOut: &count)

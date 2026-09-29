@@ -1,6 +1,11 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_FAILURE_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_FORMAT_OUTPUT"] {
+  try await runCaptureAudioFormatProbe(
+    output: output,
+    corpus: ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_GAP_CORPUS"] ?? "",
+    stereoFixture: ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_FORMAT_STEREO"] ?? "")
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_FAILURE_OUTPUT"] {
   try await runCaptureJournalFailureProbe(
     output: output,
     corpus: ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_GAP_CORPUS"] ?? "")

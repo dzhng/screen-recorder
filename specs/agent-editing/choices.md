@@ -2776,3 +2776,18 @@ normal processing receipts. Unchanged occurrences and valid whole-group moves
 retain membership. Structural resolution is shared by edit helpers; strict
 admission still rejects invalid imported state graphs. No public processing
 readiness follows from this pure compiler checkpoint.
+
+### Normalize audio representation at one track boundary (sound)
+
+A microphone buffer can contain the same frames as 16-bit integers or floating-point
+numbers. The writer accepted a changed representation but interpreted its bytes as
+the first format, losing or inventing frames. Each track now supplies one float32
+interleaved representation at its established rate and channel count. Apple's
+PCM-only converter changes representation with an explicit identity channel map;
+rate/channel changes refuse before append. One current converter is replaced as
+needed, rather than retaining a format cache or introducing another timing owner.
+The plan left the platform primitive open; packed24 and planar controls supported
+AudioConverterConvertComplexBuffer without narrowing representation support.
+Removing sourceFormatHint was rejected: controlled outputs were byte-identical to
+the failure. Confidence: high for this bounded correction; actual device format
+changes and physical capture remain unmeasured.

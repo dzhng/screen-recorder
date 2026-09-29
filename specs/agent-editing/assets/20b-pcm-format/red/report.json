@@ -1,0 +1,50 @@
+{
+  "rate": {
+    "inputFrames": 16384,
+    "outputFrames": 16384,
+    "outputRate": "48000",
+    "outputChannels": 1,
+    "sameInputPCMBytes": true,
+    "outputSHA256": "9d6acb62cbd2279f80f0d01c766bf4ac8d0985ffd5f03170ccc49ed3a370b7b2"
+  },
+  "int16-to-float": {
+    "inputFrames": 16384,
+    "outputFrames": 24576,
+    "outputRate": "48000",
+    "outputChannels": 1,
+    "sameInputPCMBytes": false,
+    "outputSHA256": "61e1fd746eab5ed3dbc870275b0a8bed1a1a1c7748571d01880d75fa9b8416d4"
+  },
+  "same-format": {
+    "inputFrames": 16384,
+    "outputFrames": 16384,
+    "outputRate": "48000",
+    "outputChannels": 1,
+    "sameInputPCMBytes": true,
+    "outputSHA256": "8bb32dd3aada07fe72520a9d5e4735392bfeec295c127eb091c9997ca69ae1be"
+  },
+  "initial-int16": {
+    "inputFrames": 16384,
+    "outputFrames": 16384,
+    "outputRate": "48000",
+    "outputChannels": 1,
+    "sameInputPCMBytes": true,
+    "outputSHA256": "8bb32dd3aada07fe72520a9d5e4735392bfeec295c127eb091c9997ca69ae1be"
+  },
+  "representation": {
+    "inputFrames": 16384,
+    "outputFrames": 12288,
+    "outputRate": "48000",
+    "outputChannels": 1,
+    "sameInputPCMBytes": false,
+    "outputSHA256": "b05ea7d64cd872f551b25beff11f02382a88650992f0df69c80545e38e98a734"
+  },
+  "channels": {
+    "inputFrames": 16384,
+    "outputFrames": 24576,
+    "outputRate": "48000",
+    "outputChannels": 1,
+    "sameInputPCMBytes": true,
+    "outputSHA256": "60a2a29efe46b49a5a1333c70f9df72b09b5129c246ebf4cf5173af16ed8e071"
+  }
+}

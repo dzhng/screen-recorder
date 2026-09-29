@@ -1,0 +1,32 @@
+[
+  {
+    "exactPCM" : true,
+    "format" : "s16le",
+    "frames" : 1024,
+    "status" : 0
+  },
+  {
+    "exactPCM" : true,
+    "format" : "s24le",
+    "frames" : 1024,
+    "status" : 0
+  },
+  {
+    "exactPCM" : true,
+    "format" : "f64le",
+    "frames" : 1024,
+    "status" : 0
+  },
+  {
+    "exactPCM" : true,
+    "format" : "planar",
+    "frames" : 1024,
+    "status" : 0
+  },
+  {
+    "exactPCM" : true,
+    "format" : "f32le",
+    "frames" : 1024,
+    "status" : 0
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "rate": {
+    "outputMonoFrames": 16384,
+    "identicalToHintControl": true,
+    "sha256": "9d6acb62cbd2279f80f0d01c766bf4ac8d0985ffd5f03170ccc49ed3a370b7b2"
+  },
+  "same-format": {
+    "outputMonoFrames": 16384,
+    "identicalToHintControl": true,
+    "sha256": "8bb32dd3aada07fe72520a9d5e4735392bfeec295c127eb091c9997ca69ae1be"
+  },
+  "representation": {
+    "outputMonoFrames": 12288,
+    "identicalToHintControl": true,
+    "sha256": "b05ea7d64cd872f551b25beff11f02382a88650992f0df69c80545e38e98a734"
+  },
+  "channels": {
+    "outputMonoFrames": 24576,
+    "identicalToHintControl": true,
+    "sha256": "60a2a29efe46b49a5a1333c70f9df72b09b5129c246ebf4cf5173af16ed8e071"
+  }
+}
