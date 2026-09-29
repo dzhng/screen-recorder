@@ -1,0 +1,12 @@
+{
+  "commit": "2ab0d64e",
+  "nativeExitCode": 0,
+  "publicExitCode": 0,
+  "nativeChecks": 39,
+  "publicCheckGroups": 14,
+  "workerSHA256": "8ca6e7a3f403b6298340ad9a131bf4742980a568e819ac3016f1d3386ecec20d",
+  "verifiedLogicalFiles": 182,
+  "verifiedArchives": 3,
+  "archiveSHA256": "be13504c7bb676cbe2b6842d4964a4dd6beed036e6ef27fb06eb8270cdb9ffd1",
+  "scope": "Combined-root fixed-mono selected input, temporal separation, ordered taps, bypass/history and public lifecycle preservation. Poison comparisons use matched48k/unit-rate controls; no general resampling-context, stereo or listening acceptance."
+}

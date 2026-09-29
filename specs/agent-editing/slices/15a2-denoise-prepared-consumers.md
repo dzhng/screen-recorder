@@ -12,6 +12,8 @@ Verify real gain-before/after noncommutation, dry bypass, split/trim/poison isol
 
 Next pickup: extend supported-channel and temporal/retained-consumer gates from the linked mono checkpoint in 15a2d; preserve the fixed adapter and existing prepared owner. Include state prerequisites outside requested output in file bindings, missing-support checks and resource retention. Do not infer mono or structural dual mono from the existing stereo prepared output format. Explicit model preparation is a build prerequisite, with no runtime download or implicit model conversion. The complete parent requirements above remain open.
 
+[Selected-input and ordered-tap isolation](15a2e-state-isolation.md) extends the initial mono runtime checks. Independent-channel execution and complete parent acceptance remain open.
+
 ## Native build adoption
 
 Use the frozen compiled model directly in the existing worker. Explicit developer

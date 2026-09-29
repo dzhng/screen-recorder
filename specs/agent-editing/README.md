@@ -254,6 +254,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [15a2b — Structural parent domains and authored activation](slices/15a2b-parent-state-windows.md)
 - [x] [15a2c — State input bindings and channel provenance](slices/15a2c-state-input-bindings.md)
 - [x] [15a2d — Linked mono state execution](slices/15a2d-linked-denoise-runtime.md)
+- [x] [15a2e — Selected input and ordered consumer isolation](slices/15a2e-state-isolation.md)
 - [ ] [15a3 — Combined, temporal and protected-speech acceptance](slices/15a3-denoise-acceptance.md)
 - [x] [16a — Scalar curve compiler prerequisite](slices/16a-curve-primitives.md)
 - [x] [16b — Canonical numerical scalar program](slices/16b-scalar-program.md)
