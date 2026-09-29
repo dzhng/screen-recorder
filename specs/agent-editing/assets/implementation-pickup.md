@@ -1,8 +1,9 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: implement and verify declared capture admission and exact
-journal addresses, then canonical sparse storage/recovery and safe publication.
+Current priority: correct arbitrary-phase audio excerpt selection while advancing
+accepted-append journal bookkeeping independently, then canonical sparse
+storage/recovery and safe publication.
 The aligned reader phase correction is integrated and root-confirmed; a broader
 non-grid phase/window inconsistency is now the next reader correction. Fractional-rate execution now refuses
 with cache invalidation and combined-root confirmation. Settings09b,
@@ -51,22 +52,30 @@ No production deadline or transaction guarantee changed.
   and process-restart evidence, retaining its reader phase failure. The planned
   [20b](../slices/20b-exact-capture-audio.md), [20c](../slices/20c-sparse-capture-materialization.md)
   and [20d](../slices/20d-capture-publication.md) separate clock/journal, materialization
-  and publication. Next resolve ordinary raw timestamp scales and exact continuity
-  under the [corrected admission property](20b-time-feasibility/contract-audit.md).
+  and publication. Continue under the
+  [corrected admission property](20b-time-feasibility/contract-audit.md).
   Raw timestamp digits remain provenance; the playable container must preserve
   one declared admitted timeline. Initial-phase/native-grid policy is only a
   candidate, with grouping/gaps/window/resampling gates before rollout.
   The [bounded owner prototype](20b-admission/README.md) is integrated; root
   [confirmation](20b-admission/root-verification.json) preserves grouping, original
-  late PCM and a real1µs acquisition exclusion. Next validate broader admission
-  and prospective append/phase/journal transaction semantics. The production writer
+  late PCM and a real1µs acquisition exclusion. Root reviewed the prospective
+  clock-copy/accepted-append journal proposal. Commit accepted physical counters
+  immediately after media acceptance; a later journal failure stops the take and
+  preserves the unmapped suffix. Test first-append track-start failure separately
+  from rejection before append. The production writer
   remains disconnected until canonical admission/recovery passes.
 - Shared audio reader / stretch: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
   [Exact aligned source phase](08-rational-segment-phase/README.md) is integrated
   and root-confirmed, but a new100001µs phase fixture exposes full/range mismatch
   at44.1/48k and44.1→48k resampling. Controls currently at
-  `/tmp/capture-admission-windows`; localize in the common reader without changing
-  capture admission to hide it. Keep previous exact/aligned and legacy gates.
+  `/tmp/capture-admission-windows`. Packet probes in `/tmp/source-arbitrary-phase`
+  isolate physical seek phase loss before conversion: distinct seek coordinates
+  can return different payload samples with the same reported packet timestamp.
+  The correction must distinguish physical seek from packet sample addressing;
+  merely passing an exact seek time is insufficient above half a sample. Resolve
+  representation without a new supported-input restriction or capture-anchor
+  snapping. Keep previous exact/aligned and legacy gates.
   [Native stretch parity](13b-native-stretch-parity/README.md) is also integrated
   and root-confirmed:65 complete-byte/error gates pass. Public retiming remains
   unavailable; no listening, stereo or long-input policy acceptance is inferred.
