@@ -82,7 +82,8 @@ async function withLockedRenderWorkspace<T>(
     worker(operation, params, {
       ...options,
       signal,
-      descriptors: [...descriptors, ...(options?.descriptors ?? [])],
+      // Explicit /dev/fd/N locators belong to the caller; leases follow those descriptors.
+      descriptors: [...(options?.descriptors ?? []), ...descriptors],
     });
   const clear = async () => {
     nativeConfirmed(

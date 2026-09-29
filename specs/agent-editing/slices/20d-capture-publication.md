@@ -142,3 +142,11 @@ full controller/audio publication/admission gate remains open until activation.
 [Source budget evidence](../assets/20d-source-budget/README.md) establishes public 100,000-run source normalization readiness and native cancel/drain with a scoped canonical segment-work allowance; legacy/global/client budgets are unchanged. It does not establish whole 100,000-run acquisition or package support. Actual native probing returns 15,428,144 bytes and 200,000 physical segment rows (100,000 occupied runs plus empty gaps), independently exceeding the 8 MiB response transport and the asset schema's 100,000 physical-row cap.
 
 The next metadata delivery checkpoint must retain exact complete physical segment meaning and canonical descriptor authority, reuse bounded file/descriptor evidence mechanisms for bulk metadata, and reconcile the existing physical-row and occupied-run domains explicitly. Preserve both red refusals, empty segments, normalized probe validation, package relabeling controls and cancellation. Do not raise global framing, drop gaps or treat a transport-only fix as domain closure. [Source lifetime evidence](../assets/20d-source-lifetime/README.md) covers per-generation orphan reclamation and whole-recording deletion authority, including independent descriptor-removal red controls. Actual writer/recovery activation remains separate.
+
+[Probe file delivery](../assets/20d-probe-file/README.md) now carries complete native
+metadata through a caller-owned file and verified compact receipt. Existing strict
+metadata validation, inline native consumers, global control frames and package
+manifest limits are unchanged. The physical-row bound is the next admission
+prerequisite; public asset metadata delivery and portable metadata inventory remain
+separate gates. Previously failed immutable import requests retain their result;
+capability expansion is exercised with an explicit fresh request ID.

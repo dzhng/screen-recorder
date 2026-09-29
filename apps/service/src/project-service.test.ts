@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import { writeSync } from "node:fs";
 import { AcquisitionStore } from "@screenrec/core/acquisitions";
 import { ProjectStore } from "@screenrec/core/projects";
 import { TranscriptStore } from "@screenrec/core/transcript";
@@ -36,6 +38,33 @@ const metadata = {
     },
   ],
 };
+function probeFileFixture(home: string, worker: MediaWorker): MediaWorker {
+  return async (operation, params, options) => {
+    // Preserve the real worker's strict wire boundary even when its execution is a fixture.
+    encodeJsonLine({ id: "fixture", operation, params }, REQUEST_FRAME_BYTES);
+    if (operation === "media.audioCapabilities") return { ok: true, data: {} };
+    if (operation === "storage.clearRenderWorkspace") {
+      const parent = params.parent as { name: string } | undefined;
+      if (parent)
+        await rm(join(home, "library", "render", parent.name), { recursive: true, force: true });
+      return { ok: true, data: { removed: true } };
+    }
+    const result = await worker(operation, params, options);
+    if (operation !== "media.probe" || !result.ok) return result;
+    // Model the native file handoff; each test still supplies its own probe result/error.
+    const bytes = Buffer.from(JSON.stringify(result.data));
+    const index = Number(String(params.output).split("/").at(-1)) - 3;
+    writeSync(options!.descriptors![index]!, bytes, 0, bytes.length, 0);
+    return {
+      ok: true,
+      data: {
+        file: params.output,
+        bytes: bytes.length,
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      },
+    };
+  };
+}
 async function setup(worker: MediaWorker) {
   const home = await mkdtemp(join(tmpdir(), "asset-service-"));
   cleanups.push(() => rm(home, { recursive: true, force: true }));
@@ -43,13 +72,7 @@ async function setup(worker: MediaWorker) {
   await writeFile(path, "image bytes");
   const service = await startProjectService({
     home,
-    worker: (operation, params, options) => {
-      // Preserve the real worker's strict wire boundary even when its execution is a fixture.
-      encodeJsonLine({ id: "fixture", operation, params }, REQUEST_FRAME_BYTES);
-      return operation === "media.audioCapabilities"
-        ? Promise.resolve({ ok: true, data: {} })
-        : worker(operation, params, options);
-    },
+    worker: probeFileFixture(home, worker),
   });
   cleanups.push(() => service.close());
   async function call(operation: string, params: Record<string, unknown>) {
@@ -244,7 +267,7 @@ test("process death after owned copy leaves a retryable job and no visible parti
   await exited;
   const service = await startProjectService({
     home,
-    worker: async () => ({ ok: true, data: metadata }),
+    worker: probeFileFixture(home, async () => ({ ok: true, data: metadata })),
   });
   cleanups.push(() => service.close());
   expect(await readdir(join(home, "library", "staging", "assets"))).toEqual([]);
@@ -349,7 +372,7 @@ test("large provenance history cannot hide metadata and every origin remains pag
   expect(Buffer.byteLength(JSON.stringify(expected))).toBeGreaterThan(8 * 1024 * 1024);
   const service = await startProjectService({
     home: f.home,
-    worker: async () => ({ ok: true, data: metadata }),
+    worker: probeFileFixture(f.home, async () => ({ ok: true, data: metadata })),
   });
   cleanups.push(() => service.close());
   const get = await callLocal(service.socketPath, {

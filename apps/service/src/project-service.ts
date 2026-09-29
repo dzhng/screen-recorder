@@ -1,3 +1,4 @@
+import { assetProbe } from "./media-probe.js";
 import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { projectComposition } from "@screenrec/core/project-window";
@@ -120,6 +121,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     await cache.reconcile();
     const workspace = join(library, "render");
     await clearRenderWorkspace(worker, workspace, new AbortController().signal);
+    const probe = assetProbe(worker, workspace);
     const targets: JobTargets = {
       pin(target) {
         if (target.kind === "import") assets.intent(target.importId);
@@ -205,14 +207,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
             job.target.acquisitionId,
             job.attemptId,
             {
-              probe: async (path, signal, lifetime) =>
-                nativeResult(
-                  await worker(
-                    "media.probe",
-                    { path },
-                    { signal, descriptors: lifetime ? [lifetime.fd] : [] },
-                  ),
-                ),
+              probe,
               exportSource: sourceExporter(worker),
             },
             signal,
@@ -221,13 +216,10 @@ export async function startProjectService(options: { home: string; worker?: Medi
         }
         if (job.target.kind !== "import" || job.artifact !== "asset.import")
           throw new CatalogError("NOT_READY", "Unsupported preparation job");
-        const asset = await assets.executeImport(
-          job.target.importId,
-          async (path, probeSignal) =>
-            nativeResult(await worker("media.probe", { path }, { signal: probeSignal })),
-          signal,
-          { kind: "job", id: job.jobId },
-        );
+        const asset = await assets.executeImport(job.target.importId, probe, signal, {
+          kind: "job",
+          id: job.jobId,
+        });
         return JSON.stringify({ assetId: asset.id });
       },
     });
@@ -261,8 +253,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       projects,
       jobs: queue,
       renderer: audioRenderer,
-      probe: async (path, signal) =>
-        nativeResult(await worker("media.probe", { path }, { signal })),
+      probe,
       staging: join(library, "staging", "prepared-audio"),
     });
     await preparedAudio.recover();

@@ -2,7 +2,8 @@ import { mediaProbeSchema } from "@screenrec/core/assets";
 import { constants } from "node:fs";
 import { lstat, open, type FileHandle } from "node:fs/promises";
 import { isDeepStrictEqual } from "node:util";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { readMediaProbe } from "./media-probe.js";
 import { sourcePublicationMembers } from "@screenrec/core/source-admission";
 import { publicationDeadlineMs } from "./publication.js";
 import { CatalogError } from "@screenrec/core/catalog";
@@ -77,13 +78,10 @@ export function sourceExporter(
         inputs[role] = `/dev/fd/${handles.length + 2}`;
         if (expected.metadata) {
           const actual = mediaProbeSchema.parse(
-            nativeResult(
-              await worker(
-                "media.probe",
-                { path: "/dev/fd/3" },
-                { signal, descriptors: [file.fd, ...lifetimes] },
-              ),
-            ),
+            await readMediaProbe(worker, dirname(output), "/dev/fd/3", signal, [
+              file.fd,
+              ...lifetimes,
+            ]),
           );
           if (!isDeepStrictEqual(actual, expected.metadata))
             throw new CatalogError(

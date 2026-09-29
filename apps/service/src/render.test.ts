@@ -448,7 +448,7 @@ it("audio owner SIGKILL preserves the orphan child's lock until restart can recl
       ).replace('"./worker.js"', '"./worker.mjs"'),
     );
   await symlink(
-    fileURLToPath(new URL("../node_modules", import.meta.url)),
+    fileURLToPath(new URL("../../../node_modules", import.meta.url)),
     join(home, "node_modules"),
   );
   const output = join(home, "audio.cache");

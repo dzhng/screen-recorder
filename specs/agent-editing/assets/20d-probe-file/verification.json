@@ -1,0 +1,127 @@
+{
+  "status": "transport prerequisite verified; bulk acquisition and package closure remain open",
+  "worker": {
+    "path": "/tmp/screenrec-probe-file-native",
+    "sha256": "e15d84a7eaca3e341329a3af36a2dffff514db7a62653e82f4c912ced54e3c84"
+  },
+  "checks": {
+    "focusedTestsPassed": 34,
+    "nativeOnlySkipped": 2,
+    "separateReceiptAndCancellationTestsPassed": 5,
+    "publicOrdinaryImports": true,
+    "completeBulkMetadataEquality": true,
+    "immutableFailureReplay": true,
+    "freshAttemptReachesUnchangedSchemaRefusal": true,
+    "independentReview": "no actionable findings"
+  },
+  "commands": [
+    "bun run --cwd apps/service build",
+    "bun run --cwd apps/service check-types",
+    "swift build --package-path helpers/mac --product screenrec-native",
+    "bun run --cwd apps/service test src/project-service.test.ts src/media-probe.test.ts src/render.test.ts",
+    "SCREENREC_NATIVE=/tmp/screenrec-probe-file-native node packages/test-harness/editing/assets.mjs --fixture imports",
+    "SCREENREC_NATIVE=/tmp/screenrec-probe-file-native node packages/test-harness/editing/probe-file.mjs --out /tmp/probe-file-parity --bulk /tmp/source-admission-scale/source/narration.mov --expected /tmp/source-admission-scale/probe.full-response.json --font /System/Library/Fonts/Supplemental/Arial.ttf"
+  ],
+  "artifacts": [
+    {
+      "path": "parity/report.json",
+      "bytes": 1855,
+      "sha256": "6b8810abbbe48150d53cd9e5ea6d2d9a8aed3cc45d3ab4dc257371fd311f0bfe"
+    },
+    {
+      "path": "parity/bulk-metadata.json.gz",
+      "bytes": 1459551,
+      "sha256": "68d9d790f02b8d1442e670e10df4182c47893a170fcb36db33ec498a2a8f5185"
+    },
+    {
+      "path": "parity/run.log",
+      "bytes": 169,
+      "sha256": "212d3df0a1e85d9958bd28172c42517072185a6f40435f3cd1d5fd491d8be545"
+    },
+    {
+      "path": "public/original-frame-red.json",
+      "bytes": 19537,
+      "sha256": "4c1a50060572c2cd2c9ba123c780e5631f87594050fb01f2b65d043b78490e3a"
+    },
+    {
+      "path": "public/original-frame-red.mjs",
+      "bytes": 1717,
+      "sha256": "2b59b0103ebadf4dca5baf6f57daa9191be832257f77f635cba0f87791215617"
+    },
+    {
+      "path": "public/fresh-attempt.json",
+      "bytes": 19355,
+      "sha256": "031ecaa40348d3cf8af45c3cc563055ef521525a7f90f24d75babbb000507667"
+    },
+    {
+      "path": "public/fresh-attempt.mjs",
+      "bytes": 1564,
+      "sha256": "5ffd451145d086192fa4fe42759ddaa638fd5ef4bb51aa42b05e940eb98ce917"
+    },
+    {
+      "path": "public/fresh-attempt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "public/row-refusal.json",
+      "bytes": 231,
+      "sha256": "03122ec81d513133ad2c725942a42d1f5cc6e1deb0f3c8b94675c1c09681efcf"
+    },
+    {
+      "path": "package/report.json",
+      "bytes": 801,
+      "sha256": "825acbf2a49249a84c2b0abff300005445b6a797335be483b57de5220f19df12"
+    },
+    {
+      "path": "package/control.json",
+      "bytes": 288,
+      "sha256": "c0b262e6ebef3f5a29151bb7b3e6452220dd35a1510263453fccfb3dfc86446b"
+    },
+    {
+      "path": "package/run.mjs",
+      "bytes": 1124,
+      "sha256": "41525581b456b4d1606ab12d22925f1bb370fb8e953106c23226dd87d1ba9dfa"
+    },
+    {
+      "path": "checks/native-build.log",
+      "bytes": 4278,
+      "sha256": "d7ea1a662ffe3448bab39d58f855c68fd50de5d3adc003451fa9bc899bc22096"
+    },
+    {
+      "path": "checks/service-build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "path": "checks/types.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "checks/focused-tests.log",
+      "bytes": 840,
+      "sha256": "98476307213f38220837efda9fa85b14fa864a891ac048f069a87a179cc31975"
+    },
+    {
+      "path": "checks/cancel-test.log",
+      "bytes": 452,
+      "sha256": "40e013b35a89a84151fd2b9e3b1cab0e0aef43b22f50115ecd40478862eda2dd"
+    },
+    {
+      "path": "checks/public-assets.log",
+      "bytes": 677,
+      "sha256": "4ed17d4cc47b11a41850daebf8f7f1944b06fa5d3366ea5f81aa7b2dc272d2b5"
+    },
+    {
+      "path": "checks/review.log",
+      "bytes": 166294,
+      "sha256": "24213fa9bbfbc6fd2fb68adbdbc5c94701dacbc8f4892d10dfe8ebf897d1a11a"
+    },
+    {
+      "path": "checks/initial-fixture-failures.log",
+      "bytes": 9125,
+      "sha256": "b48d022f932079efac3c3a8824ea808a7a339b1970c5ba7ef68e723260b96454"
+    }
+  ]
+}
