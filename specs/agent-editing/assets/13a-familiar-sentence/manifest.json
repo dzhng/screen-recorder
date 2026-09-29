@@ -5,7 +5,17 @@
   "selectedPcmSha256": "42a4507364670e22de18f4f3bd9a5c59f31dd634366b5c1b57eeb9adbfd95ae7",
   "workerSha256": "1cf7c24c73ba4b6ca3c05aa41fdccb07d62a5ea8ce65c66236bdf4b75743addc",
   "policy": "Frozen mono48k selected-only exact recipe; unity gain; no added fade, trimming or context",
-  "listening": "UNVERIFIED; no whole-word timing annotation or naturalness verdict",
+  "listening": {
+    "date": "2026-09-29",
+    "reviewer": "user",
+    "comparison": [
+      "original.wav",
+      "slower-0.8x.wav"
+    ],
+    "question": "Does the 0.8\u00d7 version of \u201cOkay, so this is the recorder workbench\u201d keep the whole sentence clear and natural compared with the original?",
+    "answer": "Clear and natural",
+    "scope": "Clarity and naturalness of this complete sentence at0.8x only; no new word-edge annotations, other-rate, local-join or short-speech acceptance"
+  },
   "publicRetimeEnabled": false,
   "files": [
     {

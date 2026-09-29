@@ -136,7 +136,7 @@ and unintelligible. This does not close word retention or intelligibility. No ac
 on those clips is required. Future comparisons use complete meaningful sentences
 from their recording, the original alongside, and one clear question.
 
-The original/0.8x/1.25x listening check remains unanswered. Complete protected-word
+The earlier fragment-based listening check does not establish word clarity. Complete protected-word
 labels and listening cannot be inferred from ASR, waveform support, byte equality
 or still images. [Voice boundary timing](18-voice-boundary-timing/README.md) retains
 numerical/visual evidence and a sample-exact accepted ending; the shortened entrance
@@ -162,5 +162,5 @@ feedback. No answer has arrived; listening remains unverified.
 
 A [familiar stretch packet](13a-familiar-sentence/README.md) now supplies the same
 complete selection at1x,0.8x,0.9x and1.25x. Native file checks and an independent
-byte-for-byte reproduction pass. It has not been presented as a quality verdict;
-no new listening question was sent for it, and13a/14 remain open.
+byte-for-byte reproduction pass. The user accepts its complete0.8× sentence as clear and natural; see the packet
+for the exact scope. Other rates, joins, labels and13a/14 integration remain open.

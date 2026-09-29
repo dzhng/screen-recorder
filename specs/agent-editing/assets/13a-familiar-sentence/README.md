@@ -23,9 +23,9 @@ rendering. [manifest.json](manifest.json) pins every output; the same script in 
 fresh directory reproduces them with the frozen native parity executable. This
 is new listening material, not a new engine experiment or a public operation.
 
-No audio played automatically, no listening verdict is recorded, and public
-retiming remains disabled. Whole-word joins, short-speech treatment, production
-channel/state integration and the full13a/14 gates remain open. A later listening
-comparison should focus on one speed and whether all words remain clear and
-natural against the original, rather than asking the user to interpret isolated
-unfamiliar word fragments.
+The user compared the original with the0.8× version on2026-09-29 and answered
+“Clear and natural.” This accepts clarity/naturalness for this complete sentence
+at that rate. It supplies no independent word-edge timings and does not establish
+other rates, whole-word joins, short-speech treatment or production channel/state
+integration. Public retiming remains disabled until the remaining13a/14 gates
+pass. No audio played automatically.
