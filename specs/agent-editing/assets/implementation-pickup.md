@@ -130,3 +130,10 @@ output-reservation cleanup scope. Evidence is retained in that worktree under
 `assets/22b-retained-consumers/resume-verification.json`; this is partial, not a
 finished integration. Next verify export/full PCM, malformed/stale native operands
 and lifetime failures, then review and port to current catalog18.
+
+The22b follow-up also delivers exact complete PCM and commits movie exports for
+all three historical revisions with processing capability disabled. A real native
+operand regression preserves independent stereo samples over multiple read blocks
+and rejects malformed, mismatched-range, changed-identity and truncated inputs.
+Twelve native-enabled project-audio tests pass. Remaining before integration:
+encoded movie-audio comparison, lifetime failure regression and independent review.
