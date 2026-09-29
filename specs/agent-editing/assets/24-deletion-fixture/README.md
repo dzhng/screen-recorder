@@ -26,3 +26,8 @@ commits. Broader large-project and media scale acceptance remains open.
 The final focused suite passes 39 tests with the default worker count and deadlines;
 core types pass. Independent review found no actionable defects and separately
 passed all 10 project-store tests.
+
+Combined-root confirmation passes49 owner/service checks at the unchanged default
+deadlines, including text-aware prepared receipts and historical package semantics.
+The [root suite](root-suite-green.log.gz) closes the previously reported fixture
+timeout within this scope; broader scale acceptance remains separate.

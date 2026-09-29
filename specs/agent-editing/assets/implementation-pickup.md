@@ -21,12 +21,11 @@ history. General historical-package relocation also passes all27 checks. Prepare
 again with the text-aware manifest; its public preparation/DSP consumers stay open.
 Those root harnesses are finished; dist is free to rebuild.
 
-Historical root owner/service checks pass48/49; the unchanged large deletion
-fixture exceeds its default five-second deadline. The read-only audit localizes
-that cost to1500 individual disk-backed setup edits, while deletion itself takes
-under half a second. A test-only in-memory construction/backup/reopen correction
-is underway, preserving all actual edits, disk deletion/restart assertions and the
-original deadline. No production durability change is justified by that evidence.
+Root2f33adcf integrates the measured deletion-fixture correction. All49 combined
+owner/service checks now pass at unchanged default deadlines. All1500 real edits
+are constructed in memory, then backed up/reopened on disk before deletion and
+restart assertions; the negative page-bound mutation still fails. Production
+transactions and durability are unchanged.
 
 ## Active owners
 
@@ -43,10 +42,11 @@ original deadline. No production durability change is justified by that evidence
   pre-encode/curve controls, full/range clocks and shifted-phase/geometry negatives.
   Retain complete media/decoded evidence and fresh neutral review. No bitrate grid;
   static appearance does not prove animated trajectory or continuous playback.
-- History fixture maintenance: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+- CLI timing audit: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
   Historical export21eb0bca preserves selected-prefix undo state and excludes later
-  indexes. Next is only the measured test-fixture correction described above;
-  coordinate ProjectStore constructor changes with caption seeding.
+  indexes. The deletion-fixture correction is integrated; now measure the remaining CLI
+  multi-command test timeouts read-only before changing any deadline or production
+  behavior. Coordinate ProjectStore constructor changes with caption seeding.
 
 ## Remaining acceptance
 
