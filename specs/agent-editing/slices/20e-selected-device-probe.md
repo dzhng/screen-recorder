@@ -1,7 +1,9 @@
 # 20e — Prepare selected-device clock reproduction
 
 Status: implementation in progress; decoded camera-gap preservation is red and
-owned by [20e1](20e1-camera-gap-materialization.md). No physical capture authorized or performed.
+owned by [20e1](20e1-camera-gap-materialization.md). Its retained-file mechanism
+passes, but durable mapping/replay and positive public color admission remain open.
+No physical capture authorized or performed.
 Dependencies: [20a](20a-offline-clock.md), [20b](20b-exact-capture-audio.md),
 [20c](20c-sparse-capture-materialization.md), [20d](20d-capture-publication.md).
 

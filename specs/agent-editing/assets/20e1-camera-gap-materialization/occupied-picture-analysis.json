@@ -1,0 +1,66 @@
+{
+  "scope": "Saved bytes and rational metadata only; does not waive public color admission",
+  "occupiedPTSAndBGRAPixelsExact": true,
+  "occupied": [
+    {
+      "ptsValue": 200000,
+      "height": 120,
+      "ptsScale": 1000000,
+      "durationValue": 0,
+      "sha256": "2c01a9c496e492d21e3e00bde9a373078a466c6be10157f863b659a3d1ff208b",
+      "durationScale": 0,
+      "width": 160
+    },
+    {
+      "ptsValue": 300000,
+      "height": 120,
+      "ptsScale": 1000000,
+      "durationValue": 0,
+      "sha256": "410b2e7ceca891d12762ea676c78f45589f02cf5880ea32ad1b68163f31a0f70",
+      "durationScale": 0,
+      "width": 160
+    },
+    {
+      "ptsValue": 700000,
+      "height": 120,
+      "ptsScale": 1000000,
+      "durationValue": 0,
+      "sha256": "65df113f346dd1c485acce237fe6c8afbe9e20d73d1bfa2a4e49e9bad1f52277",
+      "durationScale": 0,
+      "width": 160
+    }
+  ],
+  "emptyEditEmissions": [
+    {
+      "ptsValue": 0,
+      "height": 120,
+      "ptsScale": 1,
+      "durationValue": 0,
+      "sha256": "586f7cc5ba7b3b6fed5dd4e817a7ce70739e38981754cb1065e50a700e9c88f5",
+      "durationScale": 0,
+      "width": 160,
+      "opaqueBlackBGRAExact": true
+    },
+    {
+      "ptsValue": 233333,
+      "height": 120,
+      "ptsScale": 1000000,
+      "durationValue": 0,
+      "sha256": "586f7cc5ba7b3b6fed5dd4e817a7ce70739e38981754cb1065e50a700e9c88f5",
+      "durationScale": 0,
+      "width": 160,
+      "opaqueBlackBGRAExact": true
+    },
+    {
+      "ptsValue": 333333,
+      "height": 120,
+      "ptsScale": 1000000,
+      "durationValue": 0,
+      "sha256": "586f7cc5ba7b3b6fed5dd4e817a7ce70739e38981754cb1065e50a700e9c88f5",
+      "durationScale": 0,
+      "width": 160,
+      "opaqueBlackBGRAExact": true
+    }
+  ],
+  "publicColorGate": "NOT_READY for SMPTE_C; no public positive picture claimed"
+}

@@ -1,0 +1,161 @@
+{
+  "candidateSha256" : "2113586f255a67cfcdce28adab56112775122cb943dd32821e9fdc11214992ce",
+  "decodedSamples" : 6,
+  "rows" : [
+    {
+      "atUs" : 0,
+      "endScale" : 1000000,
+      "endValue" : 200000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "atUs" : 100000,
+      "endScale" : 1000000,
+      "endValue" : 200000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "atUs" : 199999,
+      "endScale" : 1000000,
+      "endValue" : 200000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 200000,
+      "atUs" : 200000,
+      "BGRAsha256" : "2c01a9c496e492d21e3e00bde9a373078a466c6be10157f863b659a3d1ff208b",
+      "endScale" : 1000000,
+      "endValue" : 233333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 200000,
+      "atUs" : 216666,
+      "BGRAsha256" : "2c01a9c496e492d21e3e00bde9a373078a466c6be10157f863b659a3d1ff208b",
+      "endScale" : 1000000,
+      "endValue" : 233333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 200000,
+      "atUs" : 233332,
+      "BGRAsha256" : "2c01a9c496e492d21e3e00bde9a373078a466c6be10157f863b659a3d1ff208b",
+      "endScale" : 1000000,
+      "endValue" : 233333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    },
+    {
+      "atUs" : 233333,
+      "endScale" : 1000000,
+      "endValue" : 300000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "atUs" : 266666,
+      "endScale" : 1000000,
+      "endValue" : 300000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "atUs" : 299999,
+      "endScale" : 1000000,
+      "endValue" : 300000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 300000,
+      "atUs" : 300000,
+      "BGRAsha256" : "410b2e7ceca891d12762ea676c78f45589f02cf5880ea32ad1b68163f31a0f70",
+      "endScale" : 1000000,
+      "endValue" : 333333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 300000,
+      "atUs" : 316666,
+      "BGRAsha256" : "410b2e7ceca891d12762ea676c78f45589f02cf5880ea32ad1b68163f31a0f70",
+      "endScale" : 1000000,
+      "endValue" : 333333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 300000,
+      "atUs" : 333332,
+      "BGRAsha256" : "410b2e7ceca891d12762ea676c78f45589f02cf5880ea32ad1b68163f31a0f70",
+      "endScale" : 1000000,
+      "endValue" : 333333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    },
+    {
+      "atUs" : 333333,
+      "endScale" : 1000000,
+      "endValue" : 700000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "atUs" : 516666,
+      "endScale" : 1000000,
+      "endValue" : 700000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "atUs" : 699999,
+      "endScale" : 1000000,
+      "endValue" : 700000,
+      "expectedEmpty" : true,
+      "status" : "unavailable"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 700000,
+      "atUs" : 700000,
+      "BGRAsha256" : "65df113f346dd1c485acce237fe6c8afbe9e20d73d1bfa2a4e49e9bad1f52277",
+      "endScale" : 1000000,
+      "endValue" : 733333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 700000,
+      "atUs" : 716666,
+      "BGRAsha256" : "65df113f346dd1c485acce237fe6c8afbe9e20d73d1bfa2a4e49e9bad1f52277",
+      "endScale" : 1000000,
+      "endValue" : 733333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    },
+    {
+      "actualScale" : 1000000,
+      "actualValue" : 700000,
+      "atUs" : 733332,
+      "BGRAsha256" : "65df113f346dd1c485acce237fe6c8afbe9e20d73d1bfa2a4e49e9bad1f52277",
+      "endScale" : 1000000,
+      "endValue" : 733333,
+      "expectedEmpty" : false,
+      "status" : "available"
+    }
+  ],
+  "scope" : "Actual PresentationSource membership only; public color admission remains NOT_READY",
+  "unchanged" : true
+}

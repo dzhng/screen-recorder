@@ -1,0 +1,159 @@
+{
+  "candidateDecodedCount" : 6,
+  "candidateSha256" : "2113586f255a67cfcdce28adab56112775122cb943dd32821e9fdc11214992ce",
+  "decodedPicturesExact" : false,
+  "expected" : [
+    {
+      "duration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "start" : {
+        "timescale" : 1000000,
+        "value" : 200000
+      }
+    },
+    {
+      "duration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "start" : {
+        "timescale" : 1000000,
+        "value" : 300000
+      }
+    },
+    {
+      "duration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "start" : {
+        "timescale" : 1000000,
+        "value" : 700000
+      }
+    }
+  ],
+  "occupiedSupportExact" : true,
+  "rawDecodedCount" : 4,
+  "rawNaturalTimescale" : 1000000,
+  "rounding" : "absolute end = roundHalfAwayFromZero(start + 1\/30, raw natural timescale); starts exact; no nearest lookup",
+  "segments" : [
+    {
+      "empty" : true,
+      "sourceDuration" : {
+        "timescale" : 1000000,
+        "value" : 200000
+      },
+      "sourceStart" : {
+        "timescale" : 0,
+        "value" : 0
+      },
+      "targetDuration" : {
+        "timescale" : 1000000,
+        "value" : 200000
+      },
+      "targetStart" : {
+        "timescale" : 1000000,
+        "value" : 0
+      }
+    },
+    {
+      "empty" : false,
+      "sourceDuration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "sourceStart" : {
+        "timescale" : 1000000,
+        "value" : 0
+      },
+      "targetDuration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "targetStart" : {
+        "timescale" : 1000000,
+        "value" : 200000
+      }
+    },
+    {
+      "empty" : true,
+      "sourceDuration" : {
+        "timescale" : 1000000,
+        "value" : 66667
+      },
+      "sourceStart" : {
+        "timescale" : 0,
+        "value" : 0
+      },
+      "targetDuration" : {
+        "timescale" : 1000000,
+        "value" : 66667
+      },
+      "targetStart" : {
+        "timescale" : 1000000,
+        "value" : 233333
+      }
+    },
+    {
+      "empty" : false,
+      "sourceDuration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "sourceStart" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "targetDuration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "targetStart" : {
+        "timescale" : 1000000,
+        "value" : 300000
+      }
+    },
+    {
+      "empty" : true,
+      "sourceDuration" : {
+        "timescale" : 1000000,
+        "value" : 366667
+      },
+      "sourceStart" : {
+        "timescale" : 0,
+        "value" : 0
+      },
+      "targetDuration" : {
+        "timescale" : 1000000,
+        "value" : 366667
+      },
+      "targetStart" : {
+        "timescale" : 1000000,
+        "value" : 333333
+      }
+    },
+    {
+      "empty" : false,
+      "sourceDuration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "sourceStart" : {
+        "timescale" : 1000000,
+        "value" : 966666
+      },
+      "targetDuration" : {
+        "timescale" : 1000000,
+        "value" : 33333
+      },
+      "targetStart" : {
+        "timescale" : 1000000,
+        "value" : 700000
+      }
+    }
+  ],
+  "sourceSha256" : "b5f77be5279854f51d2ec0816a83af21b48121a02b0e1de14be3771cc03aa669",
+  "sourceUnchanged" : true
+}
