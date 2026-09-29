@@ -13,5 +13,5 @@ hatch or an alternate execution schema.
 
 This fixes delivery of large job status. It does not bound the queue's internal
 full-input reads or identity queries independently of plan size. General scale
-inspection and retained storage growth remain open. Next: the complete two-hour
-learned preparation and independent PCM gate at unchanged recipes and limits.
+inspection and retained storage growth remain open. The [two-hour learned preparation](24f-successful-learned-scale.md) and complete
+independent PCM gate now pass at unchanged recipes and limits.

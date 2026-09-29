@@ -1,0 +1,225 @@
+{
+  "productionCommit": "03633d5b",
+  "scope": "Complete retained original bytes, with lossless oracle reconstruction after independent full DSP comparison",
+  "invocation": "SCREENREC_NATIVE=/tmp/screenrec-active-mixer-native node packages/test-harness/editing/denoise-scale.mjs --out /tmp/screenrec-denoise-two-hour-complete --seconds 7200 --occurrences 10000 --reference /tmp/screenrec-rnnoise-api",
+  "nativeSha256": "d9f09982f122ee97774496ff05f8e08a67c85f73a88ecd16fdeed14bf67fa1aa",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "wav": {
+    "volumes": [
+      "prepared.wav.xz.00",
+      "prepared.wav.xz.01",
+      "prepared.wav.xz.02",
+      "prepared.wav.xz.03"
+    ],
+    "concatenation": "one XZ stream",
+    "decodedBytes": 2764804096,
+    "sha256": "63629739a587e5d699afef408d3c2e46992de7017be9e806ea82274597d792f8"
+  },
+  "pcm": {
+    "encoding": "IEEE754 float32 little-endian",
+    "sampleBytes": 4,
+    "channels": 2,
+    "channelOrder": [
+      0,
+      1
+    ],
+    "offset": 4096,
+    "frames": 345600000,
+    "sampleRate": 48000
+  },
+  "oracleReconstruction": {
+    "unmatchedPrefixFrames": 960,
+    "inputPeriodFrames": 34560,
+    "inputRepetitions": 10000,
+    "method": "Reference raw = retained prefix + byte-preserving deinterleaved WAV channel. This is evidence decompression, not a new numerical comparison."
+  },
+  "stored": [
+    {
+      "path": "prepared.wav.xz.00",
+      "bytes": 94371840,
+      "sha256": "21f8c61d38482b65f7f3cfff64aa228113d27535c4e53b1b6addc5bcc5766f9b"
+    },
+    {
+      "path": "prepared.wav.xz.01",
+      "bytes": 94371840,
+      "sha256": "d9afa16269c5f91af676986b635b914799d28c303c0c6582bb6fea3431e75a5f"
+    },
+    {
+      "path": "prepared.wav.xz.02",
+      "bytes": 94371840,
+      "sha256": "0513ee0ab905c68d1633f397b6550bffcd5d64ffc77b24ae7fdc63ba5dd4a05b"
+    },
+    {
+      "path": "prepared.wav.xz.03",
+      "bytes": 20392856,
+      "sha256": "3945ff42a43f89a19ab3b4098bbb9b8be1fc7c1d89bfe0e4928a8caf437822bc"
+    },
+    {
+      "path": "metadata.tar.xz",
+      "bytes": 2969164,
+      "sha256": "2d74a1fc7cbb8a4e8a8734d896c389507363af28b8590c0e93619a1d2ed5a40e"
+    },
+    {
+      "path": "COPYING",
+      "bytes": 1612,
+      "sha256": "45d37ca1cdb278c088e1aa85e0e65ca3a534ed86a28dcc96ca16810248a61d35"
+    },
+    {
+      "path": "model-provenance.json",
+      "bytes": 2899,
+      "sha256": "350efedc54fe089a045ade892c385d487dd3bdb98f873d6a173010fe796d4ec1"
+    },
+    {
+      "path": "archive-verification.json",
+      "bytes": 218,
+      "sha256": "0a85217bf7f5aa3a89c00f0a7f5c8fbd01826691d1c83964bcefba621ad95f28"
+    },
+    {
+      "path": "restore.py",
+      "bytes": 4959,
+      "sha256": "cda2af4f36697649484311c9448edc5682f0f2186327e13af9b920c959161ca5"
+    },
+    {
+      "path": "retention-review.md",
+      "bytes": 1274,
+      "sha256": "00b1b988c5ac7c278d870175cb9f145b838dc754ee12e001350c10281b3626c5"
+    },
+    {
+      "path": "retention-review.log",
+      "bytes": 22450,
+      "sha256": "50b1f8dd820d04a9a17ce78a17ea1d33c429052bd564330caa2e6b396883a071"
+    },
+    {
+      "path": "completion-check.json",
+      "bytes": 283,
+      "sha256": "50575d0a64efcfd2d73a33a5ba819fdb4bb8dfe5e727088b37a41aa7f77fb3bd"
+    },
+    {
+      "path": "optimized-mode-refusal.log",
+      "bytes": 376,
+      "sha256": "89cee2ee55437eed40fd5e9bc607f6e7e6963d62806a88947e1165973402c079"
+    }
+  ],
+  "metadata": [
+    {
+      "path": "source.wav",
+      "bytes": 192044,
+      "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+    },
+    {
+      "path": "late.wav",
+      "bytes": 388096,
+      "sha256": "b9e3b865eff4bd4b957cce40a3d536d924a1dedd0e7394548cf13b81c773358e"
+    },
+    {
+      "path": "report.json",
+      "bytes": 3202730,
+      "sha256": "9255f0e5e490d5bc98bea6b9b2540165329abacbd843151e3e86d2e668c7fa89"
+    },
+    {
+      "path": "output-1-prefix.f32",
+      "bytes": 3840,
+      "sha256": "91cdc2f5dd15f37081e8f6ea90433f7aa904aa0d92e591ea96fecf16c4e2492c"
+    },
+    {
+      "path": "input-1-period.f32",
+      "bytes": 138240,
+      "sha256": "4004ac6c50f1c9e7e7196e0a774dfadb7fc25f40dbe6ac02acc43d52b49c4ae8"
+    },
+    {
+      "path": "output-0-prefix.f32",
+      "bytes": 3840,
+      "sha256": "06280cd4cf734f3a54a58b0f25d47c430f951f03e13d808c8021d0228621e9a8"
+    },
+    {
+      "path": "input-0-period.f32",
+      "bytes": 138240,
+      "sha256": "de09d20ed9f8c73e5c1e234b7c1d1a2b9ac381db183efa659c94dd34679c2e50"
+    },
+    {
+      "path": "original-hashes.json",
+      "bytes": 1065,
+      "sha256": "6fce1fb1ce69ab521e233422ddd0fb38a52510b0cf64b2b12774d6f5f9447397"
+    },
+    {
+      "path": "reconstructed.json",
+      "bytes": 2422,
+      "sha256": "be4e9a295fe03a8194d2a8698b6186aa1f6a12f1303cbcbf1149c1069b0f9038"
+    },
+    {
+      "path": "dedup.py",
+      "bytes": 2249,
+      "sha256": "3428af5463d6bf752b9db6f650768fb1af28df15205b0a6b996f2a1cfd7b3e2e"
+    },
+    {
+      "path": "dedup.log",
+      "bytes": 1067,
+      "sha256": "0e6ca4ff18a950114e29505009c845918e10828837edde654dfece0a294742f6"
+    },
+    {
+      "path": "load-note.txt",
+      "bytes": 774,
+      "sha256": "4be58722f395d45a1a3e2ddaee7a14e3b04e8b5d01d318bbdb537063f1875907"
+    },
+    {
+      "path": "compression-pilot.json",
+      "bytes": 155,
+      "sha256": "225e8dd20c1dafbfb674a4d87209bad69c29d814ea7915509b823326b9962d43"
+    },
+    {
+      "path": "compression.json",
+      "bytes": 177,
+      "sha256": "ecb139e0744d0cf334c4fcb42d8ae98fee6b2483b5b6fee6de272896d9ab720c"
+    },
+    {
+      "path": "review.md",
+      "bytes": 2959,
+      "sha256": "e6a85ccc9c44ce4071c3f36026414f5849431f7bc9363a21d8a0b197c212be68"
+    },
+    {
+      "path": "review.log",
+      "bytes": 1168278,
+      "sha256": "9acaaa7cbf797b344b11d72ec565e55026d26980f7b44454cf513390351f8f20"
+    },
+    {
+      "path": "dedup-review.md",
+      "bytes": 2165,
+      "sha256": "34f2047a8eaf85026c257be46b5f23a247e0c95e58da1bd451a1e061876fddfd"
+    },
+    {
+      "path": "dedup-review.log",
+      "bytes": 19908,
+      "sha256": "c84cb5c67dede107ae4cbc20234f6620801e8c610a64004d56b2953178d7f95e"
+    },
+    {
+      "path": "run.log",
+      "bytes": 635,
+      "sha256": "d88df869f5077287db23650d6e5c50c21d6c643c219e4b898ab36f49c408a181"
+    },
+    {
+      "path": "reference.c",
+      "bytes": 1370,
+      "sha256": "9b6c83bb61a1a8b1ae945900187cb8c282f637fc103e0852be1d690ebab674a7"
+    },
+    {
+      "path": "reference-binary",
+      "bytes": 3654872,
+      "sha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee"
+    },
+    {
+      "path": "reference-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "denoise-scale.mjs",
+      "bytes": 11669,
+      "sha256": "2f59718ed7a77dbf4dc6f049410ea8959e97447a980e4aa61a6f26cc4f80d730"
+    },
+    {
+      "path": "audio-project-fixture.mjs",
+      "bytes": 5635,
+      "sha256": "33188123789c921c9e7d4b573b72e3529795aac0491caf02a579dd6c5e1b8f08"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder/specs/agent-editing/assets/24f-learned-scale/restore.py", line 15, in <module>
+    raise RuntimeError('Evidence verification requires Python assertions; omit -O/PYTHONOPTIMIZE')
+RuntimeError: Evidence verification requires Python assertions; omit -O/PYTHONOPTIMIZE

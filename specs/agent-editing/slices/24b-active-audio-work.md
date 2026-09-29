@@ -1,7 +1,8 @@
 # 24b — Bound active audio work independently of timeline length
 
-Status: five-minute/500-occurrence learned preparation verified; two-hour public
-setup remains red before preparation. [Evidence](../assets/24b-active-audio/README.md).
+Status: five-minute/500-occurrence learned preparation verified; the
+[two-hour checkpoint](24f-successful-learned-scale.md) now passes after its retained
+public setup/delivery prerequisites. [Evidence](../assets/24b-active-audio/README.md).
 Dependencies: [24a](24a-compiled-plan-delivery.md).
 This is a prerequisite of 24 and the remaining 15a2 scale gates, not their closure.
 

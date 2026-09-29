@@ -1,0 +1,7 @@
+{
+  "successfulHomeAbsent": true,
+  "renderWorkspaceEmpty": "asserted in original harness before report",
+  "unavailableEntries": 10000,
+  "nonemptyUnavailableEntries": 0,
+  "note": "Post-completion inspection; does not strengthen failure/cancel cleanup or overall storage claims"
+}

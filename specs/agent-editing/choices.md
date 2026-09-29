@@ -3179,3 +3179,15 @@ bulk representation unspecified; this choice keeps one authoritative owner and
 bounds page work without a second cache. Catalog15 identifies this layout, and the
 subsequent capture column change must use the next version rather than reusing15.
 Old layouts are explicitly refused; no history migration is introduced.
+
+### Preserve independent scale evidence through lossless reconstruction (sound, high confidence)
+
+The complete two-hour delivered WAV remains stored, while duplicate lane oracle
+files are reconstructed from retained unmatched prefixes and byte-preserving
+channels, and exact repeated input periods reconstruct source input files. Original
+independent file hashes were captured first; archive decompression and all four
+materialized restoration hashes were verified before reclaiming duplicates. This
+reduces storage without selecting favorable samples. Restored evidence is not a new
+independent oracle, and the original execution/provenance remains retained. No new
+product store or audio representation is introduced. Concurrent-load timings and
+successful-path cleanup retain their stated limits.

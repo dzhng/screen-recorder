@@ -1,0 +1,470 @@
+2026-09-29T09:31:58.182563Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-29T09:31:58.182634Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+OpenAI Codex v0.153.4
+--------
+workdir: /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a0ec7b-44ae-7561-ae42-11fc621eb363
+--------
+user
+<task>Final read-only retention check: artifact at specs/agent-editing/assets/24f-learned-scale now contains manifest.json, restore.py, four split XZ volumes, metadata.tar.xz, COPYING/model-provenance and archive-verification.json. The completed verifier decompressed exact full WAV and actually materialized all four oracle/input files, then recomputed their full hashes equal to original pre-reconstruction manifest; /tmp/screenrec-denoise-two-hour-archive-verification.log and reconstruction log retain result. Restored check copies may now be removed after verification; original independently generated files remain. Review restore.py shape/correctness and manifest consistency, no need repeat gigabyte hashing/decompression. Is any actionable extraction/provenance issue left? No source changes/new native runs. Scope original limitations remain.</task>
+2026-09-29T09:31:58.453429Z  WARN codex_skills::interface: ignoring interface.icon_small: icon path with '..' must resolve under plugin assets/
+2026-09-29T09:31:58.453453Z  WARN codex_skills::interface: ignoring interface.icon_large: icon path with '..' must resolve under plugin assets/
+codex
+I’ll review the retained bundle, restore script, and verification records for extraction or provenance issues without repeating the large restore.
+exec
+/bin/zsh -lc 'ls -lh specs/agent-editing/assets/24f-learned-scale; cat specs/agent-editing/assets/24f-learned-scale/restore.py; cat specs/agent-editing/assets/24f-learned-scale/manifest.json; cat specs/agent-editing/assets/24f-learned-scale/archive-verification.json' in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 0ms:
+total 598648
+-rw-r--r--@ 1 david  staff   1.6K Sep 29 02:31 COPYING
+-rw-r--r--@ 1 david  staff   218B Sep 29 02:31 archive-verification.json
+-rw-r--r--@ 1 david  staff   6.3K Sep 29 02:31 manifest.json
+-rw-r--r--@ 1 david  staff   2.8M Sep 29 02:30 metadata.tar.xz
+-rw-r--r--@ 1 david  staff   2.8K Sep 29 02:31 model-provenance.json
+-rw-r--r--@ 1 david  staff    90M Sep 29 02:30 prepared.wav.xz.00
+-rw-r--r--@ 1 david  staff    90M Sep 29 02:30 prepared.wav.xz.01
+-rw-r--r--@ 1 david  staff    90M Sep 29 02:30 prepared.wav.xz.02
+-rw-r--r--@ 1 david  staff    19M Sep 29 02:30 prepared.wav.xz.03
+-rw-r--r--@ 1 david  staff   4.7K Sep 29 02:29 restore.py
+"""Verify retained evidence; optionally restore exact original oracle files or the WAV.
+
+This is lossless artifact extraction, not a fresh independent DSP comparison.
+"""
+from array import array
+import argparse
+import hashlib
+import io
+import json
+import lzma
+from pathlib import Path
+import tarfile
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--oracles', type=Path, help='new directory for four restored original files')
+parser.add_argument('--wav', type=Path, help='new file for the complete delivered WAV')
+args = parser.parse_args()
+root = Path(__file__).resolve().parent
+manifest = json.loads((root / 'manifest.json').read_text())
+
+
+def digest(path):
+    h = hashlib.sha256()
+    with path.open('rb') as f:
+        while b := f.read(1024 * 1024):
+            h.update(b)
+    return h.hexdigest()
+
+
+for item in manifest['stored']:
+    path = root / item['path']
+    assert path.stat().st_size == item['bytes'], item['path']
+    assert digest(path) == item['sha256'], item['path']
+with tarfile.open(root / 'metadata.tar.xz') as archive:
+    members = {m['path']: archive.extractfile(m['path']).read() for m in manifest['metadata']}
+for item in manifest['metadata']:
+    assert len(members[item['path']]) == item['bytes']
+    assert hashlib.sha256(members[item['path']]).hexdigest() == item['sha256']
+original = json.loads(members['original-hashes.json'])
+if args.oracles:
+    args.oracles.mkdir()
+
+
+class Volumes(io.RawIOBase):
+    def __init__(self):
+        self.paths = iter(manifest['wav']['volumes'])
+        self.current = None
+
+    def read(self, size=-1):
+        assert size >= 0
+        while True:
+            if self.current is None:
+                path = next(self.paths, None)
+                if path is None:
+                    return b''
+                self.current = (root / path).open('rb')
+            chunk = self.current.read(size)
+            if chunk:
+                return chunk
+            self.current.close()
+            self.current = None
+
+    def close(self):
+        if self.current:
+            self.current.close()
+        super().close()
+
+
+for channel in range(2):
+    name = f'reference-{channel}-input.f32'
+    period = members[f'input-{channel}-period.f32']
+    h = hashlib.sha256()
+    output = (args.oracles / name).open('xb') if args.oracles else None
+    try:
+        for _ in range(10000):
+            h.update(period)
+            if output:
+                output.write(period)
+    finally:
+        if output:
+            output.close()
+    assert len(period) * 10000 == original[name]['bytes']
+    assert h.hexdigest() == original[name]['sha256'], name
+
+hashes = [hashlib.sha256(members[f'output-{c}-prefix.f32']) for c in range(2)]
+outputs = [(args.oracles / f'reference-{c}-raw.f32').open('xb') if args.oracles else None for c in range(2)]
+wav = args.wav.open('xb') if args.wav else None
+full_hash = hashlib.sha256()
+full_bytes = 0
+try:
+    for c, output in enumerate(outputs):
+        if output:
+            output.write(members[f'output-{c}-prefix.f32'])
+    with Volumes() as volumes, lzma.LZMAFile(volumes) as decoded:
+        header = decoded.read(4096)
+        assert header[:4] == b'RIFF' and header[-8:-4] == b'data'
+        assert int.from_bytes(header[-4:], 'little') == 345600000 * 8
+        full_hash.update(header)
+        full_bytes += len(header)
+        if wav:
+            wav.write(header)
+        while chunk := decoded.read(8 * 1024 * 1024):
+            assert len(chunk) % 8 == 0
+            full_hash.update(chunk)
+            full_bytes += len(chunk)
+            if wav:
+                wav.write(chunk)
+            words = array('I')
+            words.frombytes(chunk)
+            assert words.itemsize == 4
+            for c, output in enumerate(outputs):
+                lane = words[c::2].tobytes()  # Preserve four-byte words; no float conversion.
+                hashes[c].update(lane)
+                if output:
+                    output.write(lane)
+finally:
+    if wav:
+        wav.close()
+    for output in outputs:
+        if output:
+            output.close()
+assert full_bytes == original['prepared.wav']['bytes']
+assert full_hash.hexdigest() == original['prepared.wav']['sha256']
+for c in range(2):
+    name = f'reference-{c}-raw.f32'
+    assert 3840 + (full_bytes - 4096) // 2 == original[name]['bytes']
+    assert hashes[c].hexdigest() == original[name]['sha256'], name
+if args.oracles:
+    for path in args.oracles.iterdir():
+        assert path.stat().st_size == original[path.name]['bytes']
+        assert digest(path) == original[path.name]['sha256'], path.name
+print(json.dumps({'passed': True, 'wavBytes': full_bytes, 'wavSha256': full_hash.hexdigest(),
+                  'restoredOracleFiles': 4 if args.oracles else 0,
+                  'scope': 'Retained evidence integrity; no new DSP oracle comparison'}))
+{
+  "productionCommit": "03633d5b",
+  "scope": "Complete retained original bytes, with lossless oracle reconstruction after independent full DSP comparison",
+  "invocation": "SCREENREC_NATIVE=/tmp/screenrec-active-mixer-native node packages/test-harness/editing/denoise-scale.mjs --out /tmp/screenrec-denoise-two-hour-complete --seconds 7200 --occurrences 10000 --reference /tmp/screenrec-rnnoise-api",
+  "nativeSha256": "d9f09982f122ee97774496ff05f8e08a67c85f73a88ecd16fdeed14bf67fa1aa",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "wav": {
+    "volumes": [
+      "prepared.wav.xz.00",
+      "prepared.wav.xz.01",
+      "prepared.wav.xz.02",
+      "prepared.wav.xz.03"
+    ],
+    "concatenation": "one XZ stream",
+    "decodedBytes": 2764804096,
+    "sha256": "63629739a587e5d699afef408d3c2e46992de7017be9e806ea82274597d792f8"
+  },
+  "pcm": {
+    "encoding": "IEEE754 float32 little-endian",
+    "sampleBytes": 4,
+    "channels": 2,
+    "channelOrder": [
+      0,
+      1
+    ],
+    "offset": 4096,
+    "frames": 345600000,
+    "sampleRate": 48000
+  },
+  "oracleReconstruction": {
+    "unmatchedPrefixFrames": 960,
+    "inputPeriodFrames": 34560,
+    "inputRepetitions": 10000,
+    "method": "Reference raw = retained prefix + byte-preserving deinterleaved WAV channel. This is evidence decompression, not a new numerical comparison."
+  },
+  "stored": [
+    {
+      "path": "prepared.wav.xz.00",
+      "bytes": 94371840,
+      "sha256": "21f8c61d38482b65f7f3cfff64aa228113d27535c4e53b1b6addc5bcc5766f9b"
+    },
+    {
+      "path": "prepared.wav.xz.01",
+      "bytes": 94371840,
+      "sha256": "d9afa16269c5f91af676986b635b914799d28c303c0c6582bb6fea3431e75a5f"
+    },
+    {
+      "path": "prepared.wav.xz.02",
+      "bytes": 94371840,
+      "sha256": "0513ee0ab905c68d1633f397b6550bffcd5d64ffc77b24ae7fdc63ba5dd4a05b"
+    },
+    {
+      "path": "prepared.wav.xz.03",
+      "bytes": 20392856,
+      "sha256": "3945ff42a43f89a19ab3b4098bbb9b8be1fc7c1d89bfe0e4928a8caf437822bc"
+    },
+    {
+      "path": "metadata.tar.xz",
+      "bytes": 2969164,
+      "sha256": "2d74a1fc7cbb8a4e8a8734d896c389507363af28b8590c0e93619a1d2ed5a40e"
+    },
+    {
+      "path": "COPYING",
+      "bytes": 1612,
+      "sha256": "45d37ca1cdb278c088e1aa85e0e65ca3a534ed86a28dcc96ca16810248a61d35"
+    },
+    {
+      "path": "model-provenance.json",
+      "bytes": 2899,
+      "sha256": "350efedc54fe089a045ade892c385d487dd3bdb98f873d6a173010fe796d4ec1"
+    },
+    {
+      "path": "archive-verification.json",
+      "bytes": 218,
+      "sha256": "0a85217bf7f5aa3a89c00f0a7f5c8fbd01826691d1c83964bcefba621ad95f28"
+    },
+    {
+      "path": "restore.py",
+      "bytes": 4841,
+      "sha256": "1a072d0efe153d3484469432c9f0a50bbee0658c5e2ced8afd3db7f6141b65d4"
+    }
+  ],
+  "metadata": [
+    {
+      "path": "source.wav",
+      "bytes": 192044,
+      "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+    },
+    {
+      "path": "late.wav",
+      "bytes": 388096,
+      "sha256": "b9e3b865eff4bd4b957cce40a3d536d924a1dedd0e7394548cf13b81c773358e"
+    },
+    {
+      "path": "report.json",
+      "bytes": 3202730,
+      "sha256": "9255f0e5e490d5bc98bea6b9b2540165329abacbd843151e3e86d2e668c7fa89"
+    },
+    {
+      "path": "output-1-prefix.f32",
+      "bytes": 3840,
+      "sha256": "91cdc2f5dd15f37081e8f6ea90433f7aa904aa0d92e591ea96fecf16c4e2492c"
+    },
+    {
+      "path": "input-1-period.f32",
+      "bytes": 138240,
+      "sha256": "4004ac6c50f1c9e7e7196e0a774dfadb7fc25f40dbe6ac02acc43d52b49c4ae8"
+    },
+    {
+      "path": "output-0-prefix.f32",
+      "bytes": 3840,
+      "sha256": "06280cd4cf734f3a54a58b0f25d47c430f951f03e13d808c8021d0228621e9a8"
+    },
+    {
+      "path": "input-0-period.f32",
+      "bytes": 138240,
+      "sha256": "de09d20ed9f8c73e5c1e234b7c1d1a2b9ac381db183efa659c94dd34679c2e50"
+    },
+    {
+      "path": "original-hashes.json",
+      "bytes": 1065,
+      "sha256": "6fce1fb1ce69ab521e233422ddd0fb38a52510b0cf64b2b12774d6f5f9447397"
+    },
+    {
+      "path": "reconstructed.json",
+      "bytes": 2422,
+      "sha256": "be4e9a295fe03a8194d2a8698b6186aa1f6a12f1303cbcbf1149c1069b0f9038"
+    },
+    {
+      "path": "dedup.py",
+      "bytes": 2249,
+      "sha256": "3428af5463d6bf752b9db6f650768fb1af28df15205b0a6b996f2a1cfd7b3e2e"
+    },
+    {
+      "path": "dedup.log",
+      "bytes": 1067,
+      "sha256": "0e6ca4ff18a950114e29505009c845918e10828837edde654dfece0a294742f6"
+    },
+    {
+      "path": "load-note.txt",
+      "bytes": 774,
+      "sha256": "4be58722f395d45a1a3e2ddaee7a14e3b04e8b5d01d318bbdb537063f1875907"
+    },
+    {
+      "path": "compression-pilot.json",
+      "bytes": 155,
+      "sha256": "225e8dd20c1dafbfb674a4d87209bad69c29d814ea7915509b823326b9962d43"
+    },
+    {
+      "path": "compression.json",
+      "bytes": 177,
+      "sha256": "ecb139e0744d0cf334c4fcb42d8ae98fee6b2483b5b6fee6de272896d9ab720c"
+    },
+    {
+      "path": "review.md",
+      "bytes": 2959,
+      "sha256": "e6a85ccc9c44ce4071c3f36026414f5849431f7bc9363a21d8a0b197c212be68"
+    },
+    {
+      "path": "review.log",
+      "bytes": 1168278,
+      "sha256": "9acaaa7cbf797b344b11d72ec565e55026d26980f7b44454cf513390351f8f20"
+    },
+    {
+      "path": "dedup-review.md",
+      "bytes": 2165,
+      "sha256": "34f2047a8eaf85026c257be46b5f23a247e0c95e58da1bd451a1e061876fddfd"
+    },
+    {
+      "path": "dedup-review.log",
+      "bytes": 19908,
+      "sha256": "c84cb5c67dede107ae4cbc20234f6620801e8c610a64004d56b2953178d7f95e"
+    },
+    {
+      "path": "run.log",
+      "bytes": 635,
+      "sha256": "d88df869f5077287db23650d6e5c50c21d6c643c219e4b898ab36f49c408a181"
+    },
+    {
+      "path": "reference.c",
+      "bytes": 1370,
+      "sha256": "9b6c83bb61a1a8b1ae945900187cb8c282f637fc103e0852be1d690ebab674a7"
+    },
+    {
+      "path": "reference-binary",
+      "bytes": 3654872,
+      "sha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee"
+    },
+    {
+      "path": "reference-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "denoise-scale.mjs",
+      "bytes": 11669,
+      "sha256": "2f59718ed7a77dbf4dc6f049410ea8959e97447a980e4aa61a6f26cc4f80d730"
+    },
+    {
+      "path": "audio-project-fixture.mjs",
+      "bytes": 5635,
+      "sha256": "33188123789c921c9e7d4b573b72e3529795aac0491caf02a579dd6c5e1b8f08"
+    }
+  ]
+}
+{"passed": true, "wavBytes": 2764804096, "wavSha256": "63629739a587e5d699afef408d3c2e46992de7017be9e806ea82274597d792f8", "restoredOracleFiles": 4, "scope": "Retained evidence integrity; no new DSP oracle comparison"}
+
+exec
+/bin/zsh -lc "cat /tmp/screenrec-denoise-two-hour-archive-verification.log; rg --files specs/agent-editing/assets/24f-learned-scale /tmp | rg '24f-learned-scale|two-hour.*(reconstruct.*log|provenance)'" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 688ms:
+specs/agent-editing/assets/24f-learned-scale/prepared.wav.xz.03
+specs/agent-editing/assets/24f-learned-scale/prepared.wav.xz.02
+specs/agent-editing/assets/24f-learned-scale/restore.py
+specs/agent-editing/assets/24f-learned-scale/manifest.json
+specs/agent-editing/assets/24f-learned-scale/COPYING
+specs/agent-editing/assets/24f-learned-scale/prepared.wav.xz.00
+specs/agent-editing/assets/24f-learned-scale/model-provenance.json
+specs/agent-editing/assets/24f-learned-scale/prepared.wav.xz.01
+specs/agent-editing/assets/24f-learned-scale/metadata.tar.xz
+specs/agent-editing/assets/24f-learned-scale/archive-verification.json
+
+exec
+/bin/zsh -lc "python3 -c 'import pathlib,json,hashlib,tarfile
+r=pathlib.Path(\"specs/agent-editing/assets/24f-learned-scale\");m=json.loads((r/\"manifest.json\").read_text())
+for x in m[\"stored\"]:
+ p=r/x[\"path\"];assert p.stat().st_size==x[\"bytes\"]
+ if x[\"bytes\"]<10000000:assert hashlib.sha256(p.read_bytes()).hexdigest()==x[\"sha256\"]
+with tarfile.open(r/\"metadata.tar.xz\") as t:
+ assert set(t.getnames())=={x[\"path\"] for x in m[\"metadata\"]}
+ b={x[\"path\"]:t.extractfile(x[\"path\"]).read() for x in m[\"metadata\"]}
+for x in m[\"metadata\"]:assert len(b[x[\"path\"]])==x[\"bytes\"] and hashlib.sha256(b[x[\"path\"]]).hexdigest()==x[\"sha256\"]
+o=json.loads(b[\"original-hashes.json\"]);z=json.loads(b[\"reconstructed.json\"]);report=json.loads(b[\"report.json\"]);assert z[\"original\"]==o;assert m[\"wav\"][\"sha256\"]==o[\"prepared.wav\"][\"sha256\"];assert m[\"wav\"][\"decodedBytes\"]==o[\"prepared.wav\"][\"bytes\"]
+for k in [\"nativeSha256\",\"referenceSha256\"]:assert m[k]==report[k]
+print(\"All stored sizes, small stored hashes, metadata membership/hashes, original manifests and report identity agree.\");print((r/\"model-provenance.json\").read_text());print(\"compression\",b[\"compression.json\"].decode())'" in /Users/david/.codex/worktrees/noise-prepared-output/screen-recorder
+ succeeded in 111ms:
+All stored sizes, small stored hashes, metadata membership/hashes, original manifests and report identity agree.
+{
+  "sourceRevision": "70f1d256acd4b34a572f999a05c87bf00b67730d",
+  "modelArchiveSha256": "0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37",
+  "generatedModelSha256": "d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5",
+  "files": {
+    "src/denoise.c": "f12ac3cc97d798cdfd7c7bd4366a08a72c5516c382056c891b61a61cb17eb031",
+    "src/rnn.c": "c40bbe40082448005873fe970d8963870ab2c9993b7c38d6939ca48f4f31a7bd",
+    "src/pitch.c": "cfe6f5ffb4b5f5967ce2e64f22cc978c1f8196eecdb2fa532d4dd1ff56f6ca58",
+    "src/kiss_fft.c": "2a9f9ee0d961ec6516864477640d78aedbf1c3ecbe1680727b4b93d486c09679",
+    "src/celt_lpc.c": "58eca412376dfd954f4940709df521cf1d2cbee1b7ca2b166bd0bffbda2c5b8d",
+    "src/nnet.c": "3a2c1dc09ad7e9dfe3cf32cfb94694935dc462488da8f513d1f308db39f7c087",
+    "src/nnet_default.c": "1402eb611b7fcc1fe7fa18639f0395e0af47a783ef87450318411483516e9011",
+    "src/parse_lpcnet_weights.c": "d523113abe3c387b5481d8aa75d61b22f5e6cbcf54110f68cf901204d443de12",
+    "src/rnnoise_tables.c": "f81353479c6f8912755a4cf5838590c36ba2c523a4a438e4f949743fb4945623",
+    "src/celt_lpc.h": "2190d9bd519c4528770a28fb0e8b599eb195782fb5dcd91378eb92e3ca7d5148",
+    "src/vec_neon.h": "4e943966503518091da521d406e2627f044d3752d4aaa400bdd584571330006c",
+    "src/cpu_support.h": "acb2591c1dfb97783a0a68fea76279dcb1155f0b7e6b95f51448a590f301c4b2",
+    "src/rnn.h": "2fe9f33534fbfa35a7d5c81323f1ec4e9ec06e28328815c7c88880e83f994566",
+    "src/pitch.h": "020be5b3fbc5289cd76930b0534efaa25dbda0cecd8643ee345cfd9d875a3818",
+    "src/nnet.h": "3552cf2fcfc4db28ac683bcc8a5dc7b72fad7140b3df43d0f8d2d5afe3abe4dd",
+    "src/vec.h": "54b02c6922e5180e040b8be28cf878783f550efc0e425d1d90b081e8c50932f5",
+    "src/_kiss_fft_guts.h": "0214dfe2aabb3b81d88fe814b8253fc2ec6da12bbbc98e08c1011a5bd60e3b29",
+    "src/nnet_arch.h": "76068e63007b072b0c20410cee89c0ab5158438d5201b466850354c0aee33688",
+    "src/kiss_fft.h": "434613feace5466e73fb6593f3abeaca6c7da3ec5af3f4a475f54a6962324526",
+    "src/common.h": "f4975c4ee283a030b08dff4fe26847cc84e2fae340794922fae32aba5cc8e4e6",
+    "src/denoise.h": "3ea8149b47b51b76a1eef308cc38168731693b74ed3f64330b55583f92dcc071",
+    "src/opus_types.h": "e2c1075e26567b8d57706d2f0042e36d5d440721fc3fd27a6fce9f0fc8a31557",
+    "src/vec_avx.h": "1ec412cd21043f8533dc52373b21436bc871eee8c3061deadbaa3ee184afa919",
+    "src/rnnoise_data.h": "09ff880bddd0fc74a2ae0e5ec6c8d65714031b08d0c3f672493acd9e189c5855",
+    "src/arch.h": "1686a3ca5817bb7d99049a1801c6ab3a7e91a5d0a6804b1c1cafb36e5eeb62f8",
+    "include/rnnoise.h": "15ca0f5c0db9dfa48907e91a32995d37e57552b0e14fef5ebb8d3dc073528f83",
+    "src/x86/x86_arch_macros.h": "b6118942870b62ff78731edc3025e55230c3fadaf28ec2f4024d786210631505",
+    "src/x86/dnn_x86.h": "8b17955037daf4f9def4975d4b24c343b822abe62f6ad09a9d204ad00eb3aa33",
+    "src/x86/x86cpu.h": "84897794ee10e1ee34f8d9aa5926629fcd95d72c15767fb3d0770ff39c054db0"
+  }
+}
+
+compression {
+  "inputBytes": 2764804096,
+  "archiveBytes": 303508376,
+  "seconds": 148.40848016703967,
+  "inputSha256": "63629739a587e5d699afef408d3c2e46992de7017be9e806ea82274597d792f8"
+}
+
+codex
+**No blocking extraction or provenance issue remains for this retained checkpoint.** The completed verification closes the previous compressed-WAV gate.
+
+I checked stored sizes, all small-file and metadata hashes, archive membership, and manifest/report identities. They agree. The restore script correctly streams ordered volumes, preserves four-byte sample words, restores prefixes and repeated inputs, and rehashes all four materialized files. The retained verification reports the expected full WAV hash and four restored originals.
+
+Two minor robustness issues remain in [restore.py](/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder/specs/agent-editing/assets/24f-learned-scale/restore.py):
+
+- Integrity checks use `assert`; run without `-O` or `PYTHONOPTIMIZE`. Explicit failures would prevent accidentally disabling verification.
+- Failed extraction can leave partial outputs. Only accept outputs after successful completion; retries require fresh output paths.
+
+Neither undermines the recorded successful verification. Verified temporary restore copies can be removed; no further numerical run is needed. This preserves independently generated evidence—it does not constitute a new oracle comparison. Original scope limitations remain unchanged.
+tokens used
+9,280
+**No blocking extraction or provenance issue remains for this retained checkpoint.** The completed verification closes the previous compressed-WAV gate.
+
+I checked stored sizes, all small-file and metadata hashes, archive membership, and manifest/report identities. They agree. The restore script correctly streams ordered volumes, preserves four-byte sample words, restores prefixes and repeated inputs, and rehashes all four materialized files. The retained verification reports the expected full WAV hash and four restored originals.
+
+Two minor robustness issues remain in [restore.py](/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder/specs/agent-editing/assets/24f-learned-scale/restore.py):
+
+- Integrity checks use `assert`; run without `-O` or `PYTHONOPTIMIZE`. Explicit failures would prevent accidentally disabling verification.
+- Failed extraction can leave partial outputs. Only accept outputs after successful completion; retries require fresh output paths.
+
+Neither undermines the recorded successful verification. Verified temporary restore copies can be removed; no further numerical run is needed. This preserves independently generated evidence—it does not constitute a new oracle comparison. Original scope limitations remain unchanged.
