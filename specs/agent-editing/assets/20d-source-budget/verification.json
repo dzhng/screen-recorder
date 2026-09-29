@@ -1,0 +1,222 @@
+{
+  "base": "6b856522",
+  "scope": "canonical source verification operation budget only",
+  "worker": {
+    "path": "/tmp/screenrec-canonical-admission-native",
+    "sha256": "fe5f39ea4fa4fd3dc989e4591e46acfe4d65662ad000f4c12a557da2f6c1c9e1",
+    "retainedIn": "../20d-canonical-admission/evidence.tar.gz"
+  },
+  "policy": {
+    "canonicalSegmentWorkMs": 600000,
+    "existingByteBudget": "30000ms plus two passes at4MiB/s; timer maximum unchanged",
+    "legacy": "unchanged default worker timeout",
+    "client": "unchanged; source processing is asynchronous"
+  },
+  "checks": {
+    "publicOldBudget": {
+      "state": "failed",
+      "seconds": 30.271066625,
+      "reason": "media.sourceEvidence did not answer in time"
+    },
+    "publicReady": {
+      "state": "ready",
+      "seconds": 60.428179582999995,
+      "intervals": 100000,
+      "normalizedSHA256": "f1beefdb0f2e640d68796f7948b4bd493b707987813ba281ececcd7ca4fe7d21"
+    },
+    "publicDeleteCancel": {
+      "seconds": 0.190580917,
+      "observedNativePid": 92798,
+      "drainedBeforeReturn": true
+    },
+    "workerTests": 7,
+    "legacySource": "passed",
+    "canonicalRecordingPackage": "passed",
+    "review": "no actionable findings"
+  },
+  "metadataBoundary": {
+    "responseBytes": 15428144,
+    "streams": [
+      {
+        "id": "track:1",
+        "segmentRows": 200000,
+        "occupiedRows": 100000
+      }
+    ],
+    "schemaAccepted": false,
+    "issues": [
+      {
+        "origin": "array",
+        "code": "too_big",
+        "maximum": 100000,
+        "inclusive": true,
+        "path": [
+          "streams",
+          0,
+          "segments"
+        ],
+        "message": "Too big: expected array to have <=100000 items"
+      }
+    ]
+  },
+  "commands": [
+    "bunx turbo build --filter=@screenrec/cli",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node packages/test-harness/editing/capture-source-budget.mjs --out EMPTY --fixture EXTRACTED/scale/source",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node packages/test-harness/editing/capture-source-budget.mjs --out EMPTY --fixture EXTRACTED/scale/source --cancel",
+    "bunx vitest run apps/service/src/worker.test.ts --maxWorkers=1",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node --test --test-name-pattern='generated source processing supports' apps/macos/tests/source-processing.test.mjs",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node --test --test-name-pattern='canonical recording package' apps/service/tests/video-export.mjs"
+  ],
+  "sourceHashes": {
+    "apps/service/src/main.ts": "e8df8b2f792e15fd2202b5e62e7d809884fadc9dc0d3dee1b0bb33aa66a480d9",
+    "apps/service/src/source-export.ts": "b70588e6485e878614c2c9436555c5316d3d27c98004c28f9733a1fe95f30a6b",
+    "apps/service/src/worker.ts": "f2c74f790ceba987c9e5446bd52280b4dc0bb1f9afdf7ce4cf733dc7564af303",
+    "packages/test-harness/editing/capture-source-budget.mjs": "f6ea4d2914f842afe71b2943a3db548891a64a33a95626401c55bb9ff94d2046"
+  },
+  "artifacts": [
+    {
+      "path": "public-old-budget/report.json",
+      "bytes": 34288,
+      "sha256": "fe2e5cf01def4e0956ba057e5acb2812644df61839ffc1c8c27c3d43e0dbf7b4"
+    },
+    {
+      "path": "public-ready/normalized.jsonl",
+      "bytes": 9377874,
+      "sha256": "f1beefdb0f2e640d68796f7948b4bd493b707987813ba281ececcd7ca4fe7d21"
+    },
+    {
+      "path": "public-ready/report.json",
+      "bytes": 74589,
+      "sha256": "83c8192d5f4fa19c9268554696b42d663e2f662c85e2d52cb8c3b4cd5fbe7337"
+    },
+    {
+      "path": "public-cancel/report.json",
+      "bytes": 1641,
+      "sha256": "dc6b034a0e869cd92b1f5ccda3ce7af957ec10f7551cbb31233a880d8944e82c"
+    },
+    {
+      "path": "unavailable-job-cancel/report.json",
+      "bytes": 1409,
+      "sha256": "e6bacdf7e9a1d09baa35711469fbe01deaf7e5375950a0b8cd939df5064f78fa"
+    },
+    {
+      "path": "scale/evidence-180000.jsonl",
+      "bytes": 9377874,
+      "sha256": "f1beefdb0f2e640d68796f7948b4bd493b707987813ba281ececcd7ca4fe7d21"
+    },
+    {
+      "path": "scale/measured-budget.log",
+      "bytes": 922,
+      "sha256": "2a88d85f22a6a545fe841a50bb17a3cbe603f4833bc8c2769cf6df5c14786aa1"
+    },
+    {
+      "path": "scale/old-budget.log",
+      "bytes": 357,
+      "sha256": "55e87785496b6cf8a01842b55c399cd9e4d16314c704ed6b23b98c3fda82c0ac"
+    },
+    {
+      "path": "scale/probe-boundary.json",
+      "bytes": 442,
+      "sha256": "96ecf7969c6b92c50816b4136a1b1192a171410f2570e2c318fef9877c7d93cd"
+    },
+    {
+      "path": "scale/probe.full-response.json",
+      "bytes": 15428144,
+      "sha256": "40e8085f47bffa6c547b0729a6723f687e20b804ad89c64da2eaaecd984331eb"
+    },
+    {
+      "path": "scale/probe.json",
+      "bytes": 161,
+      "sha256": "f629b451d82523e2827e96095fc52457b801f09f84339af50786a5fa29a44a2f"
+    },
+    {
+      "path": "scale/probe.log",
+      "bytes": 318,
+      "sha256": "725ec7fc6511aaceddcbef018996b0cfa77897608d5111b06ba6f0f3b642e8db"
+    },
+    {
+      "path": "scale/probe.request.json",
+      "bytes": 128,
+      "sha256": "719c1ee78788b2bda62271c79eb23da5baeda09978a2436502bd5a25d8d32747"
+    },
+    {
+      "path": "scale/result-180000.json",
+      "bytes": 1264,
+      "sha256": "df4377a9936dc4ce4b4902e010fe24ff111ba4543f2183a20376fdf4f5cc7864"
+    },
+    {
+      "path": "scale/result-30000.json",
+      "bytes": 392,
+      "sha256": "0d2e5437ee1f990db433d3a378b2bd3a702f973fd5d55286f7f977b3be6f73aa"
+    },
+    {
+      "path": "scale/source/capture.journal.jsonl",
+      "bytes": 23450495,
+      "sha256": "04a9c68dc021e27e8848699dac00ece55c6356259e725a76360cab7eaaa9a7b5"
+    },
+    {
+      "path": "scale/source/narration.mov",
+      "bytes": 3168705,
+      "sha256": "e83523233b5b60dbfc70334f80a4dec3f38aab52ea8451afbdb459123c06ca04"
+    },
+    {
+      "path": "scale/source/narration.publication.json",
+      "bytes": 663,
+      "sha256": "612fe08e480bd0baba50d72f6593e81d413880b8a1799f4973fb7cd50aa60cae"
+    },
+    {
+      "path": "logs/source-budget-build.log",
+      "bytes": 956,
+      "sha256": "c03ef3687e6e23dee424af9ae2c6c72cd2ad692b8060f8415cb15453ecacf276"
+    },
+    {
+      "path": "logs/source-budget-worker-tests.log",
+      "bytes": 390,
+      "sha256": "2d63c17a91666e0d786e15d8a356da95da28726aa0056382a6619955d7ee29cb"
+    },
+    {
+      "path": "logs/source-budget-legacy.log",
+      "bytes": 385,
+      "sha256": "68ccf8954eae924d9fa80123da005a947cd767b9ea5a9db08987845b6943f443"
+    },
+    {
+      "path": "logs/source-budget-recording-package.log",
+      "bytes": 395,
+      "sha256": "ca4ddb70f6e4e2c93aede89e3780e16bb6b0472f795e80e5428f91ed1500d593"
+    },
+    {
+      "path": "logs/source-budget-review.log",
+      "bytes": 119718,
+      "sha256": "d6db35e1c6d49ff0c2a7910133fc3ec588c1d8a2b01699f40bc4669e36b65dca"
+    },
+    {
+      "path": "logs/source-budget-public-red.log",
+      "bytes": 169,
+      "sha256": "5d00334b57529e53a2e6949b3c84c2032a5476d6937d1e36c95014d26abeb17d"
+    },
+    {
+      "path": "logs/source-budget-public-green.log",
+      "bytes": 169,
+      "sha256": "4b1ee57135bf61828fe2274bcaf6963a6584247e3240050a6cbd3032e8885a53"
+    },
+    {
+      "path": "logs/source-budget-public-cancel-final.log",
+      "bytes": 169,
+      "sha256": "bf8929286ed0b1902d8fa091fe07c42f9aa8724d4092ab298087eb78f13a8913"
+    },
+    {
+      "path": "provenance/materializer-report.json",
+      "bytes": 405,
+      "sha256": "68a43bda45692d522af6a7e84f8932176a1552c5fa9798cef913000373069af4"
+    },
+    {
+      "path": "provenance/native-probe.mjs",
+      "bytes": 758,
+      "sha256": "699f17f4d09e741c71902e980567e7a320e2fd72dc7354ea8184858e48e0f669"
+    }
+  ],
+  "archive": {
+    "bytes": 5007537,
+    "sha256": "6138c53542390aeaf05e792410461544e72ef91be408202c7605261f92d62307"
+  }
+}

@@ -1,3 +1,4 @@
+import { sourceExporter } from "./source-export.js";
 import { LibraryTimelineInspection } from "./timeline-inspection.js";
 import { MediaExports } from "./exports.js";
 import { PackageInspection } from "./packages.js";
@@ -10,11 +11,7 @@ import { randomUUID } from "node:crypto";
 import { RevisionStore } from "@screenrec/core/library";
 import { CatalogError } from "@screenrec/core/catalog";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
-import {
-  recordingEvidenceOwner,
-  SourceEvidenceStore,
-  type SourceEvidenceReceipt,
-} from "@screenrec/core/evidence";
+import { recordingEvidenceOwner, SourceEvidenceStore } from "@screenrec/core/evidence";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
 import type { VisualObservations } from "@screenrec/core/scenes";
 import { VisualObservationCache } from "@screenrec/core/visual-cache";
@@ -180,8 +177,7 @@ async function main(): Promise<void> {
       jobs,
       evidence,
       home,
-      (directory, output, signal) =>
-        nativeData<SourceEvidenceReceipt>("media.sourceEvidence", { directory, output }, signal),
+      sourceExporter(worker),
       (recordingId, generation) => exports!.retainsSource(recordingId, generation),
     );
     models = new SpeechModels(home);

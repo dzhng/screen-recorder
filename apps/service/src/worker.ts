@@ -152,7 +152,10 @@ export function mediaWorker(
       const deadline = setTimeout(
         () =>
           finish(
-            operationError("MEDIA_WORKER_TIMEOUT", `${operation} did not answer in time`, true),
+            operationError("MEDIA_WORKER_TIMEOUT", `${operation} did not answer in time`, true, {
+              operation,
+              timeoutMs: callTimeoutMs,
+            }),
           ),
         callTimeoutMs,
       );
