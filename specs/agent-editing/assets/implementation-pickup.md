@@ -34,7 +34,13 @@ Historical workers and measurements retain their own identities below.
   `/Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519`.
   Settings19d is active in capture-pause-recovery on `codex/voice-settings`.
   The measured512-code combined corner and short-reference/temperature probes pass;
-  typed public controls and parent listening acceptance remain open.
+  typed public controls and parent listening acceptance remain open. The pinned
+  top-p filter can empty a valid candidate distribution; two-hour-package-transfer
+  owns a bounded numeric repair investigation. Preserve the original failures and
+  do not fit a replacement minimum from sampled cases. Settings admission remains
+  open until repaired filtered cases and frozen default parity pass. The original
+  180-second managed-preparation failure and cancellation observation deadline
+  also remain unresolved; later diagnostics do not erase those failures.
   New entry controls will receive a distinct immutable registration, not retarget
   the private checkpoint's ID. Excerpts19e is active in prepared-package-transfer;
   its finite conversion19e1 and shared asset staging prerequisites are integrated.

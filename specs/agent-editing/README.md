@@ -24,8 +24,12 @@ then [public durable generation](slices/19f-public-voice-jobs.md).
 public local-adoption journey, frozen voice parity and existing ASR preservation.
 The [combined512-code resource corner](assets/19d-voice-corner/README.md) and
 [short-reference/numeric probes](assets/19d-voice-admission/README.md) pass their
-scoped gates; the earlier1,024-code memory failure remains retained. Typed controls
-are not yet public. Preserve whole parent19 contextual/listening acceptance.
+scoped gates; the earlier1,024-code memory failure remains retained. Filtered
+sampling now has a separate numerical failure: supported top-p values can leave
+no valid candidates. Repair that without fitting a new minimum or changing the
+frozen default path before completing19d. Preparation and lifecycle deadline
+failures also remain under investigation. Typed controls are not yet public.
+Preserve whole parent19 contextual/listening acceptance.
 
 [Finite selected PCM conversion](slices/19e1-finite-audio-conversion.md) and
 [shared asset publication](assets/19e-asset-publication/README.md) pass their
