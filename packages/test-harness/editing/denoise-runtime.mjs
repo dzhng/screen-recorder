@@ -70,35 +70,45 @@ const source = gunzipSync(
 const expected = gunzipSync(
   readFileSync(root + "/specs/agent-editing/assets/12c-matched-noise/audio/rnnoise-mixture.f32.gz"),
 );
-const header = Buffer.alloc(44);
-header.write("RIFF");
-header.writeUInt32LE(source.length + 36, 4);
-header.write("WAVEfmt ", 8);
-header.writeUInt32LE(16, 16);
-header.writeUInt16LE(3, 20);
-header.writeUInt16LE(1, 22);
-header.writeUInt32LE(48000, 24);
-header.writeUInt32LE(192000, 28);
-header.writeUInt16LE(4, 32);
-header.writeUInt16LE(32, 34);
-header.write("data", 36);
-header.writeUInt32LE(source.length, 40);
-writeFileSync(out + "/source.wav", Buffer.concat([header, source]));
-const probe = native("media.probe", { path: out + "/source.wav" }),
-  stream = probe.streams.find((s) => s.kind === "audio");
-const asset = {
-  id: "a",
-  streams: [
-    {
-      id: stream.id,
-      kind: "audio",
-      sampleRate: stream.sampleRate,
-      channels: stream.channels,
-      bounds: { startUs: stream.startUs, endUs: stream.endUs },
-      available: [{ startUs: stream.startUs, endUs: stream.endUs }],
+function sourceFixture(name, pcm, channels = 1) {
+  const path = join(out, name + ".wav"),
+    header = Buffer.alloc(44);
+  header.write("RIFF");
+  header.writeUInt32LE(pcm.length + 36, 4);
+  header.write("WAVEfmt ", 8);
+  header.writeUInt32LE(16, 16);
+  header.writeUInt16LE(3, 20);
+  header.writeUInt16LE(channels, 22);
+  header.writeUInt32LE(48000, 24);
+  header.writeUInt32LE(48000 * channels * 4, 28);
+  header.writeUInt16LE(channels * 4, 32);
+  header.writeUInt16LE(32, 34);
+  header.write("data", 36);
+  header.writeUInt32LE(pcm.length, 40);
+  writeFileSync(path, Buffer.concat([header, pcm]));
+  const metadata = native("media.probe", { path }),
+    stream = metadata.streams.find((s) => s.kind === "audio");
+  const range = { startUs: stream.startUs, endUs: stream.endUs };
+  return {
+    asset: {
+      id: "a",
+      streams: [
+        {
+          id: stream.id,
+          kind: "audio",
+          sampleRate: stream.sampleRate,
+          channels: stream.channels,
+          bounds: range,
+          available: [range],
+        },
+      ],
     },
-  ],
-};
+    binding: { assetId: "a", streamId: stream.id, path, originUs: metadata.originUs },
+  };
+}
+const initial = sourceFixture("source", source),
+  asset = initial.asset,
+  stream = asset.streams[0];
 const duration = (source.length / 4 / 48000) * 1000000;
 const range = { startUs: 0, endUs: duration };
 const doc = {
@@ -132,27 +142,21 @@ function render(
   name,
   document,
   range,
-  fixture = {
-    asset,
-    binding: {
-      assetId: "a",
-      streamId: stream.id,
-      path: out + "/source.wav",
-      originUs: probe.originUs,
-    },
-  },
+  fixture = initial,
+  tap = { target: { kind: "output" }, point: { kind: "processed" } },
 ) {
   const w = createCompiler(validateComposition(document, [fixture.asset]), name).audioWindow({
     range,
     rendition: { sampleRate: 48000, channels: 2 },
-    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    tap,
   });
+  const state = w.audioState();
   const params = {
     output: out + "/" + name + ".wav",
     range: w.manifest.sampleRange,
     clips: [...w.audio()],
     processing: w.processing(),
-    state: { ...w.audioState(), implementationId: identity },
+    ...(state ? { state: { ...state, implementationId: identity } } : {}),
     assets: [fixture.binding],
   };
   writeFileSync(out + "/" + name + "-request.json", JSON.stringify(params, null, 2));
@@ -311,38 +315,162 @@ for (const [cohort, directory] of [
         root + "/specs/agent-editing/assets/" + directory + "/rnnoise-" + kind + ".f32.gz",
       ),
     );
-    const name = cohort + "-" + kind,
-      path = out + "/" + name + "-source.wav",
-      h = Buffer.from(header);
-    h.writeUInt32LE(pcm.length + 36, 4);
-    h.writeUInt32LE(pcm.length, 40);
-    writeFileSync(path, Buffer.concat([h, pcm]));
-    const metadata = native("media.probe", { path }),
-      stream = metadata.streams.find((s) => s.kind === "audio");
+    const name = cohort + "-" + kind;
+    const fixture = sourceFixture(name + "-source", pcm);
     const range = { startUs: 0, endUs: (pcm.length / 4 / 48000) * 1000000 };
-    const fixture = {
-      asset: {
-        id: "a",
-        streams: [
-          {
-            id: stream.id,
-            kind: "audio",
-            sampleRate: stream.sampleRate,
-            channels: stream.channels,
-            bounds: range,
-            available: [range],
-          },
-        ],
-      },
-      binding: { assetId: "a", streamId: stream.id, path, originUs: metadata.originUs },
-    };
     const document = structuredClone(doc);
-    document.clips[0].streamId = stream.id;
+    document.clips[0].streamId = fixture.binding.streamId;
     document.clips[0].source.range = range;
     document.clips[0].placement.range = range;
     compare(name + "-frozen", render(name, document, range, fixture), expected);
   }
 }
+const selectedWindow = structuredClone(doc);
+selectedWindow.processing[0].steps[0].window = {
+  kind: "project",
+  range: { startUs: 1000000, endUs: 3000000 },
+};
+const poisoned = Buffer.from(source);
+for (let frame = 0; frame < poisoned.length / 4; frame++)
+  if (frame < 48000 || frame >= 144000) poisoned.writeFloatLE(frame % 2 ? 0.9 : -0.9, frame * 4);
+const poisonedFixture = sourceFixture("poisoned", poisoned);
+const selected = { startUs: 1000000, endUs: 3000000 };
+const selectedPCM = render("selected-window", selectedWindow, selected);
+compare(
+  "selected-input-poison-isolation",
+  render("poison-window", selectedWindow, selected, poisonedFixture),
+  selectedPCM,
+);
+compare(
+  "selected-input-reference",
+  selectedPCM,
+  denoise("selected-window", source.subarray(48000 * 4, 144000 * 4)),
+);
+compare(
+  "full-asset-before-selection-negative",
+  denoise("whole-poison", poisoned).subarray(48000 * 4, 144000 * 4),
+  selectedPCM,
+  false,
+);
+const touching = structuredClone(
+  applyBatch(doc, [{ operation: "split", clipIds: ["c"], atUs: 2000001, scope: "selected" }], {
+    assets: [asset],
+    namespace: "touching",
+  }).document,
+);
+touching.processing[0].steps[0].window = { kind: "project", range: { startUs: 0, endUs: 2000000 } };
+touching.processing[1].steps[0].window = {
+  kind: "project",
+  range: { startUs: 2000001, endUs: 5000000 },
+};
+const disconnected = Buffer.concat([
+  denoise("touching-first", source.subarray(0, 96000 * 4)),
+  denoise("touching-second", source.subarray(96000 * 4)),
+]);
+compare(
+  "exact-disconnected-sample-touching",
+  render("touching-components", touching, range),
+  disconnected,
+);
+compare("concatenated-state-negative", disconnected, full, false);
+const mixed = structuredClone(doc);
+mixed.groups = [{ id: "bus", kind: "audio", order: 0 }];
+mixed.tracks[0].parentId = "bus";
+mixed.tracks.push({ id: "second", kind: "audio", order: 1, parentId: "bus" });
+mixed.clips.push({
+  ...structuredClone(mixed.clips[0]),
+  id: "secondClip",
+  trackId: "second",
+  source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+  placement: { kind: "project", range: { startUs: 2000000, endUs: 4000000 } },
+});
+mixed.processing = [
+  {
+    target: { kind: "group", id: "bus" },
+    steps: [{ id: "mixedNoise", enabled: true, processor: { type: "rnnoise" } }],
+  },
+];
+const mixedDry = structuredClone(mixed);
+mixedDry.processing[0].steps[0].enabled = false;
+const upstreamMix = render("overlap-upstream", mixedDry, range);
+const processedMix = render("overlap-group", mixed, range);
+compare("overlap-group-input", processedMix, denoise("overlap-upstream", upstreamMix));
+const perClip = structuredClone(mixed);
+perClip.processing = perClip.clips.map((clip) => ({
+  target: { kind: "clip", id: clip.id },
+  steps: [{ id: "noise-" + clip.id, enabled: true, processor: { type: "rnnoise" } }],
+}));
+compare(
+  "process-before-mix-negative",
+  render("per-clip-overlap", perClip, range),
+  processedMix,
+  false,
+);
+const automated = structuredClone(selectedWindow);
+const automation = {
+  id: "automation",
+  enabled: true,
+  window: { kind: "project", range: selected },
+  processor: {
+    type: "gain",
+    gain: {
+      keys: [
+        { at: 1000000, value: 0.25, interpolation: "linear" },
+        { at: 3000000, value: 1.25, interpolation: "linear" },
+      ],
+    },
+  },
+};
+automated.processing[0].steps.unshift(automation);
+const automationDry = structuredClone(automated);
+automationDry.processing[0].steps[1].enabled = false;
+const automatedPrefix = render("automation-prefix", automationDry, range);
+const automatedExpected = Buffer.from(source);
+denoise("automation-prefix", automatedPrefix.subarray(48000 * 4, 144000 * 4)).copy(
+  automatedExpected,
+  48000 * 4,
+);
+const automatedOutput = render("automation-before", automated, range);
+compare("automation-before-state", automatedOutput, automatedExpected);
+const automatedAfter = structuredClone(automated);
+automatedAfter.processing[0].steps.reverse();
+const selectedFull = render("window-full", selectedWindow, range),
+  selectedFixture = sourceFixture("selected-processed", selectedFull);
+compare(
+  "automation-after-state",
+  render("automation-after", automatedAfter, range),
+  render("automation-after-oracle", automationDry, range, selectedFixture),
+);
+compare(
+  "automation-order-negative",
+  render("automation-after-negative", automatedAfter, range),
+  automatedOutput,
+  false,
+);
+compare(
+  "automation-dry-prefix",
+  automatedOutput.subarray(0, 48000 * 4),
+  source.subarray(0, 48000 * 4),
+);
+compare("automation-dry-tail", automatedOutput.subarray(144000 * 4), source.subarray(144000 * 4));
+const rightChannel = gunzipSync(
+  readFileSync(root + "/specs/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
+);
+assert.equal(rightChannel.length, source.length);
+const stereo = Buffer.alloc(source.length * 2);
+for (let frame = 0; frame < source.length / 4; frame++) {
+  source.copy(stereo, frame * 8, frame * 4, frame * 4 + 4);
+  rightChannel.copy(stereo, frame * 8 + 4, frame * 4, frame * 4 + 4);
+}
+const stereoFixture = sourceFixture("differing-stereo", stereo, 2);
+assert.equal(stereoFixture.asset.streams[0].channels, 2);
+refuse(
+  "actual-stereo-false-mono-provenance",
+  (p) => {
+    p.assets = [stereoFixture.binding];
+  },
+  "NOT_READY",
+);
 report.identity = identity;
 report.passed = true;
 save();

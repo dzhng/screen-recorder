@@ -63,6 +63,36 @@ async function inspect(prepared, startUs, endUs, name, factor = 1) {
   }
   report.checks[name] = { frames, sha256: hash(bytes), exactPCM: true };
 }
+async function projectAudio(selection, tap, name, expectedPCM) {
+  const params = { ...selection, range: { startUs: 0, endUs: 5000000 }, tap };
+  const ready = await poll(
+    () => call("audio.get", params),
+    (value) => value.state === "ready",
+    name,
+  );
+  const path = join(out, name + ".wav");
+  await call("audio.get", params, { output: path });
+  const bytes = await readFile(path),
+    header = waveHeader(bytes, bytes.length);
+  assert.equal(header.frames, expectedPCM.length / 4);
+  for (let frame = 0; frame < header.frames; frame++)
+    for (let channel = 0; channel < 2; channel++)
+      assert.equal(
+        bytes.readFloatLE(header.offset + frame * 8 + channel * 4),
+        expectedPCM.readFloatLE(frame * 4),
+      );
+  report.checks[name] = {
+    params,
+    ready,
+    frames: header.frames,
+    sha256: hash(bytes),
+    exactPCM: true,
+  };
+}
+const baseline = gunzipSync(
+  await readFile(join(root, "specs/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz")),
+);
+const outputTap = (point) => ({ target: { kind: "output" }, point });
 try {
   await service.start();
   const imported = await call("asset.import", {
@@ -112,6 +142,14 @@ try {
   const original = { projectId, revisionId: placed.revision.id },
     first = await prepare(original);
   await inspect(first, 0, 5000000, "full");
+  const originalStack = await call("processing.get", { ...original, target: { kind: "output" } });
+  await projectAudio(original, outputTap({ kind: "dry" }), "before-state-tap", baseline);
+  await projectAudio(
+    original,
+    outputTap({ kind: "after-step", stepId: originalStack.steps[0].id }),
+    "after-state-tap",
+    expected,
+  );
   const movie = join(out, "full-preview.mp4"),
     rangedMovie = join(out, "range-preview.mp4");
   const preview = await poll(
@@ -188,6 +226,68 @@ try {
   assert.equal(second.jobId, pending.jobId);
   await inspect(second, 1000000, 3000000, "gained-range", 0.5);
   assert.deepEqual(await prepare(original), first);
+  const gainedStack = await call("processing.get", { ...selected, target: { kind: "output" } });
+  await projectAudio(
+    selected,
+    outputTap({ kind: "after-step", stepId: gainedStack.steps[0].id }),
+    "before-downstream-gain-tap",
+    expected,
+  );
+  const bypassed = await call("edit.apply", {
+    projectId,
+    expectedRevisionId: selected.revisionId,
+    requestId: "bypass-state",
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: gainedStack.steps.map((step, index) => ({ ...step, enabled: index !== 0 })),
+      },
+    ],
+  });
+  const halfDry = Buffer.from(baseline);
+  for (let at = 0; at < halfDry.length; at += 4)
+    halfDry.writeFloatLE(Math.fround(halfDry.readFloatLE(at) * 0.5), at);
+  await projectAudio(
+    { projectId, revisionId: bypassed.revision.id },
+    outputTap({ kind: "processed" }),
+    "bypassed-state",
+    halfDry,
+  );
+  const undone = await call("edit.undo", {
+    projectId,
+    expectedRevisionId: bypassed.revision.id,
+    requestId: "undo-bypass",
+  });
+  assert.deepEqual(undone.document, gained.revision.document);
+  const halfWet = Buffer.from(expected);
+  for (let at = 0; at < halfWet.length; at += 4)
+    halfWet.writeFloatLE(Math.fround(halfWet.readFloatLE(at) * 0.5), at);
+  await projectAudio(
+    { projectId, revisionId: undone.id },
+    outputTap({ kind: "processed" }),
+    "undo-state",
+    halfWet,
+  );
+  const restored = await call("edit.restore", {
+    projectId,
+    expectedRevisionId: undone.id,
+    targetRevisionId: original.revisionId,
+    requestId: "restore-original",
+  });
+  assert.deepEqual(restored.document, placed.revision.document);
+  await projectAudio(
+    { projectId, revisionId: restored.id },
+    outputTap({ kind: "processed" }),
+    "restore-state",
+    expected,
+  );
+  await projectAudio(
+    selected,
+    outputTap({ kind: "processed" }),
+    "historical-gained-state",
+    halfWet,
+  );
   const longMade = await call("project.create", {
     requestId: "cancel-project",
     canvas: {
@@ -266,6 +366,12 @@ try {
   ]);
   await service.start();
   await inspect(first, 3000000, 4500000, "retained-with-executor-unavailable");
+  await projectAudio(
+    original,
+    outputTap({ kind: "dry" }),
+    "dry-tap-with-executor-unavailable",
+    baseline,
+  );
   const refusal = await call("audio.prepare", selected, { error: true });
   assert.equal(refusal.code, "NOT_READY");
   report.checks.lifecycle = {
