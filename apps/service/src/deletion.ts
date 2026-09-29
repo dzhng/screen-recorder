@@ -27,7 +27,7 @@ type Owners = {
       signal: AbortSignal,
     ): Promise<void>;
   };
-  files: Pick<ManagedFiles, "removeRecordingDirectory" | "removeCacheFiles">;
+  files: Pick<ManagedFiles, "removeRecordingDirectory" | "removeCacheFiles" | "recordingDirectory">;
 };
 type Deleted = { recordingId: string; deleted: true };
 
@@ -64,20 +64,30 @@ export class RecordingDeletion {
       await this.owners.exports?.retireOwner({ kind: "recording", recordingId }, signal);
       await cleanupReady();
       signal.throwIfAborted();
-      await cache.purgeOwner({ kind: "recording", recordingId: recordingId }, ({ ids, root }) =>
-        files.removeCacheFiles(ids, root, signal),
-      );
-      await source.purge({ kind: "recording", recordingId }, signal);
-      await scenes.reclaim({ kind: "recording", recordingId }, () => false, signal);
-      await files.removeRecordingDirectory(recordingId, signal);
-      await index.forgetOwner({ kind: "recording", recordingId }, signal);
-      // Native removed the transcript files with the recording root; only catalog rows remain.
-      await transcripts.purge({ kind: "recording", recordingId }, signal);
-      signal.throwIfAborted();
-      await jobs.forgetOwner({ kind: "recording", recordingId: recordingId });
-      signal.throwIfAborted();
-      store.finishDeletion(recordingId);
-      return { recordingId, deleted: true };
+      const lifetime = await files
+        .recordingDirectory(recordingId, signal)
+        .catch((error: NodeJS.ErrnoException) => {
+          if (error.code === "ENOENT") return undefined;
+          throw error;
+        });
+      try {
+        await cache.purgeOwner({ kind: "recording", recordingId: recordingId }, ({ ids, root }) =>
+          files.removeCacheFiles(ids, root, signal, lifetime?.handle),
+        );
+        await source.purge({ kind: "recording", recordingId }, signal);
+        await scenes.reclaim({ kind: "recording", recordingId }, () => false, signal);
+        await files.removeRecordingDirectory(recordingId, signal, lifetime?.handle);
+        await index.forgetOwner({ kind: "recording", recordingId }, signal);
+        // Native removed the transcript files with the recording root; only catalog rows remain.
+        await transcripts.purge({ kind: "recording", recordingId }, signal);
+        signal.throwIfAborted();
+        await jobs.forgetOwner({ kind: "recording", recordingId: recordingId });
+        signal.throwIfAborted();
+        store.finishDeletion(recordingId);
+        return { recordingId, deleted: true };
+      } finally {
+        await lifetime?.handle.close();
+      }
     } catch (error) {
       if (error instanceof CatalogError)
         throw new CatalogError(error.code, error.message, { ...error.details, recordingId }, true);

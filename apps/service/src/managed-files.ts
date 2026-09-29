@@ -3,7 +3,7 @@ import { constants, lstatSync, realpathSync, type BigIntStats } from "node:fs";
 import { open, realpath } from "node:fs/promises";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/catalog";
-import { O_NOFOLLOW_ANY } from "@screenrec/core/files";
+import { O_NOFOLLOW_ANY, openDirectoryLease } from "@screenrec/core/files";
 import { nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
 
 /** A directory only this user can enter: the precondition for every private workspace. */
@@ -56,9 +56,17 @@ export class ManagedFiles {
   }
   async recordingDirectory(recordingId: string, signal?: AbortSignal) {
     const directory = join(this.home, "recordings", recordingId);
-    const handle = await open(
-      directory,
-      constants.O_RDONLY | constants.O_DIRECTORY | constants.O_NONBLOCK | O_NOFOLLOW_ANY,
+    const handle = await openDirectoryLease(directory, "exclusive").catch(
+      (error: NodeJS.ErrnoException) => {
+        if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
+          throw new CatalogError(
+            "RECORDING_BUSY",
+            "A native worker still owns this recording; retry after it exits",
+            { recordingId },
+            true,
+          );
+        throw error;
+      },
     );
     try {
       const identity = nativeResult(
@@ -76,22 +84,37 @@ export class ManagedFiles {
       throw error;
     }
   }
-  removeRecordingDirectory(recordingId: string, signal: AbortSignal): Promise<void> {
-    return this.remove("storage.removeRecordingDirectory", { recordingId }, signal);
+  removeRecordingDirectory(
+    recordingId: string,
+    signal: AbortSignal,
+    lifetime?: { readonly fd: number },
+  ): Promise<void> {
+    return this.remove("storage.removeRecordingDirectory", { recordingId }, signal, lifetime);
   }
-  removeCacheFiles(ids: string[], root: DirectoryIdentity, signal: AbortSignal): Promise<void> {
-    return this.remove("storage.removeCacheFiles", { ids, expectedCacheRoot: root }, signal);
+  removeCacheFiles(
+    ids: string[],
+    root: DirectoryIdentity,
+    signal: AbortSignal,
+    lifetime?: { readonly fd: number },
+  ): Promise<void> {
+    return this.remove(
+      "storage.removeCacheFiles",
+      { ids, expectedCacheRoot: root },
+      signal,
+      lifetime,
+    );
   }
   private async remove(
     operation: string,
     params: Record<string, unknown>,
     signal: AbortSignal,
+    lifetime?: { readonly fd: number },
   ): Promise<void> {
     nativeConfirmed(
       await this.worker(
         operation,
         { home: this.home, expectedHome: this.expectedHome, ...params },
-        { signal },
+        { signal, descriptors: lifetime ? [lifetime.fd] : [] },
       ),
       "removed",
       "Native storage removal did not confirm completion",

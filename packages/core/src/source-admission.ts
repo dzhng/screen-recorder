@@ -58,7 +58,7 @@ export async function verifySourceEvidence(input: {
       output,
       signal,
       canonical,
-      input.lifetime,
+      input.lifetime ? [input.lifetime.fd] : undefined,
     );
     const { file: _file, ...receipt } = derived;
     const handle = await open(output, constants.O_RDONLY | constants.O_NOFOLLOW);

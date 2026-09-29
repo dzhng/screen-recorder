@@ -13,6 +13,7 @@ import { ScreenshotIndexStore, recordingIndexDomain } from "@screenrec/core/scre
 import { TranscriptStore, recordingTranscriptOwner } from "@screenrec/core/transcript";
 import { CaptureService } from "./capture.js";
 import { DerivativeDelivery } from "./delivery.js";
+import { openDirectoryLease } from "@screenrec/core/files";
 import { RecordingDeletion } from "./deletion.js";
 
 function deferred<T>() {
@@ -68,6 +69,12 @@ async function fixture(
     cleanupReady: () => ready,
     // Coordinator tests model native receipts. The native suite owns race/containment proof.
     files: {
+      recordingDirectory: async (recordingId: string) => {
+        const directory = join(home, "recordings", recordingId);
+        const handle = await openDirectoryLease(directory, "exclusive");
+        const info = await handle.stat({ bigint: true });
+        return { directory, handle, identity: { dev: String(info.dev), ino: String(info.ino) } };
+      },
       async removeRecordingDirectory(recordingId: string) {
         const path = join(home, "recordings", recordingId);
         try {

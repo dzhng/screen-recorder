@@ -149,6 +149,9 @@ export async function seedPublicRecording(home, snapshot) {
   }
   await jobs.close();
   store.close();
-  await mkdir(join(home, "recordings", take.recordingId, "source"), { recursive: true });
+  await mkdir(join(home, "recordings", take.recordingId, "source"), {
+    recursive: true,
+    mode: 0o700,
+  });
   return take;
 }

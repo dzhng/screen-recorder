@@ -1,0 +1,149 @@
+{
+  "base": "e3d56fcd",
+  "scope": "source generation reclamation and whole-recording removal lifetime, shared directory lease owner",
+  "worker": {
+    "path": "/tmp/screenrec-canonical-admission-native",
+    "sha256": "fe5f39ea4fa4fd3dc989e4591e46acfe4d65662ad000f4c12a557da2f6c1c9e1",
+    "retainedIn": "../20d-canonical-admission/evidence.tar.gz"
+  },
+  "checks": {
+    "cliBuild": "passed",
+    "processingAcquisitionDeletionTests": 31,
+    "actualOrphanCases": 5,
+    "mutations": [
+      "missing generation descriptor permits premature generation cleanup",
+      "missing source recording-root descriptor permits whole-recording deletion",
+      "missing native-removal inherited root descriptor permits early release after service death"
+    ],
+    "restored": "all5actualorphan cases passed; unrelated generation progress preserved; cleanup retry or deletion completes after native exit",
+    "recordingPackagePreservationTests": 5,
+    "legacyPublicSource": "passed",
+    "longSourcePublicCancel": "passed; observed native child gone before deletion returned",
+    "independentReviews": "two source-only reviews, no actionable findings"
+  },
+  "commands": [
+    "bunx turbo build --filter=@screenrec/cli",
+    "bunx vitest run packages/core/src/processing.test.ts packages/core/src/acquisitions.test.ts apps/service/src/deletion.test.ts --maxWorkers=2",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native SCREENREC_SOURCE_LIFETIME_OUTPUT=EMPTY node --test apps/service/tests/source-lifetime.mjs apps/service/tests/acquisition-lifetime.mjs",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node --test --test-name-pattern='canonical recording package|complete no-narration package|narrated.*package|source changes during descriptor' apps/service/tests/video-export.mjs",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node packages/test-harness/editing/capture-source-budget.mjs --out EMPTY --fixture EXTRACTED20d-source-budget/scale/source --cancel"
+  ],
+  "sourceHashes": {
+    "packages/core/src/files.ts": "ed7622ee4e52de42e91c9b445dc81fa9a774e57922e2d21927aa045112425049",
+    "packages/core/src/acquisitions.ts": "881ef84cc8a8ecb43127bebdc740e4f2063bc5fd7d514ce6ec809b41708f14b3",
+    "packages/core/src/processing.ts": "ea9a50c45001541413073a73fe7dec1c9b082f15511071e98e11fb9b365ddd44",
+    "packages/core/src/source-admission.ts": "3a4fe0524401d9aa2c074245d90ec2b56a3ab228d97ab314a262e26b678d26fc",
+    "apps/service/src/source-export.ts": "d78481d0391c8a85352cf2ee3c1a0e95220067d804420ae5411787003d569710",
+    "apps/service/src/managed-files.ts": "1eb766fa3110fe706ca2a28d5b5d07210ce463bbe7194eb014fa68857e67d29e",
+    "apps/service/src/deletion.ts": "5aec559045e3f1999b05fc25dd73cc969066713db09f6cd8614bdaeba81975af",
+    "apps/service/src/deletion.test.ts": "04b3326d3037a943db00de7978bc89f8660dd6a7f74bda4b569aa19d95bd22ea",
+    "apps/service/tests/source-lifetime.mjs": "fb125cb7aa1900e3076916e33151db7ff8351f0e1cc1dbee4a3d69b4c7e645e4",
+    "apps/macos/tests/fixtures/public-service.mjs": "d7b87efce94067379bc2cbd586b7f7f808f8ce47dd09b560e5eacd45e917f2e5"
+  },
+  "artifacts": [
+    {
+      "path": "green/cleanup.json",
+      "bytes": 2330,
+      "sha256": "405d3d8b9e7589ed2c8c3d3f4095173411b33c569b28e12bcd8a1ba3734dcf8f"
+    },
+    {
+      "path": "green/delete.json",
+      "bytes": 1047,
+      "sha256": "210d2db802b9a0e01c8d1c5598834b110fbb7b96e5717b29dd956a849e11843c"
+    },
+    {
+      "path": "green/removal.json",
+      "bytes": 1053,
+      "sha256": "f9a12c95df89c1557521f7906e65eb13c10ace12bb971d87c368b22b86a60e91"
+    },
+    {
+      "path": "generation-red/cleanup.json",
+      "bytes": 505,
+      "sha256": "710bed716d87aa6a35ed867bacfd217705f72f57baddd1bf982728201518be0e"
+    },
+    {
+      "path": "recording-red/delete.json",
+      "bytes": 692,
+      "sha256": "44218c6f6bc086b2dbcb358ddf1b79c0f4b86ac01c6c257c1c5bb27d2044a1a3"
+    },
+    {
+      "path": "removal-red/removal.json",
+      "bytes": 698,
+      "sha256": "43111002c2b0b871ccb5ee71024bece1564a1574758db929f1e1722e1bcb2f4f"
+    },
+    {
+      "path": "public-cancel/report.json",
+      "bytes": 1641,
+      "sha256": "c57682c1f74fe72ba302597de7e68f7c5df47a6e172b2c03173b55683c48c566"
+    },
+    {
+      "path": "logs/source-lifetime-generation-red.log",
+      "bytes": 1066,
+      "sha256": "b4f7f8f40e0b5976ed6a5602f2df05cd4c23e83d0571fbe8b22c0201871d1c3c"
+    },
+    {
+      "path": "logs/source-lifetime-recording-red.log",
+      "bytes": 1167,
+      "sha256": "5ee3cd52b1d2f3a188123d3736c94059edaa4dff5745a6bfca57cc3990e145d0"
+    },
+    {
+      "path": "logs/source-lifetime-removal-red.log",
+      "bytes": 1168,
+      "sha256": "842ffa0e2fd0e52273f52be8b43adb0343427b6d92154d146fda667bc3ea35f0"
+    },
+    {
+      "path": "logs/source-lifetime-complete.log",
+      "bytes": 860,
+      "sha256": "1dadd07d6e7cf8b744055061aaefb17311623374156ac62dac694e255f2cfc18"
+    },
+    {
+      "path": "logs/source-lifetime-core-complete.log",
+      "bytes": 730,
+      "sha256": "3b1ee3e352149aab2df06a4a3a4c2b470dd87a9da8bdb31a9fe29aeb4008d5dd"
+    },
+    {
+      "path": "logs/source-lifetime-final-build.log",
+      "bytes": 956,
+      "sha256": "858657e7be5a029f298a654275d5bc356746eb7cbe725c6137487ff2eda6c34d"
+    },
+    {
+      "path": "logs/source-lifetime-recording-final.log",
+      "bytes": 819,
+      "sha256": "5c4d1771f671cafbec4c2d83c05af620a7407f19c18f18637ff9d9b31ca80e5d"
+    },
+    {
+      "path": "logs/source-lifetime-legacy.log",
+      "bytes": 384,
+      "sha256": "01e4ddf3d36340228c9f6e9dbf43f61c27f7b7f2bad6995d5dc4d9b4a6829a17"
+    },
+    {
+      "path": "logs/source-lifetime-review.log",
+      "bytes": 162735,
+      "sha256": "d7d8afeb34b8b31b3b40f425675fd22831bf3b316d83c48de793d0e055dc0b64"
+    },
+    {
+      "path": "logs/source-lifetime-review2.log",
+      "bytes": 156750,
+      "sha256": "245b68225b750544ece0702593688e345551e64656ddc45e59650fd2752a4279"
+    },
+    {
+      "path": "logs/source-lifetime-cancel-complete.log",
+      "bytes": 169,
+      "sha256": "a817cd2fe0d1d57ef5fa32cfce9750fdca8d6da35b1a09117fd145ed8eb369fa"
+    },
+    {
+      "path": "logs/source-lifetime-removal-green.log",
+      "bytes": 1174,
+      "sha256": "b4f31ea8def406b467abfc0676055323b5d63db6c92d48d864b3a2a16aaad0d5"
+    }
+  ],
+  "archive": {
+    "bytes": 96819,
+    "sha256": "57eef4522382dcf345bc23cf4dcf4723f3fd015a62d376c1278780f9e75f5aff"
+  },
+  "limits": [
+    "No native implementation or capture-layout change",
+    "Initial native-removal harness waited for unrelated cleanup despite an exclusive recording lease; that contradictory expectation timed out and was corrected to require preservation",
+    "Bulk metadata transport and physical segment cardinality remain separate unresolved gates"
+  ]
+}

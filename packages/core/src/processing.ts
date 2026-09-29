@@ -1,5 +1,5 @@
 import type { MediaProbe } from "./assets.js";
-import type { IdentifiedFile } from "./files.js";
+import { openDirectoryLease, type IdentifiedFile } from "./files.js";
 import { readRawCursor, type RawCursorOptions } from "./raw-cursor.js";
 import { lstat, mkdir, opendir, rm } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
@@ -20,7 +20,7 @@ export type SourceExporter = (
   output: string,
   signal: AbortSignal,
   canonical?: Partial<Record<"narration" | "system", IdentifiedFile & { metadata?: MediaProbe }>>,
-  lifetime?: { readonly fd: number },
+  lifetimes?: readonly number[],
 ) => Promise<SourceEvidenceReceipt>;
 
 /** Source processing pins r0; edits only change how later readers project this evidence. */
@@ -131,6 +131,21 @@ export class SourceProcessing {
     );
   }
 
+  private recordingLease(recordingId: string) {
+    return openDirectoryLease(join(this.home, "recordings", recordingId), "shared").catch(
+      (error: NodeJS.ErrnoException) => {
+        if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
+          throw new CatalogError(
+            "RECORDING_BUSY",
+            "A native owner still holds this recording; retry after it exits",
+            { recordingId },
+            true,
+          );
+        throw error;
+      },
+    );
+  }
+
   private async cleanupRecording(
     recording: { recordingId: string; sourceId: string },
     signal: AbortSignal,
@@ -138,64 +153,93 @@ export class SourceProcessing {
     const { recordingId, sourceId } = recording;
     if (basename(recordingId) !== recordingId || [".", "..", ""].includes(recordingId))
       throw new CatalogError("INVALID_JOB", "Recording identity is not a path component");
-    const parent = join(this.home, "recordings", recordingId, "evidence", "source");
-    // An owned derivative path must never traverse a symlink into source or another directory.
-    let path = this.home;
-    let exists = true;
-    for (const component of ["recordings", recordingId, "evidence", "source"]) {
-      path = join(path, component);
-      try {
-        const entry = await lstat(path);
-        if (!entry.isDirectory() || entry.isSymbolicLink())
-          throw new CatalogError("INVALID_EVIDENCE", "Source evidence parent is not a directory");
-      } catch (error) {
-        if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
-        exists = false;
-        break;
+    const recordingLifetime = await this.recordingLease(recordingId).catch(
+      (error: NodeJS.ErrnoException) => {
+        if (error.code === "ENOENT") return undefined;
+        throw error;
+      },
+    );
+    try {
+      const parent = join(this.home, "recordings", recordingId, "evidence", "source");
+      // An owned derivative path must never traverse a symlink into source or another directory.
+      let path = this.home;
+      let exists = true;
+      for (const component of ["recordings", recordingId, "evidence", "source"]) {
+        path = join(path, component);
+        try {
+          const entry = await lstat(path);
+          if (!entry.isDirectory() || entry.isSymbolicLink())
+            throw new CatalogError("INVALID_EVIDENCE", "Source evidence parent is not a directory");
+        } catch (error) {
+          if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+          exists = false;
+          break;
+        }
       }
-    }
-    let firstError: unknown;
-    const reclaim = async (generation: string) => {
-      signal.throwIfAborted();
-      if (basename(generation) !== generation || [".", "..", ""].includes(generation)) return;
-      if (
-        this.jobs.retainsAttempt(
-          { kind: "recording", recordingId: recordingId },
-          sourceArtifact,
-          generation,
-        ) ||
-        this.retained?.(recordingId, generation)
-      )
-        return;
-      try {
-        if (exists) await rm(join(parent, generation), { recursive: true, force: true });
-        await this.evidence.reclaim(
-          { owner: { kind: "recording", recordingId }, sourceId, generation },
-          signal,
-        );
-      } catch (error) {
+      let firstError: unknown;
+      const reclaim = async (generation: string) => {
         signal.throwIfAborted();
-        firstError ??= error;
+        if (basename(generation) !== generation || [".", "..", ""].includes(generation)) return;
+        if (
+          this.jobs.retainsAttempt(
+            { kind: "recording", recordingId: recordingId },
+            sourceArtifact,
+            generation,
+          ) ||
+          this.retained?.(recordingId, generation)
+        )
+          return;
+        try {
+          const lifetime = exists
+            ? await openDirectoryLease(join(parent, generation), "exclusive").catch(
+                (error: NodeJS.ErrnoException) => {
+                  if (error.code === "ENOENT") return undefined;
+                  if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
+                    throw new CatalogError(
+                      "SOURCE_EVIDENCE_BUSY",
+                      "A native worker still owns this source generation; retry cleanup after it exits",
+                      { recordingId, generation },
+                      true,
+                    );
+                  throw error;
+                },
+              )
+            : undefined;
+          try {
+            if (exists) await rm(join(parent, generation), { recursive: true, force: true });
+            await this.evidence.reclaim(
+              { owner: { kind: "recording", recordingId }, sourceId, generation },
+              signal,
+            );
+          } finally {
+            await lifetime?.close();
+          }
+        } catch (error) {
+          signal.throwIfAborted();
+          firstError ??= error;
+        }
+      };
+      // Files can exist before ingestion creates its first database row.
+      if (exists) {
+        const directory = await opendir(parent, { bufferSize: 16 });
+        for await (const entry of directory) await reclaim(entry.name);
       }
-    };
-    // Files can exist before ingestion creates its first database row.
-    if (exists) {
-      const directory = await opendir(parent, { bufferSize: 16 });
-      for await (const entry of directory) await reclaim(entry.name);
-    }
-    // Conversely a crash during cleanup can leave rows after the directory is gone.
-    let after = "";
-    for (;;) {
-      signal.throwIfAborted();
-      const row = this.store.catalog
-        .prepare(`SELECT generation FROM source_evidence_generations
+      // Conversely a crash during cleanup can leave rows after the directory is gone.
+      let after = "";
+      for (;;) {
+        signal.throwIfAborted();
+        const row = this.store.catalog
+          .prepare(`SELECT generation FROM source_evidence_generations
         WHERE ownerKind='recording' AND ownerId=? AND sourceId=? AND generation>? ORDER BY generation LIMIT 1`)
-        .get(recordingId, sourceId, after) as { generation: string } | undefined;
-      if (!row) break;
-      after = row.generation;
-      await reclaim(row.generation);
+          .get(recordingId, sourceId, after) as { generation: string } | undefined;
+        if (!row) break;
+        after = row.generation;
+        await reclaim(row.generation);
+      }
+      if (firstError) throw firstError;
+    } finally {
+      await recordingLifetime?.close();
     }
-    if (firstError) throw firstError;
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
@@ -219,26 +263,38 @@ export class SourceProcessing {
         throw new CatalogError("INVALID_JOB", "Job identity is not a path component");
     await this.cleanupRecording(recording, signal);
     const root = join(this.home, "recordings", job.target.recordingId);
-    const outputDirectory = join(root, "evidence", "source", job.attemptId);
-    const output = join(outputDirectory, "observations.jsonl");
-    const identity = {
-      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
-      sourceId: recording.sourceId,
-      generation: job.attemptId,
-    };
-    signal.throwIfAborted();
-    await mkdir(dirname(outputDirectory), { recursive: true });
-    await mkdir(outputDirectory);
+    await mkdir(root, { recursive: true, mode: 0o700 });
+    const recordingLifetime = await this.recordingLease(recording.recordingId);
     try {
-      const receipt = await this.exportSource(join(root, "source"), output, signal);
+      const outputDirectory = join(root, "evidence", "source", job.attemptId);
+      const output = join(outputDirectory, "observations.jsonl");
+      const identity = {
+        owner: { kind: "recording" as const, recordingId: job.target.recordingId },
+        sourceId: recording.sourceId,
+        generation: job.attemptId,
+      };
       signal.throwIfAborted();
-      const metadata = await this.evidence.ingest({ ...identity, file: output, receipt, signal });
-      signal.throwIfAborted();
-      return JSON.stringify(metadata);
-    } catch (error) {
-      this.evidence.removeUnpublished(identity);
-      await rm(outputDirectory, { recursive: true, force: true });
-      throw error;
+      await mkdir(dirname(outputDirectory), { recursive: true });
+      await mkdir(outputDirectory);
+      const lifetime = await openDirectoryLease(outputDirectory, "shared");
+      try {
+        const receipt = await this.exportSource(join(root, "source"), output, signal, undefined, [
+          lifetime.fd,
+          recordingLifetime.fd,
+        ]);
+        signal.throwIfAborted();
+        const metadata = await this.evidence.ingest({ ...identity, file: output, receipt, signal });
+        signal.throwIfAborted();
+        return JSON.stringify(metadata);
+      } catch (error) {
+        this.evidence.removeUnpublished(identity);
+        await rm(outputDirectory, { recursive: true, force: true });
+        throw error;
+      } finally {
+        await lifetime.close();
+      }
+    } finally {
+      await recordingLifetime.close();
     }
   }
 }

@@ -54,8 +54,8 @@ export function sourceExporter(
   worker: MediaWorker,
   lifetime?: { readonly fd: number },
 ): SourceExporter {
-  return async (directory, output, signal, canonical, acquisitionLifetime) => {
-    const lifetimes = [lifetime, acquisitionLifetime].flatMap((value) => (value ? [value.fd] : []));
+  return async (directory, output, signal, canonical, workLifetimes = []) => {
+    const lifetimes = [...(lifetime ? [lifetime.fd] : []), ...workLifetimes];
     const handles: FileHandle[] = [];
     const inputs: Record<string, string> = {};
     let canonicalBytes = 0;

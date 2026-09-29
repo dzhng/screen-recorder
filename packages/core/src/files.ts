@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { open, type FileHandle } from "node:fs/promises";
+import { lstat, realpath, open, type FileHandle } from "node:fs/promises";
 import { isDeepStrictEqual } from "node:util";
 import { readSync, closeSync, constants, fstatSync, openSync, type BigIntStats } from "node:fs";
 import { join } from "node:path";
@@ -12,6 +12,34 @@ export const O_NOFOLLOW_ANY = 0x20000000;
 export const O_EXLOCK = 0x20;
 /** Shared flock at open: live render attempts coexist but exclude whole-workspace cleanup. */
 export const O_SHLOCK = 0x10;
+/** The lock follows the inherited open-file description; parents may be canonical aliases,
+ * but the selected directory itself must retain its admitted inode. Busy is left to its owner. */
+export async function openDirectoryLease(
+  directory: string,
+  mode: "shared" | "exclusive",
+): Promise<FileHandle> {
+  const before = await lstat(directory, { bigint: true });
+  if (!before.isDirectory())
+    throw new CatalogError("INVALID_STORAGE", "Directory lease requires a directory");
+  const handle = await open(
+    await realpath(directory),
+    constants.O_RDONLY |
+      constants.O_DIRECTORY |
+      constants.O_NONBLOCK |
+      O_NOFOLLOW_ANY |
+      (mode === "exclusive" ? O_EXLOCK : O_SHLOCK),
+  );
+  try {
+    const actual = await handle.stat({ bigint: true });
+    if (!actual.isDirectory() || actual.dev !== before.dev || actual.ino !== before.ino)
+      throw new CatalogError("INVALID_STORAGE", "Directory changed during lease admission");
+    return handle;
+  } catch (error) {
+    await handle.close();
+    throw error;
+  }
+}
+
 export type OpenedFile = { readonly fd: number; close(): void };
 export type FileAccess = {
   path(file: string): string;

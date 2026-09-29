@@ -22,9 +22,7 @@ import {
   fileIdentity,
   hashFile,
   type IdentifiedFile,
-  O_SHLOCK,
-  O_EXLOCK,
-  O_NOFOLLOW_ANY,
+  openDirectoryLease,
 } from "./files.js";
 import {
   validateSourceReceipt,
@@ -696,13 +694,9 @@ export class AcquisitionImporter {
           }),
         );
         const output = join(directory, "source.jsonl");
-        const receipt = await native.exportSource(
-          sourceDirectory,
-          output,
-          signal,
-          canonical,
-          lifetime,
-        );
+        const receipt = await native.exportSource(sourceDirectory, output, signal, canonical, [
+          lifetime.fd,
+        ]);
         const sourceId = receipt.header?.sessionID;
         if (typeof sourceId !== "string" || !sourceId)
           throw new CatalogError("INVALID_EVIDENCE", "Capture journal has no session identity");
@@ -840,35 +834,18 @@ export class AcquisitionImporter {
 
   /** One cleanup domain: startup must not purge any rows or files while an orphan native attempt owns it. */
   private async lease(exclusive: boolean) {
-    const before = await lstat(this.directory, { bigint: true });
-    if (!before.isDirectory())
-      throw new CatalogError("INVALID_STORAGE", "Acquisition root must be a directory");
-    const handle = await open(
-      await realpath(this.directory),
-      constants.O_RDONLY |
-        constants.O_DIRECTORY |
-        constants.O_NONBLOCK |
-        O_NOFOLLOW_ANY |
-        (exclusive ? O_EXLOCK : O_SHLOCK),
-    ).catch((error: NodeJS.ErrnoException) => {
-      if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
-        throw new CatalogError(
-          "ACQUISITION_BUSY",
-          "An acquisition worker still owns this library; retry startup after it exits",
-          {},
-          true,
-        );
-      throw error;
-    });
-    try {
-      const actual = await handle.stat({ bigint: true });
-      if (!actual.isDirectory() || actual.dev !== before.dev || actual.ino !== before.ino)
-        throw new CatalogError("INVALID_STORAGE", "Acquisition root changed during admission");
-      return handle;
-    } catch (error) {
-      await handle.close();
-      throw error;
-    }
+    return openDirectoryLease(this.directory, exclusive ? "exclusive" : "shared").catch(
+      (error: NodeJS.ErrnoException) => {
+        if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
+          throw new CatalogError(
+            "ACQUISITION_BUSY",
+            "An acquisition worker still owns this library; retry startup after it exits",
+            {},
+            true,
+          );
+        throw error;
+      },
+    );
   }
 
   /** Exclusive service startup only, before constructing the queue or admitting new work. */

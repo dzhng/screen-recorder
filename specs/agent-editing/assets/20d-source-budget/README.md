@@ -14,6 +14,6 @@ The actual public recording service times out under the old deadline, then reach
 
 This is source normalization readiness, not complete 100000-run acquisition/package closure. The same canonical movie produces a 15428144-byte native probe response containing 200000 physical segment rows: 100000 occupied runs plus their empty gaps. The existing 8 MiB transport rejects the response, and independently the asset schema permits at most 100000 physical segment rows per stream. Both refusals are retained. A later metadata-delivery checkpoint must reconcile those existing contracts, preserve empty intervals and exact clock meaning, and reuse bounded file/descriptor evidence delivery. Widening a global frame or fixing only one limit is not sufficient.
 
-Recording source-generation cleanup also still needs its own orphan lifetime gate. The acquisition root lease protects a different cleanup domain; it does not claim to cover recording generation reclamation. Actual capture activation/recovery and large-work finalization remain separate.
+The subsequent [source lifetime checkpoint](../20d-source-lifetime/README.md) covers recording generation reclamation and whole-recording deletion while native work survives. The acquisition root lease protects a different cleanup domain. Actual capture activation/recovery and large-work finalization remain separate.
 
 [Combined-root verification](root-verification.json) confirms public readiness, deletion cancellation and worker preservation checks with the integrated worker.
