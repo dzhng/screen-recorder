@@ -1,6 +1,6 @@
 # 15 — Layers, crop and pointer geometry
 
-Status: compiler/native geometry, [public static layer delivery](../assets/15-layer-public/README.md), [processed edit delivery](../assets/15-layer-edits/README.md) and [moving-source edit delivery](../assets/15-layer-edit-motion/README.md) verified for their named scopes; [native evidence](../assets/15-layer-geometry/README.md). [Public pointer alpha geometry](../assets/15-pointer-alpha/README.md) passes its numerical gates, fresh scoped visual review and exact combined-worker reproduction. Remaining pointer edit/replacement lifecycle and encoded color/profile acceptance stay open. Dependencies: [09](./09-first-preview.md).
+Status: compiler/native geometry, [public static layer delivery](../assets/15-layer-public/README.md), [processed edit delivery](../assets/15-layer-edits/README.md) and [moving-source edit delivery](../assets/15-layer-edit-motion/README.md) verified for their named scopes; [native evidence](../assets/15-layer-geometry/README.md). [Public pointer alpha geometry](../assets/15-pointer-alpha/README.md) passes its numerical gates, fresh scoped visual review and exact combined-worker reproduction. Pointer edit/replacement lifecycle PNGs also pass exact combined-worker reproduction; encoded appearance acceptance remains open. Dependencies: [09](./09-first-preview.md).
 
 ## Contract
 
@@ -255,27 +255,25 @@ preview-retry policy for unrelated decoder failures.
 Reviewed PNG parity, pure split, hold, retime, repeat and full/range prepared-row
 checks pass. Thin encoded colored-trail and legacy byte diagnostics remain open
 under slice06; source-reset/physical-gap evidence remains at the shared sampler
-checkpoint. Release-scale capacity and fresh product-skill pointer authoring stay
-separate gates. No whole-slice15 acceptance follows from public admission alone.
+checkpoint. Release-scale capacity stays separate; the scoped public skill trial is linked below. No whole-slice15 acceptance follows from public admission alone.
 
 ## Remaining acceptance reconciliation
 
-[The current audit](../assets/15-acceptance-audit/README.md) identifies missing
-whole-chain pointer and processed lifecycle media coverage. The named static
-public journey remains green. Reconcile final nonopaque movie handling against
-the explicit H.264 output contract; do not add an implicit matte or assume a new
-codec is required. Final geometry review remains open.
+[The current audit](../assets/15-acceptance-audit/README.md) consolidates completed
+whole-chain, processed lifecycle and opaque output-stage picture coverage below.
+The remaining encoded-appearance work follows the
+[encoding acceptance boundary](../assets/09b-output-quality/acceptance-boundary.md).
+Keep nonopaque H.264 refusal explicit; do not add an implicit matte or codec.
 
-[Opaque output-stage geometry](../assets/15-output-geometry/README.md) now passes
-direct pictures, full/range movies, export and unchanged narration on both
-canvases. Whole-chain pointer and processed lifecycle gaps remain open.
+[Opaque output-stage geometry](../assets/15-output-geometry/README.md) passes direct
+pictures, full/range movies, export and unchanged narration on both canvases.
+
 ### Public pointer skill evidence
 
 [Product skill trials](../assets/15-pointer-skill/README.md) retain real CLI
 requests, delivered pictures and durable exports, with independent pixel checks
 and a fresh artifact critique. Scope/identity mistakes informed narrow procedural
-clarification; these trials do not close the outstanding whole-chain, replacement,
-output-profile or final visual acceptance gates.
+clarification; these trials do not close encoded appearance or broader final acceptance.
 
 ### Whole-chain reference and delivery diagnosis
 
