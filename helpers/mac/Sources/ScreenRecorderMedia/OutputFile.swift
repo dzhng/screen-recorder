@@ -45,6 +45,11 @@ public final class NewFile: @unchecked Sendable {
     /// Makes the finished file visible at the requested path and returns its size. The receipt is
     /// only issued after the path is proven to name the inode this operation assembled.
     public func publish() throws -> Int {
+        try Self.publish(staged: url, at: requested)
+    }
+
+    /// A retained attempt can resume publication of the same inode without replacing other bytes.
+    package static func publish(staged url: URL, at requested: String) throws -> Int {
         let descriptor = open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC)
         guard descriptor >= 0 else { throw NativeFailure.decodeFailed("Output was not written.") }
         defer { close(descriptor) }
@@ -52,9 +57,8 @@ public final class NewFile: @unchecked Sendable {
         guard fstat(descriptor, &staged) == 0, staged.st_mode & S_IFMT == S_IFREG,
             fsync(descriptor) == 0
         else { throw NativeFailure.decodeFailed("Cannot finish output: \(Self.reason()).") }
-        guard link(url.path, requested) == 0 else {
-            throw NativeFailure(
-                "INVALID_OUTPUT", "Cannot publish to \(requested), which must stay unoccupied.")
+        if link(url.path, requested) != 0 && errno != EEXIST {
+            throw NativeFailure("INVALID_OUTPUT", "Cannot publish to \(requested): \(Self.reason()).")
         }
         var published = stat()
         guard lstat(requested, &published) == 0, published.st_dev == staged.st_dev,

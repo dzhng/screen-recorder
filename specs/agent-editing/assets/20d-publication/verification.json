@@ -1,0 +1,26 @@
+{
+  "base": "414eaa62",
+  "materializerCommit": "8f9de434",
+  "workerSHA256": "e205fa0d1450017a468260528947d83bc243c9051b01cea3ecdb7411562d5732",
+  "commands": [
+    "swift build --package-path helpers/mac --product ScreenRecorderCaptureTests",
+    "SCREENREC_PUBLICATION_OUTPUT=/tmp/capture-publication-final helpers/mac/.build/debug/ScreenRecorderCaptureTests",
+    "helpers/mac/.build/debug/ScreenRecorderCaptureTests",
+    "SCREENREC_JOURNAL_FAILURE_OUTPUT=/tmp/capture-publication-final-journal-failure SCREENREC_CAPTURE_GAP_CORPUS=\"$PWD/specs/agent-editing/assets/00-corpus\" helpers/mac/.build/debug/ScreenRecorderCaptureTests",
+    "node_modules/.bin/vitest run apps/service/src/capture-finalizing.test.ts apps/service/src/capture-lifetime.test.ts"
+  ],
+  "exitCodes": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "serviceTests": 11,
+  "limitations": [
+    "Offline publication only",
+    "Restart states reconstructed from verified filesystem boundaries",
+    "No actual process-kill/power-loss test",
+    "No physical input/controller or >10s/30s public rollout proof"
+  ]
+}

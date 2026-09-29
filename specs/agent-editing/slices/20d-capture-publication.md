@@ -96,3 +96,10 @@ Durability/cleanup evidence, canonical-only admission and old-source truth are f
 ## Banked ownership prerequisite
 
 [Journal lease evidence](../assets/20d-journal-lease/README.md) establishes cooperative inode ownership, close-on-exec release and exact validated-prefix replay through the existing parser. Ordinary schema1 writers now hold that lease; no packed layout or schema2 admission is enabled. The [publication proposal](../assets/20d-journal-lease/publication-proposal.md) defines the remaining caller integration.
+
+[Offline publisher evidence](../assets/20d-publication/README.md) covers pinned per-role intents/receipts, no-clobber restart and verified optional cleanup. Actual stop continuation and schema2 publication/admission rollout remain open. Cleanup requires healthy A=C=R, clean indexed decoding and no unresolved diagnostic; the older <=A proposal is superseded.
+
+The rollout gate includes actual public stop/recovery work beyond their old 10s/30s
+outer deadlines and cancellation. Existing finalizing/attempt ownership must allow
+completion or actionable continuation; repeated timeout/restart without progress is
+not support. Keep any justified work deadline specific to these operations.

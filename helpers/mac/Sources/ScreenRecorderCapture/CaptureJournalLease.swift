@@ -71,6 +71,13 @@ package final class CaptureJournalLease: Sendable {
             (held.st_dev, held.st_ino) == journalIdentity
         else { throw CaptureFailure("JOURNAL_CHANGED", "Leased journal or directory was replaced.") }
     }
+    /// A persisted publication pin must not outlive the raw journal bytes that authorize it.
+    package func synchronize() throws {
+        try check()
+        guard fsync(descriptor) == 0 else { throw Self.failure("Cannot synchronize capture journal.") }
+        try check()
+    }
+
     private static func failure(_ message: String) -> CaptureFailure {
         CaptureFailure("JOURNAL_UNAVAILABLE", "\(message) \(String(cString: strerror(errno)))")
     }

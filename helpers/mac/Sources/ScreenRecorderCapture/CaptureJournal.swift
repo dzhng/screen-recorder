@@ -81,7 +81,7 @@ public struct CaptureJournalSummary: Codable, Sendable {
 }
 
 package struct JournalPrefix: Codable, Sendable, Equatable {
-    package let bytes: Int64
+    @JournalInteger package var bytes: Int64
     package let sha256: String
     package init(bytes: Int64, sha256: String) { self.bytes = bytes; self.sha256 = sha256 }
 }
@@ -241,6 +241,7 @@ public final class CaptureJournal {
         var pending = Data()
         var bytes: Int64 = 0
         while throughBytes.map({ bytes < $0 }) ?? true {
+            try Task.checkCancellation()
             let capacity = Int(min(16_384, throughBytes.map { $0 - bytes } ?? 16_384))
             var chunk = Data(count: capacity)
             let count = chunk.withUnsafeMutableBytes { pread(input, $0.baseAddress!, capacity, off_t(bytes)) }
@@ -254,6 +255,7 @@ public final class CaptureJournal {
             }
             pending.append(chunk)
             while let end = pending.firstIndex(of: 10) {
+                try Task.checkCancellation()
                 let line = Data(pending[..<end])
                 pending.removeSubrange(...end)
                 // Foundation JSON bridging creates autoreleased objects. Drain each record so

@@ -6,6 +6,8 @@ if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
   try await runCaptureAudioMaterializerDescriptorProbe(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_OUTPUT"] {
   try await runCaptureAudioMaterializerScaleProbe(output: output, runs: Int(ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_RUNS"] ?? "128")!)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_PUBLICATION_OUTPUT"] {
+  try await runCaptureAudioPublicationTests(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_FORMAT_OUTPUT"] {
   try await runCaptureAudioFormatProbe(
     output: output,
@@ -38,6 +40,7 @@ if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
   try runCaptureJournalLeaseTests()
   try runPCMJournalTests()
   try await runCaptureAudioMaterializerTests()
+  try await runCaptureAudioPublicationTests()
   try await runDeferredPauseTests()
   try runCursorGeometryTests()
   try await runMediaRecoveryTests()
