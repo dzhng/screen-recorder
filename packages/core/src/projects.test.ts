@@ -434,3 +434,66 @@ test("prepared adoption stays invisible and concurrent publication uses the winn
     /another package/,
   );
 });
+
+test("historical snapshots pin their own history and undo before later restore and edits", async () => {
+  const donor = await setup(),
+    receiver = await setup();
+  const initial = donor.store.create({ requestId: "historical", canvas });
+  const id = initial.project.projectId;
+  const first = donor.store.apply(id, {
+    requestId: "one",
+    expectedRevisionId: initial.revision.id,
+    operations: [{ operation: "canvas.set", canvas: { width: 320 } }],
+  }).revision;
+  const second = donor.store.apply(id, {
+    requestId: "two",
+    expectedRevisionId: first.id,
+    operations: [{ operation: "canvas.set", canvas: { height: 240 } }],
+  }).revision;
+  const undone = donor.store.undo(id, { requestId: "undo", expectedRevisionId: second.id });
+  const restored = donor.store.restore(id, {
+    requestId: "restore",
+    expectedRevisionId: undone.id,
+    targetRevisionId: second.id,
+  });
+  const later = donor.store.apply(id, {
+    requestId: "later",
+    expectedRevisionId: restored.id,
+    operations: [{ operation: "canvas.set", canvas: { width: 640 } }],
+  }).revision;
+  for (const [selected, targets] of [
+    [initial.revision, []],
+    [second, [first, initial.revision]],
+    [undone, [initial.revision]],
+    [restored, [undone, initial.revision]],
+  ] as const) {
+    const snapshot = donor.store.snapshot(id, selected.id);
+    expect(snapshot.project.currentRevisionId).toBe(selected.id);
+    expect(snapshot.revisions.map((r) => r.id)).toEqual(
+      [initial.revision, first, second, undone, restored]
+        .slice(0, selected.ordinal + 1)
+        .map((r) => r.id),
+    );
+    const adopted = receiver.store
+      .prepareAdoption({ requestId: selected.id, packageIdentity: selected.id, snapshot })
+      .publish(() => {});
+    let head = adopted.revision;
+    expect(head.document).toEqual(selected.document);
+    for (const target of targets) {
+      head = receiver.store.undo(adopted.project.projectId, {
+        requestId: target.id,
+        expectedRevisionId: head.id,
+      });
+      expect(head.document).toEqual(target.document);
+    }
+    expect(() =>
+      receiver.store.undo(adopted.project.projectId, {
+        requestId: "empty",
+        expectedRevisionId: head.id,
+      }),
+    ).toThrow(/No active edit/);
+  }
+  expect(donor.store.snapshot(id, later.id)).toEqual(donor.store.snapshot(id));
+  expect(donor.store.revision(id)).toEqual(later);
+  expect(() => donor.store.snapshot(id, "missing")).toThrow(/Revision does not exist/);
+});

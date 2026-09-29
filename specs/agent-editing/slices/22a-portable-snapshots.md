@@ -5,7 +5,8 @@ Status: core checkpoint verified (2026-09-28); 11 focused tests and core type ch
 ## Contract
 
 A copied project keeps its complete retained revision sequence and the active undo
-stack. Adoption assigns independent project/revision identities, preserving
+stack through the selected moment. An explicit historical revision excludes later
+donor revisions; the donor remains unchanged. The default selects the current head. Adoption assigns independent project/revision identities, preserving
 composition identities and document meaning. A repeated adoption request returns
 the same receipt; a different package under that request is a conflict.
 
@@ -41,8 +42,7 @@ and historical picture receipts, source evidence, rendered results and failed-im
 controls. Identity preparation remains invisible; a concurrent publication loser
 returns the winning receipt without publishing its own staged evidence.
 
-Prepared model-dependent output retention, fonts and non-current package export
-remain parent-22 work. Actual 15a output is still a final acceptance gate.
+Prepared model-dependent output retention and fonts remain parent-22 work. Actual 15a output is still a final acceptance gate.
 
 ## Failure boundary and discretion
 

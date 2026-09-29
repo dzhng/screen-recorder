@@ -165,12 +165,7 @@ export class ProjectPackages {
     } while (true);
   }
   pin(projectId: string, revisionId?: string): PinnedProjectPackage {
-    const snapshot = this.owners.projects.snapshot(projectId);
-    if (revisionId && revisionId !== snapshot.project.currentRevisionId)
-      throw new CatalogError(
-        "UNSUPPORTED_PACKAGE_REVISION",
-        "Project package currently requires the current revision",
-      );
+    const snapshot = this.owners.projects.snapshot(projectId, revisionId);
     let metadataBytes = Buffer.byteLength(JSON.stringify(snapshot.references)),
       members = snapshot.revisions.length;
     const acquisitionFiles: PinnedProjectPackage["acquisitionFiles"] = {};
@@ -255,10 +250,13 @@ export class ProjectPackages {
         }
         return identity;
       });
-    for (const metadata of this.owners.projectIndexRecords.portableGenerations({
-      kind: "project",
-      projectId,
-    })) {
+    for (const metadata of this.owners.projectIndexRecords.portableGenerations(
+      { kind: "project", projectId },
+      undefined,
+      snapshot.project.currentRevisionId === this.owners.projects.get(projectId).currentRevisionId
+        ? undefined
+        : snapshot.revisions.map((revision) => revision.id),
+    )) {
       const resource: Extract<PortableDependency, { kind: "project-index-generation" }> = {
         kind: "project-index-generation",
         metadata: portableProjectIndexMetadataSchema.parse(metadata),

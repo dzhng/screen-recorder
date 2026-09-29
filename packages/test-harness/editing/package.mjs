@@ -378,6 +378,48 @@ try {
   );
   assert.notEqual(localAdoption.result.projectId, projectId);
   await call("package.close", { admissionId: localAdmission.id });
+  // Export an older moment after the donor has undone, restored and edited again.
+  const donorUndo = await call("edit.undo", {
+    projectId,
+    requestId: "later-undo",
+    expectedRevisionId: latest.revision.id,
+  });
+  const donorRestore = await call("edit.restore", {
+    projectId,
+    requestId: "later-restore",
+    expectedRevisionId: donorUndo.id,
+    targetRevisionId: latest.revision.id,
+  });
+  const donorLater = await call("edit.apply", {
+    projectId,
+    requestId: "later-edit",
+    expectedRevisionId: donorRestore.id,
+    operations: [{ operation: "canvas.set", canvas: { background: "#ff0000ff" } }],
+  });
+  await projectIndexSnapshot(donorLater.revision.id, "donor-later-excluded");
+  const historicalExportId = randomUUID();
+  await call(
+    "export.create",
+    {
+      projectId,
+      revisionId: latest.revision.id,
+      exportId: historicalExportId,
+      directory,
+      leaf: "historical.zip",
+      kind: "processed-package",
+    },
+    { transport: "mcp" },
+  );
+  const historicalExport = await poll(
+    () => call("export.status", { exportId: historicalExportId }),
+    (value) => value.state === "committed",
+  );
+  const historicalPath = join(out, "relocated-history.zip");
+  await rename(historicalExport.output, historicalPath);
+  assert.equal(
+    (await call("project.get", { projectId })).currentRevisionId,
+    donorLater.revision.id,
+  );
   const corrupt = join(out, "corrupt.zip"),
     missing = join(out, "missing.zip");
   await run("/usr/bin/python3", [
@@ -635,6 +677,62 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     expectedRevisionId: edited.revision.id,
   });
   assert.deepEqual(undoEdit.document, undo.document);
+  const historicalAdmission = await call("package.open", { path: historicalPath });
+  const historicalReady = await poll(
+    () => call("package.status", { admissionId: historicalAdmission.id }),
+    (value) => value.state === "ready",
+  );
+  const historicalAdoption = await poll(
+    () =>
+      call("package.adopt", {
+        packageHandle: historicalReady.packageHandle,
+        requestId: "historical-adopt",
+      }),
+    (value) => value.state === "ready",
+  );
+  await call("package.close", { admissionId: historicalAdmission.id });
+  await rm(historicalPath);
+  await close();
+  await start(receiver);
+  const historicalProjectId = historicalAdoption.result.projectId;
+  assert.deepEqual(
+    (await call("revision.history", { projectId: historicalProjectId })).revisions.map(
+      (r) => r.document,
+    ),
+    history.revisions.map((r) => r.document),
+  );
+  assert.deepEqual(
+    await render(
+      historicalProjectId,
+      historicalAdoption.result.revisionId,
+      "selected-history-head",
+    ),
+    current,
+  );
+  const historicalUndo = await call("edit.undo", {
+    projectId: historicalProjectId,
+    requestId: "historical-undo",
+    expectedRevisionId: historicalAdoption.result.revisionId,
+  });
+  assert.deepEqual(
+    await render(historicalProjectId, historicalUndo.id, "selected-history-undo"),
+    before,
+  );
+  const historicalEdit = await call("edit.apply", {
+    projectId: historicalProjectId,
+    requestId: "historical-edit",
+    expectedRevisionId: historicalUndo.id,
+    operations: [{ operation: "canvas.set", canvas: { background: "#ff0000ff" } }],
+  });
+  const historicalUndoEdit = await call("edit.undo", {
+    projectId: historicalProjectId,
+    requestId: "historical-undo-edit",
+    expectedRevisionId: historicalEdit.revision.id,
+  });
+  assert.deepEqual(
+    await render(historicalProjectId, historicalUndoEdit.id, "selected-history-edit-undone"),
+    before,
+  );
   const large = await call("project.create", {
     requestId: "bounded-history",
     canvas: created.revision.document.canvas,
@@ -697,6 +795,9 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     historicalOnlyMediaRetained: true,
     generatedReferenceFixtureRetained: true,
     editableUndo: true,
+    explicitHistoricalHeadAndPrefixRelocated: true,
+    laterDonorUndoRestoreAndEditsExcluded: true,
+    historicalPackageNativeEditUndo: true,
     adoptionReplay: true,
     canceledAdoptionInvisible: true,
     corruptAndMissingMembersRejected: true,

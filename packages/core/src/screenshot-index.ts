@@ -348,12 +348,21 @@ export class ScreenshotIndexStore<
       throw new AggregateError(failures, "Pending screenshot index recovery failed");
   }
   /** Pin metadata only; archive jobs enumerate and hash retained payloads afterward. */
-  portableGenerations(owner: IndexOwner, limit = 25000): ScreenshotIndexMetadata<D>[] {
+  portableGenerations(
+    owner: IndexOwner,
+    limit = 25000,
+    revisionIds?: readonly string[],
+  ): ScreenshotIndexMetadata<D>[] {
     const rows = this.store.catalog
       .prepare(
-        "SELECT * FROM screenshot_index_generations WHERE ownerKind=? AND ownerId=? ORDER BY generation LIMIT ?",
+        "SELECT * FROM screenshot_index_generations WHERE ownerKind=? AND ownerId=? AND (? IS NULL OR json_extract(identity, '$.revisionId') IN (SELECT value FROM json_each(?))) ORDER BY generation LIMIT ?",
       )
-      .all(...ownerIdentity(owner), limit + 1) as Generation[];
+      .all(
+        ...ownerIdentity(owner),
+        revisionIds ? JSON.stringify(revisionIds) : null,
+        revisionIds ? JSON.stringify(revisionIds) : null,
+        limit + 1,
+      ) as Generation[];
     if (rows.length > limit)
       throw new CatalogError("LIMIT_EXCEEDED", "Retained index inventory exceeds its limit");
     if (rows.some((row) => row.state !== "complete"))

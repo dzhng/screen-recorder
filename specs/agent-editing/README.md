@@ -78,8 +78,9 @@ Compact evidence ledger:
   through restart. The [transient adoption boundary](slices/22a-portable-snapshots.md)
   now prepares independent identities before staging and rechecks replay at publication.
   [Project-index relocation](assets/22-project-index/README.md) now preserves current
-  and historical generations, including read replay without donor jobs. Prepared audio,
-  fonts and non-current package export remain open.
+  and historical generations, including read replay without donor jobs. Prepared
+  model-dependent results and fonts remain open; [historical package export](assets/22-historical-export/README.md)
+  now retains the selected moment and its undo stack without later donor edits.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.

@@ -2497,3 +2497,17 @@ high for identity/ownership, medium for the conservative face-count limit.
   the requested character rendered. Native refuses glyph zero as well as runs from
   a substituted font; finite-box clipping remains the explicitly requested layout
   behavior rather than an implicit font fallback.
+
+
+### Historical packages capture the selected moment
+
+When: slice 22 historical export checkpoint. Verdict: sound. Confidence: high.
+
+The choice: if a project has edits A, B and C and the caller exports B, the copied
+project opens at B with its history and undo stack through B. C stays in the donor
+and is absent from that package. Later donor undo, restore or edits cannot change
+what B meant. The plan required history retention but did not define whether an
+older selected head should also carry its future. Keeping those later edits would
+introduce a different branch model and unclear undo behavior. The reach: package
+revision selection is a historical snapshot, and each adopted project continues
+its ordinary append-only revision sequence from that selected moment.

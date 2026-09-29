@@ -426,28 +426,44 @@ export class ProjectStore {
           : null,
     };
   }
-  snapshot(projectId: string): ProjectSnapshot {
+  snapshot(projectId: string, revisionId?: string): ProjectSnapshot {
     const project = this.get(projectId);
+    const selected = this.revision(projectId, revisionId);
     const usage = this.store.catalog
       .prepare(
-        "SELECT COUNT(*) AS count,COALESCE(SUM(length(CAST(content AS BLOB))),0) AS bytes FROM project_revisions WHERE projectId=?",
+        "SELECT COUNT(*) AS count,COALESCE(SUM(length(CAST(content AS BLOB))),0) AS bytes FROM project_revisions WHERE projectId=? AND ordinal<=?",
       )
-      .get(projectId) as { count: number; bytes: number };
+      .get(projectId, selected.ordinal) as { count: number; bytes: number };
     if (usage.count > archiveLimits.history || usage.bytes > archiveLimits.revisionBytes)
       throw new CatalogError(
         "LIMIT_EXCEEDED",
         "Project history exceeds the portable snapshot budget",
       );
-    const history = this.history(projectId, undefined, archiveLimits.history);
+    const history = this.history(
+      projectId,
+      { projectId, afterOrdinal: -1, throughOrdinal: selected.ordinal },
+      archiveLimits.history,
+    );
     if (history.nextCursor)
       throw new CatalogError(
         "LIMIT_EXCEEDED",
         "Project history exceeds the portable snapshot limit",
       );
-    const undo = this.store.catalog
-      .prepare("SELECT targetId FROM project_undo WHERE projectId=? ORDER BY position LIMIT 1001")
-      .all(projectId)
-      .map((row) => row.targetId as string);
+    const undo: string[] =
+      selected.id === project.currentRevisionId
+        ? this.store.catalog
+            .prepare(
+              "SELECT targetId FROM project_undo WHERE projectId=? ORDER BY position LIMIT 1001",
+            )
+            .all(projectId)
+            .map((row) => row.targetId as string)
+        : [];
+    if (selected.id !== project.currentRevisionId)
+      for (let index = 1; index < history.revisions.length; index++) {
+        const revision = history.revisions[index]!;
+        if (revision.operation === "undo") undo.pop();
+        else undo.push(history.revisions[index - 1]!.id);
+      }
     if (undo.length > archiveLimits.history)
       throw new CatalogError("LIMIT_EXCEEDED", "Project undo exceeds the portable snapshot limit");
     let edges = 0;
@@ -461,7 +477,12 @@ export class ProjectStore {
         );
       return { revisionId: revision.id, resources };
     });
-    return { project, revisions: history.revisions, undo, references };
+    return {
+      project: { ...project, currentRevisionId: selected.id },
+      revisions: history.revisions,
+      undo,
+      references,
+    };
   }
   /** Identity preparation is transient; publication rechecks replay before exposing any dependencies. */
   prepareAdoption(input: { requestId: string; packageIdentity: string; snapshot: unknown }) {

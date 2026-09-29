@@ -359,7 +359,9 @@ be chunked deliberately; never silently split an atomic batch.
 Slice 09 preserves the durable exportId retry/cancel/recover/abandon contracts for
 new project exports. Slice 22 adds package admission and explicit adoption as an
 editable project; `package.close` releases its inspection handle, not the adopted
-project. Slice 23 removes old recording-target schemas. Old-library in-flight jobs
+project. An explicit package revision selects that historical moment: retain its
+complete history prefix and then-active undo stack, excluding later donor edits.
+Omitting the revision selects the current head. Export never moves the donor head. Slice 23 removes old recording-target schemas. Old-library in-flight jobs
 are not migrated or silently replayed by the new library; cutover reports that
 boundary and retains the old library untouched.
 

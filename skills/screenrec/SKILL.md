@@ -274,10 +274,12 @@ poll its durable export intent until committed. Open the resulting ZIP, inspect
 adoption request; its ready result supplies durable project/revision IDs. Use those
 IDs for history, rendering and edits. Opening alone owns a temporary package
 handle; closing it cancels unfinished adoption but preserves a committed project.
-Current project packaging requires the current revision and refuses retained
-screenshot-index generations whose adoption is not implemented. Report that limitation rather than substituting
-a flattened movie or dropping dependencies. Verify the adopted project's playback
-and undo before presenting a transfer as complete.
+Omit the revision to transfer the current head, or select an explicit historical
+revision to transfer that moment and its history/undo stack. Later donor edits are
+excluded from the historical package; exporting does not change the donor. Report
+unsupported dependencies instead of dropping them or substituting a flattened
+movie. Verify the adopted project's playback and undo before presenting a transfer
+as complete.
 
 ## Invocation and identity
 

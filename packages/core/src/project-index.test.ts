@@ -754,3 +754,27 @@ test("retained picture validation does not turn unavailable execution requiremen
   );
   expect(window.window.frames().next().value!.layers[0]!.assetId).toBe(asset.id);
 });
+
+test("portable revision selection ignores later incomplete indexes before inventory limits", async () => {
+  const f = await fixture();
+  addSilence(f);
+  const selected = f.identity("selected");
+  f.index.begin(selected);
+  await append(f, selected, 0, 0);
+  await append(f, selected, 1, 900000);
+  coverage(f, selected);
+  await f.index.finish(selected);
+  f.projects.apply(f.projectId, {
+    requestId: "later",
+    expectedRevisionId: selected.revisionId,
+    operations: [{ operation: "canvas.set", canvas: { background: "#ff0000ff" } }],
+  });
+  const later = f.identity("later");
+  f.index.begin(later);
+  const owner = { kind: "project" as const, projectId: f.projectId };
+  expect(() => f.index.portableGenerations(owner)).toThrow(/incomplete/);
+  expect(
+    f.index.portableGenerations(owner, 1, [selected.revisionId]).map((value) => value.generation),
+  ).toEqual(["selected"]);
+  expect(f.index.portableGenerations(owner, 1, [])).toEqual([]);
+});
