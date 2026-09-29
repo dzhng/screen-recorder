@@ -8,7 +8,7 @@ policies arev9/v19. The combined worker is
 `8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186`.
 Historical workers and measurements retain their own identities below.
 
-## Active owners and next action
+## Execution context and scoped evidence
 
 - **Denoise transitions15a3b:** integrated. Combined244 composition/31 native
   audio/preparation tests and 50 public checks pass; [fresh skill use](15a3b-mix-skill/README.md)
@@ -32,20 +32,16 @@ Historical workers and measurements retain their own identities below.
   refuses altered bytes. Preparation uses independent bounded copies, not COW.
   The exact pinned model source is
   `/Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519`.
-  Settings19d is active in capture-pause-recovery on `codex/voice-settings`.
-  The measured512-code combined corner and short-reference/temperature probes pass;
-  typed public controls and parent listening acceptance remain open. The pinned
-  top-p filter can empty a valid candidate distribution; two-hour-package-transfer
-  owns a bounded numeric repair investigation. Preserve the original failures and
-  do not fit a replacement minimum from sampled cases. Settings admission remains
-  open until repaired filtered cases and frozen default parity pass. The original
-  180-second managed-preparation failure and cancellation observation deadline
-  also remain unresolved; later diagnostics do not erase those failures.
-  New entry controls will receive a distinct immutable registration, not retarget
-  the private checkpoint's ID. Excerpts19e is integrated with root63 focused tests
-  and the complete public journey passing. Its fresh weak-model consumer retained
-  the same WAV after donor deletion. Prepared-package-transfer now owns public
-  voice jobs19f, coordinating the settings dependency before final acceptance.
+  Settings19d and repair19d1 are integrated under immutable registration
+  `qwen3-tts-icl-v1`. Final unchanged preparation/lifecycle gates, default/filtered
+  audio parity and numerical controls pass; earlier failures remain retained.
+  [Adoption evidence](19d-voice-adoption/README.md) and root checks distinguish
+  execution correctness from parent listening acceptance. The prepared home
+  `/tmp/screenrec-19d-repaired-managed/home` is released to the19f owner.
+  Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
+  Prepared-package-transfer now owns public voice jobs19f; capture-pause-recovery
+  owns the combined package document/history scale gate. Shared voice metadata is
+  strict and independent of the active execution profile.
   Candidate native worker there has SHA256
   `2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3`;
   the root binary remains frozen8a until coordinated integration. Root reproduced
@@ -63,7 +59,7 @@ Historical workers and measurements retain their own identities below.
 - **Two-hour package24j:** integrated full transfer passes. Original complete WAV,
   recipe, late PCM and newly authored receiver edit/undo survive donor removal
   with processing unavailable. No missing original history is inferred.
-  Its prepared-package-transfer worktree now owns public excerpts19e.
+  Its prepared-package-transfer worktree now owns public voice jobs19f.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.
@@ -139,7 +135,7 @@ retirement ownership, not a new garbage collector.
 Follow the [audio/stretch audit](acceptance-maintenance/README.md):08/11 finite
 conformance,12/12b speech,12c/15a denoise,13/13a/14 stretch,18/19 voice; then physical
 camera20/21, cutover23, scale24 and autonomous25. Generic22 closure is verified.16 still needs
-delivered retime/gain,15a transitions and full journeys. Segmentation stays a future
+delivered retime/gain and full journeys; unit-rate15a transitions are verified. Segmentation stays a future
 placeholder. These checkpoints do not establish physical capture or installed-app cutover.
 
 The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)
@@ -152,7 +148,8 @@ The earlier fragment-based listening check does not establish word clarity. Comp
 labels and listening cannot be inferred from ASR, waveform support, byte equality
 or still images. [Voice boundary timing](18-voice-boundary-timing/README.md) retains
 numerical/visual evidence and a sample-exact accepted ending; the shortened entrance
-and voice-generation readiness remain unaccepted. Reuse existing14a lifecycle
+remains unaccepted. Registered execution readiness is verified in19d; public
+durable generation has its separate19f gate. Reuse existing14a lifecycle
 owners after speech recipes earn their required acceptance.
 
 ## Recent integrated evidence
@@ -180,6 +177,6 @@ for the exact scope. Other rates, joins, labels and13a/14 integration remain ope
 
 The [complete-sentence filler packet](12d-complete-sentence/README.md) now replaces
 cropped-word QA for one proposed `uh` removal. Root presented the original and
-candidate for optional word/join feedback; no answer is inferred. Exact retained
+candidate; the user accepted neighboring words and the join as clear and natural. Exact retained
 PCM and removed-source poison controls pass. Full independent labels, repetition
 intent and parent12 timing/cleanup acceptance remain open.

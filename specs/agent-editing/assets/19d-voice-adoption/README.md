@@ -52,3 +52,8 @@ snapshots, reviews and failed attempts; every member matches
 records the archive hash and focused test results. Original model/runtime bundles
 and earlier experiment archives remain intact. The model itself is not duplicated
 inside this evidence. Public durable jobs remain owned by19f.
+
+[Root integration checks](root-verification.json) pass combined builds,49 core/service
+tests and3 worker adapter tests, with every archive member rehashed and current
+profile/worker files matched to the registered inventory. No duplicate inference
+was needed for this source-identical integration.

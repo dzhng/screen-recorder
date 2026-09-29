@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-29",
+  "sourceCommit": "ca5a4f39",
+  "buildTasksPassed": 6,
+  "coreServiceTestsPassed": 49,
+  "workerAdapterTestsPassed": 3,
+  "skipped": 0,
+  "archiveMembersRehashed": 108,
+  "archiveSha256": "181a520ba8e01ee886e0e601b448ae2c8c361caffe8d0413c19654aaf1d4c67d",
+  "profileSha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3",
+  "workerMatchesRegisteredInventory": true,
+  "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+  "additionalInferenceRun": false,
+  "scope": "Combined branch builds/tests, complete archive rehash and current profile/worker inventory agreement; actual synthesis proof retained in adoption archive"
+}

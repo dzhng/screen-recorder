@@ -3684,8 +3684,8 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 
 ## Empty voice-sampling distributions
 
-- **When:** probability-filter proposal19d1 (`1536a72e`); runtime adoption remains
-  a separate gate.
+- **When:** probability-filter proposal19d1 (`1536a72e`), adopted by the measured
+  registered runtime in19d (`ca5a4f39`).
 - **Choice:** preserve every already-valid filtering result. If rounding leaves
   no possible next token despite valid input scores, restore the highest-scoring
   token, choosing the first index on a tie. For example, an agent requesting a
@@ -3738,3 +3738,25 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 - **Verdict:** sound; explicit structured input uses the existing origin schema
   and preserves stable replay without another reference registry.
 - **Confidence:** high.
+
+## Measured voice execution envelope
+
+- **When:** registered settings19d (`ca5a4f39`).
+- **Choice:** expose every measured backend control, while bounding one synthesis
+  job by actual decoded reference frames, target tokens, total model input and
+  generated code count. For example, a request reaching its output budget without
+  the model's end-of-speech signal fails as incomplete instead of publishing a
+  cut-off sentence. The agent can choose another explicit request or compose
+  multiple generated assets; no hidden splitting or stretching occurs.
+- **Gap:** the user required full settings, but the model's configuration limits
+  did not establish safe local memory use. The joint measured reference/text/output
+  case supports the selected profile; the larger-output memory failure remains
+  outside that measured envelope.
+- **Reach:** limits and effective clamps are discoverable profile data, independent
+  of presets. New measured capacity requires a new immutable execution identity.
+  The backend's ignored speed and unverified streaming paths are not advertised
+  as working controls.
+- **Verdict:** sound; measured bounds and truthful completion preserve control
+  without presenting untested capacity as supported.
+- **Confidence:** medium; capacity is host/profile specific and may be widened by
+  new evidence, while voice quality remains an independent acceptance gate.

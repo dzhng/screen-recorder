@@ -60,13 +60,14 @@ now adds independently changing landmarks, nonaligned moves and whole/range movi
 CLI/MCP media and lifecycle journeys; [fresh-agent interpretation](assets/10d-frame-visibility/skill/report.md)
 now correctly distinguishes authored boundaries, displayed frame intervals and gaps.
 [Raw PNG/JPEG inspection](assets/10d-source-image-public/README.md) passes public
-delivery, lifecycle and fresh skill use; project image composition remains pending. Speech/noise
+delivery, lifecycle and fresh skill use; [project image composition](assets/10d-project-image-public/README.md)
+and [combined renderer preservation](assets/10d-joint-preservation/README.md) also pass. Speech/noise
 processing, animation and subjective listening remain pending. Rows below
 describe the full acceptance requirement; their owning slice evidence records progress.
 
 | User scenario | First live owner | Required observable result |
 | --- | --- | --- |
-| Bring in another video/audio file; reuse past-project media | 02 baseline already verified; 22 cross-project/package journey pending | CLI/MCP import/get agree; owned bytes survive external path and donor deletion. |
+| Bring in another video/audio file; reuse past-project media | 02 baseline and22 cross-project/package journey verified | CLI/MCP import/get agree; owned bytes survive external path and donor deletion. |
 | Insert footage into a sequence or overlap it as a presenter | 09 insert, 15 overlay | Exported frame counters show intended sequence and independent overlapping layers; existing narration remains at its requested times. |
 | Keep audio and replace video; keep video and replace audio | 09 | Decode both planes; the replaced plane changes while the protected plane retains source membership and timing. |
 | Stretch narration while showing new video | 14 | Requested duration, protected speech/pitch and explicitly linked versus independent video timing are verified in delivered media. |
@@ -108,8 +109,8 @@ capture, play speakers or seize focus as an incidental test side effect.
 PNG/JPEG insertion and overlap, image-over-video transparency, repeated placements,
 ordered crop/placement/opacity, dry taps, retained indexed PNGs, preview/export and
 cache/history/restart/deletion journeys. Timeless image identity is distinct from
-video sample provenance. Fresh product-skill use passes; combined renderer binding
-and verification remain required; this does not close animated processing or broad color/scale gates.
+video sample provenance. Fresh product-skill use and [combined renderer verification](assets/10d-joint-preservation/README.md)
+pass; this does not close animated processing or broad color/scale gates.
 
 [Indexed asset metadata inspection](assets/20d2-asset-pages/README.md) reconstructs
 all 200,000 physical rows of the actual 100,000-run admitted source through CLI/MCP.

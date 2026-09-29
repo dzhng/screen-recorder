@@ -15,169 +15,37 @@ Implement the entire local agent-operated editor. Every open slice and global
 requirement below remains in scope. Read [contracts](contracts.md),
 [architecture](architecture.md), [verification](verification.md),
 [journeys](journeys.md) and [processing](processing.md). The product skill teaches
-verified public operations only; the installed app has not switched engines.
+verified public operations; the installed app has not switched engines.
 
-Current pickup: implement [measured voice controls](slices/19d-voice-settings.md)
-then complete [public durable generation](slices/19f-public-voice-jobs.md).
-[Retained audio excerpts](slices/19e-retained-audio-excerpts.md) now pass their
-public lifecycle and fresh agent skill checks.
-[Common model preparation](slices/19c-common-model-preparation.md) passes the
-public local-adoption journey, frozen voice parity and existing ASR preservation.
-The [combined512-code resource corner](assets/19d-voice-corner/README.md) and
-[short-reference/numeric probes](assets/19d-voice-admission/README.md) pass their
-scoped gates; the earlier1,024-code memory failure remains retained. Filtered
-sampling now has a separate numerical failure: supported top-p values can leave
-no valid candidates. The [minimal repair experiment](slices/19d1-probability-filter.md)
-preserves existing valid distributions and repairs empty ones without a fitted
-minimum; adopt it and prove real audio parity before completing19d. Preparation and lifecycle deadline
-failures also remain under investigation. Typed controls are not yet public.
-Preserve whole parent19 contextual/listening acceptance.
+Current pickup: finish [public durable voice generation](slices/19f-public-voice-jobs.md)
+using the integrated [measured controls](slices/19d-voice-settings.md) and
+[retained excerpts](slices/19e-retained-audio-excerpts.md). The repaired runtime
+passes unchanged preparation/lifecycle gates and exact default/filtered audio
+parity. Earlier failures remain evidence, not missing final gates. Keep parent
+[18](slices/18-voice-reproduction.md)/[19](slices/19-voice-assets.md) pronunciation,
+identity, contextual replacement, room tone and listening acceptance open.
 
-[Finite selected PCM conversion](slices/19e1-finite-audio-conversion.md) and
-[shared asset publication](assets/19e-asset-publication/README.md) pass their
-prerequisites. Root retains the frozen8a native worker for current voice checks;
-use the isolated candidate named in the pickup for the new conversion operation.
-Public `audio.extract` is verified in the isolated service. The installed app
-and public voice generation remain separate gates.
+Parallel work: address the remaining [audio-domain gaps](assets/acceptance-maintenance/audio-domain.md)
+and combined document/history scale coverage. Low/high rate cohorts are banked;
+negative occupied-origin conformance remains unverified after zero-origin candidates.
+Advance speech/denoise and stretch
+evidence toward12b/14/15a, then16. Physical20→21 remains a required branch. These
+converge at23 installed cutover, final24 scale and25 autonomous full workflow.
+Generic22 portability is verified; generated voice still needs its own model-free
+package journey. Do not repeat completed two-hour DSP or transfer experiments.
 
-Continue independent remaining [scale work](slices/24-scale.md), then dependency-ready
-speech, retiming, voice, camera, cutover and autonomous workflow gates. Every open
-slice remains in scope. Numerical parity does not replace listening evidence.
+Use [implementation pickup](assets/implementation-pickup.md) for active worktrees,
+prepared runtime and frozen worker identities. The root worker remains frozen;
+use the isolated finite-conversion worker for extraction/generation journeys until
+coordinated integration. [Integrated evidence](assets/integrated-evidence.md)
+indexes scoped passes and limitations. The checklist below is authoritative for
+remaining scope; overview graph groupings are not the scheduling dependency graph.
 
-The complete two-hour [prepared-package transfer](slices/24j-prepared-package-scale.md)
-now passes its full export/open/adopt gate with the original complete audio hash,
-late-window PCM and newly authored edit/undo. Original missing history is not
-reconstructed. Generic
-[package closure](slices/22-portable-projects.md) already passes, including refusal
-to reuse stale learned audio after adoption. Do not repeat completed DSP research.
-
-Recent scoped passes are banked: [finite source reads](slices/24q-finite-decoder-demand.md)
-and [inherited audio identification](slices/24p-audio-format-admission.md),
-[history pages](slices/24r-history-query-scale.md), [the retained streaming deadline](slices/24s-audio-stream-budget.md), [routed scale](slices/24k-routing-scale.md),
-[warm preview](slices/24l-preview-budget.md), [timeline query memory](slices/24m-query-duration-memory.md),
-and [denoise transitions](slices/15a3b-denoise-transitions.md) with
-[fresh skill use](assets/15a3b-mix-skill/README.md). [Capture rollout](slices/20d-capture-publication.md)
-is verified for prerecorded recovery, including [both-role pause/terminal boundaries](slices/20d8-pause-terminal-boundaries.md).
-[Retired source-job history](slices/24t-job-reference-retirement.md) also passes
-its scoped reference/retry gate through public consumers and internal retirement.
-Physical capture, broader scale and installed cutover remain separate gates.
-
-The user found the unfamiliar cropped speech confusing. No action on those clips
-is required; future comparisons use complete meaningful sentences from their
-recording, with the original alongside and one clear purpose.
-
-Output controls09b, scoped static06/15, caption17 and the public preparation/gain
-consumer checkpoints pass. The [implementation pickup](assets/implementation-pickup.md)
-records active worktrees and frozen worker identities. Segmentation stays outside
-this run. Completed experiments are evidence, not a queue to rerun.
-
-Compact evidence ledger:
-
-- [Source sampling cells](assets/15-sampling-cells/README.md) and
-  [finished-canvas PNG delivery](assets/15-composed-border/README.md) preserve edges
-  through the shared executor, with retained red/green controls and scoped review.
-- [Pointer alpha geometry](assets/15-pointer-alpha/README.md) and
-  [edit lifecycle](assets/15-pointer-lifecycle/README.md) pass fresh visual review
-  and exact combined-worker PNG reproduction. [Static layers](assets/15-layer-public/README.md),
-  [moving sources](assets/15-layer-edit-motion/README.md) and
-  [output geometry](assets/15-output-geometry/README.md) retain their scoped native
-  delivery gates. The [pointer reference diagnosis](assets/15-pointer-chain/README.md)
-  rejects a flattened-source oracle and keeps encoded color acceptance open.
-- [Opacity/indexing](assets/16-opacity-index/README.md) and
-  [zoom](assets/16-zoom/README.md) and [position/rotation](assets/16-pose/README.md)
-  frame/edit controls pass on the combined build. [Crop/size/pivot curves](assets/16-geometry/README.md)
-  also preserve all numeric geometry domains, including subnormal validation;
-  the [encoded animation checkpoint](assets/16-animated-appearance/README.md)
-  adds sampled trajectory and clock verification without closing full keyframes. [Explicit fade/zoom conveniences](assets/16-conveniences/README.md)
-  pass scoped public PCM/PNG/edit and fresh product-skill checks; listening and
-  continuous playback remain separate acceptance gates. [Portable archive relocation](assets/22-portable-projects/README.md)
-  and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
-  their respective checkpoints, retaining workflow failures and handoff-ID errors.
-  Relocation now preserves acquisition identities, raw/normalized evidence and retained
-  source-scene, real source-transcript and [source screenshot-index generations](assets/22-source-index/README.md)
-  through restart. The [transient adoption boundary](slices/22a-portable-snapshots.md)
-  now prepares independent identities before staging and rechecks replay at publication.
-  [Project-index relocation](assets/22-project-index/README.md) now preserves current
-  and historical generations, including read replay without donor jobs. [Learned prepared results](assets/14a-learned-portable/README.md) now survive
-  public package transfer with processing unavailable; exact-font history relocation passes the
-  [literal-caption package journey](assets/17c-literal-text/README.md); [historical package export](assets/22-historical-export/README.md)
-  now retains the selected moment and its undo stack without later donor edits.
-- [Real narration preservation](assets/08-narration-preservation/README.md) verifies
-  unchanged complete PCM through visual-only edits, history, restart and fractional
-  delivery; listening and encoded quality remain separate.
-- [Mixed compressed rates and acoustic axes](assets/08-11-rate-conformance/README.md)
-  pass their named clock/arithmetic/image gates. One AAC cross-invocation float
-  mismatch remains unresolved; its failed report and verification limits stay visible.
-- [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
-  full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
-  passes 120 fractional edits, separating declared PCM length from AAC padding.
-- [Preview](assets/09-first-preview/README.md) and
-  [export](assets/09-first-export/README.md) verify independent audio/video
-  replacement, insertion, music, constant gain stacks and historical results.
-  General layering, retiming and processors beyond constant gain are not implied.
-- [Source acquisition/transcription](slices/10b-source-acquisition.md) includes
-  actual native inference. [Project phrase paging](assets/10c-public-phrases/README.md)
-  uses frozen transcript rows to verify projection, not fresh speech accuracy.
-  [Capture interruption](assets/10c-public-interruption/README.md) and
-  [source/project scenes](assets/10d-public-scenes/README.md) pass actual public
-  journeys; [fresh scene skill use](assets/10d-scene-skill/README.md) also passes.
-- [Project pictures](assets/10d-public-project-frames/README.md),
-  [source pictures](assets/10d-source-frame-public/README.md) and
-  [typed no-picture delivery](assets/10d-source-empty-observation/README.md) pass
-  their named gates. [Acquisition-gap project pictures](assets/10d-acquisition-pictures/README.md)
-  use public audio-context anchors; direct narrower video masks remain native/core-only.
-  [Raw image inspection](assets/10d-source-image-public/README.md) passes its native
-  CLI/MCP lifecycle journey with unchanged reviewed native pixels, fresh skill use
-  and resized recovery review. [Project still composition/indexing](assets/10d-project-image-public/README.md)
-  passes its own public media/lifecycle and fresh skill gates; [combined renderer
-  identity and preservation verification](assets/10d-joint-preservation/README.md) pass.
-- [PCM delivery](slices/11a-audio-delivery.md) includes source and multi-source
-  project WAVs above 1 GiB. [Waveform JSON](assets/11-waveform-public/README.md),
-  [acoustic images/lifecycle](assets/11-acoustic-lifecycle/README.md) and
-  [fresh image-based skill use](assets/11-acoustic-skill/README.md) pass. Preserve
-  [touching-support continuity](assets/11a-touching-support/README.md), exact
-  lossless counts/bytes and the documented bounded AAC seek difference.
-  [11 acoustic inspection](slices/11-audio-inspection.md) still needs retiming conformance.
-- The [complete-sentence filler candidate](assets/12d-complete-sentence/README.md)
-  has user acceptance for clear neighboring words and a natural join; independent
-  word-boundary labels and the broader cleanup inventory remain open.
-- [Verbatim speech](assets/12-verbatim/README.md) and
-  [forced alignment](assets/12-alignment/README.md) fail their timing/memory gates.
-  The [text-only diagnostic](assets/12-alignment-text-coverage/README.md) fixes one
-  onset but still fails p95/memory. [Half-precision alignment](assets/12-alignment-precision/README.md)
-  passes the resident-memory gate with unchanged marked errors, but one unmarked
-  edge moves; independent boundary evidence and listening remain open.
-  [Conventional denoise](assets/12c-denoise-timing/README.md) and
-  [learned denoise](assets/12c-rnnoise-timing/README.md) have measured compensation
-  and state sensitivity. Both reject independent resets for a pure split;
-  neither establishes protected speech quality or a production state policy.
-  [Matched noise controls](assets/12c-matched-noise/README.md) expose a strong
-  attenuation/reference-distortion tradeoff. [Clean-reference and level controls](assets/12c-clean-reference/README.md)
-  extend it. The user prefers the learned audition; carry RNNoise forward while
-  protected phonemes, joins and broader listening remain open.
-  [Transient noise](assets/12c-transient-noise/README.md) and
-  [channel relations](assets/12c-channel-relations/README.md) extend measured
-  coverage without selecting a stereo policy. [Range-origin evidence](assets/12c-range-origin/README.md)
-  rejects a one-second warmup for exact previews; prepared outputs/checkpoints remain
-  the next state mechanism to verify.
-- [Stretch endpoint and guarded-join evidence](assets/13a-endpoint-verification/README.md)
-  retains full-support measurements and real-speech auditions. Root integration
-  reproduces all 32 renders and nine retained WAVs exactly. Listening, independent
-  protected-word labels and short-input quality remain open.
-  [Short-input alternatives](assets/13a-short-capability/README.md) improve one
-  tone gate but worsen endpoint response; no automatic fallback is adopted.
-
-Use isolated homes and frozen workers. Imported assets never fabricate recording
-rows or narration roles; preserve physical support and acquisition provenance.
-Never pad missing samples, truncate support or relax thresholds to conceal a
-failure. Numerical checks cannot close listening or physical-camera acceptance.
-[Early encoding trials](assets/06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
-the later [output quality study](assets/09b-output-quality/README.md) selects an
-editable balanced default while broader appearance acceptance remains open. Remaining animation delivery (16), audio conformance/scale (08), camera (20/21),
-portability (22), cutover (23), scale (24) and autonomous acceptance (25) remain
-explicit gates. No history migration, editing GUI, lip-sync model or mandatory
-creative approval is required. Each committed pass updates its owning evidence,
-choices and this pickup; the global checklist is the completion boundary.
+Listening comparisons use complete meaningful sentences from the user's recording,
+with the original alongside and one clear purpose. The user accepted the familiar
+0.8× sentence and the complete-sentence filler cut; each verdict has its recorded
+narrow scope. Numerical parity does not replace missing listening or physical
+capture evidence. Segmentation remains a separate future placeholder.
 
 ## Outcome and boundaries
 
@@ -303,8 +171,8 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [19a — Frozen voice worker entry parity](slices/19a-voice-entry-parity.md)
 - [x] [19b — Relocatable prepared voice runtime](slices/19b-voice-runtime-relocation.md)
 - [x] [19c — Common local model preparation](slices/19c-common-model-preparation.md)
-- [ ] [19d — Measured voice settings and bounded work](slices/19d-voice-settings.md)
-- [ ] [19d1 — Nonempty probability-filter support](slices/19d1-probability-filter.md)
+- [x] [19d — Measured voice settings and bounded work](slices/19d-voice-settings.md)
+- [x] [19d1 — Nonempty probability-filter support](slices/19d1-probability-filter.md)
 - [x] [19e1 — Canonical finite audio conversion](slices/19e1-finite-audio-conversion.md)
 - [x] [19e — Retained audio excerpts](slices/19e-retained-audio-excerpts.md)
 - [ ] [19f — Public durable voice generation](slices/19f-public-voice-jobs.md)

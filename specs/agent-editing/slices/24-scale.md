@@ -19,7 +19,9 @@ accuracy and memory assertions. The earlier87.209s diagnostic remains retained;
 no causal speedup or concurrent-load immunity is inferred. The inherited storage
 inventory deadline also failed during concurrent build/native tests but passes
 unchanged in isolation; retain this load-sensitive case in final scale verification.
-See [integration evidence](../assets/integration/README.md). The [cache-owner control](../assets/08a-derived-cache/README.md) also reproduces the large-history and storage setup deadlines before the cache change; processing checks pass in isolation. Revalidate these without relaxing their functional/bounded-work assertions. Dependencies: [23](./23-cutover.md).
+The later [bounded storage diagnostic](../assets/24-storage-phases/README.md)
+passes unchanged baseline/two-process tests, without reproducing or explaining
+the earlier native-build contention. See [integration evidence](../assets/integration/README.md). The [cache-owner control](../assets/08a-derived-cache/README.md) also reproduces the large-history and storage setup deadlines before the cache change; processing checks pass in isolation. Revalidate these without relaxing their functional/bounded-work assertions. Dependencies: [23](./23-cutover.md).
 
 The [deletion fixture audit](../assets/24-deletion-fixture/README.md) separates
 1,500-edit setup cost from bounded retirement. Its corrected setup retains all

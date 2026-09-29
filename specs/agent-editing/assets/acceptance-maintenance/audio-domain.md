@@ -2,6 +2,20 @@
 
 Read-only audit, 2026-09-28, main `ebf421ac`. No builds, tests, native experiments, or repository edits were performed for this audit. Paths below are relative to `/Users/david/dev/screen-recorder` unless absolute. This is a proposal for bounded verification, not whole-slice acceptance or a listening judgment.
 
+## Current follow-up, 2026-09-29
+
+This dated audit is historical. Its incoming mixed-rate evidence is banked in
+[rate conformance](../08-11-rate-conformance/README.md), and the proposed low/high
+cohort is already verified in [lossless rate boundaries](../08-lossless-rate-boundaries/README.md).
+Do not repeat those cohorts. Consult [admission boundaries](../08-admission-boundaries/README.md)
+and [current audio identification](../../slices/24p-audio-format-admission.md)
+before treating the older source-path description below as current behavior.
+Actual negative occupied-origin conformance remains unverified: the
+[retained candidates](../08-negative-origin/README.md), including the additional
+[FFmpeg attempt](../08-negative-origin/ffmpeg-candidate/README.md), either failed
+construction or normalized to zero. None closes that gate or justifies a blanket
+unsupported-format policy. The original AAC discrepancy remains a separate limit.
+
 ## What the code actually admits
 
 Asset admission and executable audio have different domains. `packages/core/src/assets.ts:25-62,512-547` accepts arbitrary codec names and AVFoundation-decodable media; rate metadata is positive finite, channels positive integral, and origin is signed. Timed occupancy must be valid and nonnegative **after normalization**. This does not reject a negative physical origin. Native `MediaProbe.swift:70-106` chooses the earliest occupied asset-target segment across tracks as origin without clamping it to zero. Consequently audio may also start later than the asset-wide origin.

@@ -5,8 +5,8 @@ Status: implemented and verified for the registered measured profile. [Adoption 
 Resource justification remains in the [termination/control trials](../assets/19d-voice-settings/README.md), [larger-output memory red](../assets/19d-voice-envelope/README.md), [measured joint corner](../assets/19d-voice-corner/README.md) and [reference/temperature probes](../assets/19d-voice-admission/README.md). These are not quality or universal capacity claims.
 
 The [probability-filter repair](19d1-probability-filter.md) preserves the measured
-empty-distribution failures and a bounded candidate. Its numerical checks do not
-close runtime adoption or full audio parity.
+empty-distribution failures and the reviewed repair. Its initial numerical checks
+are supplemented by the actual registered adoption and audio parity evidence.
 
 ## Contract and seam
 
