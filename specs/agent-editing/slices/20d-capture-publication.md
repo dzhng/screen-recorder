@@ -12,6 +12,16 @@ its file timestamps for source placement. Other valid roles remain recoverable i
 role cannot be canonically published. Keep existing interruption/cancellation and
 late-callback generation boundaries authoritative.
 
+Admission must bind normalized acquisition support to the canonical file's verified
+represented prefix. [AcquisitionImporter](../../../packages/core/src/acquisitions.ts)
+currently exports evidence from an admitted journal-only directory before importing
+media; a successful MediaRecovery call elsewhere does not guard this path.
+[SourceEvidenceExport](../../../helpers/mac/Sources/ScreenRecorderWire/SourceEvidenceExport.swift)
+must not project every accepted append as playable support when canonical recovery
+retained fewer frames. Freeze whatever publication evidence proves that prefix with
+the admitted files, and preserve it through package relocation. Do not let a mutable
+donor receipt or an unverified journal suffix expand an imported asset's support.
+
 The persistent journal discriminant separates new packed layout from existing takes.
 Old source bytes remain immutable. Existing canonical/continuous takes keep their
 behavior; an old discontinuous packed take must not claim later acquisition verified
