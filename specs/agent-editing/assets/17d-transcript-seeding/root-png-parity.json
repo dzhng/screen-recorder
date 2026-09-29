@@ -1,0 +1,67 @@
+[
+  {
+    "name": "adopted-correction.png",
+    "sha256": "251001986b5d7d0cb8ebcee001aed9d3ae09b16867a079db78b904611b5e91b2",
+    "exactRetained": true
+  },
+  {
+    "name": "adopted-undo-correction.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "after-split.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "before-split.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "caption-only-current.png",
+    "sha256": "251001986b5d7d0cb8ebcee001aed9d3ae09b16867a079db78b904611b5e91b2",
+    "exactRetained": true
+  },
+  {
+    "name": "display-correction.png",
+    "sha256": "251001986b5d7d0cb8ebcee001aed9d3ae09b16867a079db78b904611b5e91b2",
+    "exactRetained": true
+  },
+  {
+    "name": "project-anchor-after-parent-retime.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "repeated-retimed-caption.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "retimed-clip-anchor.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "seeded-0.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "seeded-1.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "seeded-2.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  },
+  {
+    "name": "trimmed-retimed-caption.png",
+    "sha256": "cc3a69d05a05ca7cc83438d34b81aa89c5f856c514e4bf9292efb67fb1eb4a8a",
+    "exactRetained": true
+  }
+]

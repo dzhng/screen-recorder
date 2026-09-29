@@ -2544,3 +2544,32 @@ its ordinary append-only revision sequence from that selected moment.
   domain; it does not imply arbitrary target preparation or accepted DSP.
 - **Verdict:** Sound: explicit pinning and reuse of existing owners keep the API
   small and retries predictable. **Confidence:** High.
+
+## Transcript-seeded text
+
+- **Choice:** Preserve the original selected word evidence separately from edited
+  caption text. If an agent creates a caption from a spoken phrase, then corrects
+  its spelling or deletes the original occurrence, the caption still records
+  which retained transcript words it came from. New evidence must match the
+  pre-edit occurrence; inherited evidence can outlive that clip. Package adoption
+  verifies that origin against retained history rather than requiring the clip
+  to remain in today's timeline.
+- **Gap:** The plan separated display corrections from source transcripts but did
+  not specify the lifetime of the original occurrence reference after deletion.
+- **Reach:** Existing revision references retain both source resources and the
+  exact transcript generation; no second occurrence store is introduced.
+- **Verdict:** Sound: provenance describes the origin without pretending corrected
+  text is unchanged source speech. **Confidence:** High.
+
+- **Choice:** Allow exact fractional endpoints when placing text. A caption seeded
+  from a word in a retimed clip may start between integer microseconds; storing
+  that fraction preserves the existing composition clock instead of rounding the
+  word boundary. Ordinary text placement accepts the same exact anchor shape, so
+  the convenience operation does not need a private edit format.
+- **Gap:** Early authoring inputs used integer project/content times, while the
+  accepted composition model and projected word occurrences already used exact
+  fractions. Transcript seeding exposed that mismatch.
+- **Reach:** Text placement becomes more expressive; other movement and media
+  placement input contracts stay unchanged. The shared compiler still owns time.
+- **Verdict:** Sound: one public edit representation preserves exact authored
+  placement through retiming. **Confidence:** High.

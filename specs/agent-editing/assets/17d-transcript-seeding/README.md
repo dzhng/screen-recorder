@@ -54,3 +54,12 @@ Root independently inspected all four sheets (17 contexts and crops) and agreed:
 legible text, consistent repetitions, correction/adoption/undo consistency and a
 blank sampled gap, with modest softness at encoded glyph edges. This is scoped
 to the sampled stills, not continuous playback.
+
+Combined-root confirmation reproduces all six public checks and all13 retained
+PNGs exactly (`root-public-report.json.gz`, `root-png-parity.json`). Full build
+and affected type checks pass. Focused owner/service tests pass44/45 under
+concurrent native compilation/inference; the existing provenance-history case
+times out at its unchanged five-second deadline, then passes alone in the
+coordinated quiet window (3.92s total runner). Both logs are retained; this is
+not a claim that the loaded suite passed. Integration preserves audio.prepare
+and injects the actual transcript owner at deletion-fixture disk reopen.

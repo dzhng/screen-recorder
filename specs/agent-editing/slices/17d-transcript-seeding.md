@@ -2,8 +2,7 @@
 
 Status: verified within the retained public edit/relocation, fresh skill and scoped
 visual evidence. Evidence is retained in
-[17d assets](../assets/17d-transcript-seeding/README.md). Depends on verified literal
-text17c and retained source transcript evidence. The parent17 caption contract has evidence through this checkpoint;
+[17d assets](../assets/17d-transcript-seeding/README.md). Dependencies: [17c](./17c-literal-text.md), [10](./10-project-evidence.md). The parent17 caption contract has evidence through this checkpoint;
 audio stretch readiness and speech accuracy remain separate gates.
 
 `text.seed` is a core convenience beside `edit.apply`: resolve explicitly pinned

@@ -1,15 +1,15 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: integrate transcript-seeded captions, finish finite08/11 audio
+Current priority: finish caption range/footage acceptance and finite08/11 audio
 coverage, then resolve the remaining speech-dependent consumers. Settings09b,
 font17b, literal text17c and scoped06/15 are verified; whole16/17/22 and final
 acceptance remain open.
 
 ## Current combined state
 
-Root6a526266 includes historical package export, public audio preparation,
-matched animated encoded verification and the focused CLI test split.
+Root4686f0aa includes transcript-seeded captions, real-narration preservation,
+historical package export, public audio preparation and matched animated verification.
 The [static acceptance disposition](09b-encoded-appearance/acceptance.md)
 separates documented codec loss from exact geometry/timing contracts.
 The [animated checkpoint](16-animated-appearance/README.md) adds exact pre-encode
@@ -40,17 +40,18 @@ No production deadline or transaction guarantee changed.
   Immutable origin stays separate from editable text/style, through structural
   edits and package adoption. Existing TranscriptStore is mandatory; preserve its
   constructor integration alongside the deletion fixture's disk reopen path.
-  Public media/lifecycle gates and fresh skill/visual reviews pass; retain final
-  reports, commit and integrate, then run combined focused confirmation.
+  Combined build/types/public seed checks pass with13 exact retained PNGs.
+  Finish the parent17 off-grid range clock and retained footage visual checks;
+  do not treat source speech accuracy or retimed audio as caption acceptance.
 - Mixed-rate composition/acoustics: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
   Verify44.1kHz AAC/MP3 with48kHz reference, complete counts, tail/range/split and
   separately measured seek differences. Reuse the public acoustic journey for
  44.1-source/48-project axes; fresh visual review remains required.
 - Real narration: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  A separate public journey uses narrated-workbench audio with video-only
-  replacement/overlay/crop. Compare complete lossless PCM, history/restart and
-  fractional delivery clocks. Keep AAC measurements and optional listening
-  separate; synthetic fixtures called narration do not establish this gate.
+  Real narration preservation is integrated with nine public checks; root
+  confirmation is running. Audit the finite admitted audio rate/layout/origin
+  domain next, separating representative gaps from an exhaustive codec matrix.
+  Keep AAC observations and listening separate from exact PCM preservation.
 
 ## Remaining acceptance
 

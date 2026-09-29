@@ -85,6 +85,9 @@ Compact evidence ledger:
   model-dependent results remain open; exact-font history relocation passes the
   [literal-caption package journey](assets/17c-literal-text/README.md); [historical package export](assets/22-historical-export/README.md)
   now retains the selected moment and its undo stack without later donor edits.
+- [Real narration preservation](assets/08-narration-preservation/README.md) verifies
+  unchanged complete PCM through visual-only edits, history, restart and fractional
+  delivery; listening and encoded quality remain separate.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.
@@ -256,6 +259,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [17a — Explicit font and text layout reproduction](slices/17a-text-layout.md)
 - [x] [17b — Immutable font admission](slices/17b-font-admission.md)
 - [x] [17c — Literal text clips](slices/17c-literal-text.md)
+- [x] [17d — Occurrence-specific transcript seeding](slices/17d-transcript-seeding.md)
 - [ ] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
