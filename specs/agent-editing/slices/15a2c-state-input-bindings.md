@@ -1,6 +1,6 @@
 # 15a2c — State input bindings and channel provenance
 
-Status: verified input-binding/admission checkpoint; [retained evidence](../assets/15a2c-state-input-bindings/README.md). Extends [15a2b](./15a2b-parent-state-windows.md) through existing project and prepared-audio owners. No RNNoise execution is enabled.
+Status: verified input-binding/admission checkpoint; [retained evidence](../assets/15a2c-state-input-bindings/README.md). Dependencies: [15a2b](./15a2b-parent-state-windows.md). Extends existing project and prepared-audio owners. No RNNoise execution is enabled.
 
 Selected state inputs carry consumed exact project spans, their missing-support spans, and the stored audio probe's channel count/sample rate when known. Their clip/source identity and full current placement stay separate from permission to consume samples. Disconnected activation components never consume the source interval between them. Acquisition and physical-source holes retain the existing compiler meaning; they are not converted into known silence.
 

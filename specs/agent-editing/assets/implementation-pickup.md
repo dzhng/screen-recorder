@@ -35,11 +35,13 @@ prerequisite checkpoints below.
   The [clip](15a2a-state-domains/README.md) and
   [parent/window](15a2b-parent-state-windows/README.md) metadata contracts are
   integrated, with [combined-root checks](15a2b-parent-state-windows/root-verification.json).
-  Bind all selected state prerequisites, including out-of-range media, acquisition
-  evidence, retiming and upstream processors, through existing project/prepared
-  owners. Prove initial mono/structural dual-mono provenance; stereo output alone
-  is insufficient. Then bind the [frozen adapter](15a1-denoise-entry/README.md)
-  through the existing audio graph and prepared lifecycle. The
+  [State input binding](15a2c-state-input-bindings/README.md) now has
+  [combined-root confirmation](15a2c-state-input-bindings/root-verification.json):
+  selected media, acquisition support, retiming requirements and stored channel
+  provenance enter existing project/prepared owners. Actual native opening must
+  still verify the channel premise. Next bind the [frozen adapter](15a1-denoise-entry/README.md)
+  through the existing audio graph and prepared lifecycle, proving ordered DSP,
+  full/range parity, cancellation and retained reads through public consumers. The
   [native build contract](../slices/15a2-denoise-prepared-consumers.md) selects explicit
   verified preparation and fixed compiled weights, without edit-time downloads.
   Full independent-channel policy and quality acceptance remain in the parent.

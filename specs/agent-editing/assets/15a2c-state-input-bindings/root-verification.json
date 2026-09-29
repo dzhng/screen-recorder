@@ -1,0 +1,13 @@
+{
+  "commit": "1b8795e8",
+  "buildBeforeTests": true,
+  "passed": 276,
+  "skipped": 1,
+  "typechecks": [
+    "composition",
+    "core"
+  ],
+  "verifiedAgentArtifacts": 22,
+  "archiveSHA256": "64cc84f33eef1120e2e7c191f26df517ef22a7f4c8cc6d5f9e5f605f2e4e05ae",
+  "scope": "Combined source-binding/support/admission metadata and existing prepared-owner preservation; no native DSP or learned publication claim"
+}
