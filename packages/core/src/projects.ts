@@ -463,79 +463,85 @@ export class ProjectStore {
     });
     return { project, revisions: history.revisions, undo, references };
   }
-  /** Dependencies publish in this transaction, so neither half of adoption becomes visible alone. */
-  adopt(
-    input: { requestId: string; packageIdentity: string; snapshot: unknown },
-    publishDependencies: () => void,
-  ) {
+  /** Identity preparation is transient; publication rechecks replay before exposing any dependencies. */
+  prepareAdoption(input: { requestId: string; packageIdentity: string; snapshot: unknown }) {
     const snapshot = validateProjectSnapshot(input.snapshot);
     const key = canonical({ packageIdentity: input.packageIdentity, snapshot });
-    return this.store.transaction(() => {
+    const replay = () => {
       const prior = this.store.catalog
         .prepare("SELECT createArguments,createResult FROM projects WHERE createRequestId=?")
         .get(input.requestId);
-      if (prior) {
-        if (prior.createArguments !== key)
-          throw new CatalogError(
-            "REQUEST_CONFLICT",
-            "Adoption request ID already names another package",
-          );
-        return JSON.parse(prior.createResult as string) as {
-          project: Project;
-          revision: ProjectRevision;
-          revisionIds: Record<string, string>;
-        };
-      }
-      publishDependencies();
-      const projectId = randomUUID();
-      const revisionIds = Object.fromEntries(
-        snapshot.revisions.map((revision) => [revision.id, randomUUID()]),
-      );
-      const revisions = snapshot.revisions.map((revision) => ({
-        ...revision,
-        id: revisionIds[revision.id]!,
-        projectId,
-      }));
-      for (const revision of revisions) {
-        const ids = [
-          ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
-        ];
-        validateComposition(
-          revision.document,
-          ids.map((id) => compositionAsset(this.assets.get(id))),
-          this.contexts(revision.document),
+      if (!prior) return null;
+      if (prior.createArguments !== key)
+        throw new CatalogError(
+          "REQUEST_CONFLICT",
+          "Adoption request ID already names another package",
         );
-      }
-      const project = {
-        ...snapshot.project,
-        projectId,
-        currentRevisionId: revisionIds[snapshot.project.currentRevisionId]!,
+      return JSON.parse(prior.createResult as string) as {
+        project: Project;
+        revision: ProjectRevision;
+        revisionIds: Record<string, string>;
       };
-      const result = { project, revision: revisions.at(-1)!, revisionIds };
-      this.store.catalog
-        .prepare(
-          "INSERT INTO projects(projectId,title,createdAt,currentRevisionId,createRequestId,createArguments,createResult) VALUES(?,?,?,?,?,?,?)",
-        )
-        .run(
-          projectId,
-          project.title,
-          project.createdAt,
-          project.currentRevisionId,
-          input.requestId,
-          key,
-          JSON.stringify(result),
-        );
-      for (const revision of revisions) this.insertRevision(revision);
-      for (const dependency of snapshot.references)
-        for (const resource of dependency.resources)
-          this.references.retain(
-            resource.kind,
-            { kind: "revision", id: revisionIds[dependency.revisionId]! },
-            [resource.id],
-          );
-      for (const id of snapshot.undo) this.pushUndo(projectId, revisionIds[id]!);
-      return result;
-    });
+    };
+    const prior = replay();
+    const projectId = prior?.project.projectId ?? randomUUID();
+    const revisionIds =
+      prior?.revisionIds ??
+      Object.fromEntries(snapshot.revisions.map((revision) => [revision.id, randomUUID()]));
+    const revisions = snapshot.revisions.map((revision) => ({
+      ...revision,
+      id: revisionIds[revision.id]!,
+      projectId,
+    }));
+    const project = {
+      ...snapshot.project,
+      projectId,
+      currentRevisionId: revisionIds[snapshot.project.currentRevisionId]!,
+    };
+    const result = { project, revision: revisions.at(-1)!, revisionIds };
+    return {
+      ...structuredClone(result),
+      revisions: structuredClone(revisions),
+      publish: (publishDependencies: () => void) =>
+        this.store.transaction(() => {
+          const existing = replay();
+          if (existing) return existing;
+          publishDependencies();
+          for (const revision of revisions) {
+            const ids = [
+              ...new Set(revision.document.clips.filter(isMediaClip).map((clip) => clip.assetId)),
+            ];
+            validateComposition(
+              revision.document,
+              ids.map((id) => compositionAsset(this.assets.get(id))),
+              this.contexts(revision.document),
+            );
+          }
+          this.store.catalog
+            .prepare(
+              "INSERT INTO projects(projectId,title,createdAt,currentRevisionId,createRequestId,createArguments,createResult) VALUES(?,?,?,?,?,?,?)",
+            )
+            .run(
+              projectId,
+              project.title,
+              project.createdAt,
+              project.currentRevisionId,
+              input.requestId,
+              key,
+              JSON.stringify(result),
+            );
+          for (const revision of revisions) this.insertRevision(revision);
+          for (const dependency of snapshot.references)
+            for (const resource of dependency.resources)
+              this.references.retain(
+                resource.kind,
+                { kind: "revision", id: revisionIds[dependency.revisionId]! },
+                [resource.id],
+              );
+          for (const id of snapshot.undo) this.pushUndo(projectId, revisionIds[id]!);
+          return result;
+        }),
+    };
   }
   private mutate<T>(projectId: string, requestId: string, args: unknown, run: () => T): T {
     const key = canonical(args);

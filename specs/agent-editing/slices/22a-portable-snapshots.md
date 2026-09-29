@@ -14,6 +14,12 @@ chains so generated media can retain its source/reference audio. Snapshot and
 inventory reads are bounded. Missing references, unsupported acquisition ownership,
 ambiguous paths and mismatched history hashes fail explicitly.
 
+The project owner prepares independent identities without catalog visibility, so
+revision-bound evidence can be validated before publication. Publication rechecks
+request replay inside the shared transaction; a concurrent loser returns the winning
+receipt without publishing its staged dependencies. No durable identity reservation
+is needed.
+
 The asset owner stages and hashes source bytes before any catalog publication. The
 project owner publishes dependencies, revisions, undo and durable references inside
 one catalog transaction. Files left by a failed transaction remain invisible and
@@ -28,6 +34,13 @@ project package manifest validates the inventory and complete composition meanin
 existing archive framing/path/byte limits stay with the archive owner.
 
 ## Verification and next pass
+
+The transient identity preparation checkpoint passes 12 focused project/package/asset
+tests, core type checking and the service build. The concurrency test first failed
+without preparation, then verified invisible preparation, winning identities and
+publication replay. Independent Codex review found no actionable regressions.
+Project-index staged validation and archive/public relocation remain the next step;
+this boundary alone does not add portable project-index support.
 
 Root integration also passes all 11 tests across the three affected test files
 and the targeted CLI/service build. Focused core tests cover history/undo

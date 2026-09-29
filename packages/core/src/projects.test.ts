@@ -284,7 +284,7 @@ test("portable adoption preserves history and active undo independently and publ
   const snapshot = donor.store.snapshot(id);
   const input = { requestId: "adopt", packageIdentity: "verified-archive", snapshot };
   expect(() =>
-    receiver.store.adopt(input, () => {
+    receiver.store.prepareAdoption(input).publish(() => {
       receiver.catalog.catalog
         .prepare("INSERT INTO assets(id,metadata) VALUES(?,?)")
         .run("partial", "{}");
@@ -293,10 +293,10 @@ test("portable adoption preserves history and active undo independently and publ
   ).toThrow("dependency canceled");
   expect(receiver.assets.list().assets).toEqual([]);
   expect(receiver.store.list().projects).toEqual([]);
-  const adopted = receiver.store.adopt(input, () => {});
+  const adopted = receiver.store.prepareAdoption(input).publish(() => {});
   expect(adopted.project.projectId).not.toBe(id);
   expect(
-    receiver.store.adopt(input, () => {
+    receiver.store.prepareAdoption(input).publish(() => {
       throw new Error("must not publish twice");
     }),
   ).toEqual(adopted);
@@ -309,13 +309,15 @@ test("portable adoption preserves history and active undo independently and publ
     expectedRevisionId: adopted.revision.id,
   });
   expect(undone.document).toEqual(initial.revision.document);
-  expect(() => receiver.store.adopt({ ...input, packageIdentity: "other" }, () => {})).toThrow(
-    /another package/,
-  );
+  expect(() =>
+    receiver.store.prepareAdoption({ ...input, packageIdentity: "other" }).publish(() => {}),
+  ).toThrow(/another package/);
   const broken = structuredClone(snapshot);
   broken.revisions.splice(1, 1);
   expect(() =>
-    receiver.store.adopt({ ...input, requestId: "invalid", snapshot: broken }, () => {}),
+    receiver.store
+      .prepareAdoption({ ...input, requestId: "invalid", snapshot: broken })
+      .publish(() => {}),
   ).toThrow(/incomplete/);
 });
 
@@ -368,14 +370,13 @@ test("portable adoption retains media used only by a past revision and restores 
     donor.assets.path(asset.id),
     new AbortController().signal,
   );
-  const adopted = receiver.store.adopt(
-    {
+  const adopted = receiver.store
+    .prepareAdoption({
       requestId: "copy",
       packageIdentity: "verified",
       snapshot: donor.store.snapshot(created.project.projectId),
-    },
-    () => staged.publish(),
-  );
+    })
+    .publish(() => staged.publish());
   await staged.close();
   expect(adopted.revision.document.clips).toEqual([]);
   expect(
@@ -398,4 +399,38 @@ test("portable adoption retains media used only by a past revision and restores 
   });
   expect(undone.document).toEqual(placed.revision.document);
   expect(receiver.assets.get(asset.id)).toEqual(asset);
+});
+
+test("prepared adoption stays invisible and concurrent publication uses the winning identities", async () => {
+  const donor = await setup(),
+    receiver = await setup();
+  const created = donor.store.create({ requestId: "donor", canvas });
+  const input = {
+    requestId: "race",
+    packageIdentity: "archive",
+    snapshot: donor.store.snapshot(created.project.projectId),
+  };
+  const first = receiver.store.prepareAdoption(input);
+  const second = receiver.store.prepareAdoption(input);
+  expect(first.project.projectId).not.toBe(second.project.projectId);
+  expect(receiver.store.list().projects).toEqual([]);
+  expect(() => receiver.store.revision(first.project.projectId)).toThrow();
+  const winner = first.publish(() => {});
+  const loser = second.publish(() => {
+    throw new Error("loser must not publish dependencies");
+  });
+  expect(loser).toEqual(winner);
+  expect(winner.project).toEqual(first.project);
+  expect(winner.revisionIds).toEqual(first.revisionIds);
+  expect(receiver.store.list().projects).toEqual([winner.project]);
+  const replay = receiver.store.prepareAdoption(input);
+  expect(replay.project).toEqual(winner.project);
+  expect(
+    replay.publish(() => {
+      throw new Error("replay must not publish");
+    }),
+  ).toEqual(winner);
+  expect(() => receiver.store.prepareAdoption({ ...input, packageIdentity: "different" })).toThrow(
+    /another package/,
+  );
 });

@@ -68,7 +68,9 @@ Compact evidence ledger:
   their respective checkpoints, retaining workflow failures and handoff-ID errors.
   Relocation now preserves acquisition identities, raw/normalized evidence and retained
   source-scene, real source-transcript and [source screenshot-index generations](assets/22-source-index/README.md)
-  through restart. Project indexes and other dependencies remain open.
+  through restart. The [transient adoption boundary](slices/22a-portable-snapshots.md)
+  now prepares independent identities before staging and rechecks replay at publication.
+  Project-index staged validation, archive/public relocation and other dependencies remain open.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
   passes 120 fractional edits, separating declared PCM length from AAC padding.

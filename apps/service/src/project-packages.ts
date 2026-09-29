@@ -352,6 +352,11 @@ export class ProjectPackages {
       { artifact: "package.adopt", lane: "heavy", input: JSON.stringify({ requestId }) },
       async (context, signal) => {
         const manifest = context.manifest;
+        const adoption = this.owners.projects.prepareAdoption({
+          requestId,
+          packageIdentity: createHash("sha256").update(JSON.stringify(manifest)).digest("hex"),
+          snapshot: manifest.snapshot,
+        });
         const staged: Awaited<ReturnType<AssetStore["stagePortable"]>>[] = [];
         const assetPaths = new Map<string, string>();
         const transcripts: {
@@ -577,34 +582,27 @@ export class ProjectPackages {
             });
           }
           signal.throwIfAborted();
-          const result = this.owners.projects.adopt(
-            {
-              requestId,
-              packageIdentity: createHash("sha256").update(JSON.stringify(manifest)).digest("hex"),
-              snapshot: manifest.snapshot,
-            },
-            () => {
-              for (const asset of staged) asset.publish();
-              for (const acquisition of acquisitions) acquisition.publish();
-              for (const { resource, stage } of transcripts) {
-                stage.publish();
-                this.owners.transcripts.adoptPublication(
-                  stage.metadata,
-                  resource.available,
-                  resource.publication,
-                );
-              }
-              for (const { resource, stage } of scenes) {
-                stage.publish();
-                if (resource.publication)
-                  this.owners.scenes.adoptPublication(resource.metadata, resource.publication);
-              }
-              for (const { resource, stage } of indexes) {
-                stage.publish();
-                this.owners.indexes.adoptSourcePublication(resource.metadata, resource.publication);
-              }
-            },
-          );
+          const result = adoption.publish(() => {
+            for (const asset of staged) asset.publish();
+            for (const acquisition of acquisitions) acquisition.publish();
+            for (const { resource, stage } of transcripts) {
+              stage.publish();
+              this.owners.transcripts.adoptPublication(
+                stage.metadata,
+                resource.available,
+                resource.publication,
+              );
+            }
+            for (const { resource, stage } of scenes) {
+              stage.publish();
+              if (resource.publication)
+                this.owners.scenes.adoptPublication(resource.metadata, resource.publication);
+            }
+            for (const { resource, stage } of indexes) {
+              stage.publish();
+              this.owners.indexes.adoptSourcePublication(resource.metadata, resource.publication);
+            }
+          });
           return JSON.stringify({
             projectId: result.project.projectId,
             revisionId: result.revision.id,
