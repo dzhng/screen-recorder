@@ -1,9 +1,9 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: canonical capture materialization and durable publication, then
-coupled accepted-append writer activation. In parallel, bind denoising's complete
-state inputs and channel provenance, then integrate the fixed native adapter.
+Current priority: wire verified canonical publication into stop/recovery and source
+admission, then activate the accepted-append writer. In parallel, integrate the
+fixed denoising adapter through the prepared-audio lifecycle.
 Settings09b, scoped06/15 and caption17 are verified; whole16/22 and final acceptance
 remain open. No packed-writer or RNNoise runtime readiness is implied by the
 prerequisite checkpoints below.
@@ -27,9 +27,11 @@ prerequisite checkpoints below.
   The [shared materializer/verifier](20c-materializer/README.md) is integrated with
   [combined-root checks](20c-materializer/root-verification.json): capture/source/audio
   preservation and descriptor-only verification beyond the inspection budget pass.
-  Full100k-run and cancellation measurements are scoped in the leaf. Next share
-  container representability preflight with prospective clock admission before
-  accepted appends, then support publication/admission rollout. Existing consumer
+  Full100k-run and cancellation measurements are scoped in the leaf. Shared
+  [container preflight](20b-container-preflight/README.md) now has
+  [combined-root confirmation](20b-container-preflight/root-verification.json):
+  impossible timing refuses before phase mutation. Next wire canonical source
+  export, immutable import and portable receipt verification. Existing consumer
   interval limits and public operation deadlines remain separate integration gates.
   Readable prefixes never authorize deleting ambiguous tails; cleanup requires
   matching accepted/committed/represented counts and clean indexed decode.

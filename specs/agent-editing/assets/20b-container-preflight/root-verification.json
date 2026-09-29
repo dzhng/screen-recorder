@@ -1,0 +1,9 @@
+{
+  "commit": "f3f9b16e",
+  "buildExitCode": 0,
+  "captureTestsExitCode": 0,
+  "retainedArtifactHashesVerified": 62,
+  "workerSHA256": "b1acb5c43ac3bef2523c8f4c840daeed46db1e5635d9892a4405d2907ea0210b",
+  "archiveSHA256": "37e6dee2e219dcbaeca73052fbc0e1d5a686f230119e27fb89be9a16835e83e2",
+  "scope": "Combined native default suite includes clock nonmutation, materializer and publication. Frozen-window parity is verified retained delegate evidence, not a repeated root run. Actual writer/layout activation remains pending."
+}
