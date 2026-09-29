@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, inspect source or edited-project screenshot indexes and pictures, render captured pointers and trails, or inspect source scene changes, captured cursor and editorial project-cut evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, retain independent audio excerpts, inspect source or edited-project screenshot indexes and pictures, render captured pointers and trails, or inspect source scene changes, captured cursor and editorial project-cut evidence.
 ---
 
 # Screenrec
@@ -128,6 +128,19 @@ ordinary audio/waveform/spectrogram operations. Unavailable processing still
 refuses; preparation does not make an unverified denoiser or retimer executable.
 Preserve the preparation receipt's unavailable-support information; rendered zero
 samples do not by themselves prove recorded silence.
+
+To keep an independent excerpt, discover `audio.extract`. Select an admitted
+asset/stream (and acquisition when applicable) in source time, or name an explicit
+project revision, project-time range and processing tap. Set the output rendition's
+rate and mono/stereo channels; use mono 24 kHz for a voice reference. Omit the raw
+source range only when acquiring its complete audio. Complete matching Float32
+WAVs preserve their original bytes; conversion uses exactly the selected PCM and
+reports its actual frame count. Poll the pinned request, use `job.retry/cancel`
+explicitly, then keep the returned asset/stream and the specific extraction origin.
+Inspect the retained asset before deleting a donor project. Its provenance remains
+historical after donor deletion; identical bytes can have several origins, so never
+infer one from the asset ID or silently choose another origin. Missing-support
+metadata remains evidence, even if filtering spreads neighbors into selected zeroes.
 
 For animated processors, use the supported number-or-curve fields in the existing
 stack. Clip curves default to normalized clip time; parent curves use project

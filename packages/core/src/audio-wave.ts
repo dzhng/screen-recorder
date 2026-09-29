@@ -8,9 +8,8 @@ function invalid(message: string): never {
   throw new CatalogError("INVALID_RESPONSE", message);
 }
 
-/** One RIFF validator for published native PCM and bounded acoustic readers. */
-export function validateAudioWave(file: RetainedRead, value: AudioDimensions) {
-  if (file.bytes !== value.bytes) invalid("WAV size differs from its receipt");
+/** Read authoritative finite Float32 dimensions without interpreting a rounded media duration. */
+export function readAudioWave(file: RetainedRead) {
   const read = (at: number, size: number) => {
     const bytes = Buffer.alloc(size);
     if (file.read(bytes, at) !== size) invalid("Truncated WAV metadata");
@@ -28,7 +27,9 @@ export function validateAudioWave(file: RetainedRead, value: AudioDimensions) {
     data = false,
     dataOffset = 0,
     dataBytes = 0,
-    chunks = 0;
+    chunks = 0,
+    sampleRate = 0,
+    channels: 1 | 2 = 1;
   while (at < file.bytes) {
     if (++chunks > 128 || at + 8 > file.bytes) invalid("WAV chunk metadata exceeds its bounds");
     const chunk = read(at, 8),
@@ -39,19 +40,22 @@ export function validateAudioWave(file: RetainedRead, value: AudioDimensions) {
     if (name === "fmt ") {
       if (format || size < 16) invalid("WAV format is missing or repeated");
       const fmt = read(at, 16);
+      const count = fmt.readUInt16LE(2);
+      sampleRate = fmt.readUInt32LE(4);
       if (
         fmt.readUInt16LE(0) !== 3 ||
-        fmt.readUInt16LE(2) !== value.channels ||
-        fmt.readUInt32LE(4) !== value.sampleRate ||
-        fmt.readUInt32LE(8) !== value.sampleRate * value.channels * 4 ||
-        fmt.readUInt16LE(12) !== value.channels * 4 ||
+        (count !== 1 && count !== 2) ||
+        sampleRate < 1 ||
+        sampleRate > 192000 ||
+        fmt.readUInt32LE(8) !== sampleRate * count * 4 ||
+        fmt.readUInt16LE(12) !== count * 4 ||
         fmt.readUInt16LE(14) !== 32
       )
-        invalid("WAV format differs from the native receipt");
+        invalid("WAV must contain supported mono/stereo Float32 PCM");
+      channels = count;
       format = true;
     } else if (name === "data") {
-      if (data || BigInt(size) !== BigInt(value.frames) * BigInt(value.channels) * 4n)
-        invalid("WAV sample count differs from its receipt");
+      if (data) invalid("WAV sample data is repeated");
       data = true;
       dataOffset = at;
       dataBytes = size;
@@ -60,7 +64,28 @@ export function validateAudioWave(file: RetainedRead, value: AudioDimensions) {
   }
   if (!format || !data) invalid("WAV format or samples are missing");
 
-  return { dataOffset, dataBytes };
+  if (dataBytes % (channels * 4) !== 0) invalid("WAV contains an incomplete sample frame");
+  return {
+    bytes: file.bytes,
+    sampleRate,
+    channels,
+    frames: dataBytes / (channels * 4),
+    dataOffset,
+    dataBytes,
+  };
+}
+
+/** One RIFF validator for published native PCM and bounded acoustic readers. */
+export function validateAudioWave(file: RetainedRead, value: AudioDimensions) {
+  const actual = readAudioWave(file);
+  if (
+    actual.bytes !== value.bytes ||
+    actual.sampleRate !== value.sampleRate ||
+    actual.channels !== value.channels ||
+    actual.frames !== value.frames
+  )
+    invalid("WAV dimensions differ from the native receipt");
+  return { dataOffset: actual.dataOffset, dataBytes: actual.dataBytes };
 }
 
 export type WaveformBucket = {

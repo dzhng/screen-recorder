@@ -1,3 +1,5 @@
+import { assetOriginSchema, type AssetProvenance } from "./asset-origins.js";
+export type { AssetProvenance } from "./asset-origins.js";
 import { isDeepStrictEqual } from "node:util";
 import { ResourceReferences, resourceKinds, type ResourceOwner } from "./references.js";
 import type { Asset as CompositionAsset } from "@screenrec/composition";
@@ -103,14 +105,7 @@ export const portableAssetSchema = z.strictObject({
       fileName: z.string().regex(/^[a-f0-9]{64}(?:\.[a-z0-9]{1,12})?$/),
     })
     .strict(),
-  origins: z
-    .array(
-      z.strictObject({
-        kind: z.enum(["import", "capture", "generated"]),
-        source: z.string().optional(),
-      }),
-    )
-    .max(1000),
+  origins: z.array(assetOriginSchema).max(1000),
   dependencies: z
     .array(z.strictObject({ kind: z.enum(resourceKinds), id: z.string().min(1).max(2048) }))
     .max(25_000),
@@ -121,7 +116,6 @@ export type AssetSummary = Pick<Asset, "id" | "bytes" | "createdAt" | "fileName"
   streamCount: number;
   fontFaceCount: number;
 };
-export type AssetProvenance = { kind: "import" | "capture" | "generated"; source?: string };
 export type ImportIntent = {
   importId: string;
   requestId: string;

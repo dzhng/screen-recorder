@@ -179,6 +179,10 @@ const projectAudioParams = project
   })
   .strict();
 const sourceAudioParams = sourceSelection.extend({ range: audioRange.optional() }).strict();
+const extractedAudioRendition = z.strictObject({
+  sampleRate: z.int().min(1).max(192000),
+  channels: z.union([z.literal(1), z.literal(2)]),
+});
 const audioParams = z.union([
   projectAudioParams,
   ...inspection({
@@ -811,6 +815,25 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .strict()
     .describe(
       "Explicitly retry failed preview rendering for the same pinned revision. Failed source dependencies require processing.retry.",
+    ),
+  z
+    .object({
+      operation: z.literal("audio.extract"),
+      params: z.union([
+        sourceAudioParams.extend({
+          rendition: extractedAudioRendition,
+        }),
+        projectAudioParams.extend({
+          revisionId: id,
+          range: audioRange,
+          tap: processingTapSchema,
+          rendition: extractedAudioRendition,
+        }),
+      ]),
+    })
+    .strict()
+    .describe(
+      "Retain a raw source selection or pinned project processing tap as an independent Float32 audio asset. Specify rendition sampleRate and mono/stereo channels; omit a source range to acquire the complete source, preserving canonical complete WAV bytes. Return shared job readiness and, when ready, asset/stream, exact frames and typed historical extraction origin. Does not edit the project or retain its donor graph after success; use job.retry and job.cancel for failed or active work.",
     ),
   z
     .object({

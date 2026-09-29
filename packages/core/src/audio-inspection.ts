@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { validateAudioWave } from "./audio-wave.js";
 import { openedFile, retainedFileRead } from "./files.js";
 import { constants, openSync, fstatSync } from "node:fs";
@@ -13,7 +14,7 @@ import {
 import type { PreparedAudioStore, PreparedAudioRead } from "./prepared-audio.js";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
-import type { JobExecution, JobQueue } from "./jobs.js";
+import type { Job, JobExecution, JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import { CatalogError } from "./catalog.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
@@ -347,6 +348,9 @@ export class MediaAudioInspection {
     };
     return {
       durationUs,
+      processingSha256: createHash("sha256")
+        .update(JSON.stringify(retained?.recipe ?? window.manifest))
+        .digest("hex"),
       channels: 2 as const,
       options,
       sampleClock: { sampleRate: 48000, sampleRange: window.manifest.sampleRange },
@@ -377,7 +381,12 @@ export class MediaAudioInspection {
         : null,
     };
   }
-  private async executeProject({ job, signal }: JobExecution, raw: unknown): Promise<string> {
+  private async renderProject(
+    job: Pick<Job, "target" | "artifact" | "input">,
+    raw: unknown,
+    output: string,
+    signal: AbortSignal,
+  ) {
     const parsed = projectOptionsSchema.safeParse(raw);
     if (job.target.kind !== "project" || job.artifact !== artifact || !parsed.success)
       throw new CatalogError("UNSUPPORTED_JOB", "Audio job does not name a project window");
@@ -391,23 +400,19 @@ export class MediaAudioInspection {
       preparedResourceId: parsed.data.preparedResourceId ?? null,
     });
     signal.throwIfAborted();
-    const output = this.owners.cache.reserve({ kind: "project", projectId: job.target.projectId });
     let prepared: PreparedAudioRead | undefined;
     try {
       prepared = plan.retained
         ? owner.prepared.open(plan.retained.resourceId, plan.window.manifest.sampleRange)
         : undefined;
       const value = checkProjectAudioResult(
-        await owner.renderer.render({ ...plan, prepared, output: output.path }, signal),
+        await owner.renderer.render({ ...plan, prepared, output }, signal),
         plan.window,
-        output.path,
+        output,
       );
       signal.throwIfAborted();
       const sampleRange = plan.window.manifest.sampleRange;
-      const cached = await this.owners.cache.publish(output.id);
-      signal.throwIfAborted();
-      if (cached.bytes !== value.bytes) invalid("Published audio size differs from its receipt");
-      return JSON.stringify({
+      return {
         ...value,
         ...parsed.data,
         projectId: job.target.projectId,
@@ -415,23 +420,24 @@ export class MediaAudioInspection {
         mediaType: "audio/wav",
         layout: "stereo",
         sampleRange,
-        cacheId: output.id,
-      } satisfies ProjectAudioArtifact);
-    } catch (error) {
-      this.owners.cache.remove(output.id);
-      throw error;
+      } satisfies Omit<ProjectAudioArtifact, "cacheId">;
     } finally {
       prepared?.release();
     }
   }
-  async execute({ job, signal }: JobExecution): Promise<string> {
+  /** One selection renderer and receipt validator for transient inspection and retained excerpts. */
+  async renderSelection(
+    job: Pick<Job, "target" | "artifact" | "input">,
+    output: string,
+    signal: AbortSignal,
+  ) {
     let raw: unknown;
     try {
       raw = JSON.parse(job.input);
     } catch {
       throw new CatalogError("UNSUPPORTED_JOB", "Invalid audio job input");
     }
-    if (job.target.kind === "project") return this.executeProject({ job, signal }, raw);
+    if (job.target.kind === "project") return this.renderProject(job, raw, output, signal);
     const parsed = optionsSchema.safeParse(raw);
     if (
       job.target.kind !== "asset" ||
@@ -447,45 +453,51 @@ export class MediaAudioInspection {
     if (source.supportDigest !== options.supportDigest)
       throw new CatalogError("ARTIFACT_CHANGED", "Selected source support changed");
     signal.throwIfAborted();
-    const output = this.owners.cache.reserve({ kind: "asset", assetId: options.selection.assetId });
+    const receipt = receiptSchema.safeParse(
+      await this.owners.sourceRenderer.render(
+        { source: source.track, range: options.range, output },
+        signal,
+      ),
+    );
+    signal.throwIfAborted();
+    if (!receipt.success) invalid("Malformed source audio receipt");
+    const value = receipt.data;
+    const metadata = this.owners.assets
+      .get(options.selection.assetId)
+      .streams.find((stream) => stream.id === options.selection.streamId)!;
+    const first = sample(options.range.startUs, value.sampleRate),
+      last = sample(options.range.endUs, value.sampleRate);
+    if (
+      value.file !== output ||
+      !isDeepStrictEqual(value.range, options.range) ||
+      value.sampleRange.start !== first ||
+      value.sampleRange.end !== last ||
+      value.frames !== last - first ||
+      value.layout !== (value.channels === 1 ? "mono" : "stereo") ||
+      (metadata.sampleRate !== undefined && metadata.sampleRate !== value.sampleRate) ||
+      (metadata.channels !== undefined && metadata.channels !== value.channels) ||
+      !isDeepStrictEqual(value.unavailable, unavailable(options.range, source.track.available))
+    )
+      invalid("Source audio receipt differs from its selected stream or sample window");
+    checkAudioWaveFile(value);
+    return {
+      ...value,
+      ...options.selection,
+      supportDigest: options.supportDigest,
+      implementationId: options.implementationId,
+    } satisfies Omit<SourceAudioArtifact, "cacheId">;
+  }
+  async execute({ job, signal }: JobExecution): Promise<string> {
+    if (job.target.kind !== "project" && job.target.kind !== "asset")
+      throw new CatalogError("UNSUPPORTED_JOB", "Audio requires a project or asset selection");
+    const output = this.owners.cache.reserve(job.target);
     try {
-      const receipt = receiptSchema.safeParse(
-        await this.owners.sourceRenderer.render(
-          { source: source.track, range: options.range, output: output.path },
-          signal,
-        ),
-      );
+      const value = await this.renderSelection(job, output.path, signal);
       signal.throwIfAborted();
-      if (!receipt.success) invalid("Malformed source audio receipt");
-      const value = receipt.data;
-      const metadata = this.owners.assets
-        .get(options.selection.assetId)
-        .streams.find((stream) => stream.id === options.selection.streamId)!;
-      const first = sample(options.range.startUs, value.sampleRate),
-        last = sample(options.range.endUs, value.sampleRate);
-      if (
-        value.file !== output.path ||
-        !isDeepStrictEqual(value.range, options.range) ||
-        value.sampleRange.start !== first ||
-        value.sampleRange.end !== last ||
-        value.frames !== last - first ||
-        value.layout !== (value.channels === 1 ? "mono" : "stereo") ||
-        (metadata.sampleRate !== undefined && metadata.sampleRate !== value.sampleRate) ||
-        (metadata.channels !== undefined && metadata.channels !== value.channels) ||
-        !isDeepStrictEqual(value.unavailable, unavailable(options.range, source.track.available))
-      )
-        invalid("Source audio receipt differs from its selected stream or sample window");
-      checkAudioWaveFile(value);
       const cached = await this.owners.cache.publish(output.id);
       signal.throwIfAborted();
       if (cached.bytes !== value.bytes) invalid("Published audio size differs from its receipt");
-      return JSON.stringify({
-        ...value,
-        ...options.selection,
-        supportDigest: options.supportDigest,
-        implementationId: options.implementationId,
-        cacheId: output.id,
-      } satisfies SourceAudioArtifact);
+      return JSON.stringify({ ...value, cacheId: output.id });
     } catch (error) {
       this.owners.cache.remove(output.id);
       throw error;

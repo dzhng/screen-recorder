@@ -1,6 +1,6 @@
 import { spectralWindows } from "./audio-spectrum.js";
 import { expect, test } from "vitest";
-import { waveformBuckets } from "./audio-wave.js";
+import { readAudioWave, waveformBuckets } from "./audio-wave.js";
 import type { RetainedRead } from "./files.js";
 function fixture(values: number[][], start = 0, rate = 48000) {
   const channels = values[0]!.length,
@@ -294,4 +294,17 @@ test("late subset of a >1GiB published WAV uses only positioned bounded reads an
     catalog.close();
     await rm(home, { recursive: true, force: true });
   }
+});
+
+test("complete Float32 WAV dimensions come from bytes rather than rounded duration", () => {
+  const f = fixture([[0.25], [-0.5], [1]], 0, 44100);
+  expect(readAudioWave(f.read)).toMatchObject({
+    bytes: f.bytes.length,
+    sampleRate: 44100,
+    channels: 1,
+    frames: 3,
+    dataOffset: 62,
+    dataBytes: 12,
+  });
+  expect(f.reads.every((read) => read.position < 62)).toBe(true);
 });

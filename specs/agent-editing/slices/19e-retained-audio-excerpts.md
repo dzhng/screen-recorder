@@ -1,17 +1,19 @@
 # 19e — Retained audio excerpts
 
-Status: planned. Parent: [19](19-voice-assets.md). Dependencies: [11](11-audio-inspection.md), [02](02-assets.md), [19e1](19e1-finite-audio-conversion.md).
+Status: complete; public lifecycle, exact PCM, portable origins, preservation and fresh skill-consumer gates pass. [Evidence](../assets/19e-retained-audio-excerpts/README.md). Parent: [19](19-voice-assets.md). Dependencies: [11](11-audio-inspection.md), [02](02-assets.md), [19e1](19e1-finite-audio-conversion.md).
 
-The [native prerequisite probe](../assets/19e-native-extraction/README.md) preserves
-canonical PCM but rewrites WAV headers; current source/project operations do not
-accept requested rate/channel conversion. This is an explicit implementation gap, owned by the
-[finite conversion prerequisite](19e1-finite-audio-conversion.md).
-
-The [shared asset publication prerequisite](../assets/19e-asset-publication/README.md)
-consolidates imported, generated and portable bytes under AssetStore staging.
-Public excerpt selection, conversion and typed extraction origins remain unbuilt.
+The [finite conversion prerequisite](19e1-finite-audio-conversion.md) owns native
+conversion of complete selected PCM. The [shared asset publication prerequisite](../assets/19e-asset-publication/README.md)
+owns immutable byte publication. Public extraction shares selection rendering with
+inspection and stores typed historical origins on ordinary assets.
 
 ## Contract and seam
+
+`audio.extract` is the explicit durable-excerpt operation. Unlike full-output
+`audio.prepare`, its completed asset does not own the donor project graph. It uses
+existing source selectors (including acquisition support), or a required pinned
+project revision and processing tap, plus an explicit rate/channel rendition.
+Existing `job.retry` and `job.cancel` own retry and cancellation.
 
 An explicit raw or processed audio selection becomes an ordinary immutable audio
 asset, reusable as a voice reference, room tone or another edit. Extend/consolidate
@@ -56,3 +58,20 @@ listening verdict; no automatic playback is required.
 Delegated: internal publication refactoring within the existing asset owner. Public
 selection clocks, processing semantics and historical versus owning dependencies
 are fixed. User feedback on desired excerpt profiles updates this contract.
+
+## Retention and finite-source decisions
+
+The completed asset carries the chosen extraction origin; equal bytes may also carry
+other origins. Those donor identities do not create dependency edges. The existing
+job owns donor inputs only while executing and the resulting asset at publication.
+Publication is unpinned to a filename because the result binds asset and stream IDs.
+
+For an implicit complete raw source with zero origin, one fully available stream and
+a verified Float32 WAV, actual WAV frames are authoritative. Matching profiles reuse
+the entire original file; other profiles convert that complete file. Explicit ranges
+and project taps use the common selection renderer. This prevents rounded
+microsecond duration from discarding the last frame of odd-length reference audio.
+Returned duration is floored from actual output frames, which remain authoritative.
+
+The public evidence compares complete WAV bytes and exercises delivery after donor
+deletion; it does not claim listening acceptance or ffmpeg conversion equivalence.

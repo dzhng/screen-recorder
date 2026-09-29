@@ -275,6 +275,14 @@
     "./source-admission": {
       "types": "./dist/source-admission.d.ts",
       "default": "./dist/source-admission.js"
+    },
+    "./audio-extraction": {
+      "types": "./dist/audio-extraction.d.ts",
+      "default": "./dist/audio-extraction.js"
+    },
+    "./asset-origins": {
+      "types": "./dist/asset-origins.d.ts",
+      "default": "./dist/asset-origins.js"
     }
   },
   "scripts": {

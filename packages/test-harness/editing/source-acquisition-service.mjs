@@ -78,6 +78,17 @@ const worker = async (operation, params, options) => {
     await writeFile(`${prefix}-request.json`, JSON.stringify(params, null, 2));
     await writeFile(`${prefix}-response.json`, JSON.stringify(result, null, 2));
   }
+  if (process.argv[3] && operation === "media.convertSelectedAudio") {
+    const directory = process.argv[3];
+    await mkdir(directory, { recursive: true });
+    const prefix = join(directory, `conversion-${process.pid}-${audioOrdinal++}`);
+    await writeFile(
+      `${prefix}.json`,
+      JSON.stringify({ request: params, response: result }, null, 2),
+    );
+    await copyFile(params.source, `${prefix}-selected.wav`);
+    if (result.ok) await copyFile(result.data.file, `${prefix}-output.wav`);
+  }
   if (process.argv[3] && operation === "speech.transcribe" && result.ok) {
     const directory = process.argv[3];
     await mkdir(directory, { recursive: true });

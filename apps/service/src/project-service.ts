@@ -1,3 +1,4 @@
+import { AudioExtraction } from "@screenrec/core/audio-extraction";
 import { assetProbe } from "./media-probe.js";
 import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
@@ -157,6 +158,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
     let preparedAudio: PreparedAudioStore;
+    let extractedAudio: AudioExtraction;
     let acoustics: AcousticInspection;
     let scenes: SceneProcessing;
     let indexes: IndexProcessing;
@@ -168,6 +170,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.artifact === "audio-extract") return extractedAudio.execute({ job, signal });
         if (job.artifact === "prepared-audio") return preparedAudio.execute({ job, signal });
         if (job.artifact === "pointer-presentation") return pointers.execute({ job, signal });
         if (
@@ -281,6 +284,39 @@ export async function startProjectService(options: { home: string; worker?: Medi
           ),
       },
     });
+    extractedAudio = new AudioExtraction({
+      assets,
+      acquisitions,
+      projects,
+      audio: mediaAudio,
+      jobs: queue,
+      probe,
+      staging: join(library, "staging", "audio-extract"),
+      converter: {
+        implementationId: "native-finite-pcm-v1",
+        convert: async ({ input, ...request }, signal) =>
+          withRenderedFile(
+            worker,
+            { attemptParent: workspace, output: request.output, filename: "audio.wav" },
+            signal,
+            async (output, execute) =>
+              nativeResult(
+                await execute(
+                  "media.convertSelectedAudio",
+                  { ...request, output },
+                  {
+                    signal,
+                    timeoutMs: renderWindowDeadlineMs({
+                      startUs: 0,
+                      endUs: Math.ceil((input.frames * 1000000) / input.sampleRate),
+                    }),
+                  },
+                ),
+              ),
+          ),
+      },
+    });
+    await extractedAudio.recover();
     acoustics = new AcousticInspection({
       audio: mediaAudio,
       jobs: queue,
@@ -763,6 +799,22 @@ export async function startProjectService(options: { home: string; worker?: Medi
                         : { kind: "asset", id: status.assetId },
                       () => cache.acquire(status.published!.artifact.cacheId),
                     )
+                  : null,
+              },
+            };
+          }
+          case "audio.extract": {
+            const status = extractedAudio.request(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...operation.params,
+                ...status,
+                published: status.published
+                  ? {
+                      generation: status.published.generation,
+                      excerpt: JSON.parse(status.published.result),
+                    }
                   : null,
               },
             };

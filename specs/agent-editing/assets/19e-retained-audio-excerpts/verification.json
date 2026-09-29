@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "archive": {
+    "bytes": 22227603,
+    "sha256": "66f9afbdd493e1bb65e0b40f8b17de4302b547572d2de2a7d404cee2a3e89df2",
+    "files": 744,
+    "uncompressedBytes": 80796442,
+    "allMembersRehashed": true
+  },
+  "nativeWorkerSha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3",
+  "rootFrozenWorkerSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "publicGate": "screenrec-19e-public-aif/report.json",
+  "rootConsumer": "screenrec-19e-skill-host/consumer/summary.json",
+  "freshConsumer": "screenrec-19e-fresh-skill-host/consumer/conclusions.txt",
+  "cleanup": "No source evidence directories deleted; bounded temporary evidence retained."
+}
