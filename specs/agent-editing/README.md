@@ -28,6 +28,8 @@ are verified; the retained runtime bundle is an explicit local artifact, not a
 public installer. Reuse existing model/jobs/assets owners. [Retained excerpts](slices/19e-retained-audio-excerpts.md)
 then feed [public durable generation](slices/19f-public-voice-jobs.md). Keep the
 whole parent19 contextual/listening gate and all other open slices in scope.
+The [shared asset publication prerequisite](assets/19e-asset-publication/README.md)
+passes focused and public preparation/package gates; public excerpts remain open.
 
 Continue independent remaining [scale work](slices/24-scale.md), then dependency-ready
 speech, retiming, voice, camera, cutover and autonomous workflow gates. Every open

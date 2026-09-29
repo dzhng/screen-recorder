@@ -38,6 +38,43 @@ const probe = async () => ({
     },
   ],
 });
+test("generated assets stay unpublished until their owner's transaction commits", async () => {
+  const { root, catalog, store } = await setup();
+  const output = join(root, "generated.png");
+  await writeFile(output, "generated pixels");
+  const staged = await store.stage(output, { kind: "generated", source: "test" }, probe);
+  try {
+    expect(store.list().assets).toEqual([]);
+    expect(() =>
+      catalog.transaction(() => {
+        staged.publish();
+        throw new Error("stale attempt");
+      }),
+    ).toThrow("stale attempt");
+    expect(store.list().assets).toEqual([]);
+    const ready = catalog.transaction(() => staged.publish());
+    expect(await readFile(store.path(ready.id), "utf8")).toBe("generated pixels");
+    expect(store.origins(ready.id).origins).toEqual([{ kind: "generated", source: "test" }]);
+  } finally {
+    await staged.close();
+  }
+});
+test("concurrent large identical imports survive staging-link cleanup", async () => {
+  const { root, store } = await setup();
+  const source = join(root, "large.png");
+  const bytes = Buffer.alloc(32 * 1024 * 1024, 19);
+  await writeFile(source, bytes);
+  const [first, second] = await Promise.all([
+    store.import(source, { kind: "import", source: "first" }, probe),
+    store.import(source, { kind: "import", source: "second" }, probe),
+  ]);
+  expect(second).toEqual(first);
+  expect((await readFile(store.path(first.id))).equals(bytes)).toBe(true);
+  expect(store.origins(first.id).origins).toEqual([
+    { kind: "import", source: "first" },
+    { kind: "import", source: "second" },
+  ]);
+});
 test("admission retains immutable bytes after an external rename and deduplicates", async () => {
   const { root, store } = await setup();
   const external = join(root, "external.png");
@@ -50,21 +87,26 @@ test("admission retains immutable bytes after an external rename and deduplicate
   expect(store.list().assets.map((asset) => asset.id)).toEqual([first.id]);
 });
 
-test("concurrent imports publish one stable identity and preserve provenance", async () => {
-  const { root, store } = await setup();
-  const external = join(root, "same.png");
-  await writeFile(external, "same pixels");
-  const [a, b] = await Promise.all([
-    store.import(external, { kind: "import" }, probe),
-    store.import(external, { kind: "capture", source: "take-one" }, probe),
-  ]);
-  expect(a).toEqual(b);
-  expect(store.list().assets.map((asset) => asset.id)).toEqual([a.id]);
-  expect(store.origins(a.id).origins).toEqual([
-    { kind: "capture", source: "take-one" },
-    { kind: "import" },
-  ]);
-});
+test.each(["png", "other"])(
+  "concurrent imports with %s extension preserve identity and provenance",
+  async (extension) => {
+    const { root, store } = await setup();
+    const external = join(root, "same.png");
+    await writeFile(external, "same pixels");
+    const alternate = join(root, `same.${extension}`);
+    await writeFile(alternate, "same pixels");
+    const [a, b] = await Promise.all([
+      store.import(external, { kind: "import" }, probe),
+      store.import(alternate, { kind: "capture", source: "take-one" }, probe),
+    ]);
+    expect(a).toEqual(b);
+    expect(store.list().assets.map((asset) => asset.id)).toEqual([a.id]);
+    expect(store.origins(a.id).origins).toEqual([
+      { kind: "capture", source: "take-one" },
+      { kind: "import" },
+    ]);
+  },
+);
 
 test("canceled and unsupported imports never publish assets, and startup removes unfinished bytes", async () => {
   const { root, store } = await setup();

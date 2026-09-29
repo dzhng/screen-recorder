@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile, rm, realpath } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
@@ -8,7 +8,7 @@ import { writeSourceWave, sourcePeriod } from "./audio-project-fixture.mjs";
 const { values } = parseArgs({ options: { out: { type: "string" } } });
 assert(values.out && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out),
-  home = await mkdtemp("/tmp/sr-prepared-public-");
+  home = await realpath(await mkdtemp("/tmp/sr-prepared-public-"));
 await mkdir(out);
 const report = {
   passed: false,

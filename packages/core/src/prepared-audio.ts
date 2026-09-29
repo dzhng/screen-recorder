@@ -9,7 +9,7 @@ import {
   type ProcessingTap,
   type ExecutionWindowManifest,
 } from "@screenrec/composition";
-import { AssetStore, mediaProbeSchema, type AssetProbe } from "./assets.js";
+import { AssetStore, type AssetProbe } from "./assets.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { ResourceReferences, resourceKinds, type ResourceReference } from "./references.js";
 import type { ProjectStore } from "./projects.js";
@@ -27,13 +27,7 @@ import {
   checkProjectAudioResult,
   type ProjectAudioRenderer,
 } from "./audio-inspection.js";
-import {
-  fileIdentity,
-  hashFile,
-  IdentifiedFiles,
-  retainedFileRead,
-  type FileIdentity,
-} from "./files.js";
+import { fileIdentity, IdentifiedFiles, retainedFileRead, type FileIdentity } from "./files.js";
 import { validateAudioWave } from "./audio-wave.js";
 
 type Input = { projectId: string; revisionId?: string };
@@ -267,7 +261,7 @@ export class PreparedAudioStore {
     if (JSON.stringify(plan.window.manifest) !== job.input)
       throw new CatalogError("ARTIFACT_CHANGED", "Prepared audio recipe is no longer available");
     const output = join(this.owners.staging, `${job.attemptId}.wav`);
-    let staged: Awaited<ReturnType<AssetStore["stagePortable"]>> | undefined;
+    let staged: Awaited<ReturnType<AssetStore["stage"]>> | undefined;
     try {
       const { file: renderedFile, ...audio } = checkProjectAudioResult(
         await this.owners.renderer.render({ ...plan, output }, signal),
@@ -275,32 +269,21 @@ export class PreparedAudioStore {
         output,
       );
       const sampleRange = plan.window.manifest.sampleRange;
-      const handle = await open(renderedFile, "r");
-      let digest: Awaited<ReturnType<typeof hashFile>>;
-      try {
-        digest = await hashFile(handle, audio.bytes, signal);
-      } finally {
-        await handle.close();
-      }
-      const metadata = mediaProbeSchema.parse(await this.owners.probe(renderedFile, signal));
-      const dependencies = this.references
-        .dependencies({ kind: "job-input", id: job.jobId })
-        .filter((value) => value.kind !== "asset" || value.id !== digest.sha256);
-      staged = await this.owners.assets.stagePortable(
-        {
-          asset: {
-            ...metadata,
-            id: digest.sha256,
-            bytes: audio.bytes,
-            createdAt: new Date().toISOString(),
-            fileName: digest.sha256 + ".wav",
-          },
-          origins: [{ kind: "generated", source: "prepared-audio" }],
-          dependencies: [],
-        },
-        output,
+      staged = await this.owners.assets.stage(
+        renderedFile,
+        { kind: "generated", source: "prepared-audio" },
+        this.owners.probe,
         signal,
       );
+      if (staged.asset.bytes !== audio.bytes)
+        throw new CatalogError(
+          "INVALID_NATIVE_RESPONSE",
+          "Prepared audio size differs from its receipt",
+        );
+      const assetId = staged.asset.id;
+      const dependencies = this.references
+        .dependencies({ kind: "job-input", id: job.jobId })
+        .filter((value) => value.kind !== "asset" || value.id !== assetId);
       // Drop the temporary hard link before recording the durable file's local identity.
       await staged.close();
       const file = await open(staged.path, "r");
@@ -314,7 +297,7 @@ export class PreparedAudioStore {
         ...audio,
         dependencies,
         resourceId: preparedAudioResource(job.target.projectId, job.attemptId),
-        assetId: digest.sha256,
+        assetId,
         bytes: audio.bytes,
         identity,
         sampleRange,

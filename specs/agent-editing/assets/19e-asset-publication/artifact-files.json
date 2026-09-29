@@ -1,0 +1,142 @@
+[
+  {
+    "path": "public/gain.wav",
+    "bytes": 388096,
+    "sha256": "34f346565c96316cb77a05bfae27095749749c82cdba236430d5af7530eb1121"
+  },
+  {
+    "path": "public/historical-after-restart.wav",
+    "bytes": 100096,
+    "sha256": "2237ffca39723af0985f669629953df75f0cbe489c9f565de615b1a824ea6f11"
+  },
+  {
+    "path": "public/ordinary-movie.mp4",
+    "bytes": 27716,
+    "sha256": "027b9f449cd772966aa58dabaa8575a586188a37dee28231d5e520488681ff79"
+  },
+  {
+    "path": "public/original.wav",
+    "bytes": 388096,
+    "sha256": "5e19511a24cf3de2096e41432348accb84beb6e237eb619f5d4ea1d74e559688"
+  },
+  {
+    "path": "public/report.json",
+    "bytes": 19077,
+    "sha256": "20ab10a399936c7507a90bd6c985a2c661bc6a650d757fa2b50fabe27c4e7ac8"
+  },
+  {
+    "path": "package/donor-learned.wav",
+    "bytes": 388096,
+    "sha256": "921d9c149e586ff00ee854b2a2cdeeb3572bc523ca4bd997ec381b2459069978"
+  },
+  {
+    "path": "package/public-prepared-0.wav",
+    "bytes": 100096,
+    "sha256": "2237ffca39723af0985f669629953df75f0cbe489c9f565de615b1a824ea6f11"
+  },
+  {
+    "path": "package/public-prepared-1.wav",
+    "bytes": 100096,
+    "sha256": "e5cc8ded6932cac6431733524c9daba202701236f7eec23af0f3cc13c94bc618"
+  },
+  {
+    "path": "package/public-prepared-2.wav",
+    "bytes": 100096,
+    "sha256": "2dec1ad87081016d2e2f6bf97af97aac0475869961939328e9f730e06ec8a804"
+  },
+  {
+    "path": "package/report.json",
+    "bytes": 90664,
+    "sha256": "88fb9d0e8b8628b9f52b5a4af2d41b4106185fbce3b92e35e282434c969d23af"
+  },
+  {
+    "path": "package/source.wav",
+    "bytes": 192044,
+    "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+  },
+  {
+    "path": "initial-failure/ordinary-movie.mp4",
+    "bytes": 27716,
+    "sha256": "5f5b28f21a3b34c7f730861b0467198fadfcabff21fbcee296ef316abd89a512"
+  },
+  {
+    "path": "initial-failure/report.json",
+    "bytes": 4380,
+    "sha256": "eeaa5843cb7d8f97d6d0326d94d7e8daf2b00d553a1b24caf5f28c06c71a5b61"
+  },
+  {
+    "path": "rebuilt-failure/ordinary-movie.mp4",
+    "bytes": 27716,
+    "sha256": "c1299f342641763dba9a8f9955da2944ec5c72cc81ed30a8c6e2197a1fd48fa2"
+  },
+  {
+    "path": "rebuilt-failure/report.json",
+    "bytes": 4380,
+    "sha256": "82ee068b62018d3ddd5786b3fc7eac195feeb9c57b00058037bc4caa209eb70d"
+  },
+  {
+    "path": "diagnostic/screenrec-asset-stage-error.txt",
+    "bytes": 1137,
+    "sha256": "9804fa91cefe01c965dc53837da21216c1fae5dcedb3414d58b77a87bc7444b8"
+  },
+  {
+    "path": "diagnostic/screenrec-asset-stage-diagnostic.mjs",
+    "bytes": 403,
+    "sha256": "e5430ca6f1dda8b3302f6f342298fbe897f3cd9e8b1663e35762b736ca0451ed"
+  },
+  {
+    "path": "public-final/gain.wav",
+    "bytes": 388096,
+    "sha256": "34f346565c96316cb77a05bfae27095749749c82cdba236430d5af7530eb1121"
+  },
+  {
+    "path": "public-final/historical-after-restart.wav",
+    "bytes": 100096,
+    "sha256": "2237ffca39723af0985f669629953df75f0cbe489c9f565de615b1a824ea6f11"
+  },
+  {
+    "path": "public-final/ordinary-movie.mp4",
+    "bytes": 27716,
+    "sha256": "881663bf94e98d0affb17ef57f64ffb01451ab004e263565f38d328ac0527f15"
+  },
+  {
+    "path": "public-final/original.wav",
+    "bytes": 388096,
+    "sha256": "5e19511a24cf3de2096e41432348accb84beb6e237eb619f5d4ea1d74e559688"
+  },
+  {
+    "path": "public-final/report.json",
+    "bytes": 19077,
+    "sha256": "99a2cf62ba9624876d6d91b5549f6a38bf224abf42b59d669b038bd1af7b78e2"
+  },
+  {
+    "path": "package-final/donor-learned.wav",
+    "bytes": 388096,
+    "sha256": "921d9c149e586ff00ee854b2a2cdeeb3572bc523ca4bd997ec381b2459069978"
+  },
+  {
+    "path": "package-final/public-prepared-0.wav",
+    "bytes": 100096,
+    "sha256": "2237ffca39723af0985f669629953df75f0cbe489c9f565de615b1a824ea6f11"
+  },
+  {
+    "path": "package-final/public-prepared-1.wav",
+    "bytes": 100096,
+    "sha256": "e5cc8ded6932cac6431733524c9daba202701236f7eec23af0f3cc13c94bc618"
+  },
+  {
+    "path": "package-final/public-prepared-2.wav",
+    "bytes": 100096,
+    "sha256": "2dec1ad87081016d2e2f6bf97af97aac0475869961939328e9f730e06ec8a804"
+  },
+  {
+    "path": "package-final/report.json",
+    "bytes": 89433,
+    "sha256": "d3736b5a411a6eeaf6275786d7a93455659aebad893fd1f5ac48096c1a522a6b"
+  },
+  {
+    "path": "package-final/source.wav",
+    "bytes": 192044,
+    "sha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4"
+  }
+]

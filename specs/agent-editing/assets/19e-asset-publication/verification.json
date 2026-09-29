@@ -1,0 +1,11 @@
+{
+  "scope": "Shared immutable asset staging only; public excerpts and generation remain open",
+  "focusedTests": 53,
+  "skipped": 0,
+  "coreTypecheck": true,
+  "publicAudioJourney": true,
+  "publicPreparedPackageJourney": true,
+  "archiveMembers": 28,
+  "review": "Two concurrency findings reproduced red and fixed; final independent review found no actionable regressions",
+  "choices": "Shared publication is required by19e/19f; first stored filename remains banked choice. Per-asset filesystem sequencing is internal concurrency ownership, not another job queue. No new product choice."
+}

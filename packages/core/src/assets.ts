@@ -138,6 +138,7 @@ export class AssetStore {
   private readonly directory: string;
   private readonly staging: string;
   private readonly dependencies: ResourceReferences;
+  private readonly publications = new Map<string, Promise<void>>();
   constructor(
     private readonly store: Catalog,
     private readonly libraryDirectory: string,
@@ -492,94 +493,139 @@ export class AssetStore {
     const { asset, origins, dependencies } = parsed.data;
     if (!asset.fileName.startsWith(asset.id))
       throw new CatalogError("INVALID_PACKAGE", "Asset member identity differs from its hash");
-    const staging = join(this.staging, randomUUID() + extname(asset.fileName));
-    let retainedName = asset.fileName;
-    const close = async () => {
+    return this.stageFile(
+      path,
+      extname(asset.fileName),
+      signal,
+      async (copied) => {
+        if (copied.sha256 !== asset.id || copied.bytes !== asset.bytes)
+          throw new CatalogError(
+            "INVALID_PACKAGE",
+            "Asset byte hash or size does not match its identity",
+          );
+        return { asset, origins, dependencies };
+      },
+      expected,
+    );
+  }
+
+  private async stageFile(
+    path: string,
+    suffix: string,
+    signal: AbortSignal,
+    describe: (
+      copied: { sha256: string; bytes: number },
+      staging: string,
+    ) => Promise<PortableAsset>,
+    expected?: IdentifiedFile & { sha256?: string },
+  ) {
+    const staging = join(this.staging, randomUUID() + suffix);
+    let asset: Asset | undefined;
+    let retainedName: string | undefined;
+    const removeStaging = async () => {
       await unlink(staging).catch((error) => {
         if (!absent(error)) throw error;
       });
-      const row = this.store.catalog
-        .prepare("SELECT metadata FROM assets WHERE id=?")
-        .get(asset.id);
-      if (row && (JSON.parse(row.metadata as string) as Asset).fileName !== retainedName)
-        await unlink(join(this.directory, retainedName)).catch((error) => {
+    };
+    const cleanup = async () => {
+      await removeStaging();
+      if (!asset || !retainedName) return;
+      const id = asset.id,
+        fileName = retainedName;
+      const row = this.store.catalog.prepare("SELECT metadata FROM assets WHERE id=?").get(id);
+      if (row && (JSON.parse(row.metadata as string) as Asset).fileName !== fileName)
+        await unlink(join(this.directory, fileName)).catch((error) => {
           if (!absent(error)) throw error;
         });
     };
+    const close = () => (asset ? this.publishFile(asset.id, cleanup) : cleanup());
     try {
       const copied = await copyImportedFile(path, staging, signal, expected);
-      if (copied.sha256 !== asset.id || copied.bytes !== asset.bytes)
-        throw new CatalogError(
-          "INVALID_PACKAGE",
-          "Asset byte hash or size does not match its identity",
-        );
+      const described = await describe(copied, staging);
+      asset = described.asset;
+      const { origins, dependencies } = described;
+      const candidate = asset;
+      retainedName = asset.fileName;
       const stored = this.store.catalog
         .prepare("SELECT metadata FROM assets WHERE id=?")
         .get(asset.id);
       if (stored) retainedName = (JSON.parse(stored.metadata as string) as Asset).fileName;
-      await link(staging, join(this.directory, retainedName)).catch(async (error) => {
-        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
-        const existing = await open(
-          join(this.directory, retainedName),
-          constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
-        );
+      const publishedName = retainedName;
+      await this.publishFile(candidate.id, async () => {
         try {
-          const checked = await hashFile(existing, asset.bytes, signal);
-          if (checked.sha256 !== asset.id)
-            throw new CatalogError(
-              "INVALID_PACKAGE",
-              "Existing asset file hash conflicts with package identity",
+          signal.throwIfAborted();
+          await link(staging, join(this.directory, publishedName)).catch(async (error) => {
+            if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
+            const existing = await open(
+              join(this.directory, publishedName),
+              constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
             );
+            try {
+              const checked = await hashFile(existing, candidate.bytes, signal);
+              if (checked.sha256 !== candidate.id)
+                throw new CatalogError(
+                  "ASSET_CONFLICT",
+                  "Existing asset file hash conflicts with immutable identity",
+                );
+            } finally {
+              await existing.close();
+            }
+          });
+          const directory = await open(this.directory, constants.O_RDONLY);
+          try {
+            await directory.sync();
+          } finally {
+            await directory.close();
+          }
         } finally {
-          await existing.close();
+          await removeStaging();
         }
       });
-      const directory = await open(this.directory, constants.O_RDONLY);
-      try {
-        await directory.sync();
-      } finally {
-        await directory.close();
-      }
       signal.throwIfAborted();
       return {
-        path: join(this.directory, retainedName),
+        asset: candidate,
+        path: join(this.directory, publishedName),
         close,
-        publish: () => {
+        publish: ({ pinnedFile = true }: { pinnedFile?: boolean } = {}) => {
           signal.throwIfAborted();
           const prior = this.store.catalog
             .prepare("SELECT metadata FROM assets WHERE id=?")
-            .get(asset.id);
+            .get(candidate.id);
           if (prior) {
-            const existing = this.get(asset.id);
-            if (existing.fileName !== retainedName)
+            const existing = this.get(candidate.id);
+            if (pinnedFile && existing.fileName !== publishedName)
               throw new CatalogError(
                 "STORAGE_BUSY",
-                "Asset publication changed during package staging; retry adoption",
+                "Asset publication changed during staging; retry publication",
                 {},
                 true,
               );
             if (
-              existing.bytes !== asset.bytes ||
-              !isDeepStrictEqual(mediaProbeSchema.parse(existing), mediaProbeSchema.parse(asset))
+              existing.bytes !== candidate.bytes ||
+              !isDeepStrictEqual(
+                mediaProbeSchema.parse(existing),
+                mediaProbeSchema.parse(candidate),
+              )
             )
               throw new CatalogError(
-                "INVALID_PACKAGE",
-                "Existing asset metadata conflicts with package identity",
+                "ASSET_CONFLICT",
+                "Existing asset metadata conflicts with immutable identity",
               );
-          } else this.insert({ ...asset, fileName: retainedName });
+          } else this.insert({ ...candidate, fileName: publishedName });
           for (const origin of origins)
             this.store.catalog
               .prepare("INSERT OR IGNORE INTO asset_origins VALUES(?,?)")
-              .run(asset.id, JSON.stringify(origin));
-          // Closure is validated by the package owner before this transaction starts.
+              .run(candidate.id, JSON.stringify(origin));
+          // The caller validates dependency closure before its publication transaction.
           for (const kind of resourceKinds)
             this.dependencies.retain(
               kind,
-              { kind: "asset", id: asset.id },
+              { kind: "asset", id: candidate.id },
               dependencies
                 .filter((dependency) => dependency.kind === kind)
                 .map((dependency) => dependency.id),
             );
+          return this.get(candidate.id);
         },
       };
     } catch (error) {
@@ -587,6 +633,94 @@ export class AssetStore {
       throw error;
     }
   }
+  /** Link removal changes ctime, so it cannot overlap verification of the same immutable file. */
+  private async publishFile<T>(id: string, run: () => Promise<T>): Promise<T> {
+    const result = (this.publications.get(id) ?? Promise.resolve()).then(run);
+    const settled = result.then(
+      () => undefined,
+      () => undefined,
+    );
+    this.publications.set(id, settled);
+    try {
+      return await result;
+    } finally {
+      if (this.publications.get(id) === settled) this.publications.delete(id);
+    }
+  }
+  /** Stage immutable bytes without publishing outside the caller's attempt fence. */
+  async stage(
+    path: string,
+    provenance: AssetProvenance,
+    probe: AssetProbe,
+    signal: AbortSignal = new AbortController().signal,
+    expected?: IdentifiedFile & { sha256?: string },
+  ) {
+    if (!isAbsolute(path))
+      throw new CatalogError("INVALID_PATH", "Asset import requires an absolute local path");
+    signal.throwIfAborted();
+    const extension = extname(path).toLowerCase();
+    const suffix = /^\.[a-z0-9]{1,12}$/.test(extension) ? extension : "";
+    return this.stageFile(
+      path,
+      suffix,
+      signal,
+      async ({ sha256: id, bytes }, staging) => {
+        if (this.has(id)) return { asset: this.get(id), origins: [provenance], dependencies: [] };
+        const parsed = mediaProbeSchema.safeParse(await probe(staging, signal));
+        if (!parsed.success)
+          throw new CatalogError(
+            "INVALID_NATIVE_RESPONSE",
+            "Media probe returned invalid metadata",
+          );
+        const metadata = parsed.data;
+        if (
+          !metadata.fontFaces &&
+          !metadata.streams.some((stream) => stream.kind !== "unsupported" && stream.decodable)
+        )
+          throw new CatalogError(
+            "UNSUPPORTED_MEDIA",
+            `Media contains no decodable streams: ${metadata.streams.map((stream) => stream.codec).join(", ")}`,
+            {
+              streams: metadata.streams.map(({ id, kind, codec, decodable }) => ({
+                id,
+                kind,
+                codec,
+                decodable,
+              })),
+            },
+          );
+        for (const item of metadata.streams) {
+          if (item.kind === "audio" || item.kind === "video") {
+            if (
+              item.startUs === undefined ||
+              item.endUs === undefined ||
+              item.startUs < 0 ||
+              item.endUs <= item.startUs ||
+              !item.segments?.length
+            )
+              throw new CatalogError(
+                "UNSUPPORTED_MEDIA",
+                "Timed stream has no occupied presentation interval",
+                { streamId: item.id },
+              );
+          }
+        }
+        return {
+          asset: {
+            ...metadata,
+            id,
+            bytes,
+            createdAt: new Date().toISOString(),
+            fileName: id + suffix,
+          },
+          origins: [provenance],
+          dependencies: [],
+        };
+      },
+      expected,
+    );
+  }
+
   async import(
     path: string,
     provenance: AssetProvenance,
@@ -595,109 +729,16 @@ export class AssetStore {
     published?: (asset: Asset) => void,
     expected?: IdentifiedFile & { sha256?: string },
   ): Promise<Asset> {
-    if (!isAbsolute(path))
-      throw new CatalogError("INVALID_PATH", "Asset import requires an absolute local path");
-    signal.throwIfAborted();
-    const extension = extname(path).toLowerCase();
-    const suffix = /^\.[a-z0-9]{1,12}$/.test(extension) ? extension : "";
-    const staging = join(this.staging, randomUUID() + suffix);
+    const staged = await this.stage(path, provenance, probe, signal, expected);
     try {
-      const { sha256: id, bytes } = await copyImportedFile(path, staging, signal, expected);
-      const existing = this.store.catalog.prepare("SELECT metadata FROM assets WHERE id=?").get(id);
-      if (existing) {
-        signal.throwIfAborted();
-        return this.store.transaction(() => {
-          this.store.catalog
-            .prepare("INSERT OR IGNORE INTO asset_origins VALUES(?,?)")
-            .run(id, JSON.stringify(provenance));
-          const asset = this.get(id);
-          published?.(asset);
-          return asset;
-        });
-      }
-      const parsed = mediaProbeSchema.safeParse(await probe(staging, signal));
-      if (!parsed.success)
-        throw new CatalogError("INVALID_NATIVE_RESPONSE", "Media probe returned invalid metadata");
-      const metadata = parsed.data;
-      if (
-        !metadata.fontFaces &&
-        !metadata.streams.some((stream) => stream.kind !== "unsupported" && stream.decodable)
-      )
-        throw new CatalogError(
-          "UNSUPPORTED_MEDIA",
-          `Media contains no decodable streams: ${metadata.streams.map((stream) => stream.codec).join(", ")}`,
-          {
-            streams: metadata.streams.map(({ id, kind, codec, decodable }) => ({
-              id,
-              kind,
-              codec,
-              decodable,
-            })),
-          },
-        );
-      const ids = new Set<string>();
-      for (const item of metadata.streams) {
-        if (ids.has(item.id))
-          throw new CatalogError(
-            "INVALID_NATIVE_RESPONSE",
-            "Media probe repeated a stream identity",
-          );
-        ids.add(item.id);
-        if (item.kind === "audio" || item.kind === "video") {
-          if (
-            item.startUs === undefined ||
-            item.endUs === undefined ||
-            item.startUs < 0 ||
-            item.endUs <= item.startUs ||
-            !item.segments?.length
-          )
-            throw new CatalogError(
-              "UNSUPPORTED_MEDIA",
-              "Timed stream has no occupied presentation interval",
-              { streamId: item.id },
-            );
-        }
-      }
-      signal.throwIfAborted();
-      const fileName = id + suffix;
-      const asset: Asset = {
-        id,
-        bytes,
-        createdAt: new Date().toISOString(),
-        fileName,
-        ...metadata,
-      };
-      // Hard-link publication never overwrites a concurrent import of the same hash.
-      try {
-        await link(staging, join(this.directory, fileName));
-      } catch (error) {
-        if ((error as NodeJS.ErrnoException).code !== "EEXIST") throw error;
-      }
-      const directory = await open(this.directory, constants.O_RDONLY);
-      try {
-        await directory.sync();
-      } finally {
-        await directory.close();
-      }
-      signal.throwIfAborted();
-      const result = this.store.transaction(() => {
-        this.insert(asset);
-        this.store.catalog
-          .prepare("INSERT OR IGNORE INTO asset_origins VALUES(?,?)")
-          .run(id, JSON.stringify(provenance));
-        const ready = this.get(id);
-        published?.(ready);
-        return ready;
+      return this.store.transaction(() => {
+        // Imports return the stored asset; they never bind a receipt to the staged pathname.
+        const asset = staged.publish({ pinnedFile: false });
+        published?.(asset);
+        return asset;
       });
-      if (result.fileName !== fileName)
-        await unlink(join(this.directory, fileName)).catch((error) => {
-          if (!absent(error)) throw error;
-        });
-      return result;
     } finally {
-      await unlink(staging).catch((error) => {
-        if (!absent(error)) throw error;
-      });
+      await staged.close();
     }
   }
 }

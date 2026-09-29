@@ -7,6 +7,10 @@ canonical PCM but rewrites WAV headers; current source/project operations do not
 accept requested rate/channel conversion. This is an explicit implementation gap, owned by the
 [finite conversion prerequisite](19e1-finite-audio-conversion.md).
 
+The [shared asset publication prerequisite](../assets/19e-asset-publication/README.md)
+consolidates imported, generated and portable bytes under AssetStore staging.
+Public excerpt selection, conversion and typed extraction origins remain unbuilt.
+
 ## Contract and seam
 
 An explicit raw or processed audio selection becomes an ordinary immutable audio
