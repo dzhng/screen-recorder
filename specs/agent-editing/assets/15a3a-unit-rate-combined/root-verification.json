@@ -1,0 +1,18 @@
+{
+  "commit": "3299695f",
+  "passed": true,
+  "nativeChecks": 51,
+  "publicCheckGroups": 33,
+  "workerSha256": "541c6761ac2bc763e3029c4856a6d19699fd7357196a837bac36fff99bd2567e",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "verifiedArchiveFiles": 257,
+  "verifiedLogicalFiles": 301,
+  "files": {
+    "native-report.json": "a7954c9a2864861ebf6c8a3cc9addd024c6914416f71ae65c88aa1a3a06ddfcd",
+    "public-report.json": "1e31596282c7c64269f2d0da2d33da3dd2f816c83e5b264c978ba59644d01f4c",
+    "native.log": "cb52896402432ade06f57869ec20165adeeb4189ea682e92c54a3eaea6d69eca",
+    "public.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "archiveSha256": "54b9ababfb3f4cd9cd0e1d2d82f386234659e9b671cf020076f4b57eeaa4d24b",
+  "scope": "Integrated native/public replay with frozen compatible worker. No listening, post-retime or decoded AAC equality claim. No production code changed in this pass."
+}

@@ -3,8 +3,9 @@
 The full editor goal remains active. The installed app has not switched engines.
 Current priority: finish shared normal/recovery publication and large-work
 operation budgets, then activate the accepted-append writer. Prerecorded input now exercises
-the real recording lifetime. In parallel, complete successful learned-output scaling
-and the remaining temporal and prepared-consumer contracts.
+the real recording lifetime. The complete two-hour learned-output checkpoint is
+verified; parallel work now targets portable resource/history hydration and the
+remaining temporal and prepared-consumer contracts.
 Settings09b, scoped06/15 and caption17 are verified; whole16/22 and final acceptance
 remain open. Packed-writer activation is pending; RNNoise supports verified mono/stereo sources
 with independent state per output channel. Listening acceptance remains open.
@@ -84,9 +85,11 @@ with independent state per output channel. Listening acceptance remains open.
   [Compact job status](24e-job-status/README.md) now delivers recipe identity
   through the existing response owner. [Two-hour full PCM](24f-learned-scale/README.md)
   now matches the independent C reference in every channel sample, with late
-  retained delivery and successful scratch cleanup. Next fill the audited missing
-  unit-rate temporal/combined public join; retiming and general24 query/history
-  costs stay open. [Compiled-plan delivery](24a-compiled-plan/README.md)
+  retained delivery and successful scratch cleanup. The
+  [unit-rate combined public journey](15a3a-unit-rate-combined/README.md) now has
+  integrated native/public confirmation, including independent upstream samples,
+  reorder and history. Next measure and bound job inspection work; retiming and
+  general slice 24 query/history costs stay open. [Compiled-plan delivery](24a-compiled-plan/README.md)
   removes the separate control-message size obstacle. Audio/movie executor identities
   advanced for expanded admission so prior nonretryable failures cannot strand new requests.
   The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires

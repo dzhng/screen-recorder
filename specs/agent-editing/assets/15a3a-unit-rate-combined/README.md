@@ -45,3 +45,7 @@ Build composition, core/protocol, service and CLI before public replay. Run the 
 harness first to produce `source.wav` and sibling `differing-stereo.wav`, then the public
 harness with its explicit `--reference` path. Historical verification commands remain
 historical; current runnable instructions include that reference argument.
+
+[Integrated replay](root-verification.json) confirms the native and public gates on
+the main checkout; its complete reports and logs are retained in
+[root verification](root-verification.tar.gz).
