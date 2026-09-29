@@ -67,6 +67,8 @@ its revision before editing. During the development cutover these operations nee
 an explicitly supplied isolated-service `--socket`; the installed recording service
 can return `NOT_READY` even when checkout help lists their schemas. Do not reinterpret
 a project request as a recording edit or claim an unavailable operation succeeded.
+For a service built from a checkout, use that checkout's CLI and help; an installed
+launcher can expose older operation names or parameter schemas.
 
 Prepare imported media through the advertised asset/job operations before the edit
 batch. For an existing captured-source directory, use the advertised acquisition
@@ -89,9 +91,12 @@ when requesting a source transcript; include `acquisitionId` only when you inten
 its capture gaps. These ranges are normalized file timestamps, not project time.
 Keep the complete returned cursor when paging or searching; changing selection or
 generation requires a fresh read. Reads can prepare transcription with ready local
-models but never download models. Inspect model readiness and use explicit model
-preparation when needed; diagnose failed/canceled work before explicit transcript
-retry. A source phrase cannot cross an inference segment.
+models but never download models. Discover registered IDs, purposes and source
+requirements with `model.list`, then inspect `model.status` with the selected
+`modelId`. Use explicit `model.prepare` when needed; supply verified local sources
+when required instead of guessing temporary paths or installing dependencies
+during reads. Diagnose failed/canceled work before explicit transcript retry.
+A source phrase cannot cross an inference segment.
 
 For speech as it appears in an edited project, request the project transcript at
 the intended revision. Rows identify each repeated/retimed clip occurrence and

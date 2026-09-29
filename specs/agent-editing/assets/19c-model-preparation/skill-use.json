@@ -1,0 +1,9 @@
+{
+  "scope": "Product skill and checkout CLI help only; no service/readiness/preparation/inference claim",
+  "validator": "quick_validate.py passed using existing Python/PyYAML runtime; system python lacked PyYAML, no installation",
+  "agent": "gpt-6-luna",
+  "initialAttempt": "Looked in incorrect .agents/skills location and inspected installed older CLI; did not read requested product skill. Retained as failed discovery attempt.",
+  "correctedAttempt": "Exact product skill path and checkout CLI supplied. Agent read skill and actual help, identified model.list, required modelId for status/prepare, optional local runtime/model sources, and absence of public generation. No model IDs/readiness invented.",
+  "skillRefinement": "Checkout-service workflow explicitly selects matching checkout CLI because installed help can be older.",
+  "limit": "Corrected use followed path clarification; it is not evidence the initial unassisted path choice succeeded. Full agent workflow acceptance remains separate."
+}
