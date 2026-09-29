@@ -10,7 +10,8 @@ inputs, all595 decoded frames and their actual packet clocks, matched non-grid
 full/range selections, and byte-identical full preview/export pairs. Earlier
 [geometry acceptance evidence](../15-acceptance-audit/README.md) covers two canvases,
 all fit modes, orientation, nested alpha, source replacement, history, output-stage
-processing and protected narration. The [maintenance audit](maintenance-audit.md)
+processing and unchanged synthetic narration fixtures. Actual speech retention
+and audition are separate08/25 requirements; synthetic PCM does not establish them. The [maintenance audit](maintenance-audit.md)
 reconciles these proofs with the named contracts rather than restarting completed
 geometry work.
 

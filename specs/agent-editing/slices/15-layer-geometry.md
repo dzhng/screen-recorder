@@ -77,7 +77,8 @@ retains replacement/reset/rollback, padded holds, trimming, immutable history,
 undo/restore and exact combined-worker PNG checks.
 
 [Opaque output-stage geometry](../assets/15-output-geometry/README.md) verifies
-pictures, full/range movies, export and unchanged narration on both canvases.
+pictures, full/range movies, export and unchanged synthetic narration on both
+canvases. Real-speech retention/audition remain the audio/final-workflow gates.
 [Fresh product-skill use](../assets/15-pointer-skill/README.md) proves discoverable
 public operation. The [acceptance audit](../assets/15-acceptance-audit/README.md)
 links the original findings to their subsequent proofs; the

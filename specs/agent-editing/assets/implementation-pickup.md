@@ -1,66 +1,68 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: transcript-seeded captions, animated encoded verification and
-remaining speech/prepared-audio consumers. Settings09b, font17b, literal text17c
-and scoped06/15 are verified; whole16/17/22 and final acceptance remain open.
+Current priority: integrate transcript-seeded captions, finish finite08/11 audio
+coverage, then resolve the remaining speech-dependent consumers. Settings09b,
+font17b, literal text17c and scoped06/15 are verified; whole16/17/22 and final
+acceptance remain open.
 
 ## Current combined state
 
-Root21eb0bca integrates literal text (8ea64fce), complete static encoded evidence
-(6394d742/370f0bbc), historical package export and focused CLI help (f262689c).
-Root49a3647d confirms prepared-audio portability after01884997. The static
-[acceptance disposition](09b-encoded-appearance/acceptance.md) and fresh audit
-separate documented codec loss from exact geometry/timing contracts.
+Root6a526266 includes historical package export, public audio preparation,
+matched animated encoded verification and the focused CLI test split.
+The [static acceptance disposition](09b-encoded-appearance/acceptance.md)
+separates documented codec loss from exact geometry/timing contracts.
+The [animated checkpoint](16-animated-appearance/README.md) adds exact pre-encode
+controls, delivered clocks and discriminating phase/geometry negatives. Fresh
+review found edge fringes most apparent when magnified; continuous playback,
+real-speech listening and delivered retime/gain remain unverified.
 
 Frozen combined native worker: `/tmp/screenrec-caption-output-combined-native`,
 SHA256 `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`.
-It includes final explicit encoding controls, exact-font text and PNG canvas alpha.
-Combined targeted build and243 composition/core checks pass. All five public caption journeys pass on that worker, including font-package
-history. General historical-package relocation also passes all27 checks. Prepared PCM relocation passes
-again with the text-aware manifest; its public preparation/DSP consumers stay open.
-Those root harnesses are finished; dist is free to rebuild.
+It includes explicit encoding controls, exact-font text and PNG canvas alpha.
+All five literal-caption public journeys, historical-package relocation and
+prepared PCM relocation pass on that worker. [Public audio preparation](14a-public-preparation/README.md)
+passes native CLI/MCP, restart/cancel/retry and independent skill use. This is
+unit-rate/gain preparation; model-dependent DSP remains open.
 
-Root2f33adcf integrates the measured deletion-fixture correction. All49 combined
-owner/service checks now pass at unchanged default deadlines. All1500 real edits
-are constructed in memory, then backed up/reopened on disk before deletion and
-restart assertions; the negative page-bound mutation still fails. Production
-transactions and durability are unchanged.
+The [deletion fixture correction](24-deletion-fixture/README.md) preserves1500 real
+edits and disk restart coverage; all49 combined owner/service checks pass at
+unchanged deadlines. The [CLI test ownership split](25-cli-test-ownership/README.md)
+preserves all assertions and passes its eight changed cases in a coordinated
+quiet window. Loaded broad runs still retain wall-clock failures; run the broad
+suite once under controlled load at closeout, not repeatedly under contention.
+No production deadline or transaction guarantee changed.
 
 ## Active owners
 
 - Caption seeding: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
-  Literal text is committed and integrated. Implement `text.seed` at core to resolve pinned
-  source word generations and explicit occurrence selections into one ordinary
-  placement batch. Immutable origin provenance stays separate from editable
-  literal/style. Validate new origins at pre-edit occurrences; preserve origins
-  through structural edits and verify them against retained history on adoption.
-  Inject the existing TranscriptStore owner and retain generation resources in
-  the normal revision transaction; no new occurrence store or private edit language.
-- Animated appearance: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-  Reuse frozen zoom/pose/crop cohorts with current explicit settings, exact
-  pre-encode/curve controls, full/range clocks and shifted-phase/geometry negatives.
-  Retain complete media/decoded evidence and fresh neutral review. No bitrate grid;
-  static appearance does not prove animated trajectory or continuous playback.
-- CLI timing audit: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  Historical export21eb0bca preserves selected-prefix undo state and excludes later
-  indexes. The deletion-fixture correction is integrated; now measure the remaining CLI
-  multi-command test timeouts read-only before changing any deadline or production
-  behavior. Coordinate ProjectStore constructor changes with caption seeding.
+  `text.seed` resolves pinned words and occurrence selections into ordinary edits.
+  Immutable origin stays separate from editable text/style, through structural
+  edits and package adoption. Existing TranscriptStore is mandatory; preserve its
+  constructor integration alongside the deletion fixture's disk reopen path.
+  Public media/lifecycle gates and fresh skill/visual reviews pass; retain final
+  reports, commit and integrate, then run combined focused confirmation.
+- Mixed-rate composition/acoustics: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
+  Verify44.1kHz AAC/MP3 with48kHz reference, complete counts, tail/range/split and
+  separately measured seek differences. Reuse the public acoustic journey for
+ 44.1-source/48-project axes; fresh visual review remains required.
+- Real narration: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  A separate public journey uses narrated-workbench audio with video-only
+  replacement/overlay/crop. Compare complete lossless PCM, history/restart and
+  fractional delivery clocks. Keep AAC measurements and optional listening
+  separate; synthetic fixtures called narration do not establish this gate.
 
 ## Remaining acceptance
 
-16 still needs delivered retime/gain and15a denoise transitions plus animated
-encoded evidence. Fade/zoom conveniences already have public/skill proof.14a now has exact retained unit-rate/gain PCM, portable receipts and public
-`audio.prepare`/retained-asset inspection, verified by native CLI/MCP and fresh
-skill use. Model-dependent DSP adoption remains open. Follow08/11 audio conformance,12/12b
-speech evidence,12c/15a protected denoise,13/13a/14 stretch and18/19 voice joins;
-then camera20/21, remaining22 closure, cutover23, scale24 and autonomous25.
+The [audio and stretch audits](acceptance-maintenance/README.md) distinguish
+missing evidence from already verified owners. Follow08/11 finite conformance,
+12/12b speech evidence,12c/15a protected denoise,13/13a/14 stretch and18/19 voice
+joins; then camera20/21, remaining22 closure, cutover23, scale24 and autonomous25.
+16 still needs delivered retime/gain,15a transitions and full-slice journeys.
+Its sampled encoded checkpoint does not establish continuous motion quality.
 Segmentation remains a future placeholder.
 
-The optional original/0.8×/1.25× phrase-0 stretch listening question has no answer;
-listening and independent protected-word labels remain open. The CLI help change
-passes its three focused offline cases and all30 adapter checks at a bounded
-20-second diagnostic deadline; original-deadline multi-command timing failures
-remain retained in25-cli-discovery. Do not call that diagnostic a default-suite
-pass or infer listening/playback from numerical or still-image verification.
+The original/0.8x/1.25x phrase-0 listening question remains unanswered. Independent
+complete protected-word labels and listening remain open; do not infer them from
+ASR, waveform support, sample equality or still-image review. Existing14a storage,
+publication and portability are reused after speech recipes earn acceptance.

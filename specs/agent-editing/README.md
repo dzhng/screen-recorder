@@ -19,25 +19,26 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-Active work is split between encoded-appearance verification, historical package
-export and caption integration. Explicit output controls, font admission and
+Active work is split between transcript-seeded caption integration, mixed-rate
+compressed audio and real-narration preservation. Explicit output controls, font admission and
 prepared-audio portability pass their combined checks.
 See the [implementation pickup](assets/implementation-pickup.md) for exact checkpoints.
 
 1. [Agent-controlled output settings](slices/09b-output-settings.md) and their
    fresh public skill gate pass. The [balanced policy](assets/09b-output-quality/README.md)
    is selected; [scoped encoded acceptance](assets/09b-encoded-appearance/acceptance.md)
-   closes06/15. Continue matched animated geometry for [16](slices/16-keyframes.md). Source and
+   closes06/15. [Matched animated geometry](assets/16-animated-appearance/README.md) now verifies
+   sampled trajectory and delivered clocks for [16](slices/16-keyframes.md); continuous playback remains unverified. Source and
    finished-canvas sampling corrections now pass their native/public gates.
    [Recorded decoder evidence](assets/16-zoom/writer/codec/recorded/README.md)
    separates encoding loss from image-generator artifacts. ProRes is a diagnostic
    control, not an added release requirement. Preserve all existing measured failures
    and use the [remaining media audit](assets/15-acceptance-audit/README.md).
-2. Continue transition/convenience delivery and public prepared-audio consumers
-   in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json).
+2. Continue the remaining transition delivery and model-dependent prepared-audio
+   consumers in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json).
    The shared [scalar prerequisite](slices/16b-scalar-program.md) and
    retained source transcripts pass combined-build confirmation. The [font/layout reproduction](slices/17a-text-layout.md) is verified within its
-   documented scope; caption integration still follows animation/evidence contracts. No segmentation
+   documented scope; literal captions pass their public gates; transcript-seeded captions are in final integration. No segmentation
    scope is active.
 3. Complete public consumers and actual model-dependent output proof for the shared
    [prepared-audio prerequisite](slices/14a-prepared-audio.md). Its first core
@@ -69,9 +70,10 @@ Compact evidence ledger:
   [zoom](assets/16-zoom/README.md) and [position/rotation](assets/16-pose/README.md)
   frame/edit controls pass on the combined build. [Crop/size/pivot curves](assets/16-geometry/README.md)
   also preserve all numeric geometry domains, including subnormal validation;
-  neither closes full keyframes or encoded quality. [Explicit fade/zoom conveniences](assets/16-conveniences/README.md)
+  the [encoded animation checkpoint](assets/16-animated-appearance/README.md)
+  adds sampled trajectory and clock verification without closing full keyframes. [Explicit fade/zoom conveniences](assets/16-conveniences/README.md)
   pass scoped public PCM/PNG/edit and fresh product-skill checks; listening and
-  encoded quality remain separate acceptance gates. [Portable archive relocation](assets/22-portable-projects/README.md)
+  continuous playback remain separate acceptance gates. [Portable archive relocation](assets/22-portable-projects/README.md)
   and [fresh package/fade skill use](assets/22-package-fade-skill/README.md) pass
   their respective checkpoints, retaining workflow failures and handoff-ID errors.
   Relocation now preserves acquisition identities, raw/normalized evidence and retained
@@ -80,7 +82,8 @@ Compact evidence ledger:
   now prepares independent identities before staging and rechecks replay at publication.
   [Project-index relocation](assets/22-project-index/README.md) now preserves current
   and historical generations, including read replay without donor jobs. Prepared
-  model-dependent results and fonts remain open; [historical package export](assets/22-historical-export/README.md)
+  model-dependent results remain open; exact-font history relocation passes the
+  [literal-caption package journey](assets/17c-literal-text/README.md); [historical package export](assets/22-historical-export/README.md)
   now retains the selected moment and its undo stack without later donor edits.
 - [Physical-segment audio](assets/08-physical-segments/README.md) passes exact
   full/range/split checks after the converter buffer-state fix. [Thirty-minute A/V](assets/08-av-drift/README.md)
@@ -144,7 +147,7 @@ Never pad missing samples, truncate support or relax thresholds to conceal a
 failure. Numerical checks cannot close listening or physical-camera acceptance.
 [Early encoding trials](assets/06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
 the later [output quality study](assets/09b-output-quality/README.md) selects an
-editable balanced default while broader appearance acceptance remains open. Animated encoding (16), audio conformance/scale (08), camera (20/21),
+editable balanced default while broader appearance acceptance remains open. Remaining animation delivery (16), audio conformance/scale (08), camera (20/21),
 portability (22), cutover (23), scale (24) and autonomous acceptance (25) remain
 explicit gates. No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,

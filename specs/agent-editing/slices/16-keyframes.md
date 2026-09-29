@@ -1,6 +1,6 @@
 # 16 — Keyframes and convenience zooms
 
-Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; encoded movie color/edge limits remain unresolved. Opacity retained-index boundaries are verified. Unit-rate gain has scoped public PCM/edit evidence; explicit fade/zoom conveniences have scoped public delivery evidence; delivered retime+gain, denoise transitions and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
+Status: opacity and every numeric geometry field have scoped public PNG, edit-preservation and fresh visual evidence; matched encoded samples preserve trajectory/clocks with documented edge/color loss; continuous playback remains unverified. Opacity retained-index boundaries are verified. Unit-rate gain has scoped public PCM/edit evidence; explicit fade/zoom conveniences have scoped public delivery evidence; delivered retime+gain, denoise transitions and full-slice journeys stay open. Dependencies: [14](./14-retiming.md), [15](./15-layer-geometry.md), [16a](./16a-curve-primitives.md), [16b](./16b-scalar-program.md).
 
 ## Contract
 
@@ -163,10 +163,11 @@ owner below; gain and explicit conveniences have their own scoped gates.
 
 The [zoom evidence](../assets/16-zoom/README.md) retains 39 exact public PNG checks,
 166 passing composition tests, static/opacity preservation and independent code
-review. Root reproduces all 39 PNGs exactly; fresh visual review confirms movie
-edge fringes and darker gray, leaving encoded acceptance open. Direct PNG versus encoded movie maximum
+review. Root reproduces all 39 PNGs exactly; the original fresh visual review recorded movie
+edge fringes and darker gray. The later [matched encoded checkpoint](../assets/16-animated-appearance/README.md)
+adds color-managed review, exact packet clocks and discriminating trajectory negatives. Direct PNG versus encoded movie maximum
 channel error reaches **240** despite passing the inherited mean-RGB membership
-criterion; encoded color/edge parity remains unresolved. The [writer probe](../assets/16-zoom/writer/README.md)
+criterion; strict encoded color/edge parity is not claimed. The [writer probe](../assets/16-zoom/writer/README.md)
 localizes these differences after matching pre-append pixels, without selecting an
 encoding/decoding cause or production quality profile.
 Full/range movie membership and exact preview/export bytes do not establish strict
@@ -186,7 +187,7 @@ Gain and explicit conveniences have separate scoped evidence; denoise transition
 frames and move/split/trim/window preservation, plus independent pivot/angle
 landmarks that reject a deliberately swapped coordinate. Encoded edge/color limits
 remain explicit. Fresh scoped geometry review and independent code review pass;
-movie edge/color artifacts stay unresolved.
+the later matched encoded checkpoint retains and reviews movie edge/color loss.
 
 ## Complete geometry scalar domains
 
@@ -202,8 +203,8 @@ until one preview happens to sample them.
 [Geometry scalar evidence](../assets/16-geometry/README.md) owns the public
 combined-geometry journey, independent corner/pivot controls and rejection of cubic
 interiors with otherwise legal endpoints. Public delivery and independent code
-review pass; fresh scoped geometry review passes with movie edge/color defects
-explicitly open. All 64 public static tap PNGs retain prior bytes. Tiny-coefficient
+review pass; fresh scoped geometry review and the later matched encoded checkpoint
+retain measured movie edge/color loss. All 64 public static tap PNGs retain prior bytes. Tiny-coefficient
 extrema normalization rejects subnormal interior-zero sizes; final public
 confirmation preserves every reviewed picture and verifies seven curve refusals.
 Gain and explicit conveniences have separate scoped evidence; this is not whole-slice16
@@ -251,4 +252,5 @@ passed unchanged in isolation, with those separate results retained explicitly.
 [Combined-root gain confirmation](../assets/16-gain/root-integration.json) passes
 all17 public checks with a fresh native build and exact retained release PCM
 hashes. Prepared-audio and gain tests pass together; the fresh skill-consumer
-gate remains open because a new agent spawn hit the thread limit.
+gate for animated gain remains open. The later public audio.prepare skill gate verifies
+constant gain only; it does not substitute for animated-gain or listening acceptance.
