@@ -372,15 +372,21 @@ try {
   report.adopted = adopted.result;
   await call("package.close", { admissionId: admission.id });
   const selected = { projectId: adopted.result.projectId };
-  const prepared = await call("audio.prepare", selected);
+  const audioSelection = { ...selected, revisionId: adopted.result.revisionId };
+  const prepared = await call("audio.prepare", audioSelection);
   assert.equal(prepared.state, "ready");
   assert.equal(prepared.published.audio.assetId, originalAudio.assetId);
   const late = join(out, "adopted-late.wav");
   await poll(
-    () => call("audio.get", { ...selected, range: { startUs: 7199000000, endUs: 7200000000 } }),
+    () =>
+      call("audio.get", { ...audioSelection, range: { startUs: 7199000000, endUs: 7200000000 } }),
     (v) => v.state === "ready",
   );
-  await call("audio.get", { ...selected, range: { startUs: 7199000000, endUs: 7200000000 } }, late);
+  await call(
+    "audio.get",
+    { ...audioSelection, range: { startUs: 7199000000, endUs: 7200000000 } },
+    late,
+  );
   const expected = await readFile(join(out, "late.wav")),
     actual = await readFile(late);
   assert.deepEqual(
@@ -400,7 +406,10 @@ try {
     requestId: "undo-new-track",
   });
   assert.deepEqual(undone.document, document);
-  assert.equal((await call("audio.prepare", selected)).state, "ready");
+  assert.equal(
+    (await call("audio.prepare", { ...selected, revisionId: undone.id })).state,
+    "ready",
+  );
   await close();
   await owner(receiver, async ({ assets, projects, prepared }) => {
     assert.equal(await digest(assets.path(originalAudio.assetId)), originalAudio.assetId);

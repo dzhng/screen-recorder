@@ -1,16 +1,16 @@
 {
-  "scope": "Recipe provenance only; complete package transfer not yet run",
+  "scope": "Restored authenticated two-hour checkpoint; public export/adoption without repeated DSP; newly authored receiver edit/undo, not original historical reconstruction",
   "originalReportSha256": "9255f0e5e490d5bc98bea6b9b2540165329abacbd843151e3e86d2e668c7fa89",
   "recipeBytes": 15944124,
   "recipeSha256": "75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb",
-  "nativeSha256": "b95b9bcde50b6a1d0dc83a9bde87ca0ab6d4c8f64d4b0bb179e039a8d4bd5a9c",
+  "nativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
   "negativeSourceSpanHash": "7efb6a79bb51be3e9403ea2582593e1c5179d86c0ed343bb6b6c34be4a50b75c",
-  "fullTransferPassed": false,
+  "fullTransferPassed": true,
   "files": [
     {
       "path": "README.md",
-      "bytes": 2760,
-      "sha256": "8b697e7377978056622e0b07ac53b6a6fbcc4ba19acea102f2869bf89f6cf4d9"
+      "bytes": 3626,
+      "sha256": "7b4a9a26eb333f9cd3912ada9017862d40d7c67eddec9502bf6d574a40f11583"
     },
     {
       "path": "changed-source-control.log",
@@ -23,6 +23,31 @@
       "sha256": "b869afa6c48360b71071b3821caf1076e764e4840a1e656d2c37cd8fc24615ef"
     },
     {
+      "path": "failed-transfer-metadata.tar.xz",
+      "bytes": 1124332,
+      "sha256": "2504b2bc4f38f45c8adab706efb76d429128d6e66f6b036541562c3b988795b6"
+    },
+    {
+      "path": "full-transfer.log.gz",
+      "bytes": 330,
+      "sha256": "aa7f923656236ccbae1f95c7a274baec77f390bd153d23760f204a496ce94dfa"
+    },
+    {
+      "path": "full-transfer.tar.xz",
+      "bytes": 1043668,
+      "sha256": "cb3f36219a5355a4ada7abae67ae4250bd6d9a960c240c75662e1f8ae2680c9f"
+    },
+    {
+      "path": "manifest-failure.json.gz",
+      "bytes": 31405,
+      "sha256": "c850a48e334b15b810c13d134e876df6238df0f2a966c8b289987cca2b5eb31d"
+    },
+    {
+      "path": "manifest-failure.log.gz",
+      "bytes": 697,
+      "sha256": "b3eb869e5be4b0ba3a8edc182501caa56bc9ff0e73777b4fc00a34cad756d3c6"
+    },
+    {
       "path": "reconstruction.log",
       "bytes": 275,
       "sha256": "17aab045f32a4e912dfc61207c8bd76564885f581b44a04e51f88061e4c6c829"
@@ -31,6 +56,16 @@
       "path": "reconstruction.tar.xz",
       "bytes": 332800,
       "sha256": "cf0afd071be1058b4d147962a4f318e10a937c0fbcfcf75500afbe1d2dc21d93"
+    },
+    {
+      "path": "revision-selection-failure.json.gz",
+      "bytes": 32604,
+      "sha256": "e39540b55d92665183882eaa3e7046cce7a72bbbb27bffce9e3dc7e72bfaaee0"
+    },
+    {
+      "path": "revision-selection-failure.log.gz",
+      "bytes": 581,
+      "sha256": "20f58afe80270e9a73c1b81d7fe1cc947d64d06c429c0eb0c39c910977091a3f"
     },
     {
       "path": "screenrec-24j-final-review.log.gz",
@@ -51,6 +86,21 @@
       "path": "screenrec-24j-root-review.log.gz",
       "bytes": 61042,
       "sha256": "51478cfc89cfdec78c3575635c7447490a642081da6bc47988f7f609ce892fd9"
+    },
+    {
+      "path": "transfer-build.log.gz",
+      "bytes": 397,
+      "sha256": "78663293cb2a93a30f9155ab3aaea0615198d04dce4ac68fb44597fbc8389ee7"
+    },
+    {
+      "path": "transfer-review.log.gz",
+      "bytes": 42083,
+      "sha256": "dea42ec4f75a2f3755ff10ac7545f8e2760403f14a64c32f380d02dc699112d9"
+    },
+    {
+      "path": "v9-metadata.json.gz",
+      "bytes": 30697,
+      "sha256": "49bec37388964a5f7abf8974e35adb1514a6903a9d5fb1fa6ba5679ac356cbfd"
     }
   ],
   "rootMetadataPassed": true,
@@ -60,5 +110,31 @@
     "artifact": "v9-metadata.json.gz",
     "sha256": "49bec37388964a5f7abf8974e35adb1514a6903a9d5fb1fa6ba5679ac356cbfd",
     "exactOriginalRecipe": true
-  }
+  },
+  "fullTransfer": {
+    "artifact": "full-transfer.tar.xz",
+    "checks": {
+      "exactOriginalRecipe": true,
+      "authenticatedOwnerRestoration": true,
+      "publicExportAndAdoption": true,
+      "fullOriginalWavHash": true,
+      "exactLatePCM": true,
+      "retainedProjectPlayback": true,
+      "newHistoryUndo": true,
+      "donorAndArchiveRemoved": true
+    },
+    "diskPreflight": {
+      "availableBytes": 74407596032,
+      "requiredBytes": 12132958208
+    },
+    "archiveSha256": "c27387db54236b58a681a0093a6fcfde23e7464a166ea6d734df406d38dca079",
+    "wavBytes": 2764804096,
+    "wavSha256": "63629739a587e5d699afef408d3c2e46992de7017be9e806ea82274597d792f8",
+    "originalProcessorUnavailable": true,
+    "successfulScratchRemoved": true,
+    "failedTemporaryWavHashVerifiedBeforeRemoval": true,
+    "remainingTemporaryOutputBytes": 0,
+    "availableBytesAfterCleanup": 77995515904
+  },
+  "currentReview": "Shape/diff/docs clean; independent Codex review found no actionable regressions. Full public gate passed separately."
 }

@@ -1,41 +1,57 @@
-# Authenticated reconstruction for full-size transfer
+# Complete two-hour prepared transfer
 
-The original two-hour library was removed after its verified preparation. Its
-retained report nevertheless pins the complete execution input by SHA-256, and
-the frozen harness specifies the source mapping and deterministic edit IDs.
-Recompiling those exact inputs with the current compiler produces **15,944,124
-bytes** whose hash equals the original successful job's input hash:
+The full [public journey](../../../../packages/test-harness/editing/prepared-package-scale.mjs)
+passes using the original retained two-hour learned output and its 10,000-occurrence
+recipe. `full-transfer.tar.xz` preserves the complete recovered recipe, authored
+document, original receipt, donor and receiver publications, late-window WAVs,
+and successful scoped report. The receiver owns the same complete WAV SHA-256:
+`63629739a587e5d699afef408d3c2e46992de7017be9e806ea82274597d792f8`
+(2,764,804,096 bytes). The exact original recipe remains 15,944,124 bytes with hash
 `75cead8124f464ed94a038a9fdb5a2afcc74df5f7ea2522d8e9e5351361cdcdb`.
-All original clip IDs also agree. This proves recipe recovery independently of
-newly generated receipts; the retained WAV remains the original DSP result.
 
-`reconstruction.tar.xz` preserves the complete recovered recipe, authored document,
-original report and scoped reconstruction report. The reconstruction report keeps
-`passed: false` because no full transfer occurred. A negative source-span change
-produces a different hash and is rejected. The root current native worker probed
-the retained source; no DSP or multi-gigabyte restoration ran.
+The transfer uses actual public export, opening and adoption. Complete receiver
+file hashing, exact late-window PCM, retained project audio and a newly authored
+edit/undo all pass with original processing unavailable. The harness removes the
+donor and external archive before receiver checks. It does not execute the
+original DSP again. Native probing and retained PCM reads use the existing worker
+identified in `verification.json`; no live capture or audible playback occurred.
 
-The actual full-mode invocation stops at its disk preflight. At that observation,
-9,450,020,864 bytes were free versus a required 12,132,958,208 bytes: four original
-payload sizes plus a 1 GiB working margin. Export holds donor PCM, copied assembly
-input, stored ZIP and publication copy simultaneously. Adoption likewise copies
-the archive and PCM independently; the journey removes its external scratch ZIP
-only after receiver admission owns an authenticated snapshot. No unrelated files
-were deleted to make room.
+The original historical revision metadata is absent. This proves restoration of
+one authenticated checkpoint and new receiver history, not recovery of the
+missing original history. Original execution policy and attempt identity remain
+in the portable receipt; adoption remaps only revision context. The frozen WAV
+volumes remain under [24f](../24f-learned-scale/README.md).
 
-The journey's transfer section remains unexecuted and cannot yet establish public
-export/adoption, receiver-local identity, new undo history or retained project
-playback at this size. Existing smaller gates do not close those missing results.
-The original historical revision IDs/timestamps were not retained and are not
-invented: the planned donor is an explicitly restored checkpoint.
+## Capacity and failed controls
 
-Review followed the repository shape, diff and documentation lenses. The harness
-reuses the existing probe, asset, prepared-result, adoption and public transport
-owners; it adds no product API or storage. Review corrected public project/undo
-response shapes and ensured extracted original success cannot be mistaken for
-this unfinished transfer's result. Root independent review found two draft-harness defects: blocking retained-PCM
-reads along with fresh processing, and checking capacity on a different possible
-volume from scratch. Both are corrected; scratch now shares the checked output
-volume, and retained operands may reach the native reader. Followup review found
-no actionable defects. Root metadata reconstruction still matches the original
-hash. Full runtime verification remains pending.
+The successful invocation measured 74,407,596,032 available bytes against the
+unchanged 12,132,958,208-byte requirement before restoring PCM. The four-payload
+preflight is a research safeguard, not a product capacity limit. Temporary donor,
+assembly, archive and receiver copies are bounded by the existing journey; the
+successful scratch tree was removed automatically after all checks passed.
+
+Earlier evidence remains retained. `disk-preflight.log` records the original
+insufficient-capacity stop. `manifest-failure.*` records the first current full
+attempt refusing a stale documentation size/hash in the frozen artifact manifest;
+the review document's link had changed in commit `84d6250f`. Only that document's
+manifest entry was refreshed; all media and metadata digests were unchanged.
+`revision-selection-failure.*` records successful export/adoption followed by an
+invalid harness audio request. The corrected harness pins the adopted revision,
+and pins the returned undo revision for the post-undo prepared lookup. No public
+schema or production behavior was changed to accommodate the fixture.
+
+`reconstruction.tar.xz` and the older metadata reports intentionally retain
+`passed: false`: those earlier invocations did not complete the full transfer.
+The negative source-span reconstruction control remains evidence that recipe
+provenance rejects altered inputs. Current verification points to the complete
+successful report without rewriting these earlier outcomes.
+
+## Review
+
+Shape review keeps existing asset, prepared-result, adoption and transport owners;
+the pass adds no production API, dependency, storage or execution path. Diff review
+and the independent Codex review found no actionable regressions in the revision
+selection fix or authenticated documentation-manifest refresh. The independent
+review checked syntax and compressed artifacts; the full gate was run separately
+by the implementing agent. Documentation review preserves checkpoint-only history
+scope and distinguishes byte verification from listening or new DSP evidence.

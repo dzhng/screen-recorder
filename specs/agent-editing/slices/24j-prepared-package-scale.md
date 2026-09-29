@@ -1,6 +1,6 @@
 # 24j — Complete two-hour prepared package
 
-Status: original recipe reconstructed and authenticated; full transfer pending disk capacity. Dependencies: [24f](24f-successful-learned-scale.md), [22c](22c-prepared-recipe-budget.md). [Evidence](../assets/24j-prepared-package-scale/README.md).
+Status: complete; authenticated two-hour checkpoint passes full public export, opening, adoption, retained audio and newly authored edit/undo with original processing unavailable. Dependencies: [24f](24f-successful-learned-scale.md), [22c](22c-prepared-recipe-budget.md). [Evidence](../assets/24j-prepared-package-scale/README.md).
 
 ## Contract
 
