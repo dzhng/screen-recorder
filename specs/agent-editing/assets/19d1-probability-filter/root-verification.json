@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-29",
+  "scope": "Root independent rerun of numeric candidate through unchanged pinned sampler; no model weights, inference or runtime mutation",
+  "reportSha256": "31a8d3d280e143e5293ca526d3b4150a469182dc391da4c03d48f32a7f667243",
+  "result": {
+    "inheritedCases": 279,
+    "inheritedRed": 62,
+    "previouslyValidExact": 217,
+    "invalidUnchanged": 9,
+    "directCases": 45,
+    "emptyTieFirstMaximum": true,
+    "exactDefaultBypass": true
+  },
+  "runtime": "/private/tmp/screenrec-19b-relocation/bundle",
+  "network": "OS sandbox deny network"
+}

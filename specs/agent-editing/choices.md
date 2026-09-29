@@ -3681,3 +3681,25 @@ without silently choosing a new voice or upgrading numerical parity to quality.
   and leave some operating space without claiming guaranteed capacity.
 - **Confidence:** medium; the reserve is a reversible operational choice and can
   be revisited with measurements on other hosts.
+
+## Empty voice-sampling distributions
+
+- **When:** probability-filter proposal19d1 (`1536a72e`); runtime adoption remains
+  a separate gate.
+- **Choice:** preserve every already-valid filtering result. If rounding leaves
+  no possible next token despite valid input scores, restore the highest-scoring
+  token, choosing the first index on a tie. For example, an agent requesting a
+  very small positive top-p value gets one available candidate instead of an
+  empty probability distribution. The default path stays unchanged.
+- **Gap:** the requested full controls did not specify how to repair the pinned
+  backend's numerical failure. Raising a guessed minimum would exclude settings
+  while leaving the general defect unresolved; replacing the filtering algorithm
+  would change outputs that already worked.
+- **Reach:** this defines deterministic recovery only for formerly empty results.
+  Invalid model scores are not repaired or claimed to be rejected. The policy
+  guarantees an available candidate for valid input, not exact ideal probability
+  mass from the existing low-precision arithmetic.
+- **Verdict:** sound; the recovery has a general nonempty-support property and
+  preserves measured valid behavior without changing model precision.
+- **Confidence:** medium; this is a narrow compatibility choice. A future change
+  to ideal nucleus filtering needs its own identity and output comparison.

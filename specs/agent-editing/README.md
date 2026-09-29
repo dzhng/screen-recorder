@@ -26,8 +26,9 @@ The [combined512-code resource corner](assets/19d-voice-corner/README.md) and
 [short-reference/numeric probes](assets/19d-voice-admission/README.md) pass their
 scoped gates; the earlier1,024-code memory failure remains retained. Filtered
 sampling now has a separate numerical failure: supported top-p values can leave
-no valid candidates. Repair that without fitting a new minimum or changing the
-frozen default path before completing19d. Preparation and lifecycle deadline
+no valid candidates. The [minimal repair experiment](slices/19d1-probability-filter.md)
+preserves existing valid distributions and repairs empty ones without a fitted
+minimum; adopt it and prove real audio parity before completing19d. Preparation and lifecycle deadline
 failures also remain under investigation. Typed controls are not yet public.
 Preserve whole parent19 contextual/listening acceptance.
 
@@ -299,6 +300,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [19b — Relocatable prepared voice runtime](slices/19b-voice-runtime-relocation.md)
 - [x] [19c — Common local model preparation](slices/19c-common-model-preparation.md)
 - [ ] [19d — Measured voice settings and bounded work](slices/19d-voice-settings.md)
+- [ ] [19d1 — Nonempty probability-filter support](slices/19d1-probability-filter.md)
 - [x] [19e1 — Canonical finite audio conversion](slices/19e1-finite-audio-conversion.md)
 - [ ] [19e — Retained audio excerpts](slices/19e-retained-audio-excerpts.md)
 - [ ] [19f — Public durable voice generation](slices/19f-public-voice-jobs.md)

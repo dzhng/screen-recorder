@@ -2,6 +2,10 @@
 
 Status: bounded termination/control experiment verified; [evidence](../assets/19d-voice-settings/README.md) retains fifteen fresh-process trials, including identical-audio cap/EOS boundary controls, exact frozen/clamp parity and changed-seed replay. The subsequent [resource tranche](../assets/19d-voice-envelope/README.md) retains a 1,024-output-token MLX memory failure above12GiB; seven cases completed and the combined corner was not run. A later single [512-code joint corner](../assets/19d-voice-corner/README.md) stayed below12GiB while exercising all512 codes, with noEOS. [Admission probes](../assets/19d-voice-admission/README.md) verify tiny-input refusal, a real1.3s utterance and temperature endpoints1e-6/1e6. Explicit policy agreement and public resolver/worker adoption remain open. Parent: [19](19-voice-assets.md). Dependencies: [19a](19a-voice-entry-parity.md).
 
+The [probability-filter repair](19d1-probability-filter.md) preserves the measured
+empty-distribution failures and a bounded candidate. Its numerical checks do not
+close runtime adoption or full audio parity.
+
 ## Contract and seam
 
 Agents control supported generation settings; presets only supply defaults. One
