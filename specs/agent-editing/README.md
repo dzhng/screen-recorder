@@ -19,17 +19,17 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Fix the reproduced fractional-native-rate late-window inconsistency at the
-   shared source decoder boundary, with explicit unsupported-format behavior and
-   cache invalidation. Preserve ordinary integer-rate and channel-index behavior.
-   The [finite domain audit](assets/acceptance-maintenance/audio-domain.md) and
-   [public boundary cohort](assets/08-admission-boundaries/README.md) explain why
-   correct output counts alone were insufficient. Do not hide phase errors with
-   padding, offsets or relaxed comparisons.
-2. Continue the offline camera-clock/separate-source prerequisite, retaining its
-   delivered-audio gap observation as unresolved; no live capture is authorized
-   by that probe. Prepare a bounded protected-speech review packet from existing
-   RNNoise evidence without inferring listening acceptance or rerunning models.
+1. Prove canonical sparse captured-audio storage/recovery using the existing
+   container-segment mechanism. The [actual writer reproduction](assets/20a-capture-owner-gap/README.md)
+   shows later PCM packed early after a missing buffer or pause. Preserve exact
+   sample positions and truthful unavailable gaps; no silence padding, offset
+   patch or second reader timeline. Physical capture remains a separate gate.
+2. The [fractional-rate correction](assets/08-fractional-rate-refusal/README.md)
+   now refuses that unsupported execution domain and invalidates old ready
+   recipes, with combined-root confirmation. Continue actual retirement/reference
+   auditing and the remaining quality gates. The [speech review feedback](assets/12c-protected-speech/user-review.json)
+   reports no obvious artifacts but no understood words; use meaningful complete
+   sentences from the user's recording for future comparisons.
 3. Reuse the verified prepared-audio/public/portable owner for later accepted DSP.
    Continue12/12b speech evidence,12c/15a denoise,13/13a/14 stretch,18/19 voice,
    then remaining camera/package/cutover/scale/autonomous acceptance. Every open
