@@ -1,0 +1,44 @@
+Historical pre-implementation audit. The native-entry checkpoint is now implemented; remaining policy/consumer/listening gates follow the linked slices.
+
+# Learned-denoise adoption pickup
+
+Read-only against main `37bf321e`. No inference, download, build, source change or listening. This is a concrete implementation pickup, not another candidate search.
+
+## Decision
+
+**Reslice 15a before runtime adoption.** Proceed with a bounded production-entry parity adapter, leaving public denoise execution unavailable. Then bind accepted state/channel semantics and prepared consumers; retain protected-speech listening as a separate binding acceptance gate. The current flat dependency list (all of 12c/14/16) obscures which work can proceed: native frozen-entry parity does not require accepting stretch, stereo, temporal transitions or speech quality. Conversely, completing that adapter cannot make an ordinary public processor ready.
+
+The user’s “Learned filter sounds better” remains the candidate choice. The later exact recorded feedback is: “I don't get what I'm supposed to do? they are just ranndom words? I don't hear anything weird in any of the clips but I don't understand what they're saying”. `assets/12c-protected-speech/user-review.json` scopes this to four short clips: no obvious artifact reported, **no intelligibility or word-retention acceptance**. No repeat preference question or cropped-word assignment is needed. Future listening material must be meaningful complete sentences from the user's recording, with one clear question.
+
+## Concrete code gaps
+
+- `packages/composition/src/schema.ts` and `processing.ts` have no RNNoise processor. Temporal validation permits windows only for gain/opacity/geometry. A new strength control, fade or per-clip reset would be a new unaccepted semantic choice, not merely wiring.
+- `packages/core/src/project-window.ts` binds gain/geometry/opacity to the renderer and compiles project audio at 48 kHz **stereo**. `PreparedAudioStore.plan/request/execute` uses that same full-output plan and renderer. Research `denoise-prepared-output.mjs` explicitly checks both channels equal and extracts one mono lane before RNNoise. That assertion must not silently become a general stereo downmix policy.
+- Native `helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift` validates only gain and evaluates graph blocks (up to 8192 frames, reduced with node count). RNNoise requires persistent 480-frame state, not reset per mix block, clip or requested preview range. `CompositionAudioOperation.swift` is the existing typed worker boundary; keep DSP in this native audio layer, not a subprocess recipe owned by core.
+- `PreparedAudioStore` already supplies fenced jobs, immutable assets, revision/upstream retention, exact recipe receipts, bounded reads and portable publication. It is **not** yet a general cache substituted by preview/export/tap rendering. Merely enabling a renderer implementation ID would allow fresh subrange execution and lose the proved full-origin state semantics.
+- Current prepared identity is the complete compiled manifest. RNNoise needs pinned implementation/model/adapter identity there, and availability checked before admission. Existing audio dependencies are assets/acquisitions; model provenance/retention and explicit preparation must join existing ownership rather than be inferred from a temporary executable. Current portable import recompiles the full stereo output recipe, so arbitrary mono/target receipts cannot simply be inserted into it.
+
+## Smallest full-scope next implementation pass
+
+Call this **15a production-entry parity**, a prerequisite checkpoint with no public readiness claim:
+
+1. Bring the exact pinned RNNoise source/model into the existing native dependency/build mechanism with explicit provenance and distribution review. Preserve source revision `70f1d256acd4b34a572f999a05c87bf00b67730d`, model archive SHA256 `0a8755f8e2d834eff6a54714ecc7d75f9932e845df35f8b59bc52a7cfe6e8b37`, source-file hashes and build defines from `assets/12c-rnnoise/preparation.json`. That file expressly did not approve model/product distribution. Do not silently substitute a system package, new model, fast-math configuration or demo executable.
+2. Add one native internal fixed-recipe mono PCM adapter in the existing audio owner, exercised through its typed test/worker seam. Match `rnnoise-frame-probe.c`: normalized float multiplied by 32768 before frames and divided afterward; zero-pad the last partial 480-frame input; two zero flush frames; remove exactly 960 output samples; return exactly original selected count. State lasts for the complete explicitly selected input domain. No invented strength parameter, automation, normalization or channel linking. Public processing registry/readiness stays unchanged until its separate contract is ready.
+3. Run a matched retained-input parity harness through that production adapter, using already retained original/clean/noisy and tiny/end fixtures. Require frozen compensated PCM parity on the pinned platform, exact count/latency, chunk-boundary independence, finite values and unchanged source bytes. Reuse the existing retained tests rather than another quality sweep. Preserve the established no-flush/one-frame/poison/reset negatives; do not “fix” mismatch with a new tolerance. Report any compiler/model mismatch before integration.
+4. Retain the native identity, exact inputs/results, parity failures if any, focused tests and independent code review. The pass is complete when the production adapter preserves the frozen algorithm and refuses invalid format/dependency input; it does **not** need to claim public authoring, durable DSP publication or listening acceptance. No edits to SourceAudio/capture are required.
+
+This is intentionally a complete adapter checkpoint, not a half-enabled public processor or a second denoise queue. It provides useful implementation progress while the remaining semantic decisions and listening stay explicit.
+
+## Following runtime pass: prerequisites and seam
+
+Before enabling public execution, specify an initial supported state/channel/target domain. The evidence supports only a full selected mono output domain (including the proven identical-channel mapping), not independent stereo or arbitrary clip/track/group windows. Either explicitly constrain and validate that initial domain as a documented checkpoint, or first establish the broader policy; do not advertise general targets and silently process an approximation. Public stereo rendition alone does not settle this decision. Post-retime/overlap and activation transitions remain required for the complete 15a contract, even if deferred from the first restricted checkpoint.
+
+Then add the typed composition recipe and compiler execution requirement, bind pinned availability in `project-window`, and extend the existing prepared owner to materialize the precise ordered state domain. Route range/full preview, export and processed taps to bounded reads of the correct retained result; requesting a preview range must not choose its preparation origin. At intermediate stack positions, prepare the actual upstream signal and execute downstream steps in order—appending denoise to final output cannot represent gain-after versus gain-before or target-local processing. Preserve raw-source inspection.
+
+Use the existing jobs/assets/references/public `audio.prepare` and model-management architecture for dependency preparation, retry/cancel/restart and publication. Do not build parallel storage or use a mutable latest-result lookup. Add only DSP-specific lifecycle joins: model/recipe identity changes, missing dependency before admission, stale/canceled inference publication, range reads without model, and retained historical/portable outputs. Existing 14a owner tests need not all be duplicated.
+
+Runtime acceptance then needs actual noncommuting order and dry bypass, pure split/trim/poison isolation, full/range and post-retime placement, chosen channel/window semantics and protected-speech listening. Numeric parity verifies integration, not phoneme retention. 22/24/25 portability/scale/agent obligations and whole 15a closure remain separate; no new numeric speech-quality threshold is proposed.
+
+## Dependency correction to make before implementation
+
+Link 15a explicitly to **14a**, already implemented, and divide its current work into (a) frozen native-entry parity, (b) typed state/channel policy plus prepared consumer integration, and (c) remaining combined/temporal/listening acceptance. Keep 12c preference/timing evidence reusable without asserting all 12c gates passed. Scope retiming14 and temporal16 dependencies to the cases actually using them; keep those cases open rather than making every native parity task wait for them. Do not replace the whole 15a contract with the narrower first checkpoint.

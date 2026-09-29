@@ -1,6 +1,6 @@
 # 15a — Adopt verified noise reduction in processing stacks
 
-Status: not started. Dependencies: [03c](./03c-processing-stacks.md), [08](./08-audio-mixing.md), [09](./09-first-preview.md), [12c](./12c-noise-reproduction.md), [14](./14-retiming.md), [16](./16-keyframes.md).
+Status: [native-entry parity](./15a1-denoise-entry-parity.md) verified as a bounded prerequisite. Public adoption, prepared-consumer integration and full acceptance remain open. Dependencies: [14a](./14a-prepared-audio.md), [03c](./03c-processing-stacks.md), [08](./08-audio-mixing.md), [09](./09-first-preview.md), [12c](./12c-noise-reproduction.md), [14](./14-retiming.md), [16](./16-keyframes.md).
 
 ## Contract
 
@@ -19,6 +19,12 @@ Adopt the frozen 12c implementation through the composition registry/compiler an
 native worker boundary. Core owns one prepared-derivative lifecycle shared with
 retiming, scheduled by the existing job queue. Protocol/CLI/MCP expose the same
 capability and edit schemas. No parallel denoise queue or mutable audio copy.
+
+## Checkpoints
+
+1. [15a1 native-entry parity](./15a1-denoise-entry-parity.md) preserves the frozen mono algorithm without enabling public execution. It can proceed on the retained 12c identities without speech-quality acceptance or retiming/temporal adoption.
+2. [15a2 prepared consumers](./15a2-denoise-prepared-consumers.md) establishes explicit supported state/channel semantics, typed recipes and model-aware prepared delivery through existing owners.
+3. [15a3 combined and listening acceptance](./15a3-denoise-acceptance.md) retains post-retime, temporal, protected-speech and broader public gates. Completing an earlier checkpoint does not close this parent.
 
 ## Work and review surface
 

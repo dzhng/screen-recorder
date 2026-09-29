@@ -2651,3 +2651,26 @@ the earlier raw-PTS equality/coalescence and raw-through-MOV requirements, while
 keeping accepted-versus-durable and canonical publication invariants unchanged.
 Verdict: earlier requirement unsound; corrected observable property sound, high
 confidence. The initial policy's equivalence remains unproven, not silently adopted.
+
+### Frozen learned native parity: isolated dependency before runtime adoption (sound, scoped)
+
+The fixed RNNoise frame adapter lives in an isolated native dependency package
+until the existing audio owner can consume it with an accepted state/channel
+contract. This avoids making every app build compile a large model or require
+model staging before public adoption. The runtime slice will link this same
+library directly; it is not a second renderer or queue. Confidence is high for
+this prerequisite boundary, not for unimplemented runtime policy.
+
+Unchanged small upstream source/header files and their notice are vendored;
+the large generated model source is explicitly extracted from a hash-verified
+local frozen archive into ignored build storage. No download or weight conversion
+occurs. This keeps parity tied to the winning bytes without committing a large
+trained model or implying public distribution readiness. Broader build/model
+preparation remains an explicit runtime-adoption gate.
+
+The streaming adapter delegates selected-domain identity and transactional output
+publication to its caller, while retaining one state across arbitrary read chunks.
+It rejects unsupported format, invalid reads and nonfinite scaled samples, and
+propagates cancellation/read/write errors. It adds no editorial strength/channel
+policy, source decoder or automatic quality acceptance. Confidence is high in
+this narrow ownership split; the public target/state contract remains open.
