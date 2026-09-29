@@ -1040,13 +1040,14 @@ const waits: Partial<Record<OperationName, number>> = {
   "capture.status": nativeCall,
   "capture.pause": nativeCall,
   "capture.resume": nativeCall,
-  "capture.cancel": nativeCall,
+  // An absent native take requires recovery before cancellation can discard its source.
+  "capture.cancel": nativeCall + workerRun,
   // A stop native cannot perform is settled from the take's media by a recovery run.
   "capture.stop": nativeCall + workerRun,
   // An unanswered start is stopped and then recovered the same way.
   "capture.start": 2 * nativeCall + workerRun,
-  // A restart discards the named take before it starts the next one.
-  "capture.restart": 3 * nativeCall + workerRun,
+  // Discard and an unanswered replacement start can each require recovery.
+  "capture.restart": 3 * nativeCall + 2 * workerRun,
   "export.create": workerRun,
   "export.abandon": drain,
   "package.open": drain,

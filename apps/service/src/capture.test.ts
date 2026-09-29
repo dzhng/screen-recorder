@@ -21,6 +21,41 @@ afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
 
+it(
+  "waits for absent-native recovery before returning cancellation",
+  { timeout: 25_000 },
+  async () => {
+    const peer = capturingPeer();
+    const service = await startService(
+      await temporaryHome(),
+      (operation, params) =>
+        operation === "capture.cancel"
+          ? {
+              ok: false,
+              error: {
+                code: "INVALID_STATE",
+                message: "No take held",
+                retryable: false,
+                details: {},
+              },
+            }
+          : peer(operation, params),
+      // Recovery is within its worker budget but exceeds the old control-only client deadline.
+      { SCREENREC_NATIVE: await recovers({ durationUs: 0, journal: null }, 16) },
+    );
+    const started = await service.call("capture.start", {
+      requestId: "slow-cancel",
+      source: fixtureSource,
+    });
+    if (!started.ok) throw new Error("start failed");
+    const { recordingId } = started.data as { recordingId: string };
+    expect(await service.call("capture.cancel", { recordingId })).toMatchObject({
+      ok: true,
+      data: { recordingId, state: "canceled" },
+    });
+  },
+);
+
 /** Answers one native capture call, or nothing at all when a test needs a silent peer. */
 type NativePeer = (
   operation: string,

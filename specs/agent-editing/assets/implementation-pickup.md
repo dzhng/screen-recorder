@@ -16,10 +16,11 @@ verified mono sources and their structural dual-mono mixes.
   [stop continuation](20d-stop-continuation/README.md) are integrated, with
   [combined-root lifecycle checks](20d-stop-continuation/root-verification.json).
   Finalizing acknowledgment, explicit cancellation, terminal races and lost-start
-  handling pass their scoped native/controller/service gates. First repair the
-  newly reproduced missed-terminal-report cancellation path: native absence alone
-  must not authorize deleting finished or ambiguous source bytes. A missing header
-  or zero decoded duration does not prove an empty source. Then extract the
+  handling pass their scoped native/controller/service gates. The missed-terminal
+  cancellation repair has [combined-root preservation and client-deadline checks](20d-cancel-recovery/root-verification.json):
+  native absence, a missing header or zero decoded duration cannot erase retained
+  or ambiguous source bytes. Without a native owner, only a proven empty source can
+  cancel. Next extract the
   physical input lifetime to exercise actual NativeCapture/writer/publisher using
   prerecorded media; include cursor acquisition in that boundary. Then wire typed
   unavailable-role outcomes, recovery and layout activation. Preserve existing

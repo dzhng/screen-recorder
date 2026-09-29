@@ -28,3 +28,11 @@ Shape review shares recovery inspection and settlement with reconciliation; it a
 no parser or state owner. Independent read-only review found no concrete defect.
 No devices, permissions, downloads or live capture were used. The input-session
 extraction is separate work and is not accepted by this evidence.
+
+The [combined-root follow-up](root-verification.json) confirms preservation and the
+actual client/service cancellation path with recovery lasting beyond the old
+control-only client deadline. Cancellation now budgets one native call and one
+recovery; restart budgets recovery for discard and for an unanswered new start.
+Global control/worker timeouts are unchanged. The restart total is derived from
+those existing branches, not a measured long-restart run. Large canonical workloads
+still require their separate operation-specific worker-budget gate.

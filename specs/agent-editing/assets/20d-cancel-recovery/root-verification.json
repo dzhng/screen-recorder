@@ -1,0 +1,15 @@
+{
+  "baseCommit": "9d1f612d",
+  "changes": "operation-specific cancellation/restart client budgets and actual delayed-recovery transport regression",
+  "preservationTests": 16,
+  "publicServiceTests": 2,
+  "red": "16s recovery hit old control-only client timeout",
+  "green": "same real client/service request returned canceled after recovery; existing cancel regression also passed",
+  "buildExitCode": 0,
+  "preservationExitCode": 0,
+  "publicServiceExitCode": 0,
+  "review": "No actionable code findings. Reviewer verification could not write Swift module cache and hit service readiness timeout; root targeted build/tests pass. No broad build acceptance claimed.",
+  "retainedArtifactHashesVerified": 6,
+  "archiveSHA256": "ad7dcca88a6ab97bd94098966e8e9d702f019f8e309eb6bdb8cbf4da6638c099",
+  "scope": "Controlled worker response through actual public client/service. Restart budget derives from both existing recovery branches; no long-restart runtime benchmark, physical capture or large canonical-worker deadline acceptance."
+}
