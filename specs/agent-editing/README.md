@@ -18,7 +18,9 @@ requirement below remains in scope. Read [contracts](contracts.md),
 verified public operations; the installed app has not switched engines.
 
 Current pickup: implement the [selected-device probe](slices/20e-selected-device-probe.md)
-with offline request, clock-ingress and media-closure tests. The probe must be
+with offline request, clock-ingress and media-closure tests. Its camera-gap
+mechanism is verified in [20e1](slices/20e1-camera-gap-materialization.md); durable
+mapping/recovery and positive public source admission remain open. The probe must be
 reviewable before requesting a concrete live take; physical execution and
 clock acceptance remain separate. Its shared lifecycle keeps camera evidence
 outside production capture tracks and preserves canonical microphone publication.
@@ -28,6 +30,8 @@ is verified through full source PCM, all transcript words, full exports and an
 explicit cursor processor. Original/new timing and evidence-representation
 differences remain documented. This closes one preparatory checkpoint, not the
 remaining [23](slices/23-cutover.md) matrix, installed switch or old-owner removal.
+[Matched export recovery](slices/23b-export-recovery-preservation.md) also passes
+actual lost-reply/restart and concurrent replay on both services; reuse its proof.
 
 Remaining priorities are speech/denoise and stretch acceptance toward12b/14/15a,
 then16; measured physical20→21; final23 cutover, post-cutover24 scale and25 autonomous
@@ -192,6 +196,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [20d8 — Prerecorded pause and terminal persistence](slices/20d8-pause-terminal-boundaries.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
+- [ ] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md) — mechanism verified; integration remains.
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
 - [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
@@ -199,6 +204,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [22 — Relocatable editable projects](slices/22-portable-projects.md)
 - [ ] [23 — Cut over all consumers and remove old owners](slices/23-cutover.md)
 - [x] [23a — Retained recording to identity-project preservation](slices/23a-recording-project-preservation.md)
+- [x] [23b — Matched export recovery preservation](slices/23b-export-recovery-preservation.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

@@ -45,8 +45,8 @@ Historical workers and measurements retain their own identities below.
   Excerpts19e is integrated, including public lifecycle and fresh weak-model use.
   [Public voice jobs19f](19f-public-voice-jobs/README.md) is integrated, including
   saved replay, stable explicit origins, queued restart and model-free transfer of
-  generated/reference audio. Prepared-package-transfer now owns the preparatory23a
-  old/new preservation harness; capture-pause-recovery is released after24w.
+  generated/reference audio. Prepared-package-transfer has completed preparatory23a/23b;
+  capture-pause-recovery owns the offline20e probe.
   Shared voice metadata is
   strict and independent of the active execution profile.
   Candidate native worker there has SHA256
@@ -88,13 +88,20 @@ Historical workers and measurements retain their own identities below.
   using the real installed-format baseline in an isolated selected-row copy. Root
   rehashed all575 archive members and reran saved-output gates. Legacy timing,
   outer transcript gaps and color-route differences remain explicit; full23 remains
-  open. Prepared-package-transfer is released with its saved homes retained.
+  open. [Matched export recovery23b](23b-export-recovery-preservation/README.md)
+  preserves both real postcommit receipts and file identities through reply loss,
+  restart and concurrent replay. Root verified all380 archived members and five
+  saved movie hashes without rerunning services. Saved homes remain retained;
+  prepared-package-transfer is doing a read-only remaining-audio priority audit.
 - **Selected-device preparation20e:** [the scoped probe](../slices/20e-selected-device-probe.md)
   is now being implemented in capture-pause-recovery. Its physical input stop,
   camera media closure and audio publication share existing termination ordering;
   camera evidence stays separate from production capture tracks. Offline build and
   injected-input tests are authorized; live device/permission actions and installed
-  app changes are not part of this pass. Physical20/21 stays open.
+  app changes are not part of this pass. [20e1](20e1-camera-gap-materialization/README.md)
+  proves retained edit-list gap membership, with all88 archived members rehashed
+  by root. Durable mapping/recovery is next; the fixture’s public SMPTE-C admission
+  refusal remains explicit. Physical20/21 stays open.
 - **Capture and generic package acceptance:** scoped20a–20d and22 are verified.
   Physical20/21, speech quality, installed cutover23, general24 and autonomous25
   remain open. Continue dependency-ready work.

@@ -1,6 +1,7 @@
 # 23b — Matched export acknowledgement-loss preservation
 
-Status: scoped matched public checkpoint verified; both actual cases and independent reviews pass. [Evidence](../assets/23b-export-recovery-preservation/README.md). Depends on [23a](23a-recording-project-preservation.md)'s retained recording, isolated homes and pinned cached movies.
+Status: scoped matched public checkpoint verified; both actual cases and independent reviews pass. [Evidence](../assets/23b-export-recovery-preservation/README.md).
+Dependencies: [23a](23a-recording-project-preservation.md)'s retained recording, isolated homes and pinned cached movies.
 
 ## Contract
 

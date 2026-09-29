@@ -3,7 +3,7 @@
 Status: scoped retained-file edit-list/membership feasibility verified;
 [evidence](../assets/20e1-camera-gap-materialization/README.md). Durable mapping/replay
 and positive public color-admitted source remain unverified. Owning contract: [20e](20e-selected-device-probe.md).
-Dependency: [20d](20d-capture-publication.md)'s verified canonical publication primitives.
+Dependencies: [20d](20d-capture-publication.md)'s verified canonical publication primitives.
 
 ## Question and retained failure
 
