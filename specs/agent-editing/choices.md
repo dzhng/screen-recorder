@@ -2591,3 +2591,18 @@ its ordinary append-only revision sequence from that selected moment.
 - **Verdict:** Sound for this scoped checkpoint, with medium confidence: separating
   claims avoids attributing an unexplained difference to the wrong owner, while
   retaining the failed claim as unfinished work.
+
+## Input discovery annotations
+
+- **Choice:** Remove readOnly annotations when exporting caller input schemas.
+  An agent creating a gain curve must supply its keys even though the engine
+  freezes the parsed array internally. Advertising that field as read-only
+  confuses those two meanings. CLI help and MCP tools/list share the same export
+  override; runtime freezing, required fields and semantic validation stay intact.
+- **Gap:** The schema library exports runtime immutability as an input annotation,
+  even when asked for its input representation.
+- **Reach:** Schema-driven agents can author all advertised input fields without
+  learning a special exception for arrays. Immutable provenance rules remain
+  enforced by edits and are not changed by a discovery annotation.
+- **Verdict:** Sound: the public description matches what callers can submit,
+  using the existing single discovery owner. **Confidence:** High.

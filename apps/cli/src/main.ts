@@ -68,7 +68,13 @@ function capabilities(operation?: string) {
       name: definition.shape.operation.value,
       description: definition.description ?? "",
       // What a caller must send, so a parameter the service defaults stays optional.
-      inputSchema: z.toJSONSchema(definition.shape.params, { io: "input" }),
+      inputSchema: z.toJSONSchema(definition.shape.params, {
+        io: "input",
+        override: ({ jsonSchema }) => {
+          // Runtime freezing does not make caller-authored inputs read-only.
+          delete jsonSchema.readOnly;
+        },
+      }),
     }));
 }
 

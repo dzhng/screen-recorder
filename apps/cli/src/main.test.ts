@@ -100,6 +100,9 @@ type AdvertisedTool = {
 
 /** Callers may omit every parameter the service defaults, and every tool says what it does. */
 function expectCallableContract(tools: AdvertisedTool[]) {
+  expect(JSON.stringify(tools.map((tool) => tool.inputSchema)).includes('"readOnly":true')).toBe(
+    false,
+  );
   const required = (name: string) => {
     const schema = tools.find((tool) => tool.name === name)?.inputSchema;
     return schema?.anyOf ? schema.anyOf.map((option) => option.required) : schema?.required;

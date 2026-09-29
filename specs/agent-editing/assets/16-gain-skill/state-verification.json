@@ -1,0 +1,12 @@
+{
+  "gainReplaySameData": true,
+  "splitReplaySameData": true,
+  "historicalGainReplaySameData": true,
+  "replaysDidNotMoveHead": true,
+  "negativeRejected": true,
+  "negativeExitCode": 1,
+  "negativeRevisionUnchanged": true,
+  "splitClipCount": 2,
+  "splitOrdinal": 3,
+  "audioSupportComplete": true
+}

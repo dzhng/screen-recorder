@@ -251,6 +251,7 @@ passed unchanged in isolation, with those separate results retained explicitly.
 
 [Combined-root gain confirmation](../assets/16-gain/root-integration.json) passes
 all17 public checks with a fresh native build and exact retained release PCM
-hashes. Prepared-audio and gain tests pass together; the fresh skill-consumer
-gate for animated gain remains open. The later public audio.prepare skill gate verifies
-constant gain only; it does not substitute for animated-gain or listening acceptance.
+hashes. Prepared-audio and gain tests pass together; the [fresh animated-gain consumer](../assets/16-gain-skill/README.md) now verifies
+explicit linear-window authoring, complete PCM comparison, exact split preservation,
+replay and wrong-clock refusal. Its limited numerical usability check does not
+replace existing conformance or establish listening/retimed-audio acceptance.

@@ -35,7 +35,8 @@ See the [implementation pickup](assets/implementation-pickup.md) for exact check
    control, not an added release requirement. Preserve all existing measured failures
    and use the [remaining media audit](assets/15-acceptance-audit/README.md).
 2. Continue the remaining transition delivery and model-dependent prepared-audio
-   consumers in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json).
+   consumers in parallel. Animated gain passes [combined public checks](assets/16-gain/root-integration.json)
+   and [fresh agent use](assets/16-gain-skill/README.md).
    The shared [scalar prerequisite](slices/16b-scalar-program.md) and
    retained source transcripts pass combined-build confirmation. The [font/layout reproduction](slices/17a-text-layout.md) is verified within its
    documented scope; [caption acceptance](assets/17-caption-acceptance/README.md) now closes17,
