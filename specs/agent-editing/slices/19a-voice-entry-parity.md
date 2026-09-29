@@ -11,6 +11,14 @@ reference-origin or durable-generation contract. The rejected speaker-only mode
 is not an alternative implementation. Keep the model, runtime, generation
 configuration, reference handling and Float32 WAV assembly unchanged.
 
+For this private checkpoint, accept mono 24 kHz Float32 reference WAVs up to the
+measured five seconds (120,000 frames), and require the frozen generation
+parameters. Bound decoded duration as well as encoded bytes: a 64 MiB file ceiling
+alone would admit minutes of unmeasured model context. This is a provisional
+entry-test scope, not the final public reference or settings API. Later19 must
+deliberately widen it with measured support; do not hardcode the user's reference
+content or treat these limits as a universal model capability.
+
 Use one explicitly prepared Python process accepting one bounded JSON request
 and returning one result after its WAV is complete. Reuse the service's existing
 JSON framing, process deadline, cancellation and close-before-release owner.
