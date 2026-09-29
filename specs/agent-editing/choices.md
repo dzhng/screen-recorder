@@ -3055,3 +3055,14 @@ files. Startup reports retryable ACQUISITION_BUSY instead of polling or deleting
 live work. Once the child exits, ordinary recovery proceeds. This reuses the existing
 directory and adds no lockfile registry. Package verification carries both its input
 workspace lease and acquisition staging lease because they protect different files.
+
+### Canonical verification gets its own work budget (sound, medium confidence)
+
+A sparse recording may hold little PCM while its many segments take a minute to
+verify. Source normalization now gets a ten-minute canonical segment allowance plus
+the existing byte-work budget. The gap was how asynchronous verification should be
+bounded; this is an observation policy grounded in the measured100,000-run workload,
+not a universal throughput promise. Legacy sources retain their old worker deadline;
+control messages and public client waits are unchanged because preparation is a job.
+Cancellation still drains the worker. Larger probe responses and physical metadata
+row limits are separate failures; extending a timer does not make those imports work.

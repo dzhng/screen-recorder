@@ -1,0 +1,20 @@
+{
+  "commit": "f11bfa9c",
+  "workerSHA256": "7ae65717b5a41f1dedf090f955bd127ce8f33b55b852dcc7af58d8b6cae721be",
+  "buildExit": 0,
+  "workerTests": 7,
+  "publicReady": true,
+  "readySeconds": 60.429458542,
+  "normalizedSHA256": "f1beefdb0f2e640d68796f7948b4bd493b707987813ba281ececcd7ca4fe7d21",
+  "publicDeleteCanceledAndDrained": true,
+  "cancelSeconds": 0.147684208,
+  "verifiedArtifactFiles": 28,
+  "archiveSHA256": "25ead5cba2171cf34685394ba7cb211b76d7affbc2513c4220095bf47d291f6b",
+  "files": {
+    "0-source-budget-root-build.log": "6077e41070b47a93716cc54af16d5cec7b065614822384cb961b6fcbb8006dda",
+    "1-source-budget-root-worker.log": "acd2579f36b82ad81dc94705fab24470d2aec5dfd7dd685785265226304e0db3",
+    "2-report.json": "9219e280317344c83c283b00cfd869e71ee8acb22c4b8fcef6d4fe6e7910b93e",
+    "3-report.json": "b213fab5cf75b345eb605fff7a5e03d8a69b406c7b95a0de2b5c14f49145ba2b"
+  },
+  "scope": "100k canonical source normalization reaches public readiness and cancellation drains observed native child. No claim for100k asset probe/adoption or recording generation orphan cleanup."
+}
