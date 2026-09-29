@@ -1,0 +1,45 @@
+{
+  "commit": "b999ffce",
+  "passed": true,
+  "checks": {
+    "current": {
+      "video": "259a9338b3855ece965b819b15b842e41f3191670d8c864b4ad8295374e722bf",
+      "audio": "cd4a09c43069e8b15d3ff2abc0dc95e5462d8dd68201970ddf3bc8d302ab920b"
+    },
+    "history": {
+      "video": "1e08c91dd943dfe8282d9ab23cb40e0fe80ca8bff916fb73293009ebbeea8d6d",
+      "audio": "edd6a926a57241b6be35a5bbaeb6e23e28846c650834472ab50f4c0aa51605cb"
+    },
+    "donorRemoved": true,
+    "packageRemoved": true,
+    "sourceBytesUnchanged": true,
+    "acquisitionIdentityAndBindingsRetained": true,
+    "exactNormalizedEvidenceRetained": true,
+    "retainedSceneEventsReadyWithoutPreparation": true,
+    "realTranscriptReadyWithModelsAbsent": true,
+    "sourceIndexPixelsRowsCoverageRetained": true,
+    "currentAndHistoricalProjectIndexPixelsRowsCoverageRetained": true,
+    "existingProducedEvidenceAdoption": true,
+    "revisionOnlyReferenceRestored": true,
+    "transcriptRawBytesAndWordsRetained": true,
+    "adoptedLibraryRestartedBeforeInspection": true,
+    "exactJournalRetained": true,
+    "historicalOnlyMediaRetained": true,
+    "generatedReferenceFixtureRetained": true,
+    "editableUndo": true,
+    "adoptionReplay": true,
+    "canceledAdoptionInvisible": true,
+    "corruptAndMissingMembersRejected": true,
+    "aggregateHistoryLimitBeforePublication": true,
+    "closedAdmissionStatusRetained": true
+  },
+  "targetedBuild": "passed",
+  "focusedOwnerAndPortableTests": 53,
+  "nativeSHA256": "a3d193bd137718ba6bc9f0c07225960bd8e7872922638728fdbc7fac4695622b",
+  "remaining": [
+    "prepared 15a outputs and fonts",
+    "fresh autonomous skill journey"
+  ],
+  "priorAttempt": "Existing scratch output destination caused EEXIST; fresh directory run passes without changing production or assertions",
+  "videoComparison": "Exact donor/adopted equality within new settings cohort; old fixed-profile video hashes differ, no cross-profile byte-parity claim"
+}

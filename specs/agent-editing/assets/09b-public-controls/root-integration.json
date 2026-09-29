@@ -1,0 +1,7 @@
+{
+  "commit": "0e86ecd0",
+  "targetedBuild": "passed",
+  "compositionAndPreviewTests": 210,
+  "nativePublicEvidence": "delegate public-journey.json.gz and default-parity.json.gz",
+  "remaining": "encoder selection, concrete AAC discovery and fresh skill use"
+}

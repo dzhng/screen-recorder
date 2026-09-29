@@ -41,3 +41,6 @@ impossible selection. Report requested/enforced policy, not an observed encoder 
 AVAssetWriter does not expose its selected VT session. Preferred selection explicitly
 allows fallback. An independently owned resampling stage remains separate work if
 algorithm selection is required; adding its rejected dictionary key is not sufficient.
+
+[Combined-root verification](root-integration.json) passes the targeted build and
+210 composition/preview tests with previously integrated fade/zoom behavior.

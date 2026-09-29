@@ -33,3 +33,10 @@ This checkpoint does not close slice 22. Prepared audio, non-current package exp
 fonts, actual 15a output and the final autonomous skill journey remain open. The
 native worker used here is `/tmp/screenrec-gain-root-native`; root integration must
 preserve the independently landed output settings and run affected checks.
+
+[Combined-root confirmation](root-integration.json) passes53 focused owner/portable
+checks, the targeted build and the complete public native relocation journey with
+expanded output settings. Donor/adopted video and PCM match within this run. Video
+hashes differ from the old fixed-profile cohort; no cross-profile byte identity is
+claimed. The first root attempt reused an existing scratch output directory and
+refused file overwrite; its log is retained. A fresh directory passes unchanged.

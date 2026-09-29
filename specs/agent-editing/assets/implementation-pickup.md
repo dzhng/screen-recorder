@@ -37,8 +37,9 @@ Rootb999ffce integrates project screenshot-index adoption (delegateb76e847c) on
 the transient adoption prerequisite032b9f7a. Delegate public relocation retains
 current/history rows, coverage and exact PNGs after donor/archive removal and
 restart, including all prior source/transcript/journal controls. Imported published
-receipts no longer start replacement jobs. Combined root verification is next;
-the live font-skill review has stopped; combined native relocation is now running.
+receipts no longer start replacement jobs. Combined root targeted build,53 owner/portable tests and full native relocation
+pass with expanded output settings. Donor/adopted media match within this cohort;
+old fixed-profile video hashes are not claimed identical.
 
 The portable delegate continues prepared-audio closure14a in
 `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
