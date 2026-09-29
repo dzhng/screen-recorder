@@ -1,6 +1,6 @@
 # 19 — Durable local generation and replacement
 
-Status: not started. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
+Status: public durable integration not started. The private [entry-parity checkpoint](19a-voice-entry-parity.md) can proceed on frozen candidate identities and [clean-process repeatability](18a-voice-repeatability.md), without enabling public generation or closing18 listening. Dependencies: [02](./02-assets.md), [04](./04-projects.md), [11](./11-audio-inspection.md), [14](./14-retiming.md), [18](./18-voice-reproduction.md).
 
 ## Contract
 

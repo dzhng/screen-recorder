@@ -3607,3 +3607,15 @@ then open a new finite reader only when coverage ends. Keep that ordinary
 extension separate from the one-time premature-end retry, and let empty requests
 leave the physical origin untouched. This resolves the previously unspecified
 reader coverage policy without guessed padding, new caches or altered PCM meaning.
+
+## 18a/19a — Port frozen voice bytes without treating parity as listening approval (sound, high confidence)
+
+The user found the main generated voice close and rejected the speaker-only
+alternative, but joins and listening acceptance are still unresolved. Preserve
+the main candidate exactly. Two fresh offline processes now reproduce the
+retained words and phrase without changing any identity or parameter; system
+caches remain intact and the reference-origin copies remain the same bytes.
+Use that bounded result for a private worker-entry port, as the earlier denoise
+entry checkpoint did. Keep public generation and the complete parent acceptance
+separate. This resolves whether implementation can progress before listening
+without silently choosing a new voice or upgrading numerical parity to quality.

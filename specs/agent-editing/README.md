@@ -21,6 +21,7 @@ Current pickup and priority:
 
 [Explicit denoise strength and transitions](slices/15a3b-denoise-transitions.md)
 now passes the combined public/native journey and [fresh agent skill use](assets/15a3b-mix-skill/README.md).
+[Voice repeatability](slices/18a-voice-repeatability.md) now preserves the frozen candidate across two fresh offline processes; implement the private [voice entry parity checkpoint](slices/19a-voice-entry-parity.md) without enabling public generation or closing listening gates.
 
 1. Continue general [scale](slices/24-scale.md), including complete two-hour
    [prepared-package transfer](slices/24j-prepared-package-scale.md), remaining query families, large-document/package history and unresolved load-sensitive budgets. [Finite decoder demand](slices/24q-finite-decoder-demand.md) and [inherited audio identification](slices/24p-audio-format-admission.md) now pass combined preservation. [Fixed-size history pages](slices/24r-history-query-scale.md) now pass their scoped cardinality and cursor gates.
@@ -274,7 +275,9 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [17d — Occurrence-specific transcript seeding](slices/17d-transcript-seeding.md)
 - [x] [17 — Text and attached captions](slices/17-text-captions.md)
 - [ ] [18 — Reproduce local reference speech](slices/18-voice-reproduction.md)
+- [x] [18a — Frozen voice repeatability across fresh processes](slices/18a-voice-repeatability.md)
 - [ ] [19 — Durable local generation and replacement](slices/19-voice-assets.md)
+- [ ] [19a — Frozen voice worker entry parity](slices/19a-voice-entry-parity.md)
 - [x] [20a — Offline clock and separate-source plumbing](slices/20a-offline-clock.md) — offline scope; physical acceptance remains20.
 - [x] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
 - [x] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)

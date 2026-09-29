@@ -48,3 +48,5 @@ This closes only the ASR lexical cross-check; pronunciation, identity, delivery,
 protected joins and listening remain open. Missing required outputs fail the probe.
 
 The [acceptance handoff audit](../assets/18-voice-handoff/audit.md) separates the accepted ending, rejected conditioning mode and unanswered entrance audition, and identified the now-retained current-phrase timing evidence as a non-listening follow-up. No new synthesis or listening verdict is implied.
+
+[Clean-process repeatability](18a-voice-repeatability.md) now matches all frozen main-candidate WAV/PCM in two fresh offline processes with unchanged identities. It does not establish cold-cache behavior, independent reference origins or quality acceptance. The private [entry checkpoint](19a-voice-entry-parity.md) preserves those bytes before durable integration.

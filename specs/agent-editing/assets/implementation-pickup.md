@@ -21,11 +21,11 @@ Historical workers and measurements retain their own identities below.
   reds remain retained; arbitrary codec I/O and positive AAC tail-retry execution
   are not inferred. The release capture-test compiler assertion is separate from
   the passing debug prerecorded materializer and production release build.
-- **Voice repeatability (planned18a):** `codex/voice-entry-parity` in the reused
-  two-hour-package-transfer worktree has matched the frozen main candidate in
-  two fresh offline processes without recipe changes. Evidence/leaf banking and
-  a 19a isolated entry-port proposal are underway; public voice.generate remains
-  unavailable, with listening and managed reference-origin retention still open.
+- **Voice18a/19a:** repeatability is integrated. `codex/voice-entry-parity` in the
+  reused two-hour-package-transfer worktree owns the private [entry port](../slices/19a-voice-entry-parity.md),
+  preserving the frozen main candidate through shared process lifecycle and
+  explicit preparation. Public voice.generate, listening and managed-reference
+  retention remain open. No new model/runtime downloads or installs.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
