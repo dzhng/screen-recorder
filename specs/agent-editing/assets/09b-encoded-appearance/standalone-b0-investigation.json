@@ -1,0 +1,168 @@
+{
+  "entries": [
+    {
+      "path": "/tmp/screenrec-appearance-complete/review/B-0.png",
+      "sha256": "3077458c0304c0203ba1798e6734faf3936c0b4a0e44c19baa09497ec635003f",
+      "bytes": 3033,
+      "size": [
+        256,
+        160
+      ],
+      "nonblackPixels": 15640,
+      "nonblackBounds": [
+        50,
+        34,
+        220,
+        126
+      ],
+      "maximumRGB": 253
+    },
+    {
+      "path": "/tmp/screenrec-appearance-complete/review/B-frames/0000.png",
+      "sha256": "3077458c0304c0203ba1798e6734faf3936c0b4a0e44c19baa09497ec635003f",
+      "bytes": 3033,
+      "size": [
+        256,
+        160
+      ],
+      "nonblackPixels": 15640,
+      "nonblackBounds": [
+        50,
+        34,
+        220,
+        126
+      ],
+      "maximumRGB": 253
+    },
+    {
+      "path": "/tmp/screenrec-appearance-complete/frozen/range/decoded/0000.png",
+      "sha256": "3077458c0304c0203ba1798e6734faf3936c0b4a0e44c19baa09497ec635003f",
+      "bytes": 3033,
+      "size": [
+        256,
+        160
+      ],
+      "nonblackPixels": 15640,
+      "nonblackBounds": [
+        50,
+        34,
+        220,
+        126
+      ],
+      "maximumRGB": 253
+    },
+    {
+      "path": "/tmp/screenrec-fresh-critique-srgb/B-0.png",
+      "sha256": "e2818fd0be1db46eadb61c8306081866564078d1edf1f9bd0ccb33faf7a3f5cc",
+      "bytes": 3100,
+      "size": [
+        256,
+        160
+      ],
+      "nonblackPixels": 15640,
+      "nonblackBounds": [
+        50,
+        34,
+        220,
+        126
+      ],
+      "maximumRGB": 253
+    },
+    {
+      "path": "/tmp/screenrec-fresh-critique-srgb/B-native-0000.png",
+      "sha256": "e2818fd0be1db46eadb61c8306081866564078d1edf1f9bd0ccb33faf7a3f5cc",
+      "bytes": 3100,
+      "size": [
+        256,
+        160
+      ],
+      "nonblackPixels": 15640,
+      "nonblackBounds": [
+        50,
+        34,
+        220,
+        126
+      ],
+      "maximumRGB": 253
+    }
+  ],
+  "committedStandaloneManifest": {
+    "path": "review/B-0.png",
+    "bytes": 3033,
+    "sha256": "3077458c0304c0203ba1798e6734faf3936c0b4a0e44c19baa09497ec635003f",
+    "storedAs": "frozen/full/decoded/0000.png"
+  },
+  "conclusion": "Original A-0, standalone B-0 and decoded B-0 are byte-identical and match the committed manifest. Both scratch conversions and presentation variants have identical opaque RGBA rasters. Local view-image calls displayed originals and metadata-stripped/reserialized variants correctly while displaying scratch files black. A fresh follow-up inconsistently reported original A-0 visible but byte-identical original B-0 and the reserialization black. Thus the exact presentation mechanism is not established and metadata removal is not a proven reliable fix. No source/image-selection/movie defect or original artifact replacement is supported.",
+  "presentationVariants": [
+    {
+      "path": "presentation-investigation/critic-b0-srgb.png",
+      "sha256": "e2818fd0be1db46eadb61c8306081866564078d1edf1f9bd0ccb33faf7a3f5cc",
+      "chunks": [
+        "IHDR",
+        "sRGB",
+        "eXIf",
+        "iTXt",
+        "IDAT",
+        "IEND"
+      ],
+      "idatSHA256": "d3ffa29467536ba0e9e43e98a5da7976d41feef32e3fd7cb8ac376a17e398359"
+    },
+    {
+      "path": "presentation-investigation/same-raster-explicit-srgb.png",
+      "sha256": "cad578aa8076a9efdb379bd28348c43fbfbda7788e401eee76c6e6f50ff729c5",
+      "chunks": [
+        "IHDR",
+        "iCCP",
+        "IDAT",
+        "IEND"
+      ],
+      "idatSHA256": "b9752108fd56270191ee43ded82d6dcfe69e97b370effbfedcdc72300db181e6"
+    },
+    {
+      "path": "presentation-investigation/same-idat-without-exif-xmp.png",
+      "sha256": "a160a07d612c2111ceb47d293c63a79d77109bf625dc4a92010b5a6cf68478a7",
+      "chunks": [
+        "IHDR",
+        "sRGB",
+        "IDAT",
+        "IEND"
+      ],
+      "idatSHA256": "d3ffa29467536ba0e9e43e98a5da7976d41feef32e3fd7cb8ac376a17e398359"
+    }
+  ],
+  "rasterEquality": [
+    {
+      "path": "/tmp/screenrec-fresh-critique-srgb/B-0.png",
+      "rgbaSHA256": "e216d454baac0e5d5c004d2fa72213dae32eb901ad9f1e8ce813af278554c243",
+      "alphaRange": [
+        255,
+        255
+      ]
+    },
+    {
+      "path": "/tmp/screenrec-fresh-critique-srgb/B-native-0000.png",
+      "rgbaSHA256": "e216d454baac0e5d5c004d2fa72213dae32eb901ad9f1e8ce813af278554c243",
+      "alphaRange": [
+        255,
+        255
+      ]
+    },
+    {
+      "path": "/tmp/screenrec-b0-presentation-check/without-both.png",
+      "rgbaSHA256": "e216d454baac0e5d5c004d2fa72213dae32eb901ad9f1e8ce813af278554c243",
+      "alphaRange": [
+        255,
+        255
+      ]
+    },
+    {
+      "path": "/tmp/screenrec-b0-presentation-check/rgb-explicit-srgb.png",
+      "rgbaSHA256": "e216d454baac0e5d5c004d2fa72213dae32eb901ad9f1e8ce813af278554c243",
+      "alphaRange": [
+        255,
+        255
+      ]
+    }
+  ],
+  "originalA0SHA256": "3077458c0304c0203ba1798e6734faf3936c0b4a0e44c19baa09497ec635003f"
+}

@@ -74,5 +74,7 @@ Independent code review found the initial missing pointer-input comparison;
 the gate and frozen-fixture tests now cover it. Its full transcript and the
 follow-up review are retained. The initial harness failure is also retained: it
 wrongly expected a pointer-stream file for the deliberately missing-pointer case;
-the corrected capture checks whether the native request declares that stream. Independent visual critique is pending; this
-checkpoint intentionally leaves encoded appearance and playback acceptance open.
+the corrected capture checks whether the native request declares that stream. The [independent still-frame critique](visual-review.md) records visible
+compression loss and successful defect discrimination, with a scratch-image
+presentation limitation preserved and investigated. Encoded appearance and
+continuous-playback acceptance remain open.
