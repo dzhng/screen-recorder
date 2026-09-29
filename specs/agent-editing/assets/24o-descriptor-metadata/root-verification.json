@@ -1,0 +1,49 @@
+{
+  "workerSHA256": "78db46aea09523156a989ec9e01fb19f8f37454a82708f79145fb51219d77fa6",
+  "accountingPassed": true,
+  "metadataPassed": true,
+  "descriptorIO": {
+    "sourceBytes": 11520044,
+    "lateReadBytes": 200326,
+    "smallerThanWholeSource": true
+  },
+  "aacComparison": {
+    "maximum": 0,
+    "rms": 0,
+    "comparedSamples": 1920
+  },
+  "readAhead": {
+    "passed": false,
+    "enforced": false,
+    "maximumBytes": 1601552,
+    "observations": [
+      {
+        "second": 1,
+        "readBytes": 1544332,
+        "passed": true
+      },
+      {
+        "second": 3600,
+        "readBytes": 2312340,
+        "passed": false
+      },
+      {
+        "second": 7199,
+        "readBytes": 392332,
+        "passed": true
+      }
+    ]
+  },
+  "sparse": {
+    "logicalBytes": 2764800044,
+    "allocatedBytes": 81920,
+    "markerSHA256": "15f37624b2a05c70f3708282d4d47bbb3961bcc0b912e11ccfebfd83b0d46bc0",
+    "markerStartFrames": [
+      48000,
+      172800000,
+      345552000
+    ]
+  },
+  "cases": 16,
+  "nativeProjectAudioTests": 12
+}

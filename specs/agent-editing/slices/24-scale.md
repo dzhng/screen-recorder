@@ -5,8 +5,10 @@ edit batching and compact public delivery pass their prerequisites. The
 [two-hour learned checkpoint](24f-successful-learned-scale.md) passes complete
 PCM comparison; [routed500/10,000 occurrence reads](24k-routing-scale.md) now pass their scoped
 placement, cached inspection and queue gates. [Warm1080p preview](24l-preview-budget.md) and [fixed-cardinality timeline query
-memory](24m-query-duration-memory.md) also pass. Decoder work, other query families,
-history and remaining budgets below remain open. Carry the unresolved inherited
+memory](24m-query-duration-memory.md) also pass. [Actual decoder/read accounting](24n-decoder-work.md) and the
+[metadata prefix correction](24o-descriptor-metadata.md) pass their scoped gates.
+General decoder read-ahead remains red; other query families, history and
+remaining budgets below remain open. Carry the unresolved inherited
 300-second audio streaming
 deadline from [baseline maintenance](../assets/00-baseline/audio-fix/review.md);
 neither baseline nor changed diagnostic establishes a pass. The inherited storage

@@ -5,7 +5,7 @@ Root integrates committed passes and verifies their consumer contracts. Current
 catalog format is19, source policy is native-source-v2 and produced audio/movie
 policies arev9/v19. The combined worker is
 `helpers/mac/.build/debug/screenrec-native`, SHA256
-`c3f0a415e293f18c942307f53038bb2364496f4ddc7e865934b224c59e0dd948`.
+`78db46aea09523156a989ec9e01fb19f8f37454a82708f79145fb51219d77fa6`.
 Historical workers and measurements retain their own identities below.
 
 ## Active owners and next action
@@ -14,18 +14,21 @@ Historical workers and measurements retain their own identities below.
   audio/preparation tests and50 public checks pass; [fresh skill use](15a3b-mix-skill/README.md)
   independently preserves the complete split PCM and dry-source samples. No
   listening or retiming acceptance is inferred.
-- **Decoder work24n:** integrated; all 13 root accounting/PCM controls and 12 native
-  project-audio tests pass. Descriptor metadata can still read the entire source.
-  The `codex/decoder-scale` delegate owns 24o in capture-pause-recovery: declare
-  existing local bytes available on demand without changing the 64 MiB inspection
-  guard or descriptor identity. Preserve the pre-fix red.
-- **Audio format admission:** the two-hour-package-transfer delegate is probing
-  platform identification of descriptor-backed MP3/AIFF/FLAC. Proposal first;
-  no filename guessing or alternate decoder. This is separate from24o.
+- **Decoder work24n/24o:** integrated; all 16 root accounting/metadata/PCM controls
+  and 12 native project-audio tests pass. Metadata no longer scans the full WAV
+  prefix. General read-ahead remains red on the sparse two-hour middle window;
+  the `codex/decoder-scale` delegate is assessing finite decoder demand for planned24q
+  in capture-pause-recovery. Preserve exact source phase, packet/context semantics,
+  descriptor identity and the 64 MiB inspection guard; do not raise fixture bounds.
+- **Audio format admission (planned24p):** the two-hour-package-transfer delegate owns
+  `codex/audio-format-admission`. Platform identification repaired MP3/AIFF/FLAC
+  in scratch controls; production constructor and public import proof are underway.
+  Identification never substitutes for codec/packet/rate/channel admission.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
   Continue actual decoded-work measurement and remaining query families/history.
+- **History queries24r:** root owns the [public history scale check](../slices/24r-history-query-scale.md), using real compact revisions and fresh services to isolate bounded page reads.
 - **Two-hour package24j:** exact recipe reconstruction is verified; full transfer
   still lacks the free disk required by its measured preflight. Run its measured preflight before restoring PCM.
   No large restore or repeated DSP has run. The prerequisite worktree is

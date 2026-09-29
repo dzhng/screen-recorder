@@ -3541,3 +3541,25 @@ otherwise repeatedly scan the same sources. The plan required bounded work but
 left the measurement seam unspecified. Explicit unknown reads for pathname and
 retained-PCM paths prevent partial telemetry from masquerading as total I/O;
 future performance claims must preserve that distinction.
+
+## 24o — Tell the framework when all source bytes already exist (sound, high confidence)
+
+When an agent opens a local clip, the existing loader already has its complete
+file. Declare that using Apple's available-on-demand property so metadata reads
+can seek directly. Keep the same owned file handle, exact timing and inspection
+ceiling. This platform capability fills the plan's unspecified metadata-loading
+mechanism without adding a new decoder, pathname lookup or file copy. A direct
+file-descriptor URL was rejected because it bypassed that inspection ceiling.
+
+## 24o — Separate metadata repair from unconstrained decoder read-ahead (sound, high confidence)
+
+A short excerpt from a long file needs two different checks: finding its media
+metadata and reading its selected samples. Use a sparse two-hour file with known
+sample markers to measure early, middle and late reads without allocating or
+rendering two hours of audio. Report actual bytes and exact sample comparisons.
+The initial 128 KiB test guess ignored the existing one-second physical tail in its
+60-second fixture, so its corrected bound follows that tail plus metadata; its
+original failure stays retained. The new sparse read-ahead bound is still failed
+and remains unchanged. Separate verdicts permit the metadata repair to land
+without treating its success as proof of bounded decoder demand. This resolves
+the plan's unspecified measurement method, not its open performance requirement.

@@ -76,3 +76,17 @@ Direct `/dev/fd` URLs with an explicit public MIME override worked for tested
 formats but bypass the 64 MiB loader guard and require correct MIME provenance.
 That candidate was rejected. Disabling precise timing did not establish a byte
 bound and can alter timing guarantees. Neither alternative ships.
+
+## Combined root confirmation
+
+The integrated debug worker passes all 16 accounting/metadata/complete-PCM cases
+and 12 native project-audio tests. The late WAV reads 200,326 bytes. General
+read-ahead remains red: the middle two-hour marker reads 2,312,340 bytes against
+the unchanged 1,601,552-byte fixture bound. Early/end reads and every selected
+sample still match. This wider observed variation confirms why the next pass
+must bound actual decoder demand rather than raise a guessed threshold.
+`root-verification.json` records compact outcomes and exact worker identity;
+`root-report.json.gz` retains complete receipts. The original test invocation
+used a nonexistent filename and ran no tests; `root-core.log.gz` records the
+corrected actual test file and all 12 passes. No full sparse-file copy or DSP
+render ran, and the temporary sparse file was removed.

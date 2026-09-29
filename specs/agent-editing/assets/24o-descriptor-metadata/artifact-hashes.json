@@ -1,8 +1,8 @@
 [
   {
     "file": "README.md",
-    "bytes": 5012,
-    "sha256": "3dbfd93c30cf27c399cfdf6a169e7ef6fc3c49550f1f11aa9fb0b227b62d894e"
+    "bytes": 5876,
+    "sha256": "c7b52c72b7d7a28ec497b6981ddbf51b1bc28cc114d00400a70af170c6e19516"
   },
   {
     "file": "enforced-report.json",
@@ -38,6 +38,26 @@
     "file": "research.tar.xz",
     "bytes": 68944,
     "sha256": "0433f151e7aaa3286be3225a0352e4328b6a3f95c74b82a16a37ed555f338bc8"
+  },
+  {
+    "file": "root-build.log.gz",
+    "bytes": 245,
+    "sha256": "7af2d9bd98147cc790690e2607671cd4a5cee0bcc49873b3e9466a8143b7a561"
+  },
+  {
+    "file": "root-core.log.gz",
+    "bytes": 311,
+    "sha256": "6c083afdaa4e07395518c978c765f37b05aba300c57bdb8c8e206aeb07cb6979"
+  },
+  {
+    "file": "root-report.json.gz",
+    "bytes": 4015,
+    "sha256": "b00556e4939cdcb7a01402a5440305badae53c22c96052d3b8dcf10caca3aa9f"
+  },
+  {
+    "file": "root-verification.json",
+    "bytes": 1043,
+    "sha256": "8b3f3a1d55ce71633b7cd99147e00877c7fad904e35cf774fa30df4539eebd44"
   },
   {
     "file": "screenrec-24o-checkpoint.log.gz",
