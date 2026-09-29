@@ -19,15 +19,17 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Prove canonical sparse captured-audio storage/recovery using the existing
-   container-segment mechanism. The [actual writer reproduction](assets/20a-capture-owner-gap/README.md)
+1. Localize and correct the shared audio reader’s one-sample phase loss exposed
+   by exact sparse-container placement, then complete canonical captured-audio
+   storage/recovery using the existing container-segment mechanism. The [actual writer reproduction](assets/20a-capture-owner-gap/README.md)
    shows later PCM packed early after a missing buffer or pause. Preserve exact
    sample positions and truthful unavailable gaps; no silence padding, offset
    patch or second reader timeline. Physical capture remains a separate gate.
 2. The [fractional-rate correction](assets/08-fractional-rate-refusal/README.md)
    now refuses that unsupported execution domain and invalidates old ready
-   recipes, with combined-root confirmation. Continue actual retirement/reference
-   auditing and the remaining quality gates. The [speech review feedback](assets/12c-protected-speech/user-review.json)
+   recipes, with combined-root confirmation. The [retirement audit](assets/acceptance-maintenance/job-references.md)
+   confirms existing reference ownership. Continue complete agent discovery and
+   the remaining quality gates. The [speech review feedback](assets/12c-protected-speech/user-review.json)
    reports no obvious artifacts but no understood words; use meaningful complete
    sentences from the user's recording for future comparisons.
 3. Reuse the verified prepared-audio/public/portable owner for later accepted DSP.

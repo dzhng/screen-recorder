@@ -1,16 +1,18 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: prove canonical sparse captured-audio storage and recovery
-before repairing the verified writer gap bug. Fractional-rate execution now refuses
+Current priority: preserve exact sample phase in the shared audio reader, then
+complete canonical sparse captured-audio storage and recovery before repairing
+the verified writer gap bug. Fractional-rate execution now refuses
 with cache invalidation and combined-root confirmation. Settings09b,
 scoped06/15 and caption17 are verified; whole16/22 and final acceptance remain open.
 
 ## Current combined state
 
-Rootf1602c26 includes caption17 closure, fresh animated-gain use, writable CLI/MCP
-input discovery, finite audio-domain evidence, the offline camera prerequisite
-and protected-speech review packet.
+The combined root includes caption17 closure, fresh animated-gain use, writable
+CLI/MCP input discovery, finite audio-domain evidence, the offline camera
+prerequisite and protected-speech review packet. The fractional-rate correction
+is confirmed separately against the current worker below.
 The [static acceptance disposition](09b-encoded-appearance/acceptance.md)
 separates documented codec loss from exact geometry/timing contracts.
 The [animated checkpoint](16-animated-appearance/README.md) adds exact pre-encode
@@ -23,9 +25,10 @@ Current native worker: `/tmp/screenrec-integral-audio-native`, SHA256
 Earlier caption/output proofs used frozen `/tmp/screenrec-caption-output-combined-native`
 SHA256 `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`;
 keep original receipts as provenance.
-It includes explicit encoding controls, exact-font text and PNG canvas alpha.
-All five literal-caption public journeys, historical-package relocation and
-prepared PCM relocation pass on that worker. [Public audio preparation](14a-public-preparation/README.md)
+Those earlier caption/output proofs include explicit encoding controls, exact-font
+text and PNG canvas alpha. All five literal-caption public journeys,
+historical-package relocation and prepared PCM relocation passed on that
+earlier worker; they have not all been rerun against the rate-corrected worker. [Public audio preparation](14a-public-preparation/README.md)
 passes native CLI/MCP, restart/cancel/retry and independent skill use. This is
 unit-rate/gain preparation; model-dependent DSP remains open.
 
@@ -46,17 +49,24 @@ No production deadline or transaction guarantee changed.
   probe-known frame addresses. Prove sample placement, empty occupancy, late
   seeks and interrupted publication before implementing journal/materializer repair.
   No live capture, silence padding, reader-specific clock or guessed legacy mapping.
-- Capture repair audit: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-  Independent architecture audit completed at /tmp/screenrec-capture-gap-independent.md;
-  implementation proposal is /tmp/screenrec-capture-audio-run-proposal.md. Retain both
-  with the next proof. The real-narration/music checkpoint is integrated7be0d2b4;
-  complete mix/dry-neighbor/undo and public negative controls pass, no listening claim.
-- Job-reference audit: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  Source-rate correction is integratede518fe49: common safe integer-rate validation,
-  audio-v4/movie-v14 and inherited prepared identity. Root build,39core tests and
-  public admission cohort confirm refusal and unchanged discrete stereo/ranges.
-  Read-only23/24 audit now distinguishes reachable retirement leaks from future
-  policy; no new GC mechanism without a demonstrated consumer need.
+- Shared audio reader: `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  Localize the sparse proof's one-sample placement error before changing code.
+  Exact rational container placement survives publication, yet the full and late
+  reader outputs lose one sample of phase. Microsecond projection is a lead,
+  not a proven cause. Keep exact and rounded controls; no offsets or relaxed gates.
+  The distinct fractional-native-rate correction is already integrated and
+  root-confirmed; ordinary integer-rate decoding remains supported.
+- Agent discovery: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
+  Audit supports local shared JSON-schema references at the existing CLI/MCP
+  capabilities owner. Implement with full settings preserved, reference closure,
+  actual CLI/MCP checks and a fresh help-only consumer. External client support
+  is not established by SDK schema acceptance alone.
+
+The capture proposal and independent audit are being retained with the storage
+checkpoint. The real-narration/music checkpoint is integrated; complete PCM
+mix/dry-neighbor/undo and public negative controls pass without a listening claim.
+The [job-reference audit](acceptance-maintenance/job-references.md) confirms the
+existing retirement owner; no new garbage collector is needed for the audited paths.
 
 Fresh animated-gain skill use passes and its service is stopped; root dist is free.
 616a1c58 corrects erroneous read-only input annotations for shared CLI/MCP
