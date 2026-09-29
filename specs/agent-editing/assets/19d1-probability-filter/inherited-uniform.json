@@ -1,0 +1,2077 @@
+{
+  "scope": "Synthetic bfloat16 logits across declared numerical/filter extremes; diagnostic softmax uses float32 over actual post-transform logits; no quality guarantee",
+  "sourceSha256": "0d9437e4f08680d7bf8cb7bf3b44c8e3de37ad9edf025f50dba37dface2e6902",
+  "cases": 90,
+  "rows": [
+    {
+      "active": 1,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          0
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          0
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          0
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          0
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          0
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          0
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          1
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          1
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          1
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          1
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 2,
+      "maskedCandidates": 3070,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          1
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          1
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 63,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 0,
+      "maskedCandidates": 3072,
+      "probabilitiesFinite": false,
+      "probabilitySum": NaN,
+      "positiveProbabilities": 0,
+      "token": [
+        [
+          2683
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "active": 63,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 0,
+      "maskedCandidates": 3072,
+      "probabilitiesFinite": false,
+      "probabilitySum": NaN,
+      "positiveProbabilities": 0,
+      "token": [
+        [
+          2683
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "active": 63,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          62
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 63,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 6,
+      "maskedCandidates": 3066,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 6,
+      "token": [
+        [
+          62
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 63,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 51,
+      "maskedCandidates": 3021,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 51,
+      "token": [
+        [
+          56
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 63,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 63,
+      "token": [
+        [
+          55
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 64,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          63
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 64,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          63
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 64,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 2,
+      "maskedCandidates": 3070,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          63
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 64,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 7,
+      "maskedCandidates": 3065,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 7,
+      "token": [
+        [
+          63
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 64,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 52,
+      "maskedCandidates": 3020,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 52,
+      "token": [
+        [
+          57
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 64,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 64,
+      "token": [
+        [
+          55
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 127,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          126
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 127,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 2,
+      "maskedCandidates": 3070,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          126
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 127,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3,
+      "maskedCandidates": 3069,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 3,
+      "token": [
+        [
+          126
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 127,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 13,
+      "maskedCandidates": 3059,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 13,
+      "token": [
+        [
+          125
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 127,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 102,
+      "maskedCandidates": 2970,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 102,
+      "token": [
+        [
+          114
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 127,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 127,
+      "token": [
+        [
+          110
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 128,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 2,
+      "maskedCandidates": 3070,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          127
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 128,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3,
+      "maskedCandidates": 3069,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 3,
+      "token": [
+        [
+          127
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 128,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 4,
+      "maskedCandidates": 3068,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 4,
+      "token": [
+        [
+          127
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 128,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 14,
+      "maskedCandidates": 3058,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 14,
+      "token": [
+        [
+          126
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 128,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 103,
+      "maskedCandidates": 2969,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 103,
+      "token": [
+        [
+          114
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 128,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 128,
+      "token": [
+        [
+          111
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 172,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 0,
+      "maskedCandidates": 3072,
+      "probabilitiesFinite": false,
+      "probabilitySum": NaN,
+      "positiveProbabilities": 0,
+      "token": [
+        [
+          2683
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "active": 172,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          171
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 172,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 2,
+      "maskedCandidates": 3070,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          171
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 172,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 16,
+      "maskedCandidates": 3056,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 16,
+      "token": [
+        [
+          169
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 172,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 138,
+      "maskedCandidates": 2934,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 138,
+      "token": [
+        [
+          154
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 172,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 172,
+      "token": [
+        [
+          150
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 173,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          172
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 173,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 2,
+      "maskedCandidates": 3070,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          172
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 173,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3,
+      "maskedCandidates": 3069,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 3,
+      "token": [
+        [
+          172
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 173,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 17,
+      "maskedCandidates": 3055,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 17,
+      "token": [
+        [
+          170
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 173,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 139,
+      "maskedCandidates": 2933,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 139,
+      "token": [
+        [
+          155
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 173,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 173,
+      "token": [
+        [
+          151
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 174,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 2,
+      "maskedCandidates": 3070,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          173
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 174,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3,
+      "maskedCandidates": 3069,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 3,
+      "token": [
+        [
+          173
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 174,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 4,
+      "maskedCandidates": 3068,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 4,
+      "token": [
+        [
+          173
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 174,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 18,
+      "maskedCandidates": 3054,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 18,
+      "token": [
+        [
+          171
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 174,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 140,
+      "maskedCandidates": 2932,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 140,
+      "token": [
+        [
+          156
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 174,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 174,
+      "token": [
+        [
+          152
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 255,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 4,
+      "maskedCandidates": 3068,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 4,
+      "token": [
+        [
+          254
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 255,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 6,
+      "maskedCandidates": 3066,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 6,
+      "token": [
+        [
+          254
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 255,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 8,
+      "maskedCandidates": 3064,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 8,
+      "token": [
+        [
+          253
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 255,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 28,
+      "maskedCandidates": 3044,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 28,
+      "token": [
+        [
+          251
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 255,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 205,
+      "maskedCandidates": 2867,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 205,
+      "token": [
+        [
+          229
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 255,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 255,
+      "token": [
+        [
+          222
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 256,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 5,
+      "maskedCandidates": 3067,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 5,
+      "token": [
+        [
+          255
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 256,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 7,
+      "maskedCandidates": 3065,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 7,
+      "token": [
+        [
+          255
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 256,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 9,
+      "maskedCandidates": 3063,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 9,
+      "token": [
+        [
+          254
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 256,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 29,
+      "maskedCandidates": 3043,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 29,
+      "token": [
+        [
+          252
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 256,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 206,
+      "maskedCandidates": 2866,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 206,
+      "token": [
+        [
+          229
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 256,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 256,
+      "token": [
+        [
+          223
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 511,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 0,
+      "maskedCandidates": 3072,
+      "probabilitiesFinite": false,
+      "probabilitySum": NaN,
+      "positiveProbabilities": 0,
+      "token": [
+        [
+          2683
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "active": 511,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 0,
+      "maskedCandidates": 3072,
+      "probabilitiesFinite": false,
+      "probabilitySum": NaN,
+      "positiveProbabilities": 0,
+      "token": [
+        [
+          2683
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "active": 511,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1,
+      "maskedCandidates": 3071,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1,
+      "token": [
+        [
+          510
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 511,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 43,
+      "maskedCandidates": 3029,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 43,
+      "token": [
+        [
+          505
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 511,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 408,
+      "maskedCandidates": 2664,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 408,
+      "token": [
+        [
+          459
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 511,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 511,
+      "token": [
+        [
+          446
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 512,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 0,
+      "maskedCandidates": 3072,
+      "probabilitiesFinite": false,
+      "probabilitySum": NaN,
+      "positiveProbabilities": 0,
+      "token": [
+        [
+          2683
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "active": 512,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 0,
+      "maskedCandidates": 3072,
+      "probabilitiesFinite": false,
+      "probabilitySum": NaN,
+      "positiveProbabilities": 0,
+      "token": [
+        [
+          2683
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "active": 512,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3,
+      "maskedCandidates": 3069,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 3,
+      "token": [
+        [
+          511
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 512,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 45,
+      "maskedCandidates": 3027,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 45,
+      "token": [
+        [
+          506
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 512,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 409,
+      "maskedCandidates": 2663,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 409,
+      "token": [
+        [
+          460
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 512,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 512,
+      "token": [
+        [
+          447
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1024,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 0,
+      "maskedCandidates": 3072,
+      "probabilitiesFinite": false,
+      "probabilitySum": NaN,
+      "positiveProbabilities": 0,
+      "token": [
+        [
+          2683
+        ]
+      ],
+      "valid": false
+    },
+    {
+      "active": 1024,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 2,
+      "maskedCandidates": 3070,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2,
+      "token": [
+        [
+          1023
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1024,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 10,
+      "maskedCandidates": 3062,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 10,
+      "token": [
+        [
+          1022
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1024,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 94,
+      "maskedCandidates": 2978,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 94,
+      "token": [
+        [
+          1012
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1024,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 818,
+      "maskedCandidates": 2254,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 818,
+      "token": [
+        [
+          920
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 1024,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1024,
+      "token": [
+        [
+          894
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2048,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.00390625,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 4,
+      "maskedCandidates": 3068,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 4,
+      "token": [
+        [
+          2047
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2048,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.01,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 20,
+      "maskedCandidates": 3052,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 20,
+      "token": [
+        [
+          2045
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2048,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.02,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 36,
+      "maskedCandidates": 3036,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 36,
+      "token": [
+        [
+          2043
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2048,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 200,
+      "maskedCandidates": 2872,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 200,
+      "token": [
+        [
+          2022
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2048,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 0.8,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 1638,
+      "maskedCandidates": 1434,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 1638,
+      "token": [
+        [
+          1841
+        ]
+      ],
+      "valid": true
+    },
+    {
+      "active": 2048,
+      "vocabulary": 3072,
+      "history": "none",
+      "historyCount": 0,
+      "temperature": 1,
+      "top_k": 0,
+      "top_p": 1,
+      "repetition_penalty": 1.05,
+      "nan": false,
+      "positiveInfinity": false,
+      "finiteCandidates": 3072,
+      "maskedCandidates": 0,
+      "probabilitiesFinite": true,
+      "probabilitySum": 1.0,
+      "positiveProbabilities": 2048,
+      "token": [
+        [
+          1789
+        ]
+      ],
+      "valid": true
+    }
+  ]
+}
