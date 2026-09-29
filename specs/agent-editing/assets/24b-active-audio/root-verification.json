@@ -1,0 +1,44 @@
+{
+  "commit": "76a794e8",
+  "workerSHA256": "953c5bbbad82560400717ea6cd7db11d4e2369193040a976a5c8a57560844b53",
+  "nativeChecks": 51,
+  "publicGroups": 17,
+  "focusedNativePassed": true,
+  "scaleChecks": {
+    "successfulPreparation": true,
+    "exactIndependentFullPCM": true,
+    "exactDeclaredFullCount": true,
+    "exactLateVersusFull": true,
+    "repeatIdentity": true,
+    "retainedReadWithoutProcessing": true,
+    "workspaceClean": true
+  },
+  "observations": {
+    "setupMs": 736.885542,
+    "prepareMs": 19870.904833,
+    "nativePeakResidentBytes": 53460992,
+    "fullPCMHash": "6001dec62e093cae7af5a32d00a2f86eafe7f9be507eeef28a4f8e2f3acbed17",
+    "independentReferenceMs": 3525.2264579999974,
+    "fullSha256": "f6e6cfeccc4be418ffb44a1b169e6fc4b864dfcf1d512df984e4330254e039a5",
+    "fullBytes": 115204096,
+    "lateColdMs": 450.40629199999967,
+    "lateWarmDeliveryMs": 106.64441599999918,
+    "latePCMHash": "b77fffb475b722b0eddb11bd01d7887eb5d6be4560e0de74b1865ed962a5480e",
+    "sampledHarnessPeakRSS": 286949376,
+    "sampledServicePeakRSS": 322224128,
+    "sampledPeakWorkspaceBytes": 343826432
+  },
+  "loadNote": "Combined scale run overlapped a delegated service CPU profile and archive verification; timings are observations, not an isolated benchmark.",
+  "verifiedLogicalFiles": 343,
+  "verifiedArchives": 5,
+  "archiveSHA256": "590537b96e2a19885315bad60b1d22d0b0458ae3ecdab85bfedbb32d53df6513",
+  "files": {
+    "0-report.json": "269ed14a1f05dbf55520631deaafa8eac037986985a93cb198514f906057c922",
+    "1-report.json": "3bb537a863a0c724c5d25ce572ad8217d91c89865d8c3967a0755673fa604115",
+    "2-report.json": "5b64f9997ed17b858c7d4e5de72985e85ecab254c15792eb2a343fdf2fcd1a03",
+    "3-active-audio-root-focused-native.log": "16a8e65c33b86e504dac2cf591e0585e77e39fc107fa1e6d6af48c9eb03d0d67",
+    "4-active-audio-root-native-build.log": "d6708b9e3c1b34c22e5fc19870db26885a79f948a4eef63edaaf557ba71f80f4",
+    "5-active-audio-root-service-build.log": "21423e78bc1912e16f072e1dc4dff3f066582d19466d67ce30b5ef86b8882c18"
+  },
+  "scope": "Combined-root500-occurrence5min exact full frozen-reference PCM, retained windows, cleanup and preserved51native/17public contracts. Full2h10k public setup remains red; no listening or whole24 acceptance."
+}

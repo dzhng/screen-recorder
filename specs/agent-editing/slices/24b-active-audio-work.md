@@ -2,7 +2,7 @@
 
 Status: five-minute/500-occurrence learned preparation verified; two-hour public
 setup remains red before preparation. [Evidence](../assets/24b-active-audio/README.md).
-Depends on [compiled-plan delivery](24a-compiled-plan-delivery.md) for larger plans.
+Dependencies: [24a](24a-compiled-plan-delivery.md).
 This is a prerequisite of 24 and the remaining 15a2 scale gates, not their closure.
 
 The existing native Graph owns immutable routing and support metadata. A Stream

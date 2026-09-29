@@ -33,3 +33,5 @@ cost. Oracle review confirmed the full comparison and found a harness finalizer
 that could lose evidence on shutdown failure; an injected failure now preserves
 its report and a normal follow-up passes. No listening, intelligibility, stereo
 spatial quality, post-retime execution or complete scale acceptance is claimed.
+
+[Combined-root verification](root-verification.json) retains full-oracle, native/public and focused signed-zero/missing-state replays with the integrated renderer epochs.

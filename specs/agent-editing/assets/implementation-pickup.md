@@ -68,11 +68,14 @@ with independent state per output channel. Listening acceptance remains open.
   matched48k poison controls, distinct authored windows, gain order and public
   bypass/history. [Independent channels](15a2f-independent-channels/README.md) and
   [learned package transfer](14a-learned-portable/README.md) now pass their scoped
-  native/public combined-root checks. Next complete successful long-output scaling,
-  temporal and retiming gates. The500-occurrence run exposed whole-plan native
-  admission/work limits; the active-mixer correction owns those. Root
-  [compiled-plan delivery](24a-compiled-plan/README.md) now removes the separate
-  control-message size obstacle without enlarging control frames.
+  native/public combined-root checks. [Active audio work](24b-active-audio/README.md)
+  now verifies successful five-minute/500-occurrence preparation against the full
+  independent frozen PCM oracle. The two-hour/10,000-occurrence public setup times
+  out after4,500 placements; the original run did not inspect post-timeout commit
+  outcome. Next localize that edit cost with preserved state, then complete the
+  two-hour preparation, temporal and retiming gates. [Compiled-plan delivery](24a-compiled-plan/README.md)
+  removes the separate control-message size obstacle. Audio/movie executor identities
+  advanced for expanded admission so prior nonretryable failures cannot strand new requests.
   The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires
   explicit local model preparation, without edit-time downloads. Spatial channel quality and
   protected-speech listening acceptance remain open.
