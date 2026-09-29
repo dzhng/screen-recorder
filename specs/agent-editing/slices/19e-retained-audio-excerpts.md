@@ -2,6 +2,10 @@
 
 Status: planned. Parent: [19](19-voice-assets.md). Dependencies: [11](11-audio-inspection.md), [02](02-assets.md).
 
+The [native prerequisite probe](../assets/19e-native-extraction/README.md) preserves
+canonical PCM but rewrites WAV headers; current source/project operations do not
+accept requested rate/channel conversion. This is an explicit implementation gap.
+
 ## Contract and seam
 
 An explicit raw or processed audio selection becomes an ordinary immutable audio
