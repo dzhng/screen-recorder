@@ -1,19 +1,17 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import { mkdir, readFile, writeFile, readdir, stat } from "node:fs/promises";
+import { mkdir, readFile, writeFile, readdir, stat, rename, rm } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { parseArgs } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
+import { Models } from "../../core/dist/models.js";
 import { voiceRenderer } from "../../../apps/service/dist/voice.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
 const { values } = parseArgs({
-  options: Object.fromEntries(
-    ["out", "python", "entry", "model", "cache", "native"].map((x) => [x, { type: "string" }]),
-  ),
+  options: Object.fromEntries(["out", "model-home", "native"].map((x) => [x, { type: "string" }])),
 });
-for (const key of ["out", "python", "entry", "model", "cache", "native"])
-  assert(values[key], `Missing --${key}`);
+for (const key of ["out", "model-home", "native"]) assert(values[key], `Missing --${key}`);
 const out = resolve(values.out);
 await mkdir(out, { mode: 0o700 });
 const workspace = join(out, "workspace");
@@ -22,11 +20,10 @@ const frozen = join(root, "specs/agent-editing/assets/18-voice");
 const cases = JSON.parse(
   await readFile(join(root, "packages/test-harness/editing/voice/cases.json")),
 );
-const preparation = Object.fromEntries(
-  ["python", "entry", "model", "cache"].map((k) => [k, resolve(values[k])]),
-);
+const models = new Models(resolve(values["model-home"]));
+const preparation = await models.voice("qwen3-tts");
 const native = mediaWorker({ SCREENREC_NATIVE: resolve(values.native) });
-const run = voiceRenderer(native, preparation, workspace);
+const run = voiceRenderer(native, models, "qwen3-tts", workspace);
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const request = (name) => ({
   reference: join(frozen, "reference.wav"),
@@ -93,49 +90,30 @@ try {
     "INVALID_REQUEST",
   );
   assert.equal(digest(await readFile(same.output)), before);
-  await refusal(
-    "missing runtime",
-    () =>
-      voiceRenderer(
-        native,
-        { ...preparation, python: join(out, "missing-python") },
-        workspace,
-      )(request("missing"), new AbortController().signal),
-    "MODEL_NOT_PREPARED",
-  );
-  await refusal(
-    "wrong runtime",
-    () =>
-      voiceRenderer(
-        native,
-        { ...preparation, python: process.execPath },
-        workspace,
-      )(request("wrong"), new AbortController().signal),
-    "MODEL_NOT_PREPARED",
-  );
-  await refusal(
-    "missing model",
-    () =>
-      voiceRenderer(
-        native,
-        { ...preparation, model: join(out, "missing-model") },
-        workspace,
-      )(request("missing-model"), new AbortController().signal),
-    "MODEL_NOT_PREPARED",
-  );
-  const wrongModel = join(out, "wrong-model");
-  await mkdir(wrongModel);
-  await writeFile(join(wrongModel, ".gitattributes"), "changed prepared bytes");
-  await refusal(
-    "mismatched model bytes",
-    () =>
-      voiceRenderer(
-        native,
-        { ...preparation, model: wrongModel },
-        workspace,
-      )(request("changed-model"), new AbortController().signal),
-    "MODEL_NOT_PREPARED",
-  );
+  for (const [label, path, bytes] of [
+    ["missing runtime", preparation.python, null],
+    ["wrong runtime", preparation.python, Buffer.from("wrong executable")],
+    ["missing model", join(preparation.model, ".gitattributes"), null],
+    [
+      "mismatched model bytes",
+      join(preparation.model, ".gitattributes"),
+      Buffer.from("changed bytes"),
+    ],
+  ]) {
+    const backup = join(out, `${label.replaceAll(" ", "-")}-backup`);
+    await rename(path, backup);
+    try {
+      if (bytes) await writeFile(path, bytes);
+      await refusal(
+        label,
+        () => run(request(label.replaceAll(" ", "-")), new AbortController().signal),
+        "MODEL_NOT_PREPARED",
+      );
+    } finally {
+      await rm(path, { force: true });
+      await rename(backup, path);
+    }
+  }
   const unsupported = join(out, "unsupported.wav");
   const unsupportedBytes = Buffer.from(await readFile(join(frozen, "reference.wav")));
   let formatPosition = 12;

@@ -6,7 +6,7 @@ import { TranscriptStore } from "../../../packages/core/dist/transcript.js";
 import { join } from "node:path";
 import { startProjectService } from "../../../apps/service/dist/project-service.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
-import { parakeetModel } from "../../core/dist/speech-models.js";
+import { parakeetModel } from "../../core/dist/models.js";
 
 // Only ASR output is frozen. Public admission, native probing and shared transcript ingestion are real.
 const fixture = JSON.parse(await readFile(process.argv[3], "utf8"));

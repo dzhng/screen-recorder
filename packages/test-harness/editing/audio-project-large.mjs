@@ -344,7 +344,7 @@ try {
     "Service and CLI bounded RSS <512 MiB",
   );
   for (const item of report.originals) assert.equal(await digest(item.path), item.sha256);
-  assert.deepEqual(await call("model.status", {}), { state: "absent" });
+  assert.deepEqual(await call("model.status", { modelId: "parakeet" }), { state: "absent" });
   report.checks.originalsUnchangedNoModels = true;
   report.passed = true;
 } catch (error) {

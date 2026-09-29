@@ -10,7 +10,7 @@ export async function captionSeeds({ service, call, out, home, font, picture, ad
   const prepared = JSON.parse(await readFile(process.env.SCREENREC_ASR_REQUEST, "utf8")).params
     .models;
   const model = await copyModels(home, prepared);
-  assert.equal((await call("model.status", {})).state, "ready");
+  assert.equal((await call("model.status", { modelId: "parakeet" })).state, "ready");
   report.seedRequests = [];
   const api = async (operation, params, options) => {
     const row = { operation, params };

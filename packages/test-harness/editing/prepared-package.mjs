@@ -476,7 +476,7 @@ try {
     assert.equal(calls(), 0);
   });
   await start(receiver);
-  assert.equal((await call("model.status", {})).state, "absent");
+  assert.equal((await call("model.status", { modelId: "parakeet" })).state, "absent");
   for (const [i, original] of values.entries()) {
     const asset = await call("asset.get", { assetId: original.value.assetId });
     const output = join(out, `public-prepared-${i}.wav`);

@@ -11,7 +11,7 @@ import { type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { ownerIdentity, type JobOwner } from "./jobs.js";
 import type { PageQuery } from "./ordered-pages.js";
-import type { SpeechEnginePins, SpeechModelRequest } from "./speech-models.js";
+import type { SpeechEnginePins, SpeechModelRequest } from "./models.js";
 import type { TimeRange } from "./timeline.js";
 import { wordKind, wordKindPolicy, type WordKind } from "./word-kind.js";
 

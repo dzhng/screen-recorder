@@ -1,4 +1,4 @@
-import { parakeetModel } from "@screenrec/core/speech-models";
+import { parakeetModel } from "@screenrec/core/models";
 
 export const engines = {
   parakeet: {

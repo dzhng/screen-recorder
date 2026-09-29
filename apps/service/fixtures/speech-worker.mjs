@@ -5,7 +5,7 @@
 // which stalls unrelated worker tests running beside a test that writes its own.
 import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { parakeetModel } from "@screenrec/core/speech-models";
+import { parakeetModel } from "@screenrec/core/models";
 
 const narration = [
   { startUs: 0, endUs: 3_000_000 },

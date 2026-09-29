@@ -120,7 +120,7 @@ async function fixture(options: Options = {}) {
   const models: TranscriptionModels & { state: "absent" | "ready" } = {
     state: options.models ?? "ready",
     status: () => ({ state: models.state }),
-    nativeRequest: () => ({
+    nativeRequest: async () => ({
       directory: join(home, "models", "parakeet", pins.modelRevision, "parakeet-tdt-0.6b-v2"),
       files: [{ path: "parakeet_vocab.json", bytes: 2, sha256: "b".repeat(64) }],
     }),

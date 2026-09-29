@@ -144,7 +144,7 @@ async function fixture({ durationUs = 1000, originUs = 500, scenes = false } = {
   const modelState = { ready: true };
   const models: TranscriptionModels = {
     status: () => ({ state: modelState.ready ? "ready" : "absent" }),
-    nativeRequest: () => ({ directory: home, files: [] }),
+    nativeRequest: async () => ({ directory: home, files: [] }),
     modelDigest: "a".repeat(64),
     pins: {
       runtime: "FluidAudio",

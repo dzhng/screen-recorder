@@ -12,7 +12,7 @@ import { planAudioTracks } from "./audio.js";
 import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
 import { sourceArtifact, sourcePolicy, type SourceProcessing } from "./processing.js";
 import type { TimeRange } from "./timeline.js";
-import type { SpeechModels } from "./speech-models.js";
+import type { Models } from "./models.js";
 import {
   transcriptPolicy,
   portableTranscript,
@@ -33,10 +33,7 @@ const decoderExecution = "native-audio-v4";
 
 export type PortableTranscriptPublication = z.infer<typeof retainedPublicationSchema>;
 /** The model owner as transcription sees it: readiness, the verified file list and its pins. */
-export type TranscriptionModels = Pick<
-  SpeechModels,
-  "status" | "nativeRequest" | "modelDigest" | "pins"
->;
+export type TranscriptionModels = ReturnType<Models["transcription"]>;
 
 type ReadInput = {
   recordingId: string;
@@ -469,7 +466,7 @@ export class TranscriptProcessing {
     signal.throwIfAborted();
     const output = await this.transcripts.reserve(identity);
     try {
-      const request = { models: this.models.nativeRequest(), track, output };
+      const request = { models: await this.models.nativeRequest(), track, output };
       const receipt = await this.transcribe(request, signal);
       signal.throwIfAborted();
       const metadata = await this.transcripts.ingest({

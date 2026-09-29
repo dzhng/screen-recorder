@@ -187,7 +187,7 @@ try {
     { timeout: 120000 },
   );
   await service.start();
-  assert.deepEqual(await call("model.status", {}), { state: "absent" });
+  assert.deepEqual(await call("model.status", { modelId: "parakeet" }), { state: "absent" });
   for (const rate of [44100, 48000]) {
     const path = join(media, `selected-${rate}.mov`);
     const asset = await imported(path, `selected-${rate}`);
@@ -467,7 +467,7 @@ try {
     referenceTailSha256: await digest(referencePath),
     cliStreamedBytes: bytes,
   };
-  assert.deepEqual(await call("model.status", {}), { state: "absent" });
+  assert.deepEqual(await call("model.status", { modelId: "parakeet" }), { state: "absent" });
   for (const [path, before] of originals) assert.equal(await digest(path), before);
   report.originals = [...originals].map(([path, sha256]) => ({ name: basename(path), sha256 }));
   report.checks.originalsUnchangedNoModelDownload = true;

@@ -144,9 +144,9 @@
       "types": "./dist/derivative-inspection.d.ts",
       "default": "./dist/derivative-inspection.js"
     },
-    "./speech-models": {
-      "types": "./dist/speech-models.d.ts",
-      "default": "./dist/speech-models.js"
+    "./models": {
+      "types": "./dist/models.d.ts",
+      "default": "./dist/models.js"
     },
     "./word-kind": {
       "types": "./dist/word-kind.d.ts",

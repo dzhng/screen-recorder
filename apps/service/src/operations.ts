@@ -14,7 +14,7 @@ import type { LibraryFrameInspection } from "@screenrec/core/frames";
 import type { DerivativeDelivery } from "./delivery.js";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceProcessing } from "@screenrec/core/processing";
-import type { SpeechModelStatus } from "@screenrec/core/speech-models";
+import type { ModelStatus } from "@screenrec/core/models";
 import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import { TimelineError } from "@screenrec/core/timeline";
 import { type RevisionStore } from "@screenrec/core/library";
@@ -49,7 +49,15 @@ export type OperationContext = {
   delivery: DerivativeDelivery;
   scenes: SceneProcessing;
   transcripts: TranscriptProcessing;
-  models: { status(): SpeechModelStatus; prepare(): SpeechModelStatus };
+  models: {
+    list(): unknown;
+    status(modelId: string): Promise<ModelStatus>;
+    prepare(params: {
+      modelId: string;
+      runtimeSource?: string | undefined;
+      modelSource?: string | undefined;
+    }): Promise<ModelStatus>;
+  };
   cache: DerivedCache;
 };
 
@@ -481,10 +489,12 @@ export async function operate(
               ? packages.transcript(operation.params.packageHandle).search(operation.params)
               : transcripts.search(operation.params),
         };
+      case "model.list":
+        return { ok: true, data: models.list() };
       case "model.status":
-        return { ok: true, data: models.status() };
+        return { ok: true, data: await models.status(operation.params.modelId) };
       case "model.prepare":
-        return { ok: true, data: models.prepare() };
+        return { ok: true, data: await models.prepare(operation.params) };
       case "service.health":
         return { ok: true, data: health() };
       case "capture.sources":

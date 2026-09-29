@@ -9,7 +9,7 @@ import { isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import { RevisionStore } from "@screenrec/core/library";
-import { parakeetModel } from "@screenrec/core/speech-models";
+import { parakeetModel } from "@screenrec/core/models";
 import { launchReady, socketPath, temporary, waitFor } from "./harness.mjs";
 
 const cli = fileURLToPath(new URL("../../cli/dist/main.js", import.meta.url));
@@ -206,8 +206,8 @@ test(
       return response.data;
     };
 
-    assert.deepEqual(screenrec("model.status"), { state: "ready" });
-    assert.deepEqual(screenrec("model.prepare"), { state: "ready" });
+    assert.deepEqual(screenrec("model.status", { modelId: "parakeet" }), { state: "ready" });
+    assert.deepEqual(screenrec("model.prepare", { modelId: "parakeet" }), { state: "ready" });
     const recordingId = take.recordingId;
     const ready = await waitFor(
       () => {

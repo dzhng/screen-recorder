@@ -4,12 +4,19 @@ import { mkdir, open, readFile, readdir, writeFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { parseArgs } from "node:util";
 import { withRenderedFile } from "../../../apps/service/dist/render.js";
-import { voiceEntryPins } from "../../../apps/service/dist/voice-pins.js";
+import { qwenVoiceModel } from "../../core/dist/model-registry.js";
+const entryPin = (path) =>
+  qwenVoiceModel.runtimeArtifact.entries.find((entry) => entry.path === path);
+const voiceEntryPins = {
+  python: entryPin("python/bin/python3.12"),
+  entry: entryPin("voice/worker.py"),
+  pins: entryPin("voice/pins.json"),
+};
 import { jsonWorker, nativeResult, mediaWorker } from "../../../apps/service/dist/worker.js";
 
 const { values } = parseArgs({
   options: Object.fromEntries(
-    ["bundle", "model", "native", "out", "profile", "assembly"].map((name) => [
+    ["bundle", "model", "native", "out", "profile", "assembly", "donors"].map((name) => [
       name,
       { type: "string" },
     ]),
@@ -52,6 +59,7 @@ const donorFiles = [
   join(assembly.sourceRoots.base, "bin/python3.12"),
   join(assembly.sourceRoots.venv, "pyvenv.cfg"),
   join(assembly.sourceRoots.venv, "lib/python3.12/site-packages/mlx_audio/tts/utils.py"),
+  ...(values.donors ? JSON.parse(await readFile(resolve(values.donors), "utf8")) : []),
 ];
 const native = mediaWorker({ SCREENREC_NATIVE: resolve(values.native) });
 const voice = jsonWorker(

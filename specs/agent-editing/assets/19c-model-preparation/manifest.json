@@ -1,0 +1,59 @@
+{
+  "scope": "Local immutable model/runtime preparation, public readiness and private managed voice parity; no public generation or listening acceptance",
+  "baseCommit": "132308d4",
+  "platform": {
+    "system": "Darwin",
+    "release": "25.6.0",
+    "architecture": "arm64",
+    "node": "v24.14.0"
+  },
+  "archive": {
+    "path": "evidence.tar.xz",
+    "bytes": 3353072,
+    "sha256": "2b364976f97329098f7c9e4039cfc309501de43fa340999c3891905ca735a69f",
+    "members": 46
+  },
+  "checks": {
+    "focusedNativeEnabledTests": 155,
+    "modelTests": 23,
+    "managedPrivateEntryChecks": 13,
+    "wordSha256": "e14187038769cbe72b0f1bcef204296e96e4f908af2b96dcc708195738f735ca",
+    "phraseSha256": "168800fc5bc1799900764f4cafca008ebe1534a6fd6753a859ee25d227050b01",
+    "donorDenied": true,
+    "sameSizeRuntimeMutation": {
+      "cli": "invalid",
+      "mcp": "invalid",
+      "restored": "ready"
+    },
+    "catalogReadDuringVerificationMs": 15.283332999999402,
+    "asrWordCount": 306,
+    "asrExactInheritedWordsAndTimings": true,
+    "asrTimingQuality": false
+  },
+  "storage": {
+    "method": "existing bounded independent-file copyImportedFile; source identity/hash and copied-byte verification",
+    "minimumFreeBytesAtEachFileAdmission": "file bytes + 536870912",
+    "nodeCloneControl": "ENOSYS; unsupported branch removed",
+    "payloadModelBytes": 2516143009,
+    "payloadRuntimeBytes": 488265326,
+    "managedLibrary": "/tmp/screenrec-19c-bounded-copy/home/library",
+    "restoredModelSource": "/Users/david/.cache/screen-recorder/prepared-sources/qwen3-tts-1eccf1cb2519"
+  },
+  "identities": {
+    "packages/core/src/models.ts": "e7f50c98848f31a21318d63c83bc9b15c2bd3af9b6adf31577c813e6fb5ca60d",
+    "packages/core/src/model-files.ts": "6e9d2c2f545ec231c1a6cfa6f03be392e724043c8205fd2c701c419a1c676f08",
+    "packages/core/src/model-registry.ts": "af84d37f82069aef3bf3b53e0a07bd171a1707d48687cf04327de90422240acc",
+    "packages/core/src/model-data/voice-runtime.json": "0402e09d4aee7da3cd028bf65fb624fd8da0b1aeac47aca0d49437c268278cab",
+    "apps/service/src/voice.ts": "8eae6a3e739e338f1c71329e598664b6a04b95490947afe72665bfd5ee971334",
+    "packages/test-harness/editing/model-preparation.mjs": "94393d04e44d8e7804bcf11edbb4de0d44ecd86afbabe34097491cfc9306375d",
+    "packages/test-harness/editing/voice-entry.mjs": "19bde73c4d69cb86f2d3d9d0e2ab38abefb9a9e0160416e1423d176619afd64c",
+    "helpers/voice/worker.py": "701601fae855ffa8182c52a8fece0c11302e458e1ec40c6fc76a8488dbf0eef1",
+    "helpers/voice/pins.json": "f82a30e04e942402e529e3d2b72c4eb74bb6ae9625fbaf52278711536e82bd05",
+    "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+  },
+  "review": {
+    "initialFinding": "Pinned directory modes were masked by umask 077; reproduced red, fixed by applying registered modes after creation.",
+    "publicGateFinding": "Optional undefined runtimeDigest broke strict JSON discovery; public-wire regression reproduced red then green.",
+    "finalIndependentReview": "No actionable regressions. Reviewer socket tests were sandbox-blocked; the native-enabled local run passed all 155."
+  }
+}

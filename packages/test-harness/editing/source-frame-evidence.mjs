@@ -357,7 +357,7 @@ try {
   report.checks.cancelRetry = true;
   for (const [file, original] of originals) assert.equal(hash(await readFile(file)), original);
   report.originals = [...originals].map(([file, sha256]) => ({ file, sha256 }));
-  assert.deepEqual(await call("model.status", {}), { state: "absent" });
+  assert.deepEqual(await call("model.status", { modelId: "parakeet" }), { state: "absent" });
   report.passed = true;
 } catch (error) {
   report.error = { message: error.message, stack: error.stack };

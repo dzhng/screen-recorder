@@ -4,7 +4,7 @@ Build core, then run `node scripts/speech-eval.mjs --help` from the repository
 root. `plan` prints pinned acquisition commands without changing files; `prepare`
 downloads the Parakeet model and builds the upstream FluidAudio CLI outside the
 repository. The model files, sizes and hashes are the ones core's
-[speech model owner](../../core/src/speech-models.ts) prepares for the product, and
+[speech model owner](../../core/src/models.ts) prepares for the product, and
 `prepare` refuses a download that differs from them. Parakeet is the engine
 [selected](../../../specs/recording-for-ai/slices/04-local-speech-gate.md) by this
 experiment.

@@ -14,7 +14,7 @@ import { DerivedCache } from "./cache.js";
 import { JobQueue } from "./jobs.js";
 import { TranscriptStore } from "./transcript.js";
 import { TranscriptProcessing, assetTranscriptOwner } from "./transcript-processing.js";
-import { SpeechModels } from "./speech-models.js";
+import { Models } from "./models.js";
 import {
   ProjectEvidenceInspection,
   type ProjectEvidenceInput,
@@ -80,7 +80,7 @@ async function fixture({
     transcripts: new TranscriptProcessing({
       jobs,
       transcripts,
-      models: new SpeechModels(home),
+      models: new Models(home).transcription("parakeet"),
       asset: { assets, acquisitions },
       transcribe: async () => {
         throw Error("Capture inspection cannot infer speech");

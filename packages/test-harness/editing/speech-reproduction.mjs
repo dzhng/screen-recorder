@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync, mkdirSync, mkdtempSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { SpeechModels } from "../../core/dist/speech-models.js";
+import { Models } from "../../core/dist/models.js";
 import { scoreBoundaries } from "./speech/boundaries.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -20,15 +20,16 @@ const { values } = parseArgs({
 if (values.corpus !== "real-narration") throw new Error("Use --corpus real-narration");
 const home = resolve(values["model-home"]);
 mkdirSync(home, { recursive: true });
-const models = new SpeechModels(home);
+const owner = new Models(home);
+const models = owner.transcription("parakeet");
 if (values.prepare) {
-  await models.prepare(AbortSignal.timeout(300000));
+  await owner.prepare("parakeet", AbortSignal.timeout(300000));
   console.log(
     JSON.stringify({ state: models.status(), pins: models.pins, modelDigest: models.modelDigest }),
   );
   process.exit(0);
 }
-const modelRequest = models.nativeRequest(); // No preparation or network fallback on an ordinary run.
+const modelRequest = await models.nativeRequest(); // No preparation or network fallback on an ordinary run.
 const binary = values.native ?? process.env.SCREENREC_NATIVE;
 if (!binary) throw new Error("Pass --native or SCREENREC_NATIVE for the existing project worker");
 const output = resolve(values.out ?? mkdtempSync("/tmp/screenrec-speech-evidence-"));

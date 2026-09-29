@@ -47,8 +47,10 @@ health; each actual operation is sent once, with no automatic mutation replay.
 MCP request cancellation also cancels discovery. Ordinary app launch starts its
 service; recording and permissions belong to explicit capture operations.
 
-Transcription runs offline against a pinned local speech model. `model.prepare` is
-the one operation that downloads it, once, and `model.status` reports progress;
+Models have explicit immutable IDs from `model.list`. `model.prepare` selects one
+and either admits verified local sources or acquires its pinned model files;
+`model.status` verifies local readiness without acquiring anything. Transcription
+runs offline against the prepared ASR model;
 until then transcripts report a retryable `model_not_prepared`.
 
 Media operations return actual MCP image/audio content; a returned file path is not

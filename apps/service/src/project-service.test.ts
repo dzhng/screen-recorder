@@ -587,7 +587,10 @@ test("selected-source transcript reads report unprepared models without download
   if (!imported.ok) return;
   const ready = await f.job((imported.data as { jobId: string }).jobId, "ready");
   const selection = { assetId: ready.result!.assetId, streamId: "track:1" };
-  expect(await f.call("model.status", {})).toMatchObject({ ok: true, data: { state: "absent" } });
+  expect(await f.call("model.status", { modelId: "parakeet" })).toMatchObject({
+    ok: true,
+    data: { state: "absent" },
+  });
   expect(await f.call("transcript.get", selection)).toMatchObject({
     ok: true,
     data: { ...selection, reason: "model_not_prepared", page: null },
@@ -604,7 +607,10 @@ test("selected-source transcript reads report unprepared models without download
     ok: false,
     error: { code: "NOT_FOUND" },
   });
-  expect(await f.call("model.status", {})).toMatchObject({ ok: true, data: { state: "absent" } });
+  expect(await f.call("model.status", { modelId: "parakeet" })).toMatchObject({
+    ok: true,
+    data: { state: "absent" },
+  });
   expect(requests.filter((operation) => operation === "speech.transcribe")).toEqual([]);
 });
 
@@ -875,4 +881,27 @@ test("asset job diagnostics do not hydrate physical segment metadata", async () 
   } finally {
     catalog.close();
   }
+});
+
+test("model discovery crosses the public wire before either model is prepared", async () => {
+  const f = await setup(async () => ({ ok: true, data: {} }));
+  expect(await f.call("model.list", {})).toMatchObject({
+    ok: true,
+    data: expect.arrayContaining([
+      expect.objectContaining({
+        modelId: "parakeet",
+        purpose: "transcription",
+        descriptorDigest: expect.stringMatching(/^[a-f0-9]{64}$/),
+      }),
+      expect.objectContaining({
+        modelId: "qwen3-tts",
+        purpose: "voice",
+        preparation: expect.objectContaining({ runtimeSourceRequired: true }),
+      }),
+    ]),
+  });
+  expect(await f.call("model.status", { modelId: "qwen3-tts" })).toMatchObject({
+    ok: true,
+    data: { state: "absent" },
+  });
 });

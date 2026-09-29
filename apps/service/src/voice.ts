@@ -4,15 +4,8 @@ import { CatalogError } from "@screenrec/core/catalog";
 import { copyImportedFile, hashFile } from "@screenrec/core/files";
 import { withRenderedFile } from "./render.js";
 import { jsonWorker, nativeResult, type MediaWorker } from "./worker.js";
-import { voiceEntryPins } from "./voice-pins.js";
+import type { Models } from "@screenrec/core/models";
 
-/** Supplied by explicit preparation, never discovered from a user home or temporary directory. */
-export type PreparedVoice = Readonly<{
-  python: string;
-  entry: string;
-  model: string;
-  cache: string;
-}>;
 export type VoiceRequest = Readonly<{
   reference: string;
   referenceText: string;
@@ -23,13 +16,14 @@ export type VoiceRequest = Readonly<{
 }>;
 
 /** Private entry checkpoint; durable jobs and asset admission remain separate owners. */
-export function voiceRenderer(native: MediaWorker, preparation: PreparedVoice, workspace: string) {
+export function voiceRenderer(
+  native: MediaWorker,
+  models: Models,
+  modelId: string,
+  workspace: string,
+) {
   return async (request: VoiceRequest, signal: AbortSignal, timeoutMs = 600_000) => {
-    if (
-      ![...Object.values(preparation), workspace, request.reference, request.output].every(
-        isAbsolute,
-      )
-    )
+    if (![workspace, request.reference, request.output].every(isAbsolute))
       throw new CatalogError(
         "INVALID_REQUEST",
         "Voice preparation and media paths must be absolute",
@@ -40,39 +34,8 @@ export function voiceRenderer(native: MediaWorker, preparation: PreparedVoice, w
       return null;
     });
     if (destination) throw new CatalogError("INVALID_REQUEST", "Voice destination already exists");
-    const pinsPath = join(dirname(preparation.entry), "pins.json");
-    let preparedIdentity: { runtimeCommit: string; modelRevision: string } | undefined;
-    // These are shipped pins, not identities asserted by the supplied executable itself.
-    for (const [path, expected] of [
-      [preparation.python, voiceEntryPins.python],
-      [preparation.entry, voiceEntryPins.entry],
-      [pinsPath, voiceEntryPins.pins],
-    ] as const) {
-      let file;
-      try {
-        file = await open(path, "r");
-      } catch {
-        throw new CatalogError("MODEL_NOT_PREPARED", "Voice runtime preparation is missing");
-      }
-      try {
-        const info = await file.stat();
-        if (
-          !info.isFile() ||
-          info.size !== expected.bytes ||
-          (await hashFile(file, info.size, signal)).sha256 !== expected.sha256
-        )
-          throw new CatalogError(
-            "MODEL_NOT_PREPARED",
-            "Voice runtime preparation identity differs",
-          );
-        if (path === pinsPath) preparedIdentity = JSON.parse(await file.readFile("utf8"));
-      } finally {
-        await file.close();
-      }
-    }
-    if (!preparedIdentity)
-      throw new CatalogError("MODEL_NOT_PREPARED", "Voice preparation manifest is missing");
-    const identity = preparedIdentity;
+    const preparation = await models.voice(modelId);
+    signal.throwIfAborted();
     const voice = jsonWorker(
       {
         executable: "/usr/bin/sandbox-exec",
@@ -131,8 +94,8 @@ export function voiceRenderer(native: MediaWorker, preparation: PreparedVoice, w
           !receipt ||
           receipt.file !== output ||
           receipt.referenceSha256 !== retained.sha256 ||
-          receipt.runtimeRevision !== identity.runtimeCommit ||
-          receipt.modelRevision !== identity.modelRevision ||
+          receipt.runtimeRevision !== preparation.runtimeRevision ||
+          receipt.modelRevision !== preparation.modelRevision ||
           receipt.sampleRate !== 24000 ||
           receipt.channels !== 1 ||
           !Number.isSafeInteger(receipt.frames) ||

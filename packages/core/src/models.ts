@@ -11,176 +11,35 @@ import {
   rmSync,
   type BigIntStats,
 } from "node:fs";
-import { mkdir, open, rename, rm, type FileHandle } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import { mkdir, open, rename, rm, realpath, type FileHandle } from "node:fs/promises";
+import { dirname, join, isAbsolute } from "node:path";
 import { O_NOFOLLOW_ANY } from "./files.js";
 import { CatalogError } from "./catalog.js";
-
-export type SpeechModelFile = Readonly<{ path: string; bytes: number; sha256: string }>;
-/** The runtime and decoder evaluated with a model; native reports the same identity per transcript. */
-export type SpeechRuntime = Readonly<{
-  runtime: string;
-  runtimeVersion: string;
-  /** The source revision the worker's Package.resolved pins for `runtimeVersion`. */
-  runtimeRevision: string;
-  decoder: string;
-}>;
-/** The evaluated engine a transcript must come from. */
-export type SpeechEnginePins = SpeechRuntime & Readonly<{ model: string; modelRevision: string }>;
-export type SpeechModelManifest = Readonly<{
-  name: string;
-  repo: string;
-  revision: string;
-  /** FluidAudio loads from the parent directory joined with this exact folder name. */
-  folderName: string;
-  engine: SpeechRuntime;
-  files: readonly SpeechModelFile[];
-}>;
-export type SpeechModelStatus =
-  | { state: "absent" | "ready" | "invalid" }
-  | { state: "preparing"; receivedBytes: number; totalBytes: number }
-  | { state: "failed"; code: string; message: string; retryable: boolean };
-export type SpeechModelRequest = { directory: string; files: readonly SpeechModelFile[] };
-
-/**
- * Everything FluidAudio 0.15.7 AsrModels.load reads for Parakeet TDT v2 from a local directory,
- * plus the model card that carries the CC-BY-4.0 notice (the repository has no LICENSE file).
- * Sizes come from the Hub tree at this revision; hashes are the ones slice 04 evaluated.
- */
-export const parakeetModel: SpeechModelManifest = {
-  name: "parakeet",
-  repo: "FluidInference/parakeet-tdt-0.6b-v2-coreml",
-  revision: "ee09c569f73759e6d44c9bd16766f477b2b36d39",
-  folderName: "parakeet-tdt-0.6b-v2",
-  engine: {
-    runtime: "FluidAudio",
-    runtimeVersion: "0.15.7",
-    runtimeRevision: "41540ea237350afe5117a082b5c28eda642d0612",
-    decoder: "parakeet-tdt-batch",
-  },
-  files: [
-    {
-      path: "Decoder.mlmodelc/analytics/coremldata.bin",
-      bytes: 243,
-      sha256: "46de1a6fe2e49d19a2125bc91acf020df7f2aea84ba821532aade8427a440b05",
-    },
-    {
-      path: "Decoder.mlmodelc/coremldata.bin",
-      bytes: 554,
-      sha256: "d200ca07694a347f6d02a3886a062ae839831e094e443222f2e48a14945966a8",
-    },
-    {
-      path: "Decoder.mlmodelc/metadata.json",
-      bytes: 3427,
-      sha256: "90a279b822496316458febc0ce761ab05954fadd9d66aa97bea077a35fc8f2b2",
-    },
-    {
-      path: "Decoder.mlmodelc/model.mil",
-      bytes: 13106,
-      sha256: "7b95a5a6b672c652000348a67b6d4d92bb8e176b978c6666fe73c28a4d7ec579",
-    },
-    {
-      path: "Decoder.mlmodelc/weights/weight.bin",
-      bytes: 14429952,
-      sha256: "27d26890221d82322c1092fd99d7b40578e435d5cf4b83c887c42603caf97aba",
-    },
-    {
-      path: "Encoder.mlmodelc/analytics/coremldata.bin",
-      bytes: 243,
-      sha256: "42e638870d73f26b332918a3496ce36793fbb413a81cbd3d16ba01328637a105",
-    },
-    {
-      path: "Encoder.mlmodelc/coremldata.bin",
-      bytes: 485,
-      sha256: "4def7aa848599ad0e17a8b9a982edcdbf33cf92e1f4b798de32e2ca0bc74b030",
-    },
-    {
-      path: "Encoder.mlmodelc/metadata.json",
-      bytes: 2926,
-      sha256: "58222fbc48c13c49d9715567803cd50cb9c23e4360462e0f8ffcea59a2c73c63",
-    },
-    {
-      path: "Encoder.mlmodelc/model.mil",
-      bytes: 959769,
-      sha256: "ed7b19156ca29fa7dfd6891deb9fda4b0e8893f68597c985d135736546a43808",
-    },
-    {
-      path: "Encoder.mlmodelc/weights/weight.bin",
-      bytes: 445187200,
-      sha256: "4adc7ad44f9d05e1bffeb2b06d3bb02861a5c7602dff63a6b494aed3bf8a6c3e",
-    },
-    {
-      path: "JointDecision.mlmodelc/analytics/coremldata.bin",
-      bytes: 243,
-      sha256: "f1183ba213bb94a918c8d2cad19ab045320618f97f6ca662245b3936d7b090f7",
-    },
-    {
-      path: "JointDecision.mlmodelc/coremldata.bin",
-      bytes: 534,
-      sha256: "e2c6752f1c8cf2d3f6f26ec93195c9bfa759ad59edf9f806696a138154f96f11",
-    },
-    {
-      path: "JointDecision.mlmodelc/metadata.json",
-      bytes: 2936,
-      sha256: "ba8d309417b9acd4a175fdb15687de6a941db2f5b06666a60e7cf3cc8e2d3c3c",
-    },
-    {
-      path: "JointDecision.mlmodelc/model.mil",
-      bytes: 9722,
-      sha256: "93bf82042235127cb81ab537dcae47a1c2e7e242ce4ffdaf772981b45eedc4f0",
-    },
-    {
-      path: "JointDecision.mlmodelc/weights/weight.bin",
-      bytes: 3453388,
-      sha256: "ca22a65903a05e64137677da608077578a8606090a598abf4875fa6199aaa19d",
-    },
-    {
-      path: "Preprocessor.mlmodelc/analytics/coremldata.bin",
-      bytes: 243,
-      sha256: "03ab3c1327a054c54c07a40325db967ec574f2c91dcc8192bfa44aa561bcf2d8",
-    },
-    {
-      path: "Preprocessor.mlmodelc/coremldata.bin",
-      bytes: 494,
-      sha256: "d88ea1fc349459c9e100d6a96688c5b29a1f0d865f544be103001724b986b6d6",
-    },
-    {
-      path: "Preprocessor.mlmodelc/metadata.json",
-      bytes: 2974,
-      sha256: "fb16c581ff5e1b962e7cb2181ed892cd32f9f84c12b6e80ff3e089f28e35bcbb",
-    },
-    {
-      path: "Preprocessor.mlmodelc/model.mil",
-      bytes: 27166,
-      sha256: "3e06d16fd061294c8a75be68c43a3b1ed1f593d4a9c35249e9cdbccadc59721e",
-    },
-    {
-      path: "Preprocessor.mlmodelc/weights/weight.bin",
-      bytes: 298880,
-      sha256: "a5f7df6c7f47147ae9486fe18cc7792f9a44d093ec3c6a11e91ef2dc363c48dc",
-    },
-    {
-      path: "README.md",
-      bytes: 1665,
-      sha256: "491eac9a160dc7b0f7ce1210dea4fff6df0222124e93ea83ae2cd72827b4ce02",
-    },
-    {
-      path: "parakeet_vocab.json",
-      bytes: 18762,
-      sha256: "57019fe3c745772ca83a1b048a4bb951cd51329504ea33d4d83316b96e279a97",
-    },
-  ],
-};
+import type {
+  SpeechModelFile,
+  SpeechEnginePins,
+  ModelStatus,
+  SpeechModelRequest,
+  ModelManifest,
+  ModelSources,
+  PreparedVoice,
+} from "./model-types.js";
+import { registeredModels } from "./model-registry.js";
+import { adoptFile, adoptRuntime, verifyRuntime } from "./model-files.js";
+export type * from "./model-types.js";
+export { parakeetModel } from "./model-registry.js";
 
 type Receipt = {
   modelDigest: string;
   files: Record<string, { modifiedNs: string; inode: string }>;
+  runtimeDigest?: string;
 };
 type Flight = {
   readonly controller: AbortController;
   done: Promise<void>;
   participants: number;
   receivedBytes: number;
+  sources: ModelSources;
 };
 
 const storageFailure = (error: unknown) =>
@@ -221,16 +80,16 @@ const createFile = (path: string) =>
  * Owns the pinned speech model under `<home>/models/<name>/<revision>/<folderName>`. Only
  * `prepare` uses the network; status and the native request read local files alone.
  */
-export class SpeechModels {
+class Preparation {
   readonly modelDigest: string;
   readonly pins: SpeechEnginePins;
-  private readonly models: string;
   private flight: Flight | undefined;
   private failure: CatalogError | undefined;
+  private verification: Promise<ModelStatus> | undefined;
   constructor(
-    home: string,
+    private readonly models: string,
     private readonly fetch: typeof globalThis.fetch = globalThis.fetch,
-    readonly manifest: SpeechModelManifest = parakeetModel,
+    readonly manifest: ModelManifest,
   ) {
     this.modelDigest = createHash("sha256")
       .update(
@@ -242,24 +101,39 @@ export class SpeechModels {
       )
       .digest("hex");
     this.pins = { ...manifest.engine, model: manifest.repo, modelRevision: manifest.revision };
-    this.models = join(realpathSync(home), "models");
-    try {
-      privateDirectory(this.models);
-      privateDirectory(join(this.models, manifest.name));
-      // A staging directory outliving its process can only be an interrupted prepare.
-      rmSync(join(this.models, ".staging"), { recursive: true, force: true });
-      privateDirectory(join(this.models, ".staging"));
-    } catch (error) {
-      throw storageFailure(error);
-    }
+    privateDirectory(join(this.models, manifest.name));
   }
 
-  status(): SpeechModelStatus {
+  private platformFailure(): CatalogError | undefined {
+    const required = this.manifest.platform;
+    if (required.system !== process.platform || required.architecture !== process.arch)
+      return new CatalogError(
+        "MODEL_PLATFORM_UNSUPPORTED",
+        "Registered model execution requires a different platform",
+        { required, actual: { system: process.platform, architecture: process.arch } },
+      );
+    return undefined;
+  }
+
+  snapshot(): ModelStatus {
+    const unsupported = this.platformFailure();
+    if (unsupported)
+      return {
+        state: "failed",
+        code: unsupported.code,
+        message: unsupported.message,
+        retryable: false,
+      };
     if (this.flight)
       return {
         state: "preparing",
         receivedBytes: this.flight.receivedBytes,
-        totalBytes: this.manifest.files.reduce((total, file) => total + file.bytes, 0),
+        totalBytes:
+          this.manifest.files.reduce((total, file) => total + file.bytes, 0) +
+          (this.manifest.runtimeArtifact?.entries.reduce(
+            (total, entry) => total + (entry.kind === "file" ? entry.bytes : 0),
+            0,
+          ) ?? 0),
       };
     const state = this.inspect();
     if (state === "ready" || !this.failure) return { state };
@@ -267,23 +141,101 @@ export class SpeechModels {
     return { state: "failed", code, message, retryable };
   }
 
+  async status(): Promise<ModelStatus> {
+    if (this.platformFailure()) return this.snapshot();
+    if (this.flight || !this.manifest.runtimeArtifact) return this.snapshot();
+    if (this.verification) return this.verification;
+    this.verification = this.verify();
+    try {
+      return await this.verification;
+    } finally {
+      this.verification = undefined;
+    }
+  }
+
+  private async verify(): Promise<ModelStatus> {
+    const state = this.inspect();
+    if (state === "ready") {
+      try {
+        await verifyRuntime(join(this.root, "runtime"), this.manifest.runtimeArtifact!);
+      } catch {
+        return { state: "invalid" };
+      }
+      return { state: "ready" };
+    }
+    if (!this.failure) return { state };
+    const { code, message, retryable } = this.failure;
+    return { state: "failed", code, message, retryable };
+  }
+
+  async settled(): Promise<void> {
+    await Promise.allSettled([this.flight?.done, this.verification]);
+  }
+
+  async voice(): Promise<PreparedVoice> {
+    const unsupported = this.platformFailure();
+    if (unsupported) throw unsupported;
+    const runtime = this.manifest.runtimeArtifact;
+    if (!runtime || this.manifest.purpose !== "voice" || (await this.status()).state !== "ready")
+      throw new CatalogError(
+        "MODEL_NOT_PREPARED",
+        "Voice model and runtime are not prepared",
+        {},
+        true,
+      );
+    const cache = join(this.models, ".cache", this.manifest.name);
+    await mkdir(cache, { recursive: true, mode: 0o700 });
+    return {
+      python: join(this.root, "runtime", runtime.python),
+      entry: join(this.root, "runtime", runtime.entry),
+      model: join(this.root, this.manifest.folderName),
+      cache,
+      descriptorDigest: this.descriptorDigest,
+      runtimeDigest: runtime.digest,
+      modelDigest: this.modelDigest,
+      runtimeRevision: this.manifest.engine.runtimeRevision,
+      modelRevision: this.manifest.revision,
+    };
+  }
+
+  get descriptorDigest(): string {
+    return createHash("sha256")
+      .update(
+        JSON.stringify({
+          modelDigest: this.modelDigest,
+          pins: this.pins,
+          purpose: this.manifest.purpose,
+          platform: this.manifest.platform,
+          runtimeDigest: this.manifest.runtimeArtifact?.digest,
+        }),
+      )
+      .digest("hex");
+  }
+
   /** The model part of a native speech.transcribe request; native re-verifies every listed file. */
   nativeRequest(): SpeechModelRequest {
+    const unsupported = this.platformFailure();
+    if (unsupported) throw unsupported;
     if (this.inspect() !== "ready")
       throw new CatalogError(
         "MODEL_NOT_PREPARED",
         "Speech model is not prepared",
-        { state: this.status().state },
+        { state: this.snapshot().state },
         true,
       );
     return { directory: join(this.root, this.manifest.folderName), files: this.manifest.files };
   }
 
   /** Joins any prepare in flight; the download stops only once every joined caller aborted. */
-  prepare(signal: AbortSignal): Promise<void> {
+  prepare(signal: AbortSignal, sources: ModelSources): Promise<void> {
+    const unsupported = this.platformFailure();
+    if (unsupported) throw unsupported;
     signal.throwIfAborted();
+    for (const path of [sources.runtimeSource, sources.modelSource])
+      if (path !== undefined && !isAbsolute(path))
+        throw new CatalogError("INVALID_REQUEST", "Model source paths must be absolute");
     const flight =
-      this.flight && !this.flight.controller.signal.aborted ? this.flight : this.start();
+      this.flight && !this.flight.controller.signal.aborted ? this.flight : this.start(sources);
     flight.participants += 1;
     return new Promise<void>((resolve, reject) => {
       const abort = () => {
@@ -306,13 +258,14 @@ export class SpeechModels {
     return join(this.models, this.manifest.name, this.manifest.revision);
   }
 
-  private start(): Flight {
+  private start(sources: ModelSources): Flight {
     this.failure = undefined;
     const flight: Flight = {
       controller: new AbortController(),
       done: Promise.resolve(),
       participants: 0,
       receivedBytes: 0,
+      sources,
     };
     this.flight = flight;
     flight.done = this.run(flight);
@@ -350,7 +303,11 @@ export class SpeechModels {
       } finally {
         closeSync(fd);
       }
-      if (receipt.modelDigest !== this.modelDigest) return "invalid";
+      if (
+        receipt.modelDigest !== this.modelDigest ||
+        receipt.runtimeDigest !== this.manifest.runtimeArtifact?.digest
+      )
+        return "invalid";
       const present = new Map<string, BigIntStats>();
       const walk = (directory: string, prefix: string) => {
         for (const name of readdirSync(directory)) {
@@ -379,16 +336,51 @@ export class SpeechModels {
     }
   }
 
+  private async verifyInstalled(): Promise<ModelStatus> {
+    return this.manifest.runtimeArtifact ? this.verify() : { state: this.inspect() };
+  }
+
   private async install(flight: Flight): Promise<void> {
-    if (this.inspect() === "ready") return;
+    if ((await this.verifyInstalled()).state === "ready") return;
     const signal = flight.controller.signal;
+    signal.throwIfAborted();
+    if (this.manifest.runtimeArtifact && !flight.sources.runtimeSource)
+      throw new CatalogError(
+        "MODEL_SOURCE_REQUIRED",
+        "This model requires an explicit local runtime artifact source",
+      );
     const staging = join(this.models, ".staging", randomUUID());
     try {
       const folder = join(staging, this.manifest.folderName);
       await stored(() => mkdir(folder, { recursive: true, mode: 0o700 }));
       const receipt: Receipt = { modelDigest: this.modelDigest, files: {} };
+      const modelSource = flight.sources.modelSource
+        ? await realpath(flight.sources.modelSource)
+        : undefined;
+      if (this.manifest.runtimeArtifact) {
+        await adoptRuntime(
+          flight.sources.runtimeSource!,
+          join(staging, "runtime"),
+          this.manifest.runtimeArtifact,
+          signal,
+          (bytes) => {
+            flight.receivedBytes += bytes;
+          },
+        );
+        receipt.runtimeDigest = this.manifest.runtimeArtifact.digest;
+      }
       for (const file of this.manifest.files)
-        receipt.files[file.path] = await this.download(file, folder, flight);
+        receipt.files[file.path] = modelSource
+          ? await adoptFile(
+              join(modelSource, file.path),
+              join(folder, file.path),
+              file,
+              signal,
+              (bytes) => {
+                flight.receivedBytes += bytes;
+              },
+            )
+          : await this.download(file, folder, flight);
       await stored(async () => {
         const handle = await createFile(join(staging, "receipt.json"));
         try {
@@ -405,7 +397,7 @@ export class SpeechModels {
         } catch (error) {
           if (!["ENOTEMPTY", "EEXIST"].includes((error as NodeJS.ErrnoException).code ?? ""))
             throw error;
-          if (this.inspect() === "ready") return;
+          if ((await this.verifyInstalled()).state === "ready") return;
           // Replace an invalid install whole: the old tree moves into staging before removal.
           const replaced = join(this.models, ".staging", randomUUID());
           await rename(this.root, replaced);
@@ -486,5 +478,74 @@ export class SpeechModels {
       await reader.cancel().catch(() => {});
       throw error;
     }
+  }
+}
+
+/** One registry, staging recovery root, and preparation flight per immutable registered identity. */
+export class Models {
+  private readonly preparations = new Map<string, Preparation>();
+  constructor(
+    home: string,
+    fetch: typeof globalThis.fetch = globalThis.fetch,
+    manifests: readonly ModelManifest[] = registeredModels,
+  ) {
+    const directory = join(realpathSync(home), "models");
+    privateDirectory(directory);
+    rmSync(join(directory, ".staging"), { recursive: true, force: true });
+    privateDirectory(join(directory, ".staging"));
+    for (const manifest of manifests) {
+      if (this.preparations.has(manifest.name)) throw new Error("Duplicate registered model ID");
+      this.preparations.set(manifest.name, new Preparation(directory, fetch, manifest));
+    }
+  }
+  private selected(modelId: string): Preparation {
+    const model = this.preparations.get(modelId);
+    if (!model) throw new CatalogError("UNKNOWN_MODEL", "Model is not registered", { modelId });
+    return model;
+  }
+  list() {
+    return [...this.preparations].map(([modelId, model]) => ({
+      modelId,
+      purpose: model.manifest.purpose,
+      platform: model.manifest.platform,
+      descriptorDigest: model.descriptorDigest,
+      modelDigest: model.modelDigest,
+      pins: model.pins,
+      ...(model.manifest.runtimeArtifact
+        ? { runtimeDigest: model.manifest.runtimeArtifact.digest }
+        : {}),
+      preparation: {
+        runtimeSourceRequired: !!model.manifest.runtimeArtifact,
+        modelBytes: model.manifest.files.reduce((n, f) => n + f.bytes, 0),
+        runtimeBytes:
+          model.manifest.runtimeArtifact?.entries.reduce(
+            (n, e) => n + (e.kind === "file" ? e.bytes : 0),
+            0,
+          ) ?? 0,
+      },
+    }));
+  }
+  async settled(): Promise<void> {
+    await Promise.all([...this.preparations.values()].map((model) => model.settled()));
+  }
+  async status(modelId: string) {
+    return this.selected(modelId).status();
+  }
+  prepare(modelId: string, signal: AbortSignal, sources: ModelSources = {}) {
+    return this.selected(modelId).prepare(signal, sources);
+  }
+  voice(modelId: string) {
+    return this.selected(modelId).voice();
+  }
+  transcription(modelId: string) {
+    const selected = this.selected(modelId);
+    if (selected.manifest.purpose !== "transcription")
+      throw new CatalogError("INVALID_REQUEST", "Selected model does not transcribe");
+    return {
+      modelDigest: selected.modelDigest,
+      pins: selected.pins,
+      status: () => selected.snapshot(),
+      nativeRequest: async () => selected.nativeRequest(),
+    };
   }
 }

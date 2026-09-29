@@ -87,17 +87,19 @@ try {
   assert.equal(streams.length, 2);
   assert.equal(asset.originUs, 250000);
   const selections = streams.map((s) => ({ assetId, streamId: s.id }));
-  assert.deepEqual(await call("model.status", {}), { state: "absent" });
+  assert.deepEqual(await call("model.status", { modelId: "parakeet" }), { state: "absent" });
   const absent = await call("transcript.get", selections[0]);
   assert.equal(absent.state, "unavailable");
   assert.equal(absent.reason, "model_not_prepared");
-  assert.deepEqual(await call("model.status", {}, { transport: "mcp" }), { state: "absent" });
+  assert.deepEqual(await call("model.status", { modelId: "parakeet" }, { transport: "mcp" }), {
+    state: "absent",
+  });
   report.checks.noImplicitDownload = true;
   const {
     params: { models },
   } = JSON.parse(await readFile(join(frozen, "first-physical-selected-request.json"), "utf8"));
   report.models = await copyModels(home, models);
-  assert.deepEqual(await call("model.status", {}), { state: "ready" });
+  assert.deepEqual(await call("model.status", { modelId: "parakeet" }), { state: "ready" });
   report.fixture = {
     asset,
     originalHash,
@@ -436,7 +438,7 @@ try {
         "packages/core/dist/transcript-read.js",
         "packages/core/dist/transcript.js",
         "packages/core/dist/source-selection.js",
-        "packages/core/dist/speech-models.js",
+        "packages/core/dist/models.js",
         "packages/core/dist/acquisitions.js",
         "packages/composition/dist/source-projection.js",
         "packages/test-harness/editing/source-evidence.mjs",

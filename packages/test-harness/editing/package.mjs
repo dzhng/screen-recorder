@@ -162,7 +162,7 @@ try {
   const prepared = JSON.parse(await readFile(process.env.SCREENREC_ASR_REQUEST, "utf8")).params
     .models;
   const modelPins = await copyModels(donor, prepared);
-  assert.equal((await call("model.status", {})).state, "ready");
+  assert.equal((await call("model.status", { modelId: "parakeet" })).state, "ready");
   const transcriptParams = {
     assetId: speech.id,
     streamId: speech.streams.find((stream) => stream.kind === "audio").id,
@@ -627,7 +627,10 @@ with zipfile.ZipFile(sys.argv[1]) as source:
     });
   }
 
-  assert.equal((await call("model.status", {}, { transport: "mcp" })).state, "absent");
+  assert.equal(
+    (await call("model.status", { modelId: "parakeet" }, { transport: "mcp" })).state,
+    "absent",
+  );
   const adoptedTranscript = await call("transcript.get", transcriptParams);
   assert.equal(adoptedTranscript.state, "ready");
   assert.equal(adoptedTranscript.generation, donorTranscript.generation);

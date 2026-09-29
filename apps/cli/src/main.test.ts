@@ -188,7 +188,7 @@ function expectCallableContract(tools: AdvertisedTool[]) {
     ["packageHandle", "sourceRange"],
     ["assetId", "streamId"],
   ]);
-  expect(required("model.prepare")).toBeUndefined();
+  expect(required("model.prepare")).toEqual(["modelId"]);
   expect(tools.filter((tool) => !tool.description).map((tool) => tool.name)).toEqual([]);
 }
 

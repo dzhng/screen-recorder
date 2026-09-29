@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve, join } from "node:path";
 import { parseArgs } from "node:util";
-import { SpeechModels } from "../../core/dist/speech-models.js";
+import { Models } from "../../core/dist/models.js";
 
 const { values } = parseArgs({
   options: {
@@ -22,8 +22,9 @@ const evidence = resolve(values.evidence),
 assert.notEqual(evidence, output, "Keep frozen synthesis evidence unchanged");
 mkdirSync(output, { recursive: true });
 const manifest = JSON.parse(readFileSync(join(evidence, "manifest.json")));
-const models = new SpeechModels(resolve(values["model-home"]));
-const modelRequest = models.nativeRequest();
+const owner = new Models(resolve(values["model-home"]));
+const models = owner.transcription("parakeet");
+const modelRequest = await models.nativeRequest();
 const hash = (path) => createHash("sha256").update(readFileSync(path)).digest("hex");
 const save = (name, data) =>
   writeFileSync(join(output, name), JSON.stringify(data, null, 2) + "\n");

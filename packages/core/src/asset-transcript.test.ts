@@ -45,7 +45,7 @@ async function fixture() {
         : models.state === "failed"
           ? { state: "failed", code: "fixture", message: "fixture", retryable: true }
           : { state: models.state },
-    nativeRequest: () => ({ directory: join(home, "models"), files: [] }),
+    nativeRequest: async () => ({ directory: join(home, "models"), files: [] }),
     get modelDigest() {
       return modelDigest;
     },

@@ -25,7 +25,7 @@ import { DerivativeDelivery } from "./delivery.js";
 import { SceneEvidenceStore, recordingSceneOwner } from "@screenrec/core/scene-evidence";
 import { SceneProcessing } from "@screenrec/core/scene-processing";
 import { SourceProcessing } from "@screenrec/core/processing";
-import { SpeechModels } from "@screenrec/core/speech-models";
+import { Models } from "@screenrec/core/models";
 import {
   TranscriptStore,
   recordingTranscriptOwner,
@@ -81,7 +81,7 @@ async function main(): Promise<void> {
   let processing: SourceProcessing;
   let captureCleanup: CaptureCleanup;
   let scenes: SceneProcessing;
-  let models: SpeechModels;
+  let models!: Models;
   let transcriptStore: TranscriptStore;
   let transcripts: TranscriptProcessing;
   let timeline: LibraryTimelineInspection;
@@ -184,12 +184,12 @@ async function main(): Promise<void> {
       sourceExporter(worker),
       (recordingId, generation) => exports!.retainsSource(recordingId, generation),
     );
-    models = new SpeechModels(home);
+    models = new Models(home);
     transcriptStore = new TranscriptStore(store, home, recordingTranscriptOwner(store));
     transcripts = new TranscriptProcessing({
       jobs,
       transcripts: transcriptStore,
-      models,
+      models: models.transcription("parakeet"),
       recording: {
         store,
         source: processing,
@@ -306,6 +306,7 @@ async function main(): Promise<void> {
     });
   } catch (error) {
     cleanupLifetime.abort();
+    await models?.settled();
     delivery?.dispose();
     await Promise.allSettled([
       packages?.dispose(),
@@ -407,13 +408,19 @@ async function main(): Promise<void> {
    * A download outlives the client that asked for it, so asking again while it runs only reports its
    * progress. A ready model admits the transcripts that were waiting for it.
    */
-  function prepareModels() {
-    const status = models.status();
+  async function prepareModels(params: {
+    modelId: string;
+    runtimeSource?: string | undefined;
+    modelSource?: string | undefined;
+  }) {
+    const status = await models.status(params.modelId);
     if (status.state === "ready" || status.state === "preparing") return status;
-    void models.prepare(cleanupLifetime.signal).then(resumeProcessing, (error: Error) => {
-      if (!cleanupLifetime.signal.aborted) log(`speech model preparation failed: ${error.message}`);
-    });
-    return models.status();
+    void models
+      .prepare(params.modelId, cleanupLifetime.signal, params)
+      .then(resumeProcessing, (error: Error) => {
+        if (!cleanupLifetime.signal.aborted) log(`model preparation failed: ${error.message}`);
+      });
+    return models.status(params.modelId);
   }
 
   /**
@@ -443,7 +450,11 @@ async function main(): Promise<void> {
           delivery: transfers,
           scenes,
           transcripts,
-          models: { status: () => models.status(), prepare: prepareModels },
+          models: {
+            list: () => models.list(),
+            status: (modelId) => models.status(modelId),
+            prepare: prepareModels,
+          },
           cache,
         },
         signal,
@@ -488,6 +499,7 @@ async function main(): Promise<void> {
     transfers.dispose();
     // One owner's failure to close must not release the catalog under the others still closing.
     void Promise.allSettled([
+      models.settled(),
       listener.close(),
       packageOwner.dispose(),
       storageOwner.close(),

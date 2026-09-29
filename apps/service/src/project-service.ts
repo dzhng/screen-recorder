@@ -20,7 +20,7 @@ import { SceneProcessing } from "@screenrec/core/scene-processing";
 import type { SourceVisualObservations } from "@screenrec/core/source-scenes";
 import { MediaAudioInspection } from "@screenrec/core/audio-inspection";
 import { ProjectEvidenceInspection } from "@screenrec/core/project-evidence";
-import { SpeechModels } from "@screenrec/core/speech-models";
+import { Models } from "@screenrec/core/models";
 import { TranscriptStore, type SpeechTranscriptionReceipt } from "@screenrec/core/transcript";
 import { TranscriptProcessing, assetTranscriptOwner } from "@screenrec/core/transcript-processing";
 import { SourceTranscriptRead } from "@screenrec/core/transcript-read";
@@ -83,7 +83,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
   let packages: ProjectPackages | undefined;
   const delivery = new DerivativeDelivery();
   const modelLifetime = new AbortController();
-  let modelPreparation: Promise<void> | undefined;
+  const modelPreparations = new Set<Promise<void>>();
   try {
     catalog = new Catalog(join(library, "catalog.sqlite"));
     const assets = new AssetStore(catalog, library);
@@ -104,7 +104,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     const capture = new CaptureSourceRead(assets, acquisitions, evidence);
     const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
     const worker = options.worker ?? mediaWorker();
-    const models = new SpeechModels(library);
+    const models = new Models(library);
     const transcriptStore = new TranscriptStore(
       catalog,
       library,
@@ -232,7 +232,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     transcripts = new TranscriptProcessing({
       jobs: queue,
       transcripts: transcriptStore,
-      models,
+      models: models.transcription("parakeet"),
       asset: { assets, acquisitions },
       transcribe: async (request, signal) =>
         nativeResult(
@@ -590,16 +590,26 @@ export async function startProjectService(options: { home: string; worker?: Medi
               },
             };
           }
+          case "model.list":
+            return { ok: true, data: models.list() };
           case "model.status":
-            return { ok: true, data: models.status() };
+            return { ok: true, data: await models.status(operation.params.modelId) };
           case "model.prepare": {
-            const state = models.status();
+            const { modelId } = operation.params;
+            const state = await models.status(modelId);
             if (state.state !== "ready" && state.state !== "preparing") {
-              modelPreparation = models.prepare(modelLifetime.signal).catch((error) => {
-                if (!modelLifetime.signal.aborted) console.error(error);
-              });
+              const preparing = models
+                .prepare(modelId, modelLifetime.signal, operation.params)
+                .then(() => {
+                  transcripts.resume();
+                })
+                .catch((error) => {
+                  if (!modelLifetime.signal.aborted) console.error(error);
+                });
+              modelPreparations.add(preparing);
+              void preparing.finally(() => modelPreparations.delete(preparing));
             }
-            return { ok: true, data: models.status() };
+            return { ok: true, data: await models.status(modelId) };
           }
           case "transcript.retry":
             return {
@@ -1052,7 +1062,8 @@ export async function startProjectService(options: { home: string; worker?: Medi
             await exportsClosed;
             await projectPackages.close();
             await queue.close();
-            await modelPreparation;
+            await Promise.all(modelPreparations);
+            await models.settled();
             catalog!.close();
             ownership.release();
           })();
@@ -1061,7 +1072,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     };
   } catch (error) {
     modelLifetime.abort();
-    await modelPreparation;
+    await Promise.all(modelPreparations);
     await listener?.close();
     delivery.dispose();
     await deletion?.close();

@@ -752,16 +752,34 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Explicitly prepare or retry the selected asset-stream transcript without downloading models. A project selector retries only its evidence manifest (include the same text to retry phrase search); source preparation failures must be retried with their returned asset-stream selection. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
     ),
   z
-    .object({ operation: z.literal("model.status"), params: z.object({}).strict() })
+    .object({ operation: z.literal("model.list"), params: z.object({}).strict() })
     .strict()
     .describe(
-      "Read the local speech model without using the network: absent, preparing with received and total bytes, ready, invalid, or failed with a code and retryability.",
+      "Discover immutable registered model IDs, purpose, platform, content identities and preparation requirements without preparing anything.",
     ),
   z
-    .object({ operation: z.literal("model.prepare"), params: z.object({}).strict() })
+    .object({
+      operation: z.literal("model.status"),
+      params: z.object({ modelId: z.string().min(1) }).strict(),
+    })
     .strict()
     .describe(
-      "Download and verify the pinned speech model (about 465 MB) and answer at once with model.status; poll model.status for progress. Joins a download already running, and a ready model is not downloaded again. The only operation that uses the network: transcription never downloads. Waiting transcripts start once the model is ready.",
+      "Verify the selected registered model locally without network access. Returns absent, preparing with byte progress, ready, invalid, or failed. Readiness awaits bounded asynchronous runtime verification; unrelated requests remain available.",
+    ),
+  z
+    .object({
+      operation: z.literal("model.prepare"),
+      params: z
+        .object({
+          modelId: z.string().min(1),
+          runtimeSource: z.string().startsWith("/").optional(),
+          modelSource: z.string().startsWith("/").optional(),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Explicitly prepare the selected registered model. Supply an absolute runtimeSource for models requiring a local runtime artifact; optional absolute modelSource admits pinned local model files without downloading. Otherwise acquire the pinned model. Returns preparation progress; poll model.status. Reuses ready files and joins current preparation. Status and execution never acquire dependencies.",
     ),
   z
     .object({

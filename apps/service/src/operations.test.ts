@@ -16,7 +16,7 @@ import { randomUUID } from "node:crypto";
 import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
 import { CatalogError } from "@screenrec/core/catalog";
 import { RevisionStore } from "@screenrec/core/library";
-import { parakeetModel, SpeechModels } from "@screenrec/core/speech-models";
+import { parakeetModel, Models } from "@screenrec/core/models";
 import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import type { TranscriptRow } from "@screenrec/core/transcript-read";
 import { callLocal } from "@screenrec/client";
@@ -360,7 +360,7 @@ async function startTranscribing(home: string) {
  * sizes and the receipt a prepare writes last. The fake worker never reads their bytes.
  */
 async function installedModel(home: string) {
-  const { modelDigest } = new SpeechModels(home);
+  const { modelDigest } = new Models(home).transcription("parakeet");
   const root = join(home, "models", "parakeet", parakeetModel.revision);
   const receipt: { modelDigest: string; files: Record<string, unknown> } = {
     modelDigest,
@@ -432,8 +432,14 @@ it("transcripts prepare, page, search, project cuts and retry through the servic
   await installedModel(home);
   const { call, log } = await startTranscribing(home);
 
-  expect(await call("model.status")).toMatchObject({ ok: true, data: { state: "ready" } });
-  expect(await call("model.prepare")).toMatchObject({ ok: true, data: { state: "ready" } });
+  expect(await call("model.status", { modelId: "parakeet" })).toMatchObject({
+    ok: true,
+    data: { state: "ready" },
+  });
+  expect(await call("model.prepare", { modelId: "parakeet" })).toMatchObject({
+    ok: true,
+    data: { state: "ready" },
+  });
   const status = (recordingId: string) =>
     call("processing.status", { recordingId, artifact: "transcript" });
   // A ready model lets startup admit every narrated take once its source evidence is published.
@@ -564,7 +570,10 @@ it("an unprepared model starts no transcript and says how to proceed", async () 
   cleanup.push(() => rm(home, { recursive: true, force: true }));
   const [recordingId] = await narratedTakes(home, [true]);
   const { call, log } = await startTranscribing(home);
-  expect(await call("model.status")).toMatchObject({ ok: true, data: { state: "absent" } });
+  expect(await call("model.status", { modelId: "parakeet" })).toMatchObject({
+    ok: true,
+    data: { state: "absent" },
+  });
   const blocked = {
     state: "unavailable",
     reason: "model_not_prepared",
