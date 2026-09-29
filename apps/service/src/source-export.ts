@@ -13,7 +13,8 @@ export function sourceExporter(
   worker: MediaWorker,
   lifetime?: { readonly fd: number },
 ): SourceExporter {
-  return async (directory, output, signal, canonical) => {
+  return async (directory, output, signal, canonical, acquisitionLifetime) => {
+    const lifetimes = [lifetime, acquisitionLifetime].flatMap((value) => (value ? [value.fd] : []));
     const handles: FileHandle[] = [];
     const inputs: Record<string, string> = {};
     try {
@@ -37,7 +38,7 @@ export function sourceExporter(
               await worker(
                 "media.probe",
                 { path: "/dev/fd/3" },
-                { signal, descriptors: [file.fd, ...(lifetime ? [lifetime.fd] : [])] },
+                { signal, descriptors: [file.fd, ...lifetimes] },
               ),
             ),
           );
@@ -58,7 +59,7 @@ export function sourceExporter(
           },
           {
             signal,
-            descriptors: [...handles.map((file) => file.fd), ...(lifetime ? [lifetime.fd] : [])],
+            descriptors: [...handles.map((file) => file.fd), ...lifetimes],
           },
         ),
       ) as SourceEvidenceReceipt;

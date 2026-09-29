@@ -131,3 +131,5 @@ actual NativeCapture and writer with prerecorded video through the package-only
 input boundary, preserving production selection/geometry/observation order. The
 full controller/audio publication/admission gate remains open until activation.
 
+
+[Acquisition lifetime evidence](../assets/20d-acquisition-lifetime/README.md) proves that orphaned native source/probe workers block whole-acquisition startup cleanup through the existing directory lock. Recovery returns actionable busy without deleting their inputs or pending reservations; it completes after the child exits. This does not resolve the separate large-work source/admission deadline gate.

@@ -27,6 +27,7 @@ export async function verifySourceEvidence(input: {
   canonical: NonNullable<Parameters<SourceExporter>[3]>;
   exportSource: SourceExporter;
   signal: AbortSignal;
+  lifetime?: { readonly fd: number };
   audio(row: RecordRow): void;
 }): Promise<void> {
   const { receipt: expected, files, canonical, signal } = input;
@@ -52,7 +53,13 @@ export async function verifySourceEvidence(input: {
     ] as const) {
       await copyImportedFile(file.path, join(sourceDirectory, name), signal, file, 268_435_456);
     }
-    const derived = await input.exportSource(sourceDirectory, output, signal, canonical);
+    const derived = await input.exportSource(
+      sourceDirectory,
+      output,
+      signal,
+      canonical,
+      input.lifetime,
+    );
     const { file: _file, ...receipt } = derived;
     const handle = await open(output, constants.O_RDONLY | constants.O_NOFOLLOW);
     try {

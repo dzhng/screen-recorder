@@ -20,6 +20,7 @@ export type SourceExporter = (
   output: string,
   signal: AbortSignal,
   canonical?: Partial<Record<"narration" | "system", IdentifiedFile & { metadata?: MediaProbe }>>,
+  lifetime?: { readonly fd: number },
 ) => Promise<SourceEvidenceReceipt>;
 
 /** Source processing pins r0; edits only change how later readers project this evidence. */

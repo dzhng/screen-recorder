@@ -456,7 +456,7 @@ export class ProjectPackages {
     const job = this.registry.submit(
       packageHandle,
       { artifact: "package.adopt", lane: "heavy", input: JSON.stringify({ requestId }) },
-      async (context, signal) => {
+      async (context, signal, lifetime) => {
         const manifest = context.manifest;
         const adoption = this.owners.projects.prepareAdoption({
           requestId,
@@ -576,7 +576,7 @@ export class ProjectPackages {
               }
               acquisitions.push(
                 await this.owners.acquisitions.stagePortable(entry.acquisition, files, signal, {
-                  exportSource: sourceExporter(this.owners.worker),
+                  exportSource: sourceExporter(this.owners.worker, lifetime),
                   assetFiles,
                   assets: new Map(
                     context.manifest.resources.flatMap((value) =>

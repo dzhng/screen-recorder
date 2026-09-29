@@ -205,8 +205,14 @@ export async function startProjectService(options: { home: string; worker?: Medi
             job.target.acquisitionId,
             job.attemptId,
             {
-              probe: async (path, signal) =>
-                nativeResult(await worker("media.probe", { path }, { signal })),
+              probe: async (path, signal, lifetime) =>
+                nativeResult(
+                  await worker(
+                    "media.probe",
+                    { path },
+                    { signal, descriptors: lifetime ? [lifetime.fd] : [] },
+                  ),
+                ),
               exportSource: sourceExporter(worker),
             },
             signal,

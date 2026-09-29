@@ -17,7 +17,15 @@ import {
   type AssetProbe,
 } from "./assets.js";
 import { Catalog, CatalogError } from "./catalog.js";
-import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";
+import {
+  copyImportedFile,
+  fileIdentity,
+  hashFile,
+  type IdentifiedFile,
+  O_SHLOCK,
+  O_EXLOCK,
+  O_NOFOLLOW_ANY,
+} from "./files.js";
 import {
   validateSourceReceipt,
   type SourceEvidenceMetadata,
@@ -371,67 +379,73 @@ export class AcquisitionImporter {
       assets: ReadonlyMap<string, Asset>;
     },
   ) {
-    const acquisition = portableAcquisitionSchema.parse(value);
-    const canonical: NonNullable<Parameters<SourceExporter>[3]> = {};
-    const roles = new Set<string>();
-    for (const binding of acquisition.bindings) {
-      for (const role of binding.sourceRoles) {
-        if (roles.has(role))
-          throw new CatalogError("INVALID_PACKAGE", "Acquisition repeats a source role");
-        roles.add(role);
-        if (role === "video") continue;
-        const file = native.assetFiles.get(binding.assetId);
-        if (!file) throw new CatalogError("INVALID_PACKAGE", "Missing canonical source input");
-        const proof = acquisition.receipt.publications?.[role];
-        if (
-          proof &&
-          (binding.assetId !== proof.canonical.sha256 ||
-            file.bytes !== Number(proof.canonical.bytes))
-        )
-          throw new CatalogError(
-            "INVALID_PACKAGE",
-            "Canonical asset differs from publication proof",
-          );
-        canonical[role] = {
-          ...file,
-          ...(proof
-            ? { metadata: mediaProbeSchema.parse(native.assets.get(binding.assetId)) }
-            : {}),
-        };
+    const lifetime = await this.lease(false);
+    try {
+      const acquisition = portableAcquisitionSchema.parse(value);
+      const canonical: NonNullable<Parameters<SourceExporter>[3]> = {};
+      const roles = new Set<string>();
+      for (const binding of acquisition.bindings) {
+        for (const role of binding.sourceRoles) {
+          if (roles.has(role))
+            throw new CatalogError("INVALID_PACKAGE", "Acquisition repeats a source role");
+          roles.add(role);
+          if (role === "video") continue;
+          const file = native.assetFiles.get(binding.assetId);
+          if (!file) throw new CatalogError("INVALID_PACKAGE", "Missing canonical source input");
+          const proof = acquisition.receipt.publications?.[role];
+          if (
+            proof &&
+            (binding.assetId !== proof.canonical.sha256 ||
+              file.bytes !== Number(proof.canonical.bytes))
+          )
+            throw new CatalogError(
+              "INVALID_PACKAGE",
+              "Canonical asset differs from publication proof",
+            );
+          canonical[role] = {
+            ...file,
+            ...(proof
+              ? { metadata: mediaProbeSchema.parse(native.assets.get(binding.assetId)) }
+              : {}),
+          };
+        }
       }
-    }
-    const audio = new Map<string, { startUs: number; endUs: number }[]>();
-    await verifySourceEvidence({
-      directory: this.directory,
-      receipt: acquisition.receipt,
-      files,
-      canonical,
-      exportSource: native.exportSource,
-      signal,
-      audio: (row) => {
-        const interval = JSON.parse(row.content) as {
-          role: string;
-          startUs: number;
-          endUs: number;
-        };
-        const intervals = audio.get(interval.role) ?? [];
-        if (intervals.length === 100_000)
-          throw new CatalogError("LIMIT_EXCEEDED", "Capture acquisition interval limit exceeded");
-        intervals.push(interval);
-        audio.set(interval.role, intervals);
-      },
-    });
-    for (const binding of acquisition.bindings) {
-      const asset = native.assets.get(binding.assetId);
-      if (!asset) throw new CatalogError("INVALID_PACKAGE", "Missing bound asset metadata");
-      for (const role of binding.sourceRoles) {
-        const expected = this.binding(asset, role, audio.get(role) ?? []);
-        if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
-          throw new CatalogError(
-            "INVALID_PACKAGE",
-            "Acquisition binding differs from verified source evidence",
-          );
+      const audio = new Map<string, { startUs: number; endUs: number }[]>();
+      await verifySourceEvidence({
+        directory: this.directory,
+        receipt: acquisition.receipt,
+        files,
+        canonical,
+        exportSource: native.exportSource,
+        lifetime,
+        signal,
+        audio: (row) => {
+          const interval = JSON.parse(row.content) as {
+            role: string;
+            startUs: number;
+            endUs: number;
+          };
+          const intervals = audio.get(interval.role) ?? [];
+          if (intervals.length === 100_000)
+            throw new CatalogError("LIMIT_EXCEEDED", "Capture acquisition interval limit exceeded");
+          intervals.push(interval);
+          audio.set(interval.role, intervals);
+        },
+      });
+      for (const binding of acquisition.bindings) {
+        const asset = native.assets.get(binding.assetId);
+        if (!asset) throw new CatalogError("INVALID_PACKAGE", "Missing bound asset metadata");
+        for (const role of binding.sourceRoles) {
+          const expected = this.binding(asset, role, audio.get(role) ?? []);
+          if (!isDeepStrictEqual({ ...expected, sourceRoles: binding.sourceRoles }, binding))
+            throw new CatalogError(
+              "INVALID_PACKAGE",
+              "Acquisition binding differs from verified source evidence",
+            );
+        }
       }
+    } finally {
+      await lifetime.close();
     }
   }
 
@@ -620,145 +634,163 @@ export class AcquisitionImporter {
   async executeImport(
     acquisitionId: string,
     attemptId: string,
-    native: { probe: AssetProbe; exportSource: SourceExporter },
+    native: {
+      probe: (
+        path: string,
+        signal: AbortSignal,
+        lifetime?: { readonly fd: number },
+      ) => ReturnType<AssetProbe>;
+      exportSource: SourceExporter;
+    },
     signal: AbortSignal,
   ): Promise<Acquisition> {
-    const intent = this.store.intent(acquisitionId);
-    if (intent.kind !== "import")
-      throw new CatalogError("INVALID_REQUEST", "Capture import requires an import admission");
-    const ready = this.catalog.catalog
-      .prepare("SELECT metadata FROM acquisitions WHERE id=?")
-      .get(acquisitionId)!;
-    if (ready.metadata !== null) return JSON.parse(ready.metadata as string);
-    const owner = { kind: "acquisition" as const, id: acquisitionId };
-    const directory = join(this.directory, acquisitionId, attemptId);
-    const sourceDirectory = join(directory, "source");
-    await mkdir(sourceDirectory, { recursive: true, mode: 0o700 });
-    let indexed: SourceEvidenceMetadata | undefined;
-    let published = false;
+    const lifetime = await this.lease(false);
     try {
-      for (const member of ["narration.mov", "system.mov", ...publicationMembers] as const) {
-        if (intent.files[member]) continue;
-        const path = join(dirname(intent.files["video.mov"]!.path), member);
-        const present = await lstat(path).then(
-          () => true,
-          (error) => {
-            if (missing(error)) return false;
-            throw error;
-          },
-        );
-        if (present)
-          throw new CatalogError(
-            "SOURCE_CHANGED",
-            "An absent capture member appeared after admission",
+      const intent = this.store.intent(acquisitionId);
+      if (intent.kind !== "import")
+        throw new CatalogError("INVALID_REQUEST", "Capture import requires an import admission");
+      const ready = this.catalog.catalog
+        .prepare("SELECT metadata FROM acquisitions WHERE id=?")
+        .get(acquisitionId)!;
+      if (ready.metadata !== null) return JSON.parse(ready.metadata as string);
+      const owner = { kind: "acquisition" as const, id: acquisitionId };
+      const directory = join(this.directory, acquisitionId, attemptId);
+      const sourceDirectory = join(directory, "source");
+      await mkdir(sourceDirectory, { recursive: true, mode: 0o700 });
+      let indexed: SourceEvidenceMetadata | undefined;
+      let published = false;
+      try {
+        for (const member of ["narration.mov", "system.mov", ...publicationMembers] as const) {
+          if (intent.files[member]) continue;
+          const path = join(dirname(intent.files["video.mov"]!.path), member);
+          const present = await lstat(path).then(
+            () => true,
+            (error) => {
+              if (missing(error)) return false;
+              throw error;
+            },
           );
-      }
-      const journal = intent.files["capture.journal.jsonl"]!;
-      const copied = await copyImportedFile(
-        journal.path,
-        join(sourceDirectory, "capture.journal.jsonl"),
-        signal,
-        journal,
-        268_435_456,
-      );
-      for (const name of publicationMembers) {
-        const proof = intent.files[name];
-        if (proof)
-          await copyImportedFile(proof.path, join(sourceDirectory, name), signal, proof, 65_536);
-      }
-      const canonical = Object.fromEntries(
-        (["narration", "system"] as const).flatMap((role) => {
-          const file = intent.files[`${role}.mov`];
-          return file ? [[role, file]] : [];
-        }),
-      );
-      const output = join(directory, "source.jsonl");
-      const receipt = await native.exportSource(sourceDirectory, output, signal, canonical);
-      const sourceId = receipt.header?.sessionID;
-      if (typeof sourceId !== "string" || !sourceId)
-        throw new CatalogError("INVALID_EVIDENCE", "Capture journal has no session identity");
-      indexed = await this.evidence.ingest({
-        owner: { kind: "acquisition", acquisitionId },
-        sourceId,
-        generation: attemptId,
-        file: output,
-        receipt,
-        signal,
-      });
-      const bindings: Acquisition["bindings"] = [];
-      for (const sourceRole of ["video", "narration", "system"] as const) {
-        const source = intent.files[`${sourceRole}.mov`];
-        if (!source) continue;
-        if (
-          receipt.header?.schemaVersion === 2 &&
-          sourceRole !== "video" &&
-          !receipt.publications?.[sourceRole]
-        )
-          throw new CatalogError(
-            "INVALID_EVIDENCE",
-            "Canonical audio lacks verified publication proof",
-          );
-        const asset = await this.assets.import(
-          source.path,
-          { kind: "capture", source: sourceId },
-          native.probe,
-          signal,
-          (value) => this.assets.retain(owner, [value.id]),
-          {
-            ...source,
-            ...(sourceRole !== "video" && receipt.publications?.[sourceRole]
-              ? { sha256: receipt.publications[sourceRole]!.canonical.sha256 }
-              : {}),
-          },
-        );
-        const binding = this.binding(asset, sourceRole, this.acquired(indexed, sourceRole));
-        const same = bindings.find(
-          (row) => row.assetId === binding.assetId && row.streamId === binding.streamId,
-        );
-        if (same) {
-          if (JSON.stringify(same.available) !== JSON.stringify(binding.available))
+          if (present)
             throw new CatalogError(
-              "UNSUPPORTED_MEDIA",
-              "Identical captured streams have conflicting acquisition support",
-              { assetId: asset.id, streamId: binding.streamId },
+              "SOURCE_CHANGED",
+              "An absent capture member appeared after admission",
             );
-          same.sourceRoles.push(sourceRole);
-        } else bindings.push(binding);
-      }
-      const value: Acquisition = {
-        id: acquisitionId,
-        sourceId,
-        evidence: indexed,
-        journal: { fileName: `${attemptId}/source/capture.journal.jsonl`, ...copied },
-        bindings,
-      };
-      await chmod(output, 0o400);
-      for (const retained of [
-        output,
-        sourceDirectory,
-        directory,
-        dirname(directory),
-        this.directory,
-      ]) {
-        const handle = await open(retained, constants.O_RDONLY);
-        try {
-          await handle.sync();
-        } finally {
-          await handle.close();
+        }
+        const journal = intent.files["capture.journal.jsonl"]!;
+        const copied = await copyImportedFile(
+          journal.path,
+          join(sourceDirectory, "capture.journal.jsonl"),
+          signal,
+          journal,
+          268_435_456,
+        );
+        for (const name of publicationMembers) {
+          const proof = intent.files[name];
+          if (proof)
+            await copyImportedFile(proof.path, join(sourceDirectory, name), signal, proof, 65_536);
+        }
+        const canonical = Object.fromEntries(
+          (["narration", "system"] as const).flatMap((role) => {
+            const file = intent.files[`${role}.mov`];
+            return file ? [[role, file]] : [];
+          }),
+        );
+        const output = join(directory, "source.jsonl");
+        const receipt = await native.exportSource(
+          sourceDirectory,
+          output,
+          signal,
+          canonical,
+          lifetime,
+        );
+        const sourceId = receipt.header?.sessionID;
+        if (typeof sourceId !== "string" || !sourceId)
+          throw new CatalogError("INVALID_EVIDENCE", "Capture journal has no session identity");
+        indexed = await this.evidence.ingest({
+          owner: { kind: "acquisition", acquisitionId },
+          sourceId,
+          generation: attemptId,
+          file: output,
+          receipt,
+          signal,
+        });
+        const bindings: Acquisition["bindings"] = [];
+        for (const sourceRole of ["video", "narration", "system"] as const) {
+          const source = intent.files[`${sourceRole}.mov`];
+          if (!source) continue;
+          if (
+            receipt.header?.schemaVersion === 2 &&
+            sourceRole !== "video" &&
+            !receipt.publications?.[sourceRole]
+          )
+            throw new CatalogError(
+              "INVALID_EVIDENCE",
+              "Canonical audio lacks verified publication proof",
+            );
+          const asset = await this.assets.import(
+            source.path,
+            { kind: "capture", source: sourceId },
+            (path, signal) => native.probe(path, signal, lifetime),
+            signal,
+            (value) => this.assets.retain(owner, [value.id]),
+            {
+              ...source,
+              ...(sourceRole !== "video" && receipt.publications?.[sourceRole]
+                ? { sha256: receipt.publications[sourceRole]!.canonical.sha256 }
+                : {}),
+            },
+          );
+          const binding = this.binding(asset, sourceRole, this.acquired(indexed, sourceRole));
+          const same = bindings.find(
+            (row) => row.assetId === binding.assetId && row.streamId === binding.streamId,
+          );
+          if (same) {
+            if (JSON.stringify(same.available) !== JSON.stringify(binding.available))
+              throw new CatalogError(
+                "UNSUPPORTED_MEDIA",
+                "Identical captured streams have conflicting acquisition support",
+                { assetId: asset.id, streamId: binding.streamId },
+              );
+            same.sourceRoles.push(sourceRole);
+          } else bindings.push(binding);
+        }
+        const value: Acquisition = {
+          id: acquisitionId,
+          sourceId,
+          evidence: indexed,
+          journal: { fileName: `${attemptId}/source/capture.journal.jsonl`, ...copied },
+          bindings,
+        };
+        await chmod(output, 0o400);
+        for (const retained of [
+          output,
+          sourceDirectory,
+          directory,
+          dirname(directory),
+          this.directory,
+        ]) {
+          const handle = await open(retained, constants.O_RDONLY);
+          try {
+            await handle.sync();
+          } finally {
+            await handle.close();
+          }
+        }
+        signal.throwIfAborted();
+        this.catalog.transaction(() => {
+          this.store.publish(value);
+        });
+        published = true;
+        return value;
+      } finally {
+        if (!published) {
+          if (indexed) this.evidence.removeUnpublished(indexed);
+          this.assets.release(owner);
+          await rm(directory, { recursive: true, force: true });
         }
       }
-      signal.throwIfAborted();
-      this.catalog.transaction(() => {
-        this.store.publish(value);
-      });
-      published = true;
-      return value;
     } finally {
-      if (!published) {
-        if (indexed) this.evidence.removeUnpublished(indexed);
-        this.assets.release(owner);
-        await rm(directory, { recursive: true, force: true });
-      }
+      await lifetime.close();
     }
   }
   private *acquired(identity: SourceEvidenceMetadata, role: "video" | "narration" | "system") {
@@ -806,47 +838,85 @@ export class AcquisitionImporter {
     };
   }
 
+  /** One cleanup domain: startup must not purge any rows or files while an orphan native attempt owns it. */
+  private async lease(exclusive: boolean) {
+    const before = await lstat(this.directory, { bigint: true });
+    if (!before.isDirectory())
+      throw new CatalogError("INVALID_STORAGE", "Acquisition root must be a directory");
+    const handle = await open(
+      await realpath(this.directory),
+      constants.O_RDONLY |
+        constants.O_DIRECTORY |
+        constants.O_NONBLOCK |
+        O_NOFOLLOW_ANY |
+        (exclusive ? O_EXLOCK : O_SHLOCK),
+    ).catch((error: NodeJS.ErrnoException) => {
+      if (error.code === "EAGAIN" || error.code === "EWOULDBLOCK")
+        throw new CatalogError(
+          "ACQUISITION_BUSY",
+          "An acquisition worker still owns this library; retry startup after it exits",
+          {},
+          true,
+        );
+      throw error;
+    });
+    try {
+      const actual = await handle.stat({ bigint: true });
+      if (!actual.isDirectory() || actual.dev !== before.dev || actual.ino !== before.ino)
+        throw new CatalogError("INVALID_STORAGE", "Acquisition root changed during admission");
+      return handle;
+    } catch (error) {
+      await handle.close();
+      throw error;
+    }
+  }
+
   /** Exclusive service startup only, before constructing the queue or admitting new work. */
   async recover(signal: AbortSignal): Promise<void> {
     await mkdir(this.directory, { recursive: true, mode: 0o700 });
-    for await (const entry of await opendir(this.directory)) {
-      signal.throwIfAborted();
-      const row = this.catalog.catalog
-        .prepare("SELECT metadata FROM acquisitions WHERE id=?")
-        .get(entry.name);
-      const metadata = row?.metadata ? (JSON.parse(row.metadata as string) as Acquisition) : null;
-      if (!metadata) {
-        await this.evidence.purge({ kind: "acquisition", acquisitionId: entry.name }, signal);
-        this.assets.release({ kind: "acquisition", id: entry.name });
-        await rm(join(this.directory, entry.name), { recursive: true, force: true });
-        if (row) {
-          const intent = this.store.intent(entry.name);
-          if (intent.kind === "package") this.store.discardPortable(entry.name, intent.requestId);
-        }
-      } else {
-        for await (const attempt of await opendir(join(this.directory, entry.name))) {
-          if (attempt.name !== metadata.evidence.generation)
-            await rm(join(this.directory, entry.name, attempt.name), {
-              recursive: true,
-              force: true,
-            });
-        }
-      }
-    }
-    // A crash can happen after reserving an intent but before creating its directory.
-    for (;;) {
-      const pending = this.catalog.catalog
-        .prepare(
-          "SELECT id,requestId FROM acquisitions WHERE metadata IS NULL AND json_extract(admission,'$.kind')='package' LIMIT 256",
-        )
-        .all() as { id: string; requestId: string }[];
-      if (!pending.length) break;
-      for (const intent of pending) {
+    const lifetime = await this.lease(true);
+    try {
+      for await (const entry of await opendir(this.directory)) {
         signal.throwIfAborted();
-        await this.evidence.purge({ kind: "acquisition", acquisitionId: intent.id }, signal);
-        this.assets.release({ kind: "acquisition", id: intent.id });
-        this.store.discardPortable(intent.id, intent.requestId);
+        const row = this.catalog.catalog
+          .prepare("SELECT metadata FROM acquisitions WHERE id=?")
+          .get(entry.name);
+        const metadata = row?.metadata ? (JSON.parse(row.metadata as string) as Acquisition) : null;
+        if (!metadata) {
+          await this.evidence.purge({ kind: "acquisition", acquisitionId: entry.name }, signal);
+          this.assets.release({ kind: "acquisition", id: entry.name });
+          await rm(join(this.directory, entry.name), { recursive: true, force: true });
+          if (row) {
+            const intent = this.store.intent(entry.name);
+            if (intent.kind === "package") this.store.discardPortable(entry.name, intent.requestId);
+          }
+        } else {
+          for await (const attempt of await opendir(join(this.directory, entry.name))) {
+            if (attempt.name !== metadata.evidence.generation)
+              await rm(join(this.directory, entry.name, attempt.name), {
+                recursive: true,
+                force: true,
+              });
+          }
+        }
       }
+      // A crash can happen after reserving an intent but before creating its directory.
+      for (;;) {
+        const pending = this.catalog.catalog
+          .prepare(
+            "SELECT id,requestId FROM acquisitions WHERE metadata IS NULL AND json_extract(admission,'$.kind')='package' LIMIT 256",
+          )
+          .all() as { id: string; requestId: string }[];
+        if (!pending.length) break;
+        for (const intent of pending) {
+          signal.throwIfAborted();
+          await this.evidence.purge({ kind: "acquisition", acquisitionId: intent.id }, signal);
+          this.assets.release({ kind: "acquisition", id: intent.id });
+          this.store.discardPortable(intent.id, intent.requestId);
+        }
+      }
+    } finally {
+      await lifetime.close();
     }
   }
 }

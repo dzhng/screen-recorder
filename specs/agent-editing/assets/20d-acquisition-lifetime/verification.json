@@ -1,0 +1,270 @@
+{
+  "base": "0bdaf7df",
+  "scope": "acquisition native-child lifetime against whole-owner startup recovery",
+  "worker": {
+    "path": "/tmp/screenrec-canonical-admission-native",
+    "sha256": "fe5f39ea4fa4fd3dc989e4591e46acfe4d65662ad000f4c12a557da2f6c1c9e1",
+    "retainedIn": "../20d-canonical-admission/evidence.tar.gz"
+  },
+  "checks": {
+    "cliBuild": "passed",
+    "coreTests": 52,
+    "actualOrphanCases": 2,
+    "mutation": "both cases fail when recovery takes shared rather than exclusive lease; pending row and journal deleted while child remains stopped",
+    "restored": "both pass; exact rows/journal preserved until child exit, then recovery completes",
+    "publicProjectRegression": "passed",
+    "independentSourceReview": "no actionable findings"
+  },
+  "commands": [
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native SCREENREC_ACQUISITION_LIFETIME_OUTPUT=EMPTY node --test apps/service/tests/acquisition-lifetime.mjs",
+    "bunx turbo build --filter=@screenrec/cli",
+    "bunx vitest run packages/core/src/acquisitions.test.ts packages/core/src/evidence.test.ts packages/core/src/assets.test.ts packages/core/src/project-package.test.ts --maxWorkers=2",
+    "SCREENREC_NATIVE=/tmp/screenrec-canonical-admission-native node packages/test-harness/editing/capture-canonical-admission.mjs --out EMPTY --fixture EXTRACTED/canonical-input"
+  ],
+  "sourceHashes": {
+    "packages/core/src/acquisitions.ts": "46e57a1c6a1f33d0cdd1dce5683eee64984c59a9d5d40c461273451a31b4ff2c",
+    "packages/core/src/processing.ts": "9a86f5e54d21ee7bafbf03841873c4371fb4a065fadb39b74ff5e5df6e01e405",
+    "packages/core/src/source-admission.ts": "b7056d1ffe3df5124b848e91b7f8f9d65802e7f522c60b68abd5225619d1a135",
+    "apps/service/src/project-service.ts": "c19d873258d0819b515693e34dfc7a1301ae5eac8a16cde6e1d17d1e4e969525",
+    "apps/service/src/project-packages.ts": "347271667fe8eaaeafb892ad8f5bbb35efd9aaad81be41e1b3ddbb7c288babf7",
+    "apps/service/src/package-registry.ts": "65818c16e4f46c048dc6f600aa49a481f7dabaf2ea1df1798ed5d032ff6360ea",
+    "apps/service/src/source-export.ts": "361b01b4443dc9c0ef563c5f54b17e896c38bcf49c40a54a018a1919c3973c4c",
+    "apps/service/tests/acquisition-lifetime.mjs": "ab6546894b73ec1c8c5a4d4e4ee863aa5213d90181cfa6d7ed3350a8a8babd4a"
+  },
+  "artifacts": [
+    {
+      "path": "orphan-red/media.probe-held.json",
+      "bytes": 2988,
+      "sha256": "b02bd5a256e6bf12edfe53e7cb2117875be36cdca31faf0df9c9844de33f0d29"
+    },
+    {
+      "path": "orphan-red/media.sourceEvidence-held.json",
+      "bytes": 2997,
+      "sha256": "1993ebfff3f12fc8bef9cef7c8d593ebb4135af06476c4a09faca1a0b1be542f"
+    },
+    {
+      "path": "orphan-green/media.probe-held.json",
+      "bytes": 3246,
+      "sha256": "1e3e10e634b9514784b17d2aa79b4b6b360a0e21c05364e6b38d849a328bd34b"
+    },
+    {
+      "path": "orphan-green/media.probe.json",
+      "bytes": 1702,
+      "sha256": "d32a84f0e8c50902fcdfceca2f389bf4c28ff8bcd09ec38b296ddd6aeaf3271b"
+    },
+    {
+      "path": "orphan-green/media.sourceEvidence-held.json",
+      "bytes": 3255,
+      "sha256": "8e9341c43ea53bd45bada06d41f34e067c80ebd4bfd59ffbda5f5516882602ae"
+    },
+    {
+      "path": "orphan-green/media.sourceEvidence.json",
+      "bytes": 1711,
+      "sha256": "7fb499fb178eff851b2446a323adbb733fff874c6250dce4171e4bdf380f7ff6"
+    },
+    {
+      "path": "project-regression/acquisition.json",
+      "bytes": 2391,
+      "sha256": "6a9292aeaa1fd6ffc83cb0697906f63d783f2e0313fe95abde59d00c278a3c36"
+    },
+    {
+      "path": "project-regression/adopted.json",
+      "bytes": 511,
+      "sha256": "8d3a699409ed00d40baf8e08f279a4dac2267548a7ad66e63e206e7d0b816ee5"
+    },
+    {
+      "path": "project-regression/asset.json",
+      "bytes": 1032,
+      "sha256": "8c6578ea10398e783abf6f5d9257d54d2321b78693b907cd2e837741be428286"
+    },
+    {
+      "path": "project-regression/canonical.zip",
+      "bytes": 591191,
+      "sha256": "b1317c3df174fe88783f3be06873d4f0eba5596a4db32970e4f20ec0e793aceb"
+    },
+    {
+      "path": "project-regression/invalid-clock.json",
+      "bytes": 220,
+      "sha256": "89ce909f47eac9751e55c64c4113a59087e31931451ad98ce0aead4b59d924ac"
+    },
+    {
+      "path": "project-regression/invalid-clock.zip",
+      "bytes": 18559,
+      "sha256": "440da5553304e2fa3e7fa7358c6782903352f30487a24a048c5dbb353b771ec7"
+    },
+    {
+      "path": "project-regression/invalid-layout.json",
+      "bytes": 196,
+      "sha256": "b38d9b54c176ccf96dbb578bc47e93936c532760cebf767ea48b2527fb56e632"
+    },
+    {
+      "path": "project-regression/invalid-layout.zip",
+      "bytes": 17787,
+      "sha256": "1bc94ae17a819d14bcb591aea8e269f4f6bd112fad0c4f66388422711f4c0b38"
+    },
+    {
+      "path": "project-regression/invalid-package.json",
+      "bytes": 213,
+      "sha256": "cc94618f4cb77563e46c8ab27689fb5ac23dcf7eec4123f4df56fceae0e0d56d"
+    },
+    {
+      "path": "project-regression/invalid-proof.zip",
+      "bytes": 18555,
+      "sha256": "1521a325d419e0090acf5b8a56a0a5b39443371e58e8192b7260653694a0f109"
+    },
+    {
+      "path": "project-regression/mask-comparison.json",
+      "bytes": 179,
+      "sha256": "3f07d1c7d13668cc11d534ad45dd6255d1528966e2181c94f1947e6e8d2016f5"
+    },
+    {
+      "path": "project-regression/missing-proof.json",
+      "bytes": 1271,
+      "sha256": "9b63cd04e32f8016b3e15d67e5b098fb4899492468403d717f4ef09ba49a49b3"
+    },
+    {
+      "path": "project-regression/native-exact-mask.json",
+      "bytes": 494,
+      "sha256": "981084aff7969c85fd9c21a636e77880759859fc36cec3eae068b3bdc45772c2"
+    },
+    {
+      "path": "project-regression/native-exact-mask.request.json",
+      "bytes": 496,
+      "sha256": "fcef3af10585b54e9b155baffa4a348848f547331b62f4ebfbf4a13b8517d9c0"
+    },
+    {
+      "path": "project-regression/native-exact-mask.wav",
+      "bytes": 457024,
+      "sha256": "fee9ef18c12ed06fa7da3be705daf2cdfb1aa836baaa403f8528bffe8a7c275c"
+    },
+    {
+      "path": "project-regression/one-us-mask.json",
+      "bytes": 1522,
+      "sha256": "c14675828d8fde336af85460fad7a14decd8b2608933f542a8a929a65d043ed3"
+    },
+    {
+      "path": "project-regression/one-us-mask.wav",
+      "bytes": 457024,
+      "sha256": "dfdcf4aac63234952640dc21bb87f8ba4ea138d79cf72050f44ba24f61b9ab9c"
+    },
+    {
+      "path": "project-regression/physical-full.json",
+      "bytes": 1402,
+      "sha256": "5a2456ef7fa625345dc5cd1ac6e619906f76f0a04911626fbe733b7de783fe79"
+    },
+    {
+      "path": "project-regression/physical-full.wav",
+      "bytes": 457024,
+      "sha256": "dfdcf4aac63234952640dc21bb87f8ba4ea138d79cf72050f44ba24f61b9ab9c"
+    },
+    {
+      "path": "project-regression/project-full.json",
+      "bytes": 2008,
+      "sha256": "52195e04a70d2c01c2ab33f85f5546afcf6b14fdb51b2b1a1787ad0c646bc3fb"
+    },
+    {
+      "path": "project-regression/project-full.wav",
+      "bytes": 909952,
+      "sha256": "0a96cc849623ceb86423c7aaeb01ba2b4f256373307fe4c32d2a18632b352118"
+    },
+    {
+      "path": "project-regression/relocated-project.json",
+      "bytes": 2016,
+      "sha256": "3d596884caf7feab3e347a7098f01a0bf8c43ec41dd978bee443344a6e27bd27"
+    },
+    {
+      "path": "project-regression/relocated-project.wav",
+      "bytes": 909952,
+      "sha256": "0a96cc849623ceb86423c7aaeb01ba2b4f256373307fe4c32d2a18632b352118"
+    },
+    {
+      "path": "project-regression/report.json",
+      "bytes": 6017,
+      "sha256": "4d860f568b80cc3cafae787c5eeeb729b79bf181fc7e55400a69ab5d7ee73bc6"
+    },
+    {
+      "path": "project-regression/restarted-source.json",
+      "bytes": 1530,
+      "sha256": "96094875991f15a599e1066c7550b4f3515b1b0de549ec7e65d60f0ef31e3b06"
+    },
+    {
+      "path": "project-regression/restarted-source.wav",
+      "bytes": 457024,
+      "sha256": "dfdcf4aac63234952640dc21bb87f8ba4ea138d79cf72050f44ba24f61b9ab9c"
+    },
+    {
+      "path": "project-regression/revision.json",
+      "bytes": 4690,
+      "sha256": "4e3ab0dbb00b268e47a6355a657579640606cf722eaf8d6c267ff46f16548349"
+    },
+    {
+      "path": "project-regression/source-full.json",
+      "bytes": 1522,
+      "sha256": "3481d5c030aa5b3c2070311e55d2c20a7c45b8fa2b94c29a2ddd021a70bb590b"
+    },
+    {
+      "path": "project-regression/source-full.wav",
+      "bytes": 457024,
+      "sha256": "dfdcf4aac63234952640dc21bb87f8ba4ea138d79cf72050f44ba24f61b9ab9c"
+    },
+    {
+      "path": "project-regression/source-late.json",
+      "bytes": 1449,
+      "sha256": "7d41d901e2f98ad1cc1a2b0430e6bce237649998aa770aa3c9a2fbb178a4fcb0"
+    },
+    {
+      "path": "project-regression/source-late.wav",
+      "bytes": 23212,
+      "sha256": "a98c12d4a9aabc913ed951daf76d9d2a3c3405e2e3db473766385fc5d0236778"
+    },
+    {
+      "path": "project-regression/source-tail.json",
+      "bytes": 1451,
+      "sha256": "b7e668a8a333fa337bdeafd68d8db77290f0b797d70cb148901f81e8fa1b1f75"
+    },
+    {
+      "path": "project-regression/source-tail.wav",
+      "bytes": 15424,
+      "sha256": "5531f396074e630e85d3ebd0d521602bfe39eeb3dac6bffbfedf03cf992253ad"
+    },
+    {
+      "path": "logs/acquisition-lifetime-red.log",
+      "bytes": 1981,
+      "sha256": "b8d159ad8f77acb044dd295fb7b1c13d76b3959fa3eb29c9246ecae92284f77f"
+    },
+    {
+      "path": "logs/acquisition-lifetime-final.log",
+      "bytes": 447,
+      "sha256": "3d15e2140377ae22266758f0635934921c325cfb733c51ddf1f70046c767cc18"
+    },
+    {
+      "path": "logs/acquisition-lifetime-core.log",
+      "bytes": 900,
+      "sha256": "7ea0bd5510effe8d71483b364c953c5cb39181fbbcaffb93003d3b619dfed486"
+    },
+    {
+      "path": "logs/acquisition-lifetime-restored-build.log",
+      "bytes": 956,
+      "sha256": "24ec199ca684809d29133e0996d4e272a0f113645a41a10c546bfb80295eecfc"
+    },
+    {
+      "path": "logs/acquisition-lifetime-project.log",
+      "bytes": 169,
+      "sha256": "aa814044efd5736f1b92b083f54af13403466c1c6f9f8e239be99e8b0f07b95b"
+    },
+    {
+      "path": "logs/acquisition-lifetime-review.log",
+      "bytes": 124480,
+      "sha256": "8f76fed028828f7fda0f39e8b48a74a958fffa5f0bae9ffac4efc8141fe1af26"
+    }
+  ],
+  "archive": {
+    "bytes": 134258,
+    "sha256": "2b30e9959043ad2e6bde3056f05ac50674c1797d8dfc47678a7904d854639829"
+  },
+  "limits": [
+    "No budget change; large-work source deadlines remain a separate checkpoint",
+    "Root-wide lease deliberately prevents unrelated acquisition startup cleanup while native work survives",
+    "No live capture or media-quality claim"
+  ]
+}
