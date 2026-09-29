@@ -3719,3 +3719,22 @@ without silently choosing a new voice or upgrading numerical parity to quality.
 - **Verdict:** sound; the operation name makes the different lifetime visible
   without adding a separate renderer or voice-reference registry.
 - **Confidence:** high.
+
+## Explicit voice-reference origin selection
+
+- **When:** public voice generation19f, before implementation acceptance.
+- **Choice:** let the agent echo one complete typed origin object returned by
+  asset inspection or extraction. Validate that it belongs to the reference
+  asset, then freeze that exact selection with the generation request. Omitting
+  it selects no historical origin. For example, if the same audio came from two
+  projects, adding the second origin later cannot change a saved generation's
+  identity or silently switch its attribution.
+- **Gap:** the plan required stable explicit origin selection but left its input
+  shape unspecified. A separate hash-selector API would add another discovery
+  field and lookup surface for metadata the agent already receives.
+- **Reach:** the request keeps the selected object; portable generated provenance
+  records its derived hash alongside the retained reference asset identity. It
+  does not embed a recursively growing tree of generated origins.
+- **Verdict:** sound; explicit structured input uses the existing origin schema
+  and preserves stable replay without another reference registry.
+- **Confidence:** high.
