@@ -46,3 +46,37 @@ It does not pass parent20e, interrupted mapping replay, physical capture, permis
 behavior or parent20/21. Build only isolated scratch tools; do not enumerate devices,
 request permission, record, play media, install, download or rebuild frozen workers.
 Review source/evidence independently and retain immutable identities before commit.
+
+## Durable implementation seam
+
+`ProbeCameraFrame` carries an ordinal and exact rational source start/end, emitted
+only after the raw writer accepts a picture. The existing streamed probe observation
+row stores that frame; there is no second mapping journal and no support inference
+from a held MOV picture. Ordinal gaps or invalid interior rows are refusal; a torn
+final line retains only its complete mapped prefix. Raw append followed by mapping
+failure seals capture and retains both files with an explicit partial diagnostic.
+
+`ProbeCameraMedia.publish(lease:observationURL:)` owns candidate construction,
+verification and replay; explicit probe recovery calls that same operation under
+CaptureJournalLease. `ProbeCameraWriter` closes raw encoding first. A small raw-closed
+identity marker distinguishes finalized raw from crash fragments. The observation
+stream is synchronized before closure. CaptureMediaIdentity pins raw and mapping
+bytes across inspection; exact raw picture order must match mapped ordinals.
+Missing physical tail may publish only its verified prefix, never guessed support.
+
+One prepared publication receipt binds input identities, closure identity, represented
+prefix, support/picture verification, canonical identity and its private candidate
+locator. Persist it before linking the verified candidate to `video.mov`, using
+NewFile's no-replacement primitive. Replay verifies the existing canonical identity
+or resumes that exact retained candidate; conflicts never overwrite another file.
+Cancellation/failure keeps raw bytes and mapping. No generalized recovery framework,
+new production camera role, audio-publication branch or alternate state machine is
+introduced. NativeCapture continues to order physical drain, companion closure and
+audio publication, with earlier failures taking precedence.
+
+Offline checks must cover normal sparse publication, exact rational60fps boundaries,
+repeat publication, interrupted receipt/link boundary, changed inputs/output conflict,
+truncated raw, torn mapping, missing mapping after an accepted raw frame, canceled
+work and recovered prefix. The physical input layer remains unexecuted. Public
+SMPTE-C refusal remains an explicit separate admitted-source gate: passthrough must
+preserve color metadata and may not retag or relax VideoColorPolicy.
