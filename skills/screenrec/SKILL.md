@@ -28,7 +28,11 @@ non-destructive edits and verify the result.
    `capture.stop` explicitly retries failed recovery, while ordinary reads do not.
    Canceling recovery retains ambiguous media; use explicit library deletion to
    remove it. A completed take remains available even if it reports pending cleanup;
-   do not cancel a completed take to retry cleanup.
+   use `recording.cleanup` on the settled recording to reclaim verified working
+   files. Follow its job with `job.get`; explicitly retry retryable failures after
+   the reported cause is resolved. A ready cleanup job may report retained roles:
+   their media lacks sufficient proof for removal. Do not delete those files by
+   hand or cancel a completed take to retry cleanup.
 3. Inspect transcript and visual evidence to locate the requested content.
    Follow returned pagination cursors, including empty pages with a next cursor.
    Preserve the transcript generation when using word identities. An empty

@@ -64,6 +64,25 @@ public enum NativeWire {
                     throw NativeFailure(failure.code, failure.message, retryable: failure.retryable)
                 }
             },
+            "media.cleanupCapture": Operation(
+                run: { params in
+                    let request = try WireRequest.decode(CaptureCleanupRequest.self, from: params)
+                    try WireRequest.requireAbsolute(request.directory)
+                    do {
+                        return try json(await CaptureAudioPublication.cleanupPublished(
+                            directory: request.directory, sourceID: request.sourceId))
+                    } catch is CancellationError { throw CancellationError() }
+                    catch let error as NativeFailure { throw error }
+                    catch let error as CaptureFailure {
+                        throw NativeFailure(error.code, error.message,
+                            retryable: ["CAPTURE_BUSY", "JOURNAL_UNAVAILABLE", "MEDIA_UNAVAILABLE"].contains(error.code))
+                    } catch {
+                        if CaptureFinalizationError.isOperationalRead(error) {
+                            throw NativeFailure("CLEANUP_UNAVAILABLE", error.localizedDescription, retryable: true)
+                        }
+                        throw error
+                    }
+                }, unexpected: { _ in NativeFailure("CLEANUP_FAILED", "Cannot verify publication cleanup.") }),
             "media.sourceEvidence": Operation(
                 run: { params in
                     let request = try WireRequest.decode(SourceEvidenceRequest.self, from: params)
@@ -74,7 +93,7 @@ public enum NativeWire {
                     } catch let failure as NativeFailure { throw failure }
                     catch let failure as CaptureFailure {
                         throw NativeFailure(failure.code, failure.message,
-                            retryable: ["MEDIA_UNAVAILABLE", "JOURNAL_UNAVAILABLE"].contains(failure.code))
+                            retryable: ["MEDIA_UNAVAILABLE", "JOURNAL_UNAVAILABLE", "CAPTURE_BUSY"].contains(failure.code))
                     } catch {
                         if CaptureFinalizationError.isOperationalRead(error) {
                             throw NativeFailure("MEDIA_UNAVAILABLE", error.localizedDescription, retryable: true)
@@ -174,6 +193,10 @@ public enum NativeWire {
         let directory: String
     }
 
+    private struct CaptureCleanupRequest: Codable {
+        let directory: String
+        let sourceId: String
+    }
     private struct SourceEvidenceRequest: Codable {
         let directory: String
         let output: String

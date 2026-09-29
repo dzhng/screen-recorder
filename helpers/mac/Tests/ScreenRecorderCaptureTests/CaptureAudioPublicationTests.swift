@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 import ScreenRecorderCapture
 import ScreenRecorderMedia
@@ -160,19 +161,22 @@ func runCaptureAudioPublicationTests(output: String? = nil) async throws {
   try await refuse(changed)
 
   let cleanupLease = try CaptureJournalLease(directory: complete.path)
-  try await CaptureAudioPublication.cleanup(lease: cleanupLease, receipt: original)
+  let removed = try await CaptureAudioPublication.cleanup(lease: cleanupLease, receipt: original)
+  precondition(removed == .removed)
   precondition(
     !FileManager.default.fileExists(
       atPath: complete.appendingPathComponent("narration.packed.mov").path))
   let afterCleanup = try await published(cleanupLease)
   precondition(
     afterCleanup == original, "Canonical verification must survive removal of packed working data")
-  try await CaptureAudioPublication.cleanup(lease: cleanupLease, receipt: original)
+  let repeatedCleanup = try await CaptureAudioPublication.cleanup(lease: cleanupLease, receipt: original)
+  precondition(repeatedCleanup == .alreadyClear)
 
   let tail = try captureMaterializerFixture(in: root, name: "unmapped-tail", accepted: 40000)
   let tailReceipt = try await publish(tail)
   let tailLease = try CaptureJournalLease(directory: tail.path)
-  try await CaptureAudioPublication.cleanup(lease: tailLease, receipt: tailReceipt)
+  let retainedTail = try await CaptureAudioPublication.cleanup(lease: tailLease, receipt: tailReceipt)
+  precondition(retainedTail == .retained)
   precondition(
     FileManager.default.fileExists(atPath: tail.appendingPathComponent("narration.packed.mov").path)
   )
@@ -181,12 +185,74 @@ func runCaptureAudioPublicationTests(output: String? = nil) async throws {
     in: root, name: "accepted-beyond-physical", accepted: 120000)
   let missingReceipt = try await publish(missing)
   let missingLease = try CaptureJournalLease(directory: missing.path)
-  try await CaptureAudioPublication.cleanup(lease: missingLease, receipt: missingReceipt)
+  let retainedMissing = try await CaptureAudioPublication.cleanup(lease: missingLease, receipt: missingReceipt)
+  precondition(retainedMissing == .retained)
   precondition(missingReceipt.acceptedFrames > missingReceipt.committedFrames)
   precondition(
     FileManager.default.fileExists(
       atPath: missing.appendingPathComponent("narration.packed.mov").path),
     "Known accepted/physical disagreement remains retained despite a playable proven prefix")
+
+  let denied = try fixture("cleanup-permission")
+  let deniedReceipt = try await publish(denied)
+  let deniedLease = try CaptureJournalLease(directory: denied.path)
+  let deniedAttempt = denied.appendingPathComponent(".capture-publication-narration")
+  precondition(chmod(deniedAttempt.path, 0o500) == 0)
+  do {
+    defer { precondition(chmod(deniedAttempt.path, 0o700) == 0) }
+    do {
+      try await CaptureAudioPublication.cleanup(lease: deniedLease, receipt: deniedReceipt)
+      preconditionFailure("Read-only attempt must refuse member deletion")
+    } catch {
+      precondition(CaptureFinalizationError.isOperationalRead(error), "Permission failure must preserve its IO category")
+    }
+    _ = try await CaptureAudioPublication.readPublished(lease: deniedLease, role: "narration", canonical: denied.appendingPathComponent("narration.mov"))
+  }
+  let repaired = try await CaptureAudioPublication.cleanup(lease: deniedLease, receipt: deniedReceipt)
+  precondition(repaired == .removed)
+
+  let explicit = try fixture("explicit-cleanup")
+  let explicitReceipt = try await publish(explicit)
+  do {
+    _ = try await CaptureAudioPublication.cleanupPublished(directory: explicit.path, sourceID: "wrong-source")
+    preconditionFailure("Cleanup must not cross source identity")
+  } catch let failure as CaptureFailure { precondition(failure.code == "PUBLICATION_CONFLICT") }
+  precondition(FileManager.default.fileExists(atPath: explicit.appendingPathComponent("narration.packed.mov").path))
+  let explicitResult = try await CaptureAudioPublication.cleanupPublished(directory: explicit.path, sourceID: explicitReceipt.intent.sourceID)
+  precondition(explicitResult.count == 2 && explicitResult[0].role == "narration" && explicitResult[0].outcome == .removed)
+  precondition(explicitResult[1].role == "system" && explicitResult[1].outcome == .alreadyClear)
+  let noProof = try fixture("cleanup-without-proof")
+  let noProofLease = try CaptureJournalLease(directory: noProof.path)
+  let noProofSummary = try CaptureJournal.streamAcceptedPCM(lease: noProofLease) { _ in }
+  noProofLease.release()
+  let retainedProof = try await CaptureAudioPublication.cleanupPublished(directory: noProof.path, sourceID: noProofSummary.header!.sessionID)
+  precondition(retainedProof[0].outcome == .retained && retainedProof[0].reason == "missing-publication")
+  precondition(FileManager.default.fileExists(atPath: noProof.appendingPathComponent("narration.packed.mov").path))
+
+  let linked = try fixture("cleanup-linked-proof")
+  let linkedReceipt = try await publish(linked)
+  let linkedPath = linked.appendingPathComponent("narration.publication.json")
+  let movedPath = linked.appendingPathComponent("saved-publication.json")
+  try FileManager.default.moveItem(at: linkedPath, to: movedPath)
+  try FileManager.default.createSymbolicLink(at: linkedPath, withDestinationURL: movedPath)
+  do {
+    _ = try await CaptureAudioPublication.cleanupPublished(directory: linked.path, sourceID: linkedReceipt.intent.sourceID)
+    preconditionFailure("Linked publication proof must refuse cleanup")
+  } catch let failure as CaptureFailure {
+    precondition(failure.code == "PUBLICATION_CONFLICT")
+    precondition(!CaptureFinalizationError(failure).retryable)
+  }
+  precondition(FileManager.default.fileExists(atPath: linked.appendingPathComponent("narration.packed.mov").path))
+
+  let journalLess = root.appendingPathComponent("cleanup-no-journal")
+  try FileManager.default.createDirectory(at: journalLess, withIntermediateDirectories: false)
+  let unverified = journalLess.appendingPathComponent("narration.packed.mov")
+  let unverifiedBytes = Data("unknown recoverable bytes".utf8)
+  try unverifiedBytes.write(to: unverified)
+  let noJournal = try await CaptureAudioPublication.cleanupPublished(directory: journalLess.path, sourceID: "unverified")
+  precondition(noJournal.allSatisfy { $0.outcome == .retained && $0.reason == "missing-journal" })
+  let retainedBytes = try Data(contentsOf: unverified)
+  precondition(retainedBytes == unverifiedBytes)
 
   let pending = try fixture("cleanup-pending")
   let pendingReceipt = try await publish(pending)
@@ -197,7 +263,7 @@ func runCaptureAudioPublicationTests(output: String? = nil) async throws {
   do {
     try await CaptureAudioPublication.cleanup(lease: pendingLease, receipt: pendingReceipt)
     preconditionFailure("Nonempty attempt requires explicit cleanup attention")
-  } catch let failure as CaptureFailure { precondition(failure.code == "PUBLICATION_FAILED") }
+  } catch let failure as CaptureFailure { precondition(failure.code == "PUBLICATION_CONFLICT") }
   let available = try await published(pendingLease)
   precondition(
     available == pendingReceipt, "Optional cleanup failure must not revoke canonical availability")

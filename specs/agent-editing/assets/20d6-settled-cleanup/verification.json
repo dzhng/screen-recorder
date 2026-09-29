@@ -1,0 +1,17 @@
+{
+  "status": "verified scoped cleanup checkpoint",
+  "publicNoRevisionAlreadyClear": true,
+  "permissionRetryAcrossRestart": true,
+  "independentHealthyRoleRemoved": true,
+  "recordingAndMediaUnchanged": true,
+  "fixture": "Exact publication attempt intent plus candidate/prepared hardlinks reconstructed from actual prerecorded controller receipts; no new physical capture.",
+  "remaining": [],
+  "publicJournalContentionRetry": true,
+  "actualNativeLeaseCancellation": true,
+  "missingJournalRetains": true,
+  "review": "Final review found no actionable regressions; service types/whitespace checked, native runtime inspected only. Author native/public evidence is separate.",
+  "activeWorkerDeletion": true,
+  "readySourceEvidenceUnchangedAcrossRetryRestart": true,
+  "serviceTests": 15,
+  "nativeSha256": "f2f8f49c32a9b0597154828c7675a78132394ad79af7ac34912c7abb928a4273"
+}

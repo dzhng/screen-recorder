@@ -1,6 +1,6 @@
 # 20d — Canonical capture publication and recovery rollout
 
-Status: partial; prerecorded native publication/admission and operational source retry verified. Explicit settled cleanup and terminal-message disclosure remain open. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md), [20d2](20d2-asset-metadata-pages.md), [20d3](20d3-package-asset-metadata.md).
+Status: partial; prerecorded native publication/admission and operational source retry verified. Explicit settled cleanup is verified in [20d6](20d6-settled-cleanup.md); terminal-message disclosure remains open. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md), [20d2](20d2-asset-metadata-pages.md), [20d3](20d3-package-asset-metadata.md).
 
 ## Contract and owner
 

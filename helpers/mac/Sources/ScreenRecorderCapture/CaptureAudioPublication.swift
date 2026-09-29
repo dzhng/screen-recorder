@@ -161,91 +161,169 @@ package enum CaptureAudioPublication {
     return .published(receipt)
   }
 
+  package enum CleanupOutcome: String, Codable, Sendable {
+    case removed
+    case alreadyClear
+    case retained
+  }
+
+  package struct RoleCleanup: Encodable, Sendable {
+    package let role: String
+    package let outcome: CleanupOutcome
+    package let reason: String?
+  }
+
+  /// Explicit maintenance reads existing publication authority; it never republishes a role.
+  package static func cleanupPublished(directory: String, sourceID: String) async throws -> [RoleCleanup] {
+    try Task.checkCancellation()
+    if try !cleanupMemberExists(URL(fileURLWithPath: directory).appendingPathComponent("capture.journal.jsonl")) {
+      try Task.checkCancellation()
+      return ["narration", "system"].map { RoleCleanup(role: $0, outcome: .retained, reason: "missing-journal") }
+    }
+    let lease = try CaptureJournalLease(directory: directory)
+    let summary = try CaptureJournal.streamAcceptedPCM(lease: lease) { _ in }
+    guard summary.header?.sessionID == sourceID else {
+      throw conflict("Cleanup journal does not belong to the requested source.")
+    }
+    let root = URL(fileURLWithPath: lease.directory)
+    var outcomes: [RoleCleanup] = []
+    var failure: (any Error)?
+    for role in ["narration", "system"] {
+      try Task.checkCancellation()
+      try lease.check()
+      do {
+        let publication = root.appendingPathComponent("\(role).publication.json")
+        guard try cleanupMemberExists(publication) else {
+          let packed = try cleanupMemberExists(root.appendingPathComponent("\(role).packed.mov"))
+          let attempt = try cleanupMemberExists(root.appendingPathComponent(".capture-publication-\(role)"))
+          outcomes.append(RoleCleanup(role: role, outcome: packed || attempt ? .retained : .alreadyClear,
+                                      reason: packed || attempt ? "missing-publication" : nil))
+          continue
+        }
+        let receipt: Receipt = try read(publication)
+        guard receipt.intent.sourceID == sourceID, receipt.intent.role == role else {
+          throw conflict("Cleanup publication does not belong to the requested source and role.")
+        }
+        let outcome = try await cleanup(lease: lease, receipt: receipt)
+        outcomes.append(RoleCleanup(role: role, outcome: outcome,
+                                    reason: outcome == .retained ? "unresolved-media" : nil))
+      } catch is CancellationError { throw CancellationError() }
+      catch let error as CaptureFailure where ["JOURNAL_CHANGED", "JOURNAL_CLOSED", "CAPTURE_BUSY"].contains(error.code) {
+        throw error
+      } catch {
+        if failure == nil { failure = error }
+      }
+    }
+    try Task.checkCancellation()
+    try lease.check()
+    if let failure { throw failure }
+    return outcomes
+  }
+
   /// Optional reclamation after publication. Failure leaves canonical availability intact and is
   /// surfaced to the caller as pending cleanup, not an invitation to repeat finalization.
-  package static func cleanup(lease: CaptureJournalLease, receipt: Receipt) async throws {
+  @discardableResult
+  package static func cleanup(lease: CaptureJournalLease, receipt: Receipt) async throws -> CleanupOutcome {
     try Task.checkCancellation()
     let root = URL(fileURLWithPath: lease.directory)
     let role = receipt.intent.role
-    guard ["narration", "system"].contains(role) else { throw failure("Invalid cleanup role.") }
+    guard ["narration", "system"].contains(role) else { throw conflict("Invalid cleanup role.") }
     let receiptURL = root.appendingPathComponent("\(role).publication.json")
     let published: Receipt = try read(receiptURL)
-    guard published == receipt else { throw failure("Cleanup receipt changed.") }
+    guard published == receipt else { throw conflict("Cleanup receipt changed.") }
     let canonical = root.appendingPathComponent("\(role).mov")
     try await verify(receipt, lease: lease, canonical: canonical)
     guard receipt.cleanPhysicalEOF, receipt.diagnostic == nil,
       receipt.representedFrames == receipt.committedFrames,
       receipt.committedFrames == receipt.acceptedFrames
-    else { return }
+    else { return .retained }
     // A retry may have observed links before the previous publisher synchronized the directory.
     try lease.synchronize()
     _ = try NewFile.publish(staged: canonical, at: canonical.path)
     _ = try NewFile.publish(staged: receiptURL, at: receiptURL.path)
     try synchronize(root)
+    var removed = false
     let payload = root.appendingPathComponent("\(role).packed.mov")
-    if exists(payload) {
-      var pinned = stat()
-      guard lstat(payload.path, &pinned) == 0, pinned.st_mode & S_IFMT == S_IFREG
-      else { throw failure("Packed cleanup input is not a regular file.") }
+    if try cleanupMemberExists(payload) {
+      let pinned = try cleanupStat(payload)
+      guard pinned.st_mode & S_IFMT == S_IFREG
+      else { throw conflict("Packed cleanup input is not a regular file.") }
       let actual = try await CaptureAudioMaterializer.materialize(
         lease: lease, through: receipt.intent.journal, role: role, candidate: canonical)
       guard try Receipt(intent: receipt.intent, result: actual) == receipt,
         try CaptureMediaIdentity.read(payload) == receipt.intent.payload
-      else { throw failure("Cleanup inputs no longer match verified publication.") }
+      else { throw conflict("Cleanup inputs no longer match verified publication.") }
       try lease.check()
-      var current = stat()
-      guard lstat(payload.path, &current) == 0, current.st_dev == pinned.st_dev,
+      let current = try cleanupStat(payload)
+      guard current.st_dev == pinned.st_dev,
         current.st_ino == pinned.st_ino
-      else { throw failure("Packed cleanup input was replaced.") }
+      else { throw conflict("Packed cleanup input was replaced.") }
       guard unlink(payload.path) == 0 else {
-        throw failure("Cannot remove verified packed working media.")
+        throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
       }
+      removed = true
       try synchronize(root)
     }
     let attempt = root.appendingPathComponent(".capture-publication-\(role)")
-    if exists(attempt) {
+    if try cleanupMemberExists(attempt) {
       try directory(attempt)
       let intentURL = attempt.appendingPathComponent("intent.json")
-      if exists(intentURL) {
-        var pinnedIntent = stat()
-        guard lstat(intentURL.path, &pinnedIntent) == 0,
-          pinnedIntent.st_mode & S_IFMT == S_IFREG
-        else { throw failure("Cleanup intent is not a regular file.") }
+      if try cleanupMemberExists(intentURL) {
+        let pinnedIntent = try cleanupStat(intentURL)
+        guard pinnedIntent.st_mode & S_IFMT == S_IFREG
+        else { throw conflict("Cleanup intent is not a regular file.") }
         let intent: Intent = try read(intentURL)
-        guard intent == receipt.intent else { throw failure("Cleanup attempt identity changed.") }
+        guard intent == receipt.intent else { throw conflict("Cleanup attempt identity changed.") }
         for (name, published) in [("candidate.mov", canonical), ("prepared.json", receiptURL)] {
           let path = attempt.appendingPathComponent(name)
-          if exists(path) {
+          if try cleanupMemberExists(path) {
             try lease.check()
-            var working = stat()
-            var retained = stat()
-            guard lstat(path.path, &working) == 0, lstat(published.path, &retained) == 0,
-              working.st_mode & S_IFMT == S_IFREG, working.st_dev == retained.st_dev,
+            let working = try cleanupStat(path)
+            let retained = try cleanupStat(published)
+            guard working.st_mode & S_IFMT == S_IFREG, working.st_dev == retained.st_dev,
               working.st_ino == retained.st_ino
-            else { throw failure("Cleanup member is not the published attempt inode.") }
+            else { throw conflict("Cleanup member is not the published attempt inode.") }
             guard unlink(path.path) == 0 else {
-              throw failure("Cannot remove published attempt member.")
+              throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
             }
           }
         }
         try synchronize(attempt)
-        var currentIntent = stat()
-        guard lstat(intentURL.path, &currentIntent) == 0,
-          currentIntent.st_dev == pinnedIntent.st_dev, currentIntent.st_ino == pinnedIntent.st_ino
-        else { throw failure("Cleanup intent was replaced.") }
+        let currentIntent = try cleanupStat(intentURL)
+        guard currentIntent.st_dev == pinnedIntent.st_dev, currentIntent.st_ino == pinnedIntent.st_ino
+        else { throw conflict("Cleanup intent was replaced.") }
         guard unlink(intentURL.path) == 0 else {
-          throw failure("Cannot remove completed publication intent.")
+          throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
         }
         try synchronize(attempt)
       }
       // Intent removal is last. A restart with no intent may remove only an empty directory.
       try lease.check()
       guard rmdir(attempt.path) == 0 else {
-        throw failure("Publication attempt retains cleanup work.")
+        if errno == ENOTEMPTY { throw conflict("Publication attempt retains unknown members.") }
+        throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
       }
+      removed = true
       try synchronize(root)
     }
     try lease.check()
+    return removed ? .removed : .alreadyClear
+  }
+
+  private static func cleanupStat(_ url: URL) throws -> stat {
+    var info = stat()
+    guard lstat(url.path, &info) == 0 else {
+      if errno == ENOENT { throw conflict("Cleanup member disappeared during verification.") }
+      throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
+    }
+    return info
+  }
+
+  private static func cleanupMemberExists(_ url: URL) throws -> Bool {
+    var info = stat()
+    if lstat(url.path, &info) == 0 { return true }
+    if errno == ENOENT { return false }
+    throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
   }
 
   /// Rechecks canonical bytes and delivered support without requiring already-cleaned working media.
@@ -315,12 +393,17 @@ package enum CaptureAudioPublication {
   }
   private static func read<Value: Decodable>(_ url: URL) throws -> Value {
     let descriptor = open(url.path, O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC)
-    guard descriptor >= 0 else { throw failure("Cannot read publication record.") }
+    guard descriptor >= 0 else {
+      if [ELOOP, ENOTDIR].contains(errno) { throw conflict("Publication record path is not a regular member.") }
+      throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
+    }
     let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
     var info = stat()
-    guard fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
-      info.st_size <= 65_536
-    else { throw failure("Publication record exceeds its bounded metadata format.") }
+    guard fstat(descriptor, &info) == 0 else {
+      throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
+    }
+    guard info.st_mode & S_IFMT == S_IFREG, info.st_size <= 65_536
+    else { throw conflict("Publication record exceeds its bounded metadata format.") }
     var data = Data()
     while data.count <= 65_536 {
       try Task.checkCancellation()
@@ -330,7 +413,7 @@ package enum CaptureAudioPublication {
       data.append(chunk)
     }
     guard data.count <= 65_536 else {
-      throw failure("Publication record exceeds its bounded metadata format.")
+      throw conflict("Publication record exceeds its bounded metadata format.")
     }
     do { return try JSONDecoder().decode(Value.self, from: data) }
     catch is DecodingError { throw conflict("Publication record is malformed.") }
@@ -340,7 +423,7 @@ package enum CaptureAudioPublication {
     encoder.outputFormatting = [.sortedKeys]
     let data = try encoder.encode(value)
     guard data.count <= 65_536 else {
-      throw failure("Publication record exceeds its bounded metadata format.")
+      throw conflict("Publication record exceeds its bounded metadata format.")
     }
     let output = try NewFile(at: url.path, assembledAs: "record.json")
     defer { output.discard() }
@@ -350,10 +433,10 @@ package enum CaptureAudioPublication {
   private static func synchronize(_ url: URL) throws {
     let descriptor = open(url.path, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
     guard descriptor >= 0 else {
-      throw failure("Cannot open publication directory for synchronization.")
+      throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno))
     }
     defer { close(descriptor) }
-    guard fsync(descriptor) == 0 else { throw failure("Cannot synchronize publication directory.") }
+    guard fsync(descriptor) == 0 else { throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno)) }
   }
   private static func conflict(_ message: String) -> CaptureFailure {
     CaptureFailure("PUBLICATION_CONFLICT", message)

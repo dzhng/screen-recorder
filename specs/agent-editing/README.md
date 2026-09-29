@@ -20,7 +20,7 @@ verified public operations only; the installed app has not switched engines.
 Current pickup and priority:
 
 1. Complete the remaining [capture rollout](slices/20d-capture-publication.md):
-   explicit settled cleanup and terminal diagnostic detail. Responsive recovery,
+   terminal diagnostic detail. [Explicit settled cleanup](slices/20d6-settled-cleanup.md), responsive recovery,
    actual prerecorded writer publication and [source-admission retry](slices/20d4-source-admission-retry.md)
    pass integrated native/service gates. Physical camera acceptance remains separate.
 2. Retained **project** playback now passes [22b](slices/22b-retained-project-consumers.md)
@@ -276,6 +276,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [20d3 — Inventory-bound project package JSON](slices/20d3-package-asset-metadata.md)
 - [x] [20d4 — Operational source-evidence retry](slices/20d4-source-admission-retry.md)
 - [x] [20d5 — Source-owned recording job controls](slices/20d5-recording-source-job-target.md)
+- [x] [20d6 — Explicit settled recording cleanup](slices/20d6-settled-cleanup.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)

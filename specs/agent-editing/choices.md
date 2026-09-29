@@ -3361,3 +3361,32 @@ job meaning. The plan required immutable jobs but left this consumer representat
 open; an explicit internal null means produced, a resource ID means retained.
 The native reader borrows the validated file descriptor and passes bounded PCM
 blocks to existing WAV/movie writers, with no new decoder or resampler.
+
+## 20d6 — Explicit verified cleanup
+
+### Reclaim one recording through its existing jobs (sound, high confidence)
+
+When publication succeeds but working files remain, the agent requests cleanup of
+that named recording. The existing queue owns retry, cancellation and deletion
+draining; the native publication owner alone authorizes file removal. No startup
+scan or automatic retry is added. The plan required explicit recovery but left
+its operation shape open. Repeated requests join the same source-owned job, and
+ready source evidence is independent of that job's cleanup outcome.
+
+### Report retained files as an explicit result (sound, high confidence)
+
+A successful inspection may find files whose mapping or publication proof is
+incomplete. Its result says retained rather than claiming all files were removed.
+Missing journals also retain media. Changed proof is a final conflict; positively
+identified access and ownership failures are retryable. The plan left the result
+shape open. This distinction lets agents act on uncertainty without deleting
+recoverable media or retrying malformed proof as though it were a transient fault.
+
+### Reuse the canonical verification work allowance (sound, medium confidence)
+
+Cleanup can recheck an entire fragmented take before unlinking small working files.
+It receives the existing20-minute canonical fragmentation allowance plus the
+byte-based publication budget, capped by the media-worker maximum. The request
+itself remains asynchronous. The plan required bounded cancellable work but left
+this budget open; using the measured recovery allowance avoids a short control
+timeout without introducing an unbounded cleanup worker.

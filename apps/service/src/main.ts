@@ -1,3 +1,4 @@
+import { CaptureCleanup } from "./capture-cleanup.js";
 import { sourceExporter } from "./source-export.js";
 import { LibraryTimelineInspection } from "./timeline-inspection.js";
 import { MediaExports } from "./exports.js";
@@ -78,6 +79,7 @@ async function main(): Promise<void> {
   let sceneEvidence: SceneEvidenceStore;
   let indexEvidence: ScreenshotIndexStore;
   let processing: SourceProcessing;
+  let captureCleanup: CaptureCleanup;
   let scenes: SceneProcessing;
   let models: SpeechModels;
   let transcriptStore: TranscriptStore;
@@ -138,6 +140,7 @@ async function main(): Promise<void> {
       targets: recordingJobTargets(store),
       providers: { newId: randomUUID },
       execute: async (execution) => {
+        if (execution.job.artifact === "capture-cleanup") return captureCleanup.execute(execution);
         if (execution.job.artifact === "export-recovery") return exports!.execute(execution);
         if (execution.job.artifact === "transcript") return transcripts.execute(execution);
         if (
@@ -162,6 +165,7 @@ async function main(): Promise<void> {
       },
       onCapacity: () => resumeProcessing(),
     });
+    captureCleanup = new CaptureCleanup(store, jobs, home, worker);
     packages = new PackageInspection({
       directory: join(runtimeDirectory, "packages"),
       jobs,
@@ -428,6 +432,7 @@ async function main(): Promise<void> {
           deletion,
           store: catalog,
           jobs: queue,
+          captureCleanup,
           capture,
           health: () => healthData(started, socketPath, home),
           processing,

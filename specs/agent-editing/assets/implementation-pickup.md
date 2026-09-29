@@ -13,9 +13,9 @@ Historical workers and measurements keep their own identities in the linked evid
   Responsive recovery and packed writer publication pass
   [integrated native/service verification](20d-activation/root-verification.json).
   [Source-admission retry](20d4-source-retry/root-verification.json) now passes
-  permission restoration and immutable-identity controls. Next are explicit settled
-  cleanup and terminal message disclosure. Cleanup must cover
-  no-revision recordings without inventing a revision or reopening capture state.
+  permission restoration and immutable-identity controls. Explicit settled cleanup
+  now covers no-revision recordings through the existing queue and deletion owner.
+  Terminal message disclosure is next; it must preserve original provenance.
   No live capture or installed-app replacement has occurred.
 - **Portable project consumers:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
   [Complete project metadata](20d3-package-json/README.md) and the
@@ -115,9 +115,10 @@ owners after speech recipes earn their required acceptance.
 
 ## Next execution
 
-No delegate is currently running. Main includes the integrated24i and20d5 passes
-and the22b consumer checkpoint. Prior worktree diffs are preserved; do not reapply
-them. Next implement explicit settled recording cleanup under the approved20d5
-recording-owned job target, preserving existing publication proof/deletion authority.
-Terminal diagnostic disclosure remains the other20d gap. The full editor goal and
-all open acceptance gates remain active. Frozen older-catalog evidence is immutable.
+No delegate is currently running. Main includes24i,20d5,22b and the verified
+[20d6 cleanup checkpoint](20d6-settled-cleanup/README.md). Older worktree diffs
+are preserved; do not reapply them. Next expose the original terminal failure
+message through existing source/recording evidence, including no-r0/zero-duration
+reach and portable provenance. Do not reuse finalizationError for completed takes.
+The full editor goal and all open acceptance gates remain active. Frozen older
+catalog evidence is immutable; no installed-app cutover has occurred.

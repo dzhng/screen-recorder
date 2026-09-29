@@ -1000,6 +1000,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Page through discoverable recordings newest first; continuation excludes newer takes.",
     ),
   z
+    .object({ operation: z.literal("recording.cleanup"), params: recording })
+    .strict()
+    .describe(
+      "Explicitly reclaim verified publication working files from a settled recording. Returns a job; use job.get, job.retry and job.cancel. Unverified media remains retained; recording state and canonical media are unchanged.",
+    ),
+  z
     .object({ operation: z.literal("recording.get"), params: recording })
     .strict()
     .describe(

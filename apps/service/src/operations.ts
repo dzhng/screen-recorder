@@ -1,3 +1,4 @@
+import type { CaptureCleanup } from "./capture-cleanup.js";
 import { CompositionError } from "@screenrec/composition";
 import type { LibraryTimelineInspection } from "./timeline-inspection.js";
 import type { PackageFrameInspection } from "./package-frames.js";
@@ -30,6 +31,7 @@ import type { JobQueue } from "@screenrec/core/jobs";
 import type { CaptureService } from "./capture.js";
 
 export type OperationContext = {
+  captureCleanup: CaptureCleanup;
   jobs: JobQueue;
   exports: MediaExports;
   packages: PackageInspection;
@@ -108,6 +110,7 @@ export async function operate(
   {
     store,
     jobs,
+    captureCleanup,
     packages,
     exports,
     deletion,
@@ -165,6 +168,8 @@ export async function operate(
           "NOT_READY",
           "Project operations require the isolated project service until production cutover",
         );
+      case "recording.cleanup":
+        return { ok: true, data: captureCleanup.request(operation.params.recordingId) };
       case "job.get":
         return { ok: true, data: jobs.inspect(operation.params.jobId) };
       case "job.retry":
