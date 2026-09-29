@@ -37,8 +37,8 @@ actual lost-reply/restart and concurrent replay on both services; reuse its proo
 now passes managed CLI/MCP editing, preview/export and complete undo, with exact
 accepted lossless PCM. Full speech timing and inventory acceptance remain separate. Remaining priorities are speech/denoise and stretch acceptance toward12b/14/15a,
 then16; measured physical20→21; final23 cutover, post-cutover24 scale and25 autonomous
-workflow. The [audio-domain limits](assets/acceptance-maintenance/audio-domain.md)
-remain explicit. Generic22, full-history transfer24u, scoped learned routing24v,
+workflow. Independent mixing08 is verified through its named contract evidence; the
+[audio-domain limits](assets/acceptance-maintenance/audio-domain.md) remain explicit. Generic22, full-history transfer24u, scoped learned routing24v,
 waveform memory24w and public voice jobs19f are banked; do not repeat those passed
 cohorts. Parent18/19 pronunciation, identity, contextual joins and listening stay open.
 
@@ -132,7 +132,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [05 — Compile bounded execution plans](slices/05-compiler.md)
 - [x] [06 — Reproduce native multi-source rendering](slices/06-render-reproduction.md)
 - [x] [07 — Execute video plans](slices/07-video-execution.md)
-- [ ] [08 — Independent audio mixing](slices/08-audio-mixing.md)
+- [x] [08 — Independent audio mixing](slices/08-audio-mixing.md)
 - [x] [08a — Shared derived-file ownership](slices/08a-derived-cache.md)
 - [x] [09 — First public preview and export](slices/09-first-preview.md)
 - [x] [09b — Agent-controlled output settings](slices/09b-output-settings.md)

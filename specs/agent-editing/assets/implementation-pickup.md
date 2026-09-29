@@ -93,7 +93,8 @@ Historical workers and measurements retain their own identities below.
   restart and concurrent replay. Root verified all380 archived members and five
   saved movie hashes without rerunning services. Saved homes remain retained;
   prepared-package-transfer completed the accepted12d public editing/rendering/undo
-  journey and now owns one retained-input current-worker AAC mixed full/range check.
+  journey and the retained-input current-worker AAC mixed full/range check; the
+  worktree is released with saved outputs intact.
 - **Selected-device preparation20e:** [the scoped probe](../slices/20e-selected-device-probe.md)
   is now being implemented in capture-pause-recovery. Its physical input stop,
   camera media closure and audio publication share existing termination ordering;
@@ -189,7 +190,10 @@ One historical source decode differs before composition. The bounded
 returns exact PCM for the same retained request eight times; broader
 reproducibility remains unverified. A separate read-only audit confirms a retained
 AAC mixed full/range red on historical6663; the exact current8a composition case
-is the next check, without another source-only or broader format cohort.
+now passes exact PCM and supports08’s stated contract closure alongside existing
+checks and the accepted12d join. Root rehashed all18 archived members and checked
+complete PCM/request preservation. The historical red and unknown cause remain;
+no universal decoder claim or additional source-only/format cohort follows.
 
 The user preferred learned filtering. In the [protected-speech packet](12c-protected-speech/README.md)
 they heard no obvious artifacts but found the unfamiliar cropped words confusing

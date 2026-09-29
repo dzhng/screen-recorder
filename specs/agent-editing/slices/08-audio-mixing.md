@@ -1,6 +1,6 @@
 # 08 — Independent audio mixing
 
-Status: native constant-gain execution and tested fractional unit-rate mapping pass; later09/11a public jobs, taps and large PCM delivery supply their scoped integration gates. [Current reconciliation](../assets/08-current-acceptance/README.md) records the combined-worker rerun. [Physical-segment composition](../assets/08-physical-segments/README.md) passes at 44.1/48kHz after a converter buffer-state fix. [Thirty-minute A/V drift](../assets/08-av-drift/README.md) passes actual public export with 120 fractional edits. [Mixed-rate conformance](../assets/08-11-rate-conformance/README.md) adds 44.1k AAC/MP3 with 48k PCM and frozen-decoder arithmetic; retained AAC mixed full/range PCM agreement remains unresolved on the current worker. [Low/high lossless rates](../assets/08-lossless-rate-boundaries/README.md) add bounded 8/192k source conformance. The [public12d narration join](../assets/12d-complete-sentence/README.md#managed-public-journey) now reproduces the user-accepted lossless candidate. The remaining concrete numerical gate is the archived AAC full/range discrepancy; named-domain limitations remain explicit. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
+Status: verified for the stated independent unit-rate mixing contract. [Contract evidence](../assets/08-current-acceptance/README.md) combines native/public preservation, mixed-rate and long-clock checks, the accepted public narration join, and exact current-worker AAC full/range PCM. Historical AAC variability, unverified negative occupied origins and unheard accompaniment balance remain explicit limitations, not claims of universal codec or perceptual coverage. Retiming and other processor quality stay with their owning slices. Dependencies: [02](./02-assets.md), [05](./05-compiler.md).
 
 ## Contract
 
@@ -78,12 +78,13 @@ lookahead have focused preservation evidence. Listening remains separate.
 verifies arbitrary physical phase through full/range decoding and resampling,
 with binding acquisition masks, bounded seeks and cache invalidation.
 
-## Current unresolved numerical gate
+## Current mixed-range verification
 
-A read-only audit of the retained `mix-verified` WAVs confirms that the AAC mixed
-range differs from its corresponding full-output slice in4530 scalar samples
-(maximum5.960464477539063e-8, RMS3.1973591513322384e-9). This is a direct full/range
-comparison on historical worker6663, distinct from independently decoded component
-comparisons. The current8a source-only repeat cohort does not exercise this mix
-contract. Recheck this exact retained-input case through the current composition
-owner; do not repeat unrelated format cohorts or change the comparison tolerance.
+The [current retained-input check](../assets/08-11-rate-conformance/current-mixed-range/README.md)
+passes exact full/range PCM on worker8a. The historical6663 range still differs in
+4530 scalar samples; its cause is unknown and its bytes remain retained. This
+current composition check is distinct from the source-only repeat cohort. No
+tolerance, shift, recipe or source material changed to pass it. Root independently
+verified the complete current PCM and request preservation, plus all18 archived
+members. The stated slice requirements are met by the combined named evidence;
+this does not establish general decoder determinism or the separate later gates.

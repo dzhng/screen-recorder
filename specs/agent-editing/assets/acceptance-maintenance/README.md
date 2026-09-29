@@ -6,10 +6,10 @@ Its full lossless output preserves the accepted treatment exactly. Reuse this
 journey; it does not select a speech engine or close the full filler/repetition
 inventory.
 
-The current numerical pickup is08’s retained AAC mixed full/range discrepancy,
-confirmed directly from archived WAVs. One exact current-worker case is in progress;
-source-only repeatability is not this composition gate. Reuse the other completed
-mixing/rate/recovery/drift cohorts.
+Independent mixing08 is now verified through its [combined contract evidence](../08-current-acceptance/README.md).
+The exact current-worker AAC full/range case passes; the historical discrepancy
+remains retained with unknown cause. Source-only repeatability is separate. Reuse
+these completed mixing/rate/recovery/drift cohorts.
 
 Public stretching still lacks its execution binding and remains gated by13a.
 Once accepted, implement14 through the existing prepared-audio owner and use one
