@@ -13,6 +13,11 @@ Local generation is a durable, retryable asset job; agents can place its result 
 
 voice.generate, shared job.get/retry/cancel and model preparation in the common registry use existing jobs. Requests resolve explicit reference asset/range/text; results publish an immutable generated asset with request/model/reference provenance. Placement uses ordinary edit.apply replacement/insertion.
 
+The [pinned parameter audit](../assets/19a-voice-entry/parameter-recon.md) separates
+working reference-generation controls, ignored kwargs and quality-affecting streaming.
+Public defaults are presets; supported settings and effective values must remain
+inspectable. Parameter bounds require measured support, not private parity limits.
+
 ## Work and review surface
 
 Reference extraction explicitly chooses raw or processed audio and retains that provenance. Generated replacement preserves compatible target-owned processing; per-phrase volume adjustment and track treatment remain independent. No automatic denoising or room-tone policy.
