@@ -69,3 +69,5 @@ ASR, waveform support, sample equality or still-image review. Existing14a storag
 publication and portability are reused after speech recipes earn acceptance.
 
 Negative occupied-origin audio remains unverified after the [bounded fixture feasibility probe](08-negative-origin/README.md); no public mix proof or unsupported-format policy is inferred from normalized/refused fixture construction.
+
+[Audio admission boundaries](08-admission-boundaries/README.md) are characterized through public source/project requests. Different readiness is observed without a demonstrated count/phase/channel defect; fractional source-clock fidelity and intended composition layout policy remain distinct questions.

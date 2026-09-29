@@ -1,0 +1,46 @@
+{
+  "baseCommit": "13cba973",
+  "nativeSha256": "6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9",
+  "runtime": "v24.14.0",
+  "commands": [
+    "swift /tmp/screenrec-audio-admission/fixtures.swift",
+    "bun run build",
+    "SCREENREC_NATIVE=/tmp/screenrec-caption-output-combined-native node packages/test-harness/editing/audio-admission-boundaries.mjs --fixtures /tmp/screenrec-audio-admission --out /tmp/screenrec-audio-admission/public",
+    "python3 /tmp/screenrec-audio-admission/analyze.py /tmp/screenrec-audio-admission/public > range-comparison.json"
+  ],
+  "executedHarnessSha256": "7680b7569228bfce60dadf8bf8c7fa50b0a531211391515443d1c115268afa0c",
+  "retainedHarnessSha256": "7c69efeb2fee469e1b4b0c32588058c5881a6b514aeb82b5f5cbd70ec1386726",
+  "harnessDifference": "oxfmt plus cleanup correction after single media cohort; native request/comparison logic unchanged; collision control and node syntax check pass",
+  "validation": "All successful receipt rates/channels/frame counts match declared48k floor clock. Both ranges equal full slice; discrete channels equal authored samples. Characterization only, not a readiness policy gate.",
+  "sourceHashes": {
+    "discrete-stereo.caf": "770cfc61872ccf3206b53f85762894a45f80b9160f4203efc9c16e930abae320",
+    "four-channel.caf": "50873c219365650901a193dd44ea3401fb5a130c74c89653f98217c7720875b2",
+    "fractional.caf": "631969525f98dcae11b986a3cdab64aef6a9fa1fe0e503f7323f6b57c7275e5d"
+  },
+  "retainedHashes": {
+    "build.log.gz": "56042d44c2ea28bd602e8f5dffabc86b4abf010c8257d9e3d2c34171fcd6db86",
+    "review.log.gz": "10cb763d397fc1ddcc5bc0aee61c5c16d9c9615519c2988801d39ae306d40852",
+    "discrete-stereo-project-full.wav.gz": "7fcccb332e5b71ebd58d2cc6ea85e033aacc8522007868125c9597c0694d10b6",
+    "fractional-project-range.wav.gz": "9f7f042cc54062f2d0c5a78392c9403eb7ee6d6087e4d96ce5dd132b67d61725",
+    "collision-control.json": "07ced898bf4715278e829faeb6e97fd67697e632e471242f057b840ec71de3df",
+    "four-channel.caf.gz": "2790f4dda6241489e47031346ee43c5ea53a3db7d9a40e87f29dfbb97ffa8148",
+    "discrete-stereo.caf.gz": "8aee303fe62896f6e6fa35ca154c3b3ace182a4ffd99af58c38ddc982d4809ed",
+    "range-comparison.json.gz": "533e9f305753e2f40337cf8b5731573e4f972aa5083f4e47e6d316c63983629d",
+    "fractional.caf.gz": "7a897ddbe3aa9582191a7d0446c508d40e66a1087b10eb52ca12404442e6ce76",
+    "README.md": "d49fe8a9dc691f442fa27482e9f30ea53699d3abd511ce2bcc312ca1f8101b73",
+    "public.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "report.json.gz": "0289891791f39098a2ce5762f02d7f9c71f6ad7d460c3b870bc5ee0586ad7f25",
+    "fractional-project-full.wav.gz": "4abb6ffabcb8c983051c8bf74c0cfe25dc2c845e56dfd640a3aafcc2740f4a9b",
+    "fixtures.log": "781027fb8a34df177ff4c27fbfee97c11e924b463051884faf26e1210b73272c",
+    "discrete-stereo-project-range.wav.gz": "658b65ca333608e97b7221f23b6c447b5b71b9b946fd69e15349085a6c441052",
+    "fixtures.swift": "2f2d21ce122981bc0c5cfcc28ea3d34334202204c10f7f4e408d55cf5f18f522",
+    "analyze.py": "6d5c844c482b05135d192db378c7de0e5791dc10958ca4f2a8d3a6d337fe6b26"
+  },
+  "build": "9 tasks successful; frozen6663 worker used for media, not rebuilt executable",
+  "review": {
+    "shape": "One existing-service characterization harness and frozen evidence; no backend owner/policy introduced.",
+    "independent": "One P2 failure-cleanup finding; fixed with nested finally and initialization order. No claim/hash/PCM inconsistency found.",
+    "verification": "Collision refusal creates no scratch home; syntax/format checks pass. No second media cohort.",
+    "choices": "Finite cohort and no policy change were explicitly authorized; no additional product decisions."
+  }
+}

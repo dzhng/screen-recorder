@@ -58,3 +58,5 @@ measured thirty-minute public export. Broader rate/codec coverage and real-narra
 listening remain open.
 
 [Negative-origin feasibility](../assets/08-negative-origin/README.md) exhausted a bounded two-candidate probe: a negative writer session normalized to zero, and negative composition insertion was refused before export. No genuine negative occupied-origin asset was produced; its public mixing proof remains unverified, without a new admission restriction.
+
+[Admission-boundary characterization](../assets/08-admission-boundaries/README.md) records one public fractional-rate/discrete-layout cohort: raw refusals and broader composition readiness differ, while measured output clocks/range phase and discrete channel samples agree. No policy change or independent fractional-source-time fidelity claim follows.

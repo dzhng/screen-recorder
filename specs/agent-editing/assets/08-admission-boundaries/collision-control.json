@@ -1,0 +1,6 @@
+{
+  "exitCode": 1,
+  "existingOutputRefused": true,
+  "scratchHomeUnchanged": true,
+  "stderr": "node:internal/fs/promises:856\n  return await PromisePrototypeThen(\n         ^\n\nError: EEXIST: file already exists, mkdir '/tmp/screenrec-audio-admission/public'\n    at async mkdir (node:internal/fs/promises:856:10)\n    at async file:///Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder/packages/test-harness/editing/audio-admission-boundaries.mjs:13:1 {\n  errno: -17,\n  code: 'EEXIST',\n  syscall: 'mkdir',\n  path: '/tmp/screenrec-audio-admission/public'\n}\n\nNode.js v24.14.0\n"
+}
