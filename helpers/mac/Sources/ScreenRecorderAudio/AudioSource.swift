@@ -13,7 +13,16 @@ struct SourceTrack {
     let sampleRate: Int
     let packetFrames: Int
     let channels: Int
-    let available: [CompositionAudioPlan.Selection]
+    struct Run {
+        let support: CompositionAudioPlan.Selection
+        let nativeOrigin: ExactTime
+    }
+    let available: [Run]
+
+    func frame(at time: ExactTime, in run: Run, ceil: Bool = false) throws -> Int64 {
+        try time.subtract(ExactTime(Int128(sourceOffsetUs))).subtract(run.nativeOrigin)
+            .sample(sampleRate, ceil: ceil, nearest: !ceil)
+    }
 
     static func open(selection: AudioSourceSelection, strictWindowFormat: Bool = false) async throws -> SourceTrack {
         try await open(source: selection.source, streamId: selection.streamId,
@@ -90,10 +99,11 @@ struct SourceTrack {
         // indistinguishable from recorded quiet, so absence is decided from the container's own
         // occupied segments rather than from the samples it is willing to produce.
         let offset = ExactTime(-Int128(sourceOffsetUs))
-        let occupied = try segments.map {
-            CompositionAudioPlan.Selection(
-                startUs: try ExactTime($0.asset.start).subtract(offset),
-                endUs: try ExactTime(CMTimeRangeGetEnd($0.asset)).subtract(offset))
+        let occupied = try segments.map { segment in
+            let origin = try ExactTime(segment.asset.start)
+            return Run(support: CompositionAudioPlan.Selection(
+                startUs: try origin.subtract(offset),
+                endUs: try ExactTime(CMTimeRangeGetEnd(segment.asset)).subtract(offset)), nativeOrigin: origin)
         }
         // Adjacent declarations describe continuous capture, so they must not restart decoding.
         // Even a one-microsecond hole remains a real exclusion; physical segment edges stay intact.
@@ -106,13 +116,22 @@ struct SourceTrack {
                 continuous.append(interval)
             }
         }
+        var available: [Run] = []
+        var a = 0, b = 0
+        while a < continuous.count && b < occupied.count {
+            let mask = CompositionAudioPlan.Selection(continuous[a]), run = occupied[b]
+            if let support = try mask.intersection(run.support) {
+                available.append(Run(support: support, nativeOrigin: run.nativeOrigin))
+            }
+            if try mask.endUs.subtract(run.support.endUs).numerator < 0 { a += 1 }
+            else { b += 1 }
+        }
         return SourceTrack(
             sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
             track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,
             // Physical occupancy is not acquisition evidence. Recording callers supply acquired
             // intervals here; composition execution additionally intersects its retained domains.
-            available: try CompositionAudioPlan.Selection.intersection(
-                continuous.map(CompositionAudioPlan.Selection.init), occupied))
+            available: available)
     }
 
     private static func nativeSampleRate(_ rate: Double) throws -> Int {
@@ -166,8 +185,8 @@ final class ConvertedAudioInterval {
     private var paddingFrames: Int
 
     init(
-        source: SourceTrack, decoder: AudioSourceReader, start: CMTime,
-        outputRate: Int, owed: Int64, end limit: CMTime? = nil
+        source: SourceTrack, decoder: AudioSourceReader, origin: ExactTime, start: Int64,
+        outputRate: Int, owed: Int64, end limit: Int64? = nil
     ) throws {
         sourceInput = source.input
         guard
@@ -186,21 +205,14 @@ final class ConvertedAudioInterval {
             )
         }
         // Cumulative layout rounding owns the duration, including a last frame rounded up.
-        let requestedEnd = CMTimeAdd(start, CMTime(value: owed, timescale: CMTimeScale(outputRate)))
+        let duration = (Int128(owed) * Int128(source.sampleRate) + Int128(outputRate) - 1) / Int128(outputRate)
+        guard let requestedEnd = Int64(exactly: Int128(start) + duration) else {
+            throw NativeFailure.decodeFailed("Audio selection exceeds native frame capacity.")
+        }
         let end = limit.map { min($0, requestedEnd) } ?? requestedEnd
-        let first = CMTimeConvertScale(
-            start, timescale: CMTimeScale(source.sampleRate),
-            method: .roundHalfAwayFromZero
-        ).value
-        let last = CMTimeConvertScale(
-            end, timescale: CMTimeScale(source.sampleRate),
-            method: .roundTowardPositiveInfinity
-        ).value
-        // Native selection and cumulative output use different integer clocks. Only their
-        // arithmetic shortfall may be zero-extended, and only after the reader reaches end.
-        let covered = Int128(max(0, last - first)) * Int128(outputRate) / Int128(source.sampleRate)
+        let covered = Int128(max(0, end - start)) * Int128(outputRate) / Int128(source.sampleRate)
         paddingFrames = Int(max(0, Int128(owed) - covered))
-        try decoder.begin(at: start, end: end)
+        try decoder.begin(origin: origin, at: start, end: end)
         let openedInput = ConversionInput(reader: decoder)
         guard let converted = AVAudioPCMBuffer(pcmFormat: excerptFormat, frameCapacity: 8_192)
         else { throw NativeFailure.decodeFailed("Cannot allocate audio conversion buffer.") }
@@ -283,11 +295,14 @@ final class AudioSourceReader {
     private var output: AVAssetReaderTrackOutput?
     private var pending: CMSampleBuffer?
     private let format: AVAudioFormat
-    private var position = CMTime.zero
-    private var end = CMTime.zero
-    private var intervalStart = CMTime.zero
+    private var origin: ExactTime?
+    private var position: Int64 = 0
+    private var end: Int64 = 0
+    private var intervalStart: Int64 = 0
+    private var packetStart: Int64 = 0
+    private var nextPacketStart: Int64 = 0
+    private var expectedStamp = CMTime.zero
     private var reopened = false
-    private var requireContinuation = false
     private(set) var decodedFrames: Int64 = 0
     var failed: Bool { reader?.status == .failed }
     var reachedSelectionEnd: Bool { position >= end }
@@ -301,28 +316,31 @@ final class AudioSourceReader {
 
     deinit { reader?.cancelReading() }
 
-    func begin(at start: CMTime, end: CMTime) throws {
-        // Seeking across a long hole must not decode the excluded recording. Nearby intervals
-        // amortize reader setup; at most one second of discarded audio is scanned per join.
-        if reader == nil || CMTimeGetSeconds(CMTimeSubtract(start, self.end)) > 1 {
+    func begin(origin: ExactTime, at start: Int64, end: Int64) throws {
+        // Nearby selections in the same physical run can share a decoded packet. A mask does
+        // not establish a new sample origin; seek again when the run or bounded scan changes.
+        if reader == nil || self.origin?.equals(origin) != true || start < packetStart
+            || Int128(start) - Int128(position) > Int128(source.sampleRate) {
+            self.origin = origin
             try open(at: start)
         }
         self.position = start
         self.end = end
         intervalStart = start
         reopened = false
-        requireContinuation = false
     }
 
-    static func decodeStart(at start: CMTime, packetFrames: Int, sampleRate: Int) -> CMTime {
-        let context = CMTime(value: Int64(packetFrames) * 2,
-            timescale: CMTimeScale(sampleRate))
-        // Negative presentation origins are valid; keep their requested seek rather than
-        // advancing it to zero. Nonnegative seeks retain bounded packet lookbehind.
-        return min(start, max(.zero, CMTimeSubtract(start, context)))
+    static func seekTime(origin: ExactTime, frame: Int64, sampleRate: Int) throws -> CMTime {
+        let cell = try origin.subtract(ExactTime(-Int128(frame) * 1_000_000, Int128(sampleRate)))
+        let boundary = try cell.sample(1_000_000, ceil: true)
+        let inside = boundary.addingReportingOverflow(1)
+        guard !inside.overflow else { throw NativeFailure.decodeFailed("Audio seek exceeds native bounds.") }
+        // At <=192kHz each native sample cell exceeds 5us. This integer-us point is >0 and
+        // <=2us after its exact start, strictly inside without an unrepresentable CMTime LCM.
+        return CMTime(value: inside.partialValue, timescale: 1_000_000)
     }
 
-    private func open(at start: CMTime) throws {
+    private func open(at start: Int64) throws {
         reader?.cancelReading()
         pending = nil
         let opened: AVAssetReader
@@ -334,9 +352,13 @@ final class AudioSourceReader {
         // Seeking inside the last compressed packet can refuse or omit its PCM. Two packet
         // widths include the preceding packet even when start lies inside a packet. next()
         // discards this bounded context before any selected samples reach the converter.
-        let decodeStart = Self.decodeStart(at: start,
-            packetFrames: source.packetFrames, sampleRate: source.sampleRate)
-        opened.timeRange = CMTimeRange(start: decodeStart, duration: .positiveInfinity)
+        let first = max(0, start - Int64(source.packetFrames) * 2)
+        let seek = try Self.seekTime(origin: origin!, frame: first, sampleRate: source.sampleRate)
+        opened.timeRange = CMTimeRange(start: seek, duration: .positiveInfinity)
+        packetStart = first
+        nextPacketStart = first
+        expectedStamp = CMTime(value: try ExactTime(seek).sample(source.sampleRate),
+            timescale: CMTimeScale(source.sampleRate))
         let output = AVAssetReaderTrackOutput(
             track: source.track,
             outputSettings: [
@@ -364,7 +386,18 @@ final class AudioSourceReader {
             try Task.checkCancellation()
             if pending == nil {
                 pending = output?.copyNextSampleBuffer()
-                if let pending { decodedFrames += Int64(CMSampleBufferGetNumSamples(pending)) }
+                if let pending {
+                    let frames = CMSampleBufferGetNumSamples(pending)
+                    let stamp = CMSampleBufferGetPresentationTimeStamp(pending)
+                    guard stamp.isNumeric, frames > 0, frames <= 65_536,
+                        CMTimeConvertScale(CMTimeSubtract(stamp, expectedStamp),
+                            timescale: CMTimeScale(source.sampleRate), method: .roundHalfAwayFromZero).value == 0
+                    else { throw NativeFailure.decodeFailed("Decoded audio has discontinuous sample packets.") }
+                    packetStart = nextPacketStart
+                    nextPacketStart += Int64(frames)
+                    expectedStamp = CMTimeAdd(stamp, CMTime(value: Int64(frames), timescale: CMTimeScale(source.sampleRate)))
+                    decodedFrames += Int64(frames)
+                }
             }
             guard let sample = pending else {
                 if let detail = source.input.failure { throw detail }
@@ -373,38 +406,19 @@ final class AudioSourceReader {
                 // returns the real tail. Retry only once, at the exact next sample, never padding.
                 if reader?.status == .completed, !reopened, position > intervalStart, position < end {
                     reopened = true
-                    requireContinuation = true
                     try open(at: position)
                     continue
                 }
                 return nil
             }
             let frames = CMSampleBufferGetNumSamples(sample)
-            let stamp = CMSampleBufferGetPresentationTimeStamp(sample)
-            func frame(_ time: CMTime, rounding: CMTimeRoundingMethod) -> Int {
-                Int(
-                    CMTimeConvertScale(
-                        CMTimeSubtract(time, stamp), timescale: CMTimeScale(source.sampleRate),
-                        method: rounding
-                    ).value)
-            }
-            let first = max(0, frame(position, rounding: .roundHalfAwayFromZero))
-            // Keep the source frame intersecting the quantized end, as AVAssetReader's
-            // timeRange does. Rounding it down can leave a rate converter one frame short.
-            let last = min(frames, frame(end, rounding: .roundTowardPositiveInfinity))
+            let first = Int(max(0, position - packetStart))
+            let last = Int(min(Int64(frames), end - packetStart))
             if first >= frames {
                 pending = nil
                 continue
             }
             if last <= first { return nil }
-            if requireContinuation {
-                let resumed = CMTimeAdd(stamp,
-                    CMTime(value: Int64(first), timescale: CMTimeScale(source.sampleRate)))
-                guard resumed == position else {
-                    throw NativeFailure.decodeFailed("Recovered audio skipped an unread source interval.")
-                }
-                requireContinuation = false
-            }
             var list = AudioBufferList()
             var block: CMBlockBuffer?
             guard frames > 0, frames <= 65_536,
@@ -420,8 +434,7 @@ final class AudioSourceReader {
             buffer.floatChannelData![0].update(
                 from: decoded + first * source.channels,
                 count: (last - first) * source.channels)
-            position = CMTimeAdd(
-                stamp, CMTime(value: Int64(last), timescale: CMTimeScale(source.sampleRate)))
+            position = packetStart + Int64(last)
             // Keep this packet until the next request: cumulative output rounding can make
             // successive intervals legitimately share a boundary source sample.
             return buffer

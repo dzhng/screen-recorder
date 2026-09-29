@@ -157,14 +157,4 @@ extension CompositionAudioPlan.Selection {
         TimeSpan(startUs: try startUs.sample(1_000_000, nearest: true),
             endUs: try endUs.sample(1_000_000, nearest: true))
     }
-    static func intersection(_ left: [Self], _ right: [Self]) throws -> [Self] {
-        var result: [Self] = []
-        var a = 0, b = 0
-        while a < left.count && b < right.count {
-            if let value = try left[a].intersection(right[b]) { result.append(value) }
-            if try left[a].endUs.subtract(right[b].endUs).numerator < 0 { a += 1 }
-            else { b += 1 }
-        }
-        return result
-    }
 }

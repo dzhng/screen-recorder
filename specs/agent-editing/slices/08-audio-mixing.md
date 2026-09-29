@@ -71,3 +71,7 @@ listening remain open.
 retains rational occupied times through the shared reader and invalidates affected
 derived recipes; full/late PCM, binding acquisition support and legacy converter
 lookahead have focused preservation evidence. Listening remains separate.
+
+[Native sample-address evidence](../assets/08-native-sample-address/README.md)
+verifies arbitrary physical phase through full/range decoding and resampling,
+with binding acquisition masks, bounded seeks and cache invalidation.

@@ -46,6 +46,7 @@ public enum CompositionAudio {
         NativeFailure("INVALID_REQUEST", message)
     }
     fileprivate struct Context {
+        let origin: ExactTime
         let sourceStart: Int64
         let sourceEnd: Int64
         let project: Plan.Samples
@@ -71,8 +72,8 @@ public enum CompositionAudio {
             }
             previous = range.endUs
             for occupied in source.available {
-                let physicalStart = occupied.startUs
-                let physicalEnd = occupied.endUs
+                let physicalStart = occupied.support.startUs
+                let physicalEnd = occupied.support.endUs
                 let start =
                     try range.startUs.subtract(physicalStart).numerator >= 0
                     ? range.startUs : physicalStart
@@ -81,15 +82,15 @@ public enum CompositionAudio {
                 guard try end.subtract(start).numerator > 0 else { continue }
                 let rawStart = try start.subtract(ExactTime(Int128(source.sourceOffsetUs)))
                 let rawEnd = try end.subtract(ExactTime(Int128(source.sourceOffsetUs)))
-                let sourceStart = try rawStart.sample(source.sampleRate, nearest: true)
-                let sourceEnd = try rawEnd.sample(source.sampleRate, ceil: true)
+                let sourceStart = try rawStart.subtract(occupied.nativeOrigin).sample(source.sampleRate, nearest: true)
+                let sourceEnd = try rawEnd.subtract(occupied.nativeOrigin).sample(source.sampleRate, ceil: true)
                 let project = Plan.Samples(
                     start: max(compiled.sampleRange.start, try start.subtract(offset).sample(rate)),
                     end: min(compiled.sampleRange.end, try end.subtract(offset).sample(rate)))
                 if sourceEnd > sourceStart, project.end > project.start {
                     result.append(
                         Context(
-                            sourceStart: sourceStart, sourceEnd: sourceEnd,
+                            origin: occupied.nativeOrigin, sourceStart: sourceStart, sourceEnd: sourceEnd,
                             project: project))
                 }
             }
@@ -151,12 +152,8 @@ public enum CompositionAudio {
                     maximumTail = max(maximumTail, max(0, owed - skip - interval.end + first))
                     conversion = try ConvertedAudioInterval(
                         source: source, decoder: AudioSourceReader(source: source),
-                        start: CMTime(
-                            value: startSample, timescale: CMTimeScale(source.sampleRate)),
-                        outputRate: rate, owed: owed,
-                        end: CMTime(
-                            value: contextRange.sourceEnd, timescale: CMTimeScale(source.sampleRate)
-                        ))
+                        origin: contextRange.origin, start: startSample,
+                        outputRate: rate, owed: owed, end: contextRange.sourceEnd)
                     var remaining = skip
                     while remaining > 0 {
                         try Task.checkCancellation()

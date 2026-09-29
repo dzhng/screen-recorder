@@ -85,7 +85,7 @@ export function projectMovieRenderer(
   pointers?: PointerOwners,
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v15",
+    implementationId: "native-composition-movie-v16",
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
       await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -157,7 +157,7 @@ export function projectMovieRenderer(
 
 export function projectAudioRenderer(worker: MediaWorker, workspace: string): ProjectAudioRenderer {
   return {
-    implementationId: "native-composition-audio-v5",
+    implementationId: "native-composition-audio-v6",
     render: async ({ window, assets, output }, signal) =>
       withRenderedFile(
         worker,

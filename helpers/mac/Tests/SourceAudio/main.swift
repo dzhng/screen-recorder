@@ -8,14 +8,20 @@ import ScreenRecorderAudio
 import ScreenRecorderMedia
 
 #if DEBUG
-// Imported asset origins may be negative. Decoder context must never advance the
-// requested start, even when a source's presentation clock begins before zero.
-for (startFrame, expectedFrame) in [(-4096, -4096), (-1, -1), (0, 0), (1, 0), (4096, 2048)] {
-    let actual = AudioSourceReader.decodeStart(
-        at: CMTime(value: Int64(startFrame), timescale: 48000),
-        packetFrames: 1024, sampleRate: 48000)
-    precondition(actual == CMTime(value: Int64(expectedFrame), timescale: 48000),
-        "Decoder lookbehind advanced or misaligned the requested source start")
+// A seek is an interior point in an already selected native cell, including negative
+// presentation origins and phases whose denominator cannot combine into CMTimeScale.
+for rate in [8000, 44100, 48000, 192000] {
+    for origin in [ExactTime(-100001), ExactTime(100001), ExactTime(100013),
+        ExactTime(100000000001, 999983), ExactTime(Int128(TimeSpan.maximumMicroseconds) * 2)] {
+        for frame: Int64 in [0, 1, 4096] {
+            let seek = try ExactTime(AudioSourceReader.seekTime(origin: origin, frame: frame, sampleRate: rate))
+            let start = try origin.subtract(ExactTime(-Int128(frame) * 1_000_000, Int128(rate)))
+            let end = try origin.subtract(ExactTime(-Int128(frame + 1) * 1_000_000, Int128(rate)))
+            let afterStart = try seek.subtract(start).numerator > 0
+            let beforeEnd = try end.subtract(seek).numerator > 0
+            precondition(afterStart && beforeEnd)
+        }
+    }
 }
 
 #endif
@@ -262,6 +268,43 @@ _ = try await SourceAudio.write(
 let acquired = try wave(acquiredURL).samples
 precondition(acquired == [Float](repeating: 0, count: 9600) + Array(rationalExpected[57600..<67200]) + [Float](repeating: 0, count: 4800))
 print("PASS exact physical segment phase in full/late windows with binding acquisition support")
+
+// Independent native-address oracle for non-grid phases and acquisition-mask edges.
+for rate in [44100, 48000] {
+    let input = try await pcmMovie(fixture(rate: Double(rate), channels: 1, name: "phase-source-\(rate)", seconds: 2.1))
+    let asset = AVURLAsset(url: input)
+    defer { withExtendedLifetime(asset) {} }
+    let track = try await asset.loadTracks(withMediaType: .audio)[0]
+    for anchor: Int64 in [100001, 100013] {
+        let composition = AVMutableComposition()
+        let target = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+        target.naturalTimeScale = rate == 44100 ? 441000000 : 6000000
+        try target.insertTimeRange(CMTimeRange(start: CMTime(value: 0, timescale: Int32(rate)), duration: CMTime(value: Int64(rate) * 2, timescale: Int32(rate))),
+            of: track, at: CMTime(value: anchor, timescale: 1000000))
+        let file = directory.appendingPathComponent("phase-\(rate)-\(anchor).mov")
+        try await AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetPassthrough)!.export(to: file, as: .mov)
+        let end = anchor + 2000000
+        for maskStart: Int64 in [anchor, 1200001, 1200013] {
+            let maskEnd = maskStart == anchor ? end : 1400013
+            let selection = AudioSourceSelection(source: file.path, sourceOffsetUs: 0,
+                available: [.init(startUs: maskStart, endUs: maskEnd)])
+            let fullURL = directory.appendingPathComponent("phase-\(rate)-\(anchor)-\(maskStart)-full.wav")
+            _ = try await SourceAudio.write(source: selection, range: .init(startUs: 0, endUs: end), output: fullURL)
+            let full = try wave(fullURL).samples
+            var expected = [Float](repeating: 0, count: Int(end * Int64(rate) / 1000000))
+            let outputStart = Int(maskStart * Int64(rate) / 1000000)
+            let outputEnd = Int(maskEnd * Int64(rate) / 1000000)
+            let sourceFirst = Int(((maskStart - anchor) * Int64(rate) + 500000) / 1000000)
+            for i in outputStart..<outputEnd { expected[i] = Float(((sourceFirst + i - outputStart) * 3) % 101 - 50) / 100 }
+            precondition(full == expected, "Physical phase or acquisition mask changed native sample identity")
+            let lateURL = directory.appendingPathComponent("phase-\(rate)-\(anchor)-\(maskStart)-late.wav")
+            _ = try await SourceAudio.write(source: selection, range: .init(startUs: 1200011, endUs: 1299567), output: lateURL)
+            let late = try wave(lateURL).samples
+            precondition(late == Array(expected[Int(1200011 * Int64(rate) / 1000000)..<Int(1299567 * Int64(rate) / 1000000)]))
+        }
+    }
+}
+print("PASS arbitrary physical phase and acquisition-mask native addresses at44.1/48k")
 
 for (rate, channels, discrete) in [(44_100.5, 2, false), (48_000.0, 4, true), (48_000.0, 2, true)] {
     let source = try fixture(

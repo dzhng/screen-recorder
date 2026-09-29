@@ -4,7 +4,7 @@ import { registerHooks } from "node:module";
 // Only the decoder recipe identity changes; ASR responses remain the existing frozen fixture.
 const target = new URL("../../../packages/core/dist/transcript-processing.js", import.meta.url)
   .href;
-const before = 'const decoderExecution = "native-audio-v3";';
+const before = 'const decoderExecution = "native-audio-v4";';
 const after = 'const decoderExecution = "native-audio-generation-journey";';
 let replaced = false;
 registerHooks({
