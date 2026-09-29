@@ -24,3 +24,5 @@ and embedded package metadata still exceed their unchanged transport/manifest
 budgets. Their reference/page delivery remains open, as does complete large-input
 capture rollout. Complete native metadata is retained in
 [the transport prerequisite](../20d-probe-file/README.md).
+
+[Combined-root verification](root-verification.json) confirms the exact boundary tests and actual fresh public acquisition with same-job replay. Its retained report and logs are in `root-verification.tar.gz`.

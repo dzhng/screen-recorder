@@ -3132,3 +3132,14 @@ payload budget, which bounds accepted bytes rather than native framework allocat
 Ordinary media path admission stays unchanged, and direct native callers may still
 request inline metadata. Physical row limits and public/package delivery need their
 own verification; larger global control frames would not solve those contracts.
+
+### Count physical gaps in asset capacity (sound, high confidence)
+
+A recording with100,000 occupied runs can also have99,999 gaps between them plus
+one gap at each edge. The shared asset schema therefore admits up to200,001 physical
+rows, retaining gaps exactly. The previous100,000-row cap confused physical rows
+with occupied support and rejected an otherwise admitted recording. This applies
+to the common import schema, with no canonical-only exception or dropped rows.
+It changes metadata admission capacity; public page and package budgets remain
+separate. Measured parsing and persisted round-trip work support this bound, without
+claiming a universal memory limit for native probing.

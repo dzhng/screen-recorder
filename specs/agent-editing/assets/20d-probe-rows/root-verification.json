@@ -1,0 +1,12 @@
+{
+  "commit": "691434bea7185baea26caa0c0416635327daa43f",
+  "workerSha256": "541c6761ac2bc763e3029c4856a6d19699fd7357196a837bac36fff99bd2567e",
+  "authenticatedArtifacts": 10,
+  "assetTests": 16,
+  "publicAcquisition": {
+    "state": "ready",
+    "seconds": 64.386263459,
+    "sameJobReplay": true
+  },
+  "scope": "Physical row admission only; full public asset metadata and package delivery still open."
+}

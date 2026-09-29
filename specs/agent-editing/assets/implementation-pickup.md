@@ -47,8 +47,9 @@ with independent state per output channel. Listening acceptance remains open.
   [Recording source lifetime](20d-source-lifetime/README.md) now has
   [combined-root orphan/deletion confirmation](20d-source-lifetime/root-verification.json).
   [Probe file delivery](20d-probe-file/README.md) now preserves the complete
-  native metadata object through bounded attempt files. Next reconcile physical-row
-  admission and complete public/package metadata delivery. Those limits remain
+  native metadata object through bounded attempt files. [Physical-row admission](20d-probe-rows/README.md)
+  now passes the actual100k-run public import on root. Next complete uniform paged
+  public metadata and inventory-bound package metadata delivery. Those limits remain
   separate from source-verification timing and native probe transport.
   Readable prefixes never authorize deleting ambiguous tails; cleanup requires
   matching accepted/committed/represented counts and clean indexed decode.
