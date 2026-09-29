@@ -7,8 +7,9 @@ scoped06/15 and caption17 are verified; whole16/22 and final acceptance remain o
 
 ## Current combined state
 
-Root4686f0aa includes transcript-seeded captions, real-narration preservation,
-historical package export, public audio preparation and matched animated verification.
+Rootf1602c26 includes caption17 closure, fresh animated-gain use, writable CLI/MCP
+input discovery, finite audio-domain evidence, the offline camera prerequisite
+and protected-speech review packet.
 The [static acceptance disposition](09b-encoded-appearance/acceptance.md)
 separates documented codec loss from exact geometry/timing contracts.
 The [animated checkpoint](16-animated-appearance/README.md) adds exact pre-encode
@@ -43,16 +44,16 @@ No production deadline or transaction guarantee changed.
   so old ready results cannot bypass validation. Preserve red fixtures and run
   targeted integer-rate/native/public checks on a separately frozen new worker.
 - Camera prerequisite: `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
- 20a offline controlled CMTimebase conversion, pause mapping, separate writers
-  and recovery are under verification. PCM payload packing around omitted pause
-  buffers does not preserve all declared audio timestamps; report the actual
-  delivered support and leave that prerequisite open. No live capture/prompts,
+ 20a631a432d banks controlled CMTimebase conversion, pause mapping, separate
+  writers and recovery, with delivered audio preservation explicitly false. Next
+  reproduce the omitted-buffer gap through the actual CaptureWriter callback owner
+  before attributing production impact or choosing a fix. No live capture/prompts,
   installed-app changes or second timing owner.
-- Protected denoise speech: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-  Low/high8/192kHz lossless proof is integrated41d80a70. Prepare a small listening
-  and annotation packet from retained matching original/clean/learned PCM only;
-  candidate word boundaries remain unconfirmed. Existing14a ownership is built,
-  so remove stale planning to rebuild it. Do not change the frozen RNNoise recipe.
+- Real narration with accompaniment: `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
+  Extend the existing real-narration preservation journey with a bounded authored
+  chord bed, explicit gain, complete independent Float32 sum, dry neighbors,
+  unchanged video/source/clip, public wrong-gain control and undo. No new DSP
+  owner or listening claim. Low/high lossless proof is integrated41d80a70.
 
 Fresh animated-gain skill use passes and its service is stopped; root dist is free.
 616a1c58 corrects erroneous read-only input annotations for shared CLI/MCP
@@ -77,4 +78,10 @@ publication and portability are reused after speech recipes earn acceptance.
 
 Negative occupied-origin audio remains unverified after the [bounded fixture feasibility probe](08-negative-origin/README.md); no public mix proof or unsupported-format policy is inferred from normalized/refused fixture construction.
 
-[Audio admission boundaries](08-admission-boundaries/README.md) are characterized through public source/project requests. Different readiness is observed without a demonstrated count/phase/channel defect; fractional source-clock fidelity and intended composition layout policy remain distinct questions.
+[Audio admission boundaries](08-admission-boundaries/README.md) are characterized through public source/project requests. The original finite cohort showed readiness asymmetry without exposing a defect; the later impulse probe now demonstrates fractional late-window phase inconsistency. Discrete channel-index mapping remains separately preserved.
+
+The [protected-speech packet](12c-protected-speech/README.md) is integratedf1602c26.
+Four short opening/ending reference-versus-learned clips were presented for an
+optional consonant/word-ending check; no answer yet. Prior learned-filter
+preference stands, candidate word boundaries remain unconfirmed, and packet
+assembly did not run new inference or establish listening acceptance.
