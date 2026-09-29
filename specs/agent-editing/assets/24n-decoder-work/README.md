@@ -62,3 +62,21 @@ metadata/decoder phase and cancellation), then reslice the input owner. Never
 complete a partially fulfilled request as though all bytes were delivered or
 substitute a filesystem path for the inherited descriptor. Parent24 remains open;
 this is neither full two-hour source I/O proof nor a physical disk benchmark.
+
+## Request-sequence diagnosis
+
+The retained scratch patch adds only stderr trace points and is not production
+code. Its logs separate metadata loading from decoder startup. WAV metadata
+first asks for two bytes, then the entire resource; cancellation in this traced
+run arrives after 589,824 prefix bytes. A tail request finishes metadata, then
+the decoder requests a bounded 196,608-byte late region. AAC metadata requests
+and receives the complete 1,425,376-byte file before the decoder opens.
+`trace-verification.json` proves both complete selected PCM payloads equal the
+uninstrumented final outputs. The patch, replay script and worker hash are kept
+so the observations remain attributable.
+
+The owning next problem is descriptor-backed metadata loading and cancellation,
+not decoder seeking. Merely yielding after chunks does not prove bounded prefix
+I/O; timing delays without a demand signal would not establish that contract.
+The trace sources were restored after measurement. A future input-owner pass
+must preserve inherited descriptor identity and truthful request completion.

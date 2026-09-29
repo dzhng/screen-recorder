@@ -1,8 +1,8 @@
 [
   {
     "file": "README.md",
-    "bytes": 3871,
-    "sha256": "abab429456241ad2118c2683977e2f705f040494f28bfb90b1078bbd5dcc0e42"
+    "bytes": 4961,
+    "sha256": "b9eb3ced63d3d26d664395bbcc7477b064b5128005b9ab3730bab8fcd0900153"
   },
   {
     "file": "counter-mutation-report.json",
@@ -73,5 +73,45 @@
     "file": "screenrec-24n-streaming-mutation-observed.log.gz",
     "bytes": 279,
     "sha256": "047eb5db1164226a699ea71a73ddfaeac1db7fa852fd194632ee1fadf117763c"
+  },
+  {
+    "file": "screenrec-24n-trace-aac-late.json.gz",
+    "bytes": 370,
+    "sha256": "e44441a345f298b3a4ece599ec384c50328022a975c80ce4420b9e8e8a152d01"
+  },
+  {
+    "file": "screenrec-24n-trace-aac-late.log.gz",
+    "bytes": 196,
+    "sha256": "1cabe9fc5623f889122a7a93d4236c72093ad093138d1338a99c5ce6a5807627"
+  },
+  {
+    "file": "screenrec-24n-trace-build.log.gz",
+    "bytes": 250,
+    "sha256": "2fb27726be91e0946985e38d9033b2d30e362260f8a873b8c1ddd7cc4a918b73"
+  },
+  {
+    "file": "screenrec-24n-trace-late-descriptor.json.gz",
+    "bytes": 364,
+    "sha256": "01e2efa497810cbac6e50bb89e3692862ffd38b0a608a56dce89751d088278e8"
+  },
+  {
+    "file": "screenrec-24n-trace-late-descriptor.log.gz",
+    "bytes": 271,
+    "sha256": "858dc260163bf08a32d1afa366609e57c312c3bd05b92fcc11dcc3287874e349"
+  },
+  {
+    "file": "screenrec-24n-trace.mjs.gz",
+    "bytes": 496,
+    "sha256": "e740f6e45d461f866228ca1a397f46333243d7b0368898fc6f0fff4722c5c48a"
+  },
+  {
+    "file": "screenrec-24n-trace.patch.gz",
+    "bytes": 1135,
+    "sha256": "dfd5b0ea8b90dc26ac5868d7f3380267cd06e056cd731bbbe1c3885649198caa"
+  },
+  {
+    "file": "trace-verification.json",
+    "bytes": 471,
+    "sha256": "68f6c5c2769a9c48b0a26e85ca351e43bb4ae18b1da1255957e82db475f89218"
   }
 ]

@@ -1,0 +1,17 @@
+{
+  "workerSHA256": "4564a224cda5b6c4ef4827d3b3518bccf5eaff5fcf81944ae2a7e55311bedb81",
+  "comparisons": [
+    {
+      "label": "late-descriptor",
+      "completePCMEqual": true,
+      "bytes": 7680,
+      "sha256": "fa8a2fb0a9ab075644d976fc1a8464a8b3172f1971504123fff8786e20c2f58e"
+    },
+    {
+      "label": "aac-late",
+      "completePCMEqual": true,
+      "bytes": 7680,
+      "sha256": "a744649e0a4ef01b6c98eec1c828b270cc7492870800aef4c7ae94b32186078f"
+    }
+  ]
+}
