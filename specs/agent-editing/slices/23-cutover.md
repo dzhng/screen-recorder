@@ -1,6 +1,6 @@
 # 23 — Cut over all consumers and remove old owners
 
-Status: not started. Dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
+Status: scoped preparatory preservation verified in [23a](23a-recording-project-preservation.md); installed switching and owner deletion have not started. Final cutover dependencies: [12b](./12b-speech-processing.md), [14](./14-retiming.md), [15](./15-layer-geometry.md), [16](./16-keyframes.md), [17](./17-text-captions.md), [19](./19-voice-assets.md), [21](./21-webcam.md), [22](./22-portable-projects.md), [15a](./15a-noise-processing.md).
 
 ## Contract
 
@@ -16,11 +16,7 @@ Include processing discovery, get/set, routing and all processed inspection/expo
 
 Before deletion, run the preservation matrix through old and new public entry points with matched inputs. Keep source capture/recovery/evidence primitives; refactor mixed modules rather than leave compatibility wrappers. Update app lifecycle, source discovery, job targets, export recovery, product skill and developer docs together. Leave the old library untouched for explicit media import.
 
-Create this planned probe in this slice:
-
-```sh
-node packages/test-harness/editing/cutover.mjs --case preservation-matrix
-```
+The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend the remaining matrix before installed switching or deletion; the checkpoint does not imply those consumers have cut over.
 
 ## Acceptance
 

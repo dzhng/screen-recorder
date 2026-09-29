@@ -1,0 +1,113 @@
+{
+  "passed": true,
+  "scope": "One retained real recording, full source/media and explicit pointer checkpoint; no installed cutover",
+  "archiveMembersRehashed": 575,
+  "archiveLogicalBytes": 352437354,
+  "productionCodeLinesChanged": 0,
+  "harnessLines": {
+    "cutover.mjs": 938,
+    "cutover-presentation.mjs": 173
+  },
+  "checks": {
+    "installedBaselineHomeIsolation": true,
+    "completeProjectSourcePCMExact": true,
+    "oneSampleShiftNegativeControl": true,
+    "completeRawASRTokensAndWordProjection": true,
+    "allProjectVideoFrameTimestamps": 4021,
+    "fullExportReceiptBytesAndHashes": true,
+    "completeDecodedAACExistingPolicy": true,
+    "silentAndHalfGainNegativeControls": true,
+    "explicitPointerCleanNegativeControl": true,
+    "finalFreshVisualReview": "39 full images and156 crops; scoped pass",
+    "independentCodeReview": "No actionable findings; did not rerun public harness",
+    "syntaxFormatLint": true
+  },
+  "runtime": {
+    "native": {
+      "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+      "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+    },
+    "legacy": {
+      "/Users/david/Applications/Screen Recorder.app/Contents/Resources/cli/main.mjs": "60928ef6baa73614880251bcf1a5cc439b2886cc053a017866904c25a0ee83d1",
+      "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs": "a5c01f71440bac123a3fead8905b8854579fac02a40efafd149bb35d08c9e387",
+      "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/screenrec-native": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b"
+    },
+    "node": {
+      "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    }
+  },
+  "files": {
+    "archive.json": {
+      "bytes": 753,
+      "sha256": "a11a14c3d653e772cf56cf5a0890d2f2d3a4763c24b05339105afa5e931b342c"
+    },
+    "visual-review-mapping.json": {
+      "bytes": 4898,
+      "sha256": "2210db4355d52a7350752eb8e9c877fe687db94d8248de7874eaf43d40176cc7"
+    },
+    "evidence.tar.xz.part-01": {
+      "bytes": 67108864,
+      "sha256": "5ff872f3e7e996a9781e51d86e881e5e0377d093165530541e99e5a93dbe0f9b"
+    },
+    "report.json": {
+      "bytes": 55838,
+      "sha256": "164566bb36236aa7e5117d8c40f37604530f84d8fc703206e41e4f9db3608e78"
+    },
+    "code-review.log.gz": {
+      "bytes": 34141,
+      "sha256": "f54beb574201e6ec46c678f11eb098aa5e5ecc3768652357ecf3e2f324a4df98"
+    },
+    "pointer-diagnostics.json": {
+      "bytes": 388,
+      "sha256": "546531e9d97bbccb870b8ce8668fe64e7c603acfc9f77414ab77b799cd769224"
+    },
+    "evidence.tar.xz.part-03": {
+      "bytes": 20777704,
+      "sha256": "aaed18bc12064b26681774ff4f55a2cd4c510d5c18425a5587b5e70bd4021e59"
+    },
+    "color-diagnostics.json": {
+      "bytes": 2278,
+      "sha256": "7e7c9c3d4753c70ab2984ab3a1f8a9b703b02e90434a71f604b4986c609a8cd9"
+    },
+    "presentation.json": {
+      "bytes": 55923,
+      "sha256": "3d00df30c55b87c5f1275228f9f89b528f80a6006dcaebfa534daa795aaf481e"
+    },
+    "visual-review.md": {
+      "bytes": 12030,
+      "sha256": "8d84f50cf3fbe2aa6eb4eca0ec9f800d74937da4f6c6c159bea61e8b99d4f10c"
+    },
+    "evidence.tar.xz.part-02": {
+      "bytes": 67108864,
+      "sha256": "4c4e42de420725b8aa944f68d3c7c14366c5d7fb56a049dca41e88ad5ecc81c2"
+    },
+    "code-review.md": {
+      "bytes": 611,
+      "sha256": "9bf1b5ea60415f0c45bdf4741d7ca90a3a0572ce67f8e400361516bb9522fff7"
+    },
+    "artifact-files.json": {
+      "bytes": 151203,
+      "sha256": "ae1e9087f0c99738ca01b77aae69a2aece3b8b0f9005088ae2af57f932017f5e"
+    },
+    "source-audio-diagnostics.json": {
+      "bytes": 2404,
+      "sha256": "a1476277cedf331f46b3dd25c68ff53a76f7c65e426a1e40d9e93cc34a958e54"
+    }
+  },
+  "ownership": {
+    "activeMediaOrInferenceProcesses": [],
+    "retainedHomes": {
+      "old": "/private/tmp/screenrec-23a-second/old",
+      "new": "/private/tmp/screenrec-23a-second/new"
+    },
+    "scratchCleanupPerformed": false
+  },
+  "limitations": [
+    "No physical capture or listening acceptance",
+    "No installed switch or old-owner deletion",
+    "No blanket same-request source-time or transcript-gap equality",
+    "No broad color identity or continuous-playback claim",
+    "Remaining parent23 matrix stays open"
+  ]
+}

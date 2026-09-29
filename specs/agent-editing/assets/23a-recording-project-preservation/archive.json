@@ -1,0 +1,24 @@
+{
+  "format": "Concatenate ordered parts to an xz tar; duplicate paths are standard tar hard links",
+  "bytes": 154995432,
+  "sha256": "a409ddc78be5fe6df04b57873eb7ec59edbca9a69ec7e979344d9cb3e5b2eb0e",
+  "parts": [
+    {
+      "path": "evidence.tar.xz.part-01",
+      "bytes": 67108864,
+      "sha256": "5ff872f3e7e996a9781e51d86e881e5e0377d093165530541e99e5a93dbe0f9b"
+    },
+    {
+      "path": "evidence.tar.xz.part-02",
+      "bytes": 67108864,
+      "sha256": "4c4e42de420725b8aa944f68d3c7c14366c5d7fb56a049dca41e88ad5ecc81c2"
+    },
+    {
+      "path": "evidence.tar.xz.part-03",
+      "bytes": 20777704,
+      "sha256": "aaed18bc12064b26681774ff4f55a2cd4c510d5c18425a5587b5e70bd4021e59"
+    }
+  ],
+  "members": 575,
+  "logicalBytes": 352437354
+}

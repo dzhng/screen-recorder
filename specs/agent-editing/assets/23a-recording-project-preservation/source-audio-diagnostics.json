@@ -1,0 +1,100 @@
+{
+  "purpose": "Explicit zero/one-sample diagnostic of historical excerpt phase; never used to shift current output or choose tolerance",
+  "sourceSha256": "709926c25800c09d5ffd2e2d0599ce3be8b1a0e4ed058ec632d2f4d4cce27860",
+  "windows": [
+    {
+      "startUs": 0,
+      "frames": 1440000,
+      "checks": [
+        {
+          "declaredRelativeFrame": 0,
+          "differentSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0
+        },
+        {
+          "declaredRelativeFrame": -1,
+          "differentSamples": 1437664,
+          "maximum": 0.03875603899359703,
+          "rms": 0.0014798805169684978
+        }
+      ]
+    },
+    {
+      "startUs": 30000000,
+      "frames": 1440000,
+      "checks": [
+        {
+          "declaredRelativeFrame": 0,
+          "differentSamples": 1439999,
+          "maximum": 0.03350887820124626,
+          "rms": 0.0016712450404841748
+        },
+        {
+          "declaredRelativeFrame": -1,
+          "differentSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0
+        }
+      ]
+    },
+    {
+      "startUs": 60000000,
+      "frames": 1440000,
+      "checks": [
+        {
+          "declaredRelativeFrame": 0,
+          "differentSamples": 1439999,
+          "maximum": 0.029589543119072914,
+          "rms": 0.0013897132312525647
+        },
+        {
+          "declaredRelativeFrame": -1,
+          "differentSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0
+        }
+      ]
+    },
+    {
+      "startUs": 90000000,
+      "frames": 1440000,
+      "checks": [
+        {
+          "declaredRelativeFrame": 0,
+          "differentSamples": 1439998,
+          "maximum": 0.02844996750354767,
+          "rms": 0.0012654151694850523
+        },
+        {
+          "declaredRelativeFrame": -1,
+          "differentSamples": 0,
+          "maximum": 0.0,
+          "rms": 0.0
+        }
+      ]
+    },
+    {
+      "startUs": 120000000,
+      "frames": 673228,
+      "checks": [
+        {
+          "declaredRelativeFrame": 0,
+          "differentSamples": 673056,
+          "maximum": 0.0172658022493124,
+          "rms": 0.0008537407565450716
+        },
+        {
+          "declaredRelativeFrame": -1,
+          "differentSamples": 1,
+          "maximum": 0.0027160325553268194,
+          "rms": 3.3101973457688714e-06
+        }
+      ]
+    }
+  ],
+  "opening12s": {
+    "frames": 576000,
+    "explicitUnityDuplicationExact": true
+  }
+}

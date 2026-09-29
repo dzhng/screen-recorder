@@ -1,0 +1,30 @@
+[
+  {
+    "atUs": 1000000,
+    "differentPixels": 528,
+    "maximum": 244,
+    "bounds": [
+      2889,
+      735,
+      2914,
+      771
+    ]
+  },
+  {
+    "atUs": 67000000,
+    "differentPixels": 545,
+    "maximum": 253,
+    "bounds": [
+      2203,
+      761,
+      2228,
+      797
+    ]
+  },
+  {
+    "atUs": 134000000,
+    "differentPixels": 0,
+    "maximum": 0,
+    "bounds": null
+  }
+]

@@ -1,0 +1,2157 @@
+{
+  "passed": true,
+  "scope": "One retained real recording through old/new public consumers; no cutover, physical or listening acceptance",
+  "checks": {
+    "delivered": true,
+    "sourcePCMExact": true,
+    "sourcePixelsExact": true,
+    "rawTokensAndCurrentProjection": true,
+    "fullPublicExports": true
+  },
+  "source": {
+    "video.mov": {
+      "bytes": 29414120,
+      "sha256": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a"
+    },
+    "narration.mov": {
+      "bytes": 25730774,
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+    },
+    "capture.journal.jsonl": {
+      "bytes": 2574002,
+      "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698"
+    }
+  },
+  "isolation": {
+    "originalJobs": [
+      {
+        "state": "ready",
+        "count": 38
+      }
+    ],
+    "tables": [
+      {
+        "table": "recordings",
+        "before": 2,
+        "selected": 1
+      },
+      {
+        "table": "recording_deletions",
+        "before": 0,
+        "selected": 0
+      },
+      {
+        "table": "revisions",
+        "before": 12,
+        "selected": 12
+      },
+      {
+        "table": "edit_requests",
+        "before": 11,
+        "selected": 11
+      },
+      {
+        "table": "undo_stack",
+        "before": 3,
+        "selected": 3
+      },
+      {
+        "table": "source_evidence_generations",
+        "before": 1,
+        "selected": 1
+      },
+      {
+        "table": "source_evidence_records",
+        "before": 8046,
+        "selected": 8046
+      },
+      {
+        "table": "derived_cache",
+        "before": 0,
+        "selected": 0
+      },
+      {
+        "table": "jobs",
+        "before": 38,
+        "selected": 38
+      },
+      {
+        "table": "artifacts",
+        "before": 38,
+        "selected": 38
+      },
+      {
+        "table": "visual_observation_samples",
+        "before": 0,
+        "selected": 0
+      },
+      {
+        "table": "scene_evidence_generations",
+        "before": 1,
+        "selected": 1
+      },
+      {
+        "table": "scene_evidence_chunks",
+        "before": 14,
+        "selected": 14
+      },
+      {
+        "table": "screenshot_index_generations",
+        "before": 5,
+        "selected": 5
+      },
+      {
+        "table": "screenshot_index_entries",
+        "before": 785,
+        "selected": 785
+      },
+      {
+        "table": "screenshot_index_coverage",
+        "before": 135,
+        "selected": 135
+      },
+      {
+        "table": "export_intents",
+        "before": 6,
+        "selected": 6
+      },
+      {
+        "table": "transcript_generations",
+        "before": 1,
+        "selected": 1
+      },
+      {
+        "table": "transcript_segments",
+        "before": 1,
+        "selected": 1
+      },
+      {
+        "table": "transcript_words",
+        "before": 306,
+        "selected": 306
+      },
+      {
+        "table": "transcript_gaps",
+        "before": 2,
+        "selected": 2
+      }
+    ],
+    "excluded": "Other recordings; orphan cache observations; all original export intents and export-media/export-recovery jobs/artifacts",
+    "historicalTranscript": [
+      {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+        "generation": "22a77501-4f9b-4322-a3fb-71830f21c574",
+        "sourceGeneration": "425e474a-259d-4259-8bdc-e06ecada898f",
+        "engine": "{\"runtime\":\"FluidAudio\",\"runtimeVersion\":\"0.15.7\",\"runtimeRevision\":\"41540ea237350afe5117a082b5c28eda642d0612\",\"decoder\":\"parakeet-tdt-batch\",\"model\":\"FluidInference/parakeet-tdt-0.6b-v2-coreml\",\"modelRevision\":\"ee09c569f73759e6d44c9bd16766f477b2b36d39\",\"modelDigest\":\"4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a\",\"encoderPrecision\":\"int8\",\"computeUnits\":\"cpuAndNeuralEngine\",\"policy\":\"transcript-v1\",\"kindPolicy\":\"word-kind-v1\"}",
+        "narration": "{\"source\":\"/Users/david/.screen-recorder/recordings/862bfdeb-4074-4fa0-b003-57e5a9e2f975/source/narration.mov\",\"sourceOffsetUs\":0}",
+        "segmentCount": 1,
+        "wordCount": 306,
+        "gapCount": 2,
+        "maxWordUs": 1840000,
+        "rawSha256": "6fc76ee707884045298219f51a487d283960ca5bd3ba1ba561fccfe46843b125",
+        "bytes": 96740,
+        "state": "complete"
+      }
+    ],
+    "foreignKeyErrors": []
+  },
+  "homes": {
+    "old": "/private/tmp/screenrec-23a-second/old",
+    "new": "/private/tmp/screenrec-23a-second/new"
+  },
+  "mediaDirectory": "/private/tmp/screenrec-23a-full2",
+  "prerequisite": "/tmp/screenrec-23a-reviewed",
+  "recording": {
+    "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+    "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+    "state": "complete",
+    "sourceDurationUs": 134025574
+  },
+  "identityRevision": {
+    "id": "r0",
+    "parentId": null,
+    "ordinal": 0,
+    "operation": "original",
+    "createdAt": "2026-09-18T08:42:27.044Z",
+    "sourceDurationUs": 134025574,
+    "durationUs": 134025574,
+    "spans": [
+      {
+        "startUs": 0,
+        "endUs": 134025574
+      }
+    ]
+  },
+  "legacyIdentities": {
+    "/Users/david/Applications/Screen Recorder.app/Contents/Resources/cli/main.mjs": "60928ef6baa73614880251bcf1a5cc439b2886cc053a017866904c25a0ee83d1",
+    "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs": "a5c01f71440bac123a3fead8905b8854579fac02a40efafd149bb35d08c9e387",
+    "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/screenrec-native": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b"
+  },
+  "nativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "cohort": {
+    "range": {
+      "startUs": 0,
+      "endUs": 134025574
+    },
+    "scope": "Full retained source support"
+  },
+  "acquisition": {
+    "id": "61c3eeb7-e648-4b31-bb41-7df83a0111c5",
+    "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+    "evidence": {
+      "owner": {
+        "kind": "acquisition",
+        "acquisitionId": "61c3eeb7-e648-4b31-bb41-7df83a0111c5"
+      },
+      "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+      "generation": "00e7a0c8-ea36-44ee-b475-529925b23a83",
+      "receipt": {
+        "audioIntervals": 1,
+        "bytes": 1488048,
+        "completion": {
+          "durationUs": 134025574,
+          "sequence": 12841,
+          "state": "complete"
+        },
+        "cursorSamples": 8039,
+        "displaySpaces": 1,
+        "file": "/private/tmp/screenrec-23a-second/new/library/acquisitions/61c3eeb7-e648-4b31-bb41-7df83a0111c5/00e7a0c8-ea36-44ee-b475-529925b23a83/source.jsonl",
+        "finished": true,
+        "firstCursorSourceUs": 49814,
+        "geometryRecords": 5,
+        "header": {
+          "height": 1970,
+          "microphone": true,
+          "schemaVersion": 1,
+          "sessionID": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "source": {
+            "kind": "window",
+            "windowID": 188
+          },
+          "systemAudio": false,
+          "width": 3120
+        },
+        "incompleteTail": false,
+        "journal": "capture.journal.jsonl",
+        "lastCursorSourceUs": 134019623,
+        "lastLifecycle": {
+          "state": "complete"
+        },
+        "lastSequence": 12842,
+        "normalizationVersion": 2,
+        "originHostUs": 92388474388,
+        "pauseEvents": 0
+      }
+    },
+    "journal": {
+      "fileName": "00e7a0c8-ea36-44ee-b475-529925b23a83/source/capture.journal.jsonl",
+      "sha256": "d44ff9028b14c533b78db6bf944b63cfc46e84b5f8d8e92299a36d4e1d986698",
+      "bytes": 2574002
+    },
+    "bindings": [
+      {
+        "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+        "streamId": "track:1",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 134025574
+          }
+        ],
+        "sourceRoles": [
+          "video"
+        ],
+        "sourceToAssetOffsetUs": 0,
+        "supportBasis": "physical"
+      },
+      {
+        "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+        "streamId": "track:1",
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 133973333
+          }
+        ],
+        "sourceRoles": [
+          "narration"
+        ],
+        "sourceToAssetOffsetUs": -48675,
+        "supportBasis": "captured-audio"
+      }
+    ]
+  },
+  "project": {
+    "revision": {
+      "id": "92d7668f-ea55-42d4-ab37-6d4775d39570",
+      "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+      "ordinal": 1,
+      "createdAt": "2026-09-29T22:19:52.448Z",
+      "operation": "apply",
+      "document": {
+        "canvas": {
+          "width": 3120,
+          "height": 1970,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:0",
+            "kind": "video",
+            "order": 0
+          },
+          {
+            "id": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:1",
+            "kind": "audio",
+            "order": 0
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:2",
+            "trackId": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 134025574
+              }
+            },
+            "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+            "streamId": "track:1",
+            "acquisitionId": "61c3eeb7-e648-4b31-bb41-7df83a0111c5",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": 134025574
+              }
+            }
+          },
+          {
+            "id": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:3",
+            "trackId": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:1",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 48675,
+                "endUs": 134022009
+              }
+            },
+            "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+            "streamId": "track:1",
+            "acquisitionId": "61c3eeb7-e648-4b31-bb41-7df83a0111c5",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": 133973334
+              }
+            }
+          }
+        ],
+        "syncGroups": [],
+        "processing": []
+      }
+    },
+    "edit": {
+      "changed": true,
+      "createdIds": [
+        {
+          "kind": "track",
+          "id": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:0"
+        },
+        {
+          "kind": "track",
+          "id": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:1"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:2"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:3"
+        }
+      ],
+      "labels": {
+        "picture": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:0",
+        "voice": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:1",
+        "picture-clip": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:2",
+        "voice-clip": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:3"
+      },
+      "normalized": [
+        {
+          "operationIndex": 0,
+          "changes": [
+            {
+              "kind": "track",
+              "id": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:0",
+              "value": {
+                "id": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:0",
+                "kind": "video",
+                "order": 0
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 1,
+          "changes": [
+            {
+              "kind": "track",
+              "id": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:1",
+              "value": {
+                "id": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:1",
+                "kind": "audio",
+                "order": 0
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 2,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:2",
+              "value": {
+                "id": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:2",
+                "trackId": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 134025574
+                  }
+                },
+                "assetId": "ade26eacf8dce118e4fe16dcf261e7d3445d115e2b92721f0a01b8a4511de17a",
+                "streamId": "track:1",
+                "acquisitionId": "61c3eeb7-e648-4b31-bb41-7df83a0111c5",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 134025574
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "operationIndex": 3,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:3",
+              "value": {
+                "id": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:3",
+                "trackId": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:1",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 48675,
+                    "endUs": 134022009
+                  }
+                },
+                "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+                "streamId": "track:1",
+                "acquisitionId": "61c3eeb7-e648-4b31-bb41-7df83a0111c5",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 133973334
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "clipLineage": [],
+      "removedAttachments": [],
+      "processingLineage": [],
+      "touchedFixedAnchors": [],
+      "linkChanges": []
+    }
+  },
+  "frames": [
+    {
+      "atUs": 1000000,
+      "actualSourceUs": 987470,
+      "legacy": "ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49",
+      "project": "4107dd547b38114906539bcf46a55f7faa0a9ef6883ed097089c87842867e978",
+      "source": "ec7bff2f67d5bd62dfa4b622ede45ecd13c03c88bf4c08a96080368e21290a49",
+      "legacyVsProject": {
+        "differentBytes": 4680,
+        "maximumChannelDifference": 1
+      },
+      "legacyVsSource": {
+        "differentBytes": 0,
+        "maximumChannelDifference": 0
+      },
+      "sourceVsProject": {
+        "differentBytes": 4680,
+        "maximumChannelDifference": 1
+      }
+    },
+    {
+      "atUs": 67000000,
+      "actualSourceUs": 66976695,
+      "legacy": "772875696182cc6bb9e731c79761a8a9c7c86066b4c78be0e6ff6281a3252c02",
+      "project": "94969911fd786778c8536571a7be431e35762a0c4e97722b2a2e9b7485bf0bfc",
+      "source": "772875696182cc6bb9e731c79761a8a9c7c86066b4c78be0e6ff6281a3252c02",
+      "legacyVsProject": {
+        "differentBytes": 1525,
+        "maximumChannelDifference": 1
+      },
+      "legacyVsSource": {
+        "differentBytes": 0,
+        "maximumChannelDifference": 0
+      },
+      "sourceVsProject": {
+        "differentBytes": 1525,
+        "maximumChannelDifference": 1
+      }
+    },
+    {
+      "atUs": 134000000,
+      "actualSourceUs": 133969015,
+      "legacy": "d9086f6fee752a7d2bd24c0f411028138a19b2a748973dee2196ba9c617e040b",
+      "project": "f043875ce0750b38ab4258ae671c015f92fd5bf4684e0c89ba0772130d42541d",
+      "source": "d9086f6fee752a7d2bd24c0f411028138a19b2a748973dee2196ba9c617e040b",
+      "legacyVsProject": {
+        "differentBytes": 3695,
+        "maximumChannelDifference": 1
+      },
+      "legacyVsSource": {
+        "differentBytes": 0,
+        "maximumChannelDifference": 0
+      },
+      "sourceVsProject": {
+        "differentBytes": 3695,
+        "maximumChannelDifference": 1
+      }
+    }
+  ],
+  "legacyAudioChunks": [
+    {
+      "range": {
+        "startUs": 0,
+        "endUs": 30000000
+      },
+      "frames": 1440000,
+      "sha256": "17f86d9d726b618a6494eaae4a95ebc530b1dbf2d1aa938f0d49c2f0c2186192"
+    },
+    {
+      "range": {
+        "startUs": 30000000,
+        "endUs": 60000000
+      },
+      "frames": 1440000,
+      "sha256": "cdba674bb30540981cfdb2691f135e8f88a546443c87a71adfce6b5cee21d52f"
+    },
+    {
+      "range": {
+        "startUs": 60000000,
+        "endUs": 90000000
+      },
+      "frames": 1440000,
+      "sha256": "e9ae4abd2b99ce56651106049cd820995e32f99f3cb51840d0c60fa5a9586232"
+    },
+    {
+      "range": {
+        "startUs": 90000000,
+        "endUs": 120000000
+      },
+      "frames": 1440000,
+      "sha256": "5e06fd8828fa18199d4199676bbe85536ce7043407c6f8a824e4548845af1f82"
+    },
+    {
+      "range": {
+        "startUs": 120000000,
+        "endUs": 134025574
+      },
+      "frames": 673228,
+      "sha256": "ebc032e17c6930d7abea87978876230a488bc83a3f856a5b8be641336ac4dbc4"
+    }
+  ],
+  "terminalPolicy": {
+    "legacy": "nearest cumulative microseconds",
+    "project": "floor absolute endpoints",
+    "legacyFrames": 6433228,
+    "projectFrames": 6433227,
+    "extraLegacyBytes": 4,
+    "extraLegacyAllZero": true
+  },
+  "audio": {
+    "frames": 6433227,
+    "legacy": "b911e5da7a5bf6b7df5860d7cce59078284e98454d4f2e4a44a12017c691bcc0",
+    "project": "ae0c6d300a5f4aa7468cd3e7e084f25d017dd7726f8ff6b7a7bb5e6a4bbf043d",
+    "channelMapping": "explicit unity mono duplication",
+    "differentSamples": 9986104,
+    "firstDifferentFrame": 1440000,
+    "lastDifferentFrame": 6433055.5,
+    "maximumSampleDifference": 0.033508877735584974
+  },
+  "exports": [
+    {
+      "side": "legacy",
+      "receipt": {
+        "exportId": "8ffe460f-7d1e-4fa3-b427-193cf8e7491d",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "not_requested",
+          "jobId": null,
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "snapshot": {
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+          "sourceDurationUs": 134025574,
+          "historyThroughOrdinal": 15,
+          "capture": {
+            "state": "complete",
+            "createdAt": "2026-09-18T08:40:12.814Z",
+            "interruptionReason": null
+          }
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23a-full2",
+          "leaf": "legacy.mp4"
+        },
+        "receipt": {
+          "bytes": 49652092,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328088367"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328096247"
+          },
+          "leaf": "legacy.mp4",
+          "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328096244"
+          }
+        },
+        "output": "/private/tmp/screenrec-23a-full2/legacy.mp4",
+        "jobId": "57388fbb-e5f8-4c00-bde9-5f7a6fa3db05",
+        "reason": null,
+        "retryable": false
+      }
+    },
+    {
+      "side": "project",
+      "receipt": {
+        "exportId": "2e6d8bfb-f580-4edd-9dc2-eff05be3ee2f",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "not_requested",
+          "jobId": null,
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "snapshot": {
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "revisionId": "92d7668f-ea55-42d4-ab37-6d4775d39570",
+          "range": {
+            "startUs": 0,
+            "endUs": 134025574
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "implementationId": "native-composition-movie-v19",
+          "preparedResourceId": null
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23a-full2",
+          "leaf": "project.mp4"
+        },
+        "receipt": {
+          "bytes": 19473308,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328088367"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328101203"
+          },
+          "leaf": "project.mp4",
+          "sha256": "2944ebaa33d011b6513b25ef63a1afdd57b6218e3b9efd2a4e52f2dd5d64a8ca",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328101200"
+          }
+        },
+        "output": "/private/tmp/screenrec-23a-full2/project.mp4",
+        "jobId": "39480b4b-4506-4c91-8893-598ac1e599b0",
+        "reason": null,
+        "retryable": false
+      }
+    }
+  ],
+  "shutdown": [
+    {
+      "status": "fulfilled"
+    },
+    {
+      "status": "fulfilled"
+    }
+  ],
+  "sourceAudioOracle": {
+    "frames": 6433227,
+    "sourceFrames": 6430720,
+    "offsetFrames": 2336,
+    "sha256": "ae0c6d300a5f4aa7468cd3e7e084f25d017dd7726f8ff6b7a7bb5e6a4bbf043d",
+    "completeExact": true,
+    "oneFrameMutationRejected": true
+  },
+  "transcriptOracle": {
+    "oldGeneration": "22a77501-4f9b-4322-a3fb-71830f21c574",
+    "newGeneration": "ea0734b4-66bb-4a5d-9f2c-ad74e0e6cc83",
+    "rawTokenTimingsExact": true,
+    "wordCount": 306,
+    "currentSpokenProjectionExact": true,
+    "permittedPolicyCommits": [
+      "247adb4f",
+      "02191f76"
+    ],
+    "timingChanges": [
+      {
+        "ordinal": 0,
+        "text": "Okay,",
+        "legacy": [
+          {
+            "startUs": 1168675,
+            "endUs": 1648675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 1168675,
+            "endUs": 1488675
+          }
+        ]
+      },
+      {
+        "ordinal": 6,
+        "text": "workbench.",
+        "legacy": [
+          {
+            "startUs": 4368675,
+            "endUs": 5968675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 4368675,
+            "endUs": 5648675
+          }
+        ]
+      },
+      {
+        "ordinal": 8,
+        "text": "I'm",
+        "legacy": [
+          {
+            "startUs": 7008675,
+            "endUs": 7328675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 7008675,
+            "endUs": 7248675
+          }
+        ]
+      },
+      {
+        "ordinal": 17,
+        "text": "I'm",
+        "legacy": [
+          {
+            "startUs": 10528675,
+            "endUs": 10768675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 10528675,
+            "endUs": 10688675
+          }
+        ]
+      },
+      {
+        "ordinal": 26,
+        "text": "E2.",
+        "legacy": [
+          {
+            "startUs": 13568675,
+            "endUs": 14608675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 13568675,
+            "endUs": 13968675
+          }
+        ]
+      },
+      {
+        "ordinal": 32,
+        "text": "one,",
+        "legacy": [
+          {
+            "startUs": 16688675,
+            "endUs": 17088675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 16688675,
+            "endUs": 16848675
+          }
+        ]
+      },
+      {
+        "ordinal": 33,
+        "text": "we're",
+        "legacy": [
+          {
+            "startUs": 19248675,
+            "endUs": 19568675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 19248675,
+            "endUs": 19488675
+          }
+        ]
+      },
+      {
+        "ordinal": 39,
+        "text": "submenu.",
+        "legacy": [
+          {
+            "startUs": 20928675,
+            "endUs": 22368675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 20928675,
+            "endUs": 22048675
+          }
+        ]
+      },
+      {
+        "ordinal": 51,
+        "text": "menu.",
+        "legacy": [
+          {
+            "startUs": 26128675,
+            "endUs": 26688675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 26128675,
+            "endUs": 26448675
+          }
+        ]
+      },
+      {
+        "ordinal": 52,
+        "text": "There's",
+        "legacy": [
+          {
+            "startUs": 26688675,
+            "endUs": 26928675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 26688675,
+            "endUs": 26848675
+          }
+        ]
+      },
+      {
+        "ordinal": 56,
+        "text": "here.",
+        "legacy": [
+          {
+            "startUs": 27488675,
+            "endUs": 28368675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 27488675,
+            "endUs": 27648675
+          }
+        ]
+      },
+      {
+        "ordinal": 57,
+        "text": "Yeah,",
+        "legacy": [
+          {
+            "startUs": 28688675,
+            "endUs": 29008675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 28688675,
+            "endUs": 28928675
+          }
+        ]
+      },
+      {
+        "ordinal": 62,
+        "text": "pointer.",
+        "legacy": [
+          {
+            "startUs": 29808675,
+            "endUs": 30688675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 29808675,
+            "endUs": 30368675
+          }
+        ]
+      },
+      {
+        "ordinal": 63,
+        "text": "Yeah,",
+        "legacy": [
+          {
+            "startUs": 31248675,
+            "endUs": 31408675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 31248675,
+            "endUs": 31328675
+          }
+        ]
+      },
+      {
+        "ordinal": 65,
+        "text": "that's",
+        "legacy": [
+          {
+            "startUs": 31488675,
+            "endUs": 31728675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 31488675,
+            "endUs": 31648675
+          }
+        ]
+      },
+      {
+        "ordinal": 69,
+        "text": "bug.",
+        "legacy": [
+          {
+            "startUs": 32848675,
+            "endUs": 33728675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 32848675,
+            "endUs": 33408675
+          }
+        ]
+      },
+      {
+        "ordinal": 74,
+        "text": "there's",
+        "legacy": [
+          {
+            "startUs": 34448675,
+            "endUs": 34688675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 34448675,
+            "endUs": 34608675
+          }
+        ]
+      },
+      {
+        "ordinal": 77,
+        "text": "here.",
+        "legacy": [
+          {
+            "startUs": 35408675,
+            "endUs": 36048675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 35408675,
+            "endUs": 35728675
+          }
+        ]
+      },
+      {
+        "ordinal": 81,
+        "text": "token,",
+        "legacy": [
+          {
+            "startUs": 36848675,
+            "endUs": 37328675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 36848675,
+            "endUs": 37248675
+          }
+        ]
+      },
+      {
+        "ordinal": 85,
+        "text": "token,",
+        "legacy": [
+          {
+            "startUs": 38208675,
+            "endUs": 38768675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 38208675,
+            "endUs": 38688675
+          }
+        ]
+      },
+      {
+        "ordinal": 87,
+        "text": "yep,",
+        "legacy": [
+          {
+            "startUs": 39088675,
+            "endUs": 39408675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 39088675,
+            "endUs": 39328675
+          }
+        ]
+      },
+      {
+        "ordinal": 91,
+        "text": "token.",
+        "legacy": [
+          {
+            "startUs": 39968675,
+            "endUs": 41488675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 39968675,
+            "endUs": 40368675
+          }
+        ]
+      },
+      {
+        "ordinal": 100,
+        "text": "six,",
+        "legacy": [
+          {
+            "startUs": 45248675,
+            "endUs": 45728675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 45248675,
+            "endUs": 45648675
+          }
+        ]
+      },
+      {
+        "ordinal": 103,
+        "text": "narrate,",
+        "legacy": [
+          {
+            "startUs": 46288675,
+            "endUs": 47488675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 46288675,
+            "endUs": 47168675
+          }
+        ]
+      },
+      {
+        "ordinal": 110,
+        "text": "waypoints.",
+        "legacy": [
+          {
+            "startUs": 49008675,
+            "endUs": 50528675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 49008675,
+            "endUs": 49968675
+          }
+        ]
+      },
+      {
+        "ordinal": 116,
+        "text": "paragraph,",
+        "legacy": [
+          {
+            "startUs": 52288675,
+            "endUs": 54128675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 52288675,
+            "endUs": 53088675
+          }
+        ]
+      },
+      {
+        "ordinal": 123,
+        "text": "fixture.",
+        "legacy": [
+          {
+            "startUs": 56448675,
+            "endUs": 57728675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 56448675,
+            "endUs": 57408675
+          }
+        ]
+      },
+      {
+        "ordinal": 141,
+        "text": "visible.",
+        "legacy": [
+          {
+            "startUs": 62128675,
+            "endUs": 63168675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 62128675,
+            "endUs": 62848675
+          }
+        ]
+      },
+      {
+        "ordinal": 149,
+        "text": "section.",
+        "legacy": [
+          {
+            "startUs": 65648675,
+            "endUs": 67408675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 65648675,
+            "endUs": 66128675
+          }
+        ]
+      },
+      {
+        "ordinal": 155,
+        "text": "section,",
+        "legacy": [
+          {
+            "startUs": 68928675,
+            "endUs": 69808675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 68928675,
+            "endUs": 69488675
+          }
+        ]
+      },
+      {
+        "ordinal": 166,
+        "text": "free.",
+        "legacy": [
+          {
+            "startUs": 74128675,
+            "endUs": 74768675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 74128675,
+            "endUs": 74528675
+          }
+        ]
+      },
+      {
+        "ordinal": 191,
+        "text": "evidence.",
+        "legacy": [
+          {
+            "startUs": 83248675,
+            "endUs": 84448675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 83248675,
+            "endUs": 84128675
+          }
+        ]
+      },
+      {
+        "ordinal": 195,
+        "text": "pause,",
+        "legacy": [
+          {
+            "startUs": 86048675,
+            "endUs": 86928675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 86048675,
+            "endUs": 86608675
+          }
+        ]
+      },
+      {
+        "ordinal": 198,
+        "text": "here,",
+        "legacy": [
+          {
+            "startUs": 87888675,
+            "endUs": 88528675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 87888675,
+            "endUs": 88208675
+          }
+        ]
+      },
+      {
+        "ordinal": 203,
+        "text": "marker,",
+        "legacy": [
+          {
+            "startUs": 89488675,
+            "endUs": 90448675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 89488675,
+            "endUs": 90128675
+          }
+        ]
+      },
+      {
+        "ordinal": 205,
+        "text": "away,",
+        "legacy": [
+          {
+            "startUs": 90768675,
+            "endUs": 91168675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 90768675,
+            "endUs": 91008675
+          }
+        ]
+      },
+      {
+        "ordinal": 208,
+        "text": "it.",
+        "legacy": [
+          {
+            "startUs": 91728675,
+            "endUs": 92288675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 91728675,
+            "endUs": 91888675
+          }
+        ]
+      },
+      {
+        "ordinal": 220,
+        "text": "change.",
+        "legacy": [
+          {
+            "startUs": 96768675,
+            "endUs": 97728675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 96768675,
+            "endUs": 97408675
+          }
+        ]
+      },
+      {
+        "ordinal": 221,
+        "text": "Okay,",
+        "legacy": [
+          {
+            "startUs": 97728675,
+            "endUs": 98288675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 97728675,
+            "endUs": 98048675
+          }
+        ]
+      },
+      {
+        "ordinal": 225,
+        "text": "away,",
+        "legacy": [
+          {
+            "startUs": 99168675,
+            "endUs": 99568675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 99168675,
+            "endUs": 99408675
+          }
+        ]
+      },
+      {
+        "ordinal": 228,
+        "text": "it.",
+        "legacy": [
+          {
+            "startUs": 100128675,
+            "endUs": 100368675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 100128675,
+            "endUs": 100208675
+          }
+        ]
+      },
+      {
+        "ordinal": 230,
+        "text": "I'm",
+        "legacy": [
+          {
+            "startUs": 100688675,
+            "endUs": 100928675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 100688675,
+            "endUs": 100848675
+          }
+        ]
+      },
+      {
+        "ordinal": 234,
+        "text": "pointer,",
+        "legacy": [
+          {
+            "startUs": 101328675,
+            "endUs": 101808675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 101328675,
+            "endUs": 101648675
+          }
+        ]
+      },
+      {
+        "ordinal": 236,
+        "text": "away.",
+        "legacy": [
+          {
+            "startUs": 102208675,
+            "endUs": 103408675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 102208675,
+            "endUs": 102768675
+          }
+        ]
+      },
+      {
+        "ordinal": 239,
+        "text": "it.",
+        "legacy": [
+          {
+            "startUs": 104528675,
+            "endUs": 104848675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 104528675,
+            "endUs": 104688675
+          }
+        ]
+      },
+      {
+        "ordinal": 242,
+        "text": "route.",
+        "legacy": [
+          {
+            "startUs": 106048675,
+            "endUs": 106928675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 106048675,
+            "endUs": 106608675
+          }
+        ]
+      },
+      {
+        "ordinal": 248,
+        "text": "waypoint.",
+        "legacy": [
+          {
+            "startUs": 108128675,
+            "endUs": 109248675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 108128675,
+            "endUs": 108928675
+          }
+        ]
+      },
+      {
+        "ordinal": 259,
+        "text": "route.",
+        "legacy": [
+          {
+            "startUs": 113088675,
+            "endUs": 114208675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 113088675,
+            "endUs": 113888675
+          }
+        ]
+      },
+      {
+        "ordinal": 279,
+        "text": "spot.",
+        "legacy": [
+          {
+            "startUs": 121808675,
+            "endUs": 122768675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 121808675,
+            "endUs": 122448675
+          }
+        ]
+      },
+      {
+        "ordinal": 280,
+        "text": "Okay,",
+        "legacy": [
+          {
+            "startUs": 123088675,
+            "endUs": 123728675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 123088675,
+            "endUs": 123408675
+          }
+        ]
+      },
+      {
+        "ordinal": 282,
+        "text": "let's",
+        "legacy": [
+          {
+            "startUs": 124288675,
+            "endUs": 124688675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 124288675,
+            "endUs": 124608675
+          }
+        ]
+      },
+      {
+        "ordinal": 288,
+        "text": "grid.",
+        "legacy": [
+          {
+            "startUs": 125568675,
+            "endUs": 125888675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 125568675,
+            "endUs": 125808675
+          }
+        ]
+      },
+      {
+        "ordinal": 294,
+        "text": "here,",
+        "legacy": [
+          {
+            "startUs": 127088675,
+            "endUs": 127248675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 127088675,
+            "endUs": 127168675
+          }
+        ]
+      },
+      {
+        "ordinal": 297,
+        "text": "I'm",
+        "legacy": [
+          {
+            "startUs": 127568675,
+            "endUs": 127808675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 127568675,
+            "endUs": 127728675
+          }
+        ]
+      },
+      {
+        "ordinal": 302,
+        "text": "grid.",
+        "legacy": [
+          {
+            "startUs": 128528675,
+            "endUs": 129328675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 128528675,
+            "endUs": 129088675
+          }
+        ]
+      },
+      {
+        "ordinal": 303,
+        "text": "Okay,",
+        "legacy": [
+          {
+            "startUs": 129648675,
+            "endUs": 129968675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 129648675,
+            "endUs": 129888675
+          }
+        ]
+      },
+      {
+        "ordinal": 305,
+        "text": "it.",
+        "legacy": [
+          {
+            "startUs": 130368675,
+            "endUs": 130608675
+          }
+        ],
+        "current": [
+          {
+            "startUs": 130368675,
+            "endUs": 130528675
+          }
+        ]
+      }
+    ]
+  },
+  "exportMedia": [
+    {
+      "side": "legacy",
+      "file": "/private/tmp/screenrec-23a-full2/legacy.mp4",
+      "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+      "metadata": {
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "profile": "High",
+            "codec_type": "video",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "mime_codec_string": "avc1.640033",
+            "width": 3120,
+            "height": 1970,
+            "coded_width": 3120,
+            "coded_height": 1970,
+            "has_b_frames": 0,
+            "pix_fmt": "yuv420p",
+            "level": 51,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_transfer": "iec61966-2-1",
+            "color_primaries": "bt709",
+            "chroma_location": "left",
+            "field_order": "progressive",
+            "is_avc": "true",
+            "nal_length_size": "4",
+            "id": "0x1",
+            "r_frame_rate": "59/1",
+            "avg_frame_rate": "2069597169/31534669",
+            "time_base": "1/1000000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 134025574,
+            "duration": "134.025574",
+            "bit_rate": "2860561",
+            "bits_per_raw_sample": "8",
+            "nb_frames": "8796",
+            "extradata_size": 36,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "creation_time": "2026-09-29T22:24:44.000000Z",
+              "language": "und",
+              "handler_name": "Core Media Video"
+            }
+          },
+          {
+            "index": 1,
+            "codec_name": "aac",
+            "codec_long_name": "AAC (Advanced Audio Coding)",
+            "profile": "LC",
+            "codec_type": "audio",
+            "codec_tag_string": "mp4a",
+            "codec_tag": "0x6134706d",
+            "mime_codec_string": "mp4a.40.2",
+            "sample_fmt": "fltp",
+            "sample_rate": "48000",
+            "channels": 1,
+            "channel_layout": "mono",
+            "bits_per_sample": 0,
+            "initial_padding": 0,
+            "id": "0x2",
+            "r_frame_rate": "0/0",
+            "avg_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 6433228,
+            "duration": "134.025583",
+            "bit_rate": "94332",
+            "nb_frames": "6285",
+            "extradata_size": 2,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "creation_time": "2026-09-29T22:24:44.000000Z",
+              "language": "und",
+              "handler_name": "Core Media Audio"
+            }
+          }
+        ]
+      },
+      "images": [
+        {
+          "atUs": 1000000,
+          "path": "/private/tmp/screenrec-23a-clock-final/legacy-export-1000000.png",
+          "sha256": "cbdeafb5486807edd8ea3f4d6b7569f4d954a60b60fe9f52a19023829fbe279c"
+        },
+        {
+          "atUs": 67000000,
+          "path": "/private/tmp/screenrec-23a-clock-final/legacy-export-67000000.png",
+          "sha256": "29afb7feb6cb5dd16ef6d356584516e2ddc2e9135a8e5a347395af9e5b61f394"
+        },
+        {
+          "atUs": 134000000,
+          "path": "/private/tmp/screenrec-23a-clock-final/legacy-export-134000000.png",
+          "sha256": "7f779fd3a833cce18051517ffe98c2391883c12e98adbef04a3de48c7f12402b"
+        }
+      ]
+    },
+    {
+      "side": "project",
+      "file": "/private/tmp/screenrec-23a-full2/project.mp4",
+      "sha256": "2944ebaa33d011b6513b25ef63a1afdd57b6218e3b9efd2a4e52f2dd5d64a8ca",
+      "metadata": {
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "profile": "High",
+            "codec_type": "video",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "mime_codec_string": "avc1.640033",
+            "width": 3120,
+            "height": 1970,
+            "coded_width": 3120,
+            "coded_height": 1970,
+            "has_b_frames": 0,
+            "pix_fmt": "yuv420p",
+            "level": 51,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_transfer": "bt709",
+            "color_primaries": "bt709",
+            "chroma_location": "left",
+            "field_order": "progressive",
+            "is_avc": "true",
+            "nal_length_size": "4",
+            "id": "0x1",
+            "r_frame_rate": "30/1",
+            "avg_frame_rate": "2010500000/67012787",
+            "time_base": "1/1000000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 134025574,
+            "duration": "134.025574",
+            "bit_rate": "966059",
+            "bits_per_raw_sample": "8",
+            "nb_frames": "4021",
+            "extradata_size": 36,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "creation_time": "2026-09-29T22:25:27.000000Z",
+              "language": "und",
+              "handler_name": "Core Media Video"
+            }
+          },
+          {
+            "index": 1,
+            "codec_name": "aac",
+            "codec_long_name": "AAC (Advanced Audio Coding)",
+            "profile": "LC",
+            "codec_type": "audio",
+            "codec_tag_string": "mp4a",
+            "codec_tag": "0x6134706d",
+            "mime_codec_string": "mp4a.40.2",
+            "sample_fmt": "fltp",
+            "sample_rate": "48000",
+            "channels": 2,
+            "channel_layout": "stereo",
+            "bits_per_sample": 0,
+            "initial_padding": 0,
+            "id": "0x2",
+            "r_frame_rate": "0/0",
+            "avg_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 6433227,
+            "duration": "134.025563",
+            "bit_rate": "191993",
+            "nb_frames": "6285",
+            "extradata_size": 2,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "creation_time": "2026-09-29T22:25:27.000000Z",
+              "language": "und",
+              "handler_name": "Core Media Audio"
+            }
+          }
+        ]
+      },
+      "images": [
+        {
+          "atUs": 1000000,
+          "path": "/private/tmp/screenrec-23a-clock-final/project-export-1000000.png",
+          "sha256": "db19139074d88a783ab7d6959476e99d1fb462c2a6b52773550494386bc30b8d"
+        },
+        {
+          "atUs": 67000000,
+          "path": "/private/tmp/screenrec-23a-clock-final/project-export-67000000.png",
+          "sha256": "402d13453babc6da32747c5e06be8c720719fe7c5da92639118dda25e639ce46"
+        },
+        {
+          "atUs": 134000000,
+          "path": "/private/tmp/screenrec-23a-clock-final/project-export-134000000.png",
+          "sha256": "61595176ee380b4eafa217462d0e47a7fe56421db024f971acdf11fb99ebae0e"
+        }
+      ]
+    }
+  ],
+  "exportAudio": [
+    {
+      "side": "legacy",
+      "decodedFrames": 6433728,
+      "presentationFrames": 6433228,
+      "paddingFrames": 500,
+      "rms": 0.0003281616571696508,
+      "windows": [
+        {
+          "begin": 0,
+          "end": 1440000,
+          "rms": 0.0003418759440278734,
+          "maximum": 0.0064522381871938705
+        },
+        {
+          "begin": 1440000,
+          "end": 2880000,
+          "rms": 0.0003841513166761897,
+          "maximum": 0.006309648044407368
+        },
+        {
+          "begin": 2880000,
+          "end": 4320000,
+          "rms": 0.000310789615561474,
+          "maximum": 0.004269018303602934
+        },
+        {
+          "begin": 4320000,
+          "end": 5760000,
+          "rms": 0.00030861745180100304,
+          "maximum": 0.004465611884370446
+        },
+        {
+          "begin": 5760000,
+          "end": 6433228,
+          "rms": 0.00023041535117369641,
+          "maximum": 0.003122366964817047
+        }
+      ],
+      "silenceRms": 0.012411062437286353,
+      "halfGainRms": 0.006205531218643177,
+      "policy": "Existing first-preview recovered audio RMS < 0.002; here measured across complete presentation support, without shifting"
+    },
+    {
+      "side": "project",
+      "decodedFrames": 6433728,
+      "presentationFrames": 6433227,
+      "paddingFrames": 501,
+      "rms": 0.00011894637702925911,
+      "windows": [
+        {
+          "begin": 0,
+          "end": 1440000,
+          "rms": 0.00012934588457081997,
+          "maximum": 0.0032109650783240795
+        },
+        {
+          "begin": 1440000,
+          "end": 2880000,
+          "rms": 0.00013275609493454486,
+          "maximum": 0.0020796088501811028
+        },
+        {
+          "begin": 2880000,
+          "end": 4320000,
+          "rms": 0.00011492826032678227,
+          "maximum": 0.0021593421697616577
+        },
+        {
+          "begin": 4320000,
+          "end": 5760000,
+          "rms": 0.0001097423422462302,
+          "maximum": 0.001885527279227972
+        },
+        {
+          "begin": 5760000,
+          "end": 6433227,
+          "rms": 8.776439623606414e-05,
+          "maximum": 0.001193199073895812
+        }
+      ],
+      "silenceRms": 0.01241106340189067,
+      "halfGainRms": 0.006205531700945335,
+      "policy": "Existing first-preview recovered audio RMS < 0.002; here measured across complete presentation support, without shifting"
+    }
+  ],
+  "transcriptGaps": {
+    "legacy": [
+      {
+        "type": "gap",
+        "sourceRange": {
+          "startUs": 0,
+          "endUs": 48675
+        },
+        "reason": "not_acquired",
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 0,
+              "endUs": 48675
+            },
+            "playback": {
+              "startUs": 0,
+              "endUs": 48675
+            }
+          }
+        ]
+      },
+      {
+        "type": "gap",
+        "sourceRange": {
+          "startUs": 134022008,
+          "endUs": 134025574
+        },
+        "reason": "not_acquired",
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 134022008,
+              "endUs": 134025574
+            },
+            "playback": {
+              "startUs": 134022008,
+              "endUs": 134025574
+            }
+          }
+        ]
+      }
+    ],
+    "project": [
+      {
+        "clipId": "clip:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:3",
+        "assetId": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c",
+        "streamId": "track:1",
+        "acquisitionId": "61c3eeb7-e648-4b31-bb41-7df83a0111c5",
+        "trackId": "track:23ca0936428d9a8930895d2688fa52647de51ac18c3dc8f95906f0378b1bfc7e:1",
+        "trackRank": 1,
+        "generation": "ea0734b4-66bb-4a5d-9f2c-ad74e0e6cc83",
+        "type": "gap",
+        "reason": "not_acquired",
+        "sourceRange": {
+          "startUs": 133973333,
+          "endUs": 133973334
+        },
+        "partial": false,
+        "fragments": [
+          {
+            "source": {
+              "startUs": 133973333,
+              "endUs": 133973334
+            },
+            "project": {
+              "startUs": 134022008,
+              "endUs": 134022009
+            }
+          }
+        ]
+      }
+    ],
+    "scope": "Project evidence follows selected clip support; no source-gap rows are invented outside clips"
+  },
+  "projectVideoClock": {
+    "frames": 4021,
+    "completeFloorClockExact": true
+  },
+  "fullCapture": {
+    "archiveMember": "runs/clock-final/report.json",
+    "scope": "Complete request/response trace, all public transcript pages and receipts retained in archive"
+  }
+}

@@ -209,6 +209,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [22c — Complete prepared recipes in portable resources](slices/22c-prepared-recipe-budget.md)
 - [x] [22 — Relocatable editable projects](slices/22-portable-projects.md)
 - [ ] [23 — Cut over all consumers and remove old owners](slices/23-cutover.md)
+- [x] [23a — Retained recording to identity-project preservation](slices/23a-recording-project-preservation.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)
 - [x] [24a — Bounded compiled plan delivery](slices/24a-compiled-plan-delivery.md)
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)

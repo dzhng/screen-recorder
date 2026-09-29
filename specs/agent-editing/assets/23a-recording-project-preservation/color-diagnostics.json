@@ -1,0 +1,95 @@
+[
+  {
+    "requestedUs": 1000000,
+    "ffmpeg": {
+      "medianSignedRGB": [
+        -2.0,
+        -2.0,
+        -2.0
+      ],
+      "meanAbsoluteRGB": [
+        1.724157392945464,
+        1.8285524860080697,
+        2.9350829754002343
+      ],
+      "wholeFrameMaximum": 240,
+      "note": "Whole-frame diagnostic includes differing source sample and missing pointer, not a fidelity gate"
+    },
+    "public": {
+      "medianSignedRGB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "meanAbsoluteRGB": [
+        0.6948643108160875,
+        0.5107736235845373,
+        1.5737063972406613
+      ],
+      "wholeFrameMaximum": 242,
+      "note": "Whole-frame diagnostic includes differing source sample and missing pointer, not a fidelity gate"
+    }
+  },
+  {
+    "requestedUs": 67000000,
+    "ffmpeg": {
+      "medianSignedRGB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "meanAbsoluteRGB": [
+        3.7966933489522323,
+        3.6006880450344916,
+        4.331366490954054
+      ],
+      "wholeFrameMaximum": 252,
+      "note": "Whole-frame diagnostic includes differing source sample and missing pointer, not a fidelity gate"
+    },
+    "public": {
+      "medianSignedRGB": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "meanAbsoluteRGB": [
+        0.7907062670831706,
+        0.6874734804112976,
+        1.3138398086684888
+      ],
+      "wholeFrameMaximum": 252,
+      "note": "Whole-frame diagnostic includes differing source sample and missing pointer, not a fidelity gate"
+    }
+  },
+  {
+    "requestedUs": 134000000,
+    "ffmpeg": {
+      "medianSignedRGB": [
+        -2.0,
+        -2.0,
+        -2.0
+      ],
+      "meanAbsoluteRGB": [
+        1.5990700247299232,
+        1.766296043212287,
+        2.88592151503319
+      ],
+      "wholeFrameMaximum": 53,
+      "note": "Whole-frame diagnostic includes differing source sample and missing pointer, not a fidelity gate"
+    },
+    "public": {
+      "medianSignedRGB": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "meanAbsoluteRGB": [
+        0.5209765065729532,
+        0.3951379669399974,
+        1.4825299362228297
+      ],
+      "wholeFrameMaximum": 60,
+      "note": "Whole-frame diagnostic includes differing source sample and missing pointer, not a fidelity gate"
+    }
+  }
+]
