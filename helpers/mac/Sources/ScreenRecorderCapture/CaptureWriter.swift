@@ -357,7 +357,13 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                 throw track.writer.error
                     ?? CaptureFailure("WRITE_FAILED", "Cannot append \(role) sample.")
             }
-            if track.first == nil {
+            let firstAppend = track.first == nil
+            // Media acceptance cannot be rolled back if the following journal write fails.
+            track.first = track.first ?? sourceUs
+            track.end = max(track.end ?? 0, sourceUs + durationUs)
+            track.samples += 1
+            if role == "video" { lastVideo = retimed }
+            if firstAppend {
                 guard
                     record({
                         try self.journal.recordTrackStarted(
@@ -374,10 +380,6 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                     })
                 else { return }
             }
-            track.first = track.first ?? sourceUs
-            track.end = max(track.end ?? 0, sourceUs + durationUs)
-            track.samples += 1
-            if role == "video" { lastVideo = retimed }
         } catch {
             let reason =
                 (error as? CaptureFailure)

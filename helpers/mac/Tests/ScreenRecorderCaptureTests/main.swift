@@ -1,6 +1,10 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_PCM_WINDOWS_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_FAILURE_OUTPUT"] {
+  try await runCaptureJournalFailureProbe(
+    output: output,
+    corpus: ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_GAP_CORPUS"] ?? "")
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_PCM_WINDOWS_OUTPUT"] {
   try await runPCMAdmissionWindows(
     output: output,
     canonical: ProcessInfo.processInfo.environment["SCREENREC_PCM_WINDOWS_CANONICAL"] ?? "")

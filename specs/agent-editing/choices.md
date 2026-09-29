@@ -2701,3 +2701,15 @@ bounded prerequisite, not a claim that it is the final public execution policy.
 The [checkpoint decisions](assets/13b-native-stretch-parity/choices.md) retain
 source ownership, refusal and feedback boundaries; no new renderer or queue owns
 this adapter.
+
+### Retain accepted media before journal writes (sound)
+
+When the media writer accepts the first audio buffer but the journal cannot write,
+the recorder now remembers that accepted buffer and finishes its container. It
+still stops with JOURNAL_FAILED and claims no acquisition for the unjournaled
+buffer. Previously its zero counter caused finalization to cancel those bytes.
+The plan required truthful accepted state; the bounded verification choice is a
+real process-local filesystem limit rather than a test-only production failure
+hook. The opt-in offline test restores limits before inspecting retained media.
+This adds no persistent format or new recording path. Confidence: high; both first
+journal boundaries preserve exact decoded input PCM while recovery keeps support empty.
