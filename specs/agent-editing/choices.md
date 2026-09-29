@@ -3191,3 +3191,13 @@ reduces storage without selecting favorable samples. Restored evidence is not a 
 independent oracle, and the original execution/provenance remains retained. No new
 product store or audio representation is introduced. Concurrent-load timings and
 successful-path cleanup retain their stated limits.
+
+### Separate authored upstream truth from the learned oracle (sound, high confidence)
+
+The combined public fixture uses known retained samples, exact source offsets and
+held binary gains to predict upstream PCM without the renderer's curve/mix logic.
+Only after the delivered prefix matches does the frozen C adapter judge RNNoise.
+This prevents two paths sharing a wrong prefix from certifying each other. Held
+transitions bound this proof; existing interpolation contracts and later listening
+judgments remain separate. One shared test reference runner retains the recipe and
+raw files for both native/public harnesses, without adding a production audio owner.

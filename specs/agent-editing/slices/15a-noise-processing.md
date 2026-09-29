@@ -1,6 +1,6 @@
 # 15a — Adopt verified noise reduction in processing stacks
 
-Status: [native-entry parity](./15a1-denoise-entry-parity.md) verified as a bounded prerequisite. Public adoption, prepared-consumer integration and full acceptance remain open. Dependencies: [14a](./14a-prepared-audio.md), [03c](./03c-processing-stacks.md), [08](./08-audio-mixing.md), [09](./09-first-preview.md), [12c](./12c-noise-reproduction.md), [14](./14-retiming.md), [16](./16-keyframes.md).
+Status: [native-entry parity](./15a1-denoise-entry-parity.md) and scoped [public prepared consumers](./15a2-denoise-prepared-consumers.md) verified. The [unit-rate combined public join](./15a3a-unit-rate-combined.md) is verified; broader combined/retiming and listening acceptance remain open. Dependencies: [14a](./14a-prepared-audio.md), [03c](./03c-processing-stacks.md), [08](./08-audio-mixing.md), [09](./09-first-preview.md), [12c](./12c-noise-reproduction.md), [14](./14-retiming.md), [16](./16-keyframes.md).
 
 ## Contract
 
@@ -9,7 +9,7 @@ using the same revision, preparation, inspection, preview and export paths.
 
 Shared preparation owner: [14a](./14a-prepared-audio.md) already verifies durable
 publication, public preparation and portable unit-rate/gain assets. Reuse that
-owner; model-dependent RNNoise execution and consumers remain this slice’s work.
+owner; scoped RNNoise execution, retained consumers and portability are verified through15a2. Complete acceptance remains this parent’s work.
 The [protected-speech packet](../assets/12c-protected-speech/README.md) is a
 listening/annotation handoff, not acceptance or processor readiness.
 

@@ -1,3 +1,4 @@
+import { createDenoiseReference } from "./denoise-reference.mjs";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, writeFile, rm, readdir, stat, realpath } from "node:fs/promises";
@@ -7,11 +8,14 @@ import { gunzipSync } from "node:zlib";
 import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs";
 import { waveHeader } from "./audio-project-fixture.mjs";
 
-const { values } = parseArgs({ options: { out: { type: "string" }, source: { type: "string" } } });
-assert(values.out && values.source && process.env.SCREENREC_NATIVE);
+const { values } = parseArgs({
+  options: { out: { type: "string" }, source: { type: "string" }, reference: { type: "string" } },
+});
+assert(values.out && values.source && values.reference && process.env.SCREENREC_NATIVE);
 const out = resolve(values.out),
   home = await mkdtemp("/tmp/sr-denoise-public-");
 await mkdir(out);
+const denoise = createDenoiseReference(resolve(values.reference), out);
 const report = {
   passed: false,
   trace: [],
@@ -19,6 +23,7 @@ const report = {
   receipts: [],
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
+  referenceSha256: hash(await readFile(resolve(values.reference))),
   scope:
     "linked independent-channel RNNoise through public CLI/MCP and existing prepared owner; no listening or model-absent binary claim",
 };
@@ -76,8 +81,15 @@ async function inspect(
   }
   report.checks[name] = { frames, sha256: hash(bytes), exactPCM: true };
 }
-async function projectAudio(selection, tap, name, expectedPCM) {
-  const params = { ...selection, range: { startUs: 0, endUs: 5000000 }, tap };
+async function projectAudio(
+  selection,
+  tap,
+  name,
+  expectedPCM,
+  oracleChannels = 1,
+  range = { startUs: 0, endUs: 5000000 },
+) {
+  const params = { ...selection, range, tap };
   const ready = await poll(
     () => call("audio.get", params),
     (value) => value.state === "ready",
@@ -87,12 +99,15 @@ async function projectAudio(selection, tap, name, expectedPCM) {
   await call("audio.get", params, { output: path });
   const bytes = await readFile(path),
     header = waveHeader(bytes, bytes.length);
-  assert.equal(header.frames, expectedPCM.length / 4);
+  const first = (range.startUs * 48000) / 1000000;
+  assert.equal(header.frames, ((range.endUs - range.startUs) * 48000) / 1000000);
   for (let frame = 0; frame < header.frames; frame++)
     for (let channel = 0; channel < 2; channel++)
       assert.equal(
         bytes.readFloatLE(header.offset + frame * 8 + channel * 4),
-        expectedPCM.readFloatLE(frame * 4),
+        expectedPCM.readFloatLE(
+          ((first + frame) * oracleChannels + Math.min(channel, oracleChannels - 1)) * 4,
+        ),
       );
   report.checks[name] = {
     params,
@@ -106,6 +121,350 @@ const baseline = gunzipSync(
   await readFile(join(root, "specs/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz")),
 );
 const outputTap = (point) => ({ target: { kind: "output" }, point });
+async function movieDelivery(selection, name) {
+  const movie = join(out, name + "full-preview.mp4"),
+    rangedMovie = join(out, name + "range-preview.mp4");
+  const preview = await poll(
+    () =>
+      call("preview.get", { ...selection, settings: { preset: "balanced" } }, { output: movie }),
+    (v) => v.state === "ready",
+    "learned movie",
+  );
+  const ranged = await poll(
+    () =>
+      call(
+        "preview.get",
+        {
+          ...selection,
+          range: { startUs: 1000000, endUs: 3000000 },
+          settings: { preset: "balanced" },
+        },
+        { output: rangedMovie },
+      ),
+    (v) => v.state === "ready",
+    "learned range movie",
+  );
+  const exportId = randomUUID();
+  await call(
+    "export.create",
+    {
+      ...selection,
+      exportId,
+      kind: "video",
+      directory: await realpath(out),
+      leaf: name + "export.mp4",
+      settings: { preset: "balanced" },
+    },
+    { transport: "mcp" },
+  );
+  const exported = await poll(
+    () => call("export.status", { exportId }),
+    (v) => v.state === "committed",
+    "learned export",
+  );
+  assert.equal(hash(await readFile(exported.output)), hash(await readFile(movie)));
+  return {
+    full: preview.published.preview,
+    range: ranged.published.preview,
+    exportByteIdenticalToFullPreview: true,
+    encodedPCMEqualityClaim: false,
+  };
+}
+async function combinedTemporal(asset) {
+  const record = (report.combined = {
+    edits: [],
+    oracle: "Independent retained samples, offsets, Float32 sum and explicit held intervals",
+  });
+  const right = gunzipSync(
+    await readFile(
+      join(root, "specs/agent-editing/assets/12c-matched-noise/audio/reference.f32.gz"),
+    ),
+  );
+  const mix = (includeSecond) => {
+    const pcm = Buffer.alloc(baseline.length * 2);
+    for (let i = 0; i < baseline.length / 4; i++)
+      for (let c = 0; c < 2; c++) {
+        const lane = c ? right : baseline;
+        const b =
+          includeSecond && i >= 96000 && i < 192000
+            ? Math.fround(lane.readFloatLE((i - 96000) * 4) * 0.25)
+            : 0;
+        pcm.writeFloatLE(Math.fround(lane.readFloatLE(i * 4) + b), i * 8 + c * 4);
+      }
+    return pcm;
+  };
+  const animated = (pcm) => {
+    const output = Buffer.from(pcm);
+    // Fixture oracle: explicit binary held gains, no shared curve evaluator.
+    for (let i = 48000; i < 192000; i++) {
+      const gain = i < 120000 ? 0.5 : i < 168000 ? 0.25 : 1;
+      for (let c = 0; c < 2; c++)
+        output.writeFloatLE(Math.fround(pcm.readFloatLE(i * 8 + c * 4) * gain), i * 8 + c * 4);
+    }
+    return output;
+  };
+  const made = await call("project.create", {
+    requestId: "combined-project",
+    canvas: {
+      width: 16,
+      height: 16,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  const projectId = made.project.projectId;
+  let revision = made.revision;
+  const selection = () => ({ projectId, revisionId: revision.id });
+  const edit = async (requestId, operations) => {
+    const request = { projectId, expectedRevisionId: revision.id, requestId, operations };
+    const result = await call("edit.apply", request, { transport: "mcp" });
+    record.edits.push({ request, result });
+    revision = result.revision;
+    return result;
+  };
+  const window = { kind: "project", range: { startUs: 1000000, endUs: 4000000 } };
+  const placed = await edit("combined-first", [
+    { operation: "group.add", label: "bus", group: { kind: "audio", order: 0 } },
+    {
+      operation: "track.add",
+      label: "first",
+      track: { kind: "audio", order: 0, parentId: { label: "bus" } },
+    },
+    {
+      operation: "track.add",
+      label: "second",
+      track: { kind: "audio", order: 1, parentId: { label: "bus" } },
+    },
+    {
+      operation: "place",
+      clip: {
+        trackId: { label: "first" },
+        assetId: asset.id,
+        streamId: asset.streams[0].id,
+        source: { kind: "range", range: { startUs: 0, endUs: 5000000 } },
+        placement: { kind: "project", range: { startUs: 0, endUs: 5000000 } },
+      },
+    },
+    {
+      operation: "processing.set",
+      target: { kind: "track", id: { label: "second" } },
+      steps: [{ processor: { type: "gain", gain: 0.25 } }],
+    },
+    {
+      operation: "processing.set",
+      target: { kind: "group", id: { label: "bus" } },
+      steps: [
+        {
+          label: "automation",
+          window,
+          processor: {
+            type: "gain",
+            gain: {
+              keys: [
+                { at: 1000000, value: 0.5, interpolation: "hold" },
+                { at: 2500000, value: 0.25, interpolation: "hold" },
+                { at: 3500000, value: 1, interpolation: "hold" },
+              ],
+            },
+          },
+        },
+        { label: "learned", window, processor: { type: "rnnoise" } },
+      ],
+    },
+    {
+      operation: "processing.set",
+      target: { kind: "output" },
+      steps: [{ processor: { type: "gain", gain: 0.5 } }],
+    },
+  ]);
+  const target = { kind: "group", id: placed.edit.labels.bus };
+  const initial = selection(),
+    initialPrepared = await prepare(initial);
+  await projectAudio(
+    initial,
+    { target, point: { kind: "dry" } },
+    "combined-initial-prefix",
+    mix(false),
+    2,
+  );
+  const added = await edit("combined-add", [
+    {
+      operation: "place",
+      label: "newMember",
+      clip: {
+        trackId: placed.edit.labels.second,
+        assetId: asset.id,
+        streamId: asset.streams[0].id,
+        source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+        placement: { kind: "project", range: { startUs: 2000000, endUs: 4000000 } },
+      },
+    },
+  ]);
+  const stack = await call("processing.get", { ...selection(), target });
+  const member = await call("processing.get", {
+    ...selection(),
+    target: { kind: "clip", id: added.edit.labels.newMember },
+  });
+  assert.deepEqual(member.steps, []);
+  const summed = mix(true),
+    prefix = animated(summed);
+  await projectAudio(selection(), { target, point: { kind: "dry" } }, "combined-sum", summed, 2);
+  await projectAudio(
+    selection(),
+    { target, point: { kind: "after-step", stepId: stack.steps[0].id } },
+    "combined-animated-prefix",
+    prefix,
+    2,
+  );
+  const scale = (pcm, factor) => {
+    const result = Buffer.alloc(pcm.length);
+    for (let i = 0; i < pcm.length; i += 4)
+      result.writeFloatLE(Math.fround(pcm.readFloatLE(i) * factor), i);
+    return result;
+  };
+  const wet = (name, pcm) => {
+    const result = Buffer.from(pcm);
+    denoise(name, pcm.subarray(48000 * 8, 192000 * 8), 2).copy(result, 48000 * 8);
+    return result;
+  };
+  const firstExpected = scale(wet("combined-first", animated(mix(false))), 0.5);
+  const beforeOrder = scale(wet("combined-sum", prefix), 0.5);
+  const afterOrder = scale(animated(wet("combined-reordered", summed)), 0.5);
+  assert(!beforeOrder.equals(afterOrder), "The authored pair must distinguish processing order");
+  const current = selection(),
+    prepared = await prepare(current);
+  assert.notEqual(prepared.jobId, initialPrepared.jobId);
+  await inspect(initialPrepared, 0, 5000000, "combined-original-full", 1, firstExpected, 2);
+  await inspect(prepared, 0, 5000000, "combined-current-full", 1, beforeOrder, 2);
+  await projectAudio(
+    current,
+    outputTap({ kind: "processed" }),
+    "combined-ordinary-full",
+    beforeOrder,
+    2,
+  );
+  await projectAudio(
+    current,
+    outputTap({ kind: "processed" }),
+    "combined-ordinary-range",
+    beforeOrder,
+    2,
+    { startUs: 750000, endUs: 4250000 },
+  );
+  await inspect(prepared, 750000, 1250000, "combined-leading-boundary", 1, beforeOrder, 2);
+  await inspect(prepared, 3750000, 4250000, "combined-trailing-boundary", 1, beforeOrder, 2);
+  const dry = scale(summed, 0.5);
+  assert(beforeOrder.subarray(0, 48000 * 8).equals(dry.subarray(0, 48000 * 8)));
+  assert(beforeOrder.subarray(192000 * 8).equals(dry.subarray(192000 * 8)));
+  const a = animated(mix(false)),
+    b = Buffer.alloc(a.length);
+  for (let i = 96000; i < 192000; i++)
+    for (let c = 0; c < 2; c++) {
+      const lane = c ? right : baseline;
+      b.writeFloatLE(Math.fround(lane.readFloatLE((i - 96000) * 4) * 0.25), i * 8 + c * 4);
+    }
+  const perA = wet("combined-per-contribution-a", a),
+    perB = wet("combined-per-contribution-b", animated(b));
+  const perContribution = Buffer.alloc(a.length);
+  for (let i = 0; i < a.length; i += 4)
+    perContribution.writeFloatLE(
+      Math.fround(Math.fround(perA.readFloatLE(i) + perB.readFloatLE(i)) * 0.5),
+      i,
+    );
+  assert(
+    !perContribution.equals(beforeOrder),
+    "Per-contribution state must not stand in for combined state",
+  );
+  await writeFile(join(out, "combined-expected-before.f32"), beforeOrder);
+  await writeFile(join(out, "combined-expected-after.f32"), afterOrder);
+  await writeFile(join(out, "combined-per-contribution.f32"), perContribution);
+  record.negatives = {
+    wrongOrderDiffers: true,
+    processBeforeMixDiffers: true,
+    beforeHash: hash(beforeOrder),
+    afterHash: hash(afterOrder),
+    perContributionHash: hash(perContribution),
+    scope: "Independent C sensitivity controls, not new public recipes",
+  };
+  record.dryNeighborsExact = true;
+  const reordered = await edit("combined-reorder", [
+    { operation: "processing.set", target, steps: [...stack.steps].reverse() },
+  ]);
+  const reorderedSelection = selection(),
+    reorderedStack = await call("processing.get", { ...reorderedSelection, target });
+  assert.deepEqual(
+    reorderedStack.steps.map((step) => step.id),
+    [...stack.steps].reverse().map((step) => step.id),
+  );
+  const reorderedPrepared = await prepare(reorderedSelection);
+  assert.notEqual(reorderedPrepared.jobId, prepared.jobId);
+  await inspect(reorderedPrepared, 0, 5000000, "combined-reordered-full", 1, afterOrder, 2);
+  await projectAudio(
+    reorderedSelection,
+    outputTap({ kind: "processed" }),
+    "combined-reordered-range",
+    afterOrder,
+    2,
+    { startUs: 750000, endUs: 4250000 },
+  );
+  await edit("combined-bypass", [
+    {
+      operation: "processing.set",
+      target,
+      steps: reorderedStack.steps.map((step) => ({
+        ...step,
+        enabled: step.processor.type !== "rnnoise",
+      })),
+    },
+  ]);
+  const bypassPrepared = await prepare(selection());
+  await inspect(bypassPrepared, 0, 5000000, "combined-bypass", 1, scale(prefix, 0.5), 2);
+  const undoRequest = { projectId, expectedRevisionId: revision.id, requestId: "combined-undo" };
+  const undone = await call("edit.undo", undoRequest);
+  record.edits.push({ operation: "edit.undo", request: undoRequest, result: undone });
+  revision = undone;
+  assert.deepEqual(undone.document, reordered.revision.document);
+  await projectAudio(selection(), outputTap({ kind: "processed" }), "combined-undo", afterOrder, 2);
+  const restoreRequest = {
+    projectId,
+    expectedRevisionId: revision.id,
+    targetRevisionId: initial.revisionId,
+    requestId: "combined-restore",
+  };
+  const restored = await call("edit.restore", restoreRequest, { transport: "mcp" });
+  record.edits.push({ operation: "edit.restore", request: restoreRequest, result: restored });
+  revision = restored;
+  assert.deepEqual(restored.document, placed.revision.document);
+  await projectAudio(
+    selection(),
+    outputTap({ kind: "processed" }),
+    "combined-restored-first-member",
+    firstExpected,
+    2,
+  );
+  await projectAudio(
+    current,
+    outputTap({ kind: "processed" }),
+    "combined-historical-before-order",
+    beforeOrder,
+    2,
+  );
+  await projectAudio(
+    reorderedSelection,
+    outputTap({ kind: "processed" }),
+    "combined-historical-after-order",
+    afterOrder,
+    2,
+  );
+  assert.deepEqual(await prepare(current), prepared);
+  record.movie = await movieDelivery(current, "combined-");
+  record.initial = initial;
+  record.initialPreparation = initialPrepared;
+  record.added = current;
+  record.reordered = reorderedSelection;
+  record.restored = selection();
+  record.prefixSha256 = hash(prefix);
+}
 try {
   await service.start();
   const imported = await call("asset.import", {
@@ -163,52 +522,7 @@ try {
     "after-state-tap",
     expected,
   );
-  const movie = join(out, "full-preview.mp4"),
-    rangedMovie = join(out, "range-preview.mp4");
-  const preview = await poll(
-    () => call("preview.get", { ...original, settings: { preset: "balanced" } }, { output: movie }),
-    (v) => v.state === "ready",
-    "learned movie",
-  );
-  const ranged = await poll(
-    () =>
-      call(
-        "preview.get",
-        {
-          ...original,
-          range: { startUs: 1000000, endUs: 3000000 },
-          settings: { preset: "balanced" },
-        },
-        { output: rangedMovie },
-      ),
-    (v) => v.state === "ready",
-    "learned range movie",
-  );
-  const exportId = randomUUID();
-  await call(
-    "export.create",
-    {
-      ...original,
-      exportId,
-      kind: "video",
-      directory: await realpath(out),
-      leaf: "export.mp4",
-      settings: { preset: "balanced" },
-    },
-    { transport: "mcp" },
-  );
-  const exported = await poll(
-    () => call("export.status", { exportId }),
-    (v) => v.state === "committed",
-    "learned export",
-  );
-  assert.equal(hash(await readFile(exported.output)), hash(await readFile(movie)));
-  report.checks.movie = {
-    full: preview.published.preview,
-    range: ranged.published.preview,
-    exportByteIdenticalToFullPreview: true,
-    encodedPCMEqualityClaim: false,
-  };
+  report.checks.movie = await movieDelivery(original, "");
   const gained = await call("edit.apply", {
     projectId,
     expectedRevisionId: original.revisionId,
@@ -361,6 +675,7 @@ try {
   }
   await inspect(stereoPrepared, 0, 5000000, "independent-stereo-full", 1, stereoExpected, 2);
   await inspect(stereoPrepared, 1000000, 3000000, "independent-stereo-range", 1, stereoExpected, 2);
+  await combinedTemporal(stereoAsset);
   const longMade = await call("project.create", {
     requestId: "cancel-project",
     canvas: {

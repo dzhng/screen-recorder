@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "nativeSha256": "541c6761ac2bc763e3029c4856a6d19699fd7357196a837bac36fff99bd2567e",
+  "referenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+  "publicChecks": 33,
+  "nativeChecks": 51,
+  "harnesses": {
+    "denoise-runtime-public.mjs": "34ddf6b8617786aba99277e8170b1726634b6f4dbae41dccc8a240fa557b75a1",
+    "denoise-runtime.mjs": "0ac7ef4acec6d9d36f39856ce43694486815a9dce075a298b7e3ffba8b67e2a4",
+    "denoise-reference.mjs": "d8c1df5bf21826f10160c11ce671c236fff106a4d30aa6262c26a65ee58cc8ab"
+  },
+  "commands": [
+    "SCREENREC_NATIVE=/tmp/screenrec-indexed-root-native-541c6761ac2b node packages/test-harness/editing/denoise-runtime.mjs --out /tmp/screenrec-combined-native-reviewed --reference /tmp/screenrec-rnnoise-api",
+    "SCREENREC_NATIVE=/tmp/screenrec-indexed-root-native-541c6761ac2b node packages/test-harness/editing/denoise-runtime-public.mjs --out /tmp/screenrec-combined-reviewed --source /tmp/screenrec-active-mixer-native-final/source.wav --reference /tmp/screenrec-rnnoise-api"
+  ],
+  "scope": "Unit-rate combined public integration; no listening, post-retime or decodedAAC equality claim"
+}

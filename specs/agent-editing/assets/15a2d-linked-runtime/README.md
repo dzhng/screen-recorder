@@ -32,7 +32,8 @@ SCREENREC_NATIVE="$PWD/helpers/mac/.build/debug/screenrec-native" \
   --out /tmp/new-linked-check --reference /tmp/screenrec-rnnoise-api
 SCREENREC_NATIVE="$PWD/helpers/mac/.build/debug/screenrec-native" \
   node packages/test-harness/editing/denoise-runtime-public.mjs \
-  --out /tmp/new-public-check --source /tmp/new-linked-check/source.wav
+  --out /tmp/new-public-check --source /tmp/new-linked-check/source.wav \
+  --reference /tmp/screenrec-rnnoise-api
 ```
 
 The public runner uses the existing built CLI through JourneyService; build the CLI dependency closure first in a fresh checkout. Local paths recorded in requests are provenance, not portable defaults. No native binary or trained model bytes are committed in this evidence archive.

@@ -1,3 +1,4 @@
+import { createDenoiseReference } from "./denoise-reference.mjs";
 import { spawnSync } from "node:child_process";
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
@@ -25,10 +26,6 @@ const report = {
   harnessSha256: hash(readFileSync(import.meta.filename)),
   referenceSha256: hash(readFileSync(reference)),
 };
-assert.equal(
-  report.referenceSha256,
-  "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
-);
 const save = () => writeFileSync(out + "/report.json", JSON.stringify(report, null, 2));
 function compare(name, actual, expected, equal = true) {
   const result = {
@@ -42,14 +39,7 @@ function compare(name, actual, expected, equal = true) {
   save();
   assert.equal(result.equal, equal, name);
 }
-function denoise(name, pcm) {
-  const inp = out + "/" + name + "-input.f32",
-    raw = out + "/" + name + "-raw.f32";
-  writeFileSync(inp, pcm);
-  const r = spawnSync(reference, [inp, raw, "2"], { timeout: 30000 });
-  assert.equal(r.status, 0, r.stderr?.toString());
-  return readFileSync(raw).subarray(960 * 4, 960 * 4 + pcm.length);
-}
+const denoise = createDenoiseReference(reference, out);
 let id = 0;
 function native(operation, params) {
   const r = spawnSync(worker, [], {

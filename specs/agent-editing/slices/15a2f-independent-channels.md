@@ -1,6 +1,6 @@
 # 15a2f — Independent learned state per channel
 
-Status: verified fixed-policy mono/stereo execution; [evidence](../assets/15a2f-independent-channels/README.md). Extends [15a2e](15a2e-state-isolation.md). This does not close the parent speech/spatial listening, retiming, portability or successful long-output acceptance gates.
+Status: verified fixed-policy mono/stereo execution; [evidence](../assets/15a2f-independent-channels/README.md). Extends [15a2e](15a2e-state-isolation.md). This does not close parent speech/spatial listening or retiming acceptance. [Portable preservation](../assets/14a-learned-portable/README.md) and [successful long output](24f-successful-learned-scale.md) have separate scoped evidence; the [unit-rate public join](15a3a-unit-rate-combined.md) is also verified.
 
 Dependencies: [15a2e](15a2e-state-isolation.md).
 
