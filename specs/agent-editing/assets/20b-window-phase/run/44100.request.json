@@ -1,0 +1,15 @@
+{
+  "payload": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/20a-sparse-storage/run/continuous-44100.mov",
+  "output": "/tmp/capture-admission-windows-retained/44100-canonical",
+  "rate": 44100,
+  "runs": [
+    {
+      "firstFrame": 0,
+      "frames": 88200,
+      "sourceStart": {
+        "value": 100001,
+        "timescale": 1000000
+      }
+    }
+  ]
+}

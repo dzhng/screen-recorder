@@ -1,0 +1,25 @@
+{
+  "bytes" : 42320,
+  "channels" : 2,
+  "clippedSamples" : 0,
+  "decoderContext" : {
+    "maximumPrerollFrames" : 1121,
+    "maximumTailFrames" : 1024,
+    "policy" : "bounded-current-retained-run",
+    "sampleRate" : 48000
+  },
+  "file" : "\/tmp\/capture-admission-windows-retained\/44100-consumer\/project-window.wav",
+  "frames" : 4778,
+  "maximumBlockFrames" : 8192,
+  "peak" : 0.5670812726020813,
+  "peakResidentBytes" : 25542656,
+  "sampleRate" : 48000,
+  "unavailable" : [
+    {
+      "clipId" : "pcm",
+      "ranges" : [
+
+      ]
+    }
+  ]
+}

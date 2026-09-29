@@ -1,0 +1,27 @@
+{
+  "candidateAnchorUs" : 100001,
+  "declaredOriginUs" : 100000000,
+  "groups" : [
+    {
+      "anchorUs" : 100001,
+      "chunk" : 1024,
+      "frames" : 88200,
+      "runs" : 1
+    },
+    {
+      "anchorUs" : 100001,
+      "chunk" : 8192,
+      "frames" : 88200,
+      "runs" : 1
+    }
+  ],
+  "originPolicyEquivalent" : false,
+  "rate" : 44100,
+  "rawFirstAudioValue" : 100100000501,
+  "rawRelativeRoundedOnceUs" : 100000,
+  "rawVideoOrigin" : {
+    "timescale" : 1000000000,
+    "value" : 100000000499
+  },
+  "scope" : "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+}

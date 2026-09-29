@@ -1,6 +1,10 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_PCM_ADMISSION_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_PCM_WINDOWS_OUTPUT"] {
+  try await runPCMAdmissionWindows(
+    output: output,
+    canonical: ProcessInfo.processInfo.environment["SCREENREC_PCM_WINDOWS_CANONICAL"] ?? "")
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_PCM_ADMISSION_OUTPUT"] {
   try await runPCMAdmissionProbe(
     output: output,
     canonical: ProcessInfo.processInfo.environment["SCREENREC_PCM_ADMISSION_CANONICAL"] ?? "")

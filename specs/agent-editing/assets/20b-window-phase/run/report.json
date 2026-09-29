@@ -1,0 +1,82 @@
+{
+  "scope": "offline admitted phase100001us; native and actual project resampling/window consumers; no writer rollout",
+  "workerSha256": "ed72a84751c30e2c5f6f776fa45db471cf72a322646291f6f8eba19bc9afaff9",
+  "storageWorkerSha256": "74f05b86b692c438056adb9d20e73fae30936414ab51aff8902ab2db3eb8118b",
+  "cases": [
+    {
+      "rate": 44100,
+      "inputSha256": "2a05df8e4dab13bde96caf3b54618f9766e08b9aeeaf24825063d6022de57a0a",
+      "canonicalSha256": "f1e1c38dfbf4055bcefea9f3a8b40f8369349f5098c7d0ba99e7624a308ff2ed",
+      "owner": {
+        "candidateAnchorUs": 100001,
+        "declaredOriginUs": 100000000,
+        "groups": [
+          {
+            "anchorUs": 100001,
+            "chunk": 1024,
+            "frames": 88200,
+            "runs": 1
+          },
+          {
+            "anchorUs": 100001,
+            "chunk": 8192,
+            "frames": 88200,
+            "runs": 1
+          }
+        ],
+        "originPolicyEquivalent": false,
+        "rate": 44100,
+        "rawFirstAudioValue": 100100000501,
+        "rawRelativeRoundedOnceUs": 100000,
+        "rawVideoOrigin": {
+          "timescale": 1000000000,
+          "value": 100000000499
+        },
+        "scope": "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+      },
+      "nativeFullOriginalPCMExact": true,
+      "nativeWindowParity": false,
+      "nativeWindowMatchesMinusOne": true,
+      "projectWindowParity": false,
+      "projectWindowMatchesMinusOne": false
+    },
+    {
+      "rate": 48000,
+      "inputSha256": "a1d96efa7a2366e2657a307e7bdedc3d910220e6f790a3559576684245fadfa2",
+      "canonicalSha256": "22ae4e2d08f1c405a750ac2c2b3a6954dcdd180e16f789b2fe5d7834092210f7",
+      "owner": {
+        "candidateAnchorUs": 100001,
+        "declaredOriginUs": 100000000,
+        "groups": [
+          {
+            "anchorUs": 100001,
+            "chunk": 1024,
+            "frames": 96000,
+            "runs": 1
+          },
+          {
+            "anchorUs": 100001,
+            "chunk": 8192,
+            "frames": 96000,
+            "runs": 1
+          }
+        ],
+        "originPolicyEquivalent": false,
+        "rate": 48000,
+        "rawFirstAudioValue": 100100000501,
+        "rawRelativeRoundedOnceUs": 100000,
+        "rawVideoOrigin": {
+          "timescale": 1000000000,
+          "value": 100000000499
+        },
+        "scope": "existing integer-video-origin policy; no raw-origin equivalence or writer rollout"
+      },
+      "nativeFullOriginalPCMExact": true,
+      "nativeWindowParity": false,
+      "nativeWindowMatchesMinusOne": true,
+      "projectWindowParity": false,
+      "projectWindowMatchesMinusOne": true
+    }
+  ],
+  "windowGatePassed": false
+}

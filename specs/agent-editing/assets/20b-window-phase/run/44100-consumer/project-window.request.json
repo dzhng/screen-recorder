@@ -1,0 +1,103 @@
+{
+  "assets" : [
+    {
+      "assetId" : "capture",
+      "originUs" : 0,
+      "path" : "\/tmp\/capture-admission-windows-retained\/44100-canonical\/canonical.mov",
+      "streamId" : "track:1"
+    }
+  ],
+  "clips" : [
+    {
+      "available" : [
+        {
+          "end" : 62379,
+          "start" : 57601
+        }
+      ],
+      "clipId" : "pcm",
+      "context" : [
+        {
+          "sampleRange" : {
+            "end" : 100800,
+            "start" : 0
+          },
+          "source" : {
+            "endUs" : 2100001,
+            "startUs" : 0
+          }
+        }
+      ],
+      "pitch" : "preserve",
+      "placement" : {
+        "endUs" : 2100001,
+        "startUs" : 0
+      },
+      "sampleRange" : {
+        "end" : 62379,
+        "start" : 57601
+      },
+      "source" : {
+        "assetId" : "capture",
+        "kind" : "range",
+        "range" : {
+          "endUs" : 2100001,
+          "startUs" : 0
+        },
+        "streamId" : "track:1"
+      },
+      "trackId" : "audio"
+    }
+  ],
+  "output" : "\/tmp\/capture-admission-windows-retained\/44100-consumer\/project-window.wav",
+  "processing" : [
+    {
+      "inputs" : [
+
+      ],
+      "mediaKind" : "audio",
+      "steps" : [
+
+      ],
+      "target" : {
+        "id" : "pcm",
+        "kind" : "clip"
+      }
+    },
+    {
+      "inputs" : [
+        {
+          "id" : "pcm",
+          "kind" : "clip"
+        }
+      ],
+      "mediaKind" : "audio",
+      "steps" : [
+
+      ],
+      "target" : {
+        "id" : "audio",
+        "kind" : "track"
+      }
+    },
+    {
+      "inputs" : [
+        {
+          "id" : "audio",
+          "kind" : "track"
+        }
+      ],
+      "mediaKind" : "output",
+      "steps" : [
+
+      ],
+      "target" : {
+        "kind" : "output"
+      }
+    }
+  ],
+  "range" : {
+    "end" : 62379,
+    "start" : 57601
+  }
+}

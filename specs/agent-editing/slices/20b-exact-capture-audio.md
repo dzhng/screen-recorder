@@ -1,6 +1,6 @@
 # 20b — Exact capture placement and accepted PCM addresses
 
-Status: [bounded owner prototype](../assets/20b-admission/README.md) verifies addresses, actual omitted-buffer PCM and explicit reader masking. Journal/append integration and broader resample/recovery/support gates remain open. No writer rollout; no raw-host equivalence claim.
+Status: [bounded owner prototype](../assets/20b-admission/README.md) verifies addresses, actual omitted-buffer PCM and explicit reader masking. Journal/append integration and broader resample/recovery/support gates remain open. The [100001us window/resampling gate](../assets/20b-window-phase/README.md) is red and owned by the common reader. No writer rollout; no raw-host equivalence claim.
 Dependencies: [08](08-audio-mixing.md).
 
 ## Contract and owner

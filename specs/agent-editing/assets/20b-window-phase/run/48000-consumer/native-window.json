@@ -1,0 +1,21 @@
+{
+  "bytes" : 23212,
+  "channels" : 1,
+  "decodedFrames" : 8192,
+  "file" : "\/tmp\/capture-admission-windows-retained\/48000-consumer\/native-window.wav",
+  "frames" : 4779,
+  "layout" : "mono",
+  "mediaType" : "audio\/wav",
+  "range" : {
+    "endUs" : 1299567,
+    "startUs" : 1200011
+  },
+  "sampleRange" : {
+    "end" : 62379,
+    "start" : 57600
+  },
+  "sampleRate" : 48000,
+  "unavailable" : [
+
+  ]
+}
