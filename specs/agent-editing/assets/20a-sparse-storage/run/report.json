@@ -1,0 +1,322 @@
+{
+  "scope": "Offline storage proof with explicitly probe-known frame mapping; no production repair or physical sync",
+  "binarySha256": "4e1ccdb748ad6a962de1d547ced00ec038dbb8f76bdba80821c32749ac56112c",
+  "checks": [
+    {
+      "name": "continuous-owner",
+      "exactSegments": [
+        {
+          "firstFrame": 0,
+          "frames": 96000,
+          "mediaDuration": {
+            "timescale": 6000000,
+            "value": 12000000
+          },
+          "mediaStart": {
+            "timescale": 6000000,
+            "value": 0
+          },
+          "sourceDuration": {
+            "timescale": 6000000,
+            "value": 12000000
+          },
+          "sourceStart": {
+            "timescale": 6000000,
+            "value": 600000
+          }
+        }
+      ],
+      "packedFrames": 96000,
+      "fullFrames": 100800,
+      "unavailable": [
+        {
+          "endUs": 100000,
+          "startUs": 0
+        }
+      ],
+      "canonicalSha256": "0e90d568bb3a7108e617f0da4ce90807aaa8477873458d1250cf366006f27b35"
+    },
+    {
+      "name": "omitted-rounded",
+      "exactSegments": [
+        {
+          "firstFrame": 0,
+          "frames": 32768,
+          "mediaDuration": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "mediaStart": {
+            "timescale": 6000000,
+            "value": 0
+          },
+          "sourceDuration": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "sourceStart": {
+            "timescale": 6000000,
+            "value": 600000
+          }
+        },
+        {
+          "firstFrame": 32768,
+          "frames": 55040,
+          "mediaDuration": {
+            "timescale": 6000000,
+            "value": 6880000
+          },
+          "mediaStart": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "sourceDuration": {
+            "timescale": 6000000,
+            "value": 6880000
+          },
+          "sourceStart": {
+            "timescale": 6000000,
+            "value": 5719998
+          }
+        }
+      ],
+      "packedFrames": 87808,
+      "fullFrames": 100800,
+      "unavailable": [
+        {
+          "endUs": 100000,
+          "startUs": 0
+        },
+        {
+          "endUs": 953333,
+          "startUs": 782667
+        }
+      ],
+      "canonicalSha256": "2881d75dc56420c6d622ee3a447576553931625d628960b182a46c6a86d616d3"
+    },
+    {
+      "name": "omitted-rational",
+      "exactSegments": [
+        {
+          "firstFrame": 0,
+          "frames": 32768,
+          "mediaDuration": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "mediaStart": {
+            "timescale": 6000000,
+            "value": 0
+          },
+          "sourceDuration": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "sourceStart": {
+            "timescale": 6000000,
+            "value": 600000
+          }
+        },
+        {
+          "firstFrame": 32768,
+          "frames": 55040,
+          "mediaDuration": {
+            "timescale": 6000000,
+            "value": 6880000
+          },
+          "mediaStart": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "sourceDuration": {
+            "timescale": 6000000,
+            "value": 6880000
+          },
+          "sourceStart": {
+            "timescale": 6000000,
+            "value": 5720000
+          }
+        }
+      ],
+      "packedFrames": 87808,
+      "fullFrames": 100800,
+      "unavailable": [
+        {
+          "endUs": 100000,
+          "startUs": 0
+        },
+        {
+          "endUs": 953333,
+          "startUs": 782667
+        }
+      ],
+      "canonicalSha256": "e58e20ce2c93d3e92e53d93b9bad92e476f6963d41ddf65adb91978be4aa862d"
+    },
+    {
+      "name": "pause-rational",
+      "exactSegments": [
+        {
+          "firstFrame": 0,
+          "frames": 32768,
+          "mediaDuration": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "mediaStart": {
+            "timescale": 6000000,
+            "value": 0
+          },
+          "sourceDuration": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "sourceStart": {
+            "timescale": 6000000,
+            "value": 600000
+          }
+        },
+        {
+          "firstFrame": 32768,
+          "frames": 55040,
+          "mediaDuration": {
+            "timescale": 6000000,
+            "value": 6880000
+          },
+          "mediaStart": {
+            "timescale": 6000000,
+            "value": 4096000
+          },
+          "sourceDuration": {
+            "timescale": 6000000,
+            "value": 6880000
+          },
+          "sourceStart": {
+            "timescale": 6000000,
+            "value": 5589596
+          }
+        }
+      ],
+      "packedFrames": 87808,
+      "fullFrames": 99756,
+      "unavailable": [
+        {
+          "endUs": 100000,
+          "startUs": 0
+        },
+        {
+          "endUs": 931599,
+          "startUs": 782667
+        }
+      ],
+      "canonicalSha256": "eda44b8dc1ce81bcb98bc3f29f5d855f333f08aa11c62728b137fc8e3df24ebc"
+    },
+    {
+      "name": "continuous-44100",
+      "exactSegments": [
+        {
+          "firstFrame": 0,
+          "frames": 88200,
+          "mediaDuration": {
+            "timescale": 441000000,
+            "value": 882000000
+          },
+          "mediaStart": {
+            "timescale": 441000000,
+            "value": 0
+          },
+          "sourceDuration": {
+            "timescale": 441000000,
+            "value": 882000000
+          },
+          "sourceStart": {
+            "timescale": 441000000,
+            "value": 0
+          }
+        }
+      ],
+      "packedFrames": 88200,
+      "fullFrames": 88200,
+      "unavailable": [],
+      "canonicalSha256": "a26ef25eb63184766ebc9f1f0dc2e65cebcd1086f9a46c05c19238ac6bf68215"
+    },
+    {
+      "name": "continuous-48000",
+      "exactSegments": [
+        {
+          "firstFrame": 0,
+          "frames": 96000,
+          "mediaDuration": {
+            "timescale": 6000000,
+            "value": 12000000
+          },
+          "mediaStart": {
+            "timescale": 6000000,
+            "value": 0
+          },
+          "sourceDuration": {
+            "timescale": 6000000,
+            "value": 12000000
+          },
+          "sourceStart": {
+            "timescale": 6000000,
+            "value": 0
+          }
+        }
+      ],
+      "packedFrames": 96000,
+      "fullFrames": 96000,
+      "unavailable": [],
+      "canonicalSha256": "95e3e406d61c981d5d3c57054a46ad5a0818b8a5c7dc82df434bb3333760a29c"
+    },
+    {
+      "name": "interrupted-export",
+      "freshProcessResume": true,
+      "stablePublication": true,
+      "changedIntentRefused": true
+    },
+    {
+      "name": "interrupted-rename",
+      "freshProcessResume": true,
+      "stablePublication": true,
+      "changedIntentRefused": true
+    },
+    {
+      "name": "interrupted-diagnostic",
+      "freshProcessResume": true,
+      "stablePublication": true,
+      "changedIntentRefused": true
+    },
+    {
+      "name": "overlap",
+      "refused": true
+    },
+    {
+      "name": "beyond-tail",
+      "refused": true
+    },
+    {
+      "name": "unsupported-phase-scale",
+      "refused": true
+    },
+    {
+      "name": "too-many-runs",
+      "refused": true
+    },
+    {
+      "name": "damaged-export",
+      "refused": true,
+      "originalRetained": true
+    }
+  ],
+  "phase": {
+    "roundedPreservesOriginalSamples": false,
+    "roundedSecondStartFrame": 45759,
+    "rationalContainerSecondStartFrame": 45760,
+    "rationalReadSecondStartFrame": 45759,
+    "rationalPreservesOriginalSamples": false,
+    "originalLateFirstFrame": 52800,
+    "roundedLateFirstFrame": 52801
+  },
+  "mechanismsVerified": true,
+  "productionRepairReady": false
+}

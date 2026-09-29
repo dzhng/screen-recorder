@@ -1,0 +1,40 @@
+{
+  "canonicalSha256" : "0e90d568bb3a7108e617f0da4ce90807aaa8477873458d1250cf366006f27b35",
+  "completed" : true,
+  "payloadSha256" : "457226055bc3a6ac3e4749d02c09b3aee70e0504c5b1a7d4bc94456b39beb4dc",
+  "reads" : [
+    {
+      "end" : 100800,
+      "label" : "full",
+      "start" : 0
+    },
+    {
+      "end" : 67200,
+      "label" : "late",
+      "start" : 57600
+    }
+  ],
+  "scope" : "probe-known exact mapping; no legacy journal reconstruction",
+  "segments" : [
+    {
+      "firstFrame" : 0,
+      "frames" : 96000,
+      "mediaDuration" : {
+        "timescale" : 6000000,
+        "value" : 12000000
+      },
+      "mediaStart" : {
+        "timescale" : 6000000,
+        "value" : 0
+      },
+      "sourceDuration" : {
+        "timescale" : 6000000,
+        "value" : 12000000
+      },
+      "sourceStart" : {
+        "timescale" : 6000000,
+        "value" : 600000
+      }
+    }
+  ]
+}

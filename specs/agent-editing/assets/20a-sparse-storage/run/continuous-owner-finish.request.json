@@ -1,0 +1,15 @@
+{
+  "payload": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/20a-capture-owner-gap/run/native/continuous/narration.mov",
+  "output": "/tmp/capture-sparse-proof-verified/continuous-owner",
+  "rate": 48000,
+  "runs": [
+    {
+      "firstFrame": 0,
+      "frames": 96000,
+      "sourceStart": {
+        "value": 100000,
+        "timescale": 1000000
+      }
+    }
+  ]
+}

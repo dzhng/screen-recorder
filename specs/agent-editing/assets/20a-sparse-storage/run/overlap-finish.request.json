@@ -1,0 +1,23 @@
+{
+  "payload": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/20a-capture-owner-gap/run/native/omitted-buffer/narration.mov",
+  "output": "/tmp/capture-sparse-proof-verified/overlap",
+  "rate": 48000,
+  "runs": [
+    {
+      "firstFrame": 0,
+      "frames": 32768,
+      "sourceStart": {
+        "value": 100000,
+        "timescale": 1000000
+      }
+    },
+    {
+      "firstFrame": 32768,
+      "frames": 55040,
+      "sourceStart": {
+        "value": 700000,
+        "timescale": 1000000
+      }
+    }
+  ]
+}

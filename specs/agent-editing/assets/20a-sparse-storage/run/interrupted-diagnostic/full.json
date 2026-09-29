@@ -1,0 +1,28 @@
+{
+  "bytes" : 407296,
+  "channels" : 1,
+  "decodedFrames" : 96002,
+  "file" : "\/tmp\/capture-sparse-proof-verified\/interrupted-diagnostic\/full.wav",
+  "frames" : 100800,
+  "layout" : "mono",
+  "mediaType" : "audio\/wav",
+  "range" : {
+    "endUs" : 2100000,
+    "startUs" : 0
+  },
+  "sampleRange" : {
+    "end" : 100800,
+    "start" : 0
+  },
+  "sampleRate" : 48000,
+  "unavailable" : [
+    {
+      "endUs" : 100000,
+      "startUs" : 0
+    },
+    {
+      "endUs" : 953333,
+      "startUs" : 782667
+    }
+  ]
+}

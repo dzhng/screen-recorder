@@ -1,0 +1,23 @@
+{
+  "payload": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/20a-capture-owner-gap/run/native/omitted-buffer/narration.mov",
+  "output": "/tmp/capture-sparse-proof-verified/interrupted-rename",
+  "rate": 48000,
+  "runs": [
+    {
+      "firstFrame": 0,
+      "frames": 32768,
+      "sourceStart": {
+        "value": 100000,
+        "timescale": 1000000
+      }
+    },
+    {
+      "firstFrame": 32768,
+      "frames": 55040,
+      "sourceStart": {
+        "value": 953333,
+        "timescale": 1000000
+      }
+    }
+  ]
+}

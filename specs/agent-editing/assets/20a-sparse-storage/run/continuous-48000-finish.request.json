@@ -1,0 +1,15 @@
+{
+  "payload": "/tmp/capture-sparse-proof-verified/continuous-48000.mov",
+  "output": "/tmp/capture-sparse-proof-verified/continuous-48000",
+  "rate": 48000,
+  "runs": [
+    {
+      "firstFrame": 0,
+      "frames": 96000,
+      "sourceStart": {
+        "value": 0,
+        "timescale": 1000000
+      }
+    }
+  ]
+}

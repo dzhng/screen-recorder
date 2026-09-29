@@ -67,9 +67,15 @@ private func documentedClocks(_ screen: SCStream, _ camera: AVCaptureSession) ->
   [screen.synchronizationClock, camera.synchronizationClock]
 }
 
-@main struct CameraReproduction {
+struct CameraReproduction {
   static func main() async {
-    do { try await run() } catch {
+    do {
+      if CommandLine.arguments.count == 3 && CommandLine.arguments[1] == "--sparse-storage" {
+        try await runSparseStorageProbe(request: CommandLine.arguments[2])
+      } else {
+        try await run()
+      }
+    } catch {
       let failure =
         error as? CaptureFailure
         ?? CaptureFailure("REPRODUCTION_FAILED", error.localizedDescription)
@@ -316,3 +322,5 @@ private func documentedClocks(_ screen: SCStream, _ camera: AVCaptureSession) ->
       recovered: recovered, interrupted: interrupted)
   }
 }
+
+await CameraReproduction.main()

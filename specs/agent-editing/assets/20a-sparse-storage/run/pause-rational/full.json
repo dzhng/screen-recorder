@@ -1,0 +1,28 @@
+{
+  "bytes" : 403120,
+  "channels" : 1,
+  "decodedFrames" : 94959,
+  "file" : "\/tmp\/capture-sparse-proof-verified\/pause-rational\/full.wav",
+  "frames" : 99756,
+  "layout" : "mono",
+  "mediaType" : "audio\/wav",
+  "range" : {
+    "endUs" : 2078266,
+    "startUs" : 0
+  },
+  "sampleRange" : {
+    "end" : 99756,
+    "start" : 0
+  },
+  "sampleRate" : 48000,
+  "unavailable" : [
+    {
+      "endUs" : 100000,
+      "startUs" : 0
+    },
+    {
+      "endUs" : 931599,
+      "startUs" : 782667
+    }
+  ]
+}

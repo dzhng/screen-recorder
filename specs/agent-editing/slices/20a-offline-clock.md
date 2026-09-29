@@ -51,8 +51,11 @@ finalization owner with prerecorded PCM. Continuous input aligns; omitting one
 known buffer packs later sample values early with no backpressure drop. This is
 production-owner evidence for those buffers, not physical device measurement.
 
-Next: experimentally establish a sparse container/run representation that keeps
-actual PCM sample positions in the existing source clock, including crash recovery.
+The [bounded sparse storage proof](../assets/20a-sparse-storage/README.md) preserves
+exact container runs and process-publication boundaries, but exposes a one-sample
+phase loss in the existing reader even for a rational container anchor.
+Next: localize that reader projection and review exact CaptureClock/journal ownership
+before production repair, including committed-tail recovery.
 The retained proposal requires explicit occupied/empty segments and truthful
 physical-run mapping if needed. No production timing fix is included; do not use
 silence padding, another clock or journal-only relabelling to hide shifted audio.

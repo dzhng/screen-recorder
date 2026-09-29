@@ -1,0 +1,24 @@
+{
+  "payload": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/20a-capture-owner-gap/run/native/omitted-buffer/narration.mov",
+  "output": "/tmp/capture-sparse-proof-verified/interrupted-diagnostic",
+  "rate": 48000,
+  "runs": [
+    {
+      "firstFrame": 0,
+      "frames": 32768,
+      "sourceStart": {
+        "value": 100000,
+        "timescale": 1000000
+      }
+    },
+    {
+      "firstFrame": 32768,
+      "frames": 55040,
+      "sourceStart": {
+        "value": 45760,
+        "timescale": 48000
+      }
+    }
+  ],
+  "stopAfter": "diagnostic"
+}

@@ -2623,3 +2623,14 @@ its ordinary append-only revision sequence from that selected moment.
   executor identity so prior ready results cannot satisfy a new request.
 - **Verdict:** Sound with high confidence for explicit refusal; fractional-rate support and broader decoder quality
   remain unproven. Asset admission and retained original provenance are unchanged.
+
+### Sparse captured-PCM proof: retain exact phase failure (sound, scoped)
+
+The offline storage experiment caps requests at eight runs,30 seconds and16 MiB
+input, keeping whole-file hashing and platform composition metadata bounded. These
+are experiment bounds, not production recording limits. It takes explicit
+probe-known frame addresses and requires a supported exact common timescale. It refuses unsupported rates/scales
+rather than rounding. This is not a new capture journal or a promise for all device
+clocks. The rational container succeeds while the existing reader still moves a
+sample; that red remains a separate prerequisite. Packed files remain immutable
+experiment inputs, not a decision to retain duplicate production originals forever.

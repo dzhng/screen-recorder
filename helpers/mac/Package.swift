@@ -32,7 +32,7 @@ let package = Package(
                 .product(name: "FluidAudio", package: "FluidAudio"),
             ]),
         .target(name: "ScreenRecorderMedia"),
-        .executableTarget(name: "CameraReproduction", dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire"], path: "Tests/CameraReproduction"),
+        .executableTarget(name: "CameraReproduction", dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire", "ScreenRecorderAudio"], path: "Tests/CameraReproduction"),
         .executableTarget(
             name: "ScreenRecorderCaptureTests",
             dependencies: ["ScreenRecorderCapture", "ScreenRecorderMedia", "ScreenRecorderWire"],

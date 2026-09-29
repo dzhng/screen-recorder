@@ -1,0 +1,21 @@
+{
+  "bytes" : 356896,
+  "channels" : 1,
+  "decodedFrames" : 88200,
+  "file" : "\/tmp\/capture-sparse-proof-verified\/continuous-44100\/full.wav",
+  "frames" : 88200,
+  "layout" : "mono",
+  "mediaType" : "audio\/wav",
+  "range" : {
+    "endUs" : 2000000,
+    "startUs" : 0
+  },
+  "sampleRange" : {
+    "end" : 88200,
+    "start" : 0
+  },
+  "sampleRate" : 44100,
+  "unavailable" : [
+
+  ]
+}

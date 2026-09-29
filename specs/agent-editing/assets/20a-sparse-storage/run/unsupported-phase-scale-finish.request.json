@@ -1,0 +1,15 @@
+{
+  "payload": "/Users/david/.codex/worktrees/project-still-composition/screen-recorder/specs/agent-editing/assets/20a-capture-owner-gap/run/native/omitted-buffer/narration.mov",
+  "output": "/tmp/capture-sparse-proof-verified/unsupported-phase-scale",
+  "rate": 48000,
+  "runs": [
+    {
+      "firstFrame": 0,
+      "frames": 8192,
+      "sourceStart": {
+        "value": 1,
+        "timescale": 2147483647
+      }
+    }
+  ]
+}
