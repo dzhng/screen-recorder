@@ -509,5 +509,18 @@
     "48000-consumer/native-window.wav": "864706e3ed2f5a95cf37ddb5e9cc5a541412c0edbc26c73e793e51802db845d8",
     "48000-consumer/project-full.wav": "ef423e0d3b3f770ae5fa1fadd38110cbbf85e8583e9997c3d28941e2ed6d4775",
     "48000-consumer/project-window.wav": "f4e7624eb4ab321c41edf1e8e73f3d57068e019f91d12139e44d3c86e4a1e0e2"
+  },
+  "captureAdmission": {
+    "fullLateOriginalPCMExact": true,
+    "lateOriginalFirstFrame": 52800,
+    "explicitMask": {
+      "startUs": 1200041,
+      "endUs": 1200042,
+      "excludedAbsoluteOutputFrame": 57601,
+      "allOtherSamplesExact": true
+    },
+    "captureWorkerSha256": "78a83ce00870f7665fa0e8383906a20fa046aa0807fcae3f26d6a014237bb142",
+    "storageWorkerSha256": "51b1c539b9248390451ba34feb4e0696266feaf84615ec4f52e0baefb71b87e3",
+    "rolloutReady": false
   }
 }

@@ -66,8 +66,10 @@ No production deadline or transaction guarantee changed.
   [exact mapping journal](20b-pcm-journal/README.md) now has
   [root native/JavaScript confirmation](20b-pcm-journal/root-verification.json).
   It streams accepted addresses without claiming acquisition; ordinary source
-  export still refuses the new layout. Next probe established output-format
-  changes before append. Actual prospective-clock/callback wiring stays coupled
+  export still refuses the new layout. Actual-writer probes expose byte
+  reinterpretation after rate/channel/representation changes. Next validate
+  pre-append epoch refusal and bounded same-rate/channel representation conversion;
+  controls currently live in `/tmp/capture-format-observation`. Actual prospective-clock/callback wiring stays coupled
   to canonical publication, with no interim dual writer mode.
   The production packed writer
   remains disconnected until canonical admission/recovery passes.
@@ -76,7 +78,8 @@ No production deadline or transaction guarantee changed.
   arbitrary-phase failure without changing capture placement. The
   [root correction gate](08-native-sample-address/root-verification.json) fails
   before the fix and passes afterward, with original PCM, exact full/window
-  comparisons, sparse storage and capture preservation. The historical
+  comparisons, sparse storage, capture preservation and the explicit1µs acquisition
+  exclusion. The historical
   [100001µs red](20b-window-phase/README.md) remains frozen. Next measure bounded
   canonical segment materialization and reconcile accepted journal mappings with
   decoded committed prefixes in20c; coordinate the streaming API with the journal
