@@ -1,3 +1,4 @@
+import { PreparedAudioStore } from "./prepared-audio.js";
 import { projectComposition, projectCompositionFromRevision } from "./project-window.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { spectralWindows } from "./audio-spectrum.js";
@@ -105,6 +106,17 @@ async function fixture(
         ? waveform.execute(execution)
         : inspection.execute(execution),
   });
+  const prepared = new PreparedAudioStore({
+    catalog,
+    assets,
+    projects,
+    jobs,
+    staging: join(home, "prepared"),
+    renderer: { implementationId: "fixture-audio", render: renderer },
+    probe: async () => {
+      throw new Error("unused preparation");
+    },
+  });
   inspection = new MediaAudioInspection({
     assets,
     acquisitions,
@@ -116,7 +128,11 @@ async function fixture(
         throw new Error("no source executor");
       },
     },
-    project: { projects, renderer: { implementationId: "fixture-audio", render: renderer } },
+    project: {
+      projects,
+      prepared,
+      renderer: { implementationId: "fixture-audio", render: renderer },
+    },
   });
   waveform = new AcousticInspection({ audio: inspection, jobs, cache });
   cleanups.push(async () => {

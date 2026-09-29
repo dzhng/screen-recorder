@@ -10,6 +10,7 @@ enum CompositionMovieOperation {
         let range: CompositionAudioPlan.Samples
         let clips: [CompositionAudioPlan.Clip]
         let state: CompositionAudioPlan.State?
+        let retained: RetainedAudioInput?
     }
     struct EncodedAudio: Encodable {
         let sampleRate: Int
@@ -51,19 +52,25 @@ enum CompositionMovieOperation {
                 "INVALID_REQUEST", "Audio and video windows must share one project range.")
         }
         try request.validateOutput(hasAudio: schedule.range.start != schedule.range.end)
-        let audio: CompositionAudio.Stream?
+        let audio: (any AudioPCMSource)?
+        var generated: CompositionAudio.Stream?
+        var retained: RetainedPCMSource?
         if schedule.range.start == schedule.range.end {
             guard schedule.clips.isEmpty else {
                 throw NativeFailure(
                     "INVALID_REQUEST", "A zero-sample window cannot contain audio records.")
             }
             audio = nil
+        } else if let input = schedule.retained {
+            retained = try input.open(expected: schedule.range)
+            audio = retained
         } else {
-            audio = try await CompositionAudio.open(
+            generated = try await CompositionAudio.open(
                 .init(
                     output: request.output,
                     range: schedule.range, clips: schedule.clips,
                     processing: request.processing, assets: request.assets, state: schedule.state))
+            audio = generated
         }
         let output = try NewFile(at: request.output, assembledAs: "movie.mp4")
         defer { output.discard() }
@@ -108,6 +115,6 @@ enum CompositionMovieOperation {
             file: request.output, settings: request.settings, encodedVideo: rendered.encodedVideo,
             durationUs: rendered.durationUs,
             width: rendered.width, height: rendered.height, frameCount: rendered.frames,
-            audio: audio?.report, encodedAudio: encodedAudio, bytes: bytes)
+            audio: retained?.report ?? generated?.report, encodedAudio: encodedAudio, bytes: bytes)
     }
 }

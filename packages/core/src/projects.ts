@@ -708,6 +708,11 @@ export class ProjectStore {
           operation,
         };
         this.insertRevision(revision);
+        const prepared = this.references
+          .dependencies({ kind: "revision", id: target.id })
+          .filter((reference) => reference.kind === "prepared-audio")
+          .map((reference) => reference.id);
+        this.references.retain("prepared-audio", { kind: "revision", id: revision.id }, prepared);
         return revision;
       },
     );

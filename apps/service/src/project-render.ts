@@ -53,6 +53,34 @@ async function executeComposition(
   return worker(operation, { planFile }, options);
 }
 
+function retainedPayload(
+  read: NonNullable<Parameters<ProjectAudioRenderer["render"]>[0]["prepared"]>,
+  window: Parameters<ProjectAudioRenderer["render"]>[0]["window"],
+) {
+  const unavailable = [...window.audio()]
+    .filter((clip) => clip.source.kind === "range")
+    .map((clip) => ({
+      clipId: clip.clipId,
+      ranges: (read.value.unavailable.find((entry) => entry.clipId === clip.clipId)?.ranges ?? [])
+        .map((range) => ({
+          start: Math.max(range.start, clip.sampleRange.start),
+          end: Math.min(range.end, clip.sampleRange.end),
+        }))
+        .filter((range) => range.end > range.start),
+    }));
+  return {
+    retained: {
+      descriptor: 3,
+      identity: read.value.identity,
+      bytes: read.value.bytes,
+      dataOffset: read.dataOffset,
+      frames: read.value.frames,
+      range: read.sampleRange,
+      unavailable,
+    },
+  };
+}
+
 function statePayload(
   window: Parameters<ProjectAudioRenderer["render"]>[0]["window"],
   identity?: string,
@@ -192,7 +220,9 @@ export function projectMovieRenderer(
               audio: {
                 range: manifest.sampleRange,
                 clips: [...request.window.audio()],
-                ...statePayload(request.window, rnnoise),
+                ...(request.prepared
+                  ? retainedPayload(request.prepared, request.window)
+                  : statePayload(request.window, rnnoise)),
               },
             },
             {
@@ -200,6 +230,7 @@ export function projectMovieRenderer(
               // Video rendering and PCM/AAC assembly each get the retained playback duration.
               // Sparse source seeks do not budget discarded recording prefixes.
               timeoutMs: audioDeadline(request.window),
+              ...(request.prepared ? { descriptors: [request.prepared.fd] } : {}),
             },
           );
           signal.throwIfAborted();
@@ -228,7 +259,7 @@ export function projectAudioRenderer(
   return {
     implementationId: "native-composition-audio-v8",
     ...(rnnoise ? { rnnoise } : {}),
-    render: async ({ window, assets, output }, signal) =>
+    render: async ({ window, assets, output, prepared }, signal) =>
       withRenderedFile(
         worker,
         { attemptParent: workspace, output, filename: "audio.wav" },
@@ -241,12 +272,16 @@ export function projectAudioRenderer(
               {
                 output: file,
                 range: window.manifest.sampleRange,
-                ...statePayload(window, rnnoise),
+                ...(prepared ? retainedPayload(prepared, window) : statePayload(window, rnnoise)),
                 clips: [...window.audio()],
                 processing: nativeProcessing(window.processing()),
                 assets,
               },
-              { signal, timeoutMs: audioDeadline(window) },
+              {
+                signal,
+                timeoutMs: audioDeadline(window),
+                ...(prepared ? { descriptors: [prepared.fd] } : {}),
+              },
             ),
           ),
       ),

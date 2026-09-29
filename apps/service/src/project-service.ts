@@ -259,7 +259,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       acquisitions,
       jobs: queue,
       cache,
-      project: { projects, renderer: audioRenderer },
+      project: { projects, renderer: audioRenderer, prepared: preparedAudio },
       sourceRenderer: {
         implementationId: "native-source-audio-v4",
         render: async (request, signal) =>
@@ -344,6 +344,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
       queue,
       cache,
       projectMovieRenderer(worker, workspace, { preparation: pointers, evidence }, rnnoise),
+      preparedAudio,
     );
     const projectPictures = projectFrameRenderer(worker, workspace, {
       preparation: pointers,

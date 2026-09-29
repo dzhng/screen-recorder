@@ -6,10 +6,11 @@ import { z } from "zod";
 import { rangeSchema, processingTapSchema, type ProcessingTap } from "@screenrec/composition";
 import type { ProjectStore } from "./projects.js";
 import {
-  projectWindow,
+  projectComposition,
   type CompositionWindow,
   type CompositionAssetBinding,
 } from "./project-window.js";
+import type { PreparedAudioStore, PreparedAudioRead } from "./prepared-audio.js";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
@@ -55,6 +56,7 @@ const optionsSchema = z.strictObject({
   implementationId: z.string().min(1),
 });
 const projectOptionsSchema = z.strictObject({
+  preparedResourceId: z.string().min(1).nullable().optional(),
   range: rangeSchema,
   tap: processingTapSchema,
   implementationId: z.string().min(1),
@@ -81,6 +83,8 @@ export const projectAudioReceiptSchema = z.object({
   unavailable: z.array(z.object({ clipId: z.string(), ranges: z.array(sampleRangeSchema) })),
 });
 export type ProjectAudioInput = {
+  /** Internal immutable preparation binding. */
+  preparedResourceId?: string | null | undefined;
   projectId: string;
   revisionId?: string | undefined;
   range?: TimeRange | undefined;
@@ -91,6 +95,7 @@ export type ProjectAudioRenderer = {
   rnnoise?: string;
   render(
     request: {
+      prepared?: PreparedAudioRead | undefined;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
       output: string;
@@ -137,7 +142,11 @@ export class MediaAudioInspection {
       jobs: JobQueue;
       cache: DerivedCache;
       sourceRenderer: SourceAudioRenderer;
-      project?: { projects: ProjectStore; renderer: ProjectAudioRenderer };
+      project?: {
+        projects: ProjectStore;
+        renderer: ProjectAudioRenderer;
+        prepared: PreparedAudioStore;
+      };
     },
   ) {
     if (owners.project && !owners.project.renderer.implementationId)
@@ -304,7 +313,17 @@ export class MediaAudioInspection {
     const owner = this.owners.project;
     if (!owner)
       throw new CatalogError("NOT_READY", "Project audio renderer is unavailable", {}, true);
-    const plan = projectWindow(owner.projects, this.owners.assets, input, owner.renderer, "audio");
+    const composition = projectComposition(owner.projects, this.owners.assets, input);
+    const retained =
+      input.preparedResourceId === null
+        ? null
+        : owner.prepared.resolve(composition, input.tap, input.preparedResourceId);
+    const plan = composition.window(
+      input,
+      owner.renderer,
+      "audio",
+      retained ? "retained" : "produced",
+    );
     const { sampleRange } = plan.window.manifest;
     if (sampleRange.end <= sampleRange.start)
       throw new CatalogError(
@@ -315,15 +334,16 @@ export class MediaAudioInspection {
     if (bytes > BigInt(Number.MAX_SAFE_INTEGER))
       throw new CatalogError("LIMIT_EXCEEDED", "Audio derivative size exceeds safe accounting");
     this.owners.cache.checkCapacity(Number(bytes));
-    return plan;
+    return { ...plan, retained };
   }
   private projectRecipe(input: ProjectAudioInput) {
-    const { window, durationUs } = this.projectPlan(input);
+    const { window, durationUs, retained } = this.projectPlan(input);
     const { range, tap, revisionId } = window.manifest;
     const options = {
       range,
       tap,
       implementationId: this.owners.project!.renderer.implementationId,
+      preparedResourceId: retained?.resourceId ?? null,
     };
     return {
       durationUs,
@@ -368,12 +388,17 @@ export class MediaAudioInspection {
       projectId: job.target.projectId,
       revisionId: job.target.revisionId,
       ...parsed.data,
+      preparedResourceId: parsed.data.preparedResourceId ?? null,
     });
     signal.throwIfAborted();
     const output = this.owners.cache.reserve({ kind: "project", projectId: job.target.projectId });
+    let prepared: PreparedAudioRead | undefined;
     try {
+      prepared = plan.retained
+        ? owner.prepared.open(plan.retained.resourceId, plan.window.manifest.sampleRange)
+        : undefined;
       const value = checkProjectAudioResult(
-        await owner.renderer.render({ ...plan, output: output.path }, signal),
+        await owner.renderer.render({ ...plan, prepared, output: output.path }, signal),
         plan.window,
         output.path,
       );
@@ -395,6 +420,8 @@ export class MediaAudioInspection {
     } catch (error) {
       this.owners.cache.remove(output.id);
       throw error;
+    } finally {
+      prepared?.release();
     }
   }
   async execute({ job, signal }: JobExecution): Promise<string> {

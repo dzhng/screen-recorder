@@ -7,9 +7,10 @@ import {
   type OutputSettingsInput,
   rangeSchema,
 } from "@screenrec/composition";
+import type { PreparedAudioStore, PreparedAudioRead } from "./prepared-audio.js";
 import { AssetStore } from "./assets.js";
 import {
-  projectWindow,
+  projectComposition,
   projectCapabilities,
   type CompositionWindow,
   type CompositionAssetBinding,
@@ -25,6 +26,8 @@ import { submitCachedDerivative } from "./cached-derivative.js";
 import { checkRenderedPreview, type RenderedMovie } from "./preview.js";
 
 export type ProjectPreviewInput = {
+  /** Internal immutable preparation binding; never a public selector. */
+  preparedResourceId?: string | null | undefined;
   projectId: string;
   revisionId?: string | undefined;
   range?: { startUs: number; endUs: number } | undefined;
@@ -40,6 +43,7 @@ export type CompositionMovie = Omit<RenderedMovie, "audio"> & {
 export type ProjectMovieRenderer = ProjectRenderSupport & {
   render(
     request: {
+      prepared?: PreparedAudioRead | undefined;
       model: import("@screenrec/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
@@ -51,6 +55,7 @@ export type ProjectMovieRenderer = ProjectRenderSupport & {
   ): Promise<CompositionMovie>;
 };
 export type PinnedProjectPreview = {
+  preparedResourceId?: string | null | undefined;
   projectId: string;
   revisionId: string;
   range: { startUs: number; endUs: number };
@@ -60,6 +65,7 @@ export type PinnedProjectPreview = {
 export type ProjectPreviewArtifact = CompositionMovie & PinnedProjectPreview & { cacheId: string };
 const optionsSchema = z
   .object({
+    preparedResourceId: z.string().min(1).nullable().optional(),
     range: rangeSchema,
     settings: resolvedOutputSettingsSchema,
     implementationId: z.string().min(1),
@@ -74,6 +80,7 @@ export class ProjectPreviewInspection {
     private readonly jobs: JobQueue,
     private readonly cache: DerivedCache,
     private readonly renderer: ProjectMovieRenderer,
+    private readonly prepared: PreparedAudioStore,
   ) {
     if (!renderer.implementationId)
       throw new Error("A composition renderer implementation is required");
@@ -112,6 +119,7 @@ export class ProjectPreviewInspection {
       range: plan.window.manifest.range,
       settings,
       implementationId: this.renderer.implementationId,
+      preparedResourceId: plan.retained?.resourceId ?? null,
     };
   }
   request(input: ProjectPreviewInput) {
@@ -121,6 +129,7 @@ export class ProjectPreviewInspection {
       range: pinned.range,
       settings: pinned.settings,
       implementationId: pinned.implementationId,
+      preparedResourceId: pinned.preparedResourceId ?? null,
     };
     const status = submitCachedDerivative<ProjectPreviewArtifact>(
       this.jobs,
@@ -189,7 +198,16 @@ export class ProjectPreviewInspection {
   }
 
   private plan(input: ProjectPreviewInput) {
-    return projectWindow(this.projects, this.assets, input, this.renderer);
+    const composition = projectComposition(this.projects, this.assets, input);
+    const retained =
+      input.preparedResourceId === null
+        ? null
+        : this.prepared.resolve(composition, undefined, input.preparedResourceId);
+    if (retained) composition.window(input, this.renderer, "video");
+    return {
+      ...composition.window(input, this.renderer, undefined, retained ? "retained" : "produced"),
+      retained,
+    };
   }
 
   async execute({ job, signal }: JobExecution): Promise<string> {
@@ -200,14 +218,21 @@ export class ProjectPreviewInspection {
     const plan = this.plan({
       projectId: job.target.projectId,
       revisionId: job.target.revisionId,
-      range: options.data.range,
+      ...options.data,
+      preparedResourceId: options.data.preparedResourceId ?? null,
     });
     signal.throwIfAborted();
+    const range = plan.window.manifest.sampleRange;
     const output = this.cache.reserve({ kind: "project", projectId: job.target.projectId });
+    let prepared: PreparedAudioRead | undefined;
     try {
+      prepared =
+        plan.retained && range.end > range.start
+          ? this.prepared.open(plan.retained.resourceId, range)
+          : undefined;
       const render = () =>
         this.renderer.render(
-          { ...plan, settings: options.data.settings, output: output.path },
+          { ...plan, prepared, settings: options.data.settings, output: output.path },
           signal,
         );
       const movie = this.renderer.pointers
@@ -246,6 +271,8 @@ export class ProjectPreviewInspection {
     } catch (error) {
       this.cache.remove(output.id);
       throw error;
+    } finally {
+      prepared?.release();
     }
   }
 }

@@ -1,10 +1,19 @@
 import Foundation
 import ScreenRecorderAudio
+import ScreenRecorderMedia
 
 enum CompositionAudioOperation {
     static func execute(_ params: [String: Any]) async throws -> CompositionAudioResult {
-        let plan = try WireRequest.decode(CompositionAudioPlan.self, from: WireRequest.compositionParameters(params))
+        let parameters = try WireRequest.compositionParameters(params)
+        let plan = try WireRequest.decode(CompositionAudioPlan.self, from: parameters.filter { $0.key != "retained" })
         try WireRequest.requireAbsolute(plan.output)
+        if let operand = parameters["retained"] {
+            guard let retained = operand as? [String: Any] else {
+                throw NativeFailure("INVALID_REQUEST", "Retained PCM operand must be an object.")
+            }
+            return try await WireRequest.decode(RetainedAudioInput.self, from: retained)
+                .open(expected: plan.range).write(to: URL(fileURLWithPath: plan.output))
+        }
         return try await CompositionAudio.write(plan)
     }
 }

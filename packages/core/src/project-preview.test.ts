@@ -1,3 +1,4 @@
+import { PreparedAudioStore } from "./prepared-audio.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { afterEach, expect, test } from "vitest";
 import { randomUUID } from "node:crypto";
@@ -69,7 +70,23 @@ async function fixture(render = renderer) {
     },
     execute: (execution) => preview.execute(execution),
   });
-  preview = new ProjectPreviewInspection(projects, assets, jobs, cache, render);
+  const prepared = new PreparedAudioStore({
+    catalog,
+    assets,
+    projects,
+    jobs,
+    staging: join(home, "prepared"),
+    renderer: {
+      implementationId: "unused",
+      render: async () => {
+        throw new Error("unused preparation");
+      },
+    },
+    probe: async () => {
+      throw new Error("unused preparation");
+    },
+  });
+  preview = new ProjectPreviewInspection(projects, assets, jobs, cache, render, prepared);
   cleanup.push(async () => {
     await jobs.close();
     catalog.close();
@@ -135,7 +152,7 @@ async function fixture(render = renderer) {
     projectId,
     placed,
     replaceRenderer(next: ProjectMovieRenderer) {
-      preview = new ProjectPreviewInspection(projects, assets, jobs, cache, next);
+      preview = new ProjectPreviewInspection(projects, assets, jobs, cache, next, prepared);
       return preview;
     },
   };

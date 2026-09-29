@@ -1,0 +1,23 @@
+{
+  "base": "036607e9",
+  "catalog": 18,
+  "publicPassed": true,
+  "focusedTests": {
+    "passed": 39,
+    "skipped": 1
+  },
+  "nativeWorker": "/tmp/screenrec-retained-consumer-d21a0d52f0b7",
+  "scope": "Retained project consumer checkpoint: full historical PCM and undo preparation, preview and movie export with processing capability unavailable. No complete package-scale or speech-quality claim.",
+  "files": {
+    "root-public-report.json.gz": "590423d57300db987d87a6210baea18a42fba5422f99d5e9544b6efaf05cd36c",
+    "prepared-project-consumer-root18.mjs.gz": "654acd41a9a7392730ab9ea18bed598ee8036eafdc7959662150461f87f18aab",
+    "prepared-project-consumer-root18.log.gz": "626d7f1152bcf83e3a153cb10c9ade4f80de3c63ba1cc0ae4966613fb2e3cce4",
+    "screenrec-22b-root-build.log.gz": "725d9a39b9d3a60a22148a5f59d6fc68c29eac7a8d081b06f19e6028a78ac5d6",
+    "screenrec-22b-root-tests.log.gz": "9739c0167913cea8abeb9c48b5e23d547d96db020ddafd743d46867f41d83b1f",
+    "screenrec-22b-preview-pin.log.gz": "9bca43158dee7220b720441676b06d995a9eb135b608f25fb872a2aa4cabad6f",
+    "screenrec-22b-preview-types.log.gz": "b7ecc63a4efc72f690446bcda4493224e3ce2bb2807f419e495931be01ee8576"
+  },
+  "review": "No actionable regressions; first review pinning/test-tap findings fixed",
+  "nativeOperandAndPlanTests": 2,
+  "nativeProjectAudioTests": 12
+}

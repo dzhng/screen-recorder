@@ -1,0 +1,37 @@
+{
+  "status": "partial",
+  "nativeSha256": "d21a0d52f0b79e418475259c713cb7e73e57166c25d9a7a6688eb9c434bf8cc8",
+  "publicHistoryAndUndoReady": true,
+  "threeHistoricalRangePCMExact": true,
+  "focusedTests": {
+    "passed": 36,
+    "skipped": 1
+  },
+  "remaining": [
+    "lifetime regression",
+    "independent review",
+    "root catalog18 integration"
+  ],
+  "files": {
+    "prepared-project-consumer-resume.mjs.gz": "7895455f6b258ae1eec24850a4d10a5b46b4f3fe247c9f92cbf269861718b11a",
+    "prepared-project-consumer-resume.log.gz": "0537caacab10edf7bd7ea462b2c5add99a2caef8e3675f0a1d8664d48cb850d0",
+    "prepared-project-consumer-pcm.mjs.gz": "535e4a9e62c75bb078899441a722cc76e4c3ee28680fafc4546f67ab37abaa9e",
+    "prepared-project-consumer-pcm.log.gz": "1605f13ca863c566eae5df2ce9ac826034b63e0092a9441db315ee116dc7d4df",
+    "screenrec-22b-lease-build.log.gz": "3d80de651aa7d36286ab6a9649659e8013dcbdd6edc88d9cda11b7ddf27d7f0e",
+    "screenrec-22b-lease-tests.log.gz": "1d762b441c7d9118fc6593fafc388df2b60b44880c1ba78fd1cda205415893f2",
+    "screenrec-22b-resume-native.log.gz": "3e8bca68e02c41f7eaff60b04ae69b766dd9571b9673ba1e0baa6f235661b875",
+    "prepared-project-consumer-resume-report.json.gz": "2999f6913686cd86787a9ef11afba70c605ba9097888c4318e70837702af4dff",
+    "prepared-project-consumer-pcm-report.json.gz": "43384b1b76a1355d4a8a89262ddd7352b42767d0ecc19226b81b95dad2b96d5a",
+    "full-export-report.json.gz": "00bb14a8f3b6fb6664340d62146ddaa3bc7ec8c378e784abd503889182541ac9",
+    "prepared-project-consumer-full-export.mjs.gz": "49626ffc49b4c94b4bfcc23575fe067158ca8d75c38b97d1a95f19f96b1e3770",
+    "prepared-project-consumer-full-export.log.gz": "f687acf3d7401b1287879aab8b3836371436618d2f65a3d25285cf9529be31b9",
+    "screenrec-22b-retained-native-test.log.gz": "c3b8822fae9b75dfb3e98dc952c16d21fcd568324d7ee9ce1dfb0678b05e4ab6",
+    "screenrec-22b-native-audio-tests.log.gz": "4fe0298896255f2c138d424bf43ae22fcca28837e9c5068ddd6156c42d9fcee4",
+    "encoded-comparison.json.gz": "4d53055f3839da5b94daebdbecf76a7c857c606e359d23f2d26ae08e3c9f79b6"
+  },
+  "threeHistoricalFullPCMExact": true,
+  "threeHistoricalMovieExportsCommitted": true,
+  "nativeOperandRegressionPassed": true,
+  "nativeProjectAudioTests": 12,
+  "previewExportDecodedAACExact": true
+}

@@ -1,3 +1,4 @@
+import { PreparedAudioStore } from "@screenrec/core/prepared-audio";
 import { outputPresets } from "@screenrec/composition";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
@@ -49,7 +50,12 @@ async function fixture(t, { render, wrap = (value) => value, admission = true, e
     assets = new AssetStore(catalog, home);
   await assets.recover();
   const acquisitions = new AcquisitionStore(catalog);
-  const projects = new ProjectStore(catalog, assets, new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)), acquisitions),
+  const projects = new ProjectStore(
+      catalog,
+      assets,
+      new TranscriptStore(catalog, home, assetTranscriptOwner(assets, acquisitions)),
+      acquisitions,
+    ),
     cache = new DerivedCache(catalog, home, (owner) => {
       assert.equal(owner.kind, "project");
       projects.get(owner.projectId);
@@ -103,7 +109,23 @@ async function fixture(t, { render, wrap = (value) => value, admission = true, e
     implementationId: "project-owner-fixture-v1",
     render: render ? (request, signal) => render(request, signal, ordinary) : ordinary,
   };
-  preview = new ProjectPreviewInspection(projects, assets, jobs, cache, binding);
+  const prepared = new PreparedAudioStore({
+    catalog,
+    assets,
+    projects,
+    jobs,
+    staging: join(home, "prepared"),
+    renderer: {
+      implementationId: "unused",
+      render: async () => {
+        throw new Error("unused preparation");
+      },
+    },
+    probe: async () => {
+      throw new Error("unused preparation");
+    },
+  });
+  preview = new ProjectPreviewInspection(projects, assets, jobs, cache, binding, prepared);
   const domain = { store: projects, preview };
   exports = new MediaExports({
     catalog,
@@ -203,10 +225,17 @@ async function fixture(t, { render, wrap = (value) => value, admission = true, e
     exports,
     binding,
     replaceRenderer(implementationId) {
-      preview = new ProjectPreviewInspection(projects, assets, jobs, cache, {
-        ...binding,
-        implementationId,
-      });
+      preview = new ProjectPreviewInspection(
+        projects,
+        assets,
+        jobs,
+        cache,
+        {
+          ...binding,
+          implementationId,
+        },
+        prepared,
+      );
       domain.preview = preview;
     },
     request: () => ({

@@ -1,5 +1,9 @@
+import { ProjectPreviewInspection } from "./project-preview.js";
+import { fstatSync } from "node:fs";
+import { DerivedCache } from "./cache.js";
+import { MediaAudioInspection } from "./audio-inspection.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
-import { projectCompositionFromRevision } from "./project-window.js";
+import { projectComposition, projectCompositionFromRevision } from "./project-window.js";
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, readFile, readdir, rm, writeFile, rename, realpath } from "node:fs/promises";
 import { join } from "node:path";
@@ -675,4 +679,194 @@ test("portable prepared recipes retain a complete many-clip execution graph", as
   expect(f.current.prepared.portable(value.resourceId).publication.input).toBe(
     status.published!.input,
   );
+});
+
+test("retained output resolves without current implementation, survives undo, and rejects changed meaning and non-output taps", async () => {
+  const f = await fixture();
+  const value = await ready(f);
+  await f.reopen("different-current-implementation");
+  const composition = (revisionId: string) =>
+    projectComposition(f.current.projects, f.current.assets, { ...f.input, revisionId });
+  expect(f.current.prepared.request(f.input).published?.result).toBe(JSON.stringify(value));
+  expect(f.reads).toBe(1);
+  expect(
+    f.current.prepared.resolve(composition(f.input.revisionId), {
+      target: { kind: "output" },
+      point: { kind: "dry" },
+    }),
+  ).toBeNull();
+  const changed = f.current.projects.apply(f.input.projectId, {
+    requestId: "changed-gain",
+    expectedRevisionId: f.input.revisionId,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "gain", gain: 0.25 } }],
+      },
+    ],
+  });
+  new ResourceReferences(f.current.catalog).retain(
+    "prepared-audio",
+    { kind: "revision", id: changed.revision.id },
+    [value.resourceId],
+  );
+  expect(f.current.prepared.resolve(composition(changed.revision.id))).toBeNull();
+  const undo = f.current.projects.undo(f.input.projectId, {
+    requestId: "undo-gain",
+    expectedRevisionId: changed.revision.id,
+  });
+  expect(f.current.prepared.resolve(composition(undo.id))?.resourceId).toBe(value.resourceId);
+  await rm(f.current.assets.path(value.assetId));
+  expect(() => f.current.prepared.resolve(composition(undo.id))).toThrow();
+  expect(f.reads).toBe(1);
+});
+
+test("equivalent retained references share one output; distinct recorded policies refuse ambiguity", async () => {
+  const f = await fixture();
+  const value = await ready(f);
+  const portable = f.current.prepared.portable(value.resourceId);
+  const restored = f.current.projects.restore(f.input.projectId, {
+    requestId: "restore-same",
+    expectedRevisionId: f.input.revisionId,
+    targetRevisionId: f.input.revisionId,
+  });
+  const recipe = { ...JSON.parse(portable.publication.input), revisionId: restored.id };
+  const publish = (input: typeof recipe) => {
+    const attemptId = randomUUID(),
+      resourceId = JSON.stringify([f.input.projectId, attemptId]);
+    f.current.jobs.adoptArtifact({
+      target: { kind: "project", projectId: f.input.projectId, revisionId: restored.id },
+      artifact: "prepared-audio",
+      generation: 1,
+      attemptId,
+      input: JSON.stringify(input),
+      result: JSON.stringify({ ...value, resourceId }),
+    });
+    new ResourceReferences(f.current.catalog).retain(
+      "prepared-audio",
+      { kind: "revision", id: restored.id },
+      [resourceId],
+    );
+    return resourceId;
+  };
+  publish(recipe);
+  const composition = projectComposition(f.current.projects, f.current.assets, {
+    ...f.input,
+    revisionId: restored.id,
+  });
+  expect(f.current.prepared.resolve(composition)?.audio.assetId).toBe(value.assetId);
+  publish({
+    ...recipe,
+    requirements: recipe.requirements.map((requirement: object) => ({
+      ...requirement,
+      implementationId: "different-recorded-policy",
+    })),
+  });
+  expect(() => f.current.prepared.resolve(composition)).toThrow(
+    expect.objectContaining({ code: "AMBIGUOUS_PREPARED_AUDIO" }),
+  );
+});
+
+test.each(["retained", "produced"] as const)(
+  "failed %s delivery keeps its pinned mode and releases retained descriptors",
+  async (mode) => {
+    const f = await fixture();
+    const value = await ready(f);
+    const cache = new DerivedCache(f.current.catalog, f.home, () => {});
+    await cache.reconcile();
+    let descriptor: number | undefined;
+    const inspection = new MediaAudioInspection({
+      assets: f.current.assets,
+      acquisitions: new AcquisitionStore(f.current.catalog),
+      jobs: f.current.jobs,
+      cache,
+      sourceRenderer: {
+        implementationId: "unused",
+        render: async () => {
+          throw Error("unused");
+        },
+      },
+      project: {
+        projects: f.current.projects,
+        prepared: f.current.prepared,
+        renderer: {
+          implementationId: "delivery-failure",
+          render: async ({ prepared }) => {
+            if (mode === "retained") {
+              expect(prepared).toBeDefined();
+              descriptor = prepared!.fd;
+              expect(fstatSync(descriptor).size).toBe(value.bytes);
+            } else expect(prepared).toBeUndefined();
+            throw new Error("delivery failed");
+          },
+        },
+      },
+    });
+    const job = f.current.jobs.submitDeferred({
+      target: { kind: "project", ...f.input },
+      artifact: "audio",
+      lane: "heavy",
+      input: JSON.stringify({
+        range: { startUs: 0, endUs: 1000000 },
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+        implementationId: "delivery-failure",
+        preparedResourceId: mode === "retained" ? value.resourceId : null,
+      }),
+    });
+    await expect(inspection.execute({ job, signal: new AbortController().signal })).rejects.toThrow(
+      "delivery failed",
+    );
+    if (mode === "retained") {
+      expect(descriptor).toBeDefined();
+      expect(() => fstatSync(descriptor!)).toThrow(expect.objectContaining({ code: "EBADF" }));
+    }
+    const read = f.current.prepared.open(value.resourceId);
+    try {
+      expect(fstatSync(read.fd).size).toBe(value.bytes);
+    } finally {
+      read.release();
+    }
+    await f.current.jobs.drainJob(job.jobId);
+  },
+);
+
+test("a preview or export pin keeps produced audio when preparation finishes later", async () => {
+  const f = await fixture();
+  const cache = new DerivedCache(f.current.catalog, f.home, () => {});
+  await cache.reconcile();
+  const preview = new ProjectPreviewInspection(
+    f.current.projects,
+    f.current.assets,
+    f.current.jobs,
+    cache,
+    {
+      implementationId: "pinned-movie",
+      render: async ({ prepared }) => {
+        expect(prepared).toBeUndefined();
+        throw new Error("pinned produced render reached");
+      },
+    },
+    f.current.prepared,
+  );
+  const pinned = preview.pin(f.input);
+  expect(pinned.preparedResourceId).toBeNull();
+  const value = await ready(f);
+  expect(preview.pin(f.input).preparedResourceId).toBe(value.resourceId);
+  expect(preview.pin(pinned)).toEqual(pinned);
+  const job = f.current.jobs.submitDeferred({
+    target: { kind: "project", ...f.input },
+    artifact: "preview",
+    lane: "heavy",
+    input: JSON.stringify({
+      range: pinned.range,
+      settings: pinned.settings,
+      implementationId: pinned.implementationId,
+      preparedResourceId: pinned.preparedResourceId,
+    }),
+  });
+  await expect(preview.execute({ job, signal: new AbortController().signal })).rejects.toThrow(
+    "pinned produced render reached",
+  );
+  await f.current.jobs.drainJob(job.jobId);
 });

@@ -21,10 +21,10 @@ Historical workers and measurements keep their own identities in the linked evid
   [Complete project metadata](20d3-package-json/README.md) and the
   [combined fragmented-source/history journey](20d3-package-json/combined-public/README.md)
   now preserve exact metadata, all selected history and undo after donor removal.
-  The public project audio/preview replay fails with processing unavailable despite
-  compatible retained output. Repair that consumer path through PreparedAudioStore;
-  successful retained asset reads alone do not establish it. Keep
-  exact upstream/model/state identity and the existing prepared/publication owner.
+  [Retained project consumers](22b-retained-consumers/README.md) now pass on catalog18
+  with unavailable processing: historical/undo preparation, PCM, previews and exports.
+  Jobs preserve their produced/retained choice. Continue remaining package acceptance
+  and the measured prepared-recipe size boundary; no new processor policy is implied.
 - **Scale and traversal:** `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
   [Complete two-hour learned PCM](24f-learned-scale/README.md),
   [combined public processing](15a3a-unit-rate-combined/README.md),
@@ -113,45 +113,11 @@ numerical/visual evidence and a sample-exact accepted ending; the shortened entr
 and voice-generation readiness remain unaccepted. Reuse existing14a lifecycle
 owners after speech recipes earn their required acceptance.
 
-## Interrupted delegate pickup
+## Next execution
 
-The three delegate sessions ended before their final commits. The processing batch
-pass was integrated and verified by root. Capture target/full-service continuation changes now pass root verification under
-catalog18. Actual cleanup remains next. Retained-project playback changes remain
-uncommitted in their named worktree; inspect the actual diff and retained logs
-before resuming. Frozen catalog17 fixtures remain unchanged.
-
-Portable-consumer resume: the existing22b worktree builds and passes36 focused
-tests (one native-dependent check initially skipped; its subsequent worker-enabled
-run passes). With processing capability unavailable, three historical preparations,
-audio reads and previews plus undo now reach ready. Delivered historical range PCM
-matches each retained asset exactly. Root fixed lease acquisition outside the
-output-reservation cleanup scope. Evidence is retained in that worktree under
-`assets/22b-retained-consumers/resume-verification.json`; this is partial, not a
-finished integration. Next verify export/full PCM, malformed/stale native operands
-and lifetime failures, then review and port to current catalog18.
-
-The22b follow-up also delivers exact complete PCM and commits movie exports for
-all three historical revisions with processing capability disabled. A real native
-operand regression preserves independent stereo samples over multiple read blocks
-and rejects malformed, mismatched-range, changed-identity and truncated inputs.
-Twelve native-enabled project-audio tests pass. Remaining before integration:
-encoded movie-audio comparison, lifetime failure regression and independent review.
-
-22b encoded comparison now passes: preview and exported AAC decode to identical
-samples for all three historical revisions; no equality to lossless source or
-perceptual claim follows. Fresh independent `codex review --uncommitted` is live
-in the22b worktree, exec session41913, log `/tmp/screenrec-22b-review.log`. It has
-run the36 focused tests with one native-dependent skip; poll this exact handle
-before restarting. Lifetime regression and current-root integration remain open.
-
-22b review session41913 completed with two confirmed findings: invalid raw test tap
-(corrected to dry), and unpinned produced-mode jobs that could adopt later retained
-output. The worktree now persists explicit null for produced selection and a
-resource ID for retained selection; automatic resolution is admission-only.
-Audio and preview execution preserve that decision, including legacy omitted
-internal fields as produced. A delivery-failure regression covers both modes and
-checks the retained FD closes while saved output stays readable.38 focused tests
-pass (one native-dependent skip) and core typecheck passes. Before integration,
-add the preview/export pinning regression, rerun public delivery after this fix,
-and obtain review follow-up. Review/test logs are retained in22b assets.
+No delegate is currently running. Main includes the integrated24i and20d5 passes
+and the22b consumer checkpoint. Prior worktree diffs are preserved; do not reapply
+them. Next implement explicit settled recording cleanup under the approved20d5
+recording-owned job target, preserving existing publication proof/deletion authority.
+Terminal diagnostic disclosure remains the other20d gap. The full editor goal and
+all open acceptance gates remain active. Frozen older-catalog evidence is immutable.

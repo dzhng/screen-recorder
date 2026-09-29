@@ -3,7 +3,12 @@ import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
 import { mkdir, open, rm } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
-import { executionWindowManifestSchema, isMediaClip } from "@screenrec/composition";
+import {
+  executionWindowManifestSchema,
+  isMediaClip,
+  type ProcessingTap,
+  type ExecutionWindowManifest,
+} from "@screenrec/composition";
 import { AssetStore, mediaProbeSchema, type AssetProbe } from "./assets.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { ResourceReferences, resourceKinds, type ResourceReference } from "./references.js";
@@ -11,14 +16,12 @@ import type { ProjectStore } from "./projects.js";
 import {
   retainedPublicationSchema,
   type JobExecution,
+  type ArtifactStatus,
+  type RetainedArtifact,
   type JobQueue,
   type StagedJobResult,
 } from "./jobs.js";
-import {
-  compositionMediaInputs,
-  projectWindow,
-  type projectComposition,
-} from "./project-window.js";
+import { compositionMediaInputs, projectWindow, projectComposition } from "./project-window.js";
 import {
   projectAudioReceiptSchema,
   checkProjectAudioResult,
@@ -81,6 +84,44 @@ function audioDependencies(
   return dependencies;
 }
 
+/** Compare semantics while binding requirements to the publication's original policy. */
+function readRecipe(input: string, code: string) {
+  let raw: unknown;
+  try {
+    raw = JSON.parse(input);
+  } catch {
+    throw new CatalogError(code, "Invalid prepared audio recipe");
+  }
+  const parsed = executionWindowManifestSchema.safeParse(raw);
+  if (!parsed.success || !isDeepStrictEqual(parsed.data, raw))
+    throw new CatalogError(code, "Unsupported prepared audio recipe");
+  if (parsed.data.requirements.some((requirement) => requirement.implementationId === null))
+    throw new CatalogError(code, "Prepared audio has unresolved execution requirements");
+  return parsed.data;
+}
+export type PreparedAudioResolution = {
+  resourceId: string;
+  publication: RetainedArtifact;
+  audio: PreparedAudio;
+  recipe: ExecutionWindowManifest;
+};
+function matchesRecipe(
+  window: ReturnType<ReturnType<typeof projectComposition>["compiler"]["audioWindow"]>,
+  recipe: ExecutionWindowManifest,
+) {
+  const bound = {
+    ...window.manifest,
+    requirements: window.manifest.requirements.map((requirement, index) => ({
+      ...requirement,
+      implementationId: recipe.requirements[index]?.implementationId ?? null,
+    })),
+  };
+  return (
+    recipe.requirements.every((requirement) => requirement.implementationId !== null) &&
+    isDeepStrictEqual({ ...recipe, revisionId: window.manifest.revisionId }, bound)
+  );
+}
+
 /** Durable bytes use AssetStore; the queue alone publishes their recipe and revision binding. */
 export class PreparedAudioStore {
   private readonly references: ResourceReferences;
@@ -111,7 +152,83 @@ export class PreparedAudioStore {
       "audio",
     );
   }
-  request(input: Input) {
+  resolve(
+    composition: ReturnType<typeof projectComposition>,
+    tap?: ProcessingTap,
+    pinned?: string,
+  ): PreparedAudioResolution | null {
+    if (tap && (tap.target.kind !== "output" || tap.point.kind !== "processed")) return null;
+    const references = this.owners.projects
+      .revisionDependencies(composition.projectId, composition.revisionId)
+      .filter((reference) => reference.kind === "prepared-audio");
+    if (pinned && !references.some((reference) => reference.id === pinned))
+      throw new CatalogError("ARTIFACT_CHANGED", "Pinned prepared output is no longer referenced");
+    if (!references.length) return null;
+    const window = composition.compiler.audioWindow({
+      range: { startUs: 0, endUs: composition.model.durationUs },
+      rendition: { sampleRate: 48000, channels: 2 },
+      tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    });
+    const candidates: PreparedAudioResolution[] = [];
+    for (const reference of references) {
+      if (pinned && reference.id !== pinned) continue;
+      const publication = this.publication(reference.id);
+      const recipe = readRecipe(publication.input, "INVALID_STORAGE");
+      if (!matchesRecipe(window, recipe)) continue;
+      // A compatible but broken publication must remain visible, even alongside another policy.
+      const read = this.open(reference.id);
+      try {
+        if (!isDeepStrictEqual(read.value.sampleRange, window.manifest.sampleRange))
+          throw new CatalogError(
+            "INVALID_STORAGE",
+            "Prepared output range differs from its recipe",
+          );
+        candidates.push({ resourceId: reference.id, publication, audio: read.value, recipe });
+      } finally {
+        read.release();
+      }
+    }
+    if (pinned && !candidates.length)
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Pinned prepared output no longer matches this revision",
+      );
+    const equivalent = new Map<string, PreparedAudioResolution>();
+    for (const candidate of candidates) {
+      const key = JSON.stringify({
+        recipe: { ...candidate.recipe, revisionId: composition.revisionId },
+        assetId: candidate.audio.assetId,
+        sampleRange: candidate.audio.sampleRange,
+        dependencies: candidate.audio.dependencies,
+        unavailable: candidate.audio.unavailable,
+      });
+      if (!equivalent.has(key)) equivalent.set(key, candidate);
+    }
+    if (equivalent.size > 1)
+      throw new CatalogError(
+        "AMBIGUOUS_PREPARED_AUDIO",
+        "Several retained output policies match this revision",
+        {
+          candidates: candidates.map(({ resourceId, audio }) => ({
+            resourceId,
+            assetId: audio.assetId,
+          })),
+        },
+      );
+    return candidates[0] ?? null;
+  }
+  request(input: Input): ArtifactStatus {
+    const retained = this.resolve(
+      projectComposition(this.owners.projects, this.owners.assets, input),
+    );
+    if (retained)
+      return {
+        state: "ready",
+        jobId: this.owners.jobs.status(retained.publication).jobId,
+        reason: null,
+        retryable: false,
+        published: retained.publication,
+      };
     const plan = this.plan(input);
     const frames = plan.window.manifest.sampleRange.end - plan.window.manifest.sampleRange.start;
     // The existing native float WAV writer has a 32-bit RIFF byte count.
@@ -291,42 +408,22 @@ export class PreparedAudioStore {
     if (!parsed.success)
       throw new CatalogError("INVALID_PACKAGE", "Invalid prepared audio publication");
     const portable = parsed.data;
-    let rawRecipe: unknown;
-    try {
-      rawRecipe = JSON.parse(portable.publication.input);
-    } catch {
-      throw new CatalogError("INVALID_PACKAGE", "Invalid prepared audio recipe");
-    }
-    const recipe = executionWindowManifestSchema.safeParse(rawRecipe);
-    if (!recipe.success || !isDeepStrictEqual(recipe.data, rawRecipe))
-      throw new CatalogError("INVALID_PACKAGE", "Unsupported prepared audio recipe");
-    if (recipe.data.requirements.some((requirement) => requirement.implementationId === null))
-      throw new CatalogError(
-        "INVALID_PACKAGE",
-        "Prepared audio recipe has unresolved execution requirements",
-      );
+    const recipe = readRecipe(portable.publication.input, "INVALID_PACKAGE");
     const window = composition.compiler.audioWindow({
       range: { startUs: 0, endUs: composition.model.durationUs },
       rendition: { sampleRate: 48000, channels: 2 },
       tap: { target: { kind: "output" }, point: { kind: "processed" } },
     });
-    const meaning = {
-      ...recipe.data,
-      revisionId: composition.revisionId,
-      requirements: recipe.data.requirements.map((requirement) => ({
-        ...requirement,
-        implementationId: null,
-      })),
-    };
     if (
-      recipe.data.revisionId !== portable.revisionId ||
-      !isDeepStrictEqual(meaning, window.manifest) ||
+      recipe.revisionId !== portable.revisionId ||
+      !matchesRecipe(window, recipe) ||
       !isDeepStrictEqual(portable.audio.sampleRange, window.manifest.sampleRange)
-    )
+    ) {
       throw new CatalogError(
         "INVALID_PACKAGE",
         "Prepared audio recipe differs from its pinned revision",
       );
+    }
     const dependencies = new Set(
       portable.audio.dependencies.map((value) => JSON.stringify([value.kind, value.id])),
     );
@@ -368,7 +465,7 @@ export class PreparedAudioStore {
             revisionId: composition.revisionId,
           },
           artifact: "prepared-audio",
-          input: JSON.stringify({ ...recipe.data, revisionId: composition.revisionId }),
+          input: JSON.stringify({ ...recipe, revisionId: composition.revisionId }),
           result: JSON.stringify(value),
         });
         this.retain(value, composition.revisionId);
@@ -401,6 +498,8 @@ export class PreparedAudioStore {
       const bytes = (selection.end - selection.start) * frameBytes;
       return {
         value,
+        fd: file.fd,
+        dataOffset,
         sampleRange: selection,
         bytes,
         read(buffer: Uint8Array, position: number) {
@@ -419,3 +518,5 @@ export class PreparedAudioStore {
     }
   }
 }
+
+export type PreparedAudioRead = ReturnType<PreparedAudioStore["open"]>;

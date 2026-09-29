@@ -23,11 +23,9 @@ Current pickup and priority:
    explicit settled cleanup and terminal diagnostic detail. Responsive recovery,
    actual prerecorded writer publication and [source-admission retry](slices/20d4-source-admission-retry.md)
    pass integrated native/service gates. Physical camera acceptance remains separate.
-2. Repair retained **project** playback with processing unavailable. The existing
-   portable prepared-asset reads pass, but they do not establish every project
-   audio/preview consumer. Preserve model/state/upstream identities while resolving
-   that boundary through the existing prepared owner. The public capability-disabled
-   replay currently fails despite compatible retained output.
+2. Retained **project** playback now passes [22b](slices/22b-retained-project-consumers.md)
+   with processing unavailable, including historical output and undo. Continue the
+   remaining package acceptance and large prepared-recipe metadata limits.
 3. [Independent processing batches](slices/24i-processing-batches.md) now complete
    the previously timed-out 1,000-operation edit within its unchanged deadline,
    preserving exact edit receipts and PCM. Continue [general scale](slices/24-scale.md)
@@ -281,6 +279,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
+- [x] [22b — Retained output in project consumers](slices/22b-retained-project-consumers.md)
 - [ ] [22 — Relocatable editable projects](slices/22-portable-projects.md)
 - [ ] [23 — Cut over all consumers and remove old owners](slices/23-cutover.md)
 - [ ] [24 — Verify bounded work and long projects](slices/24-scale.md)

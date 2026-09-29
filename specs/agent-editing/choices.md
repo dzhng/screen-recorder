@@ -3339,3 +3339,25 @@ cancel directly to its existing queue. Cancel waits for the existing worker-drai
 budget; inspect and retry remain short calls. This makes source-owned work
 manageable through the shared public API without adding a new continuation system.
 The actual cleanup operation remains a separate implementation checkpoint.
+
+## 22b — Consume retained project output
+
+### Reuse a recorded result only when its full recipe matches (sound, high confidence)
+
+Moving a prepared project should not require rerunning its original processor.
+The prepared owner compares the selected revision's complete audio recipe with
+the saved recipe, keeping recorded model, state, upstream and rendition identities.
+Equivalent references to the same policy and bytes count as one result; distinct
+matching policies report ambiguity instead of choosing whichever is newest. A
+broken matching result remains an error. The plan left candidate selection open;
+this permits offline playback without inventing a new processing policy.
+
+### Pin produced or retained audio when work is admitted (sound, high confidence)
+
+If an export starts before preparation finishes, it keeps its produced-audio
+choice even when a retained result arrives while it is queued. A retained choice
+instead pins that exact resource. This prevents later publications from changing
+job meaning. The plan required immutable jobs but left this consumer representation
+open; an explicit internal null means produced, a resource ID means retained.
+The native reader borrows the validated file descriptor and passes bounded PCM
+blocks to existing WAV/movie writers, with no new decoder or resampler.
