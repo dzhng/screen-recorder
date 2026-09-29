@@ -440,3 +440,50 @@ test("verified byte digest is enforced before both fresh and cached asset public
   expect(accepted.id).toBe(correct.id);
   expect(store.origins(correct.id).origins).toContainEqual({ kind: "capture", source: "verified" });
 });
+
+test("sparse admission preserves leading, inter-run and trailing physical gaps at the occupied-run capacity", async () => {
+  const { root, store } = await setup();
+  const path = join(root, "sparse.mov");
+  await writeFile(path, "sparse metadata fixture");
+  const runs = 100_000;
+  const segments = Array.from({ length: 2 * runs + 1 }, (_, index) => ({
+    startUs: index * 100,
+    endUs: (index + 1) * 100,
+    empty: index % 2 === 0,
+    ...(index % 2 ? { mediaStartUs: ((index - 1) / 2) * 100, mediaDurationUs: 100 } : {}),
+  }));
+  const metadata = {
+    originUs: 100001,
+    streams: [
+      {
+        id: "audio:0",
+        kind: "audio",
+        codec: "pcm",
+        decodable: true,
+        startUs: 0,
+        endUs: segments.at(-1)!.endUs,
+        sampleRate: 48000,
+        channels: 1,
+        segments,
+      },
+    ],
+  };
+  const asset = await store.import(path, { kind: "import" }, async () => metadata);
+  const restored = store.get(asset.id);
+  expect(restored.streams[0]!.segments).toEqual(segments);
+  expect(compositionAsset(restored).streams[0]).toMatchObject({
+    available: segments
+      .filter((row) => !row.empty)
+      .map(({ startUs, endUs }) => ({ startUs, endUs })),
+  });
+  const excessive = join(root, "excessive.mov");
+  await writeFile(excessive, "different sparse metadata fixture");
+  await expect(
+    store.import(excessive, { kind: "import" }, async () => ({
+      ...metadata,
+      streams: [
+        { ...metadata.streams[0], segments: [...segments, { startUs: 0, endUs: 1, empty: true }] },
+      ],
+    })),
+  ).rejects.toMatchObject({ code: "INVALID_NATIVE_RESPONSE" });
+});

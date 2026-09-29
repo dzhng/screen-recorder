@@ -150,3 +150,9 @@ manifest limits are unchanged. The physical-row bound is the next admission
 prerequisite; public asset metadata delivery and portable metadata inventory remain
 separate gates. Previously failed immutable import requests retain their result;
 capability expansion is exercised with an explicit fresh request ID.
+
+[Physical-row evidence](../assets/20d-probe-rows/README.md) establishes the 2N+1
+bound, preserving both edge gaps around N=100,000 occupied spans. The actual
+100,000-run source now reaches ready through public acquisition with a fresh
+request ID. Full public asset metadata and portable manifest delivery remain the
+next independent prerequisite; acquisition readiness alone does not close them.

@@ -1,0 +1,118 @@
+{
+  "passed": true,
+  "physicalRowCapacity": 200001,
+  "occupiedCaptureCapacity": 100000,
+  "public": {
+    "jobId": "d3f683b5-d992-4b37-b718-88c2aef919ef",
+    "attemptId": "10484acf-e4d1-49bf-9491-4b18b82b15bd",
+    "artifact": "acquisition.import",
+    "lane": "heavy",
+    "input": "{\"capture.journal.jsonl\":{\"path\":\"/private/tmp/probe-consumer-red/source/capture.journal.jsonl\",\"bytes\":23450495,\"identity\":{\"device\":\"16777229\",\"inode\":\"325708716\",\"modifiedNs\":\"1790671326211758420\",\"changedNs\":\"1790671326211962753\"}},\"video.mov\":{\"path\":\"/private/tmp/probe-consumer-red/source/video.mov\",\"bytes\":4419,\"identity\":{\"device\":\"16777229\",\"inode\":\"325708654\",\"modifiedNs\":\"1790671326212327670\",\"changedNs\":\"1790671326212327670\"}},\"narration.mov\":{\"path\":\"/private/tmp/probe-consumer-red/source/narration.mov\",\"bytes\":3168705,\"identity\":{\"device\":\"16777229\",\"inode\":\"325708715\",\"modifiedNs\":\"1790671326189483676\",\"changedNs\":\"1790671326189587885\"}},\"system.mov\":null,\"narration.publication.json\":{\"path\":\"/private/tmp/probe-consumer-red/source/narration.publication.json\",\"bytes\":663,\"identity\":{\"device\":\"16777229\",\"inode\":\"325708714\",\"modifiedNs\":\"1790671326185117636\",\"changedNs\":\"1790671326186149219\"}},\"system.publication.json\":null}",
+    "state": "ready",
+    "reason": null,
+    "retryable": false,
+    "generation": 1,
+    "errorCode": null,
+    "errorDetails": null,
+    "target": {
+      "kind": "acquisition",
+      "acquisitionId": "93e06904-ae7b-4956-8588-6def9baef855"
+    },
+    "result": {
+      "acquisitionId": "93e06904-ae7b-4956-8588-6def9baef855"
+    }
+  },
+  "work": {
+    "passed": true,
+    "metadataBytes": 15428099,
+    "physicalRows": 200000,
+    "occupiedRows": 100000,
+    "phases": [
+      {
+        "name": "read+JSON parse",
+        "seconds": 0.04283625,
+        "rss": 150355968,
+        "maxRSS": 146832
+      },
+      {
+        "name": "strict schema",
+        "seconds": 0.056634167000000006,
+        "rss": 223608832,
+        "maxRSS": 218368
+      },
+      {
+        "name": "owned copy + strict admission + SQLite publication",
+        "seconds": 0.15432833399999998,
+        "rss": 380862464,
+        "maxRSS": 371936
+      },
+      {
+        "name": "stored metadata read + exact comparison",
+        "seconds": 0.07067416600000001,
+        "rss": 401539072,
+        "maxRSS": 395280
+      },
+      {
+        "name": "composition resolver",
+        "seconds": 0.005802250000000015,
+        "rss": 409026560,
+        "maxRSS": 399440
+      }
+    ],
+    "maxRSSUnit": "KiB (Node process.resourceUsage)",
+    "limits": "One process, framework/native worker excluded; no universal RSS bound inferred."
+  },
+  "artifacts": [
+    {
+      "path": "checks/red.log",
+      "bytes": 1413,
+      "sha256": "3135eefd0434215f1b9a4e2fb0134341c5217b3e1041f380156a5e39884eee2f"
+    },
+    {
+      "path": "checks/green.log",
+      "bytes": 453,
+      "sha256": "6bfe21f510faa0894f85a31d058f15d34e0280ef7a8096dc00e9ac818f947721"
+    },
+    {
+      "path": "checks/build.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "path": "checks/review.log",
+      "bytes": 93189,
+      "sha256": "4815ada8106d744dadce6e2136cd0eefa56ae8d7dc7eeced3bfbca16db4504f7"
+    },
+    {
+      "path": "public/report.json",
+      "bytes": 19252,
+      "sha256": "04ea85db36d5064502bb90dcf85a1e2eb8a8ad54951088268dc52a816779f960"
+    },
+    {
+      "path": "public/run.mjs",
+      "bytes": 1497,
+      "sha256": "ba04c3183fa582f55e0d3c499e4a6ef0696fadeba7f783a70c0b23a950b496e9"
+    },
+    {
+      "path": "public/run.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "work/report.json",
+      "bytes": 976,
+      "sha256": "1ff50d6641f475101b52e5f74f17d8567fbee2782449ef7c28bf659e1e1b72a0"
+    },
+    {
+      "path": "work/run.mjs",
+      "bytes": 2069,
+      "sha256": "6481f1132b0aa5d9c86b26405ff509281c5f035c6a1b430d91da73173cef7ec2"
+    },
+    {
+      "path": "work/run.log",
+      "bytes": 169,
+      "sha256": "2991c8b429511c2a51ff6123ed88cb4ccda7f2193d002e1205260f5e30d624e6"
+    }
+  ],
+  "review": "No actionable findings; independent read-only review"
+}
