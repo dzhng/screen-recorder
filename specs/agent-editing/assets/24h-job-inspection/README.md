@@ -44,3 +44,7 @@ pass147 focused tests including the source-availability and cross-table collisio
 followups, six export lifecycle tests, final public workload and types. Root direct
 review resolved both followup concerns. Whole24 remains open: readiness/execution input costs,
 retained history, result size and broader startup/routing remain separate.
+
+[Integrated verification](root-verification.json) confirms catalog 17 inspection,
+export recovery and prepared-asset package preservation on the combined native
+worker. [Reports and logs](root-verification.tar.gz) retain that scope.

@@ -1,0 +1,25 @@
+{
+  "commit": "0b9fd785",
+  "catalogVersion": 17,
+  "focusedTests": 147,
+  "nativeExportTests": 6,
+  "publicInspectionPassed": true,
+  "preparedPackagePreservationPassed": true,
+  "worker": {
+    "path": "/tmp/screenrec-capture-package-root-e5f82ce70f4c",
+    "sha256": "e5f82ce70f4c6e580d67562bf46c3a61f589b6fa32e6695e6c16bf3712948d01"
+  },
+  "verifiedInheritedArchives": {
+    "24h-job-inspection": 48,
+    "20d3-package-json/combined-public": 227
+  },
+  "files": {
+    "build.log": "a5f0c3136de2098371e3c181fe5c5663392cb09f93500f769e090b0c4a6aeb4a",
+    "tests.log": "5b2bfa47e210cb564066b077890b181977df027b743f46e1d839aeed9c0a1876",
+    "exports.log": "e8d11e5e599221ed0eb79d25cf66c937b6567f21b59cfb1356f949111d8633f5",
+    "public.json": "ca3092d3becea73fe3e9a896a9387f7d780284d1b7345ac382474ea26b5e741a",
+    "prepared.json": "27e192c3fe93b5cbaefc1d8fbf3f56f33f06a45aa7990b646ca9a379c68fefcc"
+  },
+  "archiveSha256": "0b73419457fd587fc191b17da484bf6e3d5707ae43821169f19b69c29774ce48",
+  "scope": "Integrated focused/native export/public small+10k inspection and prepared asset package preservation. Concurrent isolated gates; timings not a comparative benchmark. No whole-scale or project playback-without-model claim."
+}

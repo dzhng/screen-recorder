@@ -1,8 +1,9 @@
 # Repeated fragmented-source selection
 
 The actual package stress setup committed its first 500-place batch after its public
-10-second request timed out. This checkpoint addresses composition work before
-package export; the combined public journey remains open.
+15-second request timed out (the 10-second operation allowance plus its existing
+5-second transport margin). This checkpoint addresses composition work before
+package export; the combined public follow-up is linked below.
 
 Replaying that exact committed document with its actual 100,000 source fragments
 and acquisition mask took 23.47 seconds in the original model and 145 milliseconds

@@ -19,30 +19,27 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-1. Finish responsive recovery in [20d1](slices/20d1-recovery-continuation.md),
-   then complete packed capture publication and admission in [20d](slices/20d-capture-publication.md).
-   The actual prerecorded writer now has a verified input seam; activation remains
-   gated on real long-work control responsiveness and recovery. Preserve exact
-   sample positions, unavailable gaps and ambiguous source bytes. In parallel,
-   finish bounded large-source metadata delivery and the two-hour project scale
-   gate: the [two-hour learned workload](assets/24f-learned-scale/README.md) now
-   passes complete independent PCM comparison, while broader slice 24 inspection, history
-   and routing limits remain open. Indexed public metadata is verified; full
-   resource/history package hydration remains in progress.
-   [Source-worker lifetime](assets/20d-source-lifetime/README.md) now passes combined
-   orphan, deletion, package and cancellation checks. Physical capture remains
-   a separate gate.
-2. The [fractional-rate correction](assets/08-fractional-rate-refusal/README.md)
-   now refuses that unsupported execution domain and invalidates old ready
-   recipes, with combined-root confirmation. The [retirement audit](assets/acceptance-maintenance/job-references.md)
-   confirms existing reference ownership. Continue complete agent discovery and
-   the remaining quality gates. The [speech review feedback](assets/12c-protected-speech/user-review.json)
-   reports no obvious artifacts but no understood words; use meaningful complete
-   sentences from the user's recording for future comparisons.
-3. Reuse the verified prepared-audio/public/portable owner for later accepted DSP.
-   Continue12/12b speech evidence,12c/15a denoise,13/13a/14 stretch,18/19 voice,
-   then remaining camera/package/cutover/scale/autonomous acceptance. Every open
-   slice remains in scope; this order does not replace the dependency graph.
+1. Complete the remaining [capture rollout](slices/20d-capture-publication.md):
+   explicit settled cleanup and terminal diagnostic detail. Responsive recovery,
+   actual prerecorded writer publication and [source-admission retry](slices/20d4-source-admission-retry.md)
+   pass integrated native/service gates. Physical camera acceptance remains separate.
+2. Repair retained **project** playback with processing unavailable. The existing
+   portable prepared-asset reads pass, but they do not establish every project
+   audio/preview consumer. Preserve model/state/upstream identities while resolving
+   that boundary through the existing prepared owner. The public capability-disabled
+   replay currently fails despite compatible retained output.
+3. Fix repeated processing-stack edit work through the existing batch owner: an
+   admitted 1,000-operation public request times out, then commits once. Preserve
+   exact replay and the 15-second deadline. Continue [general scale](slices/24-scale.md)
+   with wide routing and queue/cancellation interactions. The complete two-hour learned workload,
+   combined fragmented-source/history package, and bounded public job inspection
+   now pass their scoped gates. Continue speech/denoise/retiming/voice acceptance,
+   then remaining camera, package, cutover and autonomous workflow gates. Every
+   open slice stays in scope; numerical parity does not replace listening evidence.
+
+The user found the unfamiliar cropped speech confusing. No action on those clips
+is required; future comparisons use complete meaningful sentences from their
+recording, with the original alongside and one clear purpose.
 
 Output controls09b, scoped static06/15, caption17 and the public preparation/gain
 consumer checkpoints pass. The [implementation pickup](assets/implementation-pickup.md)
@@ -276,9 +273,10 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [ ] [20b — Exact capture placement and accepted PCM addresses](slices/20b-exact-capture-audio.md)
 - [ ] [20c — Shared sparse capture materialization](slices/20c-sparse-capture-materialization.md)
 - [ ] [20d — Canonical capture publication and recovery rollout](slices/20d-capture-publication.md)
-- [ ] [20d1 — Responsive capture recovery lifecycle](slices/20d1-recovery-continuation.md)
+- [x] [20d1 — Responsive capture recovery lifecycle](slices/20d1-recovery-continuation.md)
 - [x] [20d2 — Public immutable asset metadata pages](slices/20d2-asset-metadata-pages.md)
-- [ ] [20d3 — Inventory-bound portable asset metadata](slices/20d3-package-asset-metadata.md)
+- [x] [20d3 — Inventory-bound project package JSON](slices/20d3-package-asset-metadata.md)
+- [x] [20d4 — Operational source-evidence retry](slices/20d4-source-admission-retry.md)
 - [ ] [20 — Prove screen and camera timing](slices/20-camera-reproduction.md)
 - [ ] [21 — Integrate synchronized webcam capture](slices/21-webcam.md)
 - [x] [22a — Portable snapshot and dependency boundary](slices/22a-portable-snapshots.md)
@@ -291,7 +289,8 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24d — One committed document in public edit receipts](slices/24d-edit-receipts.md)
 - [x] [24e — Compact public job recipe identity](slices/24e-job-status.md)
 - [x] [24f — Successful long learned preparation](slices/24f-successful-learned-scale.md)
-- [ ] [24g — Bounded fragmented-source selections](slices/24g-fragmented-selection.md)
+- [x] [24g — Bounded fragmented-source selections](slices/24g-fragmented-selection.md)
+- [x] [24h — Bounded public job inspection](slices/24h-job-inspection.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

@@ -1,104 +1,40 @@
 # Implementation pickup
 
-The full editor goal remains active. The installed app has not switched engines.
-Current priority: finish shared normal/recovery publication and large-work
-operation budgets, then activate the accepted-append writer. Prerecorded input now exercises
-the real recording lifetime. The complete two-hour learned-output checkpoint is
-verified; parallel work now targets portable resource/history hydration and the
-remaining temporal and prepared-consumer contracts.
-Settings09b, scoped06/15 and caption17 are verified; whole16/22 and final acceptance
-remain open. Packed-writer activation is pending; RNNoise supports verified mono/stereo sources
-with independent state per output channel. Listening acceptance remains open.
+The full editor goal remains active; the installed app has not switched engines.
+Root integrates committed passes and verifies their consumer contracts. Current
+catalog format is 17. The combined native worker is
+`/tmp/screenrec-source-retry-root-aba4b5bf646a`, SHA256
+`aba4b5bf646af2d81ca1923a75fd018c3e1e0d78f11d4833720c1274d3946a32`.
+Historical workers and measurements keep their own identities in the linked evidence.
 
 ## Active owners and next action
 
-- **Capture publication:** `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
-  The [canonical publisher](20d-publication/README.md) and
-  [stop continuation](20d-stop-continuation/README.md) are integrated, with
-  [combined-root lifecycle checks](20d-stop-continuation/root-verification.json).
-  Finalizing acknowledgment, explicit cancellation, terminal races and lost-start
-  handling pass their scoped native/controller/service gates. The missed-terminal
-  cancellation repair has [combined-root preservation and client-deadline checks](20d-cancel-recovery/root-verification.json):
-  native absence, a missing header or zero decoded duration cannot erase retained
-  or ambiguous source bytes. Without a native owner, only a proven empty source can
-  cancel. The [input-session separation](20d-input-session/README.md) now exercises
-  actual NativeCapture/writer with prerecorded media while keeping physical cursor
-  acquisition outside the fixture. The [responsive recovery service](../slices/20d1-recovery-continuation.md) is now
-  integrated with durable retry diagnostics and focused root verification. Native
-  producer/publication activation remains in that worktree; finish its integration
-  before marking the coordinated recovery slice complete. Preserve existing
-  termination ownership, deadlines and generation boundaries. Actual public work
-  beyond old deadlines still gates activation.
-  No live device input or interim dual writer mode is authorized.
-- **Canonical source/packages:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-  The [shared materializer/verifier](20c-materializer/README.md) is integrated with
-  [combined-root checks](20c-materializer/root-verification.json): capture/source/audio
-  preservation and descriptor-only verification beyond the inspection budget pass.
-  Full100k-run and cancellation measurements are scoped in the leaf. Shared
-  [container preflight](20b-container-preflight/README.md) now has
-  [combined-root confirmation](20b-container-preflight/root-verification.json):
-  impossible timing refuses before phase mutation. Canonical source/acquisition
-  and project-package admission now have [combined-root confirmation](20d-canonical-admission/root-verification.json):
-  exact PCM, immutable proof/clock verification and relocation/restart pass.
-  [Recording-domain packages](20d-recording-package/README.md) now have
-  [combined-root confirmation](20d-recording-package/root-verification.json), including
-  retained-page verification and native workspace lifetime inheritance. [Acquisition native-child lifetime](20d-acquisition-lifetime/README.md) now has
-  [combined-root orphan/restart verification](20d-acquisition-lifetime/root-verification.json).
-  [Large-work source verification](20d-source-budget/README.md) now has
-  [combined-root readiness/cancellation evidence](20d-source-budget/root-verification.json).
-  [Recording source lifetime](20d-source-lifetime/README.md) now has
-  [combined-root orphan/deletion confirmation](20d-source-lifetime/root-verification.json).
-  [Probe file delivery](20d-probe-file/README.md) now preserves the complete
-  native metadata object through bounded attempt files. [Physical-row admission](20d-probe-rows/README.md)
-  now passes the actual100k-run public import on root. [Indexed asset pages](20d2-asset-pages/README.md)
-  now reconstruct every row through CLI/MCP on root without scanning a full JSON
-  array per page. The inventory-bound package implementation is integrated, with its combined
-  fragmented-source/history gate still open under [24g](../slices/24g-fragmented-selection.md).
-  The model checkpoint removes repeated whole-source support work; next prove the
-  complete public combination. Those limits remain
-  separate from source-verification timing and native probe transport.
-  Readable prefixes never authorize deleting ambiguous tails; cleanup requires
-  matching accepted/committed/represented counts and clean indexed decode.
-- **Denoise input/runtime:** `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
-  The [clip](15a2a-state-domains/README.md) and
-  [parent/window](15a2b-parent-state-windows/README.md) metadata contracts are
-  integrated, with [combined-root checks](15a2b-parent-state-windows/root-verification.json).
-  [State input binding](15a2c-state-input-bindings/README.md) now has
-  [combined-root confirmation](15a2c-state-input-bindings/root-verification.json):
-  selected media, acquisition support, retiming requirements and stored channel
-  provenance enter existing project/prepared owners. The
-  [linked runtime](15a2d-linked-runtime/README.md) now verifies actual opened formats
-  and executes the frozen adapter through the existing mixer and prepared owner.
-  [Combined-root evidence](15a2d-linked-runtime/root-verification.json) covers full
-  frozen PCM, ordered state, public preparation/movie/export, real cancellation
-  and retained reads with execution unavailable. The later absent-field wire
-  regression now has [ordinary-render confirmation](15a2d-linked-runtime/wire-absence-root.json);
-  plain audio/movie requests retain strict framing and render again.
-  [Selected-input/tap isolation](15a2e-state-isolation/README.md) has
-  [combined-root confirmation](15a2e-state-isolation/root-verification.json), including
-  matched48k poison controls, distinct authored windows, gain order and public
-  bypass/history. [Independent channels](15a2f-independent-channels/README.md) and
-  [learned package transfer](14a-learned-portable/README.md) now pass their scoped
-  native/public combined-root checks. [Active audio work](24b-active-audio/README.md)
-  now verifies successful five-minute/500-occurrence preparation against the full
-  independent frozen PCM oracle. The [batching checkpoint](24c-edit-batch/README.md) fixes repeated resolution
-  with exact scalar equivalence. Its preserved reproduction confirms the timed-out
-  request committed and replays without another edit; the earlier discarded run
-  remains unobserved. [Single-document receipts](24d-edit-receipts/README.md) now
-  deliver10k clips through actual MCP/CLI and restart replay within existing limits.
-  [Compact job status](24e-job-status/README.md) now delivers recipe identity
-  through the existing response owner. [Two-hour full PCM](24f-learned-scale/README.md)
-  now matches the independent C reference in every channel sample, with late
-  retained delivery and successful scratch cleanup. The
-  [unit-rate combined public journey](15a3a-unit-rate-combined/README.md) now has
-  integrated native/public confirmation, including independent upstream samples,
-  reorder and history. Next measure and bound job inspection work; retiming and
-  general slice 24 query/history costs stay open. [Compiled-plan delivery](24a-compiled-plan/README.md)
-  removes the separate control-message size obstacle. Audio/movie executor identities
-  advanced for expanded admission so prior nonretryable failures cannot strand new requests.
-  The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires
-  explicit local model preparation, without edit-time downloads. Spatial channel quality and
-  protected-speech listening acceptance remain open.
+- **Capture rollout:** `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
+  Responsive recovery and packed writer publication pass
+  [integrated native/service verification](20d-activation/root-verification.json).
+  [Source-admission retry](20d4-source-retry/root-verification.json) now passes
+  permission restoration and immutable-identity controls. Next are explicit settled
+  cleanup and terminal message disclosure. Cleanup must cover
+  no-revision recordings without inventing a revision or reopening capture state.
+  No live capture or installed-app replacement has occurred.
+- **Portable project consumers:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  [Complete project metadata](20d3-package-json/README.md) and the
+  [combined fragmented-source/history journey](20d3-package-json/combined-public/README.md)
+  now preserve exact metadata, all selected history and undo after donor removal.
+  The public project audio/preview replay fails with processing unavailable despite
+  compatible retained output. Repair that consumer path through PreparedAudioStore;
+  successful retained asset reads alone do not establish it. Keep
+  exact upstream/model/state identity and the existing prepared/publication owner.
+- **Scale and traversal:** `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
+  [Complete two-hour learned PCM](24f-learned-scale/README.md),
+  [combined public processing](15a3a-unit-rate-combined/README.md),
+  [fragmented-source selection](24g-fragmented-selection/README.md) and
+  [bounded job inspection](24h-job-inspection/README.md) pass their scoped gates.
+  Deep routing through 4,096 groups delivers exact full/range PCM, but an admitted
+  1,000-operation processing edit exceeds the 15-second public deadline and later
+  commits once. Optimize independent stack updates in the existing batch owner,
+  retaining exact receipts/errors/replay; wide routing and queue gates remain open.
+  Do not repeat completed DSP research or silently widen deadlines.
 
 ## Banked contracts and evidence
 
@@ -112,7 +48,8 @@ requires one declared playable timeline; raw timestamp digits are provenance.
 [exact mapping journal](20b-pcm-journal/README.md),
 [PCM normalization](20b-pcm-format/README.md) and
 [validated prefix identity](20b-journal-prefix/README.md) have scoped retained
-proofs. Actual writer activation still depends on canonical admission/recovery.
+proofs. Actual prerecorded writer activation now passes the linked native/service gate;
+physical capture acceptance remains separate.
 
 [Native sample addresses](08-native-sample-address/README.md) fix arbitrary-phase
 selection with [root red/green verification](08-native-sample-address/root-verification.json),

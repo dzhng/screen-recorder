@@ -1,6 +1,6 @@
 # 20d1 — Responsive capture recovery with retained failure
 
-Status: planned; required before 20d packed-layout rollout. Dependencies: [20c](20c-sparse-capture-materialization.md).
+Status: verified responsive recovery checkpoint; parent 20d retains cleanup and terminal-detail work. Dependencies: [20c](20c-sparse-capture-materialization.md).
 
 ## Contract and owner
 
@@ -103,9 +103,11 @@ work arithmetic; global/client timeouts are unchanged. Catalog format 16 follows
 indexed assets format 15 and preserves explicit incompatible-library refusal.
 
 Service cancellation/restart, combined review and fresh public skill verification
-are retained. Native activation/diagnostic producers remain a coordinated next
-commit; this leaf and parent20d are not marked complete by this service checkpoint.
+are retained. The native diagnostic producers and actual prerecorded controller
+now pass [integrated verification](../assets/20d-activation/root-verification.json).
+This closes the responsive recovery checkpoint, not the parent rollout or physical
+capture acceptance.
 
 [Integrated service verification](../assets/20d1-continuation/root-verification.json)
-confirms the core/service/CLI checkpoint. Native activation and the remaining
-coordinated gates still control whole-slice completion.
+confirms the core/service/CLI checkpoint. The native replay retains its own exact
+worker and evidence scope in the linked activation verification.

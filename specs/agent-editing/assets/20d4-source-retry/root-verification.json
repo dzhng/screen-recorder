@@ -1,0 +1,34 @@
+{
+  "commit": "3429c89c",
+  "catalogVersion": 17,
+  "passed": true,
+  "nativeTests": 24,
+  "serviceRegressionPassed": true,
+  "publicCases": [
+    "journal access restored, same job/source and exact bytes",
+    "canonical access restored, same job/source and exact bytes",
+    "corrupt canonical remains final"
+  ],
+  "worker": {
+    "path": "/tmp/screenrec-source-retry-root-aba4b5bf646a",
+    "sha256": "aba4b5bf646af2d81ca1923a75fd018c3e1e0d78f11d4833720c1274d3946a32"
+  },
+  "authenticatedInheritedArtifacts": 29,
+  "fixture": {
+    "donor": "../20d-activation/root-verification.tar.xz:controller/take",
+    "sourceDurationUs": 3194231,
+    "note": "Root replay uses actual controller terminal duration, replacing the earlier fixture hardcoded 2500000us. Imports/helper paths point at integrated root."
+  },
+  "files": {
+    "native-build.log": "1519d0526c4358a449f5588270af638950de52798cbdda0dbc8459d42bfdd7bf",
+    "native-tests.log": "27436f88e045c829b5d5ac3976698508234916267714af625edeadb1b19a3b6a",
+    "service-build.log": "a8615cc1dcfa4e9737a4e244db6524c2774b2315753c69c63a6364d38a6fc15b",
+    "service-tests.log": "a6c898a06faad89f3b7240f2cfe37548784d6be17a82e1001efcbd183bf56c8b",
+    "public.log": "ff067c46f0c356b6752fc76b13cee7db69bbbf790200a925623f1ed86edd4d1e",
+    "public-report.json": "b131422901c622bc914cf66dc97aac436dd1dac0d51d132d1e44e4cc42502174",
+    "reproduce.mjs": "837b70d81984a28896a095fcfaee54c010623a2b8289690ceb90dec1fcde409f",
+    "service.mjs": "808a4686a17215f873a7e96b53c9869daaee2f4e24973e860323183936b45d8c"
+  },
+  "archiveSha256": "ea46cef27651ed9e0b74d4b4fdfb200776c5fc79c6bdcf05060552e419158fc1",
+  "scope": "Actual prerecorded controller source through public service/native processing retry. No physical capture, implicit retry, frozen-descriptor identity rebinding, cleanup replay or terminal-message disclosure claim."
+}

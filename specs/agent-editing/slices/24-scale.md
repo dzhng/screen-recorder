@@ -21,9 +21,10 @@ for large audio/movie requests. [Active scheduling](24b-active-audio-work.md)
 passes five-minute complete-PCM comparison; [batching](24c-edit-batch-work.md) and
 [compact receipts](24d-edit-receipts.md) establish public10k project setup. A fresh
 two-hour run then exposed oversized public job status. [Digest delivery](24e-job-status.md)
-repairs that response so full preparation can proceed. It does not establish constant
-query memory: the current queue still loads the internal execution input. Retained
-input/index growth and inspection work remain part of the whole-scale gate.
+repairs response delivery. [Bounded inspection](24h-job-inspection.md) now avoids
+loading recipes, project documents and asset segments during public job polling.
+Full execution/admission work, broader history growth and general inspection remain
+part of the whole-scale gate.
 
 ## Contract
 

@@ -35,7 +35,8 @@ admission succeeds. Native canonical denial/restoration and conflicting proof,
 public corrupted canonical refusal, and the full native source-evidence suite
 cover the remaining boundaries. No physical acquisition occurs.
 
-Evidence: [20d4 source retry](../assets/20d4-source-retry/README.md).
+Evidence: [20d4 source retry](../assets/20d4-source-retry/README.md) and
+[integrated catalog17 replay](../assets/20d4-source-retry/root-verification.json).
 
 ## Scope retained
 

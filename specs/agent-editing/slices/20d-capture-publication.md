@@ -1,6 +1,6 @@
 # 20d — Canonical capture publication and recovery rollout
 
-Status: partial prerequisite; publication/admission rollout remains open. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md), [20d2](20d2-asset-metadata-pages.md), [20d3](20d3-package-asset-metadata.md).
+Status: partial; prerecorded native publication/admission and operational source retry verified. Explicit settled cleanup and terminal-message disclosure remain open. Dependencies: [20c](20c-sparse-capture-materialization.md), [20d1](20d1-recovery-continuation.md), [20d2](20d2-asset-metadata-pages.md), [20d3](20d3-package-asset-metadata.md).
 
 ## Contract and owner
 
@@ -117,10 +117,10 @@ finalizing acknowledgment, retained terminal ownership, early explicit cancellat
 and completion winning optional-cleanup cancellation through existing controller,
 termination and service owners. Native-proved finalizing after an unanswered start
 must not trigger recovery of still-owned media. CaptureResult.cleanupFailure keeps
-optional cleanup distinct from capture failure. Ordinary schema1 remains enabled;
-actual prerecorded NativeCapture/writer/publisher, typed unavailable roles, recovery
-budgets and layout rollout remain required. The physical input
-seam must include cursor acquisition and preserve existing start teardown/geometry.
+optional cleanup distinct from capture failure. The native activation checkpoint
+below verifies prerecorded NativeCapture/writer/publisher and recovery budgets.
+The physical input seam includes cursor acquisition and preserves existing start
+teardown/geometry.
 
 
 [Missed-terminal cancellation evidence](../assets/20d-cancel-recovery/README.md)
@@ -132,35 +132,27 @@ canceled deletion. Explicit library deletion remains a separate authority.
 [Physical input lifetime evidence](../assets/20d-input-session/README.md) exercises
 actual NativeCapture and writer with prerecorded video through the package-only
 input boundary, preserving production selection/geometry/observation order. The
-full controller/audio publication/admission gate remains open until activation.
+native activation checkpoint below covers the full controller/audio publication
+and admission gate.
 
 
 [Acquisition lifetime evidence](../assets/20d-acquisition-lifetime/README.md) proves that orphaned native source/probe workers block whole-acquisition startup cleanup through the existing directory lock. Recovery returns actionable busy without deleting their inputs or pending reservations; it completes after the child exits. This does not resolve the separate large-work source/admission deadline gate.
 
-## Source normalization budget and next metadata gate
+## Verified source and metadata prerequisites
 
-[Source budget evidence](../assets/20d-source-budget/README.md) establishes public 100,000-run source normalization readiness and native cancel/drain with a scoped canonical segment-work allowance; legacy/global/client budgets are unchanged. It does not establish whole 100,000-run acquisition or package support. Actual native probing returns 15,428,144 bytes and 200,000 physical segment rows (100,000 occupied runs plus empty gaps), independently exceeding the 8 MiB response transport and the asset schema's 100,000 physical-row cap.
+[Source normalization](../assets/20d-source-budget/README.md) verifies the public
+100,000-run workload and native cancel/drain under the scoped canonical work
+allowance. [Source lifetime](../assets/20d-source-lifetime/README.md) covers
+per-generation orphan reclamation and whole-recording deletion. Global control
+framing and client deadlines remain unchanged.
 
-The next metadata delivery checkpoint must retain exact complete physical segment meaning and canonical descriptor authority, reuse bounded file/descriptor evidence mechanisms for bulk metadata, and reconcile the existing physical-row and occupied-run domains explicitly. Preserve both red refusals, empty segments, normalized probe validation, package relabeling controls and cancellation. Do not raise global framing, drop gaps or treat a transport-only fix as domain closure. [Source lifetime evidence](../assets/20d-source-lifetime/README.md) covers per-generation orphan reclamation and whole-recording deletion authority, including independent descriptor-removal red controls. Actual writer/recovery activation remains separate.
-
-[Probe file delivery](../assets/20d-probe-file/README.md) now carries complete native
-metadata through a caller-owned file and verified compact receipt. Existing strict
-metadata validation, inline native consumers, global control frames and package
-manifest limits are unchanged. The physical-row bound is the next admission
-prerequisite; public asset metadata delivery and portable metadata inventory remain
-separate gates. Previously failed immutable import requests retain their result;
-capability expansion is exercised with an explicit fresh request ID.
-
-[Physical-row evidence](../assets/20d-probe-rows/README.md) establishes the 2N+1
-bound, preserving both edge gaps around N=100,000 occupied spans. The actual
-100,000-run source now reaches ready through public acquisition with a fresh
-request ID. Full public asset metadata and portable manifest delivery remain the
-next independent prerequisite; acquisition readiness alone does not close them.
-
-Remaining metadata delivery is split into [20d2 public asset pages](20d2-asset-metadata-pages.md)
-and [20d3 inventory-bound package metadata](20d3-package-asset-metadata.md). These
-preserve one AssetStore metadata owner and separate response delivery from complete
-pre-ready portable dependency/canonical verification.
+[Probe file delivery](../assets/20d-probe-file/README.md) carries complete metadata
+through an owned file and verified receipt. [Physical-row admission](../assets/20d-probe-rows/README.md)
+retains both edge gaps around every supported occupied span. [20d2](20d2-asset-metadata-pages.md)
+owns bounded public metadata pages; [20d3](20d3-package-asset-metadata.md) owns
+complete resource/history hydration before package readiness. Their combined
+public journey preserves all rows and selected undo history. None of these
+metadata gates substitutes for physical capture or the remaining cleanup work.
 
 ### Remaining terminal diagnostic disclosure
 
