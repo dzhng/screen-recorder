@@ -137,3 +137,10 @@ operand regression preserves independent stereo samples over multiple read block
 and rejects malformed, mismatched-range, changed-identity and truncated inputs.
 Twelve native-enabled project-audio tests pass. Remaining before integration:
 encoded movie-audio comparison, lifetime failure regression and independent review.
+
+22b encoded comparison now passes: preview and exported AAC decode to identical
+samples for all three historical revisions; no equality to lossless source or
+perceptual claim follows. Fresh independent `codex review --uncommitted` is live
+in the22b worktree, exec session41913, log `/tmp/screenrec-22b-review.log`. It has
+run the36 focused tests with one native-dependent skip; poll this exact handle
+before restarting. Lifetime regression and current-root integration remain open.
