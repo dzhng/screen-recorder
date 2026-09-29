@@ -1,4 +1,4 @@
-import { validateComposition, type ValidatedComposition } from "./model.js";
+import { resolveComposition, type ValidatedComposition } from "./model.js";
 import { subtract } from "./rational.js";
 import { rippleTimeline } from "./ripple.js";
 import { transformSelection } from "./transform.js";
@@ -14,7 +14,7 @@ export function retimeClips(
   const transformed = transformSelection(model, selected, timing, scope, allocate, []);
   if (tracks === "none") return { document: transformed.document, touchedFixedAnchors: [] };
   const result = rippleTimeline(
-    validateComposition(
+    resolveComposition(
       { ...model.document, syncGroups: transformed.document.syncGroups },
       model.assets,
       model.acquisitions,

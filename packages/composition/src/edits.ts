@@ -1,3 +1,5 @@
+import { normalizeStateEdit } from "./processing-state.js";
+import { resolveComposition } from "./model.js";
 import { getProcessing, processingKey } from "./processing.js";
 import { CompositionError } from "./errors.js";
 import { z } from "zod";
@@ -318,7 +320,11 @@ export function applyBatch(
     clip: new Set(initial.clips.map((value) => value.id)),
     track: new Set(initial.tracks.map((value) => value.id)),
     processingStep: new Set(
-      initial.processing.flatMap((stack) => stack.steps.map((step) => step.id)),
+      initial.processing.flatMap((stack) =>
+        stack.steps.flatMap((step) =>
+          step.stateKey === undefined ? [step.id] : [step.id, step.stateKey],
+        ),
+      ),
     ),
     group: new Set(initial.groups.map((value) => value.id)),
     syncGroup: new Set(initial.syncGroups.map((value) => value.id)),
@@ -431,7 +437,10 @@ export function applyBatch(
                   kind: operation.target.kind,
                   id: resolve(operation.target.id, operation.target.kind),
                 };
-          const existing = new Set(getProcessing(model, target).map((step) => step.id));
+          const previousSteps = new Map(
+            getProcessing(model, target).map((step) => [step.id, step]),
+          );
+          const existing = new Set(previousSteps.keys());
           const used = new Set<string>();
           const steps = operation.steps.map((step) => {
             const id =
@@ -443,7 +452,19 @@ export function applyBatch(
             if (used.has(id)) invalid("Repeated processing step ID", { stepId: id });
             used.add(id);
             bind(step.label, "processingStep", id);
+            const prior = previousSteps.get(id);
+            if (
+              step.stateKey !== undefined &&
+              (step.processor.type !== "rnnoise" || prior?.stateKey !== step.stateKey)
+            )
+              invalid("State continuity metadata may only preserve the existing instance", {
+                target,
+                stepId: id,
+              });
             return {
+              ...(step.processor.type === "rnnoise" && prior?.stateKey !== undefined
+                ? { stateKey: prior.stateKey }
+                : {}),
               id,
               enabled: step.enabled,
               processor: step.processor,
@@ -476,7 +497,7 @@ export function applyBatch(
         case "replace": {
           const result = replaceClip(
             operation.processing === "reset"
-              ? validateComposition(
+              ? resolveComposition(
                   {
                     ...before,
                     processing: before.processing.filter(
@@ -504,7 +525,7 @@ export function applyBatch(
               invalid("Ripple replacement needs a source range with a duration");
             const source = operation.media.source.range;
             const resized = retimeClips(
-              validateComposition(next, model.assets, model.acquisitions),
+              resolveComposition(next, model.assets, model.acquisitions),
               [resolve(operation.clipId, "clip")],
               { durationUs: source.endUs - source.startUs, pitch: operation.pitch ?? "preserve" },
               "selected",
@@ -682,7 +703,7 @@ export function applyBatch(
           if (operation.ripple === "none") next = result.document;
           else {
             const shifted = rippleTimeline(
-              validateComposition(result.document, model.assets, model.acquisitions),
+              resolveComposition(result.document, model.assets, model.acquisitions),
               { kind: "remove", ranges: result.removalRanges },
               operation.ripple.trackIds.map((id) => resolve(id, "track")),
             );
@@ -903,7 +924,12 @@ export function applyBatch(
           break;
         }
       }
-      model = validateComposition(next, model.assets, model.acquisitions);
+      const candidate = resolveComposition(next, model.assets, model.acquisitions);
+      const stateDocument = normalizeStateEdit(model, candidate);
+      model =
+        stateDocument === candidate.document
+          ? candidate
+          : validateComposition(stateDocument, model.assets, model.acquisitions);
       normalized.push({ operationIndex, changes: changes(before, model.document) });
     } catch (error) {
       if (error instanceof CompositionError)

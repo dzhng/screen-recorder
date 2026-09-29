@@ -1,0 +1,105 @@
+{
+  "scope": "Pure edit/compiler state metadata; no inference or audio judgment",
+  "members": [
+    {
+      "path": "screenrec-state-domain-design.txt",
+      "bytes": 4201,
+      "sha256": "a407d2939753396c59def07fd27d973181629ce3deb74763dced05f8445e6c72"
+    },
+    {
+      "path": "screenrec-state-domain-design-review.md",
+      "bytes": 9524,
+      "sha256": "88f1ab9f6912df742f9d0f5d61b2fb23bdb038bfe9e6e31eaaeee6b29ad86615"
+    },
+    {
+      "path": "screenrec-state-domain-design-review.log",
+      "bytes": 227650,
+      "sha256": "d0894c1fb5f289195d46a720d17ee2c020b01052477a3220550eb49e4462406e"
+    },
+    {
+      "path": "screenrec-state-code-review.log",
+      "bytes": 154210,
+      "sha256": "a1ec0c2256a578fdd1067b26ff4565466c0166e7fa49ccad435623823d4b5499"
+    },
+    {
+      "path": "screenrec-state-code-followup.md",
+      "bytes": 1256,
+      "sha256": "caace4f21d1ef7474ff7193d633d29d734726453cb83dbc687450f5b98b6bc88"
+    },
+    {
+      "path": "screenrec-state-code-followup.log",
+      "bytes": 161522,
+      "sha256": "513f7999cd4015e0c783dbeb395e2012d5259f61b2af3ffe92dc8b027a91c055"
+    },
+    {
+      "path": "screenrec-state-first-red.log",
+      "bytes": 1657,
+      "sha256": "2c55fa814d4000b5d4787d61d84eff958e233d478999e5d74a35b4d03d25bcd0"
+    },
+    {
+      "path": "screenrec-state-combined-red.log",
+      "bytes": 1274,
+      "sha256": "0fe422d7ea8f6dd5aaa3db347ee70b3c18ecb8df1d325e1fd51b543524518ed2"
+    },
+    {
+      "path": "screenrec-state-combined-green.log",
+      "bytes": 230,
+      "sha256": "b0b5b762ca33a573adba2c0e0fae1147b9fac8f6f8897780c4115a1df0c5cbb1"
+    },
+    {
+      "path": "screenrec-state-post-review-tests.log",
+      "bytes": 839,
+      "sha256": "24c6a4ef023c4df7c145c34d71d7aa5aa0f16d33f7259a5ab5b965e1d7888e1f"
+    },
+    {
+      "path": "screenrec-state-types-repair.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "screenrec-state-build-repair.log",
+      "bytes": 23,
+      "sha256": "29c5ee0f6b0b20dbb259b99d01276198c3d28190090706394608d4deda6d2c0b"
+    },
+    {
+      "path": "screenrec-state-core-types-final.log",
+      "bytes": 29,
+      "sha256": "91d54ffbee73a3ac72294d090e58d77745f8b93edbf94b862807698273a6505a"
+    },
+    {
+      "path": "screenrec-state-dependent-build.log",
+      "bytes": 1043,
+      "sha256": "fa599a8ef1436c560feb9120a017cfbf0b3055c129674de5b0ba5285c3d21f90"
+    },
+    {
+      "path": "screenrec-state-help.log",
+      "bytes": 400,
+      "sha256": "b109f2195f29ebafdf8532eaedab99569829b064bbb4f6d1f1fc67293c4edbd0"
+    },
+    {
+      "path": "screenrec-state-tracer.mjs",
+      "bytes": 2033,
+      "sha256": "298d10a4ec01944da0a2475e2a3d76cf008707fd04f76a5d7085d7978c499ac6"
+    },
+    {
+      "path": "screenrec-state-tracer.json",
+      "bytes": 34485,
+      "sha256": "2fb7c4b6eb64eb01b369dd3a8db4d5a7430ca854682b3a33d04185032e5e4b7a"
+    },
+    {
+      "path": "screenrec-state-combined-repro.mjs",
+      "bytes": 1534,
+      "sha256": "d7c65dcdcd2637b833b4b7b30bdbebbeb6fcfc92472974564af53855e284eccd"
+    },
+    {
+      "path": "screenrec-state-combined-repro.json",
+      "bytes": 9690,
+      "sha256": "f9a4680c9a59e9fe1fe841a5dc7548fe602aa31965e5230ffafa1f68b3dc6e1e"
+    },
+    {
+      "path": "screenrec-state-combined-repaired.log",
+      "bytes": 2268,
+      "sha256": "4d4aa414d43664e5a3fa26ff3ccad720816246b067a02a2da01e750c864b94dd"
+    }
+  ]
+}

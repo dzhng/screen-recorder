@@ -218,6 +218,17 @@ export const processingTargetSchema = z.union([
 ]);
 const allProcessingTargets = ["clip", "track", "group", "output"] as const;
 export const processorRegistry = {
+  rnnoise: {
+    schema: z
+      .object({ type: z.literal("rnnoise") })
+      .strict()
+      .describe(
+        "Fixed-recipe RNNoise metadata; this clip-only checkpoint has no executable backend.",
+      ),
+    targets: ["clip"] as const,
+    mediaKind: "audio" as const,
+    units: {},
+  },
   pointer: {
     schema: pointerSchema,
     mediaKind: "video" as const,
@@ -288,6 +299,11 @@ export const processingStepSchema = z
   .object({
     id,
     enabled: z.boolean(),
+    stateKey: id
+      .describe(
+        "Engine-owned shared-state membership. Existing get/set roundtrips may preserve it; omission retains it. Fresh authored steps must not supply it.",
+      )
+      .optional(),
     window: anchorSchema.optional(),
     evaluationRange: z
       .object({ start: fractionSchema, end: fractionSchema })
@@ -302,6 +318,7 @@ export const processingStepSchema = z
       )
       .optional(),
     processor: z.discriminatedUnion("type", [
+      processorRegistry.rnnoise.schema,
       processorRegistry.pointer.schema,
       processorRegistry.gain.schema,
       processorRegistry.geometry.schema,

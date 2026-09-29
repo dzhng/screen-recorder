@@ -1,3 +1,4 @@
+import { deriveStatePlan, selectStatePlan } from "./processing-state.js";
 import { temporalProcessing } from "./temporal-processing.js";
 import { compileScalarCurve } from "./curve.js";
 import { visualPlanner } from "./visual-plan.js";
@@ -263,7 +264,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       plan.flatMap((node) => (node.target.kind === "clip" ? [node.target.id] : [])),
     );
     const inputs = clips.filter((value) => selected.has(value.clip.id));
-    return executionWindow(
+    const compiled = executionWindow(
       revisionId,
       model.document.canvas,
       request,
@@ -281,6 +282,16 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       () => temporal.audio(plan, request.rendition.sampleRate),
       component,
     );
+    if (component !== "video") {
+      const state = selectStatePlan(
+        deriveStatePlan(model),
+        new Set(
+          plan.flatMap((node) => node.steps.filter((step) => step.enabled).map((step) => step.id)),
+        ),
+      );
+      if (state.domains.length) compiled.manifest.state = state;
+    }
+    return compiled;
   }
   return {
     ...compileSchedules(visual, processing, undefined, clock, query, contexts),

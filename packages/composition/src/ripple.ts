@@ -1,5 +1,5 @@
 import { CompositionError } from "./errors.js";
-import { validateComposition, type ExactRange, type ValidatedComposition } from "./model.js";
+import { resolveComposition, type ExactRange, type ValidatedComposition } from "./model.js";
 import { partitionClips } from "./partition.js";
 import { add, compare, fromTime, rational, subtract, toTime, type Rational } from "./rational.js";
 
@@ -194,7 +194,7 @@ export function insertGap(
   const at = fromTime(atUs);
   const partitioned = splitRippleBoundary(model, at, new Set(tracks), allocate);
   const result = rippleTimeline(
-    validateComposition(partitioned.document, model.assets, model.acquisitions),
+    resolveComposition(partitioned.document, model.assets, model.acquisitions),
     { kind: "insert", at, duration },
     tracks,
   );

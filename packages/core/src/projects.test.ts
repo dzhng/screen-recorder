@@ -532,3 +532,56 @@ test("historical snapshots pin their own history and undo before later restore a
   expect(donor.store.revision(id)).toEqual(later);
   expect(() => donor.store.snapshot(id, "missing")).toThrow(/Revision does not exist/);
 });
+
+test("shared state membership survives replay, undo and restored history without reusing old tokens", async () => {
+  const { store } = await setup();
+  const original = store.create({ requestId: "state-project", canvas });
+  const id = original.project.projectId;
+  const placed = store.apply(id, {
+    requestId: "state-place",
+    expectedRevisionId: original.revision.id,
+    operations: [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "track" },
+      {
+        operation: "place",
+        label: "clip",
+        clip: {
+          trackId: { label: "track" },
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+        },
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: { label: "clip" } },
+        steps: [{ processor: { type: "rnnoise" } }],
+      },
+    ],
+  });
+  const request = {
+    requestId: "state-split",
+    expectedRevisionId: placed.revision.id,
+    operations: [
+      { operation: "split", clipIds: [placed.edit.labels.clip!], atUs: 2000000, scope: "selected" },
+    ],
+  };
+  const split = store.apply(id, request);
+  const token = split.revision.document.processing[0]!.steps[0]!.stateKey;
+  expect(token).toBeTruthy();
+  expect(store.apply(id, request)).toEqual(split);
+  const undone = store.undo(id, { requestId: "state-undo", expectedRevisionId: split.revision.id });
+  expect(undone.document).toEqual(placed.revision.document);
+  const fresh = store.apply(id, {
+    ...request,
+    requestId: "state-new-split",
+    expectedRevisionId: undone.id,
+  });
+  expect(fresh.revision.document.processing[0]!.steps[0]!.stateKey).not.toBe(token);
+  const restored = store.restore(id, {
+    requestId: "state-restore",
+    expectedRevisionId: fresh.revision.id,
+    targetRevisionId: split.revision.id,
+  });
+  expect(restored.document).toEqual(split.revision.document);
+  expect(store.revision(id, split.revision.id).document).toEqual(split.revision.document);
+});

@@ -1,3 +1,4 @@
+import { deriveStatePlan } from "./processing-state.js";
 import { validateProcessing } from "./processing.js";
 import { resolveRouting } from "./routing.js";
 import {
@@ -221,7 +222,7 @@ export function validateSourceSelection(
 }
 
 /** Snapshot admitted stream metadata and authoring data; no media or catalog access. */
-export function validateComposition(
+export function resolveComposition(
   input: unknown,
   assetInput: unknown,
   acquisitionInput: unknown = [],
@@ -377,6 +378,17 @@ export function validateComposition(
   }
   validateProcessing(document);
   return freeze({ document, assets, acquisitions, clips: ordered, durationUs });
+}
+
+/** Admission validates state-domain meaning without applying editor repairs. */
+export function validateComposition(
+  input: unknown,
+  assetInput: unknown,
+  acquisitionInput: unknown = [],
+): ValidatedComposition {
+  const model = resolveComposition(input, assetInput, acquisitionInput);
+  deriveStatePlan(model);
+  return model;
 }
 
 /** Exact envelope plus source-available fragments; neither closes acquisition gaps. */

@@ -80,6 +80,8 @@ export function validateProcessing(document: Document) {
       if (stepIds.has(step.id)) invalid("Duplicate processing step ID", { stepId: step.id });
       stepIds.add(step.id);
       const definition = processorRegistry[step.processor.type];
+      if (step.stateKey !== undefined && step.processor.type !== "rnnoise")
+        invalid("State continuity requires a stateful processor", { target, stepId: step.id });
       if (
         (step.window || step.evaluationRange) &&
         !["opacity", "geometry", "gain"].includes(step.processor.type)
@@ -168,10 +170,13 @@ export function remapClipProcessing(
     string,
     { original: import("./model.js").ExactRange; retained: import("./model.js").ExactRange }
   > = new Map(),
+  continuity: "preserve" | "copy" = "preserve",
 ): Document["processing"] {
   const live = new Set(clips.map((clip) => clip.id));
+  const tracks = new Map(clips.map((clip) => [clip.id, clip.trackId]));
   const descendants = new Map(lineage.map((entry) => [entry.originalId, entry.clipIds]));
-  return document.processing.flatMap((stack) => {
+  const copyGroups = new Map<string, ProcessingStep[]>();
+  const result = document.processing.flatMap((stack) => {
     if (stack.target.kind !== "clip") return [stack];
     const originalId = stack.target.id;
     const ids = [
@@ -180,7 +185,7 @@ export function remapClipProcessing(
         ...(descendants.get(originalId) ?? []),
       ]),
     ];
-    return ids.map((id) => ({
+    const mapped = ids.map((id) => ({
       target: { kind: "clip" as const, id },
       steps: stack.steps.map((step) => {
         let evaluationRange = step.evaluationRange;
@@ -224,5 +229,30 @@ export function remapClipProcessing(
         };
       }),
     }));
+    for (let index = 0; index < stack.steps.length; index++) {
+      const original = stack.steps[index]!;
+      if (original.processor.type !== "rnnoise") continue;
+      const copies = mapped.filter((entry) => entry.target.id !== originalId);
+      if (continuity === "copy") {
+        for (const entry of copies) {
+          const step = entry.steps[index]!;
+          delete step.stateKey;
+          if (original.stateKey !== undefined) {
+            const track = tracks.get(entry.target.id)!;
+            const key = JSON.stringify([original.stateKey, track]);
+            const group = copyGroups.get(key) ?? [];
+            group.push(step);
+            copyGroups.set(key, group);
+          }
+        }
+      } else if (copies.length && original.stateKey === undefined) {
+        const key = copies[0]!.steps[index]!.id;
+        for (const entry of mapped) entry.steps[index]!.stateKey = key;
+      }
+    }
+    return mapped;
   });
+  for (const copies of copyGroups.values())
+    if (copies.length > 1) for (const step of copies) step.stateKey = copies[0]!.id;
+  return result;
 }

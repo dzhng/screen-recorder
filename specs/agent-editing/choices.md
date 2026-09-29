@@ -2745,3 +2745,34 @@ internal recovery consumers. A candidate can later name those exact bytes instea
 of relying on a sequence number or re-serialized JSON. This token stays out of
 ordinary inspection and does not claim that mapped audio reached disk. Confidence:
 high; it gives20c/20d one provenance owner without another parsing or storage path.
+
+### Stateful clip membership before runtime adoption (sound, scoped)
+
+Instance identity and shared continuity are distinct meanings. Existing globally
+unique step IDs still address owned instances; explicit stateKey values mark
+shared groups, while absence means independent state. A first split uses its
+newly allocated child step ID as the shared token on both pieces, preventing a
+detached token owner from reconnecting former siblings on resplit. This reuses the
+existing allocator and adds no group registry or ancestor lookup. Tokens still
+present in a revision reserve their ID even after the original owner is removed.
+
+One duplicate operation preserves copied siblings' mutual continuity under a
+fresh copied-member token, independent of originals and separate duplicate calls.
+Ordinary get/set omission preserves metadata; fresh steps cannot manufacture it.
+These are explicit editing semantics, not a claim that independent stereo or
+rendered processing has been accepted.
+
+The compiler stores current clip inputs/stacks once and derives connected-domain
+prerequisites from ordered stateful steps. It never equates prefix configurations
+or infers membership from matching adjacent clips. Shared state participates only
+where currently enabled; changing that coverage may require new domains. Input
+availability remains evidence of missing support rather than authorization to
+feed invented source samples.
+
+At completed edit boundaries, incompatible cross-track membership and dependency
+cycles detach all shared state on participating changed occurrences with monotonic bounded repair.
+Every iteration removes shared memberships on originally changed occurrences; newly exposed violations cannot trigger unchanged retries. This deliberately avoids a minimum-repair search and leaves the consequence in
+normal processing receipts. Unchanged occurrences and valid whole-group moves
+retain membership. Structural resolution is shared by edit helpers; strict
+admission still rejects invalid imported state graphs. No public processing
+readiness follows from this pure compiler checkpoint.

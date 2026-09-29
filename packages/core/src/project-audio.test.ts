@@ -556,3 +556,33 @@ test("cancel and retry discard unpublished project WAV bytes and retire deletion
   f.projects.markDeleting(f.projectId);
   expect(() => f.inspection.request(input)).toThrow();
 });
+
+test("RNNoise metadata stays unavailable before job admission while dry inspection remains authorable", async () => {
+  let calls = 0;
+  const f = await fixture(async (request, signal) => {
+    calls++;
+    return render(request, signal);
+  });
+  const clipId = f.placed.edit.labels["voice-clip"]!;
+  f.projects.apply(f.projectId, {
+    requestId: "noise-state",
+    expectedRevisionId: f.placed.revision.id,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "clip", id: clipId },
+        steps: [{ processor: { type: "rnnoise" } }],
+      },
+    ],
+  });
+  expect(() => f.inspection.request({ projectId: f.projectId })).toThrow(
+    expect.objectContaining({ code: "NOT_READY" }),
+  );
+  expect(calls).toBe(0);
+  expect(() =>
+    f.inspection.request({
+      projectId: f.projectId,
+      tap: { target: { kind: "clip", id: clipId }, point: { kind: "dry" } },
+    }),
+  ).not.toThrow();
+});

@@ -1,4 +1,4 @@
-import { validateComposition, type ValidatedComposition } from "./model.js";
+import { resolveComposition, type ValidatedComposition } from "./model.js";
 import { partitionClips } from "./partition.js";
 import { add, compare, fromTime, subtract } from "./rational.js";
 import { requireRippleTargets, rippleTimeline, splitRippleBoundary } from "./ripple.js";
@@ -25,7 +25,7 @@ export function rippleMove(
   requireRippleTargets(transformed.document.clips, transformed.affected, named);
   if (compare(transformed.before.start, transformed.after.start) === 0)
     return { document: transformed.document, lineage: [], touchedFixedAnchors: [] };
-  const linked = validateComposition(
+  const linked = resolveComposition(
     { ...model.document, syncGroups: transformed.document.syncGroups },
     model.assets,
     model.acquisitions,
@@ -42,10 +42,10 @@ export function rippleMove(
     if (compare(range.start, originalAt) > 0) break;
     originalAt = add(originalAt, subtract(range.end, range.start));
   }
-  const stationary = validateComposition(removed.document, model.assets, model.acquisitions);
+  const stationary = resolveComposition(removed.document, model.assets, model.acquisitions);
   const partitioned = splitRippleBoundary(stationary, originalAt, named, allocate);
   const shifted = rippleTimeline(
-    validateComposition(partitioned.document, model.assets, model.acquisitions),
+    resolveComposition(partitioned.document, model.assets, model.acquisitions),
     {
       kind: "move",
       ranges: removed.removalRanges,

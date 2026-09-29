@@ -1,3 +1,4 @@
+import { statePlanSchema } from "./processing-state.js";
 import type { CompiledProcessingInstruction } from "./temporal-processing.js";
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
@@ -62,6 +63,7 @@ export const executionWindowManifestSchema = z
     canvas: compositionSchema.shape.canvas,
     mediaKind: z.enum(["audio", "video", "output"]),
     sources: z.array(source),
+    state: statePlanSchema.optional(),
     fonts: z.array(fontReferenceSchema),
     processing: z.array(processingInstructionSchema),
     requirements: z.array(

@@ -40,7 +40,7 @@ export function duplicateClips(
     document: {
       ...model.document,
       clips,
-      processing: remapClipProcessing(model.document, clips, lineage, allocate),
+      processing: remapClipProcessing(model.document, clips, lineage, allocate, new Map(), "copy"),
       syncGroups: [...model.document.syncGroups, ...groups],
     },
     lineage,

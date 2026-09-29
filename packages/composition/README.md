@@ -126,3 +126,13 @@ Resampling context is derived from current retained support, so splitting a clip
 does not reset its filter domain and removing material cannot leave hidden input.
 The [contract](../../specs/agent-editing/processing.md#selected-resampling-context)
 separates compiler domain ownership from native filter and phase verification.
+
+Authored state continuity is separate from resampling context. The
+[state-domain compiler](src/processing-state.ts) derives connected current-revision
+inputs before choosing a requested tap. Its input table stores each current clip
+and stack once; member step IDs select prefixes, and dependencies refer to
+connected domains rather than shared keys. No old graph or prepared cache defines
+that meaning. The [clip checkpoint](../../specs/agent-editing/slices/15a2a-state-domains.md)
+admits fixed RNNoise metadata with execution unavailable. `stateKey` is preserved
+engine metadata, not a caller-supplied grouping control; broader scopes, activation
+and channel execution remain separate acceptance work.
