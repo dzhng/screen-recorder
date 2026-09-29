@@ -1,8 +1,8 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: finish accepted-append journal integration, then canonical sparse
-storage/recovery and safe publication. The arbitrary-phase reader correction is
+Current priority: bounded canonical sparse storage/recovery and safe publication,
+then the coupled accepted-append writer switch. The arbitrary-phase reader correction is
 integrated and root-confirmed, including the previously failing window gate.
 Fractional-rate execution now refuses
 with cache invalidation and combined-root confirmation. Settings09b,
@@ -21,11 +21,13 @@ controls, delivered clocks and discriminating phase/geometry negatives. Fresh
 review found edge fringes most apparent when magnified; continuous playback,
 real-speech listening and delivered retime/gain remain unverified.
 
-Current native worker: `/tmp/screenrec-native-sample-address`, SHA256
+Frozen media worker: `/tmp/screenrec-native-sample-address`, SHA256
 `910f990be2310daaf82ceb2acfdd6fbe0b510e42645527c9d8bdc7a08a598bc6`.
 Source audio is v4, composition audio v6, movie v16 and transcript decoder v4;
 prepared/acoustic identity follows the corrected upstream execution. Picture-only
-identity remains unchanged. Prior integral-rate worker provenance remains in its leaf.
+identity remains unchanged. This frozen renderer worker predates the later capture
+owner corrections, which have their own native test receipts. Prior integral-rate
+worker provenance remains in its leaf.
 Earlier caption/output proofs used frozen `/tmp/screenrec-caption-output-combined-native`
 SHA256 `6663e0c169671fa8121ed26e9cf298fb0dd0d789fd5559954899af1e87b608b9`;
 keep original receipts as provenance.
@@ -66,10 +68,13 @@ No production deadline or transaction guarantee changed.
   [exact mapping journal](20b-pcm-journal/README.md) now has
   [root native/JavaScript confirmation](20b-pcm-journal/root-verification.json).
   It streams accepted addresses without claiming acquisition; ordinary source
-  export still refuses the new layout. Actual-writer probes expose byte
-  reinterpretation after rate/channel/representation changes. Next validate
-  pre-append epoch refusal and bounded same-rate/channel representation conversion;
-  controls currently live in `/tmp/capture-format-observation`. Actual prospective-clock/callback wiring stays coupled
+  export still refuses the new layout. The
+  [canonical PCM input boundary](20b-pcm-format/README.md) is integrated with
+  [root actual-writer confirmation](20b-pcm-format/root-verification.json):
+  representation changes preserve input PCM, and rate/channel changes refuse
+  before acceptance. The journal's [validated prefix token](20b-journal-prefix/README.md)
+  now supports candidate provenance. Next define publication/receipt/admission
+  ordering with the materializer owner. Actual prospective-clock/callback wiring stays coupled
   to canonical publication, with no interim dual writer mode.
   The production packed writer
   remains disconnected until canonical admission/recovery passes.
@@ -82,8 +87,11 @@ No production deadline or transaction guarantee changed.
   exclusion. The historical
   [100001µs red](20b-window-phase/README.md) remains frozen. Next measure bounded
   canonical segment materialization and reconcile accepted journal mappings with
-  decoded committed prefixes in20c; coordinate the streaming API with the journal
-  owner. No packed writer rollout until20d.
+  decoded committed prefixes in20c. Platform export has high fragmented-run memory
+  cost; bounded AVMutableMovie/header alternatives are under causal investigation
+  in `/tmp/sparse-materialization-scaling`, with no product cap selected. Coordinate
+  the candidate and validated-prefix contract with the publication owner.
+  No packed writer rollout until20d.
   [Native stretch parity](13b-native-stretch-parity/README.md) is also integrated
   and root-confirmed:65 complete-byte/error gates pass. Public retiming remains
   unavailable; no listening, stereo or long-input policy acceptance is inferred.
