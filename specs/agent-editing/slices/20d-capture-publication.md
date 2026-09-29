@@ -46,6 +46,15 @@ existing immutable retention contract. Reuse existing inventory/package/deletion
 ownership; new filenames must not evade accounting. Cleanup is idempotent and
 interruptible, including a restart between canonical publication and staging removal.
 
+A known accepted/committed count mismatch is unresolved evidence, even if every
+decodable frame fits in the canonical prefix. Automatic cleanup requires matching
+accepted, proven committed and represented frame counts, complete indexed-media
+decode and no unresolved tail diagnosis. In particular, accepted frames beyond
+physical EOF retain the working payload. This tightens the earlier proposal's
+`represented = committed <= accepted` condition. The proof concerns committed,
+decodable PCM and underlying indexed sample extent; it does not claim forensic
+classification of arbitrary unindexed container bytes or require a new parser.
+
 ## Acceptance and review surface
 
 Through actual prerecorded CaptureWriter callbacks and normal service finalization,

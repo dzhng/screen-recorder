@@ -2873,3 +2873,17 @@ retained reads keep their existing independence from live processor availability
 File binding and prepared resource retention share the same media-input union.
 Actual learned publication/retention proof remains with native integration, not a
 fake successful backend or a test-only exported dependency collector.
+
+### Retain working audio when accepted frames are missing (corrected, sound)
+
+During20c/20d integration, the earlier cleanup proposal allowed deletion when all
+decodable frames were represented even if the journal said the writer accepted
+more. For example, a take could report120000 accepted frames but expose only96000
+decodable frames. Copying those96000 exactly does not resolve the missing tail.
+The original plan already required preserving uncertain recoverable evidence,
+so automatic cleanup now requires all three counts to agree and complete indexed
+decode without an unresolved tail diagnosis. A useful canonical prefix may still
+be published while its working input remains retained. This corrects the earlier
+non-strict count condition; it adds no forensic container parser and does not
+claim knowledge of arbitrary unindexed bytes. Confidence: high. The publisher's
+retention tests must cover both accepted-beyond-EOF and unjournaled physical tails.
