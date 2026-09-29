@@ -1,0 +1,54 @@
+{
+  "sourceBase": "ef57b5ae",
+  "native": {
+    "path": "/tmp/screenrec-rnnoise-independent-native",
+    "sha256": "aefefafc9fa2ac16083ebb1a951a3b78e4c9368120efb80f8b4575c39d699faa",
+    "implementationId": "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2",
+    "incrementalBuildSeconds": 4.72,
+    "cleanBuildBenchmark": false
+  },
+  "nativePassed": true,
+  "nativeChecks": 50,
+  "preservedPriorChecks": 39,
+  "publicPassed": true,
+  "publicCheckGroups": 17,
+  "pairedCancellation": {
+    "observedOutputSpoolBytes": 116200320,
+    "declaredFrames": 28800000,
+    "completedLanes": 1,
+    "incompleteLane": 1,
+    "canceled": true,
+    "noPublishedResult": true,
+    "scratchRemoved": true,
+    "cancelAndCleanupMs": 621.9410000000062
+  },
+  "focusedTests": {
+    "composition": 64,
+    "core": 33,
+    "coreNativeOnlySkipped": 1,
+    "service": 12
+  },
+  "buildOrder": [
+    "node helpers/denoise/prepare.mjs --verify",
+    "swift build --package-path helpers/mac --product screenrec-native",
+    "bun run --cwd packages/composition build",
+    "bun run --cwd packages/core build",
+    "bun run --cwd apps/service build"
+  ],
+  "replay": [
+    "SCREENREC_NATIVE=$PWD/helpers/mac/.build/debug/screenrec-native node packages/test-harness/editing/denoise-runtime.mjs --out /tmp/NEW-CHANNELS --reference /tmp/screenrec-rnnoise-api",
+    "SCREENREC_NATIVE=$PWD/helpers/mac/.build/debug/screenrec-native node packages/test-harness/editing/denoise-runtime-public.mjs --out /tmp/NEW-PUBLIC --source /tmp/NEW-CHANNELS/source.wav"
+  ],
+  "independentReview": "Ready design with byte/count/paired-offset safeguards; settled diff no concrete issues. Reviewers did not run inference.",
+  "limitations": [
+    "No spatial stereo, naturalness, intelligibility or protected-speech listening acceptance.",
+    "Differing-channel WAV is assembled from retained mono cohorts, not a spatial recording.",
+    "No downmix, normalization, linked detector, new model or DSP recipe.",
+    "Known source channels1or2 only; unknown/wider sources refused.",
+    "Existing mixer owns resampling context; matched poison gates are48k/unit-rate.",
+    "Canceled long domain proves transaction cleanup, not successful long-output scaling.",
+    "Learned portability and post-retime combined acceptance remain separate.",
+    "Retained unavailable-executor proof remains in linked-binary scope.",
+    "External model redistribution provenance remains unresolved."
+  ]
+}

@@ -19,7 +19,7 @@ const worker = resolve(process.env.SCREENREC_NATIVE);
 const reference = resolve(values.reference);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = {
-  scope: "linked fixed-recipe mono runtime; no listening acceptance",
+  scope: "linked fixed recipe with independent output channels; no listening acceptance",
   checks: [],
   nativeSha256: hash(readFileSync(worker)),
   harnessSha256: hash(readFileSync(import.meta.filename)),
@@ -138,7 +138,7 @@ const doc = {
     },
   ],
 };
-function render(
+function renderPCM(
   name,
   document,
   range,
@@ -166,7 +166,11 @@ function render(
   while (wav.toString("ascii", at, at + 4) !== "data")
     at += 8 + wav.readUInt32LE(at + 4) + (wav.readUInt32LE(at + 4) % 2);
   const bytes = wav.subarray(at + 8, at + 8 + wav.readUInt32LE(at + 4));
-  const mono = Buffer.alloc(bytes.length / 2);
+  return bytes;
+}
+function render(...args) {
+  const bytes = renderPCM(...args),
+    mono = Buffer.alloc(bytes.length / 2);
   for (let i = 0; i < mono.length / 4; i++) {
     assert(bytes.subarray(i * 8, i * 8 + 4).equals(bytes.subarray(i * 8 + 4, i * 8 + 8)));
     bytes.copy(mono, i * 4, i * 8, i * 8 + 4);
@@ -470,6 +474,107 @@ refuse(
     p.assets = [stereoFixture.binding];
   },
   "NOT_READY",
+);
+const rightExpected = gunzipSync(
+  readFileSync(
+    root + "/specs/agent-editing/assets/12c-matched-noise/audio/rnnoise-reference.f32.gz",
+  ),
+);
+function interleave(left, right) {
+  assert.equal(left.length, right.length);
+  const result = Buffer.alloc(left.length * 2);
+  for (let frame = 0; frame < left.length / 4; frame++) {
+    left.copy(result, frame * 8, frame * 4, frame * 4 + 4);
+    right.copy(result, frame * 8 + 4, frame * 4, frame * 4 + 4);
+  }
+  return result;
+}
+const stereoExpected = interleave(expected, rightExpected);
+compare(
+  "matching-stereo-independent-reference",
+  renderPCM("matching-stereo", doc, range, stereoFixture),
+  stereoExpected,
+);
+const swappedFixture = sourceFixture("swapped-stereo", interleave(rightChannel, source), 2);
+compare(
+  "independent-channel-order",
+  renderPCM("swapped-stereo-output", doc, range, swappedFixture),
+  interleave(rightExpected, expected),
+);
+const changedRight = gain(rightChannel, 0.5),
+  changedFixture = sourceFixture("changed-right-stereo", interleave(source, changedRight), 2);
+compare(
+  "right-perturbation-no-left-crosstalk",
+  renderPCM("changed-right-output", doc, range, changedFixture),
+  interleave(expected, denoise("changed-right", changedRight)),
+);
+compare(
+  "stereo-range-full",
+  renderPCM("stereo-range", doc, selected, stereoFixture),
+  stereoExpected.subarray(48000 * 8, 144000 * 8),
+);
+compare(
+  "stereo-shared-split",
+  renderPCM("stereo-split", split, range, stereoFixture),
+  stereoExpected,
+);
+const stereoWindowExpected = Buffer.from(stereo);
+interleave(
+  denoise("window-left", source.subarray(48000 * 4, 144000 * 4)),
+  denoise("window-right", rightChannel.subarray(48000 * 4, 144000 * 4)),
+).copy(stereoWindowExpected, 48000 * 8);
+compare(
+  "stereo-window-dry-neighbors",
+  renderPCM("stereo-window", selectedWindow, range, stereoFixture),
+  stereoWindowExpected,
+);
+compare(
+  "stereo-dependent-components",
+  renderPCM("stereo-dependent", nested, range, stereoFixture),
+  interleave(denoise("dependent-left", expected), denoise("dependent-right", rightExpected)),
+);
+const tailRange = { startUs: 0, endUs: 1001000 },
+  tailDocument = structuredClone(doc);
+tailDocument.clips[0].source.range = tailRange;
+tailDocument.clips[0].placement.range = tailRange;
+const tailLeft = source.subarray(0, 48048 * 4),
+  tailRight = rightChannel.subarray(0, 48048 * 4),
+  tailFixture = sourceFixture("stereo-tail", interleave(tailLeft, tailRight), 2);
+compare(
+  "stereo-partial-frame-tail",
+  renderPCM("stereo-tail-output", tailDocument, tailRange, tailFixture),
+  interleave(denoise("tail-left", tailLeft), denoise("tail-right", tailRight)),
+);
+refuse(
+  "prior-mono-policy-identity",
+  (p) => {
+    p.state.implementationId =
+      "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-v1";
+  },
+  "INVALID_REQUEST",
+);
+const quad = Buffer.alloc(source.length * 4);
+for (let frame = 0; frame < source.length / 4; frame++)
+  source.copy(quad, frame * 16, frame * 4, frame * 4 + 4);
+const quadFixture = sourceFixture("four-channel", quad, 4);
+assert.equal(quadFixture.asset.streams[0].channels, 4);
+refuse(
+  "physical-more-than-two-channels",
+  (p) => {
+    p.assets = [quadFixture.binding];
+    p.state.formats[0].channels = 4;
+  },
+  "UNSUPPORTED_FORMAT",
+);
+const inverted = gain(source, -1),
+  invertedExpected = gunzipSync(
+    readFileSync(root + "/specs/agent-editing/assets/12c-channel-relations/inverted-output.f32.gz"),
+  );
+const invertedFixture = sourceFixture("opposite-polarity-stereo", interleave(source, inverted), 2);
+compare(
+  "opposite-polarity-no-downmix",
+  renderPCM("opposite-polarity-output", doc, range, invertedFixture),
+  interleave(expected, invertedExpected),
 );
 report.identity = identity;
 report.passed = true;

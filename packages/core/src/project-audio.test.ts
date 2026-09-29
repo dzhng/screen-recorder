@@ -19,7 +19,7 @@ const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const cleanup of cleanups.splice(0).reverse()) await cleanup();
 });
-async function wave(file: string, frames: number, channels: 1 | 2 = 2) {
+async function wave(file: string, frames: number, channels: 1 | 2 | 4 = 2) {
   const bytes = Buffer.alloc(44 + frames * channels * 4);
   bytes.write("RIFF");
   bytes.writeUInt32LE(bytes.length - 8, 4);
@@ -68,7 +68,7 @@ async function fixture(
   renderer = render,
   budget?: number,
   durationUs = 1000000,
-  sourceChannels: 1 | 2 | null = 2,
+  sourceChannels: 1 | 2 | 4 | null = 2,
 ) {
   const home = await mkdtemp("/tmp/project-audio-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
@@ -703,8 +703,8 @@ test("a narrow parent-state plan binds mono sources outside its requested output
   );
 });
 
-test("state channel admission refuses stereo and unknown probes without blocking retained metadata", async () => {
-  for (const channels of [2, null] as const) {
+test("state channel admission refuses wider and unknown probes without blocking retained metadata", async () => {
+  for (const channels of [4, null] as const) {
     const f = await fixture(render, undefined, 1000000, channels);
     const revision = f.projects.apply(f.projectId, {
       requestId: "channel-state",
@@ -723,7 +723,7 @@ test("state channel admission refuses stereo and unknown probes without blocking
         details: {
           stateInputs: [
             {
-              kind: "unverified-mono-input",
+              kind: "unverified-audio-channels",
               clipId: f.placed.edit.labels["voice-clip"],
               channels,
               sampleRate: 48000,

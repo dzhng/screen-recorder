@@ -1,0 +1,11 @@
+# 15a2f — Independent learned state per channel
+
+Status: verified fixed-policy mono/stereo execution; [evidence](../assets/15a2f-independent-channels/README.md). Extends [15a2e](15a2e-state-isolation.md). This does not close the parent speech/spatial listening, retiming, portability or successful long-output acceptance gates.
+
+The existing stereo project mixer still owns source channel mapping and resampling. RNNoise consumes each resulting lane independently with the frozen mono adapter, using the same complete connected component and sample clock. Mono sources keep the existing duplication into the stereo rendition; differing channels are never averaged, linked, normalized or detected by sampled signal similarity. The policy is fixed and identified in the native recipe identity.
+
+One attempt-owned input file holds the interleaved prefix. Each lane rewinds that input and runs the unchanged mono adapter. The same output spool holds separate lane spans; paired offsets become readable only when both complete counts pass. Dependent components read corresponding lanes through the ordinary native prefix views. Cancellation or failure of either lane cannot publish a partial pair. No additional graph, preparation store, job queue or model owner is introduced.
+
+Core admission accepts known mono/stereo input metadata; native source opening checks actual channel count and rate against that provenance. Unknown and more-than-two-channel sources remain explicit refusals. The previous mono-only policy identity is not accepted as this policy, so newly prepared artifacts cannot alias a different implementation meaning. Retained PCM remains readable without current execution availability.
+
+Exact numerical comparisons cover differing channel material, order, one-lane changes, opposite polarity, selected windows, full/range, shared splits, dependent processing, partial-frame tails, public preparation and cancellation during the second lane. The channel fixture is assembled from retained mono speech/noise material, not a spatial stereo recording. The earlier measured nonlinear level relationship is not converted into a transparency tolerance; spatial placement, naturalness and protected speech remain listening judgments.

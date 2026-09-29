@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, writeFile, rm, readdir, stat, realpath } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { gunzipSync } from "node:zlib";
 import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs";
@@ -20,7 +20,7 @@ const report = {
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   harnessSha256: hash(await readFile(import.meta.filename)),
   scope:
-    "linked mono RNNoise through public CLI/MCP and existing prepared owner; no listening or model-absent binary claim",
+    "linked independent-channel RNNoise through public CLI/MCP and existing prepared owner; no listening or model-absent binary claim",
 };
 const service = new JourneyService(home, report),
   call = service.call.bind(service);
@@ -39,7 +39,15 @@ async function prepare(selection) {
   report.receipts.push(result);
   return result;
 }
-async function inspect(prepared, startUs, endUs, name, factor = 1) {
+async function inspect(
+  prepared,
+  startUs,
+  endUs,
+  name,
+  factor = 1,
+  oracle = expected,
+  oracleChannels = 1,
+) {
   const asset = await call("asset.get", { assetId: prepared.published.audio.assetId });
   const stream = asset.streams.find((s) => s.kind === "audio");
   assert(stream);
@@ -57,9 +65,14 @@ async function inspect(prepared, startUs, endUs, name, factor = 1) {
     frames = ((endUs - startUs) * 48000) / 1000000;
   assert.equal(header.frames, frames);
   for (let frame = 0; frame < frames; frame++) {
-    const value = Math.fround(expected.readFloatLE((first + frame) * 4) * factor);
-    for (let channel = 0; channel < 2; channel++)
+    for (let channel = 0; channel < 2; channel++) {
+      const value = Math.fround(
+        oracle.readFloatLE(
+          ((first + frame) * oracleChannels + Math.min(channel, oracleChannels - 1)) * 4,
+        ) * factor,
+      );
       assert.equal(bytes.readFloatLE(header.offset + frame * 8 + channel * 4), value);
+    }
   }
   report.checks[name] = { frames, sha256: hash(bytes), exactPCM: true };
 }
@@ -288,6 +301,66 @@ try {
     "historical-gained-state",
     halfWet,
   );
+  const stereoImported = await call("asset.import", {
+    requestId: "stereo-source",
+    path: join(dirname(resolve(values.source)), "differing-stereo.wav"),
+  });
+  const stereoJob = await poll(
+    () => call("job.get", { jobId: stereoImported.jobId }),
+    (v) => v.state === "ready",
+    "stereo import",
+  );
+  const stereoAsset = await call("asset.get", { assetId: stereoJob.result.assetId });
+  assert.equal(stereoAsset.streams[0].channels, 2);
+  const stereoMade = await call("project.create", {
+    requestId: "stereo-project",
+    canvas: {
+      width: 16,
+      height: 16,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  const stereoPlaced = await call("edit.apply", {
+    projectId: stereoMade.project.projectId,
+    expectedRevisionId: stereoMade.revision.id,
+    requestId: "stereo-place",
+    operations: [
+      { operation: "track.add", label: "audio", track: { kind: "audio", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "audio" },
+          assetId: stereoAsset.id,
+          streamId: stereoAsset.streams[0].id,
+          source: { kind: "range", range: { startUs: 0, endUs: 5000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 5000000 } },
+        },
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [{ processor: { type: "rnnoise" } }],
+      },
+    ],
+  });
+  const stereoPrepared = await prepare({
+    projectId: stereoMade.project.projectId,
+    revisionId: stereoPlaced.revision.id,
+  });
+  const rightExpected = gunzipSync(
+    await readFile(
+      join(root, "specs/agent-editing/assets/12c-matched-noise/audio/rnnoise-reference.f32.gz"),
+    ),
+  );
+  assert.equal(rightExpected.length, expected.length);
+  const stereoExpected = Buffer.alloc(expected.length * 2);
+  for (let frame = 0; frame < expected.length / 4; frame++) {
+    expected.copy(stereoExpected, frame * 8, frame * 4, frame * 4 + 4);
+    rightExpected.copy(stereoExpected, frame * 8 + 4, frame * 4, frame * 4 + 4);
+  }
+  await inspect(stereoPrepared, 0, 5000000, "independent-stereo-full", 1, stereoExpected, 2);
+  await inspect(stereoPrepared, 1000000, 3000000, "independent-stereo-range", 1, stereoExpected, 2);
   const longMade = await call("project.create", {
     requestId: "cancel-project",
     canvas: {
@@ -328,7 +401,7 @@ try {
       for (const file of await readdir(workspace, { recursive: true })) {
         if (!file.endsWith("output.f32")) continue;
         const bytes = (await stat(join(workspace, file))).size;
-        if (bytes > 0 && bytes < 600 * 48000 * 4) return { processing: true, bytes };
+        if (bytes > 600 * 48000 * 4 && bytes < 600 * 48000 * 8) return { processing: true, bytes };
       }
       const status = await call("job.get", { jobId: inFlight.jobId });
       assert.notEqual(
@@ -339,7 +412,7 @@ try {
       return { processing: false };
     },
     (v) => v.processing,
-    "in-flight native state spool",
+    "in-flight second-channel state spool",
   );
   const cancelAt = performance.now();
   await call("job.cancel", { jobId: inFlight.jobId });
@@ -354,6 +427,8 @@ try {
   report.checks.inFlightCancellation = {
     observedOutputSpoolBytes: observation.bytes,
     declaredFrames: 600 * 48000,
+    completedLanes: 1,
+    incompleteLane: 1,
     canceled: true,
     noPublishedResult: true,
     scratchRemoved: true,
@@ -371,6 +446,15 @@ try {
     outputTap({ kind: "dry" }),
     "dry-tap-with-executor-unavailable",
     baseline,
+  );
+  await inspect(
+    stereoPrepared,
+    3000000,
+    4500000,
+    "stereo-retained-executor-unavailable",
+    1,
+    stereoExpected,
+    2,
   );
   const refusal = await call("audio.prepare", selected, { error: true });
   assert.equal(refusal.code, "NOT_READY");

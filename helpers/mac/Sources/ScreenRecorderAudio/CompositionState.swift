@@ -4,12 +4,12 @@ import ScreenRecorderMedia
 
 extension CompositionAudio {
     /// Identifies the compiled model and the complete fixed sample recipe, not a selectable quality preset.
-    public static let rnnoiseImplementation = "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-v1"
+    public static let rnnoiseImplementation = "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2"
 
     final class PreparedState {
         struct Span {
             let range: Plan.Samples
-            let offset: UInt64
+            let offsets: (UInt64, UInt64)
         }
         let directory: URL
         let input: FileHandle
@@ -43,18 +43,18 @@ extension CompositionAudio {
             guard position >= span.range.start, position + Int64(count) <= span.range.end else {
                 throw invalid("Prepared state read exceeds its component.")
             }
-            try output.seek(toOffset: span.offset + UInt64(position - span.range.start) * 4)
-            let data = try output.read(upToCount: count * 4) ?? Data()
-            guard data.count == count * 4 else { throw invalid("Prepared state PCM is truncated.") }
-            return data.withUnsafeBytes { bytes in
-                var result = [Float](repeating: 0, count: count * 2)
-                for index in 0..<count {
-                    let value = bytes.loadUnaligned(fromByteOffset: index * 4, as: Float.self)
-                    result[index * 2] = value
-                    result[index * 2 + 1] = value
+            var result = [Float](repeating: 0, count: count * 2)
+            for (channel, offset) in [span.offsets.0, span.offsets.1].enumerated() {
+                try output.seek(toOffset: offset + UInt64(position - span.range.start) * 4)
+                let data = try output.read(upToCount: count * 4) ?? Data()
+                guard data.count == count * 4 else { throw invalid("Prepared state PCM is truncated.") }
+                data.withUnsafeBytes { bytes in
+                    for index in 0..<count {
+                        result[index * 2 + channel] = bytes.loadUnaligned(fromByteOffset: index * 4, as: Float.self)
+                    }
                 }
-                return result
             }
+            return result
         }
     }
 
@@ -145,9 +145,9 @@ extension CompositionAudio {
             formats[key] = format
         }
         for (key, source) in sources.opened {
-            guard let format = formats[key], format.channels == 1,
+            guard let format = formats[key], (source.channels == 1 || source.channels == 2),
                 format.channels == source.channels, format.sampleRate == source.sampleRate else {
-                throw NativeFailure("NOT_READY", "RNNoise requires verified mono source provenance matching the opened stream.")
+                throw NativeFailure("NOT_READY", "RNNoise requires verified mono or stereo provenance matching the opened stream.")
             }
         }
         let prepared = try PreparedState(parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent())
@@ -163,43 +163,45 @@ extension CompositionAudio {
                 let stream = graph.stream(range: member.sampleRange, target: member.target,
                     before: member.stepId, prepared: prepared)
                 try await stream.consume { block in
-                    var mono = [Float](repeating: 0, count: block.frameCount)
-                    for index in mono.indices {
-                        let left = block.samples[index * 2], right = block.samples[index * 2 + 1]
-                        guard left.isFinite, left.bitPattern == right.bitPattern else {
-                            throw NativeFailure("NOT_READY", "RNNoise prefix must be finite structural dual mono.")
-                        }
-                        mono[index] = left
-                    }
-                    try mono.withUnsafeBytes { try prepared.input.write(contentsOf: $0) }
+                    try block.samples.withUnsafeBytes { try prepared.input.write(contentsOf: $0) }
                     received += Int64(block.frameCount)
                 }
                 prepared.maximumPreroll = max(prepared.maximumPreroll, stream.report?.decoderContext.maximumPrerollFrames ?? 0)
                 prepared.maximumTail = max(prepared.maximumTail, stream.report?.decoderContext.maximumTailFrames ?? 0)
             }
-            guard received == count, try prepared.input.offset() == UInt64(count) * 4 else {
+            guard received == count, try prepared.input.offset() == UInt64(count) * 8 else {
                 throw invalid("State prefix sample count differs from component.")
             }
-            try prepared.input.seek(toOffset: 0)
-            let offset = try prepared.output.seekToEnd()
-            var written: Int64 = 0
-            try RNNoiseProcessor.process(sampleCount: count, sampleRate: rate, channels: 1, read: { buffer in
-                let data = try prepared.input.read(upToCount: buffer.count * 4) ?? Data()
-                guard data.count % 4 == 0 else { throw invalid("Unaligned state input PCM.") }
-                data.withUnsafeBytes { bytes in
-                    for index in 0..<(bytes.count / 4) { buffer[index] = bytes.loadUnaligned(fromByteOffset: index * 4, as: Float.self) }
+            var offsets: [UInt64] = []
+            // The rendition has two lanes, each with its own instance of the fixed mono algorithm;
+            // no component is exposed if either lane fails or cancellation interrupts the pair.
+            for channel in 0..<2 {
+                try Task.checkCancellation()
+                try prepared.input.seek(toOffset: 0)
+                let offset = try prepared.output.seekToEnd()
+                var written: Int64 = 0
+                try RNNoiseProcessor.process(sampleCount: count, sampleRate: rate, channels: 1, read: { buffer in
+                    let data = try prepared.input.read(upToCount: buffer.count * 8) ?? Data()
+                    guard data.count % 8 == 0 else { throw invalid("Unaligned stereo state input PCM.") }
+                    data.withUnsafeBytes { bytes in
+                        for index in 0..<(bytes.count / 8) {
+                            buffer[index] = bytes.loadUnaligned(fromByteOffset: index * 8 + channel * 4, as: Float.self)
+                        }
+                    }
+                    return data.count / 8
+                }, write: { buffer in
+                    try prepared.output.write(contentsOf: Data(buffer: buffer))
+                    written += Int64(buffer.count)
+                }, checkCancellation: { try Task.checkCancellation() })
+                guard written == count, try prepared.output.offset() == offset + UInt64(count) * 4 else {
+                    throw invalid("State lane output count differs from component.")
                 }
-                return data.count / 4
-            }, write: { buffer in
-                try prepared.output.write(contentsOf: Data(buffer: buffer))
-                written += Int64(buffer.count)
-            }, checkCancellation: { try Task.checkCancellation() })
-            guard written == count, try prepared.output.offset() == offset + UInt64(count) * 4 else {
-                throw invalid("State output sample count differs from component.")
+                offsets.append(offset)
             }
             for member in domain.members where member.sampleRange.end > member.sampleRange.start {
+                let displacement = UInt64(member.sampleRange.start - domain.sampleRange.start) * 4
                 prepared.spans[member.stepId, default: []].append(.init(range: member.sampleRange,
-                    offset: offset + UInt64(member.sampleRange.start - domain.sampleRange.start) * 4))
+                    offsets: (offsets[0] + displacement, offsets[1] + displacement)))
             }
         }
         return prepared

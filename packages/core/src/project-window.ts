@@ -52,9 +52,12 @@ function requireStateInputsReady(manifest: CompositionWindow["manifest"]) {
         clipId: input.clip.id,
         ranges: input.unavailable,
       });
-    if (isMediaClip(input.clip) && (input.channels !== 1 || input.sampleRate === undefined))
+    if (
+      isMediaClip(input.clip) &&
+      (![1, 2].includes(input.channels ?? 0) || input.sampleRate === undefined)
+    )
       issues.push({
-        kind: "unverified-mono-input",
+        kind: "unverified-audio-channels",
         clipId: input.clip.id,
         channels: input.channels ?? null,
         sampleRate: input.sampleRate ?? null,
@@ -72,7 +75,7 @@ function requireStateInputsReady(manifest: CompositionWindow["manifest"]) {
   if (issues.length)
     throw new CatalogError(
       "NOT_READY",
-      "State processing requires complete mono or structurally dual-mono input",
+      "State processing requires complete verified mono or stereo input",
       { stateInputs: issues },
     );
 }

@@ -225,7 +225,7 @@ export const processorRegistry = {
       .object({ type: z.literal("rnnoise") })
       .strict()
       .describe(
-        "Fixed 48 kHz RNNoise recipe over current connected state domains. Native execution requires verified mono sources or their structural dual-mono mix; stereo or unknown source layouts are refused. Availability is reported by execution and implementationId.",
+        "Fixed 48 kHz RNNoise recipe over current connected state domains. Native execution applies the fixed mono algorithm independently to each output channel and requires verified mono or stereo sources. Unknown or more-than-two-channel sources are refused; no downmix or linked stereo processing is implied. Availability is reported by execution and implementationId.",
       ),
     targets: allProcessingTargets,
     mediaKind: "audio" as const,
