@@ -24,7 +24,10 @@ node packages/test-harness/editing/camera-reproduction.mjs --case shared-clock
 
 [20a](20a-offline-clock.md) proves only controlled timestamp conversion, the existing
 pause mapping and independent writer/recovery plumbing using prerecorded inputs.
-It cannot validate actual device clocks or pass this slice's physical gate. After
+Its unresolved production PCM requirement is resliced into [20b](20b-exact-capture-audio.md),
+[20c](20c-sparse-capture-materialization.md) and [20d](20d-capture-publication.md).
+These preserve exact placement, canonical recovery and safe publication. None
+validates actual device clocks or passes this slice's physical gate. After
 that checkpoint, use explicit selected camera/microphone/screen identities and an
 authorized capture identity for the shared flash/audible-event take. Keep one
 declared initial alignment; do not fit away residual drift or flatten the sources.

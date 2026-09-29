@@ -37,6 +37,22 @@ independently zero every stream. For separately captured files, capture-clock
 offsets live in source provenance and initial project placements. Missing leading
 or trailing media remains a gap, not a duration silently stretched to match video.
 
+## Captured PCM publication
+
+The planned [capture repair](slices/20b-exact-capture-audio.md) retains exact source
+placement under CaptureClock and exact accepted physical frame addresses in the
+existing capture journal. Accepted appends are not proof of durable payload. Normal
+finish and recovery share [one materializer](slices/20c-sparse-capture-materialization.md);
+only verified canonical source-time media reaches asset/project adoption. Empty
+intervals stay gaps, without stored silence or private reader timing maps.
+
+[Publication and cleanup](slices/20d-capture-publication.md) must distinguish old
+source files from new unpublished packed staging. Never infer exact old frame maps
+from rounded support, claim ambiguous later audio verified, or delete recoverable
+working bytes on the strength of an unchecked receipt. The new writer path remains
+disabled until canonical admission and recovery are wired and verified. Physical
+camera synchronization remains a separate acceptance gate.
+
 ## Project document
 
 The final model has this shape; slices add capabilities as their execution paths

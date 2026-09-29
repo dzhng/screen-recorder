@@ -64,3 +64,12 @@ The probe's role-isolated directories and offline journal headers are test evide
 not final capture asset mapping. Native video recovery treats decodable sample
 coverage as verified; audio additionally intersects its recorded support. Neither
 flag makes prerecorded evidence into physical capture.
+
+## Production repair sequence
+
+[20b](20b-exact-capture-audio.md) owns exact CaptureClock placement and accepted
+frame journaling after the separate reader gate. [20c](20c-sparse-capture-materialization.md)
+owns shared normal/recovery materialization; [20d](20d-capture-publication.md) owns
+canonical admission, truthful old-source handling and safe staging cleanup. No
+intermediate packed writer rollout is permitted. These complete the unresolved PCM
+prerequisite without substituting for parent 20 physical capture or 21 integration.
