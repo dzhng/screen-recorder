@@ -32,3 +32,5 @@ existing journeys is unchanged; this pass retains metadata diagnostics rather th
 duplicating their earlier media evidence. Build protocol then service/CLI; verify
 `apps/service`'s `project-service.test.ts` and the existing `scene-evidence.mjs` and
 `evidence.mjs` public harnesses with the frozen native worker.
+
+[Combined-root verification](root-verification.json) confirms the integrated service/CLI checks; logs are in `root-verification.tar.gz`.

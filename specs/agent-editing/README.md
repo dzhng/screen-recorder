@@ -25,7 +25,8 @@ Current pickup and priority:
    gated on real long-work control responsiveness and recovery. Preserve exact
    sample positions, unavailable gaps and ambiguous source bytes. In parallel,
    finish bounded large-source metadata delivery and the two-hour project scale
-   gate; current failures are bulk public/package metadata and oversized public job status.
+   gate; bulk public/package metadata remains in progress, and compact job status
+   now lets the full two-hour preparation test proceed.
    [Source-worker lifetime](assets/20d-source-lifetime/README.md) now passes combined
    orphan, deletion, package and cancellation checks. Physical capture remains
    a separate gate.
@@ -283,6 +284,7 @@ or noise research blocks the first preview. Individual dependency lists are chec
 - [x] [24b — Active audio work and five-minute preparation](slices/24b-active-audio-work.md)
 - [x] [24c — Bound independent edit append work](slices/24c-edit-batch-work.md)
 - [x] [24d — One committed document in public edit receipts](slices/24d-edit-receipts.md)
+- [x] [24e — Compact public job recipe identity](slices/24e-job-status.md)
 - [ ] [25 — Autonomous agent acceptance](slices/25-agent-acceptance.md)
 
 ## Review and invariants

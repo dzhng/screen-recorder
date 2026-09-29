@@ -1,5 +1,7 @@
 # 24e — Keep execution recipes inside the job owner
 
+Dependencies: [24d](24d-edit-receipts.md).
+
 Status: actual large-job public get/retry/cancel and restart verified.
 [Evidence](../assets/24e-job-status/README.md).
 

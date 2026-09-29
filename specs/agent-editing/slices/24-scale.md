@@ -19,9 +19,9 @@ it does not establish broader scale acceptance.
 for large audio/movie requests. [Active scheduling](24b-active-audio-work.md)
 passes five-minute complete-PCM comparison; [batching](24c-edit-batch-work.md) and
 [compact receipts](24d-edit-receipts.md) establish public10k project setup. A fresh
-two-hour run then exposes oversized public job status before full preparation can
-be observed. Compact status delivery alone will not establish constant query
-memory: the current queue still loads the internal execution input. Retained
+two-hour run then exposed oversized public job status. [Digest delivery](24e-job-status.md)
+repairs that response so full preparation can proceed. It does not establish constant
+query memory: the current queue still loads the internal execution input. Retained
 input/index growth and inspection work remain part of the whole-scale gate.
 
 ## Contract

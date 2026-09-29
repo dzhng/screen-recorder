@@ -80,9 +80,9 @@ with independent state per output channel. Listening acceptance remains open.
   request committed and replays without another edit; the earlier discarded run
   remains unobserved. [Single-document receipts](24d-edit-receipts/README.md) now
   deliver10k clips through actual MCP/CLI and restart replay within existing limits.
-  A fresh full scale run passes setup, then public job status exceeds its response
-  frame before preparation can be observed. Resolve that status projection, then
-  finish two-hour preparation, temporal and retiming gates. [Compiled-plan delivery](24a-compiled-plan/README.md)
+  [Compact job status](24e-job-status/README.md) now delivers recipe identity
+  through the existing response owner. Finish the actual two-hour full-PCM gate,
+  then temporal and retiming gates; internal input query cost still belongs to24. [Compiled-plan delivery](24a-compiled-plan/README.md)
   removes the separate control-message size obstacle. Audio/movie executor identities
   advanced for expanded admission so prior nonretryable failures cannot strand new requests.
   The [native build contract](../slices/15a2-denoise-prepared-consumers.md) requires

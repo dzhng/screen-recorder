@@ -1,0 +1,7 @@
+{
+  "commit": "c6167027beaf45bd3cb7976bd9a5a130bebebddf",
+  "build": "passed",
+  "serviceAndCLITests": 32,
+  "authenticatedArtifacts": 29,
+  "scope": "Integrated public digest projection; original large-job public controls retained in agent evidence. Whole-scale input read/query memory remains open."
+}
