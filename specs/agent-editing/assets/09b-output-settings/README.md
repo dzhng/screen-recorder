@@ -1,70 +1,46 @@
-# Output controls implementation checkpoint
+# Output settings checkpoint
 
-The functional settings checkpoint is retained in the noise-prepared-output
-worktree. Its agent stopped after a usage-limit error; root resumed implementation
-and verification.
-This checkpoint is not an accepted preset policy or integrated feature.
+The functional settings checkpoint is integrated in root68e25d9d. Its shared
+schema owns explicit CLI/MCP settings, preset expansion, canonical render identity
+and authored export retry identity. Native preflight rejects unsupported settings
+before reading source frames or preparing audio. Actual H.264 profile/level is
+read from the encoded sequence header; AAC rate/layout and duration are validated.
 
-The public journey passes using /tmp/screenrec-output-native. It discovers settings
-through CLI/MCP, reuses canonical explicit/preset output, varies AAC sample rate
-and mono/stereo layout, completes full/range reordering, cancellation/retry,
-historical reads and retained export replay. An expanded run also encodes constant,
-variable and quality video rate control, actual Baseline/Main profiles and variable
-AAC. Exact requests, receipts, native identity and ffprobe outputs are retained.
-Twelve focused settings/preview tests pass. The first journey's socket path exceeded
-the platform limit; shortening only the temporary home prefix resolved startup.
+[Measured quality/size policy](../09b-output-quality/README.md) supports the balanced
+starting point while preserving explicit overrides and every earlier fidelity
+failure. Presets never replace the controls. The public SDK inventory found
+additional applicable controls and overly narrow schema ranges; their expansion
+and final fresh skill use are still in progress. Whole09b is not complete.
 
-Remaining before acceptance: inventory every exposed setting with runtime behavior,
-verify unsupported combinations before expensive work, real-text/motion/pointer
-quality-size comparison for the balanced default, regression coverage for fixed
-profile callers, encoder result validation beyond echoing the request, product skill
-and fresh consumer trial, independent review, root integration and combined gates.
-The current3/8/20Mbps presets are candidates, not measured accepted defaults.
+## Verification boundaries
 
-The VT capability inventory proves a writable property, not every combination or
-value. Help and tests must preserve that distinction. Early native settings
-validation was added after review found that audio preparation and video encoding
-could precede a settings refusal.
+Retained public receipts cover fourteen encoded variants: preset/explicit reuse,
+video rate modes and profiles, AAC formats, full/range frame reordering,
+cancellation/retry, historical revisions and stable export replay. Independent
+review caught three defects, all corrected: stale native movie callers, invalid
+settings surfacing as internal errors, and changed request identities for
+settings-free exports. Native video, picture-admission, layered rendering and
+composition movie/audio regressions pass. Original failed runs remain retained.
 
-The native preflight-order regression now fails against the previous worker and
-passes against a rebuilt worker: invalid video codec and invalid AAC sample rate
-return UNSUPPORTED_FORMAT before a deliberately missing frame file or incomplete
-audio plan is read, and no output is created. Canvas validation stays in its
-existing type and is reused by early validation and picture execution. The expanded public control journey also passes against the final worker
-(c19da41bac53a4a2c743e84dbe10837c101f88181015762437713df99a5b63da),
-including all13encoded variants and the strengthened actual profile/keyframe
-assertions. Final build and public receipts are retained.
+The preflight negative control fails against the previous worker and passes
+against the corrected worker before missing source files or incomplete audio
+plans are touched. Explicit header validation first caught an incorrect Baseline
+profile identifier; the corrected hexadecimal map is verified against delivered
+files. Frozen worker: `/tmp/screenrec-output-profile-verified-native`.
 
-Encoded H.264 validation now inspects the sequence parameter set through Core
-Media before publication and returns actual profile/level metadata. Explicit
-profile or level mismatches fail rather than echoing the request as proof. The
-first public run caught a wrong Baseline identifier in this validator; the fixed
-map uses the hexadecimal profile IDs from [RFC6184](https://www.rfc-editor.org/rfc/rfc6184#section-8.1).
-The failed run is retained. Native repeat/reorder, pointer and composition-movie
-callers now use the shared resolved settings schema instead of the removed fixed
-movie-profile field; picture-only calls retain their existing profile contract.
+The [limited-context skill checkpoint](skill-checkpoint.md) exercises discovery,
+custom settings without a preset, full resolved-settings reuse, byte-identical
+preview/export and replay, independently probed encoded formats, and explicit
+invalid-combination refusal. Its [raw evidence](skill-checkpoint.zip) is retained.
+The consumer knew the project lifecycle from previous work; this is not a fully
+fresh agent gate, and new controls require subsequent verification.
 
-The corrected header validator passes14public encoded variants, including an
-explicit High level4.0 request. Delivered actual profile/level receipts agree with
-ffprobe for every variant; the focused12tests remain green. The existing video
-regression initially reached its obsolete fixed-profile negative case after
-rendering its cohort, then failed because the removed field is now an unknown
-request key. Its replacement sends an invalid profile through the actual settings
-object and still requires explicit refusal without output.
+The quality harness, decoder and retained provenance passed independent review
+without actionable findings; [review log](quality-code-review.log). Exact
+experiment design is in [the quality plan](quality-plan.md). Public parameter
+schemas and native lowering remain the authoritative setting inventory; these
+evidence files record verification rather than another API manual.
 
-Independent review found stale native movie callers, settings-resolution errors
-escaping as INTERNAL_ERROR, and unnecessary replay-key changes for settings-free
-exports. Movie callers were swept while picture-only requests stayed unchanged;
-invalid combinations now retain actionable INVALID_PARAMS messages through both
-CLI preview and MCP export. Empty/omitted settings retain the original request
-key, while nonempty authored settings still pin replay independently of preset
-expansion. All13export-lifecycle tests and the public error journey pass. Native
-repeat/reorder passes18cases and11refusals; picture admission passes7checks.
-The code-review log preserves the original findings and its verification limits.
-
-The complete native layered-rendering cohort and combined composition movie/audio
-regression also finish successfully with this worker. Their logs include transparent
-output refusal, ordered picture scopes and production cancellation. This checkpoint
-can be reviewed as functional controls; preset quality/size selection, the complete
-capability inventory, product skill and root integration remain separate acceptance
-work. It must not be called a completed09b or a promoted balanced encoding policy.
+[Combined-root confirmation](root-integration.json) passes the targeted build,
+16 focused tests, 13 export-lifecycle tests and the complete public settings journey.
+The source-index portability guard remains preserved during integration.

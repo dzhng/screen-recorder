@@ -228,6 +228,13 @@ audio or video, inspect both planes: the requested replacement must change while
 the protected plane keeps its source and timing. A downloaded preview is a viewing
 artifact; it does not establish that a durable export intent has published.
 
+Before choosing project video delivery settings, inspect `output.capabilities` and
+operation help. Presets are defaults: override individual controls or pass the
+returned resolved settings. Keep canvas dimensions/frame rate in the composition.
+Read the actual encoded profile/level and audio format in the result; requested
+average bitrate is not measured file bitrate. Preserve the original request for
+export retries, and report unsupported combinations instead of silently substituting.
+
 For an editable project transfer, discover `export.create` package support and
 poll its durable export intent until committed. Open the resulting ZIP, inspect
 `package.status`, then explicitly adopt it with a stable request ID. Poll the same
