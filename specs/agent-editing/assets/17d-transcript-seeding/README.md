@@ -49,3 +49,8 @@ use `gzip -dc` to inspect them. No evidence is discarded during compression.
 
 Fresh-consumer raw request/receipt/help/stderr files named by its unchanged report
 are in `fresh-skill/raw-requests-receipts.tar.gz`, with individual gzip members.
+
+Root independently inspected all four sheets (17 contexts and crops) and agreed:
+legible text, consistent repetitions, correction/adoption/undo consistency and a
+blank sampled gap, with modest softness at encoded glyph edges. This is scoped
+to the sampled stills, not continuous playback.
