@@ -126,3 +126,9 @@ seam must include cursor acquisition and preserve existing start teardown/geomet
 requires recovery before cancellation when native has forgotten the take. Any
 recoverable or ambiguous remaining source bytes survive; only proved absence permits
 canceled deletion. Explicit library deletion remains a separate authority.
+
+
+[Physical input lifetime evidence](../assets/20d-input-session/README.md) exercises
+actual NativeCapture and writer with prerecorded video through the package-only
+input boundary, preserving production selection/geometry/observation order. The
+full controller/audio publication/admission gate remains open until activation.

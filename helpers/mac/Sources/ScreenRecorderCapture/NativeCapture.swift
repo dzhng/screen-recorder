@@ -5,14 +5,13 @@ import Foundation
 
 @MainActor
 public final class NativeCapture {
-    private var streams: [SCStream] = []
-    private var streamDelegate: CaptureStreamDelegate?
+    private var input: (any CaptureInputSession)?
+    private let prepareInput: @MainActor (CaptureRequest) async throws -> any CaptureInputSession
     private var generations = CaptureGeneration()
     private var sink: CaptureWriter?
     private var closedResult: CaptureResult?
     private var publicationCancellationRequested = false
     private let termination = CaptureTermination<CaptureResult?>()
-    private var microphoneObserver: NSObjectProtocol?
     public var onInterruption: ((CaptureFailure) -> Void)?
     private var failure: CaptureFailure?
     private enum State: String { case idle, selecting, recording, paused, finalizing }
@@ -46,16 +45,10 @@ public final class NativeCapture {
     /// asks for it, not when a menu lists what exists.
     public static func microphoneDevices() -> [CaptureAudioDevice] {
         let preferred = AVCaptureDevice.default(for: .audio)?.uniqueID
-        return microphoneCandidates().map {
+        return ScreenCaptureInput.microphoneCandidates().map {
             CaptureAudioDevice(
                 id: $0.uniqueID, name: $0.localizedName, isDefault: $0.uniqueID == preferred)
         }
-    }
-
-    private static func microphoneCandidates() -> [AVCaptureDevice] {
-        AVCaptureDevice.DiscoverySession(
-            deviceTypes: [.microphone, .external], mediaType: .audio, position: .unspecified
-        ).devices
     }
 
     public static func requestPermission(_ kind: String) async throws -> Bool {
@@ -66,7 +59,11 @@ public final class NativeCapture {
         }
     }
 
-    public init() {}
+    public init() { prepareInput = { try await ScreenCaptureInput.prepare($0) } }
+
+    package init(prepareInput: @escaping @MainActor (CaptureRequest) async throws -> any CaptureInputSession) {
+        self.prepareInput = prepareInput
+    }
 
     public func start(_ request: CaptureRequest) async throws {
         guard state == .idle, !termination.isRunning else {
@@ -82,90 +79,9 @@ public final class NativeCapture {
                 generations.end(generation)
             }
         }
-        guard Self.screenPermission else {
-            throw CaptureFailure(
-                "PERMISSION_REQUIRED",
-                "Allow Screen Recorder in System Settings > Privacy & Security > Screen & System Audio Recording, then relaunch. No permission was requested automatically."
-            )
-        }
-        let microphone: AVCaptureDevice?
-        if request.microphone {
-            guard AVCaptureDevice.authorizationStatus(for: .audio) == .authorized else {
-                throw CaptureFailure(
-                    "MICROPHONE_PERMISSION_REQUIRED",
-                    "Microphone access is not authorized. Enable it explicitly before recording narration."
-                )
-            }
-            let devices = Self.microphoneCandidates()
-            microphone =
-                request.microphoneDeviceID.flatMap { id in devices.first { $0.uniqueID == id } }
-                ?? (request.microphoneDeviceID == nil ? AVCaptureDevice.default(for: .audio) : nil)
-            guard microphone != nil else {
-                throw CaptureFailure(
-                    "SOURCE_UNAVAILABLE", "The selected microphone is unavailable.")
-            }
-        } else {
-            microphone = nil
-        }
-        let content = try await SCShareableContent.excludingDesktopWindows(
-            false, onScreenWindowsOnly: true)
-        let filter: SCContentFilter
-        var crop: CGRect?
-        // Where the request fixed its content onscreen, in global display points. A window has no
-        // such rect: only the stream reports where the window is while it is being captured.
-        var requestedSourceRect: CGRect?
-        switch request.source.kind {
-        case "window":
-            guard
-                let window = content.windows.first(where: { $0.windowID == request.source.windowID }
-                )
-            else {
-                throw CaptureFailure("SOURCE_UNAVAILABLE", "The selected window is unavailable.")
-            }
-            filter = SCContentFilter(desktopIndependentWindow: window)
-        case "display", "region":
-            guard
-                let display = content.displays.first(where: {
-                    $0.displayID == request.source.displayID
-                })
-            else {
-                throw CaptureFailure("SOURCE_UNAVAILABLE", "The selected display is unavailable.")
-            }
-            filter = Self.displayFilter(display, in: content)
-            requestedSourceRect = CGDisplayBounds(display.displayID)
-            if request.source.kind == "region" {
-                guard let region = request.source.region else {
-                    throw CaptureFailure(
-                        "INVALID_REQUEST",
-                        "Region capture requires display-local point coordinates.")
-                }
-                let rect = CGRect(
-                    x: region.x, y: region.y, width: region.width, height: region.height)
-                let bounds = CGRect(origin: .zero, size: filter.contentRect.size)
-                guard [region.x, region.y, region.width, region.height].allSatisfy(\.isFinite),
-                    region.width > 0, region.height > 0, bounds.contains(rect)
-                else {
-                    throw CaptureFailure(
-                        "INVALID_REQUEST",
-                        "Region must be a nonempty rectangle inside the selected display.")
-                }
-                crop = rect
-                requestedSourceRect = CGRect(
-                    x: CGDisplayBounds(display.displayID).minX + rect.minX,
-                    y: CGDisplayBounds(display.displayID).minY + rect.minY, width: rect.width,
-                    height: rect.height)
-            }
-        default:
-            throw CaptureFailure(
-                "INVALID_REQUEST", "Source kind must be display, window, or region.")
-        }
-        let size = (crop ?? filter.contentRect).size
-        let pixels = CGSize(
-            width: size.width * CGFloat(filter.pointPixelScale),
-            height: size.height * CGFloat(filter.pointPixelScale))
-        let scale = min(1, 4096 / max(pixels.width, pixels.height))
-        let width = max(2, Int(pixels.width * scale) / 2 * 2)
-        let height = max(2, Int(pixels.height * scale) / 2 * 2)
+        let prepared = try await prepareInput(request)
+        let width = prepared.width
+        let height = prepared.height
         outputSize = (width, height)
         let onFailure: @Sendable (CaptureFailure) -> Void = { [weak self] reason in
             Task { @MainActor in self?.interrupt(reason, generation: generation) }
@@ -173,107 +89,32 @@ public final class NativeCapture {
         let writer = try CaptureWriter(
             request: request, width: width, height: height,
             sessionID: request.sourceId ?? generation.uuidString,
-            requestedSourceRect: requestedSourceRect, onFailure: onFailure)
+            requestedSourceRect: prepared.requestedSourceRect, onFailure: onFailure)
         var started = false
         defer {
             if !started {
                 writer.cancel()
-                streamDelegate = nil
+                input = nil
             }
-        }
-        let delegate = CaptureStreamDelegate(onFailure: onFailure)
-        streamDelegate = delegate
-        let config = SCStreamConfiguration()
-        config.width = width
-        config.height = height
-        config.minimumFrameInterval = CMTime(value: 1, timescale: 30)
-        config.queueDepth = 3
-        config.showsCursor = false
-        config.showMouseClicks = false
-        config.captureDynamicRange = .SDR
-        config.pixelFormat = kCVPixelFormatType_32BGRA
-        config.colorSpaceName = CGColorSpace.sRGB
-        config.preservesAspectRatio = true
-        config.ignoreShadowsSingleWindow = true
-        config.shouldBeOpaque = true
-        if let crop { config.sourceRect = crop }
-        config.captureMicrophone = request.microphone
-        config.microphoneCaptureDeviceID = microphone?.uniqueID
-        let video = SCStream(filter: filter, configuration: config, delegate: delegate)
-        try video.addStreamOutput(writer, type: .screen, sampleHandlerQueue: writer.queue)
-        if request.microphone {
-            try video.addStreamOutput(writer, type: .microphone, sampleHandlerQueue: writer.queue)
-        }
-        var prepared = [video]
-        if request.systemAudio {
-            guard let display = content.displays.first else {
-                throw CaptureFailure(
-                    "SOURCE_UNAVAILABLE", "No display is available for whole-system audio capture.")
-            }
-            // An independent whole-display filter keeps window selection from narrowing system audio.
-            let audioConfig = SCStreamConfiguration()
-            audioConfig.width = 2
-            audioConfig.height = 2
-            audioConfig.capturesAudio = true
-            audioConfig.excludesCurrentProcessAudio = true
-            audioConfig.sampleRate = 48_000
-            audioConfig.channelCount = 2
-            let audio = SCStream(
-                filter: SCContentFilter(display: display, excludingWindows: []),
-                configuration: audioConfig, delegate: delegate)
-            try audio.addStreamOutput(writer, type: .audio, sampleHandlerQueue: writer.queue)
-            prepared.append(audio)
         }
         sink = writer
+        input = prepared
         failure = nil
         do {
-            for stream in prepared {
-                try await stream.startCapture()
-                streams.append(stream)
+            try await prepared.start(writer: writer, onFailure: onFailure) { [self] in
                 if let failure { throw failure }
             }
         } catch {
-            for stream in streams { try? await stream.stopCapture() }
-            streams = []
+            _ = await prepared.stop()
+            input = nil
             sink = nil
-            throw (error as? CaptureFailure)
-                ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
+            throw (error as? CaptureFailure) ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
         }
         state = .recording
         started = true
-        writer.startCursorSampling()
+        prepared.startCursorSampling(writer: writer)
         lifecycleSequence = writer.note("recording", reason: nil)
-        if let microphone {
-            let deviceID = microphone.uniqueID
-            microphoneObserver = NotificationCenter.default.addObserver(
-                forName: AVCaptureDevice.wasDisconnectedNotification, object: nil, queue: .main
-            ) { [weak self] notification in
-                guard (notification.object as? AVCaptureDevice)?.uniqueID == deviceID else {
-                    return
-                }
-                Task { @MainActor in
-                    self?.interrupt(
-                        CaptureFailure("SOURCE_LOST", "The selected microphone disconnected."),
-                        generation: generation)
-                }
-            }
-        }
-    }
-
-    /// A whole display, minus this application's own windows, so nothing this app is showing ends
-    /// up inside a take of the screen it is showing it on.
-    ///
-    /// Shareable content only names applications that have something on screen, so an app showing
-    /// nothing has nothing here to exclude; the panels a take floats over the screen keep
-    /// themselves out of every capture instead.
-    private static func displayFilter(_ display: SCDisplay, in content: SCShareableContent)
-        -> SCContentFilter
-    {
-        let own = CaptureExclusion.ownApplications(
-            among: content.applications, bundleIdentifier: Bundle.main.bundleIdentifier,
-            identity: \.bundleIdentifier)
-        guard !own.isEmpty else { return SCContentFilter(display: display, excludingWindows: []) }
-        return SCContentFilter(display: display, excludingApplications: own, exceptingWindows: [])
+        prepared.observeDeviceLoss(onFailure: onFailure)
     }
 
     /// Records one reported transition in the running take's journal. The caller reports what the
@@ -321,15 +162,9 @@ public final class NativeCapture {
             state = .finalizing
             if closedResult == nil {
                 sink.seal()
-                if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
-                microphoneObserver = nil
-                let stopping = streams
-                streams = []
-                for stream in stopping {
-                    do { try await stream.stopCapture() } catch {
-                        failure = failure ?? CaptureFailure("NATIVE_CAPTURE_FAILED", error.localizedDescription)
-                    }
-                }
+                let inputFailure = await input?.stop()
+                failure = failure ?? inputFailure
+                input = nil
                 closedResult = await sink.finish(failure: failure)
             }
             guard let closedResult else { throw CaptureFailure("INVALID_STATE", "Writer did not close.") }
@@ -340,7 +175,6 @@ public final class NativeCapture {
             outputSize = nil
             self.sink = nil
             self.closedResult = nil
-            streamDelegate = nil
             generations.end(generation)
             state = .idle
             return result
@@ -396,15 +230,11 @@ public final class NativeCapture {
             guard let sink, let generation = generations.current, state != .idle else { return nil }
             state = .finalizing
             if closedResult == nil { sink.cancel() }
-            if let microphoneObserver { NotificationCenter.default.removeObserver(microphoneObserver) }
-            microphoneObserver = nil
-            let stopping = streams
-            streams = []
-            for stream in stopping { try? await stream.stopCapture() }
+            _ = await input?.stop()
+            input = nil
             outputSize = nil
             self.sink = nil
             closedResult = nil
-            streamDelegate = nil
             generations.end(generation)
             state = .idle
             return nil
@@ -418,17 +248,5 @@ public final class NativeCapture {
         // Sealing rejects samples immediately. The notified owner ends this take through the
         // same stop/discard operation; interruption must not retain a second stream teardown.
         onInterruption?(reason)
-    }
-}
-
-private final class CaptureStreamDelegate: NSObject, SCStreamDelegate, @unchecked Sendable {
-    private let onFailure: @Sendable (CaptureFailure) -> Void
-
-    init(onFailure: @escaping @Sendable (CaptureFailure) -> Void) {
-        self.onFailure = onFailure
-    }
-
-    func stream(_ stream: SCStream, didStopWithError error: Error) {
-        onFailure(CaptureFailure("SOURCE_LOST", error.localizedDescription))
     }
 }

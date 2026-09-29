@@ -1,0 +1,11 @@
+{
+  "base": "6eb81892",
+  "workerSHA256": "63b356ec58bbc8deff71eb1739b89b6141e358a308891c77ab3f36b983bdc51e",
+  "actualNativeCapture": true,
+  "physicalCapture": false,
+  "schema2Enabled": false,
+  "nativeDefault": true,
+  "journalFailure": true,
+  "appBuild": true,
+  "scriptedControllerModes": 5
+}

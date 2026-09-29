@@ -32,6 +32,7 @@ if ProcessInfo.processInfo.environment["SCREENREC_JOURNAL_LEASE_CHILD"] != nil {
 } else {
   try await runFractionalRecoveryDurationTest()
   try await runCaptureDurationTests()
+  try await runNativeCaptureInputTests()
   try await runCaptureTerminationTests()
   try await runCaptureWriterTests()
   runCaptureClockTests()
