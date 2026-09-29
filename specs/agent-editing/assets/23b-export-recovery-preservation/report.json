@@ -1,0 +1,2995 @@
+{
+  "passed": true,
+  "scope": "One cached matched postcommit acknowledgement-loss/restart with concurrent identity replay",
+  "attempts": [
+    {
+      "side": "recording",
+      "operation": "service.health",
+      "params": {},
+      "response": {
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 94446,
+          "socketPath": "/private/tmp/screenrec-23a-second/old/run/service.sock",
+          "home": "/private/tmp/screenrec-23a-second/old",
+          "node": "24.14.0",
+          "uptimeMs": 1892
+        },
+        "id": "b16d5241-c1f2-4264-bf69-c4a85c0fe289"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "export.create",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "recording.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+          "kind": "video",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "snapshot": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "sourceDurationUs": 134025574,
+            "historyThroughOrdinal": 15,
+            "capture": {
+              "state": "complete",
+              "createdAt": "2026-09-18T08:40:12.814Z",
+              "interruptionReason": null
+            }
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "recording.mp4"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "9ecd7597-33d1-40e9-be01-c0d1927bf632"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "export.create",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "recording.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+          "kind": "video",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "snapshot": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "sourceDurationUs": 134025574,
+            "historyThroughOrdinal": 15,
+            "capture": {
+              "state": "complete",
+              "createdAt": "2026-09-18T08:40:12.814Z",
+              "interruptionReason": null
+            }
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "recording.mp4"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "72b6d2f9-e7be-4a9e-b0a8-eb97b740e736"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "export.status",
+      "params": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+          "kind": "video",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": true,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "snapshot": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "sourceDurationUs": 134025574,
+            "historyThroughOrdinal": 15,
+            "capture": {
+              "state": "complete",
+              "createdAt": "2026-09-18T08:40:12.814Z",
+              "interruptionReason": null
+            }
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "recording.mp4"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "e2ea242c-7759-4fc5-87b5-a4b26e675fc1"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "export.create",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "conflict-recording.mp4"
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "REQUEST_CONFLICT",
+          "message": "Export identity names a different request",
+          "retryable": false,
+          "details": {}
+        },
+        "id": "ec4a335c-ed46-4a2d-b260-15db356ef7c9"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "service.health",
+      "params": {},
+      "response": {
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 94548,
+          "socketPath": "/private/tmp/screenrec-23a-second/old/run/service.sock",
+          "home": "/private/tmp/screenrec-23a-second/old",
+          "node": "24.14.0",
+          "uptimeMs": 508
+        },
+        "id": "8f320c07-b7f1-4094-9cc0-c561700d53cc"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "export.recover",
+      "params": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+          "kind": "video",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": true,
+          "recovery": {
+            "state": "processing",
+            "jobId": "275dfacb-834e-47d0-93fc-1c5d31a28b9f",
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "snapshot": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "sourceDurationUs": 134025574,
+            "historyThroughOrdinal": 15,
+            "capture": {
+              "state": "complete",
+              "createdAt": "2026-09-18T08:40:12.814Z",
+              "interruptionReason": null
+            }
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "recording.mp4"
+          },
+          "receipt": {
+            "bytes": 49652092,
+            "destination": {
+              "dev": "16777230",
+              "ino": "328708501"
+            },
+            "file": {
+              "dev": "16777230",
+              "ino": "328801085"
+            },
+            "leaf": "recording.mp4",
+            "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+            "stage": {
+              "dev": "16777230",
+              "ino": "328790091"
+            }
+          },
+          "output": "/private/tmp/screenrec-23b-final/recording.mp4",
+          "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "7a0918a1-4c75-404d-9a9d-3aa8d72d0070"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "export.status",
+      "params": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+          "kind": "video",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "ready",
+            "jobId": "275dfacb-834e-47d0-93fc-1c5d31a28b9f",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+              "artifact": "export-recovery",
+              "generation": 1,
+              "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+              "input": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c/22e337c4-0710-4862-9c17-14cede29c15e",
+              "result": "{\"observation\":\"committed\"}"
+            }
+          },
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "snapshot": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "sourceDurationUs": 134025574,
+            "historyThroughOrdinal": 15,
+            "capture": {
+              "state": "complete",
+              "createdAt": "2026-09-18T08:40:12.814Z",
+              "interruptionReason": null
+            }
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "recording.mp4"
+          },
+          "receipt": {
+            "bytes": 49652092,
+            "destination": {
+              "dev": "16777230",
+              "ino": "328708501"
+            },
+            "file": {
+              "dev": "16777230",
+              "ino": "328801085"
+            },
+            "leaf": "recording.mp4",
+            "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+            "stage": {
+              "dev": "16777230",
+              "ino": "328790091"
+            }
+          },
+          "output": "/private/tmp/screenrec-23b-final/recording.mp4",
+          "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "4a54dfdc-f516-4eb0-9cec-2d62bee02de1"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "export.retry",
+      "params": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+          "kind": "video",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "ready",
+            "jobId": "275dfacb-834e-47d0-93fc-1c5d31a28b9f",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+              "artifact": "export-recovery",
+              "generation": 1,
+              "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+              "input": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c/22e337c4-0710-4862-9c17-14cede29c15e",
+              "result": "{\"observation\":\"committed\"}"
+            }
+          },
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "snapshot": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "sourceDurationUs": 134025574,
+            "historyThroughOrdinal": 15,
+            "capture": {
+              "state": "complete",
+              "createdAt": "2026-09-18T08:40:12.814Z",
+              "interruptionReason": null
+            }
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "recording.mp4"
+          },
+          "receipt": {
+            "bytes": 49652092,
+            "destination": {
+              "dev": "16777230",
+              "ino": "328708501"
+            },
+            "file": {
+              "dev": "16777230",
+              "ino": "328801085"
+            },
+            "leaf": "recording.mp4",
+            "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+            "stage": {
+              "dev": "16777230",
+              "ino": "328790091"
+            }
+          },
+          "output": "/private/tmp/screenrec-23b-final/recording.mp4",
+          "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "082de314-ae02-4079-8f30-5e60071f3450"
+      }
+    },
+    {
+      "side": "recording",
+      "operation": "export.create",
+      "params": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "recording.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+          "kind": "video",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "ready",
+            "jobId": "275dfacb-834e-47d0-93fc-1c5d31a28b9f",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+              "artifact": "export-recovery",
+              "generation": 1,
+              "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+              "input": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c/22e337c4-0710-4862-9c17-14cede29c15e",
+              "result": "{\"observation\":\"committed\"}"
+            }
+          },
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "snapshot": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "sourceDurationUs": 134025574,
+            "historyThroughOrdinal": 15,
+            "capture": {
+              "state": "complete",
+              "createdAt": "2026-09-18T08:40:12.814Z",
+              "interruptionReason": null
+            }
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "recording.mp4"
+          },
+          "receipt": {
+            "bytes": 49652092,
+            "destination": {
+              "dev": "16777230",
+              "ino": "328708501"
+            },
+            "file": {
+              "dev": "16777230",
+              "ino": "328801085"
+            },
+            "leaf": "recording.mp4",
+            "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+            "stage": {
+              "dev": "16777230",
+              "ino": "328790091"
+            }
+          },
+          "output": "/private/tmp/screenrec-23b-final/recording.mp4",
+          "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "54bca303-3836-42dd-97b7-14440f1e3002"
+      }
+    },
+    {
+      "side": "project",
+      "operation": "export.create",
+      "params": {
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "project.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+          "kind": "video",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "snapshot": {
+            "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+            "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+            "range": {
+              "startUs": 0,
+              "endUs": 134025574
+            },
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "encoder": {
+                  "hardware": "auto",
+                  "id": null,
+                  "gpu": null
+                },
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "implementationId": "native-composition-movie-v19",
+            "preparedResourceId": null
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "project.mp4"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "a6ed749c-84d1-4d27-a8d5-aa3e78f20f96"
+      }
+    },
+    {
+      "side": "project",
+      "operation": "export.create",
+      "params": {
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "project.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+          "kind": "video",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "snapshot": {
+            "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+            "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+            "range": {
+              "startUs": 0,
+              "endUs": 134025574
+            },
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "encoder": {
+                  "hardware": "auto",
+                  "id": null,
+                  "gpu": null
+                },
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "implementationId": "native-composition-movie-v19",
+            "preparedResourceId": null
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "project.mp4"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "e8af1f9d-5f0f-4df8-aa18-3a6eac534c79"
+      }
+    },
+    {
+      "side": "project",
+      "operation": "export.status",
+      "params": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+          "kind": "video",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": true,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "snapshot": {
+            "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+            "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+            "range": {
+              "startUs": 0,
+              "endUs": 134025574
+            },
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "encoder": {
+                  "hardware": "auto",
+                  "id": null,
+                  "gpu": null
+                },
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "implementationId": "native-composition-movie-v19",
+            "preparedResourceId": null
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "project.mp4"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "81c31247-3136-451d-a3f1-cdd49c03b75d"
+      }
+    },
+    {
+      "side": "project",
+      "operation": "export.create",
+      "params": {
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "conflict-project.mp4"
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "REQUEST_CONFLICT",
+          "message": "Export identity names a different request",
+          "retryable": false,
+          "details": {}
+        },
+        "id": "513a501b-a16d-4fd0-8f33-63e8f187a159"
+      }
+    },
+    {
+      "side": "project",
+      "operation": "export.recover",
+      "params": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+          "kind": "video",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": true,
+          "recovery": {
+            "state": "processing",
+            "jobId": "353ce4da-19fa-436e-8f48-7f20a01344f6",
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "snapshot": {
+            "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+            "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+            "range": {
+              "startUs": 0,
+              "endUs": 134025574
+            },
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "encoder": {
+                  "hardware": "auto",
+                  "id": null,
+                  "gpu": null
+                },
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "implementationId": "native-composition-movie-v19",
+            "preparedResourceId": null
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "project.mp4"
+          },
+          "receipt": {
+            "bytes": 20368510,
+            "destination": {
+              "dev": "16777230",
+              "ino": "328708501"
+            },
+            "file": {
+              "dev": "16777230",
+              "ino": "328825065"
+            },
+            "leaf": "project.mp4",
+            "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+            "stage": {
+              "dev": "16777230",
+              "ino": "328825042"
+            }
+          },
+          "output": "/private/tmp/screenrec-23b-final/project.mp4",
+          "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "c465b2c1-6da7-446c-aa8d-c10d2de51ab1"
+      }
+    },
+    {
+      "side": "project",
+      "operation": "export.status",
+      "params": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+          "kind": "video",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "ready",
+            "jobId": "353ce4da-19fa-436e-8f48-7f20a01344f6",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "artifact": "export-recovery",
+              "generation": 1,
+              "input": "3e3e547c-e42a-467c-9cac-b60e163607ba/d764b8e1-401c-4355-a652-a6f35b4664c0",
+              "result": "{\"observation\":\"committed\"}",
+              "target": {
+                "kind": "project",
+                "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+                "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2"
+              }
+            }
+          },
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "snapshot": {
+            "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+            "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+            "range": {
+              "startUs": 0,
+              "endUs": 134025574
+            },
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "encoder": {
+                  "hardware": "auto",
+                  "id": null,
+                  "gpu": null
+                },
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "implementationId": "native-composition-movie-v19",
+            "preparedResourceId": null
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "project.mp4"
+          },
+          "receipt": {
+            "bytes": 20368510,
+            "destination": {
+              "dev": "16777230",
+              "ino": "328708501"
+            },
+            "file": {
+              "dev": "16777230",
+              "ino": "328825065"
+            },
+            "leaf": "project.mp4",
+            "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+            "stage": {
+              "dev": "16777230",
+              "ino": "328825042"
+            }
+          },
+          "output": "/private/tmp/screenrec-23b-final/project.mp4",
+          "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "0ceb5547-0324-41de-9fd2-3a1082fea612"
+      }
+    },
+    {
+      "side": "project",
+      "operation": "export.retry",
+      "params": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+          "kind": "video",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "ready",
+            "jobId": "353ce4da-19fa-436e-8f48-7f20a01344f6",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "artifact": "export-recovery",
+              "generation": 1,
+              "input": "3e3e547c-e42a-467c-9cac-b60e163607ba/d764b8e1-401c-4355-a652-a6f35b4664c0",
+              "result": "{\"observation\":\"committed\"}",
+              "target": {
+                "kind": "project",
+                "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+                "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2"
+              }
+            }
+          },
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "snapshot": {
+            "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+            "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+            "range": {
+              "startUs": 0,
+              "endUs": 134025574
+            },
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "encoder": {
+                  "hardware": "auto",
+                  "id": null,
+                  "gpu": null
+                },
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "implementationId": "native-composition-movie-v19",
+            "preparedResourceId": null
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "project.mp4"
+          },
+          "receipt": {
+            "bytes": 20368510,
+            "destination": {
+              "dev": "16777230",
+              "ino": "328708501"
+            },
+            "file": {
+              "dev": "16777230",
+              "ino": "328825065"
+            },
+            "leaf": "project.mp4",
+            "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+            "stage": {
+              "dev": "16777230",
+              "ino": "328825042"
+            }
+          },
+          "output": "/private/tmp/screenrec-23b-final/project.mp4",
+          "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "7dec0595-f2aa-4abe-bd85-b200cfade44c"
+      }
+    },
+    {
+      "side": "project",
+      "operation": "export.create",
+      "params": {
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "project.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+          "kind": "video",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "ready",
+            "jobId": "353ce4da-19fa-436e-8f48-7f20a01344f6",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "artifact": "export-recovery",
+              "generation": 1,
+              "input": "3e3e547c-e42a-467c-9cac-b60e163607ba/d764b8e1-401c-4355-a652-a6f35b4664c0",
+              "result": "{\"observation\":\"committed\"}",
+              "target": {
+                "kind": "project",
+                "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+                "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2"
+              }
+            }
+          },
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "snapshot": {
+            "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+            "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+            "range": {
+              "startUs": 0,
+              "endUs": 134025574
+            },
+            "settings": {
+              "container": "mp4",
+              "video": {
+                "codec": "h264",
+                "encoder": {
+                  "hardware": "auto",
+                  "id": null,
+                  "gpu": null
+                },
+                "color": "rec709",
+                "rateControl": {
+                  "mode": "average",
+                  "bitrate": 8000000
+                },
+                "profile": "high",
+                "level": "auto",
+                "keyframeInterval": 120,
+                "keyframeIntervalSeconds": 2,
+                "frameReordering": false,
+                "entropy": "cabac",
+                "temporalCompression": true,
+                "openGop": false,
+                "prioritizeSpeed": false,
+                "powerEfficient": false,
+                "dataRateLimits": [],
+                "bufferDurationSeconds": null,
+                "initialBufferDelayPercent": null,
+                "spatialAdaptiveQuantization": true,
+                "lookAheadFrames": null,
+                "nonDroppableFrameRate": null,
+                "minimumQuantizer": null,
+                "maximumQuantizer": null
+              },
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000
+                },
+                "quality": "high"
+              }
+            },
+            "implementationId": "native-composition-movie-v19",
+            "preparedResourceId": null
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-23b-final",
+            "leaf": "project.mp4"
+          },
+          "receipt": {
+            "bytes": 20368510,
+            "destination": {
+              "dev": "16777230",
+              "ino": "328708501"
+            },
+            "file": {
+              "dev": "16777230",
+              "ino": "328825065"
+            },
+            "leaf": "project.mp4",
+            "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+            "stage": {
+              "dev": "16777230",
+              "ino": "328825042"
+            }
+          },
+          "output": "/private/tmp/screenrec-23b-final/project.mp4",
+          "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "34c88b0a-21d8-464d-b1b0-86b54c0b65bd"
+      }
+    }
+  ],
+  "sides": [
+    {
+      "side": "recording",
+      "native": "/Users/david/Applications/Screen Recorder.app/Contents/MacOS/screenrec-native",
+      "cache": "/private/tmp/screenrec-23a-second/old/cache/derived/fd000c2f-680f-45eb-a9db-66b9ac9249e2.cache",
+      "request": {
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "recording.mp4"
+      },
+      "cached": {
+        "bytes": 49652092,
+        "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+        "dev": "16777230",
+        "ino": "328096237"
+      },
+      "created": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "state": "running",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "not_requested",
+          "jobId": null,
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "snapshot": {
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+          "sourceDurationUs": 134025574,
+          "historyThroughOrdinal": 15,
+          "capture": {
+            "state": "complete",
+            "createdAt": "2026-09-18T08:40:12.814Z",
+            "interruptionReason": null
+          }
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "recording.mp4"
+        },
+        "receipt": null,
+        "output": null,
+        "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+        "reason": null,
+        "retryable": false
+      },
+      "concurrentReplay": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "state": "running",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "not_requested",
+          "jobId": null,
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "snapshot": {
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+          "sourceDurationUs": 134025574,
+          "historyThroughOrdinal": 15,
+          "capture": {
+            "state": "complete",
+            "createdAt": "2026-09-18T08:40:12.814Z",
+            "interruptionReason": null
+          }
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "recording.mp4"
+        },
+        "receipt": null,
+        "output": null,
+        "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+        "reason": null,
+        "retryable": false
+      },
+      "hit": {
+        "proxyPid": 94516,
+        "servicePid": 94446,
+        "operation": "publication.commit",
+        "descriptors": [
+          {
+            "fd": 3,
+            "dev": "16777230",
+            "ino": "328790091",
+            "mode": 16832
+          },
+          {
+            "fd": 4,
+            "dev": "16777230",
+            "ino": "328708501",
+            "mode": 16832
+          }
+        ],
+        "requestSha256": "5841b65a0edf1921f85d4457f95b317b4376ebb35a49adb943a02711695e6f64",
+        "nativePid": 94517,
+        "nativeExitCode": 0,
+        "responseSha256": "17fd17c7d0e0cce611710a0fbd2c8b0423edc74d0ea04296793ffd284bbbdebd",
+        "prepared": {
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "leaf": "recording.mp4",
+          "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+          "file": {
+            "ino": "328801085",
+            "dev": "16777230"
+          },
+          "stage": {
+            "ino": "328790091",
+            "dev": "16777230"
+          },
+          "bytes": 49652092
+        }
+      },
+      "beforeCrash": {
+        "bytes": 49652092,
+        "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+        "dev": "16777230",
+        "ino": "328801085"
+      },
+      "unacknowledged": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "state": "running",
+        "abandoning": false,
+        "cleanupPending": true,
+        "recovery": {
+          "state": "not_requested",
+          "jobId": null,
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "snapshot": {
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+          "sourceDurationUs": 134025574,
+          "historyThroughOrdinal": 15,
+          "capture": {
+            "state": "complete",
+            "createdAt": "2026-09-18T08:40:12.814Z",
+            "interruptionReason": null
+          }
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "recording.mp4"
+        },
+        "receipt": null,
+        "output": null,
+        "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+        "reason": null,
+        "retryable": false
+      },
+      "conflict": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Export identity names a different request",
+        "retryable": false,
+        "details": {}
+      },
+      "recovery": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": true,
+        "recovery": {
+          "state": "processing",
+          "jobId": "275dfacb-834e-47d0-93fc-1c5d31a28b9f",
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "snapshot": {
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+          "sourceDurationUs": 134025574,
+          "historyThroughOrdinal": 15,
+          "capture": {
+            "state": "complete",
+            "createdAt": "2026-09-18T08:40:12.814Z",
+            "interruptionReason": null
+          }
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "recording.mp4"
+        },
+        "receipt": {
+          "bytes": 49652092,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328801085"
+          },
+          "leaf": "recording.mp4",
+          "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328790091"
+          }
+        },
+        "output": "/private/tmp/screenrec-23b-final/recording.mp4",
+        "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+        "reason": null,
+        "retryable": false
+      },
+      "recovered": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "ready",
+          "jobId": "275dfacb-834e-47d0-93fc-1c5d31a28b9f",
+          "reason": null,
+          "retryable": false,
+          "published": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "artifact": "export-recovery",
+            "generation": 1,
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "input": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c/22e337c4-0710-4862-9c17-14cede29c15e",
+            "result": "{\"observation\":\"committed\"}"
+          }
+        },
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "snapshot": {
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+          "sourceDurationUs": 134025574,
+          "historyThroughOrdinal": 15,
+          "capture": {
+            "state": "complete",
+            "createdAt": "2026-09-18T08:40:12.814Z",
+            "interruptionReason": null
+          }
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "recording.mp4"
+        },
+        "receipt": {
+          "bytes": 49652092,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328801085"
+          },
+          "leaf": "recording.mp4",
+          "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328790091"
+          }
+        },
+        "output": "/private/tmp/screenrec-23b-final/recording.mp4",
+        "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+        "reason": null,
+        "retryable": false
+      },
+      "retried": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "ready",
+          "jobId": "275dfacb-834e-47d0-93fc-1c5d31a28b9f",
+          "reason": null,
+          "retryable": false,
+          "published": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "artifact": "export-recovery",
+            "generation": 1,
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "input": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c/22e337c4-0710-4862-9c17-14cede29c15e",
+            "result": "{\"observation\":\"committed\"}"
+          }
+        },
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "snapshot": {
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+          "sourceDurationUs": 134025574,
+          "historyThroughOrdinal": 15,
+          "capture": {
+            "state": "complete",
+            "createdAt": "2026-09-18T08:40:12.814Z",
+            "interruptionReason": null
+          }
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "recording.mp4"
+        },
+        "receipt": {
+          "bytes": 49652092,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328801085"
+          },
+          "leaf": "recording.mp4",
+          "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328790091"
+          }
+        },
+        "output": "/private/tmp/screenrec-23b-final/recording.mp4",
+        "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+        "reason": null,
+        "retryable": false
+      },
+      "replayed": {
+        "exportId": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "ready",
+          "jobId": "275dfacb-834e-47d0-93fc-1c5d31a28b9f",
+          "reason": null,
+          "retryable": false,
+          "published": {
+            "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+            "artifact": "export-recovery",
+            "generation": 1,
+            "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+            "input": "1b2bd406-038e-4a6a-ba7f-db2a4cc3fd2c/22e337c4-0710-4862-9c17-14cede29c15e",
+            "result": "{\"observation\":\"committed\"}"
+          }
+        },
+        "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+        "snapshot": {
+          "recordingId": "862bfdeb-4074-4fa0-b003-57e5a9e2f975",
+          "sourceId": "cf3c7086-da91-4f85-8993-a2db464e3ec6",
+          "revisionId": "1ce4f577-d874-498e-82c9-4ba0251d0e26",
+          "sourceDurationUs": 134025574,
+          "historyThroughOrdinal": 15,
+          "capture": {
+            "state": "complete",
+            "createdAt": "2026-09-18T08:40:12.814Z",
+            "interruptionReason": null
+          }
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "recording.mp4"
+        },
+        "receipt": {
+          "bytes": 49652092,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328801085"
+          },
+          "leaf": "recording.mp4",
+          "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328790091"
+          }
+        },
+        "output": "/private/tmp/screenrec-23b-final/recording.mp4",
+        "jobId": "eee7d84f-0eda-40ac-a176-a9c116b5505b",
+        "reason": null,
+        "retryable": false
+      },
+      "nativeCalls": [
+        {
+          "proxyPid": 94456,
+          "servicePid": 94446,
+          "operation": "storage.clearRenderWorkspace",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328066541",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "336162544ad1f45a4ed66023612e7d5217fdf3ff23af2bdbc104671bd698970f",
+          "nativePid": 94458,
+          "nativeExitCode": 0,
+          "responseSha256": "60a4b31bb39fbe4560f9dacd758728d386d9a13918d24e55ec6be3b493395a00"
+        },
+        {
+          "proxyPid": 94459,
+          "servicePid": 94446,
+          "operation": "packageWorkspace.recover",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328065616",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "b348859422894a131dd1722786f41001fa2b7e48d34386d8bd67cd847ced717c",
+          "nativePid": 94461,
+          "nativeExitCode": 0,
+          "responseSha256": "926d246a90a4df4e4cdd8ec465707f72a971961d98694d066f220931fd6c63d6"
+        },
+        {
+          "proxyPid": 94483,
+          "servicePid": 94446,
+          "operation": "storage.externalDirectory",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "eb3c96bd33b09cd1f732eb23b510b67edf32414ea4af4c1f3bacc68dc65e5402",
+          "nativePid": 94491,
+          "nativeExitCode": 0,
+          "responseSha256": "7d94364c8e87a6c9e7f9ed36fe29dcf845e686623f5616bd5c142a4f231a1e16"
+        },
+        {
+          "proxyPid": 94484,
+          "servicePid": 94446,
+          "operation": "storage.externalDirectory",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "eb3c96bd33b09cd1f732eb23b510b67edf32414ea4af4c1f3bacc68dc65e5402",
+          "nativePid": 94492,
+          "nativeExitCode": 0,
+          "responseSha256": "7d94364c8e87a6c9e7f9ed36fe29dcf845e686623f5616bd5c142a4f231a1e16"
+        },
+        {
+          "proxyPid": 94493,
+          "servicePid": 94446,
+          "operation": "publication.allocate",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "208351cbb2bb93283b89039b9b2b57d666a2bc76b38c6eb72b36bf3493558dd0",
+          "nativePid": 94494,
+          "nativeExitCode": 0,
+          "responseSha256": "574385aa1065651b2a3d8dc7e83c00cab0fa34bb5276961e265492ba112a7cac"
+        },
+        {
+          "proxyPid": 94495,
+          "servicePid": 94446,
+          "operation": "publication.reconcile",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328790091",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "f7b2177228c94441ff30db35647f9b2c9be3ed5d997afe1b7107de90c13ad8e9",
+          "nativePid": 94497,
+          "nativeExitCode": 0,
+          "responseSha256": "670a35b268b8a2552053a88649077807d72589105754eac09f00b9b217a9d6e4"
+        },
+        {
+          "proxyPid": 94498,
+          "servicePid": 94446,
+          "operation": "publication.discard",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328790091",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "045d2a71531923f1b90ffbd47adfb73f807bce17bdb4c2432ea1cc792c9b62ec",
+          "nativePid": 94502,
+          "nativeExitCode": 0,
+          "responseSha256": "6179fb102ec75fb28be04da44e0e678a5311636ba54760fe1a990bf35e6ebf44"
+        },
+        {
+          "proxyPid": 94512,
+          "servicePid": 94446,
+          "operation": "publication.prepare",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328790091",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            },
+            {
+              "fd": 5,
+              "dev": "16777230",
+              "ino": "328096237",
+              "mode": 33188
+            }
+          ],
+          "requestSha256": "466d845a7848ce6d2664f917c841fe21f1afb0928683666efa14eaa09651722f",
+          "nativePid": 94513,
+          "nativeExitCode": 0,
+          "responseSha256": "c5e1ac02c0e862b6eb87259b53fd29fbdf40497313053ea70765338cab969686"
+        },
+        {
+          "proxyPid": 94516,
+          "servicePid": 94446,
+          "operation": "publication.commit",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328790091",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "5841b65a0edf1921f85d4457f95b317b4376ebb35a49adb943a02711695e6f64",
+          "nativePid": 94517,
+          "nativeExitCode": 0,
+          "responseSha256": "17fd17c7d0e0cce611710a0fbd2c8b0423edc74d0ea04296793ffd284bbbdebd"
+        },
+        {
+          "proxyPid": 94552,
+          "servicePid": 94548,
+          "operation": "storage.clearRenderWorkspace",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328066541",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "336162544ad1f45a4ed66023612e7d5217fdf3ff23af2bdbc104671bd698970f",
+          "nativePid": 94554,
+          "nativeExitCode": 0,
+          "responseSha256": "60a4b31bb39fbe4560f9dacd758728d386d9a13918d24e55ec6be3b493395a00"
+        },
+        {
+          "proxyPid": 94561,
+          "servicePid": 94548,
+          "operation": "packageWorkspace.recover",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328065616",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "b348859422894a131dd1722786f41001fa2b7e48d34386d8bd67cd847ced717c",
+          "nativePid": 94565,
+          "nativeExitCode": 0,
+          "responseSha256": "926d246a90a4df4e4cdd8ec465707f72a971961d98694d066f220931fd6c63d6"
+        },
+        {
+          "proxyPid": 94567,
+          "servicePid": 94548,
+          "operation": "publication.reconcile",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328790091",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "f7b2177228c94441ff30db35647f9b2c9be3ed5d997afe1b7107de90c13ad8e9",
+          "nativePid": 94575,
+          "nativeExitCode": 0,
+          "responseSha256": "9be56e629918418f61196b8da8fcbd9b8e692d572262f1b0fc8165fceb55c650"
+        },
+        {
+          "proxyPid": 94579,
+          "servicePid": 94548,
+          "operation": "publication.acknowledge",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328790091",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "c4d530e14ce85426b9bcf47bb54f7ade378edb50303dfb3bd98862ff02bf1a4f",
+          "nativePid": 94583,
+          "nativeExitCode": 0,
+          "responseSha256": "ec90e17d5e8ee8fc38cbbf33b394b9901e754fd5c6e4ad3e6fcd7890f7d50587"
+        },
+        {
+          "proxyPid": 94584,
+          "servicePid": 94548,
+          "operation": "publication.retire",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328790091",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "2f2bf67a079581b96829fbf01a9d22f344087977e855491026bc882e46000a16",
+          "nativePid": 94586,
+          "nativeExitCode": 0,
+          "responseSha256": "1b69ab36404f72f5f9ae36556a3feb55603630f861318827faddb627ef55593d"
+        }
+      ],
+      "noSecondCommit": true
+    },
+    {
+      "side": "project",
+      "native": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+      "cache": "/private/tmp/screenrec-23a-second/new/library/cache/derived/cc05a780-b85c-477e-b2ec-c5d30fe7fea4.cache",
+      "request": {
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "directory": "/private/tmp/screenrec-23b-final",
+        "leaf": "project.mp4"
+      },
+      "cached": {
+        "bytes": 20368510,
+        "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+        "dev": "16777230",
+        "ino": "328145474"
+      },
+      "created": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "state": "running",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "not_requested",
+          "jobId": null,
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "snapshot": {
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+          "range": {
+            "startUs": 0,
+            "endUs": 134025574
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "implementationId": "native-composition-movie-v19",
+          "preparedResourceId": null
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "project.mp4"
+        },
+        "receipt": null,
+        "output": null,
+        "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+        "reason": null,
+        "retryable": false
+      },
+      "concurrentReplay": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "state": "running",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "not_requested",
+          "jobId": null,
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "snapshot": {
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+          "range": {
+            "startUs": 0,
+            "endUs": 134025574
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "implementationId": "native-composition-movie-v19",
+          "preparedResourceId": null
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "project.mp4"
+        },
+        "receipt": null,
+        "output": null,
+        "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+        "reason": null,
+        "retryable": false
+      },
+      "hit": {
+        "proxyPid": 94651,
+        "servicePid": 94607,
+        "operation": "publication.commit",
+        "descriptors": [
+          {
+            "fd": 3,
+            "dev": "16777230",
+            "ino": "328825042",
+            "mode": 16832
+          },
+          {
+            "fd": 4,
+            "dev": "16777230",
+            "ino": "328708501",
+            "mode": 16832
+          }
+        ],
+        "requestSha256": "e5bee0ffaea0ad1df704e843840fa87f359a1ef71532e3eaf149df5e38f29cbf",
+        "nativePid": 94652,
+        "nativeExitCode": 0,
+        "responseSha256": "17fd17c7d0e0cce611710a0fbd2c8b0423edc74d0ea04296793ffd284bbbdebd",
+        "prepared": {
+          "file": {
+            "dev": "16777230",
+            "ino": "328825065"
+          },
+          "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "leaf": "project.mp4",
+          "bytes": 20368510,
+          "stage": {
+            "ino": "328825042",
+            "dev": "16777230"
+          }
+        }
+      },
+      "beforeCrash": {
+        "bytes": 20368510,
+        "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+        "dev": "16777230",
+        "ino": "328825065"
+      },
+      "unacknowledged": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "state": "running",
+        "abandoning": false,
+        "cleanupPending": true,
+        "recovery": {
+          "state": "not_requested",
+          "jobId": null,
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "snapshot": {
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+          "range": {
+            "startUs": 0,
+            "endUs": 134025574
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "implementationId": "native-composition-movie-v19",
+          "preparedResourceId": null
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "project.mp4"
+        },
+        "receipt": null,
+        "output": null,
+        "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+        "reason": null,
+        "retryable": false
+      },
+      "conflict": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Export identity names a different request",
+        "retryable": false,
+        "details": {}
+      },
+      "recovery": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": true,
+        "recovery": {
+          "state": "processing",
+          "jobId": "353ce4da-19fa-436e-8f48-7f20a01344f6",
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "snapshot": {
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+          "range": {
+            "startUs": 0,
+            "endUs": 134025574
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "implementationId": "native-composition-movie-v19",
+          "preparedResourceId": null
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "project.mp4"
+        },
+        "receipt": {
+          "bytes": 20368510,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328825065"
+          },
+          "leaf": "project.mp4",
+          "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328825042"
+          }
+        },
+        "output": "/private/tmp/screenrec-23b-final/project.mp4",
+        "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+        "reason": null,
+        "retryable": false
+      },
+      "recovered": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "ready",
+          "jobId": "353ce4da-19fa-436e-8f48-7f20a01344f6",
+          "reason": null,
+          "retryable": false,
+          "published": {
+            "artifact": "export-recovery",
+            "generation": 1,
+            "input": "3e3e547c-e42a-467c-9cac-b60e163607ba/d764b8e1-401c-4355-a652-a6f35b4664c0",
+            "result": "{\"observation\":\"committed\"}",
+            "target": {
+              "kind": "project",
+              "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+              "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2"
+            }
+          }
+        },
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "snapshot": {
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+          "range": {
+            "startUs": 0,
+            "endUs": 134025574
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "implementationId": "native-composition-movie-v19",
+          "preparedResourceId": null
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "project.mp4"
+        },
+        "receipt": {
+          "bytes": 20368510,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328825065"
+          },
+          "leaf": "project.mp4",
+          "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328825042"
+          }
+        },
+        "output": "/private/tmp/screenrec-23b-final/project.mp4",
+        "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+        "reason": null,
+        "retryable": false
+      },
+      "retried": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "ready",
+          "jobId": "353ce4da-19fa-436e-8f48-7f20a01344f6",
+          "reason": null,
+          "retryable": false,
+          "published": {
+            "artifact": "export-recovery",
+            "generation": 1,
+            "input": "3e3e547c-e42a-467c-9cac-b60e163607ba/d764b8e1-401c-4355-a652-a6f35b4664c0",
+            "result": "{\"observation\":\"committed\"}",
+            "target": {
+              "kind": "project",
+              "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+              "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2"
+            }
+          }
+        },
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "snapshot": {
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+          "range": {
+            "startUs": 0,
+            "endUs": 134025574
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "implementationId": "native-composition-movie-v19",
+          "preparedResourceId": null
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "project.mp4"
+        },
+        "receipt": {
+          "bytes": 20368510,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328825065"
+          },
+          "leaf": "project.mp4",
+          "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328825042"
+          }
+        },
+        "output": "/private/tmp/screenrec-23b-final/project.mp4",
+        "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+        "reason": null,
+        "retryable": false
+      },
+      "replayed": {
+        "exportId": "3e3e547c-e42a-467c-9cac-b60e163607ba",
+        "kind": "video",
+        "state": "committed",
+        "abandoning": false,
+        "cleanupPending": false,
+        "recovery": {
+          "state": "ready",
+          "jobId": "353ce4da-19fa-436e-8f48-7f20a01344f6",
+          "reason": null,
+          "retryable": false,
+          "published": {
+            "artifact": "export-recovery",
+            "generation": 1,
+            "input": "3e3e547c-e42a-467c-9cac-b60e163607ba/d764b8e1-401c-4355-a652-a6f35b4664c0",
+            "result": "{\"observation\":\"committed\"}",
+            "target": {
+              "kind": "project",
+              "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+              "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2"
+            }
+          }
+        },
+        "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+        "snapshot": {
+          "projectId": "6d71d419-2cac-4cb6-9fb6-a3c8ed7de3f9",
+          "revisionId": "a090b6da-9598-4025-a48c-2e06c2d56dc2",
+          "range": {
+            "startUs": 0,
+            "endUs": 134025574
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "implementationId": "native-composition-movie-v19",
+          "preparedResourceId": null
+        },
+        "destination": {
+          "directory": "/private/tmp/screenrec-23b-final",
+          "leaf": "project.mp4"
+        },
+        "receipt": {
+          "bytes": 20368510,
+          "destination": {
+            "dev": "16777230",
+            "ino": "328708501"
+          },
+          "file": {
+            "dev": "16777230",
+            "ino": "328825065"
+          },
+          "leaf": "project.mp4",
+          "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+          "stage": {
+            "dev": "16777230",
+            "ino": "328825042"
+          }
+        },
+        "output": "/private/tmp/screenrec-23b-final/project.mp4",
+        "jobId": "0dda6ccd-48b7-493d-a920-dc64089e6f40",
+        "reason": null,
+        "retryable": false
+      },
+      "nativeCalls": [
+        {
+          "proxyPid": 94633,
+          "servicePid": 94607,
+          "operation": "storage.clearRenderWorkspace",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328065741",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "20d8e4e016bba7720799f33038d722be43477e9c2fe08ae307d3906d954b49e5",
+          "nativePid": 94634,
+          "nativeExitCode": 0,
+          "responseSha256": "60a4b31bb39fbe4560f9dacd758728d386d9a13918d24e55ec6be3b493395a00"
+        },
+        {
+          "proxyPid": 94635,
+          "servicePid": 94607,
+          "operation": "media.audioCapabilities",
+          "descriptors": [],
+          "requestSha256": "f1e1975f05ee548f8460b894637de90ea36def3a4d9615f0b60ce7d2a666b4ff",
+          "nativePid": 94636,
+          "nativeExitCode": 0,
+          "responseSha256": "93f5ea8dc579e0af4c49d2b58f64b97fd2eeece38c3f4d74166340e3d6c7ae51"
+        },
+        {
+          "proxyPid": 94639,
+          "servicePid": 94607,
+          "operation": "storage.externalDirectory",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "d655c91b85990cb9ee9393794290da31e27832292e7ed586cca48df565b9404a",
+          "nativePid": 94641,
+          "nativeExitCode": 0,
+          "responseSha256": "7d94364c8e87a6c9e7f9ed36fe29dcf845e686623f5616bd5c142a4f231a1e16"
+        },
+        {
+          "proxyPid": 94640,
+          "servicePid": 94607,
+          "operation": "storage.externalDirectory",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "d655c91b85990cb9ee9393794290da31e27832292e7ed586cca48df565b9404a",
+          "nativePid": 94642,
+          "nativeExitCode": 0,
+          "responseSha256": "7d94364c8e87a6c9e7f9ed36fe29dcf845e686623f5616bd5c142a4f231a1e16"
+        },
+        {
+          "proxyPid": 94643,
+          "servicePid": 94607,
+          "operation": "publication.allocate",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "444f2162c431a509f95d8b04e5e455f2d6d6d79b2a8156416040b6c7016a45b6",
+          "nativePid": 94644,
+          "nativeExitCode": 0,
+          "responseSha256": "79aa8c7271f54db35c0c51e7ee4a515d61314f642be303ed17df28d00d7c37b5"
+        },
+        {
+          "proxyPid": 94645,
+          "servicePid": 94607,
+          "operation": "publication.reconcile",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328825042",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "d3017ef188a402087d2bed9f57f85e7aa975b4baa497bfee0c890857b70eac70",
+          "nativePid": 94646,
+          "nativeExitCode": 0,
+          "responseSha256": "670a35b268b8a2552053a88649077807d72589105754eac09f00b9b217a9d6e4"
+        },
+        {
+          "proxyPid": 94647,
+          "servicePid": 94607,
+          "operation": "publication.discard",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328825042",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "44cb9e439bbefc3937b76d2e14244d39469d2938174488abee044ecab9a3eaf8",
+          "nativePid": 94648,
+          "nativeExitCode": 0,
+          "responseSha256": "6179fb102ec75fb28be04da44e0e678a5311636ba54760fe1a990bf35e6ebf44"
+        },
+        {
+          "proxyPid": 94649,
+          "servicePid": 94607,
+          "operation": "publication.prepare",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328825042",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            },
+            {
+              "fd": 5,
+              "dev": "16777230",
+              "ino": "328145474",
+              "mode": 33188
+            }
+          ],
+          "requestSha256": "1d7a28f5a5ef18b4914fa0d8b809e0fa63c307cd299ebf28d859cab5ba7739da",
+          "nativePid": 94650,
+          "nativeExitCode": 0,
+          "responseSha256": "373d5dfb9063c2c9a3117d654d4ce3c0dbc312f179108efd6947d698a98fafb9"
+        },
+        {
+          "proxyPid": 94651,
+          "servicePid": 94607,
+          "operation": "publication.commit",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328825042",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "e5bee0ffaea0ad1df704e843840fa87f359a1ef71532e3eaf149df5e38f29cbf",
+          "nativePid": 94652,
+          "nativeExitCode": 0,
+          "responseSha256": "17fd17c7d0e0cce611710a0fbd2c8b0423edc74d0ea04296793ffd284bbbdebd"
+        },
+        {
+          "proxyPid": 94656,
+          "servicePid": 94655,
+          "operation": "storage.clearRenderWorkspace",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328065741",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "20d8e4e016bba7720799f33038d722be43477e9c2fe08ae307d3906d954b49e5",
+          "nativePid": 94657,
+          "nativeExitCode": 0,
+          "responseSha256": "60a4b31bb39fbe4560f9dacd758728d386d9a13918d24e55ec6be3b493395a00"
+        },
+        {
+          "proxyPid": 94658,
+          "servicePid": 94655,
+          "operation": "media.audioCapabilities",
+          "descriptors": [],
+          "requestSha256": "f1e1975f05ee548f8460b894637de90ea36def3a4d9615f0b60ce7d2a666b4ff",
+          "nativePid": 94659,
+          "nativeExitCode": 0,
+          "responseSha256": "93f5ea8dc579e0af4c49d2b58f64b97fd2eeece38c3f4d74166340e3d6c7ae51"
+        },
+        {
+          "proxyPid": 94660,
+          "servicePid": 94655,
+          "operation": "publication.reconcile",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328825042",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "d3017ef188a402087d2bed9f57f85e7aa975b4baa497bfee0c890857b70eac70",
+          "nativePid": 94662,
+          "nativeExitCode": 0,
+          "responseSha256": "157bc10a8f21a86e53de22d163d190665682b6aa33e3e3233b2c15981e13b2b8"
+        },
+        {
+          "proxyPid": 94664,
+          "servicePid": 94655,
+          "operation": "publication.acknowledge",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328825042",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "f043a88db63792e8754624d3abc1f0e76adc9015dcd1cbf458070a86af1b01ce",
+          "nativePid": 94669,
+          "nativeExitCode": 0,
+          "responseSha256": "ec90e17d5e8ee8fc38cbbf33b394b9901e754fd5c6e4ad3e6fcd7890f7d50587"
+        },
+        {
+          "proxyPid": 94670,
+          "servicePid": 94655,
+          "operation": "publication.retire",
+          "descriptors": [
+            {
+              "fd": 3,
+              "dev": "16777230",
+              "ino": "328825042",
+              "mode": 16832
+            },
+            {
+              "fd": 4,
+              "dev": "16777230",
+              "ino": "328708501",
+              "mode": 16832
+            }
+          ],
+          "requestSha256": "e7fa6ede4348ae096af6a63b3cbe014c85292889b31c99040679f05ed5135939",
+          "nativePid": 94672,
+          "nativeExitCode": 0,
+          "responseSha256": "1b69ab36404f72f5f9ae36556a3feb55603630f861318827faddb627ef55593d"
+        }
+      ],
+      "noSecondCommit": true
+    }
+  ],
+  "processes": [
+    {
+      "side": "recording",
+      "pid": 94446,
+      "entry": "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs"
+    },
+    {
+      "pid": 94446,
+      "exitCode": null,
+      "signal": "SIGKILL"
+    },
+    {
+      "pid": 94516,
+      "closed": true,
+      "method": "native child reaped by proxy; proxy descriptors closed and exit observed after service death"
+    },
+    {
+      "side": "recording",
+      "pid": 94548,
+      "entry": "/Users/david/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs"
+    },
+    {
+      "pid": 94548,
+      "exitCode": 0,
+      "signal": null
+    },
+    {
+      "side": "project",
+      "pid": 94607,
+      "entry": "/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/packages/test-harness/editing/source-acquisition-service.mjs"
+    },
+    {
+      "pid": 94607,
+      "exitCode": null,
+      "signal": "SIGKILL"
+    },
+    {
+      "pid": 94651,
+      "closed": true,
+      "method": "native child reaped by proxy; proxy descriptors closed and exit observed after service death"
+    },
+    {
+      "side": "project",
+      "pid": 94655,
+      "entry": "/Users/david/.codex/worktrees/prepared-package-transfer/screen-recorder/packages/test-harness/editing/source-acquisition-service.mjs"
+    },
+    {
+      "pid": 94655,
+      "exitCode": 0,
+      "signal": null
+    }
+  ],
+  "checks": {},
+  "baseline": {
+    "path": "/tmp/screenrec-23a-clock-final/report.json",
+    "sha256": "caf571d7f4d2ad8048fcb1084e5adb330c68f94b1d240faefadf0034a4335122",
+    "presentation": "/tmp/screenrec-23a-presentation3/report.json",
+    "presentationSha256": "f17b2d1a293a072c185f38bab32674e699c5fd56629339f152b34451359e5c6a"
+  },
+  "nativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "shutdown": [
+    {
+      "status": "fulfilled"
+    }
+  ]
+}

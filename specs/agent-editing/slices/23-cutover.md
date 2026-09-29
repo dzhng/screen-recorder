@@ -18,6 +18,8 @@ Before deletion, run the preservation matrix through old and new public entry po
 
 The bounded [23a harness](../../../packages/test-harness/editing/cutover.mjs) supplies one retained-recording checkpoint. Extend the remaining matrix before installed switching or deletion; the checkpoint does not imply those consumers have cut over.
 
+[23b](23b-export-recovery-preservation.md) adds the bounded matched public acknowledgement-loss/restart checkpoint using the retained cached movies.
+
 ## Acceptance
 
 All preservation rows have result artifacts and permitted differences. Capture, clean-frame/pointer selection, transcript/evidence gaps, concurrency, preview/export publication and relocated inspection retain their guarantees. Search for obsolete timeline/target consumers and remove live references. New installed discovery uses the fresh library deliberately; no old jobs/history are migrated.

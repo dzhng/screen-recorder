@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "checks": {
+    "archiveMembersRehashed": 380,
+    "nativeCallsPerAcceptedSide": [
+      14,
+      14
+    ],
+    "successfulPrepareAndCommitPerSide": 1,
+    "concurrentReplaySameJob": true,
+    "changedArgumentsConflict": true,
+    "realChildExitedBeforeWithholdingReply": true,
+    "publicStatusUnacknowledgedBeforeCrash": true,
+    "recoveryPreservesCompleteReceiptSnapshotFileAndInode": true,
+    "retryDoesNotRepublish": true,
+    "nativeStageDestinationAndSourceDescriptorIdentities": true,
+    "exactRawNativeRequestResponseHashes": true,
+    "noRenderASROrModelCallsForwarded": true,
+    "syntaxFormatLint": true,
+    "independentCodeReview": "two clean reviews; no scenario rerun by reviewer"
+  },
+  "productionLinesChanged": 0,
+  "harnessLines": {
+    "controller": 434,
+    "observer": 77
+  },
+  "retainedFailedRuns": [
+    "first: packageWorkspace.recover improperly refused",
+    "second: media.audioCapabilities identity lookup improperly refused"
+  ],
+  "postRunGuard": "Stop also checks already-exited service status; accepted-run branch unchanged, reviewed without another export",
+  "copiedOutputBytesAcrossAllAttempts": 189693296,
+  "newMovieBytesCommittedToRepository": 0,
+  "mediaContentReusedFrom23a": true,
+  "nativeSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "activeOwnedServiceProxyNativeProcesses": [],
+  "retainedHomesReleased": true,
+  "scratchCleanupPerformed": false,
+  "files": {
+    "archive.json": {
+      "bytes": 173,
+      "sha256": "15fc05ea8187dc57e2d081da43ebf92a434684176a80ee134db2786e18395ac2"
+    },
+    "report.json": {
+      "bytes": 99082,
+      "sha256": "cd8f161ffb35b7cab3b11040387e3410018b820dd86b3f814f1acac0e74bac0d"
+    },
+    "code-review.log.gz": {
+      "bytes": 27872,
+      "sha256": "31d7cad04ab630fcfa4028b1cc435f9b69f7001acae044f8382cbaef8a132a47"
+    },
+    "captures.tar.xz": {
+      "bytes": 21584,
+      "sha256": "2a4fbac9886f884bed3e3ceca5b73a4af74ea519b70243510764e1c623c11bba"
+    },
+    "code-review.md": {
+      "bytes": 425,
+      "sha256": "03c229f6df6be7ab14eb36a897a6315a1a274948940303f98ca586fca96be964"
+    },
+    "artifact-files.json": {
+      "bytes": 89739,
+      "sha256": "1efb8ea38c0b8e650003c568087b918ccf56bb27f9d58eb192fafac1ba13fc5f"
+    },
+    "media-references.json": {
+      "bytes": 2207,
+      "sha256": "bda398492e49f8bd32aa901f4f9c14d819712402b6d5cf03816a6092c67d4a79"
+    }
+  }
+}

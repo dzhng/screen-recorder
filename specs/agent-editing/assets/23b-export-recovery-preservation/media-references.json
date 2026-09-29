@@ -1,0 +1,57 @@
+[
+  {
+    "path": "first/recording.mp4",
+    "original": "/tmp/screenrec-23b-first/recording.mp4",
+    "bytes": 49652092,
+    "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+    "reusedFrom": {
+      "archive": "../23a-recording-project-preservation/archive.json",
+      "archiveSha256": "a409ddc78be5fe6df04b57873eb7ec59edbca9a69ec7e979344d9cb3e5b2eb0e",
+      "member": "runs/full2/legacy.mp4"
+    }
+  },
+  {
+    "path": "second/project.mp4",
+    "original": "/tmp/screenrec-23b-second/project.mp4",
+    "bytes": 20368510,
+    "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+    "reusedFrom": {
+      "archive": "../23a-recording-project-preservation/archive.json",
+      "archiveSha256": "a409ddc78be5fe6df04b57873eb7ec59edbca9a69ec7e979344d9cb3e5b2eb0e",
+      "member": "runs/presentation3/pointer-project.mp4"
+    }
+  },
+  {
+    "path": "second/recording.mp4",
+    "original": "/tmp/screenrec-23b-second/recording.mp4",
+    "bytes": 49652092,
+    "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+    "reusedFrom": {
+      "archive": "../23a-recording-project-preservation/archive.json",
+      "archiveSha256": "a409ddc78be5fe6df04b57873eb7ec59edbca9a69ec7e979344d9cb3e5b2eb0e",
+      "member": "runs/full2/legacy.mp4"
+    }
+  },
+  {
+    "path": "final/project.mp4",
+    "original": "/tmp/screenrec-23b-final/project.mp4",
+    "bytes": 20368510,
+    "sha256": "eea32a304d1b110b1dd458886dd80682066bcf136e0ccb704a00a836fa665e93",
+    "reusedFrom": {
+      "archive": "../23a-recording-project-preservation/archive.json",
+      "archiveSha256": "a409ddc78be5fe6df04b57873eb7ec59edbca9a69ec7e979344d9cb3e5b2eb0e",
+      "member": "runs/presentation3/pointer-project.mp4"
+    }
+  },
+  {
+    "path": "final/recording.mp4",
+    "original": "/tmp/screenrec-23b-final/recording.mp4",
+    "bytes": 49652092,
+    "sha256": "56f5a2618a2ea1f0120b7a728d9228b0de6a401738ad9787b95a82e8d58beaf6",
+    "reusedFrom": {
+      "archive": "../23a-recording-project-preservation/archive.json",
+      "archiveSha256": "a409ddc78be5fe6df04b57873eb7ec59edbca9a69ec7e979344d9cb3e5b2eb0e",
+      "member": "runs/full2/legacy.mp4"
+    }
+  }
+]
