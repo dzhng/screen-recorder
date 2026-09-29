@@ -45,3 +45,8 @@ CLI/service build pass. One earlier core run timed out in the unchanged queue
 history test at its existing five-second deadline. The same test passes from the
 baseline checkout, and the complete focused rerun passes without deadline changes;
 both the timeout and subsequent results are retained here.
+
+Combined-root confirmation builds the shared packages and passes 104 focused
+core/service tests. The [root native journey](root-report.json.gz) repeats every
+prepared relocation check with the combined font/output-settings worker. This
+confirms integration; it does not broaden the DSP or public-preparation scope.

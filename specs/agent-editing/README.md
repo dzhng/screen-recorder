@@ -19,9 +19,9 @@ verified public operations only; the installed app has not switched engines.
 
 Current pickup and priority:
 
-Active work is split between encoded-appearance verification, prepared-audio
-portability and caption integration. Explicit output controls are verified. Font admission and project screenshot-index relocation are
-integrated; their final combined checks are tracked in the pickup.
+Active work is split between encoded-appearance verification, historical package
+export and caption integration. Explicit output controls, font admission and
+prepared-audio portability pass their combined checks.
 See the [implementation pickup](assets/implementation-pickup.md) for exact checkpoints.
 
 1. [Agent-controlled output settings](slices/09b-output-settings.md) and their
@@ -140,8 +140,9 @@ Use isolated homes and frozen workers. Imported assets never fabricate recording
 rows or narration roles; preserve physical support and acquisition provenance.
 Never pad missing samples, truncate support or relax thresholds to conceal a
 failure. Numerical checks cannot close listening or physical-camera acceptance.
-[Encoding trials](assets/06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
-no production profile is accepted. Broader encoding/color (06), audio conformance/scale (08), camera (20/21),
+[Early encoding trials](assets/06-pointer-encoding/README.md) isolate a scoped bitrate improvement;
+the later [output quality study](assets/09b-output-quality/README.md) selects an
+editable balanced default while broader appearance acceptance remains open. Broader encoding/color (06), audio conformance/scale (08), camera (20/21),
 portability (22), cutover (23), scale (24) and autonomous acceptance (25) remain
 explicit gates. No history migration, editing GUI, lip-sync model or mandatory
 creative approval is required. Each committed pass updates its owning evidence,

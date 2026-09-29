@@ -2,8 +2,8 @@
 
 The full editor goal remains active. The installed app has not switched engines.
 Explicit output settings09b and font admission17b are verified within their named
-scopes. Prioritize matched encoded-appearance verification, prepared-audio
-portability and caption integration in parallel. No full editor or whole16/17/22
+scopes. Prioritize matched encoded-appearance verification, historical package
+export and caption integration in parallel. No full editor or whole16/17/22
 completion is claimed.
 
 ## Output controls complete; appearance verification next
@@ -27,9 +27,10 @@ The appearance delegate works in
 `/Users/david/.codex/worktrees/noise-prepared-output/screen-recorder`.
 The [acceptance audit](09b-output-quality/acceptance-boundary.md) defines remaining
 full/range, negative-control and visual/playback evidence. Frozen pointer-chain
-pre-encode pixels and compiler/pointer records reproduce exactly. Full/range
-encoded cohorts and shifted/missing-pointer controls are running with the frozen
-selection worker. Historical diagnostics and exact pre-encode gates stay intact.
+pre-encode pixels and compiler/pointer records reproduce exactly. Complete full/range decoded cohorts and shifted/missing-pointer controls are
+retained with the frozen selection worker. Fresh visual review is running against
+ICC-normalized composites; raw originals preserve their profiles. Continuous
+playback and older strict landmark diagnostics remain open. Historical diagnostics and exact pre-encode gates stay intact.
 Use a fresh read-only CLI review for visual critique if the agent thread limit
 still prevents a new fork; sparse frames are not continuous playback acceptance.
 
@@ -43,11 +44,15 @@ receipts no longer start replacement jobs. Combined root targeted build,53 owner
 pass with expanded output settings. Donor/adopted media match within this cohort;
 old fixed-profile video hashes are not claimed identical.
 
-The portable delegate continues prepared-audio closure14a in
-`/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
-Use existing immutable assets, revision references, queue receipts and adoption
-transaction; no new readiness owner. Fonts, noncurrent package export and full
-skill journeys still belong to whole22.
+Prepared-audio portability is integrated at root01884997. Combined build,104
+focused tests and the full native prepared-package journey pass; evidence is in
+[the prepared portability leaf](14a-prepared-portable/README.md). Public preparation
+and actual model-dependent DSP output remain open. The portable delegate now
+implements non-current revision package export in
+`/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`: snapshot
+the selected historical moment with its retained history prefix and undo state,
+leaving later donor revisions untouched. Fonts and final skill journeys still
+belong to whole22.
 
 Roote779d7df integrates font admission: exact asset bytes plus explicit PostScript
 face identity, empty playable streams, native collection probing and portable asset
@@ -61,8 +66,10 @@ Text will use an ordinary typed clip source and shared anchor/routing/edit owner
 removing the unshipped empty captions array. The contract revision is intentional;
 update active fixtures while preserving historical evidence. Port the frozen17a
 renderer with parity, retain exact font faces and history/package dependencies,
-then add occurrence seeding. Full17
-caption authoring/rendering is not implemented. Segmentation stays future-only.
+then add occurrence seeding. Literal text integration is in final visual/public-skill review; its worker and
+dist are frozen while the fresh consumer runs. Whole17 occurrence seeding remains
+next, using pinned transcript evidence expanded by core into ordinary placements.
+Do not claim whole17 complete from literal text parity. Segmentation stays future-only.
 
 ## Other retained checkpoints
 
@@ -71,3 +78,7 @@ and197 composition tests plus delegate public/visual/skill checks pass. Gain,
 prepared PCM lifecycle, source indexes and sampling evidence remain linked from
 the README. Listening, accepted stretch/denoise integration, captions/voice,
 camera, cutover, scale and final acceptance remain in the full spec queue.
+
+An optional listening question covers the original,0.8× and1.25× phrase-0 stretch
+auditions in13a-endpoint-verification. No answer has arrived; listening acceptance
+and independent protected-word boundaries remain open.
