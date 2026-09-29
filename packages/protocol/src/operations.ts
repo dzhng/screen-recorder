@@ -330,12 +330,14 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Admit local media as an immutable asset through a durable job. Replay requestId to recover the same import; inspect job.get, retry failed work with job.retry and cancel with job.cancel.",
+      "Admit local media or a font file as an immutable asset through a durable job. Fonts retain all explicitly named faces without installation or playable streams. Replay requestId to recover the same import; inspect job.get, retry failed work with job.retry and cancel with job.cancel.",
     ),
   z
     .object({ operation: z.literal("asset.get"), params: z.object({ assetId: id }).strict() })
     .strict()
-    .describe("Read immutable admitted stream metadata."),
+    .describe(
+      "Read immutable admitted stream metadata or non-timed fontFaces. Select a font face by assetId and its exact postScriptName; names are scoped to those immutable bytes, not the installed system fonts.",
+    ),
   z
     .object({
       operation: z.literal("asset.origins"),
@@ -362,7 +364,9 @@ export const operationSchema = z.discriminatedUnion("operation", [
         .strict(),
     })
     .strict()
-    .describe("Read a bounded page of admitted assets."),
+    .describe(
+      "Read a bounded page of admitted assets. streamCount/mediaKinds describe media streams; fontFaceCount identifies non-timed font assets, which have no streams.",
+    ),
   z
     .object({ operation: z.literal("job.get"), params: z.object({ jobId: id }).strict() })
     .strict()

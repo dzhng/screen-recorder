@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, expect, test, vi } from "vitest";
 import { Catalog } from "./catalog.js";
-import { AssetStore } from "./assets.js";
+import { AssetStore, compositionAsset } from "./assets.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -285,6 +285,7 @@ test("asset lists stay compact while get preserves large source timing metadata"
       fileName: asset.fileName,
       mediaKinds: ["video"],
       streamCount: 1,
+      fontFaceCount: 0,
     },
   ]);
 });
@@ -306,4 +307,79 @@ test("rejected admission rolls back the frozen intent with its caller transactio
   const accepted = await admit("capacity-refusal", path);
   const asset = await store.executeImport(accepted.importId, probe, new AbortController().signal);
   expect(await readFile(store.path(asset.id), "utf8")).toBe("new candidate after failed admission");
+});
+
+test("font assets retain face identities without advertising playable streams", async () => {
+  const { root, store } = await setup();
+  const path = join(root, "faces.ttc");
+  await writeFile(path, "immutable collection bytes");
+  const fontFaces = [
+    { postScriptName: "Example-Regular", familyName: "Example", styleName: "Regular" },
+    { postScriptName: "Example-Bold", familyName: "Example", styleName: "Bold" },
+  ];
+  const asset = await store.import(path, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [],
+    fontFaces,
+  }));
+  expect(store.get(asset.id).fontFaces).toEqual(fontFaces);
+  expect(store.list().assets).toEqual([
+    {
+      id: asset.id,
+      bytes: asset.bytes,
+      createdAt: asset.createdAt,
+      fileName: asset.fileName,
+      streamCount: 0,
+      mediaKinds: [],
+      fontFaceCount: 2,
+    },
+  ]);
+  expect(store.portable(asset.id).asset.fontFaces).toEqual(fontFaces);
+  expect(compositionAsset(asset)).toEqual({ id: asset.id, streams: [] });
+  const recipient = await setup();
+  const staged = await recipient.store.stagePortable(
+    store.portable(asset.id),
+    store.path(asset.id),
+    new AbortController().signal,
+  );
+  recipient.catalog.transaction(() => staged.publish());
+  await staged.close();
+  expect(recipient.store.get(asset.id)).toEqual(asset);
+  const invalidPortable = store.portable(asset.id);
+  invalidPortable.asset.fontFaces = [fontFaces[0]!, fontFaces[0]!];
+  await expect(
+    recipient.store.stagePortable(
+      invalidPortable,
+      store.path(asset.id),
+      new AbortController().signal,
+    ),
+  ).rejects.toMatchObject({ code: "INVALID_PACKAGE" });
+  expect(await readFile(recipient.store.path(asset.id))).toEqual(
+    await readFile(store.path(asset.id)),
+  );
+  await rename(path, path + ".renamed");
+  expect(
+    await store.import(path + ".renamed", { kind: "import" }, async () => {
+      throw Error("Must reuse immutable identity");
+    }),
+  ).toEqual(asset);
+});
+
+test("font metadata rejects ambiguous identities and cannot smuggle timed streams", async () => {
+  const { root, store } = await setup();
+  const path = join(root, "invalid-font.ttf");
+  await writeFile(path, "invalid font metadata");
+  const face = { postScriptName: "Repeated", familyName: "Example" };
+  for (const metadata of [
+    { originUs: 0, streams: [], fontFaces: [] },
+    { originUs: 0, streams: [], fontFaces: [face, face] },
+    { originUs: 1, streams: [], fontFaces: [face] },
+    { ...(await probe()), fontFaces: [face] },
+    { originUs: 0, streams: [] },
+  ]) {
+    await expect(
+      store.import(path, { kind: "import" }, async () => metadata),
+    ).rejects.toMatchObject({ code: "INVALID_NATIVE_RESPONSE" });
+    expect(store.list().assets).toEqual([]);
+  }
 });

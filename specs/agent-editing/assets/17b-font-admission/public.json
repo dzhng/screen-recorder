@@ -1,0 +1,1113 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "Cannot open import source",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "asset.list",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.list",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.list",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.list",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.list",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.list",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "INVALID_EDIT",
+        "message": "Unknown source: 525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9/ArialMT",
+        "retryable": false,
+        "details": {
+          "operationIndex": 1,
+          "cause": "INVALID_COMPOSITION"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "exchanges": [
+    {
+      "operation": "asset.import",
+      "params": {
+        "path": "/tmp/sr-font-b2RMuq/single.ttf",
+        "requestId": "single"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "e42a4052-7edf-4731-9493-ebba81da858b",
+        "attemptId": "01f358e7-7b03-42c2-8098-4a1f46a07683",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/single.ttf\",\"bytes\":773236,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076155\",\"modifiedNs\":\"1790641882552169261\",\"changedNs\":\"1790641882552169261\"}}",
+        "state": "running",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "050d8eae-1a6b-4d24-a398-b8f621102a18"
+        },
+        "result": null
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "e42a4052-7edf-4731-9493-ebba81da858b"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "e42a4052-7edf-4731-9493-ebba81da858b",
+        "attemptId": "01f358e7-7b03-42c2-8098-4a1f46a07683",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/single.ttf\",\"bytes\":773236,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076155\",\"modifiedNs\":\"1790641882552169261\",\"changedNs\":\"1790641882552169261\"}}",
+        "state": "running",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "050d8eae-1a6b-4d24-a398-b8f621102a18"
+        },
+        "result": null
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "e42a4052-7edf-4731-9493-ebba81da858b"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "e42a4052-7edf-4731-9493-ebba81da858b",
+        "attemptId": "01f358e7-7b03-42c2-8098-4a1f46a07683",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/single.ttf\",\"bytes\":773236,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076155\",\"modifiedNs\":\"1790641882552169261\",\"changedNs\":\"1790641882552169261\"}}",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "050d8eae-1a6b-4d24-a398-b8f621102a18"
+        },
+        "result": {
+          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      "transport": "cli",
+      "result": {
+        "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "bytes": 773236,
+        "createdAt": "2026-09-29T00:31:23.495Z",
+        "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": "ArialMT",
+            "familyName": "Arial",
+            "styleName": "Regular"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      "transport": "mcp",
+      "result": {
+        "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "bytes": 773236,
+        "createdAt": "2026-09-29T00:31:23.495Z",
+        "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": "ArialMT",
+            "familyName": "Arial",
+            "styleName": "Regular"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "path": "/tmp/sr-font-b2RMuq/copy-without-extension",
+        "requestId": "duplicate"
+      },
+      "transport": "mcp",
+      "result": {
+        "jobId": "15144643-b30c-4232-8a50-909c1bee5e0b",
+        "attemptId": "98e358cb-e4b8-43d0-85a4-bda360103d6a",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/copy-without-extension\",\"bytes\":773236,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076211\",\"modifiedNs\":\"1790641883917895181\",\"changedNs\":\"1790641883917895181\"}}",
+        "state": "running",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "bc297d57-89ed-49bb-bab0-05e2af8bd62c"
+        },
+        "result": null
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "15144643-b30c-4232-8a50-909c1bee5e0b"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "15144643-b30c-4232-8a50-909c1bee5e0b",
+        "attemptId": "98e358cb-e4b8-43d0-85a4-bda360103d6a",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/copy-without-extension\",\"bytes\":773236,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076211\",\"modifiedNs\":\"1790641883917895181\",\"changedNs\":\"1790641883917895181\"}}",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "bc297d57-89ed-49bb-bab0-05e2af8bd62c"
+        },
+        "result": {
+          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      "transport": "cli",
+      "result": {
+        "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "bytes": 773236,
+        "createdAt": "2026-09-29T00:31:23.495Z",
+        "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": "ArialMT",
+            "familyName": "Arial",
+            "styleName": "Regular"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      "transport": "mcp",
+      "result": {
+        "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "bytes": 773236,
+        "createdAt": "2026-09-29T00:31:23.495Z",
+        "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": "ArialMT",
+            "familyName": "Arial",
+            "styleName": "Regular"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "path": "/tmp/sr-font-b2RMuq/different-bytes.ttf",
+        "requestId": "f92d5f31-a827-485b-a0bf-8f82d6e92833"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "399b6768-5bf3-4ff9-b12c-332e5cb77823",
+        "attemptId": "ccad5d8f-d898-4e28-9e36-4a13f8fd63ca",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/different-bytes.ttf\",\"bytes\":773240,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076248\",\"modifiedNs\":\"1790641884593997351\",\"changedNs\":\"1790641884593997351\"}}",
+        "state": "running",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "02e9de68-3029-4f7f-9a7a-547a87a28c60"
+        },
+        "result": null
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "399b6768-5bf3-4ff9-b12c-332e5cb77823"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "399b6768-5bf3-4ff9-b12c-332e5cb77823",
+        "attemptId": "ccad5d8f-d898-4e28-9e36-4a13f8fd63ca",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/different-bytes.ttf\",\"bytes\":773240,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076248\",\"modifiedNs\":\"1790641884593997351\",\"changedNs\":\"1790641884593997351\"}}",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "02e9de68-3029-4f7f-9a7a-547a87a28c60"
+        },
+        "result": {
+          "assetId": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d"
+      },
+      "transport": "cli",
+      "result": {
+        "id": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d",
+        "bytes": 773240,
+        "createdAt": "2026-09-29T00:31:25.025Z",
+        "fileName": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d.ttf",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": "ArialMT",
+            "familyName": "Arial",
+            "styleName": "Regular"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d"
+      },
+      "transport": "mcp",
+      "result": {
+        "id": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d",
+        "bytes": 773240,
+        "createdAt": "2026-09-29T00:31:25.025Z",
+        "fileName": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d.ttf",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": "ArialMT",
+            "familyName": "Arial",
+            "styleName": "Regular"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "path": "/tmp/sr-font-b2RMuq/collection-without-extension",
+        "requestId": "collection"
+      },
+      "transport": "mcp",
+      "result": {
+        "jobId": "849249cc-285c-4a75-aea1-6f37d10f7b5e",
+        "attemptId": "d70520f8-aca1-47c2-a01a-f83748e5095d",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/collection-without-extension\",\"bytes\":186408,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076273\",\"modifiedNs\":\"1790641885696431086\",\"changedNs\":\"1790641885696431086\"}}",
+        "state": "running",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "36b0195f-acc8-49bb-a7cc-e418e00028a1"
+        },
+        "result": null
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "849249cc-285c-4a75-aea1-6f37d10f7b5e"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "849249cc-285c-4a75-aea1-6f37d10f7b5e",
+        "attemptId": "d70520f8-aca1-47c2-a01a-f83748e5095d",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/collection-without-extension\",\"bytes\":186408,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076273\",\"modifiedNs\":\"1790641885696431086\",\"changedNs\":\"1790641885696431086\"}}",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "36b0195f-acc8-49bb-a7cc-e418e00028a1"
+        },
+        "result": {
+          "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356"
+      },
+      "transport": "cli",
+      "result": {
+        "id": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+        "bytes": 186408,
+        "createdAt": "2026-09-29T00:31:25.758Z",
+        "fileName": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": ".AlBayanPUA",
+            "familyName": ".Al Bayan PUA",
+            "styleName": "Plain"
+          },
+          {
+            "postScriptName": ".AlBayanPUA-Bold",
+            "familyName": ".Al Bayan PUA",
+            "styleName": "Bold"
+          },
+          {
+            "postScriptName": "AlBayan",
+            "familyName": "Al Bayan",
+            "styleName": "Plain"
+          },
+          {
+            "postScriptName": "AlBayan-Bold",
+            "familyName": "Al Bayan",
+            "styleName": "Bold"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356"
+      },
+      "transport": "mcp",
+      "result": {
+        "id": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+        "bytes": 186408,
+        "createdAt": "2026-09-29T00:31:25.758Z",
+        "fileName": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": ".AlBayanPUA",
+            "familyName": ".Al Bayan PUA",
+            "styleName": "Plain"
+          },
+          {
+            "postScriptName": ".AlBayanPUA-Bold",
+            "familyName": ".Al Bayan PUA",
+            "styleName": "Bold"
+          },
+          {
+            "postScriptName": "AlBayan",
+            "familyName": "Al Bayan",
+            "styleName": "Plain"
+          },
+          {
+            "postScriptName": "AlBayan-Bold",
+            "familyName": "Al Bayan",
+            "styleName": "Bold"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "single",
+        "path": "/tmp/sr-font-b2RMuq/single.ttf"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "e42a4052-7edf-4731-9493-ebba81da858b",
+        "attemptId": "01f358e7-7b03-42c2-8098-4a1f46a07683",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/single.ttf\",\"bytes\":773236,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076155\",\"modifiedNs\":\"1790641882552169261\",\"changedNs\":\"1790641882552169261\"}}",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "050d8eae-1a6b-4d24-a398-b8f621102a18"
+        },
+        "result": {
+          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      "transport": "cli",
+      "result": {
+        "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "bytes": 773236,
+        "createdAt": "2026-09-29T00:31:23.495Z",
+        "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": "ArialMT",
+            "familyName": "Arial",
+            "styleName": "Regular"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "missing",
+        "path": "/tmp/sr-font-b2RMuq/missing.ttf"
+      },
+      "transport": "cli",
+      "result": {
+        "code": "NOT_FOUND",
+        "message": "Cannot open import source",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "corrupt",
+        "path": "/tmp/sr-font-b2RMuq/corrupt.ttf"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "cc5000b9-0473-4a0a-b4fa-4d5972b52525",
+        "attemptId": "392e57c6-e489-4863-b0a5-fde44079a0ca",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/corrupt.ttf\",\"bytes\":32,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076341\",\"modifiedNs\":\"1790641887155484249\",\"changedNs\":\"1790641887155484249\"}}",
+        "state": "running",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "0db72624-44da-4369-bfaa-d8b196dfea2e"
+        },
+        "result": null
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "cc5000b9-0473-4a0a-b4fa-4d5972b52525"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "cc5000b9-0473-4a0a-b4fa-4d5972b52525",
+        "attemptId": "392e57c6-e489-4863-b0a5-fde44079a0ca",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/corrupt.ttf\",\"bytes\":32,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076341\",\"modifiedNs\":\"1790641887155484249\",\"changedNs\":\"1790641887155484249\"}}",
+        "state": "failed",
+        "reason": "Cannot Open",
+        "retryable": true,
+        "generation": 1,
+        "errorCode": "NATIVE_DECODE_FAILED",
+        "errorDetails": {},
+        "target": {
+          "kind": "import",
+          "importId": "0db72624-44da-4369-bfaa-d8b196dfea2e"
+        },
+        "result": null
+      }
+    },
+    {
+      "operation": "asset.list",
+      "params": {
+        "limit": 1
+      },
+      "transport": "cli",
+      "result": {
+        "assets": [
+          {
+            "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+            "bytes": 773236,
+            "createdAt": "2026-09-29T00:31:23.495Z",
+            "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+            "streamCount": 0,
+            "fontFaceCount": 1,
+            "mediaKinds": []
+          }
+        ],
+        "nextCursor": {
+          "afterSequence": 1
+        }
+      }
+    },
+    {
+      "operation": "asset.list",
+      "params": {
+        "limit": 1
+      },
+      "transport": "mcp",
+      "result": {
+        "assets": [
+          {
+            "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+            "bytes": 773236,
+            "createdAt": "2026-09-29T00:31:23.495Z",
+            "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+            "streamCount": 0,
+            "fontFaceCount": 1,
+            "mediaKinds": []
+          }
+        ],
+        "nextCursor": {
+          "afterSequence": 1
+        }
+      }
+    },
+    {
+      "operation": "asset.list",
+      "params": {
+        "limit": 1,
+        "cursor": {
+          "afterSequence": 1
+        }
+      },
+      "transport": "cli",
+      "result": {
+        "assets": [
+          {
+            "id": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d",
+            "bytes": 773240,
+            "createdAt": "2026-09-29T00:31:25.025Z",
+            "fileName": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d.ttf",
+            "streamCount": 0,
+            "fontFaceCount": 1,
+            "mediaKinds": []
+          }
+        ],
+        "nextCursor": {
+          "afterSequence": 2
+        }
+      }
+    },
+    {
+      "operation": "asset.list",
+      "params": {
+        "limit": 1,
+        "cursor": {
+          "afterSequence": 1
+        }
+      },
+      "transport": "mcp",
+      "result": {
+        "assets": [
+          {
+            "id": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d",
+            "bytes": 773240,
+            "createdAt": "2026-09-29T00:31:25.025Z",
+            "fileName": "d7fed63b4b0d03be72501f238ccf6d5e580b1989cee25ddc273c2e6bcf06505d.ttf",
+            "streamCount": 0,
+            "fontFaceCount": 1,
+            "mediaKinds": []
+          }
+        ],
+        "nextCursor": {
+          "afterSequence": 2
+        }
+      }
+    },
+    {
+      "operation": "asset.list",
+      "params": {
+        "limit": 1,
+        "cursor": {
+          "afterSequence": 2
+        }
+      },
+      "transport": "cli",
+      "result": {
+        "assets": [
+          {
+            "id": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+            "bytes": 186408,
+            "createdAt": "2026-09-29T00:31:25.758Z",
+            "fileName": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+            "streamCount": 0,
+            "fontFaceCount": 4,
+            "mediaKinds": []
+          }
+        ],
+        "nextCursor": null
+      }
+    },
+    {
+      "operation": "asset.list",
+      "params": {
+        "limit": 1,
+        "cursor": {
+          "afterSequence": 2
+        }
+      },
+      "transport": "mcp",
+      "result": {
+        "assets": [
+          {
+            "id": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+            "bytes": 186408,
+            "createdAt": "2026-09-29T00:31:25.758Z",
+            "fileName": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+            "streamCount": 0,
+            "fontFaceCount": 4,
+            "mediaKinds": []
+          }
+        ],
+        "nextCursor": null
+      }
+    },
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "font-refusal",
+        "canvas": {
+          "width": 64,
+          "height": 48,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "transport": "cli",
+      "result": {
+        "project": {
+          "projectId": "ef6d030e-0126-4698-b03d-071d3d551397",
+          "title": "Untitled",
+          "createdAt": "2026-09-29T00:31:28.960Z",
+          "currentRevisionId": "6b5f68e0-88e9-4aa4-a353-0c8924884c25"
+        },
+        "revision": {
+          "id": "6b5f68e0-88e9-4aa4-a353-0c8924884c25",
+          "projectId": "ef6d030e-0126-4698-b03d-071d3d551397",
+          "ordinal": 0,
+          "createdAt": "2026-09-29T00:31:28.960Z",
+          "operation": "create",
+          "document": {
+            "canvas": {
+              "width": 64,
+              "height": 48,
+              "fps": {
+                "numerator": 30,
+                "denominator": 1
+              },
+              "background": "#000000ff"
+            },
+            "tracks": [],
+            "groups": [],
+            "clips": [],
+            "syncGroups": [],
+            "processing": [],
+            "captions": []
+          }
+        }
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "ef6d030e-0126-4698-b03d-071d3d551397",
+        "expectedRevisionId": "6b5f68e0-88e9-4aa4-a353-0c8924884c25",
+        "requestId": "place-font",
+        "operations": [
+          {
+            "operation": "track.add",
+            "label": "v",
+            "track": {
+              "kind": "video",
+              "order": 0
+            }
+          },
+          {
+            "operation": "place",
+            "clip": {
+              "trackId": {
+                "label": "v"
+              },
+              "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+              "streamId": "ArialMT",
+              "source": {
+                "kind": "hold",
+                "atUs": 0
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "transport": "cli",
+      "result": {
+        "code": "INVALID_EDIT",
+        "message": "Unknown source: 525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9/ArialMT",
+        "retryable": false,
+        "details": {
+          "operationIndex": 1,
+          "cause": "INVALID_COMPOSITION"
+        }
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+      },
+      "transport": "mcp",
+      "result": {
+        "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+        "bytes": 773236,
+        "createdAt": "2026-09-29T00:31:23.495Z",
+        "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": "ArialMT",
+            "familyName": "Arial",
+            "styleName": "Regular"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.get",
+      "params": {
+        "assetId": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356"
+      },
+      "transport": "cli",
+      "result": {
+        "id": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+        "bytes": 186408,
+        "createdAt": "2026-09-29T00:31:25.758Z",
+        "fileName": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356",
+        "originUs": 0,
+        "streams": [],
+        "fontFaces": [
+          {
+            "postScriptName": ".AlBayanPUA",
+            "familyName": ".Al Bayan PUA",
+            "styleName": "Plain"
+          },
+          {
+            "postScriptName": ".AlBayanPUA-Bold",
+            "familyName": ".Al Bayan PUA",
+            "styleName": "Bold"
+          },
+          {
+            "postScriptName": "AlBayan",
+            "familyName": "Al Bayan",
+            "styleName": "Plain"
+          },
+          {
+            "postScriptName": "AlBayan-Bold",
+            "familyName": "Al Bayan",
+            "styleName": "Bold"
+          }
+        ]
+      }
+    },
+    {
+      "operation": "asset.import",
+      "params": {
+        "requestId": "single",
+        "path": "/tmp/sr-font-b2RMuq/single.ttf"
+      },
+      "transport": "cli",
+      "result": {
+        "jobId": "e42a4052-7edf-4731-9493-ebba81da858b",
+        "attemptId": "01f358e7-7b03-42c2-8098-4a1f46a07683",
+        "artifact": "asset.import",
+        "lane": "heavy",
+        "input": "{\"path\":\"/tmp/sr-font-b2RMuq/single.ttf\",\"bytes\":773236,\"identity\":{\"device\":\"16777229\",\"inode\":\"324076155\",\"modifiedNs\":\"1790641882552169261\",\"changedNs\":\"1790641882552169261\"}}",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1,
+        "errorCode": null,
+        "errorDetails": null,
+        "target": {
+          "kind": "import",
+          "importId": "050d8eae-1a6b-4d24-a398-b8f621102a18"
+        },
+        "result": {
+          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+        }
+      }
+    }
+  ],
+  "checks": [
+    "exact hash identity",
+    "CLI/MCP metadata parity",
+    "all collection faces",
+    "extensionless collection",
+    "deduplication",
+    "same names in distinct assets",
+    "external deletion replay",
+    "missing input refusal",
+    "corrupt font refusal",
+    "paged list parity",
+    "font not playable",
+    "restart persistence"
+  ],
+  "workerSha256": "f0dc9e11c37d6d96f8a6a00362f5b7772de916cb4ad4e5b33130bcf10b0b54b3",
+  "inputs": [
+    {
+      "path": "/System/Library/Fonts/Supplemental/Arial.ttf",
+      "sha256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+    },
+    {
+      "path": "/System/Library/Fonts/Supplemental/AlBayan.ttc",
+      "sha256": "180a77a55330ec8e72daec57741fbef87dd98adf04e41db4bb08a37f91a6c356"
+    }
+  ]
+}

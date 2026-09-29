@@ -2374,3 +2374,23 @@ exactly what executes. Confidence: medium.
 - **Confidence:** Medium; preference between marginal sharpness and bytes varies
   by content. Change the preset default if broader evidence supports another
   point; retained export intents keep their original resolved settings.
+
+
+### Font faces belong to immutable bytes, with bounded descriptive metadata
+
+When: prerequisite17b font admission.
+
+The choice: importing a collection lists each face under its exact PostScript
+name, scoped to the file's asset hash. A second file may reuse the same name and
+remain a different dependency. Duplicate names inside one file are refused so a
+later caption never resolves an ambiguous first match. Family/style are display
+metadata, not a font lookup. The parent confirmed this identity choice where the
+text plan had required an explicit font without defining its public identifier.
+The existing probe envelope keeps origin zero and no streams for fonts, while a
+separate count makes them discoverable. The admitted collection is capped at 256
+faces to keep metadata within the existing probe cardinality boundary; larger
+collections are explicitly unsupported. The reach: rendering must resolve this
+pair from retained bytes rather than use an installed font by name, and project
+caption references must later retain this ordinary asset dependency. Verdict:
+sound, preserving one blob/reference owner and explicit font identity. Confidence:
+high for identity/ownership, medium for the conservative face-count limit.

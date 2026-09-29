@@ -57,15 +57,38 @@ const stream = z.object({
     })
     .optional(),
 });
-export const mediaProbeSchema = z.object({
-  originUs: integer,
-  streams: z.array(stream).min(1).max(256),
-});
+export const mediaProbeSchema = z
+  .object({
+    originUs: integer,
+    streams: z.array(stream).max(256),
+    fontFaces: z
+      .array(
+        z
+          .object({
+            postScriptName: z.string().min(1),
+            familyName: z.string().min(1),
+            styleName: z.string().min(1).optional(),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(256)
+      .optional(),
+  })
+  .refine(
+    ({ originUs, streams, fontFaces }) =>
+      fontFaces
+        ? originUs === 0 &&
+          streams.length === 0 &&
+          new Set(fontFaces.map((face) => face.postScriptName)).size === fontFaces.length
+        : streams.length > 0,
+    "Expected playable streams or unambiguous, non-timed font faces",
+  );
 export type MediaProbe = z.infer<typeof mediaProbeSchema>;
 export type Asset = MediaProbe & { id: string; bytes: number; createdAt: string; fileName: string };
 export const portableAssetSchema = z.strictObject({
   asset: mediaProbeSchema
-    .extend({
+    .safeExtend({
       id: z.string().regex(/^[a-f0-9]{64}$/),
       bytes: integer.nonnegative(),
       createdAt: z.string().min(1),
@@ -88,6 +111,7 @@ export type PortableAsset = z.infer<typeof portableAssetSchema>;
 export type AssetSummary = Pick<Asset, "id" | "bytes" | "createdAt" | "fileName"> & {
   mediaKinds: MediaProbe["streams"][number]["kind"][];
   streamCount: number;
+  fontFaceCount: number;
 };
 export type AssetProvenance = { kind: "import" | "capture" | "generated"; source?: string };
 export type ImportIntent = {
@@ -101,7 +125,7 @@ export type PreparedImport = Pick<ImportIntent, "requestId" | "path" | "source">
 export type AssetProbe = (path: string, signal: AbortSignal) => Promise<unknown>;
 const absent = (error: unknown) => (error as NodeJS.ErrnoException).code === "ENOENT";
 
-/** Immutable media and references share the project catalog; only ready assets are visible. */
+/** Immutable assets and references share the project catalog; only ready assets are visible. */
 export class AssetStore {
   private readonly directory: string;
   private readonly staging: string;
@@ -271,6 +295,7 @@ export class AssetStore {
         json_extract(metadata,'$.createdAt') AS createdAt,
         json_extract(metadata,'$.fileName') AS fileName,
         json_array_length(metadata,'$.streams') AS streamCount,
+        coalesce(json_array_length(metadata,'$.fontFaces'),0) AS fontFaceCount,
         (SELECT json_group_array(kind) FROM (
           SELECT DISTINCT json_extract(value,'$.kind') AS kind
           FROM json_each(assets.metadata,'$.streams') ORDER BY kind
@@ -482,7 +507,10 @@ export class AssetStore {
       if (!parsed.success)
         throw new CatalogError("INVALID_NATIVE_RESPONSE", "Media probe returned invalid metadata");
       const metadata = parsed.data;
-      if (!metadata.streams.some((stream) => stream.kind !== "unsupported" && stream.decodable))
+      if (
+        !metadata.fontFaces &&
+        !metadata.streams.some((stream) => stream.kind !== "unsupported" && stream.decodable)
+      )
         throw new CatalogError(
           "UNSUPPORTED_MEDIA",
           `Media contains no decodable streams: ${metadata.streams.map((stream) => stream.codec).join(", ")}`,

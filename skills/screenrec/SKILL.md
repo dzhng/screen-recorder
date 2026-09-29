@@ -116,6 +116,15 @@ consumes the preceding image in stack order; inspect existing geometry before
 choosing its crop and rectangle. Retimed delivery still requires advertised
 executor readiness.
 
+For an explicit font dependency, import the local font file through `asset.import`
+and wait for its job. Read `asset.get.fontFaces`; pair the immutable asset ID with
+an exact returned PostScript name when choosing a face. A collection contains
+multiple faces; do not choose its first entry implicitly or look up an installed
+font with the same name. `asset.list.fontFaceCount` identifies fonts without
+advertising playable media streams. Admission preserves the font bytes and names;
+use caption/render operations only when advertised, and verify glyph coverage and
+actual rendered text separately. Importing a font does not install it globally.
+
 For visual layout, change the canvas for the output aspect ratio and place overlapping
 footage on separately ordered video tracks. Place imported PNG/JPEG images with
 `source: { kind: "hold", atUs: 0 }` and a project placement duration; that zero

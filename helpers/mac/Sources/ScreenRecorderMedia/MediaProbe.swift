@@ -4,6 +4,7 @@ import Foundation
 public struct ProbedMedia: Encodable, Sendable {
     public let originUs: Int64
     public let streams: [ProbedStream]
+    public var fontFaces: [ProbedFontFace]?
 }
 
 public struct ProbedStream: Encodable, Sendable {
@@ -50,6 +51,9 @@ public struct ProbedSamples: Encodable, Sendable {
 /// Metadata describes the admitted bytes. It never normalizes or rewrites them.
 public enum MediaProbe {
     public static func inspect(url: URL) async throws -> ProbedMedia {
+        if let faces = try FontProbe.inspect(url: url) {
+            return ProbedMedia(originUs: 0, streams: [], fontFaces: faces)
+        }
         if let image = try StillImageSource.open(url) {
             var stream = ProbedStream(
                 id: "image:0", kind: "image", codec: image.codec, decodable: true)

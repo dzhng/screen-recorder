@@ -1,6 +1,6 @@
 # 17 — Text and attached captions
 
-Status: scoped font/layout reproduction verified; public caption implementation not started. Dependencies: [17a](./17a-text-layout.md), [10](./10-project-evidence.md), [16](./16-keyframes.md).
+Status: scoped font/layout reproduction verified; [font admission](17b-font-admission.md) has scoped public evidence. Public caption implementation not started. Dependencies: [17b](./17b-font-admission.md), [17a](./17a-text-layout.md), [10](./10-project-evidence.md), [16](./16-keyframes.md).
 
 ## Contract
 
