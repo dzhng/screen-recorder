@@ -30,8 +30,10 @@ verified mono sources and their structural dual-mono mixes.
   Full100k-run and cancellation measurements are scoped in the leaf. Shared
   [container preflight](20b-container-preflight/README.md) now has
   [combined-root confirmation](20b-container-preflight/root-verification.json):
-  impossible timing refuses before phase mutation. Next wire canonical source
-  export, immutable import and portable receipt verification. Existing consumer
+  impossible timing refuses before phase mutation. Canonical source/acquisition
+  and project-package admission now have [combined-root confirmation](20d-canonical-admission/root-verification.json):
+  exact PCM, immutable proof/clock verification and relocation/restart pass.
+  Next extend the same proof to recording-domain packages. Existing consumer
   interval limits and public operation deadlines remain separate integration gates.
   Readable prefixes never authorize deleting ambiguous tails; cleanup requires
   matching accepted/committed/represented counts and clean indexed decode.

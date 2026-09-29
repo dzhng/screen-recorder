@@ -2941,3 +2941,18 @@ requires a restart. The existing render deadline includes the complete selected
 state components as well as requested output, so a short preview does not budget
 only its visible duration. This neither creates a runtime model installer nor
 claims that an unavailable capability removes weights from the linked binary.
+
+### Verify imported source clocks against the media they describe (sound, high confidence)
+
+During canonical package admission, a package could keep every audio byte unchanged
+but shift its claimed starting time and matching binding by one microsecond. File
+hashes alone therefore could not prove that playback would use the verified clock.
+Publication-backed audio now uses the existing native probe on its admitted file
+handle to confirm the stored media facts before acceptance. Both temporary package
+inspection and durable adoption regenerate journal evidence and rebuild bindings
+through the same owners. A package cannot select a weaker check by claiming an
+older journal layout. This fills in the original canonical-only admission contract;
+it does not change the policy for unrelated imported asset types. Package readiness
+now requires this native verification work, whose large-work deadline remains an
+explicit rollout gate. [Admission choices](assets/20d-canonical-admission/choices.md)
+retain the workspace and legacy-rounding boundaries.

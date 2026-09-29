@@ -1,0 +1,15 @@
+{
+  "commit": "1512e776",
+  "nativeBuildExitCode": 0,
+  "typeScriptBuildExitCode": 0,
+  "nativeDefaultExitCode": 0,
+  "focusedTests": 52,
+  "focusedTestsExitCode": 0,
+  "legacySourceTests": 17,
+  "legacySourceExitCode": 0,
+  "publicJourneyExitCode": 0,
+  "retainedArtifactHashesVerified": 93,
+  "workerSHA256": "4da521e620d0ffada867e9da6aed1c77cdb37483d4cd340785e000c2b86202ff",
+  "archiveSHA256": "9609760205ee838d3b017992c342380f8a2111d1872a8e4f9804256dba564d8d",
+  "scope": "Combined-root canonical acquisition and project-package proof/binding/clock verification, exact PCM and relocation/restart. Recording-domain package closure, actual writer activation, long-work budgets and physical capture remain open."
+}
