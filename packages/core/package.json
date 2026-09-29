@@ -291,6 +291,10 @@
     "./voice-types": {
       "types": "./dist/voice-types.d.ts",
       "default": "./dist/voice-types.js"
+    },
+    "./voice-generation": {
+      "types": "./dist/voice-generation.d.ts",
+      "default": "./dist/voice-generation.js"
     }
   },
   "scripts": {

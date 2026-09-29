@@ -210,6 +210,8 @@ it("finishes every owner's shutdown when one of them fails to close", async () =
   // Another writer holds the catalog, so the job queue cannot record its interrupted attempts.
   const writer = new DatabaseSync(join(home, "library.sqlite"));
   cleanup.push(async () => writer.close());
+  // Startup announces availability before background recovery finishes its short transactions.
+  writer.exec("PRAGMA busy_timeout=1000");
   writer.exec("BEGIN IMMEDIATE");
   service.closeInput();
   expect(await service.exit).toEqual({ code: 0, signal: null });

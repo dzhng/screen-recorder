@@ -1,4 +1,8 @@
-import { createHash } from "node:crypto";
+import { JobQueue } from "@screenrec/core/jobs";
+import { Models } from "@screenrec/core/models";
+import { VoiceGenerationJobs } from "@screenrec/core/voice-generation";
+import { voiceProfile } from "@screenrec/core/voice-profile";
+import { createHash, randomUUID } from "node:crypto";
 import { writeSync } from "node:fs";
 import { AcquisitionStore } from "@screenrec/core/acquisitions";
 import { ProjectStore } from "@screenrec/core/projects";
@@ -904,4 +908,121 @@ test("model discovery crosses the public wire before either model is prepared", 
     ok: true,
     data: { state: "absent" },
   });
+});
+
+test("a persisted queued voice request reaches its initialized owner after startup recovery", async () => {
+  const f = await setup(async () => {
+    throw Error("No native media execution expected");
+  });
+  await f.service.close();
+  const library = join(f.home, "library"),
+    catalog = new Catalog(join(library, "catalog.sqlite"));
+  const assets = new AssetStore(catalog, library),
+    registry = new Models(library);
+  const model = registry.list().find((value) => value.modelId === voiceProfile.id)!;
+  const bytes = Buffer.alloc(44 + 24000 * 4);
+  bytes.write("RIFF");
+  bytes.writeUInt32LE(bytes.length - 8, 4);
+  bytes.write("WAVEfmt ", 8);
+  bytes.writeUInt32LE(16, 16);
+  bytes.writeUInt16LE(3, 20);
+  bytes.writeUInt16LE(1, 22);
+  bytes.writeUInt32LE(24000, 24);
+  bytes.writeUInt32LE(96000, 28);
+  bytes.writeUInt16LE(4, 32);
+  bytes.writeUInt16LE(32, 34);
+  bytes.write("data", 36);
+  bytes.writeUInt32LE(96000, 40);
+  const path = join(f.home, "reference.wav");
+  await writeFile(path, bytes);
+  const probe = async () => ({
+    originUs: 0,
+    streams: [
+      {
+        id: "track:1",
+        kind: "audio",
+        codec: "lpcm",
+        decodable: true,
+        startUs: 0,
+        endUs: 1000000,
+        segments: [{ startUs: 0, endUs: 1000000, empty: false }],
+        sampleRate: 24000,
+        channels: 1,
+      },
+    ],
+  });
+  const reference = await assets.import(path, { kind: "import" }, probe);
+  const queued = new JobQueue({
+    store: catalog,
+    deferExecution: true,
+    providers: { newId: randomUUID },
+    targets: {
+      pin: (target) => {
+        if (target.kind !== "asset") throw Error("asset");
+        assets.get(target.assetId);
+        return target;
+      },
+      isAvailable: () => true,
+      isDeleting: () => false,
+      isCapturing: () => false,
+    },
+    execute: async () => {
+      throw Error("The seeding owner never executes");
+    },
+  });
+  const owner = new VoiceGenerationJobs({
+    assets,
+    jobs: queued,
+    probe,
+    staging: join(library, "staging", "voice-generation"),
+    models: {
+      list: () => registry.list(),
+      voice: async () => ({
+        python: "unused",
+        entry: "unused",
+        model: "unused",
+        cache: "unused",
+        descriptorDigest: model.descriptorDigest,
+        runtimeDigest: model.runtimeDigest!,
+        modelDigest: model.modelDigest,
+        runtimeRevision: model.pins.runtimeRevision,
+        modelRevision: model.pins.modelRevision,
+      }),
+    },
+    generate: async () => {
+      throw Error("The seeding owner never generates");
+    },
+  });
+  const request = await owner.request({
+    modelId: model.modelId,
+    reference: { assetId: reference.id, streamId: "track:1" },
+    referenceText: "A complete reference sentence.",
+    text: "A complete desired sentence.",
+  });
+  expect(queued.job(request.jobId!).state).toBe("queued");
+  await queued.close();
+  catalog.close();
+  const service = await startProjectService({
+    home: f.home,
+    worker: probeFileFixture(f.home, async () => {
+      throw Error("No model execution expected");
+    }),
+  });
+  cleanups.push(() => service.close());
+  await expect
+    .poll(() =>
+      callLocal(service.socketPath, {
+        id: "queued",
+        operation: "job.get",
+        params: { jobId: request.jobId! },
+      }),
+    )
+    .toMatchObject({
+      ok: true,
+      data: {
+        state: "failed",
+        errorCode: "MODEL_NOT_PREPARED",
+        reason: "Voice model and runtime are not prepared",
+      },
+    });
 });

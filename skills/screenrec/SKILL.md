@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, retain independent audio excerpts, inspect source or edited-project screenshot indexes and pictures, render captured pointers and trails, or inspect source scene changes, captured cursor and editorial project-cut evidence.
+description: Record, inspect, edit, and export local recordings, or edit, preview, and export managed media projects through the screenrec CLI. Use when an agent needs to understand a narrated recording, locate unwanted speech, cut or trim footage, inspect edit results, deliver video and processed recording packages, compose presenter overlays, crop/fit/zoom footage, configure ordered clip/track/group processing, compare raw and processed audio taps or waveform/spectrogram evidence, retain independent audio excerpts or generate durable replacement speech, inspect source or edited-project screenshot indexes and pictures, render captured pointers and trails, or inspect source scene changes, captured cursor and editorial project-cut evidence.
 ---
 
 # Screenrec
@@ -141,6 +141,25 @@ Inspect the retained asset before deleting a donor project. Its provenance remai
 historical after donor deletion; identical bytes can have several origins, so never
 infer one from the asset ID or silently choose another origin. Missing-support
 metadata remains evidence, even if filtering spreads neighbors into selected zeroes.
+
+For replacement speech, discover `voice.generate` and the registered model's
+`generationProfile` through `model.list`. Supply a retained mono24k Float32
+reference, its exact transcript and the desired text; do not choose wording or
+infer a transcript. Echo the specific reference origin when one was selected;
+omission explicitly selects none. Defaults come from the immutable profile, with
+supported overrides and a decimal-string seed. Keep requested/effective settings,
+exact frames and completion evidence from the result. An incomplete token-budget
+result is a failure, not usable finished speech.
+
+Repeat the same request to recover saved output before considering preparation;
+existing output remains usable with model/runtime files absent. New execution
+requires explicit model preparation, and failed/canceled work uses `job.retry`.
+Generation retains its reference bytes and never edits a project. Inspect the
+saved asset, then use ordinary `edit.apply` for explicit placement/replacement and
+fit, preserving compatible target processing. Room tone, overlaps and transitions
+are authored choices. Render before/after context and undo; byte equality proves
+preservation, while pronunciation, voice identity, level and joins still require
+separate listening judgments.
 
 For animated processors, use the supported number-or-curve fields in the existing
 stack. Clip curves default to normalized clip time; parent curves use project

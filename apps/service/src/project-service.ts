@@ -1,3 +1,5 @@
+import { VoiceGenerationJobs } from "@screenrec/core/voice-generation";
+import { voiceRenderer } from "./voice.js";
 import { AudioExtraction } from "@screenrec/core/audio-extraction";
 import { assetProbe } from "./media-probe.js";
 import { sourceExporter } from "./source-export.js";
@@ -159,10 +161,12 @@ export async function startProjectService(options: { home: string; worker?: Medi
     let mediaAudio: MediaAudioInspection;
     let preparedAudio: PreparedAudioStore;
     let extractedAudio: AudioExtraction;
+    let generatedVoice: VoiceGenerationJobs;
     let acoustics: AcousticInspection;
     let scenes: SceneProcessing;
     let indexes: IndexProcessing;
     const queue = new JobQueue({
+      deferExecution: true,
       store: catalog,
       targets,
       providers: { newId: randomUUID },
@@ -170,6 +174,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.artifact === "voice-generation") return generatedVoice.execute({ job, signal });
         if (job.artifact === "audio-extract") return extractedAudio.execute({ job, signal });
         if (job.artifact === "prepared-audio") return preparedAudio.execute({ job, signal });
         if (job.artifact === "pointer-presentation") return pointers.execute({ job, signal });
@@ -317,6 +322,16 @@ export async function startProjectService(options: { home: string; worker?: Medi
       },
     });
     await extractedAudio.recover();
+    generatedVoice = new VoiceGenerationJobs({
+      assets,
+      jobs: queue,
+      models,
+      probe,
+      staging: join(library, "staging", "voice-generation"),
+      generate: (modelId, request, signal) =>
+        voiceRenderer(worker, models, modelId, workspace)(request, signal),
+    });
+    await generatedVoice.recover();
     acoustics = new AcousticInspection({
       audio: mediaAudio,
       jobs: queue,
@@ -541,6 +556,7 @@ export async function startProjectService(options: { home: string; worker?: Medi
     );
     deletion = projectDeletion;
     await projectDeletion.resume((error) => console.error(error));
+    queue.start();
     for (const error of mediaExports.resumeRecovery()) console.error(error);
     const status = (jobId: string) => queue.inspect(jobId);
     const pending = new Set<Promise<OperationResult>>();
@@ -799,6 +815,22 @@ export async function startProjectService(options: { home: string; worker?: Medi
                         : { kind: "asset", id: status.assetId },
                       () => cache.acquire(status.published!.artifact.cacheId),
                     )
+                  : null,
+              },
+            };
+          }
+          case "voice.generate": {
+            const status = await generatedVoice.request(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...operation.params,
+                ...status,
+                published: status.published
+                  ? {
+                      generation: status.published.generation,
+                      audio: JSON.parse(status.published.result),
+                    }
                   : null,
               },
             };

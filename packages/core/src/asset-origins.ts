@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { voiceReceiptSchema } from "./voice-types.js";
 import { processingTapSchema, rangeSchema } from "@screenrec/composition";
 
 const integer = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
@@ -42,12 +43,27 @@ export const extractionOriginSchema = z.strictObject({
     contextPolicy: z.enum(["complete-selected-pcm-zero-origin", "complete-source"]),
   }),
 });
+export const generatedVoiceOriginSchema = z.strictObject({
+  kind: z.literal("voice-generation"),
+  requestSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  modelId: id,
+  reference: z.strictObject({
+    assetId: id,
+    streamId: id,
+    originSha256: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .nullable(),
+  }),
+  receipt: voiceReceiptSchema.omit({ file: true }),
+});
 export const assetOriginSchema = z.union([
   z.strictObject({
     kind: z.enum(["import", "capture", "generated"]),
     source: z.string().optional(),
   }),
   extractionOriginSchema,
+  generatedVoiceOriginSchema,
 ]);
 export type AssetProvenance = z.infer<typeof assetOriginSchema>;
 export type ExtractionOrigin = z.infer<typeof extractionOriginSchema>;

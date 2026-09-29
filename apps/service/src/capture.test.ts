@@ -1,6 +1,8 @@
+import { JobQueue, recordingJobTargets } from "@screenrec/core/jobs";
+import { RevisionStore } from "@screenrec/core/library";
 import { afterEach, expect, it } from "vitest";
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
-import { chmod, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { once } from "node:events";
 import { join } from "node:path";
@@ -1010,3 +1012,49 @@ it(
     });
   },
 );
+
+it("resumes persisted queued cleanup only after the recording service owners and recovery are ready", async () => {
+  const home = await temporaryHome();
+  const store = new RevisionStore(join(home, "library.sqlite"), {
+    newId: randomUUID,
+    now: () => new Date().toISOString(),
+  });
+  const { recordingId, sourceId } = store.allocate().recording;
+  store.ingestLifecycle(recordingId, { sourceId, sequence: 1, state: "recording" });
+  store.ingestLifecycle(recordingId, { sourceId, sequence: 2, state: "finalizing" });
+  store.ingestLifecycle(recordingId, {
+    sourceId,
+    sequence: 3,
+    state: "complete",
+    sourceDurationUs: 1000000,
+  });
+  await mkdir(join(home, "recordings", recordingId), { recursive: true, mode: 0o700 });
+  const queue = new JobQueue({
+    store,
+    targets: recordingJobTargets(store),
+    providers: { newId: randomUUID },
+    deferExecution: true,
+    execute: async () => {
+      throw Error("Seeding must remain queued");
+    },
+  });
+  const job = queue.submit({
+    target: { kind: "recording", recordingId, revisionId: null },
+    artifact: "capture-cleanup",
+    lane: "heavy",
+    input: sourceId,
+  });
+  expect(queue.job(job.jobId).state).toBe("queued");
+  await queue.close();
+  store.close();
+  const service = await startService(home, capturingPeer(), {
+    SCREENREC_NATIVE: await recovers([
+      { role: "narration", outcome: "alreadyClear" },
+      { role: "system", outcome: "alreadyClear" },
+    ]),
+  });
+  await service.waitForDiagnostic(/reconciliation complete/);
+  await expect
+    .poll(() => service.call("job.get", { jobId: job.jobId }))
+    .toMatchObject({ ok: true, data: { state: "ready", result: { recordingId, sourceId } } });
+});

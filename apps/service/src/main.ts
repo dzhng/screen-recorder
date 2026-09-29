@@ -136,6 +136,7 @@ async function main(): Promise<void> {
     });
     delivery = new DerivativeDelivery();
     jobs = new JobQueue({
+      deferExecution: true,
       store,
       targets: recordingJobTargets(store),
       providers: { newId: randomUUID },
@@ -534,8 +535,20 @@ async function main(): Promise<void> {
       if (result.status === "rejected" && !cleanupLifetime.signal.aborted)
         log(`evidence cleanup failed: ${(result.reason as Error).message}`);
   });
-  void deletion.resume((error) => log(`recording deletion failed: ${(error as Error).message}`));
-  await reconciled;
+  const deletionsReady = deletion.resume((error) =>
+    log(`recording deletion failed: ${(error as Error).message}`),
+  );
+  await Promise.all([reconciled, cacheReady, evidenceCleanup, deletionsReady]);
+  if (!stopping) {
+    try {
+      queue.start();
+    } catch (error) {
+      if (!(error instanceof CatalogError) || !error.retryable) throw error;
+      // Background admission may race a catalog writer after startup was reported.
+      // Queued work stays durable and the existing scheduling/retry events can resume it.
+      log(`job execution admission failed: ${error.message}`);
+    }
+  }
   resumeProcessing();
   log("reconciliation complete");
 }

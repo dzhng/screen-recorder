@@ -357,6 +357,7 @@ export class JobQueue {
   private readonly activeContexts = new Set<ContextState>();
   private sequence = 0;
   private closed = false;
+  private executionStarted: boolean;
   private admission: JobAdmission | undefined;
   private admitting = false;
   private admissionScheduled = false;
@@ -368,8 +369,11 @@ export class JobQueue {
     execute: JobExecutor;
     providers: { newId: () => string };
     onCapacity?: () => void;
+    /** Assembled services call start() after all owners and recovery are ready. */
+    deferExecution?: boolean;
   }) {
     this.store = options.store;
+    this.executionStarted = !options.deferExecution;
     // SQL consumers use the same digest for joins on their bounded identity keys.
     this.store.catalog.function("job_input_digest", { deterministic: true }, (input) => {
       if (typeof input !== "string") throw new TypeError("Job input must be text");
@@ -413,6 +417,15 @@ export class JobQueue {
           .get() as { sequence: number }
       ).sequence,
     );
+    this.runQueued();
+  }
+
+  /** Release the shared execution barrier only after owner recovery has settled. */
+  start(): void {
+    this.requireOpen();
+    if (this.executionStarted) return;
+    this.executionStarted = true;
+    this.resumeAdmission();
     this.runQueued();
   }
 
@@ -904,7 +917,7 @@ export class JobQueue {
   }
 
   private runQueued(): void {
-    if (this.closed || this.admitting) return;
+    if (this.closed || !this.executionStarted || this.admitting) return;
     // A take that can still produce media outranks heavy background work, so heavy attempts wait for
     // it. Startup reconciliation is what settles a stranded take, and with it this pause.
     const capturing = this.targets.isCapturing();
@@ -1185,7 +1198,7 @@ export class JobQueue {
 
   /** One bounded event turn. Dependency submissions cannot recursively restart this scan. */
   resumeAdmission(): void {
-    if (this.closed || this.admitting || !this.admission) return;
+    if (this.closed || !this.executionStarted || this.admitting || !this.admission) return;
     this.admitting = true;
     try {
       const rows = this.store.catalog

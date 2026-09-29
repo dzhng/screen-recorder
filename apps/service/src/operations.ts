@@ -160,6 +160,7 @@ export async function operate(
       case "project.list":
       case "edit.apply":
       case "audio.prepare":
+      case "voice.generate":
       case "audio.extract":
       case "text.seed":
       case "processing.get":

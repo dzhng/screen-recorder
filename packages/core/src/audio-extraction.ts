@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { mkdir, rm } from "node:fs/promises";
-import { constants, fstatSync, openSync } from "node:fs";
 import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "./catalog.js";
@@ -14,8 +13,7 @@ import {
   type ExtractionOrigin,
 } from "./asset-origins.js";
 import { MediaAudioInspection, type MediaAudioInput } from "./audio-inspection.js";
-import { readAudioWave } from "./audio-wave.js";
-import { openedFile, retainedFileRead } from "./files.js";
+import { readAudioWaveFile } from "./audio-wave.js";
 import { selectSource } from "./source-selection.js";
 import type { JobExecution, JobQueue, StagedJobResult } from "./jobs.js";
 import { resourceKinds } from "./references.js";
@@ -61,19 +59,6 @@ export type ExtractedAudio = {
   durationUs: number;
   origin: ExtractionOrigin;
 };
-
-function wave(path: string, bytes: number) {
-  const fd = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
-  const file = retainedFileRead(openedFile(fd), bytes);
-  try {
-    const stat = fstatSync(fd);
-    if (!stat.isFile() || stat.size !== bytes)
-      throw new CatalogError("INVALID_RESPONSE", "PCM must be the reported complete regular file");
-    return readAudioWave(file);
-  } finally {
-    file.release();
-  }
-}
 
 /** Durable excerpts share audio selection/rendering and immutable assets, but do not own donors. */
 export class AudioExtraction {
@@ -162,9 +147,9 @@ export class AudioExtraction {
       !isDeepStrictEqual(source.track.available, [source.stream.bounds])
     )
       return null;
-    let dimensions: ReturnType<typeof wave>;
+    let dimensions: ReturnType<typeof readAudioWaveFile>;
     try {
-      dimensions = wave(this.owners.assets.path(asset.id), asset.bytes);
+      dimensions = readAudioWaveFile(this.owners.assets.path(asset.id), asset.bytes);
     } catch (error) {
       if (error instanceof CatalogError && error.code === "INVALID_RESPONSE") return null;
       throw error;
@@ -268,7 +253,7 @@ export class AudioExtraction {
             "INVALID_RESPONSE",
             "Converted PCM receipt differs from selected input or requested rendition",
           );
-        const actual = wave(outputPath, reply.bytes);
+        const actual = readAudioWaveFile(outputPath, reply.bytes);
         if (
           actual.sampleRate !== expected.sampleRate ||
           actual.channels !== expected.channels ||

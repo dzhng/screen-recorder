@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "archive": {
+    "bytes": 27631508,
+    "sha256": "fd4e5102552f4bc5020a0d82c70cae3a2c4aa364303bd82c172ee16d3f5aee48",
+    "files": 307,
+    "uncompressedBytes": 57546883,
+    "allMembersRehashed": true
+  },
+  "executionRun": "screenrec-19f-public-first/report.json",
+  "finalSavedOnlyRun": "screenrec-19f-public-final/report.json",
+  "synthesisAttempts": 6,
+  "freshSkillConsumer": "screenrec-19f-skill-host/consumer",
+  "nativeWorkerSha256": "2c3e6db8a6f1c10d0dad7cc422afa3d0e122bafaa8d3065671f35fb630b986e3",
+  "rootFrozenWorkerSha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+  "runtimeDigest": "3f20d26c32dfdc7d83f13e4e68cf3dab38ca5e6231f6bf9c2c20584b75805001",
+  "review": "screenrec-19f-review-closeout.log",
+  "gates": {
+    "distinctCoreTests": 150,
+    "serviceTests": 98,
+    "cliTests": 36,
+    "protocolTests": 19,
+    "finalOriginAndQueueTests": 79,
+    "fullPublicVoiceJourney": true,
+    "fullPublicExcerptPreservation": true,
+    "freshSkillConsumer": true
+  },
+  "cleanup": "Prepared19d home preserved and restored; no temporary evidence deleted."
+}

@@ -818,6 +818,37 @@ export const operationSchema = z.discriminatedUnion("operation", [
     ),
   z
     .object({
+      operation: z.literal("voice.generate"),
+      params: z.strictObject({
+        modelId: id,
+        reference: z.strictObject({
+          assetId: id,
+          streamId: id,
+          origin: z.record(z.string(), z.json()).optional(),
+        }),
+        referenceText: z.string(),
+        text: z.string(),
+        preset: id.optional(),
+        seed: z.string().optional(),
+        generation: z
+          .strictObject({
+            temperature: z.number().optional(),
+            top_k: z.int().optional(),
+            top_p: z.number().optional(),
+            repetition_penalty: z.number().optional(),
+            max_tokens: z.int().optional(),
+            lang_code: z.string().optional(),
+            stream: z.literal(false).optional(),
+          })
+          .optional(),
+      }),
+    })
+    .strict()
+    .describe(
+      "Generate a durable audio asset from an admitted complete mono24k Float32 reference, exact reference transcript and desired text. Inspect model.list for immutable profile defaults and supported settings; preset, when supplied, names that profile. Optionally echo one full reference origin returned by asset.origins or audio.extract; omission selects none. Shared jobs own progress, explicit retry and cancellation. Saved output replays without model readiness, and the result retains reference bytes. No project edit or automatic preparation; ordinary edit.apply owns placement and fit.",
+    ),
+  z
+    .object({
       operation: z.literal("audio.extract"),
       params: z.union([
         sourceAudioParams.extend({

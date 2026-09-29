@@ -1,3 +1,4 @@
+import { DatabaseSync } from "node:sqlite";
 import { createHash } from "node:crypto";
 import { test, expect, afterEach } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
@@ -2684,4 +2685,115 @@ test("source-owned work refuses live or discarded recordings without pinning a r
     state: "canceled",
   });
   expect(() => queue.submit(request)).toThrow();
+});
+
+test("persisted queued work and dependency admission wait for an assembled owner's explicit start", async () => {
+  const root = mkdtempSync(join(tmpdir(), "screenrec-deferred-start-"));
+  roots.push(root);
+  const store = new Catalog(join(root, "catalog.sqlite"));
+  stores.push(store);
+  let ready = false;
+  const executed: string[] = [];
+  let nextId = 0;
+  const targets: JobTargets = {
+    pin: (target) => {
+      if (target.kind !== "asset") throw Error("asset");
+      return target;
+    },
+    isAvailable: () => true,
+    isDeleting: () => false,
+    isCapturing: () => false,
+  };
+  const make = () => {
+    const queue = new JobQueue({
+      store,
+      targets,
+      providers: { newId: () => `job-${++nextId}` },
+      deferExecution: true,
+      execute: async ({ job }) => {
+        expect(ready).toBe(true);
+        executed.push(job.artifact);
+        return "complete";
+      },
+    });
+    queues.push(queue);
+    return queue;
+  };
+  const first = make();
+  const queued = first.submit({
+    target: { kind: "asset", assetId: "source" },
+    artifact: "queued",
+    lane: "heavy",
+    input: "frozen",
+  });
+  const waiting = first.submitDeferred({
+    target: { kind: "asset", assetId: "source" },
+    artifact: "waiting",
+    lane: "frame",
+    input: "frozen",
+  });
+  await first.close();
+  const resumed = make();
+  resumed.startAdmission(() => {
+    expect(ready).toBe(true);
+    return { state: "ready" };
+  });
+  await new Promise<void>((resolve) => setImmediate(resolve));
+  expect(resumed.job(queued.jobId).state).toBe("queued");
+  expect(resumed.job(waiting.jobId).state).toBe("waiting");
+  expect(executed).toEqual([]);
+  ready = true;
+  resumed.start();
+  resumed.start();
+  await expect.poll(() => resumed.job(queued.jobId).state).toBe("ready");
+  await expect.poll(() => resumed.job(waiting.jobId).state).toBe("ready");
+  expect(executed.sort()).toEqual(["queued", "waiting"]);
+});
+
+test("ordinary scheduling resumes durable queued work after retryable activation contention", async () => {
+  const root = mkdtempSync(join(tmpdir(), "screenrec-start-contention-"));
+  roots.push(root);
+  const path = join(root, "catalog.sqlite"),
+    store = new Catalog(path);
+  stores.push(store);
+  let id = 0,
+    executions = 0;
+  const queue = new JobQueue({
+    store,
+    deferExecution: true,
+    providers: { newId: () => `job-${++id}` },
+    targets: {
+      pin: (target) => {
+        if (target.kind !== "asset") throw Error("asset");
+        return target;
+      },
+      isAvailable: () => true,
+      isDeleting: () => false,
+      isCapturing: () => false,
+    },
+    execute: async () => {
+      executions++;
+      return "complete";
+    },
+  });
+  queues.push(queue);
+  const job = queue.submit({
+    target: { kind: "asset", assetId: "reference" },
+    artifact: "owned-work",
+    lane: "heavy",
+    input: "frozen",
+  });
+  const writer = new DatabaseSync(path);
+  writer.exec("BEGIN IMMEDIATE");
+  try {
+    expect(() => queue.start()).toThrow("Catalog is locked");
+  } finally {
+    writer.exec("ROLLBACK");
+    writer.close();
+  }
+  expect(queue.job(job.jobId).state).toBe("queued");
+  expect(executions).toBe(0);
+  queue.schedule();
+  await expect.poll(() => queue.job(job.jobId).state).toBe("ready");
+  expect(executions).toBe(1);
 });

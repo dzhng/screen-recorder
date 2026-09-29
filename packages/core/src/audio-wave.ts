@@ -1,3 +1,5 @@
+import { constants, fstatSync, openSync } from "node:fs";
+import { openedFile, retainedFileRead } from "./files.js";
 import { setImmediate } from "node:timers/promises";
 import { CatalogError } from "./catalog.js";
 import type { RetainedRead } from "./files.js";
@@ -6,6 +8,21 @@ type AudioDimensions = { bytes: number; sampleRate: number; channels: 1 | 2; fra
 export type AudioSamples = AudioDimensions & { sampleRange: { start: number; end: number } };
 function invalid(message: string): never {
   throw new CatalogError("INVALID_RESPONSE", message);
+}
+
+/** Keep completed PCM file validation and descriptor lifetime under one owner. */
+export function readAudioWaveFile(path: string, expectedBytes?: number) {
+  const opened = openedFile(
+    openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK),
+  );
+  try {
+    const info = fstatSync(opened.fd);
+    if (!info.isFile() || (expectedBytes !== undefined && info.size !== expectedBytes))
+      invalid("PCM is not the reported complete regular file");
+    return readAudioWave(retainedFileRead(opened, info.size));
+  } finally {
+    opened.close();
+  }
 }
 
 /** Read authoritative finite Float32 dimensions without interpreting a rounded media duration. */

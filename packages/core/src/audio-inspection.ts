@@ -1,7 +1,5 @@
 import { createHash } from "node:crypto";
-import { validateAudioWave } from "./audio-wave.js";
-import { openedFile, retainedFileRead } from "./files.js";
-import { constants, openSync, fstatSync } from "node:fs";
+import { readAudioWaveFile } from "./audio-wave.js";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import { rangeSchema, processingTapSchema, type ProcessingTap } from "@screenrec/composition";
@@ -509,16 +507,13 @@ export class MediaAudioInspection {
 function checkAudioWaveFile(
   value: Pick<SourceAudioResult, "file" | "bytes" | "sampleRate" | "channels" | "frames">,
 ) {
-  const fd = openSync(value.file, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
-  const file = retainedFileRead(openedFile(fd), value.bytes);
-  try {
-    const stat = fstatSync(fd);
-    if (!stat.isFile() || stat.size !== value.bytes)
-      invalid("Audio output is not the reported regular file");
-    validateAudioWave(file, value);
-  } finally {
-    file.release();
-  }
+  const actual = readAudioWaveFile(value.file, value.bytes);
+  if (
+    actual.frames !== value.frames ||
+    actual.sampleRate !== value.sampleRate ||
+    actual.channels !== value.channels
+  )
+    invalid("WAV dimensions differ from the native receipt");
 }
 
 /** The same receipt and source-gap contract applies to cached and durably prepared audio. */
