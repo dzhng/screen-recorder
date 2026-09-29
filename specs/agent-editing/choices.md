@@ -3207,8 +3207,8 @@ raw files for both native/public harnesses, without adding a production audio ow
 When a take stops but publication still needs minutes, CaptureService retains one
 owned cancellable attempt and returns finalizing promptly. The recording stores a
 bounded error when that attempt fails; reads preserve it, explicit retry clears it
-when work begins, and terminal state clears it. This implements20d1 without another
-job registry for a take whose revision does not yet exist. Catalog16 identifies the
+when work begins, and terminal state clears it. This implements slice 20d1 without another
+job registry for a take whose revision does not yet exist. Catalog version 16 identifies the
 added field; older layouts are refused under the existing development policy.
 The plan required durable failure but left the concrete lifecycle storage open.
 This gives control, restart and deletion one owner rather than a parallel tracker.
@@ -3216,9 +3216,9 @@ This gives control, restart and deletion one owner rather than a parallel tracke
 ### Give canonical recovery a finite work allowance (sound, medium confidence)
 
 A very fragmented take may require much more work than its duration suggests.
-Canonical publication receives a20-minute fragmentation allowance plus the existing
+Canonical publication receives a 20-minute fragmentation allowance plus the existing
 byte-based allowance, capped by the media-worker maximum. Control calls still return
-promptly. The observed100,000-run recovery needed about254seconds; this allowance is
+promptly. The observed 100,000-run recovery needed about 254 seconds; this allowance is
 conservative rather than a universal performance guarantee. Expiry keeps source bytes
 and reports a retryable failure. The plan required fragmentation-aware budgeting but
 did not specify this allowance; later scale evidence may revise it without changing
@@ -3232,3 +3232,27 @@ intervals each clip touches. A different acquisition keeps a different intersect
 Freezing the result visits shared objects once. The scale plan left the optimization
 mechanism open; keeping this index local avoids a long-lived cache or invalidation
 policy, while preserving every selected interval and exact rational boundary.
+
+### Hydrate complete project metadata before readiness (sound, medium confidence)
+
+A project with many fragments and a long undo history can exceed the manifest and
+control-message budgets even though its media files are small. Project package
+version 2 stores every existing typed resource and revision as a hashed inventory
+member. The same admitted file owner reads and validates them before readiness;
+recording packages keep their existing contract. A shared 128 MiB serialized JSON
+budget covers the whole selected history and all resources, with explicit refusal
+rather than partial history. The plan left the expanded metadata representation and
+working-memory ceiling open. A near-limit resolver measurement stayed below the
+existing 4 GiB memory target, but unlimited lazy metadata is not implemented. Version
+1 project packages are explicitly refused under the unshipped-format policy.
+
+### Index compact export status in SQLite (sound, high confidence)
+
+Polling an export should not read its complete large execution snapshot. The export
+owner now uses one covering expression index containing the derived summary and
+small lifecycle fields; listing first selects a bounded ID page and then looks up
+those summaries. The original snapshot remains authoritative for execution. The
+plan did not prescribe status storage. SQLite maintains this derived index without
+a second registry, at a measured cost of recomputing it on lifecycle changes. This
+trades infrequent write work for bounded repeated reads; video and recording status
+settings remain complete.

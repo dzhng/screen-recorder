@@ -21,3 +21,7 @@ for the derived index; the checkpoint does not call this cost free.
 retained artifacts in `evidence.tar.xz`, including red boundaries and exact successful
 package members. These proofs do not establish listening quality, unrestricted lazy
 package scale, or completion of the broader capture and editing plans.
+
+[Integrated root verification](root-verification.json) confirms the focused and
+real native owner/archive gates; [reports](root-verification.tar.gz) retain their output.
+The combined fragmented-source/history journey remains a separate acceptance gate.

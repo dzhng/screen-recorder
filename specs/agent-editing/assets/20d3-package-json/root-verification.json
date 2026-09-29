@@ -1,0 +1,19 @@
+{
+  "commit": "1ca2fc0a",
+  "modelCheckpoint": "a2b84a10",
+  "catalogVersion": 16,
+  "passed": true,
+  "focusedTests": 26,
+  "ownerTests": 27,
+  "recordingArchiveTests": 43,
+  "authenticatedArtifactFiles": 438,
+  "nativeSha256": "8f5241244e4eebda40d9c8d21311f82fddaaf3f4c186ef823aec3c60dd6bea55",
+  "files": {
+    "build": "1f68b8170587deb5bac77fad8be6a2e559f5f13edb2f33c91151834a73031352",
+    "focused": "43ef0f5041df0b936615fe76ba052394699dfdf3c3e309fb120781a60b89c126",
+    "owners": "aee664a59ee1bb710ea23e205b71b690430936c664e420d18b6117f0d36e514a",
+    "recording": "d9237a4c80accc9a913e5944e6ae4887aab216f995d6bae16086721649850948"
+  },
+  "archiveSha256": "e8e6ebf6afdab93cc84b8f8c8e60b35976566c3adb0fdc2c9748b94d580c12db",
+  "scope": "Combined core/service and real native owner/recording archive tests. No claim of repeating all public journeys or closing combined10k/sparse metadata acceptance; that continuation remains active."
+}
