@@ -1,9 +1,10 @@
 # Implementation pickup
 
 The full editor goal remains active. The installed app has not switched engines.
-Current priority: wire verified canonical publication into stop/recovery and source
-admission, then activate the accepted-append writer. In parallel, integrate the
-fixed denoising adapter's broader selected-input, temporal and channel contracts.
+Current priority: exercise the real recording lifetime with prerecorded input,
+complete recording-package verification, then activate the accepted-append writer
+and recovery. In parallel, implement independent audio channels and complete the
+remaining temporal and prepared-consumer contracts.
 Settings09b, scoped06/15 and caption17 are verified; whole16/22 and final acceptance
 remain open. Packed-writer activation is pending; RNNoise execution is limited to
 verified mono sources and their structural dual-mono mixes.
@@ -11,19 +12,18 @@ verified mono sources and their structural dual-mono mixes.
 ## Active owners and next action
 
 - **Capture publication:** `/Users/david/.codex/worktrees/project-still-composition/screen-recorder`.
-  The [journal lease and pinned replay](20d-journal-lease/README.md) has
-  [combined-root confirmation](20d-journal-lease/root-verification.json), including
-  process exclusion, exec inheritance and accepted-PCM preservation on journal
-  failure. The [canonical publisher](20d-publication/README.md) is integrated with
-  [combined-root checks](20d-publication/root-verification.json): retained attempts,
-  no-clobber retries, verified availability and optional cleanup pass offline.
-  Next wire stop continuation through existing termination owners, then canonical
-  source admission and recovery. Account for native-control/recovery-worker and
-  outer client deadlines; prove long finalization/retry/cancellation through public
-  operations. The service queue fixture does not prove native controller behavior.
-  Immutable import/package closure remains20d work. Do not activate the new
-  callback/layout through an interim dual writer mode.
-- **Shared reader/materializer:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
+  The [canonical publisher](20d-publication/README.md) and
+  [stop continuation](20d-stop-continuation/README.md) are integrated, with
+  [combined-root lifecycle checks](20d-stop-continuation/root-verification.json).
+  Finalizing acknowledgment, explicit cancellation, terminal races and lost-start
+  handling pass their scoped native/controller/service gates. Next extract the
+  physical input lifetime to exercise actual NativeCapture/writer/publisher using
+  prerecorded media; include cursor acquisition in that boundary. Then wire typed
+  unavailable-role outcomes, recovery and layout activation. Preserve existing
+  termination ownership, deadlines and generation boundaries. Actual public work
+  beyond old deadlines and remaining recording-package closure still gate activation.
+  No live device input or interim dual writer mode is authorized.
+- **Canonical source/packages:** `/Users/david/.codex/worktrees/acquisition-picture-journey/screen-recorder`.
   The [shared materializer/verifier](20c-materializer/README.md) is integrated with
   [combined-root checks](20c-materializer/root-verification.json): capture/source/audio
   preservation and descriptor-only verification beyond the inspection budget pass.

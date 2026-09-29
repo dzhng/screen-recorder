@@ -1,0 +1,21 @@
+{
+  "commit": "6eb81892",
+  "exitCodes": {
+    "build": 0,
+    "ts-build": 0,
+    "controller": 0,
+    "app-build": 0,
+    "menu": 0,
+    "native": 0,
+    "failure": 0,
+    "service": 0,
+    "legacy-abandon": 0
+  },
+  "controllerModes": 5,
+  "focusedServiceCoreTests": 35,
+  "legacyAbandonTests": 1,
+  "retainedArtifactHashesVerified": 19,
+  "captureTestWorkerSHA256": "d40c97546930419a83d0e76b131cc72aead7fb7047a0297de8f387eeadb80671",
+  "archiveSHA256": "af30ad09d13397cd1d6bccf1f15f2c73a9d83ea14e5ac1026a10f9a569b31212",
+  "scope": "Combined root stop acknowledgment, explicit cancellation/terminal races, native default/journal-failure preservation, app/menu build and service lifecycle. Controller fixture uses scripted input; no actual NativeCapture/writer/publisher, physical capture, schema2 activation or long recovery claim."
+}
